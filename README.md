@@ -1,6 +1,6 @@
 # FlutterQuill
 
-A [Quill] component for [Flutter].
+Rich text editor and a [Quill] component for [Flutter].
 
 [Quill]: https://quilljs.com
 [Flutter]: https://github.com/flutter/flutter
