@@ -4,7 +4,8 @@ Rich text editor and a [Quill] component for [Flutter].
 
 
 
-==============================================================================
+---
+
 
 One client and affiliated collaborator of **FlutterQuill** is [Bullet Journal App].
 
