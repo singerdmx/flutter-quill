@@ -41,6 +41,8 @@ class Attribute<T> {
 
   static BlockQuoteAttribute blockQuoteAttribute = BlockQuoteAttribute();
 
+  bool get isInline => scope == AttributeScope.INLINE;
+
   static Attribute fromKeyValue(String key, dynamic value) {
     if (!_registry.containsKey(key)) {
       throw ArgumentError.value(key, 'key "$key" not found.');

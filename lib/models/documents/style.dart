@@ -19,4 +19,18 @@ class Style {
     });
     return Style.attr(result);
   }
+
+  Iterable<String> get keys => _attributes.keys;
+
+  Iterable<Attribute> get values => _attributes.values;
+
+  bool get isEmpty => _attributes.isEmpty;
+
+  bool get isNotEmpty => _attributes.isNotEmpty;
+
+  bool get isInline => isNotEmpty && values.every((item) => item.isInline);
+
+  Attribute get single => _attributes.values.single;
+
+  bool containsKey(String key) => _attributes.containsKey(key);
 }
