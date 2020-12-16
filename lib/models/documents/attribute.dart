@@ -17,10 +17,10 @@ class Attribute<T> {
     Attribute.underline.key: Attribute.underline,
     Attribute.strikeThrough.key: Attribute.strikeThrough,
     Attribute.link.key: Attribute.link,
-    Attribute.headerAttribute.key: Attribute.headerAttribute,
-    Attribute.listAttribute.key: Attribute.listAttribute,
-    Attribute.codeBlockAttribute.key: Attribute.codeBlockAttribute,
-    Attribute.blockQuoteAttribute.key: Attribute.blockQuoteAttribute,
+    Attribute.header.key: Attribute.header,
+    Attribute.list.key: Attribute.list,
+    Attribute.codeBlock.key: Attribute.codeBlock,
+    Attribute.blockQuote.key: Attribute.blockQuote,
   };
 
   static BoldAttribute bold = BoldAttribute();
@@ -33,13 +33,23 @@ class Attribute<T> {
 
   static LinkAttribute link = LinkAttribute();
 
-  static HeaderAttribute headerAttribute = HeaderAttribute(1);
+  static HeaderAttribute header = HeaderAttribute(1);
 
-  static ListAttribute listAttribute = ListAttribute('ordered');
+  static ListAttribute list = ListAttribute('ordered');
 
-  static CodeBlockAttribute codeBlockAttribute = CodeBlockAttribute();
+  static CodeBlockAttribute codeBlock = CodeBlockAttribute();
 
-  static BlockQuoteAttribute blockQuoteAttribute = BlockQuoteAttribute();
+  static BlockQuoteAttribute blockQuote = BlockQuoteAttribute();
+
+  static Attribute<int> get h1 => header.level1;
+
+  static Attribute<int> get h2 => header.level2;
+
+  static Attribute<int> get h3 => header.level3;
+
+  static Attribute<String> get ul => list.bullet;
+
+  static Attribute<String> get ol => list.ordered;
 
   bool get isInline => scope == AttributeScope.INLINE;
 
