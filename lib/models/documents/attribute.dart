@@ -7,7 +7,7 @@ enum AttributeScope {
 class Attribute<T> {
   final String key;
   final AttributeScope scope;
-  T value;
+  final T value;
 
   Attribute(this.key, this.scope, this.value);
 }
@@ -43,4 +43,22 @@ class HeaderAttribute extends Attribute<int> {
 
   // H3 in HTML
   Attribute<int> get level3 => Attribute<int>(key, scope, 3);
+}
+
+class ListAttribute extends Attribute<String> {
+  ListAttribute(String val) : super('list', AttributeScope.BLOCK, val);
+
+  // "attributes":{"list":"ordered"}
+  Attribute<String> get ordered => Attribute<String>(key, scope, 'ordered');
+
+  // "attributes":{"list":"bullet"}
+  Attribute<String> get bullet => Attribute<String>(key, scope, 'bullet');
+}
+
+class CodeBlockAttribute extends Attribute<bool> {
+  CodeBlockAttribute() : super('code-block', AttributeScope.BLOCK, null);
+}
+
+class BlockQuoteAttribute extends Attribute<bool> {
+  BlockQuoteAttribute() : super('blockquote', AttributeScope.BLOCK, null);
 }
