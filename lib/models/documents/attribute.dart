@@ -66,23 +66,23 @@ class Attribute<T> {
 }
 
 class BoldAttribute extends Attribute<bool> {
-  BoldAttribute() : super('bold', AttributeScope.INLINE, null);
+  BoldAttribute() : super('bold', AttributeScope.INLINE, true);
 }
 
 class ItalicAttribute extends Attribute<bool> {
-  ItalicAttribute() : super('italic', AttributeScope.INLINE, null);
+  ItalicAttribute() : super('italic', AttributeScope.INLINE, true);
 }
 
 class UnderlineAttribute extends Attribute<bool> {
-  UnderlineAttribute() : super('underline', AttributeScope.INLINE, null);
+  UnderlineAttribute() : super('underline', AttributeScope.INLINE, true);
 }
 
 class StrikeThroughAttribute extends Attribute<bool> {
-  StrikeThroughAttribute() : super('strike', AttributeScope.INLINE, null);
+  StrikeThroughAttribute() : super('strike', AttributeScope.INLINE, true);
 }
 
 class LinkAttribute extends Attribute<String> {
-  LinkAttribute() : super('link', AttributeScope.INLINE, null);
+  LinkAttribute() : super('link', AttributeScope.INLINE, '');
 }
 
 class HeaderAttribute extends Attribute<int> {
@@ -109,9 +109,9 @@ class ListAttribute extends Attribute<String> {
 }
 
 class CodeBlockAttribute extends Attribute<bool> {
-  CodeBlockAttribute() : super('code-block', AttributeScope.BLOCK, null);
+  CodeBlockAttribute() : super('code-block', AttributeScope.BLOCK, true);
 }
 
 class BlockQuoteAttribute extends Attribute<bool> {
-  BlockQuoteAttribute() : super('blockquote', AttributeScope.BLOCK, null);
+  BlockQuoteAttribute() : super('blockquote', AttributeScope.BLOCK, true);
 }
