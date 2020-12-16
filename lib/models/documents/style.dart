@@ -20,6 +20,11 @@ class Style {
     return Style.attr(result);
   }
 
+  Map<String, dynamic> toJson() => _attributes.isEmpty
+      ? null
+      : _attributes.map<String, dynamic>((String _, Attribute value) =>
+          MapEntry<String, dynamic>(value.key, value.value));
+
   Iterable<String> get keys => _attributes.keys;
 
   Iterable<Attribute> get values => _attributes.values;

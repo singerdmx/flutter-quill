@@ -1,17 +1,18 @@
 import 'dart:collection';
 
 import 'package:flutter_quill/models/documents/style.dart';
+import 'package:quill_delta/quill_delta.dart';
 
 import '../attribute.dart';
+import 'container.dart';
+import 'line.dart';
 
 /* node in a document tree */
-class Node extends LinkedListEntry<Node> {
-  Container _parent;
+abstract class Node extends LinkedListEntry<Node> {
+  Container parent;
   Style _style = Style();
 
   Style get style => _style;
-
-  Container get parent => _parent;
 
   void applyAttribute(Attribute attribute) {
     _style = _style.merge(attribute);
@@ -32,29 +33,46 @@ class Node extends LinkedListEntry<Node> {
 
   bool get isLast => list.last == this;
 
+  int get length;
+
   @override
   void insertBefore(Node entry) {
-    assert(entry._parent == null && _parent != null);
-    entry._parent = _parent;
+    assert(entry.parent == null && parent != null);
+    entry.parent = parent;
     super.insertBefore(entry);
   }
 
   @override
   void insertAfter(Node entry) {
-    assert(entry._parent == null && _parent != null);
-    entry._parent = _parent;
+    assert(entry.parent == null && parent != null);
+    entry.parent = parent;
     super.insertAfter(entry);
   }
 
   @override
   void unlink() {
-    assert(_parent != null);
-    _parent = null;
+    assert(parent != null);
+    parent = null;
     super.unlink();
   }
+
+  /// abstract methods begin
+
+  String toPlainText();
+
+  Delta toDelta();
+
+  /// abstract methods end
+
 }
 
-abstract class Container<T extends Node> extends Node {}
-
 /* Root node of document tree */
-class Root extends Container<Container<Node>> {}
+class Root extends Container<Container<Node>> {
+  @override
+  Container<Node> get defaultChild => Line();
+
+  @override
+  Delta toDelta() => children
+      .map((child) => child.toDelta())
+      .fold(Delta(), (a, b) => a.concat(b));
+}
