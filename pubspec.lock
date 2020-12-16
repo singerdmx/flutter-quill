@@ -81,6 +81,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.1"
+  quill_delta:
+    dependency: "direct main"
+    description:
+      name: quill_delta
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  quiver_hashcode:
+    dependency: transitive
+    description:
+      name: quiver_hashcode
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
