@@ -37,7 +37,7 @@ packages:
     source: hosted
     version: "1.1.0-nullsafety.1"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -89,7 +89,7 @@ packages:
     source: hosted
     version: "2.0.0"
   quiver_hashcode:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: quiver_hashcode
       url: "https://pub.dartlang.org"
