@@ -41,6 +41,30 @@ abstract class Node extends LinkedListEntry<Node> {
     return node;
   }
 
+  int getOffset() {
+    int offset = 0;
+
+    if (isFirst) {
+      return offset;
+    }
+
+    Node cur = this;
+    do {
+      cur = cur.previous;
+      offset += cur.length;
+    } while (!cur.isFirst);
+    return offset;
+  }
+
+  int getDocumentOffset() {
+    return parent is! Root ? parent.getDocumentOffset() : 0 + getOffset();
+  }
+
+  bool containsOffset(int offset) {
+    return getDocumentOffset() <= offset &&
+        offset < getDocumentOffset() + this.length;
+  }
+
   @override
   void insertBefore(Node entry) {
     assert(entry.parent == null && parent != null);

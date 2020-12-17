@@ -17,6 +17,14 @@ class Line extends Container<Leaf> {
   @override
   int get length => super.length + 1;
 
+  bool get hasEmbed {
+    if (childCount != 1) {
+      return false;
+    }
+
+    return children.single is Embed;
+  }
+
   Line get nextLine {
     if (!isLast) {
       return next is Block ? (next as Block).first : next;

@@ -29,6 +29,8 @@ class Style {
 
   Iterable<Attribute> get values => _attributes.values;
 
+  Map<String, Attribute> get attributes => _attributes;
+
   bool get isEmpty => _attributes.isEmpty;
 
   bool get isNotEmpty => _attributes.isNotEmpty;

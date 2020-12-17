@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+
+import 'box.dart';
 
 const Duration _FADE_DURATION = Duration(milliseconds: 250);
 
@@ -29,16 +32,16 @@ class CursorStyle {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CursorStyle &&
-          runtimeType == other.runtimeType &&
-          color == other.color &&
-          backgroundColor == other.backgroundColor &&
-          width == other.width &&
-          height == other.height &&
-          radius == other.radius &&
-          offset == other.offset &&
-          opacityAnimates == other.opacityAnimates &&
-          paintAboveText == other.paintAboveText;
+          other is CursorStyle &&
+              runtimeType == other.runtimeType &&
+              color == other.color &&
+              backgroundColor == other.backgroundColor &&
+              width == other.width &&
+              height == other.height &&
+              radius == other.radius &&
+              offset == other.offset &&
+              opacityAnimates == other.opacityAnimates &&
+              paintAboveText == other.paintAboveText;
 
   @override
   int get hashCode =>
@@ -53,10 +56,9 @@ class CursorStyle {
 }
 
 class CursorCont extends ChangeNotifier {
-
   final ValueNotifier<bool> show;
   final ValueNotifier<bool> _blink;
-  final ValueNotifier<Color> _color;
+  final ValueNotifier<Color> color;
   AnimationController _blinkOpacityCont;
   CursorStyle _style;
 
@@ -70,14 +72,89 @@ class CursorCont extends ChangeNotifier {
         show = show ?? ValueNotifier<bool>(false),
         _style = style,
         _blink = ValueNotifier(false),
-        _color = ValueNotifier(style.color) {
+        color = ValueNotifier(style.color) {
     _blinkOpacityCont =
         AnimationController(vsync: tickerProvider, duration: _FADE_DURATION);
     _blinkOpacityCont.addListener(_onColorTick);
   }
 
   void _onColorTick() {
-    _color.value = _style.color.withOpacity(_blinkOpacityCont.value);
+    color.value = _style.color.withOpacity(_blinkOpacityCont.value);
     _blink.value = show.value && _blinkOpacityCont.value > 0;
+  }
+}
+
+class CursorPainter {
+  final RenderContentProxyBox editable;
+  final CursorStyle style;
+  final Rect prototype;
+  final Color color;
+  final double devicePixelRatio;
+
+  CursorPainter(this.editable, this.style, this.prototype, this.color,
+      this.devicePixelRatio);
+
+  paint(Canvas canvas, Offset offset, TextPosition position) {
+    assert(prototype != null);
+
+    Offset caretOffset =
+        editable.getOffsetForCaret(position, prototype) + offset;
+    Rect caretRect = prototype.shift(caretOffset);
+    if (style.offset != null) {
+      caretRect = caretRect.shift(style.offset);
+    }
+
+    if (caretRect.left < 0.0) {
+      caretRect = caretRect.shift(Offset(-caretRect.left, 0.0));
+    }
+
+    double caretHeight = editable.getFullHeightForCaret(position);
+    if (caretHeight != null) {
+      switch (defaultTargetPlatform) {
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          caretRect = Rect.fromLTWH(
+            caretRect.left,
+            caretRect.top - 2.0,
+            caretRect.width,
+            caretHeight,
+          );
+          break;
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          caretRect = Rect.fromLTWH(
+            caretRect.left,
+            caretRect.top + (caretHeight - caretRect.height) / 2,
+            caretRect.width,
+            caretRect.height,
+          );
+          break;
+        default:
+          throw UnimplementedError();
+      }
+    }
+
+    Offset caretPosition = editable.localToGlobal(caretRect.topLeft);
+    double pixelMultiple = 1.0 / devicePixelRatio;
+    caretRect = caretRect.shift(Offset(
+        caretPosition.dx.isFinite
+            ? (caretPosition.dx / pixelMultiple).round() * pixelMultiple -
+                caretPosition.dx
+            : caretPosition.dx,
+        caretPosition.dy.isFinite
+            ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -
+                caretPosition.dy
+            : caretPosition.dy));
+
+    Paint paint = Paint()..color = color;
+    if (style.radius == null) {
+      canvas.drawRect(caretRect, paint);
+      return;
+    }
+
+    RRect caretRRect = RRect.fromRectAndRadius(caretRect, style.radius);
+    canvas.drawRRect(caretRRect, paint);
   }
 }
