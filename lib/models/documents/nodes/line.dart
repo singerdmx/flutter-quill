@@ -1,16 +1,35 @@
+import 'dart:math' as math;
+
+import 'package:flutter_quill/models/documents/attribute.dart';
+import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:quill_delta/quill_delta.dart';
 
+import '../style.dart';
 import 'block.dart';
 import 'container.dart';
+import 'embed.dart';
 import 'leaf.dart';
 
 class Line extends Container<Leaf> {
-
   @override
   Leaf get defaultChild => Text();
 
   @override
   int get length => super.length + 1;
+
+  Line get nextLine {
+    if (!isLast) {
+      return next is Block ? (next as Block).first : next;
+    }
+    if (parent is! Block) {
+      return null;
+    }
+
+    if (parent.isLast) {
+      return null;
+    }
+    return parent.next is Block ? (parent.next as Block).first : parent.next;
+  }
 
   @override
   Delta toDelta() {
@@ -28,4 +47,210 @@ class Line extends Container<Leaf> {
 
   @override
   String toPlainText() => super.toPlainText() + '\n';
+
+  @override
+  insert(int index, Object data, Style style) {
+    if (data is Embeddable) {
+      _insert(index, data, style);
+      return;
+    }
+
+    String text = data as String;
+    int lineBreak = text.indexOf('\n');
+    if (lineBreak == -1) {
+      _insert(index, text, style);
+      return;
+    }
+
+    String prefix = text.substring(0, lineBreak);
+    _insert(index, prefix, style);
+    if (prefix.isNotEmpty) {
+      index += prefix.length;
+    }
+
+    Line nextLine = _getNextLine(index);
+
+    clearStyle();
+
+    if (parent is Block) {
+      _unwrap();
+    }
+
+    _format(style);
+
+    // Continue with the remaining
+    String remain = text.substring(lineBreak + 1);
+    nextLine.insert(0, remain, style);
+  }
+
+  @override
+  retain(int index, int len, Style style) {
+    if (style == null) {
+      return;
+    }
+    int thisLen = this.length;
+
+    int local = math.min(thisLen - index, length);
+    assert(style.values.every((attr) => attr.scope == AttributeScope.BLOCK));
+
+    if (index + local == thisLen && local == 1) {
+      _format(style);
+    } else {
+      assert(index + local != thisLen);
+      super.retain(index, local, style);
+    }
+
+    int remain = len - local;
+    if (remain > 0) {
+      assert(nextLine != null);
+      nextLine.retain(0, remain, style);
+    }
+  }
+
+  @override
+  delete(int index, int len) {
+    int local = math.min(this.length - index, len);
+    bool deleted = index + local == this.length;
+    if (deleted) {
+      clearStyle();
+      if (local > 1) {
+        super.delete(index, local - 1);
+      }
+    } else {
+      super.delete(index, local);
+    }
+
+    int remain = length - local;
+    if (remain > 0) {
+      assert(nextLine != null);
+      nextLine.delete(0, remain);
+    }
+
+    if (deleted && isNotEmpty) {
+      assert(nextLine != null);
+      nextLine.moveChildToNewParent(this);
+      moveChildToNewParent(nextLine);
+    }
+
+    if (deleted) {
+      Node p = parent;
+      unlink();
+      p.adjust();
+    }
+  }
+
+  void _format(Style newStyle) {
+    if (newStyle == null || newStyle.isEmpty) {
+      return;
+    }
+
+    applyStyle(newStyle);
+    Attribute blockStyle = newStyle.getBlockExceptHeader();
+    if (blockStyle == null) {
+      return;
+    }
+
+    if (parent is Block) {
+      Attribute parentStyle = (parent as Block).style.getBlockExceptHeader();
+      if (blockStyle.value == null) {
+        _unwrap();
+      } else if (blockStyle != parentStyle) {
+        _unwrap();
+        Block block = Block();
+        block.applyAttribute(blockStyle);
+        _wrap(block);
+        block.adjust();
+      }
+    } else if (blockStyle.value != null) {
+      Block block = Block();
+      block.applyAttribute(blockStyle);
+      _wrap(block);
+      block.adjust();
+    }
+  }
+
+  _wrap(Block block) {
+    assert(parent != null && parent is! Block);
+    insertAfter(block);
+    unlink();
+    block.add(this);
+  }
+
+  _unwrap() {
+    if (parent is! Block) {
+      throw ArgumentError('Invalid parent');
+    }
+    Block block = parent;
+
+    assert(block.children.contains(this));
+
+    if (isFirst) {
+      unlink();
+      block.insertBefore(this);
+    } else if (isLast) {
+      unlink();
+      block.insertAfter(this);
+    } else {
+      Block before = block.clone();
+      block.insertBefore(before);
+
+      Line child = block.first;
+      while (child != this) {
+        child.unlink();
+        before.add(child);
+        child = block.first as Line;
+      }
+      unlink();
+      block.insertBefore(this);
+    }
+    block.adjust();
+  }
+
+  Line _getNextLine(int index) {
+    assert(index == 0 || (index > 0 && index < length));
+
+    Line line = clone() as Line;
+    insertAfter(line);
+    if (index == length - 1) {
+      return line;
+    }
+
+    ChildQuery query = queryChild(index, false);
+    while (!query.node.isLast) {
+      Leaf next = last;
+      next.unlink();
+      line.addFirst(next);
+    }
+    Leaf child = query.node;
+    Leaf cut = child.splitAt(query.offset);
+    cut?.unlink();
+    line.addFirst(cut);
+    return line;
+  }
+
+  _insert(int index, Object data, Style style) {
+    assert(index == 0 || (index > 0 && index < length));
+
+    if (data is String) {
+      assert(!data.contains('\n'));
+      if (data.isEmpty) {
+        return;
+      }
+    }
+
+    if (isNotEmpty) {
+      ChildQuery result = queryChild(index, true);
+      result.node.insert(result.offset, data, style);
+      return;
+    }
+
+    Leaf child = Leaf(data);
+    add(child);
+    child.format(style);
+  }
+
+  @override
+  Node newInstance() {
+    return Line();
+  }
 }

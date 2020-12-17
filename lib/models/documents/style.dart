@@ -39,6 +39,16 @@ class Style {
 
   bool containsKey(String key) => _attributes.containsKey(key);
 
+  Attribute getBlockExceptHeader() {
+    for (Attribute val in values) {
+      if (val.scope == AttributeScope.BLOCK &&
+          val.key != Attribute.header.key) {
+        return val;
+      }
+    }
+    return null;
+  }
+
   Style merge(Attribute attribute) {
     Map<String, Attribute> merged = Map<String, Attribute>.from(_attributes);
     if (attribute.value == null) {

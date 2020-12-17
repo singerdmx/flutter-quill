@@ -35,6 +35,12 @@ abstract class Node extends LinkedListEntry<Node> {
 
   int get length;
 
+  Node clone() {
+    Node node = newInstance();
+    node.applyStyle(style);
+    return node;
+  }
+
   @override
   void insertBefore(Node entry) {
     assert(entry.parent == null && parent != null);
@@ -56,11 +62,23 @@ abstract class Node extends LinkedListEntry<Node> {
     super.unlink();
   }
 
+  adjust() {
+    // do nothing
+  }
+
   /// abstract methods begin
+
+  Node newInstance();
 
   String toPlainText();
 
   Delta toDelta();
+
+  insert(int index, Object data, Style style);
+
+  retain(int index, int len, Style style);
+
+  delete(int index, int len);
 
   /// abstract methods end
 
@@ -75,4 +93,9 @@ class Root extends Container<Container<Node>> {
   Delta toDelta() => children
       .map((child) => child.toDelta())
       .fold(Delta(), (a, b) => a.concat(b));
+
+  @override
+  Node newInstance() {
+    return Root();
+  }
 }
