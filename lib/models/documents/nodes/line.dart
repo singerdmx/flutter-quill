@@ -57,7 +57,7 @@ class Line extends Container<Leaf> {
 
     String text = data as String;
     int lineBreak = text.indexOf('\n');
-    if (lineBreak == -1) {
+    if (lineBreak < 0) {
       _insert(index, text, style);
       return;
     }

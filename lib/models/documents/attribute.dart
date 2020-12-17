@@ -1,3 +1,5 @@
+import 'package:quiver_hashcode/hashcode.dart';
+
 enum AttributeScope {
   INLINE, // refer to https://quilljs.com/docs/formats/#inline
   BLOCK, // refer to https://quilljs.com/docs/formats/#block
@@ -31,7 +33,7 @@ class Attribute<T> {
 
   static StrikeThroughAttribute strikeThrough = StrikeThroughAttribute();
 
-  static LinkAttribute link = LinkAttribute();
+  static LinkAttribute link = LinkAttribute('');
 
   static HeaderAttribute header = HeaderAttribute(1);
 
@@ -53,6 +55,11 @@ class Attribute<T> {
 
   bool get isInline => scope == AttributeScope.INLINE;
 
+  bool get isBlockExceptHeader =>
+      scope == AttributeScope.BLOCK && key != Attribute.header.key;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{key: value};
+
   static Attribute fromKeyValue(String key, dynamic value) {
     if (!_registry.containsKey(key)) {
       throw ArgumentError.value(key, 'key "$key" not found.');
@@ -63,6 +70,22 @@ class Attribute<T> {
     }
     return attribute;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! Attribute<T>) return false;
+    Attribute<T> typedOther = other;
+    return key == typedOther.key &&
+        scope == typedOther.scope &&
+        value == typedOther.value;
+  }
+
+  @override
+  int get hashCode => hash3(key, scope, value);
+
+  @override
+  String toString() => '$key: $value';
 }
 
 class BoldAttribute extends Attribute<bool> {
@@ -82,7 +105,7 @@ class StrikeThroughAttribute extends Attribute<bool> {
 }
 
 class LinkAttribute extends Attribute<String> {
-  LinkAttribute() : super('link', AttributeScope.INLINE, '');
+  LinkAttribute(String val) : super('link', AttributeScope.INLINE, val);
 }
 
 class HeaderAttribute extends Attribute<int> {

@@ -41,8 +41,7 @@ class Style {
 
   Attribute getBlockExceptHeader() {
     for (Attribute val in values) {
-      if (val.scope == AttributeScope.BLOCK &&
-          val.key != Attribute.header.key) {
+      if (val.isBlockExceptHeader) {
         return val;
       }
     }
