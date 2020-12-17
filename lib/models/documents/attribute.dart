@@ -1,5 +1,3 @@
-import 'package:quiver_hashcode/hashcode.dart';
-
 enum AttributeScope {
   INLINE, // refer to https://quilljs.com/docs/formats/#inline
   BLOCK, // refer to https://quilljs.com/docs/formats/#block
@@ -71,21 +69,23 @@ class Attribute<T> {
     return attribute;
   }
 
+
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! Attribute<T>) return false;
-    Attribute<T> typedOther = other;
-    return key == typedOther.key &&
-        scope == typedOther.scope &&
-        value == typedOther.value;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Attribute &&
+          runtimeType == other.runtimeType &&
+          key == other.key &&
+          scope == other.scope &&
+          value == other.value;
+
+  @override
+  int get hashCode => key.hashCode ^ scope.hashCode ^ value.hashCode;
+
+  @override
+  String toString() {
+    return 'Attribute{key: $key, scope: $scope, value: $value}';
   }
-
-  @override
-  int get hashCode => hash3(key, scope, value);
-
-  @override
-  String toString() => '$key: $value';
 }
 
 class BoldAttribute extends Attribute<bool> {
