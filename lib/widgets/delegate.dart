@@ -28,4 +28,21 @@ class EditorTextSelectionGestureDetectorBuilder {
   onTapDown(TapDownDetails details) {
 //    getRenderEditor().handleTapDown(details);
   }
+
+  onForcePressStart(ForcePressDetails details) {
+    assert(delegate.getForcePressEnabled());
+    shouldShowSelectionToolbar = true;
+    if (delegate.getSelectionEnabled()) {
+      getRenderEditor().selectWordsInRange(
+        details.globalPosition,
+        null,
+        SelectionChangedCause.forcePress,
+      );
+    }
+  }
+
+  Widget build(HitTestBehavior behavior, Widget child) {
+    // TODO
+    return null;
+  }
 }
