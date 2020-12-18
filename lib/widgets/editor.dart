@@ -54,6 +54,7 @@ class QuillEditor extends StatefulWidget {
   final Brightness keyboardAppearance;
   final ScrollPhysics scrollPhysics;
   final ValueChanged<String> onLaunchUrl;
+  final EmbedBuilder embedBuilder;
 
   QuillEditor(
       this.controller,
@@ -71,12 +72,14 @@ class QuillEditor extends StatefulWidget {
       this.textCapitalization,
       this.keyboardAppearance,
       this.scrollPhysics,
-      this.onLaunchUrl)
+      this.onLaunchUrl,
+      this.embedBuilder)
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),
         assert(autoFocus != null),
-        assert(readOnly != null);
+        assert(readOnly != null),
+        assert(embedBuilder != null);
 
   @override
   _QuillEditorState createState() => _QuillEditorState();
@@ -175,7 +178,8 @@ class _QuillEditorState extends State<QuillEditor>
           textSelectionControls,
           widget.keyboardAppearance,
           widget.enableInteractiveSelection,
-          widget.scrollPhysics),
+          widget.scrollPhysics,
+          widget.embedBuilder),
     );
   }
 
@@ -229,6 +233,7 @@ class RawEditor extends StatefulWidget {
   final Brightness keyboardAppearance;
   final bool enableInteractiveSelection;
   final ScrollPhysics scrollPhysics;
+  final EmbedBuilder embedBuilder;
 
   RawEditor(
       Key key,
@@ -252,7 +257,8 @@ class RawEditor extends StatefulWidget {
       this.selectionCtrls,
       this.keyboardAppearance,
       this.enableInteractiveSelection,
-      this.scrollPhysics)
+      this.scrollPhysics,
+      this.embedBuilder)
       : assert(controller != null),
         assert(focusNode != null),
         assert(scrollable || scrollController != null),
@@ -267,6 +273,7 @@ class RawEditor extends StatefulWidget {
         assert(autoFocus != null),
         assert(toolbarOptions != null),
         showCursor = showCursor ?? !readOnly,
+        assert(embedBuilder != null),
         super(key: key);
 
   @override

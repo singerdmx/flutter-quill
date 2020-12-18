@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_quill/models/documents/nodes/leaf.dart';
 
 import 'editor.dart';
+
+typedef EmbedBuilder = Widget Function(BuildContext context, Embed node);
 
 abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
   GlobalKey<EditorState> getEditableTextKey();

@@ -4,6 +4,7 @@ import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
     as container;
 import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
+import 'package:flutter_quill/models/documents/nodes/leaf.dart';
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/models/documents/style.dart';
@@ -13,20 +14,26 @@ import 'package:tuple/tuple.dart';
 
 import 'box.dart';
 import 'default_styles.dart';
+import 'delegate.dart';
 
 class TextLine extends StatelessWidget {
   final Line line;
   final TextDirection textDirection;
+  final EmbedBuilder embedBuilder;
 
-  const TextLine({Key key, this.line, this.textDirection})
+  const TextLine({Key key, this.line, this.textDirection, this.embedBuilder})
       : assert(line != null),
+        assert(embedBuilder != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
-    // TODO: line.hasEmbed
+    if (line.hasEmbed) {
+      Embed embed = line.children.single as Embed;
+      return EmbedProxy(embedBuilder(context, embed));
+    }
 
     TextSpan textSpan = _buildTextSpan(context);
     StrutStyle strutStyle =
