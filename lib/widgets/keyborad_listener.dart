@@ -2,8 +2,8 @@ import 'package:flutter/services.dart';
 
 enum InputShortcut { CUT, COPY, PAST, SELECT_ALL }
 
-typedef CursorMoveCallback = void Function(LogicalKeyboardKey key,
-    {bool wordModifier, bool lineModifier, bool shift});
+typedef CursorMoveCallback = void Function(
+    LogicalKeyboardKey key, bool wordModifier, bool lineModifier, bool shift);
 typedef InputShortcutCallback = void Function(InputShortcut shortcut);
 typedef OnDeleteCallback = void Function(bool forward);
 
@@ -82,10 +82,11 @@ class KeyboardListener {
     }
 
     if (_moveKeys.contains(key)) {
-      onCursorMove(key,
-          wordModifier: isMacOS ? event.isAltPressed : event.isControlPressed,
-          lineModifier: isMacOS ? event.isMetaPressed : event.isAltPressed,
-          shift: event.isShiftPressed);
+      onCursorMove(
+          key,
+          isMacOS ? event.isAltPressed : event.isControlPressed,
+          isMacOS ? event.isMetaPressed : event.isAltPressed,
+          event.isShiftPressed);
     } else if (isMacOS
         ? event.isMetaPressed
         : event.isControlPressed && _shortcutKeys.contains(key)) {

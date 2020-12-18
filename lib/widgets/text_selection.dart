@@ -20,7 +20,7 @@ class EditorTextSelectionOverlay {
   final ClipboardStatusNotifier clipboardStatus;
   AnimationController _toolbarController;
   List<OverlayEntry> _handles;
-  OverlayEntry _toolbar;
+  OverlayEntry toolbar;
 
   EditorTextSelectionOverlay(
       this.value,
@@ -58,12 +58,19 @@ class EditorTextSelectionOverlay {
     _handles = null;
   }
 
+  hideToolbar() {
+    assert(toolbar != null);
+    _toolbarController.stop();
+    toolbar.remove();
+    toolbar = null;
+  }
+
   /// Shows the toolbar by inserting it into the [context]'s overlay.
   showToolbar() {
-    assert(_toolbar == null);
-    _toolbar = OverlayEntry(builder: _buildToolbar);
+    assert(toolbar == null);
+    toolbar = OverlayEntry(builder: _buildToolbar);
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
-        .insert(_toolbar);
+        .insert(toolbar);
     _toolbarController.forward(from: 0.0);
   }
 
@@ -78,6 +85,6 @@ class EditorTextSelectionOverlay {
       _handles[0].markNeedsBuild();
       _handles[1].markNeedsBuild();
     }
-    _toolbar?.markNeedsBuild();
+    toolbar?.markNeedsBuild();
   }
 }

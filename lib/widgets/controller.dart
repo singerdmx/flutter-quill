@@ -17,6 +17,12 @@ class QuillController extends ChangeNotifier {
       : assert(document != null),
         assert(selection != null);
 
+  TextEditingValue get plainTextEditingValue => TextEditingValue(
+    text: document.toPlainText(),
+    selection: selection,
+    composing: TextRange.empty,
+  );
+
   Style getSelectionStyle() {
     return document
         .collectStyle(selection.start, selection.end - selection.start)

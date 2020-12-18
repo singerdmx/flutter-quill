@@ -156,6 +156,8 @@ class Document {
   close() {
     _observer.close();
   }
+
+  String toPlainText() => _root.children.map((e) => e.toPlainText()).join('');
 }
 
 enum ChangeSource {

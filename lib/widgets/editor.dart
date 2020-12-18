@@ -1,12 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
+import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 
 import 'controller.dart';
 import 'cursor.dart';
 import 'delegate.dart';
+
+const Set<int> WHITE_SPACE = {
+  0x9,
+  0xA,
+  0xB,
+  0xC,
+  0xD,
+  0x1C,
+  0x1D,
+  0x1E,
+  0x1F,
+  0x20,
+  0xA0,
+  0x1680,
+  0x2000,
+  0x2001,
+  0x2002,
+  0x2003,
+  0x2004,
+  0x2005,
+  0x2006,
+  0x2007,
+  0x2008,
+  0x2009,
+  0x200A,
+  0x202F,
+  0x205F,
+  0x3000
+};
 
 abstract class RenderAbstractEditor {
   TextSelection selectWordAtPosition(TextPosition position);
@@ -282,11 +313,280 @@ class RawEditor extends StatefulWidget {
   }
 }
 
-class RawEditorState extends EditorState implements TextSelectionDelegate {
+class RawEditorState extends EditorState
+    with
+        AutomaticKeepAliveClientMixin<RawEditor>,
+        WidgetsBindingObserver,
+        TickerProviderStateMixin<RawEditor>
+    implements TextSelectionDelegate, TextInputClient {
   final GlobalKey _editorKey = GlobalKey();
+  final List<TextEditingValue> _sentRemoteValues = [];
+  TextInputConnection _textInputConnection;
+  TextEditingValue _lastKnownRemoteTextEditingValue;
+  int _cursorResetLocation = -1;
+  bool _wasSelectingVerticallyWithKeyboard = false;
+
+  handleCursorMovement(
+    LogicalKeyboardKey key,
+    bool wordModifier,
+    bool lineModifier,
+    bool shift,
+  ) {
+    if (wordModifier && lineModifier) {
+      return;
+    }
+    TextSelection selection = widget.controller.selection;
+    assert(selection != null);
+
+    TextSelection newSelection = widget.controller.selection;
+
+    String plainText = textEditingValue.text;
+
+    bool rightKey = key == LogicalKeyboardKey.arrowRight,
+        leftKey = key == LogicalKeyboardKey.arrowLeft,
+        upKey = key == LogicalKeyboardKey.arrowUp,
+        downKey = key == LogicalKeyboardKey.arrowDown;
+
+    if ((rightKey || leftKey) && !(rightKey && leftKey)) {
+      newSelection = _jumpToBeginOrEndOfWord(newSelection, wordModifier,
+          leftKey, rightKey, plainText, lineModifier, shift);
+    }
+
+    if (downKey || upKey) {}
+
+    if (!shift) {}
+
+    widget.controller.updateSelection(newSelection, ChangeSource.LOCAL);
+  }
+
+  TextSelection _jumpToBeginOrEndOfWord(
+      TextSelection newSelection,
+      bool wordModifier,
+      bool leftKey,
+      bool rightKey,
+      String plainText,
+      bool lineModifier,
+      bool shift) {
+    if (wordModifier) {
+      if (leftKey) {
+        TextSelection textSelection = getRenderEditor().selectWordAtPosition(
+            TextPosition(
+                offset: _previousCharacter(
+                    newSelection.extentOffset, plainText, false)));
+        return newSelection.copyWith(extentOffset: textSelection.baseOffset);
+      }
+      TextSelection textSelection = getRenderEditor().selectWordAtPosition(
+          TextPosition(
+              offset:
+                  _nextCharacter(newSelection.extentOffset, plainText, false)));
+      return newSelection.copyWith(extentOffset: textSelection.extentOffset);
+    } else if (lineModifier) {
+      if (leftKey) {
+        TextSelection textSelection = getRenderEditor().selectLineAtPosition(
+            TextPosition(
+                offset: _previousCharacter(
+                    newSelection.extentOffset, plainText, false)));
+        return newSelection.copyWith(extentOffset: textSelection.baseOffset);
+      }
+      int startPoint = newSelection.extentOffset;
+      if (startPoint < plainText.length) {
+        TextSelection textSelection = getRenderEditor()
+            .selectLineAtPosition(TextPosition(offset: startPoint));
+        return newSelection.copyWith(extentOffset: textSelection.extentOffset);
+      }
+      return newSelection;
+    }
+
+    if (rightKey && newSelection.extentOffset < plainText.length) {
+      int nextExtent =
+          _nextCharacter(newSelection.extentOffset, plainText, true);
+      int distance = nextExtent - newSelection.extentOffset;
+      newSelection = newSelection.copyWith(extentOffset: nextExtent);
+      if (shift) {
+        _cursorResetLocation += distance;
+      }
+      return newSelection;
+    }
+
+    if (leftKey && newSelection.extentOffset > 0) {
+      int previousExtent =
+          _previousCharacter(newSelection.extentOffset, plainText, true);
+      int distance = newSelection.extentOffset - previousExtent;
+      newSelection = newSelection.copyWith(extentOffset: previousExtent);
+      if (shift) {
+        _cursorResetLocation -= distance;
+      }
+      return newSelection;
+    }
+    return newSelection;
+  }
+
+  int _nextCharacter(int index, String string, bool includeWhitespace) {
+    assert(index >= 0 && index <= string.length);
+    if (index == string.length) {
+      return string.length;
+    }
+
+    int count = 0;
+    Characters remain = string.characters.skipWhile((String currentString) {
+      if (count <= index) {
+        count += currentString.length;
+        return true;
+      }
+      if (includeWhitespace) {
+        return false;
+      }
+      return WHITE_SPACE.contains(currentString.codeUnitAt(0));
+    });
+    return string.length - remain.toString().length;
+  }
+
+  int _previousCharacter(int index, String string, includeWhitespace) {
+    assert(index >= 0 && index <= string.length);
+    if (index == 0) {
+      return 0;
+    }
+
+    int count = 0;
+    int lastNonWhitespace;
+    for (String currentString in string.characters) {
+      if (!includeWhitespace &&
+          !WHITE_SPACE.contains(
+              currentString.characters.first.toString().codeUnitAt(0))) {
+        lastNonWhitespace = count;
+      }
+      if (count + currentString.length >= index) {
+        return includeWhitespace ? count : lastNonWhitespace ?? 0;
+      }
+      count += currentString.length;
+    }
+    return 0;
+  }
+
+  bool get hasConnection =>
+      _textInputConnection != null && _textInputConnection.attached;
+
+  openConnectionIfNeeded() {
+    if (widget.readOnly) {
+      return;
+    }
+
+    if (!hasConnection) {
+      _lastKnownRemoteTextEditingValue = textEditingValue;
+      _textInputConnection = TextInput.attach(
+        this,
+        TextInputConfiguration(
+          inputType: TextInputType.multiline,
+          readOnly: widget.readOnly,
+          obscureText: false,
+          autocorrect: false,
+          inputAction: TextInputAction.newline,
+          keyboardAppearance: widget.keyboardAppearance,
+          textCapitalization: widget.textCapitalization,
+        ),
+      );
+
+      _textInputConnection.setEditingState(_lastKnownRemoteTextEditingValue);
+      _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
+    }
+    _textInputConnection.show();
+  }
+
+  closeConnectionIfNeeded() {
+    if (!hasConnection) {
+      return;
+    }
+    _textInputConnection.close();
+    _textInputConnection = null;
+    _lastKnownRemoteTextEditingValue = null;
+    _sentRemoteValues.clear();
+  }
+
+  updateRemoteValueIfNeeded() {
+    if (!hasConnection) {
+      return;
+    }
+
+    TextEditingValue actualValue = textEditingValue.copyWith(
+      composing: _lastKnownRemoteTextEditingValue.composing,
+    );
+
+    if (actualValue == _lastKnownRemoteTextEditingValue) {
+      return;
+    }
+
+    bool shouldRemember =
+        textEditingValue.text != _lastKnownRemoteTextEditingValue.text;
+    _lastKnownRemoteTextEditingValue = actualValue;
+    _textInputConnection.setEditingState(actualValue);
+    if (shouldRemember) {
+      _sentRemoteValues.add(actualValue);
+    }
+  }
 
   @override
-  TextEditingValue textEditingValue;
+  TextEditingValue get currentTextEditingValue =>
+      _lastKnownRemoteTextEditingValue;
+
+  @override
+  AutofillScope get currentAutofillScope => null;
+
+  @override
+  void updateEditingValue(TextEditingValue value) {
+    if (widget.readOnly) {
+      return;
+    }
+
+    if (_sentRemoteValues.contains(value)) {
+      _sentRemoteValues.remove(value);
+      return;
+    }
+
+    if (_lastKnownRemoteTextEditingValue == value) {
+      return;
+    }
+
+    if (_lastKnownRemoteTextEditingValue.text == value.text &&
+        _lastKnownRemoteTextEditingValue.selection == value.selection) {
+      _lastKnownRemoteTextEditingValue = value;
+      return;
+    }
+
+    TextEditingValue effectiveLastKnownValue = _lastKnownRemoteTextEditingValue;
+    _lastKnownRemoteTextEditingValue = value;
+    String oldText = effectiveLastKnownValue.text;
+    String text = value.text;
+    int cursorPosition = value.selection.extentOffset;
+    Diff diff = getDiff(oldText, text, cursorPosition);
+    widget.controller.replaceText(
+        diff.start, diff.deleted.length, diff.inserted, value.selection);
+  }
+
+  @override
+  TextEditingValue get textEditingValue {
+    return widget.controller.plainTextEditingValue;
+  }
+
+  @override
+  set textEditingValue(TextEditingValue value) {
+    widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+  }
+
+  @override
+  void performAction(TextInputAction action) {}
+
+  @override
+  void performPrivateCommand(String action, Map<String, dynamic> data) {}
+
+  @override
+  void updateFloatingCursor(RawFloatingCursorPoint point) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void showAutocorrectionPromptRect(int start, int end) {
+    throw UnimplementedError();
+  }
 
   @override
   void bringIntoView(TextPosition position) {
@@ -294,18 +594,21 @@ class RawEditorState extends EditorState implements TextSelectionDelegate {
   }
 
   @override
+  void connectionClosed() {
+    if (!hasConnection) {
+      return;
+    }
+    _textInputConnection.connectionClosedReceived();
+    _textInputConnection = null;
+    _lastKnownRemoteTextEditingValue = null;
+    _sentRemoteValues.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     throw UnimplementedError();
   }
-
-  @override
-  // TODO: implement copyEnabled
-  bool get copyEnabled => throw UnimplementedError();
-
-  @override
-  // TODO: implement cutEnabled
-  bool get cutEnabled => throw UnimplementedError();
 
   @override
   RenderEditor getRenderEditor() {
@@ -327,21 +630,27 @@ class RawEditorState extends EditorState implements TextSelectionDelegate {
 
   @override
   void hideToolbar() {
-    // TODO: implement hideToolbar
+    if (getSelectionOverlay()?.toolbar != null) {
+      getSelectionOverlay()?.hideToolbar();
+    }
   }
 
   @override
-  // TODO: implement pasteEnabled
-  bool get pasteEnabled => throw UnimplementedError();
+  bool get cutEnabled => widget.toolbarOptions.cut && !widget.readOnly;
+
+  @override
+  bool get copyEnabled => widget.toolbarOptions.copy;
+
+  @override
+  bool get pasteEnabled => widget.toolbarOptions.paste && !widget.readOnly;
+
+  @override
+  bool get selectAllEnabled => widget.toolbarOptions.selectAll;
 
   @override
   void requestKeyboard() {
     // TODO: implement requestKeyboard
   }
-
-  @override
-  // TODO: implement selectAllEnabled
-  bool get selectAllEnabled => throw UnimplementedError();
 
   @override
   void setTextEditingValue(TextEditingValue value) {
@@ -353,6 +662,10 @@ class RawEditorState extends EditorState implements TextSelectionDelegate {
     // TODO: implement showToolbar
     throw UnimplementedError();
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => throw UnimplementedError();
 }
 
 class RenderEditor extends RenderEditableContainerBox
