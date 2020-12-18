@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter_quill/models/documents/nodes/block.dart';
+import 'package:flutter_quill/models/documents/nodes/container.dart';
+import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/style.dart';
 import 'package:quill_delta/quill_delta.dart';
 import 'package:tuple/tuple.dart';
@@ -87,6 +90,20 @@ class Document {
     return delta;
   }
 
+  Style collectStyle(int index, int len) {
+    ChildQuery res = queryChild(index);
+    return (res.node as Line).collectStyle(res.offset, len);
+  }
+
+  ChildQuery queryChild(int offset) {
+    ChildQuery res = _root.queryChild(offset, true);
+    if (res.node is Line) {
+      return res;
+    }
+    Block block = res.node;
+    return block.queryChild(res.offset, true);
+  }
+
   compose(Delta delta, ChangeSource changeSource) {
     assert(!_observer.isClosed);
     delta.trim();
@@ -134,6 +151,10 @@ class Document {
         : data is Embeddable
             ? data
             : Embeddable.fromJson(data);
+  }
+
+  close() {
+    _observer.close();
   }
 }
 

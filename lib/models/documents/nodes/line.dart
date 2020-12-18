@@ -261,4 +261,50 @@ class Line extends Container<Leaf> {
   Node newInstance() {
     return Line();
   }
+
+  Style collectStyle(int offset, int len) {
+    int local = math.min(this.length - offset, len);
+    Style res = Style();
+    var excluded = <Attribute>{};
+
+    void _handle(Style style) {
+      if (res.isEmpty) {
+        excluded.addAll(style.values);
+      } else {
+        for (Attribute attr in res.values) {
+          if (!style.containsKey(attr.key)) {
+            excluded.add(attr);
+          }
+        }
+      }
+      Style remain = style.removeAll(excluded);
+      res = res.removeAll(excluded);
+      res = res.mergeAll(remain);
+    }
+
+    ChildQuery data = queryChild(offset, true);
+    Leaf node = data.node;
+    if (node != null) {
+      res = res.mergeAll(node.style);
+      int pos = node.length - data.offset;
+      while (!node.isLast && pos < local) {
+        node = node.next as Leaf;
+        _handle(node.style);
+        pos += node.length;
+      }
+    }
+
+    res = res.mergeAll(style);
+    if (parent is Block) {
+      Block block = parent;
+      res = res.mergeAll(block.style);
+    }
+
+    int remain = len - local;
+    if (remain > 0) {
+      _handle(nextLine.collectStyle(0, remain));
+    }
+
+    return res;
+  }
 }

@@ -67,4 +67,16 @@ class Style {
     }
     return result;
   }
+
+  Style removeAll(Set<Attribute> attributes) {
+    Map<String, Attribute> merged = Map<String, Attribute>.from(_attributes);
+    attributes.map((item) => item.key).forEach(merged.remove);
+    return Style.attr(merged);
+  }
+
+  Style put(Attribute attribute) {
+    Map<String, Attribute> m = Map<String, Attribute>.from(attributes);
+    m[attribute.key] = attribute;
+    return Style.attr(m);
+  }
 }
