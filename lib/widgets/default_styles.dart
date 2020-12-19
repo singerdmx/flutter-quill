@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tuple/tuple.dart';
 
-class QuillTheme extends InheritedWidget {
+class QuillStyles extends InheritedWidget {
   final DefaultStyles data;
 
-  QuillTheme({
+  QuillStyles({
     Key key,
     @required this.data,
     @required Widget child,
@@ -14,12 +14,12 @@ class QuillTheme extends InheritedWidget {
         super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(QuillTheme oldWidget) {
+  bool updateShouldNotify(QuillStyles oldWidget) {
     return data != oldWidget.data;
   }
 
-  static DefaultStyles of(BuildContext context, nullOk) {
-    var widget = context.dependOnInheritedWidgetOfExactType<QuillTheme>();
+  static DefaultStyles getStyles(BuildContext context, nullOk) {
+    var widget = context.dependOnInheritedWidgetOfExactType<QuillStyles>();
     if (widget == null && nullOk) {
       return null;
     }
@@ -156,5 +156,21 @@ class DefaultStyles {
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )));
+  }
+
+  DefaultStyles merge(DefaultStyles other) {
+    return DefaultStyles(
+        other.h1 ?? this.h1,
+        other.h2 ?? this.h2,
+        other.h3 ?? this.h3,
+        other.paragraph ?? this.paragraph,
+        other.bold ?? this.bold,
+        other.italic ?? this.italic,
+        other.underline ?? this.underline,
+        other.strikeThrough ?? this.strikeThrough,
+        other.link ?? this.link,
+        other.lists ?? this.lists,
+        other.quote ?? this.quote,
+        other.code ?? this.code);
   }
 }

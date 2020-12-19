@@ -9,6 +9,7 @@ import 'package:flutter_quill/models/documents/nodes/container.dart'
     as container;
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
+import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 
 import 'box.dart';
@@ -324,6 +325,8 @@ class RawEditorState extends EditorState
   CursorCont _cursorCont;
   ScrollController _scrollController;
   KeyboardListener _keyboardListener;
+  bool _didAutoFocus = false;
+  DefaultStyles _styles;
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
 
   bool get _hasFocus => widget.focusNode.hasFocus;
@@ -736,7 +739,17 @@ class RawEditorState extends EditorState
 
   @override
   didChangeDependencies() {
-    // TODO
+    super.didChangeDependencies();
+    DefaultStyles parentStyles = QuillStyles.getStyles(context, true);
+    DefaultStyles defaultStyles = DefaultStyles.getInstance(context);
+    _styles = (parentStyles != null)
+        ? defaultStyles.merge(parentStyles)
+        : defaultStyles;
+
+    if (!_didAutoFocus && widget.autoFocus) {
+      FocusScope.of(context).autofocus(widget.focusNode);
+      _didAutoFocus = true;
+    }
   }
 
   @override
