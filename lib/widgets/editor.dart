@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
+import 'package:flutter_quill/models/documents/nodes/container.dart'
+    as container;
+import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 
@@ -778,9 +781,7 @@ class RawEditorState extends EditorState
     // TODO
   }
 
-  _showCaretOnScreen() {
-
-  }
+  _showCaretOnScreen() {}
 
   @override
   RenderEditor getRenderEditor() {
@@ -827,8 +828,7 @@ class RawEditorState extends EditorState
 
   @override
   setTextEditingValue(TextEditingValue value) {
-    widget.controller
-        .updateSelection(value.selection, ChangeSource.LOCAL);
+    widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
   }
 
   @override
@@ -949,10 +949,12 @@ class RenderEditableContainerBox extends RenderBox
             EditableContainerParentData>,
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
-  Container _container;
+  container.Container _container;
   TextDirection _textDirection;
+  EdgeInsetsGeometry _padding;
+  EdgeInsets _resolvedPadding;
 
-  setContainer(Container c) {
+  setContainer(container.Container c) {
     assert(c != null);
     if (_container == c) {
       return;
@@ -968,9 +970,70 @@ class RenderEditableContainerBox extends RenderBox
     _textDirection = t;
   }
 
-  RenderEditableBox childAtPosition(TextPosition originPosition) {
-    // TODO
-    return null;
+  EdgeInsetsGeometry getPadding() => _padding;
+
+  setPadding(EdgeInsetsGeometry value) {
+    assert(value != null);
+    assert(value.isNonNegative);
+    if (_padding == value) {
+      return;
+    }
+    _padding = value;
+    _markNeedsPaddingResolution();
+  }
+
+  _resolvePadding() {
+    if (_resolvedPadding != null) {
+      return;
+    }
+    _resolvedPadding = _padding.resolve(_textDirection);
+    _resolvedPadding = _resolvedPadding.copyWith(left: _resolvedPadding.left);
+
+    assert(_resolvedPadding.isNonNegative);
+  }
+
+  RenderEditableBox childAtPosition(TextPosition position) {
+    assert(firstChild != null);
+
+    Node targetNode = _container.queryChild(position.offset, false).node;
+
+    var targetChild = firstChild;
+    while (targetChild != null) {
+      if (targetChild.getContainer() == targetNode) {
+        break;
+      }
+      targetChild = childAfter(targetChild);
+    }
+    assert(targetChild != null);
+    return targetChild;
+  }
+
+  _markNeedsPaddingResolution() {
+    _resolvedPadding = null;
+    markNeedsLayout();
+  }
+
+  RenderEditableBox childAtOffset(Offset offset) {
+    assert(firstChild != null);
+    _resolvePadding();
+
+    if (offset.dy <= _resolvedPadding.top) {
+      return firstChild;
+    }
+    if (offset.dy >= size.height - _resolvedPadding.bottom) {
+      return lastChild;
+    }
+
+    var child = firstChild;
+    double dx = -offset.dx, dy = _resolvedPadding.top;
+    while (child != null) {
+      if (child.size.contains(offset.translate(dx, -dy))) {
+        return child;
+      }
+      dy += child.size.height;
+      child = childAfter(child);
+    }
+    throw ('No child');
   }
 }
 
