@@ -462,6 +462,12 @@ class RawEditorState extends EditorState
 
   bool get _hasFocus => widget.focusNode.hasFocus;
 
+  TextDirection get _textDirection {
+    TextDirection result = Directionality.of(context);
+    assert(result != null);
+    return result;
+  }
+
   handleCursorMovement(
     LogicalKeyboardKey key,
     bool wordModifier,
@@ -811,9 +817,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  void bringIntoView(TextPosition position) {
-    // TODO: implement bringIntoView
-  }
+  void bringIntoView(TextPosition position) {}
 
   @override
   void connectionClosed() {
@@ -832,9 +836,35 @@ class RawEditorState extends EditorState
     _focusAttachment.reparent();
     super.build(context);
 
-    // TODO
-    throw UnimplementedError();
+    Widget child = CompositedTransformTarget(
+      link: _toolbarLayerLink,
+      child: Semantics(
+        child: _Editor(
+          key: _editorKey,
+          children: _buildChildren(context),
+          document: widget.controller.document,
+          selection: widget.controller.selection,
+          hasFocus: _hasFocus,
+          textDirection: _textDirection,
+          startHandleLayerLink: _startHandleLayerLink,
+          endHandleLayerLink: _endHandleLayerLink,
+          onSelectionChanged: _handleSelectionChanged,
+          padding: widget.padding,
+        ),
+      ),
+    );
   }
+
+  _handleSelectionChanged(
+      TextSelection selection, SelectionChangedCause cause) {
+    widget.controller.updateSelection(selection, ChangeSource.LOCAL);
+
+    _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
+
+    requestKeyboard();
+  }
+
+  _buildChildren(BuildContext context) {}
 
   @override
   void initState() {
@@ -1227,7 +1257,6 @@ class RenderEditor extends RenderEditableContainerBox
   RenderEditor(
       List<RenderEditableBox> children,
       TextDirection textDirection,
-      hasFocus,
       EdgeInsetsGeometry padding,
       this.document,
       this.selection,
@@ -1238,7 +1267,7 @@ class RenderEditor extends RenderEditableContainerBox
       EdgeInsets floatingCursorAddedMargin)
       : assert(document != null),
         assert(textDirection != null),
-        assert(hasFocus != null),
+        assert(_hasFocus != null),
         assert(floatingCursorAddedMargin != null),
         super(
           children,
@@ -1292,66 +1321,280 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   List<TextSelectionPoint> getEndpointsForSelection(
       TextSelection textSelection) {
-    // TODO: implement getEndpointsForSelection
-    throw UnimplementedError();
+    assert(constraints != null);
+
+    if (selection.isCollapsed) {
+      RenderEditableBox child = childAtPosition(selection.extent);
+      TextPosition localPosition = TextPosition(
+          offset: selection.extentOffset - child.getContainer().getOffset());
+      Offset localOffset = child.getOffsetForCaret(localPosition);
+      BoxParentData parentData = child.parentData;
+      return <TextSelectionPoint>[
+        TextSelectionPoint(
+            Offset(0.0, child.preferredLineHeight(localPosition)) +
+                localOffset +
+                parentData.offset,
+            null)
+      ];
+    }
+
+    Node baseNode = _container.queryChild(selection.start, false).node;
+
+    var baseChild = firstChild;
+    while (baseChild != null) {
+      if (baseChild.getContainer() == baseNode) {
+        break;
+      }
+      baseChild = childAfter(baseChild);
+    }
+    assert(baseChild != null);
+
+    BoxParentData baseParentData = baseChild.parentData;
+    TextSelection baseSelection =
+        localSelection(baseChild.getContainer(), selection, true);
+    TextSelectionPoint basePoint =
+        baseChild.getBaseEndpointForSelection(baseSelection);
+    basePoint = TextSelectionPoint(
+        basePoint.point + baseParentData.offset, basePoint.direction);
+
+    Node extentNode = _container.queryChild(selection.end, false).node;
+    var extentChild = baseChild;
+    while (extentChild != null) {
+      if (extentChild.getContainer() == extentNode) {
+        break;
+      }
+      extentChild = childAfter(extentChild);
+    }
+    assert(extentChild != null);
+
+    BoxParentData extentParentData = extentChild.parentData;
+    TextSelection extentSelection =
+        localSelection(extentChild.getContainer(), selection, true);
+    TextSelectionPoint extentPoint =
+        extentChild.getExtentEndpointForSelection(extentSelection);
+    extentPoint = TextSelectionPoint(
+        extentPoint.point + extentParentData.offset, extentPoint.direction);
+
+    return <TextSelectionPoint>[basePoint, extentPoint];
+  }
+
+  Offset _lastTapDownPosition;
+
+  @override
+  handleTapDown(TapDownDetails details) {
+    _lastTapDownPosition = details.globalPosition;
   }
 
   @override
-  TextPosition getPositionForOffset(Offset offset) {
-    // TODO: implement getPositionForOffset
-    throw UnimplementedError();
+  selectWordsInRange(
+    Offset from,
+    Offset to,
+    SelectionChangedCause cause,
+  ) {
+    assert(cause != null);
+    assert(from != null);
+    if (onSelectionChanged == null) {
+      return;
+    }
+    TextPosition firstPosition = getPositionForOffset(from);
+    TextSelection firstWord = selectWordAtPosition(firstPosition);
+    TextSelection lastWord =
+        to == null ? firstWord : selectWordAtPosition(getPositionForOffset(to));
+
+    _handleSelectionChange(
+      TextSelection(
+        baseOffset: firstWord.base.offset,
+        extentOffset: lastWord.extent.offset,
+        affinity: firstWord.affinity,
+      ),
+      cause,
+    );
+  }
+
+  _handleSelectionChange(
+    TextSelection nextSelection,
+    SelectionChangedCause cause,
+  ) {
+    bool focusingEmpty = nextSelection.baseOffset == 0 &&
+        nextSelection.extentOffset == 0 &&
+        !_hasFocus;
+    if (nextSelection == selection &&
+        cause != SelectionChangedCause.keyboard &&
+        !focusingEmpty) {
+      return;
+    }
+    if (onSelectionChanged != null) {
+      onSelectionChanged(nextSelection, cause);
+    }
   }
 
   @override
-  void handleTapDown(TapDownDetails details) {
-    // TODO: implement handleTapDown
+  selectWordEdge(SelectionChangedCause cause) {
+    assert(cause != null);
+    assert(_lastTapDownPosition != null);
+    if (onSelectionChanged == null) {
+      return;
+    }
+    TextPosition position = getPositionForOffset(_lastTapDownPosition);
+    RenderEditableBox child = childAtPosition(position);
+    int nodeOffset = child.getContainer().getOffset();
+    TextPosition localPosition = TextPosition(
+      offset: position.offset - nodeOffset,
+      affinity: position.affinity,
+    );
+    TextRange localWord = child.getWordBoundary(localPosition);
+    TextRange word = TextRange(
+      start: localWord.start + nodeOffset,
+      end: localWord.end + nodeOffset,
+    );
+    if (position.offset - word.start <= 1) {
+      _handleSelectionChange(
+        TextSelection.collapsed(
+            offset: word.start, affinity: TextAffinity.downstream),
+        cause,
+      );
+    } else {
+      _handleSelectionChange(
+        TextSelection.collapsed(
+            offset: word.end, affinity: TextAffinity.upstream),
+        cause,
+      );
+    }
   }
 
   @override
-  double preferredLineHeight(TextPosition position) {
-    // TODO: implement preferredLineHeight
-    throw UnimplementedError();
+  selectPositionAt(
+    Offset from,
+    Offset to,
+    SelectionChangedCause cause,
+  ) {
+    assert(cause != null);
+    assert(from != null);
+    if (onSelectionChanged == null) {
+      return;
+    }
+    TextPosition fromPosition = getPositionForOffset(from);
+    TextPosition toPosition = to == null ? null : getPositionForOffset(to);
+
+    int baseOffset = fromPosition.offset;
+    int extentOffset = fromPosition.offset;
+    if (toPosition != null) {
+      baseOffset = math.min(fromPosition.offset, toPosition.offset);
+      extentOffset = math.max(fromPosition.offset, toPosition.offset);
+    }
+
+    TextSelection newSelection = TextSelection(
+      baseOffset: baseOffset,
+      extentOffset: extentOffset,
+      affinity: fromPosition.affinity,
+    );
+    _handleSelectionChange(newSelection, cause);
   }
 
   @override
-  TextSelection selectLineAtPosition(TextPosition position) {
-    // TODO: implement selectLineAtPosition
-    throw UnimplementedError();
+  selectWord(SelectionChangedCause cause) {
+    selectWordsInRange(_lastTapDownPosition, null, cause);
   }
 
   @override
-  void selectPosition(SelectionChangedCause cause) {
-    // TODO: implement selectPosition
-  }
-
-  @override
-  void selectPositionAt(Offset from, Offset to, SelectionChangedCause cause) {
-    // TODO: implement selectPositionAt
-  }
-
-  @override
-  void selectWord(SelectionChangedCause cause) {
-    // TODO: implement selectWord
+  selectPosition(SelectionChangedCause cause) {
+    selectPositionAt(_lastTapDownPosition, null, cause);
   }
 
   @override
   TextSelection selectWordAtPosition(TextPosition position) {
-    // TODO: implement selectWordAtPosition
-    throw UnimplementedError();
+    RenderEditableBox child = childAtPosition(position);
+    int nodeOffset = child.getContainer().getOffset();
+    TextPosition localPosition = TextPosition(
+        offset: position.offset - nodeOffset, affinity: position.affinity);
+    TextRange localWord = child.getWordBoundary(localPosition);
+    TextRange word = TextRange(
+      start: localWord.start + nodeOffset,
+      end: localWord.end + nodeOffset,
+    );
+    if (position.offset >= word.end) {
+      return TextSelection.fromPosition(position);
+    }
+    return TextSelection(baseOffset: word.start, extentOffset: word.end);
   }
 
   @override
-  void selectWordEdge(SelectionChangedCause cause) {
-    // TODO: implement selectWordEdge
+  TextSelection selectLineAtPosition(TextPosition position) {
+    RenderEditableBox child = childAtPosition(position);
+    int nodeOffset = child.getContainer().getOffset();
+    TextPosition localPosition = TextPosition(
+        offset: position.offset - nodeOffset, affinity: position.affinity);
+    TextRange localLineRange = child.getLineBoundary(localPosition);
+    TextRange line = TextRange(
+      start: localLineRange.start + nodeOffset,
+      end: localLineRange.end + nodeOffset,
+    );
+
+    if (position.offset >= line.end) {
+      return TextSelection.fromPosition(position);
+    }
+    return TextSelection(baseOffset: line.start, extentOffset: line.end);
   }
 
   @override
-  void selectWordsInRange(Offset from, Offset to, SelectionChangedCause cause) {
-    assert(cause != null && from != null);
-    // TODO: implement selectWordsInRange
+  void paint(PaintingContext context, Offset offset) {
+    defaultPaint(context, offset);
+    _paintHandleLayers(context, getEndpointsForSelection(selection));
   }
 
-  getOffsetToRevealCursor(
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {Offset position}) {
+    return defaultHitTestChildren(result, position: position);
+  }
+
+  _paintHandleLayers(
+      PaintingContext context, List<TextSelectionPoint> endpoints) {
+    var startPoint = endpoints[0].point;
+    startPoint = Offset(
+      startPoint.dx.clamp(0.0, size.width),
+      startPoint.dy.clamp(0.0, size.height),
+    );
+    context.pushLayer(
+      LeaderLayer(link: _startHandleLayerLink, offset: startPoint),
+      super.paint,
+      Offset.zero,
+    );
+    if (endpoints.length == 2) {
+      var endPoint = endpoints[1].point;
+      endPoint = Offset(
+        endPoint.dx.clamp(0.0, size.width),
+        endPoint.dy.clamp(0.0, size.height),
+      );
+      context.pushLayer(
+        LeaderLayer(link: _endHandleLayerLink, offset: endPoint),
+        super.paint,
+        Offset.zero,
+      );
+    }
+  }
+
+  @override
+  double preferredLineHeight(TextPosition position) {
+    RenderEditableBox child = childAtPosition(position);
+    return child.preferredLineHeight(TextPosition(
+        offset: position.offset - child.getContainer().getOffset()));
+  }
+
+  @override
+  TextPosition getPositionForOffset(Offset offset) {
+    Offset local = globalToLocal(offset);
+    RenderEditableBox child = childAtOffset(local);
+
+    BoxParentData parentData = child.parentData;
+    Offset localOffset = local - parentData.offset;
+    TextPosition localPosition = child.getPositionForOffset(localOffset);
+    return TextPosition(
+      offset: localPosition.offset + child.getContainer().getOffset(),
+      affinity: localPosition.affinity,
+    );
+  }
+
+  double getOffsetToRevealCursor(
       double viewportHeight, double scrollOffset, double offsetInViewport) {
     List<TextSelectionPoint> endpoints = getEndpointsForSelection(selection);
     if (endpoints.length != 1) {
@@ -1594,5 +1837,58 @@ class RenderEditableContainerBox extends RenderBox
     _resolvePadding();
     return defaultComputeDistanceToFirstActualBaseline(baseline) +
         _resolvedPadding.top;
+  }
+}
+
+class _Editor extends MultiChildRenderObjectWidget {
+  _Editor({
+    @required Key key,
+    @required List<Widget> children,
+    @required this.document,
+    @required this.textDirection,
+    @required this.hasFocus,
+    @required this.selection,
+    @required this.startHandleLayerLink,
+    @required this.endHandleLayerLink,
+    @required this.onSelectionChanged,
+    this.padding = EdgeInsets.zero,
+  }) : super(key: key, children: children);
+
+  final Document document;
+  final TextDirection textDirection;
+  final bool hasFocus;
+  final TextSelection selection;
+  final LayerLink startHandleLayerLink;
+  final LayerLink endHandleLayerLink;
+  final TextSelectionChangedHandler onSelectionChanged;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  RenderEditor createRenderObject(BuildContext context) {
+    return RenderEditor(
+        null,
+        textDirection,
+        padding,
+        document,
+        selection,
+        hasFocus,
+        onSelectionChanged,
+        startHandleLayerLink,
+        endHandleLayerLink,
+        EdgeInsets.fromLTRB(4, 4, 4, 5));
+  }
+
+  @override
+  updateRenderObject(
+      BuildContext context, covariant RenderEditor renderObject) {
+    renderObject.document = document;
+    renderObject.setContainer(document.root);
+    renderObject.textDirection = textDirection;
+    renderObject.setHasFocus(hasFocus);
+    renderObject.setSelection(selection);
+    renderObject.setStartHandleLayerLink(startHandleLayerLink);
+    renderObject.setEndHandleLayerLink(endHandleLayerLink);
+    renderObject.onSelectionChanged = onSelectionChanged;
+    renderObject.setPadding(padding);
   }
 }
