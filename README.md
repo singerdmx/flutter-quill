@@ -2,7 +2,7 @@
 
 Rich text editor and a [Quill] component for [Flutter].
 
-
+This library supports mobile platform only and web is not supported.
 
 ---
 
