@@ -10,6 +10,7 @@ import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'delegate.dart';
+import 'keyborad_listener.dart';
 
 const Set<int> WHITE_SPACE = {
   0x9,
@@ -326,6 +327,14 @@ class RawEditorState extends EditorState
   TextEditingValue _lastKnownRemoteTextEditingValue;
   int _cursorResetLocation = -1;
   bool _wasSelectingVerticallyWithKeyboard = false;
+  EditorTextSelectionOverlay _selectionOverlay;
+  FocusAttachment _focusAttachment;
+  CursorCont _cursorCont;
+  ScrollController _scrollController;
+  KeyboardListener _keyboardListener;
+  final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
+
+  bool get _hasFocus => widget.focusNode.hasFocus;
 
   handleCursorMovement(
     LogicalKeyboardKey key,
@@ -698,21 +707,94 @@ class RawEditorState extends EditorState
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _clipboardStatus?.addListener(_onChangedClipboardStatus);
+
+    widget.controller.addListener(_didChangeTextEditingValue);
+
+    _scrollController = widget.scrollController ?? ScrollController();
+    _scrollController.addListener(_updateSelectionOverlayForScroll);
+
+    _cursorCont = CursorCont(
+      show: ValueNotifier<bool>(widget.showCursor ?? false),
+      style: widget.cursorStyle ??
+          CursorStyle(
+            color: Colors.blueAccent,
+            backgroundColor: Colors.grey,
+            width: 2.0,
+          ),
+      tickerProvider: this,
+    );
+
+    _keyboardListener = KeyboardListener(
+      handleCursorMovement,
+      handleShortcut,
+      handleDelete,
+    );
+
+    _focusAttachment = widget.focusNode.attach(context,
+        onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
+    widget.focusNode.addListener(_handleFocusChanged);
+  }
+
+  handleDelete(bool forward) {
+    // TODO
+  }
+
+  Future<void> handleShortcut(InputShortcut shortcut) async {
+    // TODO
+  }
+
+  @override
+  void dispose() {
+    closeConnectionIfNeeded();
+    assert(!hasConnection);
+    _selectionOverlay?.dispose();
+    _selectionOverlay = null;
+    widget.controller.removeListener(_didChangeTextEditingValue);
+    widget.focusNode.removeListener(_handleFocusChanged);
+    _focusAttachment.detach();
+    _cursorCont.dispose();
+    _clipboardStatus?.removeListener(_onChangedClipboardStatus);
+    _clipboardStatus?.dispose();
+    super.dispose();
+  }
+
+  _updateSelectionOverlayForScroll() {
+    _selectionOverlay?.markNeedsBuild();
+  }
+
+  _didChangeTextEditingValue() {
+    // TODO
+  }
+
+  _handleFocusChanged() {
+    // TODO
+  }
+
+  _onChangedClipboardStatus() {
+    // TODO
+  }
+
+  _showCaretOnScreen() {
+
+  }
+
+  @override
   RenderEditor getRenderEditor() {
-    // TODO: implement getRenderEditor
-    throw UnimplementedError();
+    return _editorKey.currentContext.findRenderObject();
   }
 
   @override
   EditorTextSelectionOverlay getSelectionOverlay() {
-    // TODO: implement getSelectionOverlay
-    throw UnimplementedError();
+    return _selectionOverlay;
   }
 
   @override
   TextEditingValue getTextEditingValue() {
-    // TODO: implement getTextEditingValue
-    throw UnimplementedError();
+    return widget.controller.plainTextEditingValue;
   }
 
   @override
@@ -735,24 +817,32 @@ class RawEditorState extends EditorState
   bool get selectAllEnabled => widget.toolbarOptions.selectAll;
 
   @override
-  void requestKeyboard() {
-    // TODO: implement requestKeyboard
+  requestKeyboard() {
+    if (_hasFocus) {
+      openConnectionIfNeeded();
+    } else {
+      widget.focusNode.requestFocus();
+    }
   }
 
   @override
-  void setTextEditingValue(TextEditingValue value) {
-    // TODO: implement setTextEditingValue
+  setTextEditingValue(TextEditingValue value) {
+    widget.controller
+        .updateSelection(value.selection, ChangeSource.LOCAL);
   }
 
   @override
   bool showToolbar() {
-    // TODO: implement showToolbar
-    throw UnimplementedError();
+    if (_selectionOverlay == null || _selectionOverlay.toolbar != null) {
+      return false;
+    }
+
+    _selectionOverlay.showToolbar();
+    return true;
   }
 
   @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => throw UnimplementedError();
+  bool get wantKeepAlive => widget.focusNode.hasFocus;
 }
 
 class RenderEditor extends RenderEditableContainerBox

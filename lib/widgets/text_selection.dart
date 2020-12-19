@@ -80,11 +80,28 @@ class EditorTextSelectionOverlay {
     }
   }
 
-  _markNeedsBuild() {
+  markNeedsBuild() {
     if (_handles != null) {
       _handles[0].markNeedsBuild();
       _handles[1].markNeedsBuild();
     }
     toolbar?.markNeedsBuild();
   }
+
+  hide() {
+    if (_handles != null) {
+      _handles[0].remove();
+      _handles[1].remove();
+      _handles = null;
+    }
+    if (toolbar != null) {
+      hideToolbar();
+    }
+  }
+
+  dispose() {
+    hide();
+    _toolbarController.dispose();
+  }
+
 }
