@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -1034,6 +1036,118 @@ class RenderEditableContainerBox extends RenderBox
       child = childAfter(child);
     }
     throw ('No child');
+  }
+
+  @override
+  setupParentData(RenderBox child) {
+    if (child.parentData is EditableContainerParentData) {
+      return;
+    }
+
+    child.parentData = EditableContainerParentData();
+  }
+
+  @override
+  void performLayout() {
+    assert(!constraints.hasBoundedHeight);
+    assert(constraints.hasBoundedWidth);
+    _resolvePadding();
+    assert(_resolvedPadding != null);
+
+    double mainAxisExtent = _resolvedPadding.top;
+    var child = firstChild;
+    BoxConstraints innerConstraints =
+        BoxConstraints.tightFor(width: constraints.maxWidth)
+            .deflate(_resolvedPadding);
+    while (child != null) {
+      child.layout(innerConstraints, parentUsesSize: true);
+      final EditableContainerParentData childParentData = child.parentData;
+      childParentData.offset = Offset(_resolvedPadding.left, mainAxisExtent);
+      mainAxisExtent += child.size.height;
+      assert(child.parentData == childParentData);
+      child = childParentData.nextSibling;
+    }
+    mainAxisExtent += _resolvedPadding.bottom;
+    size = constraints.constrain(Size(constraints.maxWidth, mainAxisExtent));
+
+    assert(size.isFinite);
+  }
+
+  double _getIntrinsicCrossAxis(double Function(RenderBox child) childSize) {
+    double extent = 0.0;
+    var child = firstChild;
+    while (child != null) {
+      extent = math.max(extent, childSize(child));
+      EditableContainerParentData childParentData = child.parentData;
+      child = childParentData.nextSibling;
+    }
+    return extent;
+  }
+
+  double _getIntrinsicMainAxis(double Function(RenderBox child) childSize) {
+    double extent = 0.0;
+    var child = firstChild;
+    while (child != null) {
+      extent += childSize(child);
+      EditableContainerParentData childParentData = child.parentData;
+      child = childParentData.nextSibling;
+    }
+    return extent;
+  }
+
+  @override
+  double computeMinIntrinsicWidth(double height) {
+    _resolvePadding();
+    return _getIntrinsicCrossAxis((RenderBox child) {
+      double childHeight = math.max(
+          0.0, height - _resolvedPadding.top + _resolvedPadding.bottom);
+      return child.getMinIntrinsicWidth(childHeight) +
+          _resolvedPadding.left +
+          _resolvedPadding.right;
+    });
+  }
+
+  @override
+  double computeMaxIntrinsicWidth(double height) {
+    _resolvePadding();
+    return _getIntrinsicCrossAxis((RenderBox child) {
+      double childHeight = math.max(
+          0.0, height - _resolvedPadding.top + _resolvedPadding.bottom);
+      return child.getMaxIntrinsicWidth(childHeight) +
+          _resolvedPadding.left +
+          _resolvedPadding.right;
+    });
+  }
+
+  @override
+  double computeMinIntrinsicHeight(double width) {
+    _resolvePadding();
+    return _getIntrinsicMainAxis((RenderBox child) {
+      double childWidth =
+          math.max(0.0, width - _resolvedPadding.left + _resolvedPadding.right);
+      return child.getMinIntrinsicHeight(childWidth) +
+          _resolvedPadding.top +
+          _resolvedPadding.bottom;
+    });
+  }
+
+  @override
+  double computeMaxIntrinsicHeight(double width) {
+    _resolvePadding();
+    return _getIntrinsicMainAxis((RenderBox child) {
+      final childWidth =
+          math.max(0.0, width - _resolvedPadding.left + _resolvedPadding.right);
+      return child.getMaxIntrinsicHeight(childWidth) +
+          _resolvedPadding.top +
+          _resolvedPadding.bottom;
+    });
+  }
+
+  @override
+  double computeDistanceToActualBaseline(TextBaseline baseline) {
+    _resolvePadding();
+    return defaultComputeDistanceToFirstActualBaseline(baseline) +
+        _resolvedPadding.top;
   }
 }
 
