@@ -1,3 +1,6 @@
+import 'dart:math' as math;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
@@ -10,6 +13,7 @@ import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/models/documents/style.dart';
 import 'package:flutter_quill/widgets/cursor.dart';
 import 'package:flutter_quill/widgets/proxy.dart';
+import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:tuple/tuple.dart';
 
 import 'box.dart';
@@ -228,6 +232,15 @@ class RenderEditableTextLine extends RenderEditableBox {
         assert(devicePixelRatio != null),
         assert(hasFocus != null),
         assert(cursorCont != null);
+
+  Iterable<RenderBox> get _children sync* {
+    if (leading != null) {
+      yield leading;
+    }
+    if (body != null) {
+      yield body;
+    }
+  }
 
   setCursorCont(CursorCont c) {
     assert(c != null);
@@ -458,6 +471,248 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   container.Container getContainer() {
     return line;
+  }
+
+  double get cursorWidth => cursorCont.style.width;
+
+  double get cursorHeight =>
+      cursorCont.style.height ?? preferredLineHeight(TextPosition(offset: 0));
+
+  _computeCaretPrototype() {
+    assert(defaultTargetPlatform != null);
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        _caretPrototype =
+            Rect.fromLTWH(0.0, 0.0, cursorWidth, cursorHeight + 2);
+        break;
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        _caretPrototype =
+            Rect.fromLTWH(0.0, 2.0, cursorWidth, cursorHeight - 4.0);
+        break;
+      default:
+        throw ('Invalid platform');
+    }
+  }
+
+  @override
+  attach(covariant PipelineOwner owner) {
+    super.attach(owner);
+    for (final child in _children) {
+      child.attach(owner);
+    }
+    if (containsCursor()) {
+      cursorCont.addListener(markNeedsLayout);
+      cursorCont.cursorColor.addListener(markNeedsPaint);
+    }
+  }
+
+  @override
+  detach() {
+    super.detach();
+    for (RenderBox child in _children) {
+      child.detach();
+    }
+    if (containsCursor()) {
+      cursorCont.removeListener(markNeedsLayout);
+      cursorCont.cursorColor.removeListener(markNeedsPaint);
+    }
+  }
+
+  @override
+  redepthChildren() {
+    _children.forEach(redepthChild);
+  }
+
+  @override
+  visitChildren(RenderObjectVisitor visitor) {
+    _children.forEach(visitor);
+  }
+
+  @override
+  List<DiagnosticsNode> debugDescribeChildren() {
+    var value = <DiagnosticsNode>[];
+    void add(RenderBox child, String name) {
+      if (child != null) {
+        value.add(child.toDiagnosticsNode(name: name));
+      }
+    }
+
+    add(leading, 'leading');
+    add(body, 'body');
+    return value;
+  }
+
+  @override
+  bool get sizedByParent => false;
+
+  @override
+  double computeMinIntrinsicWidth(double height) {
+    _resolvePadding();
+    double horizontalPadding = _resolvedPadding.left + _resolvedPadding.right;
+    double verticalPadding = _resolvedPadding.top + _resolvedPadding.bottom;
+    int leadingWidth = leading == null
+        ? 0
+        : leading.getMinIntrinsicWidth(height - verticalPadding);
+    int bodyWidth = body == null
+        ? 0
+        : body.getMinIntrinsicWidth(math.max(0.0, height - verticalPadding));
+    return horizontalPadding + leadingWidth + bodyWidth;
+  }
+
+  @override
+  double computeMaxIntrinsicWidth(double height) {
+    _resolvePadding();
+    double horizontalPadding = _resolvedPadding.left + _resolvedPadding.right;
+    double verticalPadding = _resolvedPadding.top + _resolvedPadding.bottom;
+    int leadingWidth = leading == null
+        ? 0
+        : leading.getMaxIntrinsicWidth(height - verticalPadding);
+    int bodyWidth = body == null
+        ? 0
+        : body.getMaxIntrinsicWidth(math.max(0.0, height - verticalPadding));
+    return horizontalPadding + leadingWidth + bodyWidth;
+  }
+
+  @override
+  double computeMinIntrinsicHeight(double width) {
+    _resolvePadding();
+    double horizontalPadding = _resolvedPadding.left + _resolvedPadding.right;
+    double verticalPadding = _resolvedPadding.top + _resolvedPadding.bottom;
+    if (body != null) {
+      return body
+              .getMinIntrinsicHeight(math.max(0.0, width - horizontalPadding)) +
+          verticalPadding;
+    }
+    return verticalPadding;
+  }
+
+  @override
+  double computeMaxIntrinsicHeight(double width) {
+    _resolvePadding();
+    double horizontalPadding = _resolvedPadding.left + _resolvedPadding.right;
+    double verticalPadding = _resolvedPadding.top + _resolvedPadding.bottom;
+    if (body != null) {
+      return body
+              .getMaxIntrinsicHeight(math.max(0.0, width - horizontalPadding)) +
+          verticalPadding;
+    }
+    return verticalPadding;
+  }
+
+  @override
+  double computeDistanceToActualBaseline(TextBaseline baseline) {
+    _resolvePadding();
+    return body.getDistanceToActualBaseline(baseline) + _resolvedPadding.top;
+  }
+
+  @override
+  void performLayout() {
+    final constraints = this.constraints;
+    _selectedRects = null;
+
+    _resolvePadding();
+    assert(_resolvedPadding != null);
+
+    if (body == null && leading == null) {
+      size = constraints.constrain(Size(
+        _resolvedPadding.left + _resolvedPadding.right,
+        _resolvedPadding.top + _resolvedPadding.bottom,
+      ));
+      return;
+    }
+    final innerConstraints = constraints.deflate(_resolvedPadding);
+
+    final indentWidth = textDirection == TextDirection.ltr
+        ? _resolvedPadding.left
+        : _resolvedPadding.right;
+
+    body.layout(innerConstraints, parentUsesSize: true);
+    final bodyParentData = body.parentData as BoxParentData;
+    bodyParentData.offset = Offset(_resolvedPadding.left, _resolvedPadding.top);
+
+    if (leading != null) {
+      final leadingConstraints = innerConstraints.copyWith(
+          minWidth: indentWidth,
+          maxWidth: indentWidth,
+          maxHeight: body.size.height);
+      leading.layout(leadingConstraints, parentUsesSize: true);
+      final parentData = leading.parentData as BoxParentData;
+      parentData.offset = Offset(0.0, _resolvedPadding.top);
+    }
+
+    size = constraints.constrain(Size(
+      _resolvedPadding.left + body.size.width + _resolvedPadding.right,
+      _resolvedPadding.top + body.size.height + _resolvedPadding.bottom,
+    ));
+
+    _computeCaretPrototype();
+  }
+
+  CursorPainter get _cursorPainter => CursorPainter(
+        body,
+        cursorCont.style,
+        _caretPrototype,
+        cursorCont.cursorColor.value,
+        devicePixelRatio,
+      );
+
+  @override
+  paint(PaintingContext context, Offset offset) {
+    if (leading != null) {
+      final parentData = leading.parentData as BoxParentData;
+      final effectiveOffset = offset + parentData.offset;
+      context.paintChild(leading, effectiveOffset);
+    }
+
+    if (body != null) {
+      final parentData = body.parentData as BoxParentData;
+      final effectiveOffset = offset + parentData.offset;
+      if ((enableInteractiveSelection ?? true) &&
+          line.getDocumentOffset() <= textSelection.end &&
+          textSelection.start <= line.getDocumentOffset() + line.length - 1) {
+        final local = localSelection(line, textSelection, false);
+        _selectedRects ??= body.getBoxesForSelection(
+          local,
+        );
+        _paintSelection(context, effectiveOffset);
+      }
+
+      if (hasFocus &&
+          cursorCont.show.value &&
+          containsCursor() &&
+          !cursorCont.style.paintAboveText) {
+        _paintCursor(context, effectiveOffset);
+      }
+
+      context.paintChild(body, effectiveOffset);
+
+      if (hasFocus &&
+          cursorCont.show.value &&
+          containsCursor() &&
+          cursorCont.style.paintAboveText) {
+        _paintCursor(context, effectiveOffset);
+      }
+    }
+  }
+
+  _paintSelection(PaintingContext context, Offset effectiveOffset) {
+    assert(_selectedRects != null);
+    final paint = Paint()..color = color;
+    for (final box in _selectedRects) {
+      context.canvas.drawRect(box.toRect().shift(effectiveOffset), paint);
+    }
+  }
+
+  _paintCursor(PaintingContext context, Offset effectiveOffset) {
+    final position = TextPosition(
+      offset: textSelection.extentOffset - line.getDocumentOffset(),
+      affinity: textSelection.base.affinity,
+    );
+    _cursorPainter.paint(context.canvas, effectiveOffset, position);
   }
 }
 

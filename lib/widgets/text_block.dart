@@ -171,6 +171,8 @@ class EditableTextBlock extends StatelessWidget {
       } else if (attrs.containsKey(Attribute.codeBlock.key)) {
         lineSpacing = defaultStyles.code.lineSpacing;
       }
+      top = lineSpacing.item1;
+      bottom = lineSpacing.item2;
     }
 
     if (index == 1) {

@@ -2,12 +2,17 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
     as containerNode;
+import 'package:flutter_quill/models/documents/nodes/leaf.dart';
+import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
@@ -224,6 +229,10 @@ class _QuillEditorState extends State<QuillEditor>
   bool getSelectionEnabled() {
     return widget.enableInteractiveSelection;
   }
+
+  _requestKeyboard() {
+    _editorKey.currentState.requestKeyboard();
+  }
 }
 
 class _QuillEditorSelectionGestureDetectorBuilder
@@ -235,6 +244,124 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   onForcePressStart(ForcePressDetails details) {
     super.onForcePressStart(details);
+    if (delegate.getSelectionEnabled() && shouldShowSelectionToolbar) {
+      getEditor().showToolbar();
+    }
+  }
+
+  @override
+  onForcePressEnd(ForcePressDetails details) {}
+
+  @override
+  void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
+    if (!delegate.getSelectionEnabled()) {
+      return;
+    }
+    switch (Theme.of(_state.context).platform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        getRenderEditor().selectPositionAt(
+          details.globalPosition,
+          null,
+          SelectionChangedCause.longPress,
+        );
+        break;
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        getRenderEditor().selectWordsInRange(
+          details.globalPosition - details.offsetFromOrigin,
+          details.globalPosition,
+          SelectionChangedCause.longPress,
+        );
+        break;
+      default:
+        throw ('Invalid platform');
+    }
+  }
+
+  _launchUrlIfNeeded(TapUpDetails details) {
+    TextPosition pos =
+        getRenderEditor().getPositionForOffset(details.globalPosition);
+    containerNode.ChildQuery result =
+        getEditor().widget.controller.document.queryChild(pos.offset);
+    if (result.node == null) {
+      return;
+    }
+    Line line = result.node as Line;
+    containerNode.ChildQuery segmentResult =
+        line.queryChild(result.offset, false);
+    if (segmentResult.node == null) {
+      return;
+    }
+    Leaf segment = segmentResult.node as Leaf;
+    if (segment.style.containsKey(Attribute.link.key) &&
+        getEditor().widget.onLaunchUrl != null) {
+      if (getEditor().widget.readOnly) {
+        getEditor()
+            .widget
+            .onLaunchUrl(segment.style.attributes[Attribute.link.key].value);
+      }
+    }
+  }
+
+  @override
+  onSingleTapUp(TapUpDetails details) {
+    getEditor().hideToolbar();
+
+    _launchUrlIfNeeded(details);
+
+    if (delegate.getSelectionEnabled()) {
+      switch (Theme.of(_state.context).platform) {
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          switch (details.kind) {
+            case PointerDeviceKind.mouse:
+            case PointerDeviceKind.stylus:
+            case PointerDeviceKind.invertedStylus:
+              getRenderEditor().selectPosition(SelectionChangedCause.tap);
+              break;
+            case PointerDeviceKind.touch:
+            case PointerDeviceKind.unknown:
+              getRenderEditor().selectWordEdge(SelectionChangedCause.tap);
+              break;
+          }
+          break;
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          getRenderEditor().selectPosition(SelectionChangedCause.tap);
+          break;
+      }
+    }
+    _state._requestKeyboard();
+  }
+
+  @override
+  void onSingleLongTapStart(LongPressStartDetails details) {
+    if (delegate.getSelectionEnabled()) {
+      switch (Theme.of(_state.context).platform) {
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          getRenderEditor().selectPositionAt(
+            details.globalPosition,
+            null,
+            SelectionChangedCause.longPress,
+          );
+          break;
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          getRenderEditor().selectWord(SelectionChangedCause.longPress);
+          Feedback.forLongPress(_state.context);
+          break;
+        default:
+          throw ('Invalid platform');
+      }
+    }
   }
 }
 
@@ -329,6 +456,9 @@ class RawEditorState extends EditorState
   bool _didAutoFocus = false;
   DefaultStyles _styles;
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
+  final LayerLink _toolbarLayerLink = LayerLink();
+  final LayerLink _startHandleLayerLink = LayerLink();
+  final LayerLink _endHandleLayerLink = LayerLink();
 
   bool get _hasFocus => widget.focusNode.hasFocus;
 
@@ -702,6 +832,7 @@ class RawEditorState extends EditorState
     _focusAttachment.reparent();
     super.build(context);
 
+    // TODO
     throw UnimplementedError();
   }
 
@@ -856,7 +987,7 @@ class RawEditorState extends EditorState
 
         textEditingValue = TextEditingValue(
           text:
-          selection.textBefore(plainText) + selection.textAfter(plainText),
+              selection.textBefore(plainText) + selection.textAfter(plainText),
           selection: TextSelection.collapsed(offset: selection.start),
         );
       }
@@ -906,18 +1037,102 @@ class RawEditorState extends EditorState
   }
 
   _didChangeTextEditingValue() {
-    // TODO
+    requestKeyboard();
+
+    _showCaretOnScreen();
+    updateRemoteValueIfNeeded();
+    _cursorCont.startOrStopCursorTimerIfNeeded(
+        _hasFocus, widget.controller.selection);
+    if (hasConnection) {
+      _cursorCont.stopCursorTimer(resetCharTicks: false);
+      _cursorCont.startCursorTimer();
+    }
+
+    SchedulerBinding.instance.addPostFrameCallback(
+        (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
+  }
+
+  _updateOrDisposeSelectionOverlayIfNeeded() {
+    if (_selectionOverlay != null) {
+      if (_hasFocus) {
+        _selectionOverlay.update(textEditingValue);
+      } else {
+        _selectionOverlay.dispose();
+        _selectionOverlay = null;
+      }
+    } else if (_hasFocus) {
+      _selectionOverlay?.hide();
+      _selectionOverlay = null;
+
+      if (widget.selectionCtrls != null) {
+        _selectionOverlay = EditorTextSelectionOverlay(
+            textEditingValue,
+            false,
+            context,
+            widget,
+            _toolbarLayerLink,
+            _startHandleLayerLink,
+            _endHandleLayerLink,
+            getRenderEditor(),
+            widget.selectionCtrls,
+            this,
+            DragStartBehavior.start,
+            null,
+            _clipboardStatus);
+        _selectionOverlay.handlesVisible = _shouldShowSelectionHandles();
+        _selectionOverlay.showHandles();
+      }
+    }
   }
 
   _handleFocusChanged() {
-    // TODO
+    openOrCloseConnection();
+    _cursorCont.startOrStopCursorTimerIfNeeded(
+        _hasFocus, widget.controller.selection);
+    _updateOrDisposeSelectionOverlayIfNeeded();
+    if (_hasFocus) {
+      WidgetsBinding.instance.addObserver(this);
+      _showCaretOnScreen();
+    } else {
+      WidgetsBinding.instance.removeObserver(this);
+    }
+    updateKeepAlive();
   }
 
-  _onChangedClipboardStatus() {
-    // TODO
-  }
+  _onChangedClipboardStatus() {}
 
-  _showCaretOnScreen() {}
+  bool _showCaretOnScreenScheduled = false;
+
+  _showCaretOnScreen() {
+    if (!widget.showCursor || _showCaretOnScreenScheduled) {
+      return;
+    }
+
+    _showCaretOnScreenScheduled = true;
+    SchedulerBinding.instance.addPostFrameCallback((Duration _) {
+      _showCaretOnScreenScheduled = false;
+
+      final viewport = RenderAbstractViewport.of(getRenderEditor());
+      assert(viewport != null);
+      final editorOffset =
+          getRenderEditor().localToGlobal(Offset(0.0, 0.0), ancestor: viewport);
+      final offsetInViewport = _scrollController.offset + editorOffset.dy;
+
+      final offset = getRenderEditor().getOffsetToRevealCursor(
+        _scrollController.position.viewportDimension,
+        _scrollController.offset,
+        offsetInViewport,
+      );
+
+      if (offset != null) {
+        _scrollController.animateTo(
+          offset,
+          duration: Duration(milliseconds: 100),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
+    });
+  }
 
   @override
   RenderEditor getRenderEditor() {
@@ -979,6 +1194,14 @@ class RawEditorState extends EditorState
 
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
+
+  openOrCloseConnection() {
+    if (widget.focusNode.hasFocus && widget.focusNode.consumeKeyboardToken()) {
+      openConnectionIfNeeded();
+    } else if (!widget.focusNode.hasFocus) {
+      closeConnectionIfNeeded();
+    }
+  }
 }
 
 typedef TextSelectionChangedHandler = void Function(
@@ -993,7 +1216,7 @@ class RenderEditor extends RenderEditableContainerBox
   LayerLink _endHandleLayerLink;
   TextSelectionChangedHandler onSelectionChanged;
   final ValueNotifier<bool> _selectionStartInViewport =
-  ValueNotifier<bool>(true);
+      ValueNotifier<bool>(true);
 
   ValueListenable<bool> get selectionStartInViewport =>
       _selectionStartInViewport;
@@ -1001,7 +1224,8 @@ class RenderEditor extends RenderEditableContainerBox
   ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
   final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
 
-  RenderEditor(List<RenderEditableBox> children,
+  RenderEditor(
+      List<RenderEditableBox> children,
       TextDirection textDirection,
       hasFocus,
       EdgeInsetsGeometry padding,
@@ -1125,6 +1349,34 @@ class RenderEditor extends RenderEditableContainerBox
   void selectWordsInRange(Offset from, Offset to, SelectionChangedCause cause) {
     assert(cause != null && from != null);
     // TODO: implement selectWordsInRange
+  }
+
+  getOffsetToRevealCursor(
+      double viewportHeight, double scrollOffset, double offsetInViewport) {
+    List<TextSelectionPoint> endpoints = getEndpointsForSelection(selection);
+    if (endpoints.length != 1) {
+      return null;
+    }
+    RenderEditableBox child = childAtPosition(selection.extent);
+    const kMargin = 8.0;
+
+    double caretTop = endpoints.single.point.dy -
+        child.preferredLineHeight(TextPosition(
+            offset:
+                selection.extentOffset - child.getContainer().getOffset())) -
+        kMargin +
+        offsetInViewport;
+    final caretBottom = endpoints.single.point.dy + kMargin + offsetInViewport;
+    double dy;
+    if (caretTop < scrollOffset) {
+      dy = caretTop;
+    } else if (caretBottom > scrollOffset + viewportHeight) {
+      dy = caretBottom - viewportHeight;
+    }
+    if (dy == null) {
+      return null;
+    }
+    return math.max(dy, 0.0);
   }
 }
 

@@ -201,7 +201,6 @@ class Embed extends Leaf {
 
   @override
   Node newInstance() {
-    // TODO: implement newInstance
     throw UnimplementedError();
   }
 
