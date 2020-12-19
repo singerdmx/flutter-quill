@@ -56,6 +56,9 @@ class Rules {
       {int len, Object data, Attribute attribute}) {
     Delta delta = document.toDelta();
     for (var rule in _rules) {
+      if (rule.type != ruleType) {
+        continue;
+      }
       delta =
           rule.apply(delta, index, len: len, data: data, attribute: attribute);
       if (delta != null) {

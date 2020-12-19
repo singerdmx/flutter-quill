@@ -69,7 +69,7 @@ class RenderBaselineProxy extends RenderProxyBox {
       0.0;
 
   @override
-  void performLayout() {
+  performLayout() {
     super.performLayout();
     _prototypePainter.layout();
   }

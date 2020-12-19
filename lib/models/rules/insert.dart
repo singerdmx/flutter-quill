@@ -155,11 +155,8 @@ class AutoExitBlockRule extends InsertRule {
       return null;
     }
 
-    Map<String, dynamic> attributes = cur.attributes ?? <String, dynamic>{};
-    BlockQuoteAttribute blockQuoteAttribute = BlockQuoteAttribute();
-    blockQuoteAttribute.value = null;
-    attributes.addAll(blockQuoteAttribute.toJson()); // TODO
-    return Delta()..retain(index)..retain(1, attributes);
+    // retain(1) should be '\n', set it with no attribute
+    return Delta()..retain(index)..retain(1, null);
   }
 }
 
