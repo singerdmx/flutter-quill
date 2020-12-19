@@ -139,7 +139,6 @@ class Document {
   static Delta _transform(Delta delta) {
     Delta res = Delta();
     for (Operation op in delta.toList()) {
-      // TODO
       res.push(op);
     }
     return res;

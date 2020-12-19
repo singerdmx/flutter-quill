@@ -62,6 +62,7 @@ class Rules {
       delta =
           rule.apply(delta, index, len: len, data: data, attribute: attribute);
       if (delta != null) {
+        print("Rule $rule applied");
         return delta..trim();
       }
     }
