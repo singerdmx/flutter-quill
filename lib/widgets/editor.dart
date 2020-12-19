@@ -16,6 +16,7 @@ import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
+import 'package:flutter_quill/widgets/proxy.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 
 import 'box.dart';
@@ -850,6 +851,37 @@ class RawEditorState extends EditorState
           endHandleLayerLink: _endHandleLayerLink,
           onSelectionChanged: _handleSelectionChanged,
           padding: widget.padding,
+        ),
+      ),
+    );
+
+    if (widget.scrollable) {
+      EdgeInsets baselinePadding =
+          EdgeInsets.only(top: _styles.paragraph.verticalSpacing.item1);
+      child = BaselineProxy(
+        textStyle: _styles.paragraph.style,
+        padding: baselinePadding,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          physics: widget.scrollPhysics,
+          child: child,
+        ),
+      );
+    }
+
+    BoxConstraints constraints = widget.expands
+        ? BoxConstraints.expand()
+        : BoxConstraints(
+            minHeight: widget.minHeight ?? 0.0,
+            maxHeight: widget.maxHeight ?? double.infinity);
+
+    return QuillStyles(
+      data: _styles,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.text,
+        child: Container(
+          constraints: constraints,
+          child: child,
         ),
       ),
     );
