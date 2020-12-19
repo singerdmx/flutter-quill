@@ -117,3 +117,12 @@ class EditorTextSelectionOverlay {
     _toolbarController.dispose();
   }
 }
+
+class EditorTextSelectionGestureDetector extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
+  }
+
+}
