@@ -1,8 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/block.dart';
+import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
+import 'package:flutter_quill/widgets/cursor.dart';
+import 'package:flutter_quill/widgets/default_styles.dart';
+import 'package:flutter_quill/widgets/text_line.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:tuple/tuple.dart';
 
@@ -20,6 +25,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool hasFocus;
   final EdgeInsets contentPadding;
   final EmbedBuilder embedBuilder;
+  final CursorCont cursorCont;
 
   EditableTextBlock(
       this.block,
@@ -30,15 +36,152 @@ class EditableTextBlock extends StatelessWidget {
       this.enableInteractiveSelection,
       this.hasFocus,
       this.contentPadding,
-      this.embedBuilder)
+      this.embedBuilder,
+      this.cursorCont)
       : assert(hasFocus != null),
-        assert(embedBuilder != null);
+        assert(embedBuilder != null),
+        assert(cursorCont != null);
 
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
-    throw UnimplementedError();
+    DefaultStyles defaultStyles = QuillStyles.getStyles(context, false);
+    return _EditableBlock(
+        block,
+        textDirection,
+        verticalSpacing,
+        _getDecorationForBlock(block, defaultStyles) ?? BoxDecoration(),
+        contentPadding,
+        _buildChildren(context));
+  }
+
+  BoxDecoration _getDecorationForBlock(
+      Block node, DefaultStyles defaultStyles) {
+    Map<String, Attribute> attrs = block.style.attributes;
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return defaultStyles.quote.decoration;
+    }
+    if (attrs.containsKey(Attribute.codeBlock.key)) {
+      return defaultStyles.code.decoration;
+    }
+    return null;
+  }
+
+  List<Widget> _buildChildren(BuildContext context) {
+    DefaultStyles defaultStyles = QuillStyles.getStyles(context, false);
+    int count = block.children.length;
+    var children = <Widget>[];
+    int index = 0;
+    for (Line line in block.children) {
+      index++;
+      children.add(EditableTextLine(
+          line,
+          _buildLeading(context, line, index, count),
+          TextLine(
+            line: line,
+            textDirection: textDirection,
+            embedBuilder: embedBuilder,
+          ),
+          _getIndentWidth(),
+          _getSpacingForLine(line, index, count, defaultStyles),
+          textDirection,
+          textSelection,
+          color,
+          enableInteractiveSelection,
+          hasFocus,
+          MediaQuery.of(context).devicePixelRatio,
+          cursorCont));
+    }
+    return children.toList(growable: false);
+  }
+
+  Widget _buildLeading(BuildContext context, Line node, int index, int count) {
+    DefaultStyles defaultStyles = QuillStyles.getStyles(context, false);
+    Map<String, Attribute> attrs = block.style.attributes;
+    if (attrs[Attribute.list.key] == Attribute.ol) {
+      return _NumberPoint(
+        index: index,
+        count: count,
+        style: defaultStyles.paragraph.style,
+        width: 32.0,
+        padding: 8.0,
+      );
+    }
+
+    if (attrs[Attribute.list.key] == Attribute.ul) {
+      return _BulletPoint(
+        style:
+            defaultStyles.paragraph.style.copyWith(fontWeight: FontWeight.bold),
+        width: 32,
+      );
+    }
+    if (attrs.containsKey(Attribute.codeBlock.key)) {
+      return _NumberPoint(
+        index: index,
+        count: count,
+        style: defaultStyles.code.style
+            .copyWith(color: defaultStyles.code.style.color.withOpacity(0.4)),
+        width: 32.0,
+        padding: 16.0,
+        withDot: false,
+      );
+    }
+    return null;
+  }
+
+  double _getIndentWidth() {
+    Map<String, Attribute> attrs = block.style.attributes;
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return 16.0;
+    }
+
+    return 32.0;
+  }
+
+  Tuple2 _getSpacingForLine(
+      Line node, int index, int count, DefaultStyles defaultStyles) {
+    double top = 0.0, bottom = 0.0;
+
+    Map<String, Attribute> attrs = block.style.attributes;
+    if (attrs.containsKey(Attribute.header.key)) {
+      int level = attrs[Attribute.header.key].value;
+      switch (level) {
+        case 1:
+          top = defaultStyles.h1.verticalSpacing.item1;
+          bottom = defaultStyles.h1.verticalSpacing.item2;
+          break;
+        case 2:
+          top = defaultStyles.h2.verticalSpacing.item1;
+          bottom = defaultStyles.h2.verticalSpacing.item2;
+          break;
+        case 3:
+          top = defaultStyles.h3.verticalSpacing.item1;
+          bottom = defaultStyles.h3.verticalSpacing.item2;
+          break;
+        default:
+          throw ('Invalid level $level');
+      }
+    } else {
+      Tuple2 lineSpacing;
+      if (attrs.containsKey(Attribute.blockQuote.key)) {
+        lineSpacing = defaultStyles.quote.lineSpacing;
+      } else if (attrs.containsKey(Attribute.list.key)) {
+        lineSpacing = defaultStyles.lists.lineSpacing;
+      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+        lineSpacing = defaultStyles.code.lineSpacing;
+      }
+    }
+
+    if (index == 1) {
+      top = 0.0;
+    }
+
+    if (index == count) {
+      bottom = 0.0;
+    }
+
+    return Tuple2(top, bottom);
   }
 }
 

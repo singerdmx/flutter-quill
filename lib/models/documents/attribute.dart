@@ -80,7 +80,7 @@ class Attribute<T> {
           value == other.value;
 
   @override
-  int get hashCode => key.hashCode ^ scope.hashCode ^ value.hashCode;
+  int get hashCode => key.hashCode ^ scope.hashCode;
 
   @override
   String toString() {
