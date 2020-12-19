@@ -1,8 +1,21 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_quill/models/documents/nodes/node.dart';
 
 import 'editor.dart';
+
+TextSelection localSelection(Node node, TextSelection selection, fromParent) {
+  int base = fromParent ? node.getOffset() : node.getDocumentOffset();
+  assert(base <= selection.end && selection.start <= base + node.length - 1);
+
+  int offset = fromParent ? node.getOffset() : node.getDocumentOffset();
+  return selection.copyWith(
+      baseOffset: math.max(selection.start - offset, 0),
+      extentOffset: math.min(selection.end - offset, node.length - 1));
+}
 
 class EditorTextSelectionOverlay {
   TextEditingValue value;
@@ -103,5 +116,4 @@ class EditorTextSelectionOverlay {
     hide();
     _toolbarController.dispose();
   }
-
 }

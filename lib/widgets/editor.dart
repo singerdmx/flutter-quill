@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
-    as container;
+    as containerNode;
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
@@ -1010,7 +1010,7 @@ class RenderEditableContainerBox extends RenderBox
             EditableContainerParentData>,
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
-  container.Container _container;
+  containerNode.Container _container;
   TextDirection _textDirection;
   EdgeInsetsGeometry _padding;
   EdgeInsets _resolvedPadding;
@@ -1024,7 +1024,11 @@ class RenderEditableContainerBox extends RenderBox
     addAll(children);
   }
 
-  setContainer(container.Container c) {
+  containerNode.Container getContainer() {
+    return _container;
+  }
+
+  setContainer(containerNode.Container c) {
     assert(c != null);
     if (_container == c) {
       return;
@@ -1051,6 +1055,8 @@ class RenderEditableContainerBox extends RenderBox
     _padding = value;
     _markNeedsPaddingResolution();
   }
+
+  EdgeInsets get resolvedPadding => _resolvedPadding;
 
   _resolvePadding() {
     if (_resolvedPadding != null) {
