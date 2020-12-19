@@ -17,34 +17,21 @@ import 'cursor.dart';
 import 'delegate.dart';
 import 'keyboard_listener.dart';
 
-const Set<int> WHITE_SPACE = {
-  0x9,
-  0xA,
-  0xB,
-  0xC,
-  0xD,
-  0x1C,
-  0x1D,
-  0x1E,
-  0x1F,
-  0x20,
-  0xA0,
-  0x1680,
-  0x2000,
-  0x2001,
-  0x2002,
-  0x2003,
-  0x2004,
-  0x2005,
-  0x2006,
-  0x2007,
-  0x2008,
-  0x2009,
-  0x200A,
-  0x202F,
-  0x205F,
-  0x3000
-};
+abstract class EditorState extends State<RawEditor> {
+  TextEditingValue getTextEditingValue();
+
+  void setTextEditingValue(TextEditingValue value);
+
+  RenderEditor getRenderEditor();
+
+  EditorTextSelectionOverlay getSelectionOverlay();
+
+  bool showToolbar();
+
+  void hideToolbar();
+
+  void requestKeyboard();
+}
 
 abstract class RenderAbstractEditor {
   TextSelection selectWordAtPosition(TextPosition position);
@@ -1149,20 +1136,4 @@ class RenderEditableContainerBox extends RenderBox
     return defaultComputeDistanceToFirstActualBaseline(baseline) +
         _resolvedPadding.top;
   }
-}
-
-abstract class EditorState extends State<RawEditor> {
-  TextEditingValue getTextEditingValue();
-
-  void setTextEditingValue(TextEditingValue value);
-
-  RenderEditor getRenderEditor();
-
-  EditorTextSelectionOverlay getSelectionOverlay();
-
-  bool showToolbar();
-
-  void hideToolbar();
-
-  void requestKeyboard();
 }
