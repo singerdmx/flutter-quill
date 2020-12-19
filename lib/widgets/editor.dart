@@ -6,6 +6,7 @@ import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 
+import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'delegate.dart';
@@ -352,11 +353,97 @@ class RawEditorState extends EditorState
           leftKey, rightKey, plainText, lineModifier, shift);
     }
 
-    if (downKey || upKey) {}
+    if (downKey || upKey) {
+      newSelection = _handleMovingCursorVertically(
+          upKey, downKey, shift, selection, newSelection, plainText);
+    }
 
-    if (!shift) {}
+    if (!shift) {
+      newSelection =
+          _placeCollapsedSelection(selection, newSelection, leftKey, rightKey);
+    }
 
     widget.controller.updateSelection(newSelection, ChangeSource.LOCAL);
+  }
+
+  TextSelection _placeCollapsedSelection(TextSelection selection,
+      TextSelection newSelection, bool leftKey, bool rightKey) {
+    int newOffset = newSelection.extentOffset;
+    if (!selection.isCollapsed) {
+      if (leftKey) {
+        newOffset = newSelection.baseOffset < newSelection.extentOffset
+            ? newSelection.baseOffset
+            : newSelection.extentOffset;
+      } else if (rightKey) {
+        newOffset = newSelection.baseOffset > newSelection.extentOffset
+            ? newSelection.baseOffset
+            : newSelection.extentOffset;
+      }
+    }
+    return TextSelection.fromPosition(TextPosition(offset: newOffset));
+  }
+
+  TextSelection _handleMovingCursorVertically(
+      bool upKey,
+      bool downKey,
+      bool shift,
+      TextSelection selection,
+      TextSelection newSelection,
+      String plainText) {
+    TextPosition originPosition = TextPosition(
+        offset: upKey ? selection.baseOffset : selection.extentOffset);
+
+    RenderEditableBox child = getRenderEditor().childAtPosition(originPosition);
+    TextPosition localPosition = TextPosition(
+        offset:
+            originPosition.offset - child.getContainer().getDocumentOffset());
+
+    TextPosition position = upKey
+        ? child.getPositionAbove(localPosition)
+        : child.getPositionBelow(localPosition);
+
+    if (position == null) {
+      var sibling = upKey
+          ? getRenderEditor().childBefore(child)
+          : getRenderEditor().childAfter(child);
+      if (sibling == null) {
+        position = TextPosition(offset: upKey ? 0 : plainText.length - 1);
+      } else {
+        Offset finalOffset = Offset(
+            child.getOffsetForCaret(localPosition).dx,
+            sibling
+                .getOffsetForCaret(TextPosition(
+                    offset: upKey ? sibling.getContainer().length - 1 : 0))
+                .dy);
+        TextPosition siblingPosition =
+            sibling.getPositionForOffset(finalOffset);
+        position = TextPosition(
+            offset: sibling.getContainer().getDocumentOffset() +
+                siblingPosition.offset);
+      }
+    } else {
+      position = TextPosition(
+          offset: child.getContainer().getDocumentOffset() + position.offset);
+    }
+
+    if (position.offset == newSelection.extentOffset) {
+      if (downKey) {
+        newSelection = newSelection.copyWith(extentOffset: plainText.length);
+      } else if (upKey) {
+        newSelection = newSelection.copyWith(extentOffset: 0);
+      }
+      _wasSelectingVerticallyWithKeyboard = shift;
+      return newSelection;
+    }
+
+    if (_wasSelectingVerticallyWithKeyboard && shift) {
+      newSelection = newSelection.copyWith(extentOffset: _cursorResetLocation);
+      _wasSelectingVerticallyWithKeyboard = false;
+      return newSelection;
+    }
+    newSelection = newSelection.copyWith(extentOffset: position.offset);
+    _cursorResetLocation = newSelection.extentOffset;
+    return newSelection;
   }
 
   TextSelection _jumpToBeginOrEndOfWord(
@@ -763,7 +850,15 @@ class RenderEditor extends RenderEditableContainerBox
   }
 }
 
-class RenderEditableContainerBox extends RenderBox {
+class EditableContainerParentData
+    extends ContainerBoxParentData<RenderEditableBox> {}
+
+class RenderEditableContainerBox extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderEditableBox,
+            EditableContainerParentData>,
+        RenderBoxContainerDefaultsMixin<RenderEditableBox,
+            EditableContainerParentData> {
   Container _container;
   TextDirection _textDirection;
 
@@ -781,6 +876,11 @@ class RenderEditableContainerBox extends RenderBox {
       return;
     }
     _textDirection = t;
+  }
+
+  RenderEditableBox childAtPosition(TextPosition originPosition) {
+    // TODO
+    return null;
   }
 }
 
