@@ -2,6 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tuple/tuple.dart';
 
+class QuillTheme extends InheritedWidget {
+  final DefaultStyles data;
+
+  QuillTheme({
+    Key key,
+    @required this.data,
+    @required Widget child,
+  })  : assert(data != null),
+        assert(child != null),
+        super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(QuillTheme oldWidget) {
+    return data != oldWidget.data;
+  }
+
+  static DefaultStyles of(BuildContext context, nullOk) {
+    var widget = context.dependOnInheritedWidgetOfExactType<QuillTheme>();
+    if (widget == null && nullOk) {
+      return null;
+    }
+    assert(widget != null);
+    return widget.data;
+  }
+}
+
 class DefaultTextBlockStyle {
   final TextStyle style;
 

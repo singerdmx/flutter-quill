@@ -694,7 +694,10 @@ class RawEditorState extends EditorState
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    assert(debugCheckHasMediaQuery(context));
+    _focusAttachment.reparent();
+    super.build(context);
+
     throw UnimplementedError();
   }
 
@@ -729,6 +732,17 @@ class RawEditorState extends EditorState
     _focusAttachment = widget.focusNode.attach(context,
         onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
     widget.focusNode.addListener(_handleFocusChanged);
+  }
+
+  @override
+  didChangeDependencies() {
+    // TODO
+  }
+
+  @override
+  void didUpdateWidget(RawEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // TODO
   }
 
   handleDelete(bool forward) {
@@ -834,11 +848,40 @@ class RawEditorState extends EditorState
   bool get wantKeepAlive => widget.focusNode.hasFocus;
 }
 
+typedef TextSelectionChangedHandler = void Function(
+    TextSelection selection, SelectionChangedCause cause);
+
 class RenderEditor extends RenderEditableContainerBox
     implements RenderAbstractEditor {
   Document document;
   TextSelection selection;
   bool _hasFocus = false;
+  LayerLink _startHandleLayerLink;
+  LayerLink _endHandleLayerLink;
+  TextSelectionChangedHandler onSelectionChanged;
+
+  RenderEditor(
+      List<RenderEditableBox> children,
+      TextDirection textDirection,
+      hasFocus,
+      EdgeInsetsGeometry padding,
+      this.document,
+      this.selection,
+      this._hasFocus,
+      this.onSelectionChanged,
+      this._startHandleLayerLink,
+      this._endHandleLayerLink,
+      EdgeInsets floatingCursorAddedMargin)
+      : assert(document != null),
+        assert(textDirection != null),
+        assert(hasFocus != null),
+        assert(floatingCursorAddedMargin != null),
+        super(
+          children,
+          document.root,
+          textDirection,
+          padding,
+        );
 
   setDocument(Document doc) {
     assert(doc != null);
@@ -863,6 +906,22 @@ class RenderEditor extends RenderEditableContainerBox
       return;
     }
     selection = t;
+    markNeedsPaint();
+  }
+
+  setStartHandleLayerLink(LayerLink value) {
+    if (_startHandleLayerLink == value) {
+      return;
+    }
+    _startHandleLayerLink = value;
+    markNeedsPaint();
+  }
+
+  setEndHandleLayerLink(LayerLink value) {
+    if (_endHandleLayerLink == value) {
+      return;
+    }
+    _endHandleLayerLink = value;
     markNeedsPaint();
   }
 
@@ -942,6 +1001,15 @@ class RenderEditableContainerBox extends RenderBox
   TextDirection _textDirection;
   EdgeInsetsGeometry _padding;
   EdgeInsets _resolvedPadding;
+
+  RenderEditableContainerBox(List<RenderEditableBox> children, this._container,
+      this._textDirection, this._padding)
+      : assert(_container != null),
+        assert(_textDirection != null),
+        assert(_padding != null),
+        assert(_padding.isNonNegative) {
+    addAll(children);
+  }
 
   setContainer(container.Container c) {
     assert(c != null);
