@@ -490,7 +490,7 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextBlock renderObject) {
     renderObject.setContainer(block);
-    renderObject.setTextDirection(textDirection);
+    renderObject.textDirection = textDirection;
     renderObject.setPadding(_padding);
     renderObject.decoration = decoration;
     renderObject.contentPadding = _contentPadding;

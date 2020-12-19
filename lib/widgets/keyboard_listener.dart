@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-enum InputShortcut { CUT, COPY, PAST, SELECT_ALL }
+enum InputShortcut { CUT, COPY, PASTE, SELECT_ALL }
 
 typedef CursorMoveCallback = void Function(
     LogicalKeyboardKey key, bool wordModifier, bool lineModifier, bool shift);
@@ -54,7 +54,7 @@ class KeyboardListener {
   static final Map<LogicalKeyboardKey, InputShortcut> _keyToShortcut = {
     LogicalKeyboardKey.keyX: InputShortcut.CUT,
     LogicalKeyboardKey.keyC: InputShortcut.COPY,
-    LogicalKeyboardKey.keyV: InputShortcut.PAST,
+    LogicalKeyboardKey.keyV: InputShortcut.PASTE,
     LogicalKeyboardKey.keyA: InputShortcut.SELECT_ALL,
   };
 

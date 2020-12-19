@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class Embeddable {
   static const TYPE_KEY = '_type';
   static const INLINE_KEY = '_inline';
@@ -8,7 +10,11 @@ class Embeddable {
   Embeddable(this.type, this.inline, Map<String, dynamic> data)
       : assert(type != null),
         assert(inline != null),
+        assert(!data.containsKey(TYPE_KEY)),
+        assert(!data.containsKey(INLINE_KEY)),
         _data = Map.from(data);
+
+  Map<String, dynamic> get data => UnmodifiableMapView(_data);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> m = Map<String, dynamic>.from(_data);
@@ -28,6 +34,18 @@ class Embeddable {
     }
     return BlockEmbed(type, data: data);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Embeddable &&
+          runtimeType == other.runtimeType &&
+          type == other.type &&
+          inline == other.inline &&
+          _data == other._data;
+
+  @override
+  int get hashCode => type.hashCode ^ inline.hashCode ^ _data.hashCode;
 }
 
 class Span extends Embeddable {

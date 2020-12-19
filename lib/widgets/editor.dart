@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -755,15 +756,134 @@ class RawEditorState extends EditorState
   @override
   void didUpdateWidget(RawEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // TODO
+
+    _cursorCont.show.value = widget.showCursor;
+    _cursorCont.style = widget.cursorStyle;
+
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller.removeListener(_didChangeTextEditingValue);
+      widget.controller.addListener(_didChangeTextEditingValue);
+      updateRemoteValueIfNeeded();
+    }
+
+    if (widget.scrollController != null &&
+        widget.scrollController != _scrollController) {
+      _scrollController.removeListener(_updateSelectionOverlayForScroll);
+      _scrollController = widget.scrollController;
+      _scrollController.addListener(_updateSelectionOverlayForScroll);
+    }
+
+    if (widget.focusNode != oldWidget.focusNode) {
+      oldWidget.focusNode.removeListener(_handleFocusChanged);
+      _focusAttachment?.detach();
+      _focusAttachment = widget.focusNode.attach(context,
+          onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
+      widget.focusNode.addListener(_handleFocusChanged);
+      updateKeepAlive();
+    }
+
+    if (widget.controller.selection != oldWidget.controller.selection) {
+      _selectionOverlay?.update(textEditingValue);
+    }
+
+    _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
+    if (widget.readOnly) {
+      closeConnectionIfNeeded();
+    } else {
+      if (oldWidget.readOnly && _hasFocus) {
+        openConnectionIfNeeded();
+      }
+    }
+  }
+
+  bool _shouldShowSelectionHandles() {
+    return widget.showSelectionHandles &&
+        !widget.controller.selection.isCollapsed;
   }
 
   handleDelete(bool forward) {
-    // TODO
+    TextSelection selection = widget.controller.selection;
+    String plainText = textEditingValue.text;
+    assert(selection != null);
+    int cursorPosition = selection.start;
+    String textBefore = selection.textBefore(plainText);
+    String textAfter = selection.textAfter(plainText);
+    if (selection.isCollapsed) {
+      if (!forward && textBefore.isNotEmpty) {
+        final int characterBoundary =
+            _previousCharacter(textBefore.length, textBefore, true);
+        textBefore = textBefore.substring(0, characterBoundary);
+        cursorPosition = characterBoundary;
+      }
+      if (forward && textAfter.isNotEmpty && textAfter != '\n') {
+        final int deleteCount = _nextCharacter(0, textAfter, true);
+        textAfter = textAfter.substring(deleteCount);
+      }
+    }
+    TextSelection newSelection =
+        TextSelection.collapsed(offset: cursorPosition);
+    String newText = textBefore + textAfter;
+    int size = plainText.length - newText.length;
+    widget.controller.replaceText(
+      cursorPosition,
+      size,
+      '',
+      newSelection,
+    );
   }
 
   Future<void> handleShortcut(InputShortcut shortcut) async {
-    // TODO
+    TextSelection selection = widget.controller.selection;
+    assert(selection != null);
+    String plainText = textEditingValue.text;
+    if (shortcut == InputShortcut.COPY) {
+      if (!selection.isCollapsed) {
+        Clipboard.setData(ClipboardData(text: selection.textInside(plainText)));
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.CUT && !widget.readOnly) {
+      if (!selection.isCollapsed) {
+        final data = selection.textInside(plainText);
+        Clipboard.setData(ClipboardData(text: data));
+
+        widget.controller.replaceText(
+          selection.start,
+          data.length,
+          '',
+          TextSelection.collapsed(offset: selection.start),
+        );
+
+        textEditingValue = TextEditingValue(
+          text:
+          selection.textBefore(plainText) + selection.textAfter(plainText),
+          selection: TextSelection.collapsed(offset: selection.start),
+        );
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.PASTE && !widget.readOnly) {
+      ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+      if (data != null) {
+        widget.controller.replaceText(
+          selection.start,
+          selection.end - selection.start,
+          data.text,
+          TextSelection.collapsed(offset: selection.start + data.text.length),
+        );
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.SELECT_ALL &&
+        widget.enableInteractiveSelection) {
+      widget.controller.updateSelection(
+          selection.copyWith(
+            baseOffset: 0,
+            extentOffset: textEditingValue.text.length,
+          ),
+          ChangeSource.REMOTE);
+      return;
+    }
   }
 
   @override
@@ -872,9 +992,16 @@ class RenderEditor extends RenderEditableContainerBox
   LayerLink _startHandleLayerLink;
   LayerLink _endHandleLayerLink;
   TextSelectionChangedHandler onSelectionChanged;
+  final ValueNotifier<bool> _selectionStartInViewport =
+  ValueNotifier<bool>(true);
 
-  RenderEditor(
-      List<RenderEditableBox> children,
+  ValueListenable<bool> get selectionStartInViewport =>
+      _selectionStartInViewport;
+
+  ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
+  final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
+
+  RenderEditor(List<RenderEditableBox> children,
       TextDirection textDirection,
       hasFocus,
       EdgeInsetsGeometry padding,
@@ -1011,14 +1138,14 @@ class RenderEditableContainerBox extends RenderBox
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
   containerNode.Container _container;
-  TextDirection _textDirection;
+  TextDirection textDirection;
   EdgeInsetsGeometry _padding;
   EdgeInsets _resolvedPadding;
 
   RenderEditableContainerBox(List<RenderEditableBox> children, this._container,
-      this._textDirection, this._padding)
+      this.textDirection, this._padding)
       : assert(_container != null),
-        assert(_textDirection != null),
+        assert(textDirection != null),
         assert(_padding != null),
         assert(_padding.isNonNegative) {
     addAll(children);
@@ -1035,13 +1162,6 @@ class RenderEditableContainerBox extends RenderBox
     }
     _container = c;
     markNeedsLayout();
-  }
-
-  setTextDirection(TextDirection t) {
-    if (_textDirection == t) {
-      return;
-    }
-    _textDirection = t;
   }
 
   EdgeInsetsGeometry getPadding() => _padding;
@@ -1062,7 +1182,7 @@ class RenderEditableContainerBox extends RenderBox
     if (_resolvedPadding != null) {
       return;
     }
-    _resolvedPadding = _padding.resolve(_textDirection);
+    _resolvedPadding = _padding.resolve(textDirection);
     _resolvedPadding = _resolvedPadding.copyWith(left: _resolvedPadding.left);
 
     assert(_resolvedPadding.isNonNegative);

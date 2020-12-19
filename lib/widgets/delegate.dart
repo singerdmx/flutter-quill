@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_quill/models/documents/nodes/leaf.dart';
+import 'package:flutter_quill/widgets/text_selection.dart';
 
 import 'editor.dart';
 
@@ -127,7 +128,22 @@ class EditorTextSelectionGestureDetectorBuilder {
   onDragSelectionEnd(DragEndDetails details) {}
 
   Widget build(HitTestBehavior behavior, Widget child) {
-    // TODO
-    return null;
+    return EditorTextSelectionGestureDetector(
+      onTapDown: onTapDown,
+      onForcePressStart:
+          delegate.getForcePressEnabled() ? onForcePressStart : null,
+      onForcePressEnd: delegate.getForcePressEnabled() ? onForcePressEnd : null,
+      onSingleTapUp: onSingleTapUp,
+      onSingleTapCancel: onSingleTapCancel,
+      onSingleLongTapStart: onSingleLongTapStart,
+      onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
+      onSingleLongTapEnd: onSingleLongTapEnd,
+      onDoubleTapDown: onDoubleTapDown,
+      onDragSelectionStart: onDragSelectionStart,
+      onDragSelectionUpdate: onDragSelectionUpdate,
+      onDragSelectionEnd: onDragSelectionEnd,
+      behavior: behavior,
+      child: child,
+    );
   }
 }
