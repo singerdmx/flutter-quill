@@ -10,7 +10,7 @@ import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'delegate.dart';
-import 'keyborad_listener.dart';
+import 'keyboard_listener.dart';
 
 const Set<int> WHITE_SPACE = {
   0x9,
