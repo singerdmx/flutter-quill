@@ -30,6 +30,16 @@ class Document {
   final StreamController<Tuple3<Delta, Delta, ChangeSource>> _observer =
       StreamController.broadcast();
 
+  Stream<Tuple3> get changes => _observer.stream;
+
+  Document() : _delta = Delta()..insert('\n') {
+    _loadDocument(_delta);
+  }
+
+  Document.fromJson(List data) : _delta = _transform(Delta.fromJson(data)) {
+    _loadDocument(_delta);
+  }
+
   Delta insert(int index, Object data) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
@@ -157,6 +167,30 @@ class Document {
   }
 
   String toPlainText() => _root.children.map((e) => e.toPlainText()).join('');
+
+  _loadDocument(Delta doc) {
+    assert((doc.last.data as String).endsWith('\n'));
+    int offset = 0;
+    for (final op in doc.toList()) {
+      final style =
+          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      if (op.isInsert) {
+        final data = _normalize(op.data);
+        _root.insert(offset, data, style);
+      } else {
+        throw ArgumentError.value(doc,
+            'Document Delta can only contain insert operations but ${op.key} found.');
+      }
+      offset += op.length;
+    }
+    final node = _root.last;
+    if (node is Line &&
+        node.parent is! Block &&
+        node.style.isEmpty &&
+        _root.childCount > 1) {
+      _root.remove(node);
+    }
+  }
 }
 
 enum ChangeSource {
