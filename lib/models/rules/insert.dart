@@ -155,8 +155,8 @@ class AutoExitBlockRule extends InsertRule {
       return null;
     }
 
-    // retain(1) should be '\n', set it with no attribute
-    return Delta()..retain(index)..retain(1, {});
+    // retain(1) should be '\n', set it with no attribute (default to null)
+    return Delta()..retain(index)..retain(1);
   }
 }
 
