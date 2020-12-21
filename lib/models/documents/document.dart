@@ -74,7 +74,7 @@ class Document {
     Delta delta = Delta();
 
     if (dataIsNotEmpty) {
-      delta = insert(index + length, data);
+      delta = insert(index + len, data);
     }
 
     if (len > 0) {
