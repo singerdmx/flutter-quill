@@ -60,8 +60,9 @@ class TextLine extends StatelessWidget {
 
   TextSpan _buildTextSpan(BuildContext context) {
     DefaultStyles defaultStyles = DefaultStyles.getInstance(context);
-    List<TextSpan> children =
-        line.children.map((node) => _getTextSpanFromNode(defaultStyles, node));
+    List<TextSpan> children = line.children
+        .map((node) => _getTextSpanFromNode(defaultStyles, node))
+        .toList(growable: false);
 
     TextStyle textStyle = TextStyle();
 
