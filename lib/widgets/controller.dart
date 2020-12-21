@@ -13,7 +13,7 @@ class QuillController extends ChangeNotifier {
   TextSelection selection;
   Style toggledStyle = Style();
 
-  QuillController(this.document, this.selection, this.toggledStyle)
+  QuillController({@required this.document, @required this.selection, this.toggledStyle})
       : assert(document != null),
         assert(selection != null);
 

@@ -89,15 +89,15 @@ class QuillEditor extends StatefulWidget {
   final ValueChanged<String> onLaunchUrl;
   final EmbedBuilder embedBuilder;
 
-  QuillEditor(
-      this.controller,
+  QuillEditor({
+  @required this.controller,
       this.focusNode,
-      this.scrollController,
-      this.scrollable,
+  @required this.scrollController,
+  @required this.scrollable,
       this.padding,
-      this.autoFocus,
+  @required this.autoFocus,
       this.showCursor,
-      this.readOnly,
+  @required this.readOnly,
       this.enableInteractiveSelection,
       this.minHeight,
       this.maxHeight,
@@ -106,7 +106,7 @@ class QuillEditor extends StatefulWidget {
       this.keyboardAppearance,
       this.scrollPhysics,
       this.onLaunchUrl,
-      this.embedBuilder)
+  @required this.embedBuilder})
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),
