@@ -451,10 +451,11 @@ class RenderEditor extends RenderEditableContainerBox
       TextSelection textSelection) {
     assert(constraints != null);
 
-    if (selection.isCollapsed) {
-      RenderEditableBox child = childAtPosition(selection.extent);
+    if (textSelection.isCollapsed) {
+      RenderEditableBox child = childAtPosition(textSelection.extent);
       TextPosition localPosition = TextPosition(
-          offset: selection.extentOffset - child.getContainer().getOffset());
+          offset:
+              textSelection.extentOffset - child.getContainer().getOffset());
       Offset localOffset = child.getOffsetForCaret(localPosition);
       BoxParentData parentData = child.parentData;
       return <TextSelectionPoint>[
@@ -466,7 +467,7 @@ class RenderEditor extends RenderEditableContainerBox
       ];
     }
 
-    Node baseNode = _container.queryChild(selection.start, false).node;
+    Node baseNode = _container.queryChild(textSelection.start, false).node;
 
     var baseChild = firstChild;
     while (baseChild != null) {
@@ -479,13 +480,13 @@ class RenderEditor extends RenderEditableContainerBox
 
     BoxParentData baseParentData = baseChild.parentData;
     TextSelection baseSelection =
-        localSelection(baseChild.getContainer(), selection, true);
+        localSelection(baseChild.getContainer(), textSelection, true);
     TextSelectionPoint basePoint =
         baseChild.getBaseEndpointForSelection(baseSelection);
     basePoint = TextSelectionPoint(
         basePoint.point + baseParentData.offset, basePoint.direction);
 
-    Node extentNode = _container.queryChild(selection.end, false).node;
+    Node extentNode = _container.queryChild(textSelection.end, false).node;
     var extentChild = baseChild;
     while (extentChild != null) {
       if (extentChild.getContainer() == extentNode) {
@@ -497,7 +498,7 @@ class RenderEditor extends RenderEditableContainerBox
 
     BoxParentData extentParentData = extentChild.parentData;
     TextSelection extentSelection =
-        localSelection(extentChild.getContainer(), selection, true);
+        localSelection(extentChild.getContainer(), textSelection, true);
     TextSelectionPoint extentPoint =
         extentChild.getExtentEndpointForSelection(extentSelection);
     extentPoint = TextSelectionPoint(
