@@ -54,18 +54,22 @@ class Rules {
 
   Delta apply(RuleType ruleType, Document document, int index,
       {int len, Object data, Attribute attribute}) {
-    Delta delta = document.toDelta();
+    final delta = document.toDelta();
     for (var rule in _rules) {
       if (rule.type != ruleType) {
         continue;
       }
-      delta =
-          rule.apply(delta, index, len: len, data: data, attribute: attribute);
-      if (delta != null) {
-        print("Rule $rule applied");
-        return delta..trim();
+      try {
+        final result = rule.apply(delta, index,
+            len: len, data: data, attribute: attribute);
+        if (result != null) {
+          print("Rule $rule applied");
+          return result..trim();
+        }
+      } catch (e) {
+        throw e;
       }
     }
-    throw('Apply rules failed');
+    throw ('Apply rules failed');
   }
 }

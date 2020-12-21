@@ -250,7 +250,8 @@ class ForceNewlineForInsertsAroundEmbedRule extends InsertRule {
 
     String text = data as String;
     DeltaIterator itr = DeltaIterator(document);
-    Operation prev = itr.skip(index), cur = itr.next();
+    final prev = itr.skip(index);
+    final cur = itr.next();
     bool cursorBeforeEmbed = cur.data is! String;
     bool cursorAfterEmbed = prev != null && prev.data is! String;
 
