@@ -9,6 +9,21 @@
       "insert":"\n"
    },
    {
-      "insert":"Rich text editor for Flutter\n"
+      "insert":"Rich text editor for Flutter"
+   },
+   {
+      "attributes":{
+         "header":2
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Quill component for Flutter"
+   },
+   {
+      "attributes":{
+         "header":3
+      },
+      "insert":"\n"
    }
 ]
