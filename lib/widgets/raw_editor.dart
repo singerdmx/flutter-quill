@@ -22,8 +22,8 @@ import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'delegate.dart';
-import 'keyboard_listener.dart';
 import 'editor.dart';
+import 'keyboard_listener.dart';
 
 class RawEditor extends StatefulWidget {
   final QuillController controller;
@@ -76,17 +76,17 @@ class RawEditor extends StatefulWidget {
       : assert(controller != null, 'controller cannot be null'),
         assert(focusNode != null, 'focusNode cannot be null'),
         assert(scrollable || scrollController != null,
-        'scrollController cannot be null'),
+            'scrollController cannot be null'),
         assert(selectionColor != null, 'selectionColor cannot be null'),
         assert(enableInteractiveSelection != null,
-        'enableInteractiveSelection cannot be null'),
+            'enableInteractiveSelection cannot be null'),
         assert(showSelectionHandles != null,
-        'showSelectionHandles cannot be null'),
+            'showSelectionHandles cannot be null'),
         assert(readOnly != null, 'readOnly cannot be null'),
         assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
-        'maxHeight cannot be null'),
+            'maxHeight cannot be null'),
         assert(autoFocus != null, 'autoFocus cannot be null'),
         assert(toolbarOptions != null, 'toolbarOptions cannot be null'),
         showCursor = showCursor ?? !readOnly,
@@ -134,11 +134,11 @@ class RawEditorState extends EditorState
   }
 
   handleCursorMovement(
-      LogicalKeyboardKey key,
-      bool wordModifier,
-      bool lineModifier,
-      bool shift,
-      ) {
+    LogicalKeyboardKey key,
+    bool wordModifier,
+    bool lineModifier,
+    bool shift,
+  ) {
     if (wordModifier && lineModifier) {
       return;
     }
@@ -202,7 +202,7 @@ class RawEditorState extends EditorState
     RenderEditableBox child = getRenderEditor().childAtPosition(originPosition);
     TextPosition localPosition = TextPosition(
         offset:
-        originPosition.offset - child.getContainer().getDocumentOffset());
+            originPosition.offset - child.getContainer().getDocumentOffset());
 
     TextPosition position = upKey
         ? child.getPositionAbove(localPosition)
@@ -219,10 +219,10 @@ class RawEditorState extends EditorState
             child.getOffsetForCaret(localPosition).dx,
             sibling
                 .getOffsetForCaret(TextPosition(
-                offset: upKey ? sibling.getContainer().length - 1 : 0))
+                    offset: upKey ? sibling.getContainer().length - 1 : 0))
                 .dy);
         TextPosition siblingPosition =
-        sibling.getPositionForOffset(finalOffset);
+            sibling.getPositionForOffset(finalOffset);
         position = TextPosition(
             offset: sibling.getContainer().getDocumentOffset() +
                 siblingPosition.offset);
@@ -271,7 +271,7 @@ class RawEditorState extends EditorState
       TextSelection textSelection = getRenderEditor().selectWordAtPosition(
           TextPosition(
               offset:
-              _nextCharacter(newSelection.extentOffset, plainText, false)));
+                  _nextCharacter(newSelection.extentOffset, plainText, false)));
       return newSelection.copyWith(extentOffset: textSelection.extentOffset);
     } else if (lineModifier) {
       if (leftKey) {
@@ -292,7 +292,7 @@ class RawEditorState extends EditorState
 
     if (rightKey && newSelection.extentOffset < plainText.length) {
       int nextExtent =
-      _nextCharacter(newSelection.extentOffset, plainText, true);
+          _nextCharacter(newSelection.extentOffset, plainText, true);
       int distance = nextExtent - newSelection.extentOffset;
       newSelection = newSelection.copyWith(extentOffset: nextExtent);
       if (shift) {
@@ -303,7 +303,7 @@ class RawEditorState extends EditorState
 
     if (leftKey && newSelection.extentOffset > 0) {
       int previousExtent =
-      _previousCharacter(newSelection.extentOffset, plainText, true);
+          _previousCharacter(newSelection.extentOffset, plainText, true);
       int distance = newSelection.extentOffset - previousExtent;
       newSelection = newSelection.copyWith(extentOffset: previousExtent);
       if (shift) {
@@ -521,7 +521,7 @@ class RawEditorState extends EditorState
 
     if (widget.scrollable) {
       EdgeInsets baselinePadding =
-      EdgeInsets.only(top: _styles.paragraph.verticalSpacing.item1);
+          EdgeInsets.only(top: _styles.paragraph.verticalSpacing.item1);
       child = BaselineProxy(
         textStyle: _styles.paragraph.style,
         padding: baselinePadding,
@@ -536,8 +536,8 @@ class RawEditorState extends EditorState
     BoxConstraints constraints = widget.expands
         ? BoxConstraints.expand()
         : BoxConstraints(
-        minHeight: widget.minHeight ?? 0.0,
-        maxHeight: widget.maxHeight ?? double.infinity);
+            minHeight: widget.minHeight ?? 0.0,
+            maxHeight: widget.maxHeight ?? double.infinity);
 
     return QuillStyles(
       data: _styles,
@@ -740,7 +740,7 @@ class RawEditorState extends EditorState
     if (selection.isCollapsed) {
       if (!forward && textBefore.isNotEmpty) {
         final int characterBoundary =
-        _previousCharacter(textBefore.length, textBefore, true);
+            _previousCharacter(textBefore.length, textBefore, true);
         textBefore = textBefore.substring(0, characterBoundary);
         cursorPosition = characterBoundary;
       }
@@ -750,7 +750,7 @@ class RawEditorState extends EditorState
       }
     }
     TextSelection newSelection =
-    TextSelection.collapsed(offset: cursorPosition);
+        TextSelection.collapsed(offset: cursorPosition);
     String newText = textBefore + textAfter;
     int size = plainText.length - newText.length;
     widget.controller.replaceText(
@@ -785,7 +785,7 @@ class RawEditorState extends EditorState
 
         textEditingValue = TextEditingValue(
           text:
-          selection.textBefore(plainText) + selection.textAfter(plainText),
+              selection.textBefore(plainText) + selection.textAfter(plainText),
           selection: TextSelection.collapsed(offset: selection.start),
         );
       }
@@ -847,7 +847,11 @@ class RawEditorState extends EditorState
     }
 
     SchedulerBinding.instance.addPostFrameCallback(
-            (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
+        (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
+    setState(() {
+      // Use widget.controller.value in build()
+      // Trigger build and updateChildren
+    });
   }
 
   _updateOrDisposeSelectionOverlayIfNeeded() {
@@ -897,7 +901,12 @@ class RawEditorState extends EditorState
     updateKeepAlive();
   }
 
-  _onChangedClipboardStatus() {}
+  _onChangedClipboardStatus() {
+    setState(() {
+      // Inform the widget that the value of clipboardStatus has changed.
+      // Trigger build and updateChildren
+    });
+  }
 
   bool _showCaretOnScreenScheduled = false;
 
@@ -913,7 +922,7 @@ class RawEditorState extends EditorState
       final viewport = RenderAbstractViewport.of(getRenderEditor());
       assert(viewport != null);
       final editorOffset =
-      getRenderEditor().localToGlobal(Offset(0.0, 0.0), ancestor: viewport);
+          getRenderEditor().localToGlobal(Offset(0.0, 0.0), ancestor: viewport);
       final offsetInViewport = _scrollController.offset + editorOffset.dy;
 
       final offset = getRenderEditor().getOffsetToRevealCursor(
