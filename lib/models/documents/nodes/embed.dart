@@ -1,5 +1,8 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+import 'package:quiver_hashcode/hashcode.dart';
+
 class Embeddable {
   static const TYPE_KEY = '_type';
   static const INLINE_KEY = '_inline';
@@ -36,16 +39,30 @@ class Embeddable {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Embeddable &&
-          runtimeType == other.runtimeType &&
-          type == other.type &&
-          inline == other.inline &&
-          _data == other._data;
+  bool operator ==(dynamic other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Embeddable) {
+      return false;
+    }
+    final typedOther = other;
+    return typedOther.type == type &&
+        typedOther.inline == inline &&
+        DeepCollectionEquality().equals(typedOther._data, _data);
+  }
 
   @override
-  int get hashCode => type.hashCode ^ inline.hashCode ^ _data.hashCode;
+  int get hashCode {
+    if (_data.isEmpty) {
+      return hash2(type, inline);
+    }
+
+    final dataHash = hashObjects(
+      _data.entries.map((e) => hash2(e.key, e.value)),
+    );
+    return hash3(type, inline, dataHash);
+  }
 }
 
 class Span extends Embeddable {

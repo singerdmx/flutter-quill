@@ -84,8 +84,12 @@ class Style {
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! Style) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! Style) {
+      return false;
+    }
     Style typedOther = other;
     final eq = const MapEquality<String, Attribute>();
     return eq.equals(_attributes, typedOther._attributes);
