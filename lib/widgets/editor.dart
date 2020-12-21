@@ -105,7 +105,7 @@ class QuillEditor extends StatefulWidget {
       this.enableInteractiveSelection,
       this.minHeight,
       this.maxHeight,
-      this.expands,
+      @required this.expands,
       this.textCapitalization,
       this.keyboardAppearance,
       this.scrollPhysics,
@@ -436,6 +436,7 @@ class RawEditor extends StatefulWidget {
         assert(toolbarOptions != null, 'toolbarOptions cannot be null'),
         showCursor = showCursor ?? !readOnly,
         assert(embedBuilder != null, 'embedBuilder cannot be null'),
+        assert(expands != null, 'expands cannot be null'),
         super(key: key);
 
   @override

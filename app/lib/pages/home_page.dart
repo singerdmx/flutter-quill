@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> {
               autoFocus: true,
               readOnly: true,
               embedBuilder: _embedBuilder,
-              enableInteractiveSelection: true
+              enableInteractiveSelection: true,
+              expands: false,
             ),
           ),
         ),
