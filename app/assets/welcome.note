@@ -1,1 +1,14 @@
-[{"insert": "Flutter Quill \n"}]
+[
+   {
+      "insert":"Flutter Quill"
+   },
+   {
+      "attributes":{
+         "header":1
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Rich text editor for Flutter\n"
+   }
+]
