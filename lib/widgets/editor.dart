@@ -98,7 +98,7 @@ class QuillEditor extends StatefulWidget {
       this.focusNode,
       @required this.scrollController,
       @required this.scrollable,
-      this.padding,
+      @required this.padding,
       @required this.autoFocus,
       this.showCursor,
       @required this.readOnly,
@@ -106,8 +106,8 @@ class QuillEditor extends StatefulWidget {
       this.minHeight,
       this.maxHeight,
       @required this.expands,
-      this.textCapitalization,
-      this.keyboardAppearance,
+      this.textCapitalization = TextCapitalization.sentences,
+      this.keyboardAppearance = Brightness.light,
       this.scrollPhysics,
       this.onLaunchUrl,
       @required this.embedBuilder})
@@ -437,6 +437,7 @@ class RawEditor extends StatefulWidget {
         showCursor = showCursor ?? !readOnly,
         assert(embedBuilder != null, 'embedBuilder cannot be null'),
         assert(expands != null, 'expands cannot be null'),
+        assert(padding != null),
         super(key: key);
 
   @override

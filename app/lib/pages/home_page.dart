@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/editor.dart';
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -34,12 +32,14 @@ class _HomePageState extends State<HomePage> {
       final result = await rootBundle.loadString('assets/welcome.note');
       final doc = Document.fromJson(jsonDecode(result));
       setState(() {
-        _controller = QuillController(document: doc, selection: TextSelection.collapsed(offset: 0));
+        _controller = QuillController(
+            document: doc, selection: TextSelection.collapsed(offset: 0));
       });
     } catch (error) {
       final doc = Document()..insert(0, 'Empty asset');
       setState(() {
-        _controller = QuillController(document: doc, selection: TextSelection.collapsed(offset: 0));
+        _controller = QuillController(
+            document: doc, selection: TextSelection.collapsed(offset: 0));
       });
     }
   }
@@ -51,18 +51,17 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey.shade800,
-          elevation: 0,
-          centerTitle: false,
-          title: Text(
-            'Flutter Quill',
-          ),
-          actions: [
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade800,
+        elevation: 0,
+        centerTitle: false,
+        title: Text(
+          'Flutter Quill',
         ),
-        body: _buildWelcomeEditor(context),
-      );
+        actions: [],
+      ),
+      body: _buildWelcomeEditor(context),
+    );
   }
 
   Widget _buildWelcomeEditor(BuildContext context) {
@@ -83,6 +82,7 @@ class _HomePageState extends State<HomePage> {
               embedBuilder: _embedBuilder,
               enableInteractiveSelection: true,
               expands: false,
+              padding: EdgeInsets.zero,
             ),
           ),
         ),
@@ -101,8 +101,7 @@ class _HomePageState extends State<HomePage> {
     }
     throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default embed '
-            'builder of QuillEditor. You must pass your own builder function to '
-            'embedBuilder property of QuillEditor or QuillField widgets.');
+        'builder of QuillEditor. You must pass your own builder function to '
+        'embedBuilder property of QuillEditor or QuillField widgets.');
   }
-
 }
