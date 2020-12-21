@@ -84,6 +84,7 @@ abstract class Container<T extends Node> extends Node {
     if (isNotEmpty) {
       ChildQuery child = queryChild(index, false);
       child.node.insert(child.offset, data, style);
+      return;
     }
 
     // empty

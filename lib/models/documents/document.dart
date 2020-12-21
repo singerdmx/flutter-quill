@@ -28,11 +28,12 @@ class Document {
   final Rules _rules = Rules.getInstance();
 
   final StreamController<Tuple3<Delta, Delta, ChangeSource>> _observer =
-      StreamController.broadcast();
+  StreamController.broadcast();
 
   Stream<Tuple3> get changes => _observer.stream;
 
-  Document() : _delta = Delta()..insert('\n') {
+  Document() : _delta = Delta()
+    ..insert('\n') {
     _loadDocument(_delta);
   }
 
@@ -124,7 +125,7 @@ class Document {
     Delta originalDelta = toDelta();
     for (Operation op in delta.toList()) {
       Style style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
         _root.insert(offset, _normalize(op.data), style);
@@ -138,7 +139,11 @@ class Document {
         offset += op.length;
       }
     }
-    _delta = _delta.compose(delta);
+    try {
+      _delta = _delta.compose(delta);
+    } catch (e) {
+      throw ('_delta compose failed');
+    }
 
     if (_delta != _root.toDelta()) {
       throw ('Compose failed');
@@ -158,8 +163,8 @@ class Document {
     return data is String
         ? data
         : data is Embeddable
-            ? data
-            : Embeddable.fromJson(data);
+        ? data
+        : Embeddable.fromJson(data);
   }
 
   close() {
@@ -173,13 +178,14 @@ class Document {
     int offset = 0;
     for (final op in doc.toList()) {
       final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      op.attributes != null ? Style.fromJson(op.attributes) : null;
       if (op.isInsert) {
         final data = _normalize(op.data);
         _root.insert(offset, data, style);
       } else {
         throw ArgumentError.value(doc,
-            'Document Delta can only contain insert operations but ${op.key} found.');
+            'Document Delta can only contain insert operations but ${op
+                .key} found.');
       }
       offset += op.length;
     }
