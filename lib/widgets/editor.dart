@@ -9,6 +9,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
+import 'package:flutter_quill/models/documents/nodes/block.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
     as containerNode;
 import 'package:flutter_quill/models/documents/nodes/leaf.dart';
@@ -17,7 +18,10 @@ import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/proxy.dart';
+import 'package:flutter_quill/widgets/text_block.dart';
+import 'package:flutter_quill/widgets/text_line.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
+import 'package:tuple/tuple.dart';
 
 import 'box.dart';
 import 'controller.dart';
@@ -89,15 +93,15 @@ class QuillEditor extends StatefulWidget {
   final ValueChanged<String> onLaunchUrl;
   final EmbedBuilder embedBuilder;
 
-  QuillEditor({
-  @required this.controller,
+  QuillEditor(
+      {@required this.controller,
       this.focusNode,
-  @required this.scrollController,
-  @required this.scrollable,
+      @required this.scrollController,
+      @required this.scrollable,
       this.padding,
-  @required this.autoFocus,
+      @required this.autoFocus,
       this.showCursor,
-  @required this.readOnly,
+      @required this.readOnly,
       this.enableInteractiveSelection,
       this.minHeight,
       this.maxHeight,
@@ -106,7 +110,7 @@ class QuillEditor extends StatefulWidget {
       this.keyboardAppearance,
       this.scrollPhysics,
       this.onLaunchUrl,
-  @required this.embedBuilder})
+      @required this.embedBuilder})
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),
@@ -414,21 +418,24 @@ class RawEditor extends StatefulWidget {
       this.enableInteractiveSelection,
       this.scrollPhysics,
       this.embedBuilder)
-      : assert(controller != null),
-        assert(focusNode != null),
-        assert(scrollable || scrollController != null),
-        assert(selectionColor != null),
-        assert(enableInteractiveSelection != null),
-        assert(showSelectionHandles != null),
-        assert(readOnly != null),
-        assert(maxHeight == null || maxHeight > 0),
-        assert(minHeight == null || minHeight >= 0),
-        assert(
-            maxHeight == null || minHeight == null || maxHeight >= minHeight),
-        assert(autoFocus != null),
-        assert(toolbarOptions != null),
+      : assert(controller != null, 'controller cannot be null'),
+        assert(focusNode != null, 'focusNode cannot be null'),
+        assert(scrollable || scrollController != null,
+            'scrollController cannot be null'),
+        assert(selectionColor != null, 'selectionColor cannot be null'),
+        assert(enableInteractiveSelection != null,
+            'enableInteractiveSelection cannot be null'),
+        assert(showSelectionHandles != null,
+            'showSelectionHandles cannot be null'),
+        assert(readOnly != null, 'readOnly cannot be null'),
+        assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
+        assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
+        assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
+            'maxHeight cannot be null'),
+        assert(autoFocus != null, 'autoFocus cannot be null'),
+        assert(toolbarOptions != null, 'toolbarOptions cannot be null'),
         showCursor = showCursor ?? !readOnly,
-        assert(embedBuilder != null),
+        assert(embedBuilder != null, 'embedBuilder cannot be null'),
         super(key: key);
 
   @override
@@ -896,7 +903,79 @@ class RawEditorState extends EditorState
     requestKeyboard();
   }
 
-  _buildChildren(BuildContext context) {}
+  _buildChildren(BuildContext context) {
+    final result = <Widget>[];
+    for (Node node in widget.controller.document.root.children) {
+      if (node is Line) {
+        result.add(EditableTextLine(
+            node,
+            null,
+            TextLine(
+              line: node,
+              textDirection: _textDirection,
+              embedBuilder: widget.embedBuilder,
+            ),
+            0,
+            _getVerticalSpacingForLine(node, _styles),
+            _textDirection,
+            widget.controller.selection,
+            widget.selectionColor,
+            widget.enableInteractiveSelection,
+            _hasFocus,
+            MediaQuery.of(context).devicePixelRatio,
+            _cursorCont));
+      } else if (node is Block) {
+        Map<String, Attribute> attrs = node.style.attributes;
+        result.add(EditableTextBlock(
+            node,
+            _textDirection,
+            _getVerticalSpacingForBlock(node, _styles),
+            widget.controller.selection,
+            widget.selectionColor,
+            widget.enableInteractiveSelection,
+            _hasFocus,
+            attrs.containsKey(Attribute.codeBlock.key)
+                ? EdgeInsets.all(16.0)
+                : null,
+            widget.embedBuilder,
+            _cursorCont));
+      } else {
+        throw StateError('Unreachable.');
+      }
+    }
+    return result;
+  }
+
+  Tuple2<double, double> _getVerticalSpacingForLine(
+      Line line, DefaultStyles defaultStyles) {
+    Map<String, Attribute> attrs = line.style.attributes;
+    if (attrs.containsKey(Attribute.header.key)) {
+      int level = attrs[Attribute.header.key].value;
+      switch (level) {
+        case 1:
+          return defaultStyles.h1.verticalSpacing;
+        case 2:
+          return defaultStyles.h2.verticalSpacing;
+        case 3:
+          return defaultStyles.h3.verticalSpacing;
+        default:
+          throw ('Invalid level $level');
+      }
+    }
+
+    return defaultStyles.paragraph.verticalSpacing;
+  }
+
+  Tuple2<double, double> _getVerticalSpacingForBlock(
+      Block node, DefaultStyles defaultStyles) {
+    Map<String, Attribute> attrs = node.style.attributes;
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return defaultStyles.quote.verticalSpacing;
+    } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+      return defaultStyles.code.verticalSpacing;
+    }
+    return defaultStyles.lists.verticalSpacing;
+  }
 
   @override
   void initState() {
