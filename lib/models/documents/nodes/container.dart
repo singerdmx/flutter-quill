@@ -59,7 +59,12 @@ abstract class Container<T extends Node> extends Node {
   }
 
   ChildQuery queryChild(int offset, bool inclusive) {
-    assert(offset >= 0 && offset <= length);
+    if (offset < 0) {
+      throw ('Offset cannot be negative');
+    }
+    if (offset > length) {
+      throw ('offset $offset > $length');
+    }
 
     for (Node node in children) {
       int len = node.length;

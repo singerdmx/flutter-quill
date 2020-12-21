@@ -34,7 +34,12 @@ class QuillController extends ChangeNotifier {
 
     Delta delta;
     if (len > 0 || data is! String || (data as String).isNotEmpty) {
-      delta = document.replace(index, len, data);
+      try {
+        delta = document.replace(index, len, data);
+      } catch (e) {
+        print ('document.replace failed: $e');
+        throw e;
+      }
       if (delta != null &&
           toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&

@@ -128,7 +128,7 @@ class Line extends Container<Leaf> {
       super.delete(index, local);
     }
 
-    int remain = length - local;
+    int remain = len - local;
     if (remain > 0) {
       assert(nextLine != null);
       nextLine.delete(0, remain);
