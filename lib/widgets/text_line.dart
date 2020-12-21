@@ -173,6 +173,7 @@ class EditableTextLine extends RenderObjectWidget {
         hasFocus,
         devicePixelRatio,
         _getPadding(),
+        this.color,
         cursorCont);
   }
 
@@ -226,12 +227,14 @@ class RenderEditableTextLine extends RenderEditableBox {
       this.hasFocus,
       this.devicePixelRatio,
       this.padding,
+      this.color,
       this.cursorCont)
       : assert(line != null),
         assert(padding != null),
         assert(padding.isNonNegative),
         assert(devicePixelRatio != null),
         assert(hasFocus != null),
+        assert(color != null),
         assert(cursorCont != null);
 
   Iterable<RenderBox> get _children sync* {
