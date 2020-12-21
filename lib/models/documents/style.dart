@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
+import 'package:quiver_hashcode/hashcode.dart';
 
 /* Collection of style attributes */
 class Style {
@@ -79,4 +81,23 @@ class Style {
     m[attribute.key] = attribute;
     return Style.attr(m);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! Style) return false;
+    Style typedOther = other;
+    final eq = const MapEquality<String, Attribute>();
+    return eq.equals(_attributes, typedOther._attributes);
+  }
+
+  @override
+  int get hashCode {
+    final hashes =
+        _attributes.entries.map((entry) => hash2(entry.key, entry.value));
+    return hashObjects(hashes);
+  }
+
+  @override
+  String toString() => "{${_attributes.values.join(', ')}}";
 }
