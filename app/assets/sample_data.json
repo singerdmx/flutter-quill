@@ -125,5 +125,14 @@
          "list":"bullet"
       },
       "insert":"\n"
+   },
+   {
+      "insert":"\nAttach one or multiple labels to tasks, notes or transactions. Later you can track them just using the label(s)."
+   },
+   {
+      "attributes":{
+         "blockquote":true
+      },
+      "insert":"\n"
    }
 ]
