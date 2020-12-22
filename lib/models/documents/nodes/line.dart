@@ -57,6 +57,13 @@ class Line extends Container<Leaf> {
   String toPlainText() => super.toPlainText() + '\n';
 
   @override
+  String toString() {
+    final body = children.join(' → ');
+    final styleString = style.isNotEmpty ? ' $style' : '';
+    return '¶ $body ⏎$styleString';
+  }
+
+  @override
   insert(int index, Object data, Style style) {
     if (data is Embeddable) {
       _insert(index, data, style);
@@ -98,12 +105,13 @@ class Line extends Container<Leaf> {
     }
     int thisLen = this.length;
 
-    int local = math.min(thisLen - index, length);
-    assert(style.values.every((attr) => attr.scope == AttributeScope.BLOCK));
+    int local = math.min(thisLen - index, len);
 
     if (index + local == thisLen && local == 1) {
+      assert(style.values.every((attr) => attr.scope == AttributeScope.BLOCK));
       _format(style);
     } else {
+      assert(style.values.every((attr) => attr.scope == AttributeScope.INLINE));
       assert(index + local != thisLen);
       super.retain(index, local, style);
     }
