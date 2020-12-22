@@ -122,6 +122,12 @@ class TextLine extends StatelessWidget {
       res = res.merge(new TextStyle(color: textColor));
     }
 
+    Attribute background = textNode.style.attributes[Attribute.background.key];
+    if (background != null && background.value != null) {
+      final backgroundColor = _hexStringToColor(background.value);
+      res = res.merge(new TextStyle(backgroundColor: backgroundColor));
+    }
+
     return TextSpan(text: textNode.value, style: res);
   }
 
