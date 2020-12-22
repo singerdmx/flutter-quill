@@ -84,7 +84,7 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     Map<String, dynamic> resetStyle;
 
     if (lineStyle.containsKey(Attribute.header.key)) {
-      resetStyle = HeaderAttribute(null).toJson();
+      resetStyle = Attribute.header.toJson();
     }
 
     List<String> lines = (data as String).split('\n');
@@ -180,7 +180,7 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
     Map<String, dynamic> resetStyle;
     if (cur.attributes != null &&
         cur.attributes.containsKey(Attribute.header.key)) {
-      resetStyle = HeaderAttribute(null).toJson();
+      resetStyle = Attribute.header.toJson();
     }
     return Delta()
       ..retain(index)

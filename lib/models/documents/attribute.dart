@@ -25,33 +25,35 @@ class Attribute<T> {
     Attribute.blockQuote.key: Attribute.blockQuote,
   };
 
-  static BoldAttribute bold = BoldAttribute();
+  static final BoldAttribute bold = BoldAttribute();
 
-  static ItalicAttribute italic = ItalicAttribute();
+  static final ItalicAttribute italic = ItalicAttribute();
 
-  static UnderlineAttribute underline = UnderlineAttribute();
+  static final UnderlineAttribute underline = UnderlineAttribute();
 
-  static StrikeThroughAttribute strikeThrough = StrikeThroughAttribute();
+  static final StrikeThroughAttribute strikeThrough = StrikeThroughAttribute();
 
-  static LinkAttribute link = LinkAttribute('');
+  static final LinkAttribute link = LinkAttribute(null);
 
-  static HeaderAttribute header = HeaderAttribute(1);
+  static final HeaderAttribute header = HeaderAttribute();
 
-  static ListAttribute list = ListAttribute('ordered');
+  static final ListAttribute list = ListAttribute(null);
 
-  static CodeBlockAttribute codeBlock = CodeBlockAttribute();
+  static final CodeBlockAttribute codeBlock = CodeBlockAttribute();
 
-  static BlockQuoteAttribute blockQuote = BlockQuoteAttribute();
+  static final BlockQuoteAttribute blockQuote = BlockQuoteAttribute();
 
-  static Attribute<int> get h1 => header.level1;
+  static Attribute<int> get h1 => HeaderAttribute(level: 1);
 
-  static Attribute<int> get h2 => header.level2;
+  static Attribute<int> get h2 => HeaderAttribute(level: 2);
 
-  static Attribute<int> get h3 => header.level3;
+  static Attribute<int> get h3 => HeaderAttribute(level: 3);
 
-  static Attribute<String> get ul => list.bullet;
+  // "attributes":{"list":"ordered"}
+  static Attribute<String> get ul => ListAttribute('bullet');
 
-  static Attribute<String> get ol => list.ordered;
+  // "attributes":{"list":"bullet"}
+  static Attribute<String> get ol => ListAttribute('ordered');
 
   bool get isInline => scope == AttributeScope.INLINE;
 
@@ -64,11 +66,16 @@ class Attribute<T> {
     if (!_registry.containsKey(key)) {
       throw ArgumentError.value(key, 'key "$key" not found.');
     }
-    Attribute attribute = _registry[key];
+    Attribute origin = _registry[key];
+    Attribute attribute = clone(origin);
     if (value != null) {
       attribute.value = value;
     }
     return attribute;
+  }
+  
+  static Attribute clone(Attribute origin) {
+    return Attribute(origin.key, origin.scope, origin.value);
   }
 
   @override
@@ -111,26 +118,11 @@ class LinkAttribute extends Attribute<String> {
 }
 
 class HeaderAttribute extends Attribute<int> {
-  HeaderAttribute(int level) : super('header', AttributeScope.BLOCK, level);
-
-  // H1 in HTML
-  Attribute<int> get level1 => Attribute<int>(key, scope, 1);
-
-  // H2 in HTML
-  Attribute<int> get level2 => Attribute<int>(key, scope, 2);
-
-  // H3 in HTML
-  Attribute<int> get level3 => Attribute<int>(key, scope, 3);
+  HeaderAttribute({int level = null}) : super('header', AttributeScope.BLOCK, level);
 }
 
 class ListAttribute extends Attribute<String> {
   ListAttribute(String val) : super('list', AttributeScope.BLOCK, val);
-
-  // "attributes":{"list":"ordered"}
-  Attribute<String> get ordered => Attribute<String>(key, scope, 'ordered');
-
-  // "attributes":{"list":"bullet"}
-  Attribute<String> get bullet => Attribute<String>(key, scope, 'bullet');
 }
 
 class CodeBlockAttribute extends Attribute<bool> {
