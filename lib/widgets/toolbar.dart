@@ -379,20 +379,20 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   factory QuillToolbar.basic(
       {Key key,
       @required QuillController controller,
-      bool hideBoldButton = false,
-      bool hideItalicButton = false,
-      bool hideUnderLineButton = false,
-      bool hideStrikeThrough = false,
-      bool hideHeadingStyle = false,
-      bool hideListNumbers = false,
-      bool hideListBullets = false,
-      bool hideCodeBlock = false,
-      bool hideQuote = false,
-      bool hideLink = false,
-      bool hideHorizontalRule = false}) {
+      bool showBoldButton = true,
+      bool showItalicButton = true,
+      bool showUnderLineButton = true,
+      bool showStrikeThrough = true,
+      bool showHeadingStyle = true,
+      bool showListNumbers = true,
+      bool showListBullets = true,
+      bool showCodeBlock = true,
+      bool showQuote = true,
+      bool showLink = true,
+      bool showHorizontalRule = true}) {
     return QuillToolbar(key: key, children: [
       Visibility(
-        visible: hideBoldButton,
+        visible: showBoldButton,
         child: ToggleStyleButton(
           attribute: Attribute.bold,
           icon: Icons.format_bold,
@@ -401,7 +401,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       SizedBox(width: 1),
       Visibility(
-        visible: hideItalicButton,
+        visible: showItalicButton,
         child: ToggleStyleButton(
           attribute: Attribute.italic,
           icon: Icons.format_italic,
@@ -410,7 +410,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       SizedBox(width: 1),
       Visibility(
-        visible: hideUnderLineButton,
+        visible: showUnderLineButton,
         child: ToggleStyleButton(
           attribute: Attribute.underline,
           icon: Icons.format_underline,
@@ -419,7 +419,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       SizedBox(width: 1),
       Visibility(
-        visible: hideStrikeThrough,
+        visible: showStrikeThrough,
         child: ToggleStyleButton(
           attribute: Attribute.strikeThrough,
           icon: Icons.format_strikethrough,
@@ -427,15 +427,15 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-          visible: hideHeadingStyle,
+          visible: showHeadingStyle,
           child: VerticalDivider(
               indent: 16, endIndent: 16, color: Colors.grey.shade400)),
       Visibility(
-          visible: hideHeadingStyle,
+          visible: showHeadingStyle,
           child: SelectHeadingStyleButton(controller: controller)),
       VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400),
       Visibility(
-        visible: hideListNumbers,
+        visible: showListNumbers,
         child: ToggleStyleButton(
           attribute: Attribute.ol,
           controller: controller,
@@ -443,7 +443,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-        visible: hideListBullets,
+        visible: showListBullets,
         child: ToggleStyleButton(
           attribute: Attribute.ul,
           controller: controller,
@@ -451,7 +451,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-        visible: hideCodeBlock,
+        visible: showCodeBlock,
         child: ToggleStyleButton(
           attribute: Attribute.codeBlock,
           controller: controller,
@@ -459,11 +459,11 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-          visible: !hideListNumbers && !hideListBullets && !hideCodeBlock,
+          visible: !showListNumbers && !showListBullets && !showCodeBlock,
           child: VerticalDivider(
               indent: 16, endIndent: 16, color: Colors.grey.shade400)),
       Visibility(
-        visible: hideQuote,
+        visible: showQuote,
         child: ToggleStyleButton(
           attribute: Attribute.blockQuote,
           controller: controller,
@@ -471,13 +471,13 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-          visible: hideQuote,
+          visible: showQuote,
           child: VerticalDivider(
               indent: 16, endIndent: 16, color: Colors.grey.shade400)),
       Visibility(
-          visible: hideLink, child: LinkStyleButton(controller: controller)),
+          visible: showLink, child: LinkStyleButton(controller: controller)),
       Visibility(
-        visible: hideHorizontalRule,
+        visible: showHorizontalRule,
         child: InsertEmbedButton(
           controller: controller,
           icon: Icons.horizontal_rule,
