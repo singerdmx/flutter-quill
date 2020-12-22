@@ -43,6 +43,27 @@ class Attribute<T> {
 
   static final BlockQuoteAttribute blockQuote = BlockQuoteAttribute();
 
+  static final Set<String> inlineKeys = {
+    Attribute.bold.key,
+    Attribute.italic.key,
+    Attribute.underline.key,
+    Attribute.strikeThrough.key,
+    Attribute.link.key
+  };
+
+  static final Set<String> blockKeys = {
+    Attribute.header.key,
+    Attribute.list.key,
+    Attribute.codeBlock.key,
+    Attribute.blockQuote.key,
+  };
+
+  static final Set<String> blockKeysExceptHeader = {
+    Attribute.list.key,
+    Attribute.codeBlock.key,
+    Attribute.blockQuote.key,
+  };
+
   static Attribute<int> get h1 => HeaderAttribute(level: 1);
 
   static Attribute<int> get h2 => HeaderAttribute(level: 2);
