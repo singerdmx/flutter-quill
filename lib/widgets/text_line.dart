@@ -42,13 +42,14 @@ class TextLine extends StatelessWidget {
     TextSpan textSpan = _buildTextSpan(context);
     StrutStyle strutStyle =
         StrutStyle.fromTextStyle(textSpan.style, forceStrutHeight: true);
+    RichText child = RichText(
+      text: _buildTextSpan(context),
+      textDirection: textDirection,
+      strutStyle: strutStyle,
+      textScaleFactor: MediaQuery.textScaleFactorOf(context),
+    );
     return RichTextProxy(
-        RichText(
-          text: _buildTextSpan(context),
-          textDirection: textDirection,
-          strutStyle: strutStyle,
-          textScaleFactor: MediaQuery.textScaleFactorOf(context),
-        ),
+        child,
         textSpan.style,
         textDirection,
         1.0,

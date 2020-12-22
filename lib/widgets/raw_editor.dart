@@ -564,14 +564,15 @@ class RawEditorState extends EditorState
     final result = <Widget>[];
     for (Node node in widget.controller.document.root.children) {
       if (node is Line) {
-        result.add(EditableTextLine(
+        TextLine textLine = TextLine(
+          line: node,
+          textDirection: _textDirection,
+          embedBuilder: widget.embedBuilder,
+        );
+        EditableTextLine editableTextLine = EditableTextLine(
             node,
             null,
-            TextLine(
-              line: node,
-              textDirection: _textDirection,
-              embedBuilder: widget.embedBuilder,
-            ),
+            textLine,
             0,
             _getVerticalSpacingForLine(node, _styles),
             _textDirection,
@@ -580,7 +581,8 @@ class RawEditorState extends EditorState
             widget.enableInteractiveSelection,
             _hasFocus,
             MediaQuery.of(context).devicePixelRatio,
-            _cursorCont));
+            _cursorCont);
+        result.add(editableTextLine);
       } else if (node is Block) {
         Map<String, Attribute> attrs = node.style.attributes;
         result.add(EditableTextBlock(
