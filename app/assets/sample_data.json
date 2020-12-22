@@ -134,5 +134,14 @@
          "blockquote":true
       },
       "insert":"\n"
+   },
+   {
+      "insert":"\nvar BuJo = 'Bullet' + 'Journal'"
+   },
+   {
+      "attributes":{
+         "code-block":true
+      },
+      "insert":"\n"
    }
 ]
