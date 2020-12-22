@@ -7,6 +7,7 @@ import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/editor.dart';
+import 'package:flutter_quill/widgets/toolbar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -63,6 +64,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildWelcomeEditor(BuildContext context) {
     return Column(
       children: [
+        QuillToolbar.basic(controller: _controller),
         Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
         Expanded(
           child: Container(
