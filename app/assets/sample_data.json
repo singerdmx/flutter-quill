@@ -98,5 +98,32 @@
          "list":"ordered"
       },
       "insert":"\n"
+   },
+   {
+      "insert":"\nSplitting bills with friends can never be easier."
+   },
+   {
+      "attributes":{
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Start creating a group and invite your friends to join."
+   },
+   {
+      "attributes":{
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Create a BuJo of Ledger type to see expense or balance summary."
+   },
+   {
+      "attributes":{
+         "list":"bullet"
+      },
+      "insert":"\n"
    }
 ]
