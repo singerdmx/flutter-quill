@@ -96,15 +96,15 @@ class TextLine extends StatelessWidget {
     Style style = textNode.style;
     TextStyle res = TextStyle();
 
-    Map<Attribute, TextStyle> m = {
-      Attribute.bold: defaultStyles.bold,
-      Attribute.italic: defaultStyles.italic,
-      Attribute.link: defaultStyles.link,
-      Attribute.underline: defaultStyles.underline,
-      Attribute.strikeThrough: defaultStyles.strikeThrough,
+    Map<String, TextStyle> m = {
+      Attribute.bold.key: defaultStyles.bold,
+      Attribute.italic.key: defaultStyles.italic,
+      Attribute.link.key: defaultStyles.link,
+      Attribute.underline.key: defaultStyles.underline,
+      Attribute.strikeThrough.key: defaultStyles.strikeThrough,
     };
     m.forEach((k, s) {
-      if (style.values.any((v) => v == k)) {
+      if (style.values.any((v) => v.key == k)) {
         res = _merge(res, s);
       }
     });
