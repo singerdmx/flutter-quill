@@ -7,6 +7,7 @@
 Rich text editor and a [Quill] component for [Flutter].
 
 This library supports mobile platform only and web is not supported.
+For web development, [ReactQuill] is recommended to use for compatibiliy.
 
 ---
 
@@ -17,3 +18,4 @@ One client and affiliated collaborator of **[FlutterQuill]** is [Bullet Journal 
 [Flutter]: https://github.com/flutter/flutter
 [Bullet Journal App]: https://bulletjournal.us/home/index.html
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
+[ReactQuill]: https://github.com/zenoamaro/react-quill
