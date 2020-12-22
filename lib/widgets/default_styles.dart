@@ -54,6 +54,7 @@ class DefaultStyles {
   final DefaultTextBlockStyle lists;
   final DefaultTextBlockStyle quote;
   final DefaultTextBlockStyle code;
+  final DefaultTextBlockStyle indent;
 
   DefaultStyles(
       this.h1,
@@ -67,7 +68,8 @@ class DefaultStyles {
       this.link,
       this.lists,
       this.quote,
-      this.code);
+      this.code,
+      this.indent);
 
   static DefaultStyles getInstance(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -155,7 +157,8 @@ class DefaultStyles {
             BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
-            )));
+            )),
+        DefaultTextBlockStyle(baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null));
   }
 
   DefaultStyles merge(DefaultStyles other) {
@@ -171,6 +174,7 @@ class DefaultStyles {
         other.link ?? this.link,
         other.lists ?? this.lists,
         other.quote ?? this.quote,
-        other.code ?? this.code);
+        other.code ?? this.code,
+        other.indent ?? this.indent);
   }
 }

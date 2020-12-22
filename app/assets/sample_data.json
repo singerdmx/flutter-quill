@@ -151,5 +151,53 @@
          "code-block":true
       },
       "insert":"\n"
+   },
+   {
+      "insert":"\nStart tracking in your browser"
+   },
+   {
+      "attributes":{
+         "indent":1
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Stop the timer on your phone"
+   },
+   {
+      "attributes":{
+         "indent":1
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"All your time entries are synced"
+   },
+   {
+      "attributes":{
+         "indent":2
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"between the phone apps"
+   },
+   {
+      "attributes":{
+         "indent":2
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"and the website."
+   },
+   {
+      "attributes":{
+         "indent":3
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"\n"
    }
 ]

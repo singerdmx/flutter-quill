@@ -22,6 +22,7 @@ class Attribute<T> {
     Attribute.color.key: Attribute.color,
     Attribute.background.key: Attribute.background,
     Attribute.header.key: Attribute.header,
+    Attribute.indent.key: Attribute.indent,
     Attribute.list.key: Attribute.list,
     Attribute.codeBlock.key: Attribute.codeBlock,
     Attribute.blockQuote.key: Attribute.blockQuote,
@@ -43,6 +44,8 @@ class Attribute<T> {
 
   static final HeaderAttribute header = HeaderAttribute();
 
+  static final IndentAttribute indent = IndentAttribute();
+
   static final ListAttribute list = ListAttribute(null);
 
   static final CodeBlockAttribute codeBlock = CodeBlockAttribute();
@@ -61,6 +64,7 @@ class Attribute<T> {
 
   static final Set<String> blockKeys = {
     Attribute.header.key,
+    Attribute.indent.key,
     Attribute.list.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
@@ -68,6 +72,7 @@ class Attribute<T> {
 
   static final Set<String> blockKeysExceptHeader = {
     Attribute.list.key,
+    Attribute.indent.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
   };
@@ -153,6 +158,10 @@ class BackgroundAttribute extends Attribute<String> {
 
 class HeaderAttribute extends Attribute<int> {
   HeaderAttribute({int level}) : super('header', AttributeScope.BLOCK, level);
+}
+
+class IndentAttribute extends Attribute<int> {
+  IndentAttribute({int level}) : super('indent', AttributeScope.BLOCK, level);
 }
 
 class ListAttribute extends Attribute<String> {

@@ -133,11 +133,18 @@ class EditableTextBlock extends StatelessWidget {
 
   double _getIndentWidth() {
     Map<String, Attribute> attrs = block.style.attributes;
-    if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return 16.0;
+
+    Attribute indent = attrs[Attribute.indent.key];
+    double extraIndent = 0.0;
+    if (indent != null && indent.value != null) {
+      extraIndent = 16.0 * indent.value;
     }
 
-    return 32.0;
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return 16.0 + extraIndent;
+    }
+
+    return 32.0 + extraIndent;
   }
 
   Tuple2 _getSpacingForLine(
@@ -171,6 +178,8 @@ class EditableTextBlock extends StatelessWidget {
         lineSpacing = defaultStyles.lists.lineSpacing;
       } else if (attrs.containsKey(Attribute.codeBlock.key)) {
         lineSpacing = defaultStyles.code.lineSpacing;
+      } else if (attrs.containsKey(Attribute.indent.key)) {
+        lineSpacing = defaultStyles.indent.lineSpacing;
       }
       top = lineSpacing.item1;
       bottom = lineSpacing.item2;

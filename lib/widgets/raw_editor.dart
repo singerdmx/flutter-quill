@@ -633,6 +633,8 @@ class RawEditorState extends EditorState
       return defaultStyles.quote.verticalSpacing;
     } else if (attrs.containsKey(Attribute.codeBlock.key)) {
       return defaultStyles.code.verticalSpacing;
+    } else if (attrs.containsKey(Attribute.indent.key)) {
+      return defaultStyles.indent.verticalSpacing;
     }
     return defaultStyles.lists.verticalSpacing;
   }
