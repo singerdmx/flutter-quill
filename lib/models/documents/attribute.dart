@@ -23,6 +23,7 @@ class Attribute<T> {
     Attribute.background.key: Attribute.background,
     Attribute.header.key: Attribute.header,
     Attribute.indent.key: Attribute.indent,
+    Attribute.align.key: Attribute.align,
     Attribute.list.key: Attribute.list,
     Attribute.codeBlock.key: Attribute.codeBlock,
     Attribute.blockQuote.key: Attribute.blockQuote,
@@ -46,6 +47,8 @@ class Attribute<T> {
 
   static final IndentAttribute indent = IndentAttribute();
 
+  static final AlignAttribute align = AlignAttribute(null);
+
   static final ListAttribute list = ListAttribute(null);
 
   static final CodeBlockAttribute codeBlock = CodeBlockAttribute();
@@ -65,6 +68,7 @@ class Attribute<T> {
   static final Set<String> blockKeys = {
     Attribute.header.key,
     Attribute.indent.key,
+    Attribute.align.key,
     Attribute.list.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
@@ -73,6 +77,7 @@ class Attribute<T> {
   static final Set<String> blockKeysExceptHeader = {
     Attribute.list.key,
     Attribute.indent.key,
+    Attribute.align.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
   };
@@ -82,6 +87,18 @@ class Attribute<T> {
   static Attribute<int> get h2 => HeaderAttribute(level: 2);
 
   static Attribute<int> get h3 => HeaderAttribute(level: 3);
+
+  // "attributes":{"align":"left"}
+  static Attribute<String> get leftAlignment => AlignAttribute('left');
+
+  // "attributes":{"align":"center"}
+  static Attribute<String> get centerAlignment => AlignAttribute('center');
+
+  // "attributes":{"align":"right"}
+  static Attribute<String> get rightAlignment => AlignAttribute('right');
+
+  // "attributes":{"align":"justify"}
+  static Attribute<String> get justifyAlignment => AlignAttribute('justify');
 
   // "attributes":{"list":"bullet"}
   static Attribute<String> get ul => ListAttribute('bullet');
@@ -162,6 +179,10 @@ class HeaderAttribute extends Attribute<int> {
 
 class IndentAttribute extends Attribute<int> {
   IndentAttribute({int level}) : super('indent', AttributeScope.BLOCK, level);
+}
+
+class AlignAttribute extends Attribute<String> {
+  AlignAttribute(String val) : super('align', AttributeScope.BLOCK, val);
 }
 
 class ListAttribute extends Attribute<String> {

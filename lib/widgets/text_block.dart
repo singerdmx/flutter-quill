@@ -180,6 +180,8 @@ class EditableTextBlock extends StatelessWidget {
         lineSpacing = defaultStyles.code.lineSpacing;
       } else if (attrs.containsKey(Attribute.indent.key)) {
         lineSpacing = defaultStyles.indent.lineSpacing;
+      } else if (attrs.containsKey(Attribute.align.key)) {
+        lineSpacing = defaultStyles.align.lineSpacing;
       }
       top = lineSpacing.item1;
       bottom = lineSpacing.item2;

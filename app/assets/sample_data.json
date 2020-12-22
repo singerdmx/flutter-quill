@@ -199,5 +199,32 @@
    },
    {
       "insert":"\n"
+   },
+   {
+      "insert":"\nCenter Align"
+   },
+   {
+      "attributes":{
+         "align":"center"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Right Align"
+   },
+   {
+      "attributes":{
+         "align":"right"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Justify Align"
+   },
+   {
+      "attributes":{
+         "align":"justify"
+      },
+      "insert":"\n"
    }
 ]

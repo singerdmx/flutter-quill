@@ -128,6 +128,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 
 class RichTextProxy extends SingleChildRenderObjectWidget {
   final TextStyle textStyle;
+  final TextAlign textAlign;
   final TextDirection textDirection;
   final double textScaleFactor;
   final Locale locale;
@@ -137,13 +138,22 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
 
   @override
   RenderParagraphProxy createRenderObject(BuildContext context) {
-    return RenderParagraphProxy(null, textStyle, textDirection, textScaleFactor,
-        strutStyle, locale, textWidthBasis, textHeightBehavior);
+    return RenderParagraphProxy(
+        null,
+        textStyle,
+        textAlign,
+        textDirection,
+        textScaleFactor,
+        strutStyle,
+        locale,
+        textWidthBasis,
+        textHeightBehavior);
   }
 
   RichTextProxy(
       RichText child,
       this.textStyle,
+      this.textAlign,
       this.textDirection,
       this.textScaleFactor,
       this.locale,
@@ -152,6 +162,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
       this.textHeightBehavior)
       : assert(child != null),
         assert(textStyle != null),
+        assert(textAlign != null),
         assert(textDirection != null),
         assert(locale != null),
         assert(strutStyle != null),
@@ -161,6 +172,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
   void updateRenderObject(
       BuildContext context, covariant RenderParagraphProxy renderObject) {
     renderObject.textStyle = textStyle;
+    renderObject.textAlign = textAlign;
     renderObject.textDirection = textDirection;
     renderObject.textScaleFactor = textScaleFactor;
     renderObject.locale = locale;
@@ -175,6 +187,7 @@ class RenderParagraphProxy extends RenderProxyBox
   RenderParagraphProxy(
     RenderParagraph child,
     TextStyle textStyle,
+    TextAlign textAlign,
     TextDirection textDirection,
     double textScaleFactor,
     StrutStyle strutStyle,
@@ -183,7 +196,7 @@ class RenderParagraphProxy extends RenderProxyBox
     TextHeightBehavior textHeightBehavior,
   )   : _prototypePainter = TextPainter(
             text: TextSpan(text: ' ', style: textStyle),
-            textAlign: TextAlign.left,
+            textAlign: textAlign,
             textDirection: textDirection,
             textScaleFactor: textScaleFactor,
             strutStyle: strutStyle,
@@ -200,6 +213,15 @@ class RenderParagraphProxy extends RenderProxyBox
       return;
     }
     _prototypePainter.text = TextSpan(text: ' ', style: value);
+    markNeedsLayout();
+  }
+
+  set textAlign(TextAlign value) {
+    assert(value != null);
+    if (_prototypePainter.textAlign == value) {
+      return;
+    }
+    _prototypePainter.textAlign = value;
     markNeedsLayout();
   }
 

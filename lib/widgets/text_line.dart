@@ -42,6 +42,7 @@ class TextLine extends StatelessWidget {
     TextSpan textSpan = _buildTextSpan(context);
     StrutStyle strutStyle =
         StrutStyle.fromTextStyle(textSpan.style, forceStrutHeight: true);
+    final textAlign = _getTextAlign();
     RichText child = RichText(
       text: _buildTextSpan(context),
       textDirection: textDirection,
@@ -51,12 +52,27 @@ class TextLine extends StatelessWidget {
     return RichTextProxy(
         child,
         textSpan.style,
+        textAlign,
         textDirection,
         1.0,
         Localizations.localeOf(context, nullOk: true),
         strutStyle,
         TextWidthBasis.parent,
         null);
+  }
+
+  TextAlign _getTextAlign() {
+    final alignment = line.style.attributes[Attribute.align.key];
+    if (alignment == Attribute.leftAlignment) {
+      return TextAlign.left;
+    } else if (alignment == Attribute.centerAlignment) {
+      return TextAlign.center;
+    } else if (alignment == Attribute.rightAlignment) {
+      return TextAlign.right;
+    } else if (alignment == Attribute.justifyAlignment) {
+      return TextAlign.justify;
+    }
+    return TextAlign.start;
   }
 
   TextSpan _buildTextSpan(BuildContext context) {

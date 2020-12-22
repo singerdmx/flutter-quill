@@ -55,6 +55,7 @@ class DefaultStyles {
   final DefaultTextBlockStyle quote;
   final DefaultTextBlockStyle code;
   final DefaultTextBlockStyle indent;
+  final DefaultTextBlockStyle align;
 
   DefaultStyles(
       this.h1,
@@ -69,7 +70,8 @@ class DefaultStyles {
       this.lists,
       this.quote,
       this.code,
-      this.indent);
+      this.indent,
+      this.align);
 
   static DefaultStyles getInstance(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -158,6 +160,7 @@ class DefaultStyles {
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )),
+        DefaultTextBlockStyle(baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
         DefaultTextBlockStyle(baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null));
   }
 
@@ -175,6 +178,7 @@ class DefaultStyles {
         other.lists ?? this.lists,
         other.quote ?? this.quote,
         other.code ?? this.code,
-        other.indent ?? this.indent);
+        other.indent ?? this.indent,
+        other.align ?? this.align);
   }
 }
