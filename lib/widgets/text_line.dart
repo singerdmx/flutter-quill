@@ -91,6 +91,13 @@ class TextLine extends StatelessWidget {
     return TextSpan(children: children, style: textStyle);
   }
 
+  Color _hexStringToColor(String hex) {
+    hex = hex.replaceFirst('#', '');
+    hex = hex.length == 6 ? 'ff' + hex : hex;
+    int val = int.parse(hex, radix: 16);
+    return Color(val);
+  }
+
   TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
     leaf.Text textNode = node as leaf.Text;
     Style style = textNode.style;
@@ -108,6 +115,12 @@ class TextLine extends StatelessWidget {
         res = _merge(res, s);
       }
     });
+
+    Attribute color = textNode.style.attributes[Attribute.color.key];
+    if (color != null && color.value != null) {
+      final textColor = _hexStringToColor(color.value);
+      res = res.merge(new TextStyle(color: textColor));
+    }
 
     return TextSpan(text: textNode.value, style: res);
   }

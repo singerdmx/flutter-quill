@@ -19,6 +19,8 @@ class Attribute<T> {
     Attribute.underline.key: Attribute.underline,
     Attribute.strikeThrough.key: Attribute.strikeThrough,
     Attribute.link.key: Attribute.link,
+    Attribute.color.key: Attribute.color,
+    Attribute.background.key: Attribute.background,
     Attribute.header.key: Attribute.header,
     Attribute.list.key: Attribute.list,
     Attribute.codeBlock.key: Attribute.codeBlock,
@@ -34,6 +36,10 @@ class Attribute<T> {
   static final StrikeThroughAttribute strikeThrough = StrikeThroughAttribute();
 
   static final LinkAttribute link = LinkAttribute(null);
+
+  static final ColorAttribute color = ColorAttribute(null);
+
+  static final BackgroundAttribute background = BackgroundAttribute(null);
 
   static final HeaderAttribute header = HeaderAttribute();
 
@@ -91,7 +97,7 @@ class Attribute<T> {
     Attribute attribute = clone(origin, value);
     return attribute;
   }
-  
+
   static Attribute clone(Attribute origin, dynamic value) {
     return Attribute(origin.key, origin.scope, value);
   }
@@ -133,6 +139,15 @@ class StrikeThroughAttribute extends Attribute<bool> {
 
 class LinkAttribute extends Attribute<String> {
   LinkAttribute(String val) : super('link', AttributeScope.INLINE, val);
+}
+
+class ColorAttribute extends Attribute<String> {
+  ColorAttribute(String val) : super('color', AttributeScope.INLINE, val);
+}
+
+class BackgroundAttribute extends Attribute<String> {
+  BackgroundAttribute(String val)
+      : super('background', AttributeScope.INLINE, val);
 }
 
 class HeaderAttribute extends Attribute<int> {

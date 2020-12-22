@@ -50,7 +50,8 @@
    {
       "attributes":{
          "underline":true,
-         "bold":true
+         "bold":true,
+         "color":"#e60000"
       },
       "insert":"only"
    },
