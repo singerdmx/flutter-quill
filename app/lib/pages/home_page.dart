@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
               scrollable: true,
               focusNode: _focusNode,
               autoFocus: true,
-              readOnly: true,
+              readOnly: false,
               embedBuilder: _embedBuilder,
               enableInteractiveSelection: true,
               expands: false,
