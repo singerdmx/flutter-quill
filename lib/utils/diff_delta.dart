@@ -71,7 +71,7 @@ int getPositionDelta(Delta user, Delta actual) {
   DeltaIterator actualItr = DeltaIterator(actual);
   int diff = 0;
   while (userItr.hasNext || actualItr.hasNext) {
-    int length = math.min(userItr.peekLength(), actualItr.peekLength());
+    final length = math.min(userItr.peekLength(), actualItr.peekLength());
     Operation userOperation = userItr.next(length);
     Operation actualOperation = actualItr.next(length);
     if (userOperation.length != actualOperation.length) {
