@@ -609,7 +609,7 @@ class RawEditorState extends EditorState
       Line line, DefaultStyles defaultStyles) {
     Map<String, Attribute> attrs = line.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
-      int level = attrs[Attribute.header.key].getValue();
+      int level = attrs[Attribute.header.key].value;
       switch (level) {
         case 1:
           return defaultStyles.h1.verticalSpacing;

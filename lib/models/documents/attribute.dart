@@ -9,12 +9,9 @@ enum AttributeScope {
 class Attribute<T> {
   final String key;
   final AttributeScope scope;
-  T _value;
+  final T value;
 
-  Attribute(this.key, this.scope, this._value);
-
-  T getValue() => _value;
-  setValue(T val) => _value = val;
+  Attribute(this.key, this.scope, this.value);
 
   static final Map<String, Attribute> _registry = {
     Attribute.bold.key: Attribute.bold,
@@ -63,22 +60,19 @@ class Attribute<T> {
   bool get isBlockExceptHeader =>
       scope == AttributeScope.BLOCK && key != Attribute.header.key;
 
-  Map<String, dynamic> toJson() => <String, dynamic>{key: _value};
+  Map<String, dynamic> toJson() => <String, dynamic>{key: value};
 
   static Attribute fromKeyValue(String key, dynamic value) {
     if (!_registry.containsKey(key)) {
       throw ArgumentError.value(key, 'key "$key" not found.');
     }
     Attribute origin = _registry[key];
-    Attribute attribute = clone(origin);
-    if (value != null) {
-      attribute.setValue(value);
-    }
+    Attribute attribute = clone(origin, value);
     return attribute;
   }
   
-  static Attribute clone(Attribute origin) {
-    return Attribute(origin.key, origin.scope, origin.getValue());
+  static Attribute clone(Attribute origin, dynamic value) {
+    return Attribute(origin.key, origin.scope, value);
   }
 
   @override
@@ -88,15 +82,15 @@ class Attribute<T> {
     Attribute<T> typedOther = other;
     return key == typedOther.key &&
         scope == typedOther.scope &&
-        _value == typedOther._value;
+        value == typedOther.value;
   }
 
   @override
-  int get hashCode => hash3(key, scope, _value);
+  int get hashCode => hash3(key, scope, value);
 
   @override
   String toString() {
-    return 'Attribute{key: $key, scope: $scope, value: $_value}';
+    return 'Attribute{key: $key, scope: $scope, value: $value}';
   }
 }
 

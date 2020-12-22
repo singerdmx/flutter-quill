@@ -24,8 +24,8 @@ class Style {
 
   Map<String, dynamic> toJson() => _attributes.isEmpty
       ? null
-      : _attributes.map<String, dynamic>((String _, Attribute value) =>
-          MapEntry<String, dynamic>(value.key, value.getValue()));
+      : _attributes.map<String, dynamic>((String _, Attribute attribute) =>
+          MapEntry<String, dynamic>(attribute.key, attribute.value));
 
   Iterable<String> get keys => _attributes.keys;
 
@@ -54,7 +54,7 @@ class Style {
 
   Style merge(Attribute attribute) {
     Map<String, Attribute> merged = Map<String, Attribute>.from(_attributes);
-    if (attribute.getValue() == null) {
+    if (attribute.value == null) {
       merged.remove(attribute.key);
     } else {
       merged[attribute.key] = attribute;

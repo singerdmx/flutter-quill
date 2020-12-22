@@ -79,7 +79,7 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       return null;
     }
 
-    var blockStyle = <String, dynamic>{attribute.key: attribute.getValue()};
+    var blockStyle = <String, dynamic>{attribute.key: attribute.value};
 
     Map<String, dynamic> resetStyle;
 

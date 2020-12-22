@@ -168,7 +168,7 @@ class Line extends Container<Leaf> {
 
     if (parent is Block) {
       Attribute parentStyle = (parent as Block).style.getBlockExceptHeader();
-      if (blockStyle.getValue() == null) {
+      if (blockStyle.value == null) {
         _unwrap();
       } else if (blockStyle != parentStyle) {
         _unwrap();
@@ -177,7 +177,7 @@ class Line extends Container<Leaf> {
         _wrap(block);
         block.adjust();
       }
-    } else if (blockStyle.getValue() != null) {
+    } else if (blockStyle.value != null) {
       Block block = Block();
       block.applyAttribute(blockStyle);
       _wrap(block);
