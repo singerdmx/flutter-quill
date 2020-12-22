@@ -9,9 +9,12 @@ enum AttributeScope {
 class Attribute<T> {
   final String key;
   final AttributeScope scope;
-  T value;
+  T _value;
 
-  Attribute(this.key, this.scope, this.value);
+  Attribute(this.key, this.scope, this._value);
+
+  T getValue() => _value;
+  setValue(T val) => _value = val;
 
   static final Map<String, Attribute> _registry = {
     Attribute.bold.key: Attribute.bold,
@@ -49,10 +52,10 @@ class Attribute<T> {
 
   static Attribute<int> get h3 => HeaderAttribute(level: 3);
 
-  // "attributes":{"list":"ordered"}
+  // "attributes":{"list":"bullet"}
   static Attribute<String> get ul => ListAttribute('bullet');
 
-  // "attributes":{"list":"bullet"}
+  // "attributes":{"list":"ordered"}
   static Attribute<String> get ol => ListAttribute('ordered');
 
   bool get isInline => scope == AttributeScope.INLINE;
@@ -60,7 +63,7 @@ class Attribute<T> {
   bool get isBlockExceptHeader =>
       scope == AttributeScope.BLOCK && key != Attribute.header.key;
 
-  Map<String, dynamic> toJson() => <String, dynamic>{key: value};
+  Map<String, dynamic> toJson() => <String, dynamic>{key: _value};
 
   static Attribute fromKeyValue(String key, dynamic value) {
     if (!_registry.containsKey(key)) {
@@ -69,13 +72,13 @@ class Attribute<T> {
     Attribute origin = _registry[key];
     Attribute attribute = clone(origin);
     if (value != null) {
-      attribute.value = value;
+      attribute.setValue(value);
     }
     return attribute;
   }
   
   static Attribute clone(Attribute origin) {
-    return Attribute(origin.key, origin.scope, origin.value);
+    return Attribute(origin.key, origin.scope, origin.getValue());
   }
 
   @override
@@ -85,15 +88,15 @@ class Attribute<T> {
     Attribute<T> typedOther = other;
     return key == typedOther.key &&
         scope == typedOther.scope &&
-        value == typedOther.value;
+        _value == typedOther._value;
   }
 
   @override
-  int get hashCode => hash3(key, scope, value);
+  int get hashCode => hash3(key, scope, _value);
 
   @override
   String toString() {
-    return 'Attribute{key: $key, scope: $scope, value: $value}';
+    return 'Attribute{key: $key, scope: $scope, value: $_value}';
   }
 }
 
@@ -118,7 +121,7 @@ class LinkAttribute extends Attribute<String> {
 }
 
 class HeaderAttribute extends Attribute<int> {
-  HeaderAttribute({int level = null}) : super('header', AttributeScope.BLOCK, level);
+  HeaderAttribute({int level}) : super('header', AttributeScope.BLOCK, level);
 }
 
 class ListAttribute extends Attribute<String> {

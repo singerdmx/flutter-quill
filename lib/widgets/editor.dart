@@ -298,7 +298,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       if (getEditor().widget.readOnly) {
         getEditor()
             .widget
-            .onLaunchUrl(segment.style.attributes[Attribute.link.key].value);
+            .onLaunchUrl(segment.style.attributes[Attribute.link.key].getValue());
       }
     }
   }

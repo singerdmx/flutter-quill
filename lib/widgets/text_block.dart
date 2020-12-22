@@ -145,7 +145,7 @@ class EditableTextBlock extends StatelessWidget {
 
     Map<String, Attribute> attrs = block.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
-      int level = attrs[Attribute.header.key].value;
+      int level = attrs[Attribute.header.key].getValue();
       switch (level) {
         case 1:
           top = defaultStyles.h1.verticalSpacing.item1;
