@@ -53,7 +53,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
       op = itr.next();
       String text = op.data is String ? op.data as String : '';
       int lineBreak = text.indexOf('\n');
-      if (lineBreak < 0) {
+      if (lineBreak == -1) {
         delta..retain(op.length);
         continue;
       }
@@ -68,6 +68,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
         attributes.addAll(attrs);
       }
       delta..retain(lineBreak)..retain(1, attributes);
+      break;
     }
     return delta;
   }
