@@ -73,6 +73,30 @@
       "insert":"Bullet Journal"
    },
    {
+      "insert":":\nTrack personal and group journals (ToDo, Note, Ledger) from multiple views with timely reminders"
+   },
+   {
+      "attributes":{
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Share your tasks and notes with teammates, and see changes as they happen in real-time, across all devices"
+   },
+   {
+      "attributes":{
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Check out what you and your teammates are working on each day"
+   },
+   {
+      "attributes":{
+         "list":"ordered"
+      },
       "insert":"\n"
    }
 ]
