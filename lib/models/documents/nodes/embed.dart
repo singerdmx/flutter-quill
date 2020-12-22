@@ -77,4 +77,8 @@ class BlockEmbed extends Embeddable {
     String type, {
     Map<String, dynamic> data = const {},
   }) : super(type, false, data);
+
+  static final BlockEmbed horizontalRule = BlockEmbed('hr');
+  static BlockEmbed image(String source) =>
+      BlockEmbed('image', data: {'source': source});
 }
