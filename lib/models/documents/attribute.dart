@@ -54,7 +54,9 @@ class Attribute<T> {
     Attribute.italic.key,
     Attribute.underline.key,
     Attribute.strikeThrough.key,
-    Attribute.link.key
+    Attribute.link.key,
+    Attribute.color.key,
+    Attribute.background.key
   };
 
   static final Set<String> blockKeys = {
@@ -84,8 +86,7 @@ class Attribute<T> {
 
   bool get isInline => scope == AttributeScope.INLINE;
 
-  bool get isBlockExceptHeader =>
-      scope == AttributeScope.BLOCK && key != Attribute.header.key;
+  bool get isBlockExceptHeader => blockKeysExceptHeader.contains(key);
 
   Map<String, dynamic> toJson() => <String, dynamic>{key: value};
 

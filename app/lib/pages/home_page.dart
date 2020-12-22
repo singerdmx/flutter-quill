@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,9 +20,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    print(Directory.current.path); // /
-
     _loadFromAssets();
   }
 
@@ -91,17 +87,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _embedBuilder(BuildContext context, leaf.Embed node) {
-    if (node.value.type == 'hr') {
-      final style = QuillStyles.getStyles(context, true);
-      return Divider(
-        height: style.paragraph.style.fontSize * style.paragraph.style.height,
-        thickness: 2,
-        color: Colors.grey.shade200,
-      );
+    switch (node.value.type) {
+      case 'hr':
+        final style = QuillStyles.getStyles(context, true);
+        return Divider(
+          height: style.paragraph.style.fontSize * style.paragraph.style.height,
+          thickness: 2,
+          color: Colors.grey.shade200,
+        );
+      default:
+        throw UnimplementedError(
+            'Embeddable type "${node.value.type}" is not supported by default embed '
+            'builder of QuillEditor. You must pass your own builder function to '
+            'embedBuilder property of QuillEditor or QuillField widgets.');
     }
-    throw UnimplementedError(
-        'Embeddable type "${node.value.type}" is not supported by default embed '
-        'builder of QuillEditor. You must pass your own builder function to '
-        'embedBuilder property of QuillEditor or QuillField widgets.');
   }
 }

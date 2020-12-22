@@ -9,7 +9,13 @@
       "insert":"\n"
    },
    {
-      "insert":"Rich text editor for Flutter"
+      "insert":{
+         "_type":"hr",
+         "_inline":false
+      }
+   },
+   {
+      "insert":"\nRich text editor for Flutter"
    },
    {
       "attributes":{
