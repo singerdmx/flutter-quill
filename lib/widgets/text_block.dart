@@ -75,7 +75,7 @@ class EditableTextBlock extends StatelessWidget {
     int index = 0;
     for (Line line in block.children) {
       index++;
-      children.add(EditableTextLine(
+      EditableTextLine editableTextLine = EditableTextLine(
           line,
           _buildLeading(context, line, index, count),
           TextLine(
@@ -91,7 +91,8 @@ class EditableTextBlock extends StatelessWidget {
           enableInteractiveSelection,
           hasFocus,
           MediaQuery.of(context).devicePixelRatio,
-          cursorCont));
+          cursorCont);
+      children.add(editableTextLine);
     }
     return children.toList(growable: false);
   }

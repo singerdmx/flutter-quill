@@ -585,7 +585,7 @@ class RawEditorState extends EditorState
         result.add(editableTextLine);
       } else if (node is Block) {
         Map<String, Attribute> attrs = node.style.attributes;
-        result.add(EditableTextBlock(
+        EditableTextBlock editableTextBlock = EditableTextBlock(
             node,
             _textDirection,
             _getVerticalSpacingForBlock(node, _styles),
@@ -597,7 +597,8 @@ class RawEditorState extends EditorState
                 ? EdgeInsets.all(16.0)
                 : null,
             widget.embedBuilder,
-            _cursorCont));
+            _cursorCont);
+        result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
       }

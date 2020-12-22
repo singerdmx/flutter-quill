@@ -57,12 +57,13 @@ abstract class Node extends LinkedListEntry<Node> {
   }
 
   int getDocumentOffset() {
-    return parent is! Root ? parent.getDocumentOffset() : 0 + getOffset();
+    final parentOffset = (parent is! Root) ? parent.getDocumentOffset() : 0;
+    return parentOffset + getOffset();
   }
 
   bool containsOffset(int offset) {
-    return getDocumentOffset() <= offset &&
-        offset < getDocumentOffset() + this.length;
+    final o = getDocumentOffset();
+    return o <= offset && offset < o + length;
   }
 
   @override
