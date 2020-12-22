@@ -25,5 +25,48 @@
          "header":3
       },
       "insert":"\n"
+   },
+   {
+      "insert":"This "
+   },
+   {
+      "attributes":{
+         "italic":true
+      },
+      "insert":"library"
+   },
+   {
+      "insert":" supports "
+   },
+   {
+      "attributes":{
+         "bold":true
+      },
+      "insert":"mobile"
+   },
+   {
+      "insert":" platform "
+   },
+   {
+      "attributes":{
+         "underline":true,
+         "bold":true
+      },
+      "insert":"only"
+   },
+   {
+      "insert":" and "
+   },
+   {
+      "attributes":{
+         "strike":true
+      },
+      "insert":"web"
+   },
+   {
+      "insert":" is not supported."
+   },
+   {
+      "insert":"\n"
    }
 ]
