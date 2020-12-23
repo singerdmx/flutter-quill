@@ -233,12 +233,9 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
   }
 
   _toggleAttribute() {
-    if (_isToggled) {
-      widget.controller
-          .formatSelection(Attribute.clone(widget.attribute, null));
-    } else {
-      widget.controller.formatSelection(widget.attribute);
-    }
+    widget.controller.formatSelection(_isToggled
+        ? Attribute.clone(widget.attribute, null)
+        : widget.attribute);
   }
 }
 
@@ -267,18 +264,18 @@ Widget defaultToggleStyleButtonBuilder(
   );
 }
 
-class SelectHeadingStyleButton extends StatefulWidget {
+class SelectHeaderStyleButton extends StatefulWidget {
   final QuillController controller;
 
-  const SelectHeadingStyleButton({Key key, @required this.controller})
+  const SelectHeaderStyleButton({Key key, @required this.controller})
       : super(key: key);
 
   @override
-  _SelectHeadingStyleButtonState createState() =>
-      _SelectHeadingStyleButtonState();
+  _SelectHeaderStyleButtonState createState() =>
+      _SelectHeaderStyleButtonState();
 }
 
-class _SelectHeadingStyleButtonState extends State<SelectHeadingStyleButton> {
+class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
   Attribute _value;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -303,7 +300,7 @@ class _SelectHeadingStyleButtonState extends State<SelectHeadingStyleButton> {
   }
 
   @override
-  void didUpdateWidget(covariant SelectHeadingStyleButton oldWidget) {
+  void didUpdateWidget(covariant SelectHeaderStyleButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
@@ -371,6 +368,25 @@ Widget _selectHeadingStyleButtonBuilder(
   );
 }
 
+/// Controls color styles.
+///
+/// When pressed, this button displays overlay toolbar with
+/// buttons for each color.
+class ColorButton extends StatefulWidget {
+  const ColorButton({Key key}) : super(key: key);
+
+  @override
+  _ColorButtonState createState() => _ColorButtonState();
+}
+
+class _ColorButtonState extends State<ColorButton> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO
+    return null;
+  }
+}
+
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
@@ -383,7 +399,9 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showItalicButton = true,
       bool showUnderLineButton = true,
       bool showStrikeThrough = true,
-      bool showHeadingStyle = true,
+      bool showColorButton = true,
+      bool showBackgroundColorButton = true,
+      bool showHeaderStyle = true,
       bool showListNumbers = true,
       bool showListBullets = true,
       bool showCodeBlock = true,
@@ -426,13 +444,31 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
+      SizedBox(width: 1),
       Visibility(
-          visible: showHeadingStyle,
+        visible: showColorButton,
+        child: ToggleStyleButton(
+          attribute: ColorAttribute('#000000'),
+          icon: Icons.format_color_text,
+          controller: controller,
+        ),
+      ),
+      SizedBox(width: 1),
+      Visibility(
+        visible: showBackgroundColorButton,
+        child: ToggleStyleButton(
+          attribute: BackgroundAttribute('#ffffff'),
+          icon: Icons.format_color_fill,
+          controller: controller,
+        ),
+      ),
+      Visibility(
+          visible: showHeaderStyle,
           child: VerticalDivider(
               indent: 16, endIndent: 16, color: Colors.grey.shade400)),
       Visibility(
-          visible: showHeadingStyle,
-          child: SelectHeadingStyleButton(controller: controller)),
+          visible: showHeaderStyle,
+          child: SelectHeaderStyleButton(controller: controller)),
       VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400),
       Visibility(
         visible: showListNumbers,
