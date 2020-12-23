@@ -374,19 +374,12 @@ Widget _selectHeadingStyleButtonBuilder(
 /// When pressed, this button displays overlay toolbar with
 /// buttons for each color.
 class ColorButton extends StatefulWidget {
-  final Attribute attribute;
-
   final IconData icon;
 
   final QuillController controller;
 
-  ColorButton(
-      {Key key,
-      @required this.attribute,
-      @required this.icon,
-      @required this.controller})
-      : assert(attribute.value != null),
-        assert(icon != null),
+  ColorButton({Key key, @required this.icon, @required this.controller})
+      : assert(icon != null),
         assert(controller != null),
         super(key: key);
 
@@ -395,19 +388,8 @@ class ColorButton extends StatefulWidget {
 }
 
 class _ColorButtonState extends State<ColorButton> {
-
   @override
   Widget build(BuildContext context) {
-    return _defaultToggleStyleButtonBuilder(
-        context, widget.attribute, widget.icon, _showColorPicker);
-  }
-
-  Widget _defaultToggleStyleButtonBuilder(
-    BuildContext context,
-    Attribute attribute,
-    IconData icon,
-    VoidCallback onPressed,
-  ) {
     final theme = Theme.of(context);
     final iconColor = theme.iconTheme.color;
     final fillColor = theme.canvasColor;
@@ -415,9 +397,9 @@ class _ColorButtonState extends State<ColorButton> {
       highlightElevation: 0,
       hoverElevation: 0,
       size: 32,
-      icon: Icon(icon, size: 18, color: iconColor),
+      icon: Icon(widget.icon, size: 18, color: iconColor),
       fillColor: fillColor,
-      onPressed: onPressed,
+      onPressed: _showColorPicker,
     );
   }
 
@@ -503,7 +485,6 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: showColorButton,
         child: ColorButton(
-          attribute: ColorAttribute('#000000'),
           icon: Icons.format_color_text,
           controller: controller,
         ),
