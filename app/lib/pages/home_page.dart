@@ -79,17 +79,10 @@ class _HomePageState extends State<HomePage> {
               enableInteractiveSelection: true,
               expands: false,
               padding: EdgeInsets.zero,
-              onLaunchUrl: _launchUrl,
             ),
           ),
         ),
       ],
     );
-  }
-
-  void _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    }
   }
 }

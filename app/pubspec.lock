@@ -190,7 +190,7 @@ packages:
     source: hosted
     version: "1.3.0-nullsafety.3"
   url_launcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher
       url: "https://pub.dartlang.org"

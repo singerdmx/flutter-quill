@@ -15,6 +15,7 @@ import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'box.dart';
 import 'controller.dart';
@@ -103,7 +104,7 @@ class QuillEditor extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final Brightness keyboardAppearance;
   final ScrollPhysics scrollPhysics;
-  final ValueChanged<String> onLaunchUrl;
+  ValueChanged<String> onLaunchUrl;
   final EmbedBuilder embedBuilder;
 
   QuillEditor(
@@ -316,14 +317,23 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return;
     }
     Leaf segment = segmentResult.node as Leaf;
-    if (segment.style.containsKey(Attribute.link.key) &&
-        getEditor().widget.onLaunchUrl != null) {
+    if (segment.style.containsKey(Attribute.link.key)) {
+      var launchUrl = getEditor().widget.onLaunchUrl;
+      if (launchUrl == null) {
+        launchUrl = _launchUrl;
+      }
       String link = segment.style.attributes[Attribute.link.key].value;
       if (getEditor().widget.readOnly &&
           link != null &&
           urlRegExp.firstMatch(link) != null) {
-        getEditor().widget.onLaunchUrl(link);
+        launchUrl(link);
       }
+    }
+  }
+
+  void _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
     }
   }
 
