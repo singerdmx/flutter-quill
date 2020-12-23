@@ -314,5 +314,83 @@
          "list":"ordered"
       },
       "insert":"\n"
+   },
+   {
+      "insert":"Create a BuJo serving as project or folder"
+   },
+   {
+      "attributes":{
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Organize your"
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"tasks"
+   },
+   {
+      "attributes":{
+         "indent":2,
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"notes"
+   },
+   {
+      "attributes":{
+         "indent":2,
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"transactions"
+   },
+   {
+      "attributes":{
+         "indent":2,
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"under BuJo "
+   },
+   {
+      "attributes":{
+         "indent":3,
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"See them in Calendar"
+   },
+   {
+      "attributes":{
+         "list":"bullet"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"or hierarchical view"
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"bullet"
+      },
+      "insert":"\n"
    }
 ]
