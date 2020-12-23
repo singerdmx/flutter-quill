@@ -635,6 +635,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           icon: Icons.image,
           controller: controller,
           imageSource: ImageSource.gallery,
+          uploadFileCallback: uploadFileCallback,
         ),
       ),
       SizedBox(width: 1),
@@ -644,6 +645,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           icon: Icons.photo_camera,
           controller: controller,
           imageSource: ImageSource.camera,
+          uploadFileCallback: uploadFileCallback,
         ),
       ),
       Visibility(

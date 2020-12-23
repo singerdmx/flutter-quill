@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app/pages/read_only_page.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +69,9 @@ class _HomePageState extends State<HomePage> {
   Widget _buildWelcomeEditor(BuildContext context) {
     return Column(
       children: [
-        QuillToolbar.basic(controller: _controller),
+        QuillToolbar.basic(
+            controller: _controller,
+            uploadFileCallback: _fakeUploadImageCallBack),
         Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
         Expanded(
           child: Container(
@@ -88,6 +92,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
     );
+  }
+
+  Future<String> _fakeUploadImageCallBack(File file) async {
+    print(file);
+    var completer = new Completer<String>();
+    completer.complete(
+        'https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png');
+    return completer.future;
   }
 
   Widget _buildMenuBar(BuildContext context) {
