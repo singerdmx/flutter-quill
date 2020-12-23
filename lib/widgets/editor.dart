@@ -19,6 +19,7 @@ import 'package:flutter_quill/widgets/text_selection.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
+import 'default_styles.dart';
 import 'delegate.dart';
 
 abstract class EditorState extends State<RawEditor> {
@@ -66,6 +67,23 @@ abstract class RenderAbstractEditor {
   void selectPosition(SelectionChangedCause cause);
 }
 
+Widget _defaultEmbedBuilder(BuildContext context, Embed node) {
+  switch (node.value.type) {
+    case 'hr':
+      final style = QuillStyles.getStyles(context, true);
+      return Divider(
+        height: style.paragraph.style.fontSize * style.paragraph.style.height,
+        thickness: 2,
+        color: Colors.grey.shade200,
+      );
+    default:
+      throw UnimplementedError(
+          'Embeddable type "${node.value.type}" is not supported by default embed '
+          'builder of QuillEditor. You must pass your own builder function to '
+          'embedBuilder property of QuillEditor or QuillField widgets.');
+  }
+}
+
 class QuillEditor extends StatefulWidget {
   final QuillController controller;
   final FocusNode focusNode;
@@ -102,7 +120,7 @@ class QuillEditor extends StatefulWidget {
       this.keyboardAppearance = Brightness.light,
       this.scrollPhysics,
       this.onLaunchUrl,
-      @required this.embedBuilder})
+      this.embedBuilder = _defaultEmbedBuilder})
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),

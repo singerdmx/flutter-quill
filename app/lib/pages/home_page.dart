@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
-import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/widgets/controller.dart';
-import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
 
@@ -77,7 +75,6 @@ class _HomePageState extends State<HomePage> {
               focusNode: _focusNode,
               autoFocus: true,
               readOnly: false,
-              embedBuilder: _embedBuilder,
               enableInteractiveSelection: true,
               expands: false,
               padding: EdgeInsets.zero,
@@ -86,22 +83,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
     );
-  }
-
-  Widget _embedBuilder(BuildContext context, leaf.Embed node) {
-    switch (node.value.type) {
-      case 'hr':
-        final style = QuillStyles.getStyles(context, true);
-        return Divider(
-          height: style.paragraph.style.fontSize * style.paragraph.style.height,
-          thickness: 2,
-          color: Colors.grey.shade200,
-        );
-      default:
-        throw UnimplementedError(
-            'Embeddable type "${node.value.type}" is not supported by default embed '
-            'builder of QuillEditor. You must pass your own builder function to '
-            'embedBuilder property of QuillEditor or QuillField widgets.');
-    }
   }
 }
