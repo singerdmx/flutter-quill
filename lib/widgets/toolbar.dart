@@ -574,7 +574,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showCodeBlock = true,
       bool showQuote = true,
       bool showLink = true,
-      bool showHorizontalRule = true,
+      bool showHorizontalRule = false,
       UploadFileCallback uploadFileCallback}) {
     return QuillToolbar(key: key, children: [
       Visibility(
