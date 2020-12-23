@@ -104,7 +104,7 @@ class QuillEditor extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final Brightness keyboardAppearance;
   final ScrollPhysics scrollPhysics;
-  ValueChanged<String> onLaunchUrl;
+  final ValueChanged<String> onLaunchUrl;
   final EmbedBuilder embedBuilder;
 
   QuillEditor(
