@@ -226,5 +226,93 @@
          "align":"justify"
       },
       "insert":"\n"
+   },
+   {
+      "insert":"Have trouble finding things? "
+   },
+   {
+      "attributes":{
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Just type in the search bar"
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"and easily find contents"
+   },
+   {
+      "attributes":{
+         "indent":2,
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"across projects or folders."
+   },
+   {
+      "attributes":{
+         "indent":2,
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"It matches text in your note or task."
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"Enable reminders so that you will get notified by"
+   },
+   {
+      "attributes":{
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"email"
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"message on your phone"
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"ordered"
+      },
+      "insert":"\n"
+   },
+   {
+      "insert":"popup on the web site"
+   },
+   {
+      "attributes":{
+         "indent":1,
+         "list":"ordered"
+      },
+      "insert":"\n"
    }
 ]

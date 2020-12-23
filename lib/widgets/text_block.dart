@@ -174,12 +174,12 @@ class EditableTextBlock extends StatelessWidget {
       Tuple2 lineSpacing;
       if (attrs.containsKey(Attribute.blockQuote.key)) {
         lineSpacing = defaultStyles.quote.lineSpacing;
+      } else if (attrs.containsKey(Attribute.indent.key)) {
+        lineSpacing = defaultStyles.indent.lineSpacing;
       } else if (attrs.containsKey(Attribute.list.key)) {
         lineSpacing = defaultStyles.lists.lineSpacing;
       } else if (attrs.containsKey(Attribute.codeBlock.key)) {
         lineSpacing = defaultStyles.code.lineSpacing;
-      } else if (attrs.containsKey(Attribute.indent.key)) {
-        lineSpacing = defaultStyles.indent.lineSpacing;
       } else if (attrs.containsKey(Attribute.align.key)) {
         lineSpacing = defaultStyles.align.lineSpacing;
       }
