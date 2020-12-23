@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/style.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'controller.dart';
 
 const double kToolbarHeight = 56.0;
+
+typedef UploadFileCallback = Future<String> Function(File file);
 
 class InsertEmbedButton extends StatelessWidget {
   final QuillController controller;
@@ -369,21 +374,48 @@ Widget _selectHeadingStyleButtonBuilder(
   );
 }
 
-class InsertImageButton extends StatefulWidget {
+class ImageButton extends StatefulWidget {
   final IconData icon;
 
   final QuillController controller;
 
-  InsertImageButton({Key key, @required this.icon, @required this.controller})
+  final UploadFileCallback uploadFileCallback;
+
+  final ImageSource imageSource;
+
+  ImageButton(
+      {Key key,
+      @required this.icon,
+      @required this.controller,
+      @required this.imageSource,
+      this.uploadFileCallback})
       : assert(icon != null),
         assert(controller != null),
         super(key: key);
 
   @override
-  _InsertImageButtonState createState() => _InsertImageButtonState();
+  _ImageButtonState createState() => _ImageButtonState();
 }
 
-class _InsertImageButtonState extends State<InsertImageButton> {
+class _ImageButtonState extends State<ImageButton> {
+  final _picker = ImagePicker();
+
+  Future<String> _pickImage(ImageSource source) async {
+    final PickedFile pickedFile = await _picker.getImage(source: source);
+    final File file = File(pickedFile.path);
+
+    if (file == null || widget.uploadFileCallback == null) return null;
+    // We simply return the absolute path to selected file.
+    try {
+      String url = await widget.uploadFileCallback(file);
+      print('Image uploaded and its url is $url');
+      return url;
+    } catch (error) {
+      print('Upload image error $error');
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -395,7 +427,18 @@ class _InsertImageButtonState extends State<InsertImageButton> {
       size: 32,
       icon: Icon(widget.icon, size: 18, color: iconColor),
       fillColor: fillColor,
-//      onPressed: ,
+      onPressed: () {
+        final index = widget.controller.selection.baseOffset;
+        final length = widget.controller.selection.extentOffset - index;
+        final image = _pickImage(widget.imageSource);
+        image.then((imageUploadUrl) => {
+              if (imageUploadUrl != null)
+                {
+                  widget.controller.replaceText(
+                      index, length, BlockEmbed(imageUploadUrl), null)
+                }
+            });
+      },
     );
   }
 }
@@ -464,7 +507,8 @@ class BackgroundColorButton extends StatefulWidget {
 
   final QuillController controller;
 
-  BackgroundColorButton({Key key, @required this.icon, @required this.controller})
+  BackgroundColorButton(
+      {Key key, @required this.icon, @required this.controller})
       : assert(icon != null),
         assert(controller != null),
         super(key: key);
@@ -490,8 +534,8 @@ class _BackgroundColorButtonState extends State<BackgroundColorButton> {
   }
 
   void _changeColor(Color color) {
-    widget.controller
-        .formatSelection(BackgroundAttribute('#${color.value.toRadixString(16)}'));
+    widget.controller.formatSelection(
+        BackgroundAttribute('#${color.value.toRadixString(16)}'));
     Navigator.of(context).pop();
   }
 
@@ -510,7 +554,6 @@ class _BackgroundColorButtonState extends State<BackgroundColorButton> {
   }
 }
 
-
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
@@ -525,14 +568,14 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showStrikeThrough = true,
       bool showColorButton = true,
       bool showBackgroundColorButton = true,
-      bool showInsertImageButton = true,
       bool showHeaderStyle = true,
       bool showListNumbers = true,
       bool showListBullets = true,
       bool showCodeBlock = true,
       bool showQuote = true,
       bool showLink = true,
-      bool showHorizontalRule = true}) {
+      bool showHorizontalRule = true,
+      UploadFileCallback uploadFileCallback}) {
     return QuillToolbar(key: key, children: [
       Visibility(
         visible: showBoldButton,
@@ -581,17 +624,26 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: showBackgroundColorButton,
         child: BackgroundColorButton(
-          // attribute: BackgroundAttribute('#ffffff'),
           icon: Icons.format_color_fill,
           controller: controller,
         ),
       ),
       SizedBox(width: 1),
       Visibility(
-        visible: showInsertImageButton,
-        child: InsertImageButton(
+        visible: uploadFileCallback != null,
+        child: ImageButton(
           icon: Icons.image,
           controller: controller,
+          imageSource: ImageSource.gallery,
+        ),
+      ),
+      SizedBox(width: 1),
+      Visibility(
+        visible: uploadFileCallback != null,
+        child: ImageButton(
+          icon: Icons.photo_camera,
+          controller: controller,
+          imageSource: ImageSource.camera,
         ),
       ),
       Visibility(

@@ -91,8 +91,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildMenuBar(BuildContext context) {
-    final headerStyle = TextStyle(
-        fontSize: 11, color: Colors.grey.shade500, fontWeight: FontWeight.bold);
     final itemStyle = TextStyle(color: Colors.white);
     return ListView(
       children: [
