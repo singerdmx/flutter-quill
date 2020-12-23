@@ -160,7 +160,7 @@ class DefaultStyles {
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )),
-        DefaultTextBlockStyle(baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
+        DefaultTextBlockStyle(baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
         DefaultTextBlockStyle(baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null));
   }
 

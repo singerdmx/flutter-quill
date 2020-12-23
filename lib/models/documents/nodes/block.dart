@@ -45,6 +45,18 @@ class Block extends Container<Line> {
   }
 
   @override
+  String toString() {
+    final block = style.attributes.toString();
+    final buffer = StringBuffer('§ {$block}\n');
+    for (var child in children) {
+      final tree = child.isLast ? '└' : '├';
+      buffer.write('  $tree $child');
+      if (!child.isLast) buffer.writeln();
+    }
+    return buffer.toString();
+  }
+
+  @override
   Node newInstance() {
     return Block();
   }

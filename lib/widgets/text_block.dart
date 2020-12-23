@@ -15,6 +15,38 @@ import 'box.dart';
 import 'delegate.dart';
 import 'editor.dart';
 
+const List<int> arabianRomanNumbers = [
+  1000,
+  900,
+  500,
+  400,
+  100,
+  90,
+  50,
+  40,
+  10,
+  9,
+  5,
+  4,
+  1
+];
+
+const List<String> romanNumbers = [
+  "M",
+  "CM",
+  "D",
+  "CD",
+  "C",
+  "XC",
+  "L",
+  "XL",
+  "X",
+  "IX",
+  "V",
+  "IV",
+  "I"
+];
+
 class EditableTextBlock extends StatelessWidget {
   final Block block;
   final TextDirection textDirection;
@@ -26,6 +58,7 @@ class EditableTextBlock extends StatelessWidget {
   final EdgeInsets contentPadding;
   final EmbedBuilder embedBuilder;
   final CursorCont cursorCont;
+  final Map<int, int> indentLevelCounts;
 
   EditableTextBlock(
       this.block,
@@ -37,7 +70,8 @@ class EditableTextBlock extends StatelessWidget {
       this.hasFocus,
       this.contentPadding,
       this.embedBuilder,
-      this.cursorCont)
+      this.cursorCont,
+      this.indentLevelCounts)
       : assert(hasFocus != null),
         assert(embedBuilder != null),
         assert(cursorCont != null);
@@ -53,7 +87,7 @@ class EditableTextBlock extends StatelessWidget {
         verticalSpacing,
         _getDecorationForBlock(block, defaultStyles) ?? BoxDecoration(),
         contentPadding,
-        _buildChildren(context));
+        _buildChildren(context, this.indentLevelCounts));
   }
 
   BoxDecoration _getDecorationForBlock(
@@ -68,7 +102,8 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  List<Widget> _buildChildren(BuildContext context) {
+  List<Widget> _buildChildren(
+      BuildContext context, Map<int, int> indentLevelCounts) {
     DefaultStyles defaultStyles = QuillStyles.getStyles(context, false);
     int count = block.children.length;
     var children = <Widget>[];
@@ -77,7 +112,7 @@ class EditableTextBlock extends StatelessWidget {
       index++;
       EditableTextLine editableTextLine = EditableTextLine(
           line,
-          _buildLeading(context, line, index, count),
+          _buildLeading(context, line, index, indentLevelCounts, count),
           TextLine(
             line: line,
             textDirection: textDirection,
@@ -97,14 +132,17 @@ class EditableTextBlock extends StatelessWidget {
     return children.toList(growable: false);
   }
 
-  Widget _buildLeading(BuildContext context, Line node, int index, int count) {
+  Widget _buildLeading(BuildContext context, Line line, int index,
+      Map<int, int> indentLevelCounts, int count) {
     DefaultStyles defaultStyles = QuillStyles.getStyles(context, false);
-    Map<String, Attribute> attrs = block.style.attributes;
+    Map<String, Attribute> attrs = line.style.attributes;
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return _NumberPoint(
         index: index,
+        indentLevelCounts: indentLevelCounts,
         count: count,
         style: defaultStyles.paragraph.style,
+        attrs: attrs,
         width: 32.0,
         padding: 8.0,
       );
@@ -120,10 +158,12 @@ class EditableTextBlock extends StatelessWidget {
     if (attrs.containsKey(Attribute.codeBlock.key)) {
       return _NumberPoint(
         index: index,
+        indentLevelCounts: indentLevelCounts,
         count: count,
         style: defaultStyles.code.style
             .copyWith(color: defaultStyles.code.style.color.withOpacity(0.4)),
         width: 32.0,
+        attrs: attrs,
         padding: 16.0,
         withDot: false,
       );
@@ -513,30 +553,105 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
 
 class _NumberPoint extends StatelessWidget {
   final int index;
+  final Map<int, int> indentLevelCounts;
   final int count;
   final TextStyle style;
   final double width;
+  final Map<String, Attribute> attrs;
   final bool withDot;
   final double padding;
 
   const _NumberPoint({
     Key key,
     @required this.index,
+    @required this.indentLevelCounts,
     @required this.count,
     @required this.style,
     @required this.width,
+    @required this.attrs,
     this.withDot = true,
     this.padding = 0.0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String s = this.index.toString();
+    int level = 0;
+    if (!this.attrs.containsKey(Attribute.indent.key) &&
+        !this.indentLevelCounts.containsKey(1)) {
+      this.indentLevelCounts.clear();
+      return Container(
+        alignment: AlignmentDirectional.topEnd,
+        child: Text(withDot ? '$s.' : '$s', style: style),
+        width: width,
+        padding: EdgeInsetsDirectional.only(end: padding),
+      );
+    }
+    if (this.attrs.containsKey(Attribute.indent.key)) {
+      level = this.attrs[Attribute.indent.key].value;
+    } else {
+      // first level but is back from previous indent level
+      // supposed to be "2."
+      this.indentLevelCounts[0] = 1;
+    }
+    if (this.indentLevelCounts.containsKey(level + 1)) {
+      // last visited level is done, going up
+      this.indentLevelCounts[level + 1] = 0;
+    }
+    int count = (this.indentLevelCounts[level] ?? 0) + 1;
+    this.indentLevelCounts[level] = count;
+
+    s = count.toString();
+    if (level % 3 == 1) {
+      // a. b. c. d. e. ...
+      s = _toExcelSheetColumnTitle(count);
+    } else if (level % 3 == 2) {
+      // i. ii. iii. ...
+      s = _intToRoman(count);
+    }
+    // level % 3 == 0 goes back to 1. 2. 3.
+
     return Container(
       alignment: AlignmentDirectional.topEnd,
-      child: Text(withDot ? '$index.' : '$index', style: style),
+      child: Text(withDot ? '$s.' : '$s', style: style),
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
     );
+  }
+
+  String _toExcelSheetColumnTitle(int n) {
+    final result = StringBuffer();
+    while (n > 0) {
+      n--;
+      result.write(String.fromCharCode((n % 26).floor() + 97));
+      n = (n / 26).floor();
+    }
+
+    return result.toString().split('').reversed.join('');
+  }
+
+  String _intToRoman(int input) {
+    var num = input;
+
+    if (num < 0) {
+      return "";
+    } else if (num == 0) {
+      return "nulla";
+    }
+
+    final builder = StringBuffer();
+    for (var a = 0; a < arabianRomanNumbers.length; a++) {
+      final times = (num / arabianRomanNumbers[a])
+          .truncate(); // equals 1 only when arabianRomanNumbers[a] = num
+      // executes n times where n is the number of times you have to add
+      // the current roman number value to reach current num.
+      builder.write(romanNumbers[a] * times);
+      num -= times *
+          arabianRomanNumbers[
+              a]; // subtract previous roman number value from num
+    }
+
+    return builder.toString();
   }
 }
 

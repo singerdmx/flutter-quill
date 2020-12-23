@@ -562,6 +562,7 @@ class RawEditorState extends EditorState
 
   _buildChildren(BuildContext context) {
     final result = <Widget>[];
+    Map<int, int> indentLevelCounts = {};
     for (Node node in widget.controller.document.root.children) {
       if (node is Line) {
         TextLine textLine = TextLine(
@@ -597,7 +598,8 @@ class RawEditorState extends EditorState
                 ? EdgeInsets.all(16.0)
                 : null,
             widget.embedBuilder,
-            _cursorCont);
+            _cursorCont,
+            indentLevelCounts);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
