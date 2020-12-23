@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/style.dart';
@@ -373,17 +374,71 @@ Widget _selectHeadingStyleButtonBuilder(
 /// When pressed, this button displays overlay toolbar with
 /// buttons for each color.
 class ColorButton extends StatefulWidget {
-  const ColorButton({Key key}) : super(key: key);
+  final Attribute attribute;
+
+  final IconData icon;
+
+  final QuillController controller;
+
+  ColorButton(
+      {Key key,
+      @required this.attribute,
+      @required this.icon,
+      @required this.controller})
+      : assert(attribute.value != null),
+        assert(icon != null),
+        assert(controller != null),
+        super(key: key);
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
 }
 
 class _ColorButtonState extends State<ColorButton> {
+
   @override
   Widget build(BuildContext context) {
-    // TODO
-    return null;
+    return _defaultToggleStyleButtonBuilder(
+        context, widget.attribute, widget.icon, _showColorPicker);
+  }
+
+  Widget _defaultToggleStyleButtonBuilder(
+    BuildContext context,
+    Attribute attribute,
+    IconData icon,
+    VoidCallback onPressed,
+  ) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+    final fillColor = theme.canvasColor;
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: 32,
+      icon: Icon(icon, size: 18, color: iconColor),
+      fillColor: fillColor,
+      onPressed: onPressed,
+    );
+  }
+
+  void _changeColor(Color color) {
+    widget.controller
+        .formatSelection(ColorAttribute('#${color.value.toRadixString(16)}'));
+    Navigator.of(context).pop();
+  }
+
+  _showColorPicker() {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+          title: const Text('Select Color'),
+          content: SingleChildScrollView(
+            child: MaterialPicker(
+              pickerColor: Color(0),
+              onColorChanged: _changeColor,
+            ),
+          )),
+    );
   }
 }
 
@@ -447,7 +502,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       SizedBox(width: 1),
       Visibility(
         visible: showColorButton,
-        child: ToggleStyleButton(
+        child: ColorButton(
           attribute: ColorAttribute('#000000'),
           icon: Icons.format_color_text,
           controller: controller,
