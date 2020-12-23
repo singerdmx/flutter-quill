@@ -101,7 +101,7 @@ class ResolveInlineFormatRule extends FormatRule {
   @override
   Delta applyRule(Delta document, int index,
       {int len, Object data, Attribute attribute}) {
-    if (attribute.scope != AttributeScope.BLOCK) {
+    if (attribute.scope != AttributeScope.INLINE) {
       return null;
     }
 
