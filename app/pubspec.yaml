@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  url_launcher: ^5.7.10
 
 
   # The following adds the Cupertino Icons font to your application.

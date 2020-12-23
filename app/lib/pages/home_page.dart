@@ -6,6 +6,7 @@ import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -78,10 +79,17 @@ class _HomePageState extends State<HomePage> {
               enableInteractiveSelection: true,
               expands: false,
               padding: EdgeInsets.zero,
+              onLaunchUrl: _launchUrl,
             ),
           ),
         ),
       ],
     );
+  }
+
+  void _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
   }
 }

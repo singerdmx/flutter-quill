@@ -596,7 +596,7 @@ class _NumberPoint extends StatelessWidget {
     }
     if (this.indentLevelCounts.containsKey(level + 1)) {
       // last visited level is done, going up
-      this.indentLevelCounts[level + 1] = 0;
+      this.indentLevelCounts.remove(level + 1);
     }
     int count = (this.indentLevelCounts[level] ?? 0) + 1;
     this.indentLevelCounts[level] = count;

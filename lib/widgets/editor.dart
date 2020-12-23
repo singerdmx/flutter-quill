@@ -22,6 +22,9 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 
+const urlPattern =
+    r"^((https?|http)://)?([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?$";
+
 abstract class EditorState extends State<RawEditor> {
   TextEditingValue getTextEditingValue();
 
@@ -252,6 +255,8 @@ class _QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
+  static final urlRegExp = new RegExp(urlPattern, caseSensitive: false);
+
   final _QuillEditorState _state;
 
   _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
@@ -313,10 +318,11 @@ class _QuillEditorSelectionGestureDetectorBuilder
     Leaf segment = segmentResult.node as Leaf;
     if (segment.style.containsKey(Attribute.link.key) &&
         getEditor().widget.onLaunchUrl != null) {
-      if (getEditor().widget.readOnly) {
-        getEditor()
-            .widget
-            .onLaunchUrl(segment.style.attributes[Attribute.link.key].value);
+      String link = segment.style.attributes[Attribute.link.key].value;
+      if (getEditor().widget.readOnly &&
+          link != null &&
+          urlRegExp.firstMatch(link) != null) {
+        getEditor().widget.onLaunchUrl(link);
       }
     }
   }
