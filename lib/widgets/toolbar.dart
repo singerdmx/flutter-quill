@@ -369,6 +369,37 @@ Widget _selectHeadingStyleButtonBuilder(
   );
 }
 
+class InsertImageButton extends StatefulWidget {
+  final IconData icon;
+
+  final QuillController controller;
+
+  InsertImageButton({Key key, @required this.icon, @required this.controller})
+      : assert(icon != null),
+        assert(controller != null),
+        super(key: key);
+
+  @override
+  _InsertImageButtonState createState() => _InsertImageButtonState();
+}
+
+class _InsertImageButtonState extends State<InsertImageButton> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+    final fillColor = theme.canvasColor;
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: 32,
+      icon: Icon(widget.icon, size: 18, color: iconColor),
+      fillColor: fillColor,
+//      onPressed: ,
+    );
+  }
+}
+
 /// Controls color styles.
 ///
 /// When pressed, this button displays overlay toolbar with
@@ -438,6 +469,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showStrikeThrough = true,
       bool showColorButton = true,
       bool showBackgroundColorButton = true,
+      bool showInsertImageButton = true,
       bool showHeaderStyle = true,
       bool showListNumbers = true,
       bool showListBullets = true,
@@ -495,6 +527,14 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         child: ToggleStyleButton(
           attribute: BackgroundAttribute('#ffffff'),
           icon: Icons.format_color_fill,
+          controller: controller,
+        ),
+      ),
+      SizedBox(width: 1),
+      Visibility(
+        visible: showInsertImageButton,
+        child: InsertImageButton(
+          icon: Icons.image,
           controller: controller,
         ),
       ),
