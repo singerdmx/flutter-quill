@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/pages/read_only_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
@@ -55,6 +56,10 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [],
       ),
+      drawer: Material(
+        color: Colors.grey.shade800,
+        child: _buildMenuBar(context),
+      ),
       body: _buildWelcomeEditor(context),
     );
   }
@@ -82,6 +87,31 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildMenuBar(BuildContext context) {
+    final headerStyle = TextStyle(
+        fontSize: 11, color: Colors.grey.shade500, fontWeight: FontWeight.bold);
+    final itemStyle = TextStyle(color: Colors.white);
+    return ListView(
+      children: [
+        ListTile(
+          title: Text('Read only demo', style: itemStyle),
+          dense: true,
+          visualDensity: VisualDensity.compact,
+          onTap: _readOnly,
+        )
+      ],
+    );
+  }
+
+  void _readOnly() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => ReadOnlyPage(),
+      ),
     );
   }
 }
