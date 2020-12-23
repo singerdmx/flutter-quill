@@ -457,12 +457,12 @@ class RawEditorState extends EditorState
 
   @override
   TextEditingValue get textEditingValue {
-    return widget.controller.plainTextEditingValue;
+    return getTextEditingValue();
   }
 
   @override
   set textEditingValue(TextEditingValue value) {
-    widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+    setTextEditingValue(value);
   }
 
   @override
@@ -993,7 +993,40 @@ class RawEditorState extends EditorState
 
   @override
   setTextEditingValue(TextEditingValue value) {
-    widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+    if (value.text == textEditingValue.text) {
+      widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+    } else {
+      __setEditingValue(value);
+    }
+  }
+
+  void __setEditingValue(TextEditingValue value) async {
+    if (await __isItCut(value)) {
+      widget.controller.replaceText(
+        textEditingValue.selection.start,
+        textEditingValue.text.length - value.text.length,
+        '',
+        value.selection,
+      );
+    } else {
+      final TextEditingValue value = textEditingValue;
+      final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+      if (data != null) {
+        final length =
+            textEditingValue.selection.end - textEditingValue.selection.start;
+        widget.controller.replaceText(
+          value.selection.start,
+          length,
+          data.text,
+          value.selection,
+        );
+      }
+    }
+  }
+
+  Future<bool> __isItCut(TextEditingValue value) async {
+    final ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+    return textEditingValue.text.length - value.text.length == data.text.length;
   }
 
   @override
