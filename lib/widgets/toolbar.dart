@@ -455,6 +455,62 @@ class _ColorButtonState extends State<ColorButton> {
   }
 }
 
+/// Controls background color styles.
+///
+/// When pressed, this button displays overlay toolbar with
+/// buttons for each color.
+class BackgroundColorButton extends StatefulWidget {
+  final IconData icon;
+
+  final QuillController controller;
+
+  BackgroundColorButton({Key key, @required this.icon, @required this.controller})
+      : assert(icon != null),
+        assert(controller != null),
+        super(key: key);
+
+  @override
+  _BackgroundColorButtonState createState() => _BackgroundColorButtonState();
+}
+
+class _BackgroundColorButtonState extends State<BackgroundColorButton> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+    final fillColor = theme.canvasColor;
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: 32,
+      icon: Icon(widget.icon, size: 18, color: iconColor),
+      fillColor: fillColor,
+      onPressed: _showColorPicker,
+    );
+  }
+
+  void _changeColor(Color color) {
+    widget.controller
+        .formatSelection(BackgroundAttribute('#${color.value.toRadixString(16)}'));
+    Navigator.of(context).pop();
+  }
+
+  _showColorPicker() {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+          title: const Text('Select Color'),
+          content: SingleChildScrollView(
+            child: MaterialPicker(
+              pickerColor: Color(0),
+              onColorChanged: _changeColor,
+            ),
+          )),
+    );
+  }
+}
+
+
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
@@ -524,8 +580,8 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       SizedBox(width: 1),
       Visibility(
         visible: showBackgroundColorButton,
-        child: ToggleStyleButton(
-          attribute: BackgroundAttribute('#ffffff'),
+        child: BackgroundColorButton(
+          // attribute: BackgroundAttribute('#ffffff'),
           icon: Icons.format_color_fill,
           controller: controller,
         ),

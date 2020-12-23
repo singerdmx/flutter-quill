@@ -37,7 +37,6 @@ class _DemoScaffoldState extends State<DemoScaffold> {
   QuillController _controller;
 
   bool _loading = false;
-  bool _canSave = false;
 
   @override
   void didChangeDependencies() {
