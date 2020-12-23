@@ -651,7 +651,7 @@ class _NumberPoint extends StatelessWidget {
               a]; // subtract previous roman number value from num
     }
 
-    return builder.toString();
+    return builder.toString().toLowerCase();
   }
 }
 
