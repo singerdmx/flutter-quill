@@ -7,3 +7,6 @@
 
 ## [0.0.3]
 * Update home page meta data.
+
+## [0.0.4]
+* Update example.
