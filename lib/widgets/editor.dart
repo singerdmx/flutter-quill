@@ -10,6 +10,7 @@ import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
     as containerNode;
+import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/nodes/leaf.dart';
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
@@ -330,6 +331,18 @@ class _QuillEditorSelectionGestureDetectorBuilder
           link != null &&
           urlRegExp.firstMatch(link) != null) {
         launchUrl(link);
+      }
+    }
+    if (getEditor().widget.readOnly && segment.value is BlockEmbed) {
+      BlockEmbed blockEmbed = segment.value as BlockEmbed;
+      if (blockEmbed.type == 'image') {
+        Navigator.push(
+          getEditor().context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ImageTapWrapper(imageProvider: NetworkImage(blockEmbed.data)),
+          ),
+        );
       }
     }
   }
