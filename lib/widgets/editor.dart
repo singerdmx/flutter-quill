@@ -82,28 +82,13 @@ Widget _defaultEmbedBuilder(BuildContext context, Embed node) {
         color: Colors.grey.shade200,
       );
     case 'image':
-      return _buildImage(context, node.value.data);
+      return Image.network(node.value.data);
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
           'builder of QuillEditor. You must pass your own builder function to '
           'embedBuilder property of QuillEditor or QuillField widgets.');
   }
-}
-
-Widget _buildImage(BuildContext context, String imageUrl) {
-  return GestureDetector(
-    child: Image.network(imageUrl),
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              ImageTapWrapper(imageProvider: NetworkImage(imageUrl)),
-        ),
-      );
-    },
-  );
 }
 
 class QuillEditor extends StatefulWidget {
