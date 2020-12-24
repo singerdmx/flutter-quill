@@ -18,16 +18,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          children: [
-            QuillToolbar.basic(
-                controller: _controller, uploadFileCallback: _uploadImageCallBack),
-            Expanded(
-              child: Container(
-                child: QuillEditor.basic(_controller),
-              ),
-            )
-          ],
-        ));
+      children: [
+        QuillToolbar.basic(
+            controller: _controller, uploadFileCallback: _uploadImageCallBack),
+        Expanded(
+          child: Container(
+            child: QuillEditor.basic(
+              controller: _controller,
+              readOnly: false, // change to true to be view only mode
+            ),
+          ),
+        )
+      ],
+    ));
   }
 
   Future<String> _uploadImageCallBack(File file) async {

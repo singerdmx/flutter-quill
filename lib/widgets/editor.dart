@@ -137,15 +137,15 @@ class QuillEditor extends StatefulWidget {
         assert(readOnly != null),
         assert(embedBuilder != null);
 
-  factory QuillEditor.basic(QuillController controller) {
+  factory QuillEditor.basic(
+      {@required QuillController controller, bool readOnly}) {
     return QuillEditor(
         controller: controller,
         scrollController: ScrollController(),
         scrollable: true,
         focusNode: FocusNode(),
         autoFocus: true,
-        readOnly: false,
-        // change to true to be view only mode
+        readOnly: readOnly,
         enableInteractiveSelection: true,
         expands: false,
         padding: EdgeInsets.zero);
