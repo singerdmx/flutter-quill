@@ -17,11 +17,16 @@ class QuillController extends ChangeNotifier {
       : assert(document != null),
         assert(selection != null);
 
+  factory QuillController.basic() {
+    return QuillController(
+        document: Document(), selection: TextSelection.collapsed(offset: 0));
+  }
+
   TextEditingValue get plainTextEditingValue => TextEditingValue(
-    text: document.toPlainText(),
-    selection: selection,
-    composing: TextRange.empty,
-  );
+        text: document.toPlainText(),
+        selection: selection,
+        composing: TextRange.empty,
+      );
 
   Style getSelectionStyle() {
     return document
@@ -37,7 +42,7 @@ class QuillController extends ChangeNotifier {
       try {
         delta = document.replace(index, len, data);
       } catch (e) {
-        print ('document.replace failed: $e');
+        print('document.replace failed: $e');
         throw e;
       }
       if (delta != null &&
@@ -71,7 +76,7 @@ class QuillController extends ChangeNotifier {
             ChangeSource.LOCAL,
           );
         } catch (e) {
-          print ('getPositionDelta or getPositionDelta error: $e');
+          print('getPositionDelta or getPositionDelta error: $e');
           throw e;
         }
       }

@@ -113,7 +113,7 @@ class QuillEditor extends StatefulWidget {
 
   QuillEditor(
       {@required this.controller,
-      this.focusNode,
+      @required this.focusNode,
       @required this.scrollController,
       @required this.scrollable,
       @required this.padding,
@@ -132,9 +132,24 @@ class QuillEditor extends StatefulWidget {
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),
+        assert(focusNode != null),
         assert(autoFocus != null),
         assert(readOnly != null),
         assert(embedBuilder != null);
+
+  factory QuillEditor.basic(QuillController controller) {
+    return QuillEditor(
+        controller: controller,
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: FocusNode(),
+        autoFocus: true,
+        readOnly: false,
+        // change to true to be view only mode
+        enableInteractiveSelection: true,
+        expands: false,
+        padding: EdgeInsets.zero);
+  }
 
   @override
   _QuillEditorState createState() => _QuillEditorState();
