@@ -381,13 +381,13 @@ class ImageButton extends StatefulWidget {
 
   final UploadFileCallback uploadFileCallback;
 
-  final ImageSource imageSource;
+  // final ImageSource imageSource;
 
   ImageButton(
       {Key key,
       @required this.icon,
       @required this.controller,
-      @required this.imageSource,
+      // @required this.imageSource,
       this.uploadFileCallback})
       : assert(icon != null),
         assert(controller != null),
@@ -430,14 +430,14 @@ class _ImageButtonState extends State<ImageButton> {
       onPressed: () {
         final index = widget.controller.selection.baseOffset;
         final length = widget.controller.selection.extentOffset - index;
-        final image = _pickImage(widget.imageSource);
-        image.then((imageUploadUrl) => {
-              if (imageUploadUrl != null)
-                {
-                  widget.controller.replaceText(
-                      index, length, BlockEmbed(imageUploadUrl), null)
-                }
-            });
+        // final image = _pickImage(widget.imageSource);
+        // image.then((imageUploadUrl) => {
+        //       if (imageUploadUrl != null)
+        //         {
+        //           widget.controller.replaceText(
+        //               index, length, BlockEmbed(imageUploadUrl), null)
+        //         }
+        //     });
       },
     );
   }
@@ -554,6 +554,69 @@ class _BackgroundColorButtonState extends State<BackgroundColorButton> {
   }
 }
 
+class IndentButton extends StatefulWidget {
+  final IconData icon;
+
+  final QuillController controller;
+
+  IndentButton({Key key, @required this.icon, @required this.controller})
+      : assert(icon != null),
+        assert(controller != null),
+        super(key: key);
+
+  @override
+  _IndentButtonState createState() => _IndentButtonState();
+}
+
+class _IndentButtonState extends State<IndentButton> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+    final fillColor = theme.canvasColor;
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: 32,
+      icon: Icon(widget.icon, size: 18, color: iconColor),
+      fillColor: fillColor,
+//      onPressed: ,
+    );
+  }
+}
+
+class ClearFormatButton extends StatefulWidget {
+  final IconData icon;
+
+  final QuillController controller;
+
+  ClearFormatButton({Key key, @required this.icon, @required this.controller})
+      : assert(icon != null),
+        assert(controller != null),
+        super(key: key);
+
+  @override
+  _ClearFormatButtonState createState() => _ClearFormatButtonState();
+}
+
+class _ClearFormatButtonState extends State<ClearFormatButton> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+    final fillColor = theme.canvasColor;
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: 32,
+      icon: Icon(widget.icon, size: 18, color: iconColor),
+      fillColor: fillColor,
+//      onPressed: ,
+    );
+  }
+}
+
+
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
@@ -568,11 +631,13 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showStrikeThrough = true,
       bool showColorButton = true,
       bool showBackgroundColorButton = true,
+      bool showClearFormat = true,
       bool showHeaderStyle = true,
       bool showListNumbers = true,
       bool showListBullets = true,
       bool showCodeBlock = true,
       bool showQuote = true,
+      bool showIndent = true,
       bool showLink = true,
       bool showHorizontalRule = false,
       UploadFileCallback uploadFileCallback}) {
@@ -628,26 +693,33 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
       Visibility(
-        visible: uploadFileCallback != null,
-        child: ImageButton(
-          icon: Icons.image,
+        visible: showClearFormat,
+        child: ClearFormatButton(
+          icon: Icons.format_clear,
           controller: controller,
-          imageSource: ImageSource.gallery,
-          uploadFileCallback: uploadFileCallback,
         ),
       ),
-      SizedBox(width: 1),
-      Visibility(
-        visible: uploadFileCallback != null,
-        child: ImageButton(
-          icon: Icons.photo_camera,
-          controller: controller,
-          imageSource: ImageSource.camera,
-          uploadFileCallback: uploadFileCallback,
-        ),
-      ),
+      // SizedBox(width: 1),
+      // Visibility(
+      //   visible: uploadFileCallback != null,
+      //   child: ImageButton(
+      //     icon: Icons.image,
+      //     controller: controller,
+      //     imageSource: ImageSource.gallery,
+      //     uploadFileCallback: uploadFileCallback,
+      //   ),
+      // ),
+      // SizedBox(width: 1),
+      // Visibility(
+      //   visible: uploadFileCallback != null,
+      //   child: ImageButton(
+      //     icon: Icons.photo_camera,
+      //     controller: controller,
+      //     imageSource: ImageSource.camera,
+      //     uploadFileCallback: uploadFileCallback,
+      //   ),
+      // ),
       Visibility(
           visible: showHeaderStyle,
           child: VerticalDivider(
@@ -696,6 +768,14 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           visible: showQuote,
           child: VerticalDivider(
               indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+      // SizedBox(width: 1),
+      Visibility(
+        visible: showIndent,
+        child: IndentButton(
+          icon: Icons.format_indent_increase,
+          controller: controller,
+        ),
+      ),
       Visibility(
           visible: showLink, child: LinkStyleButton(controller: controller)),
       Visibility(
