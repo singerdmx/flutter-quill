@@ -160,11 +160,14 @@ class Document {
   }
 
   Object _normalize(Object data) {
-    return data is String
-        ? data
-        : data is Embeddable
-        ? data
-        : Embeddable.fromJson(data);
+    if (data is String) {
+      return data;
+    }
+
+    if (data is Embeddable) {
+      return data;
+    }
+    return Embeddable.fromJson(data);
   }
 
   close() {

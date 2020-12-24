@@ -13,6 +13,7 @@ import 'package:flutter_quill/models/documents/nodes/container.dart'
 import 'package:flutter_quill/models/documents/nodes/leaf.dart';
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
+import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -73,19 +74,36 @@ abstract class RenderAbstractEditor {
 
 Widget _defaultEmbedBuilder(BuildContext context, Embed node) {
   switch (node.value.type) {
-    case 'hr':
+    case 'divider':
       final style = QuillStyles.getStyles(context, true);
       return Divider(
         height: style.paragraph.style.fontSize * style.paragraph.style.height,
         thickness: 2,
         color: Colors.grey.shade200,
       );
+    case 'image':
+      return _buildImage(context, node.value.data);
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
           'builder of QuillEditor. You must pass your own builder function to '
           'embedBuilder property of QuillEditor or QuillField widgets.');
   }
+}
+
+Widget _buildImage(BuildContext context, String imageUrl) {
+  return GestureDetector(
+    child: Image.network(imageUrl),
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ImageTapWrapper(imageProvider: NetworkImage(imageUrl)),
+        ),
+      );
+    },
+  );
 }
 
 class QuillEditor extends StatefulWidget {

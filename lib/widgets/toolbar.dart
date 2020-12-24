@@ -435,7 +435,7 @@ class _ImageButtonState extends State<ImageButton> {
               if (imageUploadUrl != null)
                 {
                   widget.controller.replaceText(
-                      index, length, BlockEmbed(imageUploadUrl), null)
+                      index, length, BlockEmbed.image(imageUploadUrl), null)
                 }
             });
       },

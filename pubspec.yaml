@@ -19,6 +19,7 @@ dependencies:
   url_launcher: ^5.7.10
   flutter_colorpicker: ^0.3.4
   image_picker: ^0.6.7+17
+  photo_view: ^0.10.3
 
 dev_dependencies:
   flutter_test:
