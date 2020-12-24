@@ -39,6 +39,9 @@ class Style {
 
   bool get isInline => isNotEmpty && values.every((item) => item.isInline);
 
+  bool get isIgnored =>
+      isNotEmpty && values.every((item) => item.scope == AttributeScope.IGNORE);
+
   Attribute get single => _attributes.values.single;
 
   bool containsKey(String key) => _attributes.containsKey(key);

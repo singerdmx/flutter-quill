@@ -4,6 +4,7 @@ enum AttributeScope {
   INLINE, // refer to https://quilljs.com/docs/formats/#inline
   BLOCK, // refer to https://quilljs.com/docs/formats/#block
   EMBEDS, // refer to https://quilljs.com/docs/formats/#embeds
+  IGNORE, // atttributes that can be igored
 }
 
 class Attribute<T> {
@@ -27,6 +28,9 @@ class Attribute<T> {
     Attribute.list.key: Attribute.list,
     Attribute.codeBlock.key: Attribute.codeBlock,
     Attribute.blockQuote.key: Attribute.blockQuote,
+    Attribute.width.key: Attribute.width,
+    Attribute.height.key: Attribute.height,
+    Attribute.style.key: Attribute.style,
   };
 
   static final BoldAttribute bold = BoldAttribute();
@@ -54,6 +58,12 @@ class Attribute<T> {
   static final CodeBlockAttribute codeBlock = CodeBlockAttribute();
 
   static final BlockQuoteAttribute blockQuote = BlockQuoteAttribute();
+
+  static final WidthAttribute width = WidthAttribute(null);
+
+  static final HeightAttribute height = HeightAttribute(null);
+
+  static final StyleAttribute style = StyleAttribute(null);
 
   static final Set<String> inlineKeys = {
     Attribute.bold.key,
@@ -195,4 +205,16 @@ class CodeBlockAttribute extends Attribute<bool> {
 
 class BlockQuoteAttribute extends Attribute<bool> {
   BlockQuoteAttribute() : super('blockquote', AttributeScope.BLOCK, true);
+}
+
+class WidthAttribute extends Attribute<String> {
+  WidthAttribute(String val) : super('width', AttributeScope.IGNORE, val);
+}
+
+class HeightAttribute extends Attribute<String> {
+  HeightAttribute(String val) : super('height', AttributeScope.IGNORE, val);
+}
+
+class StyleAttribute extends Attribute<String> {
+  StyleAttribute(String val) : super('style', AttributeScope.IGNORE, val);
 }
