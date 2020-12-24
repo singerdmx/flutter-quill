@@ -1,6 +1,6 @@
 ## [0.0.1]
 
-* TODO: Init commit.
+* Rich text editor based on Quill Delta.
 
 ## [0.0.2]
-* TODO: Describe initial release.
+* Support image upload and launch url in read-only mode.
