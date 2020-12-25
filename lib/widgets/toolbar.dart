@@ -682,7 +682,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showListBullets = true,
       bool showCodeBlock = true,
       bool showQuote = true,
-      bool showIndent,
+      bool showIndent = true,
       bool showLink = true,
       bool showHistory = true,
       bool showHorizontalRule = false,
