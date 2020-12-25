@@ -34,6 +34,18 @@ class QuillController extends ChangeNotifier {
         .mergeAll(toggledStyle);
   }
 
+  void undo() {
+    document.undo();
+    updateSelection(
+        TextSelection.collapsed(offset: document.length), ChangeSource.REMOTE);
+  }
+
+  void redo() {
+    document.redo();
+    updateSelection(
+        TextSelection.collapsed(offset: document.length), ChangeSource.REMOTE);
+  }
+
   replaceText(int index, int len, Object data, TextSelection textSelection) {
     assert(data is String || data is Embeddable);
 

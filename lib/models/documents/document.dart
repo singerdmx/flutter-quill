@@ -9,6 +9,7 @@ import 'package:tuple/tuple.dart';
 
 import '../rules/rule.dart';
 import 'attribute.dart';
+import 'history.dart';
 import 'nodes/embed.dart';
 import 'nodes/node.dart';
 
@@ -29,6 +30,8 @@ class Document {
 
   final StreamController<Tuple3<Delta, Delta, ChangeSource>> _observer =
   StreamController.broadcast();
+
+  final History _history = History();
 
   Stream<Tuple3> get changes => _observer.stream;
 
@@ -115,7 +118,7 @@ class Document {
     return block.queryChild(res.offset, true);
   }
 
-  compose(Delta delta, ChangeSource changeSource) {
+  compose(Delta delta, ChangeSource changeSource, {bool history}) {
     assert(!_observer.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
@@ -148,7 +151,17 @@ class Document {
     if (_delta != _root.toDelta()) {
       throw ('Compose failed');
     }
-    _observer.add(Tuple3(originalDelta, delta, changeSource));
+    final change = Tuple3(originalDelta, delta, changeSource);
+    _observer.add(change);
+    _history.handleDocChange(change);
+  }
+
+  void undo() {
+    _history.undo(this);
+  }
+
+  void redo() {
+    _history.redo(this);
   }
 
   static Delta _transform(Delta delta) {
@@ -172,6 +185,7 @@ class Document {
 
   close() {
     _observer.close();
+    _history.clear();
   }
 
   String toPlainText() => _root.children.map((e) => e.toPlainText()).join('');
