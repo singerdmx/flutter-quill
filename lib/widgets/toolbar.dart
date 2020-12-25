@@ -198,18 +198,27 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
 
   void _didChangeEditingValue() {
     setState(() {
-      _isToggled = widget.controller
-          .getSelectionStyle()
-          .attributes
-          .containsKey(widget.attribute.key);
+      _isToggled =
+          _getIsToggled(widget.controller.getSelectionStyle().attributes);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _isToggled = _selectionStyle.attributes.containsKey(widget.attribute.key);
+    _isToggled = _getIsToggled(_selectionStyle.attributes);
     widget.controller.addListener(_didChangeEditingValue);
+  }
+
+  bool _getIsToggled(Map<String, Attribute> attrs) {
+    if (widget.attribute.key == Attribute.list.key) {
+      Attribute attribute = attrs[widget.attribute.key];
+      if (attribute == null) {
+        return false;
+      }
+      return attribute.value == widget.attribute.value;
+    }
+    return attrs.containsKey(widget.attribute.key);
   }
 
   @override
@@ -218,7 +227,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
       widget.controller.addListener(_didChangeEditingValue);
-      _isToggled = _selectionStyle.attributes.containsKey(widget.attribute.key);
+      _isToggled = _getIsToggled(_selectionStyle.attributes);
     }
   }
 
@@ -603,8 +612,11 @@ class IndentButton extends StatefulWidget {
   final QuillController controller;
   final bool isIncrease;
 
-  IndentButton({Key key, @required this.icon, @required this.controller
-    , @required this.isIncrease})
+  IndentButton(
+      {Key key,
+      @required this.icon,
+      @required this.controller,
+      @required this.isIncrease})
       : assert(icon != null),
         assert(controller != null),
         assert(isIncrease != null),
