@@ -682,8 +682,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showListBullets = true,
       bool showCodeBlock = true,
       bool showQuote = true,
-      bool showIndentIncrease = true,
-      bool showIndentDecrease = true,
+      bool showIndent,
       bool showLink = true,
       bool showHistory = true,
       bool showHorizontalRule = false,
@@ -830,7 +829,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-        visible: showIndentIncrease,
+        visible: showIndent,
         child: IndentButton(
           icon: Icons.format_indent_increase,
           controller: controller,
@@ -838,7 +837,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-        visible: showIndentDecrease,
+        visible: showIndent,
         child: IndentButton(
           icon: Icons.format_indent_decrease,
           controller: controller,
