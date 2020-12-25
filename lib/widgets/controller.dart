@@ -36,14 +36,12 @@ class QuillController extends ChangeNotifier {
 
   void undo() {
     document.undo();
-    updateSelection(
-        TextSelection.collapsed(offset: document.length), ChangeSource.REMOTE);
+    notifyListeners();
   }
 
   void redo() {
     document.redo();
-    updateSelection(
-        TextSelection.collapsed(offset: document.length), ChangeSource.REMOTE);
+    notifyListeners();
   }
 
   replaceText(int index, int len, Object data, TextSelection textSelection) {

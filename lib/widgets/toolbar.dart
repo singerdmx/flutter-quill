@@ -554,6 +554,50 @@ class _BackgroundColorButtonState extends State<BackgroundColorButton> {
   }
 }
 
+class HistoryButton extends StatefulWidget {
+  final IconData icon;
+  final bool undo;
+  final QuillController controller;
+
+  HistoryButton(
+      {Key key,
+      @required this.icon,
+      @required this.controller,
+      @required this.undo})
+      : assert(icon != null),
+        assert(controller != null),
+        assert(undo != null),
+        super(key: key);
+
+  @override
+  _HistoryButtonState createState() => _HistoryButtonState();
+}
+
+class _HistoryButtonState extends State<HistoryButton> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+    final fillColor = theme.canvasColor;
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: 32,
+      icon: Icon(widget.icon, size: 18, color: iconColor),
+      fillColor: fillColor,
+      onPressed: _changeHistory,
+    );
+  }
+
+  void _changeHistory() {
+    if (widget.undo) {
+      widget.controller.undo();
+    } else {
+      widget.controller.redo();
+    }
+  }
+}
+
 class IndentButton extends StatefulWidget {
   final IconData icon;
 
@@ -616,7 +660,6 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
   }
 }
 
-
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
@@ -639,9 +682,27 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showQuote = true,
       bool showIndent = true,
       bool showLink = true,
+      bool showHistory = true,
       bool showHorizontalRule = false,
       UploadFileCallback uploadFileCallback}) {
     return QuillToolbar(key: key, children: [
+      Visibility(
+        visible: showHistory,
+        child: HistoryButton(
+          icon: Icons.undo_outlined,
+          controller: controller,
+          undo: true,
+        ),
+      ),
+      Visibility(
+        visible: showHistory,
+        child: HistoryButton(
+          icon: Icons.redo_outlined,
+          controller: controller,
+          undo: false,
+        ),
+      ),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showBoldButton,
         child: ToggleStyleButton(
@@ -650,7 +711,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showItalicButton,
         child: ToggleStyleButton(
@@ -659,7 +720,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showUnderLineButton,
         child: ToggleStyleButton(
@@ -668,7 +729,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showStrikeThrough,
         child: ToggleStyleButton(
@@ -677,7 +738,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showColorButton,
         child: ColorButton(
@@ -685,7 +746,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showBackgroundColorButton,
         child: BackgroundColorButton(
@@ -693,7 +754,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: showClearFormat,
         child: ClearFormatButton(
@@ -701,7 +762,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: uploadFileCallback != null,
         child: ImageButton(
@@ -711,7 +772,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           uploadFileCallback: uploadFileCallback,
         ),
       ),
-      SizedBox(width: 1),
+      SizedBox(width: 0.6),
       Visibility(
         visible: uploadFileCallback != null,
         child: ImageButton(
