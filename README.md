@@ -11,8 +11,8 @@ For web development, [ReactQuill] is recommended to use for compatibiliy.
 
 ---
 
-<img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102945609-1f2e7c00-4473-11eb-938a-4a47182b2abc.png">
-<img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102945648-4ab16680-4473-11eb-83fe-dc32665368ee.png">
+<img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
+<img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/103142435-cf8cc200-46b7-11eb-9925-f7962da16869.png">
 <img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
 <img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
 
