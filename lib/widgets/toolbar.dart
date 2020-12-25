@@ -600,12 +600,14 @@ class _HistoryButtonState extends State<HistoryButton> {
 
 class IndentButton extends StatefulWidget {
   final IconData icon;
-
   final QuillController controller;
+  final bool isIncrease;
 
-  IndentButton({Key key, @required this.icon, @required this.controller})
+  IndentButton({Key key, @required this.icon, @required this.controller
+    , @required this.isIncrease})
       : assert(icon != null),
         assert(controller != null),
+        assert(isIncrease != null),
         super(key: key);
 
   @override
@@ -680,7 +682,8 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showListBullets = true,
       bool showCodeBlock = true,
       bool showQuote = true,
-      bool showIndent = true,
+      bool showIndentIncrease = true,
+      bool showIndentDecrease = true,
       bool showLink = true,
       bool showHistory = true,
       bool showHorizontalRule = false,
@@ -827,10 +830,19 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-        visible: showIndent,
+        visible: showIndentIncrease,
         child: IndentButton(
           icon: Icons.format_indent_increase,
           controller: controller,
+          isIncrease: true,
+        ),
+      ),
+      Visibility(
+        visible: showIndentDecrease,
+        child: IndentButton(
+          icon: Icons.format_indent_decrease,
+          controller: controller,
+          isIncrease: false,
         ),
       ),
       Visibility(
