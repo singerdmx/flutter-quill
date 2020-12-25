@@ -88,7 +88,7 @@ class History {
     dest.add(inverseDelta);
     this.lastRecorded = 0;
     this.ignoreChange = true;
-    doc.compose(delta, ChangeSource.LOCAL, history: true);
+    doc.compose(delta, ChangeSource.LOCAL);
     this.ignoreChange = false;
   }
 

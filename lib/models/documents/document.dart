@@ -118,7 +118,7 @@ class Document {
     return block.queryChild(res.offset, true);
   }
 
-  compose(Delta delta, ChangeSource changeSource, {bool history}) {
+  compose(Delta delta, ChangeSource changeSource) {
     assert(!_observer.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
