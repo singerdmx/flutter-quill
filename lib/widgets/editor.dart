@@ -363,7 +363,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   void _launchUrl(String url) async {
-    if (await canLaunch(url)) {
+    bool ok = await canLaunch(url);
+    if (ok) {
       await launch(url);
     }
   }
