@@ -638,7 +638,24 @@ class _IndentButtonState extends State<IndentButton> {
       size: 32,
       icon: Icon(widget.icon, size: 18, color: iconColor),
       fillColor: fillColor,
-//      onPressed: ,
+      onPressed: () {
+        final indent = widget.controller.getSelectionStyle().attributes[Attribute.indent.key];
+        if (indent == null) {
+          if (widget.isIncrease) {
+            widget.controller.formatSelection(Attribute.indentL1);
+          }
+          return;
+        }
+        if (indent.value == 1 && !widget.isIncrease) {
+          widget.controller.formatSelection(Attribute.clone(Attribute.indentL1, null));
+          return;
+        }
+        if (widget.isIncrease) {
+          widget.controller.formatSelection(Attribute.getIndentLevel(indent.value + 1));
+          return;
+        }
+        widget.controller.formatSelection(Attribute.getIndentLevel(indent.value - 1));
+      },
     );
   }
 }

@@ -116,6 +116,25 @@ class Attribute<T> {
   // "attributes":{"list":"ordered"}
   static Attribute<String> get ol => ListAttribute('ordered');
 
+  // "attributes":{"indent":1"}
+  static Attribute<int> get indentL1 => IndentAttribute(level: 1);
+
+  // "attributes":{"indent":2"}
+  static Attribute<int> get indentL2 => IndentAttribute(level: 2);
+
+  // "attributes":{"indent":3"}
+  static Attribute<int> get indentL3 => IndentAttribute(level: 3);
+
+  static Attribute<int> getIndentLevel(int level) {
+    if (level == 1) {
+      return indentL1;
+    }
+    if (level == 2) {
+      return indentL2;
+    }
+    return indentL3;
+  }
+
   bool get isInline => scope == AttributeScope.INLINE;
 
   bool get isBlockExceptHeader => blockKeysExceptHeader.contains(key);
