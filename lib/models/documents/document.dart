@@ -33,7 +33,7 @@ class Document {
 
   final History _history = History();
 
-  Stream<Tuple3> get changes => _observer.stream;
+  Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
 
   Document() : _delta = Delta()
     ..insert('\n') {

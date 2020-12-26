@@ -7,6 +7,7 @@ import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/style.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:quill_delta/quill_delta.dart';
+import 'package:tuple/tuple.dart';
 
 class QuillController extends ChangeNotifier {
   final Document document;
@@ -21,6 +22,13 @@ class QuillController extends ChangeNotifier {
     return QuillController(
         document: Document(), selection: TextSelection.collapsed(offset: 0));
   }
+
+  // item1: Document state before [change].
+  //
+  // item2: Change delta applied to the document.
+  //
+  // item3: The source of this change.
+  Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => document.changes;
 
   TextEditingValue get plainTextEditingValue => TextEditingValue(
         text: document.toPlainText(),
