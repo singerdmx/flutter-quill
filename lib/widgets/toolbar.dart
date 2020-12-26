@@ -487,8 +487,12 @@ class _ColorButtonState extends State<ColorButton> {
   }
 
   void _changeColor(Color color) {
+    String hex = color.value.toRadixString(16);
+    if (hex.startsWith('ff')) {
+      hex = hex.substring(2);
+    }
     widget.controller
-        .formatSelection(ColorAttribute('#${color.value.toRadixString(16)}'));
+        .formatSelection(ColorAttribute('#$hex'));
     Navigator.of(context).pop();
   }
 
