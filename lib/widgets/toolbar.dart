@@ -458,12 +458,17 @@ class _ImageButtonState extends State<ImageButton> {
 /// buttons for each color.
 class ColorButton extends StatefulWidget {
   final IconData icon;
-
+  final bool background;
   final QuillController controller;
 
-  ColorButton({Key key, @required this.icon, @required this.controller})
+  ColorButton(
+      {Key key,
+      @required this.icon,
+      @required this.controller,
+      @required this.background})
       : assert(icon != null),
         assert(controller != null),
+        assert(background != null),
         super(key: key);
 
   @override
@@ -491,64 +496,9 @@ class _ColorButtonState extends State<ColorButton> {
     if (hex.startsWith('ff')) {
       hex = hex.substring(2);
     }
-    widget.controller
-        .formatSelection(ColorAttribute('#$hex'));
-    Navigator.of(context).pop();
-  }
-
-  _showColorPicker() {
-    showDialog(
-      context: context,
-      child: AlertDialog(
-          title: const Text('Select Color'),
-          content: SingleChildScrollView(
-            child: MaterialPicker(
-              pickerColor: Color(0),
-              onColorChanged: _changeColor,
-            ),
-          )),
-    );
-  }
-}
-
-/// Controls background color styles.
-///
-/// When pressed, this button displays overlay toolbar with
-/// buttons for each color.
-class BackgroundColorButton extends StatefulWidget {
-  final IconData icon;
-
-  final QuillController controller;
-
-  BackgroundColorButton(
-      {Key key, @required this.icon, @required this.controller})
-      : assert(icon != null),
-        assert(controller != null),
-        super(key: key);
-
-  @override
-  _BackgroundColorButtonState createState() => _BackgroundColorButtonState();
-}
-
-class _BackgroundColorButtonState extends State<BackgroundColorButton> {
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
-    final fillColor = theme.canvasColor;
-    return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: 32,
-      icon: Icon(widget.icon, size: 18, color: iconColor),
-      fillColor: fillColor,
-      onPressed: _showColorPicker,
-    );
-  }
-
-  void _changeColor(Color color) {
+    hex = '#$hex';
     widget.controller.formatSelection(
-        BackgroundAttribute('#${color.value.toRadixString(16)}'));
+        widget.background ? BackgroundAttribute(hex) : ColorAttribute(hex));
     Navigator.of(context).pop();
   }
 
@@ -643,7 +593,9 @@ class _IndentButtonState extends State<IndentButton> {
       icon: Icon(widget.icon, size: 18, color: iconColor),
       fillColor: fillColor,
       onPressed: () {
-        final indent = widget.controller.getSelectionStyle().attributes[Attribute.indent.key];
+        final indent = widget.controller
+            .getSelectionStyle()
+            .attributes[Attribute.indent.key];
         if (indent == null) {
           if (widget.isIncrease) {
             widget.controller.formatSelection(Attribute.indentL1);
@@ -651,14 +603,17 @@ class _IndentButtonState extends State<IndentButton> {
           return;
         }
         if (indent.value == 1 && !widget.isIncrease) {
-          widget.controller.formatSelection(Attribute.clone(Attribute.indentL1, null));
+          widget.controller
+              .formatSelection(Attribute.clone(Attribute.indentL1, null));
           return;
         }
         if (widget.isIncrease) {
-          widget.controller.formatSelection(Attribute.getIndentLevel(indent.value + 1));
+          widget.controller
+              .formatSelection(Attribute.getIndentLevel(indent.value + 1));
           return;
         }
-        widget.controller.formatSelection(Attribute.getIndentLevel(indent.value - 1));
+        widget.controller
+            .formatSelection(Attribute.getIndentLevel(indent.value - 1));
       },
     );
   }
@@ -685,17 +640,17 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
     final iconColor = theme.iconTheme.color;
     final fillColor = theme.canvasColor;
     return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: 32,
-      icon: Icon(widget.icon, size: 18, color: iconColor),
-      fillColor: fillColor,
-      onPressed: () {
-        for (Attribute k in widget.controller.getSelectionStyle().attributes.values) {
-          widget.controller.formatSelection(Attribute.clone(k, null));
-        }
-      }
-    );
+        highlightElevation: 0,
+        hoverElevation: 0,
+        size: 32,
+        icon: Icon(widget.icon, size: 18, color: iconColor),
+        fillColor: fillColor,
+        onPressed: () {
+          for (Attribute k
+              in widget.controller.getSelectionStyle().attributes.values) {
+            widget.controller.formatSelection(Attribute.clone(k, null));
+          }
+        });
   }
 }
 
@@ -783,14 +738,16 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         child: ColorButton(
           icon: Icons.format_color_text,
           controller: controller,
+          background: false,
         ),
       ),
       SizedBox(width: 0.6),
       Visibility(
         visible: showBackgroundColorButton,
-        child: BackgroundColorButton(
+        child: ColorButton(
           icon: Icons.format_color_fill,
           controller: controller,
+          background: true,
         ),
       ),
       SizedBox(width: 0.6),
