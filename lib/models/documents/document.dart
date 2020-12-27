@@ -169,10 +169,17 @@ class Document {
 
   static Delta _transform(Delta delta) {
     Delta res = Delta();
-    for (Operation op in delta.toList()) {
+    List<Operation> ops = delta.toList();
+    for (int i = 0; i < ops.length; i++) {
+      Operation op = ops[i];
       res.push(op);
-      if (op.isInsert && op.data is! String) {
-        // This case is 'insert embed'
+      // Currently embed is equivalent to image and hence `is! String`
+      bool opInsertImage = op.isInsert && op.data is! String;
+      bool nextOpIsLineBreak = i + 1 < ops.length &&
+          ops[i + 1].isInsert &&
+          ops[i + 1].data is String &&
+          (ops[i + 1].data as String) == '\n';
+      if (opInsertImage && (i + 1 == ops.length - 1 || !nextOpIsLineBreak)) {
         // automatically append '\n' for image
         res.push(Operation.insert('\n', null));
       }
