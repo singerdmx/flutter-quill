@@ -167,6 +167,11 @@ class Document {
     Delta res = Delta();
     for (Operation op in delta.toList()) {
       res.push(op);
+      if (op.isInsert && op.data is! String) {
+        // This case is 'insert embed'
+        // automatically append '\n' for image
+        res.push(Operation.insert('\n', null));
+      }
     }
     return res;
   }
@@ -202,12 +207,6 @@ class Document {
       final data = _normalize(op.data);
       _root.insert(offset, data, style);
       offset += op.length;
-      if (data is! String) {
-        // This case is 'insert embed'
-        // automatically append '\n' for image
-        _root.insert(offset, '\n', null);
-        offset++;
-      }
     }
     final node = _root.last;
     if (node is Line &&
