@@ -221,7 +221,7 @@ class CursorPainter {
             : caretPosition.dx,
         caretPosition.dy.isFinite
             ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -
-            caretPosition.dy
+                caretPosition.dy
             : caretPosition.dy));
 
     Paint paint = Paint()..color = color;
