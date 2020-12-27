@@ -68,11 +68,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildWelcomeEditor(BuildContext context) {
     return Column(
-      children: [
-        QuillToolbar.basic(
-            controller: _controller,
-            uploadFileCallback: _fakeUploadImageCallBack),
-        Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
         Expanded(
           child: Container(
             color: Colors.white,
@@ -90,6 +87,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+        Container(
+          padding: new EdgeInsets.all(10.0),
+          child: QuillToolbar.basic(
+              controller: _controller,
+              uploadFileCallback: _fakeUploadImageCallBack),
+        )
       ],
     );
   }
