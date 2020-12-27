@@ -217,7 +217,7 @@ class CursorPainter {
     caretRect = caretRect.shift(Offset(
         caretPosition.dx.isFinite
             ? (caretPosition.dx / pixelMultiple).round() * pixelMultiple -
-            caretPosition.dx
+                caretPosition.dx
             : caretPosition.dx,
         caretPosition.dy.isFinite
             ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -

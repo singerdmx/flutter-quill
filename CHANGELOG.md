@@ -19,3 +19,6 @@
 
 ## [0.0.7]
 * Handle multiple image inserts.
+
+## [0.0.8]
+* Fix launching url.
