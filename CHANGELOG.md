@@ -16,3 +16,6 @@
 
 ## [0.0.6]
 * More toolbar functionality.
+
+## [0.0.7]
+* Handle multiple image inserts.

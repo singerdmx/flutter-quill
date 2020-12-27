@@ -29,14 +29,13 @@ class Document {
   final Rules _rules = Rules.getInstance();
 
   final StreamController<Tuple3<Delta, Delta, ChangeSource>> _observer =
-  StreamController.broadcast();
+      StreamController.broadcast();
 
   final History _history = History();
 
   Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
 
-  Document() : _delta = Delta()
-    ..insert('\n') {
+  Document() : _delta = Delta()..insert('\n') {
     _loadDocument(_delta);
   }
 
@@ -128,7 +127,7 @@ class Document {
     Delta originalDelta = toDelta();
     for (Operation op in delta.toList()) {
       Style style =
-      op.attributes != null ? Style.fromJson(op.attributes) : null;
+          op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
         _root.insert(offset, _normalize(op.data), style);
@@ -194,17 +193,21 @@ class Document {
     assert((doc.last.data as String).endsWith('\n'));
     int offset = 0;
     for (final op in doc.toList()) {
-      final style =
-      op.attributes != null ? Style.fromJson(op.attributes) : null;
-      if (op.isInsert) {
-        final data = _normalize(op.data);
-        _root.insert(offset, data, style);
-      } else {
+      if (!op.isInsert) {
         throw ArgumentError.value(doc,
-            'Document Delta can only contain insert operations but ${op
-                .key} found.');
+            'Document Delta can only contain insert operations but ${op.key} found.');
       }
+      final style =
+          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      final data = _normalize(op.data);
+      _root.insert(offset, data, style);
       offset += op.length;
+      if (data is! String) {
+        // This case is 'insert embed'
+        // automatically append '\n' for image
+        _root.insert(offset, '\n', null);
+        offset++;
+      }
     }
     final node = _root.last;
     if (node is Line &&
