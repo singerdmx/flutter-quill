@@ -161,7 +161,8 @@ class DefaultStyles {
               borderRadius: BorderRadius.circular(2),
             )),
         DefaultTextBlockStyle(baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
-        DefaultTextBlockStyle(baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null));
+        DefaultTextBlockStyle(
+            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null));
   }
 
   DefaultStyles merge(DefaultStyles other) {

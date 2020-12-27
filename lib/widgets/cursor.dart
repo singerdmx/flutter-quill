@@ -70,8 +70,7 @@ class CursorCont extends ChangeNotifier {
     @required ValueNotifier<bool> show,
     @required CursorStyle style,
     @required TickerProvider tickerProvider,
-  })
-      : assert(show != null),
+  })  : assert(show != null),
         assert(style != null),
         assert(tickerProvider != null),
         show = show ?? ValueNotifier<bool>(false),

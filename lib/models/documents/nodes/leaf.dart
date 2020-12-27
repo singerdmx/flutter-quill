@@ -30,7 +30,8 @@ abstract class Leaf extends Node {
 
   @override
   void applyStyle(Style value) {
-    assert(value != null && (value.isInline || value.isIgnored || value.isEmpty),
+    assert(
+        value != null && (value.isInline || value.isIgnored || value.isEmpty),
         'Unable to apply Style to leaf: $value');
     super.applyStyle(value);
   }
@@ -203,5 +204,4 @@ class Embed extends Leaf {
   Node newInstance() {
     throw UnimplementedError();
   }
-
 }
