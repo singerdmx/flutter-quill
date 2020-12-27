@@ -366,7 +366,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (!url.startsWith('http')) {
       url = 'https://$url';
     }
-    await launch(url, forceWebView: true);
+    await launch(url);
   }
 
   @override
