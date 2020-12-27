@@ -505,7 +505,7 @@ class _ColorButtonState extends State<ColorButton> {
   _showColorPicker() {
     showDialog(
       context: context,
-      child: AlertDialog(
+      builder: (_) => AlertDialog(
           title: const Text('Select Color'),
           content: SingleChildScrollView(
             child: MaterialPicker(
