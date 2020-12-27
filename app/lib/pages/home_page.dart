@@ -88,7 +88,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          padding: new EdgeInsets.all(10.0),
           child: QuillToolbar.basic(
               controller: _controller,
               uploadFileCallback: _fakeUploadImageCallBack),
