@@ -6,6 +6,10 @@ import 'document.dart';
 class History {
   final HistoryStack stack = HistoryStack.empty();
 
+  get hasUndo => stack.undo.isNotEmpty;
+
+  get hasRedo => stack.redo.isNotEmpty;
+
   /// used for disable redo or undo function
   bool ignoreChange;
 
@@ -80,8 +84,10 @@ class History {
     }
   }
 
-  void _change(Document doc, List<Delta> source, List<Delta> dest) {
-    if (source.length == 0) return;
+  bool _change(Document doc, List<Delta> source, List<Delta> dest) {
+    if (source.length == 0) {
+      return false;
+    }
     Delta delta = source.removeLast();
     Delta base = doc.toDelta();
     Delta inverseDelta = delta.invert(base);
@@ -90,14 +96,15 @@ class History {
     this.ignoreChange = true;
     doc.compose(delta, ChangeSource.LOCAL);
     this.ignoreChange = false;
+    return true;
   }
 
-  void undo(Document doc) {
-    _change(doc, stack.undo, stack.redo);
+  bool undo(Document doc) {
+    return _change(doc, stack.undo, stack.redo);
   }
 
-  void redo(Document doc) {
-    _change(doc, stack.redo, stack.undo);
+  bool redo(Document doc) {
+    return _change(doc, stack.redo, stack.undo);
   }
 }
 

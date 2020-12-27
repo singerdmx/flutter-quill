@@ -43,14 +43,20 @@ class QuillController extends ChangeNotifier {
   }
 
   void undo() {
-    document.undo();
-    notifyListeners();
+    if (document.undo()) {
+      notifyListeners();
+    }
   }
 
   void redo() {
-    document.redo();
-    notifyListeners();
+    if (document.redo()) {
+      notifyListeners();
+    }
   }
+
+  get hasUndo => document.hasUndo;
+
+  get hasRedo => document.hasRedo;
 
   replaceText(int index, int len, Object data, TextSelection textSelection) {
     assert(data is String || data is Embeddable);

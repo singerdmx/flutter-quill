@@ -537,27 +537,56 @@ class HistoryButton extends StatefulWidget {
 }
 
 class _HistoryButtonState extends State<HistoryButton> {
+  Color _iconColor;
+  ThemeData theme;
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
+    theme = Theme.of(context);
+    _setIconColor();
+
     final fillColor = theme.canvasColor;
+    widget.controller.changes.listen((event) async {
+      _setIconColor();
+    });
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
       size: 32,
-      icon: Icon(widget.icon, size: 18, color: iconColor),
+      icon: Icon(widget.icon, size: 18, color: _iconColor),
       fillColor: fillColor,
       onPressed: _changeHistory,
     );
   }
 
+  void _setIconColor() {
+    if (widget.undo) {
+      setState(() {
+        _iconColor = widget.controller.hasUndo
+            ? theme.iconTheme.color
+            : theme.disabledColor;
+      });
+    } else {
+      setState(() {
+        _iconColor = widget.controller.hasRedo
+            ? theme.iconTheme.color
+            : theme.disabledColor;
+      });
+    }
+  }
+
   void _changeHistory() {
     if (widget.undo) {
-      widget.controller.undo();
+      if (widget.controller.hasUndo) {
+        widget.controller.undo();
+      }
     } else {
-      widget.controller.redo();
+      if (widget.controller.hasRedo) {
+        widget.controller.redo();
+      }
     }
+
+    _setIconColor();
   }
 }
 

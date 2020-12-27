@@ -155,13 +155,17 @@ class Document {
     _history.handleDocChange(change);
   }
 
-  void undo() {
-    _history.undo(this);
+  bool undo() {
+    return _history.undo(this);
   }
 
-  void redo() {
-    _history.redo(this);
+  bool redo() {
+    return _history.redo(this);
   }
+
+  get hasUndo => _history.hasUndo;
+
+  get hasRedo => _history.hasRedo;
 
   static Delta _transform(Delta delta) {
     Delta res = Delta();
