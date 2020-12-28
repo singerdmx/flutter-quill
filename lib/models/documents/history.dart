@@ -89,7 +89,7 @@ class History {
       return false;
     }
     Delta delta = source.removeLast();
-    Delta base = doc.toDelta();
+    Delta base = Delta.from(doc.toDelta());
     Delta inverseDelta = delta.invert(base);
     dest.add(inverseDelta);
     this.lastRecorded = 0;

@@ -890,7 +890,9 @@ class RenderEditableContainerBox extends RenderBox
       }
       targetChild = childAfter(targetChild);
     }
-    assert(targetChild != null);
+    if (targetChild == null) {
+      throw ('targetChild should not be null');
+    }
     return targetChild;
   }
 
