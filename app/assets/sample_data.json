@@ -66,6 +66,9 @@
       "insert":"only"
    },
    {
+      "attributes":{
+         "color":"rgba(0, 0, 0, 0.847)"
+      },
       "insert":" and "
    },
    {

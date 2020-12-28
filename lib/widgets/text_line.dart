@@ -107,8 +107,15 @@ class TextLine extends StatelessWidget {
     return TextSpan(children: children, style: textStyle);
   }
 
-  Color _hexStringToColor(String hex) {
-    hex = hex.replaceFirst('#', '');
+  Color _hexStringToColor(String s) {
+    if (s.startsWith('rgba')) {
+      s = s.substring(5); // trim left 'rgba('
+      s = s.substring(0, s.length - 1); // trim right ')'
+      final arr = s.split(',').map((e) => e.trim()).toList();
+      return Color.fromRGBO(int.parse(arr[0]), int.parse(arr[1]),
+          int.parse(arr[2]), double.parse(arr[3]));
+    }
+    String hex = s.replaceFirst('#', '');
     hex = hex.length == 6 ? 'ff' + hex : hex;
     int val = int.parse(hex, radix: 16);
     return Color(val);
