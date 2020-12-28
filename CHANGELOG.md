@@ -22,3 +22,6 @@
 
 ## [0.0.8]
 * Fix launching url.
+
+## [0.0.9]
+* Handle rgba color.
