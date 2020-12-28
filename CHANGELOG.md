@@ -25,3 +25,6 @@
 
 ## [0.0.9]
 * Handle rgba color.
+
+## [0.1.0]
+* Fix insert image.
