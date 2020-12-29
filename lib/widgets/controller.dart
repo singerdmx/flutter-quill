@@ -44,23 +44,24 @@ class QuillController extends ChangeNotifier {
 
   void undo() {
     if (document.undo()) {
-      if (this.selection.extentOffset >= document.length) {
-        updateSelection(TextSelection.collapsed(offset: document.length),
-            ChangeSource.LOCAL);
-      } else {
-        notifyListeners();
-      }
+      _handleHistoryChange();
+    }
+  }
+
+  void _handleHistoryChange() {
+    if (this.selection.extentOffset >= document.length) {
+      // cursor exceeds the length of document, position it in the end
+      updateSelection(
+          TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
+    } else {
+      // no need to move cursor
+      notifyListeners();
     }
   }
 
   void redo() {
     if (document.redo()) {
-      if (this.selection.extentOffset >= document.length) {
-        updateSelection(TextSelection.collapsed(offset: document.length),
-            ChangeSource.LOCAL);
-      } else {
-        notifyListeners();
-      }
+      _handleHistoryChange();
     }
   }
 
