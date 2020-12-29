@@ -28,3 +28,6 @@
 
 ## [0.1.0]
 * Fix insert image.
+
+## [0.1.1]
+* Fix cursor issue when undo.
