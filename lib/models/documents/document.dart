@@ -173,24 +173,28 @@ class Document {
     for (int i = 0; i < ops.length; i++) {
       Operation op = ops[i];
       res.push(op);
-      bool nextOpIsImage = i + 1 < ops.length &&
-          ops[i + 1].isInsert &&
-          ops[i + 1].data is! String;
-      if (nextOpIsImage && !(op.data as String).endsWith('\n')) {
-        res.push(Operation.insert('\n', null));
-      }
-      // Currently embed is equivalent to image and hence `is! String`
-      bool opInsertImage = op.isInsert && op.data is! String;
-      bool nextOpIsLineBreak = i + 1 < ops.length &&
-          ops[i + 1].isInsert &&
-          ops[i + 1].data is String &&
-          (ops[i + 1].data as String).startsWith('\n');
-      if (opInsertImage && (i + 1 == ops.length - 1 || !nextOpIsLineBreak)) {
-        // automatically append '\n' for image
-        res.push(Operation.insert('\n', null));
-      }
+      _handleImageInsert(i, ops, op, res);
     }
     return res;
+  }
+
+  static void _handleImageInsert(
+      int i, List<Operation> ops, Operation op, Delta res) {
+    bool nextOpIsImage =
+        i + 1 < ops.length && ops[i + 1].isInsert && ops[i + 1].data is! String;
+    if (nextOpIsImage && !(op.data as String).endsWith('\n')) {
+      res.push(Operation.insert('\n', null));
+    }
+    // Currently embed is equivalent to image and hence `is! String`
+    bool opInsertImage = op.isInsert && op.data is! String;
+    bool nextOpIsLineBreak = i + 1 < ops.length &&
+        ops[i + 1].isInsert &&
+        ops[i + 1].data is String &&
+        (ops[i + 1].data as String).startsWith('\n');
+    if (opInsertImage && (i + 1 == ops.length - 1 || !nextOpIsLineBreak)) {
+      // automatically append '\n' for image
+      res.push(Operation.insert('\n', null));
+    }
   }
 
   Object _normalize(Object data) {
