@@ -175,8 +175,8 @@ class Document {
       res.push(op);
       bool nextOpIsImage = i + 1 < ops.length &&
           ops[i + 1].isInsert &&
-          ops[i + 1].data is !String;
-      if (nextOpIsImage && !(op.data as String).endsWith('\n')){
+          ops[i + 1].data is! String;
+      if (nextOpIsImage && !(op.data as String).endsWith('\n')) {
         res.push(Operation.insert('\n', null));
       }
       // Currently embed is equivalent to image and hence `is! String`
