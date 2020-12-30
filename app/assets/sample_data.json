@@ -74,7 +74,8 @@
    },
    {
       "attributes":{
-         "strike":true
+         "strike":true,
+         "color":"black"
       },
       "insert":"web"
    },
