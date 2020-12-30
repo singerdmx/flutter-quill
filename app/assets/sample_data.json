@@ -40,7 +40,8 @@
    },
    {
       "attributes":{
-         "italic":true
+         "italic":true,
+         "background":"transparent"
       },
       "insert":"library"
    },
