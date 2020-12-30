@@ -123,6 +123,11 @@ class TextLine extends StatelessWidget {
           int.parse(arr[2]), double.parse(arr[3]));
     }
 
+    if (!s.startsWith('#')) {
+      // give a default color
+      return Colors.transparent;
+    }
+
     String hex = s.replaceFirst('#', '');
     hex = hex.length == 6 ? 'ff' + hex : hex;
     int val = int.parse(hex, radix: 16);
