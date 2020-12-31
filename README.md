@@ -7,7 +7,7 @@
 Rich text editor and a [Quill] component for [Flutter].
 
 This library supports mobile platform only and web is not supported.
-For web development, [ReactQuill] is recommended to use for compatibiliy.
+For web development, [ReactQuill] is recommended to use for compatibility.
 
 ---
 
