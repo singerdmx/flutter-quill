@@ -31,3 +31,6 @@
 
 ## [0.1.1]
 * Fix cursor issue when undo.
+
+## [0.1.2]
+* Handle more text colors.
