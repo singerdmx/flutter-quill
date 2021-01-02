@@ -5,7 +5,9 @@
 # FlutterQuill
 
 Rich text editor and a [Quill] component for [Flutter].
+
 https://pub.dev/packages/flutter_quill
+
 This library supports mobile platform only and web is not supported.
 For web development, [ReactQuill] is recommended to use for compatibility.
 
