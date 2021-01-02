@@ -34,3 +34,6 @@
 
 ## [0.1.2]
 * Handle more text colors.
+
+## [0.1.3]
+* Handle cursor position change when undo/redo.
