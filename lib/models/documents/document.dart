@@ -155,11 +155,11 @@ class Document {
     _history.handleDocChange(change);
   }
 
-  bool undo() {
+  Tuple2 undo() {
     return _history.undo(this);
   }
 
-  bool redo() {
+  Tuple2 redo() {
     return _history.redo(this);
   }
 

@@ -43,16 +43,20 @@ class QuillController extends ChangeNotifier {
   }
 
   void undo() {
-    if (document.undo()) {
-      _handleHistoryChange();
+    Tuple2 tup = document.undo();
+    if (tup.item1){
+      _handleHistoryChange(tup.item2);
     }
   }
 
-  void _handleHistoryChange() {
-    if (this.selection.extentOffset >= document.length) {
-      // cursor exceeds the length of document, position it in the end
+  void _handleHistoryChange(int len) {
+    if (len != 0) {
+    // if (this.selection.extentOffset >= document.length) {
+      // // cursor exceeds the length of document, position it in the end
+      // updateSelection(
+      //     TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
       updateSelection(
-          TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
+          TextSelection.collapsed(offset: this.selection.baseOffset + len), ChangeSource.LOCAL);
     } else {
       // no need to move cursor
       notifyListeners();
@@ -60,8 +64,9 @@ class QuillController extends ChangeNotifier {
   }
 
   void redo() {
-    if (document.redo()) {
-      _handleHistoryChange();
+    Tuple2 tup = document.redo();
+    if (tup.item1){
+      _handleHistoryChange(tup.item2);
     }
   }
 

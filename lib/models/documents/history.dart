@@ -84,11 +84,22 @@ class History {
     }
   }
 
-  bool _change(Document doc, List<Delta> source, List<Delta> dest) {
+  Tuple2 _change(Document doc, List<Delta> source, List<Delta> dest) {
     if (source.length == 0) {
-      return false;
+      return new Tuple2(false, 0);
     }
     Delta delta = source.removeLast();
+    // look for insert or delete
+    int len = 0;
+    List<Operation> ops = delta.toList();
+    for(var i = 0; i < ops.length; i++){
+      if (ops[i].key == Operation.insertKey){
+        len = ops[i].length;
+      }
+      else if (ops[i].key == Operation.deleteKey){
+        len = ops[i].length * -1;
+      }
+    }
     Delta base = Delta.from(doc.toDelta());
     Delta inverseDelta = delta.invert(base);
     dest.add(inverseDelta);
@@ -96,14 +107,14 @@ class History {
     this.ignoreChange = true;
     doc.compose(delta, ChangeSource.LOCAL);
     this.ignoreChange = false;
-    return true;
+    return new Tuple2(true, len);
   }
 
-  bool undo(Document doc) {
+  Tuple2 undo(Document doc) {
     return _change(doc, stack.undo, stack.redo);
   }
 
-  bool redo(Document doc) {
+  Tuple2 redo(Document doc) {
     return _change(doc, stack.redo, stack.undo);
   }
 }
