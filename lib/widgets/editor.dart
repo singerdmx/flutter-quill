@@ -344,7 +344,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       String link = segment.style.attributes[Attribute.link.key].value;
       if (getEditor().widget.readOnly &&
           link != null &&
-          urlRegExp.firstMatch(link) != null) {
+          urlRegExp.firstMatch(link.trim()) != null) {
         launchUrl(link);
       }
     }
