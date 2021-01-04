@@ -37,3 +37,6 @@
 
 ## [0.1.3]
 * Handle cursor position change when undo/redo.
+
+## [0.1.4]
+* Handle url with trailing spaces.
