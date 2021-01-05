@@ -40,3 +40,6 @@
 
 ## [0.1.4]
 * Handle url with trailing spaces.
+
+## [0.1.5]
+* Support text alignment.

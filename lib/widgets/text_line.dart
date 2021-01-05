@@ -45,6 +45,7 @@ class TextLine extends StatelessWidget {
     final textAlign = _getTextAlign();
     RichText child = RichText(
       text: _buildTextSpan(context),
+      textAlign: textAlign,
       textDirection: textDirection,
       strutStyle: strutStyle,
       textScaleFactor: MediaQuery.textScaleFactorOf(context),
