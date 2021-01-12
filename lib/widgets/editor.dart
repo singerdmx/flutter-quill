@@ -321,7 +321,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
   }
 
-  _launchUrlIfNeeded(TapUpDetails details) {
+  _tappingUrlOrImage(TapUpDetails details) {
     TextPosition pos =
         getRenderEditor().getPositionForOffset(details.globalPosition);
     containerNode.ChildQuery result =
@@ -373,7 +373,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   onSingleTapUp(TapUpDetails details) {
     getEditor().hideToolbar();
 
-    _launchUrlIfNeeded(details);
+    _tappingUrlOrImage(details);
 
     if (delegate.getSelectionEnabled()) {
       switch (Theme.of(_state.context).platform) {
