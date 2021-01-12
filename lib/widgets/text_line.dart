@@ -564,7 +564,8 @@ class RenderEditableTextLine extends RenderEditableBox {
     assert(boxes.isNotEmpty);
     TextBox targetBox = first ? boxes.first : boxes.last;
     return TextSelectionPoint(
-        Offset(targetBox.start, targetBox.bottom), targetBox.direction);
+        Offset(first ? targetBox.start : targetBox.end, targetBox.bottom),
+        targetBox.direction);
   }
 
   @override
