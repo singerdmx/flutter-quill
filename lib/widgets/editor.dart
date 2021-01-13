@@ -321,7 +321,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
   }
 
-  _tappingUrlOrImage(TapUpDetails details) {
+  _onTapping(TapUpDetails details) {
     TextPosition pos =
         getRenderEditor().getPositionForOffset(details.globalPosition);
     containerNode.ChildQuery result =
@@ -347,6 +347,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
           urlRegExp.firstMatch(link.trim()) != null) {
         launchUrl(link);
       }
+      return;
     }
     if (getEditor().widget.readOnly && segment.value is BlockEmbed) {
       BlockEmbed blockEmbed = segment.value as BlockEmbed;
@@ -359,6 +360,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
           ),
         );
       }
+      return;
     }
   }
 
@@ -373,7 +375,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   onSingleTapUp(TapUpDetails details) {
     getEditor().hideToolbar();
 
-    _tappingUrlOrImage(details);
+    _onTapping(details);
 
     if (delegate.getSelectionEnabled()) {
       switch (Theme.of(_state.context).platform) {

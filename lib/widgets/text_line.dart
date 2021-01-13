@@ -221,7 +221,7 @@ class TextLine extends StatelessWidget {
     }
 
     if (!s.startsWith('#')) {
-      throw("Color code not supported");
+      throw ("Color code not supported");
     }
 
     String hex = s.replaceFirst('#', '');
