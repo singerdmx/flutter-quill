@@ -4,7 +4,7 @@ enum AttributeScope {
   INLINE, // refer to https://quilljs.com/docs/formats/#inline
   BLOCK, // refer to https://quilljs.com/docs/formats/#block
   EMBEDS, // refer to https://quilljs.com/docs/formats/#embeds
-  IGNORE, // atttributes that can be igored
+  IGNORE, // attributes that can be ignored
 }
 
 class Attribute<T> {
@@ -116,8 +116,11 @@ class Attribute<T> {
   // "attributes":{"list":"ordered"}
   static Attribute<String> get ol => ListAttribute('ordered');
 
-  // "attributes":{"list":"check"}
-  static Attribute<String> get check => ListAttribute('check');
+  // "attributes":{"list":"checked"}
+  static Attribute<String> get checked => ListAttribute('checked');
+
+  // "attributes":{"list":"unchecked"}
+  static Attribute<String> get unchecked => ListAttribute('unchecked');
 
   // "attributes":{"indent":1"}
   static Attribute<int> get indentL1 => IndentAttribute(level: 1);

@@ -400,5 +400,24 @@
          "list":"bullet"
       },
       "insert":"\n"
+   },
+   },
+   {
+      "insert": "this is a check list"
+   },
+   {
+      "attributes": {
+         "list": "checked"
+      },
+      "insert": "\n"
+   },
+   {
+      "insert": "this is a uncheck list"
+   },
+   {
+      "attributes": {
+         "list": "unchecked"
+      },
+      "insert": "\n"
    }
 ]
