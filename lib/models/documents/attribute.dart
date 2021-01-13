@@ -116,6 +116,9 @@ class Attribute<T> {
   // "attributes":{"list":"ordered"}
   static Attribute<String> get ol => ListAttribute('ordered');
 
+  // "attributes":{"list":"check"}
+  static Attribute<String> get check => ListAttribute('check');
+
   // "attributes":{"indent":1"}
   static Attribute<int> get indentL1 => IndentAttribute(level: 1);
 
