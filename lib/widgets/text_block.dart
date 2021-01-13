@@ -155,6 +155,23 @@ class EditableTextBlock extends StatelessWidget {
         width: 32,
       );
     }
+
+    if (attrs[Attribute.list.key] == Attribute.checked) {
+      return _CheckedPoint(
+        style: defaultStyles.paragraph.style,
+        width: 32,
+        isChecked: true
+      );
+    }
+
+    if (attrs[Attribute.list.key] == Attribute.unchecked) {
+      return _CheckedPoint(
+          style: defaultStyles.paragraph.style,
+          width: 32,
+          isChecked: false
+      );
+    }
+
     if (attrs.containsKey(Attribute.codeBlock.key)) {
       return _NumberPoint(
         index: index,
@@ -674,4 +691,50 @@ class _BulletPoint extends StatelessWidget {
       padding: EdgeInsetsDirectional.only(end: 13.0),
     );
   }
+}
+
+class _CheckedPoint extends StatefulWidget {
+  final TextStyle style;
+  final double width;
+  final bool isChecked;
+
+  const _CheckedPoint({Key key, this.style, this.width, this.isChecked}) : super(key: key);
+  @override
+  _CheckedPointState createState() => _CheckedPointState();
+}
+
+class _CheckedPointState extends State<_CheckedPoint> {
+
+  bool isChecked;
+
+  void _onCheckboxClicked(bool newValue) => setState(() {
+    isChecked = newValue;
+
+    if (isChecked) {
+      // check list
+    } else {
+      // uncheck list
+    }
+  });
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.isChecked;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: AlignmentDirectional.topEnd,
+      child: Checkbox(
+        value: widget.isChecked,
+        onChanged: _onCheckboxClicked,
+      ),
+      width: widget.width,
+      padding: EdgeInsetsDirectional.only(end: 13.0),
+    );
+  }
+
 }
