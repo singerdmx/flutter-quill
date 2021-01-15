@@ -335,7 +335,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (segmentResult.node == null) {
       if (line.length == 1) {
         // tapping when no text yet on this line
-        _flipListCheckbox(line, segmentResult);
+        _flipListCheckbox(pos, line, segmentResult);
       }
       return;
     }
@@ -366,12 +366,13 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
       return;
     }
-    if (_flipListCheckbox(line, segmentResult)) {
+    if (_flipListCheckbox(pos, line, segmentResult)) {
       return;
     }
   }
 
-  bool _flipListCheckbox(Line line, containerNode.ChildQuery segmentResult) {
+  bool _flipListCheckbox(
+      TextPosition pos, Line line, containerNode.ChildQuery segmentResult) {
     if (getEditor().widget.readOnly ||
         !line.style.containsKey(Attribute.list.key) ||
         segmentResult.offset != 0) {
@@ -379,12 +380,16 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
     // segmentResult.offset == 0 means tap at the beginning of the TextLine
     String listVal = line.style.attributes[Attribute.list.key].value;
-    // TODO: check getEditor().widget.controller.selection
-    // Maybe use formatText instead
     if (listVal == Attribute.unchecked.value) {
-      getEditor().widget.controller.formatSelection(Attribute.checked);
+      getEditor()
+          .widget
+          .controller
+          .formatText(pos.offset, 0, Attribute.checked);
     } else if (listVal == Attribute.checked.value) {
-      getEditor().widget.controller.formatSelection(Attribute.unchecked);
+      getEditor()
+          .widget
+          .controller
+          .formatText(pos.offset, 0, Attribute.unchecked);
     }
     return true;
   }
