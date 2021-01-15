@@ -46,3 +46,6 @@
 
 ## [0.1.6]
 * Fix getExtentEndpointForSelection.
+
+## [0.1.7]
+* Support checked/unchecked list.
