@@ -362,6 +362,21 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
       return;
     }
+    if (!getEditor().widget.readOnly &&
+        segment.parent.style.containsKey(Attribute.list.key)) {
+      String listVal =
+          segment.parent.style.attributes[Attribute.list.key].value;
+      if (listVal == "unchecked") {
+        segment.parent.style.attributes
+            .update(Attribute.list.key, (value) => Attribute.checked);
+        getEditor().widget.controller.notifyChangeListeners();
+      } else if (listVal == "checked") {
+        segment.parent.style.attributes
+            .update(Attribute.list.key, (value) => Attribute.unchecked);
+        getEditor().widget.controller.notifyChangeListeners();
+      }
+      return;
+    }
   }
 
   void _launchUrl(String url) async {
