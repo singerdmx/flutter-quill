@@ -363,14 +363,16 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return;
     }
     if (!getEditor().widget.readOnly &&
-        segment.parent.style.containsKey(Attribute.list.key)) {
+        segment.parent.style.containsKey(Attribute.list.key) &&
+        segmentResult.offset == 0) {
+      // segmentResult.offset == 0 means tap at the beginning of the TextLine
       String listVal =
           segment.parent.style.attributes[Attribute.list.key].value;
-      if (listVal == "unchecked") {
+      if (listVal == Attribute.unchecked.value) {
         segment.parent.style.attributes
             .update(Attribute.list.key, (value) => Attribute.checked);
         getEditor().widget.controller.notifyChangeListeners();
-      } else if (listVal == "checked") {
+      } else if (listVal == Attribute.checked.value) {
         segment.parent.style.attributes
             .update(Attribute.list.key, (value) => Attribute.unchecked);
         getEditor().widget.controller.notifyChangeListeners();
