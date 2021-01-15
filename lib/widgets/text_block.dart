@@ -157,19 +157,13 @@ class EditableTextBlock extends StatelessWidget {
     }
 
     if (attrs[Attribute.list.key] == Attribute.checked) {
-      return _CheckedPoint(
-        style: defaultStyles.paragraph.style,
-        width: 32,
-        isChecked: true
-      );
+      return _Checkbox(
+          style: defaultStyles.paragraph.style, width: 32, isChecked: true);
     }
 
     if (attrs[Attribute.list.key] == Attribute.unchecked) {
-      return _CheckedPoint(
-          style: defaultStyles.paragraph.style,
-          width: 32,
-          isChecked: false
-      );
+      return _Checkbox(
+          style: defaultStyles.paragraph.style, width: 32, isChecked: false);
     }
 
     if (attrs.containsKey(Attribute.codeBlock.key)) {
@@ -693,36 +687,35 @@ class _BulletPoint extends StatelessWidget {
   }
 }
 
-class _CheckedPoint extends StatefulWidget {
+class _Checkbox extends StatefulWidget {
   final TextStyle style;
   final double width;
   final bool isChecked;
 
-  const _CheckedPoint({Key key, this.style, this.width, this.isChecked}) : super(key: key);
+  const _Checkbox({Key key, this.style, this.width, this.isChecked})
+      : super(key: key);
   @override
-  _CheckedPointState createState() => _CheckedPointState();
+  __CheckboxState createState() => __CheckboxState();
 }
 
-class _CheckedPointState extends State<_CheckedPoint> {
-
+class __CheckboxState extends State<_Checkbox> {
   bool isChecked;
 
   void _onCheckboxClicked(bool newValue) => setState(() {
-    isChecked = newValue;
+        isChecked = newValue;
 
-    if (isChecked) {
-      // check list
-    } else {
-      // uncheck list
-    }
-  });
+        if (isChecked) {
+          // check list
+        } else {
+          // uncheck list
+        }
+      });
 
   @override
   void initState() {
     super.initState();
     isChecked = widget.isChecked;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -736,5 +729,4 @@ class _CheckedPointState extends State<_CheckedPoint> {
       padding: EdgeInsetsDirectional.only(end: 13.0),
     );
   }
-
 }

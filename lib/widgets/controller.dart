@@ -64,6 +64,10 @@ class QuillController extends ChangeNotifier {
     }
   }
 
+  void notifyChangeListeners() {
+    notifyListeners();
+  }
+
   void redo() {
     Tuple2 tup = document.redo();
     if (tup.item1) {
