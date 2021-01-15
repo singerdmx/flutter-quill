@@ -19,6 +19,8 @@ class Attribute<T> {
     Attribute.italic.key: Attribute.italic,
     Attribute.underline.key: Attribute.underline,
     Attribute.strikeThrough.key: Attribute.strikeThrough,
+    Attribute.font.key: Attribute.font,
+    Attribute.size.key: Attribute.size,
     Attribute.link.key: Attribute.link,
     Attribute.color.key: Attribute.color,
     Attribute.background.key: Attribute.background,
@@ -40,6 +42,10 @@ class Attribute<T> {
   static final UnderlineAttribute underline = UnderlineAttribute();
 
   static final StrikeThroughAttribute strikeThrough = StrikeThroughAttribute();
+
+  static final FontAttribute font = FontAttribute(null);
+
+  static final SizeAttribute size = SizeAttribute(null);
 
   static final LinkAttribute link = LinkAttribute(null);
 
@@ -193,6 +199,14 @@ class UnderlineAttribute extends Attribute<bool> {
 
 class StrikeThroughAttribute extends Attribute<bool> {
   StrikeThroughAttribute() : super('strike', AttributeScope.INLINE, true);
+}
+
+class FontAttribute extends Attribute<String> {
+  FontAttribute(String val) : super('font', AttributeScope.INLINE, val);
+}
+
+class SizeAttribute extends Attribute<String> {
+  SizeAttribute(String val) : super('size', AttributeScope.INLINE, val);
 }
 
 class LinkAttribute extends Attribute<String> {
