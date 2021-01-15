@@ -44,7 +44,7 @@ abstract class Node extends LinkedListEntry<Node> {
   int getOffset() {
     int offset = 0;
 
-    if (isFirst) {
+    if (list == null || isFirst) {
       return offset;
     }
 

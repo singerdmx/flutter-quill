@@ -379,14 +379,12 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
     // segmentResult.offset == 0 means tap at the beginning of the TextLine
     String listVal = line.style.attributes[Attribute.list.key].value;
+    // TODO: check getEditor().widget.controller.selection
+    // Maybe use formatText instead
     if (listVal == Attribute.unchecked.value) {
-      line.style.attributes
-          .update(Attribute.list.key, (value) => Attribute.checked);
-      getEditor().widget.controller.notifyChangeListeners();
+      getEditor().widget.controller.formatSelection(Attribute.checked);
     } else if (listVal == Attribute.checked.value) {
-      line.style.attributes
-          .update(Attribute.list.key, (value) => Attribute.unchecked);
-      getEditor().widget.controller.notifyChangeListeners();
+      getEditor().widget.controller.formatSelection(Attribute.unchecked);
     }
     return true;
   }
