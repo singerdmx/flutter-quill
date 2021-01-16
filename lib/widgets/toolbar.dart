@@ -921,7 +921,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-        visible: showListBullets,
+        visible: showListCheck,
         child: ToggleCheckListButton(
           attribute: Attribute.unchecked,
           controller: controller,
