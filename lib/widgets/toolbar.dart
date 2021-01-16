@@ -254,6 +254,94 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
   }
 }
 
+class ToggleCheckListButton extends StatefulWidget {
+  final IconData icon;
+
+  final QuillController controller;
+
+  final ToggleStyleButtonBuilder childBuilder;
+
+  final Attribute attribute;
+
+  ToggleCheckListButton({
+    Key key,
+    @required this.icon,
+    @required this.controller,
+    this.childBuilder = defaultToggleStyleButtonBuilder,
+    @required this.attribute,
+  })  : assert(icon != null),
+        assert(controller != null),
+        assert(childBuilder != null),
+        super(key: key);
+
+  @override
+  _ToggleCheckListButtonState createState() => _ToggleCheckListButtonState();
+}
+
+class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
+  bool _isToggled;
+
+  Style get _selectionStyle => widget.controller.getSelectionStyle();
+
+  void _didChangeEditingValue() {
+    setState(() {
+      _isToggled =
+          _getIsToggled(widget.controller.getSelectionStyle().attributes);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isToggled = _getIsToggled(_selectionStyle.attributes);
+    widget.controller.addListener(_didChangeEditingValue);
+  }
+
+  bool _getIsToggled(Map<String, Attribute> attrs) {
+    if (widget.attribute.key == Attribute.list.key) {
+      Attribute attribute = attrs[widget.attribute.key];
+      if (attribute == null) {
+        return false;
+      }
+      return attribute.value == widget.attribute.value ||
+          attribute.value == Attribute.checked.value;
+    }
+    return attrs.containsKey(widget.attribute.key);
+  }
+
+  @override
+  void didUpdateWidget(covariant ToggleCheckListButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_didChangeEditingValue);
+      widget.controller.addListener(_didChangeEditingValue);
+      _isToggled = _getIsToggled(_selectionStyle.attributes);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_didChangeEditingValue);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isInCodeBlock =
+        _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
+    final isEnabled =
+        !isInCodeBlock || Attribute.list.key == Attribute.codeBlock.key;
+    return widget.childBuilder(context, Attribute.unchecked, widget.icon,
+        _isToggled, isEnabled ? _toggleAttribute : null);
+  }
+
+  _toggleAttribute() {
+    widget.controller.formatSelection(_isToggled
+        ? Attribute.clone(Attribute.unchecked, null)
+        : Attribute.unchecked);
+  }
+}
+
 Widget defaultToggleStyleButtonBuilder(
   BuildContext context,
   Attribute attribute,
@@ -701,6 +789,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showHeaderStyle = true,
       bool showListNumbers = true,
       bool showListBullets = true,
+      bool showListCheck = true,
       bool showCodeBlock = true,
       bool showQuote = true,
       bool showIndent = true,
@@ -832,6 +921,14 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
+        visible: showListBullets,
+        child: ToggleCheckListButton(
+          attribute: Attribute.unchecked,
+          controller: controller,
+          icon: Icons.check_box,
+        ),
+      ),
+      Visibility(
         visible: showCodeBlock,
         child: ToggleStyleButton(
           attribute: Attribute.codeBlock,
@@ -840,7 +937,10 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
         ),
       ),
       Visibility(
-          visible: !showListNumbers && !showListBullets && !showCodeBlock,
+          visible: !showListNumbers &&
+              !showListBullets &&
+              !showListCheck &&
+              !showCodeBlock,
           child: VerticalDivider(
               indent: 16, endIndent: 16, color: Colors.grey.shade400)),
       Visibility(
