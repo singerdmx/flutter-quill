@@ -50,6 +50,9 @@ class DefaultStyles {
   final TextStyle italic;
   final TextStyle underline;
   final TextStyle strikeThrough;
+  final TextStyle sizeSmall; // 'small'
+  final TextStyle sizeLarge; // 'large'
+  final TextStyle sizeHuge; // 'huge'
   final TextStyle link;
   final DefaultTextBlockStyle lists;
   final DefaultTextBlockStyle quote;
@@ -71,7 +74,10 @@ class DefaultStyles {
       this.quote,
       this.code,
       this.indent,
-      this.align);
+      this.align,
+      this.sizeSmall,
+      this.sizeLarge,
+      this.sizeHuge);
 
   static DefaultStyles getInstance(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -162,7 +168,10 @@ class DefaultStyles {
             )),
         DefaultTextBlockStyle(baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
         DefaultTextBlockStyle(
-            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null));
+            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
+        TextStyle(fontSize: 10.0),
+        TextStyle(fontSize: 18.0),
+        TextStyle(fontSize: 22.0));
   }
 
   DefaultStyles merge(DefaultStyles other) {
@@ -180,6 +189,9 @@ class DefaultStyles {
         other.quote ?? this.quote,
         other.code ?? this.code,
         other.indent ?? this.indent,
-        other.align ?? this.align);
+        other.align ?? this.align,
+        other.sizeSmall ?? this.sizeSmall,
+        other.sizeLarge ?? this.sizeLarge,
+        other.sizeHuge ?? this.sizeHuge);
   }
 }

@@ -49,3 +49,6 @@
 
 ## [0.1.7]
 * Support checked/unchecked list.
+
+## [0.1.8]
+* Support font and size attributes.

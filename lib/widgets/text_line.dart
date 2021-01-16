@@ -248,6 +248,28 @@ class TextLine extends StatelessWidget {
       }
     });
 
+    Attribute font = textNode.style.attributes[Attribute.font.key];
+    if (font != null && font.value != null) {
+      res = res.merge(TextStyle(fontFamily: font.value));
+    }
+
+    Attribute size = textNode.style.attributes[Attribute.size.key];
+    if (size != null && size.value != null) {
+      switch (size.value) {
+        case 'small':
+          res = res.merge(defaultStyles.sizeSmall);
+          break;
+        case 'large':
+          res = res.merge(defaultStyles.sizeLarge);
+          break;
+        case 'huge':
+          res = res.merge(defaultStyles.sizeHuge);
+          break;
+        default:
+          throw "Invalid size ${size.value}";
+      }
+    }
+
     Attribute color = textNode.style.attributes[Attribute.color.key];
     if (color != null && color.value != null) {
       final textColor = _hexStringToColor(color.value);

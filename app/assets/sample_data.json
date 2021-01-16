@@ -418,5 +418,62 @@
          "list": "unchecked"
       },
       "insert": "\n"
+   },
+   {
+      "insert": "Font "
+   },
+   {
+      "attributes": {
+         "font": "sans-serif"
+      },
+      "insert": "Sans Serif"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "font": "serif"
+      },
+      "insert": "Serif"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "font": "monospace"
+      },
+      "insert": "Monospace"
+   },
+   {
+      "insert": " Size "
+   },
+   {
+      "attributes": {
+         "size": "small"
+      },
+      "insert": "Small"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "size": "large"
+      },
+      "insert": "Large"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "size": "huge"
+      },
+      "insert": "Huge"
+   },
+   {
+      "insert": "\n"
    }
 ]
