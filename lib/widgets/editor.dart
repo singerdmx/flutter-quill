@@ -372,6 +372,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_flipListCheckbox(pos, line, segmentResult)) {
       return true;
     }
+    return false;
   }
 
   bool _flipListCheckbox(
