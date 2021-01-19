@@ -321,13 +321,13 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
   }
 
-  _onTapping(TapUpDetails details) {
+  bool _onTapping(TapUpDetails details) {
     TextPosition pos =
         getRenderEditor().getPositionForOffset(details.globalPosition);
     containerNode.ChildQuery result =
         getEditor().widget.controller.document.queryChild(pos.offset);
     if (result.node == null) {
-      return;
+      return false;
     }
     Line line = result.node as Line;
     containerNode.ChildQuery segmentResult =
@@ -336,8 +336,11 @@ class _QuillEditorSelectionGestureDetectorBuilder
       if (line.length == 1) {
         // tapping when no text yet on this line
         _flipListCheckbox(pos, line, segmentResult);
+        getEditor().widget.controller.updateSelection(
+            TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
+        return true;
       }
-      return;
+      return false;
     }
     Leaf segment = segmentResult.node as Leaf;
     if (segment.style.containsKey(Attribute.link.key)) {
@@ -351,7 +354,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
           urlRegExp.firstMatch(link.trim()) != null) {
         launchUrl(link);
       }
-      return;
+      return false;
     }
     if (getEditor().widget.readOnly && segment.value is BlockEmbed) {
       BlockEmbed blockEmbed = segment.value as BlockEmbed;
@@ -364,10 +367,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
           ),
         );
       }
-      return;
+      return false;
     }
     if (_flipListCheckbox(pos, line, segmentResult)) {
-      return;
+      return true;
     }
   }
 
@@ -391,6 +394,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
           .controller
           .formatText(pos.offset, 0, Attribute.unchecked);
     }
+    getEditor().widget.controller.updateSelection(
+        TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
     return true;
   }
 
@@ -405,9 +410,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
   onSingleTapUp(TapUpDetails details) {
     getEditor().hideToolbar();
 
-    _onTapping(details);
+    bool tapping = _onTapping(details);
 
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.getSelectionEnabled() && !tapping) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
