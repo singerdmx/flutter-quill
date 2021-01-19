@@ -52,3 +52,6 @@
 
 ## [0.1.8]
 * Support font and size attributes.
+
+## [0.2.0]
+* Add checked/unchecked list button in toolbar.

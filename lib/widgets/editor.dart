@@ -410,9 +410,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
   onSingleTapUp(TapUpDetails details) {
     getEditor().hideToolbar();
 
-    bool tapping = _onTapping(details);
+    bool positionSelected = _onTapping(details);
 
-    if (delegate.getSelectionEnabled() && !tapping) {
+    if (delegate.getSelectionEnabled() && !positionSelected) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
