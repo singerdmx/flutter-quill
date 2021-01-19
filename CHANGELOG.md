@@ -55,3 +55,6 @@
 
 ## [0.2.0]
 * Add checked/unchecked list button in toolbar.
+
+## [0.2.1]
+* Fix static analysis error.
