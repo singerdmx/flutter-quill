@@ -58,3 +58,6 @@
 
 ## [0.2.1]
 * Fix static analysis error.
+
+## [0.2.2]
+* Update git repo.
