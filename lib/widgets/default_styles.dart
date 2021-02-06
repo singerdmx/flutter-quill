@@ -18,7 +18,7 @@ class QuillStyles extends InheritedWidget {
     return data != oldWidget.data;
   }
 
-  static DefaultStyles getStyles(BuildContext context, nullOk) {
+  static DefaultStyles getStyles(BuildContext context, bool nullOk) {
     var widget = context.dependOnInheritedWidgetOfExactType<QuillStyles>();
     if (widget == null && nullOk) {
       return null;
@@ -61,7 +61,7 @@ class DefaultStyles {
   final DefaultTextBlockStyle align;
 
   DefaultStyles(
-      this.h1,
+      {this.h1,
       this.h2,
       this.h3,
       this.paragraph,
@@ -77,7 +77,7 @@ class DefaultStyles {
       this.align,
       this.sizeSmall,
       this.sizeLarge,
-      this.sizeHuge);
+      this.sizeHuge});
 
   static DefaultStyles getInstance(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -104,7 +104,7 @@ class DefaultStyles {
     }
 
     return DefaultStyles(
-        DefaultTextBlockStyle(
+        h1: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 34.0,
               color: defaultTextStyle.style.color.withOpacity(0.70),
@@ -114,7 +114,7 @@ class DefaultStyles {
             Tuple2(16.0, 0.0),
             Tuple2(0.0, 0.0),
             null),
-        DefaultTextBlockStyle(
+        h2: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 24.0,
               color: defaultTextStyle.style.color.withOpacity(0.70),
@@ -124,7 +124,7 @@ class DefaultStyles {
             Tuple2(8.0, 0.0),
             Tuple2(0.0, 0.0),
             null),
-        DefaultTextBlockStyle(
+        h3: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 20.0,
               color: defaultTextStyle.style.color.withOpacity(0.70),
@@ -134,17 +134,19 @@ class DefaultStyles {
             Tuple2(8.0, 0.0),
             Tuple2(0.0, 0.0),
             null),
-        DefaultTextBlockStyle(baseStyle, baseSpacing, Tuple2(0.0, 0.0), null),
-        TextStyle(fontWeight: FontWeight.bold),
-        TextStyle(fontStyle: FontStyle.italic),
-        TextStyle(decoration: TextDecoration.underline),
-        TextStyle(decoration: TextDecoration.lineThrough),
-        TextStyle(
+        paragraph: DefaultTextBlockStyle(
+            baseStyle, baseSpacing, Tuple2(0.0, 0.0), null),
+        bold: TextStyle(fontWeight: FontWeight.bold),
+        italic: TextStyle(fontStyle: FontStyle.italic),
+        underline: TextStyle(decoration: TextDecoration.underline),
+        strikeThrough: TextStyle(decoration: TextDecoration.lineThrough),
+        link: TextStyle(
           color: themeData.accentColor,
           decoration: TextDecoration.underline,
         ),
-        DefaultTextBlockStyle(baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
-        DefaultTextBlockStyle(
+        lists: DefaultTextBlockStyle(
+            baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
+        quote: DefaultTextBlockStyle(
             TextStyle(color: baseStyle.color.withOpacity(0.6)),
             baseSpacing,
             Tuple2(6.0, 2.0),
@@ -153,7 +155,7 @@ class DefaultStyles {
                 left: BorderSide(width: 4, color: Colors.grey.shade300),
               ),
             )),
-        DefaultTextBlockStyle(
+        code: DefaultTextBlockStyle(
             TextStyle(
               color: Colors.blue.shade900.withOpacity(0.9),
               fontFamily: fontFamily,
@@ -166,32 +168,33 @@ class DefaultStyles {
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )),
-        DefaultTextBlockStyle(baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
-        DefaultTextBlockStyle(
+        indent: DefaultTextBlockStyle(
+            baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
+        align: DefaultTextBlockStyle(
             baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
-        TextStyle(fontSize: 10.0),
-        TextStyle(fontSize: 18.0),
-        TextStyle(fontSize: 22.0));
+        sizeSmall: TextStyle(fontSize: 10.0),
+        sizeLarge: TextStyle(fontSize: 18.0),
+        sizeHuge: TextStyle(fontSize: 22.0));
   }
 
   DefaultStyles merge(DefaultStyles other) {
     return DefaultStyles(
-        other.h1 ?? this.h1,
-        other.h2 ?? this.h2,
-        other.h3 ?? this.h3,
-        other.paragraph ?? this.paragraph,
-        other.bold ?? this.bold,
-        other.italic ?? this.italic,
-        other.underline ?? this.underline,
-        other.strikeThrough ?? this.strikeThrough,
-        other.link ?? this.link,
-        other.lists ?? this.lists,
-        other.quote ?? this.quote,
-        other.code ?? this.code,
-        other.indent ?? this.indent,
-        other.align ?? this.align,
-        other.sizeSmall ?? this.sizeSmall,
-        other.sizeLarge ?? this.sizeLarge,
-        other.sizeHuge ?? this.sizeHuge);
+        h1: other.h1 ?? this.h1,
+        h2: other.h2 ?? this.h2,
+        h3: other.h3 ?? this.h3,
+        paragraph: other.paragraph ?? this.paragraph,
+        bold: other.bold ?? this.bold,
+        italic: other.italic ?? this.italic,
+        underline: other.underline ?? this.underline,
+        strikeThrough: other.strikeThrough ?? this.strikeThrough,
+        link: other.link ?? this.link,
+        lists: other.lists ?? this.lists,
+        quote: other.quote ?? this.quote,
+        code: other.code ?? this.code,
+        indent: other.indent ?? this.indent,
+        align: other.align ?? this.align,
+        sizeSmall: other.sizeSmall ?? this.sizeSmall,
+        sizeLarge: other.sizeLarge ?? this.sizeLarge,
+        sizeHuge: other.sizeHuge ?? this.sizeHuge);
   }
 }
