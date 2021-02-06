@@ -6,7 +6,6 @@ import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
 
-
 typedef DemoContentBuilder = Widget Function(
     BuildContext context, QuillController controller);
 
@@ -56,7 +55,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
   Future<void> _loadFromAssets() async {
     try {
       final result =
-      await rootBundle.loadString('assets/${widget.documentFilename}');
+          await rootBundle.loadString('assets/${widget.documentFilename}');
       final doc = Document.fromJson(jsonDecode(result));
       setState(() {
         _controller = QuillController(
@@ -72,7 +71,6 @@ class _DemoScaffoldState extends State<DemoScaffold> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
