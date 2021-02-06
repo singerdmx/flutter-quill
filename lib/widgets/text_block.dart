@@ -53,6 +53,7 @@ class EditableTextBlock extends StatelessWidget {
   final Tuple2 verticalSpacing;
   final TextSelection textSelection;
   final Color color;
+  final DefaultStyles styles;
   final bool enableInteractiveSelection;
   final bool hasFocus;
   final EdgeInsets contentPadding;
@@ -66,6 +67,7 @@ class EditableTextBlock extends StatelessWidget {
       this.verticalSpacing,
       this.textSelection,
       this.color,
+      this.styles,
       this.enableInteractiveSelection,
       this.hasFocus,
       this.contentPadding,
@@ -117,6 +119,7 @@ class EditableTextBlock extends StatelessWidget {
             line: line,
             textDirection: textDirection,
             embedBuilder: embedBuilder,
+            styles: styles,
           ),
           _getIndentWidth(),
           _getSpacingForLine(line, index, count, defaultStyles),

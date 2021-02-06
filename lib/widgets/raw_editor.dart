@@ -571,6 +571,7 @@ class RawEditorState extends EditorState
           line: node,
           textDirection: _textDirection,
           embedBuilder: widget.embedBuilder,
+          styles: _styles,
         );
         EditableTextLine editableTextLine = EditableTextLine(
             node,
@@ -594,6 +595,7 @@ class RawEditorState extends EditorState
             _getVerticalSpacingForBlock(node, _styles),
             widget.controller.selection,
             widget.selectionColor,
+            _styles,
             widget.enableInteractiveSelection,
             _hasFocus,
             attrs.containsKey(Attribute.codeBlock.key)

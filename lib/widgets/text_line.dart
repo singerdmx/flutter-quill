@@ -24,10 +24,13 @@ class TextLine extends StatelessWidget {
   final Line line;
   final TextDirection textDirection;
   final EmbedBuilder embedBuilder;
+  final DefaultStyles styles;
 
-  const TextLine({Key key, this.line, this.textDirection, this.embedBuilder})
+  const TextLine(
+      {Key key, this.line, this.textDirection, this.embedBuilder, this.styles})
       : assert(line != null),
         assert(embedBuilder != null),
+        assert(styles != null),
         super(key: key);
 
   @override
@@ -77,7 +80,7 @@ class TextLine extends StatelessWidget {
   }
 
   TextSpan _buildTextSpan(BuildContext context) {
-    DefaultStyles defaultStyles = DefaultStyles.getInstance(context);
+    DefaultStyles defaultStyles = styles;
     List<TextSpan> children = line.children
         .map((node) => _getTextSpanFromNode(defaultStyles, node))
         .toList(growable: false);
