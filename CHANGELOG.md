@@ -61,3 +61,6 @@
 
 ## [0.2.2]
 * Update git repo.
+
+## [0.2.3]
+* Support custom styles and image on local device storage without uploading.

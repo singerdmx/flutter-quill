@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:tuple/tuple.dart';
 
 import 'package:app/pages/read_only_page.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,18 @@ class _HomePageState extends State<HomePage> {
               enableInteractiveSelection: true,
               expands: false,
               padding: EdgeInsets.zero,
-              customStyles: DefaultStyles(sizeSmall: TextStyle(fontSize: 9.0)),
+              customStyles: DefaultStyles(
+                  h1: DefaultTextBlockStyle(
+                      TextStyle(
+                        fontSize: 32.0,
+                        color: Colors.black,
+                        height: 1.15,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      Tuple2(16.0, 0.0),
+                      Tuple2(0.0, 0.0),
+                      null),
+                  sizeSmall: TextStyle(fontSize: 9.0)),
             ),
           ),
         ),
