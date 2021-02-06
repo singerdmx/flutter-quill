@@ -64,3 +64,6 @@
 
 ## [0.2.3]
 * Support custom styles and image on local device storage without uploading.
+
+## [0.2.4]
+* Support the use of custom icon size in toolbar.

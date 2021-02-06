@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 
 import 'controller.dart';
 
-const double kToolbarHeight = 56.0;
+double iconSize = 18.0;
+double kToolbarHeight = iconSize * 2;
 
 typedef UploadFileCallback = Future<String> Function(File file);
 
@@ -28,10 +29,10 @@ class InsertEmbedButton extends StatelessWidget {
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: 32,
+      size: iconSize * 1.77,
       icon: Icon(
         icon,
-        size: 18,
+        size: iconSize,
         color: Theme.of(context).iconTheme.color,
       ),
       fillColor: Theme.of(context).canvasColor,
@@ -92,10 +93,10 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: 32,
+      size: iconSize * 1.77,
       icon: Icon(
         widget.icon ?? Icons.link,
-        size: 18,
+        size: iconSize,
         color: isEnabled ? theme.iconTheme.color : theme.disabledColor,
       ),
       fillColor: Theme.of(context).canvasColor,
@@ -360,8 +361,8 @@ Widget defaultToggleStyleButtonBuilder(
   return QuillIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
-    size: 32,
-    icon: Icon(icon, size: 18, color: iconColor),
+    size: iconSize * 1.77,
+    icon: Icon(icon, size: iconSize, color: iconColor),
     fillColor: fillColor,
     onPressed: onPressed,
   );
@@ -427,7 +428,7 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
 Widget _selectHeadingStyleButtonBuilder(
     BuildContext context, Attribute value, ValueChanged<Attribute> onSelected) {
-  final style = TextStyle(fontSize: 12);
+  final style = TextStyle(fontSize: 13);
 
   final Map<Attribute, String> _valueToText = {
     Attribute.header: 'Normal text',
@@ -439,32 +440,33 @@ Widget _selectHeadingStyleButtonBuilder(
   return QuillDropdownButton<Attribute>(
     highlightElevation: 0,
     hoverElevation: 0,
-    height: 32,
+    height: iconSize * 1.77,
+    fillColor: Theme.of(context).canvasColor,
     child: Text(
       _valueToText[value],
-      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
     initialValue: value,
     items: [
       PopupMenuItem(
         child: Text(_valueToText[Attribute.header], style: style),
         value: Attribute.header,
-        height: 32,
+        height: iconSize * 1.77,
       ),
       PopupMenuItem(
         child: Text(_valueToText[Attribute.h1], style: style),
         value: Attribute.h1,
-        height: 32,
+        height: iconSize * 1.77,
       ),
       PopupMenuItem(
         child: Text(_valueToText[Attribute.h2], style: style),
         value: Attribute.h2,
-        height: 32,
+        height: iconSize * 1.77,
       ),
       PopupMenuItem(
         child: Text(_valueToText[Attribute.h3], style: style),
         value: Attribute.h3,
-        height: 32,
+        height: iconSize * 1.77,
       ),
     ],
     onSelected: onSelected,
@@ -521,8 +523,8 @@ class _ImageButtonState extends State<ImageButton> {
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: 32,
-      icon: Icon(widget.icon, size: 18, color: iconColor),
+      size: iconSize * 1.77,
+      icon: Icon(widget.icon, size: iconSize, color: iconColor),
       fillColor: fillColor,
       onPressed: () {
         final index = widget.controller.selection.baseOffset;
@@ -572,8 +574,8 @@ class _ColorButtonState extends State<ColorButton> {
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: 32,
-      icon: Icon(widget.icon, size: 18, color: iconColor),
+      size: iconSize * 1.77,
+      icon: Icon(widget.icon, size: iconSize, color: iconColor),
       fillColor: fillColor,
       onPressed: _showColorPicker,
     );
@@ -595,6 +597,7 @@ class _ColorButtonState extends State<ColorButton> {
       context: context,
       builder: (_) => AlertDialog(
           title: const Text('Select Color'),
+          backgroundColor: Theme.of(context).canvasColor,
           content: SingleChildScrollView(
             child: MaterialPicker(
               pickerColor: Color(0),
@@ -640,8 +643,8 @@ class _HistoryButtonState extends State<HistoryButton> {
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: 32,
-      icon: Icon(widget.icon, size: 18, color: _iconColor),
+      size: iconSize * 1.77,
+      icon: Icon(widget.icon, size: iconSize, color: _iconColor),
       fillColor: fillColor,
       onPressed: _changeHistory,
     );
@@ -706,8 +709,8 @@ class _IndentButtonState extends State<IndentButton> {
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: 32,
-      icon: Icon(widget.icon, size: 18, color: iconColor),
+      size: iconSize * 1.77,
+      icon: Icon(widget.icon, size: iconSize, color: iconColor),
       fillColor: fillColor,
       onPressed: () {
         final indent = widget.controller
@@ -759,8 +762,8 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
     return QuillIconButton(
         highlightElevation: 0,
         hoverElevation: 0,
-        size: 32,
-        icon: Icon(widget.icon, size: 18, color: iconColor),
+        size: iconSize * 1.77,
+        icon: Icon(widget.icon, size: iconSize, color: iconColor),
         fillColor: fillColor,
         onPressed: () {
           for (Attribute k
@@ -779,6 +782,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   factory QuillToolbar.basic(
       {Key key,
       @required QuillController controller,
+      double toolbarIconSize = 18.0,
       bool showBoldButton = true,
       bool showItalicButton = true,
       bool showUnderLineButton = true,
@@ -797,6 +801,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showHistory = true,
       bool showHorizontalRule = false,
       UploadFileCallback uploadFileCallback}) {
+    iconSize = toolbarIconSize;
     return QuillToolbar(key: key, children: [
       Visibility(
         visible: showHistory,
@@ -996,6 +1001,7 @@ class _QuillToolbarState extends State<QuillToolbar> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       constraints: BoxConstraints.tightFor(height: widget.preferredSize.height),
+      color: Theme.of(context).canvasColor,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -1132,7 +1138,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
           children: [
             widget.child,
             Expanded(child: Container()),
-            Icon(Icons.arrow_drop_down, size: 14)
+            Icon(Icons.arrow_drop_down, size: 15)
           ],
         ),
       ),
