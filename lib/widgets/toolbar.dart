@@ -854,7 +854,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: showColorButton,
         child: ColorButton(
-          icon: Icons.format_color_text,
+          icon: Icons.color_lens,
           controller: controller,
           background: false,
         ),
