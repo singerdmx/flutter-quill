@@ -83,7 +83,10 @@ Widget _defaultEmbedBuilder(BuildContext context, Embed node) {
         color: Colors.grey.shade200,
       );
     case 'image':
-      return Image.network(node.value.data);
+      String imageUrl = node.value.data;
+      return imageUrl.startsWith('http')
+          ? Image.network(imageUrl)
+          : Image.asset(imageUrl);
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
