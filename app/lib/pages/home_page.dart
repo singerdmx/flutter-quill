@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/widgets/controller.dart';
+import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
 
@@ -84,6 +85,7 @@ class _HomePageState extends State<HomePage> {
               enableInteractiveSelection: true,
               expands: false,
               padding: EdgeInsets.zero,
+              customStyles: DefaultStyles(sizeSmall: TextStyle(fontSize: 9.0)),
             ),
           ),
         ),

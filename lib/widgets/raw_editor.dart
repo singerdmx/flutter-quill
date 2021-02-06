@@ -40,6 +40,7 @@ class RawEditor extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final double maxHeight;
   final double minHeight;
+  final DefaultStyles customStyles;
   final bool expands;
   final bool autoFocus;
   final Color selectionColor;
@@ -65,6 +66,7 @@ class RawEditor extends StatefulWidget {
       this.textCapitalization,
       this.maxHeight,
       this.minHeight,
+      this.customStyles,
       this.expands,
       this.autoFocus,
       this.selectionColor,
@@ -682,6 +684,10 @@ class RawEditorState extends EditorState
     _styles = (parentStyles != null)
         ? defaultStyles.merge(parentStyles)
         : defaultStyles;
+
+    if (widget.customStyles != null) {
+      _styles = _styles.merge(widget.customStyles);
+    }
 
     if (!_didAutoFocus && widget.autoFocus) {
       FocusScope.of(context).autofocus(widget.focusNode);

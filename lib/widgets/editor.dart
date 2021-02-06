@@ -104,6 +104,7 @@ class QuillEditor extends StatefulWidget {
   final bool enableInteractiveSelection;
   final double minHeight;
   final double maxHeight;
+  final DefaultStyles customStyles;
   final bool expands;
   final TextCapitalization textCapitalization;
   final Brightness keyboardAppearance;
@@ -123,6 +124,7 @@ class QuillEditor extends StatefulWidget {
       this.enableInteractiveSelection,
       this.minHeight,
       this.maxHeight,
+      this.customStyles,
       @required this.expands,
       this.textCapitalization = TextCapitalization.sentences,
       this.keyboardAppearance = Brightness.light,
@@ -242,6 +244,7 @@ class _QuillEditorState extends State<QuillEditor>
           widget.textCapitalization,
           widget.maxHeight,
           widget.minHeight,
+          widget.customStyles,
           widget.expands,
           widget.autoFocus,
           selectionColor,
