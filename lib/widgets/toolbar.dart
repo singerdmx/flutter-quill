@@ -567,6 +567,7 @@ class ColorButton extends StatefulWidget {
 
 class _ColorButtonState extends State<ColorButton> {
   String colorHex;
+  bool isWhite = false;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -578,8 +579,8 @@ class _ColorButtonState extends State<ColorButton> {
       size: iconSize * 1.77,
       icon: Icon(widget.icon,
           size: iconSize,
-          color: colorHex == null ? iconColor : fromHex(colorHex)),
-      fillColor: fillColor,
+          color: colorHex == null || isWhite ? iconColor : fromHex(colorHex)),
+      fillColor: isWhite ? fromHex(colorHex) : fillColor,
       onPressed: _showColorPicker,
     );
   }
@@ -590,8 +591,12 @@ class _ColorButtonState extends State<ColorButton> {
       hex = hex.substring(2);
     }
     hex = '#$hex';
+    print(hex);
     setState(() {
       colorHex = hex;
+      if (colorHex == "#ffffff") {
+        isWhite = true;
+      }
     });
     widget.controller.formatSelection(
         widget.background ? BackgroundAttribute(hex) : ColorAttribute(hex));
