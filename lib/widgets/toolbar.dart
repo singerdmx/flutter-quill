@@ -566,6 +566,7 @@ class ColorButton extends StatefulWidget {
 }
 
 class _ColorButtonState extends State<ColorButton> {
+  String colorHex;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -575,7 +576,9 @@ class _ColorButtonState extends State<ColorButton> {
       highlightElevation: 0,
       hoverElevation: 0,
       size: iconSize * 1.77,
-      icon: Icon(widget.icon, size: iconSize, color: iconColor),
+      icon: Icon(widget.icon,
+          size: iconSize,
+          color: colorHex == null ? iconColor : fromHex(colorHex)),
       fillColor: fillColor,
       onPressed: _showColorPicker,
     );
@@ -587,9 +590,19 @@ class _ColorButtonState extends State<ColorButton> {
       hex = hex.substring(2);
     }
     hex = '#$hex';
+    setState(() {
+      colorHex = hex;
+    });
     widget.controller.formatSelection(
         widget.background ? BackgroundAttribute(hex) : ColorAttribute(hex));
     Navigator.of(context).pop();
+  }
+
+  Color fromHex(String hexString) {
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
   }
 
   _showColorPicker() {
