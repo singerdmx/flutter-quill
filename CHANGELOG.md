@@ -67,3 +67,6 @@
 
 ## [0.2.4]
 * Support the use of custom icon size in toolbar.
+
+## [0.2.5]
+* Toggle text/background color button in toolbar.

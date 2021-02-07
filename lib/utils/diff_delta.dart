@@ -67,6 +67,10 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
 }
 
 int getPositionDelta(Delta user, Delta actual) {
+  if (actual.isEmpty) {
+    return 0;
+  }
+
   DeltaIterator userItr = DeltaIterator(user);
   DeltaIterator actualItr = DeltaIterator(actual);
   int diff = 0;

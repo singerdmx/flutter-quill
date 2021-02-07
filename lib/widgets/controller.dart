@@ -100,7 +100,7 @@ class QuillController extends ChangeNotifier {
 
     toggledStyle = Style();
     if (textSelection != null) {
-      if (delta == null) {
+      if (delta == null || delta.isEmpty) {
         _updateSelection(textSelection, ChangeSource.LOCAL);
       } else {
         try {
