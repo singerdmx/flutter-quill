@@ -596,6 +596,8 @@ class _ColorButtonState extends State<ColorButton> {
       colorHex = hex;
       if (colorHex == "#ffffff") {
         isWhite = true;
+      } else {
+        isWhite = false;
       }
     });
     widget.controller.formatSelection(
