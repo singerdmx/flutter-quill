@@ -5,6 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/style.dart';
+import 'package:flutter_quill/utils/color.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'controller.dart';
@@ -632,20 +633,20 @@ class _ColorButtonState extends State<ColorButton> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     Color iconColor = _isToggledColor && !widget.background && !_isWhite
-        ? fromHex(_selectionStyle.attributes["color"].value)
+        ? stringToColor(_selectionStyle.attributes["color"].value)
         : theme.iconTheme.color;
 
     Color iconColorBackground =
         _isToggledBackground && widget.background && !_isWhitebackground
-            ? fromHex(_selectionStyle.attributes["background"].value)
+            ? stringToColor(_selectionStyle.attributes["background"].value)
             : theme.iconTheme.color;
 
     Color fillColor = _isToggledColor && !widget.background && _isWhite
-        ? fromHex('#ffffff')
+        ? stringToColor('#ffffff')
         : theme.canvasColor;
     Color fillColorBackground =
         _isToggledBackground && widget.background && _isWhitebackground
-            ? fromHex('#ffffff')
+            ? stringToColor('#ffffff')
             : theme.canvasColor;
 
     return QuillIconButton(
@@ -669,13 +670,6 @@ class _ColorButtonState extends State<ColorButton> {
     widget.controller.formatSelection(
         widget.background ? BackgroundAttribute(hex) : ColorAttribute(hex));
     Navigator.of(context).pop();
-  }
-
-  Color fromHex(String hexString) {
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
   }
 
   _showColorPicker() {
