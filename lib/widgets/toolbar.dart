@@ -566,21 +566,96 @@ class ColorButton extends StatefulWidget {
 }
 
 class _ColorButtonState extends State<ColorButton> {
-  String colorHex;
-  bool isWhite = false;
+  bool _isToggledColor;
+  bool _isToggledBackground;
+  bool _isWhite;
+  bool _isWhitebackground;
+
+  Style get _selectionStyle => widget.controller.getSelectionStyle();
+
+  void _didChangeEditingValue() {
+    setState(() {
+      _isToggledColor =
+          _getIsToggledColor(widget.controller.getSelectionStyle().attributes);
+      _isToggledBackground = _getIsToggledBackground(
+          widget.controller.getSelectionStyle().attributes);
+      _isWhite = _isToggledColor &&
+          _selectionStyle.attributes["color"].value == '#ffffff';
+      _isWhitebackground = _isToggledBackground &&
+          _selectionStyle.attributes["background"].value == '#ffffff';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
+    _isToggledBackground = _getIsToggledBackground(_selectionStyle.attributes);
+    _isWhite = _isToggledColor &&
+        _selectionStyle.attributes["color"].value == '#ffffff';
+    _isWhitebackground = _isToggledBackground &&
+        _selectionStyle.attributes["background"].value == '#ffffff';
+    widget.controller.addListener(_didChangeEditingValue);
+  }
+
+  bool _getIsToggledColor(Map<String, Attribute> attrs) {
+    return attrs.containsKey(Attribute.color.key);
+  }
+
+  bool _getIsToggledBackground(Map<String, Attribute> attrs) {
+    return attrs.containsKey(Attribute.background.key);
+  }
+
+  @override
+  void didUpdateWidget(covariant ColorButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_didChangeEditingValue);
+      widget.controller.addListener(_didChangeEditingValue);
+      _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
+      _isToggledBackground =
+          _getIsToggledBackground(_selectionStyle.attributes);
+      _isWhite = _isToggledColor &&
+          _selectionStyle.attributes["color"].value == '#ffffff';
+      _isWhitebackground = _isToggledBackground &&
+          _selectionStyle.attributes["background"].value == '#ffffff';
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_didChangeEditingValue);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
-    final fillColor = theme.canvasColor;
+    Color iconColor = _isToggledColor && !widget.background && !_isWhite
+        ? fromHex(_selectionStyle.attributes["color"].value)
+        : theme.iconTheme.color;
+
+    Color iconColorBackground =
+        _isToggledBackground && widget.background && !_isWhitebackground
+            ? fromHex(_selectionStyle.attributes["background"].value)
+            : theme.iconTheme.color;
+
+    Color fillColor = _isToggledColor && !widget.background && _isWhite
+        ? fromHex('#ffffff')
+        : theme.canvasColor;
+    Color fillColorBackground =
+        _isToggledBackground && widget.background && _isWhitebackground
+            ? fromHex('#ffffff')
+            : theme.canvasColor;
+
     return QuillIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
       size: iconSize * 1.77,
       icon: Icon(widget.icon,
           size: iconSize,
-          color: colorHex == null || isWhite ? iconColor : fromHex(colorHex)),
-      fillColor: isWhite ? fromHex(colorHex) : fillColor,
+          color: widget.background ? iconColorBackground : iconColor),
+      fillColor: widget.background ? fillColorBackground : fillColor,
       onPressed: _showColorPicker,
     );
   }
@@ -591,15 +666,6 @@ class _ColorButtonState extends State<ColorButton> {
       hex = hex.substring(2);
     }
     hex = '#$hex';
-    print(hex);
-    setState(() {
-      colorHex = hex;
-      if (colorHex == "#ffffff") {
-        isWhite = true;
-      } else {
-        isWhite = false;
-      }
-    });
     widget.controller.formatSelection(
         widget.background ? BackgroundAttribute(hex) : ColorAttribute(hex));
     Navigator.of(context).pop();
