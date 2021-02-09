@@ -1028,6 +1028,11 @@ class RawEditorState extends EditorState
           data.text,
           value.selection,
         );
+        // move cursor to the end of pasted text selection
+        widget.controller.updateSelection(
+            TextSelection.collapsed(
+                offset: value.selection.start + data.text.length),
+            ChangeSource.LOCAL);
       }
     }
   }

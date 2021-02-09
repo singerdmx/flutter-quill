@@ -70,3 +70,6 @@
 
 ## [0.2.5]
 * Toggle text/background color button in toolbar.
+
+## [0.2.6]
+* Fix cursor after pasting.
