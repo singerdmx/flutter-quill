@@ -60,7 +60,7 @@ class TextLine extends StatelessWidget {
         textAlign,
         textDirection,
         1.0,
-        Localizations.localeOf(context),
+        Localizations.localeOf(context, nullOk: true),
         strutStyle,
         TextWidthBasis.parent,
         null);

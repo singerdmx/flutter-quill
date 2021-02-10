@@ -446,13 +446,7 @@ Widget _selectHeadingStyleButtonBuilder(
     height: iconSize * 1.77,
     fillColor: Theme.of(context).canvasColor,
     child: Text(
-      _valueToText[value.key == "header"
-          ? Attribute.header
-          : (value.key == "h1")
-              ? Attribute.h1
-              : (value.key == "h2")
-                  ? Attribute.h2
-                  : Attribute.h3],
+      _valueToText[value],
       style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
     initialValue: value,
