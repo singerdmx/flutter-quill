@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
@@ -65,7 +66,25 @@ class _HomePageState extends State<HomePage> {
         color: Colors.grey.shade800,
         child: _buildMenuBar(context),
       ),
-      body: _buildWelcomeEditor(context),
+      body: RawKeyboardListener(
+        focusNode: FocusNode(),
+        onKey: (RawKeyEvent event) {
+          if (event.data.isControlPressed && event.character == 'b') {
+            if (_controller
+                .getSelectionStyle()
+                .attributes
+                .keys
+                .contains("bold")) {
+              _controller
+                  .formatSelection(Attribute.clone(Attribute.bold, null));
+            } else {
+              _controller.formatSelection(Attribute.bold);
+              print("not bold");
+            }
+          }
+        },
+        child: _buildWelcomeEditor(context),
+      ),
     );
   }
 
