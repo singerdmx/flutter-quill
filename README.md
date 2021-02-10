@@ -20,10 +20,10 @@ For web development, [ReactQuill] is recommended to use for compatibility.
 
 One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal App: https://bulletjournal.us/home/index.html
 
-You can also join Slack Group for discussion.
+You can also join [Slack Group] for discussion.
 
 [Quill]: https://quilljs.com
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
 [ReactQuill]: https://github.com/zenoamaro/react-quill
-[Slack Group ]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
+[Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
