@@ -1,5 +1,6 @@
 
-<a href="https://bulletjournal.us/home/index.html"><img src=  
+<a href="https://bulletjournal.us/home/index.html">
+<img src=  
 "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"  
  width="150px" height="150px"></a>  
   
@@ -10,8 +11,9 @@ Rich text editor and a [Quill] component for [Flutter].
 https://pub.dev/packages/flutter_quill  
   
 This library is a WYSIWYG editor built for the modern mobile platform only and web is under development.  
-  
-To run the app on web do the following:
+ 
+Default branch `master` is on channel `master`. To use channel `stable`, switch to branch `stable`.
+Branch `master` on channel `master` supports web. To run the app on web do the following:
 1) Change flutter channel to master using `flutter channel master`, followed by `flutter upgrade`.
 2) Enable web using `flutter config --enable-web` and restart the IDE.
 3) Upon successful execution of step 1 and 2 you should see `Chrome` as one of the devices which you run `flutter devices`.

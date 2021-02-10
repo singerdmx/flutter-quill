@@ -78,14 +78,11 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
     case 'image':
       if (kIsWeb) {
         return SizedBox.shrink();
-      } else {
-        String imageUrl = node.value.data;
-        return imageUrl.startsWith('http')
-            ? Image.network(imageUrl)
-            : Image.asset(imageUrl);
       }
-      break;
-
+      String imageUrl = node.value.data;
+      return imageUrl.startsWith('http')
+          ? Image.network(imageUrl)
+          : Image.asset(imageUrl);
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
