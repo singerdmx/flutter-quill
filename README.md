@@ -8,8 +8,6 @@ Rich text editor and a [Quill] component for [Flutter].
 
 https://pub.dev/packages/flutter_quill
 
-Slack Group https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
-
 This library is a WYSIWYG editor built for the modern mobile platform only and web is not supported.
 For web development, [ReactQuill] is recommended to use for compatibility.
 
@@ -21,8 +19,10 @@ For web development, [ReactQuill] is recommended to use for compatibility.
 <img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
 
 One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal App: https://bulletjournal.us/home/index.html
+You can also join Slack Group for discussion.
 
 [Quill]: https://quilljs.com
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
 [ReactQuill]: https://github.com/zenoamaro/react-quill
+[Slack Group ]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
