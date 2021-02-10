@@ -11,7 +11,7 @@ import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
     as containerNode;
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
-import 'package:flutter_quill/models/documents/nodes/leaf.dart';
+import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/widgets/image.dart';
@@ -73,20 +73,16 @@ abstract class RenderAbstractEditor {
   void selectPosition(SelectionChangedCause cause);
 }
 
-Widget _defaultEmbedBuilder(BuildContext context, Embed node) {
+Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
-    case 'divider':
+    case 'image':
       final style = QuillStyles.getStyles(context, true);
       return Divider(
         height: style.paragraph.style.fontSize * style.paragraph.style.height,
         thickness: 2,
         color: Colors.grey.shade200,
       );
-    case 'image':
-      String imageUrl = node.value.data;
-      return imageUrl.startsWith('http')
-          ? Image.network(imageUrl)
-          : Image.asset(imageUrl);
+
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
@@ -348,7 +344,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
       return false;
     }
-    Leaf segment = segmentResult.node as Leaf;
+    leaf.Leaf segment = segmentResult.node as leaf.Leaf;
     if (segment.style.containsKey(Attribute.link.key)) {
       var launchUrl = getEditor().widget.onLaunchUrl;
       if (launchUrl == null) {
