@@ -399,8 +399,10 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
   @override
   void initState() {
     super.initState();
-    _value =
-        _selectionStyle.attributes[Attribute.header.key] ?? Attribute.header;
+    setState(() {
+      _value =
+          _selectionStyle.attributes[Attribute.header.key] ?? Attribute.header;
+    });
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -444,7 +446,13 @@ Widget _selectHeadingStyleButtonBuilder(
     height: iconSize * 1.77,
     fillColor: Theme.of(context).canvasColor,
     child: Text(
-      _valueToText[value],
+      _valueToText[value.key == "header"
+          ? Attribute.header
+          : (value.key == "h1")
+              ? Attribute.h1
+              : (value.key == "h2")
+                  ? Attribute.h2
+                  : Attribute.h3],
       style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
     initialValue: value,
@@ -1082,11 +1090,17 @@ class _QuillToolbarState extends State<QuillToolbar> {
       padding: EdgeInsets.symmetric(horizontal: 8),
       constraints: BoxConstraints.tightFor(height: widget.preferredSize.height),
       color: Theme.of(context).canvasColor,
-      child: SingleChildScrollView(
+      child: CustomScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: widget.children,
-        ),
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: widget.children,
+            ),
+          ),
+        ],
       ),
     );
   }
