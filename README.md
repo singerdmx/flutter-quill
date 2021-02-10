@@ -8,6 +8,8 @@ Rich text editor and a [Quill] component for [Flutter].
 
 https://pub.dev/packages/flutter_quill
 
+Slack Group https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
+
 This library is a WYSIWYG editor built for the modern mobile platform only and web is not supported.
 For web development, [ReactQuill] is recommended to use for compatibility.
 
