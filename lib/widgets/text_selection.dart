@@ -206,7 +206,6 @@ class EditorTextSelectionOverlay {
           endpoints,
           selectionDelegate,
           clipboardStatus,
-          Offset(0, 0),
         ),
       ),
     );
