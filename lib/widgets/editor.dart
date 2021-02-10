@@ -76,12 +76,15 @@ abstract class RenderAbstractEditor {
 Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
-      final style = QuillStyles.getStyles(context, true);
-      return Divider(
-        height: style.paragraph.style.fontSize * style.paragraph.style.height,
-        thickness: 2,
-        color: Colors.grey.shade200,
-      );
+      if (kIsWeb) {
+        return SizedBox.shrink();
+      } else {
+        String imageUrl = node.value.data;
+        return imageUrl.startsWith('http')
+            ? Image.network(imageUrl)
+            : Image.asset(imageUrl);
+      }
+      break;
 
     default:
       throw UnimplementedError(
