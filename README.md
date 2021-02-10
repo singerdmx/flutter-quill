@@ -19,6 +19,7 @@ For web development, [ReactQuill] is recommended to use for compatibility.
 <img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
 
 One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal App: https://bulletjournal.us/home/index.html
+
 You can also join Slack Group for discussion.
 
 [Quill]: https://quilljs.com
