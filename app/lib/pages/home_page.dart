@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:tuple/tuple.dart';
 
-import 'package:app/pages/read_only_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/document.dart';
@@ -11,6 +9,9 @@ import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
+import 'package:tuple/tuple.dart';
+
+import 'read_only_page.dart';
 
 class HomePage extends StatefulWidget {
   @override

@@ -1,7 +1,8 @@
-import 'package:app/widgets/demo_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/editor.dart';
+
+import '../widgets/demo_scaffold.dart';
 
 class ReadOnlyPage extends StatefulWidget {
   @override
