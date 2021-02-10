@@ -199,14 +199,14 @@ class EditorTextSelectionOverlay {
         showWhenUnlinked: false,
         offset: -editingRegion.topLeft,
         child: selectionCtrls.buildToolbar(
-          context,
-          editingRegion,
-          baseLineHeight,
-          midpoint,
-          endpoints,
-          selectionDelegate,
-          clipboardStatus,
-        ),
+            context,
+            editingRegion,
+            baseLineHeight,
+            midpoint,
+            endpoints,
+            selectionDelegate,
+            clipboardStatus,
+            Offset(0, 0)),
       ),
     );
   }

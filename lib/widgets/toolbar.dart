@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
@@ -446,7 +447,15 @@ Widget _selectHeadingStyleButtonBuilder(
     height: iconSize * 1.77,
     fillColor: Theme.of(context).canvasColor,
     child: Text(
-      _valueToText[value],
+      !kIsWeb
+          ? _valueToText[value]
+          : _valueToText[value.key == "header"
+              ? Attribute.header
+              : (value.key == "h1")
+                  ? Attribute.h1
+                  : (value.key == "h2")
+                      ? Attribute.h2
+                      : Attribute.h3],
       style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
     initialValue: value,
