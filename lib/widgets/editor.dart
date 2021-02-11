@@ -365,7 +365,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
           getEditor().context,
           MaterialPageRoute(
             builder: (context) =>
-                ImageTapWrapper(imageProvider: NetworkImage(blockEmbed.data)),
+                ImageTapWrapper(imageProvider: blockEmbed.data.toString().startsWith('http') ? NetworkImage(blockEmbed.data) : AssetImage(blockEmbed.data)),
           ),
         );
       }
