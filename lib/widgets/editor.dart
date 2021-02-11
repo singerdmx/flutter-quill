@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
@@ -82,7 +83,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
       String imageUrl = node.value.data;
       return imageUrl.startsWith('http')
           ? Image.network(imageUrl)
-          : Image.asset(imageUrl);
+          : Image.file(File(imageUrl));
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
@@ -368,7 +369,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
             builder: (context) => ImageTapWrapper(
                 imageProvider: imageUrl.startsWith('http')
                     ? NetworkImage(imageUrl)
-                    : AssetImage(imageUrl)),
+                    : FileImage(File(blockEmbed.data))),
           ),
         );
       }
