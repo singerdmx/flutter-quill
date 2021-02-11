@@ -361,11 +361,14 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (getEditor().widget.readOnly && segment.value is BlockEmbed) {
       BlockEmbed blockEmbed = segment.value as BlockEmbed;
       if (blockEmbed.type == 'image') {
+        final String imageUrl = blockEmbed.data;
         Navigator.push(
           getEditor().context,
           MaterialPageRoute(
-            builder: (context) =>
-                ImageTapWrapper(imageProvider: NetworkImage(blockEmbed.data)),
+            builder: (context) => ImageTapWrapper(
+                imageProvider: imageUrl.startsWith('http')
+                    ? NetworkImage(imageUrl)
+                    : AssetImage(imageUrl)),
           ),
         );
       }
