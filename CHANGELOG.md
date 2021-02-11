@@ -76,3 +76,6 @@
 
 ## [0.2.7]
 * Support display local image besides network image.
+
+## [0.2.8]
+* Support display local image besides network image in stable branch.
