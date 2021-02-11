@@ -73,3 +73,6 @@
 
 ## [0.2.6]
 * Fix cursor after pasting.
+
+## [0.2.7]
+* Support display local image besides network image.
