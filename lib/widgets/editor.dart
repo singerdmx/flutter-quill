@@ -1,5 +1,7 @@
+import 'dart:html' as html;
 import 'dart:io';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -78,7 +80,19 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
       if (kIsWeb) {
-        return SizedBox.shrink();
+        String imageUrl = node.value.data;
+
+        ui.platformViewRegistry.registerViewFactory(
+          imageUrl,
+          (int viewId) => html.ImageElement()..src = imageUrl,
+        );
+        return Container(
+          constraints: BoxConstraints(maxWidth: 300),
+          height: MediaQuery.of(context).size.height,
+          child: HtmlElementView(
+            viewType: imageUrl,
+          ),
+        );
       }
       String imageUrl = node.value.data;
       return imageUrl.startsWith('http')
