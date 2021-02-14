@@ -6,12 +6,12 @@
   
 # FlutterQuill  
   
-Rich text editor and a [Quill] component for [Flutter].  
+Rich text editor and a [Quill] component for [Flutter]. 
   
-https://pub.dev/packages/flutter_quill  
-  
-This library is a WYSIWYG editor built for the modern mobile platform only and web is under development.  
- 
+This library is a WYSIWYG editor built for the modern mobile platform only and web is under development. You can join [Slack Group] for discussion.
+
+https://pub.dev/packages/flutter_quill
+
 Default branch `master` is on channel `master`. To use channel `stable`, switch to branch `stable`.
 Branch `master` on channel `master` supports web. To run the app on web do the following:
 1) Change flutter channel to master using `flutter channel master`, followed by `flutter upgrade`.
@@ -28,9 +28,7 @@ For web development, [ReactQuill] is recommended to use for compatibility.
 <img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">  
 <img width="484" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">  
   
-One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal App: https://bulletjournal.us/home/index.html  
-  
-You can also join [Slack Group] for discussion.  
+One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal App: https://bulletjournal.us/home/index.html 
   
 [Quill]: https://quilljs.com  
 [Flutter]: https://github.com/flutter/flutter  
