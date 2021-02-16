@@ -1,6 +1,5 @@
-import 'dart:io';
+import 'dart:io' as io;
 import 'dart:math' as math;
-import 'dart:math' if (dart.library.html) 'dart:html' as html;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +19,7 @@ import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
+import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'FakeUi.dart' if (dart.library.html) 'RealUi.dart' as ui;
@@ -83,7 +83,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
       String imageUrl = node.value.data;
       return imageUrl.startsWith('http')
           ? Image.network(imageUrl)
-          : Image.file(File(imageUrl));
+          : Image.file(io.File(imageUrl));
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
@@ -403,7 +403,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
             builder: (context) => ImageTapWrapper(
                 imageProvider: imageUrl.startsWith('http')
                     ? NetworkImage(imageUrl)
-                    : FileImage(File(blockEmbed.data))),
+                    : FileImage(io.File(blockEmbed.data))),
           ),
         );
       }
