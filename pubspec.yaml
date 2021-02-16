@@ -20,6 +20,7 @@ dependencies:
   flutter_colorpicker: ^0.3.4
   image_picker: ^0.6.7+17
   photo_view: ^0.10.3
+  universal_html: ^1.2.4
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,6 @@
-import 'dart:html' as html;
 import 'dart:io';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
+import 'dart:math' if (dart.library.html) 'dart:html' as html;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -19,9 +18,11 @@ import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
 import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
+import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'FakeUi.dart' if (dart.library.html) 'RealUi.dart' as ui;
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
@@ -79,25 +80,43 @@ abstract class RenderAbstractEditor {
 Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
-      if (kIsWeb) {
-        String imageUrl = node.value.data;
-
-        ui.platformViewRegistry.registerViewFactory(
-          imageUrl,
-          (int viewId) => html.ImageElement()..src = imageUrl,
-        );
-        return Container(
-          constraints: BoxConstraints(maxWidth: 300),
-          height: MediaQuery.of(context).size.height,
-          child: HtmlElementView(
-            viewType: imageUrl,
-          ),
-        );
-      }
       String imageUrl = node.value.data;
       return imageUrl.startsWith('http')
           ? Image.network(imageUrl)
           : Image.file(File(imageUrl));
+    default:
+      throw UnimplementedError(
+          'Embeddable type "${node.value.type}" is not supported by default embed '
+          'builder of QuillEditor. You must pass your own builder function to '
+          'embedBuilder property of QuillEditor or QuillField widgets.');
+  }
+}
+
+Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
+  switch (node.value.type) {
+    case 'image':
+      String imageUrl = node.value.data;
+      Size size = MediaQuery.of(context).size;
+      ui.platformViewRegistry.registerViewFactory(
+        imageUrl,
+        (int viewId) => html.ImageElement()..src = imageUrl,
+      );
+      return Padding(
+        padding: EdgeInsets.only(
+          right: ResponsiveWidget.isMediumScreen(context)
+              ? size.width * 0.5
+              : (ResponsiveWidget.isLargeScreen(context))
+                  ? size.width * 0.75
+                  : size.width * 0.2,
+        ),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.45,
+          child: HtmlElementView(
+            viewType: imageUrl,
+          ),
+        ),
+      );
+
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
@@ -144,7 +163,8 @@ class QuillEditor extends StatefulWidget {
       this.keyboardAppearance = Brightness.light,
       this.scrollPhysics,
       this.onLaunchUrl,
-      this.embedBuilder = _defaultEmbedBuilder})
+      this.embedBuilder =
+          kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder})
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),
