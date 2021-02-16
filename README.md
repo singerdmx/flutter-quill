@@ -12,6 +12,9 @@ This library is a WYSIWYG editor built for the modern mobile platform only and w
 
 https://pub.dev/packages/flutter_quill
 
+This library use [Quill] as an internal data format.
+Use `_controller.document.toDelta()` to extract it or use `_controller.document.toPlainText()` for plain text.
+
 Default branch `master` is on channel `master`. To use channel `stable`, switch to branch `stable`.
 Branch `master` on channel `master` supports web. To run the app on web do the following:
 1) Change flutter channel to master using `flutter channel master`, followed by `flutter upgrade`.
@@ -30,7 +33,7 @@ For web development, [ReactQuill] is recommended to use for compatibility.
   
 One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal App: https://bulletjournal.us/home/index.html 
   
-[Quill]: https://quilljs.com  
+[Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter  
 [FlutterQuill]: https://pub.dev/packages/flutter_quill  
 [ReactQuill]: https://github.com/zenoamaro/react-quill  
