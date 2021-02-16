@@ -135,7 +135,7 @@ class DefaultStyles {
             Tuple2(0.0, 0.0),
             null),
         paragraph: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, Tuple2(0.0, 0.0), null),
+            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
         bold: TextStyle(fontWeight: FontWeight.bold),
         italic: TextStyle(fontStyle: FontStyle.italic),
         underline: TextStyle(decoration: TextDecoration.underline),
