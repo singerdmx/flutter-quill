@@ -86,7 +86,7 @@ class DefaultStyles {
       fontSize: 16.0,
       height: 1.3,
     );
-    Tuple2<double, double> baseSpacing = Tuple2(6.0, 10);
+    Tuple2<double, double> baseSpacing = Tuple2(6.0, 0);
     String fontFamily;
     switch (themeData.platform) {
       case TargetPlatform.iOS:
