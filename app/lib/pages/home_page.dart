@@ -89,11 +89,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildWelcomeEditor(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.88,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Expanded(
+          child: Container(
             color: Colors.white,
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: QuillEditor(
@@ -120,15 +120,13 @@ class _HomePageState extends State<HomePage> {
                   sizeSmall: TextStyle(fontSize: 9.0)),
             ),
           ),
-          Container(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.9),
-            child: QuillToolbar.basic(
-                controller: _controller,
-                uploadFileCallback: _fakeUploadImageCallBack),
-          )
-        ],
-      ),
+        ),
+        Container(
+          child: QuillToolbar.basic(
+              controller: _controller,
+              uploadFileCallback: _fakeUploadImageCallBack),
+        )
+      ],
     );
   }
 
