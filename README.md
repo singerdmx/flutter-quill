@@ -12,7 +12,7 @@ This library is a WYSIWYG editor built for the modern mobile platform only and w
 
 https://pub.dev/packages/flutter_quill
 
-This library use [Quill] as an internal data format.
+This library uses [Quill] as an internal data format.
 Use `_controller.document.toDelta()` to extract it or use `_controller.document.toPlainText()` for plain text.
 
 Default branch `master` is on channel `master`. To use channel `stable`, switch to branch `stable`.
