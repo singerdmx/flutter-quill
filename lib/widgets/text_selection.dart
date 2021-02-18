@@ -202,11 +202,11 @@ class EditorTextSelectionOverlay {
             context,
             editingRegion,
             baseLineHeight,
-            midpoint,
+              Offset(0, 0),// midpoint,
             endpoints,
             selectionDelegate,
             clipboardStatus,
-            Offset(0, 0)),
+          ),
       ),
     );
   }

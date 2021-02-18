@@ -201,8 +201,8 @@ class StrikeThroughAttribute extends Attribute<bool> {
   StrikeThroughAttribute() : super('strike', AttributeScope.INLINE, true);
 }
 
-class FontAttribute extends Attribute<String> {
-  FontAttribute(String val) : super('font', AttributeScope.INLINE, val);
+class FontAttribute extends Attribute<double> {
+  FontAttribute(double val) : super('font', AttributeScope.INLINE, val);
 }
 
 class SizeAttribute extends Attribute<String> {
