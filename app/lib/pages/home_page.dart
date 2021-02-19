@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: (){
          int option =  Random().nextInt(30);
           print(option);
-          _controller.formatSelection(SizeAttribute(option.toDouble()));
+          _controller.formatSelection(SizeAttribute("${option.toDouble()}"));
         },
       ),
       body: RawKeyboardListener(

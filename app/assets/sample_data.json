@@ -451,7 +451,7 @@
    },
    {
       "attributes": {
-         "size": 12.0
+         "size": "small"
       },
       "insert": "Small"
    },
@@ -460,7 +460,7 @@
    },
    {
       "attributes": {
-         "size": 35.0
+         "size": "large"
       },
       "insert": "Large"
    },
@@ -469,9 +469,33 @@
    },
    {
       "attributes": {
-         "size": 60.0
+         "size": "huge"
       },
       "insert": "Huge"
+   },
+   {
+      "attributes": {
+         "size": "15.0"
+      },
+      "insert": "font size 15"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "size": "35"
+      },
+      "insert": "font size 35"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "size": "50"
+      },
+      "insert": "font size 50"
    },
    {
       "insert": "\n"

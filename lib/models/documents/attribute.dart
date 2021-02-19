@@ -206,8 +206,8 @@ class FontAttribute extends Attribute<double> {
   FontAttribute(double val) : super('font', AttributeScope.INLINE, val);
 }
 
-class SizeAttribute extends Attribute<double> {
-  SizeAttribute(double val) : super('size', AttributeScope.INLINE, val);
+class SizeAttribute extends Attribute<String> {
+  SizeAttribute(String val) : super('size', AttributeScope.INLINE, val);
 }
 
 class LinkAttribute extends Attribute<String> {

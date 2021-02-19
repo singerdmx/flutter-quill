@@ -137,6 +137,7 @@ class TextLine extends StatelessWidget {
 
     Attribute size = textNode.style.attributes[Attribute.size.key];
     if (size != null && size.value != null) {
+
       switch (size.value) {
         case 'small':
           res = res.merge(defaultStyles.sizeSmall);
@@ -148,6 +149,11 @@ class TextLine extends StatelessWidget {
           res = res.merge(defaultStyles.sizeHuge);
           break;
         default:
+          double fontSize = double.tryParse(size.value);
+          if(fontSize!=null){
+            res = res.merge(TextStyle(fontSize: fontSize));
+          }
+          else
           throw "Invalid size ${size.value}";
       }
     }
