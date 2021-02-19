@@ -155,7 +155,8 @@ class Attribute<T> {
 
   static Attribute fromKeyValue(String key, dynamic value) {
     if (!_registry.containsKey(key)) {
-      throw ArgumentError.value(key, 'key "$key" not found.');
+       return null;
+      // throw ArgumentError.value(key, 'key "$key" not found.');
     }
     Attribute origin = _registry[key];
     Attribute attribute = clone(origin, value);
