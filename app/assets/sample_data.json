@@ -451,7 +451,7 @@
    },
    {
       "attributes": {
-         "size": "small"
+         "size": 12.0
       },
       "insert": "Small"
    },
@@ -460,7 +460,7 @@
    },
    {
       "attributes": {
-         "size": "large"
+         "size": 35.0
       },
       "insert": "Large"
    },
@@ -469,7 +469,7 @@
    },
    {
       "attributes": {
-         "size": "huge"
+         "size": 60.0
       },
       "insert": "Huge"
    },

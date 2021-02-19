@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,6 +67,13 @@ class _HomePageState extends State<HomePage> {
         color: Colors.grey.shade800,
         child: _buildMenuBar(context),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+         int option =  Random().nextInt(30);
+          print(option);
+          _controller.formatSelection(SizeAttribute(option.toDouble()));
+        },
+      ),
       body: RawKeyboardListener(
         focusNode: FocusNode(),
         onKey: (RawKeyEvent event) {
@@ -111,13 +119,15 @@ class _HomePageState extends State<HomePage> {
                       TextStyle(
                         fontSize: 32.0,
                         color: Colors.black,
-                        height: 1.15,
+                        height:1.15,
                         fontWeight: FontWeight.w300,
                       ),
                       Tuple2(16.0, 0.0),
                       Tuple2(0.0, 0.0),
                       null),
-                  sizeSmall: TextStyle(fontSize: 9.0)),
+                  sizeSmall: TextStyle(fontSize: 9.0),
+                  sizeHuge: TextStyle(fontSize:64.0)
+                  ),
             ),
           ),
         ),
