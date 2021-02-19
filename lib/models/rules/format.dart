@@ -132,3 +132,41 @@ class ResolveInlineFormatRule extends FormatRule {
     return delta;
   }
 }
+
+class ResolveInlineIgnoreFormatRule extends FormatRule {
+  const ResolveInlineIgnoreFormatRule();
+
+  @override
+  Delta applyRule(Delta document, int index,
+      {int len, Object data, Attribute attribute}) {
+    if (attribute.scope != AttributeScope.IGNORE) {
+      return null;
+    }
+
+    Delta delta = Delta()..retain(index, attribute.toJson());
+    DeltaIterator itr = DeltaIterator(document);
+    itr.skip(index);
+
+    Operation op;
+    for (int cur = 0; cur < len && itr.hasNext; cur += op.length) {
+      op = itr.next(len - cur);
+      String text = op.data is String ? op.data as String : '';
+      int lineBreak = text.indexOf('\n');
+      if (lineBreak < 0) {
+        delta.retain(op.length, attribute.toJson());
+        continue;
+      }
+      int pos = 0;
+      while (lineBreak >= 0) {
+        delta..retain(lineBreak - pos, attribute.toJson())..retain(1);
+        pos = lineBreak + 1;
+        lineBreak = text.indexOf('\n', pos);
+      }
+      if (pos < op.length) {
+        delta.retain(op.length - pos, attribute.toJson());
+      }
+    }
+
+    return delta;
+  }
+}

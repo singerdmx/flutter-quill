@@ -34,6 +34,7 @@ class Rules {
     FormatLinkAtCaretPositionRule(),
     ResolveLineFormatRule(),
     ResolveInlineFormatRule(),
+    ResolveInlineIgnoreFormatRule(),
     InsertEmbedsRule(),
     ForceNewlineForInsertsAroundEmbedRule(),
     AutoExitBlockRule(),
@@ -70,6 +71,6 @@ class Rules {
         throw e;
       }
     }
-    throw ('Apply rules failed');
+    // throw ('Apply rules failed');
   }
 }
