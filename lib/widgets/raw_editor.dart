@@ -374,7 +374,7 @@ class RawEditorState extends EditorState
           inputType: TextInputType.multiline,
           readOnly: widget.readOnly,
           obscureText: false,
-          autocorrect: false,
+          autocorrect: true,
           inputAction: TextInputAction.newline,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
