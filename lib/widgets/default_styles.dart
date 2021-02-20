@@ -151,7 +151,10 @@ class DefaultStyles {
               fontSize: 20.0,
               height: 1.5,
               color: Colors.grey.withOpacity(0.6),
-            ), Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
+            ),
+            Tuple2(0.0, 0.0),
+            Tuple2(0.0, 0.0),
+            null),
         lists: DefaultTextBlockStyle(
             baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
         quote: DefaultTextBlockStyle(
