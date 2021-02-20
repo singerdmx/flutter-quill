@@ -82,3 +82,9 @@
 
 ## [0.2.9]
 * Update TextInputConfiguration autocorrect to true.
+
+## [0.2.10]
+* Update TextInputConfiguration autocorrect to true in stable branch.
+
+## [0.2.11]
+* Fix static analysis error.
