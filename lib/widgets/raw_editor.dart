@@ -503,13 +503,15 @@ class RawEditorState extends EditorState
     _focusAttachment.reparent();
     super.build(context);
 
+    Document _doc = widget.controller.document;
+
     Widget child = CompositedTransformTarget(
       link: _toolbarLayerLink,
       child: Semantics(
         child: _Editor(
           key: _editorKey,
-          children: _buildChildren(context),
-          document: widget.controller.document,
+          children: _buildChildren(_doc, context),
+          document: _doc,
           selection: widget.controller.selection,
           hasFocus: _hasFocus,
           textDirection: _textDirection,
@@ -562,30 +564,13 @@ class RawEditorState extends EditorState
     requestKeyboard();
   }
 
-  _buildChildren(BuildContext context) {
+  _buildChildren(Document doc, BuildContext context) {
     final result = <Widget>[];
     Map<int, int> indentLevelCounts = {};
-    for (Node node in widget.controller.document.root.children) {
+    for (Node node in doc.root.children) {
       if (node is Line) {
-        TextLine textLine = TextLine(
-          line: node,
-          textDirection: _textDirection,
-          embedBuilder: widget.embedBuilder,
-          styles: _styles,
-        );
-        EditableTextLine editableTextLine = EditableTextLine(
-            node,
-            null,
-            textLine,
-            0,
-            _getVerticalSpacingForLine(node, _styles),
-            _textDirection,
-            widget.controller.selection,
-            widget.selectionColor,
-            widget.enableInteractiveSelection,
-            _hasFocus,
-            MediaQuery.of(context).devicePixelRatio,
-            _cursorCont);
+        EditableTextLine editableTextLine =
+            _getEditableTextLineFromNode(node, context);
         result.add(editableTextLine);
       } else if (node is Block) {
         Map<String, Attribute> attrs = node.style.attributes;
@@ -610,6 +595,30 @@ class RawEditorState extends EditorState
       }
     }
     return result;
+  }
+
+  EditableTextLine _getEditableTextLineFromNode(
+      Line node, BuildContext context) {
+    TextLine textLine = TextLine(
+      line: node,
+      textDirection: _textDirection,
+      embedBuilder: widget.embedBuilder,
+      styles: _styles,
+    );
+    EditableTextLine editableTextLine = EditableTextLine(
+        node,
+        null,
+        textLine,
+        0,
+        _getVerticalSpacingForLine(node, _styles),
+        _textDirection,
+        widget.controller.selection,
+        widget.selectionColor,
+        widget.enableInteractiveSelection,
+        _hasFocus,
+        MediaQuery.of(context).devicePixelRatio,
+        _cursorCont);
+    return editableTextLine;
   }
 
   Tuple2<double, double> _getVerticalSpacingForLine(
