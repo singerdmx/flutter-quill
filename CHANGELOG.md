@@ -79,3 +79,6 @@
 
 ## [0.2.8]
 * Support display local image besides network image in stable branch.
+
+## [0.2.9]
+* Update TextInputConfiguration autocorrect to true.
