@@ -504,6 +504,9 @@ class RawEditorState extends EditorState
     super.build(context);
 
     Document _doc = widget.controller.document;
+    if (_doc.isEmpty() && !widget.focusNode.hasFocus) {
+      _doc = Document()..insert(0, 'Place Holder');
+    }
 
     Widget child = CompositedTransformTarget(
       link: _toolbarLayerLink,
@@ -695,6 +698,10 @@ class RawEditorState extends EditorState
     _styles = (parentStyles != null)
         ? defaultStyles.merge(parentStyles)
         : defaultStyles;
+
+    if (widget.controller.document.isEmpty()) {
+      _styles.merge(DefaultStyles(paragraph: defaultStyles.placeHolder));
+    }
 
     if (widget.customStyles != null) {
       _styles = _styles.merge(widget.customStyles);

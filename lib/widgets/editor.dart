@@ -359,6 +359,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool _onTapping(TapUpDetails details) {
+    if (_state.widget.controller.document.isEmpty()) {
+      return false;
+    }
     TextPosition pos =
         getRenderEditor().getPositionForOffset(details.globalPosition);
     containerNode.ChildQuery result =
