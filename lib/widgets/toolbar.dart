@@ -891,7 +891,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showLink = true,
       bool showHistory = true,
       bool showHorizontalRule = false,
-      OnImagePickCallback onImageTapCallBack}) {
+      OnImagePickCallback onImagePickCallback}) {
     iconSize = toolbarIconSize;
     return QuillToolbar(key: key, children: [
       Visibility(
@@ -974,22 +974,22 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       SizedBox(width: 0.6),
       Visibility(
-        visible: onImageTapCallBack != null,
+        visible: onImagePickCallback != null,
         child: ImageButton(
           icon: Icons.image,
           controller: controller,
           imageSource: ImageSource.gallery,
-          onImagePickCallback: onImageTapCallBack,
+          onImagePickCallback: onImagePickCallback,
         ),
       ),
       SizedBox(width: 0.6),
       Visibility(
-        visible: onImageTapCallBack != null,
+        visible: onImagePickCallback != null,
         child: ImageButton(
           icon: Icons.photo_camera,
           controller: controller,
           imageSource: ImageSource.camera,
-          onImagePickCallback: onImageTapCallBack,
+          onImagePickCallback: onImagePickCallback,
         ),
       ),
       Visibility(
