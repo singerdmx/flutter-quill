@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/default_styles.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
 
 import 'read_only_page.dart';
@@ -125,19 +127,21 @@ class _HomePageState extends State<HomePage> {
         Container(
           child: QuillToolbar.basic(
               controller: _controller,
-              onImagePickCallback: _fakeUploadImageCallBack),
+              onImagePickCallback: _onImagePickCallback),
         )
       ],
     );
   }
 
-  /// Upload the image file to AWS s3 when image is picked
-  Future<String> _fakeUploadImageCallBack(File file) async {
-    print(file);
-    var completer = new Completer<String>();
-    completer.complete(
-        'https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png');
-    return completer.future;
+  // Renders the image picked by imagePicker from local file storage
+  // You can also upload the picked image to any server (eg : AWS s3 or Firebase) and then return the uploaded image URL
+  Future<String> _onImagePickCallback(File file) async {
+    if (file == null) return null;
+    // Copies the picked file from temporary cache to applications directory
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    File copiedFile =
+        await file.copy('${appDocDir.path}/${basename(file.path)}');
+    return copiedFile.path.toString();
   }
 
   Widget _buildMenuBar(BuildContext context) {
