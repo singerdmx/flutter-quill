@@ -88,3 +88,6 @@
 
 ## [0.2.11]
 * Fix static analysis error.
+
+## [0.2.12]
+* Support placeholder.
