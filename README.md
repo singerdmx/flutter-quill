@@ -26,7 +26,7 @@ and then embed the toolbar and the editor, within your app.  For example:
 Column(
   children: [
     QuillToolbar.basic(
-        controller: _controller, uploadFileCallback: _uploadImageCallBack),
+      controller: _controller, onImageTapCallBack: _uploadImageCallBack),
     Expanded(
       child: Container(
         child: QuillEditor.basic(
@@ -65,7 +65,7 @@ _controller = QuillController(
 
 ## Configuration
 
-The `QuillToolbar` class lets you customise which formating options are available.  To prevent the image uploading widget from appearing, set `uploadFileCallback` to null.
+The `QuillToolbar` class lets you customise which formatting options are available.  To prevent the image uploading widget from appearing, set `onImageTapCallBack` to null.
 
 ## Web
 

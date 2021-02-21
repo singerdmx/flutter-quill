@@ -125,12 +125,13 @@ class _HomePageState extends State<HomePage> {
         Container(
           child: QuillToolbar.basic(
               controller: _controller,
-              uploadFileCallback: _fakeUploadImageCallBack),
+              onImageTapCallBack: _fakeUploadImageCallBack),
         )
       ],
     );
   }
 
+  /// Upload the image file to AWS s3 when image is picked
   Future<String> _fakeUploadImageCallBack(File file) async {
     print(file);
     var completer = new Completer<String>();

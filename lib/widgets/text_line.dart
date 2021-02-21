@@ -48,7 +48,7 @@ class TextLine extends StatelessWidget {
         StrutStyle.fromTextStyle(textSpan.style, forceStrutHeight: true);
     final textAlign = _getTextAlign();
     RichText child = RichText(
-      text: textSpan,
+      text: TextSpan(children: [textSpan]),
       textAlign: textAlign,
       textDirection: textDirection,
       strutStyle: strutStyle,
