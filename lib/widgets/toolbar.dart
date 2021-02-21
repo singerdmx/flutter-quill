@@ -14,7 +14,7 @@ import 'controller.dart';
 double iconSize = 18.0;
 double kToolbarHeight = iconSize * 2;
 
-typedef UploadFileCallback = Future<String> Function(File file);
+typedef OnImagePickCallback = Future<String> Function(File file);
 
 class InsertEmbedButton extends StatelessWidget {
   final QuillController controller;
@@ -490,7 +490,7 @@ class ImageButton extends StatefulWidget {
 
   final QuillController controller;
 
-  final UploadFileCallback uploadFileCallback;
+  final OnImagePickCallback onImagePickCallback;
 
   final ImageSource imageSource;
 
@@ -499,7 +499,7 @@ class ImageButton extends StatefulWidget {
       @required this.icon,
       @required this.controller,
       @required this.imageSource,
-      this.uploadFileCallback})
+      this.onImagePickCallback})
       : assert(icon != null),
         assert(controller != null),
         super(key: key);
@@ -515,10 +515,10 @@ class _ImageButtonState extends State<ImageButton> {
     final PickedFile pickedFile = await _picker.getImage(source: source);
     final File file = File(pickedFile.path);
 
-    if (file == null || widget.uploadFileCallback == null) return null;
+    if (file == null || widget.onImagePickCallback == null) return null;
     // We simply return the absolute path to selected file.
     try {
-      String url = await widget.uploadFileCallback(file);
+      String url = await widget.onImagePickCallback(file);
       print('Image uploaded and its url is $url');
       return url;
     } catch (error) {
@@ -891,7 +891,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showLink = true,
       bool showHistory = true,
       bool showHorizontalRule = false,
-      UploadFileCallback uploadFileCallback}) {
+      OnImagePickCallback onImageTapCallBack}) {
     iconSize = toolbarIconSize;
     return QuillToolbar(key: key, children: [
       Visibility(
@@ -974,22 +974,22 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       SizedBox(width: 0.6),
       Visibility(
-        visible: uploadFileCallback != null,
+        visible: onImageTapCallBack != null,
         child: ImageButton(
           icon: Icons.image,
           controller: controller,
           imageSource: ImageSource.gallery,
-          uploadFileCallback: uploadFileCallback,
+          onImagePickCallback: onImageTapCallBack,
         ),
       ),
       SizedBox(width: 0.6),
       Visibility(
-        visible: uploadFileCallback != null,
+        visible: onImageTapCallBack != null,
         child: ImageButton(
           icon: Icons.photo_camera,
           controller: controller,
           imageSource: ImageSource.camera,
-          uploadFileCallback: uploadFileCallback,
+          onImagePickCallback: onImageTapCallBack,
         ),
       ),
       Visibility(
