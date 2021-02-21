@@ -66,7 +66,7 @@ _controller = QuillController(
 ## Configuration
 
 The `QuillToolbar` class lets you customise which formatting options are available.
-[Sample Page] provided sample code for advanced usage and configuration.
+[Sample Page] provides sample code for advanced usage and configuration.
 
 ## Web
 
