@@ -91,3 +91,6 @@
 
 ## [0.2.12]
 * Support placeholder.
+
+## [0.3.0]
+* Line Height calculated based on font size.
