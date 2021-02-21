@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
         Container(
           child: QuillToolbar.basic(
               controller: _controller,
-              onImageTapCallBack: _fakeUploadImageCallBack),
+              onImagePickCallback: _fakeUploadImageCallBack),
         )
       ],
     );

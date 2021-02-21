@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
       children: [
         QuillToolbar.basic(
-            controller: _controller, onImageTapCallBack: _uploadImageCallBack),
+            controller: _controller, onImagePickCallback: _uploadImageCallBack),
         Expanded(
           child: Container(
             child: QuillEditor.basic(
