@@ -25,8 +25,7 @@ and then embed the toolbar and the editor, within your app.  For example:
 ```dart
 Column(
   children: [
-    QuillToolbar.basic(
-      controller: _controller, onImagePickCallback: _uploadImageCallBack),
+    QuillToolbar.basic(controller: _controller),
     Expanded(
       child: Container(
         child: QuillEditor.basic(
@@ -38,6 +37,7 @@ Column(
   ],
 )
 ```
+Check out [Sample Page] for advanced usage.
 
 ## Input / Output
 
@@ -65,7 +65,8 @@ _controller = QuillController(
 
 ## Configuration
 
-The `QuillToolbar` class lets you customise which formatting options are available.  To prevent the image uploading widget from appearing, set `onImagePickCallback` to null.
+The `QuillToolbar` class lets you customise which formatting options are available.
+[Sample Page] provided sample code for advanced usage and configuration.
 
 ## Web
 
@@ -93,3 +94,4 @@ One client and affiliated collaborator of **[FlutterQuill]** is Bullet Journal A
 [FlutterQuill]: https://pub.dev/packages/flutter_quill  
 [ReactQuill]: https://github.com/zenoamaro/react-quill  
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
+[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/app/lib/pages/home_page.dart

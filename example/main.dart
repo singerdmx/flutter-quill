@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/editor.dart';
@@ -19,8 +16,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         body: Column(
       children: [
-        QuillToolbar.basic(
-            controller: _controller, onImagePickCallback: _uploadImageCallBack),
+        QuillToolbar.basic(controller: _controller),
         Expanded(
           child: Container(
             child: QuillEditor.basic(
@@ -31,10 +27,5 @@ class _HomePageState extends State<HomePage> {
         )
       ],
     ));
-  }
-
-  Future<String> _uploadImageCallBack(File file) async {
-    // call upload file API and return file's absolute url
-    return new Completer<String>().future;
   }
 }
