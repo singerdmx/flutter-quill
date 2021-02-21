@@ -249,7 +249,9 @@ class Document {
     }
 
     Delta delta = node.toDelta();
-    return delta.length == 1 && delta.first.data == '\n' && delta.first.key == 'insert';
+    return delta.length == 1 &&
+        delta.first.data == '\n' &&
+        delta.first.key == 'insert';
   }
 }
 
