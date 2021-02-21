@@ -24,7 +24,7 @@ class QuillField extends StatefulWidget {
   final InputDecoration decoration;
   final Widget toolbar;
   final EmbedBuilder embedBuilder;
-
+  final StyleBuilder styleBuilder;
   QuillField({
     Key key,
     @required this.controller,
@@ -45,7 +45,7 @@ class QuillField extends StatefulWidget {
     this.onLaunchUrl,
     this.decoration,
     this.toolbar,
-    this.embedBuilder,
+    this.embedBuilder, this.styleBuilder,
   }) : super(key: key);
 
   @override
@@ -98,6 +98,7 @@ class _QuillFieldState extends State<QuillField> {
       scrollPhysics: widget.scrollPhysics,
       onLaunchUrl: widget.onLaunchUrl,
       embedBuilder: widget.embedBuilder,
+      styleBuilder:widget.styleBuilder,
     );
 
     if (widget.toolbar != null) {

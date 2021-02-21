@@ -25,10 +25,16 @@ class TextLine extends StatelessWidget {
   final Line line;
   final TextDirection textDirection;
   final EmbedBuilder embedBuilder;
+  final StyleBuilder styleBuilder;
   final DefaultStyles styles;
 
   const TextLine(
-      {Key key, this.line, this.textDirection, this.embedBuilder, this.styles})
+      {Key key,
+      this.line,
+      this.textDirection,
+      this.embedBuilder,
+      this.styles,
+      this.styleBuilder})
       : assert(line != null),
         assert(embedBuilder != null),
         assert(styles != null),
@@ -43,12 +49,12 @@ class TextLine extends StatelessWidget {
       return EmbedProxy(embedBuilder(context, embed));
     }
 
-    TextSpan textSpan = _buildTextSpan(context);
+    TextSpan textSpan = _buildTextSpan(context, styleBuilder);
     StrutStyle strutStyle =
         StrutStyle.fromTextStyle(textSpan.style, forceStrutHeight: true);
     final textAlign = _getTextAlign();
     RichText child = RichText(
-      text: _buildTextSpan(context),
+      text: TextSpan(children: [_buildTextSpan(context,styleBuilder)]),
       textAlign: textAlign,
       textDirection: textDirection,
       strutStyle: strutStyle,
@@ -80,10 +86,10 @@ class TextLine extends StatelessWidget {
     return TextAlign.start;
   }
 
-  TextSpan _buildTextSpan(BuildContext context) {
+  TextSpan _buildTextSpan(BuildContext context, StyleBuilder styleBuilder) {
     DefaultStyles defaultStyles = styles;
     List<TextSpan> children = line.children
-        .map((node) => _getTextSpanFromNode(defaultStyles, node))
+        .map((node) => _getTextSpanFromNode(defaultStyles, node, styleBuilder))
         .toList(growable: false);
 
     TextStyle textStyle = TextStyle();
@@ -112,7 +118,8 @@ class TextLine extends StatelessWidget {
     return TextSpan(children: children, style: textStyle);
   }
 
-  TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
+  TextSpan _getTextSpanFromNode(
+      DefaultStyles defaultStyles, Node node, StyleBuilder styleBuilder) {
     leaf.Text textNode = node as leaf.Text;
     Style style = textNode.style;
     TextStyle res = TextStyle();
@@ -137,7 +144,6 @@ class TextLine extends StatelessWidget {
 
     Attribute size = textNode.style.attributes[Attribute.size.key];
     if (size != null && size.value != null) {
-
       switch (size.value) {
         case 'small':
           res = res.merge(defaultStyles.sizeSmall);
@@ -150,11 +156,10 @@ class TextLine extends StatelessWidget {
           break;
         default:
           double fontSize = double.tryParse(size.value);
-          if(fontSize!=null){
+          if (fontSize != null) {
             res = res.merge(TextStyle(fontSize: fontSize));
-          }
-          else
-          throw "Invalid size ${size.value}";
+          } else
+            throw "Invalid size ${size.value}";
       }
     }
 
@@ -169,7 +174,16 @@ class TextLine extends StatelessWidget {
       final backgroundColor = stringToColor(background.value);
       res = res.merge(new TextStyle(backgroundColor: backgroundColor));
     }
-
+    if (styleBuilder != null)
+      textNode.style.attributes.keys.forEach((key) {
+        Attribute attribute =
+            Attribute.fromKeyValue(key, textNode.style.attributes[key]);
+        if (attribute == null) {
+          ///Unkown Attribute
+          TextStyle customStyle = styleBuilder( textNode.style.attributes[key]);
+          if (customStyle != null) res = res.merge(customStyle);
+        }
+      });
     return TextSpan(text: textNode.value, style: res);
   }
 

@@ -49,7 +49,7 @@ class RawEditor extends StatefulWidget {
   final bool enableInteractiveSelection;
   final ScrollPhysics scrollPhysics;
   final EmbedBuilder embedBuilder;
-
+final StyleBuilder styleBuilder;
   RawEditor(
       Key key,
       this.controller,
@@ -74,7 +74,7 @@ class RawEditor extends StatefulWidget {
       this.keyboardAppearance,
       this.enableInteractiveSelection,
       this.scrollPhysics,
-      this.embedBuilder)
+      this.embedBuilder, this.styleBuilder)
       : assert(controller != null, 'controller cannot be null'),
         assert(focusNode != null, 'focusNode cannot be null'),
         assert(scrollable || scrollController != null,
@@ -571,6 +571,7 @@ class RawEditorState extends EditorState
           line: node,
           textDirection: _textDirection,
           embedBuilder: widget.embedBuilder,
+          styleBuilder:widget.styleBuilder,
           styles: _styles,
         );
         EditableTextLine editableTextLine = EditableTextLine(

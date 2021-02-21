@@ -144,7 +144,7 @@ class QuillEditor extends StatefulWidget {
   final ScrollPhysics scrollPhysics;
   final ValueChanged<String> onLaunchUrl;
   final EmbedBuilder embedBuilder;
-
+  final StyleBuilder styleBuilder;
   QuillEditor(
       {@required this.controller,
       @required this.focusNode,
@@ -164,7 +164,7 @@ class QuillEditor extends StatefulWidget {
       this.scrollPhysics,
       this.onLaunchUrl,
       this.embedBuilder =
-          kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder})
+          kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder, this.styleBuilder})
       : assert(controller != null),
         assert(scrollController != null),
         assert(scrollable != null),
@@ -286,7 +286,9 @@ class _QuillEditorState extends State<QuillEditor>
           widget.keyboardAppearance,
           widget.enableInteractiveSelection,
           widget.scrollPhysics,
-          widget.embedBuilder),
+          widget.embedBuilder,
+          widget.styleBuilder,
+          ),
     );
   }
 

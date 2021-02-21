@@ -3,12 +3,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_quill/models/documents/nodes/leaf.dart';
+import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 
 import 'editor.dart';
 
 typedef EmbedBuilder = Widget Function(BuildContext context, Embed node);
-
+typedef StyleBuilder = TextStyle Function(Attribute<dynamic> attribute);
 abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
   GlobalKey<EditorState> getEditableTextKey();
 
