@@ -249,7 +249,7 @@ class Document {
     }
 
     Delta delta = node.toDelta();
-    return delta.length == 1 && delta.first.data == '\n';
+    return delta.length == 1 && delta.first.data == '\n' && delta.first.key == 'insert';
   }
 }
 

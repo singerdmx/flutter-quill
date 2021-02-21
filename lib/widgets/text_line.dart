@@ -88,6 +88,11 @@ class TextLine extends StatelessWidget {
 
     TextStyle textStyle = TextStyle();
 
+    if (line.style.containsKey(Attribute.placeholder.key)) {
+      textStyle = defaultStyles.placeHolder.style;
+      return TextSpan(children: children, style: textStyle);
+    }
+
     Attribute header = line.style.attributes[Attribute.header.key];
     Map<Attribute, TextStyle> m = {
       Attribute.h1: defaultStyles.h1.style,

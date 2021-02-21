@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -32,6 +34,7 @@ class RawEditor extends StatefulWidget {
   final bool scrollable;
   final EdgeInsetsGeometry padding;
   final bool readOnly;
+  final String placeholder;
   final ValueChanged<String> onLaunchUrl;
   final ToolbarOptions toolbarOptions;
   final bool showSelectionHandles;
@@ -58,6 +61,7 @@ class RawEditor extends StatefulWidget {
       this.scrollable,
       this.padding,
       this.readOnly,
+      this.placeholder,
       this.onLaunchUrl,
       this.toolbarOptions,
       this.showSelectionHandles,
@@ -504,6 +508,12 @@ class RawEditorState extends EditorState
     super.build(context);
 
     Document _doc = widget.controller.document;
+    if (_doc.isEmpty() &&
+        !widget.focusNode.hasFocus &&
+        widget.placeholder != null) {
+      _doc = Document.fromJson(jsonDecode(
+          '[{"attributes":{"placeholder":true},"insert":"${widget.placeholder}\\n"}]'));
+    }
 
     Widget child = CompositedTransformTarget(
       link: _toolbarLayerLink,

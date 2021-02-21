@@ -134,6 +134,7 @@ class QuillEditor extends StatefulWidget {
   final bool autoFocus;
   final bool showCursor;
   final bool readOnly;
+  final String placeholder;
   final bool enableInteractiveSelection;
   final double minHeight;
   final double maxHeight;
@@ -154,6 +155,7 @@ class QuillEditor extends StatefulWidget {
       @required this.autoFocus,
       this.showCursor,
       @required this.readOnly,
+      this.placeholder,
       this.enableInteractiveSelection,
       this.minHeight,
       this.maxHeight,
@@ -256,6 +258,7 @@ class _QuillEditorState extends State<QuillEditor>
           widget.scrollable,
           widget.padding,
           widget.readOnly,
+          widget.placeholder,
           widget.onLaunchUrl,
           ToolbarOptions(
             copy: true,
@@ -359,6 +362,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool _onTapping(TapUpDetails details) {
+    if (_state.widget.controller.document.isEmpty()) {
+      return false;
+    }
     TextPosition pos =
         getRenderEditor().getPositionForOffset(details.globalPosition);
     containerNode.ChildQuery result =
