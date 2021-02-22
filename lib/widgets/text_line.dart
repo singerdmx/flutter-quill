@@ -153,7 +153,11 @@ class TextLine extends StatelessWidget {
           res = res.merge(defaultStyles.sizeHuge);
           break;
         default:
-          throw "Invalid size ${size.value}";
+          double fontSize = double.tryParse(size.value);
+          if (fontSize != null) {
+            res = res.merge(TextStyle(fontSize: fontSize));
+          } else
+            throw "Invalid size ${size.value}";
       }
     }
 

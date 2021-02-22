@@ -474,6 +474,30 @@
       "insert": "Huge"
    },
    {
+      "attributes": {
+         "size": "15.0"
+      },
+      "insert": "font size 15"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "size": "35"
+      },
+      "insert": "font size 35"
+   },
+   {
+      "insert": " "
+   },
+   {
+      "attributes": {
+         "size": "20"
+      },
+      "insert": "font size 20"
+   },
+   {
       "insert": "\n"
    }
 ]
