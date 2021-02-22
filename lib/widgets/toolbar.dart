@@ -784,8 +784,7 @@ class _HistoryButtonState extends State<HistoryButton> {
   }
 
   void _setIconColor() {
-
-    if(!mounted) return;
+    if (!mounted) return;
 
     if (widget.undo) {
       setState(() {
