@@ -54,6 +54,7 @@ class DefaultStyles {
   final TextStyle sizeLarge; // 'large'
   final TextStyle sizeHuge; // 'huge'
   final TextStyle link;
+  final DefaultTextBlockStyle placeHolder;
   final DefaultTextBlockStyle lists;
   final DefaultTextBlockStyle quote;
   final DefaultTextBlockStyle code;
@@ -70,6 +71,7 @@ class DefaultStyles {
       this.underline,
       this.strikeThrough,
       this.link,
+      this.placeHolder,
       this.lists,
       this.quote,
       this.code,
@@ -86,7 +88,7 @@ class DefaultStyles {
       fontSize: 16.0,
       height: 1.3,
     );
-    Tuple2<double, double> baseSpacing = Tuple2(6.0, 10);
+    Tuple2<double, double> baseSpacing = Tuple2(6.0, 0);
     String fontFamily;
     switch (themeData.platform) {
       case TargetPlatform.iOS:
@@ -135,7 +137,7 @@ class DefaultStyles {
             Tuple2(0.0, 0.0),
             null),
         paragraph: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, Tuple2(0.0, 0.0), null),
+            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
         bold: TextStyle(fontWeight: FontWeight.bold),
         italic: TextStyle(fontStyle: FontStyle.italic),
         underline: TextStyle(decoration: TextDecoration.underline),
@@ -144,6 +146,15 @@ class DefaultStyles {
           color: themeData.accentColor,
           decoration: TextDecoration.underline,
         ),
+        placeHolder: DefaultTextBlockStyle(
+            defaultTextStyle.style.copyWith(
+              fontSize: 20.0,
+              height: 1.5,
+              color: Colors.grey.withOpacity(0.6),
+            ),
+            Tuple2(0.0, 0.0),
+            Tuple2(0.0, 0.0),
+            null),
         lists: DefaultTextBlockStyle(
             baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
         quote: DefaultTextBlockStyle(
@@ -188,6 +199,7 @@ class DefaultStyles {
         underline: other.underline ?? this.underline,
         strikeThrough: other.strikeThrough ?? this.strikeThrough,
         link: other.link ?? this.link,
+        placeHolder: other.placeHolder ?? this.placeHolder,
         lists: other.lists ?? this.lists,
         quote: other.quote ?? this.quote,
         code: other.code ?? this.code,

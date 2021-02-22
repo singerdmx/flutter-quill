@@ -79,3 +79,18 @@
 
 ## [0.2.8]
 * Support display local image besides network image in stable branch.
+
+## [0.2.9]
+* Update TextInputConfiguration autocorrect to true.
+
+## [0.2.10]
+* Update TextInputConfiguration autocorrect to true in stable branch.
+
+## [0.2.11]
+* Fix static analysis error.
+
+## [0.2.12]
+* Support placeholder.
+
+## [0.3.0]
+* Line Height calculated based on font size.

@@ -48,7 +48,7 @@ class TextLine extends StatelessWidget {
         StrutStyle.fromTextStyle(textSpan.style, forceStrutHeight: true);
     final textAlign = _getTextAlign();
     RichText child = RichText(
-      text: _buildTextSpan(context),
+      text: TextSpan(children: [textSpan]),
       textAlign: textAlign,
       textDirection: textDirection,
       strutStyle: strutStyle,
@@ -87,6 +87,11 @@ class TextLine extends StatelessWidget {
         .toList(growable: false);
 
     TextStyle textStyle = TextStyle();
+
+    if (line.style.containsKey(Attribute.placeholder.key)) {
+      textStyle = defaultStyles.placeHolder.style;
+      return TextSpan(children: children, style: textStyle);
+    }
 
     Attribute header = line.style.attributes[Attribute.header.key];
     Map<Attribute, TextStyle> m = {

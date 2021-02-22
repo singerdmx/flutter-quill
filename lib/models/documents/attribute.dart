@@ -24,6 +24,7 @@ class Attribute<T> {
     Attribute.link.key: Attribute.link,
     Attribute.color.key: Attribute.color,
     Attribute.background.key: Attribute.background,
+    Attribute.placeholder.key: Attribute.placeholder,
     Attribute.header.key: Attribute.header,
     Attribute.indent.key: Attribute.indent,
     Attribute.align.key: Attribute.align,
@@ -53,6 +54,8 @@ class Attribute<T> {
 
   static final BackgroundAttribute background = BackgroundAttribute(null);
 
+  static final PlaceholderAttribute placeholder = PlaceholderAttribute();
+
   static final HeaderAttribute header = HeaderAttribute();
 
   static final IndentAttribute indent = IndentAttribute();
@@ -78,7 +81,8 @@ class Attribute<T> {
     Attribute.strikeThrough.key,
     Attribute.link.key,
     Attribute.color.key,
-    Attribute.background.key
+    Attribute.background.key,
+    Attribute.placeholder.key,
   };
 
   static final Set<String> blockKeys = {
@@ -220,6 +224,11 @@ class ColorAttribute extends Attribute<String> {
 class BackgroundAttribute extends Attribute<String> {
   BackgroundAttribute(String val)
       : super('background', AttributeScope.INLINE, val);
+}
+
+/// This is custom attribute for hint
+class PlaceholderAttribute extends Attribute<bool> {
+  PlaceholderAttribute() : super('placeholder', AttributeScope.INLINE, true);
 }
 
 class HeaderAttribute extends Attribute<int> {

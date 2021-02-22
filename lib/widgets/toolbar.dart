@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
@@ -14,7 +16,7 @@ import 'controller.dart';
 double iconSize = 18.0;
 double kToolbarHeight = iconSize * 2;
 
-typedef UploadFileCallback = Future<String> Function(File file);
+typedef OnImagePickCallback = Future<String> Function(File file);
 
 class InsertEmbedButton extends StatelessWidget {
   final QuillController controller;
@@ -490,7 +492,7 @@ class ImageButton extends StatefulWidget {
 
   final QuillController controller;
 
-  final UploadFileCallback uploadFileCallback;
+  final OnImagePickCallback onImagePickCallback;
 
   final ImageSource imageSource;
 
@@ -499,7 +501,7 @@ class ImageButton extends StatefulWidget {
       @required this.icon,
       @required this.controller,
       @required this.imageSource,
-      this.uploadFileCallback})
+      this.onImagePickCallback})
       : assert(icon != null),
         assert(controller != null),
         super(key: key);
@@ -509,22 +511,62 @@ class ImageButton extends StatefulWidget {
 }
 
 class _ImageButtonState extends State<ImageButton> {
+  List<PlatformFile> _paths;
+  String _directoryPath;
+  String _extension;
   final _picker = ImagePicker();
+  FileType _pickingType = FileType.any;
 
   Future<String> _pickImage(ImageSource source) async {
     final PickedFile pickedFile = await _picker.getImage(source: source);
     final File file = File(pickedFile.path);
 
-    if (file == null || widget.uploadFileCallback == null) return null;
+    if (file == null || widget.onImagePickCallback == null) return null;
     // We simply return the absolute path to selected file.
     try {
-      String url = await widget.uploadFileCallback(file);
+      String url = await widget.onImagePickCallback(file);
       print('Image uploaded and its url is $url');
       return url;
     } catch (error) {
       print('Upload image error $error');
     }
     return null;
+  }
+
+  Future<String> _pickImageWeb() async {
+    try {
+      _directoryPath = null;
+      _paths = (await FilePicker.platform.pickFiles(
+        type: _pickingType,
+        allowMultiple: false,
+        allowedExtensions: (_extension?.isNotEmpty ?? false)
+            ? _extension?.replaceAll(' ', '')?.split(',')
+            : null,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    var _fileName =
+        _paths != null ? _paths.map((e) => e.name).toString() : '...';
+
+    if (_paths != null) {
+      File file = File(_fileName);
+      if (file == null || widget.onImagePickCallback == null) return null;
+      // We simply return the absolute path to selected file.
+      try {
+        String url = await widget.onImagePickCallback(file);
+        print('Image uploaded and its url is $url');
+        return url;
+      } catch (error) {
+        print('Upload image error $error');
+      }
+      return null;
+    } else {
+      // User canceled the picker
+    }
   }
 
   @override
@@ -541,7 +583,7 @@ class _ImageButtonState extends State<ImageButton> {
       onPressed: () {
         final index = widget.controller.selection.baseOffset;
         final length = widget.controller.selection.extentOffset - index;
-        final image = _pickImage(widget.imageSource);
+        final image = kIsWeb ? _pickImageWeb() : _pickImage(widget.imageSource);
         image.then((imageUploadUrl) => {
               if (imageUploadUrl != null)
                 {
@@ -891,7 +933,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       bool showLink = true,
       bool showHistory = true,
       bool showHorizontalRule = false,
-      UploadFileCallback uploadFileCallback}) {
+      OnImagePickCallback onImagePickCallback}) {
     iconSize = toolbarIconSize;
     return QuillToolbar(key: key, children: [
       Visibility(
@@ -974,22 +1016,22 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       ),
       SizedBox(width: 0.6),
       Visibility(
-        visible: uploadFileCallback != null,
+        visible: onImagePickCallback != null,
         child: ImageButton(
           icon: Icons.image,
           controller: controller,
           imageSource: ImageSource.gallery,
-          uploadFileCallback: uploadFileCallback,
+          onImagePickCallback: onImagePickCallback,
         ),
       ),
       SizedBox(width: 0.6),
       Visibility(
-        visible: uploadFileCallback != null,
+        visible: onImagePickCallback != null,
         child: ImageButton(
           icon: Icons.photo_camera,
           controller: controller,
           imageSource: ImageSource.camera,
-          uploadFileCallback: uploadFileCallback,
+          onImagePickCallback: onImagePickCallback,
         ),
       ),
       Visibility(
