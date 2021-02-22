@@ -94,3 +94,6 @@
 
 ## [0.3.0]
 * Line Height calculated based on font size.
+
+## [0.3.1]
+* cursor focus when keyboard is on.
