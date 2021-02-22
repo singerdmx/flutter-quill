@@ -784,6 +784,9 @@ class _HistoryButtonState extends State<HistoryButton> {
   }
 
   void _setIconColor() {
+
+    if(!mounted) return;
+
     if (widget.undo) {
       setState(() {
         _iconColor = widget.controller.hasUndo
