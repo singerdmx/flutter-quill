@@ -156,8 +156,9 @@ class TextLine extends StatelessWidget {
           double fontSize = double.tryParse(size.value);
           if (fontSize != null) {
             res = res.merge(TextStyle(fontSize: fontSize));
-          } else
+          } else {
             throw "Invalid size ${size.value}";
+          }
       }
     }
 
