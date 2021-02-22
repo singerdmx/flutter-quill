@@ -21,6 +21,8 @@ dependencies:
   image_picker: ^0.6.7+22
   photo_view: ^0.10.3
   universal_html: ^1.2.1
+  file_picker: ^2.1.6
+
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
@@ -509,7 +511,11 @@ class ImageButton extends StatefulWidget {
 }
 
 class _ImageButtonState extends State<ImageButton> {
+  List<PlatformFile> _paths;
+  String _directoryPath;
+  String _extension;
   final _picker = ImagePicker();
+  FileType _pickingType = FileType.any;
 
   Future<String> _pickImage(ImageSource source) async {
     final PickedFile pickedFile = await _picker.getImage(source: source);
@@ -527,6 +533,42 @@ class _ImageButtonState extends State<ImageButton> {
     return null;
   }
 
+  Future<String> _pickImageWeb() async {
+    try {
+      _directoryPath = null;
+      _paths = (await FilePicker.platform.pickFiles(
+        type: _pickingType,
+        allowMultiple: false,
+        allowedExtensions: (_extension?.isNotEmpty ?? false)
+            ? _extension?.replaceAll(' ', '')?.split(',')
+            : null,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    var _fileName =
+        _paths != null ? _paths.map((e) => e.name).toString() : '...';
+
+    if (_paths != null) {
+      File file = File(_fileName);
+      if (file == null || widget.onImagePickCallback == null) return null;
+      // We simply return the absolute path to selected file.
+      try {
+        String url = await widget.onImagePickCallback(file);
+        print('Image uploaded and its url is $url');
+        return url;
+      } catch (error) {
+        print('Upload image error $error');
+      }
+      return null;
+    } else {
+      // User canceled the picker
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -541,7 +583,7 @@ class _ImageButtonState extends State<ImageButton> {
       onPressed: () {
         final index = widget.controller.selection.baseOffset;
         final length = widget.controller.selection.extentOffset - index;
-        final image = _pickImage(widget.imageSource);
+        final image = kIsWeb ? _pickImageWeb() : _pickImage(widget.imageSource);
         image.then((imageUploadUrl) => {
               if (imageUploadUrl != null)
                 {
