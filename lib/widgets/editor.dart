@@ -889,14 +889,9 @@ class RenderEditor extends RenderEditableContainerBox
         kMargin +
         offsetInViewport;
     final caretBottom = endpoints.single.point.dy + kMargin + offsetInViewport;
-    double dy;
-    if (caretTop < scrollOffset) {
-      dy = caretTop;
-    } else if (caretBottom > scrollOffset + viewportHeight) {
+    double dy = caretTop;
+    if (caretBottom > scrollOffset + viewportHeight) {
       dy = caretBottom - viewportHeight;
-    }
-    if (dy == null) {
-      return null;
     }
     return math.max(dy, 0.0);
   }
