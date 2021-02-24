@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/block.dart';
@@ -123,8 +124,10 @@ class RawEditorState extends EditorState
   FocusAttachment _focusAttachment;
   CursorCont _cursorCont;
   ScrollController _scrollController;
+  KeyboardVisibilityController _keyboardVisibilityController;
   KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
+  bool _keyboardVisible = false;
   DefaultStyles _styles;
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
   final LayerLink _toolbarLayerLink = LayerLink();
@@ -692,6 +695,16 @@ class RawEditorState extends EditorState
       handleDelete,
     );
 
+    _keyboardVisibilityController = KeyboardVisibilityController();
+    _keyboardVisibilityController.onChange.listen((bool visible) {
+      setState(() {
+        _keyboardVisible = visible;
+        if (visible) {
+          _onChangeTextEditingValue();
+        }
+      });
+    });
+
     _focusAttachment = widget.focusNode.attach(context,
         onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
     widget.focusNode.addListener(_handleFocusChanged);
@@ -869,8 +882,14 @@ class RawEditorState extends EditorState
   }
 
   _didChangeTextEditingValue() {
-    requestKeyboard();
+    if (_keyboardVisible) {
+      _onChangeTextEditingValue();
+    } else {
+      requestKeyboard();
+    }
+  }
 
+  _onChangeTextEditingValue() {
     _showCaretOnScreen();
     updateRemoteValueIfNeeded();
     _cursorCont.startOrStopCursorTimerIfNeeded(
