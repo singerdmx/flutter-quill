@@ -699,10 +699,10 @@ class RawEditorState extends EditorState
     _keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() {
         _keyboardVisible = visible;
-        if (visible) {
-          _onChangeTextEditingValue();
-        }
       });
+      if (visible) {
+        _onChangeTextEditingValue();
+      }
     });
 
     _focusAttachment = widget.focusNode.attach(context,
