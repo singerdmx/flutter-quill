@@ -411,13 +411,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
             builder: (context) => ImageTapWrapper(
               imageProvider: imageUrl.startsWith('http')
                   ? NetworkImage(imageUrl)
-                  : (isBase64(imageUrl))
-                      ? Image.memory(
-                          base64.decode(imageUrl),
-                        )
-                      : FileImage(
-                          io.File(blockEmbed.data),
-                        ),
+                  : isBase64(imageUrl)
+                      ? Image.memory(base64.decode(imageUrl))
+                      : FileImage(io.File(imageUrl)),
             ),
           ),
         );
