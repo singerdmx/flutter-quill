@@ -22,6 +22,7 @@ dependencies:
   photo_view: ^0.10.3
   universal_html: ^1.2.1
   file_picker: ^2.1.6
+  string_validator: ^0.1.4
 
 
 dev_dependencies:
