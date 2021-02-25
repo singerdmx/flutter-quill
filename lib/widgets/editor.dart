@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math' as math;
 
@@ -19,6 +20,7 @@ import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -407,9 +409,16 @@ class _QuillEditorSelectionGestureDetectorBuilder
           getEditor().context,
           MaterialPageRoute(
             builder: (context) => ImageTapWrapper(
-                imageProvider: imageUrl.startsWith('http')
-                    ? NetworkImage(imageUrl)
-                    : FileImage(io.File(blockEmbed.data))),
+              imageProvider: imageUrl.startsWith('http')
+                  ? NetworkImage(imageUrl)
+                  : (isBase64(imageUrl))
+                      ? Image.memory(
+                          base64.decode(imageUrl),
+                        )
+                      : FileImage(
+                          io.File(blockEmbed.data),
+                        ),
+            ),
           ),
         );
       }
