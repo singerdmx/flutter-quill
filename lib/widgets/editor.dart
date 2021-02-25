@@ -876,19 +876,17 @@ class RenderEditor extends RenderEditableContainerBox
   double getOffsetToRevealCursor(
       double viewportHeight, double scrollOffset, double offsetInViewport) {
     List<TextSelectionPoint> endpoints = getEndpointsForSelection(selection);
-    if (endpoints.length != 1) {
-      return null;
-    }
+    TextSelectionPoint endpoint = endpoints.first;
     RenderEditableBox child = childAtPosition(selection.extent);
     const kMargin = 8.0;
 
-    double caretTop = endpoints.single.point.dy -
+    double caretTop = endpoint.point.dy -
         child.preferredLineHeight(TextPosition(
             offset:
                 selection.extentOffset - child.getContainer().getOffset())) -
         kMargin +
         offsetInViewport;
-    final caretBottom = endpoints.single.point.dy + kMargin + offsetInViewport;
+    final caretBottom = endpoint.point.dy + kMargin + offsetInViewport;
     double dy;
     if (caretTop < scrollOffset) {
       dy = caretTop;

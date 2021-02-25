@@ -100,3 +100,6 @@
 
 ## [0.3.2]
 * Fix cursor focus issue when keyboard is on.
+
+## [0.3.3]
+* More fix on cursor focus issue when keyboard is on.
