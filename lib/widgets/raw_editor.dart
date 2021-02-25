@@ -574,7 +574,9 @@ class RawEditorState extends EditorState
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
-    requestKeyboard();
+    if (!_keyboardVisible) {
+      requestKeyboard();
+    }
   }
 
   _buildChildren(Document doc, BuildContext context) {
