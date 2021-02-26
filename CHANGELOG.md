@@ -103,3 +103,6 @@
 
 ## [0.3.3]
 * More fix on cursor focus issue when keyboard is on.
+
+## [1.0.0-dev.1]
+* Upgrade prerelease SDK & Bump for master
