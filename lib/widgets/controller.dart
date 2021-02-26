@@ -5,8 +5,8 @@ import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/style.dart';
+import 'package:flutter_quill/models/quill_delta.dart';
 import 'package:flutter_quill/utils/diff_delta.dart';
-import 'package:quill_delta/quill_delta.dart';
 import 'package:tuple/tuple.dart';
 
 class QuillController extends ChangeNotifier {

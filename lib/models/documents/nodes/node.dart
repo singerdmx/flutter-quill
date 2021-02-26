@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter_quill/models/documents/style.dart';
-import 'package:quill_delta/quill_delta.dart';
+import 'package:flutter_quill/models/quill_delta.dart';
 
 import '../attribute.dart';
 import 'container.dart';

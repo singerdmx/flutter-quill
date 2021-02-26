@@ -12,7 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  quill_delta: ^2.0.0
   quiver_hashcode: ^2.0.0
   collection: ^1.14.13
   tuple: ^1.0.3

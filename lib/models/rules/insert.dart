@@ -1,7 +1,7 @@
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/style.dart';
+import 'package:flutter_quill/models/quill_delta.dart';
 import 'package:flutter_quill/models/rules/rule.dart';
-import 'package:quill_delta/quill_delta.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class InsertRule extends Rule {
