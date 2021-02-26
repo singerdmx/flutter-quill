@@ -4,7 +4,7 @@ import 'package:flutter_quill/models/documents/nodes/block.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart';
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/style.dart';
-import 'package:quill_delta/quill_delta.dart';
+import 'package:flutter_quill/models/quill_delta.dart';
 import 'package:tuple/tuple.dart';
 
 import '../rules/rule.dart';

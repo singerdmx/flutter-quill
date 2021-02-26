@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:quill_delta/quill_delta.dart';
+import 'package:flutter_quill/models/quill_delta.dart';
 
 import '../style.dart';
 import 'block.dart';
