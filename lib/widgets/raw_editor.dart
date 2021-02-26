@@ -389,7 +389,7 @@ class RawEditorState extends EditorState
       );
 
       _textInputConnection.setEditingState(_lastKnownRemoteTextEditingValue);
-      _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
+      // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
     _textInputConnection.show();
   }
