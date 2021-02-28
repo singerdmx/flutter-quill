@@ -106,3 +106,6 @@
 
 ## [1.0.0-dev.1]
 * Upgrade prerelease SDK & Bump for master
+
+## [1.0.0-dev.2]
+* Improve link handling for tel, mailto and etc.
