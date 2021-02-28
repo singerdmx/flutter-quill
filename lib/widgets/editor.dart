@@ -31,8 +31,12 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 
-const urlPattern =
-    r"^((https?|http)://)?([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?$";
+const linkPrefixes = [
+  'mailto:', // email
+  'tel:', // telephone
+  'sms:', // SMS
+  'http'
+];
 
 abstract class EditorState extends State<RawEditor> {
   TextEditingValue getTextEditingValue();
@@ -317,8 +321,6 @@ class _QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  static final urlRegExp = new RegExp(urlPattern, caseSensitive: false);
-
   final _QuillEditorState _state;
 
   _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
@@ -394,9 +396,12 @@ class _QuillEditorSelectionGestureDetectorBuilder
         launchUrl = _launchUrl;
       }
       String link = segment.style.attributes[Attribute.link.key].value;
-      if (getEditor().widget.readOnly &&
-          link != null &&
-          urlRegExp.firstMatch(link.trim()) != null) {
+      if (getEditor().widget.readOnly && link != null) {
+        link = link.trim();
+        if (!linkPrefixes
+            .any((linkPrefix) => link.toLowerCase().startsWith(linkPrefix))) {
+          link = 'https://$link';
+        }
         launchUrl(link);
       }
       return false;
@@ -452,9 +457,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   void _launchUrl(String url) async {
-    if (!url.startsWith('http')) {
-      url = 'https://$url';
-    }
     await launch(url);
   }
 
