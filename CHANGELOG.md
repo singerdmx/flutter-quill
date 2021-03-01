@@ -106,3 +106,6 @@
 
 ## [0.3.4]
 * Improve link handling for tel, mailto and etc.
+
+## [0.3.5]
+* Fix for cursor focus issues when keyboard is on.
