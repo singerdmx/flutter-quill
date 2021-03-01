@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -125,6 +126,7 @@ class RawEditorState extends EditorState
   CursorCont _cursorCont;
   ScrollController _scrollController;
   KeyboardVisibilityController _keyboardVisibilityController;
+  StreamSubscription<bool> _keyboardVisibilitySubscription;
   KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
   bool _keyboardVisible = false;
@@ -698,12 +700,13 @@ class RawEditorState extends EditorState
     );
 
     _keyboardVisibilityController = KeyboardVisibilityController();
-    _keyboardVisibilityController.onChange.listen((bool visible) {
-      _keyboardVisible = visible;
-      if (visible) {
-        _onChangeTextEditingValue();
-      }
-    });
+    _keyboardVisibilitySubscription =
+        _keyboardVisibilityController.onChange.listen((bool visible) {
+          _keyboardVisible = visible;
+          if (visible) {
+            _onChangeTextEditingValue();
+          }
+        });
 
     _focusAttachment = widget.focusNode.attach(context,
         onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
@@ -865,6 +868,7 @@ class RawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
+    _keyboardVisibilitySubscription.cancel();
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
