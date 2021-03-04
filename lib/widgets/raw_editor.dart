@@ -905,6 +905,7 @@ class RawEditorState extends EditorState
 
     SchedulerBinding.instance.addPostFrameCallback(
         (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
+    if (!mounted) return;
     setState(() {
       // Use widget.controller.value in build()
       // Trigger build and updateChildren
@@ -959,6 +960,7 @@ class RawEditorState extends EditorState
   }
 
   _onChangedClipboardStatus() {
+    if (!mounted) return;
     setState(() {
       // Inform the widget that the value of clipboardStatus has changed.
       // Trigger build and updateChildren
