@@ -58,6 +58,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool hasFocus;
   final EdgeInsets contentPadding;
   final EmbedBuilder embedBuilder;
+  final StyleBuilder styleBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
 
@@ -73,7 +74,7 @@ class EditableTextBlock extends StatelessWidget {
       this.contentPadding,
       this.embedBuilder,
       this.cursorCont,
-      this.indentLevelCounts)
+      this.indentLevelCounts, this.styleBuilder)
       : assert(hasFocus != null),
         assert(embedBuilder != null),
         assert(cursorCont != null);
@@ -114,14 +115,15 @@ class EditableTextBlock extends StatelessWidget {
       index++;
       EditableTextLine editableTextLine = EditableTextLine(
           line,
-          _buildLeading(context, line, index, indentLevelCounts, count),
+          Center(child: _buildLeading(context, line, index, indentLevelCounts, count)),
           TextLine(
             line: line,
             textDirection: textDirection,
             embedBuilder: embedBuilder,
+            styleBuilder:styleBuilder,
             styles: styles,
           ),
-          _getIndentWidth(),
+          _getIndentWidth(defaultStyles),
           _getSpacingForLine(line, index, count, defaultStyles),
           textDirection,
           textSelection,
@@ -185,9 +187,9 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  double _getIndentWidth() {
+  double _getIndentWidth(DefaultStyles defaultStyles) {
     Map<String, Attribute> attrs = block.style.attributes;
-
+    double minimumIndent = defaultStyles?.textBlockStyle?.lineSpacing?.item1??0;
     Attribute indent = attrs[Attribute.indent.key];
     double extraIndent = 0.0;
     if (indent != null && indent.value != null) {
@@ -195,10 +197,10 @@ class EditableTextBlock extends StatelessWidget {
     }
 
     if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return 16.0 + extraIndent;
+      return minimumIndent + extraIndent;
     }
 
-    return 32.0 + extraIndent;
+    return minimumIndent + extraIndent;
   }
 
   Tuple2 _getSpacingForLine(

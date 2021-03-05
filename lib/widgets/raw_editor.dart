@@ -604,7 +604,9 @@ class RawEditorState extends EditorState
                 : null,
             widget.embedBuilder,
             _cursorCont,
-            indentLevelCounts);
+            indentLevelCounts,
+            widget.styleBuilder,
+            );
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');

@@ -59,25 +59,27 @@ class DefaultStyles {
   final DefaultTextBlockStyle code;
   final DefaultTextBlockStyle indent;
   final DefaultTextBlockStyle align;
-
-  DefaultStyles(
-      {this.h1,
-      this.h2,
-      this.h3,
-      this.paragraph,
-      this.bold,
-      this.italic,
-      this.underline,
-      this.strikeThrough,
-      this.link,
-      this.lists,
-      this.quote,
-      this.code,
-      this.indent,
-      this.align,
-      this.sizeSmall,
-      this.sizeLarge,
-      this.sizeHuge});
+  final DefaultTextBlockStyle textBlockStyle;
+  DefaultStyles({
+    this.h1,
+    this.h2,
+    this.h3,
+    this.paragraph,
+    this.bold,
+    this.italic,
+    this.underline,
+    this.strikeThrough,
+    this.link,
+    this.lists,
+    this.quote,
+    this.code,
+    this.indent,
+    this.align,
+    this.sizeSmall,
+    this.sizeLarge,
+    this.sizeHuge,
+    this.textBlockStyle,
+  });
 
   static DefaultStyles getInstance(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -174,7 +176,9 @@ class DefaultStyles {
             baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
         sizeSmall: TextStyle(fontSize: 10.0),
         sizeLarge: TextStyle(fontSize: 18.0),
-        sizeHuge: TextStyle(fontSize: 22.0));
+        sizeHuge: TextStyle(fontSize: 22.0),
+        textBlockStyle: DefaultTextBlockStyle(baseStyle,  Tuple2(0.0, 0.0), Tuple2(32.0, 0.0), null)
+        );
   }
 
   DefaultStyles merge(DefaultStyles other) {
@@ -195,6 +199,8 @@ class DefaultStyles {
         align: other.align ?? this.align,
         sizeSmall: other.sizeSmall ?? this.sizeSmall,
         sizeLarge: other.sizeLarge ?? this.sizeLarge,
-        sizeHuge: other.sizeHuge ?? this.sizeHuge);
+        sizeHuge: other.sizeHuge ?? this.sizeHuge,
+        textBlockStyle: other.textBlockStyle??this.textBlockStyle,
+        );
   }
 }
