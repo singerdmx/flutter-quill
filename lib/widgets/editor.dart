@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -110,15 +109,12 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 }
 
 Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
-  var ui = UniversalUI();
   switch (node.value.type) {
     case 'image':
       String imageUrl = node.value.data;
       Size size = MediaQuery.of(context).size;
-      ui.platformViewRegistry.registerViewFactory(
-        imageUrl,
-        (int viewId) => html.ImageElement()..src = imageUrl,
-      );
+      UniversalUI().platformViewRegistry.registerViewFactory(
+          imageUrl, (int viewId) => html.ImageElement()..src = imageUrl);
       return Padding(
         padding: EdgeInsets.only(
           right: ResponsiveWidget.isMediumScreen(context)
