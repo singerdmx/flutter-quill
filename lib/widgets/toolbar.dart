@@ -519,7 +519,7 @@ class _ImageButtonState extends State<ImageButton> {
   Future<String> _pickImage(ImageSource source) async {
     final PickedFile pickedFile = await _picker.getImage(source: source);
     if (pickedFile == null) return null;
-    
+
     final File file = File(pickedFile.path);
 
     if (file == null || widget.onImagePickCallback == null) return null;
@@ -567,6 +567,7 @@ class _ImageButtonState extends State<ImageButton> {
     } else {
       // User canceled the picker
     }
+    return null;
   }
 
   @override
