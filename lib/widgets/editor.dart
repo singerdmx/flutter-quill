@@ -20,18 +20,33 @@ import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
-import 'FakeUi.dart' if (dart.library.html) 'RealUi.dart' as ui;
+import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui;
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 
-const urlPattern =
-    r"^((https?|http)://)?([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?$";
+const linkPrefixes = [
+  'mailto:', // email
+  'tel:', // telephone
+  'sms:', // SMS
+  'callto:',
+  'wtai:',
+  'market:',
+  'geopoint:',
+  'ymsgr:',
+  'msnim:',
+  'gtalk:', // Google Talk
+  'skype:',
+  'sip:', // Lync
+  'whatsapp:',
+  'http'
+];
 
 abstract class EditorState extends State<RawEditor> {
   TextEditingValue getTextEditingValue();
@@ -316,8 +331,6 @@ class _QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  static final urlRegExp = new RegExp(urlPattern, caseSensitive: false);
-
   final _QuillEditorState _state;
 
   _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
@@ -393,9 +406,12 @@ class _QuillEditorSelectionGestureDetectorBuilder
         launchUrl = _launchUrl;
       }
       String link = segment.style.attributes[Attribute.link.key].value;
-      if (getEditor().widget.readOnly &&
-          link != null &&
-          urlRegExp.firstMatch(link.trim()) != null) {
+      if (getEditor().widget.readOnly && link != null) {
+        link = link.trim();
+        if (!linkPrefixes
+            .any((linkPrefix) => link.toLowerCase().startsWith(linkPrefix))) {
+          link = 'https://$link';
+        }
         launchUrl(link);
       }
       return false;
@@ -410,13 +426,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
             builder: (context) => ImageTapWrapper(
               imageProvider: imageUrl.startsWith('http')
                   ? NetworkImage(imageUrl)
-                  : (isBase64(imageUrl))
-                      ? Image.memory(
-                          base64.decode(imageUrl),
-                        )
-                      : FileImage(
-                          io.File(blockEmbed.data),
-                        ),
+                  : isBase64(imageUrl)
+                      ? Image.memory(base64.decode(imageUrl))
+                      : FileImage(io.File(imageUrl)),
             ),
           ),
         );
@@ -455,9 +467,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   void _launchUrl(String url) async {
-    if (!url.startsWith('http')) {
-      url = 'https://$url';
-    }
     await launch(url);
   }
 
