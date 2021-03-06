@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -112,6 +111,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
+      var ui = UniversalUI();
       String imageUrl = node.value.data;
       Size size = MediaQuery.of(context).size;
       ui.platformViewRegistry.registerViewFactory(
