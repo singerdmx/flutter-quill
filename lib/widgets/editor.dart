@@ -110,6 +110,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 }
 
 Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
+  var ui = UniversalUI();
   switch (node.value.type) {
     case 'image':
       String imageUrl = node.value.data;
