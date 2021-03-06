@@ -20,10 +20,10 @@ dependencies:
   flutter_colorpicker: ^0.3.5
   image_picker: ^0.6.7+22
   photo_view: ^0.10.3
-  universal_html: ^1.2.1
-  file_picker: ^2.1.6
-  string_validator: ^0.1.4
-  flutter_keyboard_visibility: ^4.0.4
+  universal_html: ^1.2.4
+  file_picker: ^3.0.0-nullsafety.4
+  string_validator: ^0.2.0-nullsafety.0
+  flutter_keyboard_visibility: ^5.0.0-nullsafety.2
 
 
 dev_dependencies:

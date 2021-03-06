@@ -1,6 +1,6 @@
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
-import 'package:quill_delta/quill_delta.dart';
+import 'package:flutter_quill/models/quill_delta.dart';
 
 import 'delete.dart';
 import 'format.dart';

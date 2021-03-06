@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -125,6 +126,7 @@ class RawEditorState extends EditorState
   CursorCont _cursorCont;
   ScrollController _scrollController;
   KeyboardVisibilityController _keyboardVisibilityController;
+  StreamSubscription<bool> _keyboardVisibilitySubscription;
   KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
   bool _keyboardVisible = false;
@@ -389,7 +391,7 @@ class RawEditorState extends EditorState
       );
 
       _textInputConnection.setEditingState(_lastKnownRemoteTextEditingValue);
-      _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
+      // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
     _textInputConnection.show();
   }
@@ -698,7 +700,8 @@ class RawEditorState extends EditorState
     );
 
     _keyboardVisibilityController = KeyboardVisibilityController();
-    _keyboardVisibilityController.onChange.listen((bool visible) {
+    _keyboardVisibilitySubscription =
+        _keyboardVisibilityController.onChange.listen((bool visible) {
       _keyboardVisible = visible;
       if (visible) {
         _onChangeTextEditingValue();
@@ -865,6 +868,7 @@ class RawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
+    _keyboardVisibilitySubscription.cancel();
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
@@ -901,6 +905,7 @@ class RawEditorState extends EditorState
 
     SchedulerBinding.instance.addPostFrameCallback(
         (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
+    if (!mounted) return;
     setState(() {
       // Use widget.controller.value in build()
       // Trigger build and updateChildren
@@ -955,6 +960,7 @@ class RawEditorState extends EditorState
   }
 
   _onChangedClipboardStatus() {
+    if (!mounted) return;
     setState(() {
       // Inform the widget that the value of clipboardStatus has changed.
       // Trigger build and updateChildren

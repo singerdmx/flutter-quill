@@ -70,15 +70,7 @@ The `QuillToolbar` class lets you customise which formatting options are availab
 
 ## Web
 
-Default branch `master` is on channel `master`. To use channel `stable`, switch to branch `stable`.
-Branch `master` on channel `master` supports web. To run the app on web do the following:
-
-1) Change flutter channel to master using `flutter channel master`, followed by `flutter upgrade`.
-2) Enable web using `flutter config --enable-web` and restart the IDE.
-3) Upon successful execution of step 1 and 2 you should see `Chrome` as one of the devices which you run `flutter devices`.
-4) Run the app.
-
-For web development, [ReactQuill] is recommended to use for compatibility.  
+For web development, use `flutter config --enable-web` for flutter and use [ReactQuill] for React.  
   
 ---  
   
