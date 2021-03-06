@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -24,7 +25,6 @@ import 'package:string_validator/string_validator.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
-import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui;
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
