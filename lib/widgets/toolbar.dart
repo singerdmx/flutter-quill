@@ -144,7 +144,7 @@ class _LinkDialogState extends State<_LinkDialog> {
         onChanged: _linkChanged,
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: _link.isNotEmpty ? _applyLink : null,
           child: Text('Apply'),
         ),
@@ -512,7 +512,6 @@ class ImageButton extends StatefulWidget {
 
 class _ImageButtonState extends State<ImageButton> {
   List<PlatformFile> _paths;
-  String _directoryPath;
   String _extension;
   final _picker = ImagePicker();
   FileType _pickingType = FileType.any;
@@ -535,7 +534,6 @@ class _ImageButtonState extends State<ImageButton> {
 
   Future<String> _pickImageWeb() async {
     try {
-      _directoryPath = null;
       _paths = (await FilePicker.platform.pickFiles(
         type: _pickingType,
         allowMultiple: false,
