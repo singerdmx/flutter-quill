@@ -95,38 +95,39 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.88,
-            color: Colors.white,
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: QuillEditor(
-              controller: _controller,
-              scrollController: ScrollController(),
-              scrollable: true,
-              focusNode: _focusNode,
-              autoFocus: false,
-              readOnly: false,
-              placeholder: 'Add content',
-              enableInteractiveSelection: true,
-              expands: false,
-              padding: EdgeInsets.zero,
-              customStyles: DefaultStyles(
-                h1: DefaultTextBlockStyle(
-                    TextStyle(
-                      fontSize: 32.0,
-                      color: Colors.black,
-                      height: 1.15,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    Tuple2(16.0, 0.0),
-                    Tuple2(0.0, 0.0),
-                    null),
-                sizeSmall: TextStyle(fontSize: 9.0),
+          Expanded(
+            flex: 20,
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: QuillEditor(
+                controller: _controller,
+                scrollController: ScrollController(),
+                scrollable: true,
+                focusNode: _focusNode,
+                autoFocus: false,
+                readOnly: false,
+                placeholder: 'Add content',
+                enableInteractiveSelection: true,
+                expands: false,
+                padding: EdgeInsets.zero,
+                customStyles: DefaultStyles(
+                  h1: DefaultTextBlockStyle(
+                      TextStyle(
+                        fontSize: 32.0,
+                        color: Colors.black,
+                        height: 1.15,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      Tuple2(16.0, 0.0),
+                      Tuple2(0.0, 0.0),
+                      null),
+                  sizeSmall: TextStyle(fontSize: 9.0),
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          Expanded(
             child: Container(
               child: QuillToolbar.basic(
                   controller: _controller,
