@@ -121,3 +121,6 @@
 
 ## [1.0.1]
 * Fix static analysis errors.
+
+## [1.0.2]
+* Update toolbar in sample home page.
