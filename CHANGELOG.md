@@ -118,3 +118,6 @@
 
 ## [1.0.0]
 * Support flutter 2.0.
+
+## [1.0.1]
+* Fix static analysis errors.
