@@ -92,8 +92,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildWelcomeEditor(BuildContext context) {
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Stack(
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height * 0.88,
@@ -125,13 +124,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: QuillToolbar.basic(
-                  controller: _controller,
-                  onImagePickCallback: _onImagePickCallback),
-            ),
+          Container(
+            child: QuillToolbar.basic(
+                controller: _controller,
+                onImagePickCallback: _onImagePickCallback),
           ),
         ],
       ),
