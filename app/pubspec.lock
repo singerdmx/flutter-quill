@@ -70,7 +70,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -225,7 +225,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.27"
+    version: "2.0.1"
   path_provider_linux:
     dependency: transitive
     description:
