@@ -64,7 +64,9 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [],
       ),
-      drawer: Material(
+      drawer: Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
         color: Colors.grey.shade800,
         child: _buildMenuBar(context),
       ),
@@ -96,7 +98,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(
-            flex: 20,
+            flex: 15,
             child: Container(
               color: Colors.white,
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
@@ -127,10 +129,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-            child: QuillToolbar.basic(
-                controller: _controller,
-                onImagePickCallback: _onImagePickCallback),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              child: QuillToolbar.basic(
+                  controller: _controller,
+                  onImagePickCallback: _onImagePickCallback),
+            ),
           ),
         ],
       ),
@@ -149,15 +154,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildMenuBar(BuildContext context) {
-    final itemStyle = TextStyle(color: Colors.white);
-    return ListView(
+    Size size = MediaQuery.of(context).size;
+    final itemStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Divider(
+          thickness: 2,
+          color: Colors.white,
+          indent: size.width * 0.1,
+          endIndent: size.width * 0.1,
+        ),
         ListTile(
-          title: Text('Read only demo', style: itemStyle),
+          title: Center(child: Text('Read only demo', style: itemStyle)),
           dense: true,
           visualDensity: VisualDensity.compact,
           onTap: _readOnly,
-        )
+        ),
+        Divider(
+          thickness: 2,
+          color: Colors.white,
+          indent: size.width * 0.1,
+          endIndent: size.width * 0.1,
+        ),
       ],
     );
   }
