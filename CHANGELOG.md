@@ -124,3 +124,6 @@
 
 ## [1.0.2]
 * Update toolbar in sample home page.
+
+## [1.0.3]
+* Fix issue that text is not displayed while typing [WEB].
