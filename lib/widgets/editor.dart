@@ -111,7 +111,6 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
-      var ui = UniversalUI();
       String imageUrl = node.value.data;
       Size size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
