@@ -129,13 +129,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-              child: QuillToolbar.basic(
-                  controller: _controller,
-                  onImagePickCallback: _onImagePickCallback),
-            ),
+          Container(
+            child: QuillToolbar.basic(
+                controller: _controller,
+                onImagePickCallback: _onImagePickCallback),
           ),
         ],
       ),
