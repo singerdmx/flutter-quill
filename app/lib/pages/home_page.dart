@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
@@ -129,11 +130,19 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-            child: QuillToolbar.basic(
-                controller: _controller,
-                onImagePickCallback: _onImagePickCallback),
-          ),
+          kIsWeb
+              ? Expanded(
+                  child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  child: QuillToolbar.basic(
+                      controller: _controller,
+                      onImagePickCallback: _onImagePickCallback),
+                ))
+              : Container(
+                  child: QuillToolbar.basic(
+                      controller: _controller,
+                      onImagePickCallback: _onImagePickCallback),
+                ),
         ],
       ),
     );
