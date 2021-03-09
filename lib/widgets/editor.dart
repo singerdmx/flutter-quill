@@ -275,10 +275,10 @@ class _QuillEditorState extends State<QuillEditor>
           widget.placeholder,
           widget.onLaunchUrl,
           ToolbarOptions(
-            copy: true,
-            cut: true,
-            paste: true,
-            selectAll: true,
+            copy: widget.enableInteractiveSelection ?? true,
+            cut: widget.enableInteractiveSelection ?? true,
+            paste: widget.enableInteractiveSelection ?? true,
+            selectAll: widget.enableInteractiveSelection ?? true,
           ),
           theme.platform == TargetPlatform.iOS ||
               theme.platform == TargetPlatform.android,
