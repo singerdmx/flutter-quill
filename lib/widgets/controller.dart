@@ -86,11 +86,22 @@ class QuillController extends ChangeNotifier {
         print('document.replace failed: $e');
         throw e;
       }
-      final shouldRetainDelta = delta != null &&
+      bool shouldRetainDelta = delta != null &&
           toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
+      if (shouldRetainDelta &&
+          toggledStyle.isNotEmpty &&
+          delta.length == 2 &&
+          delta.last.data == '\n') {
+        // if all attributes are inline, shouldRetainDelta should be false
+        final anyAttributeNotInline =
+            toggledStyle.values.any((attr) => !attr.isInline);
+        if (!anyAttributeNotInline) {
+          shouldRetainDelta = false;
+        }
+      }
       if (shouldRetainDelta) {
         Delta retainDelta = Delta()
           ..retain(index)
