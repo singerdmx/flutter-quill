@@ -86,11 +86,12 @@ class QuillController extends ChangeNotifier {
         print('document.replace failed: $e');
         throw e;
       }
-      if (delta != null &&
+      final shouldRetainDelta = delta != null &&
           toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
-          delta.last.isInsert) {
+          delta.last.isInsert;
+      if (shouldRetainDelta) {
         Delta retainDelta = Delta()
           ..retain(index)
           ..retain(data is String ? data.length : 1, toggledStyle.toJson());
