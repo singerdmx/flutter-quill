@@ -1,3 +1,6 @@
+## [1.0.5]
+* Bug fix: Can not insert newline when Bold is toggled ON.
+
 ## [1.0.4]
 * Upgrade photo_view to ^0.11.0.
 
