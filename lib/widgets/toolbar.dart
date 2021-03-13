@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/style.dart';
 import 'package:flutter_quill/utils/color.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'controller.dart';
 
@@ -17,6 +19,7 @@ double iconSize = 18.0;
 double kToolbarHeight = iconSize * 2;
 
 typedef OnImagePickCallback = Future<String> Function(File file);
+typedef ImagePickImpl = Future<String> Function(ImageSource source);
 
 class InsertEmbedButton extends StatelessWidget {
   final QuillController controller;
@@ -494,6 +497,8 @@ class ImageButton extends StatefulWidget {
 
   final OnImagePickCallback onImagePickCallback;
 
+  final ImagePickImpl imagePickImpl;
+
   final ImageSource imageSource;
 
   ImageButton(
@@ -501,7 +506,8 @@ class ImageButton extends StatefulWidget {
       @required this.icon,
       @required this.controller,
       @required this.imageSource,
-      this.onImagePickCallback})
+      this.onImagePickCallback,
+      this.imagePickImpl})
       : assert(icon != null),
         assert(controller != null),
         super(key: key);
@@ -570,6 +576,26 @@ class _ImageButtonState extends State<ImageButton> {
     return null;
   }
 
+  Future<String> _pickImageDesktop() async {
+    try {
+      var filePath = await FilesystemPicker.open(
+        context: context,
+        rootDirectory: await getApplicationDocumentsDirectory(),
+        fsType: FilesystemType.file,
+        fileTileSelectMode: FileTileSelectMode.wholeTile,
+      );
+      if (filePath == null || filePath.isEmpty) return null;
+
+      final File file = File(filePath);
+      String url = await widget.onImagePickCallback(file);
+      print('Image uploaded and its url is $url');
+      return url;
+    } catch (error) {
+      print('Upload image error $error');
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -584,7 +610,18 @@ class _ImageButtonState extends State<ImageButton> {
       onPressed: () {
         final index = widget.controller.selection.baseOffset;
         final length = widget.controller.selection.extentOffset - index;
-        final image = kIsWeb ? _pickImageWeb() : _pickImage(widget.imageSource);
+        Future<String> image;
+        if (widget.imagePickImpl != null) {
+          image = widget.imagePickImpl(widget.imageSource);
+        } else {
+          if (kIsWeb) {
+            image = _pickImageWeb();
+          } else if (Platform.isAndroid || Platform.isIOS) {
+            image = _pickImage(widget.imageSource);
+          } else {
+            image = _pickImageDesktop();
+          }
+        }
         image.then((imageUploadUrl) => {
               if (imageUploadUrl != null)
                 {
