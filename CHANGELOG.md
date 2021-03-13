@@ -1,3 +1,6 @@
+## [1.0.7]
+* Fix crash on web (dart:io).
+
 ## [1.0.6]
 * Add desktop support - WINDOWS, MACOS and LINUX.
 
