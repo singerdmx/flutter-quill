@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 import 'dart:io' as io;
 import 'dart:math' as math;
 
@@ -22,7 +23,7 @@ import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:universal_html/prefer_universal/html.dart' as html;
+// import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'box.dart';
@@ -114,7 +115,7 @@ Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
       String imageUrl = node.value.data;
       Size size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
-          imageUrl, (int viewId) => html.ImageElement()..src = imageUrl);
+          imageUrl, (int viewId) => ImageElement()..src = imageUrl);
       return Padding(
         padding: EdgeInsets.only(
           right: ResponsiveWidget.isMediumScreen(context)
@@ -1133,3 +1134,4 @@ class RenderEditableContainerBox extends RenderBox
         _resolvedPadding!.top;
   }
 }
+
