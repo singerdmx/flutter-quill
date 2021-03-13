@@ -1,3 +1,6 @@
+## [1.0.6]
+* Add desktop support - WINDOWS, MACOS and LINUX.
+
 ## [1.0.5]
 * Bug fix: Can not insert newline when Bold is toggled ON.
 
