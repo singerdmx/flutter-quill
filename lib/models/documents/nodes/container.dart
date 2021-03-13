@@ -28,19 +28,19 @@ abstract class Container<T extends Node?> extends Node {
   add(T node) {
     assert(node?.parent == null);
     node?.parent = this;
-    _children.add(node!);
+    _children.add(node as Node);
   }
 
   addFirst(T node) {
     assert(node?.parent == null);
     node?.parent = this;
-    _children.addFirst(node!);
+    _children.addFirst(node as Node);
   }
 
   void remove(T node) {
     assert(node?.parent == this);
     node?.parent = null;
-    _children.remove(node!);
+    _children.remove(node as Node);
   }
 
   void moveChildToNewParent(Container? newParent) {
