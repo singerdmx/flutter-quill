@@ -1,4 +1,3 @@
-
 import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
 
 enum AttributeScope {

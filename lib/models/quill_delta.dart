@@ -51,8 +51,7 @@ class Operation {
   final Map<String, dynamic>? _attributes;
 
   Operation._(this.key, this.length, this.data, Map? attributes)
-      : 
-        assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
+      : assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
         assert(() {
           if (key != Operation.insertKey) return true;
           return data is String ? data.length == length : length == 1;
@@ -144,7 +143,8 @@ class Operation {
   }
 
   /// Returns `true` if this operation has attribute specified by [name].
-  bool hasAttribute(String name) => isNotPlain && _attributes!.containsKey(name);
+  bool hasAttribute(String name) =>
+      isNotPlain && _attributes!.containsKey(name);
 
   /// Returns `true` if [other] operation has the same attributes as this one.
   bool hasSameAttributes(Operation other) {
@@ -154,8 +154,8 @@ class Operation {
   @override
   int get hashCode {
     if (_attributes != null && _attributes!.isNotEmpty) {
-      final attrsHash =
-          hashcode.hashObjects(_attributes!.entries.map((e) => hashcode.hash2(e.key, e.value)));
+      final attrsHash = hashcode.hashObjects(
+          _attributes!.entries.map((e) => hashcode.hash2(e.key, e.value)));
       return hashcode.hash3(key, value, attrsHash);
     }
     return hashcode.hash2(key, value);
@@ -242,9 +242,7 @@ class Delta {
 
   int _modificationCount = 0;
 
-  Delta._(List<Operation> operations)
-      :
-        _operations = operations;
+  Delta._(List<Operation> operations) : _operations = operations;
 
   /// Creates new empty [Delta].
   factory Delta() => Delta._(<Operation>[]);
@@ -395,7 +393,8 @@ class Delta {
   /// Returns new operation or `null` if operations from [thisIter] and
   /// [otherIter] nullify each other. For instance, for the pair `insert('abc')`
   /// and `delete(3)` composition result would be empty string.
-  Operation? _composeOperation(DeltaIterator thisIter, DeltaIterator otherIter) {
+  Operation? _composeOperation(
+      DeltaIterator thisIter, DeltaIterator otherIter) {
     if (otherIter.isNextInsert) return otherIter.next();
     if (thisIter.isNextDelete) return thisIter.next();
 
@@ -656,8 +655,8 @@ class DeltaIterator {
         _offset += actualLength;
       }
       final opData = op.isInsert && op.data is String
-          ? (op.data as String)
-              .substring(_currentOffset as int, _currentOffset + (actualLength as int))
+          ? (op.data as String).substring(
+              _currentOffset as int, _currentOffset + (actualLength as int))
           : op.data;
       final opIsNotEmpty =
           opData is String ? opData.isNotEmpty : true; // embeds are never empty

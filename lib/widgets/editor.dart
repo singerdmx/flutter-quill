@@ -181,8 +181,7 @@ class QuillEditor extends StatefulWidget {
       this.scrollPhysics,
       this.onLaunchUrl,
       this.embedBuilder =
-          kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder})
-      ;
+          kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder});
 
   factory QuillEditor.basic(
       {required QuillController controller, required bool readOnly}) {
@@ -205,7 +204,8 @@ class QuillEditor extends StatefulWidget {
 class _QuillEditorState extends State<QuillEditor>
     implements EditorTextSelectionGestureDetectorBuilderDelegate {
   final GlobalKey<EditorState> _editorKey = GlobalKey<EditorState>();
-  late EditorTextSelectionGestureDetectorBuilder _selectionGestureDetectorBuilder;
+  late EditorTextSelectionGestureDetectorBuilder
+      _selectionGestureDetectorBuilder;
 
   @override
   void initState() {
@@ -420,7 +420,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
               imageProvider: imageUrl.startsWith('http')
                   ? NetworkImage(imageUrl)
                   : isBase64(imageUrl)
-                      ? Image.memory(base64.decode(imageUrl)) as ImageProvider<Object>?
+                      ? Image.memory(base64.decode(imageUrl))
+                          as ImageProvider<Object>?
                       : FileImage(io.File(imageUrl)),
             ),
           ),
@@ -553,8 +554,7 @@ class RenderEditor extends RenderEditableContainerBox
       this._startHandleLayerLink,
       this._endHandleLayerLink,
       EdgeInsets floatingCursorAddedMargin)
-      : 
-        super(
+      : super(
           children,
           document.root,
           textDirection,
@@ -604,7 +604,6 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   List<TextSelectionPoint> getEndpointsForSelection(
       TextSelection textSelection) {
-
     if (textSelection.isCollapsed) {
       RenderEditableBox child = childAtPosition(textSelection.extent);
       TextPosition localPosition = TextPosition(
@@ -701,7 +700,7 @@ class RenderEditor extends RenderEditableContainerBox
         !focusingEmpty) {
       return;
     }
-      onSelectionChanged(nextSelection, cause);
+    onSelectionChanged(nextSelection, cause);
   }
 
   @override
@@ -904,8 +903,7 @@ class RenderEditableContainerBox extends RenderBox
 
   RenderEditableContainerBox(List<RenderEditableBox>? children, this._container,
       this.textDirection, this._padding)
-      :
-        assert(_padding.isNonNegative) {
+      : assert(_padding.isNonNegative) {
     addAll(children);
   }
 
@@ -1013,7 +1011,8 @@ class RenderEditableContainerBox extends RenderBox
             .deflate(_resolvedPadding!);
     while (child != null) {
       child.layout(innerConstraints, parentUsesSize: true);
-      final EditableContainerParentData childParentData = child.parentData as EditableContainerParentData;
+      final EditableContainerParentData childParentData =
+          child.parentData as EditableContainerParentData;
       childParentData.offset = Offset(_resolvedPadding!.left, mainAxisExtent);
       mainAxisExtent += child.size.height;
       assert(child.parentData == childParentData);
@@ -1030,7 +1029,8 @@ class RenderEditableContainerBox extends RenderBox
     var child = firstChild;
     while (child != null) {
       extent = math.max(extent, childSize(child));
-      EditableContainerParentData childParentData = child.parentData as EditableContainerParentData;
+      EditableContainerParentData childParentData =
+          child.parentData as EditableContainerParentData;
       child = childParentData.nextSibling;
     }
     return extent;
@@ -1041,7 +1041,8 @@ class RenderEditableContainerBox extends RenderBox
     var child = firstChild;
     while (child != null) {
       extent += childSize(child);
-      EditableContainerParentData childParentData = child.parentData as EditableContainerParentData;
+      EditableContainerParentData childParentData =
+          child.parentData as EditableContainerParentData;
       child = childParentData.nextSibling;
     }
     return extent;
@@ -1075,8 +1076,8 @@ class RenderEditableContainerBox extends RenderBox
   double computeMinIntrinsicHeight(double width) {
     _resolvePadding();
     return _getIntrinsicMainAxis((RenderBox child) {
-      double childWidth =
-          math.max(0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
+      double childWidth = math.max(
+          0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
       return child.getMinIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
           _resolvedPadding!.bottom;
@@ -1087,8 +1088,8 @@ class RenderEditableContainerBox extends RenderBox
   double computeMaxIntrinsicHeight(double width) {
     _resolvePadding();
     return _getIntrinsicMainAxis((RenderBox child) {
-      final childWidth =
-          math.max(0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
+      final childWidth = math.max(
+          0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
       return child.getMaxIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
           _resolvedPadding!.bottom;
@@ -1102,4 +1103,3 @@ class RenderEditableContainerBox extends RenderBox
         _resolvedPadding!.top;
   }
 }
-

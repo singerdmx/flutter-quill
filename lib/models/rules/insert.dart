@@ -341,7 +341,7 @@ class PreserveInlineStylesRule extends InsertRule {
       ..retain(index)
       ..insert(text, attributes.isEmpty ? null : attributes);
     Operation next = itr.next();
-    
+
     Map<String, dynamic> nextAttributes =
         next.attributes ?? const <String, dynamic>{};
     if (!nextAttributes.containsKey(Attribute.link.key)) {

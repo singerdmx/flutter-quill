@@ -54,10 +54,9 @@ class EditorTextSelectionOverlay {
       this.selectionDelegate,
       this.dragStartBehavior,
       this.onSelectionHandleTapped,
-      this.clipboardStatus)
-      {
+      this.clipboardStatus) {
     OverlayState overlay = Overlay.of(context, rootOverlay: true)!;
-    
+
     _toolbarController = AnimationController(
         duration: Duration(milliseconds: 150), vsync: overlay);
   }
@@ -106,8 +105,7 @@ class EditorTextSelectionOverlay {
   Widget _buildHandle(
       BuildContext context, _TextSelectionHandlePosition position) {
     if ((_selection.isCollapsed &&
-            position == _TextSelectionHandlePosition.END)
-        ) {
+        position == _TextSelectionHandlePosition.END)) {
       return Container();
     }
     return Visibility(
@@ -162,8 +160,6 @@ class EditorTextSelectionOverlay {
   }
 
   Widget _buildToolbar(BuildContext context) {
-    
-
     List<TextSelectionPoint> endpoints =
         renderObject!.getEndpointsForSelection(_selection);
 
@@ -486,8 +482,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionEnd,
     this.behavior,
     required this.child,
-  })   : 
-        super(key: key);
+  }) : super(key: key);
 
   final GestureTapDownCallback? onTapDown;
 

@@ -9,8 +9,7 @@ class QuillStyles extends InheritedWidget {
     Key? key,
     required this.data,
     required Widget child,
-  })  :
-        super(key: key, child: child);
+  }) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(QuillStyles oldWidget) {

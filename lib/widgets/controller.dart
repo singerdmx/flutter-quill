@@ -14,8 +14,7 @@ class QuillController extends ChangeNotifier {
   TextSelection selection;
   Style toggledStyle = Style();
 
-  QuillController({required this.document, required this.selection})
-      ;
+  QuillController({required this.document, required this.selection});
 
   factory QuillController.basic() {
     return QuillController(
@@ -85,8 +84,7 @@ class QuillController extends ChangeNotifier {
         print('document.replace failed: $e');
         throw e;
       }
-      bool shouldRetainDelta = 
-          toggledStyle.isNotEmpty &&
+      bool shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
@@ -137,7 +135,9 @@ class QuillController extends ChangeNotifier {
   }
 
   formatText(int index, int len, Attribute? attribute) {
-    if (len == 0 && attribute!.isInline && attribute.key != Attribute.link.key) {
+    if (len == 0 &&
+        attribute!.isInline &&
+        attribute.key != Attribute.link.key) {
       toggledStyle = toggledStyle.put(attribute);
     }
 
@@ -164,16 +164,15 @@ class QuillController extends ChangeNotifier {
     if (delta.isNotEmpty) {
       document.compose(delta, source);
     }
-    
-      textSelection = selection.copyWith(
-          baseOffset:
-              delta.transformPosition(selection.baseOffset, force: false),
-          extentOffset:
-              delta.transformPosition(selection.extentOffset, force: false));
-      if (selection != textSelection) {
-        _updateSelection(textSelection, source);
-      }
-    
+
+    textSelection = selection.copyWith(
+        baseOffset: delta.transformPosition(selection.baseOffset, force: false),
+        extentOffset:
+            delta.transformPosition(selection.extentOffset, force: false));
+    if (selection != textSelection) {
+      _updateSelection(textSelection, source);
+    }
+
     notifyListeners();
   }
 

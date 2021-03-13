@@ -186,7 +186,7 @@ class ToggleStyleButton extends StatefulWidget {
     required this.icon,
     required this.controller,
     this.childBuilder = defaultToggleStyleButtonBuilder,
-  })  :         super(key: key);
+  }) : super(key: key);
 
   @override
   _ToggleStyleButtonState createState() => _ToggleStyleButtonState();
@@ -270,8 +270,7 @@ class ToggleCheckListButton extends StatefulWidget {
     required this.controller,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     required this.attribute,
-  })  : 
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _ToggleCheckListButtonState createState() => _ToggleCheckListButtonState();
@@ -355,7 +354,8 @@ Widget defaultToggleStyleButtonBuilder(
           ? theme.primaryIconTheme.color
           : theme.iconTheme.color
       : theme.disabledColor;
-  final fillColor = isToggled != null ? theme.toggleableActiveColor : theme.canvasColor;
+  final fillColor =
+      isToggled != null ? theme.toggleableActiveColor : theme.canvasColor;
   return QuillIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
@@ -426,8 +426,8 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
   }
 }
 
-Widget _selectHeadingStyleButtonBuilder(
-    BuildContext context, Attribute? value, ValueChanged<Attribute?> onSelected) {
+Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
+    ValueChanged<Attribute?> onSelected) {
   final style = TextStyle(fontSize: 13);
 
   final Map<Attribute, String> _valueToText = {
@@ -496,8 +496,7 @@ class ImageButton extends StatefulWidget {
       required this.controller,
       required this.imageSource,
       this.onImagePickCallback})
-      : 
-        super(key: key);
+      : super(key: key);
 
   @override
   _ImageButtonState createState() => _ImageButtonState();
@@ -602,8 +601,7 @@ class ColorButton extends StatefulWidget {
       required this.icon,
       required this.controller,
       required this.background})
-      : 
-        super(key: key);
+      : super(key: key);
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -741,8 +739,7 @@ class HistoryButton extends StatefulWidget {
       required this.icon,
       required this.controller,
       required this.undo})
-      : 
-        super(key: key);
+      : super(key: key);
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -814,8 +811,7 @@ class IndentButton extends StatefulWidget {
       required this.icon,
       required this.controller,
       required this.isIncrease})
-      : 
-        super(key: key);
+      : super(key: key);
 
   @override
   _IndentButtonState createState() => _IndentButtonState();
@@ -866,8 +862,7 @@ class ClearFormatButton extends StatefulWidget {
   final QuillController controller;
 
   ClearFormatButton({Key? key, required this.icon, required this.controller})
-      :
-        super(key: key);
+      : super(key: key);
 
   @override
   _ClearFormatButtonState createState() => _ClearFormatButtonState();
@@ -1223,7 +1218,8 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   void _showMenu() {
     final popupMenuTheme = PopupMenuTheme.of(context);
     final button = context.findRenderObject() as RenderBox;
-    final overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
+    final overlay =
+        Overlay.of(context)!.context.findRenderObject() as RenderBox;
     final position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(Offset.zero, ancestor: overlay),

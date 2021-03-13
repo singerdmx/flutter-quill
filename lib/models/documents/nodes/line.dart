@@ -36,7 +36,9 @@ class Line extends Container<Leaf?> {
     if (parent!.isLast) {
       return null;
     }
-    return parent!.next is Block ? (parent!.next as Block).first as Line? : parent!.next as Line?;
+    return parent!.next is Block
+        ? (parent!.next as Block).first as Line?
+        : parent!.next as Line?;
   }
 
   @override

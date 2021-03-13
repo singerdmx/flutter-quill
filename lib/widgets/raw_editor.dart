@@ -907,22 +907,22 @@ class RawEditorState extends EditorState
       _selectionOverlay?.hide();
       _selectionOverlay = null;
 
-        _selectionOverlay = EditorTextSelectionOverlay(
-            textEditingValue,
-            false,
-            context,
-            widget,
-            _toolbarLayerLink,
-            _startHandleLayerLink,
-            _endHandleLayerLink,
-            getRenderEditor(),
-            widget.selectionCtrls,
-            this,
-            DragStartBehavior.start,
-            null,
-            _clipboardStatus);
-        _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
-        _selectionOverlay!.showHandles();
+      _selectionOverlay = EditorTextSelectionOverlay(
+          textEditingValue,
+          false,
+          context,
+          widget,
+          _toolbarLayerLink,
+          _startHandleLayerLink,
+          _endHandleLayerLink,
+          getRenderEditor(),
+          widget.selectionCtrls,
+          this,
+          DragStartBehavior.start,
+          null,
+          _clipboardStatus);
+      _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
+      _selectionOverlay!.showHandles();
     }
   }
 

@@ -58,8 +58,7 @@ class KeyboardListener {
     LogicalKeyboardKey.keyA: InputShortcut.SELECT_ALL,
   };
 
-  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete)
-      ;
+  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
 
   bool handleRawKeyEvent(RawKeyEvent event) {
     if (event is! RawKeyDownEvent) {

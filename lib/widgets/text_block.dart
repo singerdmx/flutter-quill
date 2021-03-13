@@ -73,8 +73,7 @@ class EditableTextBlock extends StatelessWidget {
       this.contentPadding,
       this.embedBuilder,
       this.cursorCont,
-      this.indentLevelCounts)
-      ;
+      this.indentLevelCounts);
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +150,8 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.ul) {
       return _BulletPoint(
-        style:
-            defaultStyles!.paragraph!.style.copyWith(fontWeight: FontWeight.bold),
+        style: defaultStyles!.paragraph!.style
+            .copyWith(fontWeight: FontWeight.bold),
         width: 32,
       );
     }
@@ -261,8 +260,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     required Decoration decoration,
     ImageConfiguration configuration = ImageConfiguration.empty,
     EdgeInsets contentPadding = EdgeInsets.zero,
-  })  : 
-        _decoration = decoration,
+  })  : _decoration = decoration,
         _configuration = configuration,
         _savedPadding = padding,
         _contentPadding = contentPadding,
@@ -520,8 +518,7 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
 
   _EditableBlock(this.block, this.textDirection, this.padding, this.decoration,
       this.contentPadding, List<Widget> children)
-      :
-        super(children: children);
+      : super(children: children);
 
   EdgeInsets get _padding =>
       EdgeInsets.only(top: padding.item1, bottom: padding.item2);
