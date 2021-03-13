@@ -16,13 +16,13 @@ import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
+import 'package:flutter_quill/utils/universal_ui/universal_ui.dart';
 import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
-import 'package:universal_ui/universal_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'box.dart';

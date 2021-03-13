@@ -22,7 +22,6 @@ dependencies:
   file_picker: ^3.0.0
   string_validator: ^0.2.0-nullsafety.0
   flutter_keyboard_visibility: ^5.0.0
-  universal_ui: ^0.0.8
 
 
 

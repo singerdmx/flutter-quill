@@ -294,13 +294,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  universal_ui:
-    dependency: "direct main"
-    description:
-      name: universal_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.8"
   url_launcher:
     dependency: "direct main"
     description:
