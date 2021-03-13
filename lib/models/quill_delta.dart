@@ -7,7 +7,7 @@ library quill_delta;
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:quiver_hashcode/hashcode.dart';
+import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
 
 const _attributeEquality = DeepCollectionEquality();
 const _valueEquality = DeepCollectionEquality();
@@ -155,10 +155,10 @@ class Operation {
   int get hashCode {
     if (_attributes != null && _attributes!.isNotEmpty) {
       final attrsHash =
-          hashObjects(_attributes!.entries.map((e) => hash2(e.key, e.value)));
-      return hash3(key, value, attrsHash);
+          hashcode.hashObjects(_attributes!.entries.map((e) => hashcode.hash2(e.key, e.value)));
+      return hashcode.hash3(key, value, attrsHash);
     }
-    return hash2(key, value);
+    return hashcode.hash2(key, value);
   }
 
   @override
@@ -301,7 +301,7 @@ class Delta {
   }
 
   @override
-  int get hashCode => hashObjects(_operations);
+  int get hashCode => hashcode.hashObjects(_operations);
 
   /// Retain [count] of characters from current position.
   void retain(int count, [Map<String, dynamic>? attributes]) {

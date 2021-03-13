@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:quiver_hashcode/hashcode.dart';
+import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
 
 /* Collection of style attributes */
 class Style {
@@ -101,8 +101,8 @@ class Style {
   @override
   int get hashCode {
     final hashes =
-        _attributes.entries.map((entry) => hash2(entry.key, entry.value));
-    return hashObjects(hashes);
+        _attributes.entries.map((entry) => hashcode.hash2(entry.key, entry.value));
+    return hashcode.hashObjects(hashes);
   }
 
   @override

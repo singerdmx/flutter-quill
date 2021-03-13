@@ -12,7 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  quiver_hashcode: ^2.0.0
   collection: ^1.15.0
   tuple: ^2.0.0
   url_launcher: ^6.0.2
