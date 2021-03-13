@@ -55,13 +55,9 @@ class EditorTextSelectionOverlay {
       this.dragStartBehavior,
       this.onSelectionHandleTapped,
       this.clipboardStatus)
-      : assert(value != null),
-        assert(context != null),
-        assert(handlesVisible != null) {
+      {
     OverlayState overlay = Overlay.of(context, rootOverlay: true)!;
-    assert(
-      overlay != null,
-    );
+    
     _toolbarController = AnimationController(
         duration: Duration(milliseconds: 150), vsync: overlay);
   }
@@ -71,7 +67,6 @@ class EditorTextSelectionOverlay {
   Animation<double> get _toolbarOpacity => _toolbarController.view;
 
   setHandlesVisible(bool visible) {
-    assert(visible != null);
     if (handlesVisible == visible) {
       return;
     }
@@ -111,8 +106,8 @@ class EditorTextSelectionOverlay {
   Widget _buildHandle(
       BuildContext context, _TextSelectionHandlePosition position) {
     if ((_selection.isCollapsed &&
-            position == _TextSelectionHandlePosition.END) ||
-        selectionCtrls == null) {
+            position == _TextSelectionHandlePosition.END)
+        ) {
       return Container();
     }
     return Visibility(
@@ -167,9 +162,7 @@ class EditorTextSelectionOverlay {
   }
 
   Widget _buildToolbar(BuildContext context) {
-    if (selectionCtrls == null) {
-      return Container();
-    }
+    
 
     List<TextSelectionPoint> endpoints =
         renderObject!.getEndpointsForSelection(_selection);
@@ -289,7 +282,6 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
       case _TextSelectionHandlePosition.END:
         return renderObject!.selectionEndInViewport;
     }
-    return null;
   }
 }
 
@@ -468,14 +460,12 @@ class _TextSelectionHandleOverlayState
   ) {
     if (widget.selection.isCollapsed) return TextSelectionHandleType.collapsed;
 
-    assert(textDirection != null);
     switch (textDirection) {
       case TextDirection.ltr:
         return ltrType;
       case TextDirection.rtl:
         return rtlType;
     }
-    return null;
   }
 }
 
@@ -496,7 +486,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionEnd,
     this.behavior,
     required this.child,
-  })   : assert(child != null),
+  })   : 
         super(key: key);
 
   final GestureTapDownCallback? onTapDown;
@@ -660,7 +650,6 @@ class _EditorTextSelectionGestureDetectorState
   }
 
   bool _isWithinDoubleTapTolerance(Offset secondTapOffset) {
-    assert(secondTapOffset != null);
     if (_lastTapOffset == null) {
       return false;
     }

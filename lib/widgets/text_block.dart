@@ -74,9 +74,7 @@ class EditableTextBlock extends StatelessWidget {
       this.embedBuilder,
       this.cursorCont,
       this.indentLevelCounts)
-      : assert(hasFocus != null),
-        assert(embedBuilder != null),
-        assert(cursorCont != null);
+      ;
 
   @override
   Widget build(BuildContext context) {
@@ -263,11 +261,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     required Decoration decoration,
     ImageConfiguration configuration = ImageConfiguration.empty,
     EdgeInsets contentPadding = EdgeInsets.zero,
-  })  : assert(block != null),
-        assert(textDirection != null),
-        assert(decoration != null),
-        assert(padding != null),
-        assert(contentPadding != null),
+  })  : 
         _decoration = decoration,
         _configuration = configuration,
         _savedPadding = padding,
@@ -283,7 +277,6 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   EdgeInsets _contentPadding;
 
   set contentPadding(EdgeInsets value) {
-    assert(value != null);
     if (_contentPadding == value) return;
     _contentPadding = value;
     super.setPadding(_savedPadding.add(_contentPadding));
@@ -301,7 +294,6 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   Decoration _decoration;
 
   set decoration(Decoration value) {
-    assert(value != null);
     if (value == _decoration) return;
     _painter?.dispose();
     _painter = null;
@@ -313,7 +305,6 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   ImageConfiguration _configuration;
 
   set configuration(ImageConfiguration value) {
-    assert(value != null);
     if (value == _configuration) return;
     _configuration = value;
     markNeedsPaint();
@@ -495,8 +486,6 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   }
 
   _paintDecoration(PaintingContext context, Offset offset) {
-    assert(size.width != null);
-    assert(size.height != null);
     _painter ??= _decoration.createBoxPainter(markNeedsPaint);
 
     EdgeInsets decorationPadding = resolvedPadding! - _contentPadding;
@@ -531,11 +520,7 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
 
   _EditableBlock(this.block, this.textDirection, this.padding, this.decoration,
       this.contentPadding, List<Widget> children)
-      : assert(block != null),
-        assert(textDirection != null),
-        assert(padding != null),
-        assert(decoration != null),
-        assert(children != null),
+      :
         super(children: children);
 
   EdgeInsets get _padding =>

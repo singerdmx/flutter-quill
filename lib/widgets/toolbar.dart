@@ -186,11 +186,7 @@ class ToggleStyleButton extends StatefulWidget {
     required this.icon,
     required this.controller,
     this.childBuilder = defaultToggleStyleButtonBuilder,
-  })  : assert(attribute.value != null),
-        assert(icon != null),
-        assert(controller != null),
-        assert(childBuilder != null),
-        super(key: key);
+  })  :         super(key: key);
 
   @override
   _ToggleStyleButtonState createState() => _ToggleStyleButtonState();
@@ -274,9 +270,7 @@ class ToggleCheckListButton extends StatefulWidget {
     required this.controller,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     required this.attribute,
-  })  : assert(icon != null),
-        assert(controller != null),
-        assert(childBuilder != null),
+  })  : 
         super(key: key);
 
   @override
@@ -502,8 +496,7 @@ class ImageButton extends StatefulWidget {
       required this.controller,
       required this.imageSource,
       this.onImagePickCallback})
-      : assert(icon != null),
-        assert(controller != null),
+      : 
         super(key: key);
 
   @override
@@ -522,7 +515,6 @@ class _ImageButtonState extends State<ImageButton> {
 
     final File file = File(pickedFile.path);
 
-    if (file == null || widget.onImagePickCallback == null) return null;
     // We simply return the absolute path to selected file.
     try {
       String url = await widget.onImagePickCallback!(file);
@@ -554,7 +546,6 @@ class _ImageButtonState extends State<ImageButton> {
 
     if (_paths != null) {
       File file = File(_fileName);
-      if (file == null || widget.onImagePickCallback == null) return null;
       // We simply return the absolute path to selected file.
       try {
         String url = await widget.onImagePickCallback!(file);
@@ -611,9 +602,7 @@ class ColorButton extends StatefulWidget {
       required this.icon,
       required this.controller,
       required this.background})
-      : assert(icon != null),
-        assert(controller != null),
-        assert(background != null),
+      : 
         super(key: key);
 
   @override
@@ -752,9 +741,7 @@ class HistoryButton extends StatefulWidget {
       required this.icon,
       required this.controller,
       required this.undo})
-      : assert(icon != null),
-        assert(controller != null),
-        assert(undo != null),
+      : 
         super(key: key);
 
   @override
@@ -827,9 +814,7 @@ class IndentButton extends StatefulWidget {
       required this.icon,
       required this.controller,
       required this.isIncrease})
-      : assert(icon != null),
-        assert(controller != null),
-        assert(isIncrease != null),
+      : 
         super(key: key);
 
   @override
@@ -881,8 +866,7 @@ class ClearFormatButton extends StatefulWidget {
   final QuillController controller;
 
   ClearFormatButton({Key? key, required this.icon, required this.controller})
-      : assert(icon != null),
-        assert(controller != null),
+      :
         super(key: key);
 
   @override
@@ -1264,9 +1248,6 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       if (newValue == null) {
         // if (widget.onCanceled != null) widget.onCanceled();
         return null;
-      }
-      if (widget.onSelected != null) {
-        widget.onSelected(newValue);
       }
     });
   }

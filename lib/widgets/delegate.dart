@@ -22,7 +22,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   bool shouldShowSelectionToolbar = true;
 
   EditorTextSelectionGestureDetectorBuilder(this.delegate)
-      : assert(delegate != null);
+      ;
 
   EditorState? getEditor() {
     return delegate.getEditableTextKey().currentState;

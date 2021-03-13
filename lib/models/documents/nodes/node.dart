@@ -19,9 +19,6 @@ abstract class Node extends LinkedListEntry<Node> {
   }
 
   void applyStyle(Style value) {
-    if (value == null) {
-      throw ArgumentError('null value');
-    }
     _style = _style.mergeAll(value);
   }
 

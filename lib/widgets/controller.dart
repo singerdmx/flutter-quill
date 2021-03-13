@@ -15,8 +15,7 @@ class QuillController extends ChangeNotifier {
   Style toggledStyle = Style();
 
   QuillController({required this.document, required this.selection})
-      : assert(document != null),
-        assert(selection != null);
+      ;
 
   factory QuillController.basic() {
     return QuillController(
@@ -86,7 +85,7 @@ class QuillController extends ChangeNotifier {
         print('document.replace failed: $e');
         throw e;
       }
-      bool shouldRetainDelta = delta != null &&
+      bool shouldRetainDelta = 
           toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
@@ -165,9 +164,7 @@ class QuillController extends ChangeNotifier {
     if (delta.isNotEmpty) {
       document.compose(delta, source);
     }
-    if (textSelection != null) {
-      _updateSelection(textSelection, source);
-    } else {
+    
       textSelection = selection.copyWith(
           baseOffset:
               delta.transformPosition(selection.baseOffset, force: false),
@@ -176,7 +173,7 @@ class QuillController extends ChangeNotifier {
       if (selection != textSelection) {
         _updateSelection(textSelection, source);
       }
-    }
+    
     notifyListeners();
   }
 
@@ -187,8 +184,6 @@ class QuillController extends ChangeNotifier {
   }
 
   _updateSelection(TextSelection textSelection, ChangeSource source) {
-    assert(textSelection != null);
-    assert(source != null);
     selection = textSelection;
     int end = document.length - 1;
     selection = selection.copyWith(

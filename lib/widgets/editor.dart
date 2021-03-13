@@ -182,13 +182,7 @@ class QuillEditor extends StatefulWidget {
       this.onLaunchUrl,
       this.embedBuilder =
           kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder})
-      : assert(controller != null),
-        assert(scrollController != null),
-        assert(scrollable != null),
-        assert(focusNode != null),
-        assert(autoFocus != null),
-        assert(readOnly != null),
-        assert(embedBuilder != null);
+      ;
 
   factory QuillEditor.basic(
       {required QuillController controller, required bool readOnly}) {
@@ -559,10 +553,7 @@ class RenderEditor extends RenderEditableContainerBox
       this._startHandleLayerLink,
       this._endHandleLayerLink,
       EdgeInsets floatingCursorAddedMargin)
-      : assert(document != null),
-        assert(textDirection != null),
-        assert(_hasFocus != null),
-        assert(floatingCursorAddedMargin != null),
+      : 
         super(
           children,
           document.root,
@@ -571,7 +562,6 @@ class RenderEditor extends RenderEditableContainerBox
         );
 
   setDocument(Document doc) {
-    assert(doc != null);
     if (document == doc) {
       return;
     }
@@ -580,7 +570,6 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   setHasFocus(bool h) {
-    assert(h != null);
     if (_hasFocus == h) {
       return;
     }
@@ -615,7 +604,6 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   List<TextSelectionPoint> getEndpointsForSelection(
       TextSelection textSelection) {
-    assert(constraints != null);
 
     if (textSelection.isCollapsed) {
       RenderEditableBox child = childAtPosition(textSelection.extent);
@@ -686,11 +674,6 @@ class RenderEditor extends RenderEditableContainerBox
     Offset? to,
     SelectionChangedCause cause,
   ) {
-    assert(cause != null);
-    assert(from != null);
-    if (onSelectionChanged == null) {
-      return;
-    }
     TextPosition firstPosition = getPositionForOffset(from);
     TextSelection firstWord = selectWordAtPosition(firstPosition);
     TextSelection lastWord =
@@ -718,18 +701,12 @@ class RenderEditor extends RenderEditableContainerBox
         !focusingEmpty) {
       return;
     }
-    if (onSelectionChanged != null) {
       onSelectionChanged(nextSelection, cause);
-    }
   }
 
   @override
   selectWordEdge(SelectionChangedCause cause) {
-    assert(cause != null);
     assert(_lastTapDownPosition != null);
-    if (onSelectionChanged == null) {
-      return;
-    }
     TextPosition position = getPositionForOffset(_lastTapDownPosition!);
     RenderEditableBox child = childAtPosition(position);
     int nodeOffset = child.getContainer().getOffset();
@@ -763,11 +740,6 @@ class RenderEditor extends RenderEditableContainerBox
     Offset? to,
     SelectionChangedCause cause,
   ) {
-    assert(cause != null);
-    assert(from != null);
-    if (onSelectionChanged == null) {
-      return;
-    }
     TextPosition fromPosition = getPositionForOffset(from);
     TextPosition? toPosition = to == null ? null : getPositionForOffset(to);
 
@@ -932,9 +904,7 @@ class RenderEditableContainerBox extends RenderBox
 
   RenderEditableContainerBox(List<RenderEditableBox>? children, this._container,
       this.textDirection, this._padding)
-      : assert(_container != null),
-        assert(textDirection != null),
-        assert(_padding != null),
+      :
         assert(_padding.isNonNegative) {
     addAll(children);
   }
@@ -944,7 +914,6 @@ class RenderEditableContainerBox extends RenderBox
   }
 
   setContainer(containerNode.Container c) {
-    assert(c != null);
     if (_container == c) {
       return;
     }
@@ -955,7 +924,6 @@ class RenderEditableContainerBox extends RenderBox
   EdgeInsetsGeometry getPadding() => _padding;
 
   setPadding(EdgeInsetsGeometry value) {
-    assert(value != null);
     assert(value.isNonNegative);
     if (_padding == value) {
       return;

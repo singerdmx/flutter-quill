@@ -13,8 +13,6 @@ abstract class Rule {
 
   Delta? apply(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    assert(document != null);
-    assert(index != null);
     validateArgs(len, data, attribute);
     return applyRule(document, index,
         len: len, data: data, attribute: attribute);

@@ -907,7 +907,6 @@ class RawEditorState extends EditorState
       _selectionOverlay?.hide();
       _selectionOverlay = null;
 
-      if (widget.selectionCtrls != null) {
         _selectionOverlay = EditorTextSelectionOverlay(
             textEditingValue,
             false,
@@ -924,7 +923,6 @@ class RawEditorState extends EditorState
             _clipboardStatus);
         _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
         _selectionOverlay!.showHandles();
-      }
     }
   }
 

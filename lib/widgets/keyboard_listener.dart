@@ -59,9 +59,7 @@ class KeyboardListener {
   };
 
   KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete)
-      : assert(onCursorMove != null),
-        assert(onShortcut != null),
-        assert(onDelete != null);
+      ;
 
   bool handleRawKeyEvent(RawKeyEvent event) {
     if (event is! RawKeyDownEvent) {

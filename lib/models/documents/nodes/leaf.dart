@@ -27,7 +27,7 @@ abstract class Leaf extends Node {
   @override
   void applyStyle(Style value) {
     assert(
-        value != null && (value.isInline || value.isIgnored || value.isEmpty),
+         (value.isInline || value.isIgnored || value.isEmpty),
         'Unable to apply Style to leaf: $value');
     super.applyStyle(value);
   }
@@ -52,7 +52,7 @@ abstract class Leaf extends Node {
 
   @override
   insert(int index, Object data, Style? style) {
-    assert(data != null && index >= 0 && index <= length);
+    assert(index >= 0 && index <= length);
     Leaf node = Leaf(data);
     if (index < length) {
       splitAt(index)!.insertBefore(node);

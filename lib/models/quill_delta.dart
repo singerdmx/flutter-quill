@@ -51,7 +51,7 @@ class Operation {
   final Map<String, dynamic>? _attributes;
 
   Operation._(this.key, this.length, this.data, Map? attributes)
-      : assert(key != null && length != null && data != null),
+      : 
         assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
         assert(() {
           if (key != Operation.insertKey) return true;
@@ -243,7 +243,7 @@ class Delta {
   int _modificationCount = 0;
 
   Delta._(List<Operation> operations)
-      : assert(operations != null),
+      :
         _operations = operations;
 
   /// Creates new empty [Delta].
@@ -312,7 +312,6 @@ class Delta {
 
   /// Insert [data] at current position.
   void insert(dynamic data, [Map<String, dynamic>? attributes]) {
-    assert(data != null);
     if (data is String && data.isEmpty) return; // no-op
     push(Operation.insert(data, attributes));
   }
@@ -326,7 +325,7 @@ class Delta {
 
   void _mergeWithTail(Operation operation) {
     assert(isNotEmpty);
-    assert(operation != null && last.key == operation.key);
+    assert(last.key == operation.key);
     assert(operation.data is String && last.data is String);
 
     final length = operation.length! + last.length!;
@@ -640,8 +639,6 @@ class DeltaIterator {
   /// Optional [length] specifies maximum length of operation to return. Note
   /// that actual length of returned operation may be less than specified value.
   Operation next([int length = 4294967296]) {
-    assert(length != null);
-
     if (_modificationCount != delta._modificationCount) {
       throw ConcurrentModificationError(delta);
     }
