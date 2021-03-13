@@ -34,6 +34,7 @@ class Attribute<T> {
     Attribute.width.key: Attribute.width,
     Attribute.height.key: Attribute.height,
     Attribute.style.key: Attribute.style,
+    Attribute.token.key: Attribute.token,
   };
 
   static final BoldAttribute bold = BoldAttribute();
@@ -73,6 +74,8 @@ class Attribute<T> {
   static final HeightAttribute height = HeightAttribute(null);
 
   static final StyleAttribute style = StyleAttribute(null);
+
+  static final TokenAttribute token = TokenAttribute(null);
 
   static final Set<String> inlineKeys = {
     Attribute.bold.key,
@@ -265,4 +268,8 @@ class HeightAttribute extends Attribute<String> {
 
 class StyleAttribute extends Attribute<String> {
   StyleAttribute(String val) : super('style', AttributeScope.IGNORE, val);
+}
+
+class TokenAttribute extends Attribute<String> {
+  TokenAttribute(String val) : super('token', AttributeScope.IGNORE, val);
 }

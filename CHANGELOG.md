@@ -1,3 +1,6 @@
+## [1.0.8]
+* Support token attribute.
+
 ## [1.0.7]
 * Fix crash on web (dart:io).
 
