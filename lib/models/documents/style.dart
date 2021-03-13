@@ -10,7 +10,7 @@ class Style {
 
   Style() : _attributes = <String, Attribute>{};
 
-  static Style fromJson(Map<String, dynamic> attributes) {
+  static Style fromJson(Map<String, dynamic>? attributes) {
     if (attributes == null) {
       return Style();
     }
@@ -22,7 +22,7 @@ class Style {
     return Style.attr(result);
   }
 
-  Map<String, dynamic> toJson() => _attributes.isEmpty
+  Map<String, dynamic>? toJson() => _attributes.isEmpty
       ? null
       : _attributes.map<String, dynamic>((String _, Attribute attribute) =>
           MapEntry<String, dynamic>(attribute.key, attribute.value));
@@ -46,7 +46,7 @@ class Style {
 
   bool containsKey(String key) => _attributes.containsKey(key);
 
-  Attribute getBlockExceptHeader() {
+  Attribute? getBlockExceptHeader() {
     for (Attribute val in values) {
       if (val.isBlockExceptHeader) {
         return val;

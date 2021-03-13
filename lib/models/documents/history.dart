@@ -90,13 +90,13 @@ class History {
     }
     Delta delta = source.removeLast();
     // look for insert or delete
-    int len = 0;
+    int? len = 0;
     List<Operation> ops = delta.toList();
     for (var i = 0; i < ops.length; i++) {
       if (ops[i].key == Operation.insertKey) {
         len = ops[i].length;
       } else if (ops[i].key == Operation.deleteKey) {
-        len = ops[i].length * -1;
+        len = ops[i].length! * -1;
       }
     }
     Delta base = Delta.from(doc.toDelta());

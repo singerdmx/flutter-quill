@@ -76,7 +76,7 @@ int getPositionDelta(Delta user, Delta actual) {
   int diff = 0;
   while (userItr.hasNext || actualItr.hasNext) {
     final length = math.min(userItr.peekLength(), actualItr.peekLength());
-    Operation userOperation = userItr.next(length);
+    Operation userOperation = userItr.next(length as int);
     Operation actualOperation = actualItr.next(length);
     if (userOperation.length != actualOperation.length) {
       throw ('userOp ' +
@@ -88,18 +88,18 @@ int getPositionDelta(Delta user, Delta actual) {
     if (userOperation.key == actualOperation.key) {
       continue;
     } else if (userOperation.isInsert && actualOperation.isRetain) {
-      diff -= userOperation.length;
+      diff -= userOperation.length!;
     } else if (userOperation.isDelete && actualOperation.isRetain) {
-      diff += userOperation.length;
+      diff += userOperation.length!;
     } else if (userOperation.isRetain && actualOperation.isInsert) {
-      String operationTxt = '';
+      String? operationTxt = '';
       if (actualOperation.data is String) {
-        operationTxt = actualOperation.data as String;
+        operationTxt = actualOperation.data as String?;
       }
-      if (operationTxt.startsWith('\n')) {
+      if (operationTxt!.startsWith('\n')) {
         continue;
       }
-      diff += actualOperation.length;
+      diff += actualOperation.length!;
     }
   }
   return diff;

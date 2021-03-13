@@ -43,11 +43,11 @@ class Document {
     _loadDocument(_delta);
   }
 
-  Delta insert(int index, Object data) {
+  Delta insert(int index, Object? data) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
     if (data is Embeddable) {
-      data = (data as Embeddable).toJson();
+      data = data.toJson();
     } else if ((data as String).isEmpty) {
       return Delta();
     }
@@ -66,7 +66,7 @@ class Document {
     return delta;
   }
 
-  Delta replace(int index, int len, Object data) {
+  Delta replace(int index, int len, Object? data) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
 
@@ -88,7 +88,7 @@ class Document {
     return delta;
   }
 
-  Delta format(int index, int len, Attribute attribute) {
+  Delta format(int index, int len, Attribute? attribute) {
     assert(index >= 0 && len >= 0 && attribute != null);
 
     Delta delta = Delta();
@@ -113,7 +113,7 @@ class Document {
     if (res.node is Line) {
       return res;
     }
-    Block block = res.node;
+    Block block = res.node as Block;
     return block.queryChild(res.offset, true);
   }
 
@@ -126,7 +126,7 @@ class Document {
     delta = _transform(delta);
     Delta originalDelta = toDelta();
     for (Operation op in delta.toList()) {
-      Style style =
+      Style? style =
           op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
@@ -138,7 +138,7 @@ class Document {
       }
 
       if (!op.isDelete) {
-        offset += op.length;
+        offset += op.length!;
       }
     }
     try {
@@ -197,7 +197,7 @@ class Document {
     }
   }
 
-  Object _normalize(Object data) {
+  Object _normalize(Object? data) {
     if (data is String) {
       return data;
     }
@@ -205,7 +205,7 @@ class Document {
     if (data is Embeddable) {
       return data;
     }
-    return Embeddable.fromJson(data);
+    return Embeddable.fromJson(data as Map<String, dynamic>);
   }
 
   close() {
@@ -227,7 +227,7 @@ class Document {
           op.attributes != null ? Style.fromJson(op.attributes) : null;
       final data = _normalize(op.data);
       _root.insert(offset, data, style);
-      offset += op.length;
+      offset += op.length!;
     }
     final node = _root.last;
     if (node is Line &&

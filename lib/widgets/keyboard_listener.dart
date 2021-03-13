@@ -4,7 +4,7 @@ enum InputShortcut { CUT, COPY, PASTE, SELECT_ALL }
 
 typedef CursorMoveCallback = void Function(
     LogicalKeyboardKey key, bool wordModifier, bool lineModifier, bool shift);
-typedef InputShortcutCallback = void Function(InputShortcut shortcut);
+typedef InputShortcutCallback = void Function(InputShortcut? shortcut);
 typedef OnDeleteCallback = void Function(bool forward);
 
 class KeyboardListener {

@@ -14,7 +14,7 @@ class QuillController extends ChangeNotifier {
   TextSelection selection;
   Style toggledStyle = Style();
 
-  QuillController({@required this.document, @required this.selection})
+  QuillController({required this.document, required this.selection})
       : assert(document != null),
         assert(selection != null);
 
@@ -49,14 +49,14 @@ class QuillController extends ChangeNotifier {
     }
   }
 
-  void _handleHistoryChange(int len) {
+  void _handleHistoryChange(int? len) {
     if (len != 0) {
       // if (this.selection.extentOffset >= document.length) {
       // // cursor exceeds the length of document, position it in the end
       // updateSelection(
       //     TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
       updateSelection(
-          TextSelection.collapsed(offset: this.selection.baseOffset + len),
+          TextSelection.collapsed(offset: this.selection.baseOffset + len!),
           ChangeSource.LOCAL);
     } else {
       // no need to move cursor
@@ -75,11 +75,11 @@ class QuillController extends ChangeNotifier {
 
   get hasRedo => document.hasRedo;
 
-  replaceText(int index, int len, Object data, TextSelection textSelection) {
+  replaceText(int index, int len, Object? data, TextSelection? textSelection) {
     assert(data is String || data is Embeddable);
 
-    Delta delta;
-    if (len > 0 || data is! String || (data as String).isNotEmpty) {
+    Delta? delta;
+    if (len > 0 || data is! String || data.isNotEmpty) {
       try {
         delta = document.replace(index, len, data);
       } catch (e) {
@@ -137,8 +137,8 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  formatText(int index, int len, Attribute attribute) {
-    if (len == 0 && attribute.isInline && attribute.key != Attribute.link.key) {
+  formatText(int index, int len, Attribute? attribute) {
+    if (len == 0 && attribute!.isInline && attribute.key != Attribute.link.key) {
       toggledStyle = toggledStyle.put(attribute);
     }
 
@@ -152,7 +152,7 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  formatSelection(Attribute attribute) {
+  formatSelection(Attribute? attribute) {
     formatText(selection.start, selection.end - selection.start, attribute);
   }
 
