@@ -25,19 +25,19 @@ abstract class Container<T extends Node?> extends Node {
 
   /// abstract methods end
 
-  add(T? node) {
+  add(T node) {
     assert(node?.parent == null);
     node?.parent = this;
     _children.add(node!);
   }
 
-  addFirst(T? node) {
+  addFirst(T node) {
     assert(node?.parent == null);
     node?.parent = this;
     _children.addFirst(node!);
   }
 
-  void remove(T? node) {
+  void remove(T node) {
     assert(node?.parent == this);
     node?.parent = null;
     _children.remove(node!);
