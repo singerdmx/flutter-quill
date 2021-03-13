@@ -43,20 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-  convert:
-    dependency: transitive
-    description:
-      name: convert
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
   crypto:
     dependency: transitive
     description:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "3.0.0"
   csslib:
     dependency: transitive
     description:
@@ -89,7 +82,7 @@ packages:
       name: flutter_colorpicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.5"
+    version: "0.4.0-nullsafety.0"
   flutter_keyboard_visibility:
     dependency: "direct main"
     description:
@@ -155,7 +148,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.2"
+    version: "0.7.2+1"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -197,7 +190,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0"
+    version: "1.11.0"
   photo_view:
     dependency: "direct main"
     description:
@@ -218,7 +211,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "3.0.0"
   quiver_hashcode:
     dependency: "direct main"
     description:
@@ -265,7 +258,7 @@ packages:
       name: string_validator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4"
+    version: "0.2.0-nullsafety.0"
   term_glyph:
     dependency: transitive
     description:
@@ -286,7 +279,7 @@ packages:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:
@@ -307,7 +300,7 @@ packages:
       name: universal_io
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "2.0.0"
   universal_ui:
     dependency: "direct main"
     description:
@@ -373,4 +366,4 @@ packages:
     version: "0.1.2"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.22.0"
+  flutter: ">=1.24.0-10.2.pre"
