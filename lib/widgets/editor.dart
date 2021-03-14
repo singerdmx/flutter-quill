@@ -161,7 +161,8 @@ class QuillEditor extends StatefulWidget {
   final EmbedBuilder embedBuilder;
 
   QuillEditor(
-      {required this.controller,
+      {Key? key,
+        required this.controller,
       required this.focusNode,
       required this.scrollController,
       required this.scrollable,
@@ -183,7 +184,7 @@ class QuillEditor extends StatefulWidget {
           kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder});
 
   factory QuillEditor.basic(
-      {required QuillController controller, required bool readOnly}) {
+      {Key? key, required QuillController controller, required bool readOnly}) {
     return QuillEditor(
         controller: controller,
         scrollController: ScrollController(),
