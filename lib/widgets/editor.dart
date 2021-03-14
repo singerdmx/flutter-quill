@@ -25,6 +25,7 @@ import 'package:string_validator/string_validator.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:universal_html/universal_html.dart';
 
 import 'box.dart';
 import 'controller.dart';
@@ -115,7 +116,7 @@ Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
       String imageUrl = node.value.data;
       Size size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
-          imageUrl, (int viewId) => html.ImageElement()..src = imageUrl);
+          imageUrl, (int viewId) => ImageElement()..src = imageUrl);
       return Padding(
         padding: EdgeInsets.only(
           right: ResponsiveWidget.isMediumScreen(context)

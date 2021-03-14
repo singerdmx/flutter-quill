@@ -12,6 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  universal_html:
+    git:
+      url: "https://github.com/MillerAdulu/universal_html.git"
+      ref: 0792f345ad1820770cc45bede8f813002db87802
   collection: ^1.15.0
   file_picker: ^3.0.0
   flutter_colorpicker: ^0.4.0-nullsafety.0
@@ -20,7 +24,6 @@ dependencies:
   photo_view: ^0.11.1
   string_validator: ^0.2.0-nullsafety.0
   tuple: ^2.0.0
-  universal_html: ^1.2.4
   url_launcher: ^6.0.2
 
 dev_dependencies:
