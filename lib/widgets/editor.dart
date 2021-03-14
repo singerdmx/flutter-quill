@@ -22,7 +22,7 @@ import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:universal_html/html.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'box.dart';
@@ -114,7 +114,7 @@ Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
       String imageUrl = node.value.data;
       Size size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
-          imageUrl, (int viewId) => ImageElement()..src = imageUrl);
+          imageUrl, (int viewId) => html.ImageElement()..src = imageUrl);
       return Padding(
         padding: EdgeInsets.only(
           right: ResponsiveWidget.isMediumScreen(context)
