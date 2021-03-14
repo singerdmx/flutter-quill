@@ -22,10 +22,8 @@ import 'package:flutter_quill/widgets/raw_editor.dart';
 import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:universal_html/prefer_universal/html.dart' as html;
+import 'package:universal_html/html.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:universal_html/universal_html.dart';
 
 import 'box.dart';
 import 'controller.dart';
