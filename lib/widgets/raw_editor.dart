@@ -100,7 +100,7 @@ class RawEditorState extends EditorState
         WidgetsBindingObserver,
         TickerProviderStateMixin<RawEditor>
     implements TextSelectionDelegate, TextInputClient {
-  final GlobalKey _editorKey = GlobalKey();
+   GlobalKey _editorKey = GlobalKey();
   final List<TextEditingValue> _sentRemoteValues = [];
   TextInputConnection? _textInputConnection;
   TextEditingValue? _lastKnownRemoteTextEditingValue;
