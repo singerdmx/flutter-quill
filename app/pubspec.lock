@@ -78,6 +78,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  filesystem_picker:
+    dependency: transitive
+    description:
+      name: filesystem_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -124,7 +131,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.5"
+    version: "1.0.8"
   flutter_test:
     dependency: "direct dev"
     description: flutter

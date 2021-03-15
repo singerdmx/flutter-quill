@@ -679,14 +679,21 @@ class RawEditorState extends EditorState
       handleDelete,
     );
 
-    _keyboardVisibilityController = KeyboardVisibilityController();
-    _keyboardVisibilitySubscription =
-        _keyboardVisibilityController.onChange.listen((bool visible) {
-      _keyboardVisible = visible;
-      if (visible) {
-        _onChangeTextEditingValue();
-      }
-    });
+    if (defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.fuchsia) {
+      _keyboardVisible = true;
+    } else {
+      _keyboardVisibilityController = KeyboardVisibilityController();
+      _keyboardVisibilitySubscription =
+          _keyboardVisibilityController.onChange.listen((bool visible) {
+        _keyboardVisible = visible;
+        if (visible) {
+          _onChangeTextEditingValue();
+        }
+      });
+    }
 
     _focusAttachment = widget.focusNode.attach(context,
         onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
@@ -845,7 +852,7 @@ class RawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
-    _keyboardVisibilitySubscription.cancel();
+    _keyboardVisibilitySubscription?.cancel();
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
