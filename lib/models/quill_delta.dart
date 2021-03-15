@@ -7,7 +7,7 @@ library quill_delta;
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:quiver_hashcode/hashcode.dart';
+import 'package:quiver/core.dart';
 
 const _attributeEquality = DeepCollectionEquality();
 const _valueEquality = DeepCollectionEquality();

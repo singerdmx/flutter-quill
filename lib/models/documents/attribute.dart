@@ -1,4 +1,4 @@
-import 'package:quiver_hashcode/hashcode.dart';
+import 'package:quiver/core.dart';
 
 enum AttributeScope {
   INLINE, // refer to https://quilljs.com/docs/formats/#inline
