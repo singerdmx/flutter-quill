@@ -1,3 +1,6 @@
+## [1.0.9]
+* Web support for raw editor and keyboard listener.
+
 ## [1.0.8]
 * Support token attribute.
 
