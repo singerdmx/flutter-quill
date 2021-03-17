@@ -131,10 +131,26 @@ class RawEditorState extends EditorState
   bool _didAutoFocus = false;
   bool _keyboardVisible = false;
   DefaultStyles _styles;
-  final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
+  final ClipboardStatusNotifier _clipboardStatus =
+      kIsWeb ? null : ClipboardStatusNotifier();
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
+
+  /// Whether to create an input connection with the platform for text editing
+  /// or not.
+  ///
+  /// Read-only input fields do not need a connection with the platform since
+  /// there's no need for text editing capabilities (e.g. virtual keyboard).
+  ///
+  /// On the web, we always need a connection because we want some browser
+  /// functionalities to continue to work on read-only input fields like:
+  ///
+  /// - Relevant context menu.
+  /// - cmd/ctrl+c shortcut to copy.
+  /// - cmd/ctrl+a to select all.
+  /// - Changing the selection using a physical keyboard.
+  bool get shouldCreateInputConnection => kIsWeb || !widget.readOnly;
 
   bool get _hasFocus => widget.focusNode.hasFocus;
 
@@ -371,7 +387,7 @@ class RawEditorState extends EditorState
       _textInputConnection != null && _textInputConnection.attached;
 
   openConnectionIfNeeded() {
-    if (widget.readOnly) {
+    if (!shouldCreateInputConnection) {
       return;
     }
 
@@ -437,7 +453,7 @@ class RawEditorState extends EditorState
 
   @override
   void updateEditingValue(TextEditingValue value) {
-    if (widget.readOnly) {
+    if (!shouldCreateInputConnection) {
       return;
     }
 
@@ -773,7 +789,7 @@ class RawEditorState extends EditorState
     }
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
-    if (widget.readOnly) {
+    if (!shouldCreateInputConnection) {
       closeConnectionIfNeeded();
     } else {
       if (oldWidget.readOnly && _hasFocus) {
@@ -1101,6 +1117,14 @@ class RawEditorState extends EditorState
 
   @override
   bool showToolbar() {
+    // Web is using native dom elements to enable clipboard functionality of the
+    // toolbar: copy, paste, select, cut. It might also provide additional
+    // functionality depending on the browser (such as translate). Due to this
+    // we should not show a Flutter toolbar for the editable text elements.
+    if (kIsWeb) {
+      return false;
+    }
+
     if (_selectionOverlay == null || _selectionOverlay.toolbar != null) {
       return false;
     }

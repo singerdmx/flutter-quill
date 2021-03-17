@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 enum InputShortcut { CUT, COPY, PASTE, SELECT_ALL }
@@ -64,6 +65,11 @@ class KeyboardListener {
         assert(onDelete != null);
 
   bool handleRawKeyEvent(RawKeyEvent event) {
+    if (kIsWeb) {
+      // On web platform, we should ignore the key because it's processed already.
+      return false;
+    }
+
     if (event is! RawKeyDownEvent) {
       return false;
     }
