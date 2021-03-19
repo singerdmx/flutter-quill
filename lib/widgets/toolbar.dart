@@ -491,29 +491,18 @@ class ImageButton extends StatefulWidget {
 
   final OnImagePickCallback? onImagePickCallback;
 
-  final ImagePickImpl imagePickImpl;
+  final ImagePickImpl? imagePickImpl;
 
   final ImageSource imageSource;
 
   ImageButton(
-<<<<<<< HEAD
       {Key? key,
       required this.icon,
       required this.controller,
       required this.imageSource,
-      this.onImagePickCallback})
-      : super(key: key);
-=======
-      {Key key,
-      @required this.icon,
-      @required this.controller,
-      @required this.imageSource,
       this.onImagePickCallback,
       this.imagePickImpl})
-      : assert(icon != null),
-        assert(controller != null),
-        super(key: key);
->>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633
+      : super(key: key);
 
   @override
   _ImageButtonState createState() => _ImageButtonState();
@@ -585,16 +574,16 @@ class _ImageButtonState extends State<ImageButton> {
         fsType: FilesystemType.file,
         fileTileSelectMode: FileTileSelectMode.wholeTile,
       );
-      if (filePath == null || filePath.isEmpty) return null;
+      if (filePath.isEmpty) return '';
 
       final File file = File(filePath);
-      String url = await widget.onImagePickCallback(file);
+      String url = await widget.onImagePickCallback!(file);
       print('Image uploaded and its url is $url');
       return url;
     } catch (error) {
       print('Upload image error $error');
     }
-    return null;
+    return '';
   }
 
   @override
@@ -611,9 +600,9 @@ class _ImageButtonState extends State<ImageButton> {
       onPressed: () {
         final index = widget.controller.selection.baseOffset;
         final length = widget.controller.selection.extentOffset - index;
-        Future<String> image;
+        Future<String?> image;
         if (widget.imagePickImpl != null) {
-          image = widget.imagePickImpl(widget.imageSource);
+          image = widget.imagePickImpl!(widget.imageSource);
         } else {
           if (kIsWeb) {
             image = _pickImageWeb();
@@ -624,11 +613,8 @@ class _ImageButtonState extends State<ImageButton> {
           }
         }
         image.then((imageUploadUrl) => {
-              if (imageUploadUrl != null)
-                {
-                  widget.controller.replaceText(
-                      index, length, BlockEmbed.image(imageUploadUrl), null)
-                }
+              widget.controller.replaceText(
+                  index, length, BlockEmbed.image(imageUploadUrl!), null)
             });
       },
     );
