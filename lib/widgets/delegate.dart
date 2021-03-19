@@ -14,7 +14,7 @@ abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
 
   bool getForcePressEnabled();
 
-  bool? getSelectionEnabled();
+  bool getSelectionEnabled();
 }
 
 class EditorTextSelectionGestureDetectorBuilder {
@@ -43,7 +43,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   onForcePressStart(ForcePressDetails details) {
     assert(delegate.getForcePressEnabled());
     shouldShowSelectionToolbar = true;
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectWordsInRange(
         details.globalPosition,
         null,
@@ -65,7 +65,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   }
 
   onSingleTapUp(TapUpDetails details) {
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
     }
   }
@@ -73,7 +73,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   onSingleTapCancel() {}
 
   onSingleLongTapStart(LongPressStartDetails details) {
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectPositionAt(
         details.globalPosition,
         null,
@@ -83,7 +83,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   }
 
   onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectPositionAt(
         details.globalPosition,
         null,
@@ -99,7 +99,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   }
 
   onDoubleTapDown(TapDownDetails details) {
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectWord(SelectionChangedCause.tap);
       if (shouldShowSelectionToolbar) {
         getEditor()!.showToolbar();

@@ -269,10 +269,10 @@ class _QuillEditorState extends State<QuillEditor>
           widget.placeholder,
           widget.onLaunchUrl,
           ToolbarOptions(
-            copy: widget.enableInteractiveSelection ?? true,
-            cut: widget.enableInteractiveSelection ?? true,
-            paste: widget.enableInteractiveSelection ?? true,
-            selectAll: widget.enableInteractiveSelection ?? true,
+            copy: widget.enableInteractiveSelection,
+            cut: widget.enableInteractiveSelection,
+            paste: widget.enableInteractiveSelection,
+            selectAll: widget.enableInteractiveSelection,
           ),
           theme.platform == TargetPlatform.iOS ||
               theme.platform == TargetPlatform.android,
@@ -295,7 +295,7 @@ class _QuillEditorState extends State<QuillEditor>
           selectionColor,
           textSelectionControls,
           widget.keyboardAppearance,
-          widget.enableInteractiveSelection ?? true,
+          widget.enableInteractiveSelection,
           widget.scrollPhysics,
           widget.embedBuilder),
     );
@@ -330,7 +330,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   onForcePressStart(ForcePressDetails details) {
     super.onForcePressStart(details);
-    if (delegate.getSelectionEnabled()! && shouldShowSelectionToolbar) {
+    if (delegate.getSelectionEnabled() && shouldShowSelectionToolbar) {
       getEditor()!.showToolbar();
     }
   }
@@ -498,7 +498,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
