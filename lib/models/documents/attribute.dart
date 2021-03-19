@@ -75,7 +75,7 @@ class Attribute<T> {
 
   static final StyleAttribute style = StyleAttribute(null);
 
-  static final TokenAttribute token = TokenAttribute(null);
+  static final TokenAttribute token = TokenAttribute('');
 
   static final Set<String> inlineKeys = {
     Attribute.bold.key,
