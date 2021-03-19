@@ -100,8 +100,8 @@ class Style {
 
   @override
   int get hashCode {
-    final hashes = _attributes.entries
-        .map((entry) => hash2(entry.key, entry.value));
+    final hashes =
+        _attributes.entries.map((entry) => hash2(entry.key, entry.value));
     return hashObjects(hashes);
   }
 

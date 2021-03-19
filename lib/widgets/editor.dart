@@ -162,7 +162,7 @@ class QuillEditor extends StatefulWidget {
 
   QuillEditor(
       {Key? key,
-        required this.controller,
+      required this.controller,
       required this.focusNode,
       required this.scrollController,
       required this.scrollable,

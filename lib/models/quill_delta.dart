@@ -154,8 +154,8 @@ class Operation {
   @override
   int get hashCode {
     if (_attributes != null && _attributes!.isNotEmpty) {
-      final attrsHash = hashObjects(
-          _attributes!.entries.map((e) => hash2(e.key, e.value)));
+      final attrsHash =
+          hashObjects(_attributes!.entries.map((e) => hash2(e.key, e.value)));
       return hash3(key, value, attrsHash);
     }
     return hash2(key, value);
