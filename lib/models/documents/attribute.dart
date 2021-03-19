@@ -1,4 +1,3 @@
-import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
 import 'package:quiver/core.dart';
 
 enum AttributeScope {
@@ -185,7 +184,7 @@ class Attribute<T> {
   }
 
   @override
-  int get hashCode => hashcode.hash3(key, scope, value);
+  int get hashCode => hash3(key, scope, value);
 
   @override
   String toString() {

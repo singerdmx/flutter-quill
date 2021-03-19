@@ -7,7 +7,6 @@ library quill_delta;
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
 import 'package:quiver/core.dart';
 
 const _attributeEquality = DeepCollectionEquality();
@@ -155,11 +154,11 @@ class Operation {
   @override
   int get hashCode {
     if (_attributes != null && _attributes!.isNotEmpty) {
-      final attrsHash = hashcode.hashObjects(
-          _attributes!.entries.map((e) => hashcode.hash2(e.key, e.value)));
-      return hashcode.hash3(key, value, attrsHash);
+      final attrsHash = hashObjects(
+          _attributes!.entries.map((e) => hash2(e.key, e.value)));
+      return hash3(key, value, attrsHash);
     }
-    return hashcode.hash2(key, value);
+    return hash2(key, value);
   }
 
   @override
