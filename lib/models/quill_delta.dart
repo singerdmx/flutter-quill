@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
 import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
+import 'package:quiver/core.dart';
 
 const _attributeEquality = DeepCollectionEquality();
 const _valueEquality = DeepCollectionEquality();

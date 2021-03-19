@@ -115,11 +115,32 @@ class RawEditorState extends EditorState
   late KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
   bool _keyboardVisible = false;
+<<<<<<< HEAD
   DefaultStyles? _styles;
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
+=======
+  DefaultStyles _styles;
+  final ClipboardStatusNotifier _clipboardStatus =
+      kIsWeb ? null : ClipboardStatusNotifier();
+>>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
+
+  /// Whether to create an input connection with the platform for text editing
+  /// or not.
+  ///
+  /// Read-only input fields do not need a connection with the platform since
+  /// there's no need for text editing capabilities (e.g. virtual keyboard).
+  ///
+  /// On the web, we always need a connection because we want some browser
+  /// functionalities to continue to work on read-only input fields like:
+  ///
+  /// - Relevant context menu.
+  /// - cmd/ctrl+c shortcut to copy.
+  /// - cmd/ctrl+a to select all.
+  /// - Changing the selection using a physical keyboard.
+  bool get shouldCreateInputConnection => kIsWeb || !widget.readOnly;
 
   bool get _hasFocus => widget.focusNode.hasFocus;
 
@@ -355,7 +376,7 @@ class RawEditorState extends EditorState
       _textInputConnection != null && _textInputConnection!.attached;
 
   openConnectionIfNeeded() {
-    if (widget.readOnly) {
+    if (!shouldCreateInputConnection) {
       return;
     }
 
@@ -421,7 +442,7 @@ class RawEditorState extends EditorState
 
   @override
   void updateEditingValue(TextEditingValue value) {
-    if (widget.readOnly) {
+    if (!shouldCreateInputConnection) {
       return;
     }
 
@@ -679,14 +700,21 @@ class RawEditorState extends EditorState
       handleDelete,
     );
 
-    _keyboardVisibilityController = KeyboardVisibilityController();
-    _keyboardVisibilitySubscription =
-        _keyboardVisibilityController.onChange.listen((bool visible) {
-      _keyboardVisible = visible;
-      if (visible) {
-        _onChangeTextEditingValue();
-      }
-    });
+    if (defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.fuchsia) {
+      _keyboardVisible = true;
+    } else {
+      _keyboardVisibilityController = KeyboardVisibilityController();
+      _keyboardVisibilitySubscription =
+          _keyboardVisibilityController.onChange.listen((bool visible) {
+        _keyboardVisible = visible;
+        if (visible) {
+          _onChangeTextEditingValue();
+        }
+      });
+    }
 
     _focusAttachment = widget.focusNode.attach(context,
         onKey: (node, event) => _keyboardListener.handleRawKeyEvent(event));
@@ -745,7 +773,7 @@ class RawEditorState extends EditorState
     }
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
-    if (widget.readOnly) {
+    if (!shouldCreateInputConnection) {
       closeConnectionIfNeeded();
     } else {
       if (oldWidget.readOnly && _hasFocus) {
@@ -845,7 +873,7 @@ class RawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
-    _keyboardVisibilitySubscription.cancel();
+    _keyboardVisibilitySubscription?.cancel();
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
@@ -1070,7 +1098,19 @@ class RawEditorState extends EditorState
 
   @override
   bool showToolbar() {
+<<<<<<< HEAD
     if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
+=======
+    // Web is using native dom elements to enable clipboard functionality of the
+    // toolbar: copy, paste, select, cut. It might also provide additional
+    // functionality depending on the browser (such as translate). Due to this
+    // we should not show a Flutter toolbar for the editable text elements.
+    if (kIsWeb) {
+      return false;
+    }
+
+    if (_selectionOverlay == null || _selectionOverlay.toolbar != null) {
+>>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633
       return false;
     }
 

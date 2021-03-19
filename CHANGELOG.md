@@ -1,3 +1,15 @@
+## [1.0.9]
+* Web support for raw editor and keyboard listener.
+
+## [1.0.8]
+* Support token attribute.
+
+## [1.0.7]
+* Fix crash on web (dart:io).
+
+## [1.0.6]
+* Add desktop support - WINDOWS, MACOS and LINUX.
+
 ## [1.0.5]
 * Bug fix: Can not insert newline when Bold is toggled ON.
 

@@ -1,9 +1,9 @@
 name: flutter_quill
 description: One client and affiliated collaborator of Flutter Quill is Bullet Journal App.
-version: 1.0.5
+version: 1.0.9
 #author: bulletjournal
 homepage: https://bulletjournal.us/home/index.html
-repository: https://github.com/singerdmx/flutter-quill.git
+repository: https://github.com/singerdmx/flutter-quill
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,18 +12,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  universal_html:
-    git:
-      url: "https://github.com/MillerAdulu/universal_html.git"
-      ref: 0792f345ad1820770cc45bede8f813002db87802
   collection: ^1.15.0
   file_picker: ^3.0.0
+  filesystem_picker: ^1.0.4
   flutter_colorpicker: ^0.4.0-nullsafety.0
   flutter_keyboard_visibility: ^5.0.0
-  image_picker: ^0.7.2+1
+  image_picker: ^0.7.3
+  path_provider: ^2.0.1
   photo_view: ^0.11.1
-  string_validator: ^0.2.0-nullsafety.0
+  quiver: ^3.0.0
+  string_validator: ^0.3.0
   tuple: ^2.0.0
+  universal_html: ^2.0.4
   url_launcher: ^6.0.2
 
 dev_dependencies:

@@ -498,6 +498,24 @@
       "insert": "font size 20"
    },
    {
+      "attributes":{
+         "token":"built_in"
+      },
+      "insert":" diff"
+   },
+   {
+      "attributes":{
+         "token":"operator"
+      },
+      "insert":"-match"
+   },
+   {
+      "attributes":{
+         "token":"literal"
+      },
+      "insert":"-patch"
+   },
+   {
       "insert": "\n"
    }
 ]

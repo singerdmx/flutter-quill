@@ -657,10 +657,10 @@ class _EditorTextSelectionGestureDetectorState
     final Map<Type, GestureRecognizerFactory> gestures =
         <Type, GestureRecognizerFactory>{};
 
-    gestures[_TransparentTapGestureRecognizer] =
-        GestureRecognizerFactoryWithHandlers<_TransparentTapGestureRecognizer>(
-      () => _TransparentTapGestureRecognizer(debugOwner: this),
-      (_TransparentTapGestureRecognizer instance) {
+    gestures[TapGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
+      () => TapGestureRecognizer(debugOwner: this),
+      (TapGestureRecognizer instance) {
         instance
           ..onTapDown = _handleTapDown
           ..onTapUp = _handleTapUp
@@ -722,6 +722,7 @@ class _EditorTextSelectionGestureDetectorState
     );
   }
 }
+<<<<<<< HEAD
 
 class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
   _TransparentTapGestureRecognizer({
@@ -737,3 +738,5 @@ class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
     }
   }
 }
+=======
+>>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633

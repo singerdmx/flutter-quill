@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/utils/hashcode.dart' as hashcode;
+import 'package:quiver/core.dart';
 
 /* Collection of style attributes */
 class Style {
