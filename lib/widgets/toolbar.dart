@@ -574,9 +574,9 @@ class _ImageButtonState extends State<ImageButton> {
         fsType: FilesystemType.file,
         fileTileSelectMode: FileTileSelectMode.wholeTile,
       );
-      if (filePath.isEmpty) return '';
+      if (filePath != null && filePath.isEmpty) return '';
 
-      final File file = File(filePath);
+      final File file = File(filePath!);
       String url = await widget.onImagePickCallback!(file);
       print('Image uploaded and its url is $url');
       return url;
