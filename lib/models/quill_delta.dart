@@ -299,7 +299,7 @@ class Delta {
   }
 
   @override
-  int get hashCode => hashcode.hashObjects(_operations);
+  int get hashCode => hashObjects(_operations);
 
   /// Retain [count] of characters from current position.
   void retain(int count, [Map<String, dynamic>? attributes]) {
