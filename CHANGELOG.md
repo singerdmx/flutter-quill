@@ -1,3 +1,6 @@
+## [1.1.0]
+* Support null safety.
+
 ## [1.0.9]
 * Web support for raw editor and keyboard listener.
 
