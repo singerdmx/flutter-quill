@@ -100,7 +100,7 @@ class RawEditorState extends EditorState
         WidgetsBindingObserver,
         TickerProviderStateMixin<RawEditor>
     implements TextSelectionDelegate, TextInputClient {
-   GlobalKey _editorKey = GlobalKey();
+  GlobalKey _editorKey = GlobalKey();
   final List<TextEditingValue> _sentRemoteValues = [];
   TextInputConnection? _textInputConnection;
   TextEditingValue? _lastKnownRemoteTextEditingValue;
@@ -115,14 +115,9 @@ class RawEditorState extends EditorState
   late KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
   bool _keyboardVisible = false;
-<<<<<<< HEAD
   DefaultStyles? _styles;
-  final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
-=======
-  DefaultStyles _styles;
-  final ClipboardStatusNotifier _clipboardStatus =
+  final ClipboardStatusNotifier? _clipboardStatus =
       kIsWeb ? null : ClipboardStatusNotifier();
->>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
@@ -681,7 +676,7 @@ class RawEditorState extends EditorState
   void initState() {
     super.initState();
 
-    _clipboardStatus.addListener(_onChangedClipboardStatus);
+    _clipboardStatus?.addListener(_onChangedClipboardStatus);
 
     widget.controller.addListener(_didChangeTextEditingValue);
 
@@ -873,7 +868,7 @@ class RawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
-    _keyboardVisibilitySubscription?.cancel();
+    _keyboardVisibilitySubscription.cancel();
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
@@ -881,8 +876,8 @@ class RawEditorState extends EditorState
     widget.focusNode.removeListener(_handleFocusChanged);
     _focusAttachment!.detach();
     _cursorCont.dispose();
-    _clipboardStatus.removeListener(_onChangedClipboardStatus);
-    _clipboardStatus.dispose();
+    _clipboardStatus?.removeListener(_onChangedClipboardStatus);
+    _clipboardStatus?.dispose();
     super.dispose();
   }
 
@@ -936,19 +931,20 @@ class RawEditorState extends EditorState
       _selectionOverlay = null;
 
       _selectionOverlay = EditorTextSelectionOverlay(
-          textEditingValue,
-          false,
-          context,
-          widget,
-          _toolbarLayerLink,
-          _startHandleLayerLink,
-          _endHandleLayerLink,
-          getRenderEditor(),
-          widget.selectionCtrls,
-          this,
-          DragStartBehavior.start,
-          null,
-          _clipboardStatus);
+        textEditingValue,
+        false,
+        context,
+        widget,
+        _toolbarLayerLink,
+        _startHandleLayerLink,
+        _endHandleLayerLink,
+        getRenderEditor(),
+        widget.selectionCtrls,
+        this,
+        DragStartBehavior.start,
+        null,
+        _clipboardStatus!,
+      );
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
     }
@@ -1098,23 +1094,22 @@ class RawEditorState extends EditorState
 
   @override
   bool showToolbar() {
-<<<<<<< HEAD
     if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
-=======
-    // Web is using native dom elements to enable clipboard functionality of the
-    // toolbar: copy, paste, select, cut. It might also provide additional
-    // functionality depending on the browser (such as translate). Due to this
-    // we should not show a Flutter toolbar for the editable text elements.
-    if (kIsWeb) {
-      return false;
-    }
+      // Web is using native dom elements to enable clipboard functionality of the
+      // toolbar: copy, paste, select, cut. It might also provide additional
+      // functionality depending on the browser (such as translate). Due to this
+      // we should not show a Flutter toolbar for the editable text elements.
+      if (kIsWeb) {
+        return false;
+      }
 
-    if (_selectionOverlay == null || _selectionOverlay.toolbar != null) {
->>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633
-      return false;
-    }
+      if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
+        return false;
+      }
 
-    _selectionOverlay!.showToolbar();
+      _selectionOverlay!.showToolbar();
+      return true;
+    }
     return true;
   }
 
