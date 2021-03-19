@@ -785,6 +785,11 @@ class RenderEditableTextLine extends RenderEditableBox {
     );
     _cursorPainter.paint(context.canvas, effectiveOffset, position);
   }
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {Offset position}) {
+    return this._children.first.hitTest(result, position: position);
+  }
 }
 
 class _TextLineElement extends RenderObjectElement {
