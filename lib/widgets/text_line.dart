@@ -101,7 +101,7 @@ class TextLine extends StatelessWidget {
       Attribute.h3: defaultStyles.h3!.style,
     };
 
-    textStyle = textStyle.merge(m[header!] ?? defaultStyles.paragraph!.style);
+    textStyle = textStyle.merge(m[header] ?? defaultStyles.paragraph!.style);
 
     Attribute? block = line.style.getBlockExceptHeader();
     TextStyle? toMerge;
@@ -187,8 +187,8 @@ class TextLine extends StatelessWidget {
       decorations.add(b.decoration);
     }
     return a.merge(b).apply(
-        decoration:
-            TextDecoration.combine(decorations as List<TextDecoration>));
+        decoration: TextDecoration.combine(
+            List.castFrom<dynamic, TextDecoration>(decorations)));
   }
 }
 
@@ -824,8 +824,8 @@ class _TextLineElement extends RenderObjectElement {
   }
 
   @override
-  insertRenderObjectChild(RenderObject child, TextLineSlot? slot) {
-    assert(child is RenderBox);
+  insertRenderObjectChild(RenderBox child, TextLineSlot? slot) {
+    // assert(child is RenderBox);
     _updateRenderObject(child, slot);
     assert(renderObject.children.keys.contains(slot));
   }
@@ -854,13 +854,13 @@ class _TextLineElement extends RenderObjectElement {
     }
   }
 
-  _updateRenderObject(RenderObject? child, TextLineSlot? slot) {
+  _updateRenderObject(RenderBox? child, TextLineSlot? slot) {
     switch (slot) {
       case TextLineSlot.LEADING:
-        renderObject.setLeading(child as RenderBox?);
+        renderObject.setLeading(child);
         break;
       case TextLineSlot.BODY:
-        renderObject.setBody((child as RenderBox?) as RenderContentProxyBox?);
+        renderObject.setBody((child) as RenderContentProxyBox?);
         break;
       default:
         throw UnimplementedError();

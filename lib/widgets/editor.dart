@@ -149,7 +149,7 @@ class QuillEditor extends StatefulWidget {
   final bool? showCursor;
   final bool readOnly;
   final String? placeholder;
-  final bool? enableInteractiveSelection;
+  final bool enableInteractiveSelection;
   final double? minHeight;
   final double? maxHeight;
   final DefaultStyles? customStyles;
@@ -161,8 +161,7 @@ class QuillEditor extends StatefulWidget {
   final EmbedBuilder embedBuilder;
 
   QuillEditor(
-      {Key? key,
-      required this.controller,
+      {required this.controller,
       required this.focusNode,
       required this.scrollController,
       required this.scrollable,
@@ -171,7 +170,7 @@ class QuillEditor extends StatefulWidget {
       this.showCursor,
       required this.readOnly,
       this.placeholder,
-      this.enableInteractiveSelection,
+      this.enableInteractiveSelection = true,
       this.minHeight,
       this.maxHeight,
       this.customStyles,
@@ -184,7 +183,7 @@ class QuillEditor extends StatefulWidget {
           kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder});
 
   factory QuillEditor.basic(
-      {Key? key, required QuillController controller, required bool readOnly}) {
+      {required QuillController controller, required bool readOnly}) {
     return QuillEditor(
         controller: controller,
         scrollController: ScrollController(),
@@ -270,10 +269,10 @@ class _QuillEditorState extends State<QuillEditor>
           widget.placeholder,
           widget.onLaunchUrl,
           ToolbarOptions(
-            copy: widget.enableInteractiveSelection ?? true,
-            cut: widget.enableInteractiveSelection ?? true,
-            paste: widget.enableInteractiveSelection ?? true,
-            selectAll: widget.enableInteractiveSelection ?? true,
+            copy: widget.enableInteractiveSelection,
+            cut: widget.enableInteractiveSelection,
+            paste: widget.enableInteractiveSelection,
+            selectAll: widget.enableInteractiveSelection,
           ),
           theme.platform == TargetPlatform.iOS ||
               theme.platform == TargetPlatform.android,
@@ -296,7 +295,7 @@ class _QuillEditorState extends State<QuillEditor>
           selectionColor,
           textSelectionControls,
           widget.keyboardAppearance,
-          widget.enableInteractiveSelection!,
+          widget.enableInteractiveSelection,
           widget.scrollPhysics,
           widget.embedBuilder),
     );
@@ -313,7 +312,7 @@ class _QuillEditorState extends State<QuillEditor>
   }
 
   @override
-  bool? getSelectionEnabled() {
+  bool getSelectionEnabled() {
     return widget.enableInteractiveSelection;
   }
 
@@ -331,7 +330,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   onForcePressStart(ForcePressDetails details) {
     super.onForcePressStart(details);
-    if (delegate.getSelectionEnabled()! && shouldShowSelectionToolbar) {
+    if (delegate.getSelectionEnabled() && shouldShowSelectionToolbar) {
       getEditor()!.showToolbar();
     }
   }
@@ -341,7 +340,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (!delegate.getSelectionEnabled()!) {
+    if (!delegate.getSelectionEnabled()) {
       return;
     }
     switch (Theme.of(_state.context).platform) {
@@ -470,7 +469,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     bool positionSelected = _onTapping(details);
 
-    if (delegate.getSelectionEnabled()! && !positionSelected) {
+    if (delegate.getSelectionEnabled() && !positionSelected) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
@@ -499,7 +498,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
-    if (delegate.getSelectionEnabled()!) {
+    if (delegate.getSelectionEnabled()) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
