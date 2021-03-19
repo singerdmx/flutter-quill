@@ -777,7 +777,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {Offset position}) {
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     return this._children.first.hitTest(result, position: position);
   }
 }
