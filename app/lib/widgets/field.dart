@@ -6,28 +6,28 @@ import 'package:flutter_quill/widgets/editor.dart';
 
 class QuillField extends StatefulWidget {
   final QuillController controller;
-  final FocusNode focusNode;
-  final ScrollController scrollController;
+  final FocusNode? focusNode;
+  final ScrollController? scrollController;
   final bool scrollable;
   final EdgeInsetsGeometry padding;
   final bool autofocus;
   final bool showCursor;
   final bool readOnly;
   final bool enableInteractiveSelection;
-  final double minHeight;
-  final double maxHeight;
+  final double? minHeight;
+  final double? maxHeight;
   final bool expands;
   final TextCapitalization textCapitalization;
   final Brightness keyboardAppearance;
-  final ScrollPhysics scrollPhysics;
-  final ValueChanged<String> onLaunchUrl;
-  final InputDecoration decoration;
-  final Widget toolbar;
-  final EmbedBuilder embedBuilder;
+  final ScrollPhysics? scrollPhysics;
+  final ValueChanged<String>? onLaunchUrl;
+  final InputDecoration? decoration;
+  final Widget? toolbar;
+  final EmbedBuilder? embedBuilder;
 
   QuillField({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
     this.focusNode,
     this.scrollController,
     this.scrollable = true,
@@ -53,28 +53,28 @@ class QuillField extends StatefulWidget {
 }
 
 class _QuillFieldState extends State<QuillField> {
-  bool _focused;
+  late bool _focused;
 
   void _editorFocusChanged() {
     setState(() {
-      _focused = widget.focusNode.hasFocus;
+      _focused = widget.focusNode!.hasFocus;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _focused = widget.focusNode.hasFocus;
-    widget.focusNode.addListener(_editorFocusChanged);
+    _focused = widget.focusNode!.hasFocus;
+    widget.focusNode!.addListener(_editorFocusChanged);
   }
 
   @override
   void didUpdateWidget(covariant QuillField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.focusNode != oldWidget.focusNode) {
-      oldWidget.focusNode.removeListener(_editorFocusChanged);
-      widget.focusNode.addListener(_editorFocusChanged);
-      _focused = widget.focusNode.hasFocus;
+      oldWidget.focusNode!.removeListener(_editorFocusChanged);
+      widget.focusNode!.addListener(_editorFocusChanged);
+      _focused = widget.focusNode!.hasFocus;
     }
   }
 
@@ -82,8 +82,8 @@ class _QuillFieldState extends State<QuillField> {
   Widget build(BuildContext context) {
     Widget child = QuillEditor(
       controller: widget.controller,
-      focusNode: widget.focusNode,
-      scrollController: widget.scrollController,
+      focusNode: widget.focusNode!,
+      scrollController: widget.scrollController!,
       scrollable: widget.scrollable,
       padding: widget.padding,
       autoFocus: widget.autofocus,
@@ -97,7 +97,7 @@ class _QuillFieldState extends State<QuillField> {
       keyboardAppearance: widget.keyboardAppearance,
       scrollPhysics: widget.scrollPhysics,
       onLaunchUrl: widget.onLaunchUrl,
-      embedBuilder: widget.embedBuilder,
+      embedBuilder: widget.embedBuilder!,
     );
 
     if (widget.toolbar != null) {
@@ -105,7 +105,7 @@ class _QuillFieldState extends State<QuillField> {
         children: [
           child,
           Visibility(
-            child: widget.toolbar,
+            child: widget.toolbar!,
             visible: _focused,
             maintainSize: true,
             maintainAnimation: true,
@@ -117,11 +117,11 @@ class _QuillFieldState extends State<QuillField> {
 
     return AnimatedBuilder(
       animation:
-          Listenable.merge(<Listenable>[widget.focusNode, widget.controller]),
-      builder: (BuildContext context, Widget child) {
+          Listenable.merge(<Listenable?>[widget.focusNode, widget.controller]),
+      builder: (BuildContext context, Widget? child) {
         return InputDecorator(
           decoration: _getEffectiveDecoration(),
-          isFocused: widget.focusNode.hasFocus,
+          isFocused: widget.focusNode!.hasFocus,
           // TODO: Document should be considered empty of it has single empty line with no styles applied
           isEmpty: widget.controller.document.length == 1,
           child: child,

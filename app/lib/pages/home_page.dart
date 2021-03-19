@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  QuillController _controller;
+  QuillController? _controller;
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -75,15 +75,15 @@ class _HomePageState extends State<HomePage> {
         focusNode: FocusNode(),
         onKey: (RawKeyEvent event) {
           if (event.data.isControlPressed && event.character == 'b') {
-            if (_controller
+            if (_controller!
                 .getSelectionStyle()
                 .attributes
                 .keys
                 .contains("bold")) {
-              _controller
+              _controller!
                   .formatSelection(Attribute.clone(Attribute.bold, null));
             } else {
-              _controller.formatSelection(Attribute.bold);
+              _controller!.formatSelection(Attribute.bold);
               print("not bold");
             }
           }
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: QuillEditor(
-                controller: _controller,
+                controller: _controller!,
                 scrollController: ScrollController(),
                 scrollable: true,
                 focusNode: _focusNode,
@@ -135,12 +135,12 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                   child: QuillToolbar.basic(
-                      controller: _controller,
+                      controller: _controller!,
                       onImagePickCallback: _onImagePickCallback),
                 ))
               : Container(
                   child: QuillToolbar.basic(
-                      controller: _controller,
+                      controller: _controller!,
                       onImagePickCallback: _onImagePickCallback),
                 ),
         ],
@@ -151,7 +151,6 @@ class _HomePageState extends State<HomePage> {
   // Renders the image picked by imagePicker from local file storage
   // You can also upload the picked image to any server (eg : AWS s3 or Firebase) and then return the uploaded image URL
   Future<String> _onImagePickCallback(File file) async {
-    if (file == null) return null;
     // Copies the picked file from temporary cache to applications directory
     Directory appDocDir = await getApplicationDocumentsDirectory();
     File copiedFile =

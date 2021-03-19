@@ -56,7 +56,7 @@ packages:
       name: csslib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.2"
+    version: "0.17.0"
   fake_async:
     dependency: transitive
     description:
@@ -91,7 +91,7 @@ packages:
       name: filesystem_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "2.0.0-nullsafety.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -103,7 +103,7 @@ packages:
       name: flutter_colorpicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.5"
+    version: "0.4.0-nullsafety.0"
   flutter_keyboard_visibility:
     dependency: "direct main"
     description:
@@ -148,14 +148,14 @@ packages:
       name: html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+4"
+    version: "0.15.0"
   http:
     dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0"
+    version: "0.13.1"
   http_parser:
     dependency: transitive
     description:
@@ -169,7 +169,14 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.2+1"
+    version: "0.7.3"
+  image_picker_for_web:
+    dependency: transitive
+    description:
+      name: image_picker_for_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -321,7 +328,7 @@ packages:
       name: string_validator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4"
+    version: "0.3.0"
   term_glyph:
     dependency: transitive
     description:
@@ -356,21 +363,14 @@ packages:
       name: universal_html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "2.0.4"
   universal_io:
     dependency: transitive
     description:
       name: universal_io
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
-  universal_ui:
-    dependency: "direct main"
-    description:
-      name: universal_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.8"
+    version: "2.0.1"
   url_launcher:
     dependency: "direct main"
     description:
@@ -426,7 +426,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   xdg_directories:
     dependency: transitive
     description:
@@ -434,13 +434,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
-  zone_local:
-    dependency: transitive
-    description:
-      name: zone_local
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.22.0"
+  flutter: ">=1.24.0-10.2.pre"

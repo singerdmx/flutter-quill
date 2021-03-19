@@ -27,7 +27,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
     );
   }
 
-  Widget _buildContent(BuildContext context, QuillController controller) {
+  Widget _buildContent(BuildContext context, QuillController? controller) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -36,7 +36,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           border: Border.all(color: Colors.grey.shade200),
         ),
         child: QuillEditor(
-          controller: controller,
+          controller: controller!,
           scrollController: ScrollController(),
           scrollable: true,
           focusNode: _focusNode,

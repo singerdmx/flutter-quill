@@ -14,28 +14,27 @@ abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
 
   bool getForcePressEnabled();
 
-  bool getSelectionEnabled();
+  bool? getSelectionEnabled();
 }
 
 class EditorTextSelectionGestureDetectorBuilder {
   final EditorTextSelectionGestureDetectorBuilderDelegate delegate;
   bool shouldShowSelectionToolbar = true;
 
-  EditorTextSelectionGestureDetectorBuilder(this.delegate)
-      : assert(delegate != null);
+  EditorTextSelectionGestureDetectorBuilder(this.delegate);
 
-  EditorState getEditor() {
+  EditorState? getEditor() {
     return delegate.getEditableTextKey().currentState;
   }
 
-  RenderEditor getRenderEditor() {
-    return this.getEditor().getRenderEditor();
+  RenderEditor? getRenderEditor() {
+    return this.getEditor()!.getRenderEditor();
   }
 
   onTapDown(TapDownDetails details) {
-    getRenderEditor().handleTapDown(details);
+    getRenderEditor()!.handleTapDown(details);
 
-    PointerDeviceKind kind = details.kind;
+    PointerDeviceKind? kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;
@@ -44,8 +43,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   onForcePressStart(ForcePressDetails details) {
     assert(delegate.getForcePressEnabled());
     shouldShowSelectionToolbar = true;
-    if (delegate.getSelectionEnabled()) {
-      getRenderEditor().selectWordsInRange(
+    if (delegate.getSelectionEnabled()!) {
+      getRenderEditor()!.selectWordsInRange(
         details.globalPosition,
         null,
         SelectionChangedCause.forcePress,
@@ -55,27 +54,27 @@ class EditorTextSelectionGestureDetectorBuilder {
 
   onForcePressEnd(ForcePressDetails details) {
     assert(delegate.getForcePressEnabled());
-    getRenderEditor().selectWordsInRange(
+    getRenderEditor()!.selectWordsInRange(
       details.globalPosition,
       null,
       SelectionChangedCause.forcePress,
     );
     if (shouldShowSelectionToolbar) {
-      getEditor().showToolbar();
+      getEditor()!.showToolbar();
     }
   }
 
   onSingleTapUp(TapUpDetails details) {
-    if (delegate.getSelectionEnabled()) {
-      getRenderEditor().selectWordEdge(SelectionChangedCause.tap);
+    if (delegate.getSelectionEnabled()!) {
+      getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
     }
   }
 
   onSingleTapCancel() {}
 
   onSingleLongTapStart(LongPressStartDetails details) {
-    if (delegate.getSelectionEnabled()) {
-      getRenderEditor().selectPositionAt(
+    if (delegate.getSelectionEnabled()!) {
+      getRenderEditor()!.selectPositionAt(
         details.globalPosition,
         null,
         SelectionChangedCause.longPress,
@@ -84,8 +83,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   }
 
   onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (delegate.getSelectionEnabled()) {
-      getRenderEditor().selectPositionAt(
+    if (delegate.getSelectionEnabled()!) {
+      getRenderEditor()!.selectPositionAt(
         details.globalPosition,
         null,
         SelectionChangedCause.longPress,
@@ -95,21 +94,21 @@ class EditorTextSelectionGestureDetectorBuilder {
 
   onSingleLongTapEnd(LongPressEndDetails details) {
     if (shouldShowSelectionToolbar) {
-      getEditor().showToolbar();
+      getEditor()!.showToolbar();
     }
   }
 
   onDoubleTapDown(TapDownDetails details) {
-    if (delegate.getSelectionEnabled()) {
-      getRenderEditor().selectWord(SelectionChangedCause.tap);
+    if (delegate.getSelectionEnabled()!) {
+      getRenderEditor()!.selectWord(SelectionChangedCause.tap);
       if (shouldShowSelectionToolbar) {
-        getEditor().showToolbar();
+        getEditor()!.showToolbar();
       }
     }
   }
 
   onDragSelectionStart(DragStartDetails details) {
-    getRenderEditor().selectPositionAt(
+    getRenderEditor()!.selectPositionAt(
       details.globalPosition,
       null,
       SelectionChangedCause.drag,
@@ -118,7 +117,7 @@ class EditorTextSelectionGestureDetectorBuilder {
 
   onDragSelectionUpdate(
       DragStartDetails startDetails, DragUpdateDetails updateDetails) {
-    getRenderEditor().selectPositionAt(
+    getRenderEditor()!.selectPositionAt(
       startDetails.globalPosition,
       updateDetails.globalPosition,
       SelectionChangedCause.drag,

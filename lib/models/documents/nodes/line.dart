@@ -10,7 +10,7 @@ import 'container.dart';
 import 'embed.dart';
 import 'leaf.dart';
 
-class Line extends Container<Leaf> {
+class Line extends Container<Leaf?> {
   @override
   Leaf get defaultChild => Text();
 
@@ -25,28 +25,30 @@ class Line extends Container<Leaf> {
     return children.single is Embed;
   }
 
-  Line get nextLine {
+  Line? get nextLine {
     if (!isLast) {
-      return next is Block ? (next as Block).first : next;
+      return next is Block ? (next as Block).first as Line? : next as Line?;
     }
     if (parent is! Block) {
       return null;
     }
 
-    if (parent.isLast) {
+    if (parent!.isLast) {
       return null;
     }
-    return parent.next is Block ? (parent.next as Block).first : parent.next;
+    return parent!.next is Block
+        ? (parent!.next as Block).first as Line?
+        : parent!.next as Line?;
   }
 
   @override
   Delta toDelta() {
     final delta = children
         .map((child) => child.toDelta())
-        .fold(Delta(), (a, b) => a.concat(b));
+        .fold(Delta(), (dynamic a, b) => a.concat(b));
     var attributes = style;
     if (parent is Block) {
-      Block block = parent;
+      Block block = parent as Block;
       attributes = attributes.mergeAll(block.style);
     }
     delta.insert('\n', attributes.toJson());
@@ -64,7 +66,7 @@ class Line extends Container<Leaf> {
   }
 
   @override
-  insert(int index, Object data, Style style) {
+  insert(int index, Object data, Style? style) {
     if (data is Embeddable) {
       _insert(index, data, style);
       return;
@@ -99,13 +101,13 @@ class Line extends Container<Leaf> {
   }
 
   @override
-  retain(int index, int len, Style style) {
+  retain(int index, int? len, Style? style) {
     if (style == null) {
       return;
     }
     int thisLen = this.length;
 
-    int local = math.min(thisLen - index, len);
+    int local = math.min(thisLen - index, len!);
 
     if (index + local == thisLen && local == 1) {
       assert(style.values.every((attr) => attr.scope == AttributeScope.BLOCK));
@@ -119,13 +121,13 @@ class Line extends Container<Leaf> {
     int remain = len - local;
     if (remain > 0) {
       assert(nextLine != null);
-      nextLine.retain(0, remain, style);
+      nextLine!.retain(0, remain, style);
     }
   }
 
   @override
-  delete(int index, int len) {
-    int local = math.min(this.length - index, len);
+  delete(int index, int? len) {
+    int local = math.min(this.length - index, len!);
     bool deleted = index + local == this.length;
     if (deleted) {
       clearStyle();
@@ -139,35 +141,35 @@ class Line extends Container<Leaf> {
     int remain = len - local;
     if (remain > 0) {
       assert(nextLine != null);
-      nextLine.delete(0, remain);
+      nextLine!.delete(0, remain);
     }
 
     if (deleted && isNotEmpty) {
       assert(nextLine != null);
-      nextLine.moveChildToNewParent(this);
+      nextLine!.moveChildToNewParent(this);
       moveChildToNewParent(nextLine);
     }
 
     if (deleted) {
-      Node p = parent;
+      Node p = parent!;
       unlink();
       p.adjust();
     }
   }
 
-  void _format(Style newStyle) {
+  void _format(Style? newStyle) {
     if (newStyle == null || newStyle.isEmpty) {
       return;
     }
 
     applyStyle(newStyle);
-    Attribute blockStyle = newStyle.getBlockExceptHeader();
+    Attribute? blockStyle = newStyle.getBlockExceptHeader();
     if (blockStyle == null) {
       return;
     }
 
     if (parent is Block) {
-      Attribute parentStyle = (parent as Block).style.getBlockExceptHeader();
+      Attribute? parentStyle = (parent as Block).style.getBlockExceptHeader();
       if (blockStyle.value == null) {
         _unwrap();
       } else if (blockStyle != parentStyle) {
@@ -196,7 +198,7 @@ class Line extends Container<Leaf> {
     if (parent is! Block) {
       throw ArgumentError('Invalid parent');
     }
-    Block block = parent;
+    Block block = parent as Block;
 
     assert(block.children.contains(this));
 
@@ -207,10 +209,10 @@ class Line extends Container<Leaf> {
       unlink();
       block.insertAfter(this);
     } else {
-      Block before = block.clone();
+      Block before = block.clone() as Block;
       block.insertBefore(before);
 
-      Line child = block.first;
+      Line child = block.first as Line;
       while (child != this) {
         child.unlink();
         before.add(child);
@@ -232,19 +234,19 @@ class Line extends Container<Leaf> {
     }
 
     ChildQuery query = queryChild(index, false);
-    while (!query.node.isLast) {
-      Leaf next = last;
+    while (!query.node!.isLast) {
+      Leaf next = last as Leaf;
       next.unlink();
       line.addFirst(next);
     }
-    Leaf child = query.node;
-    Leaf cut = child.splitAt(query.offset);
+    Leaf child = query.node as Leaf;
+    Leaf? cut = child.splitAt(query.offset);
     cut?.unlink();
     line.addFirst(cut);
     return line;
   }
 
-  _insert(int index, Object data, Style style) {
+  _insert(int index, Object data, Style? style) {
     assert(index == 0 || (index > 0 && index < length));
 
     if (data is String) {
@@ -256,7 +258,7 @@ class Line extends Container<Leaf> {
 
     if (isNotEmpty) {
       ChildQuery result = queryChild(index, true);
-      result.node.insert(result.offset, data, style);
+      result.node!.insert(result.offset, data, style);
       return;
     }
 
@@ -291,26 +293,26 @@ class Line extends Container<Leaf> {
     }
 
     ChildQuery data = queryChild(offset, true);
-    Leaf node = data.node;
+    Leaf? node = data.node as Leaf?;
     if (node != null) {
       res = res.mergeAll(node.style);
       int pos = node.length - data.offset;
-      while (!node.isLast && pos < local) {
-        node = node.next as Leaf;
-        _handle(node.style);
+      while (!node!.isLast && pos < local) {
+        node = node.next as Leaf?;
+        _handle(node!.style);
         pos += node.length;
       }
     }
 
     res = res.mergeAll(style);
     if (parent is Block) {
-      Block block = parent;
+      Block block = parent as Block;
       res = res.mergeAll(block.style);
     }
 
     int remain = len - local;
     if (remain > 0) {
-      _handle(nextLine.collectStyle(0, remain));
+      _handle(nextLine!.collectStyle(0, remain));
     }
 
     return res;

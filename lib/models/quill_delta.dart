@@ -15,10 +15,10 @@ const _valueEquality = DeepCollectionEquality();
 /// Decoder function to convert raw `data` object into a user-defined data type.
 ///
 /// Useful with embedded content.
-typedef DataDecoder = Object Function(Object data);
+typedef DataDecoder = Object? Function(Object data);
 
 /// Default data decoder which simply passes through the original value.
-Object _passThroughDataDecoder(Object data) => data;
+Object? _passThroughDataDecoder(Object? data) => data;
 
 /// Operation performed on a rich-text document.
 class Operation {
@@ -40,19 +40,18 @@ class Operation {
   final String key;
 
   /// Length of this operation.
-  final int length;
+  final int? length;
 
   /// Payload of "insert" operation, for other types is set to empty string.
-  final Object data;
+  final Object? data;
 
   /// Rich-text attributes set by this operation, can be `null`.
-  Map<String, dynamic> get attributes =>
-      _attributes == null ? null : Map<String, dynamic>.from(_attributes);
-  final Map<String, dynamic> _attributes;
+  Map<String, dynamic>? get attributes =>
+      _attributes == null ? null : Map<String, dynamic>.from(_attributes!);
+  final Map<String, dynamic>? _attributes;
 
-  Operation._(this.key, this.length, this.data, Map attributes)
-      : assert(key != null && length != null && data != null),
-        assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
+  Operation._(this.key, this.length, this.data, Map? attributes)
+      : assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
         assert(() {
           if (key != Operation.insertKey) return true;
           return data is String ? data.length == length : length == 1;
@@ -64,7 +63,7 @@ class Operation {
   ///
   /// If `dataDecoder` parameter is not null then it is used to additionally
   /// decode the operation's data object. Only applied to insert operations.
-  static Operation fromJson(Map data, {DataDecoder dataDecoder}) {
+  static Operation fromJson(Map data, {DataDecoder? dataDecoder}) {
     dataDecoder ??= _passThroughDataDecoder;
     final map = Map<String, dynamic>.from(data);
     if (map.containsKey(Operation.insertKey)) {
@@ -73,10 +72,10 @@ class Operation {
       return Operation._(
           Operation.insertKey, dataLength, data, map[Operation.attributesKey]);
     } else if (map.containsKey(Operation.deleteKey)) {
-      final int length = map[Operation.deleteKey];
+      final int? length = map[Operation.deleteKey];
       return Operation._(Operation.deleteKey, length, '', null);
     } else if (map.containsKey(Operation.retainKey)) {
-      final int length = map[Operation.retainKey];
+      final int? length = map[Operation.retainKey];
       return Operation._(
           Operation.retainKey, length, '', map[Operation.attributesKey]);
     }
@@ -95,13 +94,13 @@ class Operation {
       Operation._(Operation.deleteKey, length, '', null);
 
   /// Creates operation which inserts [text] with optional [attributes].
-  factory Operation.insert(dynamic data, [Map<String, dynamic> attributes]) =>
+  factory Operation.insert(dynamic data, [Map<String, dynamic>? attributes]) =>
       Operation._(Operation.insertKey, data is String ? data.length : 1, data,
           attributes);
 
   /// Creates operation which retains [length] of characters and optionally
   /// applies attributes.
-  factory Operation.retain(int length, [Map<String, dynamic> attributes]) =>
+  factory Operation.retain(int? length, [Map<String, dynamic>? attributes]) =>
       Operation._(Operation.retainKey, length, '', attributes);
 
   /// Returns value of this operation.
@@ -119,7 +118,7 @@ class Operation {
   bool get isRetain => key == Operation.retainKey;
 
   /// Returns `true` if this operation has no attributes, e.g. is plain text.
-  bool get isPlain => (_attributes == null || _attributes.isEmpty);
+  bool get isPlain => (_attributes == null || _attributes!.isEmpty);
 
   /// Returns `true` if this operation sets at least one attribute.
   bool get isNotPlain => !isPlain;
@@ -130,7 +129,7 @@ class Operation {
   bool get isEmpty => length == 0;
 
   /// Returns `true` is this operation is not empty.
-  bool get isNotEmpty => length > 0;
+  bool get isNotEmpty => length! > 0;
 
   @override
   bool operator ==(other) {
@@ -144,7 +143,8 @@ class Operation {
   }
 
   /// Returns `true` if this operation has attribute specified by [name].
-  bool hasAttribute(String name) => isNotPlain && _attributes.containsKey(name);
+  bool hasAttribute(String name) =>
+      isNotPlain && _attributes!.containsKey(name);
 
   /// Returns `true` if [other] operation has the same attributes as this one.
   bool hasSameAttributes(Operation other) {
@@ -153,9 +153,9 @@ class Operation {
 
   @override
   int get hashCode {
-    if (_attributes != null && _attributes.isNotEmpty) {
+    if (_attributes != null && _attributes!.isNotEmpty) {
       final attrsHash =
-          hashObjects(_attributes.entries.map((e) => hash2(e.key, e.value)));
+          hashObjects(_attributes!.entries.map((e) => hash2(e.key, e.value)));
       return hash3(key, value, attrsHash);
     }
     return hash2(key, value);
@@ -181,8 +181,8 @@ class Operation {
 /// it is a "change delta".
 class Delta {
   /// Transforms two attribute sets.
-  static Map<String, dynamic> transformAttributes(
-      Map<String, dynamic> a, Map<String, dynamic> b, bool priority) {
+  static Map<String, dynamic>? transformAttributes(
+      Map<String, dynamic>? a, Map<String, dynamic>? b, bool priority) {
     if (a == null) return b;
     if (b == null) return null;
 
@@ -197,8 +197,8 @@ class Delta {
   }
 
   /// Composes two attribute sets.
-  static Map<String, dynamic> composeAttributes(
-      Map<String, dynamic> a, Map<String, dynamic> b,
+  static Map<String, dynamic>? composeAttributes(
+      Map<String, dynamic>? a, Map<String, dynamic>? b,
       {bool keepNull = false}) {
     a ??= const {};
     b ??= const {};
@@ -217,12 +217,12 @@ class Delta {
 
   ///get anti-attr result base on base
   static Map<String, dynamic> invertAttributes(
-      Map<String, dynamic> attr, Map<String, dynamic> base) {
+      Map<String, dynamic>? attr, Map<String, dynamic>? base) {
     attr ??= const {};
     base ??= const {};
 
-    var baseInverted = base.keys.fold({}, (memo, key) {
-      if (base[key] != attr[key] && attr.containsKey(key)) {
+    var baseInverted = base.keys.fold({}, (dynamic memo, key) {
+      if (base![key] != attr![key] && attr.containsKey(key)) {
         memo[key] = base[key];
       }
       return memo;
@@ -230,7 +230,7 @@ class Delta {
 
     var inverted =
         Map<String, dynamic>.from(attr.keys.fold(baseInverted, (memo, key) {
-      if (base[key] != attr[key] && !base.containsKey(key)) {
+      if (base![key] != attr![key] && !base.containsKey(key)) {
         memo[key] = null;
       }
       return memo;
@@ -242,9 +242,7 @@ class Delta {
 
   int _modificationCount = 0;
 
-  Delta._(List<Operation> operations)
-      : assert(operations != null),
-        _operations = operations;
+  Delta._(List<Operation> operations) : _operations = operations;
 
   /// Creates new empty [Delta].
   factory Delta() => Delta._(<Operation>[]);
@@ -257,7 +255,7 @@ class Delta {
   ///
   /// If `dataDecoder` parameter is not null then it is used to additionally
   /// decode the operation's data object. Only applied to insert operations.
-  static Delta fromJson(List data, {DataDecoder dataDecoder}) {
+  static Delta fromJson(List data, {DataDecoder? dataDecoder}) {
     return Delta._(data
         .map((op) => Operation.fromJson(op, dataDecoder: dataDecoder))
         .toList());
@@ -304,15 +302,14 @@ class Delta {
   int get hashCode => hashObjects(_operations);
 
   /// Retain [count] of characters from current position.
-  void retain(int count, [Map<String, dynamic> attributes]) {
+  void retain(int count, [Map<String, dynamic>? attributes]) {
     assert(count >= 0);
     if (count == 0) return; // no-op
     push(Operation.retain(count, attributes));
   }
 
   /// Insert [data] at current position.
-  void insert(dynamic data, [Map<String, dynamic> attributes]) {
-    assert(data != null);
+  void insert(dynamic data, [Map<String, dynamic>? attributes]) {
     if (data is String && data.isEmpty) return; // no-op
     push(Operation.insert(data, attributes));
   }
@@ -326,10 +323,10 @@ class Delta {
 
   void _mergeWithTail(Operation operation) {
     assert(isNotEmpty);
-    assert(operation != null && last.key == operation.key);
+    assert(last.key == operation.key);
     assert(operation.data is String && last.data is String);
 
-    final length = operation.length + last.length;
+    final length = operation.length! + last.length!;
     final lastText = last.data as String;
     final opText = operation.data as String;
     final resultText = lastText + opText;
@@ -396,12 +393,13 @@ class Delta {
   /// Returns new operation or `null` if operations from [thisIter] and
   /// [otherIter] nullify each other. For instance, for the pair `insert('abc')`
   /// and `delete(3)` composition result would be empty string.
-  Operation _composeOperation(DeltaIterator thisIter, DeltaIterator otherIter) {
+  Operation? _composeOperation(
+      DeltaIterator thisIter, DeltaIterator otherIter) {
     if (otherIter.isNextInsert) return otherIter.next();
     if (thisIter.isNextDelete) return thisIter.next();
 
     final length = math.min(thisIter.peekLength(), otherIter.peekLength());
-    final thisOp = thisIter.next(length);
+    final thisOp = thisIter.next(length as int);
     final otherOp = otherIter.next(length);
     assert(thisOp.length == otherOp.length);
 
@@ -448,7 +446,7 @@ class Delta {
   /// [thisIter].
   ///
   /// Returns `null` if both operations nullify each other.
-  Operation _transformOperation(
+  Operation? _transformOperation(
       DeltaIterator thisIter, DeltaIterator otherIter, bool priority) {
     if (thisIter.isNextInsert && (priority || !otherIter.isNextInsert)) {
       return Operation.retain(thisIter.next().length);
@@ -457,7 +455,7 @@ class Delta {
     }
 
     final length = math.min(thisIter.peekLength(), otherIter.peekLength());
-    final thisOp = thisIter.next(length);
+    final thisOp = thisIter.next(length as int);
     final otherOp = otherIter.next(length);
     assert(thisOp.length == otherOp.length);
 
@@ -520,12 +518,12 @@ class Delta {
     var baseIndex = 0;
     for (final op in _operations) {
       if (op.isInsert) {
-        inverted.delete(op.length);
+        inverted.delete(op.length!);
       } else if (op.isRetain && op.isPlain) {
-        inverted.retain(op.length, null);
-        baseIndex += op.length;
+        inverted.retain(op.length!, null);
+        baseIndex += op.length!;
       } else if (op.isDelete || (op.isRetain && op.isNotPlain)) {
-        final length = op.length;
+        final length = op.length!;
         final sliceDelta = base.slice(baseIndex, baseIndex + length);
         sliceDelta.toList().forEach((baseOp) {
           if (op.isDelete) {
@@ -533,7 +531,7 @@ class Delta {
           } else if (op.isRetain && op.isNotPlain) {
             var invertAttr = invertAttributes(op.attributes, baseOp.attributes);
             inverted.retain(
-                baseOp.length, invertAttr.isEmpty ? null : invertAttr);
+                baseOp.length!, invertAttr.isEmpty ? null : invertAttr);
           }
         });
         baseIndex += length;
@@ -547,7 +545,7 @@ class Delta {
 
   /// Returns slice of this delta from [start] index (inclusive) to [end]
   /// (exclusive).
-  Delta slice(int start, [int end]) {
+  Delta slice(int start, [int? end]) {
     final delta = Delta();
     var index = 0;
     var opIterator = DeltaIterator(this);
@@ -559,10 +557,10 @@ class Delta {
       if (index < start) {
         op = opIterator.next(start - index);
       } else {
-        op = opIterator.next(actualEnd - index);
+        op = opIterator.next(actualEnd - index as int);
         delta.push(op);
       }
-      index += op.length;
+      index += op.length!;
     }
     return delta;
   }
@@ -585,12 +583,12 @@ class Delta {
     while (iter.hasNext && offset <= index) {
       final op = iter.next();
       if (op.isDelete) {
-        index -= math.min(op.length, index - offset);
+        index -= math.min(op.length!, index - offset);
         continue;
       } else if (op.isInsert && (offset < index || force)) {
-        index += op.length;
+        index += op.length!;
       }
-      offset += op.length;
+      offset += op.length!;
     }
     return index;
   }
@@ -614,7 +612,7 @@ class DeltaIterator {
 
   bool get isNextRetain => nextOperationKey == Operation.retainKey;
 
-  String get nextOperationKey {
+  String? get nextOperationKey {
     if (_index < delta.length) {
       return delta.elementAt(_index).key;
     } else {
@@ -630,7 +628,7 @@ class DeltaIterator {
   num peekLength() {
     if (_index < delta.length) {
       final operation = delta._operations[_index];
-      return operation.length - _offset;
+      return operation.length! - _offset;
     }
     return double.infinity;
   }
@@ -640,8 +638,6 @@ class DeltaIterator {
   /// Optional [length] specifies maximum length of operation to return. Note
   /// that actual length of returned operation may be less than specified value.
   Operation next([int length = 4294967296]) {
-    assert(length != null);
-
     if (_modificationCount != delta._modificationCount) {
       throw ConcurrentModificationError(delta);
     }
@@ -651,21 +647,21 @@ class DeltaIterator {
       final opKey = op.key;
       final opAttributes = op.attributes;
       final _currentOffset = _offset;
-      final actualLength = math.min(op.length - _currentOffset, length);
-      if (actualLength == op.length - _currentOffset) {
+      final actualLength = math.min(op.length! - _currentOffset, length);
+      if (actualLength == op.length! - _currentOffset) {
         _index++;
         _offset = 0;
       } else {
         _offset += actualLength;
       }
       final opData = op.isInsert && op.data is String
-          ? (op.data as String)
-              .substring(_currentOffset, _currentOffset + actualLength)
+          ? (op.data as String).substring(
+              _currentOffset as int, _currentOffset + (actualLength as int))
           : op.data;
       final opIsNotEmpty =
           opData is String ? opData.isNotEmpty : true; // embeds are never empty
       final opLength = opData is String ? opData.length : 1;
-      final int opActualLength = opIsNotEmpty ? opLength : actualLength;
+      final int opActualLength = opIsNotEmpty ? opLength : actualLength as int;
       return Operation._(opKey, opActualLength, opData, opAttributes);
     }
     return Operation.retain(length);
@@ -674,14 +670,14 @@ class DeltaIterator {
   /// Skips [length] characters in source delta.
   ///
   /// Returns last skipped operation, or `null` if there was nothing to skip.
-  Operation skip(int length) {
+  Operation? skip(int length) {
     var skipped = 0;
-    Operation op;
+    Operation? op;
     while (skipped < length && hasNext) {
       final opLength = peekLength();
       final skip = math.min(length - skipped, opLength);
-      op = next(skip);
-      skipped += op.length;
+      op = next(skip as int);
+      skipped += op.length!;
     }
     return op;
   }

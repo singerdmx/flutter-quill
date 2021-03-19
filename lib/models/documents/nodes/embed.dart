@@ -2,9 +2,7 @@ class Embeddable {
   final String type;
   final dynamic data;
 
-  Embeddable(this.type, this.data)
-      : assert(type != null),
-        assert(data != null);
+  Embeddable(this.type, this.data);
 
   Map<String, dynamic> toJson() {
     Map<String, String> m = {type: data};

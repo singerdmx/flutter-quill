@@ -14,9 +14,7 @@ class QuillController extends ChangeNotifier {
   TextSelection selection;
   Style toggledStyle = Style();
 
-  QuillController({@required this.document, @required this.selection})
-      : assert(document != null),
-        assert(selection != null);
+  QuillController({required this.document, required this.selection});
 
   factory QuillController.basic() {
     return QuillController(
@@ -49,14 +47,14 @@ class QuillController extends ChangeNotifier {
     }
   }
 
-  void _handleHistoryChange(int len) {
+  void _handleHistoryChange(int? len) {
     if (len != 0) {
       // if (this.selection.extentOffset >= document.length) {
       // // cursor exceeds the length of document, position it in the end
       // updateSelection(
       //     TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
       updateSelection(
-          TextSelection.collapsed(offset: this.selection.baseOffset + len),
+          TextSelection.collapsed(offset: this.selection.baseOffset + len!),
           ChangeSource.LOCAL);
     } else {
       // no need to move cursor
@@ -75,19 +73,18 @@ class QuillController extends ChangeNotifier {
 
   get hasRedo => document.hasRedo;
 
-  replaceText(int index, int len, Object data, TextSelection textSelection) {
+  replaceText(int index, int len, Object? data, TextSelection? textSelection) {
     assert(data is String || data is Embeddable);
 
-    Delta delta;
-    if (len > 0 || data is! String || (data as String).isNotEmpty) {
+    Delta? delta;
+    if (len > 0 || data is! String || data.isNotEmpty) {
       try {
         delta = document.replace(index, len, data);
       } catch (e) {
         print('document.replace failed: $e');
         throw e;
       }
-      bool shouldRetainDelta = delta != null &&
-          toggledStyle.isNotEmpty &&
+      bool shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
@@ -137,8 +134,10 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  formatText(int index, int len, Attribute attribute) {
-    if (len == 0 && attribute.isInline && attribute.key != Attribute.link.key) {
+  formatText(int index, int len, Attribute? attribute) {
+    if (len == 0 &&
+        attribute!.isInline &&
+        attribute.key != Attribute.link.key) {
       toggledStyle = toggledStyle.put(attribute);
     }
 
@@ -152,7 +151,7 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  formatSelection(Attribute attribute) {
+  formatSelection(Attribute? attribute) {
     formatText(selection.start, selection.end - selection.start, attribute);
   }
 
@@ -165,18 +164,15 @@ class QuillController extends ChangeNotifier {
     if (delta.isNotEmpty) {
       document.compose(delta, source);
     }
-    if (textSelection != null) {
+
+    textSelection = selection.copyWith(
+        baseOffset: delta.transformPosition(selection.baseOffset, force: false),
+        extentOffset:
+            delta.transformPosition(selection.extentOffset, force: false));
+    if (selection != textSelection) {
       _updateSelection(textSelection, source);
-    } else {
-      textSelection = selection.copyWith(
-          baseOffset:
-              delta.transformPosition(selection.baseOffset, force: false),
-          extentOffset:
-              delta.transformPosition(selection.extentOffset, force: false));
-      if (selection != textSelection) {
-        _updateSelection(textSelection, source);
-      }
     }
+
     notifyListeners();
   }
 
@@ -187,8 +183,6 @@ class QuillController extends ChangeNotifier {
   }
 
   _updateSelection(TextSelection textSelection, ChangeSource source) {
-    assert(textSelection != null);
-    assert(source != null);
     selection = textSelection;
     int end = document.length - 1;
     selection = selection.copyWith(
