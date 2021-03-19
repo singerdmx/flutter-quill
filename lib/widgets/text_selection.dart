@@ -722,7 +722,6 @@ class _EditorTextSelectionGestureDetectorState
     );
   }
 }
-<<<<<<< HEAD
 
 class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
   _TransparentTapGestureRecognizer({
@@ -738,5 +737,3 @@ class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
     }
   }
 }
-=======
->>>>>>> dda5805935568d42b71a1a1faf7fbdf078d72633
