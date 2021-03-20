@@ -353,12 +353,12 @@ Widget defaultToggleStyleButtonBuilder(
   final theme = Theme.of(context);
   final isEnabled = onPressed != null;
   final iconColor = isEnabled
-      ? isToggled != null
+      ? isToggled == true
           ? theme.primaryIconTheme.color
           : theme.iconTheme.color
       : theme.disabledColor;
   final fillColor =
-      isToggled != null ? theme.toggleableActiveColor : theme.canvasColor;
+      isToggled == true ? theme.toggleableActiveColor : theme.canvasColor;
   return QuillIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
