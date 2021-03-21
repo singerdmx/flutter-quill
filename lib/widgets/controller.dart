@@ -14,9 +14,7 @@ class QuillController extends ChangeNotifier {
   TextSelection selection;
   Style toggledStyle = Style();
 
-  QuillController({@required this.document, @required this.selection})
-      : assert(document != null),
-        assert(selection != null);
+  QuillController({required this.document, required this.selection});
 
   factory QuillController.basic() {
     return QuillController(
@@ -75,19 +73,18 @@ class QuillController extends ChangeNotifier {
 
   get hasRedo => document.hasRedo;
 
-  replaceText(int index, int len, Object data, TextSelection textSelection) {
+  replaceText(int index, int len, Object data, TextSelection? textSelection) {
     assert(data is String || data is Embeddable);
 
-    Delta delta;
-    if (len > 0 || data is! String || (data as String).isNotEmpty) {
+    Delta? delta;
+    if (len > 0 || data is! String || data.isNotEmpty) {
       try {
         delta = document.replace(index, len, data);
       } catch (e) {
         print('document.replace failed: $e');
         throw e;
       }
-      bool shouldRetainDelta = delta != null &&
-          toggledStyle.isNotEmpty &&
+      bool shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
@@ -161,7 +158,7 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  compose(Delta delta, TextSelection textSelection, ChangeSource source) {
+  compose(Delta delta, TextSelection? textSelection, ChangeSource source) {
     if (delta.isNotEmpty) {
       document.compose(delta, source);
     }
@@ -187,8 +184,6 @@ class QuillController extends ChangeNotifier {
   }
 
   _updateSelection(TextSelection textSelection, ChangeSource source) {
-    assert(textSelection != null);
-    assert(source != null);
     selection = textSelection;
     int end = document.length - 1;
     selection = selection.copyWith(

@@ -14,14 +14,14 @@ class DemoScaffold extends StatefulWidget {
   /// Filename of the document to load into the editor.
   final String documentFilename;
   final DemoContentBuilder builder;
-  final List<Widget> actions;
-  final Widget floatingActionButton;
+  final List<Widget>? actions;
+  final Widget? floatingActionButton;
   final bool showToolbar;
 
   const DemoScaffold({
-    Key key,
-    @required this.documentFilename,
-    @required this.builder,
+    Key? key,
+    required this.documentFilename,
+    required this.builder,
     this.actions,
     this.showToolbar = true,
     this.floatingActionButton,
@@ -33,7 +33,7 @@ class DemoScaffold extends StatefulWidget {
 
 class _DemoScaffoldState extends State<DemoScaffold> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  QuillController _controller;
+  QuillController? _controller;
 
   bool _loading = false;
 
@@ -92,13 +92,13 @@ class _DemoScaffoldState extends State<DemoScaffold> {
         ),
         title: _loading || widget.showToolbar == false
             ? null
-            : QuillToolbar.basic(controller: _controller),
+            : QuillToolbar.basic(controller: _controller!),
         actions: actions,
       ),
       floatingActionButton: widget.floatingActionButton,
       body: _loading
           ? Center(child: Text('Loading...'))
-          : widget.builder(context, _controller),
+          : widget.builder(context, _controller!),
     );
   }
 }

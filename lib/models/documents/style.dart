@@ -10,7 +10,7 @@ class Style {
 
   Style() : _attributes = <String, Attribute>{};
 
-  static Style fromJson(Map<String, dynamic> attributes) {
+  static Style fromJson(Map<String, dynamic>? attributes) {
     if (attributes == null) {
       return Style();
     }
@@ -22,10 +22,10 @@ class Style {
     return Style.attr(result);
   }
 
-  Map<String, dynamic> toJson() => _attributes.isEmpty
+  Map<String, dynamic>? toJson() => _attributes.isEmpty
       ? null
       : _attributes.map<String, dynamic>((String _, Attribute attribute) =>
-          MapEntry<String, dynamic>(attribute.key, attribute.value));
+          MapEntry<String, dynamic>(attribute.key!, attribute.value));
 
   Iterable<String> get keys => _attributes.keys;
 
@@ -46,7 +46,7 @@ class Style {
 
   bool containsKey(String key) => _attributes.containsKey(key);
 
-  Attribute getBlockExceptHeader() {
+  Attribute? getBlockExceptHeader() {
     for (Attribute val in values) {
       if (val.isBlockExceptHeader) {
         return val;
@@ -60,7 +60,7 @@ class Style {
     if (attribute.value == null) {
       merged.remove(attribute.key);
     } else {
-      merged[attribute.key] = attribute;
+      merged[attribute.key!] = attribute;
     }
     return Style.attr(merged);
   }
@@ -81,7 +81,7 @@ class Style {
 
   Style put(Attribute attribute) {
     Map<String, Attribute> m = Map<String, Attribute>.from(attributes);
-    m[attribute.key] = attribute;
+    m[attribute.key!] = attribute;
     return Style.attr(m);
   }
 

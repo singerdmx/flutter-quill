@@ -13,11 +13,9 @@ abstract class Leaf extends Node {
 
   Object get value => _value;
 
-  Leaf.val(Object val)
-      : assert(val != null),
-        _value = val;
+  Leaf.val(Object val) : _value = val;
 
-  factory Leaf([Object data]) {
+  factory Leaf([Object? data]) {
     assert(data != null);
 
     if (data is Embeddable) {
@@ -30,14 +28,13 @@ abstract class Leaf extends Node {
 
   @override
   void applyStyle(Style value) {
-    assert(
-        value != null && (value.isInline || value.isIgnored || value.isEmpty),
+    assert((value.isInline || value.isIgnored || value.isEmpty),
         'Unable to apply Style to leaf: $value');
     super.applyStyle(value);
   }
 
   @override
-  Line get parent => super.parent as Line;
+  Line? get parent => super.parent == null ? null : super.parent as Line;
 
   @override
   int get length {
@@ -55,11 +52,11 @@ abstract class Leaf extends Node {
   }
 
   @override
-  insert(int index, Object data, Style style) {
-    assert(data != null && index >= 0 && index <= length);
+  insert(int index, Object data, Style? style) {
+    assert(index >= 0 && index <= length);
     Leaf node = Leaf(data);
     if (index < length) {
-      splitAt(index).insertBefore(node);
+      splitAt(index)!.insertBefore(node);
     } else {
       insertAfter(node);
     }
@@ -67,20 +64,17 @@ abstract class Leaf extends Node {
   }
 
   @override
-  retain(int index, int len, Style style) {
-    if (style == null) {
-      return;
-    }
-
+  retain(int index, int len, Style? style) {
     int local = math.min(this.length - index, len);
     int remain = len - local;
-    Leaf node = _isolate(index, local);
-
-    if (remain > 0) {
-      assert(node.next != null);
-      node.next.retain(0, remain, style);
+    Leaf? node = _isolate(index, local);
+    if (node != null) {
+      if (remain > 0) {
+        assert(node.next != null);
+        node.next!.retain(0, remain, style);
+      }
+      node.format(style);
     }
-    node.format(style);
   }
 
   @override
@@ -88,19 +82,22 @@ abstract class Leaf extends Node {
     assert(index < this.length);
 
     int local = math.min(this.length - index, len);
-    Leaf target = _isolate(index, local);
-    Leaf prev = target.previous;
-    Leaf next = target.next;
-    target.unlink();
+    Leaf? target = _isolate(index, local);
+    if (target != null) {
+      Leaf? prev = (target.previous as Leaf?);
+      Leaf? next = (target.next as Leaf?);
 
-    int remain = len - local;
-    if (remain > 0) {
-      assert(next != null);
-      next.delete(0, remain);
-    }
+      target.unlink();
 
-    if (prev != null) {
-      prev.adjust();
+      if (next != null) {
+        int remain = len - local;
+        if (remain > 0) {
+          next.delete(0, remain);
+        }
+      }
+      if (prev != null) {
+        prev.adjust();
+      }
     }
   }
 
@@ -112,29 +109,35 @@ abstract class Leaf extends Node {
 
     Text node = this as Text;
     // merging it with previous node if style is the same
-    Node prev = node.previous;
-    if (!node.isFirst && prev is Text && prev.style == node.style) {
+    Node? prev = node.previous;
+    if (prev != null &&
+        !node.isFirst &&
+        prev is Text &&
+        prev.style == node.style) {
       prev._value = prev.value + node.value;
       node.unlink();
       node = prev;
     }
 
     // merging it with next node if style is the same
-    Node next = node.next;
-    if (!node.isLast && next is Text && next.style == node.style) {
+    Node? next = node.next;
+    if (next != null &&
+        !node.isLast &&
+        next is Text &&
+        next.style == node.style) {
       node._value = node.value + next.value;
       next.unlink();
     }
   }
 
-  Leaf cutAt(int index) {
+  Leaf? cutAt(int index) {
     assert(index >= 0 && index <= length);
-    Leaf cut = splitAt(index);
+    Leaf? cut = splitAt(index);
     cut?.unlink();
     return cut;
   }
 
-  Leaf splitAt(int index) {
+  Leaf? splitAt(int index) {
     assert(index >= 0 && index <= length);
     if (index == 0) {
       return this;
@@ -152,7 +155,7 @@ abstract class Leaf extends Node {
     return split;
   }
 
-  format(Style style) {
+  format(Style? style) {
     if (style != null && style.isNotEmpty) {
       applyStyle(style);
     }
@@ -160,11 +163,11 @@ abstract class Leaf extends Node {
     adjust();
   }
 
-  Leaf _isolate(int index, int length) {
+  Leaf? _isolate(int index, int length) {
     assert(
         index >= 0 && index < this.length && (index + length <= this.length));
-    Leaf target = splitAt(index);
-    target.splitAt(length);
+    Leaf? target = splitAt(index);
+    target?.splitAt(length);
     return target;
   }
 }

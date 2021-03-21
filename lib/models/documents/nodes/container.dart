@@ -48,9 +48,9 @@ abstract class Container<T extends Node> extends Node {
       return;
     }
 
-    T last = newParent.isEmpty ? null : newParent.last;
+    T? last = (newParent.isEmpty ? null : newParent.last as T);
     while (isNotEmpty) {
-      T child = first;
+      T child = (first as T);
       child.unlink();
       newParent.add(child);
     }
@@ -80,12 +80,12 @@ abstract class Container<T extends Node> extends Node {
   int get length => _children.fold(0, (cur, node) => cur + node.length);
 
   @override
-  insert(int index, Object data, Style style) {
+  insert(int index, Object data, Style? style) {
     assert(index == 0 || (index > 0 && index < length));
 
     if (isNotEmpty) {
       ChildQuery child = queryChild(index, false);
-      child.node.insert(child.offset, data, style);
+      child.node!.insert(child.offset!, data, style);
       return;
     }
 
@@ -97,17 +97,17 @@ abstract class Container<T extends Node> extends Node {
   }
 
   @override
-  retain(int index, int length, Style attributes) {
+  retain(int index, int length, Style? attributes) {
     assert(isNotEmpty);
     ChildQuery child = queryChild(index, false);
-    child.node.retain(child.offset, length, attributes);
+    child.node!.retain(child.offset!, length, attributes);
   }
 
   @override
   delete(int index, int length) {
     assert(isNotEmpty);
     ChildQuery child = queryChild(index, false);
-    child.node.delete(child.offset, length);
+    child.node!.delete(child.offset!, length);
   }
 
   @override
@@ -116,9 +116,9 @@ abstract class Container<T extends Node> extends Node {
 
 /// Query of a child in a Container
 class ChildQuery {
-  final Node node; // null if not found
+  final Node? node; // null if not found
 
-  final int offset;
+  final int? offset;
 
   ChildQuery(this.node, this.offset);
 }

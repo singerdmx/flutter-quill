@@ -8,33 +8,33 @@ enum AttributeScope {
 }
 
 class Attribute<T> {
-  final String key;
-  final AttributeScope scope;
-  final T value;
+  final String? key;
+  final AttributeScope? scope;
+  final T? value;
 
   Attribute(this.key, this.scope, this.value);
 
   static final Map<String, Attribute> _registry = {
-    Attribute.bold.key: Attribute.bold,
-    Attribute.italic.key: Attribute.italic,
-    Attribute.underline.key: Attribute.underline,
-    Attribute.strikeThrough.key: Attribute.strikeThrough,
-    Attribute.font.key: Attribute.font,
-    Attribute.size.key: Attribute.size,
-    Attribute.link.key: Attribute.link,
-    Attribute.color.key: Attribute.color,
-    Attribute.background.key: Attribute.background,
-    Attribute.placeholder.key: Attribute.placeholder,
-    Attribute.header.key: Attribute.header,
-    Attribute.indent.key: Attribute.indent,
-    Attribute.align.key: Attribute.align,
-    Attribute.list.key: Attribute.list,
-    Attribute.codeBlock.key: Attribute.codeBlock,
-    Attribute.blockQuote.key: Attribute.blockQuote,
-    Attribute.width.key: Attribute.width,
-    Attribute.height.key: Attribute.height,
-    Attribute.style.key: Attribute.style,
-    Attribute.token.key: Attribute.token,
+    Attribute.bold.key!: Attribute.bold,
+    Attribute.italic.key!: Attribute.italic,
+    Attribute.underline.key!: Attribute.underline,
+    Attribute.strikeThrough.key!: Attribute.strikeThrough,
+    Attribute.font.key!: Attribute.font,
+    Attribute.size.key!: Attribute.size,
+    Attribute.link.key!: Attribute.link,
+    Attribute.color.key!: Attribute.color,
+    Attribute.background.key!: Attribute.background,
+    Attribute.placeholder.key!: Attribute.placeholder,
+    Attribute.header.key!: Attribute.header,
+    Attribute.indent.key!: Attribute.indent,
+    Attribute.align.key!: Attribute.align,
+    Attribute.list.key!: Attribute.list,
+    Attribute.codeBlock.key!: Attribute.codeBlock,
+    Attribute.blockQuote.key!: Attribute.blockQuote,
+    Attribute.width.key!: Attribute.width,
+    Attribute.height.key!: Attribute.height,
+    Attribute.style.key!: Attribute.style,
+    Attribute.token.key!: Attribute.token,
   };
 
   static final BoldAttribute bold = BoldAttribute();
@@ -78,31 +78,31 @@ class Attribute<T> {
   static final TokenAttribute token = TokenAttribute(null);
 
   static final Set<String> inlineKeys = {
-    Attribute.bold.key,
-    Attribute.italic.key,
-    Attribute.underline.key,
-    Attribute.strikeThrough.key,
-    Attribute.link.key,
-    Attribute.color.key,
-    Attribute.background.key,
-    Attribute.placeholder.key,
+    Attribute.bold.key!,
+    Attribute.italic.key!,
+    Attribute.underline.key!,
+    Attribute.strikeThrough.key!,
+    Attribute.link.key!,
+    Attribute.color.key!,
+    Attribute.background.key!,
+    Attribute.placeholder.key!,
   };
 
   static final Set<String> blockKeys = {
-    Attribute.header.key,
-    Attribute.indent.key,
-    Attribute.align.key,
-    Attribute.list.key,
-    Attribute.codeBlock.key,
-    Attribute.blockQuote.key,
+    Attribute.header.key!,
+    Attribute.indent.key!,
+    Attribute.align.key!,
+    Attribute.list.key!,
+    Attribute.codeBlock.key!,
+    Attribute.blockQuote.key!,
   };
 
   static final Set<String> blockKeysExceptHeader = {
-    Attribute.list.key,
-    Attribute.indent.key,
-    Attribute.align.key,
-    Attribute.codeBlock.key,
-    Attribute.blockQuote.key,
+    Attribute.list.key!,
+    Attribute.indent.key!,
+    Attribute.align.key!,
+    Attribute.codeBlock.key!,
+    Attribute.blockQuote.key!,
   };
 
   static Attribute<int> get h1 => HeaderAttribute(level: 1);
@@ -158,13 +158,13 @@ class Attribute<T> {
 
   bool get isBlockExceptHeader => blockKeysExceptHeader.contains(key);
 
-  Map<String, dynamic> toJson() => <String, dynamic>{key: value};
+  Map<String, dynamic> toJson() => <String, dynamic>{key!: value};
 
   static Attribute fromKeyValue(String key, dynamic value) {
     if (!_registry.containsKey(key)) {
       throw ArgumentError.value(key, 'key "$key" not found.');
     }
-    Attribute origin = _registry[key];
+    Attribute origin = _registry[key]!;
     Attribute attribute = clone(origin, value);
     return attribute;
   }
@@ -209,23 +209,23 @@ class StrikeThroughAttribute extends Attribute<bool> {
 }
 
 class FontAttribute extends Attribute<String> {
-  FontAttribute(String val) : super('font', AttributeScope.INLINE, val);
+  FontAttribute(String? val) : super('font', AttributeScope.INLINE, val);
 }
 
 class SizeAttribute extends Attribute<String> {
-  SizeAttribute(String val) : super('size', AttributeScope.INLINE, val);
+  SizeAttribute(String? val) : super('size', AttributeScope.INLINE, val);
 }
 
 class LinkAttribute extends Attribute<String> {
-  LinkAttribute(String val) : super('link', AttributeScope.INLINE, val);
+  LinkAttribute(String? val) : super('link', AttributeScope.INLINE, val);
 }
 
 class ColorAttribute extends Attribute<String> {
-  ColorAttribute(String val) : super('color', AttributeScope.INLINE, val);
+  ColorAttribute(String? val) : super('color', AttributeScope.INLINE, val);
 }
 
 class BackgroundAttribute extends Attribute<String> {
-  BackgroundAttribute(String val)
+  BackgroundAttribute(String? val)
       : super('background', AttributeScope.INLINE, val);
 }
 
@@ -235,19 +235,19 @@ class PlaceholderAttribute extends Attribute<bool> {
 }
 
 class HeaderAttribute extends Attribute<int> {
-  HeaderAttribute({int level}) : super('header', AttributeScope.BLOCK, level);
+  HeaderAttribute({int? level}) : super('header', AttributeScope.BLOCK, level);
 }
 
 class IndentAttribute extends Attribute<int> {
-  IndentAttribute({int level}) : super('indent', AttributeScope.BLOCK, level);
+  IndentAttribute({int? level}) : super('indent', AttributeScope.BLOCK, level);
 }
 
 class AlignAttribute extends Attribute<String> {
-  AlignAttribute(String val) : super('align', AttributeScope.BLOCK, val);
+  AlignAttribute(String? val) : super('align', AttributeScope.BLOCK, val);
 }
 
 class ListAttribute extends Attribute<String> {
-  ListAttribute(String val) : super('list', AttributeScope.BLOCK, val);
+  ListAttribute(String? val) : super('list', AttributeScope.BLOCK, val);
 }
 
 class CodeBlockAttribute extends Attribute<bool> {
@@ -259,17 +259,17 @@ class BlockQuoteAttribute extends Attribute<bool> {
 }
 
 class WidthAttribute extends Attribute<String> {
-  WidthAttribute(String val) : super('width', AttributeScope.IGNORE, val);
+  WidthAttribute(String? val) : super('width', AttributeScope.IGNORE, val);
 }
 
 class HeightAttribute extends Attribute<String> {
-  HeightAttribute(String val) : super('height', AttributeScope.IGNORE, val);
+  HeightAttribute(String? val) : super('height', AttributeScope.IGNORE, val);
 }
 
 class StyleAttribute extends Attribute<String> {
-  StyleAttribute(String val) : super('style', AttributeScope.IGNORE, val);
+  StyleAttribute(String? val) : super('style', AttributeScope.IGNORE, val);
 }
 
 class TokenAttribute extends Attribute<String> {
-  TokenAttribute(String val) : super('token', AttributeScope.IGNORE, val);
+  TokenAttribute(String? val) : super('token', AttributeScope.IGNORE, val);
 }

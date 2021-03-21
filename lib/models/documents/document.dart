@@ -47,7 +47,7 @@ class Document {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
     if (data is Embeddable) {
-      data = (data as Embeddable).toJson();
+      data = data.toJson();
     } else if ((data as String).isEmpty) {
       return Delta();
     }
@@ -89,7 +89,7 @@ class Document {
   }
 
   Delta format(int index, int len, Attribute attribute) {
-    assert(index >= 0 && len >= 0 && attribute != null);
+    assert(index >= 0 && len >= 0);
 
     Delta delta = Delta();
 
@@ -105,7 +105,7 @@ class Document {
 
   Style collectStyle(int index, int len) {
     ChildQuery res = queryChild(index);
-    return (res.node as Line).collectStyle(res.offset, len);
+    return (res.node as Line).collectStyle(res.offset!, len);
   }
 
   ChildQuery queryChild(int offset) {
@@ -113,8 +113,8 @@ class Document {
     if (res.node is Line) {
       return res;
     }
-    Block block = res.node;
-    return block.queryChild(res.offset, true);
+    Block block = (res.node as Block);
+    return block.queryChild(res.offset!, true);
   }
 
   compose(Delta delta, ChangeSource changeSource) {
@@ -126,7 +126,7 @@ class Document {
     delta = _transform(delta);
     Delta originalDelta = toDelta();
     for (Operation op in delta.toList()) {
-      Style style =
+      Style? style =
           op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
@@ -205,7 +205,7 @@ class Document {
     if (data is Embeddable) {
       return data;
     }
-    return Embeddable.fromJson(data);
+    return Embeddable.fromJson((data as Map<String, dynamic>));
   }
 
   close() {

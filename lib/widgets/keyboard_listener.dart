@@ -58,10 +58,7 @@ class KeyboardListener {
     LogicalKeyboardKey.keyA: InputShortcut.SELECT_ALL,
   };
 
-  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete)
-      : assert(onCursorMove != null),
-        assert(onShortcut != null),
-        assert(onDelete != null);
+  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
 
   bool handleRawKeyEvent(RawKeyEvent event) {
     if (event is! RawKeyDownEvent) {
@@ -90,7 +87,7 @@ class KeyboardListener {
     } else if (isMacOS
         ? event.isMetaPressed
         : event.isControlPressed && _shortcutKeys.contains(key)) {
-      onShortcut(_keyToShortcut[key]);
+      onShortcut(_keyToShortcut[key]!);
     } else if (key == LogicalKeyboardKey.delete) {
       onDelete(true);
     } else if (key == LogicalKeyboardKey.backspace) {

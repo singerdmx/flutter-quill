@@ -8,7 +8,7 @@ class ImageTapWrapper extends StatelessWidget {
     this.imageProvider,
   });
 
-  final ImageProvider imageProvider;
+  final ImageProvider? imageProvider;
 
   @override
   Widget build(BuildContext context) {

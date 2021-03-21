@@ -6,25 +6,23 @@ class QuillStyles extends InheritedWidget {
   final DefaultStyles data;
 
   QuillStyles({
-    Key key,
-    @required this.data,
-    @required Widget child,
-  })  : assert(data != null),
-        assert(child != null),
-        super(key: key, child: child);
+    Key? key,
+    required this.data,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(QuillStyles oldWidget) {
     return data != oldWidget.data;
   }
 
-  static DefaultStyles getStyles(BuildContext context, bool nullOk) {
+  static DefaultStyles? getStyles(BuildContext context, bool nullOk) {
     var widget = context.dependOnInheritedWidgetOfExactType<QuillStyles>();
     if (widget == null && nullOk) {
       return null;
     }
     assert(widget != null);
-    return widget.data;
+    return widget!.data;
   }
 }
 
@@ -35,31 +33,31 @@ class DefaultTextBlockStyle {
 
   final Tuple2<double, double> lineSpacing;
 
-  final BoxDecoration decoration;
+  final BoxDecoration? decoration;
 
   DefaultTextBlockStyle(
       this.style, this.verticalSpacing, this.lineSpacing, this.decoration);
 }
 
 class DefaultStyles {
-  final DefaultTextBlockStyle h1;
-  final DefaultTextBlockStyle h2;
-  final DefaultTextBlockStyle h3;
-  final DefaultTextBlockStyle paragraph;
-  final TextStyle bold;
-  final TextStyle italic;
-  final TextStyle underline;
-  final TextStyle strikeThrough;
-  final TextStyle sizeSmall; // 'small'
-  final TextStyle sizeLarge; // 'large'
-  final TextStyle sizeHuge; // 'huge'
-  final TextStyle link;
-  final DefaultTextBlockStyle placeHolder;
-  final DefaultTextBlockStyle lists;
-  final DefaultTextBlockStyle quote;
-  final DefaultTextBlockStyle code;
-  final DefaultTextBlockStyle indent;
-  final DefaultTextBlockStyle align;
+  final DefaultTextBlockStyle? h1;
+  final DefaultTextBlockStyle? h2;
+  final DefaultTextBlockStyle? h3;
+  final DefaultTextBlockStyle? paragraph;
+  final TextStyle? bold;
+  final TextStyle? italic;
+  final TextStyle? underline;
+  final TextStyle? strikeThrough;
+  final TextStyle? sizeSmall; // 'small'
+  final TextStyle? sizeLarge; // 'large'
+  final TextStyle? sizeHuge; // 'huge'
+  final TextStyle? link;
+  final DefaultTextBlockStyle? placeHolder;
+  final DefaultTextBlockStyle? lists;
+  final DefaultTextBlockStyle? quote;
+  final DefaultTextBlockStyle? code;
+  final DefaultTextBlockStyle? indent;
+  final DefaultTextBlockStyle? align;
 
   DefaultStyles(
       {this.h1,
@@ -109,7 +107,7 @@ class DefaultStyles {
         h1: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 34.0,
-              color: defaultTextStyle.style.color.withOpacity(0.70),
+              color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
@@ -119,7 +117,7 @@ class DefaultStyles {
         h2: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 24.0,
-              color: defaultTextStyle.style.color.withOpacity(0.70),
+              color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.15,
               fontWeight: FontWeight.normal,
             ),
@@ -129,7 +127,7 @@ class DefaultStyles {
         h3: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 20.0,
-              color: defaultTextStyle.style.color.withOpacity(0.70),
+              color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.25,
               fontWeight: FontWeight.w500,
             ),
@@ -158,7 +156,7 @@ class DefaultStyles {
         lists: DefaultTextBlockStyle(
             baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
         quote: DefaultTextBlockStyle(
-            TextStyle(color: baseStyle.color.withOpacity(0.6)),
+            TextStyle(color: baseStyle.color!.withOpacity(0.6)),
             baseSpacing,
             Tuple2(6.0, 2.0),
             BoxDecoration(

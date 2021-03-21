@@ -9,7 +9,7 @@ import 'line.dart';
 
 /* node in a document tree */
 abstract class Node extends LinkedListEntry<Node> {
-  Container parent;
+  Container? parent;
   Style _style = Style();
 
   Style get style => _style;
@@ -19,9 +19,6 @@ abstract class Node extends LinkedListEntry<Node> {
   }
 
   void applyStyle(Style value) {
-    if (value == null) {
-      throw ArgumentError('null value');
-    }
     _style = _style.mergeAll(value);
   }
 
@@ -29,9 +26,9 @@ abstract class Node extends LinkedListEntry<Node> {
     _style = Style();
   }
 
-  bool get isFirst => list.first == this;
+  bool get isFirst => list!.first == this;
 
-  bool get isLast => list.last == this;
+  bool get isLast => list!.last == this;
 
   int get length;
 
@@ -50,14 +47,14 @@ abstract class Node extends LinkedListEntry<Node> {
 
     Node cur = this;
     do {
-      cur = cur.previous;
+      cur = cur.previous!;
       offset += cur.length;
     } while (!cur.isFirst);
     return offset;
   }
 
   int getDocumentOffset() {
-    final parentOffset = (parent is! Root) ? parent.getDocumentOffset() : 0;
+    final parentOffset = (parent is! Root) ? parent!.getDocumentOffset() : 0;
     return parentOffset + getOffset();
   }
 
@@ -99,9 +96,9 @@ abstract class Node extends LinkedListEntry<Node> {
 
   Delta toDelta();
 
-  insert(int index, Object data, Style style);
+  insert(int index, Object data, Style? style);
 
-  retain(int index, int len, Style style);
+  retain(int index, int len, Style? style);
 
   delete(int index, int len);
 

@@ -8,7 +8,7 @@ abstract class RenderContentProxyBox implements RenderBox {
 
   TextPosition getPositionForOffset(Offset offset);
 
-  double getFullHeightForCaret(TextPosition position);
+  double? getFullHeightForCaret(TextPosition position);
 
   TextRange getWordBoundary(TextPosition position);
 
@@ -24,9 +24,9 @@ abstract class RenderEditableBox extends RenderBox {
 
   TextPosition getPositionForOffset(Offset offset);
 
-  TextPosition getPositionAbove(TextPosition position);
+  TextPosition? getPositionAbove(TextPosition position);
 
-  TextPosition getPositionBelow(TextPosition position);
+  TextPosition? getPositionBelow(TextPosition position);
 
   TextRange getWordBoundary(TextPosition position);
 

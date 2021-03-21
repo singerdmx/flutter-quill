@@ -14,22 +14,22 @@ class QuillField extends StatefulWidget {
   final bool showCursor;
   final bool readOnly;
   final bool enableInteractiveSelection;
-  final double minHeight;
-  final double maxHeight;
+  final double? minHeight;
+  final double? maxHeight;
   final bool expands;
   final TextCapitalization textCapitalization;
   final Brightness keyboardAppearance;
-  final ScrollPhysics scrollPhysics;
-  final ValueChanged<String> onLaunchUrl;
-  final InputDecoration decoration;
-  final Widget toolbar;
-  final EmbedBuilder embedBuilder;
+  final ScrollPhysics? scrollPhysics;
+  final ValueChanged<String>? onLaunchUrl;
+  final InputDecoration? decoration;
+  final Widget? toolbar;
+  final EmbedBuilder? embedBuilder;
 
   QuillField({
-    Key key,
-    @required this.controller,
-    this.focusNode,
-    this.scrollController,
+    Key? key,
+    required this.controller,
+    required this.focusNode,
+    required this.scrollController,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.autofocus = false,
@@ -53,7 +53,7 @@ class QuillField extends StatefulWidget {
 }
 
 class _QuillFieldState extends State<QuillField> {
-  bool _focused;
+  bool? _focused;
 
   void _editorFocusChanged() {
     setState(() {
@@ -105,8 +105,8 @@ class _QuillFieldState extends State<QuillField> {
         children: [
           child,
           Visibility(
-            child: widget.toolbar,
-            visible: _focused,
+            child: widget.toolbar!,
+            visible: _focused!,
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
@@ -118,7 +118,7 @@ class _QuillFieldState extends State<QuillField> {
     return AnimatedBuilder(
       animation:
           Listenable.merge(<Listenable>[widget.focusNode, widget.controller]),
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return InputDecorator(
           decoration: _getEffectiveDecoration(),
           isFocused: widget.focusNode.hasFocus,

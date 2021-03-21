@@ -18,7 +18,7 @@ class Block extends Container<Line> {
   @override
   adjust() {
     if (isEmpty) {
-      Node sibling = previous;
+      Node? sibling = previous;
       unlink();
       if (sibling != null) {
         sibling.adjust();
@@ -27,16 +27,16 @@ class Block extends Container<Line> {
     }
 
     Block block = this;
-    Node prev = block.previous;
+    Node? prev = block.previous;
     // merging it with previous block if style is the same
     if (!block.isFirst &&
         block.previous is Block &&
-        prev.style == block.style) {
-      block.moveChildToNewParent(prev);
+        prev!.style == block.style) {
+      block.moveChildToNewParent((prev as Container<Node>));
       block.unlink();
-      block = prev;
+      block = (prev as Block);
     }
-    Node next = block.next;
+    Node next = block.next!;
     // merging it with next block if style is the same
     if (!block.isLast && block.next is Block && next.style == block.style) {
       (next as Block).moveChildToNewParent(block);

@@ -7,22 +7,15 @@ abstract class FormatRule extends Rule {
 
   @override
   RuleType get type => RuleType.FORMAT;
-
-  @override
-  validateArgs(int len, Object data, Attribute attribute) {
-    assert(len != null);
-    assert(data == null);
-    assert(attribute != null);
-  }
 }
 
 class ResolveLineFormatRule extends FormatRule {
   const ResolveLineFormatRule();
 
   @override
-  Delta applyRule(Delta document, int index,
-      {int len, Object data, Attribute attribute}) {
-    if (attribute.scope != AttributeScope.BLOCK) {
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    if (attribute != null && attribute.scope != AttributeScope.BLOCK) {
       return null;
     }
 
@@ -30,20 +23,21 @@ class ResolveLineFormatRule extends FormatRule {
     DeltaIterator itr = DeltaIterator(document);
     itr.skip(index);
     Operation op;
-    for (int cur = 0; cur < len && itr.hasNext; cur += op.length) {
-      op = itr.next(len - cur);
+    assert(len != null);
+    for (int cur = 0; cur < len! && itr.hasNext; cur += op.length) {
+      op = itr.next(len - cur)!;
       if (op.data is! String || !(op.data as String).contains('\n')) {
         delta.retain(op.length);
         continue;
       }
-      String text = op.data;
+      String text = (op.data as String);
       Delta tmp = Delta();
       int offset = 0;
 
       for (int lineBreak = text.indexOf('\n');
           lineBreak >= 0;
           lineBreak = text.indexOf('\n', offset)) {
-        tmp..retain(lineBreak - offset)..retain(1, attribute.toJson());
+        tmp..retain(lineBreak - offset)..retain(1, attribute!.toJson());
         offset = lineBreak + 1;
       }
       tmp.retain(text.length - offset);
@@ -51,14 +45,14 @@ class ResolveLineFormatRule extends FormatRule {
     }
 
     while (itr.hasNext) {
-      op = itr.next();
+      op = itr.next()!;
       String text = op.data is String ? op.data as String : '';
       int lineBreak = text.indexOf('\n');
       if (lineBreak < 0) {
         delta..retain(op.length);
         continue;
       }
-      delta..retain(lineBreak)..retain(1, attribute.toJson());
+      delta..retain(lineBreak)..retain(1, attribute!.toJson());
       break;
     }
     return delta;
@@ -69,21 +63,23 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
   const FormatLinkAtCaretPositionRule();
 
   @override
-  Delta applyRule(Delta document, int index,
-      {int len, Object data, Attribute attribute}) {
-    if (attribute.key != Attribute.link.key || len > 0) {
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    assert(len != null);
+    if (attribute != null && attribute.key != Attribute.link.key || len! > 0) {
       return null;
     }
 
     Delta delta = Delta();
     DeltaIterator itr = DeltaIterator(document);
-    Operation before = itr.skip(index), after = itr.next();
+    Operation? before = itr.skip(index), after = itr.next();
     int beg = index, retain = 0;
-    if (before != null && before.hasAttribute(attribute.key)) {
+    assert(attribute != null);
+    if (before != null && before.hasAttribute(attribute!.key!)) {
       beg -= before.length;
       retain = before.length;
     }
-    if (after != null && after.hasAttribute(attribute.key)) {
+    if (after!.hasAttribute(attribute!.key!)) {
       retain += after.length;
     }
     if (retain == 0) {
@@ -99,9 +95,10 @@ class ResolveInlineFormatRule extends FormatRule {
   const ResolveInlineFormatRule();
 
   @override
-  Delta applyRule(Delta document, int index,
-      {int len, Object data, Attribute attribute}) {
-    if (attribute.scope != AttributeScope.INLINE) {
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    assert(attribute != null && len != null);
+    if (attribute!.scope != AttributeScope.INLINE) {
       return null;
     }
 
@@ -110,8 +107,8 @@ class ResolveInlineFormatRule extends FormatRule {
     itr.skip(index);
 
     Operation op;
-    for (int cur = 0; cur < len && itr.hasNext; cur += op.length) {
-      op = itr.next(len - cur);
+    for (int cur = 0; cur < len! && itr.hasNext; cur += op.length) {
+      op = itr.next(len - cur)!;
       String text = op.data is String ? op.data as String : '';
       int lineBreak = text.indexOf('\n');
       if (lineBreak < 0) {
