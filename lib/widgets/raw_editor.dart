@@ -110,8 +110,8 @@ class RawEditorState extends EditorState
   FocusAttachment? _focusAttachment;
   late CursorCont _cursorCont;
   ScrollController? _scrollController;
-  late KeyboardVisibilityController _keyboardVisibilityController;
-  late StreamSubscription<bool> _keyboardVisibilitySubscription;
+  KeyboardVisibilityController? _keyboardVisibilityController;
+  StreamSubscription<bool>? _keyboardVisibilitySubscription;
   late KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
   bool _keyboardVisible = false;
@@ -703,7 +703,7 @@ class RawEditorState extends EditorState
     } else {
       _keyboardVisibilityController = KeyboardVisibilityController();
       _keyboardVisibilitySubscription =
-          _keyboardVisibilityController.onChange.listen((bool visible) {
+          _keyboardVisibilityController?.onChange.listen((bool visible) {
         _keyboardVisible = visible;
         if (visible) {
           _onChangeTextEditingValue();
@@ -868,7 +868,7 @@ class RawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
-    _keyboardVisibilitySubscription.cancel();
+    _keyboardVisibilitySubscription?.cancel();
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
