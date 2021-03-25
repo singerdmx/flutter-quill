@@ -188,23 +188,23 @@ class DefaultStyles {
 
   DefaultStyles merge(DefaultStyles other) {
     return DefaultStyles(
-        h1: other.h1 ?? this.h1,
-        h2: other.h2 ?? this.h2,
-        h3: other.h3 ?? this.h3,
-        paragraph: other.paragraph ?? this.paragraph,
-        bold: other.bold ?? this.bold,
-        italic: other.italic ?? this.italic,
-        underline: other.underline ?? this.underline,
-        strikeThrough: other.strikeThrough ?? this.strikeThrough,
-        link: other.link ?? this.link,
-        placeHolder: other.placeHolder ?? this.placeHolder,
-        lists: other.lists ?? this.lists,
-        quote: other.quote ?? this.quote,
-        code: other.code ?? this.code,
-        indent: other.indent ?? this.indent,
-        align: other.align ?? this.align,
-        sizeSmall: other.sizeSmall ?? this.sizeSmall,
-        sizeLarge: other.sizeLarge ?? this.sizeLarge,
-        sizeHuge: other.sizeHuge ?? this.sizeHuge);
+        h1: other.h1 ?? h1,
+        h2: other.h2 ?? h2,
+        h3: other.h3 ?? h3,
+        paragraph: other.paragraph ?? paragraph,
+        bold: other.bold ?? bold,
+        italic: other.italic ?? italic,
+        underline: other.underline ?? underline,
+        strikeThrough: other.strikeThrough ?? strikeThrough,
+        link: other.link ?? link,
+        placeHolder: other.placeHolder ?? placeHolder,
+        lists: other.lists ?? lists,
+        quote: other.quote ?? quote,
+        code: other.code ?? code,
+        indent: other.indent ?? indent,
+        align: other.align ?? align,
+        sizeSmall: other.sizeSmall ?? sizeSmall,
+        sizeLarge: other.sizeLarge ?? sizeLarge,
+        sizeHuge: other.sizeHuge ?? sizeHuge);
   }
 }

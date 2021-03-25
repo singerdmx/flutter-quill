@@ -11,7 +11,7 @@ abstract class InsertRule extends Rule {
   RuleType get type => RuleType.INSERT;
 
   @override
-  validateArgs(int? len, Object? data, Attribute? attribute) {
+  void validateArgs(int? len, Object? data, Attribute? attribute) {
     assert(len == null);
     assert(data != null);
     assert(attribute == null);
@@ -45,7 +45,7 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
     Delta delta = Delta()..retain(index);
     if (text.contains('\n')) {
       assert(after.isPlain);
-      delta..insert('\n');
+      delta.insert('\n');
       return delta;
     }
     Tuple2<Operation?, int?> nextNewLine = _getNextNewLine(itr);
@@ -222,7 +222,7 @@ class InsertEmbedsRule extends InsertRule {
     } else {
       while (itr.hasNext) {
         Operation op = itr.next();
-        if ((op.data is String ? op.data as String? : '')!.indexOf('\n') >= 0) {
+        if ((op.data is String ? op.data as String? : '')!.contains('\n')) {
           lineStyle = op.attributes;
           break;
         }
@@ -230,11 +230,11 @@ class InsertEmbedsRule extends InsertRule {
     }
 
     if (!isNewlineBefore) {
-      delta..insert('\n', lineStyle);
+      delta.insert('\n', lineStyle);
     }
-    delta..insert(data);
+    delta.insert(data);
     if (!isNewlineAfter) {
-      delta..insert('\n');
+      delta.insert('\n');
     }
     return delta;
   }

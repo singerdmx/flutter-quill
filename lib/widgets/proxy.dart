@@ -66,7 +66,7 @@ class RenderBaselineProxy extends RenderProxyBox {
   // SEE What happens + _padding?.top;
 
   @override
-  performLayout() {
+  void performLayout() {
     super.performLayout();
     _prototypePainter.layout();
   }
@@ -289,7 +289,7 @@ class RenderParagraphProxy extends RenderProxyBox
       child!.getBoxesForSelection(selection);
 
   @override
-  performLayout() {
+  void performLayout() {
     super.performLayout();
     _prototypePainter.layout(
         minWidth: constraints.minWidth, maxWidth: constraints.maxWidth);

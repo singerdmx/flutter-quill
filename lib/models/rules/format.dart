@@ -9,7 +9,7 @@ abstract class FormatRule extends Rule {
   RuleType get type => RuleType.FORMAT;
 
   @override
-  validateArgs(int? len, Object? data, Attribute? attribute) {
+  void validateArgs(int? len, Object? data, Attribute? attribute) {
     assert(len != null);
     assert(data == null);
     assert(attribute != null);
@@ -55,7 +55,7 @@ class ResolveLineFormatRule extends FormatRule {
       String text = op.data is String ? (op.data as String?)! : '';
       int lineBreak = text.indexOf('\n');
       if (lineBreak < 0) {
-        delta..retain(op.length!);
+        delta.retain(op.length!);
         continue;
       }
       delta..retain(lineBreak)..retain(1, attribute.toJson());

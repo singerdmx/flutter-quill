@@ -9,7 +9,7 @@ abstract class DeleteRule extends Rule {
   RuleType get type => RuleType.DELETE;
 
   @override
-  validateArgs(int? len, Object? data, Attribute? attribute) {
+  void validateArgs(int? len, Object? data, Attribute? attribute) {
     assert(len != null);
     assert(data == null);
     assert(attribute == null);
@@ -54,7 +54,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
       String text = op.data is String ? (op.data as String?)! : '';
       int lineBreak = text.indexOf('\n');
       if (lineBreak == -1) {
-        delta..retain(op.length!);
+        delta.retain(op.length!);
         continue;
       }
 

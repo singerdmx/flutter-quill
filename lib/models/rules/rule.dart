@@ -18,7 +18,7 @@ abstract class Rule {
         len: len, data: data, attribute: attribute);
   }
 
-  validateArgs(int? len, Object? data, Attribute? attribute);
+  void validateArgs(int? len, Object? data, Attribute? attribute);
 
   Delta? applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute});
@@ -61,11 +61,11 @@ class Rules {
         final result = rule.apply(delta, index,
             len: len, data: data, attribute: attribute);
         if (result != null) {
-          print("Rule $rule applied");
+          print('Rule $rule applied');
           return result..trim();
         }
       } catch (e) {
-        throw e;
+        rethrow;
       }
     }
     throw ('Apply rules failed');

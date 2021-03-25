@@ -28,7 +28,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   }
 
   RenderEditor? getRenderEditor() {
-    return this.getEditor()!.getRenderEditor();
+    return getEditor()!.getRenderEditor();
   }
 
   onTapDown(TapDownDetails details) {
@@ -124,7 +124,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     );
   }
 
-  onDragSelectionEnd(DragEndDetails details) {}
+  void onDragSelectionEnd(DragEndDetails details) {}
 
   Widget build(HitTestBehavior behavior, Widget child) {
     return EditorTextSelectionGestureDetector(

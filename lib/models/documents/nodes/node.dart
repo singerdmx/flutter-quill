@@ -84,7 +84,7 @@ abstract class Node extends LinkedListEntry<Node> {
     super.unlink();
   }
 
-  adjust() {
+  void adjust() {
     // do nothing
   }
 
@@ -96,11 +96,11 @@ abstract class Node extends LinkedListEntry<Node> {
 
   Delta toDelta();
 
-  insert(int index, Object data, Style? style);
+  void insert(int index, Object data, Style? style);
 
-  retain(int index, int? len, Style? style);
+  void retain(int index, int? len, Style? style);
 
-  delete(int index, int? len);
+  void delete(int index, int? len);
 
   /// abstract methods end
 

@@ -66,7 +66,7 @@ class Line extends Container<Leaf?> {
   }
 
   @override
-  insert(int index, Object data, Style? style) {
+  void insert(int index, Object data, Style? style) {
     if (data is Embeddable) {
       _insert(index, data, style);
       return;
@@ -101,11 +101,11 @@ class Line extends Container<Leaf?> {
   }
 
   @override
-  retain(int index, int? len, Style? style) {
+  void retain(int index, int? len, Style? style) {
     if (style == null) {
       return;
     }
-    int thisLen = this.length;
+    int thisLen = length;
 
     int local = math.min(thisLen - index, len!);
 
@@ -126,9 +126,9 @@ class Line extends Container<Leaf?> {
   }
 
   @override
-  delete(int index, int? len) {
-    int local = math.min(this.length - index, len!);
-    bool deleted = index + local == this.length;
+  void delete(int index, int? len) {
+    int local = math.min(length - index, len!);
+    bool deleted = index + local == length;
     if (deleted) {
       clearStyle();
       if (local > 1) {
@@ -187,14 +187,14 @@ class Line extends Container<Leaf?> {
     }
   }
 
-  _wrap(Block block) {
+  void _wrap(Block block) {
     assert(parent != null && parent is! Block);
     insertAfter(block);
     unlink();
     block.add(this);
   }
 
-  _unwrap() {
+  void _unwrap() {
     if (parent is! Block) {
       throw ArgumentError('Invalid parent');
     }
@@ -246,7 +246,7 @@ class Line extends Container<Leaf?> {
     return line;
   }
 
-  _insert(int index, Object data, Style? style) {
+  void _insert(int index, Object data, Style? style) {
     assert(index == 0 || (index > 0 && index < length));
 
     if (data is String) {
@@ -273,7 +273,7 @@ class Line extends Container<Leaf?> {
   }
 
   Style collectStyle(int offset, int len) {
-    int local = math.min(this.length - offset, len);
+    int local = math.min(length - offset, len);
     Style res = Style();
     var excluded = <Attribute>{};
 

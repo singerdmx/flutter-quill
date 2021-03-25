@@ -50,7 +50,7 @@ abstract class Leaf extends Node {
   }
 
   @override
-  insert(int index, Object data, Style? style) {
+  void insert(int index, Object data, Style? style) {
     assert(index >= 0 && index <= length);
     Leaf node = Leaf(data);
     if (index < length) {
@@ -62,12 +62,12 @@ abstract class Leaf extends Node {
   }
 
   @override
-  retain(int index, int? len, Style? style) {
+  void retain(int index, int? len, Style? style) {
     if (style == null) {
       return;
     }
 
-    int local = math.min(this.length - index, len!);
+    int local = math.min(length - index, len!);
     int remain = len - local;
     Leaf node = _isolate(index, local);
 
@@ -79,10 +79,10 @@ abstract class Leaf extends Node {
   }
 
   @override
-  delete(int index, int? len) {
-    assert(index < this.length);
+  void delete(int index, int? len) {
+    assert(index < length);
 
-    int local = math.min(this.length - index, len!);
+    int local = math.min(length - index, len!);
     Leaf target = _isolate(index, local);
     Leaf? prev = target.previous as Leaf?;
     Leaf? next = target.next as Leaf?;
@@ -100,7 +100,7 @@ abstract class Leaf extends Node {
   }
 
   @override
-  adjust() {
+  void adjust() {
     if (this is Embed) {
       return;
     }
@@ -147,7 +147,7 @@ abstract class Leaf extends Node {
     return split;
   }
 
-  format(Style? style) {
+  void format(Style? style) {
     if (style != null && style.isNotEmpty) {
       applyStyle(style);
     }

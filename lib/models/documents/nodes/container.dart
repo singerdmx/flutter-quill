@@ -25,13 +25,13 @@ abstract class Container<T extends Node?> extends Node {
 
   /// abstract methods end
 
-  add(T node) {
+  void add(T node) {
     assert(node?.parent == null);
     node?.parent = this;
     _children.add(node as Node);
   }
 
-  addFirst(T node) {
+  void addFirst(T node) {
     assert(node?.parent == null);
     node?.parent = this;
     _children.addFirst(node as Node);
@@ -80,7 +80,7 @@ abstract class Container<T extends Node?> extends Node {
   int get length => _children.fold(0, (cur, node) => cur + node.length);
 
   @override
-  insert(int index, Object data, Style? style) {
+  void insert(int index, Object data, Style? style) {
     assert(index == 0 || (index > 0 && index < length));
 
     if (isNotEmpty) {
@@ -97,14 +97,14 @@ abstract class Container<T extends Node?> extends Node {
   }
 
   @override
-  retain(int index, int? length, Style? attributes) {
+  void retain(int index, int? length, Style? attributes) {
     assert(isNotEmpty);
     ChildQuery child = queryChild(index, false);
     child.node!.retain(child.offset, length, attributes);
   }
 
   @override
-  delete(int index, int? length) {
+  void delete(int index, int? length) {
     assert(isNotEmpty);
     ChildQuery child = queryChild(index, false);
     child.node!.delete(child.offset, length);

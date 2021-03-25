@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/models/documents/nodes/container.dart'
-    as containerNode;
+    as container_node;
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/models/documents/nodes/line.dart';
@@ -94,8 +94,8 @@ abstract class RenderAbstractEditor {
 }
 
 String _standardizeImageUrl(String url) {
-  if (url.contains("base64")) {
-    return url.split(",")[1];
+  if (url.contains('base64')) {
+    return url.split(',')[1];
   }
   return url;
 }
@@ -211,7 +211,7 @@ class QuillEditor extends StatefulWidget {
 
 class _QuillEditorState extends State<QuillEditor>
     implements EditorTextSelectionGestureDetectorBuilderDelegate {
-  GlobalKey<EditorState> _editorKey = GlobalKey<EditorState>();
+  final GlobalKey<EditorState> _editorKey = GlobalKey<EditorState>();
   late EditorTextSelectionGestureDetectorBuilder
       _selectionGestureDetectorBuilder;
 
@@ -382,13 +382,13 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
     TextPosition pos =
         getRenderEditor()!.getPositionForOffset(details.globalPosition);
-    containerNode.ChildQuery result =
+    container_node.ChildQuery result =
         getEditor()!.widget.controller.document.queryChild(pos.offset);
     if (result.node == null) {
       return false;
     }
     Line line = result.node as Line;
-    containerNode.ChildQuery segmentResult =
+    container_node.ChildQuery segmentResult =
         line.queryChild(result.offset, false);
     if (segmentResult.node == null) {
       if (line.length == 1) {
@@ -403,9 +403,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     leaf.Leaf segment = segmentResult.node as leaf.Leaf;
     if (segment.style.containsKey(Attribute.link.key)) {
       var launchUrl = getEditor()!.widget.onLaunchUrl;
-      if (launchUrl == null) {
-        launchUrl = _launchUrl;
-      }
+      launchUrl ??= _launchUrl;
       String? link = segment.style.attributes[Attribute.link.key]!.value;
       if (getEditor()!.widget.readOnly && link != null) {
         link = link.trim();
@@ -444,7 +442,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool _flipListCheckbox(
-      TextPosition pos, Line line, containerNode.ChildQuery segmentResult) {
+      TextPosition pos, Line line, container_node.ChildQuery segmentResult) {
     if (getEditor()!.widget.readOnly ||
         !line.style.containsKey(Attribute.list.key) ||
         segmentResult.offset != 0) {
@@ -473,7 +471,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
-  onSingleTapUp(TapUpDetails details) {
+  void onSingleTapUp(TapUpDetails details) {
     getEditor()!.hideToolbar();
 
     bool positionSelected = _onTapping(details);
@@ -569,7 +567,7 @@ class RenderEditor extends RenderEditableContainerBox
           padding,
         );
 
-  setDocument(Document doc) {
+  void setDocument(Document doc) {
     if (document == doc) {
       return;
     }
@@ -577,7 +575,7 @@ class RenderEditor extends RenderEditableContainerBox
     markNeedsLayout();
   }
 
-  setHasFocus(bool h) {
+  void setHasFocus(bool h) {
     if (_hasFocus == h) {
       return;
     }
@@ -585,7 +583,7 @@ class RenderEditor extends RenderEditableContainerBox
     markNeedsSemanticsUpdate();
   }
 
-  setSelection(TextSelection t) {
+  void setSelection(TextSelection t) {
     if (selection == t) {
       return;
     }
@@ -593,7 +591,7 @@ class RenderEditor extends RenderEditableContainerBox
     markNeedsPaint();
   }
 
-  setStartHandleLayerLink(LayerLink value) {
+  void setStartHandleLayerLink(LayerLink value) {
     if (_startHandleLayerLink == value) {
       return;
     }
@@ -601,7 +599,7 @@ class RenderEditor extends RenderEditableContainerBox
     markNeedsPaint();
   }
 
-  setEndHandleLayerLink(LayerLink value) {
+  void setEndHandleLayerLink(LayerLink value) {
     if (_endHandleLayerLink == value) {
       return;
     }
@@ -671,12 +669,12 @@ class RenderEditor extends RenderEditableContainerBox
   Offset? _lastTapDownPosition;
 
   @override
-  handleTapDown(TapDownDetails details) {
+  void handleTapDown(TapDownDetails details) {
     _lastTapDownPosition = details.globalPosition;
   }
 
   @override
-  selectWordsInRange(
+  void selectWordsInRange(
     Offset from,
     Offset? to,
     SelectionChangedCause cause,
@@ -696,7 +694,7 @@ class RenderEditor extends RenderEditableContainerBox
     );
   }
 
-  _handleSelectionChange(
+  void _handleSelectionChange(
     TextSelection nextSelection,
     SelectionChangedCause cause,
   ) {
@@ -712,7 +710,7 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   @override
-  selectWordEdge(SelectionChangedCause cause) {
+  void selectWordEdge(SelectionChangedCause cause) {
     assert(_lastTapDownPosition != null);
     TextPosition position = getPositionForOffset(_lastTapDownPosition!);
     RenderEditableBox child = childAtPosition(position);
@@ -742,7 +740,7 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   @override
-  selectPositionAt(
+  void selectPositionAt(
     Offset from,
     Offset? to,
     SelectionChangedCause cause,
@@ -766,12 +764,12 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   @override
-  selectWord(SelectionChangedCause cause) {
+  void selectWord(SelectionChangedCause cause) {
     selectWordsInRange(_lastTapDownPosition!, null, cause);
   }
 
   @override
-  selectPosition(SelectionChangedCause cause) {
+  void selectPosition(SelectionChangedCause cause) {
     selectPositionAt(_lastTapDownPosition!, null, cause);
   }
 
@@ -821,7 +819,7 @@ class RenderEditor extends RenderEditableContainerBox
     return defaultHitTestChildren(result, position: position);
   }
 
-  _paintHandleLayers(
+  void _paintHandleLayers(
       PaintingContext context, List<TextSelectionPoint> endpoints) {
     var startPoint = endpoints[0].point;
     startPoint = Offset(
@@ -904,7 +902,7 @@ class RenderEditableContainerBox extends RenderBox
             EditableContainerParentData>,
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
-  containerNode.Container _container;
+  container_node.Container _container;
   TextDirection textDirection;
   EdgeInsetsGeometry _padding;
   EdgeInsets? _resolvedPadding;
@@ -915,11 +913,11 @@ class RenderEditableContainerBox extends RenderBox
     addAll(children);
   }
 
-  containerNode.Container getContainer() {
+  container_node.Container getContainer() {
     return _container;
   }
 
-  setContainer(containerNode.Container c) {
+  void setContainer(container_node.Container c) {
     if (_container == c) {
       return;
     }
@@ -929,7 +927,7 @@ class RenderEditableContainerBox extends RenderBox
 
   EdgeInsetsGeometry getPadding() => _padding;
 
-  setPadding(EdgeInsetsGeometry value) {
+  void setPadding(EdgeInsetsGeometry value) {
     assert(value.isNonNegative);
     if (_padding == value) {
       return;
@@ -940,7 +938,7 @@ class RenderEditableContainerBox extends RenderBox
 
   EdgeInsets? get resolvedPadding => _resolvedPadding;
 
-  _resolvePadding() {
+  void _resolvePadding() {
     if (_resolvedPadding != null) {
       return;
     }
@@ -968,7 +966,7 @@ class RenderEditableContainerBox extends RenderBox
     return targetChild;
   }
 
-  _markNeedsPaddingResolution() {
+  void _markNeedsPaddingResolution() {
     _resolvedPadding = null;
     markNeedsLayout();
   }
@@ -997,7 +995,7 @@ class RenderEditableContainerBox extends RenderBox
   }
 
   @override
-  setupParentData(RenderBox child) {
+  void setupParentData(RenderBox child) {
     if (child.parentData is EditableContainerParentData) {
       return;
     }

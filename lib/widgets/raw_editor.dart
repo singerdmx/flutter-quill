@@ -100,7 +100,7 @@ class RawEditorState extends EditorState
         WidgetsBindingObserver,
         TickerProviderStateMixin<RawEditor>
     implements TextSelectionDelegate, TextInputClient {
-  GlobalKey _editorKey = GlobalKey();
+  final GlobalKey _editorKey = GlobalKey();
   final List<TextEditingValue> _sentRemoteValues = [];
   TextInputConnection? _textInputConnection;
   TextEditingValue? _lastKnownRemoteTextEditingValue;
@@ -144,7 +144,7 @@ class RawEditorState extends EditorState
     return result;
   }
 
-  handleCursorMovement(
+  void handleCursorMovement(
     LogicalKeyboardKey key,
     bool wordModifier,
     bool lineModifier,
@@ -370,7 +370,7 @@ class RawEditorState extends EditorState
   bool get hasConnection =>
       _textInputConnection != null && _textInputConnection!.attached;
 
-  openConnectionIfNeeded() {
+  void openConnectionIfNeeded() {
     if (!shouldCreateInputConnection) {
       return;
     }
@@ -396,7 +396,7 @@ class RawEditorState extends EditorState
     _textInputConnection!.show();
   }
 
-  closeConnectionIfNeeded() {
+  void closeConnectionIfNeeded() {
     if (!hasConnection) {
       return;
     }
@@ -406,7 +406,7 @@ class RawEditorState extends EditorState
     _sentRemoteValues.clear();
   }
 
-  updateRemoteValueIfNeeded() {
+  void updateRemoteValueIfNeeded() {
     if (!hasConnection) {
       return;
     }
@@ -526,7 +526,6 @@ class RawEditorState extends EditorState
       child: Semantics(
         child: _Editor(
           key: _editorKey,
-          children: _buildChildren(_doc, context),
           document: _doc,
           selection: widget.controller.selection,
           hasFocus: _hasFocus,
@@ -535,6 +534,7 @@ class RawEditorState extends EditorState
           endHandleLayerLink: _endHandleLayerLink,
           onSelectionChanged: _handleSelectionChanged,
           padding: widget.padding,
+          children: _buildChildren(_doc, context),
         ),
       ),
     );
@@ -571,7 +571,7 @@ class RawEditorState extends EditorState
     );
   }
 
-  _handleSelectionChanged(
+  void _handleSelectionChanged(
       TextSelection selection, SelectionChangedCause cause) {
     widget.controller.updateSelection(selection, ChangeSource.LOCAL);
 
@@ -582,7 +582,7 @@ class RawEditorState extends EditorState
     }
   }
 
-  _buildChildren(Document doc, BuildContext context) {
+  List<Widget> _buildChildren(Document doc, BuildContext context) {
     final result = <Widget>[];
     Map<int, int> indentLevelCounts = {};
     for (Node node in doc.root.children) {
@@ -717,7 +717,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  didChangeDependencies() {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     DefaultStyles? parentStyles = QuillStyles.getStyles(context, true);
     DefaultStyles defaultStyles = DefaultStyles.getInstance(context);
@@ -782,7 +782,7 @@ class RawEditorState extends EditorState
         !widget.controller.selection.isCollapsed;
   }
 
-  handleDelete(bool forward) {
+  void handleDelete(bool forward) {
     TextSelection selection = widget.controller.selection;
     String plainText = textEditingValue.text;
     int cursorPosition = selection.start;
@@ -817,14 +817,14 @@ class RawEditorState extends EditorState
     String plainText = textEditingValue.text;
     if (shortcut == InputShortcut.COPY) {
       if (!selection.isCollapsed) {
-        Clipboard.setData(ClipboardData(text: selection.textInside(plainText)));
+        await Clipboard.setData(ClipboardData(text: selection.textInside(plainText)));
       }
       return;
     }
     if (shortcut == InputShortcut.CUT && !widget.readOnly) {
       if (!selection.isCollapsed) {
         final data = selection.textInside(plainText);
-        Clipboard.setData(ClipboardData(text: data));
+        await Clipboard.setData(ClipboardData(text: data));
 
         widget.controller.replaceText(
           selection.start,
@@ -881,11 +881,11 @@ class RawEditorState extends EditorState
     super.dispose();
   }
 
-  _updateSelectionOverlayForScroll() {
+  void _updateSelectionOverlayForScroll() {
     _selectionOverlay?.markNeedsBuild();
   }
 
-  _didChangeTextEditingValue() {
+  void _didChangeTextEditingValue() {
     if (kIsWeb) {
       _onChangeTextEditingValue();
       requestKeyboard();
@@ -899,7 +899,7 @@ class RawEditorState extends EditorState
     }
   }
 
-  _onChangeTextEditingValue() {
+  void _onChangeTextEditingValue() {
     _showCaretOnScreen();
     updateRemoteValueIfNeeded();
     _cursorCont.startOrStopCursorTimerIfNeeded(
@@ -918,7 +918,7 @@ class RawEditorState extends EditorState
     });
   }
 
-  _updateOrDisposeSelectionOverlayIfNeeded() {
+  void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
       if (_hasFocus) {
         _selectionOverlay!.update(textEditingValue);
@@ -950,7 +950,7 @@ class RawEditorState extends EditorState
     }
   }
 
-  _handleFocusChanged() {
+  void _handleFocusChanged() {
     openOrCloseConnection();
     _cursorCont.startOrStopCursorTimerIfNeeded(
         _hasFocus, widget.controller.selection);
@@ -964,7 +964,7 @@ class RawEditorState extends EditorState
     updateKeepAlive();
   }
 
-  _onChangedClipboardStatus() {
+  void _onChangedClipboardStatus() {
     if (!mounted) return;
     setState(() {
       // Inform the widget that the value of clipboardStatus has changed.
@@ -974,7 +974,7 @@ class RawEditorState extends EditorState
 
   bool _showCaretOnScreenScheduled = false;
 
-  _showCaretOnScreen() {
+  void _showCaretOnScreen() {
     if (!widget.showCursor || _showCaretOnScreenScheduled) {
       return;
     }
@@ -1039,7 +1039,7 @@ class RawEditorState extends EditorState
   bool get selectAllEnabled => widget.toolbarOptions.selectAll;
 
   @override
-  requestKeyboard() {
+  void requestKeyboard() {
     if (_hasFocus) {
       openConnectionIfNeeded();
     } else {
@@ -1048,7 +1048,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  setTextEditingValue(TextEditingValue value) {
+  void setTextEditingValue(TextEditingValue value) {
     if (value.text == textEditingValue.text) {
       widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
     } else {
@@ -1116,7 +1116,7 @@ class RawEditorState extends EditorState
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
 
-  openOrCloseConnection() {
+  void openOrCloseConnection() {
     if (widget.focusNode.hasFocus && widget.focusNode.consumeKeyboardToken()) {
       openConnectionIfNeeded();
     } else if (!widget.focusNode.hasFocus) {
@@ -1164,7 +1164,7 @@ class _Editor extends MultiChildRenderObjectWidget {
   }
 
   @override
-  updateRenderObject(
+  void updateRenderObject(
       BuildContext context, covariant RenderEditor renderObject) {
     renderObject.document = document;
     renderObject.setContainer(document.root);
