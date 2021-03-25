@@ -93,13 +93,22 @@ abstract class RenderAbstractEditor {
   void selectPosition(SelectionChangedCause cause);
 }
 
+String _standardizeImageUrl(String url) {
+  if (url.contains("base64")) {
+    return url.split(",")[1];
+  }
+  return url;
+}
+
 Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
-      String imageUrl = node.value.data;
+      String imageUrl = _standardizeImageUrl(node.value.data);
       return imageUrl.startsWith('http')
           ? Image.network(imageUrl)
-          : Image.file(io.File(imageUrl));
+          : isBase64(imageUrl)
+              ? Image.memory(base64.decode(imageUrl))
+              : Image.file(io.File(imageUrl));
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
@@ -411,7 +420,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (getEditor()!.widget.readOnly && segment.value is BlockEmbed) {
       BlockEmbed blockEmbed = segment.value as BlockEmbed;
       if (blockEmbed.type == 'image') {
-        final String imageUrl = blockEmbed.data;
+        final String imageUrl = _standardizeImageUrl(blockEmbed.data);
         Navigator.push(
           getEditor()!.context,
           MaterialPageRoute(
