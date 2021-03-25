@@ -1,3 +1,6 @@
+## [1.1.1]
+* Base64 image support.
+
 ## [1.1.0]
 * Support null safety.
 
