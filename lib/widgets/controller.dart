@@ -69,9 +69,9 @@ class QuillController extends ChangeNotifier {
     }
   }
 
-  get hasUndo => document.hasUndo;
+  bool get hasUndo => document.hasUndo;
 
-  get hasRedo => document.hasRedo;
+  bool get hasRedo => document.hasRedo;
 
   void replaceText(int index, int len, Object? data, TextSelection? textSelection) {
     assert(data is String || data is Embeddable);

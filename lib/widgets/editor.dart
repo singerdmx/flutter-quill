@@ -325,7 +325,7 @@ class _QuillEditorState extends State<QuillEditor>
     return widget.enableInteractiveSelection;
   }
 
-  _requestKeyboard() {
+  void _requestKeyboard() {
     _editorKey.currentState!.requestKeyboard();
   }
 }
@@ -337,7 +337,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
 
   @override
-  onForcePressStart(ForcePressDetails details) {
+  void onForcePressStart(ForcePressDetails details) {
     super.onForcePressStart(details);
     if (delegate.getSelectionEnabled() && shouldShowSelectionToolbar) {
       getEditor()!.showToolbar();
@@ -345,7 +345,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
-  onForcePressEnd(ForcePressDetails details) {}
+  void onForcePressEnd(ForcePressDetails details) {}
 
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {

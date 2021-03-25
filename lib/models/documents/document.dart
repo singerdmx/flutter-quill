@@ -163,9 +163,9 @@ class Document {
     return _history.redo(this);
   }
 
-  get hasUndo => _history.hasUndo;
+  bool get hasUndo => _history.hasUndo;
 
-  get hasRedo => _history.hasRedo;
+  bool get hasRedo => _history.hasRedo;
 
   static Delta _transform(Delta delta) {
     Delta res = Delta();

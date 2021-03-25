@@ -6,9 +6,9 @@ import 'document.dart';
 class History {
   final HistoryStack stack = HistoryStack.empty();
 
-  get hasUndo => stack.undo.isNotEmpty;
+  bool get hasUndo => stack.undo.isNotEmpty;
 
-  get hasRedo => stack.redo.isNotEmpty;
+  bool get hasRedo => stack.redo.isNotEmpty;
 
   /// used for disable redo or undo function
   bool ignoreChange;

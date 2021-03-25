@@ -31,7 +31,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     return getEditor()!.getRenderEditor();
   }
 
-  onTapDown(TapDownDetails details) {
+  void onTapDown(TapDownDetails details) {
     getRenderEditor()!.handleTapDown(details);
 
     PointerDeviceKind? kind = details.kind;
@@ -40,7 +40,7 @@ class EditorTextSelectionGestureDetectorBuilder {
         kind == PointerDeviceKind.stylus;
   }
 
-  onForcePressStart(ForcePressDetails details) {
+  void onForcePressStart(ForcePressDetails details) {
     assert(delegate.getForcePressEnabled());
     shouldShowSelectionToolbar = true;
     if (delegate.getSelectionEnabled()) {
@@ -52,7 +52,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
-  onForcePressEnd(ForcePressDetails details) {
+  void onForcePressEnd(ForcePressDetails details) {
     assert(delegate.getForcePressEnabled());
     getRenderEditor()!.selectWordsInRange(
       details.globalPosition,
@@ -64,15 +64,15 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
-  onSingleTapUp(TapUpDetails details) {
+  void onSingleTapUp(TapUpDetails details) {
     if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
     }
   }
 
-  onSingleTapCancel() {}
+  void onSingleTapCancel() {}
 
-  onSingleLongTapStart(LongPressStartDetails details) {
+  void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectPositionAt(
         details.globalPosition,
@@ -82,7 +82,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
-  onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
+  void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectPositionAt(
         details.globalPosition,
@@ -92,13 +92,13 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
-  onSingleLongTapEnd(LongPressEndDetails details) {
+  void onSingleLongTapEnd(LongPressEndDetails details) {
     if (shouldShowSelectionToolbar) {
       getEditor()!.showToolbar();
     }
   }
 
-  onDoubleTapDown(TapDownDetails details) {
+  void onDoubleTapDown(TapDownDetails details) {
     if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectWord(SelectionChangedCause.tap);
       if (shouldShowSelectionToolbar) {
@@ -107,7 +107,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     }
   }
 
-  onDragSelectionStart(DragStartDetails details) {
+  void onDragSelectionStart(DragStartDetails details) {
     getRenderEditor()!.selectPositionAt(
       details.globalPosition,
       null,
@@ -115,7 +115,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     );
   }
 
-  onDragSelectionUpdate(
+  void onDragSelectionUpdate(
       DragStartDetails startDetails, DragUpdateDetails updateDetails) {
     getRenderEditor()!.selectPositionAt(
       startDetails.globalPosition,
