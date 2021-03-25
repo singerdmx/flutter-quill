@@ -69,8 +69,8 @@ class History {
   ///It will override pre local undo delta,replaced by remote change
   ///
   void transform(Delta delta) {
-    transformStack(this.stack.undo, delta);
-    transformStack(this.stack.redo, delta);
+    transformStack(stack.undo, delta);
+    transformStack(stack.redo, delta);
   }
 
   void transformStack(List<Delta> stack, Delta delta) {
@@ -85,8 +85,8 @@ class History {
   }
 
   Tuple2 _change(Document doc, List<Delta> source, List<Delta> dest) {
-    if (source.length == 0) {
-      return new Tuple2(false, 0);
+    if (source.isEmpty) {
+      return Tuple2(false, 0);
     }
     Delta delta = source.removeLast();
     // look for insert or delete
@@ -102,11 +102,11 @@ class History {
     Delta base = Delta.from(doc.toDelta());
     Delta inverseDelta = delta.invert(base);
     dest.add(inverseDelta);
-    this.lastRecorded = 0;
-    this.ignoreChange = true;
+    lastRecorded = 0;
+    ignoreChange = true;
     doc.compose(delta, ChangeSource.LOCAL);
-    this.ignoreChange = false;
-    return new Tuple2(true, len);
+    ignoreChange = false;
+    return Tuple2(true, len);
   }
 
   Tuple2 undo(Document doc) {

@@ -1,3 +1,3 @@
-class platformViewRegistry {
+class PlatformViewRegistry {
   static registerViewFactory(String viewId, dynamic cb) {}
 }

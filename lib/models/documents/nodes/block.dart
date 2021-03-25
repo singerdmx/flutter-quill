@@ -16,7 +16,7 @@ class Block extends Container<Line?> {
   }
 
   @override
-  adjust() {
+  void adjust() {
     if (isEmpty) {
       Node? sibling = previous;
       unlink();

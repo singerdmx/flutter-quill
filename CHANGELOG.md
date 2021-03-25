@@ -1,3 +1,6 @@
+## [1.1.2]
+* Add pedantic.
+
 ## [1.1.1]
 * Base64 image support.
 

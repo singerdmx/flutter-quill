@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  QuillController _controller = QuillController.basic();
+  final QuillController _controller = QuillController.basic();
 
   @override
   Widget build(BuildContext context) {

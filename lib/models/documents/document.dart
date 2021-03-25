@@ -117,7 +117,7 @@ class Document {
     return block.queryChild(res.offset, true);
   }
 
-  compose(Delta delta, ChangeSource changeSource) {
+  void compose(Delta delta, ChangeSource changeSource) {
     assert(!_observer.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
@@ -208,14 +208,14 @@ class Document {
     return Embeddable.fromJson(data as Map<String, dynamic>);
   }
 
-  close() {
+  void close() {
     _observer.close();
     _history.clear();
   }
 
   String toPlainText() => _root.children.map((e) => e.toPlainText()).join('');
 
-  _loadDocument(Delta doc) {
+  void _loadDocument(Delta doc) {
     assert((doc.last.data as String).endsWith('\n'));
     int offset = 0;
     for (final op in doc.toList()) {

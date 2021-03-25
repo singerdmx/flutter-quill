@@ -843,7 +843,7 @@ class _TextLineElement extends RenderObjectElement {
     throw UnimplementedError();
   }
 
-  _mountChild(Widget? widget, TextLineSlot slot) {
+  void _mountChild(Widget? widget, TextLineSlot slot) {
     Element? oldChild = _slotToChildren[slot];
     Element? newChild = updateChild(oldChild, widget, slot);
     if (oldChild != null) {
@@ -854,7 +854,7 @@ class _TextLineElement extends RenderObjectElement {
     }
   }
 
-  _updateRenderObject(RenderBox? child, TextLineSlot? slot) {
+  void _updateRenderObject(RenderBox? child, TextLineSlot? slot) {
     switch (slot) {
       case TextLineSlot.LEADING:
         renderObject.setLeading(child);
@@ -867,7 +867,7 @@ class _TextLineElement extends RenderObjectElement {
     }
   }
 
-  _updateChild(Widget? widget, TextLineSlot slot) {
+  void _updateChild(Widget? widget, TextLineSlot slot) {
     Element? oldChild = _slotToChildren[slot];
     Element? newChild = updateChild(oldChild, widget, slot);
     if (oldChild != null) {

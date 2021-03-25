@@ -251,7 +251,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
         _isToggled, isEnabled ? _toggleAttribute : null);
   }
 
-  _toggleAttribute() {
+  void _toggleAttribute() {
     widget.controller.formatSelection(_isToggled!
         ? Attribute.clone(widget.attribute, null)
         : widget.attribute);
@@ -336,7 +336,7 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
         _isToggled, isEnabled ? _toggleAttribute : null);
   }
 
-  _toggleAttribute() {
+  void _toggleAttribute() {
     widget.controller.formatSelection(_isToggled!
         ? Attribute.clone(Attribute.unchecked, null)
         : Attribute.unchecked);
@@ -445,42 +445,42 @@ Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
     hoverElevation: 0,
     height: iconSize * 1.77,
     fillColor: Theme.of(context).canvasColor,
+    initialValue: value,
+    items: [
+      PopupMenuItem(
+        value: Attribute.header,
+        height: iconSize * 1.77,
+        child: Text(_valueToText[Attribute.header]!, style: style),
+      ),
+      PopupMenuItem(
+        value: Attribute.h1,
+        height: iconSize * 1.77,
+        child: Text(_valueToText[Attribute.h1]!, style: style),
+      ),
+      PopupMenuItem(
+        value: Attribute.h2,
+        height: iconSize * 1.77,
+        child: Text(_valueToText[Attribute.h2]!, style: style),
+      ),
+      PopupMenuItem(
+        value: Attribute.h3,
+        height: iconSize * 1.77,
+        child: Text(_valueToText[Attribute.h3]!, style: style),
+      ),
+    ],
+    onSelected: onSelected,
     child: Text(
       !kIsWeb
           ? _valueToText[value!]!
-          : _valueToText[value!.key == "header"
+          : _valueToText[value!.key == 'header'
               ? Attribute.header
-              : (value.key == "h1")
+              : (value.key == 'h1')
                   ? Attribute.h1
-                  : (value.key == "h2")
+                  : (value.key == 'h2')
                       ? Attribute.h2
                       : Attribute.h3]!,
       style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
-    initialValue: value,
-    items: [
-      PopupMenuItem(
-        child: Text(_valueToText[Attribute.header]!, style: style),
-        value: Attribute.header,
-        height: iconSize * 1.77,
-      ),
-      PopupMenuItem(
-        child: Text(_valueToText[Attribute.h1]!, style: style),
-        value: Attribute.h1,
-        height: iconSize * 1.77,
-      ),
-      PopupMenuItem(
-        child: Text(_valueToText[Attribute.h2]!, style: style),
-        value: Attribute.h2,
-        height: iconSize * 1.77,
-      ),
-      PopupMenuItem(
-        child: Text(_valueToText[Attribute.h3]!, style: style),
-        value: Attribute.h3,
-        height: iconSize * 1.77,
-      ),
-    ],
-    onSelected: onSelected,
   );
 }
 
@@ -512,7 +512,7 @@ class _ImageButtonState extends State<ImageButton> {
   List<PlatformFile>? _paths;
   String? _extension;
   final _picker = ImagePicker();
-  FileType _pickingType = FileType.any;
+  final FileType _pickingType = FileType.any;
 
   Future<String?> _pickImage(ImageSource source) async {
     final PickedFile? pickedFile = await _picker.getImage(source: source);
@@ -542,7 +542,7 @@ class _ImageButtonState extends State<ImageButton> {
       ))
           ?.files;
     } on PlatformException catch (e) {
-      print("Unsupported operation" + e.toString());
+      print('Unsupported operation' + e.toString());
     } catch (ex) {
       print(ex);
     }
@@ -656,9 +656,9 @@ class _ColorButtonState extends State<ColorButton> {
       _isToggledBackground = _getIsToggledBackground(
           widget.controller.getSelectionStyle().attributes);
       _isWhite = _isToggledColor &&
-          _selectionStyle.attributes["color"]!.value == '#ffffff';
+          _selectionStyle.attributes['color']!.value == '#ffffff';
       _isWhitebackground = _isToggledBackground &&
-          _selectionStyle.attributes["background"]!.value == '#ffffff';
+          _selectionStyle.attributes['background']!.value == '#ffffff';
     });
   }
 
@@ -668,9 +668,9 @@ class _ColorButtonState extends State<ColorButton> {
     _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
     _isToggledBackground = _getIsToggledBackground(_selectionStyle.attributes);
     _isWhite = _isToggledColor &&
-        _selectionStyle.attributes["color"]!.value == '#ffffff';
+        _selectionStyle.attributes['color']!.value == '#ffffff';
     _isWhitebackground = _isToggledBackground &&
-        _selectionStyle.attributes["background"]!.value == '#ffffff';
+        _selectionStyle.attributes['background']!.value == '#ffffff';
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -692,9 +692,9 @@ class _ColorButtonState extends State<ColorButton> {
       _isToggledBackground =
           _getIsToggledBackground(_selectionStyle.attributes);
       _isWhite = _isToggledColor &&
-          _selectionStyle.attributes["color"]!.value == '#ffffff';
+          _selectionStyle.attributes['color']!.value == '#ffffff';
       _isWhitebackground = _isToggledBackground &&
-          _selectionStyle.attributes["background"]!.value == '#ffffff';
+          _selectionStyle.attributes['background']!.value == '#ffffff';
     }
   }
 
@@ -708,12 +708,12 @@ class _ColorButtonState extends State<ColorButton> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     Color? iconColor = _isToggledColor && !widget.background && !_isWhite
-        ? stringToColor(_selectionStyle.attributes["color"]!.value)
+        ? stringToColor(_selectionStyle.attributes['color']!.value)
         : theme.iconTheme.color;
 
-    Color? iconColorBackground =
+    var iconColorBackground =
         _isToggledBackground && widget.background && !_isWhitebackground
-            ? stringToColor(_selectionStyle.attributes["background"]!.value)
+            ? stringToColor(_selectionStyle.attributes['background']!.value)
             : theme.iconTheme.color;
 
     Color fillColor = _isToggledColor && !widget.background && _isWhite
@@ -747,7 +747,7 @@ class _ColorButtonState extends State<ColorButton> {
     Navigator.of(context).pop();
   }
 
-  _showColorPicker() {
+  void _showColorPicker() {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -755,7 +755,7 @@ class _ColorButtonState extends State<ColorButton> {
           backgroundColor: Theme.of(context).canvasColor,
           content: SingleChildScrollView(
             child: MaterialPicker(
-              pickerColor: Color(0),
+              pickerColor: Color(0x00000000),
               onColorChanged: _changeColor,
             ),
           )),
@@ -1190,7 +1190,6 @@ class QuillIconButton extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(width: size, height: size),
       child: RawMaterialButton(
-        child: icon,
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
         padding: EdgeInsets.zero,
@@ -1199,6 +1198,7 @@ class QuillIconButton extends StatelessWidget {
         hoverElevation: hoverElevation,
         highlightElevation: hoverElevation,
         onPressed: onPressed,
+        child: icon,
       ),
     );
   }
@@ -1236,7 +1236,6 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(height: widget.height),
       child: RawMaterialButton(
-        child: _buildContent(context),
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
         padding: EdgeInsets.zero,
@@ -1245,6 +1244,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         hoverElevation: widget.hoverElevation,
         highlightElevation: widget.hoverElevation,
         onPressed: _showMenu,
+        child: _buildContent(context),
       ),
     );
   }
