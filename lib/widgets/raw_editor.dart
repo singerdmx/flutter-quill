@@ -886,15 +886,11 @@ class RawEditorState extends EditorState
   }
 
   void _didChangeTextEditingValue() {
-    if (kIsWeb) {
-      _onChangeTextEditingValue();
-      requestKeyboard();
-      return;
-    }
+    _onChangeTextEditingValue();
 
-    if (_keyboardVisible) {
-      _onChangeTextEditingValue();
-    } else {
+    if (kIsWeb) {
+      requestKeyboard();
+    } else if (!_keyboardVisible) {
       requestKeyboard();
     }
   }
