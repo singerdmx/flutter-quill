@@ -72,7 +72,11 @@ The `QuillToolbar` class lets you customise which formatting options are availab
 
 ## Web
 
-For web development, use `flutter config --enable-web` for flutter and use [ReactQuill] for React.  
+For web development, use `flutter config --enable-web` for flutter and use [ReactQuill] for React.
+
+## Migrate Zefyr Data
+
+Check out [code](https://github.com/jwehrle/zefyr_quill_convert) and [doc](https://docs.google.com/document/d/1FUSrpbarHnilb7uDN5J5DDahaI0v1RMXBjj4fFSpSuY/edit?usp=sharing).
   
 ---  
   
