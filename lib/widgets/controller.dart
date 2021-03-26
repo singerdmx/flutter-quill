@@ -78,12 +78,7 @@ class QuillController extends ChangeNotifier {
 
     Delta? delta;
     if (len > 0 || data is! String || data.isNotEmpty) {
-      try {
-        delta = document.replace(index, len, data);
-      } catch (e) {
-        print('document.replace failed: $e');
-        rethrow;
-      }
+      delta = document.replace(index, len, data);
       bool shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
@@ -112,23 +107,18 @@ class QuillController extends ChangeNotifier {
       if (delta == null || delta.isEmpty) {
         _updateSelection(textSelection, ChangeSource.LOCAL);
       } else {
-        try {
-          Delta user = Delta()
-            ..retain(index)
-            ..insert(data)
-            ..delete(len);
-          int positionDelta = getPositionDelta(user, delta);
-          _updateSelection(
-            textSelection.copyWith(
-              baseOffset: textSelection.baseOffset + positionDelta,
-              extentOffset: textSelection.extentOffset + positionDelta,
-            ),
-            ChangeSource.LOCAL,
-          );
-        } catch (e) {
-          print('getPositionDelta or getPositionDelta error: $e');
-          rethrow;
-        }
+        Delta user = Delta()
+          ..retain(index)
+          ..insert(data)
+          ..delete(len);
+        int positionDelta = getPositionDelta(user, delta);
+        _updateSelection(
+          textSelection.copyWith(
+            baseOffset: textSelection.baseOffset + positionDelta,
+            extentOffset: textSelection.extentOffset + positionDelta,
+          ),
+          ChangeSource.LOCAL,
+        );
       }
     }
     notifyListeners();
