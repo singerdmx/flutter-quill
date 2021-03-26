@@ -5,3 +5,6 @@ analyzer:
     undefined_prefixed_name: ignore
     omit_local_variable_types: ignore
     unsafe_html: ignore
+linter:
+  rules:
+    - avoid_print
