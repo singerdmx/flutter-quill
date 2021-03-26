@@ -86,4 +86,4 @@ For web development, use `flutter config --enable-web` for flutter and use [Reac
 [FlutterQuill]: https://pub.dev/packages/flutter_quill  
 [ReactQuill]: https://github.com/zenoamaro/react-quill  
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
-[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/app/lib/pages/home_page.dart
+[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
