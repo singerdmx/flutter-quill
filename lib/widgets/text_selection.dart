@@ -245,7 +245,6 @@ class EditorTextSelectionOverlay {
 
 class _TextSelectionHandleOverlay extends StatefulWidget {
   const _TextSelectionHandleOverlay({
-    Key? key,
     required this.selection,
     required this.position,
     required this.startHandleLayerLink,
@@ -255,6 +254,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
     required this.onSelectionHandleTapped,
     required this.selectionControls,
     this.dragStartBehavior = DragStartBehavior.start,
+    Key? key,
   }) : super(key: key);
 
   final TextSelection selection;
@@ -468,7 +468,7 @@ class _TextSelectionHandleOverlayState
 
 class EditorTextSelectionGestureDetector extends StatefulWidget {
   const EditorTextSelectionGestureDetector({
-    Key? key,
+    required this.child,
     this.onTapDown,
     this.onForcePressStart,
     this.onForcePressEnd,
@@ -482,7 +482,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionUpdate,
     this.onDragSelectionEnd,
     this.behavior,
-    required this.child,
+    Key? key,
   }) : super(key: key);
 
   final GestureTapDownCallback? onTapDown;

@@ -6,9 +6,9 @@ class QuillStyles extends InheritedWidget {
   final DefaultStyles data;
 
   QuillStyles({
-    Key? key,
     required this.data,
     required Widget child,
+    Key? key,
   }) : super(key: key, child: child);
 
   @override
