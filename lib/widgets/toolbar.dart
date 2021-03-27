@@ -25,9 +25,9 @@ class InsertEmbedButton extends StatelessWidget {
   final IconData icon;
 
   const InsertEmbedButton({
-    Key? key,
     required this.controller,
     required this.icon,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -56,9 +56,9 @@ class LinkStyleButton extends StatefulWidget {
   final IconData? icon;
 
   const LinkStyleButton({
-    Key? key,
     required this.controller,
     this.icon,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -183,11 +183,11 @@ class ToggleStyleButton extends StatefulWidget {
   final ToggleStyleButtonBuilder childBuilder;
 
   ToggleStyleButton({
-    Key? key,
     required this.attribute,
     required this.icon,
     required this.controller,
     this.childBuilder = defaultToggleStyleButtonBuilder,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -267,11 +267,11 @@ class ToggleCheckListButton extends StatefulWidget {
   final Attribute attribute;
 
   ToggleCheckListButton({
-    Key? key,
     required this.icon,
     required this.controller,
-    this.childBuilder = defaultToggleStyleButtonBuilder,
     required this.attribute,
+    this.childBuilder = defaultToggleStyleButtonBuilder,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -371,7 +371,7 @@ Widget defaultToggleStyleButtonBuilder(
 class SelectHeaderStyleButton extends StatefulWidget {
   final QuillController controller;
 
-  const SelectHeaderStyleButton({Key? key, required this.controller})
+  const SelectHeaderStyleButton({required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -494,14 +494,14 @@ class ImageButton extends StatefulWidget {
 
   final ImageSource imageSource;
 
-  ImageButton(
-      {Key? key,
-      required this.icon,
-      required this.controller,
-      required this.imageSource,
-      this.onImagePickCallback,
-      this.imagePickImpl})
-      : super(key: key);
+  ImageButton({
+    required this.icon,
+    required this.controller,
+    required this.imageSource,
+    this.onImagePickCallback,
+    this.imagePickImpl,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ImageButtonState createState() => _ImageButtonState();
@@ -525,7 +525,6 @@ class _ImageButtonState extends State<ImageButton> {
   Future<String?> _pickImageWeb() async {
     _paths = (await FilePicker.platform.pickFiles(
       type: _pickingType,
-      allowMultiple: false,
       allowedExtensions: (_extension?.isNotEmpty ?? false)
           ? _extension?.replaceAll(' ', '').split(',')
           : null,
@@ -601,12 +600,12 @@ class ColorButton extends StatefulWidget {
   final bool background;
   final QuillController controller;
 
-  ColorButton(
-      {Key? key,
-      required this.icon,
-      required this.controller,
-      required this.background})
-      : super(key: key);
+  ColorButton({
+    required this.icon,
+    required this.controller,
+    required this.background,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -739,12 +738,12 @@ class HistoryButton extends StatefulWidget {
   final bool undo;
   final QuillController controller;
 
-  HistoryButton(
-      {Key? key,
-      required this.icon,
-      required this.controller,
-      required this.undo})
-      : super(key: key);
+  HistoryButton({
+    required this.icon,
+    required this.controller,
+    required this.undo,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -811,12 +810,12 @@ class IndentButton extends StatefulWidget {
   final QuillController controller;
   final bool isIncrease;
 
-  IndentButton(
-      {Key? key,
-      required this.icon,
-      required this.controller,
-      required this.isIncrease})
-      : super(key: key);
+  IndentButton({
+    required this.icon,
+    required this.controller,
+    required this.isIncrease,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _IndentButtonState createState() => _IndentButtonState();
@@ -866,7 +865,7 @@ class ClearFormatButton extends StatefulWidget {
 
   final QuillController controller;
 
-  ClearFormatButton({Key? key, required this.icon, required this.controller})
+  ClearFormatButton({required this.icon, required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -897,30 +896,31 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
-  const QuillToolbar({Key? key, required this.children}) : super(key: key);
+  const QuillToolbar({required this.children, Key? key}) : super(key: key);
 
-  factory QuillToolbar.basic(
-      {Key? key,
-      required QuillController controller,
-      double toolbarIconSize = 18.0,
-      bool showBoldButton = true,
-      bool showItalicButton = true,
-      bool showUnderLineButton = true,
-      bool showStrikeThrough = true,
-      bool showColorButton = true,
-      bool showBackgroundColorButton = true,
-      bool showClearFormat = true,
-      bool showHeaderStyle = true,
-      bool showListNumbers = true,
-      bool showListBullets = true,
-      bool showListCheck = true,
-      bool showCodeBlock = true,
-      bool showQuote = true,
-      bool showIndent = true,
-      bool showLink = true,
-      bool showHistory = true,
-      bool showHorizontalRule = false,
-      OnImagePickCallback? onImagePickCallback}) {
+  factory QuillToolbar.basic({
+    required QuillController controller,
+    double toolbarIconSize = 18.0,
+    bool showBoldButton = true,
+    bool showItalicButton = true,
+    bool showUnderLineButton = true,
+    bool showStrikeThrough = true,
+    bool showColorButton = true,
+    bool showBackgroundColorButton = true,
+    bool showClearFormat = true,
+    bool showHeaderStyle = true,
+    bool showListNumbers = true,
+    bool showListBullets = true,
+    bool showListCheck = true,
+    bool showCodeBlock = true,
+    bool showQuote = true,
+    bool showIndent = true,
+    bool showLink = true,
+    bool showHistory = true,
+    bool showHorizontalRule = false,
+    OnImagePickCallback? onImagePickCallback,
+    Key? key,
+  }) {
     iconSize = toolbarIconSize;
     return QuillToolbar(key: key, children: [
       Visibility(
@@ -1147,13 +1147,13 @@ class QuillIconButton extends StatelessWidget {
   final double highlightElevation;
 
   const QuillIconButton({
-    Key? key,
     required this.onPressed,
     this.icon,
     this.size = 40,
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -1163,7 +1163,6 @@ class QuillIconButton extends StatelessWidget {
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-        padding: EdgeInsets.zero,
         fillColor: fillColor,
         elevation: 0,
         hoverElevation: hoverElevation,
@@ -1186,15 +1185,15 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final ValueChanged<T> onSelected;
 
   const QuillDropdownButton({
-    Key? key,
-    this.height = 40,
-    this.fillColor,
-    this.hoverElevation = 1,
-    this.highlightElevation = 1,
     required this.child,
     required this.initialValue,
     required this.items,
     required this.onSelected,
+    this.height = 40,
+    this.fillColor,
+    this.hoverElevation = 1,
+    this.highlightElevation = 1,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -1209,7 +1208,6 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-        padding: EdgeInsets.zero,
         fillColor: widget.fillColor,
         elevation: 0,
         hoverElevation: widget.hoverElevation,
@@ -1250,6 +1248,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         // if (widget.onCanceled != null) widget.onCanceled();
         return null;
       }
+      widget.onSelected(newValue);
     });
   }
 

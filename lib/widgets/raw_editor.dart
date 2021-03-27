@@ -382,8 +382,6 @@ class RawEditorState extends EditorState
         TextInputConfiguration(
           inputType: TextInputType.multiline,
           readOnly: widget.readOnly,
-          obscureText: false,
-          autocorrect: true,
           inputAction: TextInputAction.newline,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
@@ -702,6 +700,7 @@ class RawEditorState extends EditorState
       _keyboardVisible = true;
     } else {
       _keyboardVisibilityController = KeyboardVisibilityController();
+      _keyboardVisible = _keyboardVisibilityController!.isVisible;
       _keyboardVisibilitySubscription =
           _keyboardVisibilityController?.onChange.listen((bool visible) {
         _keyboardVisible = visible;

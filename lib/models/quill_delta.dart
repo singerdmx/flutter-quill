@@ -520,7 +520,7 @@ class Delta {
       if (op.isInsert) {
         inverted.delete(op.length!);
       } else if (op.isRetain && op.isPlain) {
-        inverted.retain(op.length!, null);
+        inverted.retain(op.length!);
         baseIndex += op.length!;
       } else if (op.isDelete || (op.isRetain && op.isNotPlain)) {
         final length = op.length!;

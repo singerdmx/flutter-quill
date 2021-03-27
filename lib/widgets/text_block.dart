@@ -253,11 +253,11 @@ class EditableTextBlock extends StatelessWidget {
 class RenderEditableTextBlock extends RenderEditableContainerBox
     implements RenderEditableBox {
   RenderEditableTextBlock({
-    List<RenderEditableBox>? children,
     required Block block,
     required TextDirection textDirection,
     required EdgeInsetsGeometry padding,
     required Decoration decoration,
+    List<RenderEditableBox>? children,
     ImageConfiguration configuration = ImageConfiguration.empty,
     EdgeInsets contentPadding = EdgeInsets.zero,
   })  : _decoration = decoration,
@@ -559,7 +559,6 @@ class _NumberPoint extends StatelessWidget {
   final double padding;
 
   const _NumberPoint({
-    Key? key,
     required this.index,
     required this.indentLevelCounts,
     required this.count,
@@ -568,6 +567,7 @@ class _NumberPoint extends StatelessWidget {
     required this.attrs,
     this.withDot = true,
     this.padding = 0.0,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -624,7 +624,7 @@ class _NumberPoint extends StatelessWidget {
       n = (n / 26).floor();
     }
 
-    return result.toString().split('').reversed.join('');
+    return result.toString().split('').reversed.join();
   }
 
   String _intToRoman(int input) {
@@ -657,9 +657,9 @@ class _BulletPoint extends StatelessWidget {
   final double width;
 
   const _BulletPoint({
-    Key? key,
     required this.style,
     required this.width,
+    Key? key,
   }) : super(key: key);
 
   @override
