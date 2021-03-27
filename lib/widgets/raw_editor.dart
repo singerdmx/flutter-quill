@@ -1094,22 +1094,18 @@ class RawEditorState extends EditorState
 
   @override
   bool showToolbar() {
-    if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
-      // Web is using native dom elements to enable clipboard functionality of the
-      // toolbar: copy, paste, select, cut. It might also provide additional
-      // functionality depending on the browser (such as translate). Due to this
-      // we should not show a Flutter toolbar for the editable text elements.
-      if (kIsWeb) {
-        return false;
-      }
-
-      if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
-        return false;
-      }
-
-      _selectionOverlay!.showToolbar();
-      return true;
+    // Web is using native dom elements to enable clipboard functionality of the
+    // toolbar: copy, paste, select, cut. It might also provide additional
+    // functionality depending on the browser (such as translate). Due to this
+    // we should not show a Flutter toolbar for the editable text elements.
+    if (kIsWeb) {
+      return false;
     }
+    if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
+      return false;
+    }
+
+    _selectionOverlay!.showToolbar();
     return true;
   }
 
