@@ -114,7 +114,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     showDialog<String>(
       context: context,
       builder: (ctx) {
-        return _LinkDialog();
+        return const _LinkDialog();
       },
     ).then(_linkSubmitted);
   }
@@ -141,14 +141,14 @@ class _LinkDialogState extends State<_LinkDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: TextField(
-        decoration: InputDecoration(labelText: 'Paste a link'),
+        decoration: const InputDecoration(labelText: 'Paste a link'),
         autofocus: true,
         onChanged: _linkChanged,
       ),
       actions: [
         TextButton(
           onPressed: _link.isNotEmpty ? _applyLink : null,
-          child: Text('Apply'),
+          child: const Text('Apply'),
         ),
       ],
     );
@@ -430,7 +430,7 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
 Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
     ValueChanged<Attribute?> onSelected) {
-  final style = TextStyle(fontSize: 13);
+  final style = const TextStyle(fontSize: 13);
 
   final Map<Attribute, String> _valueToText = {
     Attribute.header: 'Normal text',
@@ -478,7 +478,7 @@ Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
                   : (value.key == 'h2')
                       ? Attribute.h2
                       : Attribute.h3]!,
-      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     ),
   );
 }
@@ -725,7 +725,7 @@ class _ColorButtonState extends State<ColorButton> {
           backgroundColor: Theme.of(context).canvasColor,
           content: SingleChildScrollView(
             child: MaterialPicker(
-              pickerColor: Color(0x00000000),
+              pickerColor: const Color(0x00000000),
               onColorChanged: _changeColor,
             ),
           )),
@@ -939,7 +939,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           undo: false,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showBoldButton,
         child: ToggleStyleButton(
@@ -948,7 +948,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showItalicButton,
         child: ToggleStyleButton(
@@ -957,7 +957,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showUnderLineButton,
         child: ToggleStyleButton(
@@ -966,7 +966,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showStrikeThrough,
         child: ToggleStyleButton(
@@ -975,7 +975,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showColorButton,
         child: ColorButton(
@@ -984,7 +984,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           background: false,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showBackgroundColorButton,
         child: ColorButton(
@@ -993,7 +993,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           background: true,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: showClearFormat,
         child: ClearFormatButton(
@@ -1001,7 +1001,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           controller: controller,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: onImagePickCallback != null,
         child: ImageButton(
@@ -1011,7 +1011,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
           onImagePickCallback: onImagePickCallback,
         ),
       ),
-      SizedBox(width: 0.6),
+      const SizedBox(width: 0.6),
       Visibility(
         visible: onImagePickCallback != null,
         child: ImageButton(
@@ -1119,7 +1119,7 @@ class _QuillToolbarState extends State<QuillToolbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       constraints: BoxConstraints.tightFor(height: widget.preferredSize.height),
       color: Theme.of(context).canvasColor,
       child: CustomScrollView(
@@ -1254,14 +1254,14 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
 
   Widget _buildContent(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(width: 110),
+      constraints: const BoxConstraints.tightFor(width: 110),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             widget.child,
             Expanded(child: Container()),
-            Icon(Icons.arrow_drop_down, size: 15)
+            const Icon(Icons.arrow_drop_down, size: 15)
           ],
         ),
       ),

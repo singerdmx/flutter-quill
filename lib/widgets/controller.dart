@@ -18,7 +18,9 @@ class QuillController extends ChangeNotifier {
 
   factory QuillController.basic() {
     return QuillController(
-        document: Document(), selection: TextSelection.collapsed(offset: 0));
+      document: Document(),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
   }
 
   // item1: Document state before [change].
@@ -72,7 +74,8 @@ class QuillController extends ChangeNotifier {
 
   bool get hasRedo => document.hasRedo;
 
-  void replaceText(int index, int len, Object? data, TextSelection? textSelection) {
+  void replaceText(
+      int index, int len, Object? data, TextSelection? textSelection) {
     assert(data is String || data is Embeddable);
 
     Delta? delta;

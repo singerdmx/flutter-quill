@@ -10,3 +10,4 @@ linter:
     - always_put_required_named_parameters_first
     - avoid_print
     - avoid_redundant_argument_values
+    - prefer_const_constructors

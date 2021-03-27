@@ -87,7 +87,7 @@ class TextLine extends StatelessWidget {
         .map((node) => _getTextSpanFromNode(defaultStyles, node))
         .toList(growable: false);
 
-    TextStyle textStyle = TextStyle();
+    TextStyle textStyle = const TextStyle();
 
     if (line.style.containsKey(Attribute.placeholder.key)) {
       textStyle = defaultStyles.placeHolder!.style;
@@ -121,7 +121,7 @@ class TextLine extends StatelessWidget {
   TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
     leaf.Text textNode = node as leaf.Text;
     Style style = textNode.style;
-    TextStyle res = TextStyle();
+    TextStyle res = const TextStyle();
 
     Map<String, TextStyle?> m = {
       Attribute.bold.key: defaultStyles.bold,
@@ -534,7 +534,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   double get cursorWidth => cursorCont.style.width;
 
   double get cursorHeight =>
-      cursorCont.style.height ?? preferredLineHeight(TextPosition(offset: 0));
+      cursorCont.style.height ??
+      preferredLineHeight(const TextPosition(offset: 0));
 
   void _computeCaretPrototype() {
     switch (defaultTargetPlatform) {

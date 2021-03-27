@@ -84,7 +84,7 @@ class EditableTextBlock extends StatelessWidget {
         block,
         textDirection,
         verticalSpacing as Tuple2<double, double>,
-        _getDecorationForBlock(block, defaultStyles) ?? BoxDecoration(),
+        _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
         contentPadding,
         _buildChildren(context, indentLevelCounts));
   }
@@ -402,7 +402,8 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     }
 
     Offset caretOffset = child.getOffsetForCaret(childLocalPosition);
-    Offset testOffset = sibling.getOffsetForCaret(TextPosition(offset: 0));
+    Offset testOffset =
+        sibling.getOffsetForCaret(const TextPosition(offset: 0));
     Offset finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
         offset: sibling.getContainer().getOffset() +
@@ -666,7 +667,7 @@ class _BulletPoint extends StatelessWidget {
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: width,
-      padding: EdgeInsetsDirectional.only(end: 13.0),
+      padding: const EdgeInsetsDirectional.only(end: 13.0),
       child: Text('•', style: style),
     );
   }
@@ -707,7 +708,7 @@ class __CheckboxState extends State<_Checkbox> {
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: widget.width,
-      padding: EdgeInsetsDirectional.only(end: 13.0),
+      padding: const EdgeInsetsDirectional.only(end: 13.0),
       child: Checkbox(
         value: widget.isChecked,
         onChanged: _onCheckboxClicked,
