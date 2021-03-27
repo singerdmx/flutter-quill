@@ -865,9 +865,11 @@ class ClearFormatButton extends StatefulWidget {
 
   final QuillController controller;
 
-  const ClearFormatButton(
-      {required this.icon, required this.controller, Key? key,})
-      : super(key: key);
+  const ClearFormatButton({
+    required this.icon,
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ClearFormatButtonState createState() => _ClearFormatButtonState();

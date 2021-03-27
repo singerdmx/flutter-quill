@@ -552,7 +552,7 @@ class RenderEditableTextLine extends RenderEditableBox {
             Rect.fromLTWH(0.0, 2.0, cursorWidth, cursorHeight - 4.0);
         break;
       default:
-        throw ('Invalid platform');
+        throw 'Invalid platform';
     }
   }
 
@@ -733,7 +733,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (_body != null) {
       final parentData = _body!.parentData as BoxParentData;
       final effectiveOffset = offset + parentData.offset;
-      if ((enableInteractiveSelection) &&
+      if (enableInteractiveSelection &&
           line.getDocumentOffset() <= textSelection.end &&
           textSelection.start <= line.getDocumentOffset() + line.length - 1) {
         final local = localSelection(line, textSelection, false);
@@ -862,7 +862,7 @@ class _TextLineElement extends RenderObjectElement {
         renderObject.setLeading(child);
         break;
       case TextLineSlot.BODY:
-        renderObject.setBody((child) as RenderContentProxyBox?);
+        renderObject.setBody(child as RenderContentProxyBox?);
         break;
       default:
         throw UnimplementedError();

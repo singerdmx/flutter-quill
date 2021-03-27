@@ -219,7 +219,7 @@ class EditableTextBlock extends StatelessWidget {
           bottom = defaultStyles.h3!.verticalSpacing.item2;
           break;
         default:
-          throw ('Invalid level $level');
+          throw 'Invalid level $level';
       }
     } else {
       late Tuple2 lineSpacing;
@@ -497,7 +497,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
         offset.translate(decorationPadding.left, decorationPadding.top);
     _painter!.paint(context.canvas, decorationOffset, filledConfiguration);
     if (debugSaveCount != context.canvas.getSaveCount()) {
-      throw ('${_decoration.runtimeType} painter had mismatching save and restore calls.');
+      throw '${_decoration.runtimeType} painter had mismatching save and restore calls.';
     }
     if (decoration.isComplex) {
       context.setIsComplexHint();

@@ -650,7 +650,7 @@ class RawEditorState extends EditorState
         case 3:
           return defaultStyles!.h3!.verticalSpacing;
         default:
-          throw ('Invalid level $level');
+          throw 'Invalid level $level';
       }
     }
 

@@ -104,8 +104,8 @@ class EditorTextSelectionOverlay {
 
   Widget _buildHandle(
       BuildContext context, _TextSelectionHandlePosition position) {
-    if ((_selection.isCollapsed &&
-        position == _TextSelectionHandlePosition.END)) {
+    if (_selection.isCollapsed &&
+        position == _TextSelectionHandlePosition.END) {
       return Container();
     }
     return Visibility(
@@ -153,7 +153,7 @@ class EditorTextSelectionOverlay {
             : const TextPosition(offset: 0);
         break;
       default:
-        throw ('Invalid position');
+        throw 'Invalid position';
     }
     selectionDelegate.textEditingValue =
         value.copyWith(selection: newSelection, composing: TextRange.empty);

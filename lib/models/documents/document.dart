@@ -144,11 +144,11 @@ class Document {
     try {
       _delta = _delta.compose(delta);
     } catch (e) {
-      throw ('_delta compose failed');
+      throw '_delta compose failed';
     }
 
     if (_delta != _root.toDelta()) {
-      throw ('Compose failed');
+      throw 'Compose failed';
     }
     final change = Tuple3(originalDelta, delta, changeSource);
     _observer.add(change);

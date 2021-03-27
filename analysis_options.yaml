@@ -12,3 +12,4 @@ linter:
     - avoid_redundant_argument_values
     - prefer_const_constructors
     - prefer_const_constructors_in_immutables
+    - unnecessary_parenthesis

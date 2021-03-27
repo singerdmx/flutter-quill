@@ -118,7 +118,7 @@ class Operation {
   bool get isRetain => key == Operation.retainKey;
 
   /// Returns `true` if this operation has no attributes, e.g. is plain text.
-  bool get isPlain => (_attributes == null || _attributes!.isEmpty);
+  bool get isPlain => _attributes == null || _attributes!.isEmpty;
 
   /// Returns `true` if this operation sets at least one attribute.
   bool get isNotPlain => !isPlain;

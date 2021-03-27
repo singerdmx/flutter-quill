@@ -67,6 +67,6 @@ class Rules {
         rethrow;
       }
     }
-    throw ('Apply rules failed');
+    throw 'Apply rules failed';
   }
 }
