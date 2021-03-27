@@ -1,3 +1,6 @@
+## [1.1.4]
+* Fix text selection issue.
+
 ## [1.1.3]
 * Update example folder.
 
