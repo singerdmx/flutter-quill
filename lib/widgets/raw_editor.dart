@@ -702,6 +702,7 @@ class RawEditorState extends EditorState
       _keyboardVisible = true;
     } else {
       _keyboardVisibilityController = KeyboardVisibilityController();
+      _keyboardVisible = _keyboardVisibilityController!.isVisible;
       _keyboardVisibilitySubscription =
           _keyboardVisibilityController?.onChange.listen((bool visible) {
         _keyboardVisible = visible;
@@ -886,11 +887,15 @@ class RawEditorState extends EditorState
   }
 
   void _didChangeTextEditingValue() {
-    _onChangeTextEditingValue();
-
     if (kIsWeb) {
+      _onChangeTextEditingValue();
       requestKeyboard();
-    } else if (!_keyboardVisible) {
+      return;
+    }
+
+    if (_keyboardVisible) {
+      _onChangeTextEditingValue();
+    } else {
       requestKeyboard();
     }
   }
