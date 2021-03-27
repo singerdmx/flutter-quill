@@ -1,3 +1,6 @@
+## [1.1.3]
+* Update example folder.
+
 ## [1.1.2]
 * Add pedantic.
 

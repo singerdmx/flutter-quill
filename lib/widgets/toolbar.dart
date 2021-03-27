@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:flutter_quill/models/documents/nodes/embed.dart';
@@ -520,46 +519,25 @@ class _ImageButtonState extends State<ImageButton> {
 
     final File file = File(pickedFile.path);
 
-    // We simply return the absolute path to selected file.
-    try {
-      String url = await widget.onImagePickCallback!(file);
-      print('Image uploaded and its url is $url');
-      return url;
-    } catch (error) {
-      print('Upload image error $error');
-    }
-    return null;
+    return widget.onImagePickCallback!(file);
   }
 
   Future<String?> _pickImageWeb() async {
-    try {
-      _paths = (await FilePicker.platform.pickFiles(
-        type: _pickingType,
-        allowMultiple: false,
-        allowedExtensions: (_extension?.isNotEmpty ?? false)
-            ? _extension?.replaceAll(' ', '').split(',')
-            : null,
-      ))
-          ?.files;
-    } on PlatformException catch (e) {
-      print('Unsupported operation' + e.toString());
-    } catch (ex) {
-      print(ex);
-    }
+    _paths = (await FilePicker.platform.pickFiles(
+      type: _pickingType,
+      allowMultiple: false,
+      allowedExtensions: (_extension?.isNotEmpty ?? false)
+          ? _extension?.replaceAll(' ', '').split(',')
+          : null,
+    ))
+        ?.files;
     var _fileName =
         _paths != null ? _paths!.map((e) => e.name).toString() : '...';
 
     if (_paths != null) {
       File file = File(_fileName);
       // We simply return the absolute path to selected file.
-      try {
-        String url = await widget.onImagePickCallback!(file);
-        print('Image uploaded and its url is $url');
-        return url;
-      } catch (error) {
-        print('Upload image error $error');
-      }
-      return null;
+      return widget.onImagePickCallback!(file);
     } else {
       // User canceled the picker
     }
@@ -567,23 +545,16 @@ class _ImageButtonState extends State<ImageButton> {
   }
 
   Future<String> _pickImageDesktop() async {
-    try {
-      var filePath = await FilesystemPicker.open(
-        context: context,
-        rootDirectory: await getApplicationDocumentsDirectory(),
-        fsType: FilesystemType.file,
-        fileTileSelectMode: FileTileSelectMode.wholeTile,
-      );
-      if (filePath != null && filePath.isEmpty) return '';
+    var filePath = await FilesystemPicker.open(
+      context: context,
+      rootDirectory: await getApplicationDocumentsDirectory(),
+      fsType: FilesystemType.file,
+      fileTileSelectMode: FileTileSelectMode.wholeTile,
+    );
+    if (filePath != null && filePath.isEmpty) return '';
 
-      final File file = File(filePath!);
-      String url = await widget.onImagePickCallback!(file);
-      print('Image uploaded and its url is $url');
-      return url;
-    } catch (error) {
-      print('Upload image error $error');
-    }
-    return '';
+    final File file = File(filePath!);
+    return widget.onImagePickCallback!(file);
   }
 
   @override

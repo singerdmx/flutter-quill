@@ -105,11 +105,11 @@ class _QuillFieldState extends State<QuillField> {
         children: [
           child,
           Visibility(
-            child: widget.toolbar!,
             visible: _focused,
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
+            child: widget.toolbar!,
           ),
         ],
       );
