@@ -5,7 +5,7 @@ import 'package:tuple/tuple.dart';
 class QuillStyles extends InheritedWidget {
   final DefaultStyles data;
 
-  QuillStyles({
+  const QuillStyles({
     required this.data,
     required Widget child,
     Key? key,
