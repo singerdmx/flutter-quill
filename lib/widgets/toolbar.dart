@@ -1248,6 +1248,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         // if (widget.onCanceled != null) widget.onCanceled();
         return null;
       }
+      widget.onSelected(newValue);
     });
   }
 
