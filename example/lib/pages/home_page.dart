@@ -110,7 +110,6 @@ class _HomePageState extends State<HomePage> {
                 autoFocus: false,
                 readOnly: false,
                 placeholder: 'Add content',
-                enableInteractiveSelection: true,
                 expands: false,
                 padding: EdgeInsets.zero,
                 customStyles: DefaultStyles(

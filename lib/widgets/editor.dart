@@ -200,7 +200,6 @@ class QuillEditor extends StatefulWidget {
         focusNode: FocusNode(),
         autoFocus: true,
         readOnly: readOnly,
-        enableInteractiveSelection: true,
         expands: false,
         padding: EdgeInsets.zero);
   }
@@ -726,8 +725,7 @@ class RenderEditor extends RenderEditableContainerBox
     );
     if (position.offset - word.start <= 1) {
       _handleSelectionChange(
-        TextSelection.collapsed(
-            offset: word.start, affinity: TextAffinity.downstream),
+        TextSelection.collapsed(offset: word.start),
         cause,
       );
     } else {
