@@ -109,7 +109,8 @@ class CursorCont extends ChangeNotifier {
 
   void _cursorWaitForStart(Timer timer) {
     _cursorTimer?.cancel();
-    _cursorTimer = Timer.periodic(Duration(milliseconds: 500), _cursorTick);
+    _cursorTimer =
+        Timer.periodic(const Duration(milliseconds: 500), _cursorTick);
   }
 
   void startCursorTimer() {
@@ -117,10 +118,11 @@ class CursorCont extends ChangeNotifier {
     _blinkOpacityCont.value = 1.0;
 
     if (style.opacityAnimates) {
-      _cursorTimer =
-          Timer.periodic(Duration(milliseconds: 150), _cursorWaitForStart);
+      _cursorTimer = Timer.periodic(
+          const Duration(milliseconds: 150), _cursorWaitForStart);
     } else {
-      _cursorTimer = Timer.periodic(Duration(milliseconds: 500), _cursorTick);
+      _cursorTimer =
+          Timer.periodic(const Duration(milliseconds: 500), _cursorTick);
     }
   }
 

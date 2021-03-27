@@ -113,7 +113,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 
   @override
   TextRange getWordBoundary(TextPosition position) =>
-      TextRange(start: 0, end: 1);
+      const TextRange(start: 0, end: 1);
 
   @override
   double getPreferredLineHeight() {

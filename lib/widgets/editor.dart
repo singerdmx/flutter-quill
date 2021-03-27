@@ -176,14 +176,14 @@ class QuillEditor extends StatefulWidget {
       required this.scrollable,
       required this.padding,
       required this.autoFocus,
-      this.showCursor,
       required this.readOnly,
+      required this.expands,
+      this.showCursor,
       this.placeholder,
       this.enableInteractiveSelection = true,
       this.minHeight,
       this.maxHeight,
       this.customStyles,
-      required this.expands,
       this.textCapitalization = TextCapitalization.sentences,
       this.keyboardAppearance = Brightness.light,
       this.scrollPhysics,
@@ -200,7 +200,6 @@ class QuillEditor extends StatefulWidget {
         focusNode: FocusNode(),
         autoFocus: true,
         readOnly: readOnly,
-        enableInteractiveSelection: true,
         expands: false,
         padding: EdgeInsets.zero);
   }
@@ -726,8 +725,7 @@ class RenderEditor extends RenderEditableContainerBox
     );
     if (position.offset - word.start <= 1) {
       _handleSelectionChange(
-        TextSelection.collapsed(
-            offset: word.start, affinity: TextAffinity.downstream),
+        TextSelection.collapsed(offset: word.start),
         cause,
       );
     } else {
@@ -866,6 +864,11 @@ class RenderEditor extends RenderEditableContainerBox
     );
   }
 
+  /// Returns the y-offset of the editor at which [selection] is visible.
+  ///
+  /// The offset is the distance from the top of the editor and is the minimum
+  /// from the current scroll position until [selection] becomes visible.
+  /// Returns null if [selection] is already visible.
   double? getOffsetToRevealCursor(
       double viewportHeight, double scrollOffset, double offsetInViewport) {
     List<TextSelectionPoint> endpoints = getEndpointsForSelection(selection);
