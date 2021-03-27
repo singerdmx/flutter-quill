@@ -86,7 +86,7 @@ class History {
 
   Tuple2 _change(Document doc, List<Delta> source, List<Delta> dest) {
     if (source.isEmpty) {
-      return Tuple2(false, 0);
+      return const Tuple2(false, 0);
     }
     Delta delta = source.removeLast();
     // look for insert or delete

@@ -55,7 +55,7 @@ class RawEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
 
-  RawEditor(
+  const RawEditor(
       Key key,
       this.controller,
       this.focusNode,
@@ -382,8 +382,6 @@ class RawEditorState extends EditorState
         TextInputConfiguration(
           inputType: TextInputType.multiline,
           readOnly: widget.readOnly,
-          obscureText: false,
-          autocorrect: true,
           inputAction: TextInputAction.newline,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
@@ -554,7 +552,7 @@ class RawEditorState extends EditorState
     }
 
     BoxConstraints constraints = widget.expands
-        ? BoxConstraints.expand()
+        ? const BoxConstraints.expand()
         : BoxConstraints(
             minHeight: widget.minHeight ?? 0.0,
             maxHeight: widget.maxHeight ?? double.infinity);
@@ -602,7 +600,7 @@ class RawEditorState extends EditorState
             widget.enableInteractiveSelection,
             _hasFocus,
             attrs.containsKey(Attribute.codeBlock.key)
-                ? EdgeInsets.all(16.0)
+                ? const EdgeInsets.all(16.0)
                 : null,
             widget.embedBuilder,
             _cursorCont,
@@ -702,6 +700,7 @@ class RawEditorState extends EditorState
       _keyboardVisible = true;
     } else {
       _keyboardVisibilityController = KeyboardVisibilityController();
+      _keyboardVisible = _keyboardVisibilityController!.isVisible;
       _keyboardVisibilitySubscription =
           _keyboardVisibilityController?.onChange.listen((bool visible) {
         _keyboardVisible = visible;
@@ -817,7 +816,8 @@ class RawEditorState extends EditorState
     String plainText = textEditingValue.text;
     if (shortcut == InputShortcut.COPY) {
       if (!selection.isCollapsed) {
-        await Clipboard.setData(ClipboardData(text: selection.textInside(plainText)));
+        await Clipboard.setData(
+            ClipboardData(text: selection.textInside(plainText)));
       }
       return;
     }
@@ -985,7 +985,7 @@ class RawEditorState extends EditorState
 
       final viewport = RenderAbstractViewport.of(getRenderEditor())!;
       final editorOffset = getRenderEditor()!
-          .localToGlobal(Offset(0.0, 0.0), ancestor: viewport);
+          .localToGlobal(const Offset(0.0, 0.0), ancestor: viewport);
       final offsetInViewport = _scrollController!.offset + editorOffset.dy;
 
       final offset = getRenderEditor()!.getOffsetToRevealCursor(
@@ -997,7 +997,7 @@ class RawEditorState extends EditorState
       if (offset != null) {
         _scrollController!.animateTo(
           offset,
-          duration: Duration(milliseconds: 100),
+          duration: const Duration(milliseconds: 100),
           curve: Curves.fastOutSlowIn,
         );
       }
@@ -1151,16 +1151,17 @@ class _Editor extends MultiChildRenderObjectWidget {
   @override
   RenderEditor createRenderObject(BuildContext context) {
     return RenderEditor(
-        null,
-        textDirection,
-        padding,
-        document,
-        selection,
-        hasFocus,
-        onSelectionChanged,
-        startHandleLayerLink,
-        endHandleLayerLink,
-        EdgeInsets.fromLTRB(4, 4, 4, 5));
+      null,
+      textDirection,
+      padding,
+      document,
+      selection,
+      hasFocus,
+      onSelectionChanged,
+      startHandleLayerLink,
+      endHandleLayerLink,
+      const EdgeInsets.fromLTRB(4, 4, 4, 5),
+    );
   }
 
   @override

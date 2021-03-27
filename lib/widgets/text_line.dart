@@ -27,13 +27,13 @@ class TextLine extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final DefaultStyles styles;
 
-  const TextLine(
-      {Key? key,
-      required this.line,
-      this.textDirection,
-      required this.embedBuilder,
-      required this.styles})
-      : super(key: key);
+  const TextLine({
+    required this.line,
+    required this.embedBuilder,
+    required this.styles,
+    this.textDirection,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class TextLine extends StatelessWidget {
         .map((node) => _getTextSpanFromNode(defaultStyles, node))
         .toList(growable: false);
 
-    TextStyle textStyle = TextStyle();
+    TextStyle textStyle = const TextStyle();
 
     if (line.style.containsKey(Attribute.placeholder.key)) {
       textStyle = defaultStyles.placeHolder!.style;
@@ -121,7 +121,7 @@ class TextLine extends StatelessWidget {
   TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
     leaf.Text textNode = node as leaf.Text;
     Style style = textNode.style;
-    TextStyle res = TextStyle();
+    TextStyle res = const TextStyle();
 
     Map<String, TextStyle?> m = {
       Attribute.bold.key: defaultStyles.bold,
@@ -206,7 +206,7 @@ class EditableTextLine extends RenderObjectWidget {
   final double devicePixelRatio;
   final CursorCont cursorCont;
 
-  EditableTextLine(
+  const EditableTextLine(
       this.line,
       this.leading,
       this.body,
@@ -534,7 +534,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   double get cursorWidth => cursorCont.style.width;
 
   double get cursorHeight =>
-      cursorCont.style.height ?? preferredLineHeight(TextPosition(offset: 0));
+      cursorCont.style.height ??
+      preferredLineHeight(const TextPosition(offset: 0));
 
   void _computeCaretPrototype() {
     switch (defaultTargetPlatform) {
@@ -839,7 +840,8 @@ class _TextLineElement extends RenderObjectElement {
   }
 
   @override
-  void moveRenderObjectChild(RenderObject child, dynamic oldSlot, dynamic newSlot) {
+  void moveRenderObjectChild(
+      RenderObject child, dynamic oldSlot, dynamic newSlot) {
     throw UnimplementedError();
   }
 

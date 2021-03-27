@@ -294,7 +294,7 @@ class Delta {
     if (other is! Delta) return false;
     Delta typedOther = other;
     final comparator =
-        ListEquality<Operation>(const DefaultEquality<Operation>());
+        const ListEquality<Operation>(DefaultEquality<Operation>());
     return comparator.equals(_operations, typedOther._operations);
   }
 
@@ -520,7 +520,7 @@ class Delta {
       if (op.isInsert) {
         inverted.delete(op.length!);
       } else if (op.isRetain && op.isPlain) {
-        inverted.retain(op.length!, null);
+        inverted.retain(op.length!);
         baseIndex += op.length!;
       } else if (op.isDelete || (op.isRetain && op.isNotPlain)) {
         final length = op.length!;

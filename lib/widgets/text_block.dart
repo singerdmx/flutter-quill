@@ -61,7 +61,7 @@ class EditableTextBlock extends StatelessWidget {
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
 
-  EditableTextBlock(
+  const EditableTextBlock(
       this.block,
       this.textDirection,
       this.verticalSpacing,
@@ -84,7 +84,7 @@ class EditableTextBlock extends StatelessWidget {
         block,
         textDirection,
         verticalSpacing as Tuple2<double, double>,
-        _getDecorationForBlock(block, defaultStyles) ?? BoxDecoration(),
+        _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
         contentPadding,
         _buildChildren(context, indentLevelCounts));
   }
@@ -253,11 +253,11 @@ class EditableTextBlock extends StatelessWidget {
 class RenderEditableTextBlock extends RenderEditableContainerBox
     implements RenderEditableBox {
   RenderEditableTextBlock({
-    List<RenderEditableBox>? children,
     required Block block,
     required TextDirection textDirection,
     required EdgeInsetsGeometry padding,
     required Decoration decoration,
+    List<RenderEditableBox>? children,
     ImageConfiguration configuration = ImageConfiguration.empty,
     EdgeInsets contentPadding = EdgeInsets.zero,
   })  : _decoration = decoration,
@@ -402,7 +402,8 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     }
 
     Offset caretOffset = child.getOffsetForCaret(childLocalPosition);
-    Offset testOffset = sibling.getOffsetForCaret(TextPosition(offset: 0));
+    Offset testOffset =
+        sibling.getOffsetForCaret(const TextPosition(offset: 0));
     Offset finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
         offset: sibling.getContainer().getOffset() +
@@ -558,7 +559,6 @@ class _NumberPoint extends StatelessWidget {
   final double padding;
 
   const _NumberPoint({
-    Key? key,
     required this.index,
     required this.indentLevelCounts,
     required this.count,
@@ -567,6 +567,7 @@ class _NumberPoint extends StatelessWidget {
     required this.attrs,
     this.withDot = true,
     this.padding = 0.0,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -623,7 +624,7 @@ class _NumberPoint extends StatelessWidget {
       n = (n / 26).floor();
     }
 
-    return result.toString().split('').reversed.join('');
+    return result.toString().split('').reversed.join();
   }
 
   String _intToRoman(int input) {
@@ -656,9 +657,9 @@ class _BulletPoint extends StatelessWidget {
   final double width;
 
   const _BulletPoint({
-    Key? key,
     required this.style,
     required this.width,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -666,7 +667,7 @@ class _BulletPoint extends StatelessWidget {
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: width,
-      padding: EdgeInsetsDirectional.only(end: 13.0),
+      padding: const EdgeInsetsDirectional.only(end: 13.0),
       child: Text('•', style: style),
     );
   }
@@ -707,7 +708,7 @@ class __CheckboxState extends State<_Checkbox> {
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: widget.width,
-      padding: EdgeInsetsDirectional.only(end: 13.0),
+      padding: const EdgeInsetsDirectional.only(end: 13.0),
       child: Checkbox(
         value: widget.isChecked,
         onChanged: _onCheckboxClicked,
