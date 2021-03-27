@@ -7,4 +7,5 @@ analyzer:
     unsafe_html: ignore
 linter:
   rules:
+    - always_put_required_named_parameters_first
     - avoid_print

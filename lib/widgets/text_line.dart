@@ -27,13 +27,13 @@ class TextLine extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final DefaultStyles styles;
 
-  const TextLine(
-      {Key? key,
-      required this.line,
-      this.textDirection,
-      required this.embedBuilder,
-      required this.styles})
-      : super(key: key);
+  const TextLine({
+    required this.line,
+    required this.embedBuilder,
+    required this.styles,
+    this.textDirection,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -839,7 +839,8 @@ class _TextLineElement extends RenderObjectElement {
   }
 
   @override
-  void moveRenderObjectChild(RenderObject child, dynamic oldSlot, dynamic newSlot) {
+  void moveRenderObjectChild(
+      RenderObject child, dynamic oldSlot, dynamic newSlot) {
     throw UnimplementedError();
   }
 
