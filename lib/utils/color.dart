@@ -115,7 +115,7 @@ Color stringToColor(String? s) {
   }
 
   if (!s.startsWith('#')) {
-    throw ('Color code not supported');
+    throw 'Color code not supported';
   }
 
   String hex = s.replaceFirst('#', '');

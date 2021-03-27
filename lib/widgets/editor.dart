@@ -372,7 +372,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         );
         break;
       default:
-        throw ('Invalid platform');
+        throw 'Invalid platform';
     }
   }
 
@@ -523,7 +523,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
           Feedback.forLongPress(_state.context);
           break;
         default:
-          throw ('Invalid platform');
+          throw 'Invalid platform';
       }
     }
   }
@@ -961,7 +961,7 @@ class RenderEditableContainerBox extends RenderBox
       targetChild = childAfter(targetChild);
     }
     if (targetChild == null) {
-      throw ('targetChild should not be null');
+      throw 'targetChild should not be null';
     }
     return targetChild;
   }
@@ -991,7 +991,7 @@ class RenderEditableContainerBox extends RenderBox
       dy += child.size.height;
       child = childAfter(child);
     }
-    throw ('No child');
+    throw 'No child';
   }
 
   @override

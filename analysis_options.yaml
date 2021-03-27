@@ -8,3 +8,4 @@ analyzer:
 linter:
   rules:
     - avoid_print
+    - unnecessary_parenthesis
