@@ -86,7 +86,7 @@ class DefaultStyles {
       fontSize: 16.0,
       height: 1.3,
     );
-    Tuple2<double, double> baseSpacing = Tuple2(6.0, 0);
+    Tuple2<double, double> baseSpacing = const Tuple2(6.0, 0);
     String fontFamily;
     switch (themeData.platform) {
       case TargetPlatform.iOS:
@@ -111,8 +111,8 @@ class DefaultStyles {
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
-            Tuple2(16.0, 0.0),
-            Tuple2(0.0, 0.0),
+            const Tuple2(16.0, 0.0),
+            const Tuple2(0.0, 0.0),
             null),
         h2: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
@@ -121,8 +121,8 @@ class DefaultStyles {
               height: 1.15,
               fontWeight: FontWeight.normal,
             ),
-            Tuple2(8.0, 0.0),
-            Tuple2(0.0, 0.0),
+            const Tuple2(8.0, 0.0),
+            const Tuple2(0.0, 0.0),
             null),
         h3: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
@@ -131,15 +131,15 @@ class DefaultStyles {
               height: 1.25,
               fontWeight: FontWeight.w500,
             ),
-            Tuple2(8.0, 0.0),
-            Tuple2(0.0, 0.0),
+            const Tuple2(8.0, 0.0),
+            const Tuple2(0.0, 0.0),
             null),
         paragraph: DefaultTextBlockStyle(
-            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
-        bold: TextStyle(fontWeight: FontWeight.bold),
-        italic: TextStyle(fontStyle: FontStyle.italic),
-        underline: TextStyle(decoration: TextDecoration.underline),
-        strikeThrough: TextStyle(decoration: TextDecoration.lineThrough),
+            baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
+        bold: const TextStyle(fontWeight: FontWeight.bold),
+        italic: const TextStyle(fontStyle: FontStyle.italic),
+        underline: const TextStyle(decoration: TextDecoration.underline),
+        strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
         link: TextStyle(
           color: themeData.accentColor,
           decoration: TextDecoration.underline,
@@ -150,15 +150,15 @@ class DefaultStyles {
               height: 1.5,
               color: Colors.grey.withOpacity(0.6),
             ),
-            Tuple2(0.0, 0.0),
-            Tuple2(0.0, 0.0),
+            const Tuple2(0.0, 0.0),
+            const Tuple2(0.0, 0.0),
             null),
         lists: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
+            baseStyle, baseSpacing, const Tuple2(0.0, 6.0), null),
         quote: DefaultTextBlockStyle(
             TextStyle(color: baseStyle.color!.withOpacity(0.6)),
             baseSpacing,
-            Tuple2(6.0, 2.0),
+            const Tuple2(6.0, 2.0),
             BoxDecoration(
               border: Border(
                 left: BorderSide(width: 4, color: Colors.grey.shade300),
@@ -172,18 +172,18 @@ class DefaultStyles {
               height: 1.15,
             ),
             baseSpacing,
-            Tuple2(0.0, 0.0),
+            const Tuple2(0.0, 0.0),
             BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )),
         indent: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, Tuple2(0.0, 6.0), null),
+            baseStyle, baseSpacing, const Tuple2(0.0, 6.0), null),
         align: DefaultTextBlockStyle(
-            baseStyle, Tuple2(0.0, 0.0), Tuple2(0.0, 0.0), null),
-        sizeSmall: TextStyle(fontSize: 10.0),
-        sizeLarge: TextStyle(fontSize: 18.0),
-        sizeHuge: TextStyle(fontSize: 22.0));
+            baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
+        sizeSmall: const TextStyle(fontSize: 10.0),
+        sizeLarge: const TextStyle(fontSize: 18.0),
+        sizeHuge: const TextStyle(fontSize: 22.0));
   }
 
   DefaultStyles merge(DefaultStyles other) {

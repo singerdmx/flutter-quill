@@ -378,5 +378,5 @@ Tuple2<Operation?, int?> _getNextNewLine(DeltaIterator iterator) {
       return Tuple2(op, skipped);
     }
   }
-  return Tuple2(null, null);
+  return const Tuple2(null, null);
 }

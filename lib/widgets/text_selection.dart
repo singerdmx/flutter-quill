@@ -58,7 +58,7 @@ class EditorTextSelectionOverlay {
     OverlayState overlay = Overlay.of(context, rootOverlay: true)!;
 
     _toolbarController = AnimationController(
-        duration: Duration(milliseconds: 150), vsync: overlay);
+        duration: const Duration(milliseconds: 150), vsync: overlay);
   }
 
   TextSelection get _selection => value.selection;
@@ -143,13 +143,14 @@ class EditorTextSelectionOverlay {
     TextPosition textPosition;
     switch (position) {
       case _TextSelectionHandlePosition.START:
-        textPosition =
-            newSelection != null ? newSelection.base : TextPosition(offset: 0);
+        textPosition = newSelection != null
+            ? newSelection.base
+            : const TextPosition(offset: 0);
         break;
       case _TextSelectionHandlePosition.END:
         textPosition = newSelection != null
             ? newSelection.extent
-            : TextPosition(offset: 0);
+            : const TextPosition(offset: 0);
         break;
       default:
         throw ('Invalid position');
@@ -198,7 +199,7 @@ class EditorTextSelectionOverlay {
             endpoints,
             selectionDelegate,
             clipboardStatus,
-            Offset(0, 0)),
+            const Offset(0, 0)),
       ),
     );
   }
@@ -292,8 +293,8 @@ class _TextSelectionHandleOverlayState
   void initState() {
     super.initState();
 
-    _controller =
-        AnimationController(duration: Duration(milliseconds: 150), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 150), vsync: this);
 
     _handleVisibilityChanged();
     widget._visibility!.addListener(_handleVisibilityChanged);
@@ -579,7 +580,7 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragUpdate(DragUpdateDetails details) {
     _lastDragUpdateDetails = details;
     _dragUpdateThrottleTimer ??=
-        Timer(Duration(milliseconds: 50), _handleDragUpdateThrottled);
+        Timer(const Duration(milliseconds: 50), _handleDragUpdateThrottled);
   }
 
   void _handleDragUpdateThrottled() {

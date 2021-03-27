@@ -294,7 +294,7 @@ class Delta {
     if (other is! Delta) return false;
     Delta typedOther = other;
     final comparator =
-        ListEquality<Operation>(const DefaultEquality<Operation>());
+        const ListEquality<Operation>(DefaultEquality<Operation>());
     return comparator.equals(_operations, typedOther._operations);
   }
 
