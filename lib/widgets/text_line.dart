@@ -206,7 +206,7 @@ class EditableTextLine extends RenderObjectWidget {
   final double devicePixelRatio;
   final CursorCont cursorCont;
 
-  EditableTextLine(
+  const EditableTextLine(
       this.line,
       this.leading,
       this.body,

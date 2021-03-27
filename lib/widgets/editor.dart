@@ -169,7 +169,7 @@ class QuillEditor extends StatefulWidget {
   final ValueChanged<String>? onLaunchUrl;
   final EmbedBuilder embedBuilder;
 
-  QuillEditor(
+  const QuillEditor(
       {required this.controller,
       required this.focusNode,
       required this.scrollController,

@@ -55,7 +55,7 @@ class RawEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
 
-  RawEditor(
+  const RawEditor(
       Key key,
       this.controller,
       this.focusNode,

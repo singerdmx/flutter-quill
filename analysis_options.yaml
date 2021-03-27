@@ -8,3 +8,4 @@ analyzer:
 linter:
   rules:
     - avoid_print
+    - prefer_const_constructors_in_immutables

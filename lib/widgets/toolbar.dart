@@ -182,7 +182,7 @@ class ToggleStyleButton extends StatefulWidget {
 
   final ToggleStyleButtonBuilder childBuilder;
 
-  ToggleStyleButton({
+  const ToggleStyleButton({
     Key? key,
     required this.attribute,
     required this.icon,
@@ -266,7 +266,7 @@ class ToggleCheckListButton extends StatefulWidget {
 
   final Attribute attribute;
 
-  ToggleCheckListButton({
+  const ToggleCheckListButton({
     Key? key,
     required this.icon,
     required this.controller,
@@ -494,7 +494,7 @@ class ImageButton extends StatefulWidget {
 
   final ImageSource imageSource;
 
-  ImageButton(
+  const ImageButton(
       {Key? key,
       required this.icon,
       required this.controller,
@@ -601,7 +601,7 @@ class ColorButton extends StatefulWidget {
   final bool background;
   final QuillController controller;
 
-  ColorButton(
+  const ColorButton(
       {Key? key,
       required this.icon,
       required this.controller,
@@ -739,7 +739,7 @@ class HistoryButton extends StatefulWidget {
   final bool undo;
   final QuillController controller;
 
-  HistoryButton(
+  const HistoryButton(
       {Key? key,
       required this.icon,
       required this.controller,
@@ -811,7 +811,7 @@ class IndentButton extends StatefulWidget {
   final QuillController controller;
   final bool isIncrease;
 
-  IndentButton(
+  const IndentButton(
       {Key? key,
       required this.icon,
       required this.controller,
@@ -866,7 +866,8 @@ class ClearFormatButton extends StatefulWidget {
 
   final QuillController controller;
 
-  ClearFormatButton({Key? key, required this.icon, required this.controller})
+  const ClearFormatButton(
+      {Key? key, required this.icon, required this.controller})
       : super(key: key);
 
   @override

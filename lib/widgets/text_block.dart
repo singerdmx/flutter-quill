@@ -61,7 +61,7 @@ class EditableTextBlock extends StatelessWidget {
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
 
-  EditableTextBlock(
+  const EditableTextBlock(
       this.block,
       this.textDirection,
       this.verticalSpacing,

@@ -7,7 +7,7 @@ class BaselineProxy extends SingleChildRenderObjectWidget {
   final TextStyle? textStyle;
   final EdgeInsets? padding;
 
-  BaselineProxy({Key? key, Widget? child, this.textStyle, this.padding})
+  const BaselineProxy({Key? key, Widget? child, this.textStyle, this.padding})
       : super(key: key, child: child);
 
   @override
@@ -73,7 +73,7 @@ class RenderBaselineProxy extends RenderProxyBox {
 }
 
 class EmbedProxy extends SingleChildRenderObjectWidget {
-  EmbedProxy(Widget child) : super(child: child);
+  const EmbedProxy(Widget child) : super(child: child);
 
   @override
   RenderEmbedProxy createRenderObject(BuildContext context) =>
@@ -145,7 +145,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
         textHeightBehavior);
   }
 
-  RichTextProxy(
+  const RichTextProxy(
       RichText child,
       this.textStyle,
       this.textAlign,
