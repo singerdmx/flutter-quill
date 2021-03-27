@@ -864,6 +864,11 @@ class RenderEditor extends RenderEditableContainerBox
     );
   }
 
+  /// Returns the y-offset of the editor at which [selection] is visible.
+  ///
+  /// The offset is the distance from the top of the editor and is the minimum
+  /// from the current scroll position until [selection] becomes visible.
+  /// Returns null if [selection] is already visible.
   double? getOffsetToRevealCursor(
       double viewportHeight, double scrollOffset, double offsetInViewport) {
     List<TextSelectionPoint> endpoints = getEndpointsForSelection(selection);
