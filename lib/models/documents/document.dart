@@ -183,7 +183,7 @@ class Document {
     bool nextOpIsImage =
         i + 1 < ops.length && ops[i + 1].isInsert && ops[i + 1].data is! String;
     if (nextOpIsImage && !(op.data as String).endsWith('\n')) {
-      res.push(Operation.insert('\n', null));
+      res.push(Operation.insert('\n'));
     }
     // Currently embed is equivalent to image and hence `is! String`
     bool opInsertImage = op.isInsert && op.data is! String;
@@ -193,7 +193,7 @@ class Document {
         (ops[i + 1].data as String).startsWith('\n');
     if (opInsertImage && (i + 1 == ops.length - 1 || !nextOpIsLineBreak)) {
       // automatically append '\n' for image
-      res.push(Operation.insert('\n', null));
+      res.push(Operation.insert('\n'));
     }
   }
 
@@ -213,7 +213,7 @@ class Document {
     _history.clear();
   }
 
-  String toPlainText() => _root.children.map((e) => e.toPlainText()).join('');
+  String toPlainText() => _root.children.map((e) => e.toPlainText()).join();
 
   void _loadDocument(Delta doc) {
     assert((doc.last.data as String).endsWith('\n'));

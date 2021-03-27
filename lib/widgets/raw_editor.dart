@@ -382,8 +382,6 @@ class RawEditorState extends EditorState
         TextInputConfiguration(
           inputType: TextInputType.multiline,
           readOnly: widget.readOnly,
-          obscureText: false,
-          autocorrect: true,
           inputAction: TextInputAction.newline,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,

@@ -623,7 +623,7 @@ class _NumberPoint extends StatelessWidget {
       n = (n / 26).floor();
     }
 
-    return result.toString().split('').reversed.join('');
+    return result.toString().split('').reversed.join();
   }
 
   String _intToRoman(int input) {

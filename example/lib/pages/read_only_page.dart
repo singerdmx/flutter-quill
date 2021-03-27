@@ -42,7 +42,6 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           focusNode: _focusNode,
           autoFocus: true,
           readOnly: !_edit,
-          enableInteractiveSelection: true,
           expands: false,
           padding: EdgeInsets.zero,
         ),

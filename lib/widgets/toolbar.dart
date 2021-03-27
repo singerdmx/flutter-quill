@@ -525,7 +525,6 @@ class _ImageButtonState extends State<ImageButton> {
   Future<String?> _pickImageWeb() async {
     _paths = (await FilePicker.platform.pickFiles(
       type: _pickingType,
-      allowMultiple: false,
       allowedExtensions: (_extension?.isNotEmpty ?? false)
           ? _extension?.replaceAll(' ', '').split(',')
           : null,
@@ -1163,7 +1162,6 @@ class QuillIconButton extends StatelessWidget {
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-        padding: EdgeInsets.zero,
         fillColor: fillColor,
         elevation: 0,
         hoverElevation: hoverElevation,
@@ -1209,7 +1207,6 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-        padding: EdgeInsets.zero,
         fillColor: widget.fillColor,
         elevation: 0,
         hoverElevation: widget.hoverElevation,
