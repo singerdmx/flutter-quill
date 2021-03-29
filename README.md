@@ -74,6 +74,8 @@ The `QuillToolbar` class lets you customise which formatting options are availab
 
 For web development, use `flutter config --enable-web` for flutter and use [ReactQuill] for React.
 
+It is required to provide EmbedBuilder, e.g. [defaultEmbedBuilderWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L28).
+
 ## Migrate Zefyr Data
 
 Check out [code](https://github.com/jwehrle/zefyr_quill_convert) and [doc](https://docs.google.com/document/d/1FUSrpbarHnilb7uDN5J5DDahaI0v1RMXBjj4fFSpSuY/edit?usp=sharing).

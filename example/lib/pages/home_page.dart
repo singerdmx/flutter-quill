@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/universal_ui/universal_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,13 +39,13 @@ class _HomePageState extends State<HomePage> {
       final doc = Document.fromJson(jsonDecode(result));
       setState(() {
         _controller = QuillController(
-            document: doc, selection: TextSelection.collapsed(offset: 0));
+            document: doc, selection: const TextSelection.collapsed(offset: 0));
       });
     } catch (error) {
       final doc = Document()..insert(0, 'Empty asset');
       setState(() {
         _controller = QuillController(
-            document: doc, selection: TextSelection.collapsed(offset: 0));
+            document: doc, selection: const TextSelection.collapsed(offset: 0));
       });
     }
   }
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (_controller == null) {
-      return Scaffold(body: Center(child: Text('Loading...')));
+      return const Scaffold(body: Center(child: Text('Loading...')));
     }
 
     return Scaffold(
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey.shade800,
         elevation: 0,
         centerTitle: false,
-        title: Text(
+        title: const Text(
           'Flutter Quill',
         ),
         actions: [],
@@ -93,6 +94,55 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildWelcomeEditor(BuildContext context) {
+    var quillEditor = QuillEditor(
+        controller: _controller!,
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: _focusNode,
+        autoFocus: false,
+        readOnly: false,
+        placeholder: 'Add content',
+        expands: false,
+        padding: EdgeInsets.zero,
+        customStyles: DefaultStyles(
+          h1: DefaultTextBlockStyle(
+              const TextStyle(
+                fontSize: 32.0,
+                color: Colors.black,
+                height: 1.15,
+                fontWeight: FontWeight.w300,
+              ),
+              const Tuple2(16.0, 0.0),
+              const Tuple2(0.0, 0.0),
+              null),
+          sizeSmall: const TextStyle(fontSize: 9.0),
+        ));
+    if (kIsWeb) {
+      quillEditor = QuillEditor(
+          controller: _controller!,
+          scrollController: ScrollController(),
+          scrollable: true,
+          focusNode: _focusNode,
+          autoFocus: false,
+          readOnly: false,
+          placeholder: 'Add content',
+          expands: false,
+          padding: EdgeInsets.zero,
+          customStyles: DefaultStyles(
+            h1: DefaultTextBlockStyle(
+                const TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.black,
+                  height: 1.15,
+                  fontWeight: FontWeight.w300,
+                ),
+                const Tuple2(16.0, 0.0),
+                const Tuple2(0.0, 0.0),
+                null),
+            sizeSmall: const TextStyle(fontSize: 9.0),
+          ),
+          embedBuilder: defaultEmbedBuilderWeb);
+    }
     return SafeArea(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,36 +152,14 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               color: Colors.white,
               padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: QuillEditor(
-                controller: _controller!,
-                scrollController: ScrollController(),
-                scrollable: true,
-                focusNode: _focusNode,
-                autoFocus: false,
-                readOnly: false,
-                placeholder: 'Add content',
-                expands: false,
-                padding: EdgeInsets.zero,
-                customStyles: DefaultStyles(
-                  h1: DefaultTextBlockStyle(
-                      TextStyle(
-                        fontSize: 32.0,
-                        color: Colors.black,
-                        height: 1.15,
-                        fontWeight: FontWeight.w300,
-                      ),
-                      Tuple2(16.0, 0.0),
-                      Tuple2(0.0, 0.0),
-                      null),
-                  sizeSmall: TextStyle(fontSize: 9.0),
-                ),
-              ),
+              child: quillEditor,
             ),
           ),
           kIsWeb
               ? Expanded(
                   child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                   child: QuillToolbar.basic(
                       controller: _controller!,
                       onImagePickCallback: _onImagePickCallback),
@@ -158,7 +186,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildMenuBar(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final itemStyle = TextStyle(
+    final itemStyle = const TextStyle(
       color: Colors.white,
       fontSize: 18,
       fontWeight: FontWeight.bold,

@@ -85,7 +85,7 @@ class RawEditor extends StatefulWidget {
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
             'maxHeight cannot be null'),
-        showCursor = showCursor ?? !readOnly,
+        showCursor = showCursor ?? true,
         super(key: key);
 
   @override
@@ -371,10 +371,6 @@ class RawEditorState extends EditorState
       _textInputConnection != null && _textInputConnection!.attached;
 
   void openConnectionIfNeeded() {
-    if (!shouldCreateInputConnection) {
-      return;
-    }
-
     if (!hasConnection) {
       _lastKnownRemoteTextEditingValue = textEditingValue;
       _textInputConnection = TextInput.attach(
@@ -383,6 +379,7 @@ class RawEditorState extends EditorState
           inputType: TextInputType.multiline,
           readOnly: widget.readOnly,
           inputAction: TextInputAction.newline,
+          enableSuggestions: !widget.readOnly,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
         ),
@@ -392,6 +389,10 @@ class RawEditorState extends EditorState
       // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
     _textInputConnection!.show();
+    if (widget.readOnly) {
+      // temporary hack to dismiss keyboard
+      SystemChannels.textInput.invokeMethod('TextInput.hide');
+    }
   }
 
   void closeConnectionIfNeeded() {

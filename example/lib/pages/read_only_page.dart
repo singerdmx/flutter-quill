@@ -1,3 +1,5 @@
+import 'package:app/universal_ui/universal_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/editor.dart';
@@ -28,15 +30,19 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
   }
 
   Widget _buildContent(BuildContext context, QuillController? controller) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: QuillEditor(
-          controller: controller!,
+    var quillEditor = QuillEditor(
+      controller: controller!,
+      scrollController: ScrollController(),
+      scrollable: true,
+      focusNode: _focusNode,
+      autoFocus: true,
+      readOnly: !_edit,
+      expands: false,
+      padding: EdgeInsets.zero,
+    );
+    if (kIsWeb) {
+      quillEditor = QuillEditor(
+          controller: controller,
           scrollController: ScrollController(),
           scrollable: true,
           focusNode: _focusNode,
@@ -44,7 +50,16 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           readOnly: !_edit,
           expands: false,
           padding: EdgeInsets.zero,
+          embedBuilder: defaultEmbedBuilderWeb);
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade200),
         ),
+        child: quillEditor,
       ),
     );
   }
