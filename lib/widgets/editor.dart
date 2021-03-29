@@ -16,13 +16,10 @@ import 'package:flutter_quill/models/documents/nodes/embed.dart';
 import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
 import 'package:flutter_quill/models/documents/nodes/line.dart';
 import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/utils/universal_ui/universal_ui.dart';
 import 'package:flutter_quill/widgets/image.dart';
 import 'package:flutter_quill/widgets/raw_editor.dart';
-import 'package:flutter_quill/widgets/responsive_widget.dart';
 import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'box.dart';
@@ -101,6 +98,7 @@ String _standardizeImageUrl(String url) {
 }
 
 Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
+  assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
   switch (node.value.type) {
     case 'image':
       String imageUrl = _standardizeImageUrl(node.value.data);
@@ -109,37 +107,6 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
           : isBase64(imageUrl)
               ? Image.memory(base64.decode(imageUrl))
               : Image.file(io.File(imageUrl));
-    default:
-      throw UnimplementedError(
-          'Embeddable type "${node.value.type}" is not supported by default embed '
-          'builder of QuillEditor. You must pass your own builder function to '
-          'embedBuilder property of QuillEditor or QuillField widgets.');
-  }
-}
-
-Widget _defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
-  switch (node.value.type) {
-    case 'image':
-      String imageUrl = node.value.data;
-      Size size = MediaQuery.of(context).size;
-      UniversalUI().platformViewRegistry.registerViewFactory(
-          imageUrl, (int viewId) => html.ImageElement()..src = imageUrl);
-      return Padding(
-        padding: EdgeInsets.only(
-          right: ResponsiveWidget.isMediumScreen(context)
-              ? size.width * 0.5
-              : (ResponsiveWidget.isLargeScreen(context))
-                  ? size.width * 0.75
-                  : size.width * 0.2,
-        ),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.45,
-          child: HtmlElementView(
-            viewType: imageUrl,
-          ),
-        ),
-      );
-
     default:
       throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default embed '
@@ -188,8 +155,7 @@ class QuillEditor extends StatefulWidget {
       this.keyboardAppearance = Brightness.light,
       this.scrollPhysics,
       this.onLaunchUrl,
-      this.embedBuilder =
-          kIsWeb ? _defaultEmbedBuilderWeb : _defaultEmbedBuilder});
+      this.embedBuilder = _defaultEmbedBuilder});
 
   factory QuillEditor.basic(
       {required QuillController controller, required bool readOnly}) {

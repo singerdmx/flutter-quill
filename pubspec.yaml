@@ -23,7 +23,6 @@ dependencies:
   quiver: ^3.0.0
   string_validator: ^0.3.0
   tuple: ^2.0.0
-  universal_html: ^2.0.7
   url_launcher: ^6.0.2
   pedantic: ^1.11.0
 
