@@ -1,3 +1,6 @@
+## [1.1.5]
+* Enable "Select", "Select All" and "Copy" in read-only mode.
+
 ## [1.1.4]
 * Fix text selection issue.
 

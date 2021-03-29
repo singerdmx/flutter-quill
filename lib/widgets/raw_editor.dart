@@ -371,10 +371,6 @@ class RawEditorState extends EditorState
       _textInputConnection != null && _textInputConnection!.attached;
 
   void openConnectionIfNeeded() {
-    if (!shouldCreateInputConnection) {
-      return;
-    }
-
     if (!hasConnection) {
       _lastKnownRemoteTextEditingValue = textEditingValue;
       _textInputConnection = TextInput.attach(
