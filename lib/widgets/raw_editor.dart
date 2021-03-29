@@ -85,7 +85,7 @@ class RawEditor extends StatefulWidget {
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
             'maxHeight cannot be null'),
-        showCursor = showCursor ?? !readOnly,
+        showCursor = showCursor ?? true,
         super(key: key);
 
   @override
