@@ -43,7 +43,10 @@ class Document {
     _loadDocument(_delta);
   }
 
-  Delta insert(int index, Object? data) {
+  Document.fromDelta(Delta delta) : _delta = delta {
+    _loadDocument(delta);
+  }
+
     assert(index >= 0);
     assert(data is String || data is Embeddable);
     if (data is Embeddable) {
