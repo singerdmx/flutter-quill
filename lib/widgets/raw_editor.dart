@@ -1087,8 +1087,10 @@ class RawEditorState extends EditorState
   }
 
   Future<bool> __isItCut(TextEditingValue value) async {
-    final ClipboardData data = await (Clipboard.getData(Clipboard.kTextPlain)
-        as FutureOr<ClipboardData>);
+    ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    if (data == null) {
+      return false;
+    }
     return textEditingValue.text.length - value.text.length ==
         data.text!.length;
   }

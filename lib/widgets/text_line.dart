@@ -165,8 +165,13 @@ class TextLine extends StatelessWidget {
 
     Attribute? color = textNode.style.attributes[Attribute.color.key];
     if (color != null && color.value != null) {
-      final textColor = stringToColor(color.value);
-      res = res.merge(TextStyle(color: textColor));
+      var textColor = defaultStyles.color;
+      if (color.value is String) {
+        textColor = stringToColor(color.value);
+      }
+      if (textColor != null) {
+        res = res.merge(TextStyle(color: textColor));
+      }
     }
 
     Attribute? background = textNode.style.attributes[Attribute.background.key];

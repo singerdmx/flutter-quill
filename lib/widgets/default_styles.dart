@@ -52,6 +52,7 @@ class DefaultStyles {
   final TextStyle? sizeLarge; // 'large'
   final TextStyle? sizeHuge; // 'huge'
   final TextStyle? link;
+  final Color? color;
   final DefaultTextBlockStyle? placeHolder;
   final DefaultTextBlockStyle? lists;
   final DefaultTextBlockStyle? quote;
@@ -69,6 +70,7 @@ class DefaultStyles {
       this.underline,
       this.strikeThrough,
       this.link,
+      this.color,
       this.placeHolder,
       this.lists,
       this.quote,
@@ -197,6 +199,7 @@ class DefaultStyles {
         underline: other.underline ?? underline,
         strikeThrough: other.strikeThrough ?? strikeThrough,
         link: other.link ?? link,
+        color: other.color ?? color,
         placeHolder: other.placeHolder ?? placeHolder,
         lists: other.lists ?? lists,
         quote: other.quote ?? quote,
