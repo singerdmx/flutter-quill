@@ -379,6 +379,7 @@ class RawEditorState extends EditorState
           inputType: TextInputType.multiline,
           readOnly: widget.readOnly,
           inputAction: TextInputAction.newline,
+          enableSuggestions: !widget.readOnly,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
         ),
@@ -388,6 +389,10 @@ class RawEditorState extends EditorState
       // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
     _textInputConnection!.show();
+    if (widget.readOnly) {
+      // temporary hack to dismiss keyboard
+      SystemChannels.textInput.invokeMethod('TextInput.hide');
+    }
   }
 
   void closeConnectionIfNeeded() {
