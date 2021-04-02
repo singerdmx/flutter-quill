@@ -371,6 +371,10 @@ class RawEditorState extends EditorState
       _textInputConnection != null && _textInputConnection!.attached;
 
   void openConnectionIfNeeded() {
+    if (!shouldCreateInputConnection) {
+      return;
+    }
+
     if (!hasConnection) {
       _lastKnownRemoteTextEditingValue = textEditingValue;
       _textInputConnection = TextInput.attach(
@@ -388,11 +392,8 @@ class RawEditorState extends EditorState
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
       // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
+
     _textInputConnection!.show();
-    if (widget.readOnly) {
-      // temporary hack to dismiss keyboard
-      SystemChannels.textInput.invokeMethod('TextInput.hide');
-    }
   }
 
   void closeConnectionIfNeeded() {
