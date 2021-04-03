@@ -370,8 +370,10 @@ Widget defaultToggleStyleButtonBuilder(
 
 class SelectHeaderStyleButton extends StatefulWidget {
   final QuillController controller;
+  final double headerFontSize;
 
-  const SelectHeaderStyleButton({required this.controller, Key? key})
+  const SelectHeaderStyleButton(
+      {required this.controller, this.headerFontSize = 18.0, Key? key})
       : super(key: key);
 
   @override
@@ -424,62 +426,59 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return _selectHeadingStyleButtonBuilder(context, _value, _selectAttribute);
+    return _selectHeadingStyleButtonBuilder(
+        context, _value, _selectAttribute, widget.headerFontSize);
   }
 }
 
 Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
-    ValueChanged<Attribute?> onSelected) {
-  final style = const TextStyle(fontSize: 13);
-
+    ValueChanged<Attribute?> onSelected, double headerFontSize) {
   final Map<Attribute, String> _valueToText = {
-    Attribute.header: 'Normal text',
-    Attribute.h1: 'Heading 1',
-    Attribute.h2: 'Heading 2',
-    Attribute.h3: 'Heading 3',
+    Attribute.header: 'N',
+    Attribute.h1: 'H1',
+    Attribute.h2: 'H2',
+    Attribute.h3: 'H3',
   };
 
-  return QuillDropdownButton<Attribute?>(
-    highlightElevation: 0,
-    hoverElevation: 0,
-    height: iconSize * 1.77,
-    fillColor: Theme.of(context).canvasColor,
-    initialValue: value,
-    items: [
-      PopupMenuItem(
-        value: Attribute.header,
-        height: iconSize * 1.77,
-        child: Text(_valueToText[Attribute.header]!, style: style),
-      ),
-      PopupMenuItem(
-        value: Attribute.h1,
-        height: iconSize * 1.77,
-        child: Text(_valueToText[Attribute.h1]!, style: style),
-      ),
-      PopupMenuItem(
-        value: Attribute.h2,
-        height: iconSize * 1.77,
-        child: Text(_valueToText[Attribute.h2]!, style: style),
-      ),
-      PopupMenuItem(
-        value: Attribute.h3,
-        height: iconSize * 1.77,
-        child: Text(_valueToText[Attribute.h3]!, style: style),
-      ),
-    ],
-    onSelected: onSelected,
-    child: Text(
-      !kIsWeb
-          ? _valueToText[value!]!
-          : _valueToText[value!.key == 'header'
-              ? Attribute.header
-              : (value.key == 'h1')
-                  ? Attribute.h1
-                  : (value.key == 'h2')
-                      ? Attribute.h2
-                      : Attribute.h3]!,
-      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-    ),
+  List<Attribute> _valueAttribute = [
+    Attribute.header,
+    Attribute.h1,
+    Attribute.h2,
+    Attribute.h3
+  ];
+  List<String> _valueString = ['N', 'H1', 'H2', 'H3'];
+
+  final theme = Theme.of(context);
+  final style = theme.textTheme.caption?.copyWith(
+    fontWeight: FontWeight.bold,
+    fontSize: (15.0 / iconSize) * headerFontSize,
+  );
+  final width = theme.buttonTheme.constraints.minHeight + 4.0;
+  final constraints = theme.buttonTheme.constraints.copyWith(
+    minWidth: width,
+    maxHeight: theme.buttonTheme.constraints.minHeight,
+  );
+  final radius = const BorderRadius.all(Radius.circular(3.0));
+
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: List.generate(4, (index) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6.0),
+        child: RawMaterialButton(
+          shape: RoundedRectangleBorder(borderRadius: radius),
+          elevation: 0.0,
+          fillColor: _valueToText[value] == _valueString[index]
+              ? Theme.of(context).accentColor.withOpacity(0.4)
+              : Colors.white,
+          constraints: constraints,
+          onPressed: () {
+            onSelected(_valueAttribute[index]);
+          },
+          child: Text(_valueString[index], style: style),
+        ),
+      );
+    }),
   );
 }
 
@@ -1027,11 +1026,12 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
           visible: showHeaderStyle,
           child: VerticalDivider(
-              indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+              indent: 12, endIndent: 12, color: Colors.grey.shade400)),
       Visibility(
           visible: showHeaderStyle,
-          child: SelectHeaderStyleButton(controller: controller)),
-      VerticalDivider(indent: 16, endIndent: 16, color: Colors.grey.shade400),
+          child: SelectHeaderStyleButton(
+              controller: controller, headerFontSize: toolbarIconSize)),
+      VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400),
       Visibility(
         visible: showListNumbers,
         child: ToggleStyleButton(
@@ -1070,7 +1070,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
               !showListCheck &&
               !showCodeBlock,
           child: VerticalDivider(
-              indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+              indent: 12, endIndent: 12, color: Colors.grey.shade400)),
       Visibility(
         visible: showQuote,
         child: ToggleStyleButton(
@@ -1098,7 +1098,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
           visible: showQuote,
           child: VerticalDivider(
-              indent: 16, endIndent: 16, color: Colors.grey.shade400)),
+              indent: 12, endIndent: 12, color: Colors.grey.shade400)),
       Visibility(
           visible: showLink, child: LinkStyleButton(controller: controller)),
       Visibility(
