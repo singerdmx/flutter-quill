@@ -919,11 +919,12 @@ class RawEditorState extends EditorState
 
     SchedulerBinding.instance!.addPostFrameCallback(
         (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
-    if (!mounted) return;
-    setState(() {
-      // Use widget.controller.value in build()
-      // Trigger build and updateChildren
-    });
+    if (mounted) {
+      setState(() {
+        // Use widget.controller.value in build()
+        // Trigger build and updateChildren
+      });
+    }
   }
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
