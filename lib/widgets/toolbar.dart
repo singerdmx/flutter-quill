@@ -370,9 +370,10 @@ Widget defaultToggleStyleButtonBuilder(
 
 class SelectHeaderStyleButton extends StatefulWidget {
   final QuillController controller;
-  final double headerfontSize;
+  final double headerFontSize;
 
-  const SelectHeaderStyleButton({required this.controller, this.headerfontSize = 18.0, Key? key})
+  const SelectHeaderStyleButton(
+      {required this.controller, this.headerFontSize = 18.0, Key? key})
       : super(key: key);
 
   @override
@@ -425,12 +426,13 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return _selectHeadingStyleButtonBuilder(context, _value, _selectAttribute, widget.headerfontSize);
+    return _selectHeadingStyleButtonBuilder(
+        context, _value, _selectAttribute, widget.headerFontSize);
   }
 }
 
 Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
-    ValueChanged<Attribute?> onSelected, double headerfontSize) {
+    ValueChanged<Attribute?> onSelected, double headerFontSize) {
   final Map<Attribute, String> _valueToText = {
     Attribute.header: 'N',
     Attribute.h1: 'H1',
@@ -438,32 +440,44 @@ Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
     Attribute.h3: 'H3',
   };
 
-  List<Attribute> _valueAttribute = [Attribute.header, Attribute.h1, Attribute.h2, Attribute.h3];
-  List<String> _valueString = ['N','H1','H2','H3'];
+  List<Attribute> _valueAttribute = [
+    Attribute.header,
+    Attribute.h1,
+    Attribute.h2,
+    Attribute.h3
+  ];
+  List<String> _valueString = ['N', 'H1', 'H2', 'H3'];
 
   final theme = Theme.of(context);
-  final style = theme.textTheme.caption?.copyWith(fontWeight: FontWeight.bold, fontSize: (15.0/iconSize)*headerfontSize);
+  final style = theme.textTheme.caption?.copyWith(
+    fontWeight: FontWeight.bold,
+    fontSize: (15.0 / iconSize) * headerFontSize,
+  );
   final width = theme.buttonTheme.constraints.minHeight + 4.0;
   final constraints = theme.buttonTheme.constraints.copyWith(
-        minWidth: width, maxHeight: theme.buttonTheme.constraints.minHeight);
+    minWidth: width,
+    maxHeight: theme.buttonTheme.constraints.minHeight,
+  );
   final radius = const BorderRadius.all(Radius.circular(3.0));
 
   return Row(
     mainAxisSize: MainAxisSize.min,
     children: List.generate(4, (index) {
       return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6.0),
-      child: RawMaterialButton(
-        shape: RoundedRectangleBorder(borderRadius: radius),
-        elevation: 0.0,
-        fillColor: _valueToText[value] == _valueString[index] ? Theme.of(context).accentColor.withOpacity(0.4) : Colors.white,
-        constraints: constraints,
-        onPressed: () {
-          onSelected(_valueAttribute[index]);
-        },
-        child: Text(_valueString[index], style: style),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6.0),
+        child: RawMaterialButton(
+          shape: RoundedRectangleBorder(borderRadius: radius),
+          elevation: 0.0,
+          fillColor: _valueToText[value] == _valueString[index]
+              ? Theme.of(context).accentColor.withOpacity(0.4)
+              : Colors.white,
+          constraints: constraints,
+          onPressed: () {
+            onSelected(_valueAttribute[index]);
+          },
+          child: Text(_valueString[index], style: style),
+        ),
+      );
     }),
   );
 }
@@ -1015,7 +1029,8 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
               indent: 12, endIndent: 12, color: Colors.grey.shade400)),
       Visibility(
           visible: showHeaderStyle,
-          child: SelectHeaderStyleButton(controller: controller, headerfontSize: toolbarIconSize)),
+          child: SelectHeaderStyleButton(
+              controller: controller, headerFontSize: toolbarIconSize)),
       VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400),
       Visibility(
         visible: showListNumbers,
