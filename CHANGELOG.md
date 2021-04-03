@@ -1,3 +1,6 @@
+## [1.1.7]
+* Fix text selection in read-only mode.
+
 ## [1.1.6]
 * Remove universal_html dependency.
 

@@ -898,6 +898,12 @@ class RawEditorState extends EditorState
       _onChangeTextEditingValue();
     } else {
       requestKeyboard();
+      if (mounted) {
+        setState(() {
+          // Use widget.controller.value in build()
+          // Trigger build and updateChildren
+        });
+      }
     }
   }
 
@@ -1109,6 +1115,7 @@ class RawEditorState extends EditorState
       return false;
     }
 
+    _selectionOverlay!.update(textEditingValue);
     _selectionOverlay!.showToolbar();
     return true;
   }
