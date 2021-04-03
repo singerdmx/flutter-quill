@@ -370,10 +370,8 @@ Widget defaultToggleStyleButtonBuilder(
 
 class SelectHeaderStyleButton extends StatefulWidget {
   final QuillController controller;
-  final double headerFontSize;
 
-  const SelectHeaderStyleButton(
-      {required this.controller, this.headerFontSize = 18.0, Key? key})
+  const SelectHeaderStyleButton({required this.controller, Key? key})
       : super(key: key);
 
   @override
@@ -426,13 +424,12 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return _selectHeadingStyleButtonBuilder(
-        context, _value, _selectAttribute, widget.headerFontSize);
+    return _selectHeadingStyleButtonBuilder(context, _value, _selectAttribute);
   }
 }
 
 Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
-    ValueChanged<Attribute?> onSelected, double headerFontSize) {
+    ValueChanged<Attribute?> onSelected) {
   final Map<Attribute, String> _valueToText = {
     Attribute.header: 'N',
     Attribute.h1: 'H1',
@@ -449,33 +446,43 @@ Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
   List<String> _valueString = ['N', 'H1', 'H2', 'H3'];
 
   final theme = Theme.of(context);
-  final style = theme.textTheme.caption?.copyWith(
-    fontWeight: FontWeight.bold,
-    fontSize: (15.0 / iconSize) * headerFontSize,
+  final style = TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: iconSize * 0.7,
   );
-  final width = theme.buttonTheme.constraints.minHeight + 4.0;
-  final constraints = theme.buttonTheme.constraints.copyWith(
-    minWidth: width,
-    maxHeight: theme.buttonTheme.constraints.minHeight,
-  );
-  final radius = const BorderRadius.all(Radius.circular(3.0));
 
   return Row(
     mainAxisSize: MainAxisSize.min,
     children: List.generate(4, (index) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6.0),
-        child: RawMaterialButton(
-          shape: RoundedRectangleBorder(borderRadius: radius),
-          elevation: 0.0,
-          fillColor: _valueToText[value] == _valueString[index]
-              ? Theme.of(context).accentColor.withOpacity(0.4)
-              : Colors.white,
-          constraints: constraints,
-          onPressed: () {
-            onSelected(_valueAttribute[index]);
-          },
-          child: Text(_valueString[index], style: style),
+        padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(
+            width: iconSize * 1.77,
+            height: iconSize * 1.77,
+          ),
+          child: RawMaterialButton(
+            hoverElevation: 0,
+            highlightElevation: 0,
+            elevation: 0.0,
+            visualDensity: VisualDensity.compact,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+            fillColor: _valueToText[value] == _valueString[index]
+                ? theme.toggleableActiveColor
+                : theme.canvasColor,
+            onPressed: () {
+              onSelected(_valueAttribute[index]);
+            },
+            child: Text(
+              _valueString[index],
+              style: style.copyWith(
+                color: _valueToText[value] == _valueString[index]
+                    ? theme.primaryIconTheme.color
+                    : theme.iconTheme.color,
+              ),
+            ),
+          ),
         ),
       );
     }),
@@ -1029,8 +1036,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
               indent: 12, endIndent: 12, color: Colors.grey.shade400)),
       Visibility(
           visible: showHeaderStyle,
-          child: SelectHeaderStyleButton(
-              controller: controller, headerFontSize: toolbarIconSize)),
+          child: SelectHeaderStyleButton(controller: controller)),
       VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400),
       Visibility(
         visible: showListNumbers,
