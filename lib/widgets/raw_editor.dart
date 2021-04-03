@@ -1029,7 +1029,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  void hideToolbar([bool hideHandles = true]) {
+  void hideToolbar() {
     if (getSelectionOverlay()?.toolbar != null) {
       getSelectionOverlay()?.hideToolbar();
     }
@@ -1131,10 +1131,6 @@ class RawEditorState extends EditorState
       closeConnectionIfNeeded();
     }
   }
-
-  @override
-  void userUpdateTextEditingValue(
-      TextEditingValue value, SelectionChangedCause cause) {}
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
