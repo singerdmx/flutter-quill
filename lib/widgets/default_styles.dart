@@ -59,6 +59,7 @@ class DefaultStyles {
   final DefaultTextBlockStyle? code;
   final DefaultTextBlockStyle? indent;
   final DefaultTextBlockStyle? align;
+  final DefaultTextBlockStyle? leading;
 
   DefaultStyles(
       {this.h1,
@@ -77,6 +78,7 @@ class DefaultStyles {
       this.code,
       this.indent,
       this.align,
+      this.leading,
       this.sizeSmall,
       this.sizeLarge,
       this.sizeHuge});
@@ -183,6 +185,8 @@ class DefaultStyles {
             baseStyle, baseSpacing, const Tuple2(0.0, 6.0), null),
         align: DefaultTextBlockStyle(
             baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
+        leading: DefaultTextBlockStyle(
+            baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
         sizeSmall: const TextStyle(fontSize: 10.0),
         sizeLarge: const TextStyle(fontSize: 18.0),
         sizeHuge: const TextStyle(fontSize: 22.0));
@@ -206,6 +210,7 @@ class DefaultStyles {
         code: other.code ?? code,
         indent: other.indent ?? indent,
         align: other.align ?? align,
+        leading: other.leading ?? leading,
         sizeSmall: other.sizeSmall ?? sizeSmall,
         sizeLarge: other.sizeLarge ?? sizeLarge,
         sizeHuge: other.sizeHuge ?? sizeHuge);
