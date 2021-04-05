@@ -371,6 +371,10 @@ class RawEditorState extends EditorState
       _textInputConnection != null && _textInputConnection!.attached;
 
   void openConnectionIfNeeded() {
+    if (!shouldCreateInputConnection) {
+      return;
+    }
+
     if (!hasConnection) {
       _lastKnownRemoteTextEditingValue = textEditingValue;
       _textInputConnection = TextInput.attach(
@@ -388,11 +392,8 @@ class RawEditorState extends EditorState
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
       // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
+
     _textInputConnection!.show();
-    if (widget.readOnly) {
-      // temporary hack to dismiss keyboard
-      SystemChannels.textInput.invokeMethod('TextInput.hide');
-    }
   }
 
   void closeConnectionIfNeeded() {
@@ -897,6 +898,12 @@ class RawEditorState extends EditorState
       _onChangeTextEditingValue();
     } else {
       requestKeyboard();
+      if (mounted) {
+        setState(() {
+          // Use widget.controller.value in build()
+          // Trigger build and updateChildren
+        });
+      }
     }
   }
 
@@ -912,11 +919,12 @@ class RawEditorState extends EditorState
 
     SchedulerBinding.instance!.addPostFrameCallback(
         (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
-    if (!mounted) return;
-    setState(() {
-      // Use widget.controller.value in build()
-      // Trigger build and updateChildren
-    });
+    if (mounted) {
+      setState(() {
+        // Use widget.controller.value in build()
+        // Trigger build and updateChildren
+      });
+    }
   }
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
@@ -1108,6 +1116,7 @@ class RawEditorState extends EditorState
       return false;
     }
 
+    _selectionOverlay!.update(textEditingValue);
     _selectionOverlay!.showToolbar();
     return true;
   }

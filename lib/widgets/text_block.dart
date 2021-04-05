@@ -141,7 +141,7 @@ class EditableTextBlock extends StatelessWidget {
         index: index,
         indentLevelCounts: indentLevelCounts,
         count: count,
-        style: defaultStyles!.paragraph!.style,
+        style: defaultStyles!.leading!.style,
         attrs: attrs,
         width: 32.0,
         padding: 8.0,
@@ -150,20 +150,20 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.ul) {
       return _BulletPoint(
-        style: defaultStyles!.paragraph!.style
-            .copyWith(fontWeight: FontWeight.bold),
+        style:
+            defaultStyles!.leading!.style.copyWith(fontWeight: FontWeight.bold),
         width: 32,
       );
     }
 
     if (attrs[Attribute.list.key] == Attribute.checked) {
       return _Checkbox(
-          style: defaultStyles!.paragraph!.style, width: 32, isChecked: true);
+          style: defaultStyles!.leading!.style, width: 32, isChecked: true);
     }
 
     if (attrs[Attribute.list.key] == Attribute.unchecked) {
       return _Checkbox(
-          style: defaultStyles!.paragraph!.style, width: 32, isChecked: false);
+          style: defaultStyles!.leading!.style, width: 32, isChecked: false);
     }
 
     if (attrs.containsKey(Attribute.codeBlock.key)) {
