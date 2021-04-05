@@ -134,6 +134,16 @@ class QuillEditor extends StatefulWidget {
   final Brightness keyboardAppearance;
   final ScrollPhysics? scrollPhysics;
   final ValueChanged<String>? onLaunchUrl;
+  // Returns whether gesture is handled
+  final bool Function(TapDownDetails details, TextPosition textPosition)? onTapDown;
+  // Returns whether gesture is handled
+  final bool Function(TapUpDetails details, TextPosition textPosition)? onTapUp;
+  // Returns whether gesture is handled
+  final bool Function(LongPressStartDetails details, TextPosition textPosition)? onSingleLongTapStart;
+  // Returns whether gesture is handled
+  final bool Function(LongPressMoveUpdateDetails details, TextPosition textPosition)? onSingleLongTapMoveUpdate;
+  // Returns whether gesture is handled
+  final bool Function(LongPressEndDetails details, TextPosition textPosition)? onSingleLongTapEnd;
   final EmbedBuilder embedBuilder;
 
   const QuillEditor(
@@ -155,6 +165,11 @@ class QuillEditor extends StatefulWidget {
       this.keyboardAppearance = Brightness.light,
       this.scrollPhysics,
       this.onLaunchUrl,
+      this.onTapDown,
+      this.onTapUp,
+      this.onSingleLongTapStart,
+      this.onSingleLongTapMoveUpdate,
+      this.onSingleLongTapEnd,
       this.embedBuilder = _defaultEmbedBuilder});
 
   factory QuillEditor.basic(
@@ -314,6 +329,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
+    if (_state.widget.onSingleLongTapMoveUpdate != null) {
+      final renderEditor = getRenderEditor();
+      if (renderEditor != null) {
+        if (_state.widget.onSingleLongTapMoveUpdate!(details, renderEditor.getPositionForOffset(details.globalPosition)
+        )) {
+          return;
+        }
+      }
+    }
     if (!delegate.getSelectionEnabled()) {
       return;
     }
@@ -436,7 +460,29 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
+  void onTapDown(TapDownDetails details) {
+    if (_state.widget.onTapDown != null) {
+      final renderEditor = getRenderEditor();
+      if (renderEditor != null) {
+        if (_state.widget.onTapDown!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+          return;
+        }
+      }
+    }
+    super.onTapDown(details);
+  }
+
+  @override
   void onSingleTapUp(TapUpDetails details) {
+    if (_state.widget.onTapUp != null) {
+      final renderEditor = getRenderEditor();
+      if (renderEditor != null) {
+        if (_state.widget.onTapUp!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+          return;
+        }
+      }
+    }
+
     getEditor()!.hideToolbar();
 
     bool positionSelected = _onTapping(details);
@@ -470,6 +516,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
+    if (_state.widget.onSingleLongTapStart != null) {
+      final renderEditor = getRenderEditor();
+      if (renderEditor != null) {
+        if (_state.widget.onSingleLongTapStart!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+          return;
+        }
+      }
+    }
+
     if (delegate.getSelectionEnabled()) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
@@ -491,6 +546,19 @@ class _QuillEditorSelectionGestureDetectorBuilder
           throw 'Invalid platform';
       }
     }
+  }
+
+  @override
+  void onSingleLongTapEnd(LongPressEndDetails details) {
+    if (_state.widget.onSingleLongTapEnd != null) {
+      final renderEditor = getRenderEditor();
+      if (renderEditor != null) {
+        if (_state.widget.onSingleLongTapEnd!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+          return;
+        }
+      }
+    }
+    super.onSingleLongTapEnd(details);
   }
 }
 

@@ -533,6 +533,7 @@ class _EditorTextSelectionGestureDetectorState
   }
 
   void _handleTapDown(TapDownDetails details) {
+    // renderObject.resetTapDownStatus();
     if (widget.onTapDown != null) {
       widget.onTapDown!(details);
     }
