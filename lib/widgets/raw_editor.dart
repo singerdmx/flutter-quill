@@ -328,7 +328,7 @@ class RawEditorState extends EditorState
     }
 
     var count = 0;
-    final remain = string.characters.skipWhile((String currentString) {
+    final remain = string.characters.skipWhile((currentString) {
       if (count <= index) {
         count += currentString.length;
         return true;
@@ -698,7 +698,7 @@ class RawEditorState extends EditorState
       _keyboardVisibilityController = KeyboardVisibilityController();
       _keyboardVisible = _keyboardVisibilityController!.isVisible;
       _keyboardVisibilitySubscription =
-          _keyboardVisibilityController?.onChange.listen((bool visible) {
+          _keyboardVisibilityController?.onChange.listen((visible) {
         _keyboardVisible = visible;
         if (visible) {
           _onChangeTextEditingValue();
@@ -911,7 +911,7 @@ class RawEditorState extends EditorState
     }
 
     SchedulerBinding.instance!.addPostFrameCallback(
-        (Duration _) => _updateOrDisposeSelectionOverlayIfNeeded());
+        (_) => _updateOrDisposeSelectionOverlayIfNeeded());
     if (mounted) {
       setState(() {
         // Use widget.controller.value in build()
@@ -982,7 +982,7 @@ class RawEditorState extends EditorState
     }
 
     _showCaretOnScreenScheduled = true;
-    SchedulerBinding.instance!.addPostFrameCallback((Duration _) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       _showCaretOnScreenScheduled = false;
 
       final viewport = RenderAbstractViewport.of(getRenderEditor())!;

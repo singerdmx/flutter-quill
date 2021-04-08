@@ -111,7 +111,7 @@ class EditorTextSelectionOverlay {
     return Visibility(
         visible: handlesVisible,
         child: _TextSelectionHandleOverlay(
-          onSelectionHandleChanged: (TextSelection? newSelection) {
+          onSelectionHandleChanged: (newSelection) {
             _handleSelectionHandleChanged(newSelection, position);
           },
           onSelectionHandleTapped: onSelectionHandleTapped,
@@ -231,10 +231,10 @@ class EditorTextSelectionOverlay {
     assert(_handles == null);
     _handles = <OverlayEntry>[
       OverlayEntry(
-          builder: (BuildContext context) =>
+          builder: (context) =>
               _buildHandle(context, _TextSelectionHandlePosition.START)),
       OverlayEntry(
-          builder: (BuildContext context) =>
+          builder: (context) =>
               _buildHandle(context, _TextSelectionHandlePosition.END)),
     ];
 
@@ -659,7 +659,7 @@ class _EditorTextSelectionGestureDetectorState
     gestures[TapGestureRecognizer] =
         GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
       () => TapGestureRecognizer(debugOwner: this),
-      (TapGestureRecognizer instance) {
+      (instance) {
         instance
           ..onTapDown = _handleTapDown
           ..onTapUp = _handleTapUp
@@ -674,7 +674,7 @@ class _EditorTextSelectionGestureDetectorState
           GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
         () => LongPressGestureRecognizer(
             debugOwner: this, kind: PointerDeviceKind.touch),
-        (LongPressGestureRecognizer instance) {
+        (instance) {
           instance
             ..onLongPressStart = _handleLongPressStart
             ..onLongPressMoveUpdate = _handleLongPressMoveUpdate
@@ -690,7 +690,7 @@ class _EditorTextSelectionGestureDetectorState
           GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
         () => HorizontalDragGestureRecognizer(
             debugOwner: this, kind: PointerDeviceKind.mouse),
-        (HorizontalDragGestureRecognizer instance) {
+        (instance) {
           instance
             ..dragStartBehavior = DragStartBehavior.down
             ..onStart = _handleDragStart
@@ -704,7 +704,7 @@ class _EditorTextSelectionGestureDetectorState
       gestures[ForcePressGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<ForcePressGestureRecognizer>(
         () => ForcePressGestureRecognizer(debugOwner: this),
-        (ForcePressGestureRecognizer instance) {
+        (instance) {
           instance
             ..onStart =
                 widget.onForcePressStart != null ? _forcePressStarted : null

@@ -16,7 +16,7 @@ class Style {
       return Style();
     }
 
-    final result = attributes.map((String key, dynamic value) {
+    final result = attributes.map((key, dynamic value) {
       final attr = Attribute.fromKeyValue(key, value);
       return MapEntry<String, Attribute>(key, attr);
     });
@@ -25,7 +25,7 @@ class Style {
 
   Map<String, dynamic>? toJson() => _attributes.isEmpty
       ? null
-      : _attributes.map<String, dynamic>((String _, Attribute attribute) =>
+      : _attributes.map<String, dynamic>((_, attribute) =>
           MapEntry<String, dynamic>(attribute.key, attribute.value));
 
   Iterable<String> get keys => _attributes.keys;

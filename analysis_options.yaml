@@ -24,3 +24,4 @@ linter:
     - prefer_relative_imports
     - prefer_single_quotes
     - unnecessary_parenthesis
+    - avoid_types_on_closure_parameters

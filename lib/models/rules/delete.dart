@@ -60,8 +60,8 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
 
       var attributes = op.attributes == null
           ? null
-          : op.attributes!.map<String, dynamic>((String key, dynamic value) =>
-              MapEntry<String, dynamic>(key, null));
+          : op.attributes!.map<String, dynamic>(
+              (key, dynamic value) => MapEntry<String, dynamic>(key, null));
 
       if (isNotPlain) {
         attributes ??= <String, dynamic>{};

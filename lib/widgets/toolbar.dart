@@ -1251,7 +1251,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       // widget.shape ?? popupMenuTheme.shape,
       color: popupMenuTheme.color, // widget.color ?? popupMenuTheme.color,
       // captureInheritedThemes: widget.captureInheritedThemes,
-    ).then((T? newValue) {
+    ).then((newValue) {
       if (!mounted) return null;
       if (newValue == null) {
         // if (widget.onCanceled != null) widget.onCanceled();
