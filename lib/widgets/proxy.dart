@@ -91,8 +91,8 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
       ];
     }
 
-    double left = selection.extentOffset == 0 ? 0.0 : size.width;
-    double right = selection.extentOffset == 0 ? 0.0 : size.width;
+    final left = selection.extentOffset == 0 ? 0.0 : size.width;
+    final right = selection.extentOffset == 0 ? 0.0 : size.width;
     return <TextBox>[
       TextBox.fromLTRBD(left, 0.0, right, size.height, TextDirection.ltr)
     ];

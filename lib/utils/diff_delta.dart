@@ -52,17 +52,17 @@ class Diff {
 
 /* Get diff operation between old text and new text */
 Diff getDiff(String oldText, String newText, int cursorPosition) {
-  int end = oldText.length;
-  int delta = newText.length - end;
-  for (int limit = math.max(0, cursorPosition - delta);
+  var end = oldText.length;
+  final delta = newText.length - end;
+  for (final limit = math.max(0, cursorPosition - delta);
       end > limit && oldText[end - 1] == newText[end + delta - 1];
       end--) {}
-  int start = 0;
-  for (int startLimit = cursorPosition - math.max(0, delta);
+  var start = 0;
+  for (final startLimit = cursorPosition - math.max(0, delta);
       start < startLimit && oldText[start] == newText[start];
       start++) {}
-  String deleted = (start >= end) ? '' : oldText.substring(start, end);
-  String inserted = newText.substring(start, end + delta);
+  final deleted = (start >= end) ? '' : oldText.substring(start, end);
+  final inserted = newText.substring(start, end + delta);
   return Diff(start, deleted, inserted);
 }
 
@@ -71,13 +71,13 @@ int getPositionDelta(Delta user, Delta actual) {
     return 0;
   }
 
-  DeltaIterator userItr = DeltaIterator(user);
-  DeltaIterator actualItr = DeltaIterator(actual);
-  int diff = 0;
+  final userItr = DeltaIterator(user);
+  final actualItr = DeltaIterator(actual);
+  var diff = 0;
   while (userItr.hasNext || actualItr.hasNext) {
     final length = math.min(userItr.peekLength(), actualItr.peekLength());
-    Operation userOperation = userItr.next(length as int);
-    Operation actualOperation = actualItr.next(length);
+    final userOperation = userItr.next(length as int);
+    final actualOperation = actualItr.next(length);
     if (userOperation.length != actualOperation.length) {
       throw 'userOp ' +
           userOperation.length.toString() +

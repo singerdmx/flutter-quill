@@ -48,9 +48,9 @@ abstract class Container<T extends Node?> extends Node {
       return;
     }
 
-    T? last = newParent!.isEmpty ? null : newParent.last as T?;
+    final last = newParent!.isEmpty ? null : newParent.last as T?;
     while (isNotEmpty) {
-      T child = first as T;
+      final child = first as T;
       child?.unlink();
       newParent.add(child);
     }
@@ -63,8 +63,8 @@ abstract class Container<T extends Node?> extends Node {
       return ChildQuery(null, 0);
     }
 
-    for (Node node in children) {
-      int len = node.length;
+    for (final node in children) {
+      final len = node.length;
       if (offset < len || (inclusive && offset == len && (node.isLast))) {
         return ChildQuery(node, offset);
       }
@@ -84,14 +84,14 @@ abstract class Container<T extends Node?> extends Node {
     assert(index == 0 || (index > 0 && index < length));
 
     if (isNotEmpty) {
-      ChildQuery child = queryChild(index, false);
+      final child = queryChild(index, false);
       child.node!.insert(child.offset, data, style);
       return;
     }
 
     // empty
     assert(index == 0);
-    T node = defaultChild;
+    final node = defaultChild;
     add(node);
     node?.insert(index, data, style);
   }
@@ -99,14 +99,14 @@ abstract class Container<T extends Node?> extends Node {
   @override
   void retain(int index, int? length, Style? attributes) {
     assert(isNotEmpty);
-    ChildQuery child = queryChild(index, false);
+    final child = queryChild(index, false);
     child.node!.retain(child.offset, length, attributes);
   }
 
   @override
   void delete(int index, int? length) {
     assert(isNotEmpty);
-    ChildQuery child = queryChild(index, false);
+    final child = queryChild(index, false);
     child.node!.delete(child.offset, length);
   }
 

@@ -215,7 +215,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
     if (widget.attribute.key == Attribute.list.key) {
-      Attribute? attribute = attrs[widget.attribute.key];
+      final attribute = attrs[widget.attribute.key];
       if (attribute == null) {
         return false;
       }
@@ -299,7 +299,7 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
     if (widget.attribute.key == Attribute.list.key) {
-      Attribute? attribute = attrs[widget.attribute.key];
+      final attribute = attrs[widget.attribute.key];
       if (attribute == null) {
         return false;
       }
@@ -430,20 +430,20 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
 Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
     ValueChanged<Attribute?> onSelected) {
-  final Map<Attribute, String> _valueToText = {
+  final _valueToText = <Attribute, String>{
     Attribute.header: 'N',
     Attribute.h1: 'H1',
     Attribute.h2: 'H2',
     Attribute.h3: 'H3',
   };
 
-  List<Attribute> _valueAttribute = [
+  final _valueAttribute = <Attribute>[
     Attribute.header,
     Attribute.h1,
     Attribute.h2,
     Attribute.h3
   ];
-  List<String> _valueString = ['N', 'H1', 'H2', 'H3'];
+  final _valueString = <String>['N', 'H1', 'H2', 'H3'];
 
   final theme = Theme.of(context);
   final style = TextStyle(
@@ -520,10 +520,10 @@ class _ImageButtonState extends State<ImageButton> {
   final FileType _pickingType = FileType.any;
 
   Future<String?> _pickImage(ImageSource source) async {
-    final PickedFile? pickedFile = await _picker.getImage(source: source);
+    final pickedFile = await _picker.getImage(source: source);
     if (pickedFile == null) return null;
 
-    final File file = File(pickedFile.path);
+    final file = File(pickedFile.path);
 
     return widget.onImagePickCallback!(file);
   }
@@ -536,11 +536,11 @@ class _ImageButtonState extends State<ImageButton> {
           : null,
     ))
         ?.files;
-    var _fileName =
+    final _fileName =
         _paths != null ? _paths!.map((e) => e.name).toString() : '...';
 
     if (_paths != null) {
-      File file = File(_fileName);
+      final file = File(_fileName);
       // We simply return the absolute path to selected file.
       return widget.onImagePickCallback!(file);
     } else {
@@ -550,7 +550,7 @@ class _ImageButtonState extends State<ImageButton> {
   }
 
   Future<String> _pickImageDesktop() async {
-    var filePath = await FilesystemPicker.open(
+    final filePath = await FilesystemPicker.open(
       context: context,
       rootDirectory: await getApplicationDocumentsDirectory(),
       fsType: FilesystemType.file,
@@ -558,7 +558,7 @@ class _ImageButtonState extends State<ImageButton> {
     );
     if (filePath != null && filePath.isEmpty) return '';
 
-    final File file = File(filePath!);
+    final file = File(filePath!);
     return widget.onImagePickCallback!(file);
   }
 
@@ -683,19 +683,19 @@ class _ColorButtonState extends State<ColorButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Color? iconColor = _isToggledColor && !widget.background && !_isWhite
+    final iconColor = _isToggledColor && !widget.background && !_isWhite
         ? stringToColor(_selectionStyle.attributes['color']!.value)
         : theme.iconTheme.color;
 
-    var iconColorBackground =
+    final iconColorBackground =
         _isToggledBackground && widget.background && !_isWhitebackground
             ? stringToColor(_selectionStyle.attributes['background']!.value)
             : theme.iconTheme.color;
 
-    Color fillColor = _isToggledColor && !widget.background && _isWhite
+    final fillColor = _isToggledColor && !widget.background && _isWhite
         ? stringToColor('#ffffff')
         : theme.canvasColor;
-    Color fillColorBackground =
+    final fillColorBackground =
         _isToggledBackground && widget.background && _isWhitebackground
             ? stringToColor('#ffffff')
             : theme.canvasColor;
@@ -713,7 +713,7 @@ class _ColorButtonState extends State<ColorButton> {
   }
 
   void _changeColor(Color color) {
-    String hex = color.value.toRadixString(16);
+    var hex = color.value.toRadixString(16);
     if (hex.startsWith('ff')) {
       hex = hex.substring(2);
     }
@@ -894,7 +894,7 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
         icon: Icon(widget.icon, size: iconSize, color: iconColor),
         fillColor: fillColor,
         onPressed: () {
-          for (Attribute k
+          for (final k
               in widget.controller.getSelectionStyle().attributes.values) {
             widget.controller.formatSelection(Attribute.clone(k, null));
           }

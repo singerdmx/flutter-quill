@@ -3,7 +3,6 @@ include: package:pedantic/analysis_options.yaml
 analyzer:
   errors:
     undefined_prefixed_name: ignore
-    omit_local_variable_types: ignore
     unsafe_html: ignore
 linter:
   rules:
@@ -11,7 +10,11 @@ linter:
     - avoid_print
     - avoid_redundant_argument_values
     - directives_ordering
+    - omit_local_variable_types
     - prefer_const_constructors
     - prefer_const_constructors_in_immutables
+    - prefer_final_fields
+    - prefer_final_in_for_each
+    - prefer_final_locals
     - prefer_relative_imports
     - unnecessary_parenthesis

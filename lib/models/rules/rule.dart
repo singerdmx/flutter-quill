@@ -52,7 +52,7 @@ class Rules {
   Delta apply(RuleType ruleType, Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
     final delta = document.toDelta();
-    for (var rule in _rules) {
+    for (final rule in _rules) {
       if (rule.type != ruleType) {
         continue;
       }

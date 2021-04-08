@@ -178,14 +178,14 @@ class _HomePageState extends State<HomePage> {
   // You can also upload the picked image to any server (eg : AWS s3 or Firebase) and then return the uploaded image URL
   Future<String> _onImagePickCallback(File file) async {
     // Copies the picked file from temporary cache to applications directory
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    File copiedFile =
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final copiedFile =
         await file.copy('${appDocDir.path}/${basename(file.path)}');
     return copiedFile.path.toString();
   }
 
   Widget _buildMenuBar(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final itemStyle = const TextStyle(
       color: Colors.white,
       fontSize: 18,

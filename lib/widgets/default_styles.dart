@@ -17,7 +17,7 @@ class QuillStyles extends InheritedWidget {
   }
 
   static DefaultStyles? getStyles(BuildContext context, bool nullOk) {
-    var widget = context.dependOnInheritedWidgetOfExactType<QuillStyles>();
+    final widget = context.dependOnInheritedWidgetOfExactType<QuillStyles>();
     if (widget == null && nullOk) {
       return null;
     }
@@ -84,13 +84,13 @@ class DefaultStyles {
       this.sizeHuge});
 
   static DefaultStyles getInstance(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
-    TextStyle baseStyle = defaultTextStyle.style.copyWith(
+    final themeData = Theme.of(context);
+    final defaultTextStyle = DefaultTextStyle.of(context);
+    final baseStyle = defaultTextStyle.style.copyWith(
       fontSize: 16.0,
       height: 1.3,
     );
-    Tuple2<double, double> baseSpacing = const Tuple2(6.0, 0);
+    final baseSpacing = const Tuple2<double, double>(6.0, 0);
     String fontFamily;
     switch (themeData.platform) {
       case TargetPlatform.iOS:

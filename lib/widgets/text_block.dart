@@ -6,7 +6,6 @@ import 'package:tuple/tuple.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
-import '../models/documents/nodes/node.dart';
 import 'box.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
@@ -79,7 +78,7 @@ class EditableTextBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
-    DefaultStyles? defaultStyles = QuillStyles.getStyles(context, false);
+    final defaultStyles = QuillStyles.getStyles(context, false);
     return _EditableBlock(
         block,
         textDirection,
@@ -91,7 +90,7 @@ class EditableTextBlock extends StatelessWidget {
 
   BoxDecoration? _getDecorationForBlock(
       Block node, DefaultStyles? defaultStyles) {
-    Map<String, Attribute> attrs = block.style.attributes;
+    final attrs = block.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return defaultStyles!.quote!.decoration;
     }
@@ -103,13 +102,13 @@ class EditableTextBlock extends StatelessWidget {
 
   List<Widget> _buildChildren(
       BuildContext context, Map<int, int> indentLevelCounts) {
-    DefaultStyles? defaultStyles = QuillStyles.getStyles(context, false);
-    int count = block.children.length;
-    var children = <Widget>[];
-    int index = 0;
-    for (Line line in Iterable.castFrom<dynamic, Line>(block.children)) {
+    final defaultStyles = QuillStyles.getStyles(context, false);
+    final count = block.children.length;
+    final children = <Widget>[];
+    var index = 0;
+    for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
-      EditableTextLine editableTextLine = EditableTextLine(
+      final editableTextLine = EditableTextLine(
           line,
           _buildLeading(context, line, index, indentLevelCounts, count),
           TextLine(
@@ -134,8 +133,8 @@ class EditableTextBlock extends StatelessWidget {
 
   Widget? _buildLeading(BuildContext context, Line line, int index,
       Map<int, int> indentLevelCounts, int count) {
-    DefaultStyles? defaultStyles = QuillStyles.getStyles(context, false);
-    Map<String, Attribute> attrs = line.style.attributes;
+    final defaultStyles = QuillStyles.getStyles(context, false);
+    final attrs = line.style.attributes;
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return _NumberPoint(
         index: index,
@@ -183,10 +182,10 @@ class EditableTextBlock extends StatelessWidget {
   }
 
   double _getIndentWidth() {
-    Map<String, Attribute> attrs = block.style.attributes;
+    final attrs = block.style.attributes;
 
-    Attribute? indent = attrs[Attribute.indent.key];
-    double extraIndent = 0.0;
+    final indent = attrs[Attribute.indent.key];
+    var extraIndent = 0.0;
     if (indent != null && indent.value != null) {
       extraIndent = 16.0 * indent.value;
     }
@@ -200,11 +199,11 @@ class EditableTextBlock extends StatelessWidget {
 
   Tuple2 _getSpacingForLine(
       Line node, int index, int count, DefaultStyles? defaultStyles) {
-    double top = 0.0, bottom = 0.0;
+    var top = 0.0, bottom = 0.0;
 
-    Map<String, Attribute> attrs = block.style.attributes;
+    final attrs = block.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
-      int? level = attrs[Attribute.header.key]!.value;
+      final level = attrs[Attribute.header.key]!.value;
       switch (level) {
         case 1:
           top = defaultStyles!.h1!.verticalSpacing.item1;
@@ -310,8 +309,8 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
   @override
   TextRange getLineBoundary(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
-    TextRange rangeInChild = child.getLineBoundary(TextPosition(
+    final child = childAtPosition(position);
+    final rangeInChild = child.getLineBoundary(TextPosition(
       offset: position.offset - child.getContainer().getOffset(),
       affinity: position.affinity,
     ));
@@ -323,7 +322,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
   @override
   Offset getOffsetForCaret(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
+    final child = childAtPosition(position);
     return child.getOffsetForCaret(TextPosition(
           offset: position.offset - child.getContainer().getOffset(),
           affinity: position.affinity,
@@ -333,9 +332,9 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
   @override
   TextPosition getPositionForOffset(Offset offset) {
-    RenderEditableBox child = childAtOffset(offset)!;
-    BoxParentData parentData = child.parentData as BoxParentData;
-    TextPosition localPosition =
+    final child = childAtOffset(offset)!;
+    final parentData = child.parentData as BoxParentData;
+    final localPosition =
         child.getPositionForOffset(offset - parentData.offset);
     return TextPosition(
       offset: localPosition.offset + child.getContainer().getOffset(),
@@ -345,9 +344,9 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
   @override
   TextRange getWordBoundary(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
-    int nodeOffset = child.getContainer().getOffset();
-    TextRange childWord = child
+    final child = childAtPosition(position);
+    final nodeOffset = child.getContainer().getOffset();
+    final childWord = child
         .getWordBoundary(TextPosition(offset: position.offset - nodeOffset));
     return TextRange(
       start: childWord.start + nodeOffset,
@@ -359,25 +358,25 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   TextPosition? getPositionAbove(TextPosition position) {
     assert(position.offset < getContainer().length);
 
-    RenderEditableBox child = childAtPosition(position);
-    TextPosition childLocalPosition = TextPosition(
+    final child = childAtPosition(position);
+    final childLocalPosition = TextPosition(
         offset: position.offset - child.getContainer().getOffset());
-    TextPosition? result = child.getPositionAbove(childLocalPosition);
+    final result = child.getPositionAbove(childLocalPosition);
     if (result != null) {
       return TextPosition(
           offset: result.offset + child.getContainer().getOffset());
     }
 
-    RenderEditableBox? sibling = childBefore(child);
+    final sibling = childBefore(child);
     if (sibling == null) {
       return null;
     }
 
-    Offset caretOffset = child.getOffsetForCaret(childLocalPosition);
-    TextPosition testPosition =
+    final caretOffset = child.getOffsetForCaret(childLocalPosition);
+    final testPosition =
         TextPosition(offset: sibling.getContainer().length - 1);
-    Offset testOffset = sibling.getOffsetForCaret(testPosition);
-    Offset finalOffset = Offset(caretOffset.dx, testOffset.dy);
+    final testOffset = sibling.getOffsetForCaret(testPosition);
+    final finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
         offset: sibling.getContainer().getOffset() +
             sibling.getPositionForOffset(finalOffset).offset);
@@ -387,24 +386,23 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   TextPosition? getPositionBelow(TextPosition position) {
     assert(position.offset < getContainer().length);
 
-    RenderEditableBox child = childAtPosition(position);
-    TextPosition childLocalPosition = TextPosition(
+    final child = childAtPosition(position);
+    final childLocalPosition = TextPosition(
         offset: position.offset - child.getContainer().getOffset());
-    TextPosition? result = child.getPositionBelow(childLocalPosition);
+    final result = child.getPositionBelow(childLocalPosition);
     if (result != null) {
       return TextPosition(
           offset: result.offset + child.getContainer().getOffset());
     }
 
-    RenderEditableBox? sibling = childAfter(child);
+    final sibling = childAfter(child);
     if (sibling == null) {
       return null;
     }
 
-    Offset caretOffset = child.getOffsetForCaret(childLocalPosition);
-    Offset testOffset =
-        sibling.getOffsetForCaret(const TextPosition(offset: 0));
-    Offset finalOffset = Offset(caretOffset.dx, testOffset.dy);
+    final caretOffset = child.getOffsetForCaret(childLocalPosition);
+    final testOffset = sibling.getOffsetForCaret(const TextPosition(offset: 0));
+    final finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
         offset: sibling.getContainer().getOffset() +
             sibling.getPositionForOffset(finalOffset).offset);
@@ -412,7 +410,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
   @override
   double preferredLineHeight(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
+    final child = childAtPosition(position);
     return child.preferredLineHeight(TextPosition(
         offset: position.offset - child.getContainer().getOffset()));
   }
@@ -426,7 +424,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
           null);
     }
 
-    Node? baseNode = getContainer().queryChild(selection.start, false).node;
+    final baseNode = getContainer().queryChild(selection.start, false).node;
     var baseChild = firstChild;
     while (baseChild != null) {
       if (baseChild.getContainer() == baseNode) {
@@ -436,7 +434,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     }
     assert(baseChild != null);
 
-    TextSelectionPoint basePoint = baseChild!.getBaseEndpointForSelection(
+    final basePoint = baseChild!.getBaseEndpointForSelection(
         localSelection(baseChild.getContainer(), selection, true));
     return TextSelectionPoint(
         basePoint.point + (baseChild.parentData as BoxParentData).offset,
@@ -452,7 +450,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
           null);
     }
 
-    Node? extentNode = getContainer().queryChild(selection.end, false).node;
+    final extentNode = getContainer().queryChild(selection.end, false).node;
 
     var extentChild = firstChild;
     while (extentChild != null) {
@@ -463,7 +461,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     }
     assert(extentChild != null);
 
-    TextSelectionPoint extentPoint = extentChild!.getExtentEndpointForSelection(
+    final extentPoint = extentChild!.getExtentEndpointForSelection(
         localSelection(extentChild.getContainer(), selection, true));
     return TextSelectionPoint(
         extentPoint.point + (extentChild.parentData as BoxParentData).offset,
@@ -487,11 +485,11 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   void _paintDecoration(PaintingContext context, Offset offset) {
     _painter ??= _decoration.createBoxPainter(markNeedsPaint);
 
-    EdgeInsets decorationPadding = resolvedPadding! - _contentPadding;
+    final decorationPadding = resolvedPadding! - _contentPadding;
 
-    ImageConfiguration filledConfiguration =
+    final filledConfiguration =
         configuration.copyWith(size: decorationPadding.deflateSize(size));
-    int debugSaveCount = context.canvas.getSaveCount();
+    final debugSaveCount = context.canvas.getSaveCount();
 
     final decorationOffset =
         offset.translate(decorationPadding.left, decorationPadding.top);
@@ -572,7 +570,7 @@ class _NumberPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String s = index.toString();
+    var s = index.toString();
     int? level = 0;
     if (!attrs.containsKey(Attribute.indent.key) &&
         !indentLevelCounts.containsKey(1)) {
@@ -595,7 +593,7 @@ class _NumberPoint extends StatelessWidget {
       // last visited level is done, going up
       indentLevelCounts.remove(level + 1);
     }
-    int count = (indentLevelCounts[level] ?? 0) + 1;
+    final count = (indentLevelCounts[level] ?? 0) + 1;
     indentLevelCounts[level] = count;
 
     s = count.toString();

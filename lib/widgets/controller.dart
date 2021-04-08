@@ -43,7 +43,7 @@ class QuillController extends ChangeNotifier {
   }
 
   void undo() {
-    Tuple2 tup = document.undo();
+    final tup = document.undo();
     if (tup.item1) {
       _handleHistoryChange(tup.item2);
     }
@@ -65,7 +65,7 @@ class QuillController extends ChangeNotifier {
   }
 
   void redo() {
-    Tuple2 tup = document.redo();
+    final tup = document.redo();
     if (tup.item1) {
       _handleHistoryChange(tup.item2);
     }
@@ -82,7 +82,7 @@ class QuillController extends ChangeNotifier {
     Delta? delta;
     if (len > 0 || data is! String || data.isNotEmpty) {
       delta = document.replace(index, len, data);
-      bool shouldRetainDelta = toggledStyle.isNotEmpty &&
+      var shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
@@ -98,7 +98,7 @@ class QuillController extends ChangeNotifier {
         }
       }
       if (shouldRetainDelta) {
-        Delta retainDelta = Delta()
+        final retainDelta = Delta()
           ..retain(index)
           ..retain(data is String ? data.length : 1, toggledStyle.toJson());
         document.compose(retainDelta, ChangeSource.LOCAL);
@@ -110,11 +110,11 @@ class QuillController extends ChangeNotifier {
       if (delta == null || delta.isEmpty) {
         _updateSelection(textSelection, ChangeSource.LOCAL);
       } else {
-        Delta user = Delta()
+        final user = Delta()
           ..retain(index)
           ..insert(data)
           ..delete(len);
-        int positionDelta = getPositionDelta(user, delta);
+        final positionDelta = getPositionDelta(user, delta);
         _updateSelection(
           textSelection.copyWith(
             baseOffset: textSelection.baseOffset + positionDelta,
@@ -134,8 +134,8 @@ class QuillController extends ChangeNotifier {
       toggledStyle = toggledStyle.put(attribute);
     }
 
-    Delta change = document.format(index, len, attribute);
-    TextSelection adjustedSelection = selection.copyWith(
+    final change = document.format(index, len, attribute);
+    final adjustedSelection = selection.copyWith(
         baseOffset: change.transformPosition(selection.baseOffset),
         extentOffset: change.transformPosition(selection.extentOffset));
     if (selection != adjustedSelection) {
@@ -177,7 +177,7 @@ class QuillController extends ChangeNotifier {
 
   void _updateSelection(TextSelection textSelection, ChangeSource source) {
     selection = textSelection;
-    int end = document.length - 1;
+    final end = document.length - 1;
     selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));

@@ -34,7 +34,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onTapDown(TapDownDetails details) {
     getRenderEditor()!.handleTapDown(details);
 
-    PointerDeviceKind? kind = details.kind;
+    final kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;

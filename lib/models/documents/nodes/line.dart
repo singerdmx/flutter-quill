@@ -47,7 +47,7 @@ class Line extends Container<Leaf?> {
         .fold(Delta(), (dynamic a, b) => a.concat(b));
     var attributes = style;
     if (parent is Block) {
-      Block block = parent as Block;
+      final block = parent as Block;
       attributes = attributes.mergeAll(block.style);
     }
     delta.insert('\n', attributes.toJson());
@@ -71,20 +71,20 @@ class Line extends Container<Leaf?> {
       return;
     }
 
-    String text = data as String;
-    int lineBreak = text.indexOf('\n');
+    final text = data as String;
+    final lineBreak = text.indexOf('\n');
     if (lineBreak < 0) {
       _insert(index, text, style);
       return;
     }
 
-    String prefix = text.substring(0, lineBreak);
+    final prefix = text.substring(0, lineBreak);
     _insert(index, prefix, style);
     if (prefix.isNotEmpty) {
       index += prefix.length;
     }
 
-    Line nextLine = _getNextLine(index);
+    final nextLine = _getNextLine(index);
 
     clearStyle();
 
@@ -95,7 +95,7 @@ class Line extends Container<Leaf?> {
     _format(style);
 
     // Continue with the remaining
-    String remain = text.substring(lineBreak + 1);
+    final remain = text.substring(lineBreak + 1);
     nextLine.insert(0, remain, style);
   }
 
@@ -104,9 +104,9 @@ class Line extends Container<Leaf?> {
     if (style == null) {
       return;
     }
-    int thisLen = length;
+    final thisLen = length;
 
-    int local = math.min(thisLen - index, len!);
+    final local = math.min(thisLen - index, len!);
 
     if (index + local == thisLen && local == 1) {
       assert(style.values.every((attr) => attr.scope == AttributeScope.BLOCK));
@@ -117,7 +117,7 @@ class Line extends Container<Leaf?> {
       super.retain(index, local, style);
     }
 
-    int remain = len - local;
+    final remain = len - local;
     if (remain > 0) {
       assert(nextLine != null);
       nextLine!.retain(0, remain, style);
@@ -126,8 +126,8 @@ class Line extends Container<Leaf?> {
 
   @override
   void delete(int index, int? len) {
-    int local = math.min(length - index, len!);
-    bool deleted = index + local == length;
+    final local = math.min(length - index, len!);
+    final deleted = index + local == length;
     if (deleted) {
       clearStyle();
       if (local > 1) {
@@ -137,7 +137,7 @@ class Line extends Container<Leaf?> {
       super.delete(index, local);
     }
 
-    int remain = len - local;
+    final remain = len - local;
     if (remain > 0) {
       assert(nextLine != null);
       nextLine!.delete(0, remain);
@@ -150,7 +150,7 @@ class Line extends Container<Leaf?> {
     }
 
     if (deleted) {
-      Node p = parent!;
+      final Node p = parent!;
       unlink();
       p.adjust();
     }
@@ -162,24 +162,24 @@ class Line extends Container<Leaf?> {
     }
 
     applyStyle(newStyle);
-    Attribute? blockStyle = newStyle.getBlockExceptHeader();
+    final blockStyle = newStyle.getBlockExceptHeader();
     if (blockStyle == null) {
       return;
     }
 
     if (parent is Block) {
-      Attribute? parentStyle = (parent as Block).style.getBlockExceptHeader();
+      final parentStyle = (parent as Block).style.getBlockExceptHeader();
       if (blockStyle.value == null) {
         _unwrap();
       } else if (blockStyle != parentStyle) {
         _unwrap();
-        Block block = Block();
+        final block = Block();
         block.applyAttribute(blockStyle);
         _wrap(block);
         block.adjust();
       }
     } else if (blockStyle.value != null) {
-      Block block = Block();
+      final block = Block();
       block.applyAttribute(blockStyle);
       _wrap(block);
       block.adjust();
@@ -197,7 +197,7 @@ class Line extends Container<Leaf?> {
     if (parent is! Block) {
       throw ArgumentError('Invalid parent');
     }
-    Block block = parent as Block;
+    final block = parent as Block;
 
     assert(block.children.contains(this));
 
@@ -208,10 +208,10 @@ class Line extends Container<Leaf?> {
       unlink();
       block.insertAfter(this);
     } else {
-      Block before = block.clone() as Block;
+      final before = block.clone() as Block;
       block.insertBefore(before);
 
-      Line child = block.first as Line;
+      var child = block.first as Line;
       while (child != this) {
         child.unlink();
         before.add(child);
@@ -226,20 +226,20 @@ class Line extends Container<Leaf?> {
   Line _getNextLine(int index) {
     assert(index == 0 || (index > 0 && index < length));
 
-    Line line = clone() as Line;
+    final line = clone() as Line;
     insertAfter(line);
     if (index == length - 1) {
       return line;
     }
 
-    ChildQuery query = queryChild(index, false);
+    final query = queryChild(index, false);
     while (!query.node!.isLast) {
-      Leaf next = last as Leaf;
+      final next = last as Leaf;
       next.unlink();
       line.addFirst(next);
     }
-    Leaf child = query.node as Leaf;
-    Leaf? cut = child.splitAt(query.offset);
+    final child = query.node as Leaf;
+    final cut = child.splitAt(query.offset);
     cut?.unlink();
     line.addFirst(cut);
     return line;
@@ -256,12 +256,12 @@ class Line extends Container<Leaf?> {
     }
 
     if (isNotEmpty) {
-      ChildQuery result = queryChild(index, true);
+      final result = queryChild(index, true);
       result.node!.insert(result.offset, data, style);
       return;
     }
 
-    Leaf child = Leaf(data);
+    final child = Leaf(data);
     add(child);
     child.format(style);
   }
@@ -272,30 +272,30 @@ class Line extends Container<Leaf?> {
   }
 
   Style collectStyle(int offset, int len) {
-    int local = math.min(length - offset, len);
-    Style res = Style();
-    var excluded = <Attribute>{};
+    final local = math.min(length - offset, len);
+    var res = Style();
+    final excluded = <Attribute>{};
 
     void _handle(Style style) {
       if (res.isEmpty) {
         excluded.addAll(style.values);
       } else {
-        for (Attribute attr in res.values) {
+        for (final attr in res.values) {
           if (!style.containsKey(attr.key)) {
             excluded.add(attr);
           }
         }
       }
-      Style remain = style.removeAll(excluded);
+      final remain = style.removeAll(excluded);
       res = res.removeAll(excluded);
       res = res.mergeAll(remain);
     }
 
-    ChildQuery data = queryChild(offset, true);
-    Leaf? node = data.node as Leaf?;
+    final data = queryChild(offset, true);
+    var node = data.node as Leaf?;
     if (node != null) {
       res = res.mergeAll(node.style);
-      int pos = node.length - data.offset;
+      var pos = node.length - data.offset;
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf?;
         _handle(node!.style);
@@ -305,11 +305,11 @@ class Line extends Container<Leaf?> {
 
     res = res.mergeAll(style);
     if (parent is Block) {
-      Block block = parent as Block;
+      final block = parent as Block;
       res = res.mergeAll(block.style);
     }
 
-    int remain = len - local;
+    final remain = len - local;
     if (remain > 0) {
       _handle(nextLine!.collectStyle(0, remain));
     }

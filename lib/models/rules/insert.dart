@@ -29,28 +29,28 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
       return null;
     }
 
-    DeltaIterator itr = DeltaIterator(document);
-    Operation? before = itr.skip(index);
+    final itr = DeltaIterator(document);
+    final before = itr.skip(index);
     if (before == null ||
         before.data is! String ||
         (before.data as String).endsWith('\n')) {
       return null;
     }
-    Operation after = itr.next();
+    final after = itr.next();
     if (after.data is! String || (after.data as String).startsWith('\n')) {
       return null;
     }
 
     final text = after.data as String;
 
-    Delta delta = Delta()..retain(index);
+    final delta = Delta()..retain(index);
     if (text.contains('\n')) {
       assert(after.isPlain);
       delta.insert('\n');
       return delta;
     }
-    Tuple2<Operation?, int?> nextNewLine = _getNextNewLine(itr);
-    Map<String, dynamic>? attributes = nextNewLine.item1?.attributes;
+    final nextNewLine = _getNextNewLine(itr);
+    final attributes = nextNewLine.item1?.attributes;
 
     return delta..insert('\n', attributes);
   }
@@ -66,19 +66,19 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       return null;
     }
 
-    DeltaIterator itr = DeltaIterator(document);
+    final itr = DeltaIterator(document);
     itr.skip(index);
 
-    Tuple2<Operation?, int?> nextNewLine = _getNextNewLine(itr);
-    Style lineStyle =
+    final nextNewLine = _getNextNewLine(itr);
+    final lineStyle =
         Style.fromJson(nextNewLine.item1?.attributes ?? <String, dynamic>{});
 
-    Attribute? attribute = lineStyle.getBlockExceptHeader();
+    final attribute = lineStyle.getBlockExceptHeader();
     if (attribute == null) {
       return null;
     }
 
-    var blockStyle = <String, dynamic>{attribute.key: attribute.value};
+    final blockStyle = <String, dynamic>{attribute.key: attribute.value};
 
     Map<String, dynamic>? resetStyle;
 
@@ -86,10 +86,10 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       resetStyle = Attribute.header.toJson();
     }
 
-    List<String> lines = data.split('\n');
-    Delta delta = Delta()..retain(index);
-    for (int i = 0; i < lines.length; i++) {
-      String line = lines[i];
+    final lines = data.split('\n');
+    final delta = Delta()..retain(index);
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
       if (line.isNotEmpty) {
         delta.insert(line);
       }
@@ -131,10 +131,9 @@ class AutoExitBlockRule extends InsertRule {
       return null;
     }
 
-    DeltaIterator itr = DeltaIterator(document);
-    Operation? prev = itr.skip(index), cur = itr.next();
-    Attribute? blockStyle =
-        Style.fromJson(cur.attributes).getBlockExceptHeader();
+    final itr = DeltaIterator(document);
+    final prev = itr.skip(index), cur = itr.next();
+    final blockStyle = Style.fromJson(cur.attributes).getBlockExceptHeader();
     if (cur.isPlain || blockStyle == null) {
       return null;
     }
@@ -146,7 +145,7 @@ class AutoExitBlockRule extends InsertRule {
       return null;
     }
 
-    Tuple2<Operation?, int?> nextNewLine = _getNextNewLine(itr);
+    final nextNewLine = _getNextNewLine(itr);
     if (nextNewLine.item1 != null &&
         nextNewLine.item1!.attributes != null &&
         Style.fromJson(nextNewLine.item1!.attributes).getBlockExceptHeader() ==
@@ -155,7 +154,7 @@ class AutoExitBlockRule extends InsertRule {
     }
 
     final attributes = cur.attributes ?? <String, dynamic>{};
-    String k = attributes.keys
+    final k = attributes.keys
         .firstWhere((k) => Attribute.blockKeysExceptHeader.contains(k));
     attributes[k] = null;
     // retain(1) should be '\n', set it with no attribute
@@ -173,9 +172,9 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
       return null;
     }
 
-    DeltaIterator itr = DeltaIterator(document);
+    final itr = DeltaIterator(document);
     itr.skip(index);
-    Operation cur = itr.next();
+    final cur = itr.next();
     if (cur.data is! String || !(cur.data as String).startsWith('\n')) {
       return null;
     }
@@ -203,12 +202,12 @@ class InsertEmbedsRule extends InsertRule {
       return null;
     }
 
-    Delta delta = Delta()..retain(index);
-    DeltaIterator itr = DeltaIterator(document);
-    Operation? prev = itr.skip(index), cur = itr.next();
+    final delta = Delta()..retain(index);
+    final itr = DeltaIterator(document);
+    final prev = itr.skip(index), cur = itr.next();
 
-    String? textBefore = prev?.data is String ? prev!.data as String? : '';
-    String textAfter = cur.data is String ? (cur.data as String?)! : '';
+    final textBefore = prev?.data is String ? prev!.data as String? : '';
+    final textAfter = cur.data is String ? (cur.data as String?)! : '';
 
     final isNewlineBefore = prev == null || textBefore!.endsWith('\n');
     final isNewlineAfter = textAfter.startsWith('\n');
@@ -222,7 +221,7 @@ class InsertEmbedsRule extends InsertRule {
       lineStyle = cur.attributes;
     } else {
       while (itr.hasNext) {
-        Operation op = itr.next();
+        final op = itr.next();
         if ((op.data is String ? op.data as String? : '')!.contains('\n')) {
           lineStyle = op.attributes;
           break;
@@ -251,17 +250,17 @@ class ForceNewlineForInsertsAroundEmbedRule extends InsertRule {
       return null;
     }
 
-    String text = data;
-    DeltaIterator itr = DeltaIterator(document);
+    final text = data;
+    final itr = DeltaIterator(document);
     final prev = itr.skip(index);
     final cur = itr.next();
-    bool cursorBeforeEmbed = cur.data is! String;
-    bool cursorAfterEmbed = prev != null && prev.data is! String;
+    final cursorBeforeEmbed = cur.data is! String;
+    final cursorAfterEmbed = prev != null && prev.data is! String;
 
     if (!cursorBeforeEmbed && !cursorAfterEmbed) {
       return null;
     }
-    Delta delta = Delta()..retain(index);
+    final delta = Delta()..retain(index);
     if (cursorBeforeEmbed && !text.endsWith('\n')) {
       return delta..insert(text)..insert('\n');
     }
@@ -282,19 +281,19 @@ class AutoFormatLinksRule extends InsertRule {
       return null;
     }
 
-    DeltaIterator itr = DeltaIterator(document);
-    Operation? prev = itr.skip(index);
+    final itr = DeltaIterator(document);
+    final prev = itr.skip(index);
     if (prev == null || prev.data is! String) {
       return null;
     }
 
     try {
-      String cand = (prev.data as String).split('\n').last.split(' ').last;
-      Uri link = Uri.parse(cand);
+      final cand = (prev.data as String).split('\n').last.split(' ').last;
+      final link = Uri.parse(cand);
       if (!['https', 'http'].contains(link.scheme)) {
         return null;
       }
-      Map<String, dynamic> attributes = prev.attributes ?? <String, dynamic>{};
+      final attributes = prev.attributes ?? <String, dynamic>{};
 
       if (attributes.containsKey(Attribute.link.key)) {
         return null;
@@ -321,16 +320,16 @@ class PreserveInlineStylesRule extends InsertRule {
       return null;
     }
 
-    DeltaIterator itr = DeltaIterator(document);
-    Operation? prev = itr.skip(index);
+    final itr = DeltaIterator(document);
+    final prev = itr.skip(index);
     if (prev == null ||
         prev.data is! String ||
         (prev.data as String).contains('\n')) {
       return null;
     }
 
-    Map<String, dynamic>? attributes = prev.attributes;
-    String text = data;
+    final attributes = prev.attributes;
+    final text = data;
     if (attributes == null || !attributes.containsKey(Attribute.link.key)) {
       return Delta()
         ..retain(index)
@@ -338,13 +337,12 @@ class PreserveInlineStylesRule extends InsertRule {
     }
 
     attributes.remove(Attribute.link.key);
-    Delta delta = Delta()
+    final delta = Delta()
       ..retain(index)
       ..insert(text, attributes.isEmpty ? null : attributes);
-    Operation next = itr.next();
+    final next = itr.next();
 
-    Map<String, dynamic> nextAttributes =
-        next.attributes ?? const <String, dynamic>{};
+    final nextAttributes = next.attributes ?? const <String, dynamic>{};
     if (!nextAttributes.containsKey(Attribute.link.key)) {
       return delta;
     }
@@ -371,9 +369,9 @@ class CatchAllInsertRule extends InsertRule {
 
 Tuple2<Operation?, int?> _getNextNewLine(DeltaIterator iterator) {
   Operation op;
-  for (int skipped = 0; iterator.hasNext; skipped += op.length!) {
+  for (var skipped = 0; iterator.hasNext; skipped += op.length!) {
     op = iterator.next();
-    int lineBreak =
+    final lineBreak =
         (op.data is String ? op.data as String? : '')!.indexOf('\n');
     if (lineBreak >= 0) {
       return Tuple2(op, skipped);

@@ -32,19 +32,19 @@ abstract class Node extends LinkedListEntry<Node> {
   int get length;
 
   Node clone() {
-    Node node = newInstance();
+    final node = newInstance();
     node.applyStyle(style);
     return node;
   }
 
   int getOffset() {
-    int offset = 0;
+    var offset = 0;
 
     if (list == null || isFirst) {
       return offset;
     }
 
-    Node cur = this;
+    var cur = this;
     do {
       cur = cur.previous!;
       offset += cur.length;

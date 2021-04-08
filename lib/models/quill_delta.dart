@@ -135,7 +135,7 @@ class Operation {
   bool operator ==(other) {
     if (identical(this, other)) return true;
     if (other is! Operation) return false;
-    Operation typedOther = other;
+    final typedOther = other;
     return key == typedOther.key &&
         length == typedOther.length &&
         _valueEquality.equals(data, typedOther.data) &&
@@ -221,14 +221,14 @@ class Delta {
     attr ??= const {};
     base ??= const {};
 
-    var baseInverted = base.keys.fold({}, (dynamic memo, key) {
+    final baseInverted = base.keys.fold({}, (dynamic memo, key) {
       if (base![key] != attr![key] && attr.containsKey(key)) {
         memo[key] = base[key];
       }
       return memo;
     });
 
-    var inverted =
+    final inverted =
         Map<String, dynamic>.from(attr.keys.fold(baseInverted, (memo, key) {
       if (base![key] != attr![key] && !base.containsKey(key)) {
         memo[key] = null;
@@ -292,7 +292,7 @@ class Delta {
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
     if (other is! Delta) return false;
-    Delta typedOther = other;
+    final typedOther = other;
     final comparator =
         const ListEquality<Operation>(DefaultEquality<Operation>());
     return comparator.equals(_operations, typedOther._operations);
@@ -529,7 +529,8 @@ class Delta {
           if (op.isDelete) {
             inverted.push(baseOp);
           } else if (op.isRetain && op.isNotPlain) {
-            var invertAttr = invertAttributes(op.attributes, baseOp.attributes);
+            final invertAttr =
+                invertAttributes(op.attributes, baseOp.attributes);
             inverted.retain(
                 baseOp.length!, invertAttr.isEmpty ? null : invertAttr);
           }
@@ -548,7 +549,7 @@ class Delta {
   Delta slice(int start, [int? end]) {
     final delta = Delta();
     var index = 0;
-    var opIterator = DeltaIterator(this);
+    final opIterator = DeltaIterator(this);
 
     final actualEnd = end ?? double.infinity;
 
@@ -661,7 +662,7 @@ class DeltaIterator {
       final opIsNotEmpty =
           opData is String ? opData.isNotEmpty : true; // embeds are never empty
       final opLength = opData is String ? opData.length : 1;
-      final int opActualLength = opIsNotEmpty ? opLength : actualLength as int;
+      final opActualLength = opIsNotEmpty ? opLength : actualLength as int;
       return Operation._(opKey, opActualLength, opData, opAttributes);
     }
     return Operation.retain(length);

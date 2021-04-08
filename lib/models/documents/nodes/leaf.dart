@@ -18,7 +18,7 @@ abstract class Leaf extends Node {
     if (data is Embeddable) {
       return Embed(data);
     }
-    String text = data as String;
+    final text = data as String;
     assert(text.isNotEmpty);
     return Text(text);
   }
@@ -44,14 +44,15 @@ abstract class Leaf extends Node {
 
   @override
   Delta toDelta() {
-    var data = _value is Embeddable ? (_value as Embeddable).toJson() : _value;
+    final data =
+        _value is Embeddable ? (_value as Embeddable).toJson() : _value;
     return Delta()..insert(data, style.toJson());
   }
 
   @override
   void insert(int index, Object data, Style? style) {
     assert(index >= 0 && index <= length);
-    Leaf node = Leaf(data);
+    final node = Leaf(data);
     if (index < length) {
       splitAt(index)!.insertBefore(node);
     } else {
@@ -66,9 +67,9 @@ abstract class Leaf extends Node {
       return;
     }
 
-    int local = math.min(length - index, len!);
-    int remain = len - local;
-    Leaf node = _isolate(index, local);
+    final local = math.min(length - index, len!);
+    final remain = len - local;
+    final node = _isolate(index, local);
 
     if (remain > 0) {
       assert(node.next != null);
@@ -81,13 +82,13 @@ abstract class Leaf extends Node {
   void delete(int index, int? len) {
     assert(index < length);
 
-    int local = math.min(length - index, len!);
-    Leaf target = _isolate(index, local);
-    Leaf? prev = target.previous as Leaf?;
-    Leaf? next = target.next as Leaf?;
+    final local = math.min(length - index, len!);
+    final target = _isolate(index, local);
+    final prev = target.previous as Leaf?;
+    final next = target.next as Leaf?;
     target.unlink();
 
-    int remain = len - local;
+    final remain = len - local;
     if (remain > 0) {
       assert(next != null);
       next!.delete(0, remain);
@@ -104,9 +105,9 @@ abstract class Leaf extends Node {
       return;
     }
 
-    Text node = this as Text;
+    var node = this as Text;
     // merging it with previous node if style is the same
-    Node? prev = node.previous;
+    final prev = node.previous;
     if (!node.isFirst && prev is Text && prev.style == node.style) {
       prev._value = prev.value + node.value;
       node.unlink();
@@ -114,7 +115,7 @@ abstract class Leaf extends Node {
     }
 
     // merging it with next node if style is the same
-    Node? next = node.next;
+    final next = node.next;
     if (!node.isLast && next is Text && next.style == node.style) {
       node._value = node.value + next.value;
       next.unlink();
@@ -123,7 +124,7 @@ abstract class Leaf extends Node {
 
   Leaf? cutAt(int index) {
     assert(index >= 0 && index <= length);
-    Leaf? cut = splitAt(index);
+    final cut = splitAt(index);
     cut?.unlink();
     return cut;
   }
@@ -138,9 +139,9 @@ abstract class Leaf extends Node {
     }
 
     assert(this is Text);
-    String text = _value as String;
+    final text = _value as String;
     _value = text.substring(0, index);
-    Leaf split = Leaf(text.substring(index));
+    final split = Leaf(text.substring(index));
     split.applyStyle(style);
     insertAfter(split);
     return split;
@@ -157,7 +158,7 @@ abstract class Leaf extends Node {
   Leaf _isolate(int index, int length) {
     assert(
         index >= 0 && index < this.length && (index + length <= this.length));
-    Leaf target = splitAt(index)!;
+    final target = splitAt(index)!;
     target.splitAt(length);
     return target;
   }

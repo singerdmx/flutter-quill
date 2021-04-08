@@ -118,8 +118,8 @@ Color stringToColor(String? s) {
     throw 'Color code not supported';
   }
 
-  String hex = s.replaceFirst('#', '');
+  var hex = s.replaceFirst('#', '');
   hex = hex.length == 6 ? 'ff' + hex : hex;
-  int val = int.parse(hex, radix: 16);
+  final val = int.parse(hex, radix: 16);
   return Color(val);
 }

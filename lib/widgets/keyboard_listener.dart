@@ -71,10 +71,10 @@ class KeyboardListener {
       return false;
     }
 
-    Set<LogicalKeyboardKey> keysPressed =
+    final keysPressed =
         LogicalKeyboardKey.collapseSynonyms(RawKeyboard.instance.keysPressed);
-    LogicalKeyboardKey key = event.logicalKey;
-    bool isMacOS = event.data is RawKeyEventDataMacOs;
+    final key = event.logicalKey;
+    final isMacOS = event.data is RawKeyEventDataMacOs;
     if (!_nonModifierKeys.contains(key) ||
         keysPressed
                 .difference(isMacOS ? _macOsModifierKeys : _modifierKeys)

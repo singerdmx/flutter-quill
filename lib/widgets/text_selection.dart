@@ -12,10 +12,10 @@ import '../models/documents/nodes/node.dart';
 import 'editor.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
-  int base = fromParent ? node.getOffset() : node.getDocumentOffset();
+  final base = fromParent ? node.getOffset() : node.getDocumentOffset();
   assert(base <= selection.end && selection.start <= base + node.length - 1);
 
-  int offset = fromParent ? node.getOffset() : node.getDocumentOffset();
+  final offset = fromParent ? node.getOffset() : node.getDocumentOffset();
   return selection.copyWith(
       baseOffset: math.max(selection.start - offset, 0),
       extentOffset: math.min(selection.end - offset, node.length - 1));
@@ -55,7 +55,7 @@ class EditorTextSelectionOverlay {
       this.dragStartBehavior,
       this.onSelectionHandleTapped,
       this.clipboardStatus) {
-    OverlayState overlay = Overlay.of(context, rootOverlay: true)!;
+    final overlay = Overlay.of(context, rootOverlay: true)!;
 
     _toolbarController = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: overlay);
@@ -161,26 +161,25 @@ class EditorTextSelectionOverlay {
   }
 
   Widget _buildToolbar(BuildContext context) {
-    List<TextSelectionPoint> endpoints =
-        renderObject!.getEndpointsForSelection(_selection);
+    final endpoints = renderObject!.getEndpointsForSelection(_selection);
 
-    Rect editingRegion = Rect.fromPoints(
+    final editingRegion = Rect.fromPoints(
       renderObject!.localToGlobal(Offset.zero),
       renderObject!.localToGlobal(renderObject!.size.bottomRight(Offset.zero)),
     );
 
-    double baseLineHeight = renderObject!.preferredLineHeight(_selection.base);
-    double extentLineHeight =
+    final baseLineHeight = renderObject!.preferredLineHeight(_selection.base);
+    final extentLineHeight =
         renderObject!.preferredLineHeight(_selection.extent);
-    double smallestLineHeight = math.min(baseLineHeight, extentLineHeight);
-    bool isMultiline = endpoints.last.point.dy - endpoints.first.point.dy >
+    final smallestLineHeight = math.min(baseLineHeight, extentLineHeight);
+    final isMultiline = endpoints.last.point.dy - endpoints.first.point.dy >
         smallestLineHeight / 2;
 
-    double midX = isMultiline
+    final midX = isMultiline
         ? editingRegion.width / 2
         : (endpoints.first.point.dx + endpoints.last.point.dx) / 2;
 
-    Offset midpoint = Offset(
+    final midpoint = Offset(
       midX,
       endpoints[0].point.dy - baseLineHeight,
     );
@@ -326,14 +325,14 @@ class _TextSelectionHandleOverlayState
   void _handleDragStart(DragStartDetails details) {}
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    TextPosition position =
+    final position =
         widget.renderObject!.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
     }
 
-    bool isNormalized =
+    final isNormalized =
         widget.selection.extentOffset >= widget.selection.baseOffset;
     TextSelection? newSelection;
     switch (widget.position) {
@@ -389,27 +388,26 @@ class _TextSelectionHandleOverlayState
         break;
     }
 
-    TextPosition textPosition =
-        widget.position == _TextSelectionHandlePosition.START
-            ? widget.selection.base
-            : widget.selection.extent;
-    double lineHeight = widget.renderObject!.preferredLineHeight(textPosition);
-    Offset handleAnchor =
+    final textPosition = widget.position == _TextSelectionHandlePosition.START
+        ? widget.selection.base
+        : widget.selection.extent;
+    final lineHeight = widget.renderObject!.preferredLineHeight(textPosition);
+    final handleAnchor =
         widget.selectionControls.getHandleAnchor(type!, lineHeight);
-    Size handleSize = widget.selectionControls.getHandleSize(lineHeight);
+    final handleSize = widget.selectionControls.getHandleSize(lineHeight);
 
-    Rect handleRect = Rect.fromLTWH(
+    final handleRect = Rect.fromLTWH(
       -handleAnchor.dx,
       -handleAnchor.dy,
       handleSize.width,
       handleSize.height,
     );
 
-    Rect interactiveRect = handleRect.expandToInclude(
+    final interactiveRect = handleRect.expandToInclude(
       Rect.fromCircle(
           center: handleRect.center, radius: kMinInteractiveDimension / 2),
     );
-    RelativeRect padding = RelativeRect.fromLTRB(
+    final padding = RelativeRect.fromLTRB(
       math.max((interactiveRect.width - handleRect.width) / 2, 0),
       math.max((interactiveRect.height - handleRect.height) / 2, 0),
       math.max((interactiveRect.width - handleRect.width) / 2, 0),
@@ -656,8 +654,7 @@ class _EditorTextSelectionGestureDetectorState
 
   @override
   Widget build(BuildContext context) {
-    final Map<Type, GestureRecognizerFactory> gestures =
-        <Type, GestureRecognizerFactory>{};
+    final gestures = <Type, GestureRecognizerFactory>{};
 
     gestures[TapGestureRecognizer] =
         GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(

@@ -5,12 +5,12 @@ class Embeddable {
   Embeddable(this.type, this.data);
 
   Map<String, dynamic> toJson() {
-    Map<String, String> m = {type: data};
+    final m = <String, String>{type: data};
     return m;
   }
 
   static Embeddable fromJson(Map<String, dynamic> json) {
-    Map<String, dynamic> m = Map<String, dynamic>.from(json);
+    final m = Map<String, dynamic>.from(json);
     assert(m.length == 1, 'Embeddable map has one key');
 
     return BlockEmbed(m.keys.first, m.values.first);

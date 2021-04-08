@@ -56,14 +56,14 @@ class Document {
       return Delta();
     }
 
-    Delta delta = _rules.apply(RuleType.INSERT, this, index, data: data);
+    final delta = _rules.apply(RuleType.INSERT, this, index, data: data);
     compose(delta, ChangeSource.LOCAL);
     return delta;
   }
 
   Delta delete(int index, int len) {
     assert(index >= 0 && len > 0);
-    Delta delta = _rules.apply(RuleType.DELETE, this, index, len: len);
+    final delta = _rules.apply(RuleType.DELETE, this, index, len: len);
     if (delta.isNotEmpty) {
       compose(delta, ChangeSource.LOCAL);
     }
@@ -74,18 +74,18 @@ class Document {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
 
-    bool dataIsNotEmpty = (data is String) ? data.isNotEmpty : true;
+    final dataIsNotEmpty = (data is String) ? data.isNotEmpty : true;
 
     assert(dataIsNotEmpty || len > 0);
 
-    Delta delta = Delta();
+    var delta = Delta();
 
     if (dataIsNotEmpty) {
       delta = insert(index + len, data);
     }
 
     if (len > 0) {
-      Delta deleteDelta = delete(index, len);
+      final deleteDelta = delete(index, len);
       delta = delta.compose(deleteDelta);
     }
 
@@ -95,9 +95,9 @@ class Document {
   Delta format(int index, int len, Attribute? attribute) {
     assert(index >= 0 && len >= 0 && attribute != null);
 
-    Delta delta = Delta();
+    var delta = Delta();
 
-    Delta formatDelta = _rules.apply(RuleType.FORMAT, this, index,
+    final formatDelta = _rules.apply(RuleType.FORMAT, this, index,
         len: len, attribute: attribute);
     if (formatDelta.isNotEmpty) {
       compose(formatDelta, ChangeSource.LOCAL);
@@ -108,16 +108,16 @@ class Document {
   }
 
   Style collectStyle(int index, int len) {
-    ChildQuery res = queryChild(index);
+    final res = queryChild(index);
     return (res.node as Line).collectStyle(res.offset, len);
   }
 
   ChildQuery queryChild(int offset) {
-    ChildQuery res = _root.queryChild(offset, true);
+    final res = _root.queryChild(offset, true);
     if (res.node is Line) {
       return res;
     }
-    Block block = res.node as Block;
+    final block = res.node as Block;
     return block.queryChild(res.offset, true);
   }
 
@@ -126,11 +126,11 @@ class Document {
     delta.trim();
     assert(delta.isNotEmpty);
 
-    int offset = 0;
+    var offset = 0;
     delta = _transform(delta);
-    Delta originalDelta = toDelta();
-    for (Operation op in delta.toList()) {
-      Style? style =
+    final originalDelta = toDelta();
+    for (final op in delta.toList()) {
+      final style =
           op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
@@ -172,10 +172,10 @@ class Document {
   bool get hasRedo => _history.hasRedo;
 
   static Delta _transform(Delta delta) {
-    Delta res = Delta();
-    List<Operation> ops = delta.toList();
-    for (int i = 0; i < ops.length; i++) {
-      Operation op = ops[i];
+    final res = Delta();
+    final ops = delta.toList();
+    for (var i = 0; i < ops.length; i++) {
+      final op = ops[i];
       res.push(op);
       _handleImageInsert(i, ops, op, res);
     }
@@ -184,14 +184,14 @@ class Document {
 
   static void _handleImageInsert(
       int i, List<Operation> ops, Operation op, Delta res) {
-    bool nextOpIsImage =
+    final nextOpIsImage =
         i + 1 < ops.length && ops[i + 1].isInsert && ops[i + 1].data is! String;
     if (nextOpIsImage && !(op.data as String).endsWith('\n')) {
       res.push(Operation.insert('\n'));
     }
     // Currently embed is equivalent to image and hence `is! String`
-    bool opInsertImage = op.isInsert && op.data is! String;
-    bool nextOpIsLineBreak = i + 1 < ops.length &&
+    final opInsertImage = op.isInsert && op.data is! String;
+    final nextOpIsLineBreak = i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is String &&
         (ops[i + 1].data as String).startsWith('\n');
@@ -221,7 +221,7 @@ class Document {
 
   void _loadDocument(Delta doc) {
     assert((doc.last.data as String).endsWith('\n'));
-    int offset = 0;
+    var offset = 0;
     for (final op in doc.toList()) {
       if (!op.isInsert) {
         throw ArgumentError.value(doc,
@@ -247,12 +247,12 @@ class Document {
       return false;
     }
 
-    final Node node = root.children.first;
+    final node = root.children.first;
     if (!node.isLast) {
       return false;
     }
 
-    Delta delta = node.toDelta();
+    final delta = node.toDelta();
     return delta.length == 1 &&
         delta.first.data == '\n' &&
         delta.first.key == 'insert';

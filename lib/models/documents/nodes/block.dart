@@ -17,7 +17,7 @@ class Block extends Container<Line?> {
   @override
   void adjust() {
     if (isEmpty) {
-      Node? sibling = previous;
+      final sibling = previous;
       unlink();
       if (sibling != null) {
         sibling.adjust();
@@ -25,8 +25,8 @@ class Block extends Container<Line?> {
       return;
     }
 
-    Block block = this;
-    Node? prev = block.previous;
+    var block = this;
+    final prev = block.previous;
     // merging it with previous block if style is the same
     if (!block.isFirst &&
         block.previous is Block &&
@@ -35,7 +35,7 @@ class Block extends Container<Line?> {
       block.unlink();
       block = prev as Block;
     }
-    Node? next = block.next;
+    final next = block.next;
     // merging it with next block if style is the same
     if (!block.isLast && block.next is Block && next!.style == block.style) {
       (next as Block).moveChildToNewParent(block);
@@ -47,7 +47,7 @@ class Block extends Container<Line?> {
   String toString() {
     final block = style.attributes.toString();
     final buffer = StringBuffer('§ {$block}\n');
-    for (var child in children) {
+    for (final child in children) {
       final tree = child.isLast ? '└' : '├';
       buffer.write('  $tree $child');
       if (!child.isLast) buffer.writeln();
