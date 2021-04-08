@@ -34,8 +34,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   @override
   Delta? applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    final itr = DeltaIterator(document);
-    itr.skip(index);
+    final itr = DeltaIterator(document)..skip(index);
     var op = itr.next(1);
     if (op.data != '\n') {
       return null;

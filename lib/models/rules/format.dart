@@ -27,8 +27,7 @@ class ResolveLineFormatRule extends FormatRule {
     }
 
     var delta = Delta()..retain(index);
-    final itr = DeltaIterator(document);
-    itr.skip(index);
+    final itr = DeltaIterator(document)..skip(index);
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
       op = itr.next(len - cur);
@@ -106,8 +105,7 @@ class ResolveInlineFormatRule extends FormatRule {
     }
 
     final delta = Delta()..retain(index);
-    final itr = DeltaIterator(document);
-    itr.skip(index);
+    final itr = DeltaIterator(document)..skip(index);
 
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {

@@ -133,8 +133,9 @@ class CursorCont extends ChangeNotifier {
     _blinkOpacityCont.value = 0.0;
 
     if (style.opacityAnimates) {
-      _blinkOpacityCont.stop();
-      _blinkOpacityCont.value = 0.0;
+      _blinkOpacityCont
+        ..stop()
+        ..value = 0.0;
     }
   }
 

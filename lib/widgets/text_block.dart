@@ -538,11 +538,12 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextBlock renderObject) {
-    renderObject.setContainer(block);
-    renderObject.textDirection = textDirection;
-    renderObject.setPadding(_padding);
-    renderObject.decoration = decoration;
-    renderObject.contentPadding = _contentPadding;
+    renderObject
+      ..setContainer(block)
+      ..textDirection = textDirection
+      ..setPadding(_padding)
+      ..decoration = decoration
+      ..contentPadding = _contentPadding;
   }
 }
 

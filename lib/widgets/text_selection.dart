@@ -155,9 +155,10 @@ class EditorTextSelectionOverlay {
       default:
         throw 'Invalid position';
     }
-    selectionDelegate.textEditingValue =
-        value.copyWith(selection: newSelection, composing: TextRange.empty);
-    selectionDelegate.bringIntoView(textPosition);
+    selectionDelegate
+      ..textEditingValue =
+          value.copyWith(selection: newSelection, composing: TextRange.empty)
+      ..bringIntoView(textPosition);
   }
 
   Widget _buildToolbar(BuildContext context) {

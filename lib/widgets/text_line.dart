@@ -120,14 +120,13 @@ class TextLine extends StatelessWidget {
     final style = textNode.style;
     var res = const TextStyle();
 
-    final m = <String, TextStyle?>{
+    <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
       Attribute.italic.key: defaultStyles.italic,
       Attribute.link.key: defaultStyles.link,
       Attribute.underline.key: defaultStyles.underline,
       Attribute.strikeThrough.key: defaultStyles.strikeThrough,
-    };
-    m.forEach((k, s) {
+    }.forEach((k, s) {
       if (style.values.any((v) => v.key == k)) {
         res = _merge(res, s!);
       }
@@ -244,15 +243,16 @@ class EditableTextLine extends RenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextLine renderObject) {
-    renderObject.setLine(line);
-    renderObject.setPadding(_getPadding());
-    renderObject.setTextDirection(textDirection);
-    renderObject.setTextSelection(textSelection);
-    renderObject.setColor(color);
-    renderObject.setEnableInteractiveSelection(enableInteractiveSelection);
-    renderObject.hasFocus = hasFocus;
-    renderObject.setDevicePixelRatio(devicePixelRatio);
-    renderObject.setCursorCont(cursorCont);
+    renderObject
+      ..setLine(line)
+      ..setPadding(_getPadding())
+      ..setTextDirection(textDirection)
+      ..setTextSelection(textSelection)
+      ..setColor(color)
+      ..setEnableInteractiveSelection(enableInteractiveSelection)
+      ..hasFocus = hasFocus
+      ..setDevicePixelRatio(devicePixelRatio)
+      ..setCursorCont(cursorCont);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -694,8 +694,7 @@ class RenderEditableTextLine extends RenderEditableBox {
         : _resolvedPadding!.right;
 
     _body!.layout(innerConstraints, parentUsesSize: true);
-    final bodyParentData = _body!.parentData as BoxParentData;
-    bodyParentData.offset =
+    (_body!.parentData as BoxParentData).offset =
         Offset(_resolvedPadding!.left, _resolvedPadding!.top);
 
     if (_leading != null) {
@@ -704,8 +703,8 @@ class RenderEditableTextLine extends RenderEditableBox {
           maxWidth: indentWidth,
           maxHeight: _body!.size.height);
       _leading!.layout(leadingConstraints, parentUsesSize: true);
-      final parentData = _leading!.parentData as BoxParentData;
-      parentData.offset = Offset(0.0, _resolvedPadding!.top);
+      (_leading!.parentData as BoxParentData).offset =
+          Offset(0.0, _resolvedPadding!.top);
     }
 
     size = constraints.constrain(Size(

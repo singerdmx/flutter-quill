@@ -66,8 +66,7 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document);
-    itr.skip(index);
+    final itr = DeltaIterator(document)..skip(index);
 
     final nextNewLine = _getNextNewLine(itr);
     final lineStyle =
@@ -101,8 +100,8 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     }
 
     if (resetStyle != null) {
-      delta.retain(nextNewLine.item2!);
       delta
+        ..retain(nextNewLine.item2!)
         ..retain((nextNewLine.item1!.data as String).indexOf('\n'))
         ..retain(1, resetStyle);
     }
@@ -172,8 +171,7 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document);
-    itr.skip(index);
+    final itr = DeltaIterator(document)..skip(index);
     final cur = itr.next();
     if (cur.data is! String || !(cur.data as String).startsWith('\n')) {
       return null;

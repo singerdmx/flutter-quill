@@ -15,6 +15,7 @@ linter:
     - avoid_redundant_argument_values
     - avoid_types_on_closure_parameters
     - avoid_void_async
+    - cascade_invocations
     - directives_ordering
     - omit_local_variable_types
     - prefer_const_constructors

@@ -982,8 +982,8 @@ class RenderEditableContainerBox extends RenderBox
             .deflate(_resolvedPadding!);
     while (child != null) {
       child.layout(innerConstraints, parentUsesSize: true);
-      final childParentData = child.parentData as EditableContainerParentData;
-      childParentData.offset = Offset(_resolvedPadding!.left, mainAxisExtent);
+      final childParentData = (child.parentData as EditableContainerParentData)
+        ..offset = Offset(_resolvedPadding!.left, mainAxisExtent);
       mainAxisExtent += child.size.height;
       assert(child.parentData == childParentData);
       child = childParentData.nextSibling;

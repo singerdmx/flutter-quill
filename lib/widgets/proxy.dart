@@ -160,14 +160,15 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderParagraphProxy renderObject) {
-    renderObject.textStyle = textStyle;
-    renderObject.textAlign = textAlign;
-    renderObject.textDirection = textDirection;
-    renderObject.textScaleFactor = textScaleFactor;
-    renderObject.locale = locale;
-    renderObject.strutStyle = strutStyle;
-    renderObject.textWidthBasis = textWidthBasis;
-    renderObject.textHeightBehavior = textHeightBehavior;
+    renderObject
+      ..textStyle = textStyle
+      ..textAlign = textAlign
+      ..textDirection = textDirection
+      ..textScaleFactor = textScaleFactor
+      ..locale = locale
+      ..strutStyle = strutStyle
+      ..textWidthBasis = textWidthBasis
+      ..textHeightBehavior = textHeightBehavior;
   }
 }
 

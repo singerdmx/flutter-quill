@@ -173,14 +173,12 @@ class Line extends Container<Leaf?> {
         _unwrap();
       } else if (blockStyle != parentStyle) {
         _unwrap();
-        final block = Block();
-        block.applyAttribute(blockStyle);
+        final block = Block()..applyAttribute(blockStyle);
         _wrap(block);
         block.adjust();
       }
     } else if (blockStyle.value != null) {
-      final block = Block();
-      block.applyAttribute(blockStyle);
+      final block = Block()..applyAttribute(blockStyle);
       _wrap(block);
       block.adjust();
     }
@@ -234,8 +232,7 @@ class Line extends Container<Leaf?> {
 
     final query = queryChild(index, false);
     while (!query.node!.isLast) {
-      final next = last as Leaf;
-      next.unlink();
+      final next = (last as Leaf)..unlink();
       line.addFirst(next);
     }
     final child = query.node as Leaf;

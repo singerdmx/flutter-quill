@@ -906,8 +906,9 @@ class RawEditorState extends EditorState
     _cursorCont.startOrStopCursorTimerIfNeeded(
         _hasFocus, widget.controller.selection);
     if (hasConnection) {
-      _cursorCont.stopCursorTimer(resetCharTicks: false);
-      _cursorCont.startCursorTimer();
+      _cursorCont
+        ..stopCursorTimer(resetCharTicks: false)
+        ..startCursorTimer();
     }
 
     SchedulerBinding.instance!.addPostFrameCallback(
@@ -1168,14 +1169,15 @@ class _Editor extends MultiChildRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditor renderObject) {
-    renderObject.document = document;
-    renderObject.setContainer(document.root);
-    renderObject.textDirection = textDirection;
-    renderObject.setHasFocus(hasFocus);
-    renderObject.setSelection(selection);
-    renderObject.setStartHandleLayerLink(startHandleLayerLink);
-    renderObject.setEndHandleLayerLink(endHandleLayerLink);
-    renderObject.onSelectionChanged = onSelectionChanged;
-    renderObject.setPadding(padding);
+    renderObject
+      ..document = document
+      ..setContainer(document.root)
+      ..textDirection = textDirection
+      ..setHasFocus(hasFocus)
+      ..setSelection(selection)
+      ..setStartHandleLayerLink(startHandleLayerLink)
+      ..setEndHandleLayerLink(endHandleLayerLink)
+      ..onSelectionChanged = onSelectionChanged
+      ..setPadding(padding);
   }
 }

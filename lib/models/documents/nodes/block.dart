@@ -31,8 +31,9 @@ class Block extends Container<Line?> {
     if (!block.isFirst &&
         block.previous is Block &&
         prev!.style == block.style) {
-      block.moveChildToNewParent(prev as Container<Node?>?);
-      block.unlink();
+      block
+        ..moveChildToNewParent(prev as Container<Node?>?)
+        ..unlink();
       block = prev as Block;
     }
     final next = block.next;

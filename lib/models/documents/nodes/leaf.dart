@@ -141,8 +141,7 @@ abstract class Leaf extends Node {
     assert(this is Text);
     final text = _value as String;
     _value = text.substring(0, index);
-    final split = Leaf(text.substring(index));
-    split.applyStyle(style);
+    final split = Leaf(text.substring(index))..applyStyle(style);
     insertAfter(split);
     return split;
   }
@@ -158,8 +157,7 @@ abstract class Leaf extends Node {
   Leaf _isolate(int index, int length) {
     assert(
         index >= 0 && index < this.length && (index + length <= this.length));
-    final target = splitAt(index)!;
-    target.splitAt(length);
+    final target = splitAt(index)!..splitAt(length);
     return target;
   }
 }
