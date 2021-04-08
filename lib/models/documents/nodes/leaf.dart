@@ -8,12 +8,6 @@ import 'node.dart';
 
 /* A leaf node in document tree */
 abstract class Leaf extends Node {
-  Object _value;
-
-  Object get value => _value;
-
-  Leaf.val(Object val) : _value = val;
-
   factory Leaf(Object data) {
     if (data is Embeddable) {
       return Embed(data);
@@ -22,6 +16,12 @@ abstract class Leaf extends Node {
     assert(text.isNotEmpty);
     return Text(text);
   }
+
+  Leaf.val(Object val) : _value = val;
+
+  Object _value;
+
+  Object get value => _value;
 
   @override
   void applyStyle(Style value) {

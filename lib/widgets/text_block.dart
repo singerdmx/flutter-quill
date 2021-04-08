@@ -47,6 +47,21 @@ const List<String> romanNumbers = [
 ];
 
 class EditableTextBlock extends StatelessWidget {
+  const EditableTextBlock(
+    this.block,
+    this.textDirection,
+    this.verticalSpacing,
+    this.textSelection,
+    this.color,
+    this.styles,
+    this.enableInteractiveSelection,
+    this.hasFocus,
+    this.contentPadding,
+    this.embedBuilder,
+    this.cursorCont,
+    this.indentLevelCounts,
+  );
+
   final Block block;
   final TextDirection textDirection;
   final Tuple2 verticalSpacing;
@@ -59,20 +74,6 @@ class EditableTextBlock extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
-
-  const EditableTextBlock(
-      this.block,
-      this.textDirection,
-      this.verticalSpacing,
-      this.textSelection,
-      this.color,
-      this.styles,
-      this.enableInteractiveSelection,
-      this.hasFocus,
-      this.contentPadding,
-      this.embedBuilder,
-      this.cursorCont,
-      this.indentLevelCounts);
 
   @override
   Widget build(BuildContext context) {
@@ -509,15 +510,20 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 }
 
 class _EditableBlock extends MultiChildRenderObjectWidget {
+  _EditableBlock(
+    this.block,
+    this.textDirection,
+    this.padding,
+    this.decoration,
+    this.contentPadding,
+    List<Widget> children,
+  ) : super(children: children);
+
   final Block block;
   final TextDirection textDirection;
   final Tuple2<double, double> padding;
   final Decoration decoration;
   final EdgeInsets? contentPadding;
-
-  _EditableBlock(this.block, this.textDirection, this.padding, this.decoration,
-      this.contentPadding, List<Widget> children)
-      : super(children: children);
 
   EdgeInsets get _padding =>
       EdgeInsets.only(top: padding.item1, bottom: padding.item2);
@@ -548,15 +554,6 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
 }
 
 class _NumberPoint extends StatelessWidget {
-  final int index;
-  final Map<int?, int> indentLevelCounts;
-  final int count;
-  final TextStyle style;
-  final double width;
-  final Map<String, Attribute> attrs;
-  final bool withDot;
-  final double padding;
-
   const _NumberPoint({
     required this.index,
     required this.indentLevelCounts,
@@ -568,6 +565,15 @@ class _NumberPoint extends StatelessWidget {
     this.padding = 0.0,
     Key? key,
   }) : super(key: key);
+
+  final int index;
+  final Map<int?, int> indentLevelCounts;
+  final int count;
+  final TextStyle style;
+  final double width;
+  final Map<String, Attribute> attrs;
+  final bool withDot;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -652,14 +658,14 @@ class _NumberPoint extends StatelessWidget {
 }
 
 class _BulletPoint extends StatelessWidget {
-  final TextStyle style;
-  final double width;
-
   const _BulletPoint({
     required this.style,
     required this.width,
     Key? key,
   }) : super(key: key);
+
+  final TextStyle style;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -673,12 +679,13 @@ class _BulletPoint extends StatelessWidget {
 }
 
 class _Checkbox extends StatefulWidget {
+  const _Checkbox({Key? key, this.style, this.width, this.isChecked})
+      : super(key: key);
+
   final TextStyle? style;
   final double? width;
   final bool? isChecked;
 
-  const _Checkbox({Key? key, this.style, this.width, this.isChecked})
-      : super(key: key);
   @override
   __CheckboxState createState() => __CheckboxState();
 }

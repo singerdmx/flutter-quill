@@ -11,10 +11,6 @@ import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
 class QuillController extends ChangeNotifier {
-  final Document document;
-  TextSelection selection;
-  Style toggledStyle = Style();
-
   QuillController({required this.document, required this.selection});
 
   factory QuillController.basic() {
@@ -23,6 +19,10 @@ class QuillController extends ChangeNotifier {
       selection: const TextSelection.collapsed(offset: 0),
     );
   }
+
+  final Document document;
+  TextSelection selection;
+  Style toggledStyle = Style();
 
   // item1: Document state before [change].
   //

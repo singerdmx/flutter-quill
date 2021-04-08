@@ -4,11 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'box.dart';
 
 class BaselineProxy extends SingleChildRenderObjectWidget {
-  final TextStyle? textStyle;
-  final EdgeInsets? padding;
-
   const BaselineProxy({Key? key, Widget? child, this.textStyle, this.padding})
       : super(key: key, child: child);
+
+  final TextStyle? textStyle;
+  final EdgeInsets? padding;
 
   @override
   RenderBaselineProxy createRenderObject(BuildContext context) {
@@ -122,6 +122,18 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 }
 
 class RichTextProxy extends SingleChildRenderObjectWidget {
+  const RichTextProxy(
+    RichText child,
+    this.textStyle,
+    this.textAlign,
+    this.textDirection,
+    this.textScaleFactor,
+    this.locale,
+    this.strutStyle,
+    this.textWidthBasis,
+    this.textHeightBehavior,
+  ) : super(child: child);
+
   final TextStyle textStyle;
   final TextAlign textAlign;
   final TextDirection textDirection;
@@ -144,18 +156,6 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
         textWidthBasis,
         textHeightBehavior);
   }
-
-  const RichTextProxy(
-      RichText child,
-      this.textStyle,
-      this.textAlign,
-      this.textDirection,
-      this.textScaleFactor,
-      this.locale,
-      this.strutStyle,
-      this.textWidthBasis,
-      this.textHeightBehavior)
-      : super(child: child);
 
   @override
   void updateRenderObject(

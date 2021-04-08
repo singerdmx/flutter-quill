@@ -29,5 +29,7 @@ linter:
     - prefer_interpolation_to_compose_strings
     - prefer_relative_imports
     - prefer_single_quotes
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
     - unnecessary_parenthesis
     - unnecessary_string_interpolations

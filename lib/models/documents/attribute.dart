@@ -8,11 +8,11 @@ enum AttributeScope {
 }
 
 class Attribute<T> {
+  Attribute(this.key, this.scope, this.value);
+
   final String key;
   final AttributeScope scope;
   final T value;
-
-  Attribute(this.key, this.scope, this.value);
 
   static final Map<String, Attribute> _registry = {
     Attribute.bold.key: Attribute.bold,

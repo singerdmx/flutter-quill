@@ -28,6 +28,39 @@ import 'text_line.dart';
 import 'text_selection.dart';
 
 class RawEditor extends StatefulWidget {
+  const RawEditor(
+    Key key,
+    this.controller,
+    this.focusNode,
+    this.scrollController,
+    this.scrollable,
+    this.padding,
+    this.readOnly,
+    this.placeholder,
+    this.onLaunchUrl,
+    this.toolbarOptions,
+    this.showSelectionHandles,
+    bool? showCursor,
+    this.cursorStyle,
+    this.textCapitalization,
+    this.maxHeight,
+    this.minHeight,
+    this.customStyles,
+    this.expands,
+    this.autoFocus,
+    this.selectionColor,
+    this.selectionCtrls,
+    this.keyboardAppearance,
+    this.enableInteractiveSelection,
+    this.scrollPhysics,
+    this.embedBuilder,
+  )   : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
+        assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
+        assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
+            'maxHeight cannot be null'),
+        showCursor = showCursor ?? true,
+        super(key: key);
+
   final QuillController controller;
   final FocusNode focusNode;
   final ScrollController scrollController;
@@ -52,39 +85,6 @@ class RawEditor extends StatefulWidget {
   final bool enableInteractiveSelection;
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
-
-  const RawEditor(
-      Key key,
-      this.controller,
-      this.focusNode,
-      this.scrollController,
-      this.scrollable,
-      this.padding,
-      this.readOnly,
-      this.placeholder,
-      this.onLaunchUrl,
-      this.toolbarOptions,
-      this.showSelectionHandles,
-      bool? showCursor,
-      this.cursorStyle,
-      this.textCapitalization,
-      this.maxHeight,
-      this.minHeight,
-      this.customStyles,
-      this.expands,
-      this.autoFocus,
-      this.selectionColor,
-      this.selectionCtrls,
-      this.keyboardAppearance,
-      this.enableInteractiveSelection,
-      this.scrollPhysics,
-      this.embedBuilder)
-      : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
-        assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
-        assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
-            'maxHeight cannot be null'),
-        showCursor = showCursor ?? true,
-        super(key: key);
 
   @override
   State<StatefulWidget> createState() {

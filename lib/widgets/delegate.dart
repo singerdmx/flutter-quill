@@ -18,10 +18,10 @@ abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
 }
 
 class EditorTextSelectionGestureDetectorBuilder {
+  EditorTextSelectionGestureDetectorBuilder(this.delegate);
+
   final EditorTextSelectionGestureDetectorBuilderDelegate delegate;
   bool shouldShowSelectionToolbar = true;
-
-  EditorTextSelectionGestureDetectorBuilder(this.delegate);
 
   EditorState? getEditor() {
     return delegate.getEditableTextKey().currentState;

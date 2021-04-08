@@ -1,8 +1,8 @@
 class Embeddable {
+  Embeddable(this.type, this.data);
+
   final String type;
   final dynamic data;
-
-  Embeddable(this.type, this.data);
 
   Map<String, dynamic> toJson() {
     final m = <String, String>{type: data};

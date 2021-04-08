@@ -116,9 +116,9 @@ abstract class Container<T extends Node?> extends Node {
 
 /// Query of a child in a Container
 class ChildQuery {
+  ChildQuery(this.node, this.offset);
+
   final Node? node; // null if not found
 
   final int offset;
-
-  ChildQuery(this.node, this.offset);
 }

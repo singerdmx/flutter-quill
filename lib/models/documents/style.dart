@@ -5,11 +5,11 @@ import 'attribute.dart';
 
 /* Collection of style attributes */
 class Style {
-  final Map<String, Attribute> _attributes;
+  Style() : _attributes = <String, Attribute>{};
 
   Style.attr(this._attributes);
 
-  Style() : _attributes = <String, Attribute>{};
+  final Map<String, Attribute> _attributes;
 
   static Style fromJson(Map<String, dynamic>? attributes) {
     if (attributes == null) {

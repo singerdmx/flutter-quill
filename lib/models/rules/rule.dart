@@ -26,6 +26,8 @@ abstract class Rule {
 }
 
 class Rules {
+  Rules(this._rules);
+
   final List<Rule> _rules;
   static final Rules _instance = Rules([
     const FormatLinkAtCaretPositionRule(),
@@ -44,8 +46,6 @@ class Rules {
     const PreserveLineStyleOnMergeRule(),
     const CatchAllDeleteRule(),
   ]);
-
-  Rules(this._rules);
 
   static Rules getInstance() => _instance;
 

@@ -9,9 +9,12 @@ typedef InputShortcutCallback = void Function(InputShortcut? shortcut);
 typedef OnDeleteCallback = void Function(bool forward);
 
 class KeyboardListener {
+  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
+
   final CursorMoveCallback onCursorMove;
   final InputShortcutCallback onShortcut;
   final OnDeleteCallback onDelete;
+
   static final Set<LogicalKeyboardKey> _moveKeys = <LogicalKeyboardKey>{
     LogicalKeyboardKey.arrowRight,
     LogicalKeyboardKey.arrowLeft,
@@ -58,8 +61,6 @@ class KeyboardListener {
     LogicalKeyboardKey.keyV: InputShortcut.PASTE,
     LogicalKeyboardKey.keyA: InputShortcut.SELECT_ALL,
   };
-
-  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
 
   bool handleRawKeyEvent(RawKeyEvent event) {
     if (kIsWeb) {

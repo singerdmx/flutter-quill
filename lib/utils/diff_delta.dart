@@ -33,6 +33,8 @@ const Set<int> WHITE_SPACE = {
 
 // Diff between two texts - old text and new text
 class Diff {
+  Diff(this.start, this.deleted, this.inserted);
+
   // Start index in old text at which changes begin.
   final int start;
 
@@ -41,8 +43,6 @@ class Diff {
 
   // The inserted text
   final String inserted;
-
-  Diff(this.start, this.deleted, this.inserted);
 
   @override
   String toString() {

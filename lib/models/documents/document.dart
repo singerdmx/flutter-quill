@@ -15,6 +15,18 @@ import 'style.dart';
 
 /// The rich text document
 class Document {
+  Document() : _delta = Delta()..insert('\n') {
+    _loadDocument(_delta);
+  }
+
+  Document.fromJson(List data) : _delta = _transform(Delta.fromJson(data)) {
+    _loadDocument(_delta);
+  }
+
+  Document.fromDelta(Delta delta) : _delta = delta {
+    _loadDocument(delta);
+  }
+
   /// The root node of the document tree
   final Root _root = Root();
 
@@ -34,18 +46,6 @@ class Document {
   final History _history = History();
 
   Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
-
-  Document() : _delta = Delta()..insert('\n') {
-    _loadDocument(_delta);
-  }
-
-  Document.fromJson(List data) : _delta = _transform(Delta.fromJson(data)) {
-    _loadDocument(_delta);
-  }
-
-  Document.fromDelta(Delta delta) : _delta = delta {
-    _loadDocument(delta);
-  }
 
   Delta insert(int index, Object? data) {
     assert(index >= 0);

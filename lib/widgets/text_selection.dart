@@ -24,6 +24,27 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
 enum _TextSelectionHandlePosition { START, END }
 
 class EditorTextSelectionOverlay {
+  EditorTextSelectionOverlay(
+    this.value,
+    this.handlesVisible,
+    this.context,
+    this.debugRequiredFor,
+    this.toolbarLayerLink,
+    this.startHandleLayerLink,
+    this.endHandleLayerLink,
+    this.renderObject,
+    this.selectionCtrls,
+    this.selectionDelegate,
+    this.dragStartBehavior,
+    this.onSelectionHandleTapped,
+    this.clipboardStatus,
+  ) {
+    final overlay = Overlay.of(context, rootOverlay: true)!;
+
+    _toolbarController = AnimationController(
+        duration: const Duration(milliseconds: 150), vsync: overlay);
+  }
+
   TextEditingValue value;
   bool handlesVisible = false;
   final BuildContext context;
@@ -40,26 +61,6 @@ class EditorTextSelectionOverlay {
   late AnimationController _toolbarController;
   List<OverlayEntry>? _handles;
   OverlayEntry? toolbar;
-
-  EditorTextSelectionOverlay(
-      this.value,
-      this.handlesVisible,
-      this.context,
-      this.debugRequiredFor,
-      this.toolbarLayerLink,
-      this.startHandleLayerLink,
-      this.endHandleLayerLink,
-      this.renderObject,
-      this.selectionCtrls,
-      this.selectionDelegate,
-      this.dragStartBehavior,
-      this.onSelectionHandleTapped,
-      this.clipboardStatus) {
-    final overlay = Overlay.of(context, rootOverlay: true)!;
-
-    _toolbarController = AnimationController(
-        duration: const Duration(milliseconds: 150), vsync: overlay);
-  }
 
   TextSelection get _selection => value.selection;
 

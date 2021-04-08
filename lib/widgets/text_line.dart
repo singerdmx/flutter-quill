@@ -20,11 +20,6 @@ import 'proxy.dart';
 import 'text_selection.dart';
 
 class TextLine extends StatelessWidget {
-  final Line line;
-  final TextDirection? textDirection;
-  final EmbedBuilder embedBuilder;
-  final DefaultStyles styles;
-
   const TextLine({
     required this.line,
     required this.embedBuilder,
@@ -32,6 +27,11 @@ class TextLine extends StatelessWidget {
     this.textDirection,
     Key? key,
   }) : super(key: key);
+
+  final Line line;
+  final TextDirection? textDirection;
+  final EmbedBuilder embedBuilder;
+  final DefaultStyles styles;
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +194,21 @@ class TextLine extends StatelessWidget {
 }
 
 class EditableTextLine extends RenderObjectWidget {
+  const EditableTextLine(
+    this.line,
+    this.leading,
+    this.body,
+    this.indentWidth,
+    this.verticalSpacing,
+    this.textDirection,
+    this.textSelection,
+    this.color,
+    this.enableInteractiveSelection,
+    this.hasFocus,
+    this.devicePixelRatio,
+    this.cursorCont,
+  );
+
   final Line line;
   final Widget? leading;
   final Widget body;
@@ -206,20 +221,6 @@ class EditableTextLine extends RenderObjectWidget {
   final bool hasFocus;
   final double devicePixelRatio;
   final CursorCont cursorCont;
-
-  const EditableTextLine(
-      this.line,
-      this.leading,
-      this.body,
-      this.indentWidth,
-      this.verticalSpacing,
-      this.textDirection,
-      this.textSelection,
-      this.color,
-      this.enableInteractiveSelection,
-      this.hasFocus,
-      this.devicePixelRatio,
-      this.cursorCont);
 
   @override
   RenderObjectElement createElement() {
@@ -266,6 +267,18 @@ class EditableTextLine extends RenderObjectWidget {
 enum TextLineSlot { LEADING, BODY }
 
 class RenderEditableTextLine extends RenderEditableBox {
+  RenderEditableTextLine(
+    this.line,
+    this.textDirection,
+    this.textSelection,
+    this.enableInteractiveSelection,
+    this.hasFocus,
+    this.devicePixelRatio,
+    this.padding,
+    this.color,
+    this.cursorCont,
+  );
+
   RenderBox? _leading;
   RenderContentProxyBox? _body;
   Line line;
@@ -282,17 +295,6 @@ class RenderEditableTextLine extends RenderEditableBox {
   List<TextBox>? _selectedRects;
   Rect? _caretPrototype;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
-
-  RenderEditableTextLine(
-      this.line,
-      this.textDirection,
-      this.textSelection,
-      this.enableInteractiveSelection,
-      this.hasFocus,
-      this.devicePixelRatio,
-      this.padding,
-      this.color,
-      this.cursorCont);
 
   Iterable<RenderBox> get _children sync* {
     if (_leading != null) {

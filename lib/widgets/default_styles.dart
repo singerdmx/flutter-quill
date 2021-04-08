@@ -3,13 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:tuple/tuple.dart';
 
 class QuillStyles extends InheritedWidget {
-  final DefaultStyles data;
-
   const QuillStyles({
     required this.data,
     required Widget child,
     Key? key,
   }) : super(key: key, child: child);
+
+  final DefaultStyles data;
 
   @override
   bool updateShouldNotify(QuillStyles oldWidget) {
@@ -27,6 +27,13 @@ class QuillStyles extends InheritedWidget {
 }
 
 class DefaultTextBlockStyle {
+  DefaultTextBlockStyle(
+    this.style,
+    this.verticalSpacing,
+    this.lineSpacing,
+    this.decoration,
+  );
+
   final TextStyle style;
 
   final Tuple2<double, double> verticalSpacing;
@@ -34,12 +41,32 @@ class DefaultTextBlockStyle {
   final Tuple2<double, double> lineSpacing;
 
   final BoxDecoration? decoration;
-
-  DefaultTextBlockStyle(
-      this.style, this.verticalSpacing, this.lineSpacing, this.decoration);
 }
 
 class DefaultStyles {
+  DefaultStyles({
+    this.h1,
+    this.h2,
+    this.h3,
+    this.paragraph,
+    this.bold,
+    this.italic,
+    this.underline,
+    this.strikeThrough,
+    this.link,
+    this.color,
+    this.placeHolder,
+    this.lists,
+    this.quote,
+    this.code,
+    this.indent,
+    this.align,
+    this.leading,
+    this.sizeSmall,
+    this.sizeLarge,
+    this.sizeHuge,
+  });
+
   final DefaultTextBlockStyle? h1;
   final DefaultTextBlockStyle? h2;
   final DefaultTextBlockStyle? h3;
@@ -60,28 +87,6 @@ class DefaultStyles {
   final DefaultTextBlockStyle? indent;
   final DefaultTextBlockStyle? align;
   final DefaultTextBlockStyle? leading;
-
-  DefaultStyles(
-      {this.h1,
-      this.h2,
-      this.h3,
-      this.paragraph,
-      this.bold,
-      this.italic,
-      this.underline,
-      this.strikeThrough,
-      this.link,
-      this.color,
-      this.placeHolder,
-      this.lists,
-      this.quote,
-      this.code,
-      this.indent,
-      this.align,
-      this.leading,
-      this.sizeSmall,
-      this.sizeLarge,
-      this.sizeHuge});
 
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);

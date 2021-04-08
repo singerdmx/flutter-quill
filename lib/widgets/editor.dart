@@ -114,6 +114,43 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 }
 
 class QuillEditor extends StatefulWidget {
+  const QuillEditor({
+    required this.controller,
+    required this.focusNode,
+    required this.scrollController,
+    required this.scrollable,
+    required this.padding,
+    required this.autoFocus,
+    required this.readOnly,
+    required this.expands,
+    this.showCursor,
+    this.placeholder,
+    this.enableInteractiveSelection = true,
+    this.minHeight,
+    this.maxHeight,
+    this.customStyles,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.keyboardAppearance = Brightness.light,
+    this.scrollPhysics,
+    this.onLaunchUrl,
+    this.embedBuilder = _defaultEmbedBuilder,
+  });
+
+  factory QuillEditor.basic({
+    required QuillController controller,
+    required bool readOnly,
+  }) {
+    return QuillEditor(
+        controller: controller,
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: FocusNode(),
+        autoFocus: true,
+        readOnly: readOnly,
+        expands: false,
+        padding: EdgeInsets.zero);
+  }
+
   final QuillController controller;
   final FocusNode focusNode;
   final ScrollController scrollController;
@@ -133,40 +170,6 @@ class QuillEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final ValueChanged<String>? onLaunchUrl;
   final EmbedBuilder embedBuilder;
-
-  const QuillEditor(
-      {required this.controller,
-      required this.focusNode,
-      required this.scrollController,
-      required this.scrollable,
-      required this.padding,
-      required this.autoFocus,
-      required this.readOnly,
-      required this.expands,
-      this.showCursor,
-      this.placeholder,
-      this.enableInteractiveSelection = true,
-      this.minHeight,
-      this.maxHeight,
-      this.customStyles,
-      this.textCapitalization = TextCapitalization.sentences,
-      this.keyboardAppearance = Brightness.light,
-      this.scrollPhysics,
-      this.onLaunchUrl,
-      this.embedBuilder = _defaultEmbedBuilder});
-
-  factory QuillEditor.basic(
-      {required QuillController controller, required bool readOnly}) {
-    return QuillEditor(
-        controller: controller,
-        scrollController: ScrollController(),
-        scrollable: true,
-        focusNode: FocusNode(),
-        autoFocus: true,
-        readOnly: readOnly,
-        expands: false,
-        padding: EdgeInsets.zero);
-  }
 
   @override
   _QuillEditorState createState() => _QuillEditorState();
@@ -295,9 +298,9 @@ class _QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  final _QuillEditorState _state;
-
   _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
+
+  final _QuillEditorState _state;
 
   @override
   void onForcePressStart(ForcePressDetails details) {
@@ -495,6 +498,24 @@ typedef TextSelectionChangedHandler = void Function(
 
 class RenderEditor extends RenderEditableContainerBox
     implements RenderAbstractEditor {
+  RenderEditor(
+    List<RenderEditableBox>? children,
+    TextDirection textDirection,
+    EdgeInsetsGeometry padding,
+    this.document,
+    this.selection,
+    this._hasFocus,
+    this.onSelectionChanged,
+    this._startHandleLayerLink,
+    this._endHandleLayerLink,
+    EdgeInsets floatingCursorAddedMargin,
+  ) : super(
+          children,
+          document.root,
+          textDirection,
+          padding,
+        );
+
   Document document;
   TextSelection selection;
   bool _hasFocus = false;
@@ -509,24 +530,6 @@ class RenderEditor extends RenderEditableContainerBox
 
   ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
   final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
-
-  RenderEditor(
-      List<RenderEditableBox>? children,
-      TextDirection textDirection,
-      EdgeInsetsGeometry padding,
-      this.document,
-      this.selection,
-      this._hasFocus,
-      this.onSelectionChanged,
-      this._startHandleLayerLink,
-      this._endHandleLayerLink,
-      EdgeInsets floatingCursorAddedMargin)
-      : super(
-          children,
-          document.root,
-          textDirection,
-          padding,
-        );
 
   void setDocument(Document doc) {
     if (document == doc) {
@@ -866,16 +869,19 @@ class RenderEditableContainerBox extends RenderBox
             EditableContainerParentData>,
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
+  RenderEditableContainerBox(
+    List<RenderEditableBox>? children,
+    this._container,
+    this.textDirection,
+    this._padding,
+  ) : assert(_padding.isNonNegative) {
+    addAll(children);
+  }
+
   container_node.Container _container;
   TextDirection textDirection;
   EdgeInsetsGeometry _padding;
   EdgeInsets? _resolvedPadding;
-
-  RenderEditableContainerBox(List<RenderEditableBox>? children, this._container,
-      this.textDirection, this._padding)
-      : assert(_padding.isNonNegative) {
-    addAll(children);
-  }
 
   container_node.Container getContainer() {
     return _container;

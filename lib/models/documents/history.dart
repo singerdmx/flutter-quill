@@ -4,6 +4,14 @@ import '../quill_delta.dart';
 import 'document.dart';
 
 class History {
+  History({
+    this.ignoreChange = false,
+    this.interval = 400,
+    this.maxStack = 100,
+    this.userOnly = false,
+    this.lastRecorded = 0,
+  });
+
   final HistoryStack stack = HistoryStack.empty();
 
   bool get hasUndo => stack.undo.isNotEmpty;
@@ -23,13 +31,6 @@ class History {
 
   ///record delay
   final int interval;
-
-  History(
-      {this.ignoreChange = false,
-      this.interval = 400,
-      this.maxStack = 100,
-      this.userOnly = false,
-      this.lastRecorded = 0});
 
   void handleDocChange(Tuple3<Delta, Delta, ChangeSource> change) {
     if (ignoreChange) return;
@@ -119,12 +120,12 @@ class History {
 }
 
 class HistoryStack {
-  final List<Delta> undo;
-  final List<Delta> redo;
-
   HistoryStack.empty()
       : undo = [],
         redo = [];
+
+  final List<Delta> undo;
+  final List<Delta> redo;
 
   void clear() {
     undo.clear();

@@ -21,14 +21,14 @@ typedef OnImagePickCallback = Future<String> Function(File file);
 typedef ImagePickImpl = Future<String> Function(ImageSource source);
 
 class InsertEmbedButton extends StatelessWidget {
-  final QuillController controller;
-  final IconData icon;
-
   const InsertEmbedButton({
     required this.controller,
     required this.icon,
     Key? key,
   }) : super(key: key);
+
+  final QuillController controller;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +52,14 @@ class InsertEmbedButton extends StatelessWidget {
 }
 
 class LinkStyleButton extends StatefulWidget {
-  final QuillController controller;
-  final IconData? icon;
-
   const LinkStyleButton({
     required this.controller,
     this.icon,
     Key? key,
   }) : super(key: key);
+
+  final QuillController controller;
+  final IconData? icon;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -174,14 +174,6 @@ typedef ToggleStyleButtonBuilder = Widget Function(
 );
 
 class ToggleStyleButton extends StatefulWidget {
-  final Attribute attribute;
-
-  final IconData icon;
-
-  final QuillController controller;
-
-  final ToggleStyleButtonBuilder childBuilder;
-
   const ToggleStyleButton({
     required this.attribute,
     required this.icon,
@@ -189,6 +181,14 @@ class ToggleStyleButton extends StatefulWidget {
     this.childBuilder = defaultToggleStyleButtonBuilder,
     Key? key,
   }) : super(key: key);
+
+  final Attribute attribute;
+
+  final IconData icon;
+
+  final QuillController controller;
+
+  final ToggleStyleButtonBuilder childBuilder;
 
   @override
   _ToggleStyleButtonState createState() => _ToggleStyleButtonState();
@@ -258,14 +258,6 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
 }
 
 class ToggleCheckListButton extends StatefulWidget {
-  final IconData icon;
-
-  final QuillController controller;
-
-  final ToggleStyleButtonBuilder childBuilder;
-
-  final Attribute attribute;
-
   const ToggleCheckListButton({
     required this.icon,
     required this.controller,
@@ -273,6 +265,14 @@ class ToggleCheckListButton extends StatefulWidget {
     this.childBuilder = defaultToggleStyleButtonBuilder,
     Key? key,
   }) : super(key: key);
+
+  final IconData icon;
+
+  final QuillController controller;
+
+  final ToggleStyleButtonBuilder childBuilder;
+
+  final Attribute attribute;
 
   @override
   _ToggleCheckListButtonState createState() => _ToggleCheckListButtonState();
@@ -369,10 +369,10 @@ Widget defaultToggleStyleButtonBuilder(
 }
 
 class SelectHeaderStyleButton extends StatefulWidget {
-  final QuillController controller;
-
   const SelectHeaderStyleButton({required this.controller, Key? key})
       : super(key: key);
+
+  final QuillController controller;
 
   @override
   _SelectHeaderStyleButtonState createState() =>
@@ -490,6 +490,15 @@ Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
 }
 
 class ImageButton extends StatefulWidget {
+  const ImageButton({
+    required this.icon,
+    required this.controller,
+    required this.imageSource,
+    this.onImagePickCallback,
+    this.imagePickImpl,
+    Key? key,
+  }) : super(key: key);
+
   final IconData icon;
 
   final QuillController controller;
@@ -499,15 +508,6 @@ class ImageButton extends StatefulWidget {
   final ImagePickImpl? imagePickImpl;
 
   final ImageSource imageSource;
-
-  const ImageButton({
-    required this.icon,
-    required this.controller,
-    required this.imageSource,
-    this.onImagePickCallback,
-    this.imagePickImpl,
-    Key? key,
-  }) : super(key: key);
 
   @override
   _ImageButtonState createState() => _ImageButtonState();
@@ -602,16 +602,16 @@ class _ImageButtonState extends State<ImageButton> {
 /// When pressed, this button displays overlay toolbar with
 /// buttons for each color.
 class ColorButton extends StatefulWidget {
-  final IconData icon;
-  final bool background;
-  final QuillController controller;
-
   const ColorButton({
     required this.icon,
     required this.controller,
     required this.background,
     Key? key,
   }) : super(key: key);
+
+  final IconData icon;
+  final bool background;
+  final QuillController controller;
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -740,16 +740,16 @@ class _ColorButtonState extends State<ColorButton> {
 }
 
 class HistoryButton extends StatefulWidget {
-  final IconData icon;
-  final bool undo;
-  final QuillController controller;
-
   const HistoryButton({
     required this.icon,
     required this.controller,
     required this.undo,
     Key? key,
   }) : super(key: key);
+
+  final IconData icon;
+  final bool undo;
+  final QuillController controller;
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -812,16 +812,16 @@ class _HistoryButtonState extends State<HistoryButton> {
 }
 
 class IndentButton extends StatefulWidget {
-  final IconData icon;
-  final QuillController controller;
-  final bool isIncrease;
-
   const IndentButton({
     required this.icon,
     required this.controller,
     required this.isIncrease,
     Key? key,
   }) : super(key: key);
+
+  final IconData icon;
+  final QuillController controller;
+  final bool isIncrease;
 
   @override
   _IndentButtonState createState() => _IndentButtonState();
@@ -867,15 +867,15 @@ class _IndentButtonState extends State<IndentButton> {
 }
 
 class ClearFormatButton extends StatefulWidget {
-  final IconData icon;
-
-  final QuillController controller;
-
   const ClearFormatButton({
     required this.icon,
     required this.controller,
     Key? key,
   }) : super(key: key);
+
+  final IconData icon;
+
+  final QuillController controller;
 
   @override
   _ClearFormatButtonState createState() => _ClearFormatButtonState();
@@ -903,8 +903,6 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
 }
 
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
-  final List<Widget> children;
-
   const QuillToolbar({required this.children, Key? key}) : super(key: key);
 
   factory QuillToolbar.basic({
@@ -1117,6 +1115,8 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
     ]);
   }
 
+  final List<Widget> children;
+
   @override
   _QuillToolbarState createState() => _QuillToolbarState();
 
@@ -1148,13 +1148,6 @@ class _QuillToolbarState extends State<QuillToolbar> {
 }
 
 class QuillIconButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final Widget? icon;
-  final double size;
-  final Color? fillColor;
-  final double hoverElevation;
-  final double highlightElevation;
-
   const QuillIconButton({
     required this.onPressed,
     this.icon,
@@ -1164,6 +1157,13 @@ class QuillIconButton extends StatelessWidget {
     this.highlightElevation = 1,
     Key? key,
   }) : super(key: key);
+
+  final VoidCallback? onPressed;
+  final Widget? icon;
+  final double size;
+  final Color? fillColor;
+  final double hoverElevation;
+  final double highlightElevation;
 
   @override
   Widget build(BuildContext context) {
@@ -1184,15 +1184,6 @@ class QuillIconButton extends StatelessWidget {
 }
 
 class QuillDropdownButton<T> extends StatefulWidget {
-  final double height;
-  final Color? fillColor;
-  final double hoverElevation;
-  final double highlightElevation;
-  final Widget child;
-  final T initialValue;
-  final List<PopupMenuEntry<T>> items;
-  final ValueChanged<T> onSelected;
-
   const QuillDropdownButton({
     required this.child,
     required this.initialValue,
@@ -1204,6 +1195,15 @@ class QuillDropdownButton<T> extends StatefulWidget {
     this.highlightElevation = 1,
     Key? key,
   }) : super(key: key);
+
+  final double height;
+  final Color? fillColor;
+  final double hoverElevation;
+  final double highlightElevation;
+  final Widget child;
+  final T initialValue;
+  final List<PopupMenuEntry<T>> items;
+  final ValueChanged<T> onSelected;
 
   @override
   _QuillDropdownButtonState<T> createState() => _QuillDropdownButtonState<T>();

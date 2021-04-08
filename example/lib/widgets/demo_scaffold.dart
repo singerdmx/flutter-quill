@@ -11,13 +11,6 @@ typedef DemoContentBuilder = Widget Function(
 
 // Common scaffold for all examples.
 class DemoScaffold extends StatefulWidget {
-  /// Filename of the document to load into the editor.
-  final String documentFilename;
-  final DemoContentBuilder builder;
-  final List<Widget>? actions;
-  final Widget? floatingActionButton;
-  final bool showToolbar;
-
   const DemoScaffold({
     required this.documentFilename,
     required this.builder,
@@ -26,6 +19,13 @@ class DemoScaffold extends StatefulWidget {
     this.floatingActionButton,
     Key? key,
   }) : super(key: key);
+
+  /// Filename of the document to load into the editor.
+  final String documentFilename;
+  final DemoContentBuilder builder;
+  final List<Widget>? actions;
+  final Widget? floatingActionButton;
+  final bool showToolbar;
 
   @override
   _DemoScaffoldState createState() => _DemoScaffoldState();

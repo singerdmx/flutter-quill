@@ -8,15 +8,6 @@ import 'box.dart';
 const Duration _FADE_DURATION = Duration(milliseconds: 250);
 
 class CursorStyle {
-  final Color color;
-  final Color backgroundColor;
-  final double width;
-  final double? height;
-  final Radius? radius;
-  final Offset? offset;
-  final bool opacityAnimates;
-  final bool paintAboveText;
-
   const CursorStyle({
     required this.color,
     required this.backgroundColor,
@@ -27,6 +18,15 @@ class CursorStyle {
     this.opacityAnimates = false,
     this.paintAboveText = false,
   });
+
+  final Color color;
+  final Color backgroundColor;
+  final double width;
+  final double? height;
+  final Radius? radius;
+  final Offset? offset;
+  final bool opacityAnimates;
+  final bool paintAboveText;
 
   @override
   bool operator ==(Object other) =>
@@ -55,14 +55,6 @@ class CursorStyle {
 }
 
 class CursorCont extends ChangeNotifier {
-  final ValueNotifier<bool> show;
-  final ValueNotifier<bool> _blink;
-  final ValueNotifier<Color> color;
-  late AnimationController _blinkOpacityCont;
-  Timer? _cursorTimer;
-  bool _targetCursorVisibility = false;
-  CursorStyle _style;
-
   CursorCont({
     required this.show,
     required CursorStyle style,
@@ -74,6 +66,14 @@ class CursorCont extends ChangeNotifier {
         AnimationController(vsync: tickerProvider, duration: _FADE_DURATION);
     _blinkOpacityCont.addListener(_onColorTick);
   }
+
+  final ValueNotifier<bool> show;
+  final ValueNotifier<bool> _blink;
+  final ValueNotifier<Color> color;
+  late AnimationController _blinkOpacityCont;
+  Timer? _cursorTimer;
+  bool _targetCursorVisibility = false;
+  CursorStyle _style;
 
   ValueNotifier<bool> get cursorBlink => _blink;
 
@@ -156,14 +156,14 @@ class CursorCont extends ChangeNotifier {
 }
 
 class CursorPainter {
+  CursorPainter(this.editable, this.style, this.prototype, this.color,
+      this.devicePixelRatio);
+
   final RenderContentProxyBox? editable;
   final CursorStyle style;
   final Rect? prototype;
   final Color color;
   final double devicePixelRatio;
-
-  CursorPainter(this.editable, this.style, this.prototype, this.color,
-      this.devicePixelRatio);
 
   void paint(Canvas canvas, Offset offset, TextPosition position) {
     assert(prototype != null);
