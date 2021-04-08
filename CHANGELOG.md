@@ -1,3 +1,6 @@
+## [1.1.8]
+* Fix height of empty line bug.
+
 ## [1.1.7]
 * Fix text selection in read-only mode.
 
