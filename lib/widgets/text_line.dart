@@ -44,12 +44,11 @@ class TextLine extends StatelessWidget {
       return EmbedProxy(embedBuilder(context, embed));
     }
 
-    TextSpan textSpan = _buildTextSpan(context);
-    StrutStyle strutStyle =
-        StrutStyle.fromTextStyle(textSpan.style!, forceStrutHeight: true);
+    final textSpan = _buildTextSpan(context);
+    final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
     RichText child = RichText(
-      text: TextSpan(children: [textSpan]),
+      text: textSpan,
       textAlign: textAlign,
       textDirection: textDirection,
       strutStyle: strutStyle,
