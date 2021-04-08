@@ -55,7 +55,7 @@ class Line extends Container<Leaf?> {
   }
 
   @override
-  String toPlainText() => super.toPlainText() + '\n';
+  String toPlainText() => '${super.toPlainText()}\n';
 
   @override
   String toString() {

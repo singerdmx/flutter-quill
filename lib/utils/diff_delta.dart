@@ -79,11 +79,7 @@ int getPositionDelta(Delta user, Delta actual) {
     final userOperation = userItr.next(length as int);
     final actualOperation = actualItr.next(length);
     if (userOperation.length != actualOperation.length) {
-      throw 'userOp ' +
-          userOperation.length.toString() +
-          ' does not match ' +
-          ' actualOp ' +
-          actualOperation.length.toString();
+      throw 'userOp ${userOperation.length} does not match  actualOp ${actualOperation.length}';
     }
     if (userOperation.key == actualOperation.key) {
       continue;
