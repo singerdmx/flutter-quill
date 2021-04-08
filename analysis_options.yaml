@@ -6,7 +6,11 @@ analyzer:
     unsafe_html: ignore
 linter:
   rules:
+    - always_declare_return_types
     - always_put_required_named_parameters_first
+    - annotate_overrides
+    - avoid_empty_else
+    - avoid_escaping_inner_quotes
     - avoid_print
     - avoid_redundant_argument_values
     - directives_ordering
@@ -18,4 +22,5 @@ linter:
     - prefer_final_in_for_each
     - prefer_final_locals
     - prefer_relative_imports
+    - prefer_single_quotes
     - unnecessary_parenthesis
