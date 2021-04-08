@@ -25,6 +25,7 @@ linter:
     - prefer_final_in_for_each
     - prefer_final_locals
     - prefer_initializing_formals
+    - prefer_int_literals
     - prefer_relative_imports
     - prefer_single_quotes
     - unnecessary_parenthesis

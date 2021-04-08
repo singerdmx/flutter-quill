@@ -99,7 +99,7 @@ class EditorTextSelectionOverlay {
     toolbar = OverlayEntry(builder: _buildToolbar);
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)!
         .insert(toolbar!);
-    _toolbarController.forward(from: 0.0);
+    _toolbarController.forward(from: 0);
   }
 
   Widget _buildHandle(

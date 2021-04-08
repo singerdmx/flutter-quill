@@ -142,8 +142,8 @@ class EditableTextBlock extends StatelessWidget {
         count: count,
         style: defaultStyles!.leading!.style,
         attrs: attrs,
-        width: 32.0,
-        padding: 8.0,
+        width: 32,
+        padding: 8,
       );
     }
 
@@ -172,9 +172,9 @@ class EditableTextBlock extends StatelessWidget {
         count: count,
         style: defaultStyles!.code!.style
             .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: 32.0,
+        width: 32,
         attrs: attrs,
-        padding: 16.0,
+        padding: 16,
         withDot: false,
       );
     }
@@ -419,7 +419,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   TextSelectionPoint getBaseEndpointForSelection(TextSelection selection) {
     if (selection.isCollapsed) {
       return TextSelectionPoint(
-          Offset(0.0, preferredLineHeight(selection.extent)) +
+          Offset(0, preferredLineHeight(selection.extent)) +
               getOffsetForCaret(selection.extent),
           null);
     }
@@ -445,7 +445,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   TextSelectionPoint getExtentEndpointForSelection(TextSelection selection) {
     if (selection.isCollapsed) {
       return TextSelectionPoint(
-          Offset(0.0, preferredLineHeight(selection.extent)) +
+          Offset(0, preferredLineHeight(selection.extent)) +
               getOffsetForCaret(selection.extent),
           null);
     }
@@ -666,7 +666,7 @@ class _BulletPoint extends StatelessWidget {
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: width,
-      padding: const EdgeInsetsDirectional.only(end: 13.0),
+      padding: const EdgeInsetsDirectional.only(end: 13),
       child: Text('•', style: style),
     );
   }
@@ -707,7 +707,7 @@ class __CheckboxState extends State<_Checkbox> {
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: widget.width,
-      padding: const EdgeInsetsDirectional.only(end: 13.0),
+      padding: const EdgeInsetsDirectional.only(end: 13),
       child: Checkbox(
         value: widget.isChecked,
         onChanged: _onCheckboxClicked,

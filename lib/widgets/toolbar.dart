@@ -14,7 +14,7 @@ import '../models/documents/style.dart';
 import '../utils/color.dart';
 import 'controller.dart';
 
-double iconSize = 18.0;
+double iconSize = 18;
 double kToolbarHeight = iconSize * 2;
 
 typedef OnImagePickCallback = Future<String> Function(File file);
@@ -464,7 +464,7 @@ Widget _selectHeadingStyleButtonBuilder(BuildContext context, Attribute? value,
           child: RawMaterialButton(
             hoverElevation: 0,
             highlightElevation: 0,
-            elevation: 0.0,
+            elevation: 0,
             visualDensity: VisualDensity.compact,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
@@ -1265,7 +1265,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(width: 110),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
             widget.child,

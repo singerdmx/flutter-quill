@@ -220,7 +220,7 @@ class _QuillEditorState extends State<QuillEditor>
             selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
         selectionColor = selectionTheme.selectionColor ??
             cupertinoTheme.primaryColor.withOpacity(0.40);
-        cursorRadius ??= const Radius.circular(2.0);
+        cursorRadius ??= const Radius.circular(2);
         cursorOffset = Offset(
             iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
         break;
@@ -252,7 +252,7 @@ class _QuillEditorState extends State<QuillEditor>
           CursorStyle(
             color: cursorColor,
             backgroundColor: Colors.grey,
-            width: 2.0,
+            width: 2,
             radius: cursorRadius,
             offset: cursorOffset,
             paintAboveText: paintCursorAboveText,
@@ -580,7 +580,7 @@ class RenderEditor extends RenderEditableContainerBox
       final parentData = child.parentData as BoxParentData;
       return <TextSelectionPoint>[
         TextSelectionPoint(
-            Offset(0.0, child.preferredLineHeight(localPosition)) +
+            Offset(0, child.preferredLineHeight(localPosition)) +
                 localOffset +
                 parentData.offset,
             null)
@@ -853,7 +853,7 @@ class RenderEditor extends RenderEditableContainerBox
     if (dy == null) {
       return null;
     }
-    return math.max(dy, 0.0);
+    return math.max(dy, 0);
   }
 }
 
@@ -1020,8 +1020,8 @@ class RenderEditableContainerBox extends RenderBox
   double computeMinIntrinsicWidth(double height) {
     _resolvePadding();
     return _getIntrinsicCrossAxis((child) {
-      final childHeight = math.max(
-          0.0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
+      final childHeight = math.max<double>(
+          0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
       return child.getMinIntrinsicWidth(childHeight) +
           _resolvedPadding!.left +
           _resolvedPadding!.right;
@@ -1032,8 +1032,8 @@ class RenderEditableContainerBox extends RenderBox
   double computeMaxIntrinsicWidth(double height) {
     _resolvePadding();
     return _getIntrinsicCrossAxis((child) {
-      final childHeight = math.max(
-          0.0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
+      final childHeight = math.max<double>(
+          0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
       return child.getMaxIntrinsicWidth(childHeight) +
           _resolvedPadding!.left +
           _resolvedPadding!.right;
@@ -1044,8 +1044,8 @@ class RenderEditableContainerBox extends RenderBox
   double computeMinIntrinsicHeight(double width) {
     _resolvePadding();
     return _getIntrinsicMainAxis((child) {
-      final childWidth = math.max(
-          0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
+      final childWidth = math.max<double>(
+          0, width - _resolvedPadding!.left + _resolvedPadding!.right);
       return child.getMinIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
           _resolvedPadding!.bottom;
@@ -1056,8 +1056,8 @@ class RenderEditableContainerBox extends RenderBox
   double computeMaxIntrinsicHeight(double width) {
     _resolvePadding();
     return _getIntrinsicMainAxis((child) {
-      final childWidth = math.max(
-          0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
+      final childWidth = math.max<double>(
+          0, width - _resolvedPadding!.left + _resolvedPadding!.right);
       return child.getMaxIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
           _resolvedPadding!.bottom;

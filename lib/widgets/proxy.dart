@@ -87,14 +87,14 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
   List<TextBox> getBoxesForSelection(TextSelection selection) {
     if (!selection.isCollapsed) {
       return <TextBox>[
-        TextBox.fromLTRBD(0.0, 0.0, size.width, size.height, TextDirection.ltr)
+        TextBox.fromLTRBD(0, 0, size.width, size.height, TextDirection.ltr)
       ];
     }
 
     final left = selection.extentOffset == 0 ? 0.0 : size.width;
     final right = selection.extentOffset == 0 ? 0.0 : size.width;
     return <TextBox>[
-      TextBox.fromLTRBD(left, 0.0, right, size.height, TextDirection.ltr)
+      TextBox.fromLTRBD(left, 0, right, size.height, TextDirection.ltr)
     ];
   }
 
@@ -104,7 +104,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
   @override
   Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype) {
     assert(position.offset <= 1 && position.offset >= 0);
-    return position.offset == 0 ? Offset.zero : Offset(size.width, 0.0);
+    return position.offset == 0 ? Offset.zero : Offset(size.width, 0);
   }
 
   @override

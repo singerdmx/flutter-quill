@@ -57,7 +57,7 @@ class TextLine extends StatelessWidget {
         textSpan.style!,
         textAlign,
         textDirection!,
-        1.0,
+        1,
         Localizations.localeOf(context),
         strutStyle,
         TextWidthBasis.parent,
@@ -458,7 +458,7 @@ class RenderEditableTextLine extends RenderEditableBox {
       TextSelection textSelection, bool first) {
     if (textSelection.isCollapsed) {
       return TextSelectionPoint(
-          Offset(0.0, preferredLineHeight(textSelection.extent)) +
+          Offset(0, preferredLineHeight(textSelection.extent)) +
               getOffsetForCaret(textSelection.extent),
           null);
     }
@@ -473,7 +473,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   TextRange getLineBoundary(TextPosition position) {
     final lineDy = getOffsetForCaret(position)
-        .translate(0.0, 0.5 * preferredLineHeight(position))
+        .translate(0, 0.5 * preferredLineHeight(position))
         .dy;
     final lineBoxes =
         _getBoxes(TextSelection(baseOffset: 0, extentOffset: line.length - 1))
@@ -543,15 +543,13 @@ class RenderEditableTextLine extends RenderEditableBox {
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        _caretPrototype =
-            Rect.fromLTWH(0.0, 0.0, cursorWidth, cursorHeight + 2);
+        _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
         break;
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        _caretPrototype =
-            Rect.fromLTWH(0.0, 2.0, cursorWidth, cursorHeight - 4.0);
+        _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
         break;
       default:
         throw 'Invalid platform';
@@ -619,7 +617,7 @@ class RenderEditableTextLine extends RenderEditableBox {
         : _leading!.getMinIntrinsicWidth(height - verticalPadding) as int;
     final bodyWidth = _body == null
         ? 0
-        : _body!.getMinIntrinsicWidth(math.max(0.0, height - verticalPadding))
+        : _body!.getMinIntrinsicWidth(math.max(0, height - verticalPadding))
             as int;
     return horizontalPadding + leadingWidth + bodyWidth;
   }
@@ -634,7 +632,7 @@ class RenderEditableTextLine extends RenderEditableBox {
         : _leading!.getMaxIntrinsicWidth(height - verticalPadding) as int;
     final bodyWidth = _body == null
         ? 0
-        : _body!.getMaxIntrinsicWidth(math.max(0.0, height - verticalPadding))
+        : _body!.getMaxIntrinsicWidth(math.max(0, height - verticalPadding))
             as int;
     return horizontalPadding + leadingWidth + bodyWidth;
   }
@@ -646,7 +644,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     if (_body != null) {
       return _body!
-              .getMinIntrinsicHeight(math.max(0.0, width - horizontalPadding)) +
+              .getMinIntrinsicHeight(math.max(0, width - horizontalPadding)) +
           verticalPadding;
     }
     return verticalPadding;
@@ -659,7 +657,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     if (_body != null) {
       return _body!
-              .getMaxIntrinsicHeight(math.max(0.0, width - horizontalPadding)) +
+              .getMaxIntrinsicHeight(math.max(0, width - horizontalPadding)) +
           verticalPadding;
     }
     return verticalPadding;
@@ -704,7 +702,7 @@ class RenderEditableTextLine extends RenderEditableBox {
           maxHeight: _body!.size.height);
       _leading!.layout(leadingConstraints, parentUsesSize: true);
       (_leading!.parentData as BoxParentData).offset =
-          Offset(0.0, _resolvedPadding!.top);
+          Offset(0, _resolvedPadding!.top);
     }
 
     size = constraints.constrain(Size(

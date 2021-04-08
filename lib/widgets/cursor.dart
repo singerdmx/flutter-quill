@@ -176,7 +176,7 @@ class CursorPainter {
     }
 
     if (caretRect.left < 0.0) {
-      caretRect = caretRect.shift(Offset(-caretRect.left, 0.0));
+      caretRect = caretRect.shift(Offset(-caretRect.left, 0));
     }
 
     final caretHeight = editable!.getFullHeightForCaret(position);

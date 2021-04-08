@@ -596,7 +596,7 @@ class RawEditorState extends EditorState
             widget.enableInteractiveSelection,
             _hasFocus,
             attrs.containsKey(Attribute.codeBlock.key)
-                ? const EdgeInsets.all(16.0)
+                ? const EdgeInsets.all(16)
                 : null,
             widget.embedBuilder,
             _cursorCont,
@@ -988,7 +988,7 @@ class RawEditorState extends EditorState
 
       final viewport = RenderAbstractViewport.of(getRenderEditor())!;
       final editorOffset = getRenderEditor()!
-          .localToGlobal(const Offset(0.0, 0.0), ancestor: viewport);
+          .localToGlobal(const Offset(0, 0), ancestor: viewport);
       final offsetInViewport = _scrollController!.offset + editorOffset.dy;
 
       final offset = getRenderEditor()!.getOffsetToRevealCursor(

@@ -87,10 +87,10 @@ class DefaultStyles {
     final themeData = Theme.of(context);
     final defaultTextStyle = DefaultTextStyle.of(context);
     final baseStyle = defaultTextStyle.style.copyWith(
-      fontSize: 16.0,
+      fontSize: 16,
       height: 1.3,
     );
-    const baseSpacing = Tuple2<double, double>(6.0, 0);
+    const baseSpacing = Tuple2<double, double>(6, 0);
     String fontFamily;
     switch (themeData.platform) {
       case TargetPlatform.iOS:
@@ -110,36 +110,36 @@ class DefaultStyles {
     return DefaultStyles(
         h1: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
-              fontSize: 34.0,
+              fontSize: 34,
               color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
-            const Tuple2(16.0, 0.0),
-            const Tuple2(0.0, 0.0),
+            const Tuple2(16, 0),
+            const Tuple2(0, 0),
             null),
         h2: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
-              fontSize: 24.0,
+              fontSize: 24,
               color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.15,
               fontWeight: FontWeight.normal,
             ),
-            const Tuple2(8.0, 0.0),
-            const Tuple2(0.0, 0.0),
+            const Tuple2(8, 0),
+            const Tuple2(0, 0),
             null),
         h3: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
-              fontSize: 20.0,
+              fontSize: 20,
               color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.25,
               fontWeight: FontWeight.w500,
             ),
-            const Tuple2(8.0, 0.0),
-            const Tuple2(0.0, 0.0),
+            const Tuple2(8, 0),
+            const Tuple2(0, 0),
             null),
         paragraph: DefaultTextBlockStyle(
-            baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
+            baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
         italic: const TextStyle(fontStyle: FontStyle.italic),
         underline: const TextStyle(decoration: TextDecoration.underline),
@@ -150,19 +150,19 @@ class DefaultStyles {
         ),
         placeHolder: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
-              fontSize: 20.0,
+              fontSize: 20,
               height: 1.5,
               color: Colors.grey.withOpacity(0.6),
             ),
-            const Tuple2(0.0, 0.0),
-            const Tuple2(0.0, 0.0),
+            const Tuple2(0, 0),
+            const Tuple2(0, 0),
             null),
         lists: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, const Tuple2(0.0, 6.0), null),
+            baseStyle, baseSpacing, const Tuple2(0, 6), null),
         quote: DefaultTextBlockStyle(
             TextStyle(color: baseStyle.color!.withOpacity(0.6)),
             baseSpacing,
-            const Tuple2(6.0, 2.0),
+            const Tuple2(6, 2),
             BoxDecoration(
               border: Border(
                 left: BorderSide(width: 4, color: Colors.grey.shade300),
@@ -172,24 +172,24 @@ class DefaultStyles {
             TextStyle(
               color: Colors.blue.shade900.withOpacity(0.9),
               fontFamily: fontFamily,
-              fontSize: 13.0,
+              fontSize: 13,
               height: 1.15,
             ),
             baseSpacing,
-            const Tuple2(0.0, 0.0),
+            const Tuple2(0, 0),
             BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )),
         indent: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, const Tuple2(0.0, 6.0), null),
+            baseStyle, baseSpacing, const Tuple2(0, 6), null),
         align: DefaultTextBlockStyle(
-            baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
+            baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
         leading: DefaultTextBlockStyle(
-            baseStyle, const Tuple2(0.0, 0.0), const Tuple2(0.0, 0.0), null),
-        sizeSmall: const TextStyle(fontSize: 10.0),
-        sizeLarge: const TextStyle(fontSize: 18.0),
-        sizeHuge: const TextStyle(fontSize: 22.0));
+            baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
+        sizeSmall: const TextStyle(fontSize: 10),
+        sizeLarge: const TextStyle(fontSize: 18),
+        sizeHuge: const TextStyle(fontSize: 22));
   }
 
   DefaultStyles merge(DefaultStyles other) {
