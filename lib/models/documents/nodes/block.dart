@@ -3,7 +3,21 @@ import 'container.dart';
 import 'line.dart';
 import 'node.dart';
 
+/// Represents a group of adjacent [Line]s with the same block style.
+///
+/// Block elements are:
+/// - Blockquote
+/// - Header
+/// - Indent
+/// - List
+/// - Text Alignment
+/// - Text Direction
+/// - Code Block
 class Block extends Container<Line?> {
+  /// Creates new unmounted [Block].
+  @override
+  Node newInstance() => Block();
+
   @override
   Line get defaultChild => Line();
 
@@ -54,10 +68,5 @@ class Block extends Container<Line?> {
       if (!child.isLast) buffer.writeln();
     }
     return buffer.toString();
-  }
-
-  @override
-  Node newInstance() {
-    return Block();
   }
 }

@@ -12,10 +12,10 @@ import '../models/documents/nodes/node.dart';
 import 'editor.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
-  final base = fromParent ? node.getOffset() : node.getDocumentOffset();
+  final base = fromParent ? node.offset : node.documentOffset;
   assert(base <= selection.end && selection.start <= base + node.length - 1);
 
-  final offset = fromParent ? node.getOffset() : node.getDocumentOffset();
+  final offset = fromParent ? node.offset : node.documentOffset;
   return selection.copyWith(
       baseOffset: math.max(selection.start - offset, 0),
       extentOffset: math.min(selection.end - offset, node.length - 1));

@@ -577,8 +577,7 @@ class RenderEditor extends RenderEditableContainerBox
     if (textSelection.isCollapsed) {
       final child = childAtPosition(textSelection.extent);
       final localPosition = TextPosition(
-          offset:
-              textSelection.extentOffset - child.getContainer().getOffset());
+          offset: textSelection.extentOffset - child.getContainer().offset);
       final localOffset = child.getOffsetForCaret(localPosition);
       final parentData = child.parentData as BoxParentData;
       return <TextSelectionPoint>[
@@ -677,7 +676,7 @@ class RenderEditor extends RenderEditableContainerBox
     assert(_lastTapDownPosition != null);
     final position = getPositionForOffset(_lastTapDownPosition!);
     final child = childAtPosition(position);
-    final nodeOffset = child.getContainer().getOffset();
+    final nodeOffset = child.getContainer().offset;
     final localPosition = TextPosition(
       offset: position.offset - nodeOffset,
       affinity: position.affinity,
@@ -738,7 +737,7 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   TextSelection selectWordAtPosition(TextPosition position) {
     final child = childAtPosition(position);
-    final nodeOffset = child.getContainer().getOffset();
+    final nodeOffset = child.getContainer().offset;
     final localPosition = TextPosition(
         offset: position.offset - nodeOffset, affinity: position.affinity);
     final localWord = child.getWordBoundary(localPosition);
@@ -755,7 +754,7 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   TextSelection selectLineAtPosition(TextPosition position) {
     final child = childAtPosition(position);
-    final nodeOffset = child.getContainer().getOffset();
+    final nodeOffset = child.getContainer().offset;
     final localPosition = TextPosition(
         offset: position.offset - nodeOffset, affinity: position.affinity);
     final localLineRange = child.getLineBoundary(localPosition);
@@ -810,8 +809,8 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   double preferredLineHeight(TextPosition position) {
     final child = childAtPosition(position);
-    return child.preferredLineHeight(TextPosition(
-        offset: position.offset - child.getContainer().getOffset()));
+    return child.preferredLineHeight(
+        TextPosition(offset: position.offset - child.getContainer().offset));
   }
 
   @override
@@ -823,7 +822,7 @@ class RenderEditor extends RenderEditableContainerBox
     final localOffset = local - parentData.offset;
     final localPosition = child.getPositionForOffset(localOffset);
     return TextPosition(
-      offset: localPosition.offset + child.getContainer().getOffset(),
+      offset: localPosition.offset + child.getContainer().offset,
       affinity: localPosition.affinity,
     );
   }
@@ -842,8 +841,7 @@ class RenderEditor extends RenderEditableContainerBox
 
     final caretTop = endpoint.point.dy -
         child.preferredLineHeight(TextPosition(
-            offset:
-                selection.extentOffset - child.getContainer().getOffset())) -
+            offset: selection.extentOffset - child.getContainer().offset)) -
         kMargin +
         offsetInViewport;
     final caretBottom = endpoint.point.dy + kMargin + offsetInViewport;

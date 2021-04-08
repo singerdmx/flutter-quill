@@ -402,8 +402,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   bool containsTextSelection() {
-    return line.getDocumentOffset() <= textSelection.end &&
-        textSelection.start <= line.getDocumentOffset() + line.length - 1;
+    return line.documentOffset <= textSelection.end &&
+        textSelection.start <= line.documentOffset + line.length - 1;
   }
 
   bool containsCursor() {
@@ -735,8 +735,8 @@ class RenderEditableTextLine extends RenderEditableBox {
       final parentData = _body!.parentData as BoxParentData;
       final effectiveOffset = offset + parentData.offset;
       if (enableInteractiveSelection &&
-          line.getDocumentOffset() <= textSelection.end &&
-          textSelection.start <= line.getDocumentOffset() + line.length - 1) {
+          line.documentOffset <= textSelection.end &&
+          textSelection.start <= line.documentOffset + line.length - 1) {
         final local = localSelection(line, textSelection, false);
         _selectedRects ??= _body!.getBoxesForSelection(
           local,
@@ -772,7 +772,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   void _paintCursor(PaintingContext context, Offset effectiveOffset) {
     final position = TextPosition(
-      offset: textSelection.extentOffset - line.getDocumentOffset(),
+      offset: textSelection.extentOffset - line.documentOffset,
       affinity: textSelection.base.affinity,
     );
     _cursorPainter.paint(context.canvas, effectiveOffset, position);

@@ -312,12 +312,12 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   TextRange getLineBoundary(TextPosition position) {
     final child = childAtPosition(position);
     final rangeInChild = child.getLineBoundary(TextPosition(
-      offset: position.offset - child.getContainer().getOffset(),
+      offset: position.offset - child.getContainer().offset,
       affinity: position.affinity,
     ));
     return TextRange(
-      start: rangeInChild.start + child.getContainer().getOffset(),
-      end: rangeInChild.end + child.getContainer().getOffset(),
+      start: rangeInChild.start + child.getContainer().offset,
+      end: rangeInChild.end + child.getContainer().offset,
     );
   }
 
@@ -325,7 +325,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   Offset getOffsetForCaret(TextPosition position) {
     final child = childAtPosition(position);
     return child.getOffsetForCaret(TextPosition(
-          offset: position.offset - child.getContainer().getOffset(),
+          offset: position.offset - child.getContainer().offset,
           affinity: position.affinity,
         )) +
         (child.parentData as BoxParentData).offset;
@@ -338,7 +338,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final localPosition =
         child.getPositionForOffset(offset - parentData.offset);
     return TextPosition(
-      offset: localPosition.offset + child.getContainer().getOffset(),
+      offset: localPosition.offset + child.getContainer().offset,
       affinity: localPosition.affinity,
     );
   }
@@ -346,7 +346,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   @override
   TextRange getWordBoundary(TextPosition position) {
     final child = childAtPosition(position);
-    final nodeOffset = child.getContainer().getOffset();
+    final nodeOffset = child.getContainer().offset;
     final childWord = child
         .getWordBoundary(TextPosition(offset: position.offset - nodeOffset));
     return TextRange(
@@ -360,12 +360,11 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     assert(position.offset < getContainer().length);
 
     final child = childAtPosition(position);
-    final childLocalPosition = TextPosition(
-        offset: position.offset - child.getContainer().getOffset());
+    final childLocalPosition =
+        TextPosition(offset: position.offset - child.getContainer().offset);
     final result = child.getPositionAbove(childLocalPosition);
     if (result != null) {
-      return TextPosition(
-          offset: result.offset + child.getContainer().getOffset());
+      return TextPosition(offset: result.offset + child.getContainer().offset);
     }
 
     final sibling = childBefore(child);
@@ -379,7 +378,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final testOffset = sibling.getOffsetForCaret(testPosition);
     final finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
-        offset: sibling.getContainer().getOffset() +
+        offset: sibling.getContainer().offset +
             sibling.getPositionForOffset(finalOffset).offset);
   }
 
@@ -388,12 +387,11 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     assert(position.offset < getContainer().length);
 
     final child = childAtPosition(position);
-    final childLocalPosition = TextPosition(
-        offset: position.offset - child.getContainer().getOffset());
+    final childLocalPosition =
+        TextPosition(offset: position.offset - child.getContainer().offset);
     final result = child.getPositionBelow(childLocalPosition);
     if (result != null) {
-      return TextPosition(
-          offset: result.offset + child.getContainer().getOffset());
+      return TextPosition(offset: result.offset + child.getContainer().offset);
     }
 
     final sibling = childAfter(child);
@@ -405,15 +403,15 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final testOffset = sibling.getOffsetForCaret(const TextPosition(offset: 0));
     final finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
-        offset: sibling.getContainer().getOffset() +
+        offset: sibling.getContainer().offset +
             sibling.getPositionForOffset(finalOffset).offset);
   }
 
   @override
   double preferredLineHeight(TextPosition position) {
     final child = childAtPosition(position);
-    return child.preferredLineHeight(TextPosition(
-        offset: position.offset - child.getContainer().getOffset()));
+    return child.preferredLineHeight(
+        TextPosition(offset: position.offset - child.getContainer().offset));
   }
 
   @override

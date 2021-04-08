@@ -6,36 +6,37 @@ import '../style.dart';
 import 'container.dart';
 import 'line.dart';
 
-/* node in a document tree */
+/// An abstract node in a document tree.
+///
+/// Represents a segment of a Quill document with specified [offset]
+/// and [length].
+///
+/// The [offset] property is relative to [parent]. See also [documentOffset]
+/// which provides absolute offset of this node within the document.
+///
+/// The current parent node is exposed by the [parent] property.
 abstract class Node extends LinkedListEntry<Node> {
+  /// Current parent of this node. May be null if this node is not mounted.
   Container? parent;
-  Style _style = Style();
 
   Style get style => _style;
+  Style _style = Style();
 
-  void applyAttribute(Attribute attribute) {
-    _style = _style.merge(attribute);
-  }
-
-  void applyStyle(Style value) {
-    _style = _style.mergeAll(value);
-  }
-
-  void clearStyle() {
-    _style = Style();
-  }
-
+  /// Returns `true` if this node is the first node in the [parent] list.
   bool get isFirst => list!.first == this;
 
+  /// Returns `true` if this node is the last node in the [parent] list.
   bool get isLast => list!.last == this;
 
+  /// Length of this node in characters.
   int get length;
 
-  Node clone() {
-    return newInstance()..applyStyle(style);
-  }
+  Node clone() => newInstance()..applyStyle(style);
 
-  int getOffset() {
+  /// Offset in characters of this node relative to [parent] node.
+  ///
+  /// To get offset of this node in the document see [documentOffset].
+  int get offset {
     var offset = 0;
 
     if (list == null || isFirst) {
@@ -50,14 +51,29 @@ abstract class Node extends LinkedListEntry<Node> {
     return offset;
   }
 
-  int getDocumentOffset() {
-    final parentOffset = (parent is! Root) ? parent!.getDocumentOffset() : 0;
-    return parentOffset + getOffset();
+  /// Offset in characters of this node in the document.
+  int get documentOffset {
+    final parentOffset = (parent is! Root) ? parent!.documentOffset : 0;
+    return parentOffset + offset;
   }
 
+  /// Returns `true` if this node contains character at specified [offset] in
+  /// the document.
   bool containsOffset(int offset) {
-    final o = getDocumentOffset();
+    final o = documentOffset;
     return o <= offset && offset < o + length;
+  }
+
+  void applyAttribute(Attribute attribute) {
+    _style = _style.merge(attribute);
+  }
+
+  void applyStyle(Style value) {
+    _style = _style.mergeAll(value);
+  }
+
+  void clearStyle() {
+    _style = Style();
   }
 
   @override
@@ -81,9 +97,7 @@ abstract class Node extends LinkedListEntry<Node> {
     super.unlink();
   }
 
-  void adjust() {
-    // do nothing
-  }
+  void adjust() {/* no-op */}
 
   /// abstract methods begin
 
@@ -100,11 +114,13 @@ abstract class Node extends LinkedListEntry<Node> {
   void delete(int index, int? len);
 
   /// abstract methods end
-
 }
 
-/* Root node of document tree */
+/// Root node of document tree.
 class Root extends Container<Container<Node?>> {
+  @override
+  Node newInstance() => Root();
+
   @override
   Container<Node?> get defaultChild => Line();
 
@@ -112,9 +128,4 @@ class Root extends Container<Container<Node?>> {
   Delta toDelta() => children
       .map((child) => child.toDelta())
       .fold(Delta(), (a, b) => a.concat(b));
-
-  @override
-  Node newInstance() {
-    return Root();
-  }
 }

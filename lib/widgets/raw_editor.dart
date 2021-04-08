@@ -209,8 +209,7 @@ class RawEditorState extends EditorState
 
     final child = getRenderEditor()!.childAtPosition(originPosition);
     final localPosition = TextPosition(
-        offset:
-            originPosition.offset - child.getContainer().getDocumentOffset());
+        offset: originPosition.offset - child.getContainer().documentOffset);
 
     var position = upKey
         ? child.getPositionAbove(localPosition)
@@ -231,12 +230,12 @@ class RawEditorState extends EditorState
                 .dy);
         final siblingPosition = sibling.getPositionForOffset(finalOffset);
         position = TextPosition(
-            offset: sibling.getContainer().getDocumentOffset() +
-                siblingPosition.offset);
+            offset:
+                sibling.getContainer().documentOffset + siblingPosition.offset);
       }
     } else {
       position = TextPosition(
-          offset: child.getContainer().getDocumentOffset() + position.offset);
+          offset: child.getContainer().documentOffset + position.offset);
     }
 
     if (position.offset == newSelection.extentOffset) {
