@@ -13,6 +13,8 @@ linter:
     - avoid_escaping_inner_quotes
     - avoid_print
     - avoid_redundant_argument_values
+    - avoid_types_on_closure_parameters
+    - avoid_void_async
     - directives_ordering
     - omit_local_variable_types
     - prefer_const_constructors
@@ -24,4 +26,3 @@ linter:
     - prefer_relative_imports
     - prefer_single_quotes
     - unnecessary_parenthesis
-    - avoid_types_on_closure_parameters

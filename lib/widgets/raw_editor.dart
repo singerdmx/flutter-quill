@@ -806,7 +806,7 @@ class RawEditorState extends EditorState
     );
   }
 
-  void handleShortcut(InputShortcut? shortcut) async {
+  Future<void> handleShortcut(InputShortcut? shortcut) async {
     final selection = widget.controller.selection;
     final plainText = textEditingValue.text;
     if (shortcut == InputShortcut.COPY) {
@@ -1058,7 +1058,7 @@ class RawEditorState extends EditorState
     }
   }
 
-  void __setEditingValue(TextEditingValue value) async {
+  Future<void> __setEditingValue(TextEditingValue value) async {
     if (await __isItCut(value)) {
       widget.controller.replaceText(
         textEditingValue.selection.start,

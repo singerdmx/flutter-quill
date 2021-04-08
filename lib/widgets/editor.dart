@@ -427,7 +427,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     return true;
   }
 
-  void _launchUrl(String url) async {
+  Future<void> _launchUrl(String url) async {
     await launch(url);
   }
 
