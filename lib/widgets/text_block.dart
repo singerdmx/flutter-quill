@@ -580,7 +580,7 @@ class _NumberPoint extends StatelessWidget {
         alignment: AlignmentDirectional.topEnd,
         width: width,
         padding: EdgeInsetsDirectional.only(end: padding),
-        child: Text(withDot ? '$s.' : '$s', style: style),
+        child: Text(withDot ? '$s.' : s, style: style),
       );
     }
     if (attrs.containsKey(Attribute.indent.key)) {
@@ -611,7 +611,7 @@ class _NumberPoint extends StatelessWidget {
       alignment: AlignmentDirectional.topEnd,
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
-      child: Text(withDot ? '$s.' : '$s', style: style),
+      child: Text(withDot ? '$s.' : s, style: style),
     );
   }
 

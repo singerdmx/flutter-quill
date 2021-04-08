@@ -30,3 +30,4 @@ linter:
     - prefer_relative_imports
     - prefer_single_quotes
     - unnecessary_parenthesis
+    - unnecessary_string_interpolations
