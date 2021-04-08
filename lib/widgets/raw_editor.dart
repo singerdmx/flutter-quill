@@ -9,25 +9,25 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/document.dart';
-import 'package:flutter_quill/models/documents/nodes/block.dart';
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/utils/diff_delta.dart';
-import 'package:flutter_quill/widgets/default_styles.dart';
-import 'package:flutter_quill/widgets/proxy.dart';
-import 'package:flutter_quill/widgets/text_block.dart';
-import 'package:flutter_quill/widgets/text_line.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:tuple/tuple.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/document.dart';
+import '../models/documents/nodes/block.dart';
+import '../models/documents/nodes/line.dart';
+import '../models/documents/nodes/node.dart';
+import '../utils/diff_delta.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
+import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
 import 'keyboard_listener.dart';
+import 'proxy.dart';
+import 'text_block.dart';
+import 'text_line.dart';
+import 'text_selection.dart';
 
 class RawEditor extends StatefulWidget {
   final QuillController controller;

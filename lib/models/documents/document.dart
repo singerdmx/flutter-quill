@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter_quill/models/documents/nodes/block.dart';
-import 'package:flutter_quill/models/documents/nodes/container.dart';
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/style.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
 import 'package:tuple/tuple.dart';
 
+import '../quill_delta.dart';
 import '../rules/rule.dart';
 import 'attribute.dart';
 import 'history.dart';
+import 'nodes/block.dart';
+import 'nodes/container.dart';
 import 'nodes/embed.dart';
+import 'nodes/line.dart';
 import 'nodes/node.dart';
+import 'style.dart';
 
 /// The rich text document
 class Document {

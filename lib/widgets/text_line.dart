@@ -3,23 +3,22 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/nodes/container.dart'
-    as container;
-import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
-import 'package:flutter_quill/models/documents/nodes/leaf.dart';
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/models/documents/style.dart';
-import 'package:flutter_quill/utils/color.dart';
-import 'package:flutter_quill/widgets/cursor.dart';
-import 'package:flutter_quill/widgets/proxy.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:tuple/tuple.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/container.dart' as container;
+import '../models/documents/nodes/leaf.dart' as leaf;
+import '../models/documents/nodes/leaf.dart';
+import '../models/documents/nodes/line.dart';
+import '../models/documents/nodes/node.dart';
+import '../models/documents/style.dart';
+import '../utils/color.dart';
 import 'box.dart';
+import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
+import 'proxy.dart';
+import 'text_selection.dart';
 
 class TextLine extends StatelessWidget {
   final Line line;

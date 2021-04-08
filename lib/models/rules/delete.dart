@@ -1,6 +1,6 @@
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-import 'package:flutter_quill/models/rules/rule.dart';
+import '../documents/attribute.dart';
+import '../quill_delta.dart';
+import 'rule.dart';
 
 abstract class DeleteRule extends Rule {
   const DeleteRule();

@@ -1,19 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/nodes/block.dart';
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/widgets/cursor.dart';
-import 'package:flutter_quill/widgets/default_styles.dart';
-import 'package:flutter_quill/widgets/text_line.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:tuple/tuple.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/block.dart';
+import '../models/documents/nodes/line.dart';
+import '../models/documents/nodes/node.dart';
 import 'box.dart';
+import 'cursor.dart';
+import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
+import 'text_line.dart';
+import 'text_selection.dart';
 
 const List<int> arabianRomanNumbers = [
   1000,

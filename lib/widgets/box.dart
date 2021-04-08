@@ -1,5 +1,6 @@
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quill/models/documents/nodes/container.dart';
+
+import '../models/documents/nodes/container.dart';
 
 abstract class RenderContentProxyBox implements RenderBox {
   double getPreferredLineHeight();

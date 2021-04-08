@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter_quill/models/quill_delta.dart';
-
+import '../../quill_delta.dart';
 import '../style.dart';
 import 'embed.dart';
 import 'line.dart';

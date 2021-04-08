@@ -1,9 +1,8 @@
 import 'dart:collection';
 
-import 'package:flutter_quill/models/documents/style.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-
+import '../../quill_delta.dart';
 import '../attribute.dart';
+import '../style.dart';
 import 'container.dart';
 import 'line.dart';
 

@@ -1,14 +1,13 @@
 import 'dart:math' as math;
 
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-
+import '../../quill_delta.dart';
+import '../attribute.dart';
 import '../style.dart';
 import 'block.dart';
 import 'container.dart';
 import 'embed.dart';
 import 'leaf.dart';
+import 'node.dart';
 
 class Line extends Container<Leaf?> {
   @override

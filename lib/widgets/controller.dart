@@ -1,13 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/document.dart';
-import 'package:flutter_quill/models/documents/nodes/embed.dart';
-import 'package:flutter_quill/models/documents/style.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-import 'package:flutter_quill/utils/diff_delta.dart';
 import 'package:tuple/tuple.dart';
+
+import '../models/documents/attribute.dart';
+import '../models/documents/document.dart';
+import '../models/documents/nodes/embed.dart';
+import '../models/documents/style.dart';
+import '../models/quill_delta.dart';
+import '../utils/diff_delta.dart';
 
 class QuillController extends ChangeNotifier {
   final Document document;

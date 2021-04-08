@@ -7,8 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
 
+import '../models/documents/nodes/node.dart';
 import 'editor.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {

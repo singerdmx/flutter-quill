@@ -8,25 +8,24 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/document.dart';
-import 'package:flutter_quill/models/documents/nodes/container.dart'
-    as container_node;
-import 'package:flutter_quill/models/documents/nodes/embed.dart';
-import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/widgets/image.dart';
-import 'package:flutter_quill/widgets/raw_editor.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/document.dart';
+import '../models/documents/nodes/container.dart' as container_node;
+import '../models/documents/nodes/embed.dart';
+import '../models/documents/nodes/leaf.dart' as leaf;
+import '../models/documents/nodes/line.dart';
+import '../models/documents/nodes/node.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
+import 'image.dart';
+import 'raw_editor.dart';
+import 'text_selection.dart';
 
 const linkPrefixes = [
   'mailto:', // email

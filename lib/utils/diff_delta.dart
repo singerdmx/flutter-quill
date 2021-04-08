@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter_quill/models/quill_delta.dart';
+import '../models/quill_delta.dart';
 
 const Set<int> WHITE_SPACE = {
   0x9,

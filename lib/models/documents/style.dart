@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:quiver/core.dart';
+
+import 'attribute.dart';
 
 /* Collection of style attributes */
 class Style {

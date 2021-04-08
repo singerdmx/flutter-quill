@@ -1,6 +1,6 @@
-import 'package:flutter_quill/models/quill_delta.dart';
 import 'package:tuple/tuple.dart';
 
+import '../quill_delta.dart';
 import 'document.dart';
 
 class History {

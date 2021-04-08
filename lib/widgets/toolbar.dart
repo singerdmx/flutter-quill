@@ -5,13 +5,13 @@ import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/nodes/embed.dart';
-import 'package:flutter_quill/models/documents/style.dart';
-import 'package:flutter_quill/utils/color.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/embed.dart';
+import '../models/documents/style.dart';
+import '../utils/color.dart';
 import 'controller.dart';
 
 double iconSize = 18.0;
