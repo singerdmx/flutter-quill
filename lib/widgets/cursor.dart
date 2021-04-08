@@ -64,11 +64,10 @@ class CursorCont extends ChangeNotifier {
   CursorStyle _style;
 
   CursorCont({
-    required ValueNotifier<bool> show,
+    required this.show,
     required CursorStyle style,
     required TickerProvider tickerProvider,
-  })   : show = show,
-        _style = style,
+  })   : _style = style,
         _blink = ValueNotifier(false),
         color = ValueNotifier(style.color) {
     _blinkOpacityCont =
