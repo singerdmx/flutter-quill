@@ -13,6 +13,7 @@ linter:
     - omit_local_variable_types
     - prefer_const_constructors
     - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
     - prefer_final_fields
     - prefer_final_in_for_each
     - prefer_final_locals

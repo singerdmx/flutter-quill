@@ -95,7 +95,7 @@ class Style {
       return false;
     }
     final typedOther = other;
-    final eq = const MapEquality<String, Attribute>();
+    const eq = MapEquality<String, Attribute>();
     return eq.equals(_attributes, typedOther._attributes);
   }
 

@@ -293,8 +293,7 @@ class Delta {
     if (identical(this, other)) return true;
     if (other is! Delta) return false;
     final typedOther = other;
-    final comparator =
-        const ListEquality<Operation>(DefaultEquality<Operation>());
+    const comparator = ListEquality<Operation>(DefaultEquality<Operation>());
     return comparator.equals(_operations, typedOther._operations);
   }
 
