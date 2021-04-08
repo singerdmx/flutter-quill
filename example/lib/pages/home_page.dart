@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: RawKeyboardListener(
         focusNode: FocusNode(),
-        onKey: (RawKeyEvent event) {
+        onKey: (event) {
           if (event.data.isControlPressed && event.character == 'b') {
             if (_controller!
                 .getSelectionStyle()
@@ -107,15 +107,15 @@ class _HomePageState extends State<HomePage> {
         customStyles: DefaultStyles(
           h1: DefaultTextBlockStyle(
               const TextStyle(
-                fontSize: 32.0,
+                fontSize: 32,
                 color: Colors.black,
                 height: 1.15,
                 fontWeight: FontWeight.w300,
               ),
-              const Tuple2(16.0, 0.0),
-              const Tuple2(0.0, 0.0),
+              const Tuple2(16, 0),
+              const Tuple2(0, 0),
               null),
-          sizeSmall: const TextStyle(fontSize: 9.0),
+          sizeSmall: const TextStyle(fontSize: 9),
         ));
     if (kIsWeb) {
       quillEditor = QuillEditor(

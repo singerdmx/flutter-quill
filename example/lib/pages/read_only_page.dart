@@ -53,7 +53,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           embedBuilder: defaultEmbedBuilderWeb);
     }
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
