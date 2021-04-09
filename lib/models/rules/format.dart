@@ -1,6 +1,6 @@
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-import 'package:flutter_quill/models/rules/rule.dart';
+import '../documents/attribute.dart';
+import '../quill_delta.dart';
+import 'rule.dart';
 
 abstract class FormatRule extends Rule {
   const FormatRule();
@@ -26,21 +26,20 @@ class ResolveLineFormatRule extends FormatRule {
       return null;
     }
 
-    Delta delta = Delta()..retain(index);
-    DeltaIterator itr = DeltaIterator(document);
-    itr.skip(index);
+    var delta = Delta()..retain(index);
+    final itr = DeltaIterator(document)..skip(index);
     Operation op;
-    for (int cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
+    for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
       op = itr.next(len - cur);
       if (op.data is! String || !(op.data as String).contains('\n')) {
         delta.retain(op.length!);
         continue;
       }
-      String text = op.data as String;
-      Delta tmp = Delta();
-      int offset = 0;
+      final text = op.data as String;
+      final tmp = Delta();
+      var offset = 0;
 
-      for (int lineBreak = text.indexOf('\n');
+      for (var lineBreak = text.indexOf('\n');
           lineBreak >= 0;
           lineBreak = text.indexOf('\n', offset)) {
         tmp..retain(lineBreak - offset)..retain(1, attribute.toJson());
@@ -52,8 +51,8 @@ class ResolveLineFormatRule extends FormatRule {
 
     while (itr.hasNext) {
       op = itr.next();
-      String text = op.data is String ? (op.data as String?)! : '';
-      int lineBreak = text.indexOf('\n');
+      final text = op.data is String ? (op.data as String?)! : '';
+      final lineBreak = text.indexOf('\n');
       if (lineBreak < 0) {
         delta.retain(op.length!);
         continue;
@@ -75,9 +74,9 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
       return null;
     }
 
-    Delta delta = Delta();
-    DeltaIterator itr = DeltaIterator(document);
-    Operation? before = itr.skip(index), after = itr.next();
+    final delta = Delta();
+    final itr = DeltaIterator(document);
+    final before = itr.skip(index), after = itr.next();
     int? beg = index, retain = 0;
     if (before != null && before.hasAttribute(attribute.key)) {
       beg -= before.length!;
@@ -105,20 +104,19 @@ class ResolveInlineFormatRule extends FormatRule {
       return null;
     }
 
-    Delta delta = Delta()..retain(index);
-    DeltaIterator itr = DeltaIterator(document);
-    itr.skip(index);
+    final delta = Delta()..retain(index);
+    final itr = DeltaIterator(document)..skip(index);
 
     Operation op;
-    for (int cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
+    for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
       op = itr.next(len - cur);
-      String text = op.data is String ? (op.data as String?)! : '';
-      int lineBreak = text.indexOf('\n');
+      final text = op.data is String ? (op.data as String?)! : '';
+      var lineBreak = text.indexOf('\n');
       if (lineBreak < 0) {
         delta.retain(op.length!, attribute.toJson());
         continue;
       }
-      int pos = 0;
+      var pos = 0;
       while (lineBreak >= 0) {
         delta..retain(lineBreak - pos, attribute.toJson())..retain(1);
         pos = lineBreak + 1;

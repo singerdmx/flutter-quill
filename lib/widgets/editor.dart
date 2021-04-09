@@ -8,25 +8,23 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/document.dart';
-import 'package:flutter_quill/models/documents/nodes/container.dart'
-    as container_node;
-import 'package:flutter_quill/models/documents/nodes/embed.dart';
-import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/widgets/image.dart';
-import 'package:flutter_quill/widgets/raw_editor.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/document.dart';
+import '../models/documents/nodes/container.dart' as container_node;
+import '../models/documents/nodes/embed.dart';
+import '../models/documents/nodes/leaf.dart' as leaf;
+import '../models/documents/nodes/line.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
+import 'image.dart';
+import 'raw_editor.dart';
+import 'text_selection.dart';
 
 const linkPrefixes = [
   'mailto:', // email
@@ -101,7 +99,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
   switch (node.value.type) {
     case 'image':
-      String imageUrl = _standardizeImageUrl(node.value.data);
+      final imageUrl = _standardizeImageUrl(node.value.data);
       return imageUrl.startsWith('http')
           ? Image.network(imageUrl)
           : isBase64(imageUrl)
@@ -116,6 +114,43 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 }
 
 class QuillEditor extends StatefulWidget {
+  const QuillEditor({
+    required this.controller,
+    required this.focusNode,
+    required this.scrollController,
+    required this.scrollable,
+    required this.padding,
+    required this.autoFocus,
+    required this.readOnly,
+    required this.expands,
+    this.showCursor,
+    this.placeholder,
+    this.enableInteractiveSelection = true,
+    this.minHeight,
+    this.maxHeight,
+    this.customStyles,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.keyboardAppearance = Brightness.light,
+    this.scrollPhysics,
+    this.onLaunchUrl,
+    this.embedBuilder = _defaultEmbedBuilder,
+  });
+
+  factory QuillEditor.basic({
+    required QuillController controller,
+    required bool readOnly,
+  }) {
+    return QuillEditor(
+        controller: controller,
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: FocusNode(),
+        autoFocus: true,
+        readOnly: readOnly,
+        expands: false,
+        padding: EdgeInsets.zero);
+  }
+
   final QuillController controller;
   final FocusNode focusNode;
   final ScrollController scrollController;
@@ -146,45 +181,6 @@ class QuillEditor extends StatefulWidget {
   final bool Function(LongPressEndDetails details, TextPosition textPosition)? onSingleLongTapEnd;
   final EmbedBuilder embedBuilder;
 
-  const QuillEditor(
-      {required this.controller,
-      required this.focusNode,
-      required this.scrollController,
-      required this.scrollable,
-      required this.padding,
-      required this.autoFocus,
-      required this.readOnly,
-      required this.expands,
-      this.showCursor,
-      this.placeholder,
-      this.enableInteractiveSelection = true,
-      this.minHeight,
-      this.maxHeight,
-      this.customStyles,
-      this.textCapitalization = TextCapitalization.sentences,
-      this.keyboardAppearance = Brightness.light,
-      this.scrollPhysics,
-      this.onLaunchUrl,
-      this.onTapDown,
-      this.onTapUp,
-      this.onSingleLongTapStart,
-      this.onSingleLongTapMoveUpdate,
-      this.onSingleLongTapEnd,
-      this.embedBuilder = _defaultEmbedBuilder});
-
-  factory QuillEditor.basic(
-      {required QuillController controller, required bool readOnly}) {
-    return QuillEditor(
-        controller: controller,
-        scrollController: ScrollController(),
-        scrollable: true,
-        focusNode: FocusNode(),
-        autoFocus: true,
-        readOnly: readOnly,
-        expands: false,
-        padding: EdgeInsets.zero);
-  }
-
   @override
   _QuillEditorState createState() => _QuillEditorState();
 }
@@ -204,8 +200,8 @@ class _QuillEditorState extends State<QuillEditor>
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    TextSelectionThemeData selectionTheme = TextSelectionTheme.of(context);
+    final theme = Theme.of(context);
+    final selectionTheme = TextSelectionTheme.of(context);
 
     TextSelectionControls textSelectionControls;
     bool paintCursorAboveText;
@@ -229,7 +225,7 @@ class _QuillEditorState extends State<QuillEditor>
         break;
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        CupertinoThemeData cupertinoTheme = CupertinoTheme.of(context);
+        final cupertinoTheme = CupertinoTheme.of(context);
         textSelectionControls = cupertinoTextSelectionControls;
         paintCursorAboveText = true;
         cursorOpacityAnimates = true;
@@ -237,7 +233,7 @@ class _QuillEditorState extends State<QuillEditor>
             selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
         selectionColor = selectionTheme.selectionColor ??
             cupertinoTheme.primaryColor.withOpacity(0.40);
-        cursorRadius ??= const Radius.circular(2.0);
+        cursorRadius ??= const Radius.circular(2);
         cursorOffset = Offset(
             iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
         break;
@@ -269,7 +265,7 @@ class _QuillEditorState extends State<QuillEditor>
           CursorStyle(
             color: cursorColor,
             backgroundColor: Colors.grey,
-            width: 2.0,
+            width: 2,
             radius: cursorRadius,
             offset: cursorOffset,
             paintAboveText: paintCursorAboveText,
@@ -286,6 +282,11 @@ class _QuillEditorState extends State<QuillEditor>
           widget.keyboardAppearance,
           widget.enableInteractiveSelection,
           widget.scrollPhysics,
+          widget.onTapDown,
+          widget.onTapUp,
+          widget.onSingleLongTapStart,
+          widget.onSingleLongTapMoveUpdate,
+          widget.onSingleLongTapEnd,
           widget.embedBuilder),
     );
   }
@@ -312,9 +313,9 @@ class _QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  final _QuillEditorState _state;
-
   _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
+
+  final _QuillEditorState _state;
 
   @override
   void onForcePressStart(ForcePressDetails details) {
@@ -369,16 +370,14 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.controller.document.isEmpty()) {
       return false;
     }
-    TextPosition pos =
-        getRenderEditor()!.getPositionForOffset(details.globalPosition);
-    container_node.ChildQuery result =
+    final pos = getRenderEditor()!.getPositionForOffset(details.globalPosition);
+    final result =
         getEditor()!.widget.controller.document.queryChild(pos.offset);
     if (result.node == null) {
       return false;
     }
-    Line line = result.node as Line;
-    container_node.ChildQuery segmentResult =
-        line.queryChild(result.offset, false);
+    final line = result.node as Line;
+    final segmentResult = line.queryChild(result.offset, false);
     if (segmentResult.node == null) {
       if (line.length == 1) {
         // tapping when no text yet on this line
@@ -389,7 +388,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
       return false;
     }
-    leaf.Leaf segment = segmentResult.node as leaf.Leaf;
+    final segment = segmentResult.node as leaf.Leaf;
     if (segment.style.containsKey(Attribute.link.key)) {
       var launchUrl = getEditor()!.widget.onLaunchUrl;
       launchUrl ??= _launchUrl;
@@ -405,9 +404,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return false;
     }
     if (getEditor()!.widget.readOnly && segment.value is BlockEmbed) {
-      BlockEmbed blockEmbed = segment.value as BlockEmbed;
+      final blockEmbed = segment.value as BlockEmbed;
       if (blockEmbed.type == 'image') {
-        final String imageUrl = _standardizeImageUrl(blockEmbed.data);
+        final imageUrl = _standardizeImageUrl(blockEmbed.data);
         Navigator.push(
           getEditor()!.context,
           MaterialPageRoute(
@@ -438,7 +437,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return false;
     }
     // segmentResult.offset == 0 means tap at the beginning of the TextLine
-    String? listVal = line.style.attributes[Attribute.list.key]!.value;
+    final String? listVal = line.style.attributes[Attribute.list.key]!.value;
     if (listVal == Attribute.unchecked.value) {
       getEditor()!
           .widget
@@ -455,7 +454,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     return true;
   }
 
-  void _launchUrl(String url) async {
+  Future<void> _launchUrl(String url) async {
     await launch(url);
   }
 
@@ -485,7 +484,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     getEditor()!.hideToolbar();
 
-    bool positionSelected = _onTapping(details);
+    final positionSelected = _onTapping(details);
 
     if (delegate.getSelectionEnabled() && !positionSelected) {
       switch (Theme.of(_state.context).platform) {
@@ -567,6 +566,24 @@ typedef TextSelectionChangedHandler = void Function(
 
 class RenderEditor extends RenderEditableContainerBox
     implements RenderAbstractEditor {
+  RenderEditor(
+    List<RenderEditableBox>? children,
+    TextDirection textDirection,
+    EdgeInsetsGeometry padding,
+    this.document,
+    this.selection,
+    this._hasFocus,
+    this.onSelectionChanged,
+    this._startHandleLayerLink,
+    this._endHandleLayerLink,
+    EdgeInsets floatingCursorAddedMargin,
+  ) : super(
+          children,
+          document.root,
+          textDirection,
+          padding,
+        );
+
   Document document;
   TextSelection selection;
   bool _hasFocus = false;
@@ -581,24 +598,6 @@ class RenderEditor extends RenderEditableContainerBox
 
   ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
   final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
-
-  RenderEditor(
-      List<RenderEditableBox>? children,
-      TextDirection textDirection,
-      EdgeInsetsGeometry padding,
-      this.document,
-      this.selection,
-      this._hasFocus,
-      this.onSelectionChanged,
-      this._startHandleLayerLink,
-      this._endHandleLayerLink,
-      EdgeInsets floatingCursorAddedMargin)
-      : super(
-          children,
-          document.root,
-          textDirection,
-          padding,
-        );
 
   void setDocument(Document doc) {
     if (document == doc) {
@@ -644,22 +643,21 @@ class RenderEditor extends RenderEditableContainerBox
   List<TextSelectionPoint> getEndpointsForSelection(
       TextSelection textSelection) {
     if (textSelection.isCollapsed) {
-      RenderEditableBox child = childAtPosition(textSelection.extent);
-      TextPosition localPosition = TextPosition(
-          offset:
-              textSelection.extentOffset - child.getContainer().getOffset());
-      Offset localOffset = child.getOffsetForCaret(localPosition);
-      BoxParentData parentData = child.parentData as BoxParentData;
+      final child = childAtPosition(textSelection.extent);
+      final localPosition = TextPosition(
+          offset: textSelection.extentOffset - child.getContainer().offset);
+      final localOffset = child.getOffsetForCaret(localPosition);
+      final parentData = child.parentData as BoxParentData;
       return <TextSelectionPoint>[
         TextSelectionPoint(
-            Offset(0.0, child.preferredLineHeight(localPosition)) +
+            Offset(0, child.preferredLineHeight(localPosition)) +
                 localOffset +
                 parentData.offset,
             null)
       ];
     }
 
-    Node? baseNode = _container.queryChild(textSelection.start, false).node;
+    final baseNode = _container.queryChild(textSelection.start, false).node;
 
     var baseChild = firstChild;
     while (baseChild != null) {
@@ -670,15 +668,14 @@ class RenderEditor extends RenderEditableContainerBox
     }
     assert(baseChild != null);
 
-    BoxParentData baseParentData = baseChild!.parentData as BoxParentData;
-    TextSelection baseSelection =
+    final baseParentData = baseChild!.parentData as BoxParentData;
+    final baseSelection =
         localSelection(baseChild.getContainer(), textSelection, true);
-    TextSelectionPoint basePoint =
-        baseChild.getBaseEndpointForSelection(baseSelection);
+    var basePoint = baseChild.getBaseEndpointForSelection(baseSelection);
     basePoint = TextSelectionPoint(
         basePoint.point + baseParentData.offset, basePoint.direction);
 
-    Node? extentNode = _container.queryChild(textSelection.end, false).node;
+    final extentNode = _container.queryChild(textSelection.end, false).node;
     RenderEditableBox? extentChild = baseChild;
     while (extentChild != null) {
       if (extentChild.getContainer() == extentNode) {
@@ -688,10 +685,10 @@ class RenderEditor extends RenderEditableContainerBox
     }
     assert(extentChild != null);
 
-    BoxParentData extentParentData = extentChild!.parentData as BoxParentData;
-    TextSelection extentSelection =
+    final extentParentData = extentChild!.parentData as BoxParentData;
+    final extentSelection =
         localSelection(extentChild.getContainer(), textSelection, true);
-    TextSelectionPoint extentPoint =
+    var extentPoint =
         extentChild.getExtentEndpointForSelection(extentSelection);
     extentPoint = TextSelectionPoint(
         extentPoint.point + extentParentData.offset, extentPoint.direction);
@@ -712,9 +709,9 @@ class RenderEditor extends RenderEditableContainerBox
     Offset? to,
     SelectionChangedCause cause,
   ) {
-    TextPosition firstPosition = getPositionForOffset(from);
-    TextSelection firstWord = selectWordAtPosition(firstPosition);
-    TextSelection lastWord =
+    final firstPosition = getPositionForOffset(from);
+    final firstWord = selectWordAtPosition(firstPosition);
+    final lastWord =
         to == null ? firstWord : selectWordAtPosition(getPositionForOffset(to));
 
     _handleSelectionChange(
@@ -731,7 +728,7 @@ class RenderEditor extends RenderEditableContainerBox
     TextSelection nextSelection,
     SelectionChangedCause cause,
   ) {
-    bool focusingEmpty = nextSelection.baseOffset == 0 &&
+    final focusingEmpty = nextSelection.baseOffset == 0 &&
         nextSelection.extentOffset == 0 &&
         !_hasFocus;
     if (nextSelection == selection &&
@@ -745,15 +742,15 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   void selectWordEdge(SelectionChangedCause cause) {
     assert(_lastTapDownPosition != null);
-    TextPosition position = getPositionForOffset(_lastTapDownPosition!);
-    RenderEditableBox child = childAtPosition(position);
-    int nodeOffset = child.getContainer().getOffset();
-    TextPosition localPosition = TextPosition(
+    final position = getPositionForOffset(_lastTapDownPosition!);
+    final child = childAtPosition(position);
+    final nodeOffset = child.getContainer().offset;
+    final localPosition = TextPosition(
       offset: position.offset - nodeOffset,
       affinity: position.affinity,
     );
-    TextRange localWord = child.getWordBoundary(localPosition);
-    TextRange word = TextRange(
+    final localWord = child.getWordBoundary(localPosition);
+    final word = TextRange(
       start: localWord.start + nodeOffset,
       end: localWord.end + nodeOffset,
     );
@@ -777,17 +774,17 @@ class RenderEditor extends RenderEditableContainerBox
     Offset? to,
     SelectionChangedCause cause,
   ) {
-    TextPosition fromPosition = getPositionForOffset(from);
-    TextPosition? toPosition = to == null ? null : getPositionForOffset(to);
+    final fromPosition = getPositionForOffset(from);
+    final toPosition = to == null ? null : getPositionForOffset(to);
 
-    int baseOffset = fromPosition.offset;
-    int extentOffset = fromPosition.offset;
+    var baseOffset = fromPosition.offset;
+    var extentOffset = fromPosition.offset;
     if (toPosition != null) {
       baseOffset = math.min(fromPosition.offset, toPosition.offset);
       extentOffset = math.max(fromPosition.offset, toPosition.offset);
     }
 
-    TextSelection newSelection = TextSelection(
+    final newSelection = TextSelection(
       baseOffset: baseOffset,
       extentOffset: extentOffset,
       affinity: fromPosition.affinity,
@@ -807,12 +804,12 @@ class RenderEditor extends RenderEditableContainerBox
 
   @override
   TextSelection selectWordAtPosition(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
-    int nodeOffset = child.getContainer().getOffset();
-    TextPosition localPosition = TextPosition(
+    final child = childAtPosition(position);
+    final nodeOffset = child.getContainer().offset;
+    final localPosition = TextPosition(
         offset: position.offset - nodeOffset, affinity: position.affinity);
-    TextRange localWord = child.getWordBoundary(localPosition);
-    TextRange word = TextRange(
+    final localWord = child.getWordBoundary(localPosition);
+    final word = TextRange(
       start: localWord.start + nodeOffset,
       end: localWord.end + nodeOffset,
     );
@@ -824,12 +821,12 @@ class RenderEditor extends RenderEditableContainerBox
 
   @override
   TextSelection selectLineAtPosition(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
-    int nodeOffset = child.getContainer().getOffset();
-    TextPosition localPosition = TextPosition(
+    final child = childAtPosition(position);
+    final nodeOffset = child.getContainer().offset;
+    final localPosition = TextPosition(
         offset: position.offset - nodeOffset, affinity: position.affinity);
-    TextRange localLineRange = child.getLineBoundary(localPosition);
-    TextRange line = TextRange(
+    final localLineRange = child.getLineBoundary(localPosition);
+    final line = TextRange(
       start: localLineRange.start + nodeOffset,
       end: localLineRange.end + nodeOffset,
     );
@@ -879,21 +876,21 @@ class RenderEditor extends RenderEditableContainerBox
 
   @override
   double preferredLineHeight(TextPosition position) {
-    RenderEditableBox child = childAtPosition(position);
-    return child.preferredLineHeight(TextPosition(
-        offset: position.offset - child.getContainer().getOffset()));
+    final child = childAtPosition(position);
+    return child.preferredLineHeight(
+        TextPosition(offset: position.offset - child.getContainer().offset));
   }
 
   @override
   TextPosition getPositionForOffset(Offset offset) {
-    Offset local = globalToLocal(offset);
-    RenderEditableBox child = childAtOffset(local)!;
+    final local = globalToLocal(offset);
+    final child = childAtOffset(local)!;
 
-    BoxParentData parentData = child.parentData as BoxParentData;
-    Offset localOffset = local - parentData.offset;
-    TextPosition localPosition = child.getPositionForOffset(localOffset);
+    final parentData = child.parentData as BoxParentData;
+    final localOffset = local - parentData.offset;
+    final localPosition = child.getPositionForOffset(localOffset);
     return TextPosition(
-      offset: localPosition.offset + child.getContainer().getOffset(),
+      offset: localPosition.offset + child.getContainer().offset,
       affinity: localPosition.affinity,
     );
   }
@@ -905,15 +902,14 @@ class RenderEditor extends RenderEditableContainerBox
   /// Returns null if [selection] is already visible.
   double? getOffsetToRevealCursor(
       double viewportHeight, double scrollOffset, double offsetInViewport) {
-    List<TextSelectionPoint> endpoints = getEndpointsForSelection(selection);
-    TextSelectionPoint endpoint = endpoints.first;
-    RenderEditableBox child = childAtPosition(selection.extent);
+    final endpoints = getEndpointsForSelection(selection);
+    final endpoint = endpoints.first;
+    final child = childAtPosition(selection.extent);
     const kMargin = 8.0;
 
-    double caretTop = endpoint.point.dy -
+    final caretTop = endpoint.point.dy -
         child.preferredLineHeight(TextPosition(
-            offset:
-                selection.extentOffset - child.getContainer().getOffset())) -
+            offset: selection.extentOffset - child.getContainer().offset)) -
         kMargin +
         offsetInViewport;
     final caretBottom = endpoint.point.dy + kMargin + offsetInViewport;
@@ -926,7 +922,7 @@ class RenderEditor extends RenderEditableContainerBox
     if (dy == null) {
       return null;
     }
-    return math.max(dy, 0.0);
+    return math.max(dy, 0);
   }
 }
 
@@ -939,16 +935,19 @@ class RenderEditableContainerBox extends RenderBox
             EditableContainerParentData>,
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
+  RenderEditableContainerBox(
+    List<RenderEditableBox>? children,
+    this._container,
+    this.textDirection,
+    this._padding,
+  ) : assert(_padding.isNonNegative) {
+    addAll(children);
+  }
+
   container_node.Container _container;
   TextDirection textDirection;
   EdgeInsetsGeometry _padding;
   EdgeInsets? _resolvedPadding;
-
-  RenderEditableContainerBox(List<RenderEditableBox>? children, this._container,
-      this.textDirection, this._padding)
-      : assert(_padding.isNonNegative) {
-    addAll(children);
-  }
 
   container_node.Container getContainer() {
     return _container;
@@ -988,7 +987,7 @@ class RenderEditableContainerBox extends RenderBox
   RenderEditableBox childAtPosition(TextPosition position) {
     assert(firstChild != null);
 
-    Node? targetNode = _container.queryChild(position.offset, false).node;
+    final targetNode = _container.queryChild(position.offset, false).node;
 
     var targetChild = firstChild;
     while (targetChild != null) {
@@ -1020,7 +1019,8 @@ class RenderEditableContainerBox extends RenderBox
     }
 
     var child = firstChild;
-    double dx = -offset.dx, dy = _resolvedPadding!.top;
+    final dx = -offset.dx;
+    var dy = _resolvedPadding!.top;
     while (child != null) {
       if (child.size.contains(offset.translate(dx, -dy))) {
         return child;
@@ -1047,16 +1047,15 @@ class RenderEditableContainerBox extends RenderBox
     _resolvePadding();
     assert(_resolvedPadding != null);
 
-    double mainAxisExtent = _resolvedPadding!.top;
+    var mainAxisExtent = _resolvedPadding!.top;
     var child = firstChild;
-    BoxConstraints innerConstraints =
+    final innerConstraints =
         BoxConstraints.tightFor(width: constraints.maxWidth)
             .deflate(_resolvedPadding!);
     while (child != null) {
       child.layout(innerConstraints, parentUsesSize: true);
-      final EditableContainerParentData childParentData =
-          child.parentData as EditableContainerParentData;
-      childParentData.offset = Offset(_resolvedPadding!.left, mainAxisExtent);
+      final childParentData = (child.parentData as EditableContainerParentData)
+        ..offset = Offset(_resolvedPadding!.left, mainAxisExtent);
       mainAxisExtent += child.size.height;
       assert(child.parentData == childParentData);
       child = childParentData.nextSibling;
@@ -1068,24 +1067,22 @@ class RenderEditableContainerBox extends RenderBox
   }
 
   double _getIntrinsicCrossAxis(double Function(RenderBox child) childSize) {
-    double extent = 0.0;
+    var extent = 0.0;
     var child = firstChild;
     while (child != null) {
       extent = math.max(extent, childSize(child));
-      EditableContainerParentData childParentData =
-          child.parentData as EditableContainerParentData;
+      final childParentData = child.parentData as EditableContainerParentData;
       child = childParentData.nextSibling;
     }
     return extent;
   }
 
   double _getIntrinsicMainAxis(double Function(RenderBox child) childSize) {
-    double extent = 0.0;
+    var extent = 0.0;
     var child = firstChild;
     while (child != null) {
       extent += childSize(child);
-      EditableContainerParentData childParentData =
-          child.parentData as EditableContainerParentData;
+      final childParentData = child.parentData as EditableContainerParentData;
       child = childParentData.nextSibling;
     }
     return extent;
@@ -1094,9 +1091,9 @@ class RenderEditableContainerBox extends RenderBox
   @override
   double computeMinIntrinsicWidth(double height) {
     _resolvePadding();
-    return _getIntrinsicCrossAxis((RenderBox child) {
-      double childHeight = math.max(
-          0.0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
+    return _getIntrinsicCrossAxis((child) {
+      final childHeight = math.max<double>(
+          0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
       return child.getMinIntrinsicWidth(childHeight) +
           _resolvedPadding!.left +
           _resolvedPadding!.right;
@@ -1106,9 +1103,9 @@ class RenderEditableContainerBox extends RenderBox
   @override
   double computeMaxIntrinsicWidth(double height) {
     _resolvePadding();
-    return _getIntrinsicCrossAxis((RenderBox child) {
-      double childHeight = math.max(
-          0.0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
+    return _getIntrinsicCrossAxis((child) {
+      final childHeight = math.max<double>(
+          0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
       return child.getMaxIntrinsicWidth(childHeight) +
           _resolvedPadding!.left +
           _resolvedPadding!.right;
@@ -1118,9 +1115,9 @@ class RenderEditableContainerBox extends RenderBox
   @override
   double computeMinIntrinsicHeight(double width) {
     _resolvePadding();
-    return _getIntrinsicMainAxis((RenderBox child) {
-      double childWidth = math.max(
-          0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
+    return _getIntrinsicMainAxis((child) {
+      final childWidth = math.max<double>(
+          0, width - _resolvedPadding!.left + _resolvedPadding!.right);
       return child.getMinIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
           _resolvedPadding!.bottom;
@@ -1130,9 +1127,9 @@ class RenderEditableContainerBox extends RenderBox
   @override
   double computeMaxIntrinsicHeight(double width) {
     _resolvePadding();
-    return _getIntrinsicMainAxis((RenderBox child) {
-      final childWidth = math.max(
-          0.0, width - _resolvedPadding!.left + _resolvedPadding!.right);
+    return _getIntrinsicMainAxis((child) {
+      final childWidth = math.max<double>(
+          0, width - _resolvedPadding!.left + _resolvedPadding!.right);
       return child.getMaxIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
           _resolvedPadding!.bottom;

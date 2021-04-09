@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app/universal_ui/universal_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +15,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
 
+import '../universal_ui/universal_ui.dart';
 import 'read_only_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: RawKeyboardListener(
         focusNode: FocusNode(),
-        onKey: (RawKeyEvent event) {
+        onKey: (event) {
           if (event.data.isControlPressed && event.character == 'b') {
             if (_controller!
                 .getSelectionStyle()
@@ -107,15 +107,15 @@ class _HomePageState extends State<HomePage> {
         customStyles: DefaultStyles(
           h1: DefaultTextBlockStyle(
               const TextStyle(
-                fontSize: 32.0,
+                fontSize: 32,
                 color: Colors.black,
                 height: 1.15,
                 fontWeight: FontWeight.w300,
               ),
-              const Tuple2(16.0, 0.0),
-              const Tuple2(0.0, 0.0),
+              const Tuple2(16, 0),
+              const Tuple2(0, 0),
               null),
-          sizeSmall: const TextStyle(fontSize: 9.0),
+          sizeSmall: const TextStyle(fontSize: 9),
         ));
     if (kIsWeb) {
       quillEditor = QuillEditor(
@@ -131,15 +131,15 @@ class _HomePageState extends State<HomePage> {
           customStyles: DefaultStyles(
             h1: DefaultTextBlockStyle(
                 const TextStyle(
-                  fontSize: 32.0,
+                  fontSize: 32,
                   color: Colors.black,
                   height: 1.15,
                   fontWeight: FontWeight.w300,
                 ),
-                const Tuple2(16.0, 0.0),
-                const Tuple2(0.0, 0.0),
+                const Tuple2(16, 0),
+                const Tuple2(0, 0),
                 null),
-            sizeSmall: const TextStyle(fontSize: 9.0),
+            sizeSmall: const TextStyle(fontSize: 9),
           ),
           embedBuilder: defaultEmbedBuilderWeb);
     }
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
             flex: 15,
             child: Container(
               color: Colors.white,
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: quillEditor,
             ),
           ),
@@ -178,15 +178,15 @@ class _HomePageState extends State<HomePage> {
   // You can also upload the picked image to any server (eg : AWS s3 or Firebase) and then return the uploaded image URL
   Future<String> _onImagePickCallback(File file) async {
     // Copies the picked file from temporary cache to applications directory
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    File copiedFile =
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final copiedFile =
         await file.copy('${appDocDir.path}/${basename(file.path)}');
     return copiedFile.path.toString();
   }
 
   Widget _buildMenuBar(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    final itemStyle = const TextStyle(
+    final size = MediaQuery.of(context).size;
+    const itemStyle = TextStyle(
       color: Colors.white,
       fontSize: 18,
       fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
           endIndent: size.width * 0.1,
         ),
         ListTile(
-          title: Center(child: Text('Read only demo', style: itemStyle)),
+          title: const Center(child: Text('Read only demo', style: itemStyle)),
           dense: true,
           visualDensity: VisualDensity.compact,
           onTap: _readOnly,
@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       super.context,
       MaterialPageRoute(
-        builder: (BuildContext context) => ReadOnlyPage(),
+        builder: (context) => ReadOnlyPage(),
       ),
     );
   }

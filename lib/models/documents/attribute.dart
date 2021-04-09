@@ -8,11 +8,11 @@ enum AttributeScope {
 }
 
 class Attribute<T> {
+  Attribute(this.key, this.scope, this.value);
+
   final String key;
   final AttributeScope scope;
   final T value;
-
-  Attribute(this.key, this.scope, this.value);
 
   static final Map<String, Attribute> _registry = {
     Attribute.bold.key: Attribute.bold,
@@ -164,8 +164,8 @@ class Attribute<T> {
     if (!_registry.containsKey(key)) {
       throw ArgumentError.value(key, 'key "$key" not found.');
     }
-    Attribute origin = _registry[key]!;
-    Attribute attribute = clone(origin, value);
+    final origin = _registry[key]!;
+    final attribute = clone(origin, value);
     return attribute;
   }
 
@@ -177,7 +177,7 @@ class Attribute<T> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! Attribute<T>) return false;
-    Attribute<T> typedOther = other;
+    final typedOther = other;
     return key == typedOther.key &&
         scope == typedOther.scope &&
         value == typedOther.value;

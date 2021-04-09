@@ -3,30 +3,23 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/nodes/container.dart'
-    as container;
-import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
-import 'package:flutter_quill/models/documents/nodes/leaf.dart';
-import 'package:flutter_quill/models/documents/nodes/line.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
-import 'package:flutter_quill/models/documents/style.dart';
-import 'package:flutter_quill/utils/color.dart';
-import 'package:flutter_quill/widgets/cursor.dart';
-import 'package:flutter_quill/widgets/proxy.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 import 'package:tuple/tuple.dart';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/container.dart' as container;
+import '../models/documents/nodes/leaf.dart' as leaf;
+import '../models/documents/nodes/leaf.dart';
+import '../models/documents/nodes/line.dart';
+import '../models/documents/nodes/node.dart';
+import '../utils/color.dart';
 import 'box.dart';
+import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
+import 'proxy.dart';
+import 'text_selection.dart';
 
 class TextLine extends StatelessWidget {
-  final Line line;
-  final TextDirection? textDirection;
-  final EmbedBuilder embedBuilder;
-  final DefaultStyles styles;
-
   const TextLine({
     required this.line,
     required this.embedBuilder,
@@ -35,21 +28,25 @@ class TextLine extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  final Line line;
+  final TextDirection? textDirection;
+  final EmbedBuilder embedBuilder;
+  final DefaultStyles styles;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
     if (line.hasEmbed) {
-      Embed embed = line.children.single as Embed;
+      final embed = line.children.single as Embed;
       return EmbedProxy(embedBuilder(context, embed));
     }
 
-    TextSpan textSpan = _buildTextSpan(context);
-    StrutStyle strutStyle =
-        StrutStyle.fromTextStyle(textSpan.style!, forceStrutHeight: true);
+    final textSpan = _buildTextSpan(context);
+    final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
-    RichText child = RichText(
-      text: TextSpan(children: [textSpan]),
+    final child = RichText(
+      text: textSpan,
       textAlign: textAlign,
       textDirection: textDirection,
       strutStyle: strutStyle,
@@ -60,7 +57,7 @@ class TextLine extends StatelessWidget {
         textSpan.style!,
         textAlign,
         textDirection!,
-        1.0,
+        1,
         Localizations.localeOf(context),
         strutStyle,
         TextWidthBasis.parent,
@@ -82,20 +79,20 @@ class TextLine extends StatelessWidget {
   }
 
   TextSpan _buildTextSpan(BuildContext context) {
-    DefaultStyles defaultStyles = styles;
-    List<TextSpan> children = line.children
+    final defaultStyles = styles;
+    final children = line.children
         .map((node) => _getTextSpanFromNode(defaultStyles, node))
         .toList(growable: false);
 
-    TextStyle textStyle = const TextStyle();
+    var textStyle = const TextStyle();
 
     if (line.style.containsKey(Attribute.placeholder.key)) {
       textStyle = defaultStyles.placeHolder!.style;
       return TextSpan(children: children, style: textStyle);
     }
 
-    Attribute? header = line.style.attributes[Attribute.header.key];
-    Map<Attribute, TextStyle> m = {
+    final header = line.style.attributes[Attribute.header.key];
+    final m = <Attribute, TextStyle>{
       Attribute.h1: defaultStyles.h1!.style,
       Attribute.h2: defaultStyles.h2!.style,
       Attribute.h3: defaultStyles.h3!.style,
@@ -103,7 +100,7 @@ class TextLine extends StatelessWidget {
 
     textStyle = textStyle.merge(m[header] ?? defaultStyles.paragraph!.style);
 
-    Attribute? block = line.style.getBlockExceptHeader();
+    final block = line.style.getBlockExceptHeader();
     TextStyle? toMerge;
     if (block == Attribute.blockQuote) {
       toMerge = defaultStyles.quote!.style;
@@ -119,29 +116,28 @@ class TextLine extends StatelessWidget {
   }
 
   TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
-    leaf.Text textNode = node as leaf.Text;
-    Style style = textNode.style;
-    TextStyle res = const TextStyle();
+    final textNode = node as leaf.Text;
+    final style = textNode.style;
+    var res = const TextStyle();
 
-    Map<String, TextStyle?> m = {
+    <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
       Attribute.italic.key: defaultStyles.italic,
       Attribute.link.key: defaultStyles.link,
       Attribute.underline.key: defaultStyles.underline,
       Attribute.strikeThrough.key: defaultStyles.strikeThrough,
-    };
-    m.forEach((k, s) {
+    }.forEach((k, s) {
       if (style.values.any((v) => v.key == k)) {
         res = _merge(res, s!);
       }
     });
 
-    Attribute? font = textNode.style.attributes[Attribute.font.key];
+    final font = textNode.style.attributes[Attribute.font.key];
     if (font != null && font.value != null) {
       res = res.merge(TextStyle(fontFamily: font.value));
     }
 
-    Attribute? size = textNode.style.attributes[Attribute.size.key];
+    final size = textNode.style.attributes[Attribute.size.key];
     if (size != null && size.value != null) {
       switch (size.value) {
         case 'small':
@@ -154,7 +150,7 @@ class TextLine extends StatelessWidget {
           res = res.merge(defaultStyles.sizeHuge);
           break;
         default:
-          double? fontSize = double.tryParse(size.value);
+          final fontSize = double.tryParse(size.value);
           if (fontSize != null) {
             res = res.merge(TextStyle(fontSize: fontSize));
           } else {
@@ -163,7 +159,7 @@ class TextLine extends StatelessWidget {
       }
     }
 
-    Attribute? color = textNode.style.attributes[Attribute.color.key];
+    final color = textNode.style.attributes[Attribute.color.key];
     if (color != null && color.value != null) {
       var textColor = defaultStyles.color;
       if (color.value is String) {
@@ -174,7 +170,7 @@ class TextLine extends StatelessWidget {
       }
     }
 
-    Attribute? background = textNode.style.attributes[Attribute.background.key];
+    final background = textNode.style.attributes[Attribute.background.key];
     if (background != null && background.value != null) {
       final backgroundColor = stringToColor(background.value);
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
@@ -198,6 +194,21 @@ class TextLine extends StatelessWidget {
 }
 
 class EditableTextLine extends RenderObjectWidget {
+  const EditableTextLine(
+    this.line,
+    this.leading,
+    this.body,
+    this.indentWidth,
+    this.verticalSpacing,
+    this.textDirection,
+    this.textSelection,
+    this.color,
+    this.enableInteractiveSelection,
+    this.hasFocus,
+    this.devicePixelRatio,
+    this.cursorCont,
+  );
+
   final Line line;
   final Widget? leading;
   final Widget body;
@@ -210,20 +221,6 @@ class EditableTextLine extends RenderObjectWidget {
   final bool hasFocus;
   final double devicePixelRatio;
   final CursorCont cursorCont;
-
-  const EditableTextLine(
-      this.line,
-      this.leading,
-      this.body,
-      this.indentWidth,
-      this.verticalSpacing,
-      this.textDirection,
-      this.textSelection,
-      this.color,
-      this.enableInteractiveSelection,
-      this.hasFocus,
-      this.devicePixelRatio,
-      this.cursorCont);
 
   @override
   RenderObjectElement createElement() {
@@ -247,15 +244,16 @@ class EditableTextLine extends RenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextLine renderObject) {
-    renderObject.setLine(line);
-    renderObject.setPadding(_getPadding());
-    renderObject.setTextDirection(textDirection);
-    renderObject.setTextSelection(textSelection);
-    renderObject.setColor(color);
-    renderObject.setEnableInteractiveSelection(enableInteractiveSelection);
-    renderObject.hasFocus = hasFocus;
-    renderObject.setDevicePixelRatio(devicePixelRatio);
-    renderObject.setCursorCont(cursorCont);
+    renderObject
+      ..setLine(line)
+      ..setPadding(_getPadding())
+      ..setTextDirection(textDirection)
+      ..setTextSelection(textSelection)
+      ..setColor(color)
+      ..setEnableInteractiveSelection(enableInteractiveSelection)
+      ..hasFocus = hasFocus
+      ..setDevicePixelRatio(devicePixelRatio)
+      ..setCursorCont(cursorCont);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -269,6 +267,18 @@ class EditableTextLine extends RenderObjectWidget {
 enum TextLineSlot { LEADING, BODY }
 
 class RenderEditableTextLine extends RenderEditableBox {
+  RenderEditableTextLine(
+    this.line,
+    this.textDirection,
+    this.textSelection,
+    this.enableInteractiveSelection,
+    this.hasFocus,
+    this.devicePixelRatio,
+    this.padding,
+    this.color,
+    this.cursorCont,
+  );
+
   RenderBox? _leading;
   RenderContentProxyBox? _body;
   Line line;
@@ -285,17 +295,6 @@ class RenderEditableTextLine extends RenderEditableBox {
   List<TextBox>? _selectedRects;
   Rect? _caretPrototype;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
-
-  RenderEditableTextLine(
-      this.line,
-      this.textDirection,
-      this.textSelection,
-      this.enableInteractiveSelection,
-      this.hasFocus,
-      this.devicePixelRatio,
-      this.padding,
-      this.color,
-      this.cursorCont);
 
   Iterable<RenderBox> get _children sync* {
     if (_leading != null) {
@@ -347,7 +346,7 @@ class RenderEditableTextLine extends RenderEditableBox {
       return;
     }
 
-    bool containsSelection = containsTextSelection();
+    final containsSelection = containsTextSelection();
     if (attached && containsCursor()) {
       cursorCont.removeListener(markNeedsLayout);
       cursorCont.color.removeListener(markNeedsPaint);
@@ -403,8 +402,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   bool containsTextSelection() {
-    return line.getDocumentOffset() <= textSelection.end &&
-        textSelection.start <= line.getDocumentOffset() + line.length - 1;
+    return line.documentOffset <= textSelection.end &&
+        textSelection.start <= line.documentOffset + line.length - 1;
   }
 
   bool containsCursor() {
@@ -426,7 +425,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   List<TextBox> _getBoxes(TextSelection textSelection) {
-    BoxParentData? parentData = _body!.parentData as BoxParentData?;
+    final parentData = _body!.parentData as BoxParentData?;
     return _body!.getBoxesForSelection(textSelection).map((box) {
       return TextBox.fromLTRBD(
         box.left + parentData!.offset.dx,
@@ -461,13 +460,13 @@ class RenderEditableTextLine extends RenderEditableBox {
       TextSelection textSelection, bool first) {
     if (textSelection.isCollapsed) {
       return TextSelectionPoint(
-          Offset(0.0, preferredLineHeight(textSelection.extent)) +
+          Offset(0, preferredLineHeight(textSelection.extent)) +
               getOffsetForCaret(textSelection.extent),
           null);
     }
-    List<TextBox> boxes = _getBoxes(textSelection);
+    final boxes = _getBoxes(textSelection);
     assert(boxes.isNotEmpty);
-    TextBox targetBox = first ? boxes.first : boxes.last;
+    final targetBox = first ? boxes.first : boxes.last;
     return TextSelectionPoint(
         Offset(first ? targetBox.start : targetBox.end, targetBox.bottom),
         targetBox.direction);
@@ -475,10 +474,10 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   TextRange getLineBoundary(TextPosition position) {
-    double lineDy = getOffsetForCaret(position)
-        .translate(0.0, 0.5 * preferredLineHeight(position))
+    final lineDy = getOffsetForCaret(position)
+        .translate(0, 0.5 * preferredLineHeight(position))
         .dy;
-    List<TextBox> lineBoxes =
+    final lineBoxes =
         _getBoxes(TextSelection(baseOffset: 0, extentOffset: line.length - 1))
             .where((element) => element.top < lineDy && element.bottom > lineDy)
             .toList(growable: false);
@@ -506,7 +505,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   TextPosition? _getPosition(TextPosition textPosition, double dyScale) {
     assert(textPosition.offset < line.length);
-    Offset offset = getOffsetForCaret(textPosition)
+    final offset = getOffsetForCaret(textPosition)
         .translate(0, dyScale * preferredLineHeight(textPosition));
     if (_body!.size
         .contains(offset - (_body!.parentData as BoxParentData).offset)) {
@@ -546,15 +545,13 @@ class RenderEditableTextLine extends RenderEditableBox {
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        _caretPrototype =
-            Rect.fromLTWH(0.0, 0.0, cursorWidth, cursorHeight + 2);
+        _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
         break;
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        _caretPrototype =
-            Rect.fromLTWH(0.0, 2.0, cursorWidth, cursorHeight - 4.0);
+        _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
         break;
       default:
         throw 'Invalid platform';
@@ -576,7 +573,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   void detach() {
     super.detach();
-    for (RenderBox child in _children) {
+    for (final child in _children) {
       child.detach();
     }
     if (containsCursor()) {
@@ -597,7 +594,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   List<DiagnosticsNode> debugDescribeChildren() {
-    var value = <DiagnosticsNode>[];
+    final value = <DiagnosticsNode>[];
     void add(RenderBox? child, String name) {
       if (child != null) {
         value.add(child.toDiagnosticsNode(name: name));
@@ -615,14 +612,14 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   double computeMinIntrinsicWidth(double height) {
     _resolvePadding();
-    double horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
-    double verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
-    int leadingWidth = _leading == null
+    final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
+    final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
+    final leadingWidth = _leading == null
         ? 0
         : _leading!.getMinIntrinsicWidth(height - verticalPadding) as int;
-    int bodyWidth = _body == null
+    final bodyWidth = _body == null
         ? 0
-        : _body!.getMinIntrinsicWidth(math.max(0.0, height - verticalPadding))
+        : _body!.getMinIntrinsicWidth(math.max(0, height - verticalPadding))
             as int;
     return horizontalPadding + leadingWidth + bodyWidth;
   }
@@ -630,14 +627,14 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   double computeMaxIntrinsicWidth(double height) {
     _resolvePadding();
-    double horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
-    double verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
-    int leadingWidth = _leading == null
+    final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
+    final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
+    final leadingWidth = _leading == null
         ? 0
         : _leading!.getMaxIntrinsicWidth(height - verticalPadding) as int;
-    int bodyWidth = _body == null
+    final bodyWidth = _body == null
         ? 0
-        : _body!.getMaxIntrinsicWidth(math.max(0.0, height - verticalPadding))
+        : _body!.getMaxIntrinsicWidth(math.max(0, height - verticalPadding))
             as int;
     return horizontalPadding + leadingWidth + bodyWidth;
   }
@@ -645,11 +642,11 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   double computeMinIntrinsicHeight(double width) {
     _resolvePadding();
-    double horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
-    double verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
+    final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
+    final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     if (_body != null) {
       return _body!
-              .getMinIntrinsicHeight(math.max(0.0, width - horizontalPadding)) +
+              .getMinIntrinsicHeight(math.max(0, width - horizontalPadding)) +
           verticalPadding;
     }
     return verticalPadding;
@@ -658,11 +655,11 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   double computeMaxIntrinsicHeight(double width) {
     _resolvePadding();
-    double horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
-    double verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
+    final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
+    final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     if (_body != null) {
       return _body!
-              .getMaxIntrinsicHeight(math.max(0.0, width - horizontalPadding)) +
+              .getMaxIntrinsicHeight(math.max(0, width - horizontalPadding)) +
           verticalPadding;
     }
     return verticalPadding;
@@ -697,8 +694,7 @@ class RenderEditableTextLine extends RenderEditableBox {
         : _resolvedPadding!.right;
 
     _body!.layout(innerConstraints, parentUsesSize: true);
-    final bodyParentData = _body!.parentData as BoxParentData;
-    bodyParentData.offset =
+    (_body!.parentData as BoxParentData).offset =
         Offset(_resolvedPadding!.left, _resolvedPadding!.top);
 
     if (_leading != null) {
@@ -707,8 +703,8 @@ class RenderEditableTextLine extends RenderEditableBox {
           maxWidth: indentWidth,
           maxHeight: _body!.size.height);
       _leading!.layout(leadingConstraints, parentUsesSize: true);
-      final parentData = _leading!.parentData as BoxParentData;
-      parentData.offset = Offset(0.0, _resolvedPadding!.top);
+      (_leading!.parentData as BoxParentData).offset =
+          Offset(0, _resolvedPadding!.top);
     }
 
     size = constraints.constrain(Size(
@@ -739,8 +735,8 @@ class RenderEditableTextLine extends RenderEditableBox {
       final parentData = _body!.parentData as BoxParentData;
       final effectiveOffset = offset + parentData.offset;
       if (enableInteractiveSelection &&
-          line.getDocumentOffset() <= textSelection.end &&
-          textSelection.start <= line.getDocumentOffset() + line.length - 1) {
+          line.documentOffset <= textSelection.end &&
+          textSelection.start <= line.documentOffset + line.length - 1) {
         final local = localSelection(line, textSelection, false);
         _selectedRects ??= _body!.getBoxesForSelection(
           local,
@@ -776,7 +772,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   void _paintCursor(PaintingContext context, Offset effectiveOffset) {
     final position = TextPosition(
-      offset: textSelection.extentOffset - line.getDocumentOffset(),
+      offset: textSelection.extentOffset - line.documentOffset,
       affinity: textSelection.base.affinity,
     );
     _cursorPainter.paint(context.canvas, effectiveOffset, position);
@@ -851,8 +847,8 @@ class _TextLineElement extends RenderObjectElement {
   }
 
   void _mountChild(Widget? widget, TextLineSlot slot) {
-    Element? oldChild = _slotToChildren[slot];
-    Element? newChild = updateChild(oldChild, widget, slot);
+    final oldChild = _slotToChildren[slot];
+    final newChild = updateChild(oldChild, widget, slot);
     if (oldChild != null) {
       _slotToChildren.remove(slot);
     }
@@ -875,8 +871,8 @@ class _TextLineElement extends RenderObjectElement {
   }
 
   void _updateChild(Widget? widget, TextLineSlot slot) {
-    Element? oldChild = _slotToChildren[slot];
-    Element? newChild = updateChild(oldChild, widget, slot);
+    final oldChild = _slotToChildren[slot];
+    final newChild = updateChild(oldChild, widget, slot);
     if (oldChild != null) {
       _slotToChildren.remove(slot);
     }

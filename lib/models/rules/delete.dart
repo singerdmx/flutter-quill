@@ -1,6 +1,6 @@
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-import 'package:flutter_quill/models/rules/rule.dart';
+import '../documents/attribute.dart';
+import '../quill_delta.dart';
+import 'rule.dart';
 
 abstract class DeleteRule extends Rule {
   const DeleteRule();
@@ -34,34 +34,33 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   @override
   Delta? applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    DeltaIterator itr = DeltaIterator(document);
-    itr.skip(index);
-    Operation op = itr.next(1);
+    final itr = DeltaIterator(document)..skip(index);
+    var op = itr.next(1);
     if (op.data != '\n') {
       return null;
     }
 
-    bool isNotPlain = op.isNotPlain;
-    Map<String, dynamic>? attrs = op.attributes;
+    final isNotPlain = op.isNotPlain;
+    final attrs = op.attributes;
 
     itr.skip(len! - 1);
-    Delta delta = Delta()
+    final delta = Delta()
       ..retain(index)
       ..delete(len);
 
     while (itr.hasNext) {
       op = itr.next();
-      String text = op.data is String ? (op.data as String?)! : '';
-      int lineBreak = text.indexOf('\n');
+      final text = op.data is String ? (op.data as String?)! : '';
+      final lineBreak = text.indexOf('\n');
       if (lineBreak == -1) {
         delta.retain(op.length!);
         continue;
       }
 
-      Map<String, dynamic>? attributes = op.attributes == null
+      var attributes = op.attributes == null
           ? null
-          : op.attributes!.map<String, dynamic>((String key, dynamic value) =>
-              MapEntry<String, dynamic>(key, null));
+          : op.attributes!.map<String, dynamic>(
+              (key, dynamic value) => MapEntry<String, dynamic>(key, null));
 
       if (isNotPlain) {
         attributes ??= <String, dynamic>{};
@@ -80,15 +79,15 @@ class EnsureEmbedLineRule extends DeleteRule {
   @override
   Delta? applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    DeltaIterator itr = DeltaIterator(document);
+    final itr = DeltaIterator(document);
 
-    Operation? op = itr.skip(index);
+    var op = itr.skip(index);
     int? indexDelta = 0, lengthDelta = 0, remain = len;
-    bool embedFound = op != null && op.data is! String;
-    bool hasLineBreakBefore =
+    var embedFound = op != null && op.data is! String;
+    final hasLineBreakBefore =
         !embedFound && (op == null || (op.data as String).endsWith('\n'));
     if (embedFound) {
-      Operation candidate = itr.next(1);
+      var candidate = itr.next(1);
       if (remain != null) {
         remain--;
         if (candidate.data == '\n') {
@@ -107,7 +106,7 @@ class EnsureEmbedLineRule extends DeleteRule {
     op = itr.skip(remain!);
     if (op != null &&
         (op.data is String ? op.data as String? : '')!.endsWith('\n')) {
-      Operation candidate = itr.next(1);
+      final candidate = itr.next(1);
       if (candidate.data is! String && !hasLineBreakBefore) {
         embedFound = true;
         lengthDelta--;

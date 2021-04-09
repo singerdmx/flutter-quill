@@ -1,22 +1,23 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_quill/models/documents/attribute.dart';
 import 'package:quiver/core.dart';
+
+import 'attribute.dart';
 
 /* Collection of style attributes */
 class Style {
-  final Map<String, Attribute> _attributes;
+  Style() : _attributes = <String, Attribute>{};
 
   Style.attr(this._attributes);
 
-  Style() : _attributes = <String, Attribute>{};
+  final Map<String, Attribute> _attributes;
 
   static Style fromJson(Map<String, dynamic>? attributes) {
     if (attributes == null) {
       return Style();
     }
 
-    Map<String, Attribute> result = attributes.map((String key, dynamic value) {
-      Attribute attr = Attribute.fromKeyValue(key, value);
+    final result = attributes.map((key, dynamic value) {
+      final attr = Attribute.fromKeyValue(key, value);
       return MapEntry<String, Attribute>(key, attr);
     });
     return Style.attr(result);
@@ -24,7 +25,7 @@ class Style {
 
   Map<String, dynamic>? toJson() => _attributes.isEmpty
       ? null
-      : _attributes.map<String, dynamic>((String _, Attribute attribute) =>
+      : _attributes.map<String, dynamic>((_, attribute) =>
           MapEntry<String, dynamic>(attribute.key, attribute.value));
 
   Iterable<String> get keys => _attributes.keys;
@@ -47,7 +48,7 @@ class Style {
   bool containsKey(String key) => _attributes.containsKey(key);
 
   Attribute? getBlockExceptHeader() {
-    for (Attribute val in values) {
+    for (final val in values) {
       if (val.isBlockExceptHeader) {
         return val;
       }
@@ -56,7 +57,7 @@ class Style {
   }
 
   Style merge(Attribute attribute) {
-    Map<String, Attribute> merged = Map<String, Attribute>.from(_attributes);
+    final merged = Map<String, Attribute>.from(_attributes);
     if (attribute.value == null) {
       merged.remove(attribute.key);
     } else {
@@ -66,21 +67,21 @@ class Style {
   }
 
   Style mergeAll(Style other) {
-    Style result = Style.attr(_attributes);
-    for (Attribute attribute in other.values) {
+    var result = Style.attr(_attributes);
+    for (final attribute in other.values) {
       result = result.merge(attribute);
     }
     return result;
   }
 
   Style removeAll(Set<Attribute> attributes) {
-    Map<String, Attribute> merged = Map<String, Attribute>.from(_attributes);
+    final merged = Map<String, Attribute>.from(_attributes);
     attributes.map((item) => item.key).forEach(merged.remove);
     return Style.attr(merged);
   }
 
   Style put(Attribute attribute) {
-    Map<String, Attribute> m = Map<String, Attribute>.from(attributes);
+    final m = Map<String, Attribute>.from(attributes);
     m[attribute.key] = attribute;
     return Style.attr(m);
   }
@@ -93,8 +94,8 @@ class Style {
     if (other is! Style) {
       return false;
     }
-    Style typedOther = other;
-    final eq = const MapEquality<String, Attribute>();
+    final typedOther = other;
+    const eq = MapEquality<String, Attribute>();
     return eq.equals(_attributes, typedOther._attributes);
   }
 

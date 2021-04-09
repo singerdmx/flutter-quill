@@ -22,6 +22,29 @@ Object? _passThroughDataDecoder(Object? data) => data;
 
 /// Operation performed on a rich-text document.
 class Operation {
+  Operation._(this.key, this.length, this.data, Map? attributes)
+      : assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
+        assert(() {
+          if (key != Operation.insertKey) return true;
+          return data is String ? data.length == length : length == 1;
+        }(), 'Length of insert operation must be equal to the data length.'),
+        _attributes =
+            attributes != null ? Map<String, dynamic>.from(attributes) : null;
+
+  /// Creates operation which deletes [length] of characters.
+  factory Operation.delete(int length) =>
+      Operation._(Operation.deleteKey, length, '', null);
+
+  /// Creates operation which inserts [text] with optional [attributes].
+  factory Operation.insert(dynamic data, [Map<String, dynamic>? attributes]) =>
+      Operation._(Operation.insertKey, data is String ? data.length : 1, data,
+          attributes);
+
+  /// Creates operation which retains [length] of characters and optionally
+  /// applies attributes.
+  factory Operation.retain(int? length, [Map<String, dynamic>? attributes]) =>
+      Operation._(Operation.retainKey, length, '', attributes);
+
   /// Key of insert operations.
   static const String insertKey = 'insert';
 
@@ -49,15 +72,6 @@ class Operation {
   Map<String, dynamic>? get attributes =>
       _attributes == null ? null : Map<String, dynamic>.from(_attributes!);
   final Map<String, dynamic>? _attributes;
-
-  Operation._(this.key, this.length, this.data, Map? attributes)
-      : assert(_validKeys.contains(key), 'Invalid operation key "$key".'),
-        assert(() {
-          if (key != Operation.insertKey) return true;
-          return data is String ? data.length == length : length == 1;
-        }(), 'Length of insert operation must be equal to the data length.'),
-        _attributes =
-            attributes != null ? Map<String, dynamic>.from(attributes) : null;
 
   /// Creates new [Operation] from JSON payload.
   ///
@@ -88,20 +102,6 @@ class Operation {
     if (_attributes != null) json[Operation.attributesKey] = attributes;
     return json;
   }
-
-  /// Creates operation which deletes [length] of characters.
-  factory Operation.delete(int length) =>
-      Operation._(Operation.deleteKey, length, '', null);
-
-  /// Creates operation which inserts [text] with optional [attributes].
-  factory Operation.insert(dynamic data, [Map<String, dynamic>? attributes]) =>
-      Operation._(Operation.insertKey, data is String ? data.length : 1, data,
-          attributes);
-
-  /// Creates operation which retains [length] of characters and optionally
-  /// applies attributes.
-  factory Operation.retain(int? length, [Map<String, dynamic>? attributes]) =>
-      Operation._(Operation.retainKey, length, '', attributes);
 
   /// Returns value of this operation.
   ///
@@ -135,7 +135,7 @@ class Operation {
   bool operator ==(other) {
     if (identical(this, other)) return true;
     if (other is! Operation) return false;
-    Operation typedOther = other;
+    final typedOther = other;
     return key == typedOther.key &&
         length == typedOther.length &&
         _valueEquality.equals(data, typedOther.data) &&
@@ -180,6 +180,15 @@ class Operation {
 /// "document delta". When delta includes also "retain" or "delete" operations
 /// it is a "change delta".
 class Delta {
+  /// Creates new empty [Delta].
+  factory Delta() => Delta._(<Operation>[]);
+
+  Delta._(List<Operation> operations) : _operations = operations;
+
+  /// Creates new [Delta] from [other].
+  factory Delta.from(Delta other) =>
+      Delta._(List<Operation>.from(other._operations));
+
   /// Transforms two attribute sets.
   static Map<String, dynamic>? transformAttributes(
       Map<String, dynamic>? a, Map<String, dynamic>? b, bool priority) {
@@ -221,14 +230,14 @@ class Delta {
     attr ??= const {};
     base ??= const {};
 
-    var baseInverted = base.keys.fold({}, (dynamic memo, key) {
+    final baseInverted = base.keys.fold({}, (dynamic memo, key) {
       if (base![key] != attr![key] && attr.containsKey(key)) {
         memo[key] = base[key];
       }
       return memo;
     });
 
-    var inverted =
+    final inverted =
         Map<String, dynamic>.from(attr.keys.fold(baseInverted, (memo, key) {
       if (base![key] != attr![key] && !base.containsKey(key)) {
         memo[key] = null;
@@ -241,15 +250,6 @@ class Delta {
   final List<Operation> _operations;
 
   int _modificationCount = 0;
-
-  Delta._(List<Operation> operations) : _operations = operations;
-
-  /// Creates new empty [Delta].
-  factory Delta() => Delta._(<Operation>[]);
-
-  /// Creates new [Delta] from [other].
-  factory Delta.from(Delta other) =>
-      Delta._(List<Operation>.from(other._operations));
 
   /// Creates [Delta] from de-serialized JSON representation.
   ///
@@ -292,9 +292,8 @@ class Delta {
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
     if (other is! Delta) return false;
-    Delta typedOther = other;
-    final comparator =
-        const ListEquality<Operation>(DefaultEquality<Operation>());
+    final typedOther = other;
+    const comparator = ListEquality<Operation>(DefaultEquality<Operation>());
     return comparator.equals(_operations, typedOther._operations);
   }
 
@@ -529,7 +528,8 @@ class Delta {
           if (op.isDelete) {
             inverted.push(baseOp);
           } else if (op.isRetain && op.isNotPlain) {
-            var invertAttr = invertAttributes(op.attributes, baseOp.attributes);
+            final invertAttr =
+                invertAttributes(op.attributes, baseOp.attributes);
             inverted.retain(
                 baseOp.length!, invertAttr.isEmpty ? null : invertAttr);
           }
@@ -548,7 +548,7 @@ class Delta {
   Delta slice(int start, [int? end]) {
     final delta = Delta();
     var index = 0;
-    var opIterator = DeltaIterator(this);
+    final opIterator = DeltaIterator(this);
 
     final actualEnd = end ?? double.infinity;
 
@@ -599,12 +599,12 @@ class Delta {
 
 /// Specialized iterator for [Delta]s.
 class DeltaIterator {
+  DeltaIterator(this.delta) : _modificationCount = delta._modificationCount;
+
   final Delta delta;
   final int _modificationCount;
   int _index = 0;
   num _offset = 0;
-
-  DeltaIterator(this.delta) : _modificationCount = delta._modificationCount;
 
   bool get isNextInsert => nextOperationKey == Operation.insertKey;
 
@@ -661,7 +661,7 @@ class DeltaIterator {
       final opIsNotEmpty =
           opData is String ? opData.isNotEmpty : true; // embeds are never empty
       final opLength = opData is String ? opData.length : 1;
-      final int opActualLength = opIsNotEmpty ? opLength : actualLength as int;
+      final opActualLength = opIsNotEmpty ? opLength : actualLength as int;
       return Operation._(opKey, opActualLength, opData, opAttributes);
     }
     return Operation.retain(length);

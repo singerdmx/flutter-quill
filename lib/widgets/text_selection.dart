@@ -7,15 +7,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_quill/models/documents/nodes/node.dart';
 
+import '../models/documents/nodes/node.dart';
 import 'editor.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
-  int base = fromParent ? node.getOffset() : node.getDocumentOffset();
+  final base = fromParent ? node.offset : node.documentOffset;
   assert(base <= selection.end && selection.start <= base + node.length - 1);
 
-  int offset = fromParent ? node.getOffset() : node.getDocumentOffset();
+  final offset = fromParent ? node.offset : node.documentOffset;
   return selection.copyWith(
       baseOffset: math.max(selection.start - offset, 0),
       extentOffset: math.min(selection.end - offset, node.length - 1));
@@ -24,6 +24,27 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
 enum _TextSelectionHandlePosition { START, END }
 
 class EditorTextSelectionOverlay {
+  EditorTextSelectionOverlay(
+    this.value,
+    this.handlesVisible,
+    this.context,
+    this.debugRequiredFor,
+    this.toolbarLayerLink,
+    this.startHandleLayerLink,
+    this.endHandleLayerLink,
+    this.renderObject,
+    this.selectionCtrls,
+    this.selectionDelegate,
+    this.dragStartBehavior,
+    this.onSelectionHandleTapped,
+    this.clipboardStatus,
+  ) {
+    final overlay = Overlay.of(context, rootOverlay: true)!;
+
+    _toolbarController = AnimationController(
+        duration: const Duration(milliseconds: 150), vsync: overlay);
+  }
+
   TextEditingValue value;
   bool handlesVisible = false;
   final BuildContext context;
@@ -40,26 +61,6 @@ class EditorTextSelectionOverlay {
   late AnimationController _toolbarController;
   List<OverlayEntry>? _handles;
   OverlayEntry? toolbar;
-
-  EditorTextSelectionOverlay(
-      this.value,
-      this.handlesVisible,
-      this.context,
-      this.debugRequiredFor,
-      this.toolbarLayerLink,
-      this.startHandleLayerLink,
-      this.endHandleLayerLink,
-      this.renderObject,
-      this.selectionCtrls,
-      this.selectionDelegate,
-      this.dragStartBehavior,
-      this.onSelectionHandleTapped,
-      this.clipboardStatus) {
-    OverlayState overlay = Overlay.of(context, rootOverlay: true)!;
-
-    _toolbarController = AnimationController(
-        duration: const Duration(milliseconds: 150), vsync: overlay);
-  }
 
   TextSelection get _selection => value.selection;
 
@@ -99,7 +100,7 @@ class EditorTextSelectionOverlay {
     toolbar = OverlayEntry(builder: _buildToolbar);
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)!
         .insert(toolbar!);
-    _toolbarController.forward(from: 0.0);
+    _toolbarController.forward(from: 0);
   }
 
   Widget _buildHandle(
@@ -111,7 +112,7 @@ class EditorTextSelectionOverlay {
     return Visibility(
         visible: handlesVisible,
         child: _TextSelectionHandleOverlay(
-          onSelectionHandleChanged: (TextSelection? newSelection) {
+          onSelectionHandleChanged: (newSelection) {
             _handleSelectionHandleChanged(newSelection, position);
           },
           onSelectionHandleTapped: onSelectionHandleTapped,
@@ -155,32 +156,32 @@ class EditorTextSelectionOverlay {
       default:
         throw 'Invalid position';
     }
-    selectionDelegate.textEditingValue =
-        value.copyWith(selection: newSelection, composing: TextRange.empty);
-    selectionDelegate.bringIntoView(textPosition);
+    selectionDelegate
+      ..textEditingValue =
+          value.copyWith(selection: newSelection, composing: TextRange.empty)
+      ..bringIntoView(textPosition);
   }
 
   Widget _buildToolbar(BuildContext context) {
-    List<TextSelectionPoint> endpoints =
-        renderObject!.getEndpointsForSelection(_selection);
+    final endpoints = renderObject!.getEndpointsForSelection(_selection);
 
-    Rect editingRegion = Rect.fromPoints(
+    final editingRegion = Rect.fromPoints(
       renderObject!.localToGlobal(Offset.zero),
       renderObject!.localToGlobal(renderObject!.size.bottomRight(Offset.zero)),
     );
 
-    double baseLineHeight = renderObject!.preferredLineHeight(_selection.base);
-    double extentLineHeight =
+    final baseLineHeight = renderObject!.preferredLineHeight(_selection.base);
+    final extentLineHeight =
         renderObject!.preferredLineHeight(_selection.extent);
-    double smallestLineHeight = math.min(baseLineHeight, extentLineHeight);
-    bool isMultiline = endpoints.last.point.dy - endpoints.first.point.dy >
+    final smallestLineHeight = math.min(baseLineHeight, extentLineHeight);
+    final isMultiline = endpoints.last.point.dy - endpoints.first.point.dy >
         smallestLineHeight / 2;
 
-    double midX = isMultiline
+    final midX = isMultiline
         ? editingRegion.width / 2
         : (endpoints.first.point.dx + endpoints.last.point.dx) / 2;
 
-    Offset midpoint = Offset(
+    final midpoint = Offset(
       midX,
       endpoints[0].point.dy - baseLineHeight,
     );
@@ -232,10 +233,10 @@ class EditorTextSelectionOverlay {
     assert(_handles == null);
     _handles = <OverlayEntry>[
       OverlayEntry(
-          builder: (BuildContext context) =>
+          builder: (context) =>
               _buildHandle(context, _TextSelectionHandlePosition.START)),
       OverlayEntry(
-          builder: (BuildContext context) =>
+          builder: (context) =>
               _buildHandle(context, _TextSelectionHandlePosition.END)),
     ];
 
@@ -326,14 +327,14 @@ class _TextSelectionHandleOverlayState
   void _handleDragStart(DragStartDetails details) {}
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    TextPosition position =
+    final position =
         widget.renderObject!.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
     }
 
-    bool isNormalized =
+    final isNormalized =
         widget.selection.extentOffset >= widget.selection.baseOffset;
     TextSelection? newSelection;
     switch (widget.position) {
@@ -389,27 +390,26 @@ class _TextSelectionHandleOverlayState
         break;
     }
 
-    TextPosition textPosition =
-        widget.position == _TextSelectionHandlePosition.START
-            ? widget.selection.base
-            : widget.selection.extent;
-    double lineHeight = widget.renderObject!.preferredLineHeight(textPosition);
-    Offset handleAnchor =
+    final textPosition = widget.position == _TextSelectionHandlePosition.START
+        ? widget.selection.base
+        : widget.selection.extent;
+    final lineHeight = widget.renderObject!.preferredLineHeight(textPosition);
+    final handleAnchor =
         widget.selectionControls.getHandleAnchor(type!, lineHeight);
-    Size handleSize = widget.selectionControls.getHandleSize(lineHeight);
+    final handleSize = widget.selectionControls.getHandleSize(lineHeight);
 
-    Rect handleRect = Rect.fromLTWH(
+    final handleRect = Rect.fromLTWH(
       -handleAnchor.dx,
       -handleAnchor.dy,
       handleSize.width,
       handleSize.height,
     );
 
-    Rect interactiveRect = handleRect.expandToInclude(
+    final interactiveRect = handleRect.expandToInclude(
       Rect.fromCircle(
           center: handleRect.center, radius: kMinInteractiveDimension / 2),
     );
-    RelativeRect padding = RelativeRect.fromLTRB(
+    final padding = RelativeRect.fromLTRB(
       math.max((interactiveRect.width - handleRect.width) / 2, 0),
       math.max((interactiveRect.height - handleRect.height) / 2, 0),
       math.max((interactiveRect.width - handleRect.width) / 2, 0),
@@ -657,13 +657,12 @@ class _EditorTextSelectionGestureDetectorState
 
   @override
   Widget build(BuildContext context) {
-    final Map<Type, GestureRecognizerFactory> gestures =
-        <Type, GestureRecognizerFactory>{};
+    final gestures = <Type, GestureRecognizerFactory>{};
 
     gestures[TapGestureRecognizer] =
         GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
       () => TapGestureRecognizer(debugOwner: this),
-      (TapGestureRecognizer instance) {
+      (instance) {
         instance
           ..onTapDown = _handleTapDown
           ..onTapUp = _handleTapUp
@@ -678,7 +677,7 @@ class _EditorTextSelectionGestureDetectorState
           GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
         () => LongPressGestureRecognizer(
             debugOwner: this, kind: PointerDeviceKind.touch),
-        (LongPressGestureRecognizer instance) {
+        (instance) {
           instance
             ..onLongPressStart = _handleLongPressStart
             ..onLongPressMoveUpdate = _handleLongPressMoveUpdate
@@ -694,7 +693,7 @@ class _EditorTextSelectionGestureDetectorState
           GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
         () => HorizontalDragGestureRecognizer(
             debugOwner: this, kind: PointerDeviceKind.mouse),
-        (HorizontalDragGestureRecognizer instance) {
+        (instance) {
           instance
             ..dragStartBehavior = DragStartBehavior.down
             ..onStart = _handleDragStart
@@ -708,7 +707,7 @@ class _EditorTextSelectionGestureDetectorState
       gestures[ForcePressGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<ForcePressGestureRecognizer>(
         () => ForcePressGestureRecognizer(debugOwner: this),
-        (ForcePressGestureRecognizer instance) {
+        (instance) {
           instance
             ..onStart =
                 widget.onForcePressStart != null ? _forcePressStarted : null

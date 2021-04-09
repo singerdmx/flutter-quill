@@ -1,7 +1,6 @@
-import 'package:flutter_quill/models/documents/attribute.dart';
-import 'package:flutter_quill/models/documents/document.dart';
-import 'package:flutter_quill/models/quill_delta.dart';
-
+import '../documents/attribute.dart';
+import '../documents/document.dart';
+import '../quill_delta.dart';
 import 'delete.dart';
 import 'format.dart';
 import 'insert.dart';
@@ -27,6 +26,8 @@ abstract class Rule {
 }
 
 class Rules {
+  Rules(this._rules);
+
   final List<Rule> _rules;
   static final Rules _instance = Rules([
     const FormatLinkAtCaretPositionRule(),
@@ -46,14 +47,12 @@ class Rules {
     const CatchAllDeleteRule(),
   ]);
 
-  Rules(this._rules);
-
   static Rules getInstance() => _instance;
 
   Delta apply(RuleType ruleType, Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
     final delta = document.toDelta();
-    for (var rule in _rules) {
+    for (final rule in _rules) {
       if (rule.type != ruleType) {
         continue;
       }

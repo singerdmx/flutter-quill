@@ -28,10 +28,10 @@ var ui = UniversalUI();
 Widget defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
   switch (node.value.type) {
     case 'image':
-      String imageUrl = node.value.data;
-      Size size = MediaQuery.of(context).size;
+      final String imageUrl = node.value.data;
+      final size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
-          imageUrl, (int viewId) => html.ImageElement()..src = imageUrl);
+          imageUrl, (viewId) => html.ImageElement()..src = imageUrl);
       return Padding(
         padding: EdgeInsets.only(
           right: ResponsiveWidget.isMediumScreen(context)

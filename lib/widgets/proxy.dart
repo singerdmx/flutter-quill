@@ -4,11 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'box.dart';
 
 class BaselineProxy extends SingleChildRenderObjectWidget {
-  final TextStyle? textStyle;
-  final EdgeInsets? padding;
-
   const BaselineProxy({Key? key, Widget? child, this.textStyle, this.padding})
       : super(key: key, child: child);
+
+  final TextStyle? textStyle;
+  final EdgeInsets? padding;
 
   @override
   RenderBaselineProxy createRenderObject(BuildContext context) {
@@ -87,14 +87,14 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
   List<TextBox> getBoxesForSelection(TextSelection selection) {
     if (!selection.isCollapsed) {
       return <TextBox>[
-        TextBox.fromLTRBD(0.0, 0.0, size.width, size.height, TextDirection.ltr)
+        TextBox.fromLTRBD(0, 0, size.width, size.height, TextDirection.ltr)
       ];
     }
 
-    double left = selection.extentOffset == 0 ? 0.0 : size.width;
-    double right = selection.extentOffset == 0 ? 0.0 : size.width;
+    final left = selection.extentOffset == 0 ? 0.0 : size.width;
+    final right = selection.extentOffset == 0 ? 0.0 : size.width;
     return <TextBox>[
-      TextBox.fromLTRBD(left, 0.0, right, size.height, TextDirection.ltr)
+      TextBox.fromLTRBD(left, 0, right, size.height, TextDirection.ltr)
     ];
   }
 
@@ -104,7 +104,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
   @override
   Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype) {
     assert(position.offset <= 1 && position.offset >= 0);
-    return position.offset == 0 ? Offset.zero : Offset(size.width, 0.0);
+    return position.offset == 0 ? Offset.zero : Offset(size.width, 0);
   }
 
   @override
@@ -122,6 +122,18 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 }
 
 class RichTextProxy extends SingleChildRenderObjectWidget {
+  const RichTextProxy(
+    RichText child,
+    this.textStyle,
+    this.textAlign,
+    this.textDirection,
+    this.textScaleFactor,
+    this.locale,
+    this.strutStyle,
+    this.textWidthBasis,
+    this.textHeightBehavior,
+  ) : super(child: child);
+
   final TextStyle textStyle;
   final TextAlign textAlign;
   final TextDirection textDirection;
@@ -145,29 +157,18 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
         textHeightBehavior);
   }
 
-  const RichTextProxy(
-      RichText child,
-      this.textStyle,
-      this.textAlign,
-      this.textDirection,
-      this.textScaleFactor,
-      this.locale,
-      this.strutStyle,
-      this.textWidthBasis,
-      this.textHeightBehavior)
-      : super(child: child);
-
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderParagraphProxy renderObject) {
-    renderObject.textStyle = textStyle;
-    renderObject.textAlign = textAlign;
-    renderObject.textDirection = textDirection;
-    renderObject.textScaleFactor = textScaleFactor;
-    renderObject.locale = locale;
-    renderObject.strutStyle = strutStyle;
-    renderObject.textWidthBasis = textWidthBasis;
-    renderObject.textHeightBehavior = textHeightBehavior;
+    renderObject
+      ..textStyle = textStyle
+      ..textAlign = textAlign
+      ..textDirection = textDirection
+      ..textScaleFactor = textScaleFactor
+      ..locale = locale
+      ..strutStyle = strutStyle
+      ..textWidthBasis = textWidthBasis
+      ..textHeightBehavior = textHeightBehavior;
   }
 }
 

@@ -9,9 +9,12 @@ typedef InputShortcutCallback = void Function(InputShortcut? shortcut);
 typedef OnDeleteCallback = void Function(bool forward);
 
 class KeyboardListener {
+  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
+
   final CursorMoveCallback onCursorMove;
   final InputShortcutCallback onShortcut;
   final OnDeleteCallback onDelete;
+
   static final Set<LogicalKeyboardKey> _moveKeys = <LogicalKeyboardKey>{
     LogicalKeyboardKey.arrowRight,
     LogicalKeyboardKey.arrowLeft,
@@ -59,8 +62,6 @@ class KeyboardListener {
     LogicalKeyboardKey.keyA: InputShortcut.SELECT_ALL,
   };
 
-  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
-
   bool handleRawKeyEvent(RawKeyEvent event) {
     if (kIsWeb) {
       // On web platform, we should ignore the key because it's processed already.
@@ -71,10 +72,10 @@ class KeyboardListener {
       return false;
     }
 
-    Set<LogicalKeyboardKey> keysPressed =
+    final keysPressed =
         LogicalKeyboardKey.collapseSynonyms(RawKeyboard.instance.keysPressed);
-    LogicalKeyboardKey key = event.logicalKey;
-    bool isMacOS = event.data is RawKeyEventDataMacOs;
+    final key = event.logicalKey;
+    final isMacOS = event.data is RawKeyEventDataMacOs;
     if (!_nonModifierKeys.contains(key) ||
         keysPressed
                 .difference(isMacOS ? _macOsModifierKeys : _modifierKeys)

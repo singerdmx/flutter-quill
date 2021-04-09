@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_quill/models/documents/nodes/leaf.dart';
-import 'package:flutter_quill/widgets/text_selection.dart';
 
+import '../models/documents/nodes/leaf.dart';
 import 'editor.dart';
+import 'text_selection.dart';
 
 typedef EmbedBuilder = Widget Function(BuildContext context, Embed node);
 
@@ -18,10 +18,10 @@ abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
 }
 
 class EditorTextSelectionGestureDetectorBuilder {
+  EditorTextSelectionGestureDetectorBuilder(this.delegate);
+
   final EditorTextSelectionGestureDetectorBuilderDelegate delegate;
   bool shouldShowSelectionToolbar = true;
-
-  EditorTextSelectionGestureDetectorBuilder(this.delegate);
 
   EditorState? getEditor() {
     return delegate.getEditableTextKey().currentState;
@@ -34,7 +34,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onTapDown(TapDownDetails details) {
     getRenderEditor()!.handleTapDown(details);
 
-    PointerDeviceKind? kind = details.kind;
+    final kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;
