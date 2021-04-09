@@ -119,6 +119,7 @@ class QuillEditor extends StatefulWidget {
     required this.focusNode,
     required this.scrollController,
     required this.scrollable,
+    required this.scrollBottomInset,
     required this.padding,
     required this.autoFocus,
     required this.readOnly,
@@ -133,7 +134,12 @@ class QuillEditor extends StatefulWidget {
     this.keyboardAppearance = Brightness.light,
     this.scrollPhysics,
     this.onLaunchUrl,
-    this.embedBuilder = _defaultEmbedBuilder,
+    this.onTapDown,
+    this.onTapUp,
+    this.onSingleLongTapStart,
+    this.onSingleLongTapMoveUpdate,
+    this.onSingleLongTapEnd,
+    this.embedBuilder = _defaultEmbedBuilder
   });
 
   factory QuillEditor.basic({
@@ -148,6 +154,7 @@ class QuillEditor extends StatefulWidget {
         autoFocus: true,
         readOnly: readOnly,
         expands: false,
+        scrollBottomInset: 0,
         padding: EdgeInsets.zero);
   }
 
@@ -155,6 +162,7 @@ class QuillEditor extends StatefulWidget {
   final FocusNode focusNode;
   final ScrollController scrollController;
   final bool scrollable;
+  final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
   final bool autoFocus;
   final bool? showCursor;
@@ -249,6 +257,7 @@ class _QuillEditorState extends State<QuillEditor>
           widget.focusNode,
           widget.scrollController,
           widget.scrollable,
+          widget.scrollBottomInset,
           widget.padding,
           widget.readOnly,
           widget.placeholder,
@@ -282,11 +291,6 @@ class _QuillEditorState extends State<QuillEditor>
           widget.keyboardAppearance,
           widget.enableInteractiveSelection,
           widget.scrollPhysics,
-          widget.onTapDown,
-          widget.onTapUp,
-          widget.onSingleLongTapStart,
-          widget.onSingleLongTapMoveUpdate,
-          widget.onSingleLongTapEnd,
           widget.embedBuilder),
     );
   }
@@ -569,6 +573,7 @@ class RenderEditor extends RenderEditableContainerBox
   RenderEditor(
     List<RenderEditableBox>? children,
     TextDirection textDirection,
+    double scrollBottomInset,
     EdgeInsetsGeometry padding,
     this.document,
     this.selection,
@@ -581,6 +586,7 @@ class RenderEditor extends RenderEditableContainerBox
           children,
           document.root,
           textDirection,
+          scrollBottomInset,
           padding,
         );
 
@@ -636,6 +642,14 @@ class RenderEditor extends RenderEditableContainerBox
       return;
     }
     _endHandleLayerLink = value;
+    markNeedsPaint();
+  }
+
+  void setScrollBottomInset(double value) {
+    if (scrollBottomInset == value) {
+      return;
+    }
+    scrollBottomInset = value;
     markNeedsPaint();
   }
 
@@ -911,8 +925,9 @@ class RenderEditor extends RenderEditableContainerBox
         child.preferredLineHeight(TextPosition(
             offset: selection.extentOffset - child.getContainer().offset)) -
         kMargin +
-        offsetInViewport;
-    final caretBottom = endpoint.point.dy + kMargin + offsetInViewport;
+        offsetInViewport +
+        scrollBottomInset;
+    final caretBottom = endpoint.point.dy + kMargin + offsetInViewport + scrollBottomInset;
     double? dy;
     if (caretTop < scrollOffset) {
       dy = caretTop;
@@ -939,6 +954,7 @@ class RenderEditableContainerBox extends RenderBox
     List<RenderEditableBox>? children,
     this._container,
     this.textDirection,
+    this.scrollBottomInset,
     this._padding,
   ) : assert(_padding.isNonNegative) {
     addAll(children);
@@ -947,6 +963,7 @@ class RenderEditableContainerBox extends RenderBox
   container_node.Container _container;
   TextDirection textDirection;
   EdgeInsetsGeometry _padding;
+  double scrollBottomInset;
   EdgeInsets? _resolvedPadding;
 
   container_node.Container getContainer() {

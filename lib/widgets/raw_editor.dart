@@ -34,6 +34,7 @@ class RawEditor extends StatefulWidget {
     this.focusNode,
     this.scrollController,
     this.scrollable,
+    this.scrollBottomInset,
     this.padding,
     this.readOnly,
     this.placeholder,
@@ -65,6 +66,7 @@ class RawEditor extends StatefulWidget {
   final FocusNode focusNode;
   final ScrollController scrollController;
   final bool scrollable;
+  final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
   final bool readOnly;
   final String? placeholder;
@@ -527,6 +529,7 @@ class RawEditorState extends EditorState
           startHandleLayerLink: _startHandleLayerLink,
           endHandleLayerLink: _endHandleLayerLink,
           onSelectionChanged: _handleSelectionChanged,
+          scrollBottomInset: widget.scrollBottomInset,
           padding: widget.padding,
           children: _buildChildren(_doc, context),
         ),
@@ -588,6 +591,7 @@ class RawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
             node,
             _textDirection,
+            widget.scrollBottomInset,
             _getVerticalSpacingForBlock(node, _styles),
             widget.controller.selection,
             widget.selectionColor,
@@ -1137,6 +1141,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     required this.startHandleLayerLink,
     required this.endHandleLayerLink,
     required this.onSelectionChanged,
+    required this.scrollBottomInset,
     this.padding = EdgeInsets.zero,
   }) : super(key: key, children: children);
 
@@ -1147,6 +1152,7 @@ class _Editor extends MultiChildRenderObjectWidget {
   final LayerLink startHandleLayerLink;
   final LayerLink endHandleLayerLink;
   final TextSelectionChangedHandler onSelectionChanged;
+  final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -1154,6 +1160,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     return RenderEditor(
       null,
       textDirection,
+      scrollBottomInset,
       padding,
       document,
       selection,
@@ -1177,6 +1184,7 @@ class _Editor extends MultiChildRenderObjectWidget {
       ..setStartHandleLayerLink(startHandleLayerLink)
       ..setEndHandleLayerLink(endHandleLayerLink)
       ..onSelectionChanged = onSelectionChanged
+      ..setScrollBottomInset(scrollBottomInset)
       ..setPadding(padding);
   }
 }
