@@ -13,7 +13,6 @@ abstract class InsertRule extends Rule {
 
   @override
   void validateArgs(int? len, Object? data, Attribute? attribute) {
-    assert(len == null);
     assert(data != null);
     assert(attribute == null);
   }
@@ -43,7 +42,7 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
 
     final text = after.data as String;
 
-    final delta = Delta()..retain(index);
+    final delta = Delta()..retain(index + (len ?? 0));
     if (text.contains('\n')) {
       assert(after.isPlain);
       delta.insert('\n');
@@ -86,7 +85,7 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     }
 
     final lines = data.split('\n');
-    final delta = Delta()..retain(index);
+    final delta = Delta()..retain(index + (len ?? 0));
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
       if (line.isNotEmpty) {
@@ -157,7 +156,7 @@ class AutoExitBlockRule extends InsertRule {
         .firstWhere((k) => Attribute.blockKeysExceptHeader.contains(k));
     attributes[k] = null;
     // retain(1) should be '\n', set it with no attribute
-    return Delta()..retain(index)..retain(1, attributes);
+    return Delta()..retain(index + (len ?? 0))..retain(1, attributes);
   }
 }
 
@@ -183,7 +182,7 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
       resetStyle = Attribute.header.toJson();
     }
     return Delta()
-      ..retain(index)
+      ..retain(index + (len ?? 0))
       ..insert('\n', cur.attributes)
       ..retain(1, resetStyle)
       ..trim();
@@ -200,7 +199,7 @@ class InsertEmbedsRule extends InsertRule {
       return null;
     }
 
-    final delta = Delta()..retain(index);
+    final delta = Delta()..retain(index + (len ?? 0));
     final itr = DeltaIterator(document);
     final prev = itr.skip(index), cur = itr.next();
 
@@ -258,7 +257,7 @@ class ForceNewlineForInsertsAroundEmbedRule extends InsertRule {
     if (!cursorBeforeEmbed && !cursorAfterEmbed) {
       return null;
     }
-    final delta = Delta()..retain(index);
+    final delta = Delta()..retain(index + (len ?? 0));
     if (cursorBeforeEmbed && !text.endsWith('\n')) {
       return delta..insert(text)..insert('\n');
     }
@@ -299,7 +298,7 @@ class AutoFormatLinksRule extends InsertRule {
 
       attributes.addAll(LinkAttribute(link.toString()).toJson());
       return Delta()
-        ..retain(index - cand.length)
+        ..retain(index + (len ?? 0) - cand.length)
         ..retain(cand.length, attributes)
         ..insert(data, prev.attributes);
     } on FormatException {
@@ -330,13 +329,13 @@ class PreserveInlineStylesRule extends InsertRule {
     final text = data;
     if (attributes == null || !attributes.containsKey(Attribute.link.key)) {
       return Delta()
-        ..retain(index)
+        ..retain(index + (len ?? 0))
         ..insert(text, attributes);
     }
 
     attributes.remove(Attribute.link.key);
     final delta = Delta()
-      ..retain(index)
+      ..retain(index + (len ?? 0))
       ..insert(text, attributes.isEmpty ? null : attributes);
     final next = itr.next();
 
@@ -346,7 +345,7 @@ class PreserveInlineStylesRule extends InsertRule {
     }
     if (attributes[Attribute.link.key] == nextAttributes[Attribute.link.key]) {
       return Delta()
-        ..retain(index)
+        ..retain(index + (len ?? 0))
         ..insert(text, attributes);
     }
     return delta;
@@ -360,7 +359,7 @@ class CatchAllInsertRule extends InsertRule {
   Delta applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
     return Delta()
-      ..retain(index)
+      ..retain(index + (len ?? 0))
       ..insert(data);
   }
 }
