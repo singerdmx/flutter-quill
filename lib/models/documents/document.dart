@@ -47,7 +47,7 @@ class Document {
 
   Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
 
-  Delta insert(int index, Object? data) {
+  Delta insert(int index, Object? data, {int replaceLength = 0}) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
     if (data is Embeddable) {
@@ -56,7 +56,7 @@ class Document {
       return Delta();
     }
 
-    final delta = _rules.apply(RuleType.INSERT, this, index, data: data);
+    final delta = _rules.apply(RuleType.INSERT, this, index, data: data, len: replaceLength);
     compose(delta, ChangeSource.LOCAL);
     return delta;
   }
@@ -80,8 +80,10 @@ class Document {
 
     var delta = Delta();
 
+    // We have to insert before applying delete rules
+    // Otherwise delete would be operating on stale document snapshot.
     if (dataIsNotEmpty) {
-      delta = insert(index + len, data);
+      delta = insert(index, data, replaceLength: len);
     }
 
     if (len > 0) {

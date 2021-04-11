@@ -50,6 +50,7 @@ class EditableTextBlock extends StatelessWidget {
   const EditableTextBlock(
     this.block,
     this.textDirection,
+    this.scrollBottomInset,
     this.verticalSpacing,
     this.textSelection,
     this.color,
@@ -64,6 +65,7 @@ class EditableTextBlock extends StatelessWidget {
 
   final Block block;
   final TextDirection textDirection;
+  final double scrollBottomInset;
   final Tuple2 verticalSpacing;
   final TextSelection textSelection;
   final Color color;
@@ -84,6 +86,7 @@ class EditableTextBlock extends StatelessWidget {
         block,
         textDirection,
         verticalSpacing as Tuple2<double, double>,
+        scrollBottomInset,
         _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
         contentPadding,
         _buildChildren(context, indentLevelCounts));
@@ -256,6 +259,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     required Block block,
     required TextDirection textDirection,
     required EdgeInsetsGeometry padding,
+    required double scrollBottomInset,
     required Decoration decoration,
     List<RenderEditableBox>? children,
     ImageConfiguration configuration = ImageConfiguration.empty,
@@ -268,6 +272,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
           children,
           block,
           textDirection,
+          scrollBottomInset,
           padding.add(contentPadding),
         );
 
@@ -512,14 +517,16 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
     this.block,
     this.textDirection,
     this.padding,
+    this.scrollBottomInset,
     this.decoration,
     this.contentPadding,
-    List<Widget> children,
+    List<Widget> children
   ) : super(children: children);
 
   final Block block;
   final TextDirection textDirection;
   final Tuple2<double, double> padding;
+  final double scrollBottomInset;
   final Decoration decoration;
   final EdgeInsets? contentPadding;
 
@@ -534,6 +541,7 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
       block: block,
       textDirection: textDirection,
       padding: _padding,
+      scrollBottomInset: scrollBottomInset,
       decoration: decoration,
       contentPadding: _contentPadding,
     );
@@ -545,6 +553,7 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
     renderObject
       ..setContainer(block)
       ..textDirection = textDirection
+      ..scrollBottomInset = scrollBottomInset
       ..setPadding(_padding)
       ..decoration = decoration
       ..contentPadding = _contentPadding;

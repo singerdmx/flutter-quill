@@ -24,11 +24,13 @@ class InsertEmbedButton extends StatelessWidget {
   const InsertEmbedButton({
     required this.controller,
     required this.icon,
+    this.fillColor,
     Key? key,
   }) : super(key: key);
 
   final QuillController controller;
   final IconData icon;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class InsertEmbedButton extends StatelessWidget {
         size: iconSize,
         color: Theme.of(context).iconTheme.color,
       ),
-      fillColor: Theme.of(context).canvasColor,
+      fillColor: fillColor ?? Theme.of(context).canvasColor,
       onPressed: () {
         final index = controller.selection.baseOffset;
         final length = controller.selection.extentOffset - index;
@@ -169,6 +171,7 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   BuildContext context,
   Attribute attribute,
   IconData icon,
+  Color? fillColor,
   bool? isToggled,
   VoidCallback? onPressed,
 );
@@ -178,6 +181,7 @@ class ToggleStyleButton extends StatefulWidget {
     required this.attribute,
     required this.icon,
     required this.controller,
+    this.fillColor,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     Key? key,
   }) : super(key: key);
@@ -185,6 +189,8 @@ class ToggleStyleButton extends StatefulWidget {
   final Attribute attribute;
 
   final IconData icon;
+
+  final Color? fillColor;
 
   final QuillController controller;
 
@@ -246,8 +252,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
         _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
     final isEnabled =
         !isInCodeBlock || widget.attribute.key == Attribute.codeBlock.key;
-    return widget.childBuilder(context, widget.attribute, widget.icon,
-        _isToggled, isEnabled ? _toggleAttribute : null);
+    return widget.childBuilder(context, widget.attribute, widget.icon, widget.fillColor, _isToggled, isEnabled ? _toggleAttribute : null);
   }
 
   void _toggleAttribute() {
@@ -262,11 +267,14 @@ class ToggleCheckListButton extends StatefulWidget {
     required this.icon,
     required this.controller,
     required this.attribute,
+    this.fillColor,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     Key? key,
   }) : super(key: key);
 
   final IconData icon;
+
+  final Color? fillColor;
 
   final QuillController controller;
 
@@ -331,8 +339,7 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
         _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
     final isEnabled =
         !isInCodeBlock || Attribute.list.key == Attribute.codeBlock.key;
-    return widget.childBuilder(context, Attribute.unchecked, widget.icon,
-        _isToggled, isEnabled ? _toggleAttribute : null);
+    return widget.childBuilder(context, Attribute.unchecked, widget.icon, widget.fillColor, _isToggled, isEnabled ? _toggleAttribute : null);
   }
 
   void _toggleAttribute() {
@@ -346,6 +353,7 @@ Widget defaultToggleStyleButtonBuilder(
   BuildContext context,
   Attribute attribute,
   IconData icon,
+  Color? fillColor,
   bool? isToggled,
   VoidCallback? onPressed,
 ) {
@@ -356,14 +364,14 @@ Widget defaultToggleStyleButtonBuilder(
           ? theme.primaryIconTheme.color
           : theme.iconTheme.color
       : theme.disabledColor;
-  final fillColor =
-      isToggled == true ? theme.toggleableActiveColor : theme.canvasColor;
+  final fill =
+      isToggled == true ? theme.toggleableActiveColor : fillColor ?? theme.canvasColor;
   return QuillIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
     size: iconSize * 1.77,
     icon: Icon(icon, size: iconSize, color: iconColor),
-    fillColor: fillColor,
+    fillColor: fill,
     onPressed: onPressed,
   );
 }
