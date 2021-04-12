@@ -18,7 +18,7 @@ double iconSize = 18;
 double kToolbarHeight = iconSize * 2;
 
 typedef OnImagePickCallback = Future<String> Function(File file);
-typedef ImagePickImpl = Future<String> Function(ImageSource source);
+typedef ImagePickImpl = Future<String?> Function(ImageSource source);
 
 class InsertEmbedButton extends StatelessWidget {
   const InsertEmbedButton({
@@ -252,7 +252,8 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
         _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
     final isEnabled =
         !isInCodeBlock || widget.attribute.key == Attribute.codeBlock.key;
-    return widget.childBuilder(context, widget.attribute, widget.icon, widget.fillColor, _isToggled, isEnabled ? _toggleAttribute : null);
+    return widget.childBuilder(context, widget.attribute, widget.icon,
+        widget.fillColor, _isToggled, isEnabled ? _toggleAttribute : null);
   }
 
   void _toggleAttribute() {
@@ -339,7 +340,8 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
         _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
     final isEnabled =
         !isInCodeBlock || Attribute.list.key == Attribute.codeBlock.key;
-    return widget.childBuilder(context, Attribute.unchecked, widget.icon, widget.fillColor, _isToggled, isEnabled ? _toggleAttribute : null);
+    return widget.childBuilder(context, Attribute.unchecked, widget.icon,
+        widget.fillColor, _isToggled, isEnabled ? _toggleAttribute : null);
   }
 
   void _toggleAttribute() {
@@ -364,8 +366,9 @@ Widget defaultToggleStyleButtonBuilder(
           ? theme.primaryIconTheme.color
           : theme.iconTheme.color
       : theme.disabledColor;
-  final fill =
-      isToggled == true ? theme.toggleableActiveColor : fillColor ?? theme.canvasColor;
+  final fill = isToggled == true
+      ? theme.toggleableActiveColor
+      : fillColor ?? theme.canvasColor;
   return QuillIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
@@ -522,86 +525,80 @@ class ImageButton extends StatefulWidget {
 }
 
 class _ImageButtonState extends State<ImageButton> {
-  List<PlatformFile>? _paths;
-  String? _extension;
-  final _picker = ImagePicker();
-  final FileType _pickingType = FileType.any;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
 
-  Future<String?> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.getImage(source: source);
-    if (pickedFile == null) return null;
+    return QuillIconButton(
+      icon: Icon(
+        widget.icon,
+        size: iconSize,
+        color: theme.iconTheme.color,
+      ),
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: iconSize * 1.77,
+      fillColor: theme.canvasColor,
+      onPressed: _handleImageButtonTap,
+    );
+  }
 
-    final file = File(pickedFile.path);
+  Future<void> _handleImageButtonTap() async {
+    final index = widget.controller.selection.baseOffset;
+    final length = widget.controller.selection.extentOffset - index;
+
+    String? imageUrl;
+    if (widget.imagePickImpl != null) {
+      imageUrl = await widget.imagePickImpl!(widget.imageSource);
+    } else {
+      if (kIsWeb) {
+        imageUrl = await _pickImageWeb();
+      } else if (Platform.isAndroid || Platform.isIOS) {
+        imageUrl = await _pickImage(widget.imageSource);
+      } else {
+        imageUrl = await _pickImageDesktop();
+      }
+    }
+
+    if (imageUrl != null) {
+      widget.controller
+          .replaceText(index, length, BlockEmbed.image(imageUrl), null);
+    }
+  }
+
+  Future<String?> _pickImageWeb() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) {
+      return null;
+    }
+
+    // Take first, because we don't allow picking multiple files.
+    final fileName = result.files.first.name!;
+    final file = File(fileName);
 
     return widget.onImagePickCallback!(file);
   }
 
-  Future<String?> _pickImageWeb() async {
-    _paths = (await FilePicker.platform.pickFiles(
-      type: _pickingType,
-      allowedExtensions: (_extension?.isNotEmpty ?? false)
-          ? _extension?.replaceAll(' ', '').split(',')
-          : null,
-    ))
-        ?.files;
-    final _fileName =
-        _paths != null ? _paths!.map((e) => e.name).toString() : '...';
-
-    if (_paths != null) {
-      final file = File(_fileName);
-      // We simply return the absolute path to selected file.
-      return widget.onImagePickCallback!(file);
-    } else {
-      // User canceled the picker
+  Future<String?> _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().getImage(source: source);
+    if (pickedFile == null) {
+      return null;
     }
-    return null;
+
+    return widget.onImagePickCallback!(File(pickedFile.path));
   }
 
-  Future<String> _pickImageDesktop() async {
+  Future<String?> _pickImageDesktop() async {
     final filePath = await FilesystemPicker.open(
       context: context,
       rootDirectory: await getApplicationDocumentsDirectory(),
       fsType: FilesystemType.file,
       fileTileSelectMode: FileTileSelectMode.wholeTile,
     );
-    if (filePath != null && filePath.isEmpty) return '';
+    if (filePath == null || filePath.isEmpty) return null;
 
-    final file = File(filePath!);
+    final file = File(filePath);
     return widget.onImagePickCallback!(file);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
-    final fillColor = theme.canvasColor;
-    return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: iconSize * 1.77,
-      icon: Icon(widget.icon, size: iconSize, color: iconColor),
-      fillColor: fillColor,
-      onPressed: () {
-        final index = widget.controller.selection.baseOffset;
-        final length = widget.controller.selection.extentOffset - index;
-        Future<String?> image;
-        if (widget.imagePickImpl != null) {
-          image = widget.imagePickImpl!(widget.imageSource);
-        } else {
-          if (kIsWeb) {
-            image = _pickImageWeb();
-          } else if (Platform.isAndroid || Platform.isIOS) {
-            image = _pickImage(widget.imageSource);
-          } else {
-            image = _pickImageDesktop();
-          }
-        }
-        image.then((imageUploadUrl) => {
-              widget.controller.replaceText(
-                  index, length, BlockEmbed.image(imageUploadUrl!), null)
-            });
-      },
-    );
   }
 }
 
