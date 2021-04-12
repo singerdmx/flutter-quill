@@ -1,3 +1,6 @@
+## [1.2.0]
+* Fix image button cancel causes crash.
+
 ## [1.1.8]
 * Fix height of empty line bug.
 

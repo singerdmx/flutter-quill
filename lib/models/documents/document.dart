@@ -56,7 +56,8 @@ class Document {
       return Delta();
     }
 
-    final delta = _rules.apply(RuleType.INSERT, this, index, data: data, len: replaceLength);
+    final delta = _rules.apply(RuleType.INSERT, this, index,
+        data: data, len: replaceLength);
     compose(delta, ChangeSource.LOCAL);
     return delta;
   }

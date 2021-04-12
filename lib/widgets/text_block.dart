@@ -514,14 +514,14 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
 class _EditableBlock extends MultiChildRenderObjectWidget {
   _EditableBlock(
-    this.block,
-    this.textDirection,
-    this.padding,
-    this.scrollBottomInset,
-    this.decoration,
-    this.contentPadding,
-    List<Widget> children
-  ) : super(children: children);
+      this.block,
+      this.textDirection,
+      this.padding,
+      this.scrollBottomInset,
+      this.decoration,
+      this.contentPadding,
+      List<Widget> children)
+      : super(children: children);
 
   final Block block;
   final TextDirection textDirection;

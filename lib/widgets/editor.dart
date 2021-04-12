@@ -114,33 +114,32 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
 }
 
 class QuillEditor extends StatefulWidget {
-  const QuillEditor({
-    required this.controller,
-    required this.focusNode,
-    required this.scrollController,
-    required this.scrollable,
-    required this.scrollBottomInset,
-    required this.padding,
-    required this.autoFocus,
-    required this.readOnly,
-    required this.expands,
-    this.showCursor,
-    this.placeholder,
-    this.enableInteractiveSelection = true,
-    this.minHeight,
-    this.maxHeight,
-    this.customStyles,
-    this.textCapitalization = TextCapitalization.sentences,
-    this.keyboardAppearance = Brightness.light,
-    this.scrollPhysics,
-    this.onLaunchUrl,
-    this.onTapDown,
-    this.onTapUp,
-    this.onSingleLongTapStart,
-    this.onSingleLongTapMoveUpdate,
-    this.onSingleLongTapEnd,
-    this.embedBuilder = _defaultEmbedBuilder
-  });
+  const QuillEditor(
+      {required this.controller,
+      required this.focusNode,
+      required this.scrollController,
+      required this.scrollable,
+      required this.padding,
+      required this.autoFocus,
+      required this.readOnly,
+      required this.expands,
+      this.showCursor,
+      this.placeholder,
+      this.enableInteractiveSelection = true,
+      this.scrollBottomInset = 0,
+      this.minHeight,
+      this.maxHeight,
+      this.customStyles,
+      this.textCapitalization = TextCapitalization.sentences,
+      this.keyboardAppearance = Brightness.light,
+      this.scrollPhysics,
+      this.onLaunchUrl,
+      this.onTapDown,
+      this.onTapUp,
+      this.onSingleLongTapStart,
+      this.onSingleLongTapMoveUpdate,
+      this.onSingleLongTapEnd,
+      this.embedBuilder = _defaultEmbedBuilder});
 
   factory QuillEditor.basic({
     required QuillController controller,
@@ -154,7 +153,6 @@ class QuillEditor extends StatefulWidget {
         autoFocus: true,
         readOnly: readOnly,
         expands: false,
-        scrollBottomInset: 0,
         padding: EdgeInsets.zero);
   }
 
@@ -178,15 +176,20 @@ class QuillEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final ValueChanged<String>? onLaunchUrl;
   // Returns whether gesture is handled
-  final bool Function(TapDownDetails details, TextPosition textPosition)? onTapDown;
+  final bool Function(TapDownDetails details, TextPosition textPosition)?
+      onTapDown;
   // Returns whether gesture is handled
   final bool Function(TapUpDetails details, TextPosition textPosition)? onTapUp;
   // Returns whether gesture is handled
-  final bool Function(LongPressStartDetails details, TextPosition textPosition)? onSingleLongTapStart;
+  final bool Function(LongPressStartDetails details, TextPosition textPosition)?
+      onSingleLongTapStart;
   // Returns whether gesture is handled
-  final bool Function(LongPressMoveUpdateDetails details, TextPosition textPosition)? onSingleLongTapMoveUpdate;
+  final bool Function(
+          LongPressMoveUpdateDetails details, TextPosition textPosition)?
+      onSingleLongTapMoveUpdate;
   // Returns whether gesture is handled
-  final bool Function(LongPressEndDetails details, TextPosition textPosition)? onSingleLongTapEnd;
+  final bool Function(LongPressEndDetails details, TextPosition textPosition)?
+      onSingleLongTapEnd;
   final EmbedBuilder embedBuilder;
 
   @override
@@ -337,8 +340,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapMoveUpdate != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapMoveUpdate!(details, renderEditor.getPositionForOffset(details.globalPosition)
-        )) {
+        if (_state.widget.onSingleLongTapMoveUpdate!(details,
+            renderEditor.getPositionForOffset(details.globalPosition))) {
           return;
         }
       }
@@ -467,7 +470,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onTapDown != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onTapDown!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onTapDown!(details,
+            renderEditor.getPositionForOffset(details.globalPosition))) {
           return;
         }
       }
@@ -480,7 +484,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onTapUp != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onTapUp!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onTapUp!(details,
+            renderEditor.getPositionForOffset(details.globalPosition))) {
           return;
         }
       }
@@ -522,7 +527,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapStart != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapStart!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onSingleLongTapStart!(details,
+            renderEditor.getPositionForOffset(details.globalPosition))) {
           return;
         }
       }
@@ -556,7 +562,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapEnd != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapEnd!(details, renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onSingleLongTapEnd!(details,
+            renderEditor.getPositionForOffset(details.globalPosition))) {
           return;
         }
       }
@@ -927,7 +934,8 @@ class RenderEditor extends RenderEditableContainerBox
         kMargin +
         offsetInViewport +
         scrollBottomInset;
-    final caretBottom = endpoint.point.dy + kMargin + offsetInViewport + scrollBottomInset;
+    final caretBottom =
+        endpoint.point.dy + kMargin + offsetInViewport + scrollBottomInset;
     double? dy;
     if (caretTop < scrollOffset) {
       dy = caretTop;
