@@ -119,6 +119,7 @@ class TextLine extends StatelessWidget {
     final textNode = node as leaf.Text;
     final style = textNode.style;
     var res = const TextStyle();
+    final color = textNode.style.attributes[Attribute.color.key];
 
     <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
@@ -128,7 +129,16 @@ class TextLine extends StatelessWidget {
       Attribute.strikeThrough.key: defaultStyles.strikeThrough,
     }.forEach((k, s) {
       if (style.values.any((v) => v.key == k)) {
-        res = _merge(res, s!);
+        if (k == Attribute.underline.key || k == Attribute.strikeThrough.key) {
+          var textColor = defaultStyles.color;
+          if (color?.value is String) {
+            textColor = stringToColor(color?.value);
+          }
+          res = _merge(res.copyWith(decorationColor: textColor),
+              s!.copyWith(decorationColor: textColor));
+        } else {
+          res = _merge(res, s!);
+        }
       }
     });
 
@@ -159,7 +169,6 @@ class TextLine extends StatelessWidget {
       }
     }
 
-    final color = textNode.style.attributes[Attribute.color.key];
     if (color != null && color.value != null) {
       var textColor = defaultStyles.color;
       if (color.value is String) {
