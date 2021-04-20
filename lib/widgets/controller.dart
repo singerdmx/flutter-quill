@@ -11,7 +11,7 @@ import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
 class QuillController extends ChangeNotifier {
-  QuillController({required this.document, required this.selection});
+  QuillController({required this.document, required this.selection, this.iconSize = 18, this.toolbarHeightFactor = 2});
 
   factory QuillController.basic() {
     return QuillController(
@@ -22,6 +22,9 @@ class QuillController extends ChangeNotifier {
 
   final Document document;
   TextSelection selection;
+  double iconSize;
+  double toolbarHeightFactor;
+
   Style toggledStyle = Style();
   bool ignoreFocusOnTextChange = false;
 
