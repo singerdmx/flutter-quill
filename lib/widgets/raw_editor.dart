@@ -675,7 +675,9 @@ class RawEditorState extends EditorState
 
     _clipboardStatus?.addListener(_onChangedClipboardStatus);
 
-    widget.controller.addListener(_didChangeTextEditingValue);
+    widget.controller.addListener(() {
+      _didChangeTextEditingValue(widget.controller.ignoreFocusOnTextChange);
+    });
 
     _scrollController = widget.scrollController;
     _scrollController!.addListener(_updateSelectionOverlayForScroll);
@@ -883,15 +885,17 @@ class RawEditorState extends EditorState
     _selectionOverlay?.markNeedsBuild();
   }
 
-  void _didChangeTextEditingValue() {
+  void _didChangeTextEditingValue([bool ignoreFocus = false]) {
     if (kIsWeb) {
-      _onChangeTextEditingValue();
-      requestKeyboard();
+      _onChangeTextEditingValue(ignoreFocus);
+      if (!ignoreFocus) {
+        requestKeyboard();
+      }
       return;
     }
 
-    if (_keyboardVisible) {
-      _onChangeTextEditingValue();
+    if (ignoreFocus || _keyboardVisible) {
+      _onChangeTextEditingValue(ignoreFocus);
     } else {
       requestKeyboard();
       if (mounted) {
@@ -903,19 +907,20 @@ class RawEditorState extends EditorState
     }
   }
 
-  void _onChangeTextEditingValue() {
-    _showCaretOnScreen();
+  void _onChangeTextEditingValue([bool ignoreCaret = false]) {
     updateRemoteValueIfNeeded();
-    _cursorCont.startOrStopCursorTimerIfNeeded(
-        _hasFocus, widget.controller.selection);
+    if (ignoreCaret) {
+      return;
+    }
+    _showCaretOnScreen();
+    _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, widget.controller.selection);
     if (hasConnection) {
       _cursorCont
         ..stopCursorTimer(resetCharTicks: false)
         ..startCursorTimer();
     }
 
-    SchedulerBinding.instance!.addPostFrameCallback(
-        (_) => _updateOrDisposeSelectionOverlayIfNeeded());
+    SchedulerBinding.instance!.addPostFrameCallback((_) => _updateOrDisposeSelectionOverlayIfNeeded());
     if (mounted) {
       setState(() {
         // Use widget.controller.value in build()

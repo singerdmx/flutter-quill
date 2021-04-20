@@ -23,6 +23,7 @@ class QuillController extends ChangeNotifier {
   final Document document;
   TextSelection selection;
   Style toggledStyle = Style();
+  bool ignoreFocusOnTextChange = false;
 
   // item1: Document state before [change].
   //
@@ -76,7 +77,7 @@ class QuillController extends ChangeNotifier {
   bool get hasRedo => document.hasRedo;
 
   void replaceText(
-      int index, int len, Object? data, TextSelection? textSelection) {
+      int index, int len, Object? data, TextSelection? textSelection, {bool ignoreFocus = false}) {
     assert(data is String || data is Embeddable);
 
     Delta? delta;
@@ -124,7 +125,12 @@ class QuillController extends ChangeNotifier {
         );
       }
     }
+
+    if (ignoreFocus) {
+      ignoreFocusOnTextChange = true;
+    }
     notifyListeners();
+    ignoreFocusOnTextChange = false;
   }
 
   void formatText(int index, int len, Attribute? attribute) {

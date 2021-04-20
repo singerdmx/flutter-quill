@@ -176,20 +176,19 @@ class QuillEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final ValueChanged<String>? onLaunchUrl;
   // Returns whether gesture is handled
-  final bool Function(TapDownDetails details, TextPosition textPosition)?
-      onTapDown;
+  final bool Function(TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
+
   // Returns whether gesture is handled
-  final bool Function(TapUpDetails details, TextPosition textPosition)? onTapUp;
+  final bool Function(TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+
   // Returns whether gesture is handled
-  final bool Function(LongPressStartDetails details, TextPosition textPosition)?
-      onSingleLongTapStart;
+  final bool Function(LongPressStartDetails details, TextPosition Function(Offset offset))? onSingleLongTapStart;
+
   // Returns whether gesture is handled
-  final bool Function(
-          LongPressMoveUpdateDetails details, TextPosition textPosition)?
-      onSingleLongTapMoveUpdate;
+  final bool Function(LongPressMoveUpdateDetails details, TextPosition Function(Offset offset))? onSingleLongTapMoveUpdate;
   // Returns whether gesture is handled
-  final bool Function(LongPressEndDetails details, TextPosition textPosition)?
-      onSingleLongTapEnd;
+  final bool Function(LongPressEndDetails details, TextPosition Function(Offset offset))? onSingleLongTapEnd;
+
   final EmbedBuilder embedBuilder;
 
   @override
@@ -340,8 +339,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapMoveUpdate != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapMoveUpdate!(details,
-            renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onSingleLongTapMoveUpdate!(details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -470,8 +468,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onTapDown != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onTapDown!(details,
-            renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onTapDown!(details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -484,8 +481,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onTapUp != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onTapUp!(details,
-            renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onTapUp!(details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -527,8 +523,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapStart != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapStart!(details,
-            renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onSingleLongTapStart!(details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -562,8 +557,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapEnd != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapEnd!(details,
-            renderEditor.getPositionForOffset(details.globalPosition))) {
+        if (_state.widget.onSingleLongTapEnd!(details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
