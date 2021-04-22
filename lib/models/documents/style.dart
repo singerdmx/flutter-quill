@@ -56,6 +56,15 @@ class Style {
     return null;
   }
 
+  Attribute? getNotNullValueBlockExceptHeader() {
+    for (final val in values) {
+      if (val.isBlockExceptHeader && val.value != null) {
+        return val;
+      }
+    }
+    return null;
+  }
+
   Style merge(Attribute attribute) {
     final merged = Map<String, Attribute>.from(_attributes);
     if (attribute.value == null) {
