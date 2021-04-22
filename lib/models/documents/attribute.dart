@@ -151,7 +151,10 @@ class Attribute<T> {
     if (level == 2) {
       return indentL2;
     }
-    return indentL3;
+    if (level == 3) {
+      return indentL3;
+    }
+    return IndentAttribute(level: level);
   }
 
   bool get isInline => scope == AttributeScope.INLINE;
