@@ -30,8 +30,7 @@ class Style {
 
   Iterable<String> get keys => _attributes.keys;
 
-  Iterable<Attribute> get values => _attributes.values.sorted(
-      (a, b) => Attribute.getRegistryOrder(a) - Attribute.getRegistryOrder(b));
+  Iterable<Attribute> get values => _attributes.values;
 
   Map<String, Attribute> get attributes => _attributes;
 

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:quiver/core.dart';
 
 enum AttributeScope {
@@ -16,7 +14,7 @@ class Attribute<T> {
   final AttributeScope scope;
   final T value;
 
-  static final Map<String, Attribute> _registry = LinkedHashMap.of({
+  static final Map<String, Attribute> _registry = {
     Attribute.bold.key: Attribute.bold,
     Attribute.italic.key: Attribute.italic,
     Attribute.underline.key: Attribute.underline,
@@ -28,16 +26,16 @@ class Attribute<T> {
     Attribute.background.key: Attribute.background,
     Attribute.placeholder.key: Attribute.placeholder,
     Attribute.header.key: Attribute.header,
+    Attribute.indent.key: Attribute.indent,
     Attribute.align.key: Attribute.align,
     Attribute.list.key: Attribute.list,
     Attribute.codeBlock.key: Attribute.codeBlock,
     Attribute.blockQuote.key: Attribute.blockQuote,
-    Attribute.indent.key: Attribute.indent,
     Attribute.width.key: Attribute.width,
     Attribute.height.key: Attribute.height,
     Attribute.style.key: Attribute.style,
     Attribute.token.key: Attribute.token,
-  });
+  };
 
   static final BoldAttribute bold = BoldAttribute();
 
@@ -90,22 +88,22 @@ class Attribute<T> {
     Attribute.placeholder.key,
   };
 
-  static final Set<String> blockKeys = LinkedHashSet.of({
+  static final Set<String> blockKeys = {
     Attribute.header.key,
+    Attribute.indent.key,
     Attribute.align.key,
     Attribute.list.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
-    Attribute.indent.key,
-  });
+  };
 
-  static final Set<String> blockKeysExceptHeader = LinkedHashSet.of({
+  static final Set<String> blockKeysExceptHeader = {
     Attribute.list.key,
+    Attribute.indent.key,
     Attribute.align.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
-    Attribute.indent.key,
-  });
+  };
 
   static Attribute<int?> get h1 => HeaderAttribute(level: 1);
 
@@ -172,18 +170,6 @@ class Attribute<T> {
     final origin = _registry[key]!;
     final attribute = clone(origin, value);
     return attribute;
-  }
-
-  static int getRegistryOrder(Attribute attribute) {
-    var order = 0;
-    for (final attr in _registry.values) {
-      if (attr.key == attribute.key) {
-        break;
-      }
-      order++;
-    }
-
-    return order;
   }
 
   static Attribute clone(Attribute origin, dynamic value) {
