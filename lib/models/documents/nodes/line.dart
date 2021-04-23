@@ -208,16 +208,21 @@ class Line extends Container<Leaf?> {
         _unwrap();
       } else if (blockStyle != parentStyle) {
         _unwrap();
-        final block = Block()..applyAttribute(blockStyle);
-        _wrap(block);
-        block.adjust();
+        _applyBlockStyles(newStyle);
       } // else the same style, no-op.
     } else if (blockStyle.value != null) {
       // Only wrap with a new block if this is not an unset
-      final block = Block()..applyAttribute(blockStyle);
-      _wrap(block);
-      block.adjust();
+      _applyBlockStyles(newStyle);
     }
+  }
+
+  void _applyBlockStyles(Style newStyle) {
+    var block = Block();
+    for (final style in newStyle.getBlocksExceptHeader().values) {
+      block = block..applyAttribute(style);
+    }
+    _wrap(block);
+    block.adjust();
   }
 
   /// Wraps this line with new parent [block].
