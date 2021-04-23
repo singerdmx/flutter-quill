@@ -223,7 +223,12 @@ class Document {
   String toPlainText() => _root.children.map((e) => e.toPlainText()).join();
 
   void _loadDocument(Delta doc) {
+    if (doc.isEmpty) {
+      throw ArgumentError.value(doc, 'Document Delta cannot be empty.');
+    }
+
     assert((doc.last.data as String).endsWith('\n'));
+
     var offset = 0;
     for (final op in doc.toList()) {
       if (!op.isInsert) {
