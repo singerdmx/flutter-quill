@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:collection/collection.dart';
+
 import '../../quill_delta.dart';
 import '../attribute.dart';
 import '../style.dart';
@@ -203,10 +205,11 @@ class Line extends Container<Leaf?> {
     } // No block-level changes
 
     if (parent is Block) {
-      final parentStyle = (parent as Block).style.getBlockExceptHeader();
+      final parentStyle = (parent as Block).style.getBlocksExceptHeader();
       if (blockStyle.value == null) {
         _unwrap();
-      } else if (blockStyle != parentStyle) {
+      } else if (!const MapEquality()
+          .equals(newStyle.getBlocksExceptHeader(), parentStyle)) {
         _unwrap();
         _applyBlockStyles(newStyle);
       } // else the same style, no-op.

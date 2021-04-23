@@ -34,7 +34,7 @@ class QuillController extends ChangeNotifier {
 
   /// Controls whether this [QuillController] instance has already been disposed
   /// of
-  /// 
+  ///
   /// This is a safe approach to make sure that listeners don't crash when
   /// adding, removing or listeners to this instance.
   bool _isDisposed = false;
