@@ -265,7 +265,7 @@ class Delta {
   List<Operation> toList() => List.from(_operations);
 
   /// Returns JSON-serializable version of this delta.
-  List toJson() => toList();
+  List toJson() => toList().map((operation) => operation.toJson()).toList();
 
   /// Returns `true` if this delta is empty.
   bool get isEmpty => _operations.isEmpty;
