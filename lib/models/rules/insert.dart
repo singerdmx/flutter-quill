@@ -62,28 +62,32 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
   Delta? applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
     if (data is! String || !data.contains('\n')) {
+      // Only interested in text containing at least one newline character.
       return null;
     }
 
     final itr = DeltaIterator(document)..skip(index);
 
+    // Look for the next newline.
     final nextNewLine = _getNextNewLine(itr);
     final lineStyle =
         Style.fromJson(nextNewLine.item1?.attributes ?? <String, dynamic>{});
 
-    final attribute = lineStyle.getBlockExceptHeader();
-    if (attribute == null) {
+    final blockStyle = lineStyle.getBlocksExceptHeader();
+    // Are we currently in a block? If not then ignore.
+    if (blockStyle.isEmpty) {
       return null;
     }
 
-    final blockStyle = <String, dynamic>{attribute.key: attribute.value};
-
     Map<String, dynamic>? resetStyle;
-
+    // If current line had heading style applied to it we'll need to move this
+    // style to the newly inserted line before it and reset style of the
+    // original line.
     if (lineStyle.containsKey(Attribute.header.key)) {
       resetStyle = Attribute.header.toJson();
     }
 
+    // Go over each inserted line and ensure block style is applied.
     final lines = data.split('\n');
     final delta = Delta()..retain(index + (len ?? 0));
     for (var i = 0; i < lines.length; i++) {
@@ -92,12 +96,15 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
         delta.insert(line);
       }
       if (i == 0) {
+        // The first line should inherit the lineStyle entirely.
         delta.insert('\n', lineStyle.toJson());
       } else if (i < lines.length - 1) {
+        // we don't want to insert a newline after the last chunk of text, so -1
         delta.insert('\n', blockStyle);
       }
     }
 
+    // Reset style of the original newline character if needed.
     if (resetStyle != null) {
       delta
         ..retain(nextNewLine.item2!)
