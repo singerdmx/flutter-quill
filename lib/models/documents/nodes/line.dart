@@ -197,7 +197,7 @@ class Line extends Container<Leaf?> {
     }
 
     applyStyle(newStyle);
-    final blockStyle = newStyle.getNotNullValueBlockExceptHeader();
+    final blockStyle = newStyle.getBlockExceptHeader();
     if (blockStyle == null) {
       return;
     } // No block-level changes

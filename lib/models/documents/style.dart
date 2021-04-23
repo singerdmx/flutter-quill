@@ -49,16 +49,12 @@ class Style {
 
   Attribute? getBlockExceptHeader() {
     for (final val in values) {
-      if (val.isBlockExceptHeader) {
+      if (val.isBlockExceptHeader && val.value != null) {
         return val;
       }
     }
-    return null;
-  }
-
-  Attribute? getNotNullValueBlockExceptHeader() {
     for (final val in values) {
-      if (val.isBlockExceptHeader && val.value != null) {
+      if (val.isBlockExceptHeader) {
         return val;
       }
     }

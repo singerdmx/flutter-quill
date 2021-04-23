@@ -11,7 +11,11 @@ import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
 class QuillController extends ChangeNotifier {
-  QuillController({required this.document, required this.selection, this.iconSize = 18, this.toolbarHeightFactor = 2});
+  QuillController(
+      {required this.document,
+      required this.selection,
+      this.iconSize = 18,
+      this.toolbarHeightFactor = 2});
 
   factory QuillController.basic() {
     return QuillController(
@@ -80,7 +84,8 @@ class QuillController extends ChangeNotifier {
   bool get hasRedo => document.hasRedo;
 
   void replaceText(
-      int index, int len, Object? data, TextSelection? textSelection, {bool ignoreFocus = false}) {
+      int index, int len, Object? data, TextSelection? textSelection,
+      {bool ignoreFocus = false}) {
     assert(data is String || data is Embeddable);
 
     Delta? delta;

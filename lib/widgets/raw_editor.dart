@@ -913,14 +913,16 @@ class RawEditorState extends EditorState
       return;
     }
     _showCaretOnScreen();
-    _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, widget.controller.selection);
+    _cursorCont.startOrStopCursorTimerIfNeeded(
+        _hasFocus, widget.controller.selection);
     if (hasConnection) {
       _cursorCont
         ..stopCursorTimer(resetCharTicks: false)
         ..startCursorTimer();
     }
 
-    SchedulerBinding.instance!.addPostFrameCallback((_) => _updateOrDisposeSelectionOverlayIfNeeded());
+    SchedulerBinding.instance!.addPostFrameCallback(
+        (_) => _updateOrDisposeSelectionOverlayIfNeeded());
     if (mounted) {
       setState(() {
         // Use widget.controller.value in build()
