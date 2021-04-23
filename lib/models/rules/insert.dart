@@ -55,6 +55,14 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
   }
 }
 
+/// Preserves block style when user inserts text containing newlines.
+///
+/// This rule handles:
+///
+///   * inserting a new line in a block
+///   * pasting text containing multiple lines of text in a block
+///
+/// This rule may also be activated for changes triggered by auto-correct.
 class PreserveBlockStyleOnInsertRule extends InsertRule {
   const PreserveBlockStyleOnInsertRule();
 
@@ -116,6 +124,12 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
   }
 }
 
+/// Heuristic rule to exit current block when user inserts two consecutive
+/// newlines.
+///
+/// This rule is only applied when the cursor is on the last line of a block.
+/// When the cursor is in the middle of a block we allow adding empty lines
+/// and preserving the block's style.
 class AutoExitBlockRule extends InsertRule {
   const AutoExitBlockRule();
 
@@ -139,25 +153,39 @@ class AutoExitBlockRule extends InsertRule {
     final itr = DeltaIterator(document);
     final prev = itr.skip(index), cur = itr.next();
     final blockStyle = Style.fromJson(cur.attributes).getBlockExceptHeader();
+    // We are not in a block, ignore.
     if (cur.isPlain || blockStyle == null) {
       return null;
     }
+    // We are not on an empty line, ignore.
     if (!_isEmptyLine(prev, cur)) {
       return null;
     }
 
+    // We are on an empty line. Now we need to determine if we are on the
+    // last line of a block.
+    // First check if `cur` length is greater than 1, this would indicate
+    // that it contains multiple newline characters which share the same style.
+    // This would mean we are not on the last line yet.
+    // `cur.value as String` is safe since we already called isEmptyLine and know it contains a newline
     if ((cur.value as String).length > 1) {
+      // We are not on the last line of this block, ignore.
       return null;
     }
 
+    // Keep looking for the next newline character to see if it shares the same
+    // block style as `cur`.
     final nextNewLine = _getNextNewLine(itr);
     if (nextNewLine.item1 != null &&
         nextNewLine.item1!.attributes != null &&
         Style.fromJson(nextNewLine.item1!.attributes).getBlockExceptHeader() ==
             blockStyle) {
+      // We are not at the end of this block, ignore.
       return null;
     }
 
+    // Here we now know that the line after `cur` is not in the same block
+    // therefore we can exit this block.
     final attributes = cur.attributes ?? <String, dynamic>{};
     final k = attributes.keys
         .firstWhere((k) => Attribute.blockKeysExceptHeader.contains(k));
