@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ import '../utils/color.dart';
 import 'controller.dart';
 
 typedef OnImagePickCallback = Future<String> Function(File file);
-typedef ImagePickImpl = Future<String?> Function(ImageSource source);
+typedef ImagePickImpl = Future<String?> Function(ImageSource source, OnImagePickCallback onImagePickCallback);
 
 class InsertEmbedButton extends StatelessWidget {
   const InsertEmbedButton({
@@ -547,11 +546,12 @@ class _ImageButtonState extends State<ImageButton> {
 
     String? imageUrl;
     if (widget.imagePickImpl != null) {
-      imageUrl = await widget.imagePickImpl!(widget.imageSource);
+      imageUrl = await widget.imagePickImpl!(widget.imageSource, widget.onImagePickCallback!);
     } else {
-      if (kIsWeb) {
-        imageUrl = await _pickImageWeb();
-      } else if (Platform.isAndroid || Platform.isIOS) {
+      assert(!kIsWeb, 'Please provide imagePickImpl for Web '
+          '(check out example directory for how to do it)');
+
+      if (Platform.isAndroid || Platform.isIOS) {
         imageUrl = await _pickImage(widget.imageSource);
       } else {
         imageUrl = await _pickImageDesktop();
@@ -562,19 +562,6 @@ class _ImageButtonState extends State<ImageButton> {
       widget.controller
           .replaceText(index, length, BlockEmbed.image(imageUrl), null);
     }
-  }
-
-  Future<String?> _pickImageWeb() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null) {
-      return null;
-    }
-
-    // Take first, because we don't allow picking multiple files.
-    final fileName = result.files.first.name!;
-    final file = File(fileName);
-
-    return widget.onImagePickCallback!(file);
   }
 
   Future<String?> _pickImage(ImageSource source) async {
