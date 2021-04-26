@@ -698,9 +698,7 @@ class _BulletPoint extends StatelessWidget {
   }
 }
 
-/// A Checkbox widget.
 class _Checkbox extends StatelessWidget {
-  /// Creates a [_Checkbox].
   const _Checkbox({
     Key? key,
     this.style,
