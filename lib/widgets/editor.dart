@@ -393,8 +393,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
     final segmentResult = line.queryChild(result.offset, false);
     if (segmentResult.node == null) {
       if (line.length == 1) {
-        // tapping when no text yet on this line
-        _flipListCheckbox(pos, line, segmentResult);
         getEditor()!.widget.controller.updateSelection(
             TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
         return true;
@@ -434,37 +432,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
           ),
         );
       }
-      return false;
     }
-    if (_flipListCheckbox(pos, line, segmentResult)) {
-      return true;
-    }
-    return false;
-  }
 
-  bool _flipListCheckbox(
-      TextPosition pos, Line line, container_node.ChildQuery segmentResult) {
-    if (getEditor()!.widget.readOnly ||
-        !line.style.containsKey(Attribute.list.key) ||
-        segmentResult.offset != 0) {
-      return false;
-    }
-    // segmentResult.offset == 0 means tap at the beginning of the TextLine
-    final String? listVal = line.style.attributes[Attribute.list.key]!.value;
-    if (listVal == Attribute.unchecked.value) {
-      getEditor()!
-          .widget
-          .controller
-          .formatText(pos.offset, 0, Attribute.checked);
-    } else if (listVal == Attribute.checked.value) {
-      getEditor()!
-          .widget
-          .controller
-          .formatText(pos.offset, 0, Attribute.unchecked);
-    }
-    getEditor()!.widget.controller.updateSelection(
-        TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
-    return true;
+    return false;
   }
 
   Future<void> _launchUrl(String url) async {

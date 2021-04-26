@@ -579,6 +579,18 @@ class RawEditorState extends EditorState
     }
   }
 
+  /// Updates the checkbox positioned at [offset] in document
+  /// by changing its attribute according to [value].
+  void _handleCheckboxTap(int offset, bool value) {
+    if (!widget.readOnly) {
+      if (value) {
+        widget.controller.formatText(offset, 0, Attribute.checked);
+      } else {
+        widget.controller.formatText(offset, 0, Attribute.unchecked);
+      }
+    }
+  }
+
   List<Widget> _buildChildren(Document doc, BuildContext context) {
     final result = <Widget>[];
     final indentLevelCounts = <int, int>{};
@@ -589,21 +601,23 @@ class RawEditorState extends EditorState
       } else if (node is Block) {
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
-            node,
-            _textDirection,
-            widget.scrollBottomInset,
-            _getVerticalSpacingForBlock(node, _styles),
-            widget.controller.selection,
-            widget.selectionColor,
-            _styles,
-            widget.enableInteractiveSelection,
-            _hasFocus,
-            attrs.containsKey(Attribute.codeBlock.key)
-                ? const EdgeInsets.all(16)
-                : null,
-            widget.embedBuilder,
-            _cursorCont,
-            indentLevelCounts);
+          node,
+          _textDirection,
+          widget.scrollBottomInset,
+          _getVerticalSpacingForBlock(node, _styles),
+          widget.controller.selection,
+          widget.selectionColor,
+          _styles,
+          widget.enableInteractiveSelection,
+          _hasFocus,
+          attrs.containsKey(Attribute.codeBlock.key)
+              ? const EdgeInsets.all(16)
+              : null,
+          widget.embedBuilder,
+          _cursorCont,
+          indentLevelCounts,
+          _handleCheckboxTap,
+        );
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
