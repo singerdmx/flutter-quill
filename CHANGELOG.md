@@ -1,3 +1,6 @@
+## [1.2.2]
+* Checkbox supports tapping.
+
 ## [1.2.1]
 * Indented position not holding while editing.
 
