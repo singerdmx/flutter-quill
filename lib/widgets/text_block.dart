@@ -163,6 +163,7 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.checked) {
       return _Checkbox(
+        key: UniqueKey(),
         style: defaultStyles!.leading!.style,
         width: 32,
         isChecked: true,
@@ -173,9 +174,9 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.unchecked) {
       return _Checkbox(
+        key: UniqueKey(),
         style: defaultStyles!.leading!.style,
         width: 32,
-        isChecked: false,
         offset: block.offset + line.offset,
         onTap: onCheckboxTap,
       );
@@ -704,14 +705,13 @@ class _Checkbox extends StatelessWidget {
     Key? key,
     this.style,
     this.width,
-    this.isChecked,
+    this.isChecked = false,
     this.offset,
     this.onTap,
   }) : super(key: key);
-
   final TextStyle? style;
   final double? width;
-  final bool? isChecked;
+  final bool isChecked;
   final int? offset;
   final Function(int, bool)? onTap;
 
@@ -727,9 +727,12 @@ class _Checkbox extends StatelessWidget {
       alignment: AlignmentDirectional.topEnd,
       width: width,
       padding: const EdgeInsetsDirectional.only(end: 13),
-      child: Checkbox(
-        value: isChecked,
-        onChanged: _onCheckboxClicked,
+      child: GestureDetector(
+        onLongPress: () => _onCheckboxClicked(!isChecked),
+        child: Checkbox(
+          value: isChecked,
+          onChanged: _onCheckboxClicked,
+        ),
       ),
     );
   }
