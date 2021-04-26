@@ -149,31 +149,32 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
     );
 
     if (widget.truncate) {
-      child = Container(
-        height: widget.truncateHeight,
-        width: widget.truncateWidth,
-        child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: ScrollController(),
-            child: child),
-      );
       if (widget.truncateScale != null) {
-        child = Align(
-          heightFactor: widget.truncateScale,
-          widthFactor: widget.truncateScale,
-          alignment: widget.truncateAlignment ?? Alignment.topLeft,
-          child: Transform.scale(
-              scale: widget.truncateScale!,
-              alignment: widget.truncateAlignment ?? Alignment.topLeft,
-              child: child),
-        );
+        child = Container(
+            height: widget.truncateHeight,
+            child: Align(
+                heightFactor: widget.truncateScale,
+                widthFactor: widget.truncateScale,
+                alignment: widget.truncateAlignment ?? Alignment.topLeft,
+                child: Container(
+                    width: widget.truncateWidth! / widget.truncateScale!,
+                    child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: Transform.scale(
+                            scale: widget.truncateScale!,
+                            alignment:
+                                widget.truncateAlignment ?? Alignment.topLeft,
+                            child: child)))));
+      } else {
+        child = Container(
+            height: widget.truncateHeight,
+            width: widget.truncateWidth,
+            child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(), child: child));
       }
     }
 
-    return QuillStyles(
-      data: _styles,
-      child: child,
-    );
+    return QuillStyles(data: _styles, child: child);
   }
 
   List<Widget> _buildChildren(Document doc, BuildContext context) {
