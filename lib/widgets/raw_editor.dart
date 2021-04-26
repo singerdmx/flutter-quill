@@ -1008,25 +1008,28 @@ class RawEditorState extends EditorState
 
     _showCaretOnScreenScheduled = true;
     SchedulerBinding.instance!.addPostFrameCallback((_) {
-      _showCaretOnScreenScheduled = false;
+      if (widget.scrollable) {
+        _showCaretOnScreenScheduled = false;
 
-      final viewport = RenderAbstractViewport.of(getRenderEditor())!;
-      final editorOffset = getRenderEditor()!
-          .localToGlobal(const Offset(0, 0), ancestor: viewport);
-      final offsetInViewport = _scrollController!.offset + editorOffset.dy;
+        final viewport = RenderAbstractViewport.of(getRenderEditor());
 
-      final offset = getRenderEditor()!.getOffsetToRevealCursor(
-        _scrollController!.position.viewportDimension,
-        _scrollController!.offset,
-        offsetInViewport,
-      );
+        final editorOffset = getRenderEditor()!
+            .localToGlobal(const Offset(0, 0), ancestor: viewport);
+        final offsetInViewport = _scrollController!.offset + editorOffset.dy;
 
-      if (offset != null) {
-        _scrollController!.animateTo(
-          offset,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.fastOutSlowIn,
+        final offset = getRenderEditor()!.getOffsetToRevealCursor(
+          _scrollController!.position.viewportDimension,
+          _scrollController!.offset,
+          offsetInViewport,
         );
+
+        if (offset != null) {
+          _scrollController!.animateTo(
+            offset,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.fastOutSlowIn,
+          );
+        }
       }
     });
   }
