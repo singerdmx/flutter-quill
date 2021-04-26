@@ -204,13 +204,20 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
                 : null,
             embedBuilder,
             _cursorCont,
-            indentLevelCounts);
+            indentLevelCounts,
+            _handleCheckboxTap);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
       }
     }
     return result;
+  }
+
+  /// Updates the checkbox positioned at [offset] in document
+  /// by changing its attribute according to [value].
+  void _handleCheckboxTap(int offset, bool value) {
+    // readonly - do nothing
   }
 
   TextDirection get _textDirection {
