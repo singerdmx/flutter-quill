@@ -40,6 +40,10 @@ class Document {
 
   final Rules _rules = Rules.getInstance();
 
+  void setCustomRules(List<Rule> customRules) {
+    _rules.setCustomRules(customRules);
+  }
+
   final StreamController<Tuple3<Delta, Delta, ChangeSource>> _observer =
       StreamController.broadcast();
 
@@ -47,7 +51,7 @@ class Document {
 
   Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
 
-  Delta insert(int index, Object? data, {int replaceLength = 0}) {
+  Delta insert(int index, Object? data, {int replaceLength = 0, bool autoAppendNewlineAfterImage = true}) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
     if (data is Embeddable) {
@@ -58,7 +62,7 @@ class Document {
 
     final delta = _rules.apply(RuleType.INSERT, this, index,
         data: data, len: replaceLength);
-    compose(delta, ChangeSource.LOCAL);
+    compose(delta, ChangeSource.LOCAL, autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
     return delta;
   }
 
@@ -71,7 +75,7 @@ class Document {
     return delta;
   }
 
-  Delta replace(int index, int len, Object? data) {
+  Delta replace(int index, int len, Object? data, {bool autoAppendNewlineAfterImage = true}) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
 
@@ -84,7 +88,8 @@ class Document {
     // We have to insert before applying delete rules
     // Otherwise delete would be operating on stale document snapshot.
     if (dataIsNotEmpty) {
-      delta = insert(index, data, replaceLength: len);
+      delta = insert(index, data, replaceLength: len,
+          autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
     }
 
     if (len > 0) {
@@ -124,13 +129,13 @@ class Document {
     return block.queryChild(res.offset, true);
   }
 
-  void compose(Delta delta, ChangeSource changeSource) {
+  void compose(Delta delta, ChangeSource changeSource, {bool autoAppendNewlineAfterImage = true}) {
     assert(!_observer.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
 
     var offset = 0;
-    delta = _transform(delta);
+    delta = _transform(delta, autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
       final style =
@@ -174,22 +179,28 @@ class Document {
 
   bool get hasRedo => _history.hasRedo;
 
-  static Delta _transform(Delta delta) {
+  static Delta _transform(Delta delta, {bool autoAppendNewlineAfterImage = true}) {
     final res = Delta();
     final ops = delta.toList();
     for (var i = 0; i < ops.length; i++) {
       final op = ops[i];
       res.push(op);
-      _handleImageInsert(i, ops, op, res);
+      if (autoAppendNewlineAfterImage) {
+        _autoAppendNewlineAfterImage(i, ops, op, res);
+      }
     }
     return res;
   }
 
-  static void _handleImageInsert(
+  static void _autoAppendNewlineAfterImage(
       int i, List<Operation> ops, Operation op, Delta res) {
     final nextOpIsImage =
         i + 1 < ops.length && ops[i + 1].isInsert && ops[i + 1].data is! String;
-    if (nextOpIsImage && !(op.data as String).endsWith('\n')) {
+    if (nextOpIsImage &&
+        op.data is String &&
+        (op.data as String).isNotEmpty &&
+        !(op.data as String).endsWith('\n'))
+    {
       res.push(Operation.insert('\n'));
     }
     // Currently embed is equivalent to image and hence `is! String`
