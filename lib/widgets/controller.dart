@@ -11,7 +11,11 @@ import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
 class QuillController extends ChangeNotifier {
-  QuillController({required this.document, required this.selection, this.iconSize = 18, this.toolbarHeightFactor = 2});
+  QuillController(
+      {required this.document,
+      required this.selection,
+      this.iconSize = 18,
+      this.toolbarHeightFactor = 2});
 
   factory QuillController.basic() {
     return QuillController(
@@ -27,6 +31,13 @@ class QuillController extends ChangeNotifier {
 
   Style toggledStyle = Style();
   bool ignoreFocusOnTextChange = false;
+
+  /// Controls whether this [QuillController] instance has already been disposed
+  /// of
+  ///
+  /// This is a safe approach to make sure that listeners don't crash when
+  /// adding, removing or listeners to this instance.
+  bool _isDisposed = false;
 
   // item1: Document state before [change].
   //
@@ -180,8 +191,30 @@ class QuillController extends ChangeNotifier {
   }
 
   @override
+  void addListener(VoidCallback listener) {
+    // By using `_isDisposed`, make sure that `addListener` won't be called on a
+    // disposed `ChangeListener`
+    if (!_isDisposed) {
+      super.addListener(listener);
+    }
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    // By using `_isDisposed`, make sure that `removeListener` won't be called
+    // on a disposed `ChangeListener`
+    if (!_isDisposed) {
+      super.removeListener(listener);
+    }
+  }
+
+  @override
   void dispose() {
-    document.close();
+    if (!_isDisposed) {
+      document.close();
+    }
+
+    _isDisposed = true;
     super.dispose();
   }
 

@@ -30,7 +30,8 @@ class Style {
 
   Iterable<String> get keys => _attributes.keys;
 
-  Iterable<Attribute> get values => _attributes.values;
+  Iterable<Attribute> get values => _attributes.values.sorted(
+      (a, b) => Attribute.getRegistryOrder(a) - Attribute.getRegistryOrder(b));
 
   Map<String, Attribute> get attributes => _attributes;
 
@@ -49,11 +50,26 @@ class Style {
 
   Attribute? getBlockExceptHeader() {
     for (final val in values) {
+      if (val.isBlockExceptHeader && val.value != null) {
+        return val;
+      }
+    }
+    for (final val in values) {
       if (val.isBlockExceptHeader) {
         return val;
       }
     }
     return null;
+  }
+
+  Map<String, Attribute> getBlocksExceptHeader() {
+    final m = <String, Attribute>{};
+    attributes.forEach((key, value) {
+      if (Attribute.blockKeysExceptHeader.contains(key)) {
+        m[key] = value;
+      }
+    });
+    return m;
   }
 
   Style merge(Attribute attribute) {

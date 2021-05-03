@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:collection/collection.dart';
+
 import '../../quill_delta.dart';
 import '../attribute.dart';
 import '../style.dart';
@@ -203,21 +205,27 @@ class Line extends Container<Leaf?> {
     } // No block-level changes
 
     if (parent is Block) {
-      final parentStyle = (parent as Block).style.getBlockExceptHeader();
+      final parentStyle = (parent as Block).style.getBlocksExceptHeader();
       if (blockStyle.value == null) {
         _unwrap();
-      } else if (blockStyle != parentStyle) {
+      } else if (!const MapEquality()
+          .equals(newStyle.getBlocksExceptHeader(), parentStyle)) {
         _unwrap();
-        final block = Block()..applyAttribute(blockStyle);
-        _wrap(block);
-        block.adjust();
+        _applyBlockStyles(newStyle);
       } // else the same style, no-op.
     } else if (blockStyle.value != null) {
       // Only wrap with a new block if this is not an unset
-      final block = Block()..applyAttribute(blockStyle);
-      _wrap(block);
-      block.adjust();
+      _applyBlockStyles(newStyle);
     }
+  }
+
+  void _applyBlockStyles(Style newStyle) {
+    var block = Block();
+    for (final style in newStyle.getBlocksExceptHeader().values) {
+      block = block..applyAttribute(style);
+    }
+    _wrap(block);
+    block.adjust();
   }
 
   /// Wraps this line with new parent [block].

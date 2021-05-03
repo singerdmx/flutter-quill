@@ -176,18 +176,25 @@ class QuillEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final ValueChanged<String>? onLaunchUrl;
   // Returns whether gesture is handled
-  final bool Function(TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
+  final bool Function(
+      TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
 
   // Returns whether gesture is handled
-  final bool Function(TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+  final bool Function(
+      TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
 
   // Returns whether gesture is handled
-  final bool Function(LongPressStartDetails details, TextPosition Function(Offset offset))? onSingleLongTapStart;
+  final bool Function(
+          LongPressStartDetails details, TextPosition Function(Offset offset))?
+      onSingleLongTapStart;
 
   // Returns whether gesture is handled
-  final bool Function(LongPressMoveUpdateDetails details, TextPosition Function(Offset offset))? onSingleLongTapMoveUpdate;
+  final bool Function(LongPressMoveUpdateDetails details,
+      TextPosition Function(Offset offset))? onSingleLongTapMoveUpdate;
   // Returns whether gesture is handled
-  final bool Function(LongPressEndDetails details, TextPosition Function(Offset offset))? onSingleLongTapEnd;
+  final bool Function(
+          LongPressEndDetails details, TextPosition Function(Offset offset))?
+      onSingleLongTapEnd;
 
   final EmbedBuilder embedBuilder;
 
@@ -339,7 +346,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapMoveUpdate != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapMoveUpdate!(details, renderEditor.getPositionForOffset)) {
+        if (_state.widget.onSingleLongTapMoveUpdate!(
+            details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -385,8 +393,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
     final segmentResult = line.queryChild(result.offset, false);
     if (segmentResult.node == null) {
       if (line.length == 1) {
-        // tapping when no text yet on this line
-        _flipListCheckbox(pos, line, segmentResult);
         getEditor()!.widget.controller.updateSelection(
             TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
         return true;
@@ -426,37 +432,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
           ),
         );
       }
-      return false;
     }
-    if (_flipListCheckbox(pos, line, segmentResult)) {
-      return true;
-    }
-    return false;
-  }
 
-  bool _flipListCheckbox(
-      TextPosition pos, Line line, container_node.ChildQuery segmentResult) {
-    if (getEditor()!.widget.readOnly ||
-        !line.style.containsKey(Attribute.list.key) ||
-        segmentResult.offset != 0) {
-      return false;
-    }
-    // segmentResult.offset == 0 means tap at the beginning of the TextLine
-    final String? listVal = line.style.attributes[Attribute.list.key]!.value;
-    if (listVal == Attribute.unchecked.value) {
-      getEditor()!
-          .widget
-          .controller
-          .formatText(pos.offset, 0, Attribute.checked);
-    } else if (listVal == Attribute.checked.value) {
-      getEditor()!
-          .widget
-          .controller
-          .formatText(pos.offset, 0, Attribute.unchecked);
-    }
-    getEditor()!.widget.controller.updateSelection(
-        TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
-    return true;
+    return false;
   }
 
   Future<void> _launchUrl(String url) async {
@@ -468,7 +446,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onTapDown != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onTapDown!(details, renderEditor.getPositionForOffset)) {
+        if (_state.widget.onTapDown!(
+            details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -481,7 +460,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onTapUp != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onTapUp!(details, renderEditor.getPositionForOffset)) {
+        if (_state.widget.onTapUp!(
+            details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -523,7 +503,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapStart != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapStart!(details, renderEditor.getPositionForOffset)) {
+        if (_state.widget.onSingleLongTapStart!(
+            details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -557,7 +538,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.onSingleLongTapEnd != null) {
       final renderEditor = getRenderEditor();
       if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapEnd!(details, renderEditor.getPositionForOffset)) {
+        if (_state.widget.onSingleLongTapEnd!(
+            details, renderEditor.getPositionForOffset)) {
           return;
         }
       }
@@ -1061,7 +1043,6 @@ class RenderEditableContainerBox extends RenderBox
 
   @override
   void performLayout() {
-    assert(!constraints.hasBoundedHeight);
     assert(constraints.hasBoundedWidth);
     _resolvePadding();
     assert(_resolvedPadding != null);

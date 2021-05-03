@@ -432,7 +432,8 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return _selectHeadingStyleButtonBuilder(context, _value, _selectAttribute, widget.controller.iconSize);
+    return _selectHeadingStyleButtonBuilder(
+        context, _value, _selectAttribute, widget.controller.iconSize);
   }
 }
 
@@ -774,7 +775,8 @@ class _HistoryButtonState extends State<HistoryButton> {
       highlightElevation: 0,
       hoverElevation: 0,
       size: widget.controller.iconSize * 1.77,
-      icon: Icon(widget.icon, size: widget.controller.iconSize, color: _iconColor),
+      icon: Icon(widget.icon,
+          size: widget.controller.iconSize, color: _iconColor),
       fillColor: fillColor,
       onPressed: _changeHistory,
     );
@@ -839,7 +841,8 @@ class _IndentButtonState extends State<IndentButton> {
       highlightElevation: 0,
       hoverElevation: 0,
       size: widget.controller.iconSize * 1.77,
-      icon: Icon(widget.icon, size: widget.controller.iconSize, color: iconColor),
+      icon:
+          Icon(widget.icon, size: widget.controller.iconSize, color: iconColor),
       fillColor: fillColor,
       onPressed: () {
         final indent = widget.controller
@@ -893,7 +896,8 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
         highlightElevation: 0,
         hoverElevation: 0,
         size: widget.controller.iconSize * 1.77,
-        icon: Icon(widget.icon, size: widget.controller.iconSize, color: iconColor),
+        icon: Icon(widget.icon,
+            size: widget.controller.iconSize, color: iconColor),
         fillColor: fillColor,
         onPressed: () {
           for (final k
@@ -905,7 +909,9 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
 }
 
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
-  const QuillToolbar({required this.children, this.toolBarHeight = 36, Key? key}) : super(key: key);
+  const QuillToolbar(
+      {required this.children, this.toolBarHeight = 36, Key? key})
+      : super(key: key);
 
   factory QuillToolbar.basic({
     required QuillController controller,
@@ -932,178 +938,195 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
   }) {
     controller.iconSize = toolbarIconSize;
 
-    return QuillToolbar(key: key, toolBarHeight: toolbarIconSize * controller.toolbarHeightFactor, children: [
-      Visibility(
-        visible: showHistory,
-        child: HistoryButton(
-          icon: Icons.undo_outlined,
-          controller: controller,
-          undo: true,
-        ),
-      ),
-      Visibility(
-        visible: showHistory,
-        child: HistoryButton(
-          icon: Icons.redo_outlined,
-          controller: controller,
-          undo: false,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showBoldButton,
-        child: ToggleStyleButton(
-          attribute: Attribute.bold,
-          icon: Icons.format_bold,
-          controller: controller,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showItalicButton,
-        child: ToggleStyleButton(
-          attribute: Attribute.italic,
-          icon: Icons.format_italic,
-          controller: controller,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showUnderLineButton,
-        child: ToggleStyleButton(
-          attribute: Attribute.underline,
-          icon: Icons.format_underline,
-          controller: controller,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showStrikeThrough,
-        child: ToggleStyleButton(
-          attribute: Attribute.strikeThrough,
-          icon: Icons.format_strikethrough,
-          controller: controller,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showColorButton,
-        child: ColorButton(
-          icon: Icons.color_lens,
-          controller: controller,
-          background: false,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showBackgroundColorButton,
-        child: ColorButton(
-          icon: Icons.format_color_fill,
-          controller: controller,
-          background: true,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: showClearFormat,
-        child: ClearFormatButton(
-          icon: Icons.format_clear,
-          controller: controller,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: onImagePickCallback != null,
-        child: ImageButton(
-          icon: Icons.image,
-          controller: controller,
-          imageSource: ImageSource.gallery,
-          onImagePickCallback: onImagePickCallback,
-        ),
-      ),
-      const SizedBox(width: 0.6),
-      Visibility(
-        visible: onImagePickCallback != null,
-        child: ImageButton(
-          icon: Icons.photo_camera,
-          controller: controller,
-          imageSource: ImageSource.camera,
-          onImagePickCallback: onImagePickCallback,
-        ),
-      ),
-      Visibility(
-          visible: showHeaderStyle, child: VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400)),
-      Visibility(visible: showHeaderStyle, child: SelectHeaderStyleButton(controller: controller)),
-      VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400),
-      Visibility(
-        visible: showListNumbers,
-        child: ToggleStyleButton(
-          attribute: Attribute.ol,
-          controller: controller,
-          icon: Icons.format_list_numbered,
-        ),
-      ),
-      Visibility(
-        visible: showListBullets,
-        child: ToggleStyleButton(
-          attribute: Attribute.ul,
-          controller: controller,
-          icon: Icons.format_list_bulleted,
-        ),
-      ),
-      Visibility(
-        visible: showListCheck,
-        child: ToggleCheckListButton(
-          attribute: Attribute.unchecked,
-          controller: controller,
-          icon: Icons.check_box,
-        ),
-      ),
-      Visibility(
-        visible: showCodeBlock,
-        child: ToggleStyleButton(
-          attribute: Attribute.codeBlock,
-          controller: controller,
-          icon: Icons.code,
-        ),
-      ),
-      Visibility(
-          visible: !showListNumbers && !showListBullets && !showListCheck && !showCodeBlock,
-          child: VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400)),
-      Visibility(
-        visible: showQuote,
-        child: ToggleStyleButton(
-          attribute: Attribute.blockQuote,
-          controller: controller,
-          icon: Icons.format_quote,
-        ),
-      ),
-      Visibility(
-        visible: showIndent,
-        child: IndentButton(
-          icon: Icons.format_indent_increase,
-          controller: controller,
-          isIncrease: true,
-        ),
-      ),
-      Visibility(
-        visible: showIndent,
-        child: IndentButton(
-          icon: Icons.format_indent_decrease,
-          controller: controller,
-          isIncrease: false,
-        ),
-      ),
-      Visibility(visible: showQuote, child: VerticalDivider(indent: 12, endIndent: 12, color: Colors.grey.shade400)),
-      Visibility(visible: showLink, child: LinkStyleButton(controller: controller)),
-      Visibility(
-        visible: showHorizontalRule,
-        child: InsertEmbedButton(
-          controller: controller,
-          icon: Icons.horizontal_rule,
-        ),
-      ),
-    ]);
+    return QuillToolbar(
+        key: key,
+        toolBarHeight: toolbarIconSize * controller.toolbarHeightFactor,
+        children: [
+          Visibility(
+            visible: showHistory,
+            child: HistoryButton(
+              icon: Icons.undo_outlined,
+              controller: controller,
+              undo: true,
+            ),
+          ),
+          Visibility(
+            visible: showHistory,
+            child: HistoryButton(
+              icon: Icons.redo_outlined,
+              controller: controller,
+              undo: false,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showBoldButton,
+            child: ToggleStyleButton(
+              attribute: Attribute.bold,
+              icon: Icons.format_bold,
+              controller: controller,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showItalicButton,
+            child: ToggleStyleButton(
+              attribute: Attribute.italic,
+              icon: Icons.format_italic,
+              controller: controller,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showUnderLineButton,
+            child: ToggleStyleButton(
+              attribute: Attribute.underline,
+              icon: Icons.format_underline,
+              controller: controller,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showStrikeThrough,
+            child: ToggleStyleButton(
+              attribute: Attribute.strikeThrough,
+              icon: Icons.format_strikethrough,
+              controller: controller,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showColorButton,
+            child: ColorButton(
+              icon: Icons.color_lens,
+              controller: controller,
+              background: false,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showBackgroundColorButton,
+            child: ColorButton(
+              icon: Icons.format_color_fill,
+              controller: controller,
+              background: true,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: showClearFormat,
+            child: ClearFormatButton(
+              icon: Icons.format_clear,
+              controller: controller,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: onImagePickCallback != null,
+            child: ImageButton(
+              icon: Icons.image,
+              controller: controller,
+              imageSource: ImageSource.gallery,
+              onImagePickCallback: onImagePickCallback,
+            ),
+          ),
+          const SizedBox(width: 0.6),
+          Visibility(
+            visible: onImagePickCallback != null,
+            child: ImageButton(
+              icon: Icons.photo_camera,
+              controller: controller,
+              imageSource: ImageSource.camera,
+              onImagePickCallback: onImagePickCallback,
+            ),
+          ),
+          Visibility(
+              visible: showHeaderStyle,
+              child: VerticalDivider(
+                  indent: 12, endIndent: 12, color: Colors.grey.shade400)),
+          Visibility(
+              visible: showHeaderStyle,
+              child: SelectHeaderStyleButton(controller: controller)),
+          VerticalDivider(
+              indent: 12, endIndent: 12, color: Colors.grey.shade400),
+          Visibility(
+            visible: showListNumbers,
+            child: ToggleStyleButton(
+              attribute: Attribute.ol,
+              controller: controller,
+              icon: Icons.format_list_numbered,
+            ),
+          ),
+          Visibility(
+            visible: showListBullets,
+            child: ToggleStyleButton(
+              attribute: Attribute.ul,
+              controller: controller,
+              icon: Icons.format_list_bulleted,
+            ),
+          ),
+          Visibility(
+            visible: showListCheck,
+            child: ToggleCheckListButton(
+              attribute: Attribute.unchecked,
+              controller: controller,
+              icon: Icons.check_box,
+            ),
+          ),
+          Visibility(
+            visible: showCodeBlock,
+            child: ToggleStyleButton(
+              attribute: Attribute.codeBlock,
+              controller: controller,
+              icon: Icons.code,
+            ),
+          ),
+          Visibility(
+              visible: !showListNumbers &&
+                  !showListBullets &&
+                  !showListCheck &&
+                  !showCodeBlock,
+              child: VerticalDivider(
+                  indent: 12, endIndent: 12, color: Colors.grey.shade400)),
+          Visibility(
+            visible: showQuote,
+            child: ToggleStyleButton(
+              attribute: Attribute.blockQuote,
+              controller: controller,
+              icon: Icons.format_quote,
+            ),
+          ),
+          Visibility(
+            visible: showIndent,
+            child: IndentButton(
+              icon: Icons.format_indent_increase,
+              controller: controller,
+              isIncrease: true,
+            ),
+          ),
+          Visibility(
+            visible: showIndent,
+            child: IndentButton(
+              icon: Icons.format_indent_decrease,
+              controller: controller,
+              isIncrease: false,
+            ),
+          ),
+          Visibility(
+              visible: showQuote,
+              child: VerticalDivider(
+                  indent: 12, endIndent: 12, color: Colors.grey.shade400)),
+          Visibility(
+              visible: showLink,
+              child: LinkStyleButton(controller: controller)),
+          Visibility(
+            visible: showHorizontalRule,
+            child: InsertEmbedButton(
+              controller: controller,
+              icon: Icons.horizontal_rule,
+            ),
+          ),
+        ]);
   }
 
   final List<Widget> children;
