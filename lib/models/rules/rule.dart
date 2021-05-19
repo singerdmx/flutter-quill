@@ -28,6 +28,8 @@ abstract class Rule {
 class Rules {
   Rules(this._rules);
 
+  List<Rule> _customRules = [];
+
   final List<Rule> _rules;
   static final Rules _instance = Rules([
     const FormatLinkAtCaretPositionRule(),
@@ -49,10 +51,14 @@ class Rules {
 
   static Rules getInstance() => _instance;
 
+  void setCustomRules(List<Rule> customRules) {
+    _customRules = customRules;
+  }
+
   Delta apply(RuleType ruleType, Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
     final delta = document.toDelta();
-    for (final rule in _rules) {
+    for (final rule in _customRules + _rules) {
       if (rule.type != ruleType) {
         continue;
       }
