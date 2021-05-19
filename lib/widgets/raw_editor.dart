@@ -17,6 +17,7 @@ import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
 import '../utils/diff_delta.dart';
 import 'controller.dart';
+import 'controller/raw_editor_state_text_input_client_mixin.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
@@ -98,12 +99,10 @@ class RawEditorState extends EditorState
     with
         AutomaticKeepAliveClientMixin<RawEditor>,
         WidgetsBindingObserver,
-        TickerProviderStateMixin<RawEditor>
+        TickerProviderStateMixin<RawEditor>,
+        RawEditorStateTextInputClientMixin
     implements TextSelectionDelegate, TextInputClient {
   final GlobalKey _editorKey = GlobalKey();
-  final List<TextEditingValue> _sentRemoteValues = [];
-  TextInputConnection? _textInputConnection;
-  TextEditingValue? _lastKnownRemoteTextEditingValue;
   int _cursorResetLocation = -1;
   bool _wasSelectingVerticallyWithKeyboard = false;
   EditorTextSelectionOverlay? _selectionOverlay;
@@ -121,21 +120,6 @@ class RawEditorState extends EditorState
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
-
-  /// Whether to create an input connection with the platform for text editing
-  /// or not.
-  ///
-  /// Read-only input fields do not need a connection with the platform since
-  /// there's no need for text editing capabilities (e.g. virtual keyboard).
-  ///
-  /// On the web, we always need a connection because we want some browser
-  /// functionalities to continue to work on read-only input fields like:
-  ///
-  /// - Relevant context menu.
-  /// - cmd/ctrl+c shortcut to copy.
-  /// - cmd/ctrl+a to select all.
-  /// - Changing the selection using a physical keyboard.
-  bool get shouldCreateInputConnection => kIsWeb || !widget.readOnly;
 
   bool get _hasFocus => widget.focusNode.hasFocus;
 
@@ -364,105 +348,6 @@ class RawEditorState extends EditorState
     return 0;
   }
 
-  bool get hasConnection =>
-      _textInputConnection != null && _textInputConnection!.attached;
-
-  void openConnectionIfNeeded() {
-    if (!shouldCreateInputConnection) {
-      return;
-    }
-
-    if (!hasConnection) {
-      _lastKnownRemoteTextEditingValue = textEditingValue;
-      _textInputConnection = TextInput.attach(
-        this,
-        TextInputConfiguration(
-          inputType: TextInputType.multiline,
-          readOnly: widget.readOnly,
-          inputAction: TextInputAction.newline,
-          enableSuggestions: !widget.readOnly,
-          keyboardAppearance: widget.keyboardAppearance,
-          textCapitalization: widget.textCapitalization,
-        ),
-      );
-
-      _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
-      // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
-    }
-
-    _textInputConnection!.show();
-  }
-
-  void closeConnectionIfNeeded() {
-    if (!hasConnection) {
-      return;
-    }
-    _textInputConnection!.close();
-    _textInputConnection = null;
-    _lastKnownRemoteTextEditingValue = null;
-    _sentRemoteValues.clear();
-  }
-
-  void updateRemoteValueIfNeeded() {
-    if (!hasConnection) {
-      return;
-    }
-
-    final actualValue = textEditingValue.copyWith(
-      composing: _lastKnownRemoteTextEditingValue!.composing,
-    );
-
-    if (actualValue == _lastKnownRemoteTextEditingValue) {
-      return;
-    }
-
-    final shouldRemember =
-        textEditingValue.text != _lastKnownRemoteTextEditingValue!.text;
-    _lastKnownRemoteTextEditingValue = actualValue;
-    _textInputConnection!.setEditingState(actualValue);
-    if (shouldRemember) {
-      _sentRemoteValues.add(actualValue);
-    }
-  }
-
-  @override
-  TextEditingValue? get currentTextEditingValue =>
-      _lastKnownRemoteTextEditingValue;
-
-  @override
-  AutofillScope? get currentAutofillScope => null;
-
-  @override
-  void updateEditingValue(TextEditingValue value) {
-    if (!shouldCreateInputConnection) {
-      return;
-    }
-
-    if (_sentRemoteValues.contains(value)) {
-      _sentRemoteValues.remove(value);
-      return;
-    }
-
-    if (_lastKnownRemoteTextEditingValue == value) {
-      return;
-    }
-
-    if (_lastKnownRemoteTextEditingValue!.text == value.text &&
-        _lastKnownRemoteTextEditingValue!.selection == value.selection) {
-      _lastKnownRemoteTextEditingValue = value;
-      return;
-    }
-
-    final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
-    _lastKnownRemoteTextEditingValue = value;
-    final oldText = effectiveLastKnownValue.text;
-    final text = value.text;
-    final cursorPosition = value.selection.extentOffset;
-    final diff = getDiff(oldText, text, cursorPosition);
-    widget.controller.replaceText(
-        diff.start, diff.deleted.length, diff.inserted, value.selection);
-  }
-
   @override
   TextEditingValue get textEditingValue {
     return getTextEditingValue();
@@ -474,34 +359,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  void performAction(TextInputAction action) {}
-
-  @override
-  void performPrivateCommand(String action, Map<String, dynamic> data) {}
-
-  @override
-  void updateFloatingCursor(RawFloatingCursorPoint point) {
-    throw UnimplementedError();
-  }
-
-  @override
-  void showAutocorrectionPromptRect(int start, int end) {
-    throw UnimplementedError();
-  }
-
-  @override
   void bringIntoView(TextPosition position) {}
-
-  @override
-  void connectionClosed() {
-    if (!hasConnection) {
-      return;
-    }
-    _textInputConnection!.connectionClosedReceived();
-    _textInputConnection = null;
-    _lastKnownRemoteTextEditingValue = null;
-    _sentRemoteValues.clear();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -1145,16 +1003,9 @@ class RawEditorState extends EditorState
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
 
-  void openOrCloseConnection() {
-    if (widget.focusNode.hasFocus && widget.focusNode.consumeKeyboardToken()) {
-      openConnectionIfNeeded();
-    } else if (!widget.focusNode.hasFocus) {
-      closeConnectionIfNeeded();
-    }
-  }
-
   @override
-  void userUpdateTextEditingValue(TextEditingValue value, SelectionChangedCause cause) {
+  void userUpdateTextEditingValue(
+      TextEditingValue value, SelectionChangedCause cause) {
     // TODO: implement userUpdateTextEditingValue
   }
 }
