@@ -1,3 +1,6 @@
+## [1.3.0]
+* Support flutter 2.2.0.
+
 ## [1.2.2]
 * Checkbox supports tapping.
 
