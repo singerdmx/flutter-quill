@@ -909,9 +909,12 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
 }
 
 class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
-  const QuillToolbar(
-      {required this.children, this.toolBarHeight = 36, Key? key})
-      : super(key: key);
+  const QuillToolbar({
+    required this.children,
+    this.toolBarHeight = 36,
+    Key? key,
+    this.multiRowsDisplay = false,
+  }) : super(key: key);
 
   factory QuillToolbar.basic({
     required QuillController controller,
@@ -935,12 +938,14 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
     bool showHorizontalRule = false,
     OnImagePickCallback? onImagePickCallback,
     Key? key,
+    bool multiRowsDisplay = false,
   }) {
     controller.iconSize = toolbarIconSize;
 
     return QuillToolbar(
         key: key,
         toolBarHeight: toolbarIconSize * controller.toolbarHeightFactor,
+        multiRowsDisplay: multiRowsDisplay,
         children: [
           Visibility(
             visible: showHistory,
@@ -1131,6 +1136,7 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
 
   final List<Widget> children;
   final double toolBarHeight;
+  final bool multiRowsDisplay;
 
   @override
   _QuillToolbarState createState() => _QuillToolbarState();
@@ -1142,23 +1148,32 @@ class QuillToolbar extends StatefulWidget implements PreferredSizeWidget {
 class _QuillToolbarState extends State<QuillToolbar> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      constraints: BoxConstraints.tightFor(height: widget.preferredSize.height),
-      color: Theme.of(context).canvasColor,
-      child: CustomScrollView(
-        scrollDirection: Axis.horizontal,
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return widget.multiRowsDisplay
+        ? Container(
+            color: Theme.of(context).canvasColor,
+            child: Wrap(
+              alignment: WrapAlignment.center,
               children: widget.children,
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            constraints:
+                BoxConstraints.tightFor(height: widget.preferredSize.height),
+            color: Theme.of(context).canvasColor,
+            child: CustomScrollView(
+              scrollDirection: Axis.horizontal,
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: widget.children,
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }
 
