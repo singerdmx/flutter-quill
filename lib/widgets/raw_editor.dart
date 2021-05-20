@@ -23,6 +23,7 @@ import 'editor.dart';
 import 'keyboard_listener.dart';
 import 'proxy.dart';
 import 'raw_editor/raw_editor_state_keyboard_mixin.dart';
+import 'raw_editor/raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor/raw_editor_state_text_input_client_mixin.dart';
 import 'text_block.dart';
 import 'text_line.dart';
@@ -90,9 +91,7 @@ class RawEditor extends StatefulWidget {
   final EmbedBuilder embedBuilder;
 
   @override
-  State<StatefulWidget> createState() {
-    return RawEditorState();
-  }
+  State<StatefulWidget> createState() => RawEditorState();
 }
 
 class RawEditorState extends EditorState
@@ -101,44 +100,39 @@ class RawEditorState extends EditorState
         WidgetsBindingObserver,
         TickerProviderStateMixin<RawEditor>,
         RawEditorStateKeyboardMixin,
-        RawEditorStateTextInputClientMixin
-    implements TextSelectionDelegate, TextInputClient {
+        RawEditorStateTextInputClientMixin,
+        RawEditorStateSelectionDelegateMixin {
   final GlobalKey _editorKey = GlobalKey();
-  EditorTextSelectionOverlay? _selectionOverlay;
-  FocusAttachment? _focusAttachment;
-  late CursorCont _cursorCont;
-  ScrollController? _scrollController;
+
+  // Keyboard
+  late KeyboardListener _keyboardListener;
   KeyboardVisibilityController? _keyboardVisibilityController;
   StreamSubscription<bool>? _keyboardVisibilitySubscription;
-  late KeyboardListener _keyboardListener;
-  bool _didAutoFocus = false;
   bool _keyboardVisible = false;
+
+  // Selection overlay
+  @override
+  EditorTextSelectionOverlay? getSelectionOverlay() => _selectionOverlay;
+  EditorTextSelectionOverlay? _selectionOverlay;
+
+  ScrollController? _scrollController;
+
+  late CursorCont _cursorCont;
+
+  // Focus
+  bool _didAutoFocus = false;
+  FocusAttachment? _focusAttachment;
+  bool get _hasFocus => widget.focusNode.hasFocus;
+
   DefaultStyles? _styles;
+
   final ClipboardStatusNotifier? _clipboardStatus =
       kIsWeb ? null : ClipboardStatusNotifier();
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
 
-  bool get _hasFocus => widget.focusNode.hasFocus;
-
-  TextDirection get _textDirection {
-    final result = Directionality.of(context);
-    return result;
-  }
-
-  @override
-  TextEditingValue get textEditingValue {
-    return getTextEditingValue();
-  }
-
-  @override
-  set textEditingValue(TextEditingValue value) {
-    setTextEditingValue(value);
-  }
-
-  @override
-  void bringIntoView(TextPosition position) {}
+  TextDirection get _textDirection => Directionality.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -594,33 +588,9 @@ class RawEditorState extends EditorState
   }
 
   @override
-  EditorTextSelectionOverlay? getSelectionOverlay() {
-    return _selectionOverlay;
-  }
-
-  @override
   TextEditingValue getTextEditingValue() {
     return widget.controller.plainTextEditingValue;
   }
-
-  @override
-  void hideToolbar([bool hideHandles = true]) {
-    if (getSelectionOverlay()?.toolbar != null) {
-      getSelectionOverlay()?.hideToolbar();
-    }
-  }
-
-  @override
-  bool get cutEnabled => widget.toolbarOptions.cut && !widget.readOnly;
-
-  @override
-  bool get copyEnabled => widget.toolbarOptions.copy;
-
-  @override
-  bool get pasteEnabled => widget.toolbarOptions.paste && !widget.readOnly;
-
-  @override
-  bool get selectAllEnabled => widget.toolbarOptions.selectAll;
 
   @override
   void requestKeyboard() {
