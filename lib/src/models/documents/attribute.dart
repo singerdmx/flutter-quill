@@ -193,7 +193,7 @@ class Attribute<T> {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is! Attribute<T>) return false;
+    if (other is! Attribute) return false;
     final typedOther = other;
     return key == typedOther.key &&
         scope == typedOther.scope &&
