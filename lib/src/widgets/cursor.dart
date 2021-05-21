@@ -92,6 +92,9 @@ class CursorCont extends ChangeNotifier {
     _blinkOpacityCont.removeListener(_onColorTick);
     stopCursorTimer();
     _blinkOpacityCont.dispose();
+    show.dispose();
+    _blink.dispose();
+    color.dispose();
     assert(_cursorTimer == null);
     super.dispose();
   }
