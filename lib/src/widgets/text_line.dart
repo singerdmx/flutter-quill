@@ -575,7 +575,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
     if (containsCursor()) {
       cursorCont.addListener(markNeedsLayout);
-      cursorCont.cursorColor.addListener(markNeedsPaint);
+      cursorCont.color.addListener(markNeedsPaint);
     }
   }
 
@@ -587,7 +587,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
     if (containsCursor()) {
       cursorCont.removeListener(markNeedsLayout);
-      cursorCont.cursorColor.removeListener(markNeedsPaint);
+      cursorCont.color.removeListener(markNeedsPaint);
     }
   }
 
@@ -728,7 +728,7 @@ class RenderEditableTextLine extends RenderEditableBox {
         _body,
         cursorCont.style,
         _caretPrototype,
-        cursorCont.cursorColor.value,
+        cursorCont.color.value,
         devicePixelRatio,
       );
 

@@ -60,7 +60,7 @@ class CursorCont extends ChangeNotifier {
     required CursorStyle style,
     required TickerProvider tickerProvider,
   })  : _style = style,
-        _blink = ValueNotifier(false),
+        blink = ValueNotifier(false),
         color = ValueNotifier(style.color) {
     _blinkOpacityCont =
         AnimationController(vsync: tickerProvider, duration: _FADE_DURATION);
@@ -68,16 +68,12 @@ class CursorCont extends ChangeNotifier {
   }
 
   final ValueNotifier<bool> show;
-  final ValueNotifier<bool> _blink;
+  final ValueNotifier<bool> blink;
   final ValueNotifier<Color> color;
   late AnimationController _blinkOpacityCont;
   Timer? _cursorTimer;
   bool _targetCursorVisibility = false;
   CursorStyle _style;
-
-  ValueNotifier<bool> get cursorBlink => _blink;
-
-  ValueNotifier<Color> get cursorColor => color;
 
   CursorStyle get style => _style;
 
@@ -93,7 +89,7 @@ class CursorCont extends ChangeNotifier {
     stopCursorTimer();
     _blinkOpacityCont.dispose();
     show.dispose();
-    _blink.dispose();
+    blink.dispose();
     color.dispose();
     assert(_cursorTimer == null);
     super.dispose();
@@ -154,7 +150,7 @@ class CursorCont extends ChangeNotifier {
 
   void _onColorTick() {
     color.value = _style.color.withOpacity(_blinkOpacityCont.value);
-    _blink.value = show.value && _blinkOpacityCont.value > 0;
+    blink.value = show.value && _blinkOpacityCont.value > 0;
   }
 }
 
