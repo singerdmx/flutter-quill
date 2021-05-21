@@ -727,7 +727,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   CursorPainter get _cursorPainter => CursorPainter(
         _body,
         cursorCont.style,
-        _caretPrototype,
+        _caretPrototype!,
         cursorCont.color.value,
         devicePixelRatio,
       );

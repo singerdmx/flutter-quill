@@ -5,8 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import 'box.dart';
 
-const Duration _FADE_DURATION = Duration(milliseconds: 250);
-
+/// Style properties of editing cursor.
 class CursorStyle {
   const CursorStyle({
     required this.color,
@@ -19,13 +18,52 @@ class CursorStyle {
     this.paintAboveText = false,
   });
 
+  /// The color to use when painting the cursor.
   final Color color;
+
+  /// The color to use when painting the background cursor aligned with the text
+  /// while rendering the floating cursor.
   final Color backgroundColor;
+
+  /// How thick the cursor will be.
+  ///
+  /// The cursor will draw under the text. The cursor width will extend
+  /// to the right of the boundary between characters for left-to-right text
+  /// and to the left for right-to-left text. This corresponds to extending
+  /// downstream relative to the selected position. Negative values may be used
+  /// to reverse this behavior.
   final double width;
+
+  /// How tall the cursor will be.
+  ///
+  /// By default, the cursor height is set to the preferred line height of the
+  /// text.
   final double? height;
+
+  /// How rounded the corners of the cursor should be.
+  ///
+  /// By default, the cursor has no radius.
   final Radius? radius;
+
+  /// The offset that is used, in pixels, when painting the cursor on screen.
+  ///
+  /// By default, the cursor position should be set to an offset of
+  /// (-[cursorWidth] * 0.5, 0.0) on iOS platforms and (0, 0) on Android
+  /// platforms. The origin from where the offset is applied to is the arbitrary
+  /// location where the cursor ends up being rendered from by default.
   final Offset? offset;
+
+  /// Whether the cursor will animate from fully transparent to fully opaque
+  /// during each cursor blink.
+  ///
+  /// By default, the cursor opacity will animate on iOS platforms and will not
+  /// animate on Android platforms.
   final bool opacityAnimates;
+
+  /// If the cursor should be painted on top of the text or underneath it.
+  ///
+  /// By default, the cursor should be painted on top for iOS platforms and
+  /// underneath for Android platforms.
   final bool paintAboveText;
 
   @override
@@ -54,6 +92,10 @@ class CursorStyle {
       paintAboveText.hashCode;
 }
 
+/// Controls the cursor of an editable widget.
+///
+/// This class is a [ChangeNotifier] and allows to listen for updates on the
+/// cursor [style].
 class CursorCont extends ChangeNotifier {
   CursorCont({
     required this.show,
@@ -62,21 +104,35 @@ class CursorCont extends ChangeNotifier {
   })  : _style = style,
         blink = ValueNotifier(false),
         color = ValueNotifier(style.color) {
-    _blinkOpacityCont =
-        AnimationController(vsync: tickerProvider, duration: _FADE_DURATION);
-    _blinkOpacityCont.addListener(_onColorTick);
+    _blinkOpacityController =
+        AnimationController(vsync: tickerProvider, duration: _fadeDuration);
+    _blinkOpacityController.addListener(_onColorTick);
   }
 
+  // The time it takes for the cursor to fade from fully opaque to fully
+  // transparent and vice versa. A full cursor blink, from transparent to opaque
+  // to transparent, is twice this duration.
+  static const Duration _blinkHalfPeriod = Duration(milliseconds: 500);
+
+  // The time the cursor is static in opacity before animating to become
+  // transparent.
+  static const Duration _blinkWaitForStart = Duration(milliseconds: 150);
+
+  // This value is an eyeball estimation of the time it takes for the iOS cursor
+  // to ease in and out.
+  static const Duration _fadeDuration = Duration(milliseconds: 250);
+
   final ValueNotifier<bool> show;
-  final ValueNotifier<bool> blink;
   final ValueNotifier<Color> color;
-  late AnimationController _blinkOpacityCont;
+  final ValueNotifier<bool> blink;
+
+  late final AnimationController _blinkOpacityController;
+
   Timer? _cursorTimer;
   bool _targetCursorVisibility = false;
+
   CursorStyle _style;
-
   CursorStyle get style => _style;
-
   set style(CursorStyle value) {
     if (_style == value) return;
     _style = value;
@@ -85,9 +141,9 @@ class CursorCont extends ChangeNotifier {
 
   @override
   void dispose() {
-    _blinkOpacityCont.removeListener(_onColorTick);
+    _blinkOpacityController.removeListener(_onColorTick);
     stopCursorTimer();
-    _blinkOpacityCont.dispose();
+    _blinkOpacityController.dispose();
     show.dispose();
     blink.dispose();
     color.dispose();
@@ -99,28 +155,32 @@ class CursorCont extends ChangeNotifier {
     _targetCursorVisibility = !_targetCursorVisibility;
     final targetOpacity = _targetCursorVisibility ? 1.0 : 0.0;
     if (style.opacityAnimates) {
-      _blinkOpacityCont.animateTo(targetOpacity, curve: Curves.easeOut);
+      // If we want to show the cursor, we will animate the opacity to the value
+      // of 1.0, and likewise if we want to make it disappear, to 0.0. An easing
+      // curve is used for the animation to mimic the aesthetics of the native
+      // iOS cursor.
+      //
+      // These values and curves have been obtained through eyeballing, so are
+      // likely not exactly the same as the values for native iOS.
+      _blinkOpacityController.animateTo(targetOpacity, curve: Curves.easeOut);
     } else {
-      _blinkOpacityCont.value = targetOpacity;
+      _blinkOpacityController.value = targetOpacity;
     }
   }
 
-  void _cursorWaitForStart(Timer timer) {
+  void _waitForStart(Timer timer) {
     _cursorTimer?.cancel();
-    _cursorTimer =
-        Timer.periodic(const Duration(milliseconds: 500), _cursorTick);
+    _cursorTimer = Timer.periodic(_blinkHalfPeriod, _cursorTick);
   }
 
   void startCursorTimer() {
     _targetCursorVisibility = true;
-    _blinkOpacityCont.value = 1.0;
+    _blinkOpacityController.value = 1.0;
 
     if (style.opacityAnimates) {
-      _cursorTimer = Timer.periodic(
-          const Duration(milliseconds: 150), _cursorWaitForStart);
+      _cursorTimer = Timer.periodic(_blinkWaitForStart, _waitForStart);
     } else {
-      _cursorTimer =
-          Timer.periodic(const Duration(milliseconds: 500), _cursorTick);
+      _cursorTimer = Timer.periodic(_blinkHalfPeriod, _cursorTick);
     }
   }
 
@@ -128,10 +188,10 @@ class CursorCont extends ChangeNotifier {
     _cursorTimer?.cancel();
     _cursorTimer = null;
     _targetCursorVisibility = false;
-    _blinkOpacityCont.value = 0.0;
+    _blinkOpacityController.value = 0.0;
 
     if (style.opacityAnimates) {
-      _blinkOpacityCont
+      _blinkOpacityController
         ..stop()
         ..value = 0.0;
     }
@@ -149,32 +209,42 @@ class CursorCont extends ChangeNotifier {
   }
 
   void _onColorTick() {
-    color.value = _style.color.withOpacity(_blinkOpacityCont.value);
-    blink.value = show.value && _blinkOpacityCont.value > 0;
+    color.value = _style.color.withOpacity(_blinkOpacityController.value);
+    blink.value = show.value && _blinkOpacityController.value > 0;
   }
 }
 
+/// Paints the editing cursor.
 class CursorPainter {
-  CursorPainter(this.editable, this.style, this.prototype, this.color,
-      this.devicePixelRatio);
+  CursorPainter(
+    this.editable,
+    this.style,
+    this.prototype,
+    this.color,
+    this.devicePixelRatio,
+  );
 
   final RenderContentProxyBox? editable;
   final CursorStyle style;
-  final Rect? prototype;
+  final Rect prototype;
   final Color color;
   final double devicePixelRatio;
 
+  /// Paints cursor on [canvas] at specified [position].
   void paint(Canvas canvas, Offset offset, TextPosition position) {
-    assert(prototype != null);
-
     final caretOffset =
         editable!.getOffsetForCaret(position, prototype) + offset;
-    var caretRect = prototype!.shift(caretOffset);
+    var caretRect = prototype.shift(caretOffset);
     if (style.offset != null) {
       caretRect = caretRect.shift(style.offset!);
     }
 
     if (caretRect.left < 0.0) {
+      // For iOS the cursor may get clipped by the scroll view when
+      // it's located at a beginning of a line. We ensure that this
+      // does not happen here. This may result in the cursor being painted
+      // closer to the character on the right, but it's arguably better
+      // then painting clipped cursor (or even cursor completely hidden).
       caretRect = caretRect.shift(Offset(-caretRect.left, 0));
     }
 
@@ -185,6 +255,8 @@ class CursorPainter {
         case TargetPlatform.fuchsia:
         case TargetPlatform.linux:
         case TargetPlatform.windows:
+          // Override the height to take the full height of the glyph at the TextPosition
+          // when not on iOS. iOS has special handling that creates a taller caret.
           caretRect = Rect.fromLTWH(
             caretRect.left,
             caretRect.top - 2.0,
@@ -194,6 +266,7 @@ class CursorPainter {
           break;
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
+          // Center the caret vertically along the text.
           caretRect = Rect.fromLTWH(
             caretRect.left,
             caretRect.top + (caretHeight - caretRect.height) / 2,
