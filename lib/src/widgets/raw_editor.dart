@@ -126,8 +126,7 @@ class RawEditorState extends EditorState
 
   DefaultStyles? _styles;
 
-  final ClipboardStatusNotifier? _clipboardStatus =
-      kIsWeb ? null : ClipboardStatusNotifier();
+  final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
@@ -318,7 +317,7 @@ class RawEditorState extends EditorState
   void initState() {
     super.initState();
 
-    _clipboardStatus?.addListener(_onChangedClipboardStatus);
+    _clipboardStatus.addListener(_onChangedClipboardStatus);
 
     widget.controller.addListener(() {
       _didChangeTextEditingValue(widget.controller.ignoreFocusOnTextChange);
@@ -438,8 +437,9 @@ class RawEditorState extends EditorState
     widget.focusNode.removeListener(_handleFocusChanged);
     _focusAttachment!.detach();
     _cursorCont.dispose();
-    _clipboardStatus?.removeListener(_onChangedClipboardStatus);
-    _clipboardStatus?.dispose();
+    _clipboardStatus
+      ..removeListener(_onChangedClipboardStatus)
+      ..dispose();
     super.dispose();
   }
 
@@ -518,7 +518,7 @@ class RawEditorState extends EditorState
         this,
         DragStartBehavior.start,
         null,
-        _clipboardStatus!,
+        _clipboardStatus,
       );
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
