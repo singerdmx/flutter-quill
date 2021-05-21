@@ -490,7 +490,13 @@ class RawEditorState extends EditorState
   }
 
   @override
-  void bringIntoView(TextPosition position) {}
+  void bringIntoView(TextPosition position) {
+    setState(() {
+      widget.controller.selection = TextSelection(
+          baseOffset: widget.controller.selection.baseOffset,
+          extentOffset: position.offset);
+    });
+  }
 
   @override
   void connectionClosed() {
