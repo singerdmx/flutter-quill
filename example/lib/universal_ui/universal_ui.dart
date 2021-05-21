@@ -2,8 +2,8 @@ library universal_ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_quill/models/documents/nodes/leaf.dart' as leaf;
-import 'package:flutter_quill/widgets/responsive_widget.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+
 import 'package:universal_html/html.dart' as html;
 
 import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui_instance;
@@ -25,7 +25,7 @@ class UniversalUI {
 
 var ui = UniversalUI();
 
-Widget defaultEmbedBuilderWeb(BuildContext context, leaf.Embed node) {
+Widget defaultEmbedBuilderWeb(BuildContext context, Embed node) {
   switch (node.value.type) {
     case 'image':
       final String imageUrl = node.value.data;
