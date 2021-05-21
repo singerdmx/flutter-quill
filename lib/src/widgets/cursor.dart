@@ -139,10 +139,18 @@ class CursorCont extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// True when this [CursorCont] instance has been disposed.
+  ///
+  /// A safety mechanism to prevent the value of a disposed controller from
+  /// getting set.
+  bool _isDisposed = false;
+
   @override
   void dispose() {
     _blinkOpacityController.removeListener(_onColorTick);
     stopCursorTimer();
+
+    _isDisposed = true;
     _blinkOpacityController.dispose();
     show.dispose();
     blink.dispose();
@@ -174,6 +182,10 @@ class CursorCont extends ChangeNotifier {
   }
 
   void startCursorTimer() {
+    if (_isDisposed) {
+      return;
+    }
+
     _targetCursorVisibility = true;
     _blinkOpacityController.value = 1.0;
 
