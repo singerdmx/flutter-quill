@@ -64,7 +64,7 @@ class KeyboardListener {
 
   bool handleRawKeyEvent(RawKeyEvent event) {
     if (kIsWeb) {
-      // On web platform, we should ignore the key because it's processed already.
+      // On web platform, we ignore the key because it's already processed.
       return false;
     }
 

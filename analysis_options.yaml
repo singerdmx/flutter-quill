@@ -17,6 +17,7 @@ linter:
     - avoid_void_async
     - cascade_invocations
     - directives_ordering
+    - lines_longer_than_80_chars
     - omit_local_variable_types
     - prefer_const_constructors
     - prefer_const_constructors_in_immutables

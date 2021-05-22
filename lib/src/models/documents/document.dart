@@ -250,7 +250,7 @@ class Document {
     for (final op in doc.toList()) {
       if (!op.isInsert) {
         throw ArgumentError.value(doc,
-            'Document Delta can only contain insert operations but ${op.key} found.');
+            'Document can only contain insert operations but ${op.key} found.');
       }
       final style =
           op.attributes != null ? Style.fromJson(op.attributes) : null;

@@ -167,7 +167,8 @@ class AutoExitBlockRule extends InsertRule {
     // First check if `cur` length is greater than 1, this would indicate
     // that it contains multiple newline characters which share the same style.
     // This would mean we are not on the last line yet.
-    // `cur.value as String` is safe since we already called isEmptyLine and know it contains a newline
+    // `cur.value as String` is safe since we already called isEmptyLine and
+    // know it contains a newline
     if ((cur.value as String).length > 1) {
       // We are not on the last line of this block, ignore.
       return null;
