@@ -32,5 +32,6 @@ linter:
     - prefer_single_quotes
     - sort_constructors_first
     - sort_unnamed_constructors_first
+    - unnecessary_lambdas
     - unnecessary_parenthesis
     - unnecessary_string_interpolations
