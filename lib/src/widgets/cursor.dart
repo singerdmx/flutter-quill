@@ -292,25 +292,39 @@ class CursorPainter {
       }
     }
 
-    final caretPosition = editable!.localToGlobal(caretRect.topLeft);
-    final pixelMultiple = 1.0 / devicePixelRatio;
-    caretRect = caretRect.shift(Offset(
-        caretPosition.dx.isFinite
-            ? (caretPosition.dx / pixelMultiple).round() * pixelMultiple -
-                caretPosition.dx
-            : caretPosition.dx,
-        caretPosition.dy.isFinite
-            ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -
-                caretPosition.dy
-            : caretPosition.dy));
+    final pixelPerfectOffset =
+        _getPixelPerfectCursorOffset(editable!, caretRect, devicePixelRatio);
+    if (!pixelPerfectOffset.isFinite) {
+      return;
+    }
+    caretRect = caretRect.shift(pixelPerfectOffset);
 
     final paint = Paint()..color = color;
     if (style.radius == null) {
       canvas.drawRect(caretRect, paint);
-      return;
+    } else {
+      final caretRRect = RRect.fromRectAndRadius(caretRect, style.radius!);
+      canvas.drawRRect(caretRRect, paint);
     }
+  }
 
-    final caretRRect = RRect.fromRectAndRadius(caretRect, style.radius!);
-    canvas.drawRRect(caretRRect, paint);
+  Offset _getPixelPerfectCursorOffset(
+    RenderContentProxyBox editable,
+    Rect caretRect,
+    double devicePixelRatio,
+  ) {
+    final caretPosition = editable.localToGlobal(caretRect.topLeft);
+    final pixelMultiple = 1.0 / devicePixelRatio;
+
+    final pixelPerfectOffsetX = caretPosition.dx.isFinite
+        ? (caretPosition.dx / pixelMultiple).round() * pixelMultiple -
+            caretPosition.dx
+        : caretPosition.dx;
+    final pixelPerfectOffsetY = caretPosition.dy.isFinite
+        ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -
+            caretPosition.dy
+        : caretPosition.dy;
+
+    return Offset(pixelPerfectOffsetX, pixelPerfectOffsetY);
   }
 }
