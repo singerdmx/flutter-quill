@@ -559,13 +559,17 @@ class RawEditorState extends EditorState
       if (widget.scrollable) {
         _showCaretOnScreenScheduled = false;
 
-        final viewport = RenderAbstractViewport.of(getRenderEditor());
+        final renderEditor = getRenderEditor();
+        if (renderEditor == null) {
+          return;
+        }
 
-        final editorOffset = getRenderEditor()!
-            .localToGlobal(const Offset(0, 0), ancestor: viewport);
+        final viewport = RenderAbstractViewport.of(renderEditor);
+        final editorOffset =
+            renderEditor.localToGlobal(const Offset(0, 0), ancestor: viewport);
         final offsetInViewport = _scrollController!.offset + editorOffset.dy;
 
-        final offset = getRenderEditor()!.getOffsetToRevealCursor(
+        final offset = renderEditor.getOffsetToRevealCursor(
           _scrollController!.position.viewportDimension,
           _scrollController!.offset,
           offsetInViewport,
@@ -584,7 +588,7 @@ class RawEditorState extends EditorState
 
   @override
   RenderEditor? getRenderEditor() {
-    return _editorKey.currentContext!.findRenderObject() as RenderEditor?;
+    return _editorKey.currentContext?.findRenderObject() as RenderEditor?;
   }
 
   @override
