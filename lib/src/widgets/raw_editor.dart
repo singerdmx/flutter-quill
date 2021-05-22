@@ -483,8 +483,12 @@ class RawEditorState extends EditorState
         ..startCursorTimer();
     }
 
-    SchedulerBinding.instance!.addPostFrameCallback(
-        (_) => _updateOrDisposeSelectionOverlayIfNeeded());
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _updateOrDisposeSelectionOverlayIfNeeded();
+    });
     if (mounted) {
       setState(() {
         // Use widget.controller.value in build()
