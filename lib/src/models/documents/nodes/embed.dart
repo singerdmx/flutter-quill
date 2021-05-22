@@ -4,7 +4,7 @@
 ///
 /// * [BlockEmbed] which represents a block embed.
 class Embeddable {
-  Embeddable(this.type, this.data);
+  const Embeddable(this.type, this.data);
 
   /// The type of this object.
   final String type;
@@ -32,9 +32,11 @@ class Embeddable {
 /// the document model itself does not make any assumptions about the types
 /// of embedded objects and allows users to define their own types.
 class BlockEmbed extends Embeddable {
-  BlockEmbed(String type, String data) : super(type, data);
+  const BlockEmbed(String type, String data) : super(type, data);
 
-  static BlockEmbed horizontalRule = BlockEmbed('divider', 'hr');
+  static const String horizontalRuleType = 'divider';
+  static BlockEmbed horizontalRule = const BlockEmbed(horizontalRuleType, 'hr');
 
-  static BlockEmbed image(String imageUrl) => BlockEmbed('image', imageUrl);
+  static const String imageType = 'image';
+  static BlockEmbed image(String imageUrl) => BlockEmbed(imageType, imageUrl);
 }
