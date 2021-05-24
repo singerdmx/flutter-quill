@@ -53,6 +53,9 @@ abstract class Node extends LinkedListEntry<Node> {
 
   /// Offset in characters of this node in the document.
   int get documentOffset {
+    if (parent == null) {
+      return offset;
+    }
     final parentOffset = (parent is! Root) ? parent!.documentOffset : 0;
     return parentOffset + offset;
   }
