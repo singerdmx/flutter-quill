@@ -8,5 +8,4 @@ export 'src/models/quill_delta.dart';
 export 'src/widgets/controller.dart';
 export 'src/widgets/default_styles.dart';
 export 'src/widgets/editor.dart';
-export 'src/widgets/responsive_widget.dart';
 export 'src/widgets/toolbar.dart';

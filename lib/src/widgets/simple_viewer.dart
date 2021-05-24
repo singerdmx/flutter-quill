@@ -109,9 +109,11 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
                 : Image.file(io.File(imageUrl));
       default:
         throw UnimplementedError(
-            'Embeddable type "${node.value.type}" is not supported by default embed '
-            'builder of QuillEditor. You must pass your own builder function to '
-            'embedBuilder property of QuillEditor or QuillField widgets.');
+          'Embeddable type "${node.value.type}" is not supported by default '
+          'embed builder of QuillEditor. You must pass your own builder '
+          'function to embedBuilder property of QuillEditor or QuillField '
+          'widgets.',
+        );
     }
   }
 

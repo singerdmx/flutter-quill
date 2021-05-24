@@ -170,7 +170,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Renders the image picked by imagePicker from local file storage
-  // You can also upload the picked image to any server (eg : AWS s3 or Firebase) and then return the uploaded image URL
+  // You can also upload the picked image to any server (eg : AWS s3
+  // or Firebase) and then return the uploaded image URL.
   Future<String> _onImagePickCallback(File file) async {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();

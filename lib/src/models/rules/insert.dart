@@ -167,7 +167,8 @@ class AutoExitBlockRule extends InsertRule {
     // First check if `cur` length is greater than 1, this would indicate
     // that it contains multiple newline characters which share the same style.
     // This would mean we are not on the last line yet.
-    // `cur.value as String` is safe since we already called isEmptyLine and know it contains a newline
+    // `cur.value as String` is safe since we already called isEmptyLine and
+    // know it contains a newline
     if ((cur.value as String).length > 1) {
       // We are not on the last line of this block, ignore.
       return null;
@@ -188,7 +189,7 @@ class AutoExitBlockRule extends InsertRule {
     // therefore we can exit this block.
     final attributes = cur.attributes ?? <String, dynamic>{};
     final k = attributes.keys
-        .firstWhere((k) => Attribute.blockKeysExceptHeader.contains(k));
+        .firstWhere(Attribute.blockKeysExceptHeader.contains);
     attributes[k] = null;
     // retain(1) should be '\n', set it with no attribute
     return Delta()..retain(index + (len ?? 0))..retain(1, attributes);

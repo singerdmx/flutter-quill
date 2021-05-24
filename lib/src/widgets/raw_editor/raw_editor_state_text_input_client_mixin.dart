@@ -103,7 +103,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     final shouldRemember =
         getTextEditingValue().text != _lastKnownRemoteTextEditingValue!.text;
     _lastKnownRemoteTextEditingValue = actualValue;
-    _textInputConnection!.setEditingState(actualValue);
+    _textInputConnection!.setEditingState(
+      // Set composing to (-1, -1), otherwise an exception will be thrown if
+      // the values are different.
+      actualValue.copyWith(composing: const TextRange(start: -1, end: -1)),
+    );
     if (shouldRemember) {
       // Only keep track if text changed (selection changes are not relevant)
       _sentRemoteValues.add(actualValue);

@@ -79,7 +79,7 @@ abstract class Container<T extends Node?> extends Node {
     if (last != null) last.adjust();
   }
 
-  /// Queries the child [Node] at specified character [offset] in this container.
+  /// Queries the child [Node] at [offset] in this container.
   ///
   /// The result may contain the found node or `null` if no node is found
   /// at specified offset.

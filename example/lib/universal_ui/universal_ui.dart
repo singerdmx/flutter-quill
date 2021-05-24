@@ -3,9 +3,9 @@ library universal_ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-
 import 'package:universal_html/html.dart' as html;
 
+import '../widgets/responsive_widget.dart';
 import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui_instance;
 
 class PlatformViewRegistryFix {
@@ -50,8 +50,9 @@ Widget defaultEmbedBuilderWeb(BuildContext context, Embed node) {
 
     default:
       throw UnimplementedError(
-          'Embeddable type "${node.value.type}" is not supported by default embed '
-          'builder of QuillEditor. You must pass your own builder function to '
-          'embedBuilder property of QuillEditor or QuillField widgets.');
+        'Embeddable type "${node.value.type}" is not supported by default '
+        'embed builder of QuillEditor. You must pass your own builder function '
+        'to embedBuilder property of QuillEditor or QuillField widgets.',
+      );
   }
 }
