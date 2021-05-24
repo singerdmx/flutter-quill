@@ -188,8 +188,8 @@ class AutoExitBlockRule extends InsertRule {
     // Here we now know that the line after `cur` is not in the same block
     // therefore we can exit this block.
     final attributes = cur.attributes ?? <String, dynamic>{};
-    final k = attributes.keys
-        .firstWhere(Attribute.blockKeysExceptHeader.contains);
+    final k =
+        attributes.keys.firstWhere(Attribute.blockKeysExceptHeader.contains);
     attributes[k] = null;
     // retain(1) should be '\n', set it with no attribute
     return Delta()..retain(index + (len ?? 0))..retain(1, attributes);
