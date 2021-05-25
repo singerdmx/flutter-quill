@@ -11,11 +11,10 @@ import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
 class QuillController extends ChangeNotifier {
-  QuillController(
-      {required this.document,
-      required this.selection,
-      this.iconSize = 18,
-      this.toolbarHeightFactor = 2});
+  QuillController({
+    required this.document,
+    required TextSelection selection,
+  }) : _selection = selection;
 
   factory QuillController.basic() {
     return QuillController(
@@ -24,19 +23,24 @@ class QuillController extends ChangeNotifier {
     );
   }
 
+  /// Document managed by this controller.
   final Document document;
-  TextSelection selection;
-  double iconSize;
-  double toolbarHeightFactor;
 
+  /// Currently selected text within the [document].
+  TextSelection get selection => _selection;
+  TextSelection _selection;
+
+  /// Store any styles attribute that got toggled by the tap of a button
+  /// and that has not been applied yet.
+  /// It gets reset after each format action within the [document].
   Style toggledStyle = Style();
+
   bool ignoreFocusOnTextChange = false;
 
-  /// Controls whether this [QuillController] instance has already been disposed
-  /// of
+  /// True when this [QuillController] instance has been disposed.
   ///
-  /// This is a safe approach to make sure that listeners don't crash when
-  /// adding, removing or listeners to this instance.
+  /// A safety mechanism to ensure that listeners don't crash when adding,
+  /// removing or listeners to this instance.
   bool _isDisposed = false;
 
   // item1: Document state before [change].
@@ -220,9 +224,9 @@ class QuillController extends ChangeNotifier {
   }
 
   void _updateSelection(TextSelection textSelection, ChangeSource source) {
-    selection = textSelection;
+    _selection = textSelection;
     final end = document.length - 1;
-    selection = selection.copyWith(
+    _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
   }
