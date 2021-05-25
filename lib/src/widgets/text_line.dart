@@ -625,11 +625,11 @@ class RenderEditableTextLine extends RenderEditableBox {
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     final leadingWidth = _leading == null
         ? 0
-        : _leading!.getMinIntrinsicWidth(height - verticalPadding).floor();
+        : _leading!.getMinIntrinsicWidth(height - verticalPadding).ceil();
     final bodyWidth = _body == null
         ? 0
         : _body!.getMinIntrinsicWidth(math.max(0, height - verticalPadding))
-            .floor();
+            .ceil();
     return horizontalPadding + leadingWidth + bodyWidth;
   }
 
