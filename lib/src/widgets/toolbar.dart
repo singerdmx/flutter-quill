@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../models/documents/attribute.dart';
 import 'controller.dart';
+import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
 import 'toolbar/history_button.dart';
@@ -316,21 +317,9 @@ class _QuillToolbarState extends State<QuillToolbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
       constraints: BoxConstraints.tightFor(height: widget.preferredSize.height),
       color: Theme.of(context).canvasColor,
-      child: CustomScrollView(
-        scrollDirection: Axis.horizontal,
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widget.children,
-            ),
-          ),
-        ],
-      ),
+      child: ArrowIndicatedButtonList(buttons: widget.children),
     );
   }
 }
