@@ -12,12 +12,13 @@ import '../controller.dart';
 import '../toolbar.dart';
 import 'quill_icon_button.dart';
 
-class ImageButton extends StatefulWidget {
+class ImageButton extends StatelessWidget {
   const ImageButton({
     required this.icon,
     required this.controller,
     required this.imageSource,
     this.iconSize = kDefaultIconSize,
+    this.fillColor,
     this.onImagePickCallback,
     this.imagePickImpl,
     Key? key,
@@ -25,6 +26,8 @@ class ImageButton extends StatefulWidget {
 
   final IconData icon;
   final double iconSize;
+
+  final Color? fillColor;
 
   final QuillController controller;
 
@@ -35,48 +38,38 @@ class ImageButton extends StatefulWidget {
   final ImageSource imageSource;
 
   @override
-  _ImageButtonState createState() => _ImageButtonState();
-}
-
-class _ImageButtonState extends State<ImageButton> {
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return QuillIconButton(
-      icon: Icon(
-        widget.icon,
-        size: widget.iconSize,
-        color: theme.iconTheme.color,
-      ),
+      icon: Icon(icon, size: iconSize, color: theme.iconTheme.color),
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * 1.77,
-      fillColor: theme.canvasColor,
-      onPressed: _handleImageButtonTap,
+      size: iconSize * 1.77,
+      fillColor: fillColor ?? theme.canvasColor,
+      onPressed: () => _handleImageButtonTap(context),
     );
   }
 
-  Future<void> _handleImageButtonTap() async {
-    final index = widget.controller.selection.baseOffset;
-    final length = widget.controller.selection.extentOffset - index;
+  Future<void> _handleImageButtonTap(BuildContext context) async {
+    final index = controller.selection.baseOffset;
+    final length = controller.selection.extentOffset - index;
 
     String? imageUrl;
-    if (widget.imagePickImpl != null) {
-      imageUrl = await widget.imagePickImpl!(widget.imageSource);
+    if (imagePickImpl != null) {
+      imageUrl = await imagePickImpl!(imageSource);
     } else {
       if (kIsWeb) {
         imageUrl = await _pickImageWeb();
       } else if (Platform.isAndroid || Platform.isIOS) {
-        imageUrl = await _pickImage(widget.imageSource);
+        imageUrl = await _pickImage(imageSource);
       } else {
-        imageUrl = await _pickImageDesktop();
+        imageUrl = await _pickImageDesktop(context);
       }
     }
 
     if (imageUrl != null) {
-      widget.controller
-          .replaceText(index, length, BlockEmbed.image(imageUrl), null);
+      controller.replaceText(index, length, BlockEmbed.image(imageUrl), null);
     }
   }
 
@@ -90,7 +83,7 @@ class _ImageButtonState extends State<ImageButton> {
     final fileName = result.files.first.name!;
     final file = File(fileName);
 
-    return widget.onImagePickCallback!(file);
+    return onImagePickCallback!(file);
   }
 
   Future<String?> _pickImage(ImageSource source) async {
@@ -99,10 +92,10 @@ class _ImageButtonState extends State<ImageButton> {
       return null;
     }
 
-    return widget.onImagePickCallback!(File(pickedFile.path));
+    return onImagePickCallback!(File(pickedFile.path));
   }
 
-  Future<String?> _pickImageDesktop() async {
+  Future<String?> _pickImageDesktop(BuildContext context) async {
     final filePath = await FilesystemPicker.open(
       context: context,
       rootDirectory: await getApplicationDocumentsDirectory(),
@@ -112,6 +105,6 @@ class _ImageButtonState extends State<ImageButton> {
     if (filePath == null || filePath.isEmpty) return null;
 
     final file = File(filePath);
-    return widget.onImagePickCallback!(file);
+    return onImagePickCallback!(file);
   }
 }
