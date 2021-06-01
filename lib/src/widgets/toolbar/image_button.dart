@@ -80,7 +80,7 @@ class ImageButton extends StatelessWidget {
     }
 
     // Take first, because we don't allow picking multiple files.
-    final fileName = result.files.first.name!;
+    final fileName = result.files.first.name;
     final file = File(fileName);
 
     return onImagePickCallback!(file);
