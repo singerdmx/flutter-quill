@@ -1,3 +1,6 @@
+## [1.3.2]
+* Fix copy/paste bug.
+
 ## [1.3.1]
 * New logo.
 
