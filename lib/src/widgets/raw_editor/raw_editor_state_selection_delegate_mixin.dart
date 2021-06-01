@@ -27,6 +27,14 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   }
 
   @override
+  void userUpdateTextEditingValue(
+    TextEditingValue value,
+    SelectionChangedCause cause,
+  ) {
+    setTextEditingValue(value);
+  }
+
+  @override
   bool get cutEnabled => widget.toolbarOptions.cut && !widget.readOnly;
 
   @override
