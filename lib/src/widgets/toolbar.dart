@@ -71,237 +71,203 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     OnImagePickCallback? onImagePickCallback,
     Key? key,
   }) {
+    final isButtonGroupShown = [
+      showHistory ||
+          showBoldButton ||
+          showItalicButton ||
+          showUnderLineButton ||
+          showStrikeThrough ||
+          showColorButton ||
+          showBackgroundColorButton ||
+          showClearFormat ||
+          onImagePickCallback != null,
+      showHeaderStyle,
+      showListNumbers || showListBullets || showListCheck || showCodeBlock,
+      showQuote || showIndent,
+      showLink || showHorizontalRule
+    ];
+
     return QuillToolbar(
-        key: key,
-        toolBarHeight: toolbarIconSize * 2,
-        children: [
-          Visibility(
-            visible: showHistory,
-            child: HistoryButton(
-              icon: Icons.undo_outlined,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              undo: true,
-            ),
+      key: key,
+      toolBarHeight: toolbarIconSize * 2,
+      children: [
+        if (showHistory)
+          HistoryButton(
+            icon: Icons.undo_outlined,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            undo: true,
           ),
-          Visibility(
-            visible: showHistory,
-            child: HistoryButton(
-              icon: Icons.redo_outlined,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              undo: false,
-            ),
+        if (showHistory)
+          HistoryButton(
+            icon: Icons.redo_outlined,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            undo: false,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showBoldButton,
-            child: ToggleStyleButton(
-              attribute: Attribute.bold,
-              icon: Icons.format_bold,
-              iconSize: toolbarIconSize,
-              controller: controller,
-            ),
+        if (showBoldButton)
+          ToggleStyleButton(
+            attribute: Attribute.bold,
+            icon: Icons.format_bold,
+            iconSize: toolbarIconSize,
+            controller: controller,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showItalicButton,
-            child: ToggleStyleButton(
-              attribute: Attribute.italic,
-              icon: Icons.format_italic,
-              iconSize: toolbarIconSize,
-              controller: controller,
-            ),
+        if (showItalicButton)
+          ToggleStyleButton(
+            attribute: Attribute.italic,
+            icon: Icons.format_italic,
+            iconSize: toolbarIconSize,
+            controller: controller,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showUnderLineButton,
-            child: ToggleStyleButton(
-              attribute: Attribute.underline,
-              icon: Icons.format_underline,
-              iconSize: toolbarIconSize,
-              controller: controller,
-            ),
+        if (showUnderLineButton)
+          ToggleStyleButton(
+            attribute: Attribute.underline,
+            icon: Icons.format_underline,
+            iconSize: toolbarIconSize,
+            controller: controller,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showStrikeThrough,
-            child: ToggleStyleButton(
-              attribute: Attribute.strikeThrough,
-              icon: Icons.format_strikethrough,
-              iconSize: toolbarIconSize,
-              controller: controller,
-            ),
+        if (showStrikeThrough)
+          ToggleStyleButton(
+            attribute: Attribute.strikeThrough,
+            icon: Icons.format_strikethrough,
+            iconSize: toolbarIconSize,
+            controller: controller,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showColorButton,
-            child: ColorButton(
-              icon: Icons.color_lens,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              background: false,
-            ),
+        if (showColorButton)
+          ColorButton(
+            icon: Icons.color_lens,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            background: false,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showBackgroundColorButton,
-            child: ColorButton(
-              icon: Icons.format_color_fill,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              background: true,
-            ),
+        if (showBackgroundColorButton)
+          ColorButton(
+            icon: Icons.format_color_fill,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            background: true,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: showClearFormat,
-            child: ClearFormatButton(
-              icon: Icons.format_clear,
-              iconSize: toolbarIconSize,
-              controller: controller,
-            ),
+        if (showClearFormat)
+          ClearFormatButton(
+            icon: Icons.format_clear,
+            iconSize: toolbarIconSize,
+            controller: controller,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: onImagePickCallback != null,
-            child: ImageButton(
-              icon: Icons.image,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              imageSource: ImageSource.gallery,
-              onImagePickCallback: onImagePickCallback,
-            ),
+        if (onImagePickCallback != null)
+          ImageButton(
+            icon: Icons.image,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            imageSource: ImageSource.gallery,
+            onImagePickCallback: onImagePickCallback,
           ),
-          const SizedBox(width: 0.6),
-          Visibility(
-            visible: onImagePickCallback != null,
-            child: ImageButton(
-              icon: Icons.photo_camera,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              imageSource: ImageSource.camera,
-              onImagePickCallback: onImagePickCallback,
-            ),
+        if (onImagePickCallback != null)
+          ImageButton(
+            icon: Icons.photo_camera,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            imageSource: ImageSource.camera,
+            onImagePickCallback: onImagePickCallback,
           ),
-          Visibility(
-            visible: showHeaderStyle,
-            child: VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: Colors.grey.shade400,
-            ),
-          ),
-          Visibility(
-            visible: showHeaderStyle,
-            child: SelectHeaderStyleButton(
-              controller: controller,
-              iconSize: toolbarIconSize,
-            ),
-          ),
+        if (isButtonGroupShown[0] &&
+            (isButtonGroupShown[1] ||
+                isButtonGroupShown[2] ||
+                isButtonGroupShown[3] ||
+                isButtonGroupShown[4]))
           VerticalDivider(
             indent: 12,
             endIndent: 12,
             color: Colors.grey.shade400,
           ),
-          Visibility(
-            visible: showListNumbers,
-            child: ToggleStyleButton(
-              attribute: Attribute.ol,
-              controller: controller,
-              icon: Icons.format_list_numbered,
-              iconSize: toolbarIconSize,
-            ),
+        if (showHeaderStyle)
+          SelectHeaderStyleButton(
+            controller: controller,
+            iconSize: toolbarIconSize,
           ),
-          Visibility(
-            visible: showListBullets,
-            child: ToggleStyleButton(
-              attribute: Attribute.ul,
-              controller: controller,
-              icon: Icons.format_list_bulleted,
-              iconSize: toolbarIconSize,
-            ),
+        if (isButtonGroupShown[1] &&
+            (isButtonGroupShown[2] ||
+                isButtonGroupShown[3] ||
+                isButtonGroupShown[4]))
+          VerticalDivider(
+            indent: 12,
+            endIndent: 12,
+            color: Colors.grey.shade400,
           ),
-          Visibility(
-            visible: showListCheck,
-            child: ToggleCheckListButton(
-              attribute: Attribute.unchecked,
-              controller: controller,
-              icon: Icons.check_box,
-              iconSize: toolbarIconSize,
-            ),
+        if (showListNumbers)
+          ToggleStyleButton(
+            attribute: Attribute.ol,
+            controller: controller,
+            icon: Icons.format_list_numbered,
+            iconSize: toolbarIconSize,
           ),
-          Visibility(
-            visible: showCodeBlock,
-            child: ToggleStyleButton(
-              attribute: Attribute.codeBlock,
-              controller: controller,
-              icon: Icons.code,
-              iconSize: toolbarIconSize,
-            ),
+        if (showListBullets)
+          ToggleStyleButton(
+            attribute: Attribute.ul,
+            controller: controller,
+            icon: Icons.format_list_bulleted,
+            iconSize: toolbarIconSize,
           ),
-          Visibility(
-            visible: !showListNumbers &&
-                !showListBullets &&
-                !showListCheck &&
-                !showCodeBlock,
-            child: VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: Colors.grey.shade400,
-            ),
+        if (showListCheck)
+          ToggleCheckListButton(
+            attribute: Attribute.unchecked,
+            controller: controller,
+            icon: Icons.check_box,
+            iconSize: toolbarIconSize,
           ),
-          Visibility(
-            visible: showQuote,
-            child: ToggleStyleButton(
-              attribute: Attribute.blockQuote,
-              controller: controller,
-              icon: Icons.format_quote,
-              iconSize: toolbarIconSize,
-            ),
+        if (showCodeBlock)
+          ToggleStyleButton(
+            attribute: Attribute.codeBlock,
+            controller: controller,
+            icon: Icons.code,
+            iconSize: toolbarIconSize,
           ),
-          Visibility(
-            visible: showIndent,
-            child: IndentButton(
-              icon: Icons.format_indent_increase,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              isIncrease: true,
-            ),
+        if (isButtonGroupShown[2] &&
+            (isButtonGroupShown[3] || isButtonGroupShown[4]))
+          VerticalDivider(
+            indent: 12,
+            endIndent: 12,
+            color: Colors.grey.shade400,
           ),
-          Visibility(
-            visible: showIndent,
-            child: IndentButton(
-              icon: Icons.format_indent_decrease,
-              iconSize: toolbarIconSize,
-              controller: controller,
-              isIncrease: false,
-            ),
+        if (showQuote)
+          ToggleStyleButton(
+            attribute: Attribute.blockQuote,
+            controller: controller,
+            icon: Icons.format_quote,
+            iconSize: toolbarIconSize,
           ),
-          Visibility(
-            visible: showQuote,
-            child: VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: Colors.grey.shade400,
-            ),
+        if (showIndent)
+          IndentButton(
+            icon: Icons.format_indent_increase,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            isIncrease: true,
           ),
-          Visibility(
-            visible: showLink,
-            child: LinkStyleButton(
-              controller: controller,
-              iconSize: toolbarIconSize,
-            ),
+        if (showIndent)
+          IndentButton(
+            icon: Icons.format_indent_decrease,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            isIncrease: false,
           ),
-          Visibility(
-            visible: showHorizontalRule,
-            child: InsertEmbedButton(
-              controller: controller,
-              icon: Icons.horizontal_rule,
-              iconSize: toolbarIconSize,
-            ),
+        if (isButtonGroupShown[3] && isButtonGroupShown[4])
+          VerticalDivider(
+            indent: 12,
+            endIndent: 12,
+            color: Colors.grey.shade400,
           ),
-        ]);
+        if (showLink)
+          LinkStyleButton(
+            controller: controller,
+            iconSize: toolbarIconSize,
+          ),
+        if (showHorizontalRule)
+          InsertEmbedButton(
+            controller: controller,
+            icon: Icons.horizontal_rule,
+            iconSize: toolbarIconSize,
+          ),
+      ],
+    );
   }
 
   final List<Widget> children;
