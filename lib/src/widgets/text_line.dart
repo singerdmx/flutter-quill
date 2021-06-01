@@ -628,7 +628,8 @@ class RenderEditableTextLine extends RenderEditableBox {
         : _leading!.getMinIntrinsicWidth(height - verticalPadding).ceil();
     final bodyWidth = _body == null
         ? 0
-        : _body!.getMinIntrinsicWidth(math.max(0, height - verticalPadding))
+        : _body!
+            .getMinIntrinsicWidth(math.max(0, height - verticalPadding))
             .ceil();
     return horizontalPadding + leadingWidth + bodyWidth;
   }
@@ -643,7 +644,8 @@ class RenderEditableTextLine extends RenderEditableBox {
         : _leading!.getMaxIntrinsicWidth(height - verticalPadding).ceil();
     final bodyWidth = _body == null
         ? 0
-        : _body!.getMaxIntrinsicWidth(math.max(0, height - verticalPadding))
+        : _body!
+            .getMaxIntrinsicWidth(math.max(0, height - verticalPadding))
             .ceil();
     return horizontalPadding + leadingWidth + bodyWidth;
   }
