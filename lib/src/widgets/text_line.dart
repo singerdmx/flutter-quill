@@ -37,8 +37,14 @@ class TextLine extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
-    if (line.hasEmbed) {
-      final embed = line.children.single as Embed;
+    // In rare circumstances, the line could contain an Embed & a Text of
+    // newline, which is unexpected and probably we should find out the
+    // root cause
+    final childCount = line.childCount;
+    if (line.hasEmbed ||
+        (childCount > 1 && line.children.first is Embed))
+    {
+      final embed = line.children.first as Embed;
       return EmbedProxy(embedBuilder(context, embed));
     }
 
