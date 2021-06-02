@@ -44,9 +44,6 @@ class TextLine extends StatelessWidget {
     if (line.hasEmbed ||
         (childCount > 1 && line.children.first is Embed))
     {
-      if (childCount > 1) {
-        print('Unexpected - TextLine Embed as 1st child but multiple children');
-      }
       final embed = line.children.first as Embed;
       return EmbedProxy(embedBuilder(context, embed));
     }
