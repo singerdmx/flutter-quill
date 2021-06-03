@@ -41,9 +41,7 @@ class TextLine extends StatelessWidget {
     // newline, which is unexpected and probably we should find out the
     // root cause
     final childCount = line.childCount;
-    if (line.hasEmbed ||
-        (childCount > 1 && line.children.first is Embed))
-    {
+    if (line.hasEmbed || (childCount > 1 && line.children.first is Embed)) {
       final embed = line.children.first as Embed;
       return EmbedProxy(embedBuilder(context, embed));
     }
