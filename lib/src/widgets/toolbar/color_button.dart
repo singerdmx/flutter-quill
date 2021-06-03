@@ -125,7 +125,7 @@ class _ColorButtonState extends State<ColorButton> {
     );
   }
 
-  void _changeColor(Color color) {
+  void _changeColor(BuildContext context, Color color) {
     var hex = color.value.toRadixString(16);
     if (hex.startsWith('ff')) {
       hex = hex.substring(2);
@@ -139,15 +139,16 @@ class _ColorButtonState extends State<ColorButton> {
   void _showColorPicker() {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-          title: const Text('Select Color'),
-          backgroundColor: Theme.of(context).canvasColor,
-          content: SingleChildScrollView(
-            child: MaterialPicker(
-              pickerColor: const Color(0x00000000),
-              onColorChanged: _changeColor,
-            ),
-          )),
+      builder: (context) => AlertDialog(
+        title: const Text('Select Color'),
+        backgroundColor: Theme.of(context).canvasColor,
+        content: SingleChildScrollView(
+          child: MaterialPicker(
+            pickerColor: const Color(0x00000000),
+            onColorChanged: (color) => _changeColor(context, color),
+          ),
+        ),
+      ),
     );
   }
 }
