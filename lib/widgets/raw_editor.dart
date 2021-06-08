@@ -140,6 +140,14 @@ class RawEditorState extends EditorState
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
+  @override
+  void bringIntoView(TextPosition position) {
+    setState(() {
+      widget.controller.selection = TextSelection(
+          baseOffset: widget.controller.selection.baseOffset,
+          extentOffset: position.offset);
+    });
+  }
 
   TextDirection get _textDirection => Directionality.of(context);
 
