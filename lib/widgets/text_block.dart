@@ -61,7 +61,6 @@ class EditableTextBlock extends StatelessWidget {
     this.embedBuilder,
     this.cursorCont,
     this.indentLevelCounts,
-    this.onCheckboxTap,
   );
 
   final Block block;
@@ -77,7 +76,6 @@ class EditableTextBlock extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
-  final Function(int, bool) onCheckboxTap;
 
   @override
   Widget build(BuildContext context) {
@@ -163,23 +161,12 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.checked) {
       return _Checkbox(
-        key: UniqueKey(),
-        style: defaultStyles!.leading!.style,
-        width: 32,
-        isChecked: true,
-        offset: block.offset + line.offset,
-        onTap: onCheckboxTap,
-      );
+          style: defaultStyles!.leading!.style, width: 32, isChecked: true);
     }
 
     if (attrs[Attribute.list.key] == Attribute.unchecked) {
       return _Checkbox(
-        key: UniqueKey(),
-        style: defaultStyles!.leading!.style,
-        width: 32,
-        offset: block.offset + line.offset,
-        onTap: onCheckboxTap,
-      );
+          style: defaultStyles!.leading!.style, width: 32, isChecked: false);
     }
 
     if (attrs.containsKey(Attribute.codeBlock.key)) {
@@ -698,39 +685,46 @@ class _BulletPoint extends StatelessWidget {
   }
 }
 
-class _Checkbox extends StatelessWidget {
-  const _Checkbox({
-    Key? key,
-    this.style,
-    this.width,
-    this.isChecked = false,
-    this.offset,
-    this.onTap,
-  }) : super(key: key);
+class _Checkbox extends StatefulWidget {
+  const _Checkbox({Key? key, this.style, this.width, this.isChecked})
+      : super(key: key);
+
   final TextStyle? style;
   final double? width;
-  final bool isChecked;
-  final int? offset;
-  final Function(int, bool)? onTap;
+  final bool? isChecked;
 
-  void _onCheckboxClicked(bool? newValue) {
-    if (onTap != null && newValue != null && offset != null) {
-      onTap!(offset!, newValue);
-    }
+  @override
+  __CheckboxState createState() => __CheckboxState();
+}
+
+class __CheckboxState extends State<_Checkbox> {
+  bool? isChecked;
+
+  void _onCheckboxClicked(bool? newValue) => setState(() {
+        isChecked = newValue;
+
+        if (isChecked!) {
+          // check list
+        } else {
+          // uncheck list
+        }
+      });
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.isChecked;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: AlignmentDirectional.topEnd,
-      width: width,
+      width: widget.width,
       padding: const EdgeInsetsDirectional.only(end: 13),
-      child: GestureDetector(
-        onLongPress: () => _onCheckboxClicked(!isChecked),
-        child: Checkbox(
-          value: isChecked,
-          onChanged: _onCheckboxClicked,
-        ),
+      child: Checkbox(
+        value: widget.isChecked,
+        onChanged: _onCheckboxClicked,
       ),
     );
   }

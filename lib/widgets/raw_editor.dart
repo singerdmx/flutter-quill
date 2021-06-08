@@ -15,6 +15,7 @@ import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
+import '../utils/diff_delta.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
@@ -22,9 +23,6 @@ import 'delegate.dart';
 import 'editor.dart';
 import 'keyboard_listener.dart';
 import 'proxy.dart';
-import 'raw_editor/raw_editor_state_keyboard_mixin.dart';
-import 'raw_editor/raw_editor_state_selection_delegate_mixin.dart';
-import 'raw_editor/raw_editor_state_text_input_client_mixin.dart';
 import 'text_block.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
@@ -91,55 +89,406 @@ class RawEditor extends StatefulWidget {
   final EmbedBuilder embedBuilder;
 
   @override
-  State<StatefulWidget> createState() => RawEditorState();
+  State<StatefulWidget> createState() {
+    return RawEditorState();
+  }
 }
 
 class RawEditorState extends EditorState
     with
         AutomaticKeepAliveClientMixin<RawEditor>,
         WidgetsBindingObserver,
-        TickerProviderStateMixin<RawEditor>,
-        RawEditorStateKeyboardMixin,
-        RawEditorStateTextInputClientMixin,
-        RawEditorStateSelectionDelegateMixin {
+        TickerProviderStateMixin<RawEditor>
+    implements TextSelectionDelegate, TextInputClient {
   final GlobalKey _editorKey = GlobalKey();
-
-  // Keyboard
-  late KeyboardListener _keyboardListener;
+  final List<TextEditingValue> _sentRemoteValues = [];
+  TextInputConnection? _textInputConnection;
+  TextEditingValue? _lastKnownRemoteTextEditingValue;
+  int _cursorResetLocation = -1;
+  bool _wasSelectingVerticallyWithKeyboard = false;
+  EditorTextSelectionOverlay? _selectionOverlay;
+  FocusAttachment? _focusAttachment;
+  late CursorCont _cursorCont;
+  ScrollController? _scrollController;
   KeyboardVisibilityController? _keyboardVisibilityController;
   StreamSubscription<bool>? _keyboardVisibilitySubscription;
-  bool _keyboardVisible = false;
-
-  // Selection overlay
-  @override
-  EditorTextSelectionOverlay? getSelectionOverlay() => _selectionOverlay;
-  EditorTextSelectionOverlay? _selectionOverlay;
-
-  ScrollController? _scrollController;
-
-  late CursorCont _cursorCont;
-
-  // Focus
+  late KeyboardListener _keyboardListener;
   bool _didAutoFocus = false;
-  FocusAttachment? _focusAttachment;
-  bool get _hasFocus => widget.focusNode.hasFocus;
-
+  bool _keyboardVisible = false;
   DefaultStyles? _styles;
-
-  @override
-  void bringIntoView(TextPosition position) {
-    setState(() {
-      widget.controller.selection = TextSelection(
-          baseOffset: widget.controller.selection.baseOffset,
-          extentOffset: position.offset);
-    });
-  }
-
   final ClipboardStatusNotifier? _clipboardStatus =
       kIsWeb ? null : ClipboardStatusNotifier();
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
+
+  /// Whether to create an input connection with the platform for text editing
+  /// or not.
+  ///
+  /// Read-only input fields do not need a connection with the platform since
+  /// there's no need for text editing capabilities (e.g. virtual keyboard).
+  ///
+  /// On the web, we always need a connection because we want some browser
+  /// functionalities to continue to work on read-only input fields like:
+  ///
+  /// - Relevant context menu.
+  /// - cmd/ctrl+c shortcut to copy.
+  /// - cmd/ctrl+a to select all.
+  /// - Changing the selection using a physical keyboard.
+  bool get shouldCreateInputConnection => kIsWeb || !widget.readOnly;
+
+  bool get _hasFocus => widget.focusNode.hasFocus;
+
+  TextDirection get _textDirection {
+    final result = Directionality.of(context);
+    return result;
+  }
+
+  void handleCursorMovement(
+    LogicalKeyboardKey key,
+    bool wordModifier,
+    bool lineModifier,
+    bool shift,
+  ) {
+    if (wordModifier && lineModifier) {
+      return;
+    }
+    final selection = widget.controller.selection;
+
+    var newSelection = widget.controller.selection;
+
+    final plainText = textEditingValue.text;
+
+    final rightKey = key == LogicalKeyboardKey.arrowRight,
+        leftKey = key == LogicalKeyboardKey.arrowLeft,
+        upKey = key == LogicalKeyboardKey.arrowUp,
+        downKey = key == LogicalKeyboardKey.arrowDown;
+
+    if ((rightKey || leftKey) && !(rightKey && leftKey)) {
+      newSelection = _jumpToBeginOrEndOfWord(newSelection, wordModifier,
+          leftKey, rightKey, plainText, lineModifier, shift);
+    }
+
+    if (downKey || upKey) {
+      newSelection = _handleMovingCursorVertically(
+          upKey, downKey, shift, selection, newSelection, plainText);
+    }
+
+    if (!shift) {
+      newSelection =
+          _placeCollapsedSelection(selection, newSelection, leftKey, rightKey);
+    }
+
+    widget.controller.updateSelection(newSelection, ChangeSource.LOCAL);
+  }
+
+  TextSelection _placeCollapsedSelection(TextSelection selection,
+      TextSelection newSelection, bool leftKey, bool rightKey) {
+    var newOffset = newSelection.extentOffset;
+    if (!selection.isCollapsed) {
+      if (leftKey) {
+        newOffset = newSelection.baseOffset < newSelection.extentOffset
+            ? newSelection.baseOffset
+            : newSelection.extentOffset;
+      } else if (rightKey) {
+        newOffset = newSelection.baseOffset > newSelection.extentOffset
+            ? newSelection.baseOffset
+            : newSelection.extentOffset;
+      }
+    }
+    return TextSelection.fromPosition(TextPosition(offset: newOffset));
+  }
+
+  TextSelection _handleMovingCursorVertically(
+      bool upKey,
+      bool downKey,
+      bool shift,
+      TextSelection selection,
+      TextSelection newSelection,
+      String plainText) {
+    final originPosition = TextPosition(
+        offset: upKey ? selection.baseOffset : selection.extentOffset);
+
+    final child = getRenderEditor()!.childAtPosition(originPosition);
+    final localPosition = TextPosition(
+        offset: originPosition.offset - child.getContainer().documentOffset);
+
+    var position = upKey
+        ? child.getPositionAbove(localPosition)
+        : child.getPositionBelow(localPosition);
+
+    if (position == null) {
+      final sibling = upKey
+          ? getRenderEditor()!.childBefore(child)
+          : getRenderEditor()!.childAfter(child);
+      if (sibling == null) {
+        position = TextPosition(offset: upKey ? 0 : plainText.length - 1);
+      } else {
+        final finalOffset = Offset(
+            child.getOffsetForCaret(localPosition).dx,
+            sibling
+                .getOffsetForCaret(TextPosition(
+                    offset: upKey ? sibling.getContainer().length - 1 : 0))
+                .dy);
+        final siblingPosition = sibling.getPositionForOffset(finalOffset);
+        position = TextPosition(
+            offset:
+                sibling.getContainer().documentOffset + siblingPosition.offset);
+      }
+    } else {
+      position = TextPosition(
+          offset: child.getContainer().documentOffset + position.offset);
+    }
+
+    if (position.offset == newSelection.extentOffset) {
+      if (downKey) {
+        newSelection = newSelection.copyWith(extentOffset: plainText.length);
+      } else if (upKey) {
+        newSelection = newSelection.copyWith(extentOffset: 0);
+      }
+      _wasSelectingVerticallyWithKeyboard = shift;
+      return newSelection;
+    }
+
+    if (_wasSelectingVerticallyWithKeyboard && shift) {
+      newSelection = newSelection.copyWith(extentOffset: _cursorResetLocation);
+      _wasSelectingVerticallyWithKeyboard = false;
+      return newSelection;
+    }
+    newSelection = newSelection.copyWith(extentOffset: position.offset);
+    _cursorResetLocation = newSelection.extentOffset;
+    return newSelection;
+  }
+
+  TextSelection _jumpToBeginOrEndOfWord(
+      TextSelection newSelection,
+      bool wordModifier,
+      bool leftKey,
+      bool rightKey,
+      String plainText,
+      bool lineModifier,
+      bool shift) {
+    if (wordModifier) {
+      if (leftKey) {
+        final textSelection = getRenderEditor()!.selectWordAtPosition(
+            TextPosition(
+                offset: _previousCharacter(
+                    newSelection.extentOffset, plainText, false)));
+        return newSelection.copyWith(extentOffset: textSelection.baseOffset);
+      }
+      final textSelection = getRenderEditor()!.selectWordAtPosition(
+          TextPosition(
+              offset:
+                  _nextCharacter(newSelection.extentOffset, plainText, false)));
+      return newSelection.copyWith(extentOffset: textSelection.extentOffset);
+    } else if (lineModifier) {
+      if (leftKey) {
+        final textSelection = getRenderEditor()!.selectLineAtPosition(
+            TextPosition(
+                offset: _previousCharacter(
+                    newSelection.extentOffset, plainText, false)));
+        return newSelection.copyWith(extentOffset: textSelection.baseOffset);
+      }
+      final startPoint = newSelection.extentOffset;
+      if (startPoint < plainText.length) {
+        final textSelection = getRenderEditor()!
+            .selectLineAtPosition(TextPosition(offset: startPoint));
+        return newSelection.copyWith(extentOffset: textSelection.extentOffset);
+      }
+      return newSelection;
+    }
+
+    if (rightKey && newSelection.extentOffset < plainText.length) {
+      final nextExtent =
+          _nextCharacter(newSelection.extentOffset, plainText, true);
+      final distance = nextExtent - newSelection.extentOffset;
+      newSelection = newSelection.copyWith(extentOffset: nextExtent);
+      if (shift) {
+        _cursorResetLocation += distance;
+      }
+      return newSelection;
+    }
+
+    if (leftKey && newSelection.extentOffset > 0) {
+      final previousExtent =
+          _previousCharacter(newSelection.extentOffset, plainText, true);
+      final distance = newSelection.extentOffset - previousExtent;
+      newSelection = newSelection.copyWith(extentOffset: previousExtent);
+      if (shift) {
+        _cursorResetLocation -= distance;
+      }
+      return newSelection;
+    }
+    return newSelection;
+  }
+
+  int _nextCharacter(int index, String string, bool includeWhitespace) {
+    assert(index >= 0 && index <= string.length);
+    if (index == string.length) {
+      return string.length;
+    }
+
+    var count = 0;
+    final remain = string.characters.skipWhile((currentString) {
+      if (count <= index) {
+        count += currentString.length;
+        return true;
+      }
+      if (includeWhitespace) {
+        return false;
+      }
+      return WHITE_SPACE.contains(currentString.codeUnitAt(0));
+    });
+    return string.length - remain.toString().length;
+  }
+
+  int _previousCharacter(int index, String string, includeWhitespace) {
+    assert(index >= 0 && index <= string.length);
+    if (index == 0) {
+      return 0;
+    }
+
+    var count = 0;
+    int? lastNonWhitespace;
+    for (final currentString in string.characters) {
+      if (!includeWhitespace &&
+          !WHITE_SPACE.contains(
+              currentString.characters.first.toString().codeUnitAt(0))) {
+        lastNonWhitespace = count;
+      }
+      if (count + currentString.length >= index) {
+        return includeWhitespace ? count : lastNonWhitespace ?? 0;
+      }
+      count += currentString.length;
+    }
+    return 0;
+  }
+
+  bool get hasConnection =>
+      _textInputConnection != null && _textInputConnection!.attached;
+
+  void openConnectionIfNeeded() {
+    if (!shouldCreateInputConnection) {
+      return;
+    }
+
+    if (!hasConnection) {
+      _lastKnownRemoteTextEditingValue = textEditingValue;
+      _textInputConnection = TextInput.attach(
+        this,
+        TextInputConfiguration(
+          inputType: TextInputType.multiline,
+          readOnly: widget.readOnly,
+          inputAction: TextInputAction.newline,
+          enableSuggestions: !widget.readOnly,
+          keyboardAppearance: widget.keyboardAppearance,
+          textCapitalization: widget.textCapitalization,
+        ),
+      );
+
+      _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
+      // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
+    }
+
+    _textInputConnection!.show();
+  }
+
+  void closeConnectionIfNeeded() {
+    if (!hasConnection) {
+      return;
+    }
+    _textInputConnection!.close();
+    _textInputConnection = null;
+    _lastKnownRemoteTextEditingValue = null;
+    _sentRemoteValues.clear();
+  }
+
+  void updateRemoteValueIfNeeded() {
+    if (!hasConnection) {
+      return;
+    }
+
+    final actualValue = textEditingValue.copyWith(
+      composing: _lastKnownRemoteTextEditingValue!.composing,
+    );
+
+    if (actualValue == _lastKnownRemoteTextEditingValue) {
+      return;
+    }
+
+    final shouldRemember =
+        textEditingValue.text != _lastKnownRemoteTextEditingValue!.text;
+    _lastKnownRemoteTextEditingValue = actualValue;
+    _textInputConnection!.setEditingState(actualValue);
+    if (shouldRemember) {
+      _sentRemoteValues.add(actualValue);
+    }
+  }
+
+  @override
+  TextEditingValue? get currentTextEditingValue =>
+      _lastKnownRemoteTextEditingValue;
+
+  @override
+  AutofillScope? get currentAutofillScope => null;
+
+  @override
+  void updateEditingValue(TextEditingValue value) {
+    if (!shouldCreateInputConnection) {
+      return;
+    }
+
+    if (_sentRemoteValues.contains(value)) {
+      _sentRemoteValues.remove(value);
+      return;
+    }
+
+    if (_lastKnownRemoteTextEditingValue == value) {
+      return;
+    }
+
+    if (_lastKnownRemoteTextEditingValue!.text == value.text &&
+        _lastKnownRemoteTextEditingValue!.selection == value.selection) {
+      _lastKnownRemoteTextEditingValue = value;
+      return;
+    }
+
+    final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
+    _lastKnownRemoteTextEditingValue = value;
+    final oldText = effectiveLastKnownValue.text;
+    final text = value.text;
+    final cursorPosition = value.selection.extentOffset;
+    final diff = getDiff(oldText, text, cursorPosition);
+    widget.controller.replaceText(
+        diff.start, diff.deleted.length, diff.inserted, value.selection);
+  }
+
+  @override
+  TextEditingValue get textEditingValue {
+    return getTextEditingValue();
+  }
+
+  @override
+  set textEditingValue(TextEditingValue value) {
+    setTextEditingValue(value);
+  }
+
+  @override
+  void performAction(TextInputAction action) {}
+
+  @override
+  void performPrivateCommand(String action, Map<String, dynamic> data) {}
+
+  @override
+  void updateFloatingCursor(RawFloatingCursorPoint point) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void showAutocorrectionPromptRect(int start, int end) {
+    throw UnimplementedError();
+  }
+
   @override
   void bringIntoView(TextPosition position) {
     setState(() {
@@ -149,7 +498,16 @@ class RawEditorState extends EditorState
     });
   }
 
-  TextDirection get _textDirection => Directionality.of(context);
+  @override
+  void connectionClosed() {
+    if (!hasConnection) {
+      return;
+    }
+    _textInputConnection!.connectionClosedReceived();
+    _textInputConnection = null;
+    _lastKnownRemoteTextEditingValue = null;
+    _sentRemoteValues.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,18 +585,6 @@ class RawEditorState extends EditorState
     }
   }
 
-  /// Updates the checkbox positioned at [offset] in document
-  /// by changing its attribute according to [value].
-  void _handleCheckboxTap(int offset, bool value) {
-    if (!widget.readOnly) {
-      if (value) {
-        widget.controller.formatText(offset, 0, Attribute.checked);
-      } else {
-        widget.controller.formatText(offset, 0, Attribute.unchecked);
-      }
-    }
-  }
-
   List<Widget> _buildChildren(Document doc, BuildContext context) {
     final result = <Widget>[];
     final indentLevelCounts = <int, int>{};
@@ -249,23 +595,21 @@ class RawEditorState extends EditorState
       } else if (node is Block) {
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
-          node,
-          _textDirection,
-          widget.scrollBottomInset,
-          _getVerticalSpacingForBlock(node, _styles),
-          widget.controller.selection,
-          widget.selectionColor,
-          _styles,
-          widget.enableInteractiveSelection,
-          _hasFocus,
-          attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
-              : null,
-          widget.embedBuilder,
-          _cursorCont,
-          indentLevelCounts,
-          _handleCheckboxTap,
-        );
+            node,
+            _textDirection,
+            widget.scrollBottomInset,
+            _getVerticalSpacingForBlock(node, _styles),
+            widget.controller.selection,
+            widget.selectionColor,
+            _styles,
+            widget.enableInteractiveSelection,
+            _hasFocus,
+            attrs.containsKey(Attribute.codeBlock.key)
+                ? const EdgeInsets.all(16)
+                : null,
+            widget.embedBuilder,
+            _cursorCont,
+            indentLevelCounts);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
@@ -444,6 +788,89 @@ class RawEditorState extends EditorState
         !widget.controller.selection.isCollapsed;
   }
 
+  void handleDelete(bool forward) {
+    final selection = widget.controller.selection;
+    final plainText = textEditingValue.text;
+    var cursorPosition = selection.start;
+    var textBefore = selection.textBefore(plainText);
+    var textAfter = selection.textAfter(plainText);
+    if (selection.isCollapsed) {
+      if (!forward && textBefore.isNotEmpty) {
+        final characterBoundary =
+            _previousCharacter(textBefore.length, textBefore, true);
+        textBefore = textBefore.substring(0, characterBoundary);
+        cursorPosition = characterBoundary;
+      }
+      if (forward && textAfter.isNotEmpty && textAfter != '\n') {
+        final deleteCount = _nextCharacter(0, textAfter, true);
+        textAfter = textAfter.substring(deleteCount);
+      }
+    }
+    final newSelection = TextSelection.collapsed(offset: cursorPosition);
+    final newText = textBefore + textAfter;
+    final size = plainText.length - newText.length;
+    widget.controller.replaceText(
+      cursorPosition,
+      size,
+      '',
+      newSelection,
+    );
+  }
+
+  Future<void> handleShortcut(InputShortcut? shortcut) async {
+    final selection = widget.controller.selection;
+    final plainText = textEditingValue.text;
+    if (shortcut == InputShortcut.COPY) {
+      if (!selection.isCollapsed) {
+        await Clipboard.setData(
+            ClipboardData(text: selection.textInside(plainText)));
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.CUT && !widget.readOnly) {
+      if (!selection.isCollapsed) {
+        final data = selection.textInside(plainText);
+        await Clipboard.setData(ClipboardData(text: data));
+
+        widget.controller.replaceText(
+          selection.start,
+          data.length,
+          '',
+          TextSelection.collapsed(offset: selection.start),
+        );
+
+        textEditingValue = TextEditingValue(
+          text:
+              selection.textBefore(plainText) + selection.textAfter(plainText),
+          selection: TextSelection.collapsed(offset: selection.start),
+        );
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.PASTE && !widget.readOnly) {
+      final data = await Clipboard.getData(Clipboard.kTextPlain);
+      if (data != null) {
+        widget.controller.replaceText(
+          selection.start,
+          selection.end - selection.start,
+          data.text,
+          TextSelection.collapsed(offset: selection.start + data.text!.length),
+        );
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.SELECT_ALL &&
+        widget.enableInteractiveSelection) {
+      widget.controller.updateSelection(
+          selection.copyWith(
+            baseOffset: 0,
+            extentOffset: textEditingValue.text.length,
+          ),
+          ChangeSource.REMOTE);
+      return;
+    }
+  }
+
   @override
   void dispose() {
     closeConnectionIfNeeded();
@@ -605,6 +1032,11 @@ class RawEditorState extends EditorState
   }
 
   @override
+  EditorTextSelectionOverlay? getSelectionOverlay() {
+    return _selectionOverlay;
+  }
+
+  @override
   TextEditingValue getTextEditingValue() {
     return widget.controller.plainTextEditingValue;
   }
@@ -705,10 +1137,12 @@ class RawEditorState extends EditorState
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
 
-  @override
-  void userUpdateTextEditingValue(
-      TextEditingValue value, SelectionChangedCause cause) {
-    // TODO: implement userUpdateTextEditingValue
+  void openOrCloseConnection() {
+    if (widget.focusNode.hasFocus && widget.focusNode.consumeKeyboardToken()) {
+      openConnectionIfNeeded();
+    } else if (!widget.focusNode.hasFocus) {
+      closeConnectionIfNeeded();
+    }
   }
 
   @override
