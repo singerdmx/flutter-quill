@@ -17,6 +17,7 @@ linter:
     - avoid_void_async
     - cascade_invocations
     - directives_ordering
+    - lines_longer_than_80_chars
     - omit_local_variable_types
     - prefer_const_constructors
     - prefer_const_constructors_in_immutables
@@ -31,5 +32,6 @@ linter:
     - prefer_single_quotes
     - sort_constructors_first
     - sort_unnamed_constructors_first
+    - unnecessary_lambdas
     - unnecessary_parenthesis
     - unnecessary_string_interpolations

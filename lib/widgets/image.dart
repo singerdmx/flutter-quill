@@ -1,31 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:photo_view/photo_view.dart';
-
-class ImageTapWrapper extends StatelessWidget {
-  const ImageTapWrapper({
-    this.imageProvider,
-  });
-
-  final ImageProvider? imageProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height,
-        ),
-        child: GestureDetector(
-          onTapDown: (_) {
-            Navigator.pop(context);
-          },
-          child: PhotoView(
-            imageProvider: imageProvider,
-          ),
-        ),
-      ),
-    );
-  }
-}
+/// TODO: Remove this file in the next breaking release, because implementation
+/// files should be located in the src folder, https://bit.ly/3fA23Yz.
+export '../src/widgets/image.dart';
