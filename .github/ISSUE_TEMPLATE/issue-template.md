@@ -13,4 +13,4 @@ My issue is about [Desktop]
 
 I have tried running `example` directory successfully before creating an issue here.
 
-Please note that we are using stable channel. If you are using beta or master channel, those are not supported.
+Please note that we are using stable channel on branch master. If you are using beta or master channel, use branch dev.
