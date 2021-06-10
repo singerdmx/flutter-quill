@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 enum InputShortcut { CUT, COPY, PASTE, SELECT_ALL }
 
@@ -63,14 +62,14 @@ class KeyboardListener {
     LogicalKeyboardKey.keyA: InputShortcut.SELECT_ALL,
   };
 
-  KeyEventResult handleRawKeyEvent(RawKeyEvent event) {
+  bool handleRawKeyEvent(RawKeyEvent event) {
     if (kIsWeb) {
-      // On web platform, we should ignore the key because it's processed already.
-      return KeyEventResult.ignored;
+      // On web platform, we ignore the key because it's already processed.
+      return false;
     }
 
     if (event is! RawKeyDownEvent) {
-      return KeyEventResult.ignored;
+      return false;
     }
 
     final keysPressed =
@@ -83,7 +82,7 @@ class KeyboardListener {
                 .length >
             1 ||
         keysPressed.difference(_interestingKeys).isNotEmpty) {
-      return KeyEventResult.ignored;
+      return false;
     }
 
     if (_moveKeys.contains(key)) {
@@ -101,6 +100,6 @@ class KeyboardListener {
     } else if (key == LogicalKeyboardKey.backspace) {
       onDelete(false);
     }
-    return KeyEventResult.ignored;
+    return false;
   }
 }
