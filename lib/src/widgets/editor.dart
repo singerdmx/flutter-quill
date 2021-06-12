@@ -125,6 +125,7 @@ class QuillEditor extends StatefulWidget {
       required this.readOnly,
       required this.expands,
       this.showCursor,
+      this.paintCursorAboveText,
       this.placeholder,
       this.enableInteractiveSelection = true,
       this.scrollBottomInset = 0,
@@ -165,6 +166,7 @@ class QuillEditor extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final bool autoFocus;
   final bool? showCursor;
+  final bool? paintCursorAboveText;
   final bool readOnly;
   final String? placeholder;
   final bool enableInteractiveSelection;
@@ -287,7 +289,7 @@ class _QuillEditorState extends State<QuillEditor>
             width: 2,
             radius: cursorRadius,
             offset: cursorOffset,
-            paintAboveText: paintCursorAboveText,
+            paintAboveText: widget.paintCursorAboveText ?? paintCursorAboveText,
             opacityAnimates: cursorOpacityAnimates,
           ),
           widget.textCapitalization,
