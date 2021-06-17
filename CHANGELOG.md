@@ -1,3 +1,6 @@
+## [1.3.4]
+* Add option to paintCursorAboveText.
+
 ## [1.3.3]
 * Upgrade file_picker version.
 
