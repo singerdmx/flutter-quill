@@ -29,6 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   path_provider: ^2.0.1
+  filesystem_picker: ^2.0.0-nullsafety.0
   flutter_quill:
     path: ../
 

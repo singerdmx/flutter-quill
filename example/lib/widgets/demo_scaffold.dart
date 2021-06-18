@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,8 +74,13 @@ class _DemoScaffoldState extends State<DemoScaffold> {
     }
   }
 
-  Future<Directory> getApplicationDirectoryForDesktop() async {
-    return await getApplicationDocumentsDirectory();
+  Future<String?> openFileSystemPickerForDesktop(BuildContext context) async {
+    return await FilesystemPicker.open(
+      context: context,
+      rootDirectory: await getApplicationDocumentsDirectory(),
+      fsType: FilesystemType.file,
+      fileTileSelectMode: FileTileSelectMode.wholeTile,
+    );
   }
 
   @override
@@ -85,7 +91,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
     if (isDesktop) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
-          applicationPath: getApplicationDirectoryForDesktop());
+          filePickImpl: openFileSystemPickerForDesktop);
     }
     return Scaffold(
       key: _scaffoldKey,

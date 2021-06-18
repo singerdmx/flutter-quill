@@ -33,6 +33,7 @@ export 'toolbar/toggle_style_button.dart';
 
 typedef OnImagePickCallback = Future<String> Function(File file);
 typedef ImagePickImpl = Future<String?> Function(ImageSource source);
+typedef FilePickImpl = Future<String?> Function(BuildContext context);
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -45,7 +46,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required this.children,
     this.toolBarHeight = 36,
     this.color,
-    this.applicationPath,
+    this.filePickImpl,
     Key? key,
   }) : super(key: key);
 
@@ -70,7 +71,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showHistory = true,
     bool showHorizontalRule = false,
     OnImagePickCallback? onImagePickCallback,
-    Future<Directory>? applicationPath,
+    FilePickImpl? filePickImpl,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -162,7 +163,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             imageSource: ImageSource.gallery,
             onImagePickCallback: onImagePickCallback,
-            applicationPath: applicationPath,
+            filePickImpl: filePickImpl,
           ),
         if (onImagePickCallback != null)
           ImageButton(
@@ -171,7 +172,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             imageSource: ImageSource.camera,
             onImagePickCallback: onImagePickCallback,
-            applicationPath: applicationPath,
+            filePickImpl: filePickImpl,
           ),
         if (isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
@@ -283,7 +284,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// is given.
   final Color? color;
 
-  final Future<Directory>? applicationPath;
+  final FilePickImpl? filePickImpl;
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);

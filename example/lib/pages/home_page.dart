@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
           onImagePickCallback: _onImagePickCallback,
-          applicationPath: getApplicationDirectoryForDesktop());
+          filePickImpl: openFileSystemPickerForDesktop);
     }
 
     return SafeArea(
@@ -173,8 +174,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<Directory> getApplicationDirectoryForDesktop() async {
-    return await getApplicationDocumentsDirectory();
+  Future<String?> openFileSystemPickerForDesktop(BuildContext context) async {
+    return await FilesystemPicker.open(
+      context: context,
+      rootDirectory: await getApplicationDocumentsDirectory(),
+      fsType: FilesystemType.file,
+      fileTileSelectMode: FileTileSelectMode.wholeTile,
+    );
   }
 
   // Renders the image picked by imagePicker from local file storage
