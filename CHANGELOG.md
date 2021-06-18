@@ -1,3 +1,6 @@
+## [1.4.1]
+* Remove filesystem_picker dependency.
+
 ## [1.4.0]
 * Remove path_provider dependency.
 
