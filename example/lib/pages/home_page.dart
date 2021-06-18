@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
     }
     var toolbar = QuillToolbar.basic(
         controller: _controller!, onImagePickCallback: _onImagePickCallback);
-    const isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
+    final isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
     if (isDesktop) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,

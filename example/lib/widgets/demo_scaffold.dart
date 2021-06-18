@@ -81,7 +81,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
   Widget build(BuildContext context) {
     final actions = widget.actions ?? <Widget>[];
     var toolbar = QuillToolbar.basic(controller: _controller!);
-    const isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
+    final isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
     if (isDesktop) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
@@ -102,7 +102,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: _loading || widget.showToolbar == false ? null : toolbar,
+        title: _loading || !widget.showToolbar? null : toolbar,
         actions: actions,
       ),
       floatingActionButton: widget.floatingActionButton,
