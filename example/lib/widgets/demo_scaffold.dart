@@ -80,6 +80,13 @@ class _DemoScaffoldState extends State<DemoScaffold> {
   @override
   Widget build(BuildContext context) {
     final actions = widget.actions ?? <Widget>[];
+    var toolbar = QuillToolbar.basic(controller: _controller!);
+    const isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
+    if (isDesktop) {
+      toolbar = QuillToolbar.basic(
+          controller: _controller!,
+          applicationPath: getApplicationDirectoryForDesktop());
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -95,13 +102,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: _loading || widget.showToolbar == false
-            ? null
-            : QuillToolbar.basic(controller: _controller!,
-            applicationPath:
-            !(kIsWeb || Platform.isAndroid || Platform.isIOS)
-                ? null
-                : getApplicationDirectoryForDesktop()),
+        title: _loading || widget.showToolbar == false ? null : toolbar,
         actions: actions,
       ),
       floatingActionButton: widget.floatingActionButton,

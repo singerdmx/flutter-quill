@@ -283,7 +283,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// is given.
   final Color? color;
 
-  final Directory? applicationPath;
+  final Future<Directory>? applicationPath;
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);

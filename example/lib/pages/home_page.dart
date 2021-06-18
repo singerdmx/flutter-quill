@@ -138,6 +138,16 @@ class _HomePageState extends State<HomePage> {
           ),
           embedBuilder: defaultEmbedBuilderWeb);
     }
+    var toolbar = QuillToolbar.basic(
+        controller: _controller!, onImagePickCallback: _onImagePickCallback);
+    const isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
+    if (isDesktop) {
+      toolbar = QuillToolbar.basic(
+          controller: _controller!,
+          onImagePickCallback: _onImagePickCallback,
+          applicationPath: getApplicationDirectoryForDesktop());
+    }
+
     return SafeArea(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,23 +165,9 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: QuillToolbar.basic(
-                      controller: _controller!,
-                      onImagePickCallback: _onImagePickCallback,
-                      applicationPath:
-                      !(kIsWeb || Platform.isAndroid || Platform.isIOS)
-                          ? null
-                          : getApplicationDirectoryForDesktop()),
+                  child: toolbar,
                 ))
-              : Container(
-                  child: QuillToolbar.basic(
-                      controller: _controller!,
-                      onImagePickCallback: _onImagePickCallback,
-                      applicationPath:
-                          !(kIsWeb || Platform.isAndroid || Platform.isIOS)
-                              ? null
-                              : getApplicationDirectoryForDesktop()),
-                ),
+              : Container(child: toolbar)
         ],
       ),
     );

@@ -68,7 +68,7 @@ class ImageButton extends StatelessWidget {
         imageUrl = await _pickImage(imageSource);
       } else {
         assert(applicationPath != null,
-        'Desktop must provide application document directory');
+            'Desktop must provide application document directory');
         imageUrl = await _pickImageDesktop(context, applicationPath!);
       }
     }
@@ -100,8 +100,8 @@ class ImageButton extends StatelessWidget {
     return onImagePickCallback!(File(pickedFile.path));
   }
 
-  Future<String?> _pickImageDesktop(BuildContext context,
-      Future<Directory> applicationPath) async {
+  Future<String?> _pickImageDesktop(
+      BuildContext context, Future<Directory> applicationPath) async {
     final filePath = await FilesystemPicker.open(
       context: context,
       rootDirectory: await applicationPath,

@@ -1,3 +1,6 @@
+## [1.4.0]
+* Remove path_provider dependency.
+
 ## [1.3.4]
 * Add option to paintCursorAboveText.
 
