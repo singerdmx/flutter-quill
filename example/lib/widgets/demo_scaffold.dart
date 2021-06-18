@@ -102,7 +102,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: _loading || !widget.showToolbar? null : toolbar,
+        title: _loading || !widget.showToolbar ? null : toolbar,
         actions: actions,
       ),
       floatingActionButton: widget.floatingActionButton,
