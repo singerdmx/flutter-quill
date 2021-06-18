@@ -45,6 +45,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required this.children,
     this.toolBarHeight = 36,
     this.color,
+    this.applicationPath,
     Key? key,
   }) : super(key: key);
 
@@ -69,6 +70,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showHistory = true,
     bool showHorizontalRule = false,
     OnImagePickCallback? onImagePickCallback,
+    Future<Directory>? applicationPath,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -160,6 +162,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             imageSource: ImageSource.gallery,
             onImagePickCallback: onImagePickCallback,
+            applicationPath: applicationPath,
           ),
         if (onImagePickCallback != null)
           ImageButton(
@@ -168,6 +171,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             imageSource: ImageSource.camera,
             onImagePickCallback: onImagePickCallback,
+            applicationPath: applicationPath,
           ),
         if (isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
@@ -278,6 +282,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// Defaults to [ThemeData.canvasColor] of the current [Theme] if no color
   /// is given.
   final Color? color;
+
+  final Directory? applicationPath;
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);

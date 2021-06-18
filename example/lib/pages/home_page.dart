@@ -157,16 +157,28 @@ class _HomePageState extends State<HomePage> {
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                   child: QuillToolbar.basic(
                       controller: _controller!,
-                      onImagePickCallback: _onImagePickCallback),
+                      onImagePickCallback: _onImagePickCallback,
+                      applicationPath:
+                      !(kIsWeb || Platform.isAndroid || Platform.isIOS)
+                          ? null
+                          : getApplicationDirectoryForDesktop()),
                 ))
               : Container(
                   child: QuillToolbar.basic(
                       controller: _controller!,
-                      onImagePickCallback: _onImagePickCallback),
+                      onImagePickCallback: _onImagePickCallback,
+                      applicationPath:
+                          !(kIsWeb || Platform.isAndroid || Platform.isIOS)
+                              ? null
+                              : getApplicationDirectoryForDesktop()),
                 ),
         ],
       ),
     );
+  }
+
+  Future<Directory> getApplicationDirectoryForDesktop() async {
+    return await getApplicationDocumentsDirectory();
   }
 
   // Renders the image picked by imagePicker from local file storage

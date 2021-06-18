@@ -5,7 +5,6 @@ import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../models/documents/nodes/embed.dart';
 import '../controller.dart';
@@ -21,6 +20,7 @@ class ImageButton extends StatelessWidget {
     this.fillColor,
     this.onImagePickCallback,
     this.imagePickImpl,
+    this.applicationPath,
     Key? key,
   }) : super(key: key);
 
@@ -37,6 +37,8 @@ class ImageButton extends StatelessWidget {
 
   final ImageSource imageSource;
 
+  final Future<Directory>? applicationPath;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -47,11 +49,12 @@ class ImageButton extends StatelessWidget {
       hoverElevation: 0,
       size: iconSize * 1.77,
       fillColor: fillColor ?? theme.canvasColor,
-      onPressed: () => _handleImageButtonTap(context),
+      onPressed: () => _handleImageButtonTap(context, applicationPath),
     );
   }
 
-  Future<void> _handleImageButtonTap(BuildContext context) async {
+  Future<void> _handleImageButtonTap(BuildContext context,
+      [Future<Directory>? applicationPath]) async {
     final index = controller.selection.baseOffset;
     final length = controller.selection.extentOffset - index;
 
@@ -64,7 +67,9 @@ class ImageButton extends StatelessWidget {
       } else if (Platform.isAndroid || Platform.isIOS) {
         imageUrl = await _pickImage(imageSource);
       } else {
-        imageUrl = await _pickImageDesktop(context);
+        assert(applicationPath != null,
+        'Desktop must provide application document directory');
+        imageUrl = await _pickImageDesktop(context, applicationPath!);
       }
     }
 
@@ -95,10 +100,11 @@ class ImageButton extends StatelessWidget {
     return onImagePickCallback!(File(pickedFile.path));
   }
 
-  Future<String?> _pickImageDesktop(BuildContext context) async {
+  Future<String?> _pickImageDesktop(BuildContext context,
+      Future<Directory> applicationPath) async {
     final filePath = await FilesystemPicker.open(
       context: context,
-      rootDirectory: await getApplicationDocumentsDirectory(),
+      rootDirectory: await applicationPath,
       fsType: FilesystemType.file,
       fileTileSelectMode: FileTileSelectMode.wholeTile,
     );

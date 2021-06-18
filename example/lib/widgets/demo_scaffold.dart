@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:path_provider/path_provider.dart';
 
 typedef DemoContentBuilder = Widget Function(
     BuildContext context, QuillController? controller);
@@ -70,6 +73,10 @@ class _DemoScaffoldState extends State<DemoScaffold> {
     }
   }
 
+  Future<Directory> getApplicationDirectoryForDesktop() async {
+    return await getApplicationDocumentsDirectory();
+  }
+
   @override
   Widget build(BuildContext context) {
     final actions = widget.actions ?? <Widget>[];
@@ -90,7 +97,11 @@ class _DemoScaffoldState extends State<DemoScaffold> {
         ),
         title: _loading || widget.showToolbar == false
             ? null
-            : QuillToolbar.basic(controller: _controller!),
+            : QuillToolbar.basic(controller: _controller!,
+            applicationPath:
+            !(kIsWeb || Platform.isAndroid || Platform.isIOS)
+                ? null
+                : getApplicationDirectoryForDesktop()),
         actions: actions,
       ),
       floatingActionButton: widget.floatingActionButton,
