@@ -93,7 +93,7 @@ It is required to provide EmbedBuilder, e.g. [defaultEmbedBuilderWeb](https://gi
 
 ## Desktop
 
-It is required to provide application document directory for image button. See example in [example](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart).
+It is required to provide application document directory for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L148).
 
 ## Migrate Zefyr Data
 
