@@ -94,7 +94,7 @@ Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://gi
 
 ## Desktop
 
-It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L149).
+It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L184).
 
 ## Migrate Zefyr Data
 
