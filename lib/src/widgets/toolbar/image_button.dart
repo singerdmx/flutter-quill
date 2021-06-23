@@ -62,7 +62,7 @@ class ImageButton extends StatelessWidget {
       imageUrl = await imagePickImpl!(imageSource);
     } else {
       if (kIsWeb) {
-        imageUrl = await _pickImageWeb();
+        imageUrl = await _pickImageWeb(onImagePickCallback!);
       } else if (Platform.isAndroid || Platform.isIOS) {
         imageUrl = await _pickImage(imageSource);
       } else {
@@ -76,7 +76,7 @@ class ImageButton extends StatelessWidget {
     }
   }
 
-  Future<String?> _pickImageWeb() async {
+  Future<String?> _pickImageWeb(OnImagePickCallback onImagePickCallback) async {
     final result = await FilePicker.platform.pickFiles();
     if (result == null) {
       return null;
@@ -86,7 +86,7 @@ class ImageButton extends StatelessWidget {
     final fileName = result.files.first.name;
     final file = File(fileName);
 
-    return onImagePickCallback!(file);
+    return onImagePickCallback(file);
   }
 
   Future<String?> _pickImage(ImageSource source) async {
