@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -141,6 +142,12 @@ class _HomePageState extends State<HomePage> {
     }
     var toolbar = QuillToolbar.basic(
         controller: _controller!, onImagePickCallback: _onImagePickCallback);
+    if (kIsWeb) {
+      toolbar = QuillToolbar.basic(
+          controller: _controller!,
+          onImagePickCallback: _onImagePickCallback,
+          webImagePickImpl: _webImagePickImpl);
+    }
     final isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
     if (isDesktop) {
       toolbar = QuillToolbar.basic(
@@ -192,6 +199,20 @@ class _HomePageState extends State<HomePage> {
     final copiedFile =
         await file.copy('${appDocDir.path}/${basename(file.path)}');
     return copiedFile.path.toString();
+  }
+
+  Future<String?> _webImagePickImpl(
+      OnImagePickCallback onImagePickCallback) async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) {
+      return null;
+    }
+
+    // Take first, because we don't allow picking multiple files.
+    final fileName = result.files.first.name;
+    final file = File(fileName);
+
+    return onImagePickCallback(file);
   }
 
   Widget _buildMenuBar(BuildContext context) {
