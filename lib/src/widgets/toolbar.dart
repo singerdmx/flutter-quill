@@ -73,7 +73,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showLink = true,
     bool showHistory = true,
     bool showHorizontalRule = false,
-    bool multiRowsDisplay = false,
+    bool multiRowsDisplay = true,
     OnImagePickCallback? onImagePickCallback,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
@@ -300,7 +300,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (multiRowsDisplay ?? false) {
+    if (multiRowsDisplay ?? true) {
       return Wrap(
         alignment: WrapAlignment.center,
         runSpacing: 4,

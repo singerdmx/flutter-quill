@@ -141,7 +141,10 @@ class _HomePageState extends State<HomePage> {
           embedBuilder: defaultEmbedBuilderWeb);
     }
     var toolbar = QuillToolbar.basic(
-        controller: _controller!, onImagePickCallback: _onImagePickCallback);
+      controller: _controller!,
+      multiRowsDisplay: false,
+      onImagePickCallback: _onImagePickCallback,
+    );
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
