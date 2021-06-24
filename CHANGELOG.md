@@ -1,3 +1,6 @@
+## [1.6.0]
+* Support Multi Row Toolbar.
+
 ## [1.5.0]
 * Remove file_picker dependency.
 

@@ -307,12 +307,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         spacing: 4,
         children: children,
       );
-    } else {
-      return Container(
-        constraints: BoxConstraints.tightFor(height: preferredSize.height),
-        color: color ?? Theme.of(context).canvasColor,
-        child: ArrowIndicatedButtonList(buttons: children),
-      );
     }
+    return Container(
+      constraints: BoxConstraints.tightFor(height: preferredSize.height),
+      color: color ?? Theme.of(context).canvasColor,
+      child: ArrowIndicatedButtonList(buttons: children),
+    );
   }
 }
