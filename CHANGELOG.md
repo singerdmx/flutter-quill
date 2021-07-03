@@ -1,3 +1,6 @@
+## [1.6.1]
+* Upgrade image_picker and flutter_colorpicker.
+
 ## [1.6.0]
 * Support Multi Row Toolbar.
 
