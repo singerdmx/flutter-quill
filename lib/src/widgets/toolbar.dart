@@ -31,7 +31,7 @@ export 'toolbar/select_header_style_button.dart';
 export 'toolbar/toggle_check_list_button.dart';
 export 'toolbar/toggle_style_button.dart';
 
-typedef OnImagePickCallback = Future<String> Function(File file);
+typedef OnImagePickCallback = Future<String?> Function(File file);
 typedef ImagePickImpl = Future<String?> Function(ImageSource source);
 typedef FilePickImpl = Future<String?> Function(BuildContext context);
 typedef WebImagePickImpl = Future<String?> Function(
