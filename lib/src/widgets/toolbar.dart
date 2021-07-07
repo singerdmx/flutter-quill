@@ -74,6 +74,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showHistory = true,
     bool showHorizontalRule = false,
     bool multiRowsDisplay = true,
+    bool showCamera = true,
     OnImagePickCallback? onImagePickCallback,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
@@ -172,7 +173,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             filePickImpl: filePickImpl,
             webImagePickImpl: webImagePickImpl,
           ),
-        if (onImagePickCallback != null)
+        if (onImagePickCallback != null && showCamera)
           ImageButton(
             icon: Icons.photo_camera,
             iconSize: toolbarIconSize,
