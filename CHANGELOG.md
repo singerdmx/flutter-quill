@@ -1,3 +1,6 @@
+## [1.6.2]
+* Fixed the position of the selection status drag handle.
+
 ## [1.6.1]
 * Upgrade image_picker and flutter_colorpicker.
 
