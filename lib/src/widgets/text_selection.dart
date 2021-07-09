@@ -287,7 +287,6 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
 class _TextSelectionHandleOverlayState
     extends State<_TextSelectionHandleOverlay>
     with SingleTickerProviderStateMixin {
-
   late Offset _dragPosition;
   late Size _handleSize;
   late AnimationController _controller;
@@ -329,13 +328,12 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleDragStart(DragStartDetails details) {
-    _dragPosition = details.globalPosition + Offset(0.0, -_handleSize.height);
+    _dragPosition = details.globalPosition + Offset(0, -_handleSize.height);
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
     _dragPosition += details.delta;
-    final position =
-        widget.renderObject!.getPositionForOffset(_dragPosition);
+    final position = widget.renderObject!.getPositionForOffset(_dragPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
