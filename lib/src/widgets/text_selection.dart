@@ -287,6 +287,9 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
 class _TextSelectionHandleOverlayState
     extends State<_TextSelectionHandleOverlay>
     with SingleTickerProviderStateMixin {
+
+  late Offset _dragPosition;
+  late Size _handleSize;
   late AnimationController _controller;
 
   Animation<double> get _opacity => _controller.view;
@@ -325,11 +328,14 @@ class _TextSelectionHandleOverlayState
     super.dispose();
   }
 
-  void _handleDragStart(DragStartDetails details) {}
+  void _handleDragStart(DragStartDetails details) {
+    _dragPosition = details.globalPosition + Offset(0.0, -_handleSize.height);
+  }
 
   void _handleDragUpdate(DragUpdateDetails details) {
+    _dragPosition += details.delta;
     final position =
-        widget.renderObject!.getPositionForOffset(details.globalPosition);
+        widget.renderObject!.getPositionForOffset(_dragPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
@@ -398,6 +404,7 @@ class _TextSelectionHandleOverlayState
     final handleAnchor =
         widget.selectionControls.getHandleAnchor(type!, lineHeight);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
+    _handleSize = handleSize;
 
     final handleRect = Rect.fromLTWH(
       -handleAnchor.dx,
