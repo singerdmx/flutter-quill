@@ -1,3 +1,6 @@
+## [1.6.3]
+* Fixed dragging right handle scrolling issue.
+
 ## [1.6.2]
 * Fixed the position of the selection status drag handle.
 
