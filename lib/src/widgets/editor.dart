@@ -903,7 +903,19 @@ class RenderEditor extends RenderEditableContainerBox
   double? getOffsetToRevealCursor(
       double viewportHeight, double scrollOffset, double offsetInViewport) {
     final endpoints = getEndpointsForSelection(selection);
-    final endpoint = endpoints.first;
+    
+    // when we drag the right handle, we should get the last point
+    TextSelectionPoint endpoint;
+    if (selection.isCollapsed) {
+      endpoint = endpoints.first;
+    } else {
+      if (selection is DragTextSelection) {
+        endpoint = (selection as DragTextSelection).first ? endpoints.first : endpoints.last;
+      } else {
+        endpoint = endpoints.first;
+      }
+    }
+    
     final child = childAtPosition(selection.extent);
     const kMargin = 8.0;
 

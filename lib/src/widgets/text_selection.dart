@@ -23,6 +23,41 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
 
 enum _TextSelectionHandlePosition { START, END }
 
+/// internal use, used to get drag direction information
+class DragTextSelection extends TextSelection {
+  final bool first;
+
+  const DragTextSelection({
+    int baseOffset = 0,
+    int extentOffset = 0,
+    TextAffinity affinity = TextAffinity.downstream,
+    bool isDirectional = false,
+    this.first = true,
+  }) : super(
+          baseOffset: baseOffset,
+          extentOffset: extentOffset,
+          affinity: affinity,
+          isDirectional: isDirectional,
+        );
+
+  @override
+  DragTextSelection copyWith({
+    int? baseOffset,
+    int? extentOffset,
+    TextAffinity? affinity,
+    bool? isDirectional,
+    bool? first,
+  }) {
+    return DragTextSelection(
+      baseOffset: baseOffset ?? this.baseOffset,
+      extentOffset: extentOffset ?? this.extentOffset,
+      affinity: affinity ?? this.affinity,
+      isDirectional: isDirectional ?? this.isDirectional,
+      first: first ?? this.first,
+    );
+  }
+}
+
 class EditorTextSelectionOverlay {
   EditorTextSelectionOverlay(
     this.value,
@@ -156,9 +191,20 @@ class EditorTextSelectionOverlay {
       default:
         throw 'Invalid position';
     }
+    
+    final currSelection = newSelection != null
+        ? DragTextSelection(
+            baseOffset: newSelection.baseOffset,
+            extentOffset: newSelection.extentOffset,
+            affinity: newSelection.affinity,
+            isDirectional: newSelection.isDirectional,
+            first: position == _TextSelectionHandlePosition.START,
+          )
+        : null;
+        
     selectionDelegate
       ..userUpdateTextEditingValue(
-          value.copyWith(selection: newSelection, composing: TextRange.empty),
+          value.copyWith(selection: currSelection, composing: TextRange.empty),
           SelectionChangedCause.drag)
       ..bringIntoView(textPosition);
   }
