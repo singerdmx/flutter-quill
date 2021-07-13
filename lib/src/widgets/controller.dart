@@ -55,15 +55,18 @@ class QuillController extends ChangeNotifier {
         selection: selection,
       );
 
+  /// Only attributes applied to all characters within this range are
+  /// included in the result.
   Style getSelectionStyle() {
     return document
-        .collectStyle(selection.start, selection.end - selection.start, false)
+        .collectStyle(selection.start, selection.end - selection.start)
         .mergeAll(toggledStyle);
   }
 
-  Style getAllSelectionStyle() {
+  /// Returns all style for any character within the specified text range.
+  Style getAllSelectionStyles() {
     return document
-        .collectStyle(selection.start, selection.end - selection.start, true)
+        .collectAllStyles(selection.start, selection.end - selection.start)
         .mergeAll(toggledStyle);
   }
 

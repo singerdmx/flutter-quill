@@ -370,7 +370,7 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns all style for any character within the specified text range.
-  Style collectAllStyle(int offset, int len) {
+  Style collectAllStyles(int offset, int len) {
     final local = math.min(length - offset, len);
     var result = Style();
 
@@ -394,11 +394,10 @@ class Line extends Container<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0) {
-      final rest = nextLine!.collectAllStyle(0, remaining);
+      final rest = nextLine!.collectAllStyles(0, remaining);
       result = result.mergeAll(rest);
     }
 
     return result;
   }
-
 }
