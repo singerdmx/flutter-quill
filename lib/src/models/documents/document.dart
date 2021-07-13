@@ -119,9 +119,13 @@ class Document {
     return delta;
   }
 
-  Style collectStyle(int index, int len) {
+  Style collectStyle(int index, int len, bool collectAll) {
     final res = queryChild(index);
-    return (res.node as Line).collectStyle(res.offset, len);
+    if (collectAll) {
+      return (res.node as Line).collectAllStyle(res.offset, len);
+    } else {
+      return (res.node as Line).collectStyle(res.offset, len);
+    }
   }
 
   ChildQuery queryChild(int offset) {

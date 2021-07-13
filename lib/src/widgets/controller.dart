@@ -57,7 +57,13 @@ class QuillController extends ChangeNotifier {
 
   Style getSelectionStyle() {
     return document
-        .collectStyle(selection.start, selection.end - selection.start)
+        .collectStyle(selection.start, selection.end - selection.start, false)
+        .mergeAll(toggledStyle);
+  }
+
+  Style getAllSelectionStyle() {
+    return document
+        .collectStyle(selection.start, selection.end - selection.start, true)
         .mergeAll(toggledStyle);
   }
 
