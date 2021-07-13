@@ -369,7 +369,7 @@ class Line extends Container<Leaf?> {
     return result;
   }
 
-  /// Returns all style for any character within the specified text range.
+  /// Returns all styles for any character within the specified text range.
   List<Style> collectAllStyles(int offset, int len) {
     final local = math.min(length - offset, len);
     final result = <Style>[];

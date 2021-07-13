@@ -63,7 +63,7 @@ class QuillController extends ChangeNotifier {
         .mergeAll(toggledStyle);
   }
 
-  /// Returns all style for any character within the specified text range.
+  /// Returns all styles for any character within the specified text range.
   List<Style> getAllSelectionStyles() {
     final styles = document.collectAllStyles(
         selection.start, selection.end - selection.start)

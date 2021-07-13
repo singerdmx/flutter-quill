@@ -1,3 +1,6 @@
+## [1.6.4]
+* Bug fix for clear format button.
+
 ## [1.6.3]
 * Fixed dragging right handle scrolling issue.
 
