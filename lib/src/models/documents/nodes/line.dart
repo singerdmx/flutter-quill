@@ -370,32 +370,32 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns all style for any character within the specified text range.
-  Style collectAllStyles(int offset, int len) {
+  List<Style> collectAllStyles(int offset, int len) {
     final local = math.min(length - offset, len);
-    var result = Style();
+    final result = <Style>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      result = result.mergeAll(node.style);
+      result.add(node.style);
       var pos = node.length - data.offset;
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf?;
-        result = result.mergeAll(node!.style);
+        result.add(node!.style);
         pos += node.length;
       }
     }
 
-    result = result.mergeAll(style);
+    result.add(style);
     if (parent is Block) {
       final block = parent as Block;
-      result = result.mergeAll(block.style);
+      result.add(block.style);
     }
 
     final remaining = len - local;
     if (remaining > 0) {
       final rest = nextLine!.collectAllStyles(0, remaining);
-      result = result.mergeAll(rest);
+      result.addAll(rest);
     }
 
     return result;

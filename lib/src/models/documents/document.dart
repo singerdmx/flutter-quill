@@ -127,7 +127,7 @@ class Document {
   }
 
   /// Returns all style for any character within the specified text range.
-  Style collectAllStyles(int index, int len) {
+  List<Style> collectAllStyles(int index, int len) {
     final res = queryChild(index);
     return (res.node as Line).collectAllStyles(res.offset, len);
   }
