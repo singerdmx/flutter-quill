@@ -219,13 +219,15 @@ class Document {
     }
     // Currently embed is equivalent to image and hence `is! String`
     final opInsertImage = op.isInsert && op.data is! String;
-    final nextOpIsLineBreak = i + 1 < ops.length &&
-        ops[i + 1].isInsert &&
-        ops[i + 1].data is String &&
-        (ops[i + 1].data as String).startsWith('\n');
-    if (opInsertImage && (i + 1 == ops.length - 1 || !nextOpIsLineBreak)) {
-      // automatically append '\n' for image
-      res.push(Operation.insert('\n'));
+    if (opInsertImage) {
+        final nextOpIsLineBreak = i + 1 < ops.length &&
+            ops[i + 1].isInsert &&
+            ops[i + 1].data is String &&
+            (ops[i + 1].data as String).startsWith('\n');
+        if (!nextOpIsLineBreak) {
+          // automatically append '\n' for image
+          res.push(Operation.insert('\n'));
+        }
     }
   }
 
