@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/src/widgets/video_app.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:tuple/tuple.dart';
 
@@ -107,6 +108,9 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
             : isBase64(imageUrl)
                 ? Image.memory(base64.decode(imageUrl))
                 : Image.file(io.File(imageUrl));
+      case 'video':
+        final videoUrl = node.value.data;
+        return VideoApp(videoUrl: videoUrl);
       default:
         throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default '
