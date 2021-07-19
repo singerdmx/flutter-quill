@@ -50,11 +50,13 @@ class _VideoAppState extends State<VideoApp> {
                   : const CircularProgressIndicator()),
           _controller.value.isPlaying || !_controller.value.isInitialized
               ? const SizedBox.shrink()
-              : const Icon(
-                  Icons.play_arrow,
-                  size: 60,
-                  color: Colors.white,
-                )
+              : Container(
+                  color: const Color(0x00fafafa),
+                  child: const Icon(
+                    Icons.play_arrow,
+                    size: 60,
+                    color: Colors.blueGrey,
+                  ))
         ]),
       ),
     );
