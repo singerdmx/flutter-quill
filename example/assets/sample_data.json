@@ -18,6 +18,11 @@
       }
    },
    {
+      "insert": {
+         "video": "https://www.youtube.com/watch?v=V4hgdKhIqtc&list=PLbhaS_83B97s78HsDTtplRTEhcFsqSqIK&index=1"
+      }
+   },
+   {
       "insert":"\nRich text editor for Flutter"
    },
    {
