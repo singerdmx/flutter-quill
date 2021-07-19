@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/src/widgets/video_app.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:tuple/tuple.dart';
 
@@ -21,6 +20,7 @@ import 'delegate.dart';
 import 'editor.dart';
 import 'text_block.dart';
 import 'text_line.dart';
+import 'video_app.dart';
 
 class QuillSimpleViewer extends StatefulWidget {
   const QuillSimpleViewer({
