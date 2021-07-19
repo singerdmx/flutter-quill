@@ -51,7 +51,7 @@ class _VideoAppState extends State<VideoApp> {
           _controller.value.isPlaying || !_controller.value.isInitialized
               ? const SizedBox.shrink()
               : Container(
-                  color: const Color(0x00fafafa),
+                  color: const Color(0xfffafafa),
                   child: const Icon(
                     Icons.play_arrow,
                     size: 60,
