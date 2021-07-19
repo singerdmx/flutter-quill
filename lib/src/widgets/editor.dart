@@ -25,6 +25,7 @@ import 'delegate.dart';
 import 'image.dart';
 import 'raw_editor.dart';
 import 'text_selection.dart';
+import 'video_app.dart';
 
 const linkPrefixes = [
   'mailto:', // email
@@ -105,6 +106,9 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
           : isBase64(imageUrl)
               ? Image.memory(base64.decode(imageUrl))
               : Image.file(io.File(imageUrl));
+    case 'video':
+      final videoUrl = node.value.data;
+      return VideoApp(videoUrl: videoUrl);
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '

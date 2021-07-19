@@ -20,6 +20,7 @@ import 'delegate.dart';
 import 'editor.dart';
 import 'text_block.dart';
 import 'text_line.dart';
+import 'video_app.dart';
 
 class QuillSimpleViewer extends StatefulWidget {
   const QuillSimpleViewer({
@@ -107,6 +108,9 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
             : isBase64(imageUrl)
                 ? Image.memory(base64.decode(imageUrl))
                 : Image.file(io.File(imageUrl));
+      case 'video':
+        final videoUrl = node.value.data;
+        return VideoApp(videoUrl: videoUrl);
       default:
         throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default '

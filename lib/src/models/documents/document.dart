@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:tuple/tuple.dart';
 
@@ -209,16 +210,19 @@ class Document {
 
   static void _autoAppendNewlineAfterImage(
       int i, List<Operation> ops, Operation op, Delta res) {
-    final nextOpIsImage =
-        i + 1 < ops.length && ops[i + 1].isInsert && ops[i + 1].data is! String;
+    final nextOpIsImage = i + 1 < ops.length &&
+        ops[i + 1].isInsert &&
+        ops[i + 1].data is Map &&
+        (ops[i + 1].data as Map).containsKey('image');
     if (nextOpIsImage &&
         op.data is String &&
         (op.data as String).isNotEmpty &&
         !(op.data as String).endsWith('\n')) {
       res.push(Operation.insert('\n'));
     }
-    // Currently embed is equivalent to image and hence `is! String`
-    final opInsertImage = op.isInsert && op.data is! String;
+    // embed could be image or video
+    final opInsertImage =
+        op.isInsert && op.data is Map && (op.data as Map).containsKey('image');
     final nextOpIsLineBreak = i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is String &&
