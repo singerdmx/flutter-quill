@@ -80,7 +80,7 @@ class ImageVideoUtils {
           '(check out example directory for how to do it)');
       videoUrl = await webVideoPickImpl!(onVideoPickCallback);
     } else if (Platform.isAndroid || Platform.isIOS) {
-      videoUrl = await _pickVideo(ImageSource.gallery, onVideoPickCallback);
+      videoUrl = await _pickVideo(videoSource, onVideoPickCallback);
     } else {
       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
       videoUrl =

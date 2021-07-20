@@ -63,7 +63,37 @@ class CameraButton extends StatelessWidget {
       FilePickImpl? filePickImpl,
       WebImagePickImpl? webImagePickImpl}) async {
     if (onImagePickCallback != null && onVideoPickCallback != null) {
-      // TODO: show dialog to choose Image or Video
+      // Show dialog to choose Photo or Video
+      return await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                contentPadding: const EdgeInsets.all(0),
+                backgroundColor: Colors.transparent,
+                content: Column(mainAxisSize: MainAxisSize.min, children: [
+                  TextButton.icon(
+                    icon: const Icon(Icons.photo, color: Colors.cyanAccent),
+                    label: const Text('Photo'),
+                    onPressed: () {
+                      ImageVideoUtils.handleImageButtonTap(context, controller,
+                          ImageSource.camera, onImagePickCallback,
+                          filePickImpl: filePickImpl,
+                          webImagePickImpl: webImagePickImpl);
+                    },
+                  ),
+                  TextButton.icon(
+                    icon: const Icon(Icons.movie_creation,
+                        color: Colors.orangeAccent),
+                    label: const Text('Video'),
+                    onPressed: () {
+                      ImageVideoUtils.handleVideoButtonTap(context, controller,
+                          ImageSource.camera, onVideoPickCallback,
+                          filePickImpl: filePickImpl,
+                          webVideoPickImpl: webVideoPickImpl);
+                    },
+                  )
+                ]));
+          });
     }
 
     if (onImagePickCallback != null) {
