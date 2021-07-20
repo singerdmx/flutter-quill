@@ -1,22 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/documents/nodes/embed.dart';
 import '../controller.dart';
 import '../toolbar.dart';
+import 'image_video_utils.dart';
 import 'quill_icon_button.dart';
 
 class ImageButton extends StatelessWidget {
   const ImageButton({
     required this.icon,
     required this.controller,
-    required this.imageSource,
+    required this.onImagePickCallback,
     this.iconSize = kDefaultIconSize,
     this.fillColor,
-    this.onImagePickCallback,
     this.filePickImpl,
     this.webImagePickImpl,
     Key? key,
@@ -29,11 +26,9 @@ class ImageButton extends StatelessWidget {
 
   final QuillController controller;
 
-  final OnImagePickCallback? onImagePickCallback;
+  final OnImagePickCallback onImagePickCallback;
 
   final WebImagePickImpl? webImagePickImpl;
-
-  final ImageSource imageSource;
 
   final FilePickImpl? filePickImpl;
 
@@ -47,53 +42,9 @@ class ImageButton extends StatelessWidget {
       hoverElevation: 0,
       size: iconSize * 1.77,
       fillColor: fillColor ?? theme.canvasColor,
-      onPressed: () => _handleImageButtonTap(context, filePickImpl),
+      onPressed: () => ImageVideoUtils.handleImageButtonTap(
+          context, controller, ImageSource.gallery, onImagePickCallback,
+          filePickImpl: filePickImpl, webImagePickImpl: webImagePickImpl),
     );
-  }
-
-  Future<void> _handleImageButtonTap(BuildContext context,
-      [FilePickImpl? filePickImpl]) async {
-    final index = controller.selection.baseOffset;
-    final length = controller.selection.extentOffset - index;
-
-    String? imageUrl;
-    if (kIsWeb) {
-      assert(
-          webImagePickImpl != null,
-          'Please provide webImagePickImpl for Web '
-          '(check out example directory for how to do it)');
-      imageUrl = await webImagePickImpl!(onImagePickCallback!);
-    } else if (Platform.isAndroid || Platform.isIOS) {
-      imageUrl = await _pickImage(imageSource, onImagePickCallback!);
-    } else {
-      assert(filePickImpl != null, 'Desktop must provide filePickImpl');
-      imageUrl =
-          await _pickImageDesktop(context, filePickImpl!, onImagePickCallback!);
-    }
-
-    if (imageUrl != null) {
-      controller.replaceText(index, length, BlockEmbed.image(imageUrl), null);
-    }
-  }
-
-  Future<String?> _pickImage(
-      ImageSource source, OnImagePickCallback onImagePickCallback) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
-    if (pickedFile == null) {
-      return null;
-    }
-
-    return onImagePickCallback(File(pickedFile.path));
-  }
-
-  Future<String?> _pickImageDesktop(
-      BuildContext context,
-      FilePickImpl filePickImpl,
-      OnImagePickCallback onImagePickCallback) async {
-    final filePath = await filePickImpl(context);
-    if (filePath == null || filePath.isEmpty) return null;
-
-    final file = File(filePath);
-    return onImagePickCallback(file);
   }
 }
