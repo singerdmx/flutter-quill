@@ -17,6 +17,7 @@ import 'toolbar/link_style_button.dart';
 import 'toolbar/select_header_style_button.dart';
 import 'toolbar/toggle_check_list_button.dart';
 import 'toolbar/toggle_style_button.dart';
+import 'toolbar/video_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
@@ -32,10 +33,12 @@ export 'toolbar/toggle_check_list_button.dart';
 export 'toolbar/toggle_style_button.dart';
 
 typedef OnImagePickCallback = Future<String?> Function(File file);
-typedef ImagePickImpl = Future<String?> Function(ImageSource source);
+typedef OnVideoPickCallback = Future<String?> Function(File file);
 typedef FilePickImpl = Future<String?> Function(BuildContext context);
 typedef WebImagePickImpl = Future<String?> Function(
     OnImagePickCallback onImagePickCallback);
+typedef WebVideoPickImpl = Future<String?> Function(
+    OnVideoPickCallback onImagePickCallback);
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -76,6 +79,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool multiRowsDisplay = true,
     bool showCamera = true,
     OnImagePickCallback? onImagePickCallback,
+    OnVideoPickCallback? onVideoPickCallback,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
     Key? key,
@@ -89,7 +93,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showColorButton ||
           showBackgroundColorButton ||
           showClearFormat ||
-          onImagePickCallback != null,
+          onImagePickCallback != null ||
+          onVideoPickCallback != null,
       showHeaderStyle,
       showListNumbers || showListBullets || showListCheck || showCodeBlock,
       showQuote || showIndent,
@@ -182,6 +187,16 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             onImagePickCallback: onImagePickCallback,
             filePickImpl: filePickImpl,
             webImagePickImpl: webImagePickImpl,
+          ),
+        if (onVideoPickCallback != null)
+          VideoButton(
+            icon: Icons.movie_creation,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            videoSource: ImageSource.gallery,
+            onVideoPickCallback: onVideoPickCallback,
+            filePickImpl: filePickImpl,
+            webVideoPickImpl: webImagePickImpl,
           ),
         if (isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||

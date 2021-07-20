@@ -9,16 +9,16 @@ import '../controller.dart';
 import '../toolbar.dart';
 import 'quill_icon_button.dart';
 
-class ImageButton extends StatelessWidget {
-  const ImageButton({
+class VideoButton extends StatelessWidget {
+  const VideoButton({
     required this.icon,
     required this.controller,
-    required this.imageSource,
+    required this.videoSource,
     this.iconSize = kDefaultIconSize,
     this.fillColor,
-    this.onImagePickCallback,
+    this.onVideoPickCallback,
     this.filePickImpl,
-    this.webImagePickImpl,
+    this.webVideoPickImpl,
     Key? key,
   }) : super(key: key);
 
@@ -29,11 +29,11 @@ class ImageButton extends StatelessWidget {
 
   final QuillController controller;
 
-  final OnImagePickCallback? onImagePickCallback;
+  final OnVideoPickCallback? onVideoPickCallback;
 
-  final WebImagePickImpl? webImagePickImpl;
+  final WebVideoPickImpl? webVideoPickImpl;
 
-  final ImageSource imageSource;
+  final ImageSource videoSource;
 
   final FilePickImpl? filePickImpl;
 
@@ -47,53 +47,53 @@ class ImageButton extends StatelessWidget {
       hoverElevation: 0,
       size: iconSize * 1.77,
       fillColor: fillColor ?? theme.canvasColor,
-      onPressed: () => _handleImageButtonTap(context, filePickImpl),
+      onPressed: () => _handleVideoButtonTap(context, filePickImpl),
     );
   }
 
-  Future<void> _handleImageButtonTap(BuildContext context,
+  Future<void> _handleVideoButtonTap(BuildContext context,
       [FilePickImpl? filePickImpl]) async {
     final index = controller.selection.baseOffset;
     final length = controller.selection.extentOffset - index;
 
-    String? imageUrl;
+    String? videoUrl;
     if (kIsWeb) {
       assert(
-          webImagePickImpl != null,
-          'Please provide webImagePickImpl for Web '
+          webVideoPickImpl != null,
+          'Please provide webVideoPickImpl for Web '
           '(check out example directory for how to do it)');
-      imageUrl = await webImagePickImpl!(onImagePickCallback!);
+      videoUrl = await webVideoPickImpl!(onVideoPickCallback!);
     } else if (Platform.isAndroid || Platform.isIOS) {
-      imageUrl = await _pickImage(imageSource, onImagePickCallback!);
+      videoUrl = await _pickVideo(videoSource, onVideoPickCallback!);
     } else {
       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
-      imageUrl =
-          await _pickImageDesktop(context, filePickImpl!, onImagePickCallback!);
+      videoUrl =
+          await _pickVideoDesktop(context, filePickImpl!, onVideoPickCallback!);
     }
 
-    if (imageUrl != null) {
-      controller.replaceText(index, length, BlockEmbed.image(imageUrl), null);
+    if (videoUrl != null) {
+      controller.replaceText(index, length, BlockEmbed.video(videoUrl), null);
     }
   }
 
-  Future<String?> _pickImage(
-      ImageSource source, OnImagePickCallback onImagePickCallback) async {
-    final pickedFile = await ImagePicker().getImage(source: source);
+  Future<String?> _pickVideo(
+      ImageSource source, OnVideoPickCallback onVideoPickCallback) async {
+    final pickedFile = await ImagePicker().getVideo(source: source);
     if (pickedFile == null) {
       return null;
     }
 
-    return onImagePickCallback(File(pickedFile.path));
+    return onVideoPickCallback(File(pickedFile.path));
   }
 
-  Future<String?> _pickImageDesktop(
+  Future<String?> _pickVideoDesktop(
       BuildContext context,
       FilePickImpl filePickImpl,
-      OnImagePickCallback onImagePickCallback) async {
+      OnVideoPickCallback onVideoPickCallback) async {
     final filePath = await filePickImpl(context);
     if (filePath == null || filePath.isEmpty) return null;
 
     final file = File(filePath);
-    return onImagePickCallback(file);
+    return onVideoPickCallback(file);
   }
 }
