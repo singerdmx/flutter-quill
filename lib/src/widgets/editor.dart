@@ -96,7 +96,8 @@ String _standardizeImageUrl(String url) {
   return url;
 }
 
-Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
+Widget _defaultEmbedBuilder(
+    BuildContext context, leaf.Embed node, bool readOnly) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
   switch (node.value.type) {
     case 'image':
@@ -108,7 +109,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
               : Image.file(io.File(imageUrl));
     case 'video':
       final videoUrl = node.value.data;
-      return VideoApp(videoUrl: videoUrl, context: context);
+      return VideoApp(videoUrl: videoUrl, context: context, readOnly: readOnly);
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '

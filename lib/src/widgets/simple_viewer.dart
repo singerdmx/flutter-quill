@@ -25,6 +25,7 @@ import 'video_app.dart';
 class QuillSimpleViewer extends StatefulWidget {
   const QuillSimpleViewer({
     required this.controller,
+    required this.readOnly,
     this.customStyles,
     this.truncate = false,
     this.truncateScale,
@@ -52,6 +53,7 @@ class QuillSimpleViewer extends StatefulWidget {
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
   final EmbedBuilder? embedBuilder;
+  final bool readOnly;
 
   @override
   _QuillSimpleViewerState createState() => _QuillSimpleViewerState();
@@ -98,7 +100,8 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
 
   EmbedBuilder get embedBuilder => widget.embedBuilder ?? _defaultEmbedBuilder;
 
-  Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
+  Widget _defaultEmbedBuilder(
+      BuildContext context, leaf.Embed node, bool readOnly) {
     assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
     switch (node.value.type) {
       case 'image':
@@ -110,7 +113,8 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
                 : Image.file(io.File(imageUrl));
       case 'video':
         final videoUrl = node.value.data;
-        return VideoApp(videoUrl: videoUrl, context: context);
+        return VideoApp(
+            videoUrl: videoUrl, context: context, readOnly: readOnly);
       default:
         throw UnimplementedError(
           'Embeddable type "${node.value.type}" is not supported by default '
@@ -211,7 +215,8 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
             embedBuilder,
             _cursorCont,
             indentLevelCounts,
-            _handleCheckboxTap);
+            _handleCheckboxTap,
+            widget.readOnly);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
@@ -238,6 +243,7 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
       textDirection: _textDirection,
       embedBuilder: embedBuilder,
       styles: _styles,
+      readOnly: widget.readOnly,
     );
     final editableTextLine = EditableTextLine(
         node,

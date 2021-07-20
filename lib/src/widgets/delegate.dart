@@ -7,7 +7,8 @@ import '../models/documents/nodes/leaf.dart';
 import 'editor.dart';
 import 'text_selection.dart';
 
-typedef EmbedBuilder = Widget Function(BuildContext context, Embed node);
+typedef EmbedBuilder = Widget Function(
+    BuildContext context, Embed node, bool readOnly);
 
 abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
   GlobalKey<EditorState> getEditableTextKey();

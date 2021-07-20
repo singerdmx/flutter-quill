@@ -229,23 +229,23 @@ class RawEditorState extends EditorState
       } else if (node is Block) {
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
-          node,
-          _textDirection,
-          widget.scrollBottomInset,
-          _getVerticalSpacingForBlock(node, _styles),
-          widget.controller.selection,
-          widget.selectionColor,
-          _styles,
-          widget.enableInteractiveSelection,
-          _hasFocus,
-          attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
-              : null,
-          widget.embedBuilder,
-          _cursorCont,
-          indentLevelCounts,
-          _handleCheckboxTap,
-        );
+            node,
+            _textDirection,
+            widget.scrollBottomInset,
+            _getVerticalSpacingForBlock(node, _styles),
+            widget.controller.selection,
+            widget.selectionColor,
+            _styles,
+            widget.enableInteractiveSelection,
+            _hasFocus,
+            attrs.containsKey(Attribute.codeBlock.key)
+                ? const EdgeInsets.all(16)
+                : null,
+            widget.embedBuilder,
+            _cursorCont,
+            indentLevelCounts,
+            _handleCheckboxTap,
+            widget.readOnly);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
@@ -261,6 +261,7 @@ class RawEditorState extends EditorState
       textDirection: _textDirection,
       embedBuilder: widget.embedBuilder,
       styles: _styles!,
+      readOnly: widget.readOnly,
     );
     final editableTextLine = EditableTextLine(
         node,
