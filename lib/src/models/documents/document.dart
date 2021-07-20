@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:tuple/tuple.dart';
 
@@ -143,14 +142,16 @@ class Document {
   }
 
   void compose(Delta delta, ChangeSource changeSource,
-      {bool autoAppendNewlineAfterImage = true}) {
+      {bool autoAppendNewlineAfterImage = true,
+      bool autoAppendNewlineAfterVideo = true}) {
     assert(!_observer.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
 
     var offset = 0;
     delta = _transform(delta,
-        autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
+        autoAppendNewlineAfterImage: autoAppendNewlineAfterImage,
+        autoAppendNewlineAfterVideo: autoAppendNewlineAfterVideo);
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
       final style =
@@ -195,25 +196,29 @@ class Document {
   bool get hasRedo => _history.hasRedo;
 
   static Delta _transform(Delta delta,
-      {bool autoAppendNewlineAfterImage = true}) {
+      {bool autoAppendNewlineAfterImage = true,
+      bool autoAppendNewlineAfterVideo = true}) {
     final res = Delta();
     final ops = delta.toList();
     for (var i = 0; i < ops.length; i++) {
       final op = ops[i];
       res.push(op);
       if (autoAppendNewlineAfterImage) {
-        _autoAppendNewlineAfterImage(i, ops, op, res);
+        _autoAppendNewlineAfterEmbeddable(i, ops, op, res, 'image');
+      }
+      if (autoAppendNewlineAfterVideo) {
+        _autoAppendNewlineAfterEmbeddable(i, ops, op, res, 'video');
       }
     }
     return res;
   }
 
-  static void _autoAppendNewlineAfterImage(
-      int i, List<Operation> ops, Operation op, Delta res) {
+  static void _autoAppendNewlineAfterEmbeddable(
+      int i, List<Operation> ops, Operation op, Delta res, String type) {
     final nextOpIsImage = i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is Map &&
-        (ops[i + 1].data as Map).containsKey('image');
+        (ops[i + 1].data as Map).containsKey(type);
     if (nextOpIsImage &&
         op.data is String &&
         (op.data as String).isNotEmpty &&
@@ -222,13 +227,13 @@ class Document {
     }
     // embed could be image or video
     final opInsertImage =
-        op.isInsert && op.data is Map && (op.data as Map).containsKey('image');
+        op.isInsert && op.data is Map && (op.data as Map).containsKey(type);
     final nextOpIsLineBreak = i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is String &&
         (ops[i + 1].data as String).startsWith('\n');
     if (opInsertImage && (i + 1 == ops.length - 1 || !nextOpIsLineBreak)) {
-      // automatically append '\n' for image
+      // automatically append '\n' for embeddable
       res.push(Operation.insert('\n'));
     }
   }
