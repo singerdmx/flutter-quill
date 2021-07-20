@@ -108,7 +108,7 @@ Widget _defaultEmbedBuilder(BuildContext context, leaf.Embed node) {
               : Image.file(io.File(imageUrl));
     case 'video':
       final videoUrl = node.value.data;
-      return VideoApp(videoUrl: videoUrl);
+      return VideoApp(videoUrl: videoUrl, context: context);
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '

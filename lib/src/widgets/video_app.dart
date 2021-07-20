@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../flutter_quill.dart';
+
 /// Widget for playing back video
 /// Refer to https://github.com/flutter/plugins/tree/master/packages/video_player/video_player
 class VideoApp extends StatefulWidget {
-  const VideoApp({required this.videoUrl});
+  const VideoApp({required this.videoUrl, required this.context});
 
   final String videoUrl;
+  final BuildContext context;
 
   @override
   _VideoAppState createState() => _VideoAppState();
@@ -31,6 +34,12 @@ class _VideoAppState extends State<VideoApp> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultStyles = DefaultStyles.getInstance(context);
+    if (!_controller.value.isInitialized || _controller.value.hasError) {
+      return RichText(
+          text: TextSpan(text: widget.videoUrl, style: defaultStyles.link));
+    }
+
     return Container(
       height: 300,
       child: InkWell(
@@ -43,13 +52,11 @@ class _VideoAppState extends State<VideoApp> {
         },
         child: Stack(alignment: Alignment.center, children: [
           Center(
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    )
-                  : const CircularProgressIndicator()),
-          _controller.value.isPlaying || !_controller.value.isInitialized
+              child: AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            child: VideoPlayer(_controller),
+          )),
+          _controller.value.isPlaying
               ? const SizedBox.shrink()
               : Container(
                   color: const Color(0xfff5f5f5),
