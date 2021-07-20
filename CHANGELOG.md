@@ -1,3 +1,6 @@
+## [1.7.0]
+* Support video.
+
 ## [1.6.4]
 * Bug fix for clear format button.
 
