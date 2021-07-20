@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../flutter_quill.dart';
@@ -37,7 +39,12 @@ class _VideoAppState extends State<VideoApp> {
     final defaultStyles = DefaultStyles.getInstance(context);
     if (!_controller.value.isInitialized || _controller.value.hasError) {
       return RichText(
-          text: TextSpan(text: widget.videoUrl, style: defaultStyles.link));
+        text: TextSpan(
+            text: widget.videoUrl,
+            style: defaultStyles.link,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => launch(widget.videoUrl)),
+      );
     }
 
     return Container(
