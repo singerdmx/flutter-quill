@@ -178,16 +178,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             filePickImpl: filePickImpl,
             webImagePickImpl: webImagePickImpl,
           ),
-        if (onImagePickCallback != null && showCamera)
-          ImageButton(
-            icon: Icons.photo_camera,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            imageSource: ImageSource.camera,
-            onImagePickCallback: onImagePickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-          ),
         if (onVideoPickCallback != null)
           VideoButton(
             icon: Icons.movie_creation,
@@ -197,6 +187,16 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             onVideoPickCallback: onVideoPickCallback,
             filePickImpl: filePickImpl,
             webVideoPickImpl: webImagePickImpl,
+          ),
+        if (onImagePickCallback != null && showCamera)
+          ImageButton(
+            icon: Icons.photo_camera,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            imageSource: ImageSource.camera,
+            onImagePickCallback: onImagePickCallback,
+            filePickImpl: filePickImpl,
+            webImagePickImpl: webImagePickImpl,
           ),
         if (isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
