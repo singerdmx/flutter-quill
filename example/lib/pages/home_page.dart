@@ -141,7 +141,9 @@ class _HomePageState extends State<HomePage> {
           embedBuilder: defaultEmbedBuilderWeb);
     }
     var toolbar = QuillToolbar.basic(
-        controller: _controller!, onImagePickCallback: _onImagePickCallback);
+        controller: _controller!,
+        onImagePickCallback: _onImagePickCallback,
+        onVideoPickCallback: _onVideoPickCallback);
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
@@ -213,6 +215,17 @@ class _HomePageState extends State<HomePage> {
     final file = File(fileName);
 
     return onImagePickCallback(file);
+  }
+
+  // Renders the video picked by imagePicker from local file storage
+  // You can also upload the picked video to any server (eg : AWS s3
+  // or Firebase) and then return the uploaded video URL.
+  Future<String> _onVideoPickCallback(File file) async {
+    // Copies the picked file from temporary cache to applications directory
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final copiedFile =
+        await file.copy('${appDocDir.path}/${basename(file.path)}');
+    return copiedFile.path.toString();
   }
 
   Widget _buildMenuBar(BuildContext context) {
