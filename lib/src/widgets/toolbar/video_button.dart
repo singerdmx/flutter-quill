@@ -78,7 +78,7 @@ class VideoButton extends StatelessWidget {
 
   Future<String?> _pickVideo(
       ImageSource source, OnVideoPickCallback onVideoPickCallback) async {
-    final pickedFile = await ImagePicker().getVideo(source: source);
+    final pickedFile = await ImagePicker().pickVideo(source: source);
     if (pickedFile == null) {
       return null;
     }

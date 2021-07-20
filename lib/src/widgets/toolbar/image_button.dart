@@ -78,7 +78,7 @@ class ImageButton extends StatelessWidget {
 
   Future<String?> _pickImage(
       ImageSource source, OnImagePickCallback onImagePickCallback) async {
-    final pickedFile = await ImagePicker().getImage(source: source);
+    final pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile == null) {
       return null;
     }
