@@ -5,6 +5,7 @@ import 'package:video_player/video_player.dart';
 /// Refer to https://github.com/flutter/plugins/tree/master/packages/video_player/video_player
 class VideoApp extends StatefulWidget {
   const VideoApp({required this.videoUrl});
+
   final String videoUrl;
 
   @override
@@ -51,7 +52,7 @@ class _VideoAppState extends State<VideoApp> {
           _controller.value.isPlaying || !_controller.value.isInitialized
               ? const SizedBox.shrink()
               : Container(
-                  color: const Color(0xfffafafa),
+                  color: const Color(0xfff5f5f5),
                   child: const Icon(
                     Icons.play_arrow,
                     size: 60,
