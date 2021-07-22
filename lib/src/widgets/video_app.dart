@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,7 +30,7 @@ class _VideoAppState extends State<VideoApp> {
 
     _controller = widget.videoUrl.startsWith('http')
         ? VideoPlayerController.network(widget.videoUrl)
-        : VideoPlayerController.asset(widget.videoUrl)
+        : VideoPlayerController.file(File(widget.videoUrl))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized,
         // even before the play button has been pressed.
