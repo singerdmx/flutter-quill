@@ -1,3 +1,6 @@
+## [1.7.2]
+* Fix static analysis error.
+
 ## [1.7.1]
 * Support Youtube video.
 
