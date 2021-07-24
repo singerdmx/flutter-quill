@@ -110,8 +110,7 @@ Widget _defaultEmbedBuilder(
               : Image.file(io.File(imageUrl));
     case 'video':
       final videoUrl = node.value.data;
-      if (videoUrl.contains('youtube.com') ||
-          videoUrl.contains('youtu.be')) {
+      if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
         return YoutubeVideoApp(
             videoUrl: videoUrl, context: context, readOnly: readOnly);
       }
