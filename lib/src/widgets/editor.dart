@@ -8,7 +8,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/src/widgets/youtube_video_app.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,6 +26,7 @@ import 'image.dart';
 import 'raw_editor.dart';
 import 'text_selection.dart';
 import 'video_app.dart';
+import 'youtube_video_app.dart';
 
 const linkPrefixes = [
   'mailto:', // email
@@ -110,14 +110,12 @@ Widget _defaultEmbedBuilder(
               : Image.file(io.File(imageUrl));
     case 'video':
       final videoUrl = node.value.data;
-      if (videoUrl.toString().contains('www.youtube.com') ||
-          videoUrl.toString().contains('youtu.be')) {
+      if (videoUrl.contains('youtube.com') ||
+          videoUrl.contains('youtu.be')) {
         return YoutubeVideoApp(
             videoUrl: videoUrl, context: context, readOnly: readOnly);
-      } else {
-        return VideoApp(
-            videoUrl: videoUrl, context: context, readOnly: readOnly);
       }
+      return VideoApp(videoUrl: videoUrl, context: context, readOnly: readOnly);
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '

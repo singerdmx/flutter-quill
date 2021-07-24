@@ -37,7 +37,6 @@ class _YoutubeVideoAppState extends State<YoutubeVideoApp> {
   Widget build(BuildContext context) {
     final defaultStyles = DefaultStyles.getInstance(context);
     if (_youtubeController == null) {
-      print('problem with youtube video');
       if (widget.readOnly) {
         return RichText(
           text: TextSpan(

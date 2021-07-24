@@ -1,3 +1,6 @@
+## [1.7.1]
+* Support Youtube video.
+
 ## [1.7.0]
 * Support video.
 
