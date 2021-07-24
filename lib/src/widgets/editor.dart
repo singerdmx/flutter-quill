@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/src/widgets/youtube_video_app.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -109,7 +110,14 @@ Widget _defaultEmbedBuilder(
               : Image.file(io.File(imageUrl));
     case 'video':
       final videoUrl = node.value.data;
-      return VideoApp(videoUrl: videoUrl, context: context, readOnly: readOnly);
+      if (videoUrl.toString().contains('www.youtube.com') ||
+          videoUrl.toString().contains('youtu.be')) {
+        return YoutubeVideoApp(
+            videoUrl: videoUrl, context: context, readOnly: readOnly);
+      } else {
+        return VideoApp(
+            videoUrl: videoUrl, context: context, readOnly: readOnly);
+      }
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '
