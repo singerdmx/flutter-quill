@@ -1,3 +1,6 @@
+## [1.7.3]
+* Bumps photo_view version.
+
 ## [1.7.2]
 * Fix static analysis error.
 
