@@ -613,12 +613,13 @@ class RawEditorState extends EditorState
     if (value.text == textEditingValue.text) {
       widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
     } else {
-      __setEditingValue(value);
+      _setEditingValue(value);
     }
   }
 
-  Future<void> __setEditingValue(TextEditingValue value) async {
-    if (await __isItCut(value)) {
+  // set editing value from clipboard for mobile
+  Future<void> _setEditingValue(TextEditingValue value) async {
+    if (await _isItCut(value)) {
       widget.controller.replaceText(
         textEditingValue.selection.start,
         textEditingValue.text.length - value.text.length,
@@ -646,7 +647,7 @@ class RawEditorState extends EditorState
     }
   }
 
-  Future<bool> __isItCut(TextEditingValue value) async {
+  Future<bool> _isItCut(TextEditingValue value) async {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     if (data == null) {
       return false;

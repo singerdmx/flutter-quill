@@ -65,6 +65,7 @@ mixin RawEditorStateKeyboardMixin on EditorState {
   // Handles shortcut functionality including cut, copy, paste and select all
   // using control/command + (X, C, V, A).
   // TODO: Add support for formatting shortcuts: Cmd+B (bold), Cmd+I (italic)
+  // set editing value from clipboard for web
   Future<void> handleShortcut(InputShortcut? shortcut) async {
     final selection = widget.controller.selection;
     final plainText = getTextEditingValue().text;
