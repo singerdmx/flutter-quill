@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
 import '../controller.dart';
+import '../link_dialog.dart';
 import '../toolbar.dart';
 import 'quill_icon_button.dart';
 
@@ -70,7 +71,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     showDialog<String>(
       context: context,
       builder: (ctx) {
-        return const _LinkDialog();
+        return const LinkDialog();
       },
     ).then(_linkSubmitted);
   }
@@ -80,43 +81,5 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
       return;
     }
     widget.controller.formatSelection(LinkAttribute(value));
-  }
-}
-
-class _LinkDialog extends StatefulWidget {
-  const _LinkDialog({Key? key}) : super(key: key);
-
-  @override
-  _LinkDialogState createState() => _LinkDialogState();
-}
-
-class _LinkDialogState extends State<_LinkDialog> {
-  String _link = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: TextField(
-        decoration: const InputDecoration(labelText: 'Paste a link'),
-        autofocus: true,
-        onChanged: _linkChanged,
-      ),
-      actions: [
-        TextButton(
-          onPressed: _link.isNotEmpty ? _applyLink : null,
-          child: const Text('Apply'),
-        ),
-      ],
-    );
-  }
-
-  void _linkChanged(String value) {
-    setState(() {
-      _link = value;
-    });
-  }
-
-  void _applyLink() {
-    Navigator.pop(context, _link);
   }
 }

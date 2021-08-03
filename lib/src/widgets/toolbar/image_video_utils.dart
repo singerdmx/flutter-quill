@@ -5,10 +5,41 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embed.dart';
+import '../../utils/media_source.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
 class ImageVideoUtils {
+  static Future<MediaSource?> selectMediaSource(BuildContext context) =>
+      showDialog<MediaSource>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton.icon(
+                icon: const Icon(
+                  Icons.collections,
+                  color: Colors.orangeAccent,
+                ),
+                label: const Text('Gallery'),
+                onPressed: () => Navigator.pop(ctx, MediaSource.Gallery),
+              ),
+              TextButton.icon(
+                icon: const Icon(
+                  Icons.link,
+                  color: Colors.cyanAccent,
+                ),
+                label: const Text('Link'),
+                onPressed: () => Navigator.pop(ctx, MediaSource.Link),
+              )
+            ],
+          ),
+        ),
+      );
+
   /// For image picking logic
   static Future<void> handleImageButtonTap(
       BuildContext context,

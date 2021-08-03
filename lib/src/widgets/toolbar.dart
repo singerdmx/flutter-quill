@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/documents/attribute.dart';
+import '../utils/media_source.dart';
 import 'controller.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/camera_button.dart';
@@ -39,6 +39,8 @@ typedef WebImagePickImpl = Future<String?> Function(
     OnImagePickCallback onImagePickCallback);
 typedef WebVideoPickImpl = Future<String?> Function(
     OnVideoPickCallback onImagePickCallback);
+typedef MediaSourceSelectorBuilder = Future<MediaSource?> Function(
+    BuildContext context);
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -78,8 +80,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showHorizontalRule = false,
     bool multiRowsDisplay = true,
     bool showCamera = true,
+    MediaSource? imageSource,
     OnImagePickCallback? onImagePickCallback,
+    MediaSource? videoSource,
     OnVideoPickCallback? onVideoPickCallback,
+    MediaSourceSelectorBuilder? mediaSourceSelectorBuilder,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
@@ -169,23 +174,27 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             controller: controller,
           ),
-        if (onImagePickCallback != null)
+        if (imageSource != null)
           ImageButton(
             icon: Icons.image,
             iconSize: toolbarIconSize,
             controller: controller,
+            source: imageSource,
             onImagePickCallback: onImagePickCallback,
             filePickImpl: filePickImpl,
             webImagePickImpl: webImagePickImpl,
+            mediaSourceSelectorBuilder: mediaSourceSelectorBuilder,
           ),
-        if (onVideoPickCallback != null)
+        if (videoSource != null)
           VideoButton(
             icon: Icons.movie_creation,
             iconSize: toolbarIconSize,
             controller: controller,
+            source: videoSource,
             onVideoPickCallback: onVideoPickCallback,
             filePickImpl: filePickImpl,
             webVideoPickImpl: webImagePickImpl,
+            mediaSourceSelectorBuilder: mediaSourceSelectorBuilder,
           ),
         if ((onImagePickCallback != null || onVideoPickCallback != null) &&
             showCamera)
