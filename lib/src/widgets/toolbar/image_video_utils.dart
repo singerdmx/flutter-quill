@@ -60,7 +60,7 @@ class ImageVideoUtils {
           'Please provide webImagePickImpl for Web '
           '(check out example directory for how to do it)');
       imageUrl = await webImagePickImpl!(onImagePickCallback);
-    } else if (Platform.isAndroid || Platform.isIOS) {
+    } else if (_isMobile()) {
       imageUrl = await _pickImage(imageSource, onImagePickCallback);
     } else {
       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
@@ -112,7 +112,7 @@ class ImageVideoUtils {
           'Please provide webVideoPickImpl for Web '
           '(check out example directory for how to do it)');
       videoUrl = await webVideoPickImpl!(onVideoPickCallback);
-    } else if (Platform.isAndroid || Platform.isIOS) {
+    } else if (_isMobile()) {
       videoUrl = await _pickVideo(videoSource, onVideoPickCallback);
     } else {
       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
@@ -124,6 +124,8 @@ class ImageVideoUtils {
       controller.replaceText(index, length, BlockEmbed.video(videoUrl), null);
     }
   }
+
+  static bool _isMobile() => Platform.isAndroid || Platform.isIOS;
 
   static Future<String?> _pickVideo(
       ImageSource source, OnVideoPickCallback onVideoPickCallback) async {
