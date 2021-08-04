@@ -14,7 +14,7 @@
       },
       "attributes":{
          "width":"230",
-         "style":"display: block; margin: auto;"
+         "style":"display: block; margin: auto; mobileWidth: 5; mobileHeight: 5; mobileMargin: 1;"
       }
    },
    {

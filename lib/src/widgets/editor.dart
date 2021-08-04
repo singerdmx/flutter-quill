@@ -97,12 +97,34 @@ String _standardizeImageUrl(String url) {
   return url;
 }
 
+bool _isMobile() => io.Platform.isAndroid || io.Platform.isIOS;
+
 Widget _defaultEmbedBuilder(
     BuildContext context, leaf.Embed node, bool readOnly) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
   switch (node.value.type) {
     case 'image':
       final imageUrl = _standardizeImageUrl(node.value.data);
+
+      final style = node.style.attributes['style'];
+      if (_isMobile() && style != null) {
+        final imageStyles = style.value.toString().split(';');
+        final _keys = {'mobileWidth', 'mobileHeight', 'mobileMargin'};
+        final _attrs = <String, String>{};
+        for (final imageStyle in imageStyles) {
+          final _index = imageStyle.indexOf(':');
+          if (_index < 0) {
+            continue;
+          }
+          final _key = imageStyle.substring(0, _index).trim();
+          if (_keys.contains(_key)) {
+            _attrs[_key] = imageStyle.substring(_index + 1).trim();
+          }
+        }
+        if (_attrs.isNotEmpty) {
+          // TODO: return image with custom width, height and margin
+        }
+      }
       return imageUrl.startsWith('http')
           ? Image.network(imageUrl)
           : isBase64(imageUrl)
