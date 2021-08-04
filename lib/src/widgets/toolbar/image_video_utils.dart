@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embed.dart';
-import '../../utils/media_source.dart';
+import '../../utils/media_pick_setting.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
 class ImageVideoUtils {
-  static Future<MediaSource?> selectMediaSource(BuildContext context) =>
-      showDialog<MediaSource>(
+  static Future<MediaPickSetting?> selectMediaPickSetting(
+    BuildContext context,
+  ) =>
+      showDialog<MediaPickSetting>(
         context: context,
         builder: (ctx) => AlertDialog(
           contentPadding: EdgeInsets.zero,
@@ -25,7 +27,7 @@ class ImageVideoUtils {
                   color: Colors.orangeAccent,
                 ),
                 label: const Text('Gallery'),
-                onPressed: () => Navigator.pop(ctx, MediaSource.Gallery),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Gallery),
               ),
               TextButton.icon(
                 icon: const Icon(
@@ -33,7 +35,7 @@ class ImageVideoUtils {
                   color: Colors.cyanAccent,
                 ),
                 label: const Text('Link'),
-                onPressed: () => Navigator.pop(ctx, MediaSource.Link),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Link),
               )
             ],
           ),

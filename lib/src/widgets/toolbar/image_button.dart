@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embed.dart';
-import '../../utils/media_source.dart';
+import '../../utils/media_pick_setting.dart';
 import '../controller.dart';
 import '../link_dialog.dart';
 import '../toolbar.dart';
@@ -13,19 +13,14 @@ class ImageButton extends StatelessWidget {
   const ImageButton({
     required this.icon,
     required this.controller,
-    required this.source,
     this.iconSize = kDefaultIconSize,
     this.onImagePickCallback,
     this.fillColor,
     this.filePickImpl,
     this.webImagePickImpl,
-    this.mediaSourceSelectorBuilder,
+    this.mediaPickSettingSelector,
     Key? key,
-  })  : assert(
-          source == MediaSource.Link || onImagePickCallback != null,
-          'Gallery source requires non-null onImagePickCallback',
-        ),
-        super(key: key);
+  }) : super(key: key);
 
   final IconData icon;
   final double iconSize;
@@ -40,9 +35,7 @@ class ImageButton extends StatelessWidget {
 
   final FilePickImpl? filePickImpl;
 
-  final MediaSource source;
-
-  final MediaSourceSelectorBuilder? mediaSourceSelectorBuilder;
+  final MediaPickSettingSelector? mediaPickSettingSelector;
 
   @override
   Widget build(BuildContext context) {
@@ -59,30 +52,19 @@ class ImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    switch (source) {
-      case MediaSource.Gallery:
-        _pickImage(context);
-        break;
-      case MediaSource.Link:
-        _typeLink(context);
-        break;
-      case MediaSource.GalleryAndLink:
-        final builder =
-            mediaSourceSelectorBuilder ?? ImageVideoUtils.selectMediaSource;
-        final source = await builder(context);
-        if (source != null) {
-          assert(
-            source != MediaSource.GalleryAndLink,
-            'Source selector should return either MediaSource.Gallery or Link',
-          );
-
-          if (source == MediaSource.Gallery) {
-            _pickImage(context);
-          } else {
-            _typeLink(context);
-          }
+    if (onImagePickCallback != null) {
+      final selector =
+          mediaPickSettingSelector ?? ImageVideoUtils.selectMediaPickSetting;
+      final source = await selector(context);
+      if (source != null) {
+        if (source == MediaPickSetting.Gallery) {
+          _pickImage(context);
+        } else {
+          _typeLink(context);
         }
-        break;
+      }
+    } else {
+      _typeLink(context);
     }
   }
 
