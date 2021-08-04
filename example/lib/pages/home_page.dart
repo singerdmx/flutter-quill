@@ -156,8 +156,7 @@ class _HomePageState extends State<HomePage> {
           onImagePickCallback: _onImagePickCallback,
           webImagePickImpl: _webImagePickImpl);
     }
-    final isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
-    if (isDesktop) {
+    if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
           onImagePickCallback: _onImagePickCallback,
@@ -188,6 +187,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  bool _isDesktop() => !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
 
   Future<String?> openFileSystemPickerForDesktop(BuildContext context) async {
     return await FilesystemPicker.open(

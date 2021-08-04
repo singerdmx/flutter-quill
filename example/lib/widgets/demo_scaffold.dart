@@ -87,8 +87,7 @@ class _DemoScaffoldState extends State<DemoScaffold> {
   Widget build(BuildContext context) {
     final actions = widget.actions ?? <Widget>[];
     var toolbar = QuillToolbar.basic(controller: _controller!);
-    final isDesktop = !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
-    if (isDesktop) {
+    if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
           controller: _controller!,
           filePickImpl: openFileSystemPickerForDesktop);
@@ -117,4 +116,6 @@ class _DemoScaffoldState extends State<DemoScaffold> {
           : widget.builder(context, _controller),
     );
   }
+
+  bool _isDesktop() => !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
 }
