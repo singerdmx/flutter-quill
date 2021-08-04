@@ -5,10 +5,43 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embed.dart';
+import '../../utils/media_pick_setting.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
 class ImageVideoUtils {
+  static Future<MediaPickSetting?> selectMediaPickSetting(
+    BuildContext context,
+  ) =>
+      showDialog<MediaPickSetting>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton.icon(
+                icon: const Icon(
+                  Icons.collections,
+                  color: Colors.orangeAccent,
+                ),
+                label: const Text('Gallery'),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Gallery),
+              ),
+              TextButton.icon(
+                icon: const Icon(
+                  Icons.link,
+                  color: Colors.cyanAccent,
+                ),
+                label: const Text('Link'),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Link),
+              )
+            ],
+          ),
+        ),
+      );
+
   /// For image picking logic
   static Future<void> handleImageButtonTap(
       BuildContext context,
