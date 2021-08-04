@@ -1,5 +1,14 @@
 [
    {
+      "insert": {
+         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
+      },
+      "attributes":{
+         "width":"230",
+         "style":"display: block; margin: auto; mobileWidth: 50; mobileHeight: 50; mobileMargin: 10;"
+      }
+   },
+   {
       "insert":"Flutter Quill"
    },
    {
@@ -7,15 +16,6 @@
          "header":1
       },
       "insert":"\n"
-   },
-   {
-      "insert": {
-         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
-      },
-      "attributes":{
-         "width":"230",
-         "style":"display: block; margin: auto; mobileWidth: 5; mobileHeight: 5; mobileMargin: 1;"
-      }
    },
    {
       "insert": {
@@ -524,6 +524,15 @@
          "token":"literal"
       },
       "insert":"-patch"
+   },
+   {
+      "insert": {
+         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
+      },
+      "attributes":{
+         "width":"230",
+         "style":"display: block; margin: auto;"
+      }
    },
    {
       "insert": "\n"

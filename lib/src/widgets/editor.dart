@@ -112,7 +112,19 @@ Widget _defaultEmbedBuilder(
         final _attrs = parseKeyValuePairs(style.value.toString(),
             {'mobileWidth', 'mobileHeight', 'mobileMargin'});
         if (_attrs.isNotEmpty) {
-          // TODO: return image with custom width, height and margin
+          assert(_attrs.length == 3,
+              'mobileWidth, mobileHeight, mobileMargin must be specified');
+          final w = double.parse(_attrs['mobileWidth']!);
+          final h = double.parse(_attrs['mobileHeight']!);
+          final m = double.parse(_attrs['mobileMargin']!);
+          return Padding(
+              padding: EdgeInsets.all(m),
+              child: imageUrl.startsWith('http')
+                  ? Image.network(imageUrl, width: w, height: h)
+                  : isBase64(imageUrl)
+                      ? Image.memory(base64.decode(imageUrl),
+                          width: w, height: h)
+                      : Image.file(io.File(imageUrl), width: w, height: h));
         }
       }
       return imageUrl.startsWith('http')

@@ -96,6 +96,20 @@ Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://gi
 
 It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L192).
 
+## Custom Size Image for Mobile
+
+Define `mobileWidth`, `mobileHeight` and `mobileMargin` as follows:
+```
+{
+      "insert": {
+         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
+      },
+      "attributes":{
+         "style":"mobileWidth: 50; mobileHeight: 50; mobileMargin: 10;"
+      }
+}
+```
+
 ## Migrate Zefyr Data
 
 Check out [code](https://github.com/jwehrle/zefyr_quill_convert) and [doc](https://docs.google.com/document/d/1FUSrpbarHnilb7uDN5J5DDahaI0v1RMXBjj4fFSpSuY/edit?usp=sharing).

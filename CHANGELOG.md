@@ -1,3 +1,6 @@
+## [1.8.1]
+* Support mobile custom size image.
+
 ## [1.8.0]
 * Support entering link for image/video.
 
