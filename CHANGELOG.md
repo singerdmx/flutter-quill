@@ -1,3 +1,6 @@
+## [1.8.0]
+* Support entering link for image/video.
+
 ## [1.7.3]
 * Bumps photo_view version.
 
