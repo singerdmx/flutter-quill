@@ -98,14 +98,14 @@ It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample 
 
 ## Custom Size Image for Mobile
 
-Define `mobileWidth`, `mobileHeight` and `mobileMargin` as follows:
+Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
 ```
 {
       "insert": {
          "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
       },
       "attributes":{
-         "style":"mobileWidth: 50; mobileHeight: 50; mobileMargin: 10;"
+         "style":"mobileWidth: 50; mobileHeight: 50; mobileMargin: 10; mobileAlignment: topLeft"
       }
 }
 ```

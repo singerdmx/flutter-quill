@@ -5,7 +5,7 @@
       },
       "attributes":{
          "width":"230",
-         "style":"display: block; margin: auto; mobileWidth: 50; mobileHeight: 50; mobileMargin: 10;"
+         "style":"display: block; margin: auto; mobileWidth: 50; mobileHeight: 50; mobileMargin: 10; mobileAlignment: topLeft"
       }
    },
    {

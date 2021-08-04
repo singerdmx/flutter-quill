@@ -110,21 +110,52 @@ Widget _defaultEmbedBuilder(
       final style = node.style.attributes['style'];
       if (_isMobile() && style != null) {
         final _attrs = parseKeyValuePairs(style.value.toString(),
-            {'mobileWidth', 'mobileHeight', 'mobileMargin'});
+            {'mobileWidth', 'mobileHeight', 'mobileMargin', 'mobileAlignment'});
         if (_attrs.isNotEmpty) {
-          assert(_attrs.length == 3,
-              'mobileWidth, mobileHeight, mobileMargin must be specified');
+          assert(
+              _attrs['mobileWidth'] != null && _attrs['mobileHeight'] != null,
+              'mobileWidth and mobileHeight must be specified');
           final w = double.parse(_attrs['mobileWidth']!);
           final h = double.parse(_attrs['mobileHeight']!);
-          final m = double.parse(_attrs['mobileMargin']!);
+          final m = _attrs['mobileMargin'] == null
+              ? 0.0
+              : double.parse(_attrs['mobileMargin']!);
+          var a = Alignment.center;
+          if (_attrs['mobileAlignment'] != null) {
+            final _index = [
+              'topLeft',
+              'topCenter',
+              'topRight',
+              'centerLeft',
+              'center',
+              'centerRight',
+              'bottomLeft',
+              'bottomCenter',
+              'bottomRight'
+            ].indexOf(_attrs['mobileAlignment']!);
+            if (_index >= 0) {
+              a = [
+                Alignment.topLeft,
+                Alignment.topCenter,
+                Alignment.topRight,
+                Alignment.centerLeft,
+                Alignment.center,
+                Alignment.centerRight,
+                Alignment.bottomLeft,
+                Alignment.bottomCenter,
+                Alignment.bottomRight
+              ][_index];
+            }
+          }
           return Padding(
               padding: EdgeInsets.all(m),
               child: imageUrl.startsWith('http')
-                  ? Image.network(imageUrl, width: w, height: h)
+                  ? Image.network(imageUrl, width: w, height: h, alignment: a)
                   : isBase64(imageUrl)
                       ? Image.memory(base64.decode(imageUrl),
-                          width: w, height: h)
-                      : Image.file(io.File(imageUrl), width: w, height: h));
+                          width: w, height: h, alignment: a)
+                      : Image.file(io.File(imageUrl),
+                          width: w, height: h, alignment: a));
         }
       }
       return imageUrl.startsWith('http')
