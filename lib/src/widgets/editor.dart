@@ -17,6 +17,7 @@ import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/embed.dart';
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
+import '../utils/string_helper.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
@@ -108,19 +109,8 @@ Widget _defaultEmbedBuilder(
 
       final style = node.style.attributes['style'];
       if (_isMobile() && style != null) {
-        final imageStyles = style.value.toString().split(';');
-        final _keys = {'mobileWidth', 'mobileHeight', 'mobileMargin'};
-        final _attrs = <String, String>{};
-        for (final imageStyle in imageStyles) {
-          final _index = imageStyle.indexOf(':');
-          if (_index < 0) {
-            continue;
-          }
-          final _key = imageStyle.substring(0, _index).trim();
-          if (_keys.contains(_key)) {
-            _attrs[_key] = imageStyle.substring(_index + 1).trim();
-          }
-        }
+        final _attrs = parseKeyValuePairs(style.value.toString(),
+            {'mobileWidth', 'mobileHeight', 'mobileMargin'});
         if (_attrs.isNotEmpty) {
           // TODO: return image with custom width, height and margin
         }
