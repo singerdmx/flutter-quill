@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
@@ -39,6 +40,7 @@ class TextLine extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
+    final lineStyle = _getLineStyle(styles);
     var textSpan;
     if (line.hasEmbed) {
       if (line.childCount == 1) {
@@ -49,24 +51,37 @@ class TextLine extends StatelessWidget {
 
       // The line could contain more than one Embed & more than one Text
       final textSpanChildren = <InlineSpan>[];
+      var textNodes = LinkedList<Node>();
+      TextSpan? lastTextNode;
       for (final child in line.children) {
-        var inlineSpan;
         if (child is Embed) {
-          inlineSpan = WidgetSpan(
+          if (textNodes.isNotEmpty) {
+            lastTextNode = _buildTextSpan(styles, textNodes, lineStyle);
+            textSpanChildren.add(lastTextNode);
+            textNodes = LinkedList<Node>();
+          }
+          // Here it should be image
+          final embed = WidgetSpan(
               child: EmbedProxy(embedBuilder(context, child, readOnly)));
-        } else {
-          inlineSpan = _getTextSpanFromNode(styles, child);
+          textSpanChildren.add(embed);
+          continue;
         }
 
-        textSpanChildren.add(inlineSpan);
+        textNodes.add(child.clone());
       }
+
+      if (textNodes.isNotEmpty) {
+        lastTextNode = _buildTextSpan(styles, textNodes, lineStyle);
+        textSpanChildren.add(lastTextNode);
+      }
+
       textSpan = TextSpan(
-          style: const TextStyle(color: Colors.black), // TODO: figure out style
+          style: lastTextNode == null ? lineStyle : lastTextNode.style,
           children: textSpanChildren);
     }
 
     if (!line.hasEmbed) {
-      textSpan = _buildTextSpan(context);
+      textSpan = _buildTextSpan(styles, line.children, lineStyle);
     }
     final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
@@ -103,17 +118,20 @@ class TextLine extends StatelessWidget {
     return TextAlign.start;
   }
 
-  TextSpan _buildTextSpan(BuildContext context) {
-    final defaultStyles = styles;
-    final children = line.children
+  TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
+      TextStyle lineStyle) {
+    final children = nodes
         .map((node) => _getTextSpanFromNode(defaultStyles, node))
         .toList(growable: false);
 
+    return TextSpan(children: children, style: lineStyle);
+  }
+
+  TextStyle _getLineStyle(DefaultStyles defaultStyles) {
     var textStyle = const TextStyle();
 
     if (line.style.containsKey(Attribute.placeholder.key)) {
-      textStyle = defaultStyles.placeHolder!.style;
-      return TextSpan(children: children, style: textStyle);
+      return defaultStyles.placeHolder!.style;
     }
 
     final header = line.style.attributes[Attribute.header.key];
@@ -137,13 +155,13 @@ class TextLine extends StatelessWidget {
 
     textStyle = textStyle.merge(toMerge);
 
-    return TextSpan(children: children, style: textStyle);
+    return textStyle;
   }
 
   TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
     final textNode = node as leaf.Text;
     final style = textNode.style;
-    var res = const TextStyle();
+    var res = const TextStyle(); // This is inline text style
     final color = textNode.style.attributes[Attribute.color.key];
 
     <String, TextStyle?>{
