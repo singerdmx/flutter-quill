@@ -211,7 +211,7 @@ class Text extends Leaf {
         super.val(text);
 
   @override
-  Node newInstance() => Text();
+  Node newInstance() => Text(value);
 
   @override
   String get value => _value as String;
