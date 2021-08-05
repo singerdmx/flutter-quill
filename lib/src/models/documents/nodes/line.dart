@@ -26,11 +26,7 @@ class Line extends Container<Leaf?> {
 
   /// Returns `true` if this line contains an embedded object.
   bool get hasEmbed {
-    if (childCount != 1) {
-      return false;
-    }
-
-    return children.single is Embed;
+    return children.any((child) => child is Embed);
   }
 
   /// Returns next [Line] or `null` if this is the last line in the document.
