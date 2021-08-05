@@ -1,3 +1,6 @@
+## [1.8.2]
+* Support mobile image alignment.
+
 ## [1.8.1]
 * Support mobile custom size image.
 
