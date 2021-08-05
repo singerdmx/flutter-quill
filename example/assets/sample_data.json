@@ -5,7 +5,7 @@
       },
       "attributes":{
          "width":"230",
-         "style":"display: block; margin: auto; mobileWidth: 50; mobileHeight: 50; mobileMargin: 10; mobileAlignment: topLeft"
+         "style":"display: block; margin: auto; mobileWidth: 40; mobileHeight: 40; mobileMargin: 0; mobileAlignment: bottomRight"
       }
    },
    {
@@ -17,8 +17,11 @@
       },
       "attributes":{
          "width":"230",
-         "style":"display: block; margin: auto;"
+         "style":"mobileWidth: 40; mobileHeight: 40; mobileMargin: 0; mobileAlignment: bottomLeft"
       }
+   },
+   {
+      "insert":"Bullet Journal"
    },
    {
       "insert": "\n"

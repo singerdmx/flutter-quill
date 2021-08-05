@@ -48,23 +48,21 @@ class TextLine extends StatelessWidget {
       }
 
       // The line could contain more than one Embed & more than one Text
-      // TODO: handle more than one Embed
+      final textSpanChildren = <InlineSpan>[];
+      for (final child in line.children) {
+        var inlineSpan;
+        if (child is Embed) {
+          inlineSpan = WidgetSpan(
+              child: EmbedProxy(embedBuilder(context, child, readOnly)));
+        } else {
+          inlineSpan = _getTextSpanFromNode(styles, child);
+        }
 
+        textSpanChildren.add(inlineSpan);
+      }
       textSpan = TextSpan(
-          style: const TextStyle(color: Colors.black),
-          children: <InlineSpan>[
-            const TextSpan(text: 'Flutter is'),
-            WidgetSpan(
-                child: SizedBox(
-              width: 50,
-              height: 50,
-              child: Image.network(
-                'https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png',
-                fit: BoxFit.cover,
-              ),
-            )),
-            const TextSpan(text: 'the best!'),
-          ]);
+          style: const TextStyle(color: Colors.black), // TODO: figure out style
+          children: textSpanChildren);
     }
 
     if (!line.hasEmbed) {
