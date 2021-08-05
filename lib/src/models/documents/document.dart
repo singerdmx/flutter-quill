@@ -51,8 +51,7 @@ class Document {
 
   Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
 
-  Delta insert(int index, Object? data,
-      {int replaceLength = 0, bool autoAppendNewlineAfterImage = true}) {
+  Delta insert(int index, Object? data, {int replaceLength = 0}) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
     if (data is Embeddable) {
@@ -63,8 +62,7 @@ class Document {
 
     final delta = _rules.apply(RuleType.INSERT, this, index,
         data: data, len: replaceLength);
-    compose(delta, ChangeSource.LOCAL,
-        autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
+    compose(delta, ChangeSource.LOCAL);
     return delta;
   }
 
@@ -77,8 +75,7 @@ class Document {
     return delta;
   }
 
-  Delta replace(int index, int len, Object? data,
-      {bool autoAppendNewlineAfterImage = true}) {
+  Delta replace(int index, int len, Object? data) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
 
@@ -91,9 +88,7 @@ class Document {
     // We have to insert before applying delete rules
     // Otherwise delete would be operating on stale document snapshot.
     if (dataIsNotEmpty) {
-      delta = insert(index, data,
-          replaceLength: len,
-          autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
+      delta = insert(index, data, replaceLength: len);
     }
 
     if (len > 0) {
@@ -141,17 +136,13 @@ class Document {
     return block.queryChild(res.offset, true);
   }
 
-  void compose(Delta delta, ChangeSource changeSource,
-      {bool autoAppendNewlineAfterImage = true,
-      bool autoAppendNewlineAfterVideo = true}) {
+  void compose(Delta delta, ChangeSource changeSource) {
     assert(!_observer.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
 
     var offset = 0;
-    delta = _transform(delta,
-        autoAppendNewlineAfterImage: autoAppendNewlineAfterImage,
-        autoAppendNewlineAfterVideo: autoAppendNewlineAfterVideo);
+    delta = _transform(delta);
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
       final style =
@@ -195,20 +186,13 @@ class Document {
 
   bool get hasRedo => _history.hasRedo;
 
-  static Delta _transform(Delta delta,
-      {bool autoAppendNewlineAfterImage = true,
-      bool autoAppendNewlineAfterVideo = true}) {
+  static Delta _transform(Delta delta) {
     final res = Delta();
     final ops = delta.toList();
     for (var i = 0; i < ops.length; i++) {
       final op = ops[i];
       res.push(op);
-      if (autoAppendNewlineAfterImage) {
-        _autoAppendNewlineAfterEmbeddable(i, ops, op, res, 'image');
-      }
-      if (autoAppendNewlineAfterVideo) {
-        _autoAppendNewlineAfterEmbeddable(i, ops, op, res, 'video');
-      }
+      _autoAppendNewlineAfterEmbeddable(i, ops, op, res, 'video');
     }
     return res;
   }

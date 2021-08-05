@@ -106,13 +106,12 @@ class QuillController extends ChangeNotifier {
 
   void replaceText(
       int index, int len, Object? data, TextSelection? textSelection,
-      {bool ignoreFocus = false, bool autoAppendNewlineAfterImage = true}) {
+      {bool ignoreFocus = false}) {
     assert(data is String || data is Embeddable);
 
     Delta? delta;
     if (len > 0 || data is! String || data.isNotEmpty) {
-      delta = document.replace(index, len, data,
-          autoAppendNewlineAfterImage: autoAppendNewlineAfterImage);
+      delta = document.replace(index, len, data);
       var shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&

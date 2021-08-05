@@ -39,6 +39,7 @@ class TextLine extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
+    var textSpan;
     if (line.hasEmbed) {
       if (line.childCount == 1) {
         // For video, it is always single child
@@ -48,12 +49,27 @@ class TextLine extends StatelessWidget {
 
       // The line could contain more than one Embed & more than one Text
       // TODO: handle more than one Embed
-      final embed =
-          line.children.firstWhere((child) => child is Embed) as Embed;
-      return EmbedProxy(embedBuilder(context, embed, readOnly));
+
+      textSpan = TextSpan(
+          style: const TextStyle(color: Colors.black),
+          children: <InlineSpan>[
+            const TextSpan(text: 'Flutter is'),
+            WidgetSpan(
+                child: SizedBox(
+              width: 50,
+              height: 50,
+              child: Image.network(
+                'https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png',
+                fit: BoxFit.cover,
+              ),
+            )),
+            const TextSpan(text: 'the best!'),
+          ]);
     }
 
-    final textSpan = _buildTextSpan(context);
+    if (!line.hasEmbed) {
+      textSpan = _buildTextSpan(context);
+    }
     final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
     final child = RichText(
