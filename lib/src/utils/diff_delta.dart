@@ -76,7 +76,7 @@ int getPositionDelta(Delta user, Delta actual) {
   var diff = 0;
   while (userItr.hasNext || actualItr.hasNext) {
     final length = math.min(userItr.peekLength(), actualItr.peekLength());
-    final userOperation = userItr.next(length as int);
+    final userOperation = userItr.next(length);
     final actualOperation = actualItr.next(length);
     if (userOperation.length != actualOperation.length) {
       throw 'userOp ${userOperation.length} does not match actualOp '
