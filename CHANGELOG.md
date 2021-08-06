@@ -1,3 +1,6 @@
+## [1.8.3]
+* Updated quill_delta.
+
 ## [1.8.2]
 * Support mobile image alignment.
 
