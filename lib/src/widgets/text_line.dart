@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
@@ -38,22 +39,12 @@ class TextLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
-
-    if (line.hasEmbed) {
-      if (line.childCount == 1) {
-        // For video, it is always single child
-        final embed = line.children.single as Embed;
-        return EmbedProxy(embedBuilder(context, embed, readOnly));
-      }
-
-      // The line could contain more than one Embed & more than one Text
-      // TODO: handle more than one Embed
-      final embed =
-          line.children.firstWhere((child) => child is Embed) as Embed;
+    if (line.hasEmbed && line.childCount == 1) {
+      // For video, it is always single child
+      final embed = line.children.single as Embed;
       return EmbedProxy(embedBuilder(context, embed, readOnly));
     }
-
-    final textSpan = _buildTextSpan(context);
+    final textSpan = _getTextSpanForWholeLine(context);
     final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
     final child = RichText(
@@ -75,6 +66,42 @@ class TextLine extends StatelessWidget {
         null);
   }
 
+  InlineSpan _getTextSpanForWholeLine(BuildContext context) {
+    final lineStyle = _getLineStyle(styles);
+    if (!line.hasEmbed) {
+      return _buildTextSpan(styles, line.children, lineStyle);
+    }
+
+    // The line could contain more than one Embed & more than one Text
+    final textSpanChildren = <InlineSpan>[];
+    var textNodes = LinkedList<Node>();
+    for (final child in line.children) {
+      if (child is Embed) {
+        if (textNodes.isNotEmpty) {
+          textSpanChildren.add(_buildTextSpan(styles, textNodes, lineStyle));
+          textNodes = LinkedList<Node>();
+        }
+        // Here it should be image
+        final embed = WidgetSpan(
+            child: EmbedProxy(embedBuilder(context, child, readOnly)));
+        textSpanChildren.add(embed);
+        continue;
+      }
+
+      // here child is Text node and its value is cloned
+      textNodes.add(child.clone());
+    }
+
+    if (textNodes.isNotEmpty) {
+      textSpanChildren.add(_buildTextSpan(styles, textNodes, lineStyle));
+    }
+
+    return TextSpan(style: lineStyle, children: textSpanChildren);
+  }
+
+  // test with different combinations
+  // comb through logic , see if any refactoring is needed
+
   TextAlign _getTextAlign() {
     final alignment = line.style.attributes[Attribute.align.key];
     if (alignment == Attribute.leftAlignment) {
@@ -89,17 +116,20 @@ class TextLine extends StatelessWidget {
     return TextAlign.start;
   }
 
-  TextSpan _buildTextSpan(BuildContext context) {
-    final defaultStyles = styles;
-    final children = line.children
+  TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
+      TextStyle lineStyle) {
+    final children = nodes
         .map((node) => _getTextSpanFromNode(defaultStyles, node))
         .toList(growable: false);
 
+    return TextSpan(children: children, style: lineStyle);
+  }
+
+  TextStyle _getLineStyle(DefaultStyles defaultStyles) {
     var textStyle = const TextStyle();
 
     if (line.style.containsKey(Attribute.placeholder.key)) {
-      textStyle = defaultStyles.placeHolder!.style;
-      return TextSpan(children: children, style: textStyle);
+      return defaultStyles.placeHolder!.style;
     }
 
     final header = line.style.attributes[Attribute.header.key];
@@ -123,13 +153,13 @@ class TextLine extends StatelessWidget {
 
     textStyle = textStyle.merge(toMerge);
 
-    return TextSpan(children: children, style: textStyle);
+    return textStyle;
   }
 
   TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
     final textNode = node as leaf.Text;
     final style = textNode.style;
-    var res = const TextStyle();
+    var res = const TextStyle(); // This is inline text style
     final color = textNode.style.attributes[Attribute.color.key];
 
     <String, TextStyle?>{

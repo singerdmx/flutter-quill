@@ -273,37 +273,6 @@ class InsertEmbedsRule extends InsertRule {
   }
 }
 
-class ForceNewlineForInsertsAroundEmbedRule extends InsertRule {
-  const ForceNewlineForInsertsAroundEmbedRule();
-
-  @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
-    if (data is! String) {
-      return null;
-    }
-
-    final text = data;
-    final itr = DeltaIterator(document);
-    final prev = itr.skip(index);
-    final cur = itr.next();
-    final cursorBeforeEmbed = cur.data is! String;
-    final cursorAfterEmbed = prev != null && prev.data is! String;
-
-    if (!cursorBeforeEmbed && !cursorAfterEmbed) {
-      return null;
-    }
-    final delta = Delta()..retain(index + (len ?? 0));
-    if (cursorBeforeEmbed && !text.endsWith('\n')) {
-      return delta..insert(text)..insert('\n');
-    }
-    if (cursorAfterEmbed && !text.startsWith('\n')) {
-      return delta..insert('\n')..insert(text);
-    }
-    return delta..insert(text);
-  }
-}
-
 class AutoFormatLinksRule extends InsertRule {
   const AutoFormatLinksRule();
 

@@ -36,7 +36,6 @@ class Rules {
     const ResolveLineFormatRule(),
     const ResolveInlineFormatRule(),
     const InsertEmbedsRule(),
-    const ForceNewlineForInsertsAroundEmbedRule(),
     const AutoExitBlockRule(),
     const PreserveBlockStyleOnInsertRule(),
     const PreserveLineStyleOnSplitRule(),
