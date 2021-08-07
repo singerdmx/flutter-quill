@@ -99,9 +99,6 @@ class TextLine extends StatelessWidget {
     return TextSpan(style: lineStyle, children: textSpanChildren);
   }
 
-  // test with different combinations
-  // comb through logic , see if any refactoring is needed
-
   TextAlign _getTextAlign() {
     final alignment = line.style.attributes[Attribute.align.key];
     if (alignment == Attribute.leftAlignment) {
