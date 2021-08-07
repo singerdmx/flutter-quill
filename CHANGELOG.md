@@ -1,3 +1,6 @@
+## [1.9.0]
+* Support inline image.
+
 ## [1.8.3]
 * Updated quill_delta.
 
