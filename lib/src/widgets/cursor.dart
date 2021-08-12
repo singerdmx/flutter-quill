@@ -292,8 +292,7 @@ class CursorPainter {
       }
     }
 
-    final pixelPerfectOffset =
-        _getPixelPerfectCursorOffset(editable!, caretRect, devicePixelRatio);
+    final pixelPerfectOffset = _getPixelPerfectCursorOffset(caretRect);
     if (!pixelPerfectOffset.isFinite) {
       return;
     }
@@ -309,11 +308,9 @@ class CursorPainter {
   }
 
   Offset _getPixelPerfectCursorOffset(
-    RenderContentProxyBox editable,
     Rect caretRect,
-    double devicePixelRatio,
   ) {
-    final caretPosition = editable.localToGlobal(caretRect.topLeft);
+    final caretPosition = editable!.localToGlobal(caretRect.topLeft);
     final pixelMultiple = 1.0 / devicePixelRatio;
 
     final pixelPerfectOffsetX = caretPosition.dx.isFinite

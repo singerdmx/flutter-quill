@@ -527,6 +527,27 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     return defaultHitTestChildren(result, position: position);
   }
+
+  @override
+  Rect getLocalRectForCaret(TextPosition position) {
+    final child = childAtPosition(position);
+    final localPosition = TextPosition(
+      offset: position.offset - child.getContainer().offset,
+      affinity: position.affinity,
+    );
+    final parentData = child.parentData as BoxParentData;
+    return child.getLocalRectForCaret(localPosition).shift(parentData.offset);
+  }
+
+  @override
+  TextPosition globalToLocalPosition(TextPosition position) {
+    assert(getContainer().containsOffset(position.offset),
+        'The provided text position is not in the current node');
+    return TextPosition(
+      offset: position.offset - getContainer().documentOffset,
+      affinity: position.affinity,
+    );
+  }
 }
 
 class _EditableBlock extends MultiChildRenderObjectWidget {
