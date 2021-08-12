@@ -1,3 +1,6 @@
+## [1.9.1]
+* Cursor jumps to the most appropriate offset to display selection.
+
 ## [1.9.0]
 * Support inline image.
 
