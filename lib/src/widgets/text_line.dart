@@ -237,7 +237,17 @@ class TextLine extends StatelessWidget {
       final backgroundColor = stringToColor(background.value);
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
     }
-
+    if (styleBuilder != null) {
+      textNode.style.attributes.keys.forEach((key) {
+        final attribute =
+            Attribute.fromKeyValue(key, textNode.style.attributes[key]);
+        if (attribute == null) {
+          ///Unkown Attribute
+          final customStyle = styleBuilder?.call(attribute!);
+          if (customStyle != null) res = res.merge(customStyle);
+        }
+      });
+    }
     return TextSpan(text: textNode.value, style: res);
   }
 
