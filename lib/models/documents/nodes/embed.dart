@@ -1,28 +1,3 @@
-class Embeddable {
-  final String type;
-  final dynamic data;
-
-  Embeddable(this.type, this.data)
-      : assert(type != null),
-        assert(data != null);
-
-  Map<String, dynamic> toJson() {
-    Map<String, String> m = {type: data};
-    return m;
-  }
-
-  static Embeddable fromJson(Map<String, dynamic> json) {
-    Map<String, dynamic> m = Map<String, dynamic>.from(json);
-    assert(m.length == 1, 'Embeddable map has one key');
-
-    return BlockEmbed(m.keys.first, m.values.first);
-  }
-}
-
-class BlockEmbed extends Embeddable {
-  BlockEmbed(String type, String data) : super(type, data);
-
-  static final BlockEmbed horizontalRule = BlockEmbed('divider', 'hr');
-
-  static BlockEmbed image(String imageUrl) => BlockEmbed('image', imageUrl);
-}
+/// TODO: Remove this file in the next breaking release, because implementation
+/// files should be located in the src folder, https://bit.ly/3fA23Yz.
+export '../../../src/models/documents/nodes/embed.dart';
