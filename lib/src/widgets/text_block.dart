@@ -59,6 +59,7 @@ class EditableTextBlock extends StatelessWidget {
     this.hasFocus,
     this.contentPadding,
     this.embedBuilder,
+    this.styleBuilder,
     this.cursorCont,
     this.indentLevelCounts,
     this.onCheckboxTap,
@@ -76,6 +77,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool hasFocus;
   final EdgeInsets? contentPadding;
   final EmbedBuilder embedBuilder;
+    final StyleBuilder styleBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
   final Function(int, bool) onCheckboxTap;
@@ -123,6 +125,7 @@ class EditableTextBlock extends StatelessWidget {
             line: line,
             textDirection: textDirection,
             embedBuilder: embedBuilder,
+            styleBuilder: styleBuilder,
             styles: styles!,
             readOnly: readOnly,
           ),

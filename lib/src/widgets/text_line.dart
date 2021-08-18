@@ -24,6 +24,7 @@ class TextLine extends StatelessWidget {
   const TextLine({
     required this.line,
     required this.embedBuilder,
+    required this.styleBuilder,
     required this.styles,
     required this.readOnly,
     this.textDirection,
@@ -35,7 +36,7 @@ class TextLine extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
-
+  final StyleBuilder? styleBuilder;
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -149,6 +150,20 @@ class TextLine extends StatelessWidget {
     }
 
     textStyle = textStyle.merge(toMerge);
+
+    if (styleBuilder != null) {
+      line.style.attributes.keys.forEach((key) {
+        final attribute =
+            Attribute.fromKeyValue(key, line.style.attributes[key]);
+        if (attribute != null) {
+          ///
+          ///Unkown Attribute
+          ///
+          final call = styleBuilder?.call(attribute);
+          textStyle = textStyle.merge(call);
+        }
+      });
+    }
 
     return textStyle;
   }

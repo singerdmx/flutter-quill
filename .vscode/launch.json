@@ -8,7 +8,7 @@
             "name": "flutter-quill",
             "request": "launch",
             "type": "dart",
-            "program": "app/lib/main.dart"
+            "program": "example/lib/main.dart"
         },
        
     ]

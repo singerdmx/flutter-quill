@@ -37,6 +37,7 @@ class QuillSimpleViewer extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.embedBuilder,
     Key? key,
+    this.styleBuilder,
   })  : assert(truncate ||
             ((truncateScale == null) &&
                 (truncateAlignment == null) &&
@@ -54,6 +55,7 @@ class QuillSimpleViewer extends StatefulWidget {
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
   final EmbedBuilder? embedBuilder;
+  final StyleBuilder? styleBuilder;
   final bool readOnly;
 
   @override
@@ -100,6 +102,7 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
   }
 
   EmbedBuilder get embedBuilder => widget.embedBuilder ?? _defaultEmbedBuilder;
+  StyleBuilder get styleBuilder => widget.styleBuilder ??(a)=>const TextStyle();
 
   Widget _defaultEmbedBuilder(
       BuildContext context, leaf.Embed node, bool readOnly) {
@@ -218,6 +221,7 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
                 ? const EdgeInsets.all(16)
                 : null,
             embedBuilder,
+            styleBuilder,
             _cursorCont,
             indentLevelCounts,
             _handleCheckboxTap,
@@ -247,6 +251,7 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
       line: node,
       textDirection: _textDirection,
       embedBuilder: embedBuilder,
+      styleBuilder: styleBuilder,
       styles: _styles,
       readOnly: widget.readOnly,
     );

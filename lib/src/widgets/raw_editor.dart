@@ -57,6 +57,7 @@ class RawEditor extends StatefulWidget {
     this.enableInteractiveSelection,
     this.scrollPhysics,
     this.embedBuilder,
+    this.styleBuilder,
   )   : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -89,7 +90,7 @@ class RawEditor extends StatefulWidget {
   final bool enableInteractiveSelection;
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
-
+  final StyleBuilder styleBuilder;
   @override
   State<StatefulWidget> createState() => RawEditorState();
 }
@@ -244,6 +245,7 @@ class RawEditorState extends EditorState
                 ? const EdgeInsets.all(16)
                 : null,
             widget.embedBuilder,
+            widget.styleBuilder,
             _cursorCont,
             indentLevelCounts,
             _handleCheckboxTap,
@@ -262,6 +264,7 @@ class RawEditorState extends EditorState
       line: node,
       textDirection: _textDirection,
       embedBuilder: widget.embedBuilder,
+      styleBuilder: widget.styleBuilder,
       styles: _styles!,
       readOnly: widget.readOnly,
     );

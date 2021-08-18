@@ -18,7 +18,8 @@ class Style {
 
     final result = attributes.map((key, dynamic value) {
       final attr = Attribute.fromKeyValue(key, value);
-      return MapEntry<String, Attribute>(key, attr);
+      // ignore: lines_longer_than_80_chars
+      return MapEntry<String, Attribute>(key, attr??Attribute(key, AttributeScope.INLINE, value));
     });
     return Style.attr(result);
   }
