@@ -129,7 +129,7 @@ class EditableTextBlock extends StatelessWidget {
             styles: styles!,
             readOnly: readOnly,
           ),
-          _getIndentWidth(defaultStyles),
+          _getIndentWidth(),
           _getSpacingForLine(line, index, count, defaultStyles),
           textDirection,
           textSelection,
@@ -204,21 +204,20 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  double _getIndentWidth(DefaultStyles? defaultStyles) {
+  double _getIndentWidth() {
     final attrs = block.style.attributes;
 
     final indent = attrs[Attribute.indent.key];
     var extraIndent = 0.0;
-    final minimumIndent = defaultStyles?.paragraph?.lineSpacing.item1??0;
     if (indent != null && indent.value != null) {
       extraIndent = 16.0 * indent.value;
     }
 
     if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return minimumIndent + extraIndent;
+      return 16.0 + extraIndent;
     }
 
-    return minimumIndent+ extraIndent;
+    return 32+ extraIndent;
   }
 
   Tuple2 _getSpacingForLine(
