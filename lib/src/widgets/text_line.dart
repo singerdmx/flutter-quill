@@ -155,11 +155,11 @@ class TextLine extends StatelessWidget {
       line.style.attributes.keys.forEach((key) {
         final attribute =
             Attribute.fromKeyValue(key, line.style.attributes[key]);
-        if (attribute != null) {
+        if (attribute == null && line.style.attributes[key]!=null) {
           ///
           ///Unkown Attribute
           ///
-          final call = styleBuilder?.call(attribute);
+          final call = styleBuilder?.call(line.style.attributes[key]!);
           textStyle = textStyle.merge(call);
         }
       });
@@ -241,9 +241,12 @@ class TextLine extends StatelessWidget {
       textNode.style.attributes.keys.forEach((key) {
         final attribute =
             Attribute.fromKeyValue(key, textNode.style.attributes[key]);
-        if (attribute == null) {
+        if (attribute == null && textNode.style.attributes[key]!=null) {
+          ///
           ///Unkown Attribute
-          final customStyle = styleBuilder?.call(attribute!);
+          ///
+          // ignore: lines_longer_than_80_chars
+          final customStyle = styleBuilder?.call(textNode.style.attributes[key]!);
           if (customStyle != null) res = res.merge(customStyle);
         }
       });
