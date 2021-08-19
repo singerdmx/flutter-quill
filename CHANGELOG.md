@@ -1,3 +1,6 @@
+## [1.9.2]
+* Support for building custom inline styles.
+
 ## [1.9.1]
 * Cursor jumps to the most appropriate offset to display selection.
 
