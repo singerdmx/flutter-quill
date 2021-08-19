@@ -202,26 +202,23 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
       } else if (node is Block) {
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
-            node,
-            _textDirection,
-            widget.scrollBottomInset,
-            _getVerticalSpacingForBlock(node, _styles),
-            widget.controller.selection,
-            Colors.black,
-            // selectionColor,
-            _styles,
-            false,
-            // enableInteractiveSelection,
-            false,
-            // hasFocus,
-            attrs.containsKey(Attribute.codeBlock.key)
+            block: node,
+            textDirection: _textDirection,
+            scrollBottomInset: widget.scrollBottomInset,
+            verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
+            textSelection: widget.controller.selection,
+            color: Colors.black,
+            styles: _styles,
+            enableInteractiveSelection: false,
+            hasFocus: false,
+            contentPadding: attrs.containsKey(Attribute.codeBlock.key)
                 ? const EdgeInsets.all(16)
                 : null,
-            embedBuilder,
-            _cursorCont,
-            indentLevelCounts,
-            _handleCheckboxTap,
-            widget.readOnly);
+            embedBuilder: embedBuilder,
+            cursorCont: _cursorCont,
+            indentLevelCounts: indentLevelCounts,
+            onCheckboxTap: _handleCheckboxTap,
+            readOnly: widget.readOnly);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');

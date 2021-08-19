@@ -165,11 +165,11 @@ class Attribute<T> {
 
   Map<String, dynamic> toJson() => <String, dynamic>{key: value};
 
-  static Attribute fromKeyValue(String key, dynamic value) {
-    if (!_registry.containsKey(key)) {
-      throw ArgumentError.value(key, 'key "$key" not found.');
+  static Attribute? fromKeyValue(String key, dynamic value) {
+    final origin = _registry[key];
+    if (origin == null) {
+      return null;
     }
-    final origin = _registry[key]!;
     final attribute = clone(origin, value);
     return attribute;
   }
