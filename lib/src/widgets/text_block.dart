@@ -48,22 +48,23 @@ const List<String> romanNumbers = [
 
 class EditableTextBlock extends StatelessWidget {
   const EditableTextBlock(
-    this.block,
-    this.textDirection,
-    this.scrollBottomInset,
-    this.verticalSpacing,
-    this.textSelection,
-    this.color,
-    this.styles,
-    this.enableInteractiveSelection,
-    this.hasFocus,
-    this.contentPadding,
-    this.embedBuilder,
-    this.cursorCont,
-    this.indentLevelCounts,
-    this.onCheckboxTap,
-    this.readOnly,
-  );
+      {required this.block,
+      required this.textDirection,
+      required this.scrollBottomInset,
+      required this.verticalSpacing,
+      required this.textSelection,
+      required this.color,
+      required this.styles,
+      required this.enableInteractiveSelection,
+      required this.hasFocus,
+      required this.contentPadding,
+      required this.embedBuilder,
+      required this.cursorCont,
+      required this.indentLevelCounts,
+      required this.onCheckboxTap,
+      required this.readOnly,
+      this.styleBuilder,
+      Key? key});
 
   final Block block;
   final TextDirection textDirection;
@@ -76,6 +77,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool hasFocus;
   final EdgeInsets? contentPadding;
   final EmbedBuilder embedBuilder;
+  final StyleBuilder? styleBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
   final Function(int, bool) onCheckboxTap;
@@ -123,6 +125,7 @@ class EditableTextBlock extends StatelessWidget {
             line: line,
             textDirection: textDirection,
             embedBuilder: embedBuilder,
+            styleBuilder: styleBuilder,
             styles: styles!,
             readOnly: readOnly,
           ),

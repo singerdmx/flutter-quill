@@ -18,7 +18,8 @@ class Style {
 
     final result = attributes.map((key, dynamic value) {
       final attr = Attribute.fromKeyValue(key, value);
-      return MapEntry<String, Attribute>(key, attr);
+      return MapEntry<String, Attribute>(
+          key, attr ?? Attribute(key, AttributeScope.IGNORE, value));
     });
     return Style.attr(result);
   }

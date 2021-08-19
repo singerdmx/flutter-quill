@@ -10,6 +10,8 @@ import 'text_selection.dart';
 typedef EmbedBuilder = Widget Function(
     BuildContext context, Embed node, bool readOnly);
 
+typedef StyleBuilder = TextStyle Function(String attributeKey);
+
 abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
   GlobalKey<EditorState> getEditableTextKey();
 

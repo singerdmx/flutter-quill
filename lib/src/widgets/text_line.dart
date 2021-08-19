@@ -27,6 +27,7 @@ class TextLine extends StatelessWidget {
     required this.styles,
     required this.readOnly,
     this.textDirection,
+    this.styleBuilder,
     Key? key,
   }) : super(key: key);
 
@@ -35,7 +36,7 @@ class TextLine extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
-
+  final StyleBuilder? styleBuilder;
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -149,7 +150,22 @@ class TextLine extends StatelessWidget {
     }
 
     textStyle = textStyle.merge(toMerge);
+    textStyle = _applyCustomAttributes(textStyle, line.style.attributes);
 
+    return textStyle;
+  }
+
+  TextStyle _applyCustomAttributes(
+      TextStyle textStyle, Map<String, Attribute> attributes) {
+    if (styleBuilder != null) {
+      attributes.keys
+          .where((key) => !attributes.containsKey(key))
+          .forEach((key) {
+        /// Custom Attribute
+        final customAttr = styleBuilder!.call(key);
+        textStyle = textStyle.merge(customAttr);
+      });
+    }
     return textStyle;
   }
 
@@ -223,6 +239,7 @@ class TextLine extends StatelessWidget {
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
     }
 
+    res = _applyCustomAttributes(res, textNode.style.attributes);
     return TextSpan(text: textNode.value, style: res);
   }
 
