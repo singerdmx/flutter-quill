@@ -57,7 +57,7 @@ class RawEditor extends StatefulWidget {
     this.enableInteractiveSelection,
     this.scrollPhysics,
     this.embedBuilder,
-    this.styleBuilder,
+    this.customStyleBuilder,
   )   : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -90,7 +90,7 @@ class RawEditor extends StatefulWidget {
   final bool enableInteractiveSelection;
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
-  final StyleBuilder? styleBuilder;
+  final CustomStyleBuilder? customStyleBuilder;
   @override
   State<StatefulWidget> createState() => RawEditorState();
 }
@@ -249,7 +249,7 @@ class RawEditorState extends EditorState
             indentLevelCounts: indentLevelCounts,
             onCheckboxTap: _handleCheckboxTap,
             readOnly: widget.readOnly,
-            styleBuilder: widget.styleBuilder);
+            customStyleBuilder: widget.customStyleBuilder);
         result.add(editableTextBlock);
       } else {
         throw StateError('Unreachable.');
@@ -264,7 +264,7 @@ class RawEditorState extends EditorState
       line: node,
       textDirection: _textDirection,
       embedBuilder: widget.embedBuilder,
-      styleBuilder: widget.styleBuilder,
+      customStyleBuilder: widget.customStyleBuilder,
       styles: _styles!,
       readOnly: widget.readOnly,
     );

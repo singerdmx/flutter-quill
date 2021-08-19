@@ -252,7 +252,7 @@ class QuillEditor extends StatefulWidget {
       this.onSingleLongTapMoveUpdate,
       this.onSingleLongTapEnd,
       this.embedBuilder = _defaultEmbedBuilder,
-      this.styleBuilder,
+      this.customStyleBuilder,
       Key? key});
 
   factory QuillEditor.basic({
@@ -312,7 +312,7 @@ class QuillEditor extends StatefulWidget {
       onSingleLongTapEnd;
 
   final EmbedBuilder embedBuilder;
-  final StyleBuilder? styleBuilder;
+  final CustomStyleBuilder? customStyleBuilder;
 
   @override
   _QuillEditorState createState() => _QuillEditorState();
@@ -417,7 +417,7 @@ class _QuillEditorState extends State<QuillEditor>
         widget.enableInteractiveSelection,
         widget.scrollPhysics,
         widget.embedBuilder,
-        widget.styleBuilder,
+        widget.customStyleBuilder,
       ),
     );
   }

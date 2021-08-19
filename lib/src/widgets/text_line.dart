@@ -27,7 +27,7 @@ class TextLine extends StatelessWidget {
     required this.styles,
     required this.readOnly,
     this.textDirection,
-    this.styleBuilder,
+    this.customStyleBuilder,
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +36,7 @@ class TextLine extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
-  final StyleBuilder? styleBuilder;
+  final CustomStyleBuilder? customStyleBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -158,13 +158,16 @@ class TextLine extends StatelessWidget {
 
   TextStyle _applyCustomAttributes(
       TextStyle textStyle, Map<String, Attribute> attributes) {
-    if (styleBuilder == null) {
+    if (customStyleBuilder == null) {
       return textStyle;
     }
-    attributes.keys.where((key) => !attributes.containsKey(key)).forEach((key) {
-      /// Custom Attribute
-      final customAttr = styleBuilder!.call(key);
-      textStyle = textStyle.merge(customAttr);
+    attributes.keys.forEach((key) {
+      final attr = attributes[key];
+      if (attr != null) {
+        /// Custom Attribute
+        final customAttr = customStyleBuilder!.call(attr);
+        textStyle = textStyle.merge(customAttr);
+      }
     });
     return textStyle;
   }
