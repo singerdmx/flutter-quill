@@ -246,7 +246,7 @@ class TextLine extends StatelessWidget {
           ///Unkown Attribute
           ///
           // ignore: lines_longer_than_80_chars
-          final customStyle = styleBuilder?.call(textNode.style.attributes[key]!);
+          final customStyle = styleBuilder?.call(textNode.style.attributes[key]);
           if (customStyle != null) res = res.merge(customStyle);
         }
       });
