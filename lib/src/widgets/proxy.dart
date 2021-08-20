@@ -103,8 +103,9 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 
   @override
   Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype) {
-    assert(position.offset == 1 || position.offset == 0);
-    return position.offset == 0
+    assert(
+        position.offset == 1 || position.offset == 0 || position.offset == -1);
+    return position.offset <= 0
         ? Offset.zero
         : Offset(
             size.width - (caretPrototype == null ? 0 : caretPrototype.width),
