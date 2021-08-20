@@ -1,3 +1,6 @@
+## [1.9.3]
+* Bug fix when line only contains one image.
+
 ## [1.9.2]
 * Support for building custom inline styles.
 
