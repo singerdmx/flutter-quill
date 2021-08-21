@@ -1,3 +1,6 @@
+## [1.9.4]
+* Bug fix for cursor position when tapping at the end of line with image(s).
+
 ## [1.9.3]
 * Bug fix when line only contains one image.
 
