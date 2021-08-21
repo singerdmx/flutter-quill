@@ -243,9 +243,21 @@ class CursorPainter {
   final double devicePixelRatio;
 
   /// Paints cursor on [canvas] at specified [position].
+  /// [offset] is global top left (x, y) of text line
+  /// [position] is relative (x) in text line
   void paint(Canvas canvas, Offset offset, TextPosition position) {
-    final caretOffset =
-        editable!.getOffsetForCaret(position, prototype) + offset;
+    // relative (x, y) to global offset
+    var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
+    if (relativeCaretOffset == Offset.zero) {
+      relativeCaretOffset = editable!.getOffsetForCaret(
+          TextPosition(
+              offset: position.offset - 1, affinity: position.affinity),
+          prototype);
+      // Hardcoded 6 as estimate of the width of a character
+      relativeCaretOffset =
+          Offset(relativeCaretOffset.dx + 6, relativeCaretOffset.dy);
+    }
+    final caretOffset = relativeCaretOffset + offset;
     var caretRect = prototype.shift(caretOffset);
     if (style.offset != null) {
       caretRect = caretRect.shift(style.offset!);
