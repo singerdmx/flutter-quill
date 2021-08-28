@@ -637,10 +637,25 @@ class RawEditorState extends EditorState
       if (data != null) {
         final length =
             textEditingValue.selection.end - textEditingValue.selection.start;
+        var str = data.text!;
+        final codes = data.text!.codeUnits;
+        // For clip from editor, it may contain image, a.k.a 65532.
+        // For clip from browser, image is directly ignore.
+        // Here we skip image when pasting.
+        if (codes.contains(65532)) {
+          final sb = StringBuffer();
+          for (var i = 0; i < str.length; i++) {
+            if (str.codeUnitAt(i) == 65532) {
+              continue;
+            }
+            sb.write(str[i]);
+          }
+          str = sb.toString();
+        }
         widget.controller.replaceText(
           value.selection.start,
           length,
-          data.text,
+          str,
           value.selection,
         );
         // move cursor to the end of pasted text selection
