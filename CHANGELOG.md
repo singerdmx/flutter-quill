@@ -1,3 +1,6 @@
+## [1.9.5]
+* Skip image when pasting.
+
 ## [1.9.4]
 * Bug fix for cursor position when tapping at the end of line with image(s).
 
