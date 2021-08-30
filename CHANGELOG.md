@@ -1,3 +1,6 @@
+## [1.9.6]
+* Support putting QuillEditor inside a Scrollable view.
+
 ## [1.9.5]
 * Skip image when pasting.
 
