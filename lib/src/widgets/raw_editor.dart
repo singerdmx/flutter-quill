@@ -564,7 +564,7 @@ class RawEditorState extends EditorState
 
     _showCaretOnScreenScheduled = true;
     SchedulerBinding.instance!.addPostFrameCallback((_) {
-      if (widget.scrollable) {
+      if (widget.scrollable || _scrollController.hasClients) {
         _showCaretOnScreenScheduled = false;
 
         final renderEditor = getRenderEditor();
@@ -608,6 +608,7 @@ class RawEditorState extends EditorState
   void requestKeyboard() {
     if (_hasFocus) {
       openConnectionIfNeeded();
+      _showCaretOnScreen();
     } else {
       widget.focusNode.requestFocus();
     }
