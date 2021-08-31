@@ -14,7 +14,9 @@ class QuillController extends ChangeNotifier {
   QuillController({
     required this.document,
     required TextSelection selection,
-  }) : _selection = selection;
+    bool keepStyleOnNewLine = false,
+  })  : _selection = selection,
+        _keepStyleOnNewLine = keepStyleOnNewLine;
 
   factory QuillController.basic() {
     return QuillController(
@@ -25,6 +27,10 @@ class QuillController extends ChangeNotifier {
 
   /// Document managed by this controller.
   final Document document;
+
+  /// Tells whether to keep or reset the [toggledStyle]
+  /// when user adds a new line.
+  final bool _keepStyleOnNewLine;
 
   /// Currently selected text within the [document].
   TextSelection get selection => _selection;
@@ -135,7 +141,14 @@ class QuillController extends ChangeNotifier {
       }
     }
 
-    toggledStyle = Style();
+    if (_keepStyleOnNewLine) {
+      final style = getSelectionStyle();
+      final notInlineStyle = style.attributes.values.where((s) => !s.isInline);
+      toggledStyle = style.removeAll(notInlineStyle.toSet());
+    } else {
+      toggledStyle = Style();
+    }
+
     if (textSelection != null) {
       if (delta == null || delta.isEmpty) {
         _updateSelection(textSelection, ChangeSource.LOCAL);
