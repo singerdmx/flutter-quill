@@ -149,7 +149,7 @@ class DefaultStyles {
             baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
         italic: const TextStyle(fontStyle: FontStyle.italic),
-        small: const TextStyle(fontSize: 12),
+        small: const TextStyle(fontSize: 12, color: Colors.black45),
         underline: const TextStyle(decoration: TextDecoration.underline),
         strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
         link: TextStyle(
