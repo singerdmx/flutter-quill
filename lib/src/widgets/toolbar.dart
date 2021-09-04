@@ -65,6 +65,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     double toolbarIconSize = kDefaultIconSize,
     bool showBoldButton = true,
     bool showItalicButton = true,
+    bool showSmallButton = false,
     bool showUnderLineButton = true,
     bool showStrikeThrough = true,
     bool showColorButton = true,
@@ -96,6 +97,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       showHistory ||
           showBoldButton ||
           showItalicButton ||
+          showSmallButton ||
           showUnderLineButton ||
           showStrikeThrough ||
           showColorButton ||
@@ -139,6 +141,13 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ToggleStyleButton(
             attribute: Attribute.italic,
             icon: Icons.format_italic,
+            iconSize: toolbarIconSize,
+            controller: controller,
+          ),
+        if (showSmallButton)
+          ToggleStyleButton(
+            attribute: Attribute.small,
+            icon: Icons.format_size,
             iconSize: toolbarIconSize,
             controller: controller,
           ),

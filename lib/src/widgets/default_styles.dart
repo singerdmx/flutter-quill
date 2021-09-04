@@ -51,6 +51,7 @@ class DefaultStyles {
     this.paragraph,
     this.bold,
     this.italic,
+    this.small,
     this.underline,
     this.strikeThrough,
     this.link,
@@ -73,6 +74,7 @@ class DefaultStyles {
   final DefaultTextBlockStyle? paragraph;
   final TextStyle? bold;
   final TextStyle? italic;
+  final TextStyle? small;
   final TextStyle? underline;
   final TextStyle? strikeThrough;
   final TextStyle? sizeSmall; // 'small'
@@ -147,6 +149,7 @@ class DefaultStyles {
             baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
         italic: const TextStyle(fontStyle: FontStyle.italic),
+        small: const TextStyle(fontSize: 12, color: Colors.black45),
         underline: const TextStyle(decoration: TextDecoration.underline),
         strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
         link: TextStyle(
@@ -205,6 +208,7 @@ class DefaultStyles {
         paragraph: other.paragraph ?? paragraph,
         bold: other.bold ?? bold,
         italic: other.italic ?? italic,
+        small: other.small ?? small,
         underline: other.underline ?? underline,
         strikeThrough: other.strikeThrough ?? strikeThrough,
         link: other.link ?? link,

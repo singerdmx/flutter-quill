@@ -181,6 +181,7 @@ class TextLine extends StatelessWidget {
     <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
       Attribute.italic.key: defaultStyles.italic,
+      Attribute.small.key: defaultStyles.small,
       Attribute.link.key: defaultStyles.link,
       Attribute.underline.key: defaultStyles.underline,
       Attribute.strikeThrough.key: defaultStyles.strikeThrough,
