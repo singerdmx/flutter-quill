@@ -295,8 +295,12 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
       return defaultStyles!.code!.verticalSpacing;
     } else if (attrs.containsKey(Attribute.indent.key)) {
       return defaultStyles!.indent!.verticalSpacing;
+    } else if (attrs.containsKey(Attribute.list.key)) {
+      return defaultStyles!.lists!.verticalSpacing;
+    } else if (attrs.containsKey(Attribute.align.key)) {
+      return defaultStyles!.align!.verticalSpacing;
     }
-    return defaultStyles!.lists!.verticalSpacing;
+    return const Tuple2(0, 0);
   }
 
   void _nullSelectionChanged(

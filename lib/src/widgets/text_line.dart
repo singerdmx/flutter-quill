@@ -104,11 +104,11 @@ class TextLine extends StatelessWidget {
   TextAlign _getTextAlign() {
     final alignment = line.style.attributes[Attribute.align.key];
     if (alignment == Attribute.leftAlignment) {
-      return TextAlign.left;
+      return TextAlign.start;
     } else if (alignment == Attribute.centerAlignment) {
       return TextAlign.center;
     } else if (alignment == Attribute.rightAlignment) {
-      return TextAlign.right;
+      return TextAlign.end;
     } else if (alignment == Attribute.justifyAlignment) {
       return TextAlign.justify;
     }
@@ -140,13 +140,20 @@ class TextLine extends StatelessWidget {
 
     textStyle = textStyle.merge(m[header] ?? defaultStyles.paragraph!.style);
 
-    final block = line.style.getBlockExceptHeader();
+    // Only retrieve exclusive block format for the line style purpose
+    Attribute? block;
+    line.style.getBlocksExceptHeader().forEach((key, value) {
+      if (Attribute.exclusiveBlockKeys.contains(key)) {
+        block = value;
+      }
+    });
+
     TextStyle? toMerge;
     if (block == Attribute.blockQuote) {
       toMerge = defaultStyles.quote!.style;
     } else if (block == Attribute.codeBlock) {
       toMerge = defaultStyles.code!.style;
-    } else if (block != null) {
+    } else if (block == Attribute.list) {
       toMerge = defaultStyles.lists!.style;
     }
 

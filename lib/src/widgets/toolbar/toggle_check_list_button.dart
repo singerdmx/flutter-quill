@@ -81,17 +81,13 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isInCodeBlock =
-        _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
-    final isEnabled =
-        !isInCodeBlock || Attribute.list.key == Attribute.codeBlock.key;
     return widget.childBuilder(
       context,
       Attribute.unchecked,
       widget.icon,
       widget.fillColor,
       _isToggled,
-      isEnabled ? _toggleAttribute : null,
+      _toggleAttribute,
       widget.iconSize,
     );
   }
