@@ -4,9 +4,6 @@ analyzer:
   errors:
     undefined_prefixed_name: ignore
     unsafe_html: ignore
-    # Just for not cluttering my vscode main project problems, enable these later for pull requests
-    todo: ignore
-    unused_element: ignore
 linter:
   rules:
     - always_declare_return_types
