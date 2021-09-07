@@ -56,17 +56,13 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isInCodeBlock =
-        _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
-    final isEnabled =
-        !isInCodeBlock || widget.attribute.key == Attribute.codeBlock.key;
     return widget.childBuilder(
       context,
       widget.attribute,
       widget.icon,
       widget.fillColor,
       _isToggled,
-      isEnabled ? _toggleAttribute : null,
+      _toggleAttribute,
       widget.iconSize,
     );
   }

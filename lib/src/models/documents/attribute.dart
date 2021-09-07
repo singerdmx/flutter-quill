@@ -111,6 +111,13 @@ class Attribute<T> {
     Attribute.indent.key,
   });
 
+  static final Set<String> exclusiveBlockKeys = LinkedHashSet.of({
+    Attribute.header.key,
+    Attribute.list.key,
+    Attribute.codeBlock.key,
+    Attribute.blockQuote.key,
+  });
+
   static Attribute<int?> get h1 => HeaderAttribute(level: 1);
 
   static Attribute<int?> get h2 => HeaderAttribute(level: 2);

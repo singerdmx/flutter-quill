@@ -202,11 +202,26 @@ class Line extends Container<Leaf?> {
 
     if (parent is Block) {
       final parentStyle = (parent as Block).style.getBlocksExceptHeader();
-      if (blockStyle.value == null) {
+      // Ensure that we're only unwrapping the block only if we unset a single
+      // block format in the `parentStyle` and there are no more block formats
+      // left to unset.
+      if (blockStyle.value == null &&
+          parentStyle.containsKey(blockStyle.key) &&
+          parentStyle.length == 1) {
         _unwrap();
       } else if (!const MapEquality()
           .equals(newStyle.getBlocksExceptHeader(), parentStyle)) {
         _unwrap();
+        // Block style now can contain multiple attributes
+        if (newStyle.attributes.keys
+            .any(Attribute.exclusiveBlockKeys.contains)) {
+          parentStyle.removeWhere(
+              (key, attr) => Attribute.exclusiveBlockKeys.contains(key));
+        }
+        parentStyle.removeWhere(
+            (key, attr) => newStyle?.attributes.keys.contains(key) ?? false);
+        final parentStyleToMerge = Style.attr(parentStyle);
+        newStyle = newStyle.mergeAll(parentStyleToMerge);
         _applyBlockStyles(newStyle);
       } // else the same style, no-op.
     } else if (blockStyle.value != null) {
