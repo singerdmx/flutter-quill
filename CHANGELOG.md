@@ -1,3 +1,6 @@
+## [2.0.0]
+* Text Alignment functions + Block Format standards.
+
 ## [1.9.6]
 * Support putting QuillEditor inside a Scrollable view.
 

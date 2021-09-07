@@ -213,11 +213,13 @@ class EditableTextBlock extends StatelessWidget {
       extraIndent = 16.0 * indent.value;
     }
 
-    var baseIndent = 0.0;
-
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return 16.0 + extraIndent;
-    } else if (attrs.containsKey(Attribute.list.key) ||
+    }
+
+    var baseIndent = 0.0;
+
+    if (attrs.containsKey(Attribute.list.key) ||
         attrs.containsKey(Attribute.codeBlock.key)) {
       baseIndent = 32.0;
     }

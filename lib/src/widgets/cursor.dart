@@ -247,7 +247,8 @@ class CursorPainter {
   /// [position] is relative (x) in text line
   void paint(Canvas canvas, Offset offset, TextPosition position) {
     final caretOffset =
-        editable!.getOffsetForCaret(position, prototype) + offset;;
+        editable!.getOffsetForCaret(position, prototype) + offset;
+
     var caretRect = prototype.shift(caretOffset);
     if (style.offset != null) {
       caretRect = caretRect.shift(style.offset!);
