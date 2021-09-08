@@ -192,7 +192,9 @@ class AutoExitBlockRule extends InsertRule {
         attributes.keys.firstWhere(Attribute.blockKeysExceptHeader.contains);
     attributes[k] = null;
     // retain(1) should be '\n', set it with no attribute
-    return Delta()..retain(index + (len ?? 0))..retain(1, attributes);
+    return Delta()
+      ..retain(index + (len ?? 0))
+      ..retain(1, attributes);
   }
 }
 

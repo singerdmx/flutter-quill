@@ -114,7 +114,9 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
       return null;
     }
 
-    delta..retain(beg)..retain(retain!, attribute.toJson());
+    delta
+      ..retain(beg)
+      ..retain(retain!, attribute.toJson());
     return delta;
   }
 }
@@ -143,7 +145,9 @@ class ResolveInlineFormatRule extends FormatRule {
       }
       var pos = 0;
       while (lineBreak >= 0) {
-        delta..retain(lineBreak - pos, attribute.toJson())..retain(1);
+        delta
+          ..retain(lineBreak - pos, attribute.toJson())
+          ..retain(1);
         pos = lineBreak + 1;
         lineBreak = text.indexOf('\n', pos);
       }

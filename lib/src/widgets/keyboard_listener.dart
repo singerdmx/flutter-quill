@@ -9,8 +9,8 @@ typedef CursorMoveCallback = void Function(
 typedef InputShortcutCallback = void Function(InputShortcut? shortcut);
 typedef OnDeleteCallback = void Function(bool forward);
 
-class KeyboardListener {
-  KeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
+class CustomKeyboardListener {
+  CustomKeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
 
   final CursorMoveCallback onCursorMove;
   final InputShortcutCallback onShortcut;
