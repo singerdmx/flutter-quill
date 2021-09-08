@@ -1,3 +1,6 @@
+## [2.0.1]
+* Upgrade flutter_colorpicker to 0.5.0.
+
 ## [2.0.0]
 * Text Alignment functions + Block Format standards.
 
