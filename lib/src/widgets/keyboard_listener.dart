@@ -9,8 +9,8 @@ typedef CursorMoveCallback = void Function(
 typedef InputShortcutCallback = void Function(InputShortcut? shortcut);
 typedef OnDeleteCallback = void Function(bool forward);
 
-class CustomKeyboardListener {
-  CustomKeyboardListener(this.onCursorMove, this.onShortcut, this.onDelete);
+class KeyboardEventHandler {
+  KeyboardEventHandler(this.onCursorMove, this.onShortcut, this.onDelete);
 
   final CursorMoveCallback onCursorMove;
   final InputShortcutCallback onShortcut;
@@ -86,21 +86,23 @@ class CustomKeyboardListener {
       return KeyEventResult.ignored;
     }
 
+    final isShortcutModifierPressed =
+        isMacOS ? event.isMetaPressed : event.isControlPressed;
     if (_moveKeys.contains(key)) {
       onCursorMove(
           key,
           isMacOS ? event.isAltPressed : event.isControlPressed,
           isMacOS ? event.isMetaPressed : event.isAltPressed,
           event.isShiftPressed);
-    } else if (isMacOS
-        ? event.isMetaPressed
-        : event.isControlPressed && _shortcutKeys.contains(key)) {
+    } else if (isShortcutModifierPressed && _shortcutKeys.contains(key)) {
       onShortcut(_keyToShortcut[key]);
     } else if (key == LogicalKeyboardKey.delete) {
       onDelete(true);
     } else if (key == LogicalKeyboardKey.backspace) {
       onDelete(false);
+    } else {
+      return KeyEventResult.ignored;
     }
-    return KeyEventResult.ignored;
+    return KeyEventResult.handled;
   }
 }
