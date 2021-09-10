@@ -847,12 +847,14 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
   }
 
-  void _paintCursor(PaintingContext context, Offset effectiveOffset, bool lineHasEmbed) {
+  void _paintCursor(
+      PaintingContext context, Offset effectiveOffset, bool lineHasEmbed) {
     final position = TextPosition(
       offset: textSelection.extentOffset - line.documentOffset,
       affinity: textSelection.base.affinity,
     );
-    _cursorPainter.paint(context.canvas, effectiveOffset, position, lineHasEmbed);
+    _cursorPainter.paint(
+        context.canvas, effectiveOffset, position, lineHasEmbed);
   }
 
   @override

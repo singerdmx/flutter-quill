@@ -1,3 +1,6 @@
+## [2.0.3]
+* Fix cursor when line contains image.
+
 ## [2.0.2]
 * Address KeyboardListener class name conflict.
 
