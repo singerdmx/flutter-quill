@@ -76,6 +76,18 @@ mixin RawEditorStateKeyboardMixin on EditorState {
       }
       return;
     }
+    if (shortcut == InputShortcut.UNDO) {
+      if (widget.controller.hasUndo) {
+        widget.controller.undo();
+      }
+      return;
+    }
+    if (shortcut == InputShortcut.REDO) {
+      if (widget.controller.hasRedo) {
+        widget.controller.redo();
+      }
+      return;
+    }
     if (shortcut == InputShortcut.CUT && !widget.readOnly) {
       if (!selection.isCollapsed) {
         final data = selection.textInside(plainText);
