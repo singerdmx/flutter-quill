@@ -1,3 +1,6 @@
+## [2.0.4]
+* Enable history shortcuts for desktop.
+
 ## [2.0.3]
 * Fix cursor when line contains image.
 
