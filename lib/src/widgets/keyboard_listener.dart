@@ -2,7 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-enum InputShortcut { CUT, COPY, PASTE, SELECT_ALL }
+//fixme workaround flutter MacOS issue https://github.com/flutter/flutter/issues/75595
+extension _LogicalKeyboardKeyCaseExt on LogicalKeyboardKey {
+  static const _kUpperToLowerDist = 0x20;
+  static final _kLowerCaseA = LogicalKeyboardKey.keyA.keyId;
+  static final _kLowerCaseZ = LogicalKeyboardKey.keyZ.keyId;
+
+  LogicalKeyboardKey toUpperCase() {
+    if (keyId < _kLowerCaseA || keyId > _kLowerCaseZ) return this;
+    return LogicalKeyboardKey(keyId - _kUpperToLowerDist);
+  }
+}
+
+enum InputShortcut { CUT, COPY, PASTE, SELECT_ALL, UNDO, REDO }
 
 typedef CursorMoveCallback = void Function(
     LogicalKeyboardKey key, bool wordModifier, bool lineModifier, bool shift);
@@ -28,6 +40,8 @@ class KeyboardEventHandler {
     LogicalKeyboardKey.keyC,
     LogicalKeyboardKey.keyV,
     LogicalKeyboardKey.keyX,
+    LogicalKeyboardKey.keyZ.toUpperCase(),
+    LogicalKeyboardKey.keyZ,
     LogicalKeyboardKey.delete,
     LogicalKeyboardKey.backspace,
   };
@@ -88,14 +102,21 @@ class KeyboardEventHandler {
 
     final isShortcutModifierPressed =
         isMacOS ? event.isMetaPressed : event.isControlPressed;
+
     if (_moveKeys.contains(key)) {
       onCursorMove(
           key,
           isMacOS ? event.isAltPressed : event.isControlPressed,
           isMacOS ? event.isMetaPressed : event.isAltPressed,
           event.isShiftPressed);
-    } else if (isShortcutModifierPressed && _shortcutKeys.contains(key)) {
-      onShortcut(_keyToShortcut[key]);
+    } else if (isShortcutModifierPressed && (_shortcutKeys.contains(key))) {
+      if (key == LogicalKeyboardKey.keyZ ||
+          key == LogicalKeyboardKey.keyZ.toUpperCase()) {
+        onShortcut(
+            event.isShiftPressed ? InputShortcut.REDO : InputShortcut.UNDO);
+      } else {
+        onShortcut(_keyToShortcut[key]);
+      }
     } else if (key == LogicalKeyboardKey.delete) {
       onDelete(true);
     } else if (key == LogicalKeyboardKey.backspace) {
