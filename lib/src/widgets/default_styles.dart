@@ -54,6 +54,7 @@ class DefaultStyles {
     this.small,
     this.underline,
     this.strikeThrough,
+    this.inlineCode,
     this.link,
     this.color,
     this.placeHolder,
@@ -77,6 +78,7 @@ class DefaultStyles {
   final TextStyle? small;
   final TextStyle? underline;
   final TextStyle? strikeThrough;
+  final TextStyle? inlineCode;
   final TextStyle? sizeSmall; // 'small'
   final TextStyle? sizeLarge; // 'large'
   final TextStyle? sizeHuge; // 'huge'
@@ -152,6 +154,11 @@ class DefaultStyles {
         small: const TextStyle(fontSize: 12, color: Colors.black45),
         underline: const TextStyle(decoration: TextDecoration.underline),
         strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
+        inlineCode: TextStyle(
+          color: Colors.blue.shade900.withOpacity(0.9),
+          fontFamily: fontFamily,
+          fontSize: 13,
+        ),
         link: TextStyle(
           color: themeData.colorScheme.secondary,
           decoration: TextDecoration.underline,
@@ -211,6 +218,7 @@ class DefaultStyles {
         small: other.small ?? small,
         underline: other.underline ?? underline,
         strikeThrough: other.strikeThrough ?? strikeThrough,
+        inlineCode: other.inlineCode ?? inlineCode,
         link: other.link ?? link,
         color: other.color ?? color,
         placeHolder: other.placeHolder ?? placeHolder,

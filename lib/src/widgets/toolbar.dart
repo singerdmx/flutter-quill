@@ -70,6 +70,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showSmallButton = false,
     bool showUnderLineButton = true,
     bool showStrikeThrough = true,
+    bool showInlineCode = true,
     bool showColorButton = true,
     bool showBackgroundColorButton = true,
     bool showClearFormat = true,
@@ -103,6 +104,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showSmallButton ||
           showUnderLineButton ||
           showStrikeThrough ||
+          showInlineCode ||
           showColorButton ||
           showBackgroundColorButton ||
           showClearFormat ||
@@ -166,6 +168,13 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ToggleStyleButton(
             attribute: Attribute.strikeThrough,
             icon: Icons.format_strikethrough,
+            iconSize: toolbarIconSize,
+            controller: controller,
+          ),
+        if (showInlineCode)
+          ToggleStyleButton(
+            attribute: Attribute.inlineCode,
+            icon: Icons.code,
             iconSize: toolbarIconSize,
             controller: controller,
           ),

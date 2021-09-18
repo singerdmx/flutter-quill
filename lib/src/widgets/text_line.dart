@@ -192,6 +192,7 @@ class TextLine extends StatelessWidget {
       Attribute.link.key: defaultStyles.link,
       Attribute.underline.key: defaultStyles.underline,
       Attribute.strikeThrough.key: defaultStyles.strikeThrough,
+      Attribute.inlineCode.key: defaultStyles.inlineCode,
     }.forEach((k, s) {
       if (style.values.any((v) => v.key == k)) {
         if (k == Attribute.underline.key || k == Attribute.strikeThrough.key) {
