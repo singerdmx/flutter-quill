@@ -1,3 +1,6 @@
+## [2.0.5]
+* Support inline code formatting.
+
 ## [2.0.4]
 * Enable history shortcuts for desktop.
 
