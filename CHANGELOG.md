@@ -1,3 +1,6 @@
+## [2.0.6]
+* Avoid runtime error when placed inside TabBarView.
+
 ## [2.0.5]
 * Support inline code formatting.
 
