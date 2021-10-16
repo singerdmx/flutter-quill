@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../models/themes/quill_dialog_theme.dart';
 
 class LinkDialog extends StatefulWidget {
-  const LinkDialog({Key? key}) : super(key: key);
+  const LinkDialog({this.dialogTheme, Key? key}) : super(key: key);
+
+  final QuillDialogTheme? dialogTheme;
 
   @override
   LinkDialogState createState() => LinkDialogState();
@@ -13,15 +16,23 @@ class LinkDialogState extends State<LinkDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       content: TextField(
-        decoration: const InputDecoration(labelText: 'Paste a link'),
+        style: widget.dialogTheme?.inputTextStyle,
+        decoration: InputDecoration(
+            labelText: 'Paste a link',
+            labelStyle: widget.dialogTheme?.labelTextStyle,
+            floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
         autofocus: true,
         onChanged: _linkChanged,
       ),
       actions: [
         TextButton(
           onPressed: _link.isNotEmpty ? _applyLink : null,
-          child: const Text('Ok'),
+          child: Text(
+            'Ok',
+            style: widget.dialogTheme?.labelTextStyle,
+          ),
         ),
       ],
     );

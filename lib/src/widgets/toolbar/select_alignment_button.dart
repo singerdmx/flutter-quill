@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
+import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
@@ -10,11 +11,14 @@ class SelectAlignmentButton extends StatefulWidget {
   const SelectAlignmentButton({
     required this.controller,
     this.iconSize = kDefaultIconSize,
+    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
   final QuillController controller;
   final double iconSize;
+
+  final QuillIconTheme? iconTheme;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
@@ -77,8 +81,10 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(2)),
               fillColor: _valueToText[_value] == _valueString[index]
-                  ? theme.toggleableActiveColor
-                  : theme.canvasColor,
+                  ? (widget.iconTheme?.iconSelectedFillColor ??
+                      theme.toggleableActiveColor)
+                  : (widget.iconTheme?.iconUnselectedFillColor ??
+                      theme.canvasColor),
               onPressed: () => _valueAttribute[index] == Attribute.leftAlignment
                   ? widget.controller
                       .formatSelection(Attribute.clone(Attribute.align, null))
@@ -93,8 +99,10 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
                             : Icons.format_align_justify,
                 size: widget.iconSize,
                 color: _valueToText[_value] == _valueString[index]
-                    ? theme.primaryIconTheme.color
-                    : theme.iconTheme.color,
+                    ? (widget.iconTheme?.iconSelectedColor ??
+                        theme.primaryIconTheme.color)
+                    : (widget.iconTheme?.iconUnselectedColor ??
+                        theme.iconTheme.color),
               ),
             ),
           ),
