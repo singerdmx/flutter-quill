@@ -3,6 +3,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
+import '../../models/themes/quill_icon_theme.dart';
 import '../../utils/color.dart';
 import '../controller.dart';
 import '../toolbar.dart';
@@ -18,6 +19,7 @@ class ColorButton extends StatefulWidget {
     required this.controller,
     required this.background,
     this.iconSize = kDefaultIconSize,
+    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
@@ -25,6 +27,7 @@ class ColorButton extends StatefulWidget {
   final double iconSize;
   final bool background;
   final QuillController controller;
+  final QuillIconTheme? iconTheme;
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -98,20 +101,20 @@ class _ColorButtonState extends State<ColorButton> {
     final theme = Theme.of(context);
     final iconColor = _isToggledColor && !widget.background && !_isWhite
         ? stringToColor(_selectionStyle.attributes['color']!.value)
-        : theme.iconTheme.color;
+        : (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color);
 
     final iconColorBackground =
         _isToggledBackground && widget.background && !_isWhitebackground
             ? stringToColor(_selectionStyle.attributes['background']!.value)
-            : theme.iconTheme.color;
+            : (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color);
 
     final fillColor = _isToggledColor && !widget.background && _isWhite
         ? stringToColor('#ffffff')
-        : theme.canvasColor;
+        : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor);
     final fillColorBackground =
         _isToggledBackground && widget.background && _isWhitebackground
             ? stringToColor('#ffffff')
-            : theme.canvasColor;
+            : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor);
 
     return QuillIconButton(
       highlightElevation: 0,

@@ -8,6 +8,7 @@ class ClearFormatButton extends StatefulWidget {
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
+    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
@@ -15,6 +16,8 @@ class ClearFormatButton extends StatefulWidget {
   final double iconSize;
 
   final QuillController controller;
+
+  final QuillIconTheme? iconTheme;
 
   @override
   _ClearFormatButtonState createState() => _ClearFormatButtonState();
@@ -24,8 +27,10 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
-    final fillColor = theme.canvasColor;
+    final iconColor =
+        widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
+    final fillColor =
+        widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     return QuillIconButton(
         highlightElevation: 0,
         hoverElevation: 0,
