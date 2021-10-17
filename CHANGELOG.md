@@ -1,3 +1,6 @@
+## [2.0.8]
+* Adding translations to the toolbar.
+
 ## [2.0.7]
 * Added theming options for toolbar icons and LinkDialog.
 
