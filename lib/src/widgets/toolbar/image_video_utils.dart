@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embed.dart';
 import '../../utils/media_pick_setting.dart';
+import '../../translations/toolbar.i18n.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
@@ -26,7 +27,7 @@ class ImageVideoUtils {
                   Icons.collections,
                   color: Colors.orangeAccent,
                 ),
-                label: const Text('Gallery'),
+                label: Text('Gallery'.i18n),
                 onPressed: () => Navigator.pop(ctx, MediaPickSetting.Gallery),
               ),
               TextButton.icon(
@@ -34,7 +35,7 @@ class ImageVideoUtils {
                   Icons.link,
                   color: Colors.cyanAccent,
                 ),
-                label: const Text('Link'),
+                label: Text('Link'.i18n),
                 onPressed: () => Navigator.pop(ctx, MediaPickSetting.Link),
               )
             ],

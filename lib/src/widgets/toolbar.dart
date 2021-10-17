@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/themes/quill_dialog_theme.dart';
@@ -61,6 +62,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.color,
     this.filePickImpl,
     this.multiRowsDisplay,
+    this.locale,
     Key? key,
   }) : super(key: key);
 
@@ -104,6 +106,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///The theme to use for the theming of the [LinkDialog()],
     ///shown when embedding an image, for example
     QuillDialogTheme? dialogTheme,
+
+    ///The locale to use for the editor toolbar, defaults to system locale
+    ///Currently the supported locales are:
+    /// * Locale('en')
+    /// * Locale('de')
+    /// * Locale('fr')
+    /// * Locale('zh')
+    Locale? locale,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -130,6 +140,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       key: key,
       toolBarHeight: toolbarIconSize * 2,
       multiRowsDisplay: multiRowsDisplay,
+      locale: locale,
       children: [
         if (showHistory)
           HistoryButton(
@@ -395,23 +406,34 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   final FilePickImpl? filePickImpl;
 
+  ///The locale to use for the editor toolbar, defaults to system locale
+  ///Currently the supported locales are:
+  /// * Locale('en')
+  /// * Locale('de')
+  /// * Locale('fr')
+  /// * Locale('zh', 'CN')
+  final Locale? locale;
+
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
 
   @override
   Widget build(BuildContext context) {
-    if (multiRowsDisplay ?? true) {
-      return Wrap(
-        alignment: WrapAlignment.center,
-        runSpacing: 4,
-        spacing: 4,
-        children: children,
-      );
-    }
-    return Container(
-      constraints: BoxConstraints.tightFor(height: preferredSize.height),
-      color: color ?? Theme.of(context).canvasColor,
-      child: ArrowIndicatedButtonList(buttons: children),
+    return I18n(
+      initialLocale: locale,
+      child: multiRowsDisplay ?? true
+          ? Wrap(
+              alignment: WrapAlignment.center,
+              runSpacing: 4,
+              spacing: 4,
+              children: children,
+            )
+          : Container(
+              constraints:
+                  BoxConstraints.tightFor(height: preferredSize.height),
+              color: color ?? Theme.of(context).canvasColor,
+              child: ArrowIndicatedButtonList(buttons: children),
+            ),
     );
   }
 }
