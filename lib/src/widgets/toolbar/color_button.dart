@@ -4,6 +4,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../translations/toolbar.i18n.dart';
 import '../../utils/color.dart';
 import '../controller.dart';
 import '../toolbar.dart';
@@ -143,7 +144,7 @@ class _ColorButtonState extends State<ColorButton> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Select Color'),
+        title: Text('Select Color'.i18n),
         backgroundColor: Theme.of(context).canvasColor,
         content: SingleChildScrollView(
           child: MaterialPicker(

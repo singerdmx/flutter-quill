@@ -26,6 +26,7 @@ dependencies:
   characters: ^1.1.0
   youtube_player_flutter: ^8.0.0
   diff_match_patch: ^0.4.1
+  i18n_extension: ^4.1.3
 
 dev_dependencies:
   flutter_test:
