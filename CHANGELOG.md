@@ -1,3 +1,6 @@
+## [2.0.7]
+* Added theming options for toolbar icons and LinkDialog.
+
 ## [2.0.6]
 * Avoid runtime error when placed inside TabBarView.
 
