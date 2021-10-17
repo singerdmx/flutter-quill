@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../models/documents/attribute.dart';
-import '../models/themes/quill_icon_theme.dart';
 import '../models/themes/quill_dialog_theme.dart';
+import '../models/themes/quill_icon_theme.dart';
 import '../utils/media_pick_setting.dart';
 import 'controller.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
@@ -101,7 +101,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
 
-    ///The theme to use for the theming of the [LinkDialog()], shown when embedding an image, for example
+    ///The theme to use for the theming of the [LinkDialog()],
+    ///shown when embedding an image, for example
     QuillDialogTheme? dialogTheme,
     Key? key,
   }) {
