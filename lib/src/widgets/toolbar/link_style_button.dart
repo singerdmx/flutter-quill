@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../translations/toolbar.i18n.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
@@ -54,24 +55,44 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     widget.controller.removeListener(_didChangeSelection);
   }
 
+  GlobalKey _toolTipKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isEnabled = !widget.controller.selection.isCollapsed;
     final pressedHandler = isEnabled ? () => _openLinkDialog(context) : null;
-    return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: widget.iconSize * kIconButtonFactor,
-      icon: Icon(
-        widget.icon ?? Icons.link,
-        size: widget.iconSize,
-        color: isEnabled
-            ? (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)
-            : (widget.iconTheme?.disabledIconColor ?? theme.disabledColor),
+    return GestureDetector(
+      onTap: () async {
+        final dynamic tooltip = _toolTipKey.currentState;
+        tooltip.ensureTooltipVisible();
+        Future.delayed(
+          const Duration(
+            seconds: 3,
+          ),
+          tooltip.deactivate,
+        );
+      },
+      child: Tooltip(
+        key: _toolTipKey,
+        message: 'Please first select some text to transform into a link.'.i18n,
+        child: QuillIconButton(
+          highlightElevation: 0,
+          hoverElevation: 0,
+          size: widget.iconSize * kIconButtonFactor,
+          icon: Icon(
+            widget.icon ?? Icons.link,
+            size: widget.iconSize,
+            color: isEnabled
+                ? (widget.iconTheme?.iconUnselectedColor ??
+                    theme.iconTheme.color)
+                : (widget.iconTheme?.disabledIconColor ?? theme.disabledColor),
+          ),
+          fillColor:
+              widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor,
+          onPressed: pressedHandler,
+        ),
       ),
-      fillColor: widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor,
-      onPressed: pressedHandler,
     );
   }
 

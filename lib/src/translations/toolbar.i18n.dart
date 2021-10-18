@@ -9,6 +9,8 @@ extension Localization on String {
           'Select Color': 'Select Color',
           'Gallery': 'Gallery',
           'Link': 'Link',
+          'Please first select some text to transform into a link.':
+              'Please first select some text to transform into a link.',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -16,6 +18,8 @@ extension Localization on String {
           'Select Color': 'Farbe auswählen',
           'Gallery': 'Gallerie',
           'Link': 'Link',
+          'Please first select some text to transform into a link.':
+              'Markiere bitte zuerst einen Text, um diesen in einen Link zu verwandeln.',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -23,6 +27,8 @@ extension Localization on String {
           'Select Color': 'Choisir une couleur',
           'Gallery': 'Galerie',
           'Link': 'Lien',
+          'Please first select some text to transform into a link.':
+              "Veuillez d'abord sélectionner un texte à transformer en lien.",
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -30,6 +36,8 @@ extension Localization on String {
           'Select Color': '选择颜色',
           'Gallery': '相簿',
           'Link': '链接',
+          'Please first select some text to transform into a link.':
+              '请先选择一些要转化为链接的文本',
         }
       };
 
