@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../translations/toolbar.i18n.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../translations/toolbar.i18n.dart';
 import '../controller.dart';
 import '../link_dialog.dart';
 import '../toolbar.dart';
@@ -55,7 +55,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     widget.controller.removeListener(_didChangeSelection);
   }
 
-  GlobalKey _toolTipKey = GlobalKey();
+  final GlobalKey _toolTipKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {

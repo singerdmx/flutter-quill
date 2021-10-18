@@ -19,7 +19,8 @@ extension Localization on String {
           'Gallery': 'Gallerie',
           'Link': 'Link',
           'Please first select some text to transform into a link.':
-              'Markiere bitte zuerst einen Text, um diesen in einen Link zu verwandeln.',
+              'Markiere bitte zuerst einen Text, um diesen in einen Link zu '
+                  'verwandeln.',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
