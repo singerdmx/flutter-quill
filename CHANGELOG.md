@@ -1,3 +1,6 @@
+## [2.0.9]
+* Improve UX when trying to add a link.
+
 ## [2.0.8]
 * Adding translations to the toolbar.
 
