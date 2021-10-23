@@ -886,10 +886,10 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   void safeMarkNeedsPaint() {
     if (!attached) {
-      //Should not paint if it was unattach.
+      //Should not paint if it was unattached.
       return;
     }
-    safeMarkNeedsPaint();
+    markNeedsPaint();
   }
 }
 
