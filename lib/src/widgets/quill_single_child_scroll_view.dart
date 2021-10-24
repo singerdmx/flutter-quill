@@ -223,8 +223,9 @@ class _RenderSingleChildViewport extends RenderBox
       size = constraints.constrain(child!.size);
     }
 
-    offset.applyViewportDimension(_viewportExtent);
-    offset.applyContentDimensions(_minScrollExtent, _maxScrollExtent);
+    offset
+      ..applyViewportDimension(_viewportExtent)
+      ..applyContentDimensions(_minScrollExtent, _maxScrollExtent);
   }
 
   Offset get _paintOffset => _paintOffsetForPosition(offset.pixels);
