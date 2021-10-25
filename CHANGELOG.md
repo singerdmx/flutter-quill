@@ -1,3 +1,6 @@
+## [2.0.12]
+* Fix the selection effect can't be seen as the textLine with background color.
+
 ## [2.0.11]
 * Fix visibility of text selection handlers on scroll.
 
