@@ -1,3 +1,6 @@
+## [2.0.11]
+* Fix visibility of text selection handlers on scroll.
+
 ## [2.0.10]
 * cursorConnt.color notify the text_line to repaint if it was disposed.
 

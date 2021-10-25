@@ -675,6 +675,7 @@ typedef TextSelectionChangedHandler = void Function(
 class RenderEditor extends RenderEditableContainerBox
     implements RenderAbstractEditor {
   RenderEditor(
+    ViewportOffset? offset,
     List<RenderEditableBox>? children,
     TextDirection textDirection,
     double scrollBottomInset,
@@ -709,6 +710,41 @@ class RenderEditor extends RenderEditableContainerBox
   ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
   final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
 
+  void _updateSelectionExtentsVisibility(Offset effectiveOffset) {
+    final visibleRegion = Offset.zero & size;
+    final startPosition =
+        TextPosition(offset: selection.start, affinity: selection.affinity);
+    final startOffset = _getOffsetForCaret(startPosition);
+    // TODO(justinmc): https://github.com/flutter/flutter/issues/31495
+    // Check if the selection is visible with an approximation because a
+    // difference between rounded and unrounded values causes the caret to be
+    // reported as having a slightly (< 0.5) negative y offset. This rounding
+    // happens in paragraph.cc's layout and TextPainer's
+    // _applyFloatingPointHack. Ideally, the rounding mismatch will be fixed and
+    // this can be changed to be a strict check instead of an approximation.
+    const visibleRegionSlop = 0.5;
+    _selectionStartInViewport.value = visibleRegion
+        .inflate(visibleRegionSlop)
+        .contains(startOffset + effectiveOffset);
+
+    final endPosition =
+        TextPosition(offset: selection.end, affinity: selection.affinity);
+    final endOffset = _getOffsetForCaret(endPosition);
+    _selectionEndInViewport.value = visibleRegion
+        .inflate(visibleRegionSlop)
+        .contains(endOffset + effectiveOffset);
+  }
+
+  // returns offset relative to this at which the caret will be painted
+  // given a global TextPosition
+  Offset _getOffsetForCaret(TextPosition position) {
+    final child = childAtPosition(position);
+    final childPosition = child.globalToLocalPosition(position);
+    final boxParentData = child.parentData as BoxParentData;
+    final localOffsetForCaret = child.getOffsetForCaret(childPosition);
+    return boxParentData.offset + localOffsetForCaret;
+  }
+
   void setDocument(Document doc) {
     if (document == doc) {
       return;
@@ -723,6 +759,19 @@ class RenderEditor extends RenderEditableContainerBox
     }
     _hasFocus = h;
     markNeedsSemanticsUpdate();
+  }
+
+  Offset get _paintOffset => Offset(0, -(offset?.pixels ?? 0.0));
+
+  ViewportOffset? get offset => _offset;
+  ViewportOffset? _offset;
+
+  set offset(ViewportOffset? value) {
+    if (_offset == value) return;
+    if (attached) _offset?.removeListener(markNeedsPaint);
+    _offset = value;
+    if (attached) _offset?.addListener(markNeedsPaint);
+    markNeedsLayout();
   }
 
   void setSelection(TextSelection t) {
@@ -958,6 +1007,7 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   void paint(PaintingContext context, Offset offset) {
     defaultPaint(context, offset);
+    _updateSelectionExtentsVisibility(offset + _paintOffset);
     _paintHandleLayers(context, getEndpointsForSelection(selection));
   }
 
