@@ -812,15 +812,6 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (_body != null) {
       final parentData = _body!.parentData as BoxParentData;
       final effectiveOffset = offset + parentData.offset;
-      if (enableInteractiveSelection &&
-          line.documentOffset <= textSelection.end &&
-          textSelection.start <= line.documentOffset + line.length - 1) {
-        final local = localSelection(line, textSelection, false);
-        _selectedRects ??= _body!.getBoxesForSelection(
-          local,
-        );
-        _paintSelection(context, effectiveOffset);
-      }
 
       if (hasFocus &&
           cursorCont.show.value &&
@@ -836,6 +827,17 @@ class RenderEditableTextLine extends RenderEditableBox {
           containsCursor() &&
           cursorCont.style.paintAboveText) {
         _paintCursor(context, effectiveOffset, line.hasEmbed);
+      }
+
+      // paint the selection on the top
+      if (enableInteractiveSelection &&
+          line.documentOffset <= textSelection.end &&
+          textSelection.start <= line.documentOffset + line.length - 1) {
+        final local = localSelection(line, textSelection, false);
+        _selectedRects ??= _body!.getBoxesForSelection(
+          local,
+        );
+        _paintSelection(context, effectiveOffset);
       }
     }
   }
