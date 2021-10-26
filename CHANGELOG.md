@@ -1,5 +1,5 @@
 ## [2.0.13]
-Improve the scrolling performance by reducing the repaint areas.
+* Improve the scrolling performance by reducing the repaint areas.
 
 ## [2.0.12]
 * Fix the selection effect can't be seen as the textLine with background color.
