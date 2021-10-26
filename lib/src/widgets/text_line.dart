@@ -579,6 +579,9 @@ class RenderEditableTextLine extends RenderEditableBox {
     return _getPosition(position, 1.5);
   }
 
+  @override
+  bool get isRepaintBoundary => true;
+
   TextPosition? _getPosition(TextPosition textPosition, double dyScale) {
     assert(textPosition.offset < line.length);
     final offset = getOffsetForCaret(textPosition)
