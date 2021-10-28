@@ -12,6 +12,15 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Please first select some text to transform into a link.',
         },
+        'ar': {
+          'Paste a link': 'نسخ الرابط',
+          'Ok': 'نعم',
+          'Select Color': 'اختار اللون',
+          'Gallery': 'الصور',
+          'Link': 'الرابط',
+          'Please first select some text to transform into a link.':
+              'يرجى اختيار نص للتحويل إلى رابط',
+        },
         'de': {
           'Paste a link': 'Link hinzufügen',
           'Ok': 'Ok',
