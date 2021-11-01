@@ -176,6 +176,7 @@ class EditableTextBlock extends StatelessWidget {
         isChecked: true,
         offset: block.offset + line.offset,
         onTap: onCheckboxTap,
+        uiBuilder: defaultStyles.lists!.checkboxUIBuilder,
       );
     }
 
@@ -186,6 +187,7 @@ class EditableTextBlock extends StatelessWidget {
         width: 32,
         offset: block.offset + line.offset,
         onTap: onCheckboxTap,
+        uiBuilder: defaultStyles.lists!.checkboxUIBuilder,
       );
     }
 

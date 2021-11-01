@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/src/widgets/style_widgets/style_widgets.dart';
 import 'package:tuple/tuple.dart';
 
 class QuillStyles extends InheritedWidget {
@@ -41,6 +42,18 @@ class DefaultTextBlockStyle {
   final Tuple2<double, double> lineSpacing;
 
   final BoxDecoration? decoration;
+}
+
+class DefaultListBlockStyle extends DefaultTextBlockStyle {
+  DefaultListBlockStyle(
+    TextStyle style,
+    Tuple2<double, double> verticalSpacing,
+    Tuple2<double, double> lineSpacing,
+    BoxDecoration? decoration,
+    this.checkboxUIBuilder,
+  ) : super(style, verticalSpacing, lineSpacing, decoration);
+
+  final QuillCheckboxBuilder? checkboxUIBuilder;
 }
 
 class DefaultStyles {
@@ -85,7 +98,7 @@ class DefaultStyles {
   final TextStyle? link;
   final Color? color;
   final DefaultTextBlockStyle? placeHolder;
-  final DefaultTextBlockStyle? lists;
+  final DefaultListBlockStyle? lists;
   final DefaultTextBlockStyle? quote;
   final DefaultTextBlockStyle? code;
   final DefaultTextBlockStyle? indent;
@@ -172,8 +185,8 @@ class DefaultStyles {
             const Tuple2(0, 0),
             const Tuple2(0, 0),
             null),
-        lists: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, const Tuple2(0, 6), null),
+        lists: DefaultListBlockStyle(
+            baseStyle, baseSpacing, const Tuple2(0, 6), null, null),
         quote: DefaultTextBlockStyle(
             TextStyle(color: baseStyle.color!.withOpacity(0.6)),
             baseSpacing,
