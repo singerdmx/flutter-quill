@@ -1,3 +1,6 @@
+## [2.0.14]
+* enable customize the checkbox widget using DefaultListBlockStyle style.
+
 ## [2.0.13]
 * Improve the scrolling performance by reducing the repaint areas.
 
