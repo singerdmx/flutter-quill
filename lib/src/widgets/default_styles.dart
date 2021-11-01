@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_quill/src/widgets/style_widgets/style_widgets.dart';
 import 'package:tuple/tuple.dart';
+
+import 'style_widgets/style_widgets.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
