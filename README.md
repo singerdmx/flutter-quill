@@ -117,6 +117,7 @@ QuillToolbar(locale: Locale('fr'), ...)
 ```
 Currently, translations are available for these locales:
 * `Locale('en')`
+* `Locale('ar')`
 * `Locale('de')`
 * `Locale('fr')`
 * `Locale('zh', 'CN')`
