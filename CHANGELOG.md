@@ -1,3 +1,6 @@
+## [2.0.15]
+* implement change cursor to SystemMouseCursors.click when hovering a link styled text.
+
 ## [2.0.14]
 * enable customize the checkbox widget using DefaultListBlockStyle style.
 
