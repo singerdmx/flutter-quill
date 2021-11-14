@@ -288,8 +288,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
-            showCenterAlignment: showCenterAlignment              
-            showRightAlignment: showRightAlignment              
+            showCenterAlignment: showCenterAlignment,              
+            showRightAlignment: showRightAlignment,              
             showJustifyAlignment: showJustifyAlignment,
           ),
         if (isButtonGroupShown[1] &&
