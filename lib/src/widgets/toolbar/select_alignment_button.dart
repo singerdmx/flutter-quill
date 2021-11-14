@@ -12,6 +12,10 @@ class SelectAlignmentButton extends StatefulWidget {
     required this.controller,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
+    this.showLeftAlignment,
+    this.showCenterAlignment,
+    this.showRightAlignment,
+    this.showJustifyAlignment,
     Key? key,
   }) : super(key: key);
 
@@ -19,6 +23,10 @@ class SelectAlignmentButton extends StatefulWidget {
   final double iconSize;
 
   final QuillIconTheme? iconTheme;
+  final bool? showLeftAlignment;
+  final bool? showCenterAlignment;
+  final bool? showRightAlignment;
+  final bool? showJustifyAlignment;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
@@ -42,30 +50,32 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
   @override
   Widget build(BuildContext context) {
     final _valueToText = <Attribute, String>{
-      Attribute.leftAlignment: Attribute.leftAlignment.value!,
-      Attribute.centerAlignment: Attribute.centerAlignment.value!,
-      Attribute.rightAlignment: Attribute.rightAlignment.value!,
-      Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
+      if (widget.showLeftAlignment!) Attribute.leftAlignment: Attribute.leftAlignment.value!,
+      if (widget.showCenterAlignment!) Attribute.centerAlignment: Attribute.centerAlignment.value!,
+      if (widget.showRightAlignment!) Attribute.rightAlignment: Attribute.rightAlignment.value!,
+      if (widget.showJustifyAlignment!) Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
     final _valueAttribute = <Attribute>[
-      Attribute.leftAlignment,
-      Attribute.centerAlignment,
-      Attribute.rightAlignment,
-      Attribute.justifyAlignment
+      if (widget.showLeftAlignment!) Attribute.leftAlignment,
+      if (widget.showCenterAlignment!) Attribute.centerAlignment,
+      if (widget.showRightAlignment!) Attribute.rightAlignment,
+      if (widget.showJustifyAlignment!) Attribute.justifyAlignment
     ];
     final _valueString = <String>[
-      Attribute.leftAlignment.value!,
-      Attribute.centerAlignment.value!,
-      Attribute.rightAlignment.value!,
-      Attribute.justifyAlignment.value!,
+      if (widget.showLeftAlignment!) Attribute.leftAlignment.value!,
+      if (widget.showCenterAlignment!) Attribute.centerAlignment.value!,
+      if (widget.showRightAlignment!) Attribute.rightAlignment.value!,
+      if (widget.showJustifyAlignment!) Attribute.justifyAlignment.value!,
     ];
 
     final theme = Theme.of(context);
+    
+    final buttonCount = ((widget.showLeftAlignment!) ? 1 : 0) + ((widget.showCenterAlignment!) ? 1 : 0) + ((widget.showRightAlignment!) ? 1 : 0) + ((widget.showJustifyAlignment!) ? 1 : 0);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(4, (index) {
+      children: List.generate(buttonCount, (index) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
