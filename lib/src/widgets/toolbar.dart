@@ -281,6 +281,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           SelectAlignmentButton(
             controller: controller,
             iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
           ),
         if (isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
