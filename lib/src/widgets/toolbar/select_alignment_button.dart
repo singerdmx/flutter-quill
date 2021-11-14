@@ -47,27 +47,29 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
       Attribute.leftAlignment: Attribute.leftAlignment.value!,
       Attribute.centerAlignment: Attribute.centerAlignment.value!,
       Attribute.rightAlignment: Attribute.rightAlignment.value!,
-      Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
+      if (showJustifyAlignment) Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
     final _valueAttribute = <Attribute>[
       Attribute.leftAlignment,
       Attribute.centerAlignment,
       Attribute.rightAlignment,
-      Attribute.justifyAlignment
+      if (showJustifyAlignment) Attribute.justifyAlignment
     ];
     final _valueString = <String>[
       Attribute.leftAlignment.value!,
       Attribute.centerAlignment.value!,
       Attribute.rightAlignment.value!,
-      Attribute.justifyAlignment.value!,
+      if (showJustifyAlignment) Attribute.justifyAlignment.value!,
     ];
 
     final theme = Theme.of(context);
+    
+    final buttonCount = (showJustifyAlignment == true) ? 4 : 3;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(4, (index) {
+      children: List.generate(buttonCount, (index) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
