@@ -12,6 +12,7 @@ class SelectAlignmentButton extends StatefulWidget {
     required this.controller,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
+    this.showJustifyAlignment,
     Key? key,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class SelectAlignmentButton extends StatefulWidget {
   final double iconSize;
 
   final QuillIconTheme? iconTheme;
+  final bool showJustifyAlignment;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
