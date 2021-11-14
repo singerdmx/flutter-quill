@@ -12,8 +12,9 @@ class SelectAlignmentButton extends StatefulWidget {
     required this.controller,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
-    this.showJustifyAlignment,
+    this.showCenterAlignment,
     this.showRightAlignment,
+    this.showJustifyAlignment,
     Key? key,
   }) : super(key: key);
 
@@ -21,8 +22,9 @@ class SelectAlignmentButton extends StatefulWidget {
   final double iconSize;
 
   final QuillIconTheme? iconTheme;
-  final bool? showJustifyAlignment;
+  final bool? showCenterAlignment;
   final bool? showRightAlignment;
+  final bool? showJustifyAlignment;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
@@ -54,20 +56,20 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
 
     final _valueAttribute = <Attribute>[
       Attribute.leftAlignment,
-      Attribute.centerAlignment,
+      if (widget.showCenterAlignment!) Attribute.centerAlignment,
       if (widget.showRightAlignment!) Attribute.rightAlignment,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment
     ];
     final _valueString = <String>[
       Attribute.leftAlignment.value!,
-      Attribute.centerAlignment.value!,
+      if (widget.showCenterAlignment!) Attribute.centerAlignment.value!,
       if (widget.showRightAlignment!) Attribute.rightAlignment.value!,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment.value!,
     ];
 
     final theme = Theme.of(context);
     
-    final buttonCount = 2 + ((widget.showRightAlignment!) ? 1 : 0) + ((widget.showJustifyAlignment!) ? 1 : 0);
+    final buttonCount = 1 + ((widget.showCenterAlignment!) ? 1 : 0) + ((widget.showRightAlignment!) ? 1 : 0) + ((widget.showJustifyAlignment!) ? 1 : 0);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
