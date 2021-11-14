@@ -20,7 +20,7 @@ class SelectAlignmentButton extends StatefulWidget {
   final double iconSize;
 
   final QuillIconTheme? iconTheme;
-  final bool showJustifyAlignment;
+  final bool? showJustifyAlignment;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
