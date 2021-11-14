@@ -47,25 +47,25 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
       Attribute.leftAlignment: Attribute.leftAlignment.value!,
       Attribute.centerAlignment: Attribute.centerAlignment.value!,
       Attribute.rightAlignment: Attribute.rightAlignment.value!,
-      if (widget.showJustifyAlignment) Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
+      if (widget.showJustifyAlignment!) Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
     final _valueAttribute = <Attribute>[
       Attribute.leftAlignment,
       Attribute.centerAlignment,
       Attribute.rightAlignment,
-      if (widget.showJustifyAlignment) Attribute.justifyAlignment
+      if (widget.showJustifyAlignment!) Attribute.justifyAlignment
     ];
     final _valueString = <String>[
       Attribute.leftAlignment.value!,
       Attribute.centerAlignment.value!,
       Attribute.rightAlignment.value!,
-      if (widget.showJustifyAlignment) Attribute.justifyAlignment.value!,
+      if (widget.showJustifyAlignment!) Attribute.justifyAlignment.value!,
     ];
 
     final theme = Theme.of(context);
     
-    final buttonCount = (widget.showJustifyAlignment == true) ? 4 : 3;
+    final buttonCount = (widget.showJustifyAlignment? == true) ? 4 : 3;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
