@@ -65,7 +65,7 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
 
     final theme = Theme.of(context);
     
-    final buttonCount = (widget.showJustifyAlignment? == true) ? 4 : 3;
+    final buttonCount = (widget.showJustifyAlignment == true) ? 4 : 3;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
