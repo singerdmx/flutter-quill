@@ -48,6 +48,15 @@ extension Localization on String {
           'Link': '链接',
           'Please first select some text to transform into a link.':
               '请先选择一些要转化为链接的文本',
+        },
+        'ko': {
+          'Paste a link': '링크를 붙여넣어 주세요.',
+          'Ok': '확인',
+          'Select Color': '색상 선택',
+          'Gallery': '갤러리',
+          'Link': '링크',
+          'Please first select some text to transform into a link.':
+              '링크로 전환할 글자를 먼저 선택해주세요.',
         }
       };
 
