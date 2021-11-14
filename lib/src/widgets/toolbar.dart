@@ -79,7 +79,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showBackgroundColorButton = true,
     bool showClearFormat = true,
     bool showAlignmentButtons = false,
-    bool showJustifyAlignment = false,
+    bool showJustifyAlignment = true,
+    bool showRightAlignment = true,
     bool showHeaderStyle = true,
     bool showListNumbers = true,
     bool showListBullets = true,
@@ -132,6 +133,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           onVideoPickCallback != null,
       showAlignmentButtons,
       showJustifyAlignment,  
+      showRightAlignment,
       showHeaderStyle,
       showListNumbers || showListBullets || showListCheck || showCodeBlock,
       showQuote || showIndent,
@@ -284,7 +286,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
-            showJustifyAlignment: showJustifyAlignment
+            showJustifyAlignment: showJustifyAlignment,
+            showRightAlignment: showRightAlignment
           ),
         if (isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
