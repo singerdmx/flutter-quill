@@ -13,6 +13,7 @@ class SelectAlignmentButton extends StatefulWidget {
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.showJustifyAlignment,
+    this.showRightAlignment,
     Key? key,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class SelectAlignmentButton extends StatefulWidget {
 
   final QuillIconTheme? iconTheme;
   final bool? showJustifyAlignment;
+  final bool? showRightAlignment;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
@@ -46,20 +48,20 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
     final _valueToText = <Attribute, String>{
       Attribute.leftAlignment: Attribute.leftAlignment.value!,
       Attribute.centerAlignment: Attribute.centerAlignment.value!,
-      Attribute.rightAlignment: Attribute.rightAlignment.value!,
+      if (widget.showRightAlignment!) Attribute.rightAlignment: Attribute.rightAlignment.value!,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
     final _valueAttribute = <Attribute>[
       Attribute.leftAlignment,
       Attribute.centerAlignment,
-      Attribute.rightAlignment,
+      if (widget.showRightAlignment!) Attribute.rightAlignment,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment
     ];
     final _valueString = <String>[
       Attribute.leftAlignment.value!,
       Attribute.centerAlignment.value!,
-      Attribute.rightAlignment.value!,
+      if (widget.showRightAlignment!) Attribute.rightAlignment.value!,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment.value!,
     ];
 
