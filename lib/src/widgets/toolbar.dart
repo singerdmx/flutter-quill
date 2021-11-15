@@ -56,7 +56,7 @@ const double kDefaultIconSize = 18;
 const double kIconButtonFactor = 1.77;
 
 // The default horizontal spacing between toolbar icon sections (Wrap spacing)
-const int _defaultToolbarSectionSpacing = 4;
+const int kDefaultToolbarSectionSpacing = 4;
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
@@ -72,7 +72,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   factory QuillToolbar.basic({
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
-    int toolbarSectionSpacing = _defaultToolbarSectionSpacing,
+    int toolbarSectionSpacing = kDefaultToolbarSectionSpacing,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
