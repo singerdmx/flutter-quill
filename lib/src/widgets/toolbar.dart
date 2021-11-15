@@ -413,7 +413,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   final List<Widget> children;
   final double toolBarHeight;
-  final double toolBarSectionSpacing;
+  final double? toolBarSectionSpacing;
   final bool? multiRowsDisplay;
 
   /// The color of the toolbar.
