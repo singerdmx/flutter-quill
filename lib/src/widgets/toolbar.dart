@@ -433,7 +433,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
-  double get toolbarSectionSpacing => toolbarSectionSpacing;
+  double get _toolbarSectionSpacing => toolbarSectionSpacing;
     
   @override
   Widget build(BuildContext context) {
@@ -443,8 +443,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ? Wrap(
               alignment: WrapAlignment.center,
               runSpacing: 4,
-              //spacing: toolbarSectionSpacing,
-              spacing:9.0,
+              spacing: _toolbarSectionSpacing,
               children: children,
             )
           : Container(
