@@ -1,11 +1,14 @@
+## [2.0.17]
+* Allow alignment of the toolbar icons to match WrapAlignment.
+
 ## [2.0.16]
 * Add hide / show alignment buttons.
 
 ## [2.0.15]
-* implement change cursor to SystemMouseCursors.click when hovering a link styled text.
+* Implement change cursor to SystemMouseCursors.click when hovering a link styled text.
 
 ## [2.0.14]
-* enable customize the checkbox widget using DefaultListBlockStyle style.
+* Enable customize the checkbox widget using DefaultListBlockStyle style.
 
 ## [2.0.13]
 * Improve the scrolling performance by reducing the repaint areas.
