@@ -154,6 +154,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       key: key,
       toolBarHeight: toolbarIconSize * 2,
       toolBarSectionSpacing: toolBarSectionSpacing,
+      toolBarIconAlignment: toolBarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
       locale: locale,
       children: [
@@ -448,7 +449,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               alignment: (toolBarIconAlignment == ToolbarAlignment.left) 
                   ? WrapAlignment.left 
                   : (toolBarIconAlignment == ToolbarAlignment.right) 
-                  ? WrapAlignment.right  : WrapAlignment.center
+                  ? WrapAlignment.right  : WrapAlignment.center,
               runSpacing: 4,
               spacing: toolBarSectionSpacing ?? 4,
               children: children,
