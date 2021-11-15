@@ -318,7 +318,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
           ),
-        if (showDividers && isButtonGroupShown[2] &&
+        if (showDividers && showHeaderStyle && isButtonGroupShown[2] &&
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
