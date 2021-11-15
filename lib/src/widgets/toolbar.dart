@@ -49,8 +49,6 @@ typedef WebVideoPickImpl = Future<String?> Function(
 typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
     BuildContext context);
 
-enum ToolbarAlignment { start, center, end }
-
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
 
@@ -60,12 +58,12 @@ const double kIconButtonFactor = 1.77;
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.children,
-    this.toolBarHeight = 36,
-    this.toolBarSectionSpacing,
-    this.toolBarIconAlignment,
+    this.toolbarHeight = 36,
+    this.toolbarIconAlignment = WrapAlignment.center,
+    this.toolbarSectionSpacing = 4,
+    this.multiRowsDisplay = true,
     this.color,
     this.filePickImpl,
-    this.multiRowsDisplay,
     this.locale,
     Key? key,
   }) : super(key: key);
@@ -73,8 +71,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   factory QuillToolbar.basic({
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
-    double toolBarSectionSpacing = 4,
-    ToolbarAlignment toolBarIconAlignment = ToolbarAlignment.center,
+    double toolbarSectionSpacing = 4,
+    WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
@@ -152,9 +150,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     return QuillToolbar(
       key: key,
-      toolBarHeight: toolbarIconSize * 2,
-      toolBarSectionSpacing: toolBarSectionSpacing,
-      toolBarIconAlignment: toolBarIconAlignment,
+      toolbarHeight: toolbarIconSize * 2,
+      toolbarSectionSpacing: toolbarSectionSpacing,
+      toolbarIconAlignment: toolbarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
       locale: locale,
       children: [
@@ -416,10 +414,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   final List<Widget> children;
-  final double toolBarHeight;
-  final double? toolBarSectionSpacing;
-  final ToolbarAlignment? toolBarIconAlignment;
-  final bool? multiRowsDisplay;
+  final double toolbarHeight;
+  final double toolbarSectionSpacing;
+  final WrapAlignment toolbarIconAlignment;
+  final bool multiRowsDisplay;
 
   /// The color of the toolbar.
   ///
@@ -438,23 +436,17 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final Locale? locale;
 
   @override
-  Size get preferredSize => Size.fromHeight(toolBarHeight);
+  Size get preferredSize => Size.fromHeight(toolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     return I18n(
       initialLocale: locale,
-      child: multiRowsDisplay ?? true
+      child: multiRowsDisplay
           ? Wrap(
-              alignment: (toolBarIconAlignment == ToolbarAlignment.start)
-                  ? WrapAlignment.start
-                  : (toolBarIconAlignment == ToolbarAlignment.center)
-                      ? WrapAlignment.center
-                      : (toolBarIconAlignment == ToolbarAlignment.end)
-                          ? WrapAlignment.end
-                          : WrapAlignment.center,
+              alignment: toolbarIconAlignment,
               runSpacing: 4,
-              spacing: toolBarSectionSpacing ?? 4,
+              spacing: toolbarSectionSpacing,
               children: children,
             )
           : Container(
