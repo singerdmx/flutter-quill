@@ -49,6 +49,8 @@ typedef WebVideoPickImpl = Future<String?> Function(
 typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
     BuildContext context);
 
+enum ToolbarAlignment{ start, center, end }
+
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
 
@@ -60,6 +62,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required this.children,
     this.toolBarHeight = 36,
     this.toolBarSectionSpacing,
+    this.toolBarIconAlignment,
     this.color,
     this.filePickImpl,
     this.multiRowsDisplay,
@@ -71,6 +74,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
     double toolBarSectionSpacing = 4,
+    ToolbarAlignment toolBarIconAlignment = ToolbarAlignment.center,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
@@ -150,6 +154,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       key: key,
       toolBarHeight: toolbarIconSize * 2,
       toolBarSectionSpacing: toolBarSectionSpacing,
+      toolBarIconAlignment: toolBarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
       locale: locale,
       children: [
@@ -413,6 +418,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> children;
   final double toolBarHeight;
   final double? toolBarSectionSpacing;
+  final ToolbarAlignment? toolBarIconAlignment;
   final bool? multiRowsDisplay;
 
   /// The color of the toolbar.
@@ -440,7 +446,13 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       initialLocale: locale,
       child: multiRowsDisplay ?? true
           ? Wrap(
-              alignment: WrapAlignment.center,
+              alignment: 
+              (toolBarIconAlignment==ToolbarAlignment.start)
+                  ? WrapAlignment.start
+                  :(toolBarIconAlignment==ToolbarAlignment.center)
+                  ? WrapAlignment.center
+                  :(toolBarIconAlignment==ToolbarAlignment.end)
+                  ? WrapAlignment.end :  WrapAlignment.center,
               runSpacing: 4,
               spacing: toolBarSectionSpacing ?? 4,
               children: children,
