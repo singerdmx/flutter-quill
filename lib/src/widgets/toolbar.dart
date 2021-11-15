@@ -49,7 +49,7 @@ typedef WebVideoPickImpl = Future<String?> Function(
 typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
     BuildContext context);
 
-enum ToolbarAlignment { start, center, end }
+enum ToolbarAlignment { start, center, end, spaceAround, spaceBetween, spaceEvenly }
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -452,7 +452,13 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                       ? WrapAlignment.center
                       : (toolBarIconAlignment == ToolbarAlignment.end)
                           ? WrapAlignment.end
-                          : WrapAlignment.center,
+                          : (toolBarIconAlignment == ToolbarAlignment.spaceAround)
+                              ? WrapAlignment.spaceAround              
+                              : (toolBarIconAlignment == ToolbarAlignment.spaceBetween)
+                                  ? WrapAlignment.spaceBetween       
+                                  : (toolBarIconAlignment == ToolbarAlignment.spaceEvenly)
+                                      ? WrapAlignment.spaceEvenly                    
+                                      : WrapAlignment.center,
               runSpacing: 4,
               spacing: toolBarSectionSpacing ?? 4,
               children: children,
