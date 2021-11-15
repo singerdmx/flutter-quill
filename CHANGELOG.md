@@ -1,3 +1,6 @@
+## [2.0.16]
+* Add hide / show alignment buttons.
+
 ## [2.0.15]
 * implement change cursor to SystemMouseCursors.click when hovering a link styled text.
 
