@@ -447,7 +447,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       child: multiRowsDisplay ?? true
           ? Wrap(
               alignment: 
-              toolBarIconAlignment ?? WrapAlignment.center,
+              (toolBarIconAlignment) ? WrapAlignment.center : WrapAlignment.right,
 //               (toolBarIconAlignment==ToolbarAlignment.left)
 //                   ? WrapAlignment.left
 //                   :(toolBarIconAlignment==ToolbarAlignment.center)
