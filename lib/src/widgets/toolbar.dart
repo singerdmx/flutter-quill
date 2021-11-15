@@ -443,7 +443,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ? Wrap(
               alignment: WrapAlignment.center,
               runSpacing: 4,
-              spacing: _toolbarSectionSpacing,
+              spacing: toolbarSectionSpacing,
               children: children,
             )
           : Container(
