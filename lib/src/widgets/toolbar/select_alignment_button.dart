@@ -50,10 +50,14 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
   @override
   Widget build(BuildContext context) {
     final _valueToText = <Attribute, String>{
-      if (widget.showLeftAlignment!) Attribute.leftAlignment: Attribute.leftAlignment.value!,
-      if (widget.showCenterAlignment!) Attribute.centerAlignment: Attribute.centerAlignment.value!,
-      if (widget.showRightAlignment!) Attribute.rightAlignment: Attribute.rightAlignment.value!,
-      if (widget.showJustifyAlignment!) Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
+      if (widget.showLeftAlignment!)
+        Attribute.leftAlignment: Attribute.leftAlignment.value!,
+      if (widget.showCenterAlignment!)
+        Attribute.centerAlignment: Attribute.centerAlignment.value!,
+      if (widget.showRightAlignment!)
+        Attribute.rightAlignment: Attribute.rightAlignment.value!,
+      if (widget.showJustifyAlignment!)
+        Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
     final _valueAttribute = <Attribute>[
@@ -70,8 +74,11 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
     ];
 
     final theme = Theme.of(context);
-    
-    final buttonCount = ((widget.showLeftAlignment!) ? 1 : 0) + ((widget.showCenterAlignment!) ? 1 : 0) + ((widget.showRightAlignment!) ? 1 : 0) + ((widget.showJustifyAlignment!) ? 1 : 0);
+
+    final buttonCount = ((widget.showLeftAlignment!) ? 1 : 0) +
+        ((widget.showCenterAlignment!) ? 1 : 0) +
+        ((widget.showRightAlignment!) ? 1 : 0) +
+        ((widget.showJustifyAlignment!) ? 1 : 0);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
