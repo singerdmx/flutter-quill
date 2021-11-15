@@ -439,7 +439,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
-  Map<ToolbarAlignment, WrapAlignment> alignmentMap = {ToolbarAlignment.center: WrapAlignment.center}
+  Map<ToolbarAlignment, WrapAlignment> alignmentMap = {ToolbarAlignment.center: WrapAlignment.center};
 
   @override
   Widget build(BuildContext context) {
