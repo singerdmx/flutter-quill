@@ -73,6 +73,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     double toolbarIconSize = kDefaultIconSize,
     double toolbarSectionSpacing = 4,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
+    bool showDividers = true,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
@@ -280,7 +281,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             webVideoPickImpl: webVideoPickImpl,
             iconTheme: iconTheme,
           ),
-        if (isButtonGroupShown[0] &&
+        if (showDividers && isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
                 isButtonGroupShown[2] ||
                 isButtonGroupShown[3] ||
@@ -301,7 +302,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             showRightAlignment: showRightAlignment,
             showJustifyAlignment: showJustifyAlignment,
           ),
-        if (isButtonGroupShown[1] &&
+        if (showDividers && isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
@@ -317,7 +318,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
           ),
-        if (isButtonGroupShown[2] &&
+        if (showDividers && isButtonGroupShown[2] &&
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
@@ -358,7 +359,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
           ),
-        if (isButtonGroupShown[3] &&
+        if (showDividers && isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5]))
           VerticalDivider(
             indent: 12,
@@ -389,7 +390,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             isIncrease: false,
             iconTheme: iconTheme,
           ),
-        if (isButtonGroupShown[4] && isButtonGroupShown[5])
+        if (showDividers && isButtonGroupShown[4] && isButtonGroupShown[5])
           VerticalDivider(
             indent: 12,
             endIndent: 12,
