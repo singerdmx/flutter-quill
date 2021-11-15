@@ -60,6 +60,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.children,
     this.toolBarHeight = 36,
+    this.toolBarSectionSpacing,
     this.color,
     this.filePickImpl,
     this.multiRowsDisplay,
@@ -70,7 +71,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   factory QuillToolbar.basic({
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
-    double toolBarSectionSpacing = 4,
+    double toolBarSectionSpacing,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
