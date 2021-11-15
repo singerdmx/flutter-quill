@@ -439,7 +439,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
-
+  Size get toolBarIconAlignment2 => toolBarIconAlignment;
+    
   @override
   Widget build(BuildContext context) {
     return I18n(
@@ -447,11 +448,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       child: multiRowsDisplay ?? true
           ? Wrap(
               alignment: 
-              (toolBarIconAlignment==ToolbarAlignment.left)
+              (toolBarIconAlignment2==ToolbarAlignment.left)
                   ? WrapAlignment.left
-                  :(toolBarIconAlignment==ToolbarAlignment.center)
+                  :(toolBarIconAlignment2==ToolbarAlignment.center)
                   ? WrapAlignment.center
-                  :(toolBarIconAlignment==ToolbarAlignment.right)
+                  :(toolBarIconAlignment2==ToolbarAlignment.right)
                   ? WrapAlignment.right :  WrapAlignment.center,
               runSpacing: 4,
               spacing: toolBarSectionSpacing ?? 4,
