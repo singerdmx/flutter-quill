@@ -60,7 +60,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.children,
     this.toolBarHeight = 36,
-    this.toolBarSectionSpacing = 4,
+    this.toolBarSectionSpacing,
     this.color,
     this.filePickImpl,
     this.multiRowsDisplay,
@@ -443,6 +443,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ? Wrap(
               alignment: WrapAlignment.center,
               runSpacing: 4,
+              spacing:toolBarSectionSpacing,
               //spacing: _toolBarSectionSpacing,
               children: children,
             )
