@@ -72,7 +72,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
     double toolBarSectionSpacing = 4,
-    WrapAlignment toolBarIconAlignment = WrapAlignment.left,
+    WrapAlignment toolBarIconAlignment = WrapAlignment,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
