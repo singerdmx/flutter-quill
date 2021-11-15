@@ -55,7 +55,6 @@ const double kDefaultIconSize = 18;
 // The factor of how much larger the button is in relation to the icon.
 const double kIconButtonFactor = 1.77;
 
-
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.children,
