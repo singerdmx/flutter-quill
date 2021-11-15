@@ -49,8 +49,6 @@ typedef WebVideoPickImpl = Future<String?> Function(
 typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
     BuildContext context);
 
-enum ToolbarAlignment { start, center, end }
-
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
 
@@ -74,7 +72,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
     double toolBarSectionSpacing = 4,
-    ToolbarAlignment toolBarIconAlignment = ToolbarAlignment.center,
+    WrapAlignment toolBarIconAlignment = WrapAlignment.center,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
@@ -418,7 +416,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> children;
   final double toolBarHeight;
   final double? toolBarSectionSpacing;
-  final ToolbarAlignment? toolBarIconAlignment;
+  final WrapAlignment? toolBarIconAlignment;
   final bool? multiRowsDisplay;
 
   /// The color of the toolbar.
@@ -446,13 +444,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       initialLocale: locale,
       child: multiRowsDisplay ?? true
           ? Wrap(
-              alignment: (toolBarIconAlignment == ToolbarAlignment.start)
-                  ? WrapAlignment.start
-                  : (toolBarIconAlignment == ToolbarAlignment.center)
-                      ? WrapAlignment.center
-                      : (toolBarIconAlignment == ToolbarAlignment.end)
-                          ? WrapAlignment.end
-                          : WrapAlignment.center,
+              alignment: toolBarIconAlignment ?? WrapAlignment.center,
               runSpacing: 4,
               spacing: toolBarSectionSpacing ?? 4,
               children: children,
