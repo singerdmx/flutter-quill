@@ -439,7 +439,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
-  Size get toolBarIconAlignment2 => toolBarIconAlignment;
+  ToolbarAlignment get toolBarIconAlignment2 => toolBarIconAlignment;
     
   @override
   Widget build(BuildContext context) {
