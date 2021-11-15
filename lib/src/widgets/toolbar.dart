@@ -433,7 +433,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(toolBarHeight);
-  int get toolbarSectionSpacing => toolbarSectionSpacing;
+  double get toolbarSectionSpacing => toolbarSectionSpacing;
     
   @override
   Widget build(BuildContext context) {
