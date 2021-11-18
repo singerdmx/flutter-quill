@@ -126,10 +126,6 @@ Currently, translations are available for these locales:
 ### Contributing to translations
 The translation file is located at [lib/src/translations/toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
 
-## Migrate Zefyr Data
-
-Check out [code](https://github.com/jwehrle/zefyr_quill_convert) and [doc](https://docs.google.com/document/d/1FUSrpbarHnilb7uDN5J5DDahaI0v1RMXBjj4fFSpSuY/edit?usp=sharing).
-
 ---
 
 <p float="left">
