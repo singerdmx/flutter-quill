@@ -1,3 +1,6 @@
+## [2.0.20]
+* Improved UX/UI of Image widget.
+
 ## [2.0.19]
 * When uploading a video, applying indicator.
 

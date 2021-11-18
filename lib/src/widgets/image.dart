@@ -10,7 +10,7 @@ class ImageTapWrapper extends StatelessWidget {
 
   final ImageProvider? imageProvider;
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -24,14 +24,14 @@ class ImageTapWrapper extends StatelessWidget {
               loadingBuilder: (context, event) {
                 return Container(
                   color: Colors.black,
-                  child: Center(
+                  child: const Center(
                     child: CircularProgressIndicator(),
                   ),
                 );
               },
             ),
             Positioned(
-              right: 10.0,
+              right: 10,
               top: MediaQuery.of(context).padding.top + 10.0,
               child: InkWell(
                 onTap: () {
@@ -42,9 +42,9 @@ class ImageTapWrapper extends StatelessWidget {
                     Opacity(
                       opacity: 0.2,
                       child: Container(
-                        height: 30.0,
-                        width: 30.0,
-                        decoration: BoxDecoration(
+                        height: 30,
+                        width: 30,
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.black87,
                         ),
@@ -55,8 +55,8 @@ class ImageTapWrapper extends StatelessWidget {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      child: Icon(Icons.close,
-                          color: Colors.grey[400], size: 28.0),
+                      child:
+                          Icon(Icons.close, color: Colors.grey[400], size: 28),
                     )
                   ],
                 ),
