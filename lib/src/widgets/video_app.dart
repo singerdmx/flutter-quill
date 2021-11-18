@@ -35,13 +35,15 @@ class _VideoAppState extends State<VideoApp> {
         // Ensure the first frame is shown after the video is initialized,
         // even before the play button has been pressed.
         setState(() {});
-      });
+      }).catchError((error) {
+        setState(() {});
+      });;
   }
 
   @override
   Widget build(BuildContext context) {
     final defaultStyles = DefaultStyles.getInstance(context);
-    if (!_controller.value.isInitialized || _controller.value.hasError) {
+    if (_controller.value.hasError) {
       if (widget.readOnly) {
         return RichText(
           text: TextSpan(
@@ -54,6 +56,11 @@ class _VideoAppState extends State<VideoApp> {
 
       return RichText(
           text: TextSpan(text: widget.videoUrl, style: defaultStyles.link));
+    } else if (!_controller.value.isInitialized) {
+      return VideoProgressIndicator(_controller,
+          allowScrubbing: true,
+          colors: VideoProgressColors(playedColor: Colors.blue),
+      );
     }
 
     return Container(
