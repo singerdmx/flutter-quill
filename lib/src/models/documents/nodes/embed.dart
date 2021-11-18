@@ -19,7 +19,7 @@ class Embeddable {
 
   static Embeddable fromJson(Map<String, dynamic> json) {
     final m = Map<String, dynamic>.from(json);
-    assert(m.length == 1, 'Embeddable map has one key');
+    assert(m.length == 1, 'Embeddable map must only have one key');
 
     return BlockEmbed(m.keys.first, m.values.first);
   }
