@@ -1,3 +1,6 @@
+## [2.0.19]
+* When uploading a video, applying indicator.
+
 ## [2.0.18]
 * Make toolbar dividers optional.
 

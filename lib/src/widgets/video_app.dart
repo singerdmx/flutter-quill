@@ -37,7 +37,8 @@ class _VideoAppState extends State<VideoApp> {
         setState(() {});
       }).catchError((error) {
         setState(() {});
-      });;
+      });
+    ;
   }
 
   @override
@@ -57,9 +58,10 @@ class _VideoAppState extends State<VideoApp> {
       return RichText(
           text: TextSpan(text: widget.videoUrl, style: defaultStyles.link));
     } else if (!_controller.value.isInitialized) {
-      return VideoProgressIndicator(_controller,
-          allowScrubbing: true,
-          colors: VideoProgressColors(playedColor: Colors.blue),
+      return VideoProgressIndicator(
+        _controller,
+        allowScrubbing: true,
+        colors: const VideoProgressColors(playedColor: Colors.blue),
       );
     }
 
