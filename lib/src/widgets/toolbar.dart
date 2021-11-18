@@ -281,7 +281,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             webVideoPickImpl: webVideoPickImpl,
             iconTheme: iconTheme,
           ),
-        if (showDividers && isButtonGroupShown[0] &&
+        if (showDividers &&
+            isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
                 isButtonGroupShown[2] ||
                 isButtonGroupShown[3] ||
@@ -302,7 +303,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             showRightAlignment: showRightAlignment,
             showJustifyAlignment: showJustifyAlignment,
           ),
-        if (showDividers && isButtonGroupShown[1] &&
+        if (showDividers &&
+            isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
@@ -318,7 +320,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
           ),
-        if (showDividers && showHeaderStyle && isButtonGroupShown[2] &&
+        if (showDividers &&
+            showHeaderStyle &&
+            isButtonGroupShown[2] &&
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
@@ -359,7 +363,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
           ),
-        if (showDividers && isButtonGroupShown[3] &&
+        if (showDividers &&
+            isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5]))
           VerticalDivider(
             indent: 12,

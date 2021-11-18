@@ -1,3 +1,6 @@
+## [2.0.18]
+* Make toolbar dividers optional.
+
 ## [2.0.17]
 * Allow alignment of the toolbar icons to match WrapAlignment.
 
