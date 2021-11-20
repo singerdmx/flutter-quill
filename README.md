@@ -122,6 +122,7 @@ Currently, translations are available for these locales:
 * `Locale('fr')`
 * `Locale('zh', 'CN')`
 * `Locale('ko')`
+* `Locale('ru')`
 
 ### Contributing to translations
 The translation file is located at [lib/src/translations/toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
