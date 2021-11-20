@@ -57,6 +57,15 @@ extension Localization on String {
           'Link': '링크',
           'Please first select some text to transform into a link.':
               '링크로 전환할 글자를 먼저 선택해주세요.',
+        },
+        'ru': {
+          'Paste a link': 'Вставить ссылку',
+          'Ok': 'ОК',
+          'Select Color': 'Выбрать цвет',
+          'Gallery': 'Галерея',
+          'Link': 'Ссылка',
+          'Please first select some text to transform into a link.':
+              'Выделите часть текста для создания ссылки.',
         }
       };
 
