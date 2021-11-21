@@ -66,7 +66,16 @@ extension Localization on String {
           'Link': 'Ссылка',
           'Please first select some text to transform into a link.':
               'Выделите часть текста для создания ссылки.',
-        }
+        },
+        'es': {
+          'Paste a link': 'Pega un enlace',
+          'Ok': 'Ok',
+          'Select Color': 'Selecciona un color',
+          'Gallery': 'Galeria',
+          'Link': 'Enlace',
+          'Please first select some text to transform into a link.':
+              'Por favor selecciona primero un texto para transformarlo en un enlace',
+        },
       };
 
   String get i18n => localize(this, _t);
