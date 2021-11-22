@@ -81,7 +81,7 @@ extension Localization on String {
           'Ok': 'Tamam',
           'Select Color': 'Renk Seçin',
           'Gallery': 'Galeri',
-          'Link': 'Bağlantı',
+          'Link': 'Bağlantı', 
           'Please first select some text to transform into a link.':
               'Lütfen bağlantıya dönüştürmek için bir metin seçin.',
         },
