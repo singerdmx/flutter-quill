@@ -1192,7 +1192,11 @@ class RenderEditableContainerBox extends RenderBox
       if (targetChild.getContainer() == targetNode) {
         break;
       }
-      targetChild = childAfter(targetChild);
+      final newChild = childAfter(targetChild);
+      if (newChild == null) {
+        break;
+      }
+      targetChild = newChild;
     }
     if (targetChild == null) {
       throw 'targetChild should not be null';
