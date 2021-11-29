@@ -150,6 +150,11 @@ class Operation {
 
   /// Returns `true` if [other] operation has the same attributes as this one.
   bool hasSameAttributes(Operation other) {
+    // treat null and empty equal
+    if ((_attributes?.isEmpty ?? true) &&
+        (other._attributes?.isEmpty ?? true)) {
+      return true;
+    }
     return _attributeEquality.equals(_attributes, other._attributes);
   }
 
