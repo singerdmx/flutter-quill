@@ -74,14 +74,15 @@ extension Localization on String {
           'Gallery': 'Galeria',
           'Link': 'Enlace',
           'Please first select some text to transform into a link.':
-              'Por favor selecciona primero un texto para transformarlo en un enlace',
+              'Por favor selecciona primero un texto para transformarlo '
+                  'en un enlace',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
           'Ok': 'Tamam',
           'Select Color': 'Renk Seçin',
           'Gallery': 'Galeri',
-          'Link': 'Bağlantı', 
+          'Link': 'Bağlantı',
           'Please first select some text to transform into a link.':
               'Lütfen bağlantıya dönüştürmek için bir metin seçin.',
         },
