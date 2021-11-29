@@ -1,3 +1,6 @@
+## [2.0.21]
+* Handle click on embed object.
+
 ## [2.0.20]
 * Improved UX/UI of Image widget.
 
