@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../models/documents/document.dart';
 import '../../utils/diff_delta.dart';
 import '../editor.dart';
 
@@ -167,8 +168,12 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     final text = value.text;
     final cursorPosition = value.selection.extentOffset;
     final diff = getDiff(oldText, text, cursorPosition);
-    widget.controller.replaceText(
-        diff.start, diff.deleted.length, diff.inserted, value.selection);
+    if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
+      widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+    } else {
+      widget.controller.replaceText(
+          diff.start, diff.deleted.length, diff.inserted, value.selection);
+    }
   }
 
   @override
