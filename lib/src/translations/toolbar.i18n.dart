@@ -93,7 +93,7 @@ extension Localization on String {
           'Gallery': 'Галерея',
           'Link': 'Посилання',
           'Please first select some text to transform into a link.':
-          'Виділіть текст для створення посилання.',
+              'Виділіть текст для створення посилання.',
         },
       };
 

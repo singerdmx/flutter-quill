@@ -1,3 +1,6 @@
+## [2.0.22]
+* Fix attribute compare and fix font size parsing.
+
 ## [2.0.21]
 * Handle click on embed object.
 
