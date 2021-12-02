@@ -10,11 +10,14 @@ import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
+typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
+
 class QuillController extends ChangeNotifier {
   QuillController({
     required this.document,
     required TextSelection selection,
     bool keepStyleOnNewLine = false,
+    this.onReplaceText,
   })  : _selection = selection,
         _keepStyleOnNewLine = keepStyleOnNewLine;
 
@@ -35,6 +38,10 @@ class QuillController extends ChangeNotifier {
   /// Currently selected text within the [document].
   TextSelection get selection => _selection;
   TextSelection _selection;
+
+  /// Manual [replaceText] handler
+  /// Return false to ignore the event
+  ReplaceTextCallback? onReplaceText;
 
   /// Store any styles attribute that got toggled by the tap of a button
   /// and that has not been applied yet.
@@ -114,6 +121,10 @@ class QuillController extends ChangeNotifier {
       int index, int len, Object? data, TextSelection? textSelection,
       {bool ignoreFocus = false}) {
     assert(data is String || data is Embeddable);
+
+    if (onReplaceText != null && !onReplaceText!(index, len, data)) {
+      return;
+    }
 
     Delta? delta;
     if (len > 0 || data is! String || data.isNotEmpty) {
