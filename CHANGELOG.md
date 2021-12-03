@@ -1,3 +1,6 @@
+## [2.0.23]
+* Support custom replaceText handler.
+
 ## [2.0.22]
 * Fix attribute compare and fix font size parsing.
 
