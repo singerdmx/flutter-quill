@@ -119,6 +119,7 @@ Currently, translations are available for these locales:
 * `Locale('en')`
 * `Locale('ar')`
 * `Locale('de')`
+* `Locale('da')`
 * `Locale('fr')`
 * `Locale('zh', 'CN')`
 * `Locale('ko')`
