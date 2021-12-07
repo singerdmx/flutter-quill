@@ -218,6 +218,16 @@ class QuillController extends ChangeNotifier {
     formatText(selection.start, selection.end - selection.start, attribute);
   }
 
+  void moveCursorToStart() {
+    updateSelection(TextSelection.collapsed(offset: 0), ChangeSource.LOCAL);
+  }
+
+  void moveCursorToEnd() {
+    updateSelection(
+        TextSelection.collapsed(offset: plainTextEditingValue.text.length),
+        ChangeSource.LOCAL);
+  }
+
   void updateSelection(TextSelection textSelection, ChangeSource source) {
     _updateSelection(textSelection, source);
     notifyListeners();
