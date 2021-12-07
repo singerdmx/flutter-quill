@@ -11,6 +11,7 @@ import '../models/quill_delta.dart';
 import '../utils/diff_delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
+typedef DeleteCallback = void Function(int cursorPosition, bool forward);
 
 class QuillController extends ChangeNotifier {
   QuillController({
@@ -18,6 +19,7 @@ class QuillController extends ChangeNotifier {
     required TextSelection selection,
     bool keepStyleOnNewLine = false,
     this.onReplaceText,
+    this.onDelete,
   })  : _selection = selection,
         _keepStyleOnNewLine = keepStyleOnNewLine;
 
@@ -39,9 +41,12 @@ class QuillController extends ChangeNotifier {
   TextSelection get selection => _selection;
   TextSelection _selection;
 
-  /// Manual [replaceText] handler
+  /// Custom [replaceText] handler
   /// Return false to ignore the event
   ReplaceTextCallback? onReplaceText;
+
+  /// Custom delete handler
+  DeleteCallback? onDelete;
 
   /// Store any styles attribute that got toggled by the tap of a button
   /// and that has not been applied yet.
@@ -185,6 +190,12 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
     ignoreFocusOnTextChange = false;
   }
+
+  /// Called in two cases:
+  /// forward == false && textBefore.isEmpty
+  /// forward == true && textAfter.isEmpty
+  void handleDelete(int cursorPosition, bool forward) =>
+      onDelete?.call(cursorPosition, forward);
 
   void formatText(int index, int len, Attribute? attribute) {
     if (len == 0 &&

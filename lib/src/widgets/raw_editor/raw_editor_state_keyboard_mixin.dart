@@ -153,12 +153,16 @@ mixin RawEditorStateKeyboardMixin on EditorState {
     final newSelection = TextSelection.collapsed(offset: cursorPosition);
     final newText = textBefore + textAfter;
     final size = plainText.length - newText.length;
-    widget.controller.replaceText(
-      cursorPosition,
-      size,
-      '',
-      newSelection,
-    );
+    if (size == 0) {
+      widget.controller.handleDelete(cursorPosition, forward);
+    } else {
+      widget.controller.replaceText(
+        cursorPosition,
+        size,
+        '',
+        newSelection,
+      );
+    }
   }
 
   TextSelection _jumpToBeginOrEndOfWord(
