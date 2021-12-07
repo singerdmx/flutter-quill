@@ -1,3 +1,6 @@
+## [2.1.0]
+* Add delete handler
+
 ## [2.0.23]
 * Support custom replaceText handler.
 
