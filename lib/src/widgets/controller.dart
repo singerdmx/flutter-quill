@@ -122,6 +122,13 @@ class QuillController extends ChangeNotifier {
 
   bool get hasRedo => document.hasRedo;
 
+  /// clear editor
+  void clear() {
+    replaceText(
+        0, plainTextEditingValue.text.length-1, '',
+        TextSelection.collapsed(offset: 0));
+  }
+
   void replaceText(
       int index, int len, Object? data, TextSelection? textSelection,
       {bool ignoreFocus = false}) {
