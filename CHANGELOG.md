@@ -1,5 +1,8 @@
+## [2.1.1]
+* Add methods of clearing editor and moving cursor.
+
 ## [2.1.0]
-* Add delete handler
+* Add delete handler.
 
 ## [2.0.23]
 * Support custom replaceText handler.

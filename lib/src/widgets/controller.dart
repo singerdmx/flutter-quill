@@ -124,9 +124,8 @@ class QuillController extends ChangeNotifier {
 
   /// clear editor
   void clear() {
-    replaceText(
-        0, plainTextEditingValue.text.length-1, '',
-        TextSelection.collapsed(offset: 0));
+    replaceText(0, plainTextEditingValue.text.length - 1, '',
+        const TextSelection.collapsed(offset: 0));
   }
 
   void replaceText(
@@ -226,7 +225,8 @@ class QuillController extends ChangeNotifier {
   }
 
   void moveCursorToStart() {
-    updateSelection(TextSelection.collapsed(offset: 0), ChangeSource.LOCAL);
+    updateSelection(
+        const TextSelection.collapsed(offset: 0), ChangeSource.LOCAL);
   }
 
   void moveCursorToEnd() {
