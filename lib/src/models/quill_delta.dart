@@ -608,9 +608,28 @@ class Delta {
     }
   }
 
+  /// Removes trailing '\n'
+  void _trimNewLine() {
+    if (isNotEmpty) {
+      final lastOp = _operations.last;
+      final lastOpData = lastOp.data;
+
+      if (lastOpData is String && lastOpData.endsWith('\n')) {
+        _operations.removeLast();
+        if (lastOpData.length > 1) {
+          insert(lastOpData.substring(0, lastOpData.length - 1),
+              lastOp.attributes);
+        }
+      }
+    }
+  }
+
   /// Concatenates [other] with this delta and returns the result.
-  Delta concat(Delta other) {
+  Delta concat(Delta other, {bool trimNewLine = false}) {
     final result = Delta.from(this);
+    if (trimNewLine) {
+      result._trimNewLine();
+    }
     if (other.isNotEmpty) {
       // In case first operation of other can be merged with last operation in
       // our list.
