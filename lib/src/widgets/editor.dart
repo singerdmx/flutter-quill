@@ -165,33 +165,7 @@ Widget defaultEmbedBuilder(
           final m = _attrs['mobileMargin'] == null
               ? 0.0
               : double.parse(_attrs['mobileMargin']!);
-          var a = Alignment.center;
-          if (_attrs['mobileAlignment'] != null) {
-            final _index = [
-              'topLeft',
-              'topCenter',
-              'topRight',
-              'centerLeft',
-              'center',
-              'centerRight',
-              'bottomLeft',
-              'bottomCenter',
-              'bottomRight'
-            ].indexOf(_attrs['mobileAlignment']!);
-            if (_index >= 0) {
-              a = [
-                Alignment.topLeft,
-                Alignment.topCenter,
-                Alignment.topRight,
-                Alignment.centerLeft,
-                Alignment.center,
-                Alignment.centerRight,
-                Alignment.bottomLeft,
-                Alignment.bottomCenter,
-                Alignment.bottomRight
-              ][_index];
-            }
-          }
+          final a = getAlignment(_attrs['mobileAlignment']);
           return Padding(
               padding: EdgeInsets.all(m),
               child: imageUrl.startsWith('http')
