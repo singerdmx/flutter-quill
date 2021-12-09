@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -51,7 +50,7 @@ abstract class EditorState extends State<RawEditor> {
 
   TextEditingValue getTextEditingValue();
 
-  void setTextEditingValue(TextEditingValue value);
+  void setTextEditingValue(TextEditingValue value, SelectionChangedCause cause);
 
   RenderEditor? getRenderEditor();
 
@@ -62,6 +61,8 @@ abstract class EditorState extends State<RawEditor> {
   void hideToolbar();
 
   void requestKeyboard();
+
+  bool get readOnly;
 }
 
 /// Base interface for editable render objects.

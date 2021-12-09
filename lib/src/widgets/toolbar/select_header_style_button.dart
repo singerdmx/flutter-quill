@@ -67,7 +67,7 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(4, (index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+          padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(
               width: widget.iconSize * kIconButtonFactor,
