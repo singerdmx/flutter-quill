@@ -100,11 +100,13 @@ mixin RawEditorStateKeyboardMixin on EditorState {
           TextSelection.collapsed(offset: selection.start),
         );
 
-        setTextEditingValue(TextEditingValue(
-          text:
-              selection.textBefore(plainText) + selection.textAfter(plainText),
-          selection: TextSelection.collapsed(offset: selection.start),
-        ), SelectionChangedCause.keyboard);
+        setTextEditingValue(
+            TextEditingValue(
+              text: selection.textBefore(plainText) +
+                  selection.textAfter(plainText),
+              selection: TextSelection.collapsed(offset: selection.start),
+            ),
+            SelectionChangedCause.keyboard);
       }
       return;
     }

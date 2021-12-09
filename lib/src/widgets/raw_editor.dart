@@ -725,6 +725,7 @@ class RawEditorState extends EditorState
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
 
+  @override
   bool get readOnly => widget.readOnly;
 }
 
