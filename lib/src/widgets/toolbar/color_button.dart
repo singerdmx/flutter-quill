@@ -8,7 +8,6 @@ import '../../translations/toolbar.i18n.dart';
 import '../../utils/color.dart';
 import '../controller.dart';
 import '../toolbar.dart';
-import 'quill_icon_button.dart';
 
 /// Controls color styles.
 ///

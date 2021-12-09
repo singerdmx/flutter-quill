@@ -5,7 +5,6 @@ import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
 import '../toolbar.dart';
-import 'toggle_style_button.dart';
 
 class ToggleCheckListButton extends StatefulWidget {
   const ToggleCheckListButton({

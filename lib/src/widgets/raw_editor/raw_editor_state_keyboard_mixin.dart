@@ -104,7 +104,7 @@ mixin RawEditorStateKeyboardMixin on EditorState {
           text:
               selection.textBefore(plainText) + selection.textAfter(plainText),
           selection: TextSelection.collapsed(offset: selection.start),
-        ));
+        ), SelectionChangedCause.keyboard);
       }
       return;
     }
@@ -156,12 +156,7 @@ mixin RawEditorStateKeyboardMixin on EditorState {
     if (size == 0) {
       widget.controller.handleDelete(cursorPosition, forward);
     } else {
-      widget.controller.replaceText(
-        cursorPosition,
-        size,
-        '',
-        newSelection,
-      );
+      widget.controller.replaceText(cursorPosition, size, '', newSelection);
     }
   }
 

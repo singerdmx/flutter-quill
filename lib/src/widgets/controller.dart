@@ -200,6 +200,8 @@ class QuillController extends ChangeNotifier {
   /// Called in two cases:
   /// forward == false && textBefore.isEmpty
   /// forward == true && textAfter.isEmpty
+  /// Android only
+  /// see https://github.com/singerdmx/flutter-quill/discussions/514
   void handleDelete(int cursorPosition, bool forward) =>
       onDelete?.call(cursorPosition, forward);
 

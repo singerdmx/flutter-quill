@@ -641,7 +641,8 @@ class RawEditorState extends EditorState
   }
 
   @override
-  void setTextEditingValue(TextEditingValue value) {
+  void setTextEditingValue(
+      TextEditingValue value, SelectionChangedCause cause) {
     if (value.text == textEditingValue.text) {
       widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
     } else {
@@ -723,6 +724,8 @@ class RawEditorState extends EditorState
 
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
+
+  bool get readOnly => widget.readOnly;
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
