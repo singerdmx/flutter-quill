@@ -1,3 +1,6 @@
+## [2.2.1]
+* Bug fix for imports supporting flutter 2.8.
+
 ## [2.2.0]
 * Support flutter 2.8.
 
