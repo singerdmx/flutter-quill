@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/models/documents/attribute.dart';
-import '/widgets/text_block.dart';
+import '../../models/documents/attribute.dart';
+import '../text_block.dart';
 
 class QuillNumberPoint extends StatelessWidget {
   const QuillNumberPoint({
