@@ -815,11 +815,11 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   CursorPainter get _cursorPainter => CursorPainter(
-        _body,
-        cursorCont.style,
-        _caretPrototype!,
-        cursorCont.color.value,
-        devicePixelRatio,
+        editable: _body,
+        style: cursorCont.style,
+        prototype: _caretPrototype!,
+        color: cursorCont.color.value,
+        devicePixelRatio: devicePixelRatio,
       );
 
   @override
