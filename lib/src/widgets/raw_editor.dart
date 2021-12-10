@@ -126,6 +126,7 @@ class RawEditorState extends EditorState
   ScrollController get scrollController => _scrollController;
   late ScrollController _scrollController;
 
+  // Cursors
   late CursorCont _cursorCont;
 
   // Focus
@@ -133,6 +134,7 @@ class RawEditorState extends EditorState
   FocusAttachment? _focusAttachment;
   bool get _hasFocus => widget.focusNode.hasFocus;
 
+  // Theme
   DefaultStyles? _styles;
 
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
@@ -162,6 +164,7 @@ class RawEditorState extends EditorState
           document: _doc,
           selection: widget.controller.selection,
           hasFocus: _hasFocus,
+          cursorController: _cursorCont,
           textDirection: _textDirection,
           startHandleLayerLink: _startHandleLayerLink,
           endHandleLayerLink: _endHandleLayerLink,
@@ -196,6 +199,7 @@ class RawEditorState extends EditorState
               onSelectionChanged: _handleSelectionChanged,
               scrollBottomInset: widget.scrollBottomInset,
               padding: widget.padding,
+              cursorController: _cursorCont,
               children: _buildChildren(_doc, context),
             ),
           ),
@@ -362,6 +366,11 @@ class RawEditorState extends EditorState
       tickerProvider: this,
     );
 
+    // Floating cursor
+    _floatingCursorResetController = AnimationController(vsync: this);
+    _floatingCursorResetController.addListener(onFloatingCursorResetTick);
+
+    // Keyboard
     _keyboardListener = KeyboardEventHandler(
       handleCursorMovement,
       handleShortcut,
@@ -727,6 +736,12 @@ class RawEditorState extends EditorState
 
   @override
   bool get readOnly => widget.readOnly;
+
+  @override
+  AnimationController get floatingCursorResetController =>
+      _floatingCursorResetController;
+
+  late AnimationController _floatingCursorResetController;
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
@@ -741,6 +756,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     required this.endHandleLayerLink,
     required this.onSelectionChanged,
     required this.scrollBottomInset,
+    required this.cursorController,
     this.padding = EdgeInsets.zero,
     this.offset,
   }) : super(key: key, children: children);
@@ -755,23 +771,24 @@ class _Editor extends MultiChildRenderObjectWidget {
   final TextSelectionChangedHandler onSelectionChanged;
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
+  final CursorCont cursorController;
 
   @override
   RenderEditor createRenderObject(BuildContext context) {
     return RenderEditor(
-      offset,
-      null,
-      textDirection,
-      scrollBottomInset,
-      padding,
-      document,
-      selection,
-      hasFocus,
-      onSelectionChanged,
-      startHandleLayerLink,
-      endHandleLayerLink,
-      const EdgeInsets.fromLTRB(4, 4, 4, 5),
-    );
+        offset,
+        null,
+        textDirection,
+        scrollBottomInset,
+        padding,
+        document,
+        selection,
+        hasFocus,
+        onSelectionChanged,
+        startHandleLayerLink,
+        endHandleLayerLink,
+        const EdgeInsets.fromLTRB(4, 4, 4, 5),
+        cursorController);
   }
 
   @override

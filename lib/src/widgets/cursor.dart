@@ -131,6 +131,17 @@ class CursorCont extends ChangeNotifier {
   Timer? _cursorTimer;
   bool _targetCursorVisibility = false;
 
+  final ValueNotifier<TextPosition?> _floatingCursorTextPosition =
+      ValueNotifier(null);
+
+  ValueNotifier<TextPosition?> get floatingCursorTextPosition =>
+      _floatingCursorTextPosition;
+
+  void setFloatingCursorTextPosition(TextPosition? position) =>
+      _floatingCursorTextPosition.value = position;
+
+  bool get isFloatingCursorActive => floatingCursorTextPosition.value != null;
+
   CursorStyle _style;
   CursorStyle get style => _style;
   set style(CursorStyle value) {
