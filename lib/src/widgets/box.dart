@@ -119,4 +119,8 @@ abstract class RenderEditableBox extends RenderBox {
   /// Returns the [Rect] in local coordinates for the caret at the given text
   /// position.
   Rect getLocalRectForCaret(TextPosition position);
+
+  /// Returns the [Rect] of the caret prototype at the given text
+  /// position. [Rect] starts at origin.
+  Rect getCaretPrototype(TextPosition position);
 }

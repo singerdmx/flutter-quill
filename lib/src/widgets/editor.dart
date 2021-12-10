@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,6 +23,7 @@ import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
+import 'float_cursor.dart';
 import 'image.dart';
 import 'raw_editor.dart';
 import 'text_selection.dart';
@@ -56,6 +58,10 @@ abstract class EditorState extends State<RawEditor> {
 
   EditorTextSelectionOverlay? getSelectionOverlay();
 
+  /// Controls the floating cursor animation when it is released.
+  /// The floating cursor is animated to merge with the regular cursor.
+  AnimationController get floatingCursorResetController;
+
   bool showToolbar();
 
   void hideToolbar();
@@ -88,8 +94,23 @@ abstract class RenderAbstractEditor {
   /// selection that contains some text but whose ends meet in the middle).
   TextPosition getPositionForOffset(Offset offset);
 
+  /// Returns the local coordinates of the endpoints of the given selection.
+  ///
+  /// If the selection is collapsed (and therefore occupies a single point), the
+  /// returned list is of length one. Otherwise, the selection is not collapsed
+  /// and the returned list is of length two. In this case, however, the two
+  /// points might actually be co-located (e.g., because of a bidirectional
+  /// selection that contains some text but whose ends meet in the middle).
   List<TextSelectionPoint> getEndpointsForSelection(
       TextSelection textSelection);
+
+  /// Sets the screen position of the floating cursor and the text position
+  /// closest to the cursor.
+  /// `resetLerpValue` drives the size of the floating cursor.
+  /// See [EditorState.floatingCursorResetController].
+  void setFloatingCursor(FloatingCursorDragState dragState,
+      Offset lastBoundedOffset, TextPosition lastTextPosition,
+      {double? resetLerpValue});
 
   /// If [ignorePointer] is false (the default) then this method is called by
   /// the internal gesture recognizer's [TapGestureRecognizer.onTapDown]
@@ -646,31 +667,47 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 }
 
+/// Signature for the callback that reports when the user changes the selection
+/// (including the cursor location).
+///
+/// Used by [RenderEditor.onSelectionChanged].
 typedef TextSelectionChangedHandler = void Function(
     TextSelection selection, SelectionChangedCause cause);
+
+// The padding applied to text field. Used to determine the bounds when
+// moving the floating cursor.
+const EdgeInsets _kFloatingCursorAddedMargin = EdgeInsets.fromLTRB(4, 4, 4, 5);
+
+// The additional size on the x and y axis with which to expand the prototype
+// cursor to render the floating cursor in pixels.
+const EdgeInsets _kFloatingCaretSizeIncrease =
+    EdgeInsets.symmetric(horizontal: 0.5, vertical: 1);
 
 class RenderEditor extends RenderEditableContainerBox
     implements RenderAbstractEditor {
   RenderEditor(
-    ViewportOffset? offset,
-    List<RenderEditableBox>? children,
-    TextDirection textDirection,
-    double scrollBottomInset,
-    EdgeInsetsGeometry padding,
-    this.document,
-    this.selection,
-    this._hasFocus,
-    this.onSelectionChanged,
-    this._startHandleLayerLink,
-    this._endHandleLayerLink,
-    EdgeInsets floatingCursorAddedMargin,
-  ) : super(
+      ViewportOffset? offset,
+      List<RenderEditableBox>? children,
+      TextDirection textDirection,
+      double scrollBottomInset,
+      EdgeInsetsGeometry padding,
+      this.document,
+      this.selection,
+      this._hasFocus,
+      this.onSelectionChanged,
+      this._startHandleLayerLink,
+      this._endHandleLayerLink,
+      EdgeInsets floatingCursorAddedMargin,
+      this._cursorController)
+      : super(
           children,
           document.root,
           textDirection,
           scrollBottomInset,
           padding,
         );
+
+  final CursorCont _cursorController;
 
   Document document;
   TextSelection selection;
@@ -983,9 +1020,20 @@ class RenderEditor extends RenderEditableContainerBox
 
   @override
   void paint(PaintingContext context, Offset offset) {
+    if (_hasFocus &&
+        _cursorController.show.value &&
+        !_cursorController.style.paintAboveText) {
+      _paintFloatingCursor(context, offset);
+    }
     defaultPaint(context, offset);
     _updateSelectionExtentsVisibility(offset + _paintOffset);
     _paintHandleLayers(context, getEndpointsForSelection(selection));
+
+    if (_hasFocus &&
+        _cursorController.show.value &&
+        _cursorController.style.paintAboveText) {
+      _paintFloatingCursor(context, offset);
+    }
   }
 
   @override
@@ -1097,6 +1145,128 @@ class RenderEditor extends RenderEditableContainerBox
     final boxParentData = targetChild.parentData as BoxParentData;
     return childLocalRect.shift(Offset(0, boxParentData.offset.dy));
   }
+
+  // Start floating cursor
+
+  FloatingCursorPainter get _floatingCursorPainter => FloatingCursorPainter(
+        floatingCursorRect: _floatingCursorRect,
+        style: _cursorController.style,
+      );
+
+  bool _floatingCursorOn = false;
+  Rect? _floatingCursorRect;
+
+  TextPosition get floatingCursorTextPosition => _floatingCursorTextPosition;
+  late TextPosition _floatingCursorTextPosition;
+
+  // The relative origin in relation to the distance the user has theoretically
+  // dragged the floating cursor offscreen.
+  // This value is used to account for the difference
+  // in the rendering position and the raw offset value.
+  Offset _relativeOrigin = Offset.zero;
+  Offset? _previousOffset;
+  bool _resetOriginOnLeft = false;
+  bool _resetOriginOnRight = false;
+  bool _resetOriginOnTop = false;
+  bool _resetOriginOnBottom = false;
+
+  /// Returns the position within the editor closest to the raw cursor offset.
+  Offset calculateBoundedFloatingCursorOffset(
+      Offset rawCursorOffset, double preferredLineHeight) {
+    var deltaPosition = Offset.zero;
+    final topBound = _kFloatingCursorAddedMargin.top;
+    final bottomBound =
+        size.height - preferredLineHeight + _kFloatingCursorAddedMargin.bottom;
+    final leftBound = _kFloatingCursorAddedMargin.left;
+    final rightBound = size.width - _kFloatingCursorAddedMargin.right;
+
+    if (_previousOffset != null) {
+      deltaPosition = rawCursorOffset - _previousOffset!;
+    }
+
+    // If the raw cursor offset has gone off an edge,
+    // we want to reset the relative origin of
+    // the dragging when the user drags back into the field.
+    if (_resetOriginOnLeft && deltaPosition.dx > 0) {
+      _relativeOrigin =
+          Offset(rawCursorOffset.dx - leftBound, _relativeOrigin.dy);
+      _resetOriginOnLeft = false;
+    } else if (_resetOriginOnRight && deltaPosition.dx < 0) {
+      _relativeOrigin =
+          Offset(rawCursorOffset.dx - rightBound, _relativeOrigin.dy);
+      _resetOriginOnRight = false;
+    }
+    if (_resetOriginOnTop && deltaPosition.dy > 0) {
+      _relativeOrigin =
+          Offset(_relativeOrigin.dx, rawCursorOffset.dy - topBound);
+      _resetOriginOnTop = false;
+    } else if (_resetOriginOnBottom && deltaPosition.dy < 0) {
+      _relativeOrigin =
+          Offset(_relativeOrigin.dx, rawCursorOffset.dy - bottomBound);
+      _resetOriginOnBottom = false;
+    }
+
+    final currentX = rawCursorOffset.dx - _relativeOrigin.dx;
+    final currentY = rawCursorOffset.dy - _relativeOrigin.dy;
+    final double adjustedX =
+        math.min(math.max(currentX, leftBound), rightBound);
+    final double adjustedY =
+        math.min(math.max(currentY, topBound), bottomBound);
+    final adjustedOffset = Offset(adjustedX, adjustedY);
+
+    if (currentX < leftBound && deltaPosition.dx < 0) {
+      _resetOriginOnLeft = true;
+    } else if (currentX > rightBound && deltaPosition.dx > 0) {
+      _resetOriginOnRight = true;
+    }
+    if (currentY < topBound && deltaPosition.dy < 0) {
+      _resetOriginOnTop = true;
+    } else if (currentY > bottomBound && deltaPosition.dy > 0) {
+      _resetOriginOnBottom = true;
+    }
+
+    _previousOffset = rawCursorOffset;
+
+    return adjustedOffset;
+  }
+
+  @override
+  void setFloatingCursor(FloatingCursorDragState dragState,
+      Offset boundedOffset, TextPosition textPosition,
+      {double? resetLerpValue}) {
+    if (dragState == FloatingCursorDragState.Start) {
+      _relativeOrigin = Offset.zero;
+      _previousOffset = null;
+      _resetOriginOnBottom = false;
+      _resetOriginOnTop = false;
+      _resetOriginOnRight = false;
+      _resetOriginOnBottom = false;
+    }
+    _floatingCursorOn = dragState != FloatingCursorDragState.End;
+    if (_floatingCursorOn) {
+      _floatingCursorTextPosition = textPosition;
+      final sizeAdjustment = resetLerpValue != null
+          ? EdgeInsets.lerp(
+              _kFloatingCaretSizeIncrease, EdgeInsets.zero, resetLerpValue)!
+          : _kFloatingCaretSizeIncrease;
+      final child = childAtPosition(textPosition);
+      final caretPrototype =
+          child.getCaretPrototype(child.globalToLocalPosition(textPosition));
+      _floatingCursorRect =
+          sizeAdjustment.inflateRect(caretPrototype).shift(boundedOffset);
+      _cursorController
+          .setFloatingCursorTextPosition(_floatingCursorTextPosition);
+    } else {
+      _floatingCursorRect = null;
+      _cursorController.setFloatingCursorTextPosition(null);
+    }
+  }
+
+  void _paintFloatingCursor(PaintingContext context, Offset offset) {
+    _floatingCursorPainter.paint(context.canvas);
+  }
+
+// End floating cursor
 }
 
 class EditableContainerParentData

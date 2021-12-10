@@ -387,7 +387,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   EdgeInsets? _resolvedPadding;
   bool? _containsCursor;
   List<TextBox>? _selectedRects;
-  Rect? _caretPrototype;
+  late Rect _caretPrototype;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
   Iterable<RenderBox> get _children sync* {
@@ -501,8 +501,11 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   bool containsCursor() {
-    return _containsCursor ??= textSelection.isCollapsed &&
-        line.containsOffset(textSelection.baseOffset);
+    return _containsCursor ??= cursorCont.isFloatingCursorActive
+        ? line
+            .containsOffset(cursorCont.floatingCursorTextPosition.value!.offset)
+        : textSelection.isCollapsed &&
+            line.containsOffset(textSelection.baseOffset);
   }
 
   RenderBox? _updateChild(
@@ -638,6 +641,17 @@ class RenderEditableTextLine extends RenderEditableBox {
       cursorCont.style.height ??
       preferredLineHeight(const TextPosition(offset: 0));
 
+  // TODO: This is no longer producing the highest-fidelity caret
+  // heights for Android, especially when non-alphabetic languages
+  // are involved. The current implementation overrides the height set
+  // here with the full measured height of the text on Android which looks
+  // superior (subjectively and in terms of fidelity) in _paintCaret. We
+  // should rework this properly to once again match the platform. The constant
+  // _kCaretHeightOffset scales poorly for small font sizes.
+  //
+  /// On iOS, the cursor is taller than the cursor on Android. The height
+  /// of the cursor for iOS is approximate and obtained through an eyeball
+  /// comparison.
   void _computeCaretPrototype() {
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:
@@ -655,12 +669,24 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
   }
 
+  void _onFloatingCursorChange() {
+    _containsCursor = null;
+    markNeedsPaint();
+  }
+
+  // End caret implementation
+
+  //
+
+  // Start render box overrides
+
   @override
   void attach(covariant PipelineOwner owner) {
     super.attach(owner);
     for (final child in _children) {
       child.attach(owner);
     }
+    cursorCont.floatingCursorTextPosition.addListener(_onFloatingCursorChange);
     if (containsCursor()) {
       cursorCont.addListener(markNeedsLayout);
       cursorCont.color.addListener(safeMarkNeedsPaint);
@@ -673,6 +699,8 @@ class RenderEditableTextLine extends RenderEditableBox {
     for (final child in _children) {
       child.detach();
     }
+    cursorCont.floatingCursorTextPosition
+        .removeListener(_onFloatingCursorChange);
     if (containsCursor()) {
       cursorCont.removeListener(markNeedsLayout);
       cursorCont.color.removeListener(safeMarkNeedsPaint);
@@ -817,8 +845,10 @@ class RenderEditableTextLine extends RenderEditableBox {
   CursorPainter get _cursorPainter => CursorPainter(
         editable: _body,
         style: cursorCont.style,
-        prototype: _caretPrototype!,
-        color: cursorCont.color.value,
+        prototype: _caretPrototype,
+        color: cursorCont.isFloatingCursorActive
+            ? cursorCont.style.backgroundColor
+            : cursorCont.color.value,
         devicePixelRatio: devicePixelRatio,
       );
 
@@ -873,10 +903,14 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   void _paintCursor(
       PaintingContext context, Offset effectiveOffset, bool lineHasEmbed) {
-    final position = TextPosition(
-      offset: textSelection.extentOffset - line.documentOffset,
-      affinity: textSelection.base.affinity,
-    );
+    final position = cursorCont.isFloatingCursorActive
+        ? TextPosition(
+            offset: cursorCont.floatingCursorTextPosition.value!.offset -
+                line.documentOffset,
+            affinity: cursorCont.floatingCursorTextPosition.value!.affinity)
+        : TextPosition(
+            offset: textSelection.extentOffset - line.documentOffset,
+            affinity: textSelection.base.affinity);
     _cursorPainter.paint(
         context.canvas, effectiveOffset, position, lineHasEmbed);
   }
@@ -921,6 +955,9 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
     markNeedsPaint();
   }
+
+  @override
+  Rect getCaretPrototype(TextPosition position) => _caretPrototype;
 }
 
 class _TextLineElement extends RenderObjectElement {

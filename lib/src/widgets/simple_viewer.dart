@@ -150,15 +150,15 @@ class _QuillSimpleViewerState extends State<QuillSimpleViewer>
       link: _toolbarLayerLink,
       child: Semantics(
         child: _SimpleViewer(
-          document: _doc,
-          textDirection: _textDirection,
-          startHandleLayerLink: _startHandleLayerLink,
-          endHandleLayerLink: _endHandleLayerLink,
-          onSelectionChanged: _nullSelectionChanged,
-          scrollBottomInset: widget.scrollBottomInset,
-          padding: widget.padding,
-          children: _buildChildren(_doc, context),
-        ),
+            document: _doc,
+            textDirection: _textDirection,
+            startHandleLayerLink: _startHandleLayerLink,
+            endHandleLayerLink: _endHandleLayerLink,
+            onSelectionChanged: _nullSelectionChanged,
+            scrollBottomInset: widget.scrollBottomInset,
+            padding: widget.padding,
+            cursorController: _cursorCont,
+            children: _buildChildren(_doc, context)),
       ),
     );
 
@@ -315,6 +315,7 @@ class _SimpleViewer extends MultiChildRenderObjectWidget {
     required this.endHandleLayerLink,
     required this.onSelectionChanged,
     required this.scrollBottomInset,
+    required this.cursorController,
     this.offset,
     this.padding = EdgeInsets.zero,
     Key? key,
@@ -328,24 +329,25 @@ class _SimpleViewer extends MultiChildRenderObjectWidget {
   final TextSelectionChangedHandler onSelectionChanged;
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
+  final CursorCont cursorController;
 
   @override
   RenderEditor createRenderObject(BuildContext context) {
     return RenderEditor(
-      offset,
-      null,
-      textDirection,
-      scrollBottomInset,
-      padding,
-      document,
-      const TextSelection(baseOffset: 0, extentOffset: 0),
-      false,
-      // hasFocus,
-      onSelectionChanged,
-      startHandleLayerLink,
-      endHandleLayerLink,
-      const EdgeInsets.fromLTRB(4, 4, 4, 5),
-    );
+        offset,
+        null,
+        textDirection,
+        scrollBottomInset,
+        padding,
+        document,
+        const TextSelection(baseOffset: 0, extentOffset: 0),
+        false,
+        // hasFocus,
+        onSelectionChanged,
+        startHandleLayerLink,
+        endHandleLayerLink,
+        const EdgeInsets.fromLTRB(4, 4, 4, 5),
+        cursorController);
   }
 
   @override
