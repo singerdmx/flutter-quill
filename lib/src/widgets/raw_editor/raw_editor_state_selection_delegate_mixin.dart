@@ -1,9 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import '../../../utils/diff_delta.dart';
 
 import '../editor.dart';
 
@@ -11,13 +10,17 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {
   @override
   TextEditingValue get textEditingValue {
-    return getTextEditingValue();
+    return widget.controller.plainTextEditingValue;
   }
 
   @override
   set textEditingValue(TextEditingValue value) {
-    // deprecated
-    setTextEditingValue(value, SelectionChangedCause.keyboard);
+    final cursorPosition = value.selection.extentOffset;
+    final oldText = widget.controller.document.toPlainText();
+    final newText = value.text;
+    final diff = getDiff(oldText, newText, cursorPosition);
+    widget.controller.replaceText(
+        diff.start, diff.deleted.length, diff.inserted, value.selection);
   }
 
   @override
@@ -85,7 +88,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   @override
   void userUpdateTextEditingValue(
       TextEditingValue value, SelectionChangedCause cause) {
-    setTextEditingValue(value, cause);
+    textEditingValue = value;
   }
 
   @override
@@ -99,119 +102,4 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
   @override
   bool get selectAllEnabled => widget.toolbarOptions.selectAll;
-
-  void setSelection(TextSelection nextSelection, SelectionChangedCause cause) {
-    if (nextSelection == textEditingValue.selection) {
-      return;
-    }
-    setTextEditingValue(
-      textEditingValue.copyWith(selection: nextSelection),
-      cause,
-    );
-  }
-
-  @override
-  void copySelection(SelectionChangedCause cause) {
-    final selection = textEditingValue.selection;
-    if (selection.isCollapsed || !selection.isValid) {
-      return;
-    }
-    Clipboard.setData(
-        ClipboardData(text: selection.textInside(textEditingValue.text)));
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-      hideToolbar(false);
-
-      switch (defaultTargetPlatform) {
-        case TargetPlatform.iOS:
-          break;
-        case TargetPlatform.macOS:
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          // Collapse the selection and hide the toolbar and handles.
-          userUpdateTextEditingValue(
-            TextEditingValue(
-              text: textEditingValue.text,
-              selection: TextSelection.collapsed(
-                  offset: textEditingValue.selection.end),
-            ),
-            SelectionChangedCause.toolbar,
-          );
-          break;
-      }
-    }
-  }
-
-  @override
-  void cutSelection(SelectionChangedCause cause) {
-    final selection = textEditingValue.selection;
-    if (readOnly || !selection.isValid || selection.isCollapsed) {
-      return;
-    }
-    final text = textEditingValue.text;
-    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
-    setTextEditingValue(
-      TextEditingValue(
-        text: selection.textBefore(text) + selection.textAfter(text),
-        selection: TextSelection.collapsed(
-          offset: math.min(selection.start, selection.end),
-          affinity: selection.affinity,
-        ),
-      ),
-      cause,
-    );
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-      hideToolbar();
-    }
-  }
-
-  @override
-  Future<void> pasteText(SelectionChangedCause cause) async {
-    final selection = textEditingValue.selection;
-    if (readOnly || !selection.isValid) {
-      return;
-    }
-    final text = textEditingValue.text;
-    // See https://github.com/flutter/flutter/issues/11427
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (data == null) {
-      return;
-    }
-    setTextEditingValue(
-      TextEditingValue(
-        text:
-            selection.textBefore(text) + data.text! + selection.textAfter(text),
-        selection: TextSelection.collapsed(
-          offset: math.min(selection.start, selection.end) + data.text!.length,
-          affinity: selection.affinity,
-        ),
-      ),
-      cause,
-    );
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-      hideToolbar();
-    }
-  }
-
-  @override
-  void selectAll(SelectionChangedCause cause) {
-    setSelection(
-      textEditingValue.selection.copyWith(
-        baseOffset: 0,
-        extentOffset: textEditingValue.text.length,
-      ),
-      cause,
-    );
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-    }
-  }
 }

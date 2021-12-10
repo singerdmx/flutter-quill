@@ -49,7 +49,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
 
     if (!hasConnection) {
-      _lastKnownRemoteTextEditingValue = getTextEditingValue();
+      _lastKnownRemoteTextEditingValue = textEditingValue;
       _textInputConnection = TextInput.attach(
         this,
         TextInputConfiguration(
@@ -90,12 +90,14 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
+    final value = textEditingValue;
+
     // Since we don't keep track of the composing range in value provided
     // by the Controller we need to add it here manually before comparing
     // with the last known remote value.
     // It is important to prevent excessive remote updates as it can cause
     // race conditions.
-    final actualValue = getTextEditingValue().copyWith(
+    final actualValue = value.copyWith(
       composing: _lastKnownRemoteTextEditingValue!.composing,
     );
 
@@ -103,8 +105,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    final shouldRemember =
-        getTextEditingValue().text != _lastKnownRemoteTextEditingValue!.text;
+    final shouldRemember = value.text != _lastKnownRemoteTextEditingValue!.text;
     _lastKnownRemoteTextEditingValue = actualValue;
     _textInputConnection!.setEditingState(
       // Set composing to (-1, -1), otherwise an exception will be thrown if
