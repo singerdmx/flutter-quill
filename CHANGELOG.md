@@ -1,3 +1,6 @@
+## [2.3.0]
+* Massive changes to support flutter 2.8.
+
 ## [2.2.2]
 * iOS - floating cursor.
 
