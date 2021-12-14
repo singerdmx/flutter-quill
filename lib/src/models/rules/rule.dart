@@ -46,6 +46,7 @@ class Rules {
     const EnsureEmbedLineRule(),
     const PreserveLineStyleOnMergeRule(),
     const CatchAllDeleteRule(),
+    const EnsureLastLineBreakDeleteRule()
   ]);
 
   static Rules getInstance() => _instance;

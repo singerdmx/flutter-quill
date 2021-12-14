@@ -16,15 +16,33 @@ abstract class DeleteRule extends Rule {
   }
 }
 
+class EnsureLastLineBreakDeleteRule extends DeleteRule {
+  const EnsureLastLineBreakDeleteRule();
+
+  @override
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    final itr = DeltaIterator(document)..skip(index + len!);
+
+    return Delta()
+      ..retain(index)
+      ..delete(itr.hasNext ? len : len - 1);
+  }
+}
+
+/// Fallback rule for delete operations which simply deletes specified text
+/// range without any special handling.
 class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
   @override
   Delta applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
+    final itr = DeltaIterator(document)..skip(index + len!);
+
     return Delta()
       ..retain(index)
-      ..delete(len!);
+      ..delete(itr.hasNext ? len : len - 1);
   }
 }
 
@@ -44,6 +62,14 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
     final attrs = op.attributes;
 
     itr.skip(len! - 1);
+
+    if (!itr.hasNext) {
+      // User attempts to delete the last newline character, prevent it.
+      return Delta()
+        ..retain(index)
+        ..delete(len - 1);
+    }
+
     final delta = Delta()
       ..retain(index)
       ..delete(len);
