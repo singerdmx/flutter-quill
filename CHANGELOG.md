@@ -1,3 +1,6 @@
+## [2.3.1]
+* Preserve last newline character on delete.
+
 ## [2.3.0]
 * Massive changes to support flutter 2.8.
 
