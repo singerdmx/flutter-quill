@@ -1,3 +1,6 @@
+## [2.3.2]
+* Allow disabling floating cursor.
+
 ## [2.3.1]
 * Preserve last newline character on delete.
 
