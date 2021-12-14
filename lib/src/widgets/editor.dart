@@ -242,6 +242,7 @@ class QuillEditor extends StatefulWidget {
       this.onSingleLongTapEnd,
       this.embedBuilder = defaultEmbedBuilder,
       this.customStyleBuilder,
+      this.floatingCursorDisabled = false,
       Key? key});
 
   factory QuillEditor.basic({
@@ -305,6 +306,8 @@ class QuillEditor extends StatefulWidget {
 
   final EmbedBuilder embedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
+
+  final bool floatingCursorDisabled;
 
   @override
   _QuillEditorState createState() => _QuillEditorState();
@@ -408,6 +411,7 @@ class _QuillEditorState extends State<QuillEditor>
       scrollPhysics: widget.scrollPhysics,
       embedBuilder: widget.embedBuilder,
       customStyleBuilder: widget.customStyleBuilder,
+      floatingCursorDisabled: widget.floatingCursorDisabled,
     );
 
     return _selectionGestureDetectorBuilder.build(
@@ -692,7 +696,8 @@ class RenderEditor extends RenderEditableContainerBox
       this._startHandleLayerLink,
       this._endHandleLayerLink,
       EdgeInsets floatingCursorAddedMargin,
-      this._cursorController)
+      this._cursorController,
+      this.floatingCursorDisabled)
       : super(
           children,
           document.root,
@@ -702,6 +707,7 @@ class RenderEditor extends RenderEditableContainerBox
         );
 
   final CursorCont _cursorController;
+  final bool floatingCursorDisabled;
 
   Document document;
   TextSelection selection;
@@ -1214,6 +1220,8 @@ class RenderEditor extends RenderEditableContainerBox
   void setFloatingCursor(FloatingCursorDragState dragState,
       Offset boundedOffset, TextPosition textPosition,
       {double? resetLerpValue}) {
+    if (floatingCursorDisabled) return;
+
     if (dragState == FloatingCursorDragState.Start) {
       _relativeOrigin = Offset.zero;
       _previousOffset = null;

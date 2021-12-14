@@ -63,6 +63,7 @@ class RawEditor extends StatefulWidget {
     this.scrollPhysics,
     this.embedBuilder = defaultEmbedBuilder,
     this.customStyleBuilder,
+    this.floatingCursorDisabled = false
   })  : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -95,6 +96,8 @@ class RawEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
+  final bool floatingCursorDisabled;
+
   @override
   State<StatefulWidget> createState() => RawEditorState();
 }
@@ -167,6 +170,7 @@ class RawEditorState extends EditorState
           onSelectionChanged: _handleSelectionChanged,
           scrollBottomInset: widget.scrollBottomInset,
           padding: widget.padding,
+          floatingCursorDisabled: widget.floatingCursorDisabled,
           children: _buildChildren(_doc, context),
         ),
       ),
@@ -196,6 +200,7 @@ class RawEditorState extends EditorState
               scrollBottomInset: widget.scrollBottomInset,
               padding: widget.padding,
               cursorController: _cursorCont,
+              floatingCursorDisabled: widget.floatingCursorDisabled,
               children: _buildChildren(_doc, context),
             ),
           ),
@@ -812,6 +817,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     required this.onSelectionChanged,
     required this.scrollBottomInset,
     required this.cursorController,
+    required this.floatingCursorDisabled,
     this.padding = EdgeInsets.zero,
     this.offset,
   }) : super(key: key, children: children);
@@ -827,6 +833,7 @@ class _Editor extends MultiChildRenderObjectWidget {
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
   final CursorCont cursorController;
+  final bool floatingCursorDisabled;
 
   @override
   RenderEditor createRenderObject(BuildContext context) {
@@ -843,7 +850,8 @@ class _Editor extends MultiChildRenderObjectWidget {
         startHandleLayerLink,
         endHandleLayerLink,
         const EdgeInsets.fromLTRB(4, 4, 4, 5),
-        cursorController);
+        cursorController,
+        floatingCursorDisabled);
   }
 
   @override
