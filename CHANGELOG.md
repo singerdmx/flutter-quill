@@ -1,3 +1,6 @@
+## [2.4.0]
+* Improve inline code style.
+
 ## [2.3.3]
 * Improves selection rects to have consistent height regardless of individual segment text styles.
 

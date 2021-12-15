@@ -12,6 +12,7 @@ import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
+import '../models/documents/style.dart';
 import '../utils/color.dart';
 import 'box.dart';
 import 'cursor.dart';
@@ -118,7 +119,7 @@ class TextLine extends StatelessWidget {
   TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
       TextStyle lineStyle) {
     final children = nodes
-        .map((node) => _getTextSpanFromNode(defaultStyles, node))
+        .map((node) => _getTextSpanFromNode(defaultStyles, node, line.style))
         .toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
@@ -179,9 +180,10 @@ class TextLine extends StatelessWidget {
     return textStyle;
   }
 
-  TextSpan _getTextSpanFromNode(DefaultStyles defaultStyles, Node node) {
+  TextSpan _getTextSpanFromNode(
+      DefaultStyles defaultStyles, Node node, Style lineStyle) {
     final textNode = node as leaf.Text;
-    final style = textNode.style;
+    final nodeStyle = textNode.style;
     var res = const TextStyle(); // This is inline text style
     final color = textNode.style.attributes[Attribute.color.key];
     var hasLink = false;
@@ -193,9 +195,8 @@ class TextLine extends StatelessWidget {
       Attribute.link.key: defaultStyles.link,
       Attribute.underline.key: defaultStyles.underline,
       Attribute.strikeThrough.key: defaultStyles.strikeThrough,
-      Attribute.inlineCode.key: defaultStyles.inlineCode,
     }.forEach((k, s) {
-      if (style.values.any((v) => v.key == k)) {
+      if (nodeStyle.values.any((v) => v.key == k)) {
         if (k == Attribute.underline.key || k == Attribute.strikeThrough.key) {
           var textColor = defaultStyles.color;
           if (color?.value is String) {
@@ -211,6 +212,10 @@ class TextLine extends StatelessWidget {
         }
       }
     });
+
+    if (nodeStyle.containsKey(Attribute.inlineCode.key)) {
+      res = _merge(res, defaultStyles.inlineCode!.styleFor(lineStyle));
+    }
 
     final font = textNode.style.attributes[Attribute.font.key];
     if (font != null && font.value != null) {
@@ -323,6 +328,7 @@ class EditableTextLine extends RenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
+    final defaultStyles = DefaultStyles.getInstance(context);
     return RenderEditableTextLine(
         line,
         textDirection,
@@ -332,12 +338,14 @@ class EditableTextLine extends RenderObjectWidget {
         devicePixelRatio,
         _getPadding(),
         color,
-        cursorCont);
+        cursorCont,
+        defaultStyles.inlineCode!);
   }
 
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextLine renderObject) {
+    final defaultStyles = DefaultStyles.getInstance(context);
     renderObject
       ..setLine(line)
       ..setPadding(_getPadding())
@@ -347,7 +355,8 @@ class EditableTextLine extends RenderObjectWidget {
       ..setEnableInteractiveSelection(enableInteractiveSelection)
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
-      ..setCursorCont(cursorCont);
+      ..setCursorCont(cursorCont)
+      ..setInlineCodeStyle(defaultStyles.inlineCode!);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -361,17 +370,18 @@ class EditableTextLine extends RenderObjectWidget {
 enum TextLineSlot { LEADING, BODY }
 
 class RenderEditableTextLine extends RenderEditableBox {
+  /// Creates new editable paragraph render box.
   RenderEditableTextLine(
-    this.line,
-    this.textDirection,
-    this.textSelection,
-    this.enableInteractiveSelection,
-    this.hasFocus,
-    this.devicePixelRatio,
-    this.padding,
-    this.color,
-    this.cursorCont,
-  );
+      this.line,
+      this.textDirection,
+      this.textSelection,
+      this.enableInteractiveSelection,
+      this.hasFocus,
+      this.devicePixelRatio,
+      this.padding,
+      this.color,
+      this.cursorCont,
+      this.inlineCodeStyle);
 
   RenderBox? _leading;
   RenderContentProxyBox? _body;
@@ -388,6 +398,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   bool? _containsCursor;
   List<TextBox>? _selectedRects;
   late Rect _caretPrototype;
+  InlineCodeStyle inlineCodeStyle;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
   Iterable<RenderBox> get _children sync* {
@@ -496,6 +507,14 @@ class RenderEditableTextLine extends RenderEditableBox {
   void setBody(RenderContentProxyBox? b) {
     _body = _updateChild(_body, b, TextLineSlot.BODY) as RenderContentProxyBox?;
   }
+
+  void setInlineCodeStyle(InlineCodeStyle newStyle) {
+    if (inlineCodeStyle == newStyle) return;
+    inlineCodeStyle = newStyle;
+    markNeedsLayout();
+  }
+
+  // Start selection implementation
 
   bool containsTextSelection() {
     return line.documentOffset <= textSelection.end &&
@@ -869,6 +888,31 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (_body != null) {
       final parentData = _body!.parentData as BoxParentData;
       final effectiveOffset = offset + parentData.offset;
+
+      if (inlineCodeStyle.backgroundColor != null) {
+        for (final item in line.children) {
+          if (item is! leaf.Text ||
+              !item.style.containsKey(Attribute.inlineCode.key)) {
+            continue;
+          }
+          final textRange = TextSelection(
+              baseOffset: item.offset, extentOffset: item.offset + item.length);
+          final rects = _body!.getBoxesForSelection(textRange);
+          final paint = Paint()..color = inlineCodeStyle.backgroundColor!;
+          for (final box in rects) {
+            final rect = box.toRect().translate(0, 1).shift(effectiveOffset);
+            if (inlineCodeStyle.radius == null) {
+              final paintRect = Rect.fromLTRB(
+                  rect.left - 2, rect.top, rect.right + 2, rect.bottom);
+              context.canvas.drawRect(paintRect, paint);
+            } else {
+              final paintRect = RRect.fromLTRBR(rect.left - 2, rect.top,
+                  rect.right + 2, rect.bottom, inlineCodeStyle.radius!);
+              context.canvas.drawRRect(paintRect, paint);
+            }
+          }
+        }
+      }
 
       if (hasFocus &&
           cursorCont.show.value &&
