@@ -441,9 +441,10 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
 
     final containsSelection = containsTextSelection();
-    if (attached && containsCursor()) {
+    if (_attachedToCursorController) {
       cursorCont.removeListener(markNeedsLayout);
       cursorCont.color.removeListener(safeMarkNeedsPaint);
+      _attachedToCursorController = false;
     }
 
     textSelection = t;
@@ -452,6 +453,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (attached && containsCursor()) {
       cursorCont.addListener(markNeedsLayout);
       cursorCont.color.addListener(safeMarkNeedsPaint);
+      _attachedToCursorController = true;
     }
 
     if (containsSelection || containsTextSelection()) {
@@ -680,6 +682,8 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   // Start render box overrides
 
+  bool _attachedToCursorController = false;
+
   @override
   void attach(covariant PipelineOwner owner) {
     super.attach(owner);
@@ -690,6 +694,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (containsCursor()) {
       cursorCont.addListener(markNeedsLayout);
       cursorCont.color.addListener(safeMarkNeedsPaint);
+      _attachedToCursorController = true;
     }
   }
 
@@ -701,9 +706,10 @@ class RenderEditableTextLine extends RenderEditableBox {
     }
     cursorCont.floatingCursorTextPosition
         .removeListener(_onFloatingCursorChange);
-    if (containsCursor()) {
+    if (_attachedToCursorController) {
       cursorCont.removeListener(markNeedsLayout);
       cursorCont.color.removeListener(safeMarkNeedsPaint);
+      _attachedToCursorController = false;
     }
   }
 

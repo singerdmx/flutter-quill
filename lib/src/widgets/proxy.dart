@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
@@ -291,8 +293,8 @@ class RenderParagraphProxy extends RenderProxyBox
       child!.getWordBoundary(position);
 
   @override
-  List<TextBox> getBoxesForSelection(TextSelection selection) =>
-      child!.getBoxesForSelection(selection);
+  List<TextBox> getBoxesForSelection(TextSelection selection) => child!
+      .getBoxesForSelection(selection, boxHeightStyle: BoxHeightStyle.strut);
 
   @override
   void performLayout() {
