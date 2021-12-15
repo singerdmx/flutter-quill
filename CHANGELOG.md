@@ -1,3 +1,6 @@
+## [2.3.3]
+* Improves selection rects to have consistent height regardless of individual segment text styles.
+
 ## [2.3.2]
 * Allow disabling floating cursor.
 
