@@ -599,16 +599,22 @@ class _QuillEditorSelectionGestureDetectorBuilder
               break;
             case PointerDeviceKind.touch:
             case PointerDeviceKind.unknown:
-              getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
-              break;
+              try {
+                getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
+              } finally {
+                break;
+              }
           }
           break;
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
         case TargetPlatform.linux:
         case TargetPlatform.windows:
-          getRenderEditor()!.selectPosition(SelectionChangedCause.tap);
-          break;
+          try {
+            getRenderEditor()!.selectPosition(SelectionChangedCause.tap);
+          } finally {
+            break;
+          }
       }
     }
     _state._requestKeyboard();
