@@ -530,7 +530,7 @@ class RawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (_hasFocus) {
+      if (_hasFocus && !textEditingValue.selection.isCollapsed) {
         _selectionOverlay!.update(textEditingValue);
       } else {
         _selectionOverlay!.dispose();
