@@ -10,7 +10,6 @@ import '../editor.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
     implements TextInputClient {
-  final List<TextEditingValue> _sentRemoteValues = [];
   TextInputConnection? _textInputConnection;
   TextEditingValue? _lastKnownRemoteTextEditingValue;
 
@@ -77,7 +76,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.close();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
-    _sentRemoteValues.clear();
   }
 
   /// Updates remote value based on current state of [document] and
@@ -105,17 +103,12 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    final shouldRemember = value.text != _lastKnownRemoteTextEditingValue!.text;
     _lastKnownRemoteTextEditingValue = actualValue;
     _textInputConnection!.setEditingState(
       // Set composing to (-1, -1), otherwise an exception will be thrown if
       // the values are different.
       actualValue.copyWith(composing: const TextRange(start: -1, end: -1)),
     );
-    if (shouldRemember) {
-      // Only keep track if text changed (selection changes are not relevant)
-      _sentRemoteValues.add(actualValue);
-    }
   }
 
   @override
@@ -129,22 +122,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   @override
   void updateEditingValue(TextEditingValue value) {
     if (!shouldCreateInputConnection) {
-      return;
-    }
-
-    if (_sentRemoteValues.contains(value)) {
-      /// There is a race condition in Flutter text input plugin where sending
-      /// updates to native side too often results in broken behavior.
-      /// TextInputConnection.setEditingValue is an async call to native side.
-      /// For each such call native side _always_ sends an update which triggers
-      /// this method (updateEditingValue) with the same value we've sent it.
-      /// If multiple calls to setEditingValue happen too fast and we only
-      /// track the last sent value then there is no way for us to filter out
-      /// automatic callbacks from native side.
-      /// Therefore we have to keep track of all values we send to the native
-      /// side and when we see this same value appear here we skip it.
-      /// This is fragile but it's probably the only available option.
-      _sentRemoteValues.remove(value);
       return;
     }
 
@@ -317,6 +294,5 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.connectionClosedReceived();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
-    _sentRemoteValues.clear();
   }
 }
