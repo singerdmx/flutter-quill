@@ -1,3 +1,6 @@
+## [2.4.1]
+* Desktop selection improvements.
+
 ## [2.4.0]
 * Improve inline code style.
 
