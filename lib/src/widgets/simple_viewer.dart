@@ -337,21 +337,18 @@ class _SimpleViewer extends MultiChildRenderObjectWidget {
   @override
   RenderEditor createRenderObject(BuildContext context) {
     return RenderEditor(
-        offset,
-        null,
-        textDirection,
-        scrollBottomInset,
-        padding,
-        document,
-        const TextSelection(baseOffset: 0, extentOffset: 0),
-        false,
-        // hasFocus,
-        onSelectionChanged,
-        startHandleLayerLink,
-        endHandleLayerLink,
-        const EdgeInsets.fromLTRB(4, 4, 4, 5),
-        cursorController,
-        floatingCursorDisabled);
+        offset: offset,
+        document: document,
+        textDirection: textDirection,
+        hasFocus: false,
+        selection: const TextSelection(baseOffset: 0, extentOffset: 0),
+        startHandleLayerLink: startHandleLayerLink,
+        endHandleLayerLink: endHandleLayerLink,
+        onSelectionChanged: onSelectionChanged,
+        cursorController: cursorController,
+        padding: padding,
+        scrollBottomInset: scrollBottomInset,
+        floatingCursorDisabled: floatingCursorDisabled);
   }
 
   @override

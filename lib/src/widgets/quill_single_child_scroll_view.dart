@@ -141,18 +141,6 @@ class _RenderSingleChildViewport extends RenderBox
   }
 
   @override
-  void attach(PipelineOwner owner) {
-    super.attach(owner);
-    _offset.addListener(_hasScrolled);
-  }
-
-  @override
-  void detach() {
-    _offset.removeListener(_hasScrolled);
-    super.detach();
-  }
-
-  @override
   bool get isRepaintBoundary => true;
 
   double get _viewportExtent {

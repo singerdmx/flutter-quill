@@ -228,12 +228,25 @@ class RawEditorState extends EditorState
 
   void _handleSelectionChanged(
       TextSelection selection, SelectionChangedCause cause) {
+    final oldSelection = widget.controller.selection;
     widget.controller.updateSelection(selection, ChangeSource.LOCAL);
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
     if (!_keyboardVisible) {
+      // This will show the keyboard for all selection changes on the
+      // editor, not just changes triggered by user gestures.
       requestKeyboard();
+    }
+
+    if (cause == SelectionChangedCause.drag) {
+      // When user updates the selection while dragging make sure to
+      // bring the updated position (base or extent) into view.
+      if (oldSelection.baseOffset != selection.baseOffset) {
+        bringIntoView(selection.base);
+      } else if (oldSelection.extentOffset != selection.extentOffset) {
+        bringIntoView(selection.extent);
+      }
     }
   }
 
@@ -838,20 +851,18 @@ class _Editor extends MultiChildRenderObjectWidget {
   @override
   RenderEditor createRenderObject(BuildContext context) {
     return RenderEditor(
-        offset,
-        null,
-        textDirection,
-        scrollBottomInset,
-        padding,
-        document,
-        selection,
-        hasFocus,
-        onSelectionChanged,
-        startHandleLayerLink,
-        endHandleLayerLink,
-        const EdgeInsets.fromLTRB(4, 4, 4, 5),
-        cursorController,
-        floatingCursorDisabled);
+        offset: offset,
+        document: document,
+        textDirection: textDirection,
+        hasFocus: hasFocus,
+        selection: selection,
+        startHandleLayerLink: startHandleLayerLink,
+        endHandleLayerLink: endHandleLayerLink,
+        onSelectionChanged: onSelectionChanged,
+        cursorController: cursorController,
+        padding: padding,
+        scrollBottomInset: scrollBottomInset,
+        floatingCursorDisabled: floatingCursorDisabled);
   }
 
   @override

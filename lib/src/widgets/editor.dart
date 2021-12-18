@@ -130,8 +130,13 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
   /// {@macro flutter.rendering.editable.select}
   void selectWordEdge(SelectionChangedCause cause);
 
-  /// Select text between the global positions [from] and [to].
-  void selectPositionAt(Offset from, Offset to, SelectionChangedCause cause);
+  ///
+  /// Returns the new selection. Note that the returned value may not be
+  /// yet reflected in the latest widget state.
+  ///
+  /// Returns null if no change occurred.
+  TextSelection? selectPositionAt(
+      {required Offset from, required SelectionChangedCause cause, Offset? to});
 
   /// Select a word around the location of the last tap down.
   ///
@@ -148,7 +153,7 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
   /// If you have a [TextEditingController], it's generally easier to
   /// programmatically manipulate its `value` or `selection` directly.
   /// {@endtemplate}
-  void selectPosition(SelectionChangedCause cause);
+  void selectPosition({required SelectionChangedCause cause});
 }
 
 String _standardizeImageUrl(String url) {
@@ -475,9 +480,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         getRenderEditor()!.selectPositionAt(
-          details.globalPosition,
-          null,
-          SelectionChangedCause.longPress,
+          from: details.globalPosition,
+          cause: SelectionChangedCause.longPress,
         );
         break;
       case TargetPlatform.android:
@@ -571,6 +575,13 @@ class _QuillEditorSelectionGestureDetectorBuilder
     super.onTapDown(details);
   }
 
+  bool isShiftClick(PointerDeviceKind deviceKind) {
+    final pressed = RawKeyboard.instance.keysPressed;
+    return deviceKind == PointerDeviceKind.mouse &&
+        (pressed.contains(LogicalKeyboardKey.shiftLeft) ||
+            pressed.contains(LogicalKeyboardKey.shiftRight));
+  }
+
   @override
   void onSingleTapUp(TapUpDetails details) {
     if (_state.widget.onTapUp != null) {
@@ -595,7 +606,17 @@ class _QuillEditorSelectionGestureDetectorBuilder
             case PointerDeviceKind.mouse:
             case PointerDeviceKind.stylus:
             case PointerDeviceKind.invertedStylus:
-              getRenderEditor()!.selectPosition(SelectionChangedCause.tap);
+              // Precise devices should place the cursor at a precise position.
+              // If `Shift` key is pressed then
+              // extend current selection instead.
+              if (isShiftClick(details.kind)) {
+                getRenderEditor()!.extendSelection(details.globalPosition,
+                    cause: SelectionChangedCause.tap);
+              } else {
+                getRenderEditor()!
+                    .selectPosition(cause: SelectionChangedCause.tap);
+              }
+
               break;
             case PointerDeviceKind.touch:
             case PointerDeviceKind.unknown:
@@ -611,7 +632,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         case TargetPlatform.linux:
         case TargetPlatform.windows:
           try {
-            getRenderEditor()!.selectPosition(SelectionChangedCause.tap);
+            getRenderEditor()!.selectPosition(cause: SelectionChangedCause.tap);
           } finally {
             break;
           }
@@ -637,9 +658,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
           getRenderEditor()!.selectPositionAt(
-            details.globalPosition,
-            null,
-            SelectionChangedCause.longPress,
+            from: details.globalPosition,
+            cause: SelectionChangedCause.longPress,
           );
           break;
         case TargetPlatform.android:
@@ -686,25 +706,35 @@ const EdgeInsets _kFloatingCursorAddedMargin = EdgeInsets.fromLTRB(4, 4, 4, 5);
 const EdgeInsets _kFloatingCaretSizeIncrease =
     EdgeInsets.symmetric(horizontal: 0.5, vertical: 1);
 
+/// Displays a document as a vertical list of document segments (lines
+/// and blocks).
+///
+/// Children of [RenderEditor] must be instances of [RenderEditableBox].
 class RenderEditor extends RenderEditableContainerBox
     with RelayoutWhenSystemFontsChangeMixin
     implements RenderAbstractEditor {
-  RenderEditor(
-      ViewportOffset? offset,
-      List<RenderEditableBox>? children,
-      TextDirection textDirection,
-      double scrollBottomInset,
-      EdgeInsetsGeometry padding,
-      this.document,
-      this.selection,
-      this._hasFocus,
-      this.onSelectionChanged,
-      this._startHandleLayerLink,
-      this._endHandleLayerLink,
-      EdgeInsets floatingCursorAddedMargin,
-      this._cursorController,
-      this.floatingCursorDisabled)
-      : super(
+  RenderEditor({
+    required this.document,
+    required TextDirection textDirection,
+    required bool hasFocus,
+    required this.selection,
+    required LayerLink startHandleLayerLink,
+    required LayerLink endHandleLayerLink,
+    required EdgeInsetsGeometry padding,
+    required CursorCont cursorController,
+    required this.onSelectionChanged,
+    required double scrollBottomInset,
+    required this.floatingCursorDisabled,
+    ViewportOffset? offset,
+    List<RenderEditableBox>? children,
+    EdgeInsets floatingCursorAddedMargin =
+        const EdgeInsets.fromLTRB(4, 4, 4, 5),
+  })  : _hasFocus = hasFocus,
+        _extendSelectionOrigin = selection,
+        _startHandleLayerLink = startHandleLayerLink,
+        _endHandleLayerLink = endHandleLayerLink,
+        _cursorController = cursorController,
+        super(
           children,
           document.root,
           textDirection,
@@ -720,6 +750,8 @@ class RenderEditor extends RenderEditableContainerBox
   bool _hasFocus = false;
   LayerLink _startHandleLayerLink;
   LayerLink _endHandleLayerLink;
+
+  /// Called when the selection changes.
   TextSelectionChangedHandler onSelectionChanged;
   final ValueNotifier<bool> _selectionStartInViewport =
       ValueNotifier<bool>(true);
@@ -800,7 +832,17 @@ class RenderEditor extends RenderEditableContainerBox
     }
     selection = t;
     markNeedsPaint();
+
+    if (!_shiftPressed && !_isDragging) {
+      // Only update extend selection origin if Shift key is not pressed and
+      // user is not dragging selection.
+      _extendSelectionOrigin = selection;
+    }
   }
+
+  bool get _shiftPressed =>
+      RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft) ||
+      RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft);
 
   void setStartHandleLayerLink(LayerLink value) {
     if (_startHandleLayerLink == value) {
@@ -885,9 +927,33 @@ class RenderEditor extends RenderEditableContainerBox
 
   Offset? _lastTapDownPosition;
 
+  // Used on Desktop (mouse and keyboard enabled platforms) as base offset
+  // for extending selection, either with combination of `Shift` + Click or
+  // by dragging
+  TextSelection? _extendSelectionOrigin;
+
   @override
   void handleTapDown(TapDownDetails details) {
     _lastTapDownPosition = details.globalPosition;
+  }
+
+  bool _isDragging = false;
+
+  void handleDragStart(DragStartDetails details) {
+    _isDragging = true;
+
+    final newSelection = selectPositionAt(
+      from: details.globalPosition,
+      cause: SelectionChangedCause.drag,
+    );
+
+    if (newSelection == null) return;
+    // Make sure to remember the origin for extend selection.
+    _extendSelectionOrigin = newSelection;
+  }
+
+  void handleDragEnd(DragEndDetails details) {
+    _isDragging = false;
   }
 
   @override
@@ -926,6 +992,34 @@ class RenderEditor extends RenderEditableContainerBox
     onSelectionChanged(nextSelection, cause);
   }
 
+  /// Extends current selection to the position closest to specified offset.
+  void extendSelection(Offset to, {required SelectionChangedCause cause}) {
+    /// The below logic does not exactly match the native version because
+    /// we do not allow swapping of base and extent positions.
+    assert(_extendSelectionOrigin != null);
+    final position = getPositionForOffset(to);
+
+    if (position.offset < _extendSelectionOrigin!.baseOffset) {
+      _handleSelectionChange(
+        TextSelection(
+          baseOffset: position.offset,
+          extentOffset: _extendSelectionOrigin!.extentOffset,
+          affinity: selection.affinity,
+        ),
+        cause,
+      );
+    } else if (position.offset > _extendSelectionOrigin!.extentOffset) {
+      _handleSelectionChange(
+        TextSelection(
+          baseOffset: _extendSelectionOrigin!.baseOffset,
+          extentOffset: position.offset,
+          affinity: selection.affinity,
+        ),
+        cause,
+      );
+    }
+  }
+
   @override
   void selectWordEdge(SelectionChangedCause cause) {
     assert(_lastTapDownPosition != null);
@@ -956,11 +1050,11 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   @override
-  void selectPositionAt(
-    Offset from,
+  TextSelection? selectPositionAt({
+    required Offset from,
+    required SelectionChangedCause cause,
     Offset? to,
-    SelectionChangedCause cause,
-  ) {
+  }) {
     final fromPosition = getPositionForOffset(from);
     final toPosition = to == null ? null : getPositionForOffset(to);
 
@@ -976,7 +1070,10 @@ class RenderEditor extends RenderEditableContainerBox
       extentOffset: extentOffset,
       affinity: fromPosition.affinity,
     );
+
+    // Call [onSelectionChanged] only when the selection actually changed.
     _handleSelectionChange(newSelection, cause);
+    return newSelection;
   }
 
   @override
@@ -985,8 +1082,8 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   @override
-  void selectPosition(SelectionChangedCause cause) {
-    selectPositionAt(_lastTapDownPosition!, null, cause);
+  void selectPosition({required SelectionChangedCause cause}) {
+    selectPositionAt(from: _lastTapDownPosition!, cause: cause);
   }
 
   @override

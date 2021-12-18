@@ -76,9 +76,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectPositionAt(
-        details.globalPosition,
-        null,
-        SelectionChangedCause.longPress,
+        from: details.globalPosition,
+        cause: SelectionChangedCause.longPress,
       );
     }
   }
@@ -86,9 +85,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (delegate.getSelectionEnabled()) {
       getRenderEditor()!.selectPositionAt(
-        details.globalPosition,
-        null,
-        SelectionChangedCause.longPress,
+        from: details.globalPosition,
+        cause: SelectionChangedCause.longPress,
       );
     }
   }
@@ -109,23 +107,18 @@ class EditorTextSelectionGestureDetectorBuilder {
   }
 
   void onDragSelectionStart(DragStartDetails details) {
-    getRenderEditor()!.selectPositionAt(
-      details.globalPosition,
-      null,
-      SelectionChangedCause.drag,
-    );
+    getRenderEditor()!.handleDragStart(details);
   }
 
   void onDragSelectionUpdate(
       DragStartDetails startDetails, DragUpdateDetails updateDetails) {
-    getRenderEditor()!.selectPositionAt(
-      startDetails.globalPosition,
-      updateDetails.globalPosition,
-      SelectionChangedCause.drag,
-    );
+    getRenderEditor()!.extendSelection(updateDetails.globalPosition,
+        cause: SelectionChangedCause.drag);
   }
 
-  void onDragSelectionEnd(DragEndDetails details) {}
+  void onDragSelectionEnd(DragEndDetails details) {
+    getRenderEditor()!.handleDragEnd(details);
+  }
 
   Widget build(HitTestBehavior behavior, Widget child) {
     return EditorTextSelectionGestureDetector(
