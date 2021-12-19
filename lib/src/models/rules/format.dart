@@ -40,39 +40,48 @@ class ResolveLineFormatRule extends FormatRule {
         result.retain(op.length!);
         continue;
       }
-      final text = op.data as String;
-      final tmp = Delta();
-      var offset = 0;
 
-      final removedBlocks = _getRemovedBlocks(attribute, op);
-
-      for (var lineBreak = text.indexOf('\n');
-          lineBreak >= 0;
-          lineBreak = text.indexOf('\n', offset)) {
-        tmp
-          ..retain(lineBreak - offset)
-          ..retain(1, attribute.toJson()..addEntries(removedBlocks));
-        offset = lineBreak + 1;
-      }
-      tmp.retain(text.length - offset);
-      result = result.concat(tmp);
+      final delta = _applyAttribute(opText, op, attribute);
+      result = result.concat(delta);
     }
-
+    // And include extra newline after retain
     while (itr.hasNext) {
       op = itr.next();
-      final text = op.data is String ? (op.data as String?)! : '';
-      final lineBreak = text.indexOf('\n');
-      if (lineBreak < 0) {
+      final opText = op.data is String ? op.data as String : '';
+      final lf = opText.indexOf('\n');
+      if (lf < 0) {
         result.retain(op.length!);
         continue;
       }
 
-      final removedBlocks = _getRemovedBlocks(attribute, op);
-      result
-        ..retain(lineBreak)
-        ..retain(1, attribute.toJson()..addEntries(removedBlocks));
+      final delta = _applyAttribute(opText, op, attribute, firstOnly: true);
+      result = result.concat(delta);
       break;
     }
+    return result;
+  }
+
+  Delta _applyAttribute(String text, Operation op, Attribute attribute,
+      {bool firstOnly = false}) {
+    final result = Delta();
+    var offset = 0;
+    var lf = text.indexOf('\n');
+    final removedBlocks = _getRemovedBlocks(attribute, op);
+    while (lf >= 0) {
+      final actualStyle = attribute.toJson()..addEntries(removedBlocks);
+      result
+        ..retain(lf - offset)
+        ..retain(1, actualStyle);
+
+      if (firstOnly) {
+        return result;
+      }
+
+      offset = lf + 1;
+      lf = text.indexOf('\n', offset);
+    }
+    // Retain any remaining characters in text
+    result.retain(text.length - offset);
     return result;
   }
 
