@@ -87,12 +87,17 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       return null;
     }
 
-    Map<String, dynamic>? resetStyle;
+    final resetStyle = <String, dynamic>{};
     // If current line had heading style applied to it we'll need to move this
     // style to the newly inserted line before it and reset style of the
     // original line.
     if (lineStyle.containsKey(Attribute.header.key)) {
-      resetStyle = Attribute.header.toJson();
+      resetStyle.addAll(Attribute.header.toJson());
+    }
+
+    // Similarly for the checked style
+    if (lineStyle.attributes[Attribute.list.key] == Attribute.checked) {
+      resetStyle.addAll(Attribute.checked.toJson());
     }
 
     // Go over each inserted line and ensure block style is applied.
@@ -113,7 +118,7 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     }
 
     // Reset style of the original newline character if needed.
-    if (resetStyle != null) {
+    if (resetStyle.isNotEmpty) {
       delta
         ..retain(nextNewLine.item2!)
         ..retain((nextNewLine.item1!.data as String).indexOf('\n'))
