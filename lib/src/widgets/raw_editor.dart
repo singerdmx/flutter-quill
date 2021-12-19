@@ -254,11 +254,8 @@ class RawEditorState extends EditorState
   /// by changing its attribute according to [value].
   void _handleCheckboxTap(int offset, bool value) {
     if (!widget.readOnly) {
-      if (value) {
-        widget.controller.formatText(offset, 0, Attribute.checked);
-      } else {
-        widget.controller.formatText(offset, 0, Attribute.unchecked);
-      }
+      widget.controller.formatText(
+          offset, 0, value ? Attribute.checked : Attribute.unchecked);
     }
   }
 

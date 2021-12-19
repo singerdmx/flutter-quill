@@ -11,6 +11,7 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
+import 'style_widgets/checkbox_point.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
 
@@ -168,25 +169,20 @@ class EditableTextBlock extends StatelessWidget {
     }
 
     if (attrs[Attribute.list.key] == Attribute.checked) {
-      return QuillCheckbox(
-        key: UniqueKey(),
-        style: defaultStyles!.leading!.style,
-        width: 32,
-        isChecked: true,
-        offset: block.offset + line.offset,
-        onTap: onCheckboxTap,
-        uiBuilder: defaultStyles.lists!.checkboxUIBuilder,
+      return CheckboxPoint(
+        size: 14,
+        value: true,
+        enabled: !readOnly,
+        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
       );
     }
 
     if (attrs[Attribute.list.key] == Attribute.unchecked) {
-      return QuillCheckbox(
-        key: UniqueKey(),
-        style: defaultStyles!.leading!.style,
-        width: 32,
-        offset: block.offset + line.offset,
-        onTap: onCheckboxTap,
-        uiBuilder: defaultStyles.lists!.checkboxUIBuilder,
+      return CheckboxPoint(
+        size: 14,
+        value: false,
+        enabled: !readOnly,
+        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
       );
     }
 
