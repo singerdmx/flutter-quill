@@ -43,16 +43,7 @@ class ResolveLineFormatRule extends FormatRule {
       final tmp = Delta();
       var offset = 0;
 
-      // Enforce Block Format exclusivity by rule
-      final removedBlocks = Attribute.exclusiveBlockKeys.contains(attribute.key)
-          ? op.attributes?.keys
-                  .where((key) =>
-                      Attribute.exclusiveBlockKeys.contains(key) &&
-                      attribute.key != key &&
-                      attribute.value != null)
-                  .map((key) => MapEntry<String, dynamic>(key, null)) ??
-              []
-          : <MapEntry<String, dynamic>>[];
+      final removedBlocks = _getRemovedBlocks(attribute, op);
 
       for (var lineBreak = text.indexOf('\n');
           lineBreak >= 0;
@@ -74,22 +65,30 @@ class ResolveLineFormatRule extends FormatRule {
         delta.retain(op.length!);
         continue;
       }
-      // Enforce Block Format exclusivity by rule
-      final removedBlocks = Attribute.exclusiveBlockKeys.contains(attribute.key)
-          ? op.attributes?.keys
-                  .where((key) =>
-                      Attribute.exclusiveBlockKeys.contains(key) &&
-                      attribute.key != key &&
-                      attribute.value != null)
-                  .map((key) => MapEntry<String, dynamic>(key, null)) ??
-              []
-          : <MapEntry<String, dynamic>>[];
+
+      final removedBlocks = _getRemovedBlocks(attribute, op);
       delta
         ..retain(lineBreak)
         ..retain(1, attribute.toJson()..addEntries(removedBlocks));
       break;
     }
     return delta;
+  }
+
+  Iterable<MapEntry<String, dynamic>> _getRemovedBlocks(
+      Attribute<dynamic> attribute, Operation op) {
+    // Enforce Block Format exclusivity by rule
+    if (!Attribute.exclusiveBlockKeys.contains(attribute.key)) {
+      return <MapEntry<String, dynamic>>[];
+    }
+
+    return op.attributes?.keys
+            .where((key) =>
+                Attribute.exclusiveBlockKeys.contains(key) &&
+                attribute.key != key &&
+                attribute.value != null)
+            .map((key) => MapEntry<String, dynamic>(key, null)) ??
+        [];
   }
 }
 
