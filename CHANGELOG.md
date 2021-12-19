@@ -1,3 +1,6 @@
+## [2.5.0]
+* Update checkbox list.
+
 ## [2.4.1]
 * Desktop selection improvements.
 
