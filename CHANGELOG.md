@@ -1,3 +1,6 @@
+## [2.5.1]
+* Bug fix for Desktop `Shift` + `Click` support.
+
 ## [2.5.0]
 * Update checkbox list.
 

@@ -842,7 +842,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   bool get _shiftPressed =>
       RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft) ||
-      RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft);
+      RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftRight);
 
   void setStartHandleLayerLink(LayerLink value) {
     if (_startHandleLayerLink == value) {
