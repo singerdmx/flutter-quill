@@ -11,7 +11,6 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
-import 'style_widgets/checkbox_point.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
 

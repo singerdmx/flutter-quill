@@ -6,6 +6,7 @@ class CheckboxPoint extends StatefulWidget {
     required this.value,
     required this.enabled,
     required this.onChanged,
+    this.uiBuilder,
     Key? key,
   }) : super(key: key);
 
@@ -13,6 +14,7 @@ class CheckboxPoint extends StatefulWidget {
   final bool value;
   final bool enabled;
   final ValueChanged<bool> onChanged;
+  final QuillCheckboxBuilder? uiBuilder;
 
   @override
   _CheckboxPointState createState() => _CheckboxPointState();
@@ -21,6 +23,13 @@ class CheckboxPoint extends StatefulWidget {
 class _CheckboxPointState extends State<CheckboxPoint> {
   @override
   Widget build(BuildContext context) {
+    if (widget.uiBuilder != null) {
+      return widget.uiBuilder!.build(
+        context: context,
+        isChecked: widget.value,
+        onChanged: widget.onChanged,
+      );
+    }
     final theme = Theme.of(context);
     final fillColor = widget.value
         ? (widget.enabled
@@ -58,4 +67,12 @@ class _CheckboxPointState extends State<CheckboxPoint> {
       ),
     );
   }
+}
+
+abstract class QuillCheckboxBuilder {
+  Widget build({
+    required BuildContext context,
+    required bool isChecked,
+    required ValueChanged<bool> onChanged,
+  });
 }
