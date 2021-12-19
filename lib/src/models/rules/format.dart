@@ -16,6 +16,8 @@ abstract class FormatRule extends Rule {
   }
 }
 
+/// Produces Delta with line-level attributes applied strictly to
+/// newline characters.
 class ResolveLineFormatRule extends FormatRule {
   const ResolveLineFormatRule();
 
@@ -26,6 +28,8 @@ class ResolveLineFormatRule extends FormatRule {
       return null;
     }
 
+    // Apply line styles to all newline characters within range of this
+    // retain operation.
     var delta = Delta()..retain(index);
     final itr = DeltaIterator(document)..skip(index);
     Operation op;
@@ -89,6 +93,7 @@ class ResolveLineFormatRule extends FormatRule {
   }
 }
 
+/// Allows updating link format with collapsed selection.
 class FormatLinkAtCaretPositionRule extends FormatRule {
   const FormatLinkAtCaretPositionRule();
 
@@ -121,6 +126,8 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
   }
 }
 
+/// Produces Delta with inline-level attributes applied too all characters
+/// except newlines.
 class ResolveInlineFormatRule extends FormatRule {
   const ResolveInlineFormatRule();
 
