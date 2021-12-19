@@ -2,6 +2,7 @@ import '../documents/attribute.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
+/// A heuristic rule for delete operations.
 abstract class DeleteRule extends Rule {
   const DeleteRule();
 
@@ -46,6 +47,12 @@ class CatchAllDeleteRule extends DeleteRule {
   }
 }
 
+/// Preserves line format when user deletes the line's newline character
+/// effectively merging it with the next line.
+///
+/// This rule makes sure to apply all style attributes of deleted newline
+/// to the next available newline, which may reset any style attributes
+/// already present there.
 class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
@@ -101,6 +108,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   }
 }
 
+/// Prevents user from merging a line containing an embed with other lines.
 class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 

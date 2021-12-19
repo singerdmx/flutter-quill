@@ -2,6 +2,7 @@ import '../documents/attribute.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
+/// A heuristic rule for format (retain) operations.
 abstract class FormatRule extends Rule {
   const FormatRule();
 
