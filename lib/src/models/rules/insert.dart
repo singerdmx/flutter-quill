@@ -95,16 +95,6 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
       resetStyle.addAll(Attribute.header.toJson());
     }
 
-    // Similarly for the checked style
-    if (lineStyle.attributes[Attribute.list.key] == Attribute.checked) {
-      resetStyle.addAll(Attribute.checked.toJson());
-    }
-
-    // Similarly for the unchecked style
-    if (lineStyle.attributes[Attribute.list.key] == Attribute.unchecked) {
-      resetStyle.addAll(Attribute.unchecked.toJson());
-    }
-
     // Go over each inserted line and ensure block style is applied.
     final lines = data.split('\n');
     final delta = Delta()..retain(index + (len ?? 0));
