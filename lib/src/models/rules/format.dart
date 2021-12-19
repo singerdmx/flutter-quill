@@ -30,13 +30,14 @@ class ResolveLineFormatRule extends FormatRule {
 
     // Apply line styles to all newline characters within range of this
     // retain operation.
-    var delta = Delta()..retain(index);
+    var result = Delta()..retain(index);
     final itr = DeltaIterator(document)..skip(index);
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
       op = itr.next(len - cur);
-      if (op.data is! String || !(op.data as String).contains('\n')) {
-        delta.retain(op.length!);
+      final opText = op.data is String ? op.data as String : '';
+      if (!opText.contains('\n')) {
+        result.retain(op.length!);
         continue;
       }
       final text = op.data as String;
@@ -54,7 +55,7 @@ class ResolveLineFormatRule extends FormatRule {
         offset = lineBreak + 1;
       }
       tmp.retain(text.length - offset);
-      delta = delta.concat(tmp);
+      result = result.concat(tmp);
     }
 
     while (itr.hasNext) {
@@ -62,17 +63,17 @@ class ResolveLineFormatRule extends FormatRule {
       final text = op.data is String ? (op.data as String?)! : '';
       final lineBreak = text.indexOf('\n');
       if (lineBreak < 0) {
-        delta.retain(op.length!);
+        result.retain(op.length!);
         continue;
       }
 
       final removedBlocks = _getRemovedBlocks(attribute, op);
-      delta
+      result
         ..retain(lineBreak)
         ..retain(1, attribute.toJson()..addEntries(removedBlocks));
       break;
     }
-    return delta;
+    return result;
   }
 
   Iterable<MapEntry<String, dynamic>> _getRemovedBlocks(
