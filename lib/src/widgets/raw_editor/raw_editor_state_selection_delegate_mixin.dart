@@ -19,21 +19,28 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final oldText = widget.controller.document.toPlainText();
     final newText = value.text;
     final diff = getDiff(oldText, newText, cursorPosition);
-    var data = diff.inserted;
-    if (diff.inserted.codeUnits.contains(65532)) {
-      final sb = StringBuffer();
+    final insertedText = _adjustInsertedText(diff.inserted);
 
-      for (var i = 0; i < data.length; i++) {
-        if (data.codeUnitAt(i) == 65532) {
-          continue;
-        }
-        sb.write(data[i]);
-      }
-      data = sb.toString();
+    widget.controller.replaceText(
+        diff.start, diff.deleted.length, insertedText, value.selection);
+  }
+
+  String _adjustInsertedText(String text) {
+    // For clip from editor, it may contain image, a.k.a 65532.
+    // For clip from browser, image is directly ignore.
+    // Here we skip image when pasting.
+    if (!text.codeUnits.contains(65532)) {
+      return text;
     }
 
-    widget.controller
-        .replaceText(diff.start, diff.deleted.length, data, value.selection);
+    final sb = StringBuffer();
+    for (var i = 0; i < text.length; i++) {
+      if (text.codeUnitAt(i) == 65532) {
+        continue;
+      }
+      sb.write(text[i]);
+    }
+    return sb.toString();
   }
 
   @override

@@ -1,3 +1,6 @@
+## [2.5.2]
+* Skip image when pasting.
+
 ## [2.5.1]
 * Bug fix for Desktop `Shift` + `Click` support.
 

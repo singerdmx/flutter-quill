@@ -661,60 +661,6 @@ class RawEditorState extends EditorState
     getRenderEditor()!.debugAssertLayoutUpToDate();
   }
 
-  // set editing value from clipboard for mobile
-  Future<void> _setEditingValue(TextEditingValue value) async {
-    if (await _isItCut(value)) {
-      widget.controller.replaceText(
-        textEditingValue.selection.start,
-        textEditingValue.text.length - value.text.length,
-        '',
-        value.selection,
-      );
-    } else {
-      final value = textEditingValue;
-      final data = await Clipboard.getData(Clipboard.kTextPlain);
-      if (data != null) {
-        final length =
-            textEditingValue.selection.end - textEditingValue.selection.start;
-        var str = data.text!;
-        final codes = data.text!.codeUnits;
-        // For clip from editor, it may contain image, a.k.a 65532.
-        // For clip from browser, image is directly ignore.
-        // Here we skip image when pasting.
-        if (codes.contains(65532)) {
-          final sb = StringBuffer();
-          for (var i = 0; i < str.length; i++) {
-            if (str.codeUnitAt(i) == 65532) {
-              continue;
-            }
-            sb.write(str[i]);
-          }
-          str = sb.toString();
-        }
-        widget.controller.replaceText(
-          value.selection.start,
-          length,
-          str,
-          value.selection,
-        );
-        // move cursor to the end of pasted text selection
-        widget.controller.updateSelection(
-            TextSelection.collapsed(
-                offset: value.selection.start + data.text!.length),
-            ChangeSource.LOCAL);
-      }
-    }
-  }
-
-  Future<bool> _isItCut(TextEditingValue value) async {
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (data == null) {
-      return false;
-    }
-    return textEditingValue.text.length - value.text.length ==
-        data.text!.length;
-  }
-
   @override
   bool showToolbar() {
     // Web is using native dom elements to enable clipboard functionality of the
