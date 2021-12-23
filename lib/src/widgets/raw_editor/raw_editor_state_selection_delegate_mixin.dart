@@ -19,8 +19,21 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final oldText = widget.controller.document.toPlainText();
     final newText = value.text;
     final diff = getDiff(oldText, newText, cursorPosition);
-    widget.controller.replaceText(
-        diff.start, diff.deleted.length, diff.inserted, value.selection);
+    var data = diff.inserted;
+    if (diff.inserted.codeUnits.contains(65532)) {
+      final sb = StringBuffer();
+
+      for (var i = 0; i < data.length; i++) {
+        if (data.codeUnitAt(i) == 65532) {
+          continue;
+        }
+        sb.write(data[i]);
+      }
+      data = sb.toString();
+    }
+
+    widget.controller
+        .replaceText(diff.start, diff.deleted.length, data, value.selection);
   }
 
   @override
