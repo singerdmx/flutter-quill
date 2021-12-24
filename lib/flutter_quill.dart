@@ -10,5 +10,6 @@ export 'src/models/themes/quill_icon_theme.dart';
 export 'src/widgets/controller.dart';
 export 'src/widgets/default_styles.dart';
 export 'src/widgets/editor.dart';
+export 'src/widgets/link.dart' show LinkActionPickerDelegate, LinkMenuAction;
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar.dart';
