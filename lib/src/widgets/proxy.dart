@@ -129,6 +129,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 }
 
 class RichTextProxy extends SingleChildRenderObjectWidget {
+  /// Child argument should be an instance of RichText widget.
   const RichTextProxy(
     RichText child,
     this.textStyle,

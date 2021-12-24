@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../flutter_quill.dart';
 
+import '../../flutter_quill.dart';
 import 'text_selection.dart';
 
 typedef EmbedBuilder = Widget Function(
