@@ -14,7 +14,8 @@ import 'line.dart';
 /// The [offset] property is relative to [parent]. See also [documentOffset]
 /// which provides absolute offset of this node within the document.
 ///
-/// The current parent node is exposed by the [parent] property.
+/// The current parent node is exposed by the [parent] property. A node is
+/// considered [mounted] when the [parent] property is not `null`.
 abstract class Node extends LinkedListEntry<Node> {
   /// Current parent of this node. May be null if this node is not mounted.
   Container? parent;
@@ -117,6 +118,40 @@ abstract class Node extends LinkedListEntry<Node> {
   void delete(int index, int? len);
 
   /// abstract methods end
+}
+
+/// An interface for document nodes with style.
+abstract class StyledNode implements Node {
+  /// Style of this node.
+  @override
+  Style get style;
+}
+
+/// Mixin used by nodes that wish to implement [StyledNode] interface.
+abstract class StyledNodeMixin implements StyledNode {
+  @override
+  Style get style => _style;
+  @override
+  Style _style = Style();
+
+  /// Applies style [attribute] to this node.
+  @override
+  void applyAttribute(Attribute attribute) {
+    _style = _style.merge(attribute);
+  }
+
+  /// Applies new style [value] to this node. Provided [value] is merged
+  /// into current style.
+  @override
+  void applyStyle(Style value) {
+    _style = _style.mergeAll(value);
+  }
+
+  /// Clears style of this node.
+  @override
+  void clearStyle() {
+    _style = Style();
+  }
 }
 
 /// Root node of document tree.
