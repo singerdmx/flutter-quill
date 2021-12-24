@@ -59,9 +59,9 @@ class DefaultTextBlockStyle {
 class InlineCodeStyle {
   InlineCodeStyle({
     required this.style,
-    this.heading1,
-    this.heading2,
-    this.heading3,
+    this.header1,
+    this.header2,
+    this.header3,
     this.backgroundColor,
     this.radius,
   });
@@ -69,14 +69,14 @@ class InlineCodeStyle {
   /// Base text style for an inline code.
   final TextStyle style;
 
-  /// Style override for inline code in headings level 1.
-  final TextStyle? heading1;
+  /// Style override for inline code in header level 1.
+  final TextStyle? header1;
 
   /// Style override for inline code in headings level 2.
-  final TextStyle? heading2;
+  final TextStyle? header2;
 
   /// Style override for inline code in headings level 3.
-  final TextStyle? heading3;
+  final TextStyle? header3;
 
   /// Background color for inline code.
   final Color? backgroundColor;
@@ -88,13 +88,13 @@ class InlineCodeStyle {
   /// [lineStyle].
   TextStyle styleFor(Style lineStyle) {
     if (lineStyle.containsKey(Attribute.h1.key)) {
-      return heading1 ?? style;
+      return header1 ?? style;
     }
     if (lineStyle.containsKey(Attribute.h2.key)) {
-      return heading2 ?? style;
+      return header2 ?? style;
     }
     if (lineStyle.containsKey(Attribute.h3.key)) {
-      return heading3 ?? style;
+      return header3 ?? style;
     }
     return style;
   }
@@ -108,16 +108,16 @@ class InlineCodeStyle {
       return false;
     }
     return other.style == style &&
-        other.heading1 == heading1 &&
-        other.heading2 == heading2 &&
-        other.heading3 == heading3 &&
+        other.header1 == header1 &&
+        other.header2 == header2 &&
+        other.header3 == header3 &&
         other.backgroundColor == backgroundColor &&
         other.radius == radius;
   }
 
   @override
   int get hashCode =>
-      Object.hash(style, heading1, heading2, heading3, backgroundColor, radius);
+      Object.hash(style, header1, header2, header3, backgroundColor, radius);
 }
 
 class DefaultListBlockStyle extends DefaultTextBlockStyle {
@@ -255,12 +255,12 @@ class DefaultStyles {
           backgroundColor: Colors.grey.shade100,
           radius: const Radius.circular(3),
           style: inlineCodeStyle,
-          heading1: inlineCodeStyle.copyWith(
+          header1: inlineCodeStyle.copyWith(
             fontSize: 32,
             fontWeight: FontWeight.w300,
           ),
-          heading2: inlineCodeStyle.copyWith(fontSize: 22),
-          heading3: inlineCodeStyle.copyWith(
+          header2: inlineCodeStyle.copyWith(fontSize: 22),
+          header3: inlineCodeStyle.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
