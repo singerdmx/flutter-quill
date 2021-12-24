@@ -120,40 +120,6 @@ abstract class Node extends LinkedListEntry<Node> {
   /// abstract methods end
 }
 
-/// An interface for document nodes with style.
-abstract class StyledNode implements Node {
-  /// Style of this node.
-  @override
-  Style get style;
-}
-
-/// Mixin used by nodes that wish to implement [StyledNode] interface.
-abstract class StyledNodeMixin implements StyledNode {
-  @override
-  Style get style => _style;
-  @override
-  Style _style = Style();
-
-  /// Applies style [attribute] to this node.
-  @override
-  void applyAttribute(Attribute attribute) {
-    _style = _style.merge(attribute);
-  }
-
-  /// Applies new style [value] to this node. Provided [value] is merged
-  /// into current style.
-  @override
-  void applyStyle(Style value) {
-    _style = _style.mergeAll(value);
-  }
-
-  /// Clears style of this node.
-  @override
-  void clearStyle() {
-    _style = Style();
-  }
-}
-
 /// Root node of document tree.
 class Root extends Container<Container<Node?>> {
   @override
