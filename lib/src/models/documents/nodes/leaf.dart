@@ -7,7 +7,7 @@ import 'line.dart';
 import 'node.dart';
 
 /// A leaf in Quill document tree.
-abstract class Leaf extends Node implements StyledNode {
+abstract class Leaf extends Node {
   /// Creates a new [Leaf] with specified [data].
   factory Leaf(Object data) {
     if (data is Embeddable) {

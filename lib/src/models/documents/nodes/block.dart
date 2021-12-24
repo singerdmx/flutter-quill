@@ -13,7 +13,7 @@ import 'node.dart';
 /// - Text Alignment
 /// - Text Direction
 /// - Code Block
-class Block extends Container<Line?> implements StyledNode {
+class Block extends Container<Line?> {
   /// Creates new unmounted [Block].
   @override
   Node newInstance() => Block();
