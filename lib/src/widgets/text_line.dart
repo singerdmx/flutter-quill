@@ -2,31 +2,37 @@ import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../models/documents/attribute.dart';
+import '../../flutter_quill.dart';
 import '../models/documents/nodes/container.dart' as container;
 import '../models/documents/nodes/leaf.dart' as leaf;
-import '../models/documents/nodes/leaf.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
 import '../utils/color.dart';
 import 'box.dart';
 import 'cursor.dart';
-import 'default_styles.dart';
 import 'delegate.dart';
+import 'keyboard_listener.dart';
+import 'link.dart';
 import 'proxy.dart';
 import 'text_selection.dart';
 
-class TextLine extends StatelessWidget {
+class TextLine extends StatefulWidget {
   const TextLine({
     required this.line,
     required this.embedBuilder,
     required this.styles,
     required this.readOnly,
+    required this.controller,
+    required this.onLaunchUrl,
+    required this.linkActionPicker,
     this.textDirection,
     this.customStyleBuilder,
     Key? key,
@@ -37,23 +43,109 @@ class TextLine extends StatelessWidget {
   final EmbedBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
+  final QuillController controller;
   final CustomStyleBuilder? customStyleBuilder;
+  final ValueChanged<String>? onLaunchUrl;
+  final LinkActionPicker linkActionPicker;
+
+  @override
+  State<TextLine> createState() => _TextLineState();
+}
+
+class _TextLineState extends State<TextLine> {
+  bool _metaOrControlPressed = false;
+
+  UniqueKey _richTextKey = UniqueKey();
+
+  final _linkRecognizers = <Node, GestureRecognizer>{};
+
+  QuillPressedKeys? _pressedKeys;
+
+  void _pressedKeysChanged() {
+    final newValue = _pressedKeys!.metaPressed || _pressedKeys!.controlPressed;
+    if (_metaOrControlPressed != newValue) {
+      setState(() {
+        _metaOrControlPressed = newValue;
+        _richTextKey = UniqueKey();
+      });
+    }
+  }
+
+  bool get isDesktop => {
+        TargetPlatform.macOS,
+        TargetPlatform.linux,
+        TargetPlatform.windows
+      }.contains(defaultTargetPlatform);
+
+  bool get canLaunchLinks {
+    // In readOnly mode users can launch links
+    // by simply tapping (clicking) on them
+    if (widget.readOnly) return true;
+
+    // In editing mode it depends on the platform:
+
+    // Desktop platforms (macos, linux, windows):
+    // only allow Meta(Control)+Click combinations
+    if (isDesktop) {
+      return _metaOrControlPressed;
+    }
+    // Mobile platforms (ios, android): always allow but we install a
+    // long-press handler instead of a tap one. LongPress is followed by a
+    // context menu with actions.
+    return true;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_pressedKeys == null) {
+      _pressedKeys = QuillPressedKeys.of(context);
+      _pressedKeys!.addListener(_pressedKeysChanged);
+    } else {
+      _pressedKeys!.removeListener(_pressedKeysChanged);
+      _pressedKeys = QuillPressedKeys.of(context);
+      _pressedKeys!.addListener(_pressedKeysChanged);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant TextLine oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.readOnly != widget.readOnly) {
+      _richTextKey = UniqueKey();
+      _linkRecognizers
+        ..forEach((key, value) {
+          value.dispose();
+        })
+        ..clear();
+    }
+  }
+
+  @override
+  void dispose() {
+    _pressedKeys?.removeListener(_pressedKeysChanged);
+    _linkRecognizers
+      ..forEach((key, value) => value.dispose())
+      ..clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
-    if (line.hasEmbed && line.childCount == 1) {
+    if (widget.line.hasEmbed && widget.line.childCount == 1) {
       // For video, it is always single child
-      final embed = line.children.single as Embed;
-      return EmbedProxy(embedBuilder(context, embed, readOnly));
+      final embed = widget.line.children.single as Embed;
+      return EmbedProxy(widget.embedBuilder(context, embed, widget.readOnly));
     }
     final textSpan = _getTextSpanForWholeLine(context);
     final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
     final child = RichText(
+      key: _richTextKey,
       text: textSpan,
       textAlign: textAlign,
-      textDirection: textDirection,
+      textDirection: widget.textDirection,
       strutStyle: strutStyle,
       textScaleFactor: MediaQuery.textScaleFactorOf(context),
     );
@@ -61,7 +153,7 @@ class TextLine extends StatelessWidget {
         child,
         textSpan.style!,
         textAlign,
-        textDirection!,
+        widget.textDirection!,
         1,
         Localizations.localeOf(context),
         strutStyle,
@@ -70,23 +162,25 @@ class TextLine extends StatelessWidget {
   }
 
   InlineSpan _getTextSpanForWholeLine(BuildContext context) {
-    final lineStyle = _getLineStyle(styles);
-    if (!line.hasEmbed) {
-      return _buildTextSpan(styles, line.children, lineStyle);
+    final lineStyle = _getLineStyle(widget.styles);
+    if (!widget.line.hasEmbed) {
+      return _buildTextSpan(widget.styles, widget.line.children, lineStyle);
     }
 
     // The line could contain more than one Embed & more than one Text
     final textSpanChildren = <InlineSpan>[];
     var textNodes = LinkedList<Node>();
-    for (final child in line.children) {
+    for (final child in widget.line.children) {
       if (child is Embed) {
         if (textNodes.isNotEmpty) {
-          textSpanChildren.add(_buildTextSpan(styles, textNodes, lineStyle));
+          textSpanChildren
+              .add(_buildTextSpan(widget.styles, textNodes, lineStyle));
           textNodes = LinkedList<Node>();
         }
         // Here it should be image
         final embed = WidgetSpan(
-            child: EmbedProxy(embedBuilder(context, child, readOnly)));
+            child: EmbedProxy(
+                widget.embedBuilder(context, child, widget.readOnly)));
         textSpanChildren.add(embed);
         continue;
       }
@@ -96,14 +190,14 @@ class TextLine extends StatelessWidget {
     }
 
     if (textNodes.isNotEmpty) {
-      textSpanChildren.add(_buildTextSpan(styles, textNodes, lineStyle));
+      textSpanChildren.add(_buildTextSpan(widget.styles, textNodes, lineStyle));
     }
 
     return TextSpan(style: lineStyle, children: textSpanChildren);
   }
 
   TextAlign _getTextAlign() {
-    final alignment = line.style.attributes[Attribute.align.key];
+    final alignment = widget.line.style.attributes[Attribute.align.key];
     if (alignment == Attribute.leftAlignment) {
       return TextAlign.start;
     } else if (alignment == Attribute.centerAlignment) {
@@ -119,7 +213,8 @@ class TextLine extends StatelessWidget {
   TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
       TextStyle lineStyle) {
     final children = nodes
-        .map((node) => _getTextSpanFromNode(defaultStyles, node, line.style))
+        .map((node) =>
+            _getTextSpanFromNode(defaultStyles, node, widget.line.style))
         .toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
@@ -128,11 +223,11 @@ class TextLine extends StatelessWidget {
   TextStyle _getLineStyle(DefaultStyles defaultStyles) {
     var textStyle = const TextStyle();
 
-    if (line.style.containsKey(Attribute.placeholder.key)) {
+    if (widget.line.style.containsKey(Attribute.placeholder.key)) {
       return defaultStyles.placeHolder!.style;
     }
 
-    final header = line.style.attributes[Attribute.header.key];
+    final header = widget.line.style.attributes[Attribute.header.key];
     final m = <Attribute, TextStyle>{
       Attribute.h1: defaultStyles.h1!.style,
       Attribute.h2: defaultStyles.h2!.style,
@@ -143,7 +238,7 @@ class TextLine extends StatelessWidget {
 
     // Only retrieve exclusive block format for the line style purpose
     Attribute? block;
-    line.style.getBlocksExceptHeader().forEach((key, value) {
+    widget.line.style.getBlocksExceptHeader().forEach((key, value) {
       if (Attribute.exclusiveBlockKeys.contains(key)) {
         block = value;
       }
@@ -159,21 +254,21 @@ class TextLine extends StatelessWidget {
     }
 
     textStyle = textStyle.merge(toMerge);
-    textStyle = _applyCustomAttributes(textStyle, line.style.attributes);
+    textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
 
     return textStyle;
   }
 
   TextStyle _applyCustomAttributes(
       TextStyle textStyle, Map<String, Attribute> attributes) {
-    if (customStyleBuilder == null) {
+    if (widget.customStyleBuilder == null) {
       return textStyle;
     }
     attributes.keys.forEach((key) {
       final attr = attributes[key];
       if (attr != null) {
         /// Custom Attribute
-        final customAttr = customStyleBuilder!.call(attr);
+        final customAttr = widget.customStyleBuilder!.call(attr);
         textStyle = textStyle.merge(customAttr);
       }
     });
@@ -184,6 +279,7 @@ class TextLine extends StatelessWidget {
       DefaultStyles defaultStyles, Node node, Style lineStyle) {
     final textNode = node as leaf.Text;
     final nodeStyle = textNode.style;
+    final isLink = nodeStyle.containsKey(Attribute.link.key);
     var res = const TextStyle(); // This is inline text style
     final color = textNode.style.attributes[Attribute.color.key];
     var hasLink = false;
@@ -268,14 +364,108 @@ class TextLine extends StatelessWidget {
     }
 
     res = _applyCustomAttributes(res, textNode.style.attributes);
-    if (hasLink && readOnly) {
+    if (hasLink && widget.readOnly) {
       return TextSpan(
         text: textNode.value,
         style: res,
         mouseCursor: SystemMouseCursors.click,
       );
     }
-    return TextSpan(text: textNode.value, style: res);
+    return TextSpan(
+      text: textNode.value,
+      style: res,
+      recognizer: isLink && canLaunchLinks ? _getRecognizer(node) : null,
+      mouseCursor: isLink && canLaunchLinks ? SystemMouseCursors.click : null,
+    );
+  }
+
+  GestureRecognizer _getRecognizer(Node segment) {
+    if (_linkRecognizers.containsKey(segment)) {
+      return _linkRecognizers[segment]!;
+    }
+
+    if (isDesktop || widget.readOnly) {
+      _linkRecognizers[segment] = TapGestureRecognizer()
+        ..onTap = () => _tapNodeLink(segment);
+    } else {
+      _linkRecognizers[segment] = LongPressGestureRecognizer()
+        ..onLongPress = () => _longPressLink(segment);
+    }
+    return _linkRecognizers[segment]!;
+  }
+
+  Future<void> _launchUrl(String url) async {
+    await launch(url);
+  }
+
+  void _tapNodeLink(Node node) {
+    final link = node.style.attributes[Attribute.link.key]!.value;
+
+    _tapLink(link);
+  }
+
+  void _tapLink(String? link) {
+    if (widget.readOnly || link == null) {
+      return;
+    }
+
+    var launchUrl = widget.onLaunchUrl;
+    launchUrl ??= _launchUrl;
+
+    link = link.trim();
+    if (!linkPrefixes
+        .any((linkPrefix) => link!.toLowerCase().startsWith(linkPrefix))) {
+      link = 'https://$link';
+    }
+    launchUrl(link);
+  }
+
+  Future<void> _longPressLink(Node node) async {
+    final link = node.style.attributes[Attribute.link.key]!.value!;
+    final action = await widget.linkActionPicker(node);
+    switch (action) {
+      case LinkMenuAction.launch:
+        _tapLink(link);
+        break;
+      case LinkMenuAction.copy:
+        // ignore: unawaited_futures
+        Clipboard.setData(ClipboardData(text: link));
+        break;
+      case LinkMenuAction.remove:
+        final range = _getLinkRange(node);
+        widget.controller
+            .formatText(range.start, range.end - range.start, Attribute.link);
+        break;
+      case LinkMenuAction.none:
+        break;
+    }
+  }
+
+  TextRange _getLinkRange(Node node) {
+    var start = node.documentOffset;
+    var length = node.length;
+    var prev = node.previous;
+    final linkAttr = node.style.attributes[Attribute.link.key]!;
+    while (prev != null) {
+      if (prev.style.attributes[Attribute.link.key] == linkAttr) {
+        start = prev.documentOffset;
+        length += prev.length;
+        prev = prev.previous;
+      } else {
+        break;
+      }
+    }
+
+    var next = node.next;
+    while (next != null) {
+      if (next.style.attributes[Attribute.link.key] == linkAttr) {
+        length += next.length;
+        next = next.next;
+      } else {
+        break;
+      }
+    }
+    return TextRange(start: start, end: start + length);
   }
 
   TextStyle _merge(TextStyle a, TextStyle b) {

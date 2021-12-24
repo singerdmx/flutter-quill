@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../models/documents/nodes/node.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
@@ -21,6 +22,8 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
+import 'keyboard_listener.dart';
+import 'link.dart';
 import 'proxy.dart';
 import 'quill_single_child_scroll_view.dart';
 import 'raw_editor/raw_editor_state_selection_delegate_mixin.dart';
@@ -62,6 +65,7 @@ class RawEditor extends StatefulWidget {
       this.enableInteractiveSelection = true,
       this.scrollPhysics,
       this.embedBuilder = defaultEmbedBuilder,
+      this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.floatingCursorDisabled = false})
       : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
@@ -76,9 +80,25 @@ class RawEditor extends StatefulWidget {
   final bool scrollable;
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
+
+  /// Whether the text can be changed.
+  ///
+  /// When this is set to true, the text cannot be modified
+  /// by any shortcut or keyboard operation. The text is still selectable.
+  ///
+  /// Defaults to false. Must not be null.
   final bool readOnly;
+
   final String? placeholder;
+
+  /// Callback which is triggered when the user wants to open a URL from
+  /// a link in the document.
   final ValueChanged<String>? onLaunchUrl;
+
+  /// Configuration of toolbar options.
+  ///
+  /// By default, all options are enabled. If [readOnly] is true,
+  /// paste and cut will be disabled regardless.
   final ToolbarOptions toolbarOptions;
   final bool showSelectionHandles;
   final bool showCursor;
@@ -95,6 +115,7 @@ class RawEditor extends StatefulWidget {
   final bool enableInteractiveSelection;
   final ScrollPhysics? scrollPhysics;
   final EmbedBuilder embedBuilder;
+  final LinkActionPickerDelegate linkActionPickerDelegate;
   final CustomStyleBuilder? customStyleBuilder;
   final bool floatingCursorDisabled;
 
@@ -218,9 +239,11 @@ class RawEditorState extends EditorState
       data: _styles!,
       child: MouseRegion(
         cursor: SystemMouseCursors.text,
-        child: Container(
-          constraints: constraints,
-          child: child,
+        child: QuillKeyboardListener(
+          child: Container(
+            constraints: constraints,
+            child: child,
+          ),
         ),
       ),
     );
@@ -270,6 +293,7 @@ class RawEditorState extends EditorState
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
             block: node,
+            controller: widget.controller,
             textDirection: _textDirection,
             scrollBottomInset: widget.scrollBottomInset,
             verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
@@ -282,6 +306,8 @@ class RawEditorState extends EditorState
                 ? const EdgeInsets.all(16)
                 : null,
             embedBuilder: widget.embedBuilder,
+            linkActionPicker: _linkActionPicker,
+            onLaunchUrl: widget.onLaunchUrl,
             cursorCont: _cursorCont,
             indentLevelCounts: indentLevelCounts,
             onCheckboxTap: _handleCheckboxTap,
@@ -304,6 +330,9 @@ class RawEditorState extends EditorState
       customStyleBuilder: widget.customStyleBuilder,
       styles: _styles!,
       readOnly: widget.readOnly,
+      controller: widget.controller,
+      linkActionPicker: _linkActionPicker,
+      onLaunchUrl: widget.onLaunchUrl,
     );
     final editableTextLine = EditableTextLine(
         node,
@@ -590,6 +619,11 @@ class RawEditorState extends EditorState
       // Inform the widget that the value of clipboardStatus has changed.
       // Trigger build and updateChildren
     });
+  }
+
+  Future<LinkMenuAction> _linkActionPicker(Node linkNode) async {
+    final link = linkNode.style.attributes[Attribute.link.key]!.value!;
+    return widget.linkActionPickerDelegate(context, link);
   }
 
   bool _showCaretOnScreenScheduled = false;
