@@ -279,10 +279,22 @@ class _TextLineState extends State<TextLine> {
       DefaultStyles defaultStyles, Node node, Style lineStyle) {
     final textNode = node as leaf.Text;
     final nodeStyle = textNode.style;
-    final isLink = nodeStyle.containsKey(Attribute.link.key);
+    final isLink = nodeStyle.containsKey(Attribute.link.key) &&
+        nodeStyle.attributes[Attribute.link.key]!.value != null;
+
+    return TextSpan(
+      text: textNode.value,
+      style: _getInlineTextStyle(
+          textNode, defaultStyles, nodeStyle, lineStyle, isLink),
+      recognizer: isLink && canLaunchLinks ? _getRecognizer(node) : null,
+      mouseCursor: isLink && canLaunchLinks ? SystemMouseCursors.click : null,
+    );
+  }
+
+  TextStyle _getInlineTextStyle(leaf.Text textNode, DefaultStyles defaultStyles,
+      Style nodeStyle, Style lineStyle, bool isLink) {
     var res = const TextStyle(); // This is inline text style
     final color = textNode.style.attributes[Attribute.color.key];
-    var hasLink = false;
 
     <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
@@ -300,10 +312,10 @@ class _TextLineState extends State<TextLine> {
           }
           res = _merge(res.copyWith(decorationColor: textColor),
               s!.copyWith(decorationColor: textColor));
+        } else if (k == Attribute.link.key && !isLink) {
+          // null value for link should be ignored
+          // i.e. nodeStyle.attributes[Attribute.link.key]!.value == null
         } else {
-          if (k == Attribute.link.key) {
-            hasLink = true;
-          }
           res = _merge(res, s!);
         }
       }
@@ -364,19 +376,7 @@ class _TextLineState extends State<TextLine> {
     }
 
     res = _applyCustomAttributes(res, textNode.style.attributes);
-    if (hasLink && widget.readOnly) {
-      return TextSpan(
-        text: textNode.value,
-        style: res,
-        mouseCursor: SystemMouseCursors.click,
-      );
-    }
-    return TextSpan(
-      text: textNode.value,
-      style: res,
-      recognizer: isLink && canLaunchLinks ? _getRecognizer(node) : null,
-      mouseCursor: isLink && canLaunchLinks ? SystemMouseCursors.click : null,
-    );
+    return res;
   }
 
   GestureRecognizer _getRecognizer(Node segment) {
