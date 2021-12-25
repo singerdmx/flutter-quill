@@ -1,3 +1,6 @@
+## [3.0.1]
+* Handle null value of Attribute.link.
+
 ## [3.0.0]
 * Launch link improvements.
 * Removed QuillSimpleViewer.
