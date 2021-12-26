@@ -1,3 +1,6 @@
+# [3.0.2]
+* Fix lanch link for read-only mode.
+
 ## [3.0.1]
 * Handle null value of Attribute.link.
 
