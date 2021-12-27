@@ -19,6 +19,8 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
       extentOffset: math.min(selection.end - offset, node.length - 1));
 }
 
+/// The text position that a give selection handle manipulates. Dragging the
+/// [start] handle always moves the [start]/[baseOffset] of the selection.
 enum _TextSelectionHandlePosition { START, END }
 
 /// internal use, used to get drag direction information
@@ -56,7 +58,14 @@ class DragTextSelection extends TextSelection {
   }
 }
 
+/// An object that manages a pair of text selection handles.
+///
+/// The selection handles are displayed in the [Overlay] that most closely
+/// encloses the given [BuildContext].
 class EditorTextSelectionOverlay {
+  /// Creates an object that manages overlay entries for selection handles.
+  ///
+  /// The [context] must not be null and must have an [Overlay] as an ancestor.
   EditorTextSelectionOverlay(
     this.value,
     this.handlesVisible,
@@ -80,16 +89,70 @@ class EditorTextSelectionOverlay {
 
   TextEditingValue value;
   bool handlesVisible = false;
+
+  /// The context in which the selection handles should appear.
+  ///
+  /// This context must have an [Overlay] as an ancestor because this object
+  /// will display the text selection handles in that [Overlay].
   final BuildContext context;
+
+  /// Debugging information for explaining why the [Overlay] is required.
   final Widget debugRequiredFor;
+
+  /// The object supplied to the [CompositedTransformTarget] that wraps the text
+  /// field.
   final LayerLink toolbarLayerLink;
+
+  /// The objects supplied to the [CompositedTransformTarget] that wraps the
+  /// location of start selection handle.
   final LayerLink startHandleLayerLink;
+
+  /// The objects supplied to the [CompositedTransformTarget] that wraps the
+  /// location of end selection handle.
   final LayerLink endHandleLayerLink;
+
+  /// The editable line in which the selected text is being displayed.
   final RenderEditor? renderObject;
+
+  /// Builds text selection handles and toolbar.
   final TextSelectionControls selectionCtrls;
+
+  /// The delegate for manipulating the current selection in the owning
+  /// text field.
   final TextSelectionDelegate selectionDelegate;
+
+  /// Determines the way that drag start behavior is handled.
+  ///
+  /// If set to [DragStartBehavior.start], handle drag behavior will
+  /// begin upon the detection of a drag gesture. If set to
+  /// [DragStartBehavior.down] it will begin when a down event is first
+  /// detected.
+  ///
+  /// In general, setting this to [DragStartBehavior.start] will make drag
+  /// animation smoother and setting it to [DragStartBehavior.down] will make
+  /// drag behavior feel slightly more reactive.
+  ///
+  /// By default, the drag start behavior is [DragStartBehavior.start].
+  ///
+  /// See also:
+  ///
+  ///  * [DragGestureRecognizer.dragStartBehavior],
+  ///  which gives an example for the different behaviors.
   final DragStartBehavior dragStartBehavior;
+
+  /// {@template flutter.widgets.textSelection.onSelectionHandleTapped}
+  /// A callback that's invoked when a selection handle is tapped.
+  ///
+  /// Both regular taps and long presses invoke this callback, but a drag
+  /// gesture won't.
+  /// {@endtemplate}
   final VoidCallback? onSelectionHandleTapped;
+
+  /// Maintains the status of the clipboard for determining if its contents can
+  /// be pasted or not.
+  ///
+  /// Useful because the actual value of the clipboard can only be checked
+  /// asynchronously (see [Clipboard.getData]).
   final ClipboardStatusNotifier clipboardStatus;
   late AnimationController _toolbarController;
   List<OverlayEntry>? _handles;
