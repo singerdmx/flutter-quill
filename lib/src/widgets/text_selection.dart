@@ -88,6 +88,21 @@ class EditorTextSelectionOverlay {
   }
 
   TextEditingValue value;
+
+  /// Whether selection handles are visible.
+  ///
+  /// Set to false if you want to hide the handles. Use this property to show or
+  /// hide the handle without rebuilding them.
+  ///
+  /// If this method is called while the [SchedulerBinding.schedulerPhase] is
+  /// [SchedulerPhase.persistentCallbacks], i.e. during the build, layout, or
+  /// paint phases (see [WidgetsBinding.drawFrame]), then the update is delayed
+  /// until the post-frame callbacks phase. Otherwise the update is done
+  /// synchronously. This means that it is safe to call during builds, but also
+  /// that if you do call this during a build, the UI will not update until the
+  /// next frame (i.e. many milliseconds later).
+  ///
+  /// Defaults to false.
   bool handlesVisible = false;
 
   /// The context in which the selection handles should appear.
@@ -155,7 +170,12 @@ class EditorTextSelectionOverlay {
   /// asynchronously (see [Clipboard.getData]).
   final ClipboardStatusNotifier clipboardStatus;
   late AnimationController _toolbarController;
+
+  /// A pair of handles. If this is non-null, there are always 2, though the
+  /// second is hidden when the selection is collapsed.
   List<OverlayEntry>? _handles;
+
+  /// A copy/paste toolbar.
   OverlayEntry? toolbar;
 
   TextSelection get _selection => value.selection;
@@ -776,9 +796,12 @@ class _EditorTextSelectionGestureDetectorState
   Widget build(BuildContext context) {
     final gestures = <Type, GestureRecognizerFactory>{};
 
-    gestures[TapGestureRecognizer] =
-        GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
-      () => TapGestureRecognizer(debugOwner: this),
+    // Use _TransparentTapGestureRecognizer so that TextSelectionGestureDetector
+    // can receive the same tap events that a selection handle placed visually
+    // on top of it also receives.
+    gestures[_TransparentTapGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<_TransparentTapGestureRecognizer>(
+      () => _TransparentTapGestureRecognizer(debugOwner: this),
       (instance) {
         instance
           ..onTapDown = _handleTapDown
@@ -841,5 +864,34 @@ class _EditorTextSelectionGestureDetectorState
       behavior: widget.behavior,
       child: widget.child,
     );
+  }
+}
+
+// A TapGestureRecognizer which allows other GestureRecognizers to win in the
+// GestureArena. This means both _TransparentTapGestureRecognizer and other
+// GestureRecognizers can handle the same event.
+//
+// This enables proper handling of events on both the selection handle and the
+// underlying input, since there is significant overlap between the two given
+// the handle's padded hit area.  For example, the selection handle needs to
+// handle single taps on itself, but double taps need to be handled by the
+// underlying input.
+class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
+  _TransparentTapGestureRecognizer({
+    Object? debugOwner,
+  }) : super(debugOwner: debugOwner);
+
+  @override
+  void rejectGesture(int pointer) {
+    // Accept new gestures that another recognizer has already won.
+    // Specifically, this needs to accept taps on the text selection handle on
+    // behalf of the text field in order to handle double tap to select. It must
+    // not accept other gestures like longpresses and drags that end outside of
+    // the text field.
+    if (state == GestureRecognizerState.ready) {
+      acceptGesture(pointer);
+    } else {
+      super.rejectGesture(pointer);
+    }
   }
 }
