@@ -548,11 +548,19 @@ class RawEditorState extends EditorState
     _cursorCont.startOrStopCursorTimerIfNeeded(
         _hasFocus, widget.controller.selection);
     if (hasConnection) {
+      // To keep the cursor from blinking while typing, we want to restart the
+      // cursor timer every time a new character is typed.
       _cursorCont
         ..stopCursorTimer(resetCharTicks: false)
         ..startCursorTimer();
     }
 
+    // Refresh selection overlay after the build step had a chance to
+    // update and register all children of RenderEditor. Otherwise this will
+    // fail in situations where a new line of text is entered, which adds
+    // a new RenderEditableBox child. If we try to update selection overlay
+    // immediately it'll not be able to find the new child since it hasn't been
+    // built yet.
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       if (!mounted) {
         return;
