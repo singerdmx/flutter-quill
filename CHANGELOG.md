@@ -1,5 +1,8 @@
+# [3.0.3]
+* Do not show caret on screen when the editor is not focused.
+
 # [3.0.2]
-* Fix lanch link for read-only mode.
+* Fix launch link for read-only mode.
 
 ## [3.0.1]
 * Handle null value of Attribute.link.
