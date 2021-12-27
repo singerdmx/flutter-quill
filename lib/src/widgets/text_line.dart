@@ -150,15 +150,12 @@ class _TextLineState extends State<TextLine> {
       textScaleFactor: MediaQuery.textScaleFactorOf(context),
     );
     return RichTextProxy(
-        child,
-        textSpan.style!,
-        textAlign,
-        widget.textDirection!,
-        1,
-        Localizations.localeOf(context),
-        strutStyle,
-        TextWidthBasis.parent,
-        null);
+        textStyle: textSpan.style!,
+        textAlign: textAlign,
+        textDirection: widget.textDirection!,
+        strutStyle: strutStyle,
+        locale: Localizations.localeOf(context),
+        child: child);
   }
 
   InlineSpan _getTextSpanForWholeLine(BuildContext context) {
