@@ -66,21 +66,21 @@ class EditorTextSelectionOverlay {
   /// Creates an object that manages overlay entries for selection handles.
   ///
   /// The [context] must not be null and must have an [Overlay] as an ancestor.
-  EditorTextSelectionOverlay(
-    this.value,
-    this.handlesVisible,
-    this.context,
-    this.debugRequiredFor,
-    this.toolbarLayerLink,
-    this.startHandleLayerLink,
-    this.endHandleLayerLink,
-    this.renderObject,
-    this.selectionCtrls,
-    this.selectionDelegate,
-    this.dragStartBehavior,
+  EditorTextSelectionOverlay({
+    required this.value,
+    required this.context,
+    required this.toolbarLayerLink,
+    required this.startHandleLayerLink,
+    required this.endHandleLayerLink,
+    required this.renderObject,
+    required this.debugRequiredFor,
+    required this.selectionCtrls,
+    required this.selectionDelegate,
+    required this.clipboardStatus,
     this.onSelectionHandleTapped,
-    this.clipboardStatus,
-  ) {
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.handlesVisible = false,
+  }) {
     final overlay = Overlay.of(context, rootOverlay: true)!;
 
     _toolbarController = AnimationController(
