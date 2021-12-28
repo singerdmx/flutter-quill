@@ -436,8 +436,8 @@ class _QuillEditorState extends State<QuillEditor>
     );
 
     return _selectionGestureDetectorBuilder.build(
-      HitTestBehavior.translucent,
-      child,
+      behavior: HitTestBehavior.translucent,
+      child: child,
     );
   }
 

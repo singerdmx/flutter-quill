@@ -288,8 +288,10 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// the handlers provided by this builder.
   ///
   /// The [child] or its subtree should contain [EditableText].
-  Widget build(HitTestBehavior behavior, Widget child) {
+  Widget build(
+      {required HitTestBehavior behavior, required Widget child, Key? key}) {
     return EditorTextSelectionGestureDetector(
+      key: key,
       onTapDown: onTapDown,
       onForcePressStart:
           delegate.getForcePressEnabled() ? onForcePressStart : null,
