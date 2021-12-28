@@ -463,7 +463,8 @@ class _QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  _QuillEditorSelectionGestureDetectorBuilder(this._state) : super(_state);
+  _QuillEditorSelectionGestureDetectorBuilder(this._state)
+      : super(delegate: _state);
 
   final _QuillEditorState _state;
 
