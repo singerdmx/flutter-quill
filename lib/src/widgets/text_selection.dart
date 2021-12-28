@@ -187,6 +187,8 @@ class EditorTextSelectionOverlay {
       return;
     }
     handlesVisible = visible;
+    // If we are in build state, it will be too late to update visibility.
+    // We will need to schedule the build in next frame.
     if (SchedulerBinding.instance!.schedulerPhase ==
         SchedulerPhase.persistentCallbacks) {
       SchedulerBinding.instance!.addPostFrameCallback(markNeedsBuild);
@@ -195,6 +197,7 @@ class EditorTextSelectionOverlay {
     }
   }
 
+  /// Destroys the handles by removing them from overlay.
   void hideHandles() {
     if (_handles == null) {
       return;
@@ -204,6 +207,9 @@ class EditorTextSelectionOverlay {
     _handles = null;
   }
 
+  /// Hides the toolbar part of the overlay.
+  ///
+  /// To hide the whole overlay, see [hide].
   void hideToolbar() {
     assert(toolbar != null);
     _toolbarController.stop();
@@ -211,6 +217,7 @@ class EditorTextSelectionOverlay {
     toolbar = null;
   }
 
+  /// Shows the toolbar by inserting it into the [context]'s overlay.
   void showToolbar() {
     assert(toolbar == null);
     toolbar = OverlayEntry(builder: _buildToolbar);
@@ -242,6 +249,15 @@ class EditorTextSelectionOverlay {
         ));
   }
 
+  /// Updates the overlay after the selection has changed.
+  ///
+  /// If this method is called while the [SchedulerBinding.schedulerPhase] is
+  /// [SchedulerPhase.persistentCallbacks], i.e. during the build, layout, or
+  /// paint phases (see [WidgetsBinding.drawFrame]), then the update is delayed
+  /// until the post-frame callbacks phase. Otherwise the update is done
+  /// synchronously. This means that it is safe to call during builds, but also
+  /// that if you do call this during a build, the UI will not update until the
+  /// next frame (i.e. many milliseconds later).
   void update(TextEditingValue newValue) {
     if (value == newValue) {
       return;
@@ -291,6 +307,7 @@ class EditorTextSelectionOverlay {
   }
 
   Widget _buildToolbar(BuildContext context) {
+    // Find the horizontal midpoint, just above the selected text.
     final endpoints = renderObject!.getEndpointsForSelection(_selection);
 
     final editingRegion = Rect.fromPoints(
@@ -341,6 +358,7 @@ class EditorTextSelectionOverlay {
     toolbar?.markNeedsBuild();
   }
 
+  /// Hides the entire overlay including the toolbar and the handles.
   void hide() {
     if (_handles != null) {
       _handles![0].remove();
@@ -352,11 +370,13 @@ class EditorTextSelectionOverlay {
     }
   }
 
+  /// Final cleanup.
   void dispose() {
     hide();
     _toolbarController.dispose();
   }
 
+  /// Builds the handles by inserting them into the [context]'s overlay.
   void showHandles() {
     assert(_handles == null);
     _handles = <OverlayEntry>[
@@ -371,8 +391,17 @@ class EditorTextSelectionOverlay {
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)!
         .insertAll(_handles!);
   }
+
+  /// Causes the overlay to update its rendering.
+  ///
+  /// This is intended to be called when the [renderObject] may have changed its
+  /// text metrics (e.g. because the text was scrolled).
+  void updateForScroll() {
+    markNeedsBuild();
+  }
 }
 
+/// This widget represents a single draggable text selection handle.
 class _TextSelectionHandleOverlay extends StatefulWidget {
   const _TextSelectionHandleOverlay({
     required this.selection,

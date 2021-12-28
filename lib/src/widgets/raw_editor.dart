@@ -513,7 +513,7 @@ class RawEditorState extends EditorState
   }
 
   void _updateSelectionOverlayForScroll() {
-    _selectionOverlay?.markNeedsBuild();
+    _selectionOverlay?.updateForScroll();
   }
 
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {
