@@ -584,7 +584,6 @@ class RawEditorState extends EditorState
       }
     } else if (_hasFocus) {
       _selectionOverlay?.hide();
-      _selectionOverlay = null;
 
       _selectionOverlay = EditorTextSelectionOverlay(
         value: textEditingValue,
