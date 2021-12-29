@@ -46,6 +46,8 @@ const linkPrefixes = [
   'http'
 ];
 
+/// Base interface for the editor state which defines contract used by
+/// various mixins.
 abstract class EditorState extends State<RawEditor>
     implements TextSelectionDelegate {
   ScrollController get scrollController;
