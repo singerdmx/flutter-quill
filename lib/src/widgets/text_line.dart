@@ -742,13 +742,11 @@ class RenderEditableTextLine extends RenderEditableBox {
     }).toList(growable: false);
   }
 
-  void resolvePadding() {
+  void _resolvePadding() {
     if (_resolvedPadding != null) {
       return;
     }
     _resolvedPadding = padding.resolve(textDirection);
-    _resolvedPadding = _resolvedPadding!.copyWith(left: _resolvedPadding!.left);
-
     assert(_resolvedPadding!.isNonNegative);
   }
 
@@ -950,7 +948,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    resolvePadding();
+    _resolvePadding();
     final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     final leadingWidth = _leading == null
@@ -966,7 +964,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    resolvePadding();
+    _resolvePadding();
     final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     final leadingWidth = _leading == null
@@ -982,7 +980,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   double computeMinIntrinsicHeight(double width) {
-    resolvePadding();
+    _resolvePadding();
     final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     if (_body != null) {
@@ -995,7 +993,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    resolvePadding();
+    _resolvePadding();
     final horizontalPadding = _resolvedPadding!.left + _resolvedPadding!.right;
     final verticalPadding = _resolvedPadding!.top + _resolvedPadding!.bottom;
     if (_body != null) {
@@ -1008,7 +1006,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   double computeDistanceToActualBaseline(TextBaseline baseline) {
-    resolvePadding();
+    _resolvePadding();
     return _body!.getDistanceToActualBaseline(baseline)! +
         _resolvedPadding!.top;
   }
@@ -1018,7 +1016,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     final constraints = this.constraints;
     _selectedRects = null;
 
-    resolvePadding();
+    _resolvePadding();
     assert(_resolvedPadding != null);
 
     if (_body == null && _leading == null) {
