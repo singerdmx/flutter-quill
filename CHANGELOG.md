@@ -1,3 +1,6 @@
+# [3.0.4]
+* Add maxContentWidth constraint to editor.
+
 # [3.0.3]
 * Do not show caret on screen when the editor is not focused.
 
