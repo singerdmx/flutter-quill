@@ -270,26 +270,122 @@ class QuillEditor extends StatefulWidget {
     );
   }
 
+  /// Controller object which establishes a link between a rich text document
+  /// and this editor.
+  ///
+  /// Must not be null.
   final QuillController controller;
+
+  /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
+
+  /// The [ScrollController] to use when vertically scrolling the contents.
   final ScrollController scrollController;
+
+  /// Whether this editor should create a scrollable container for its content.
+  ///
+  /// When set to `true` the editor's height can be controlled by [minHeight],
+  /// [maxHeight] and [expands] properties.
+  ///
+  /// When set to `false` the editor always expands to fit the entire content
+  /// of the document and should normally be placed as a child of another
+  /// scrollable widget, otherwise the content may be clipped.
   final bool scrollable;
   final double scrollBottomInset;
+
+  /// Additional space around the content of this editor.
   final EdgeInsetsGeometry padding;
+
+  /// Whether this editor should focus itself if nothing else is already
+  /// focused.
+  ///
+  /// If true, the keyboard will open as soon as this editor obtains focus.
+  /// Otherwise, the keyboard is only shown after the user taps the editor.
+  ///
+  /// Defaults to `false`. Cannot be `null`.
   final bool autoFocus;
+
+  /// Whether to show cursor.
+  ///
+  /// The cursor refers to the blinking caret when the editor is focused.
   final bool? showCursor;
   final bool? paintCursorAboveText;
+
+  /// Whether the text can be changed.
+  ///
+  /// When this is set to `true`, the text cannot be modified
+  /// by any shortcut or keyboard operation. The text is still selectable.
+  ///
+  /// Defaults to `false`. Must not be `null`.
   final bool readOnly;
   final String? placeholder;
+
+  /// Whether to enable user interface affordances for changing the
+  /// text selection.
+  ///
+  /// For example, setting this to true will enable features such as
+  /// long-pressing the editor to select text and show the
+  /// cut/copy/paste menu, and tapping to move the text cursor.
+  ///
+  /// When this is false, the text selection cannot be adjusted by
+  /// the user, text cannot be copied, and the user cannot paste into
+  /// the text field from the clipboard.
   final bool enableInteractiveSelection;
+
+  /// The minimum height to be occupied by this editor.
+  ///
+  /// This only has effect if [scrollable] is set to `true` and [expands] is
+  /// set to `false`.
   final double? minHeight;
+
+  /// The maximum height to be occupied by this editor.
+  ///
+  /// This only has effect if [scrollable] is set to `true` and [expands] is
+  /// set to `false`.
   final double? maxHeight;
   final DefaultStyles? customStyles;
+
+  /// Whether this editor's height will be sized to fill its parent.
+  ///
+  /// This only has effect if [scrollable] is set to `true`.
+  ///
+  /// If expands is set to true and wrapped in a parent widget like [Expanded]
+  /// or [SizedBox], the editor will expand to fill the parent.
+  ///
+  /// [maxHeight] and [minHeight] must both be `null` when this is set to
+  /// `true`.
+  ///
+  /// Defaults to `false`.
   final bool expands;
+
+  /// Configures how the platform keyboard will select an uppercase or
+  /// lowercase keyboard.
+  ///
+  /// Only supports text keyboards, other keyboard types will ignore this
+  /// configuration. Capitalization is locale-aware.
+  ///
+  /// Defaults to [TextCapitalization.sentences]. Must not be `null`.
   final TextCapitalization textCapitalization;
+
+  /// The appearance of the keyboard.
+  ///
+  /// This setting is only honored on iOS devices.
+  ///
+  /// Defaults to [Brightness.light].
   final Brightness keyboardAppearance;
+
+  /// The [ScrollPhysics] to use when vertically scrolling the input.
+  ///
+  /// This only has effect if [scrollable] is set to `true`.
+  ///
+  /// If not specified, it will behave according to the current platform.
+  ///
+  /// See [Scrollable.physics].
   final ScrollPhysics? scrollPhysics;
+
+  /// Callback to invoke when user wants to launch a URL.
   final ValueChanged<String>? onLaunchUrl;
+
   // Returns whether gesture is handled
   final bool Function(
       TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
