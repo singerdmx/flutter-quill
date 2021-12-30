@@ -236,6 +236,7 @@ class QuillEditor extends StatefulWidget {
       this.scrollBottomInset = 0,
       this.minHeight,
       this.maxHeight,
+      this.maxContentWidth,
       this.customStyles,
       this.textCapitalization = TextCapitalization.sentences,
       this.keyboardAppearance = Brightness.light,
@@ -343,6 +344,14 @@ class QuillEditor extends StatefulWidget {
   /// This only has effect if [scrollable] is set to `true` and [expands] is
   /// set to `false`.
   final double? maxHeight;
+
+  /// The maximum width to be occupied by the content of this editor.
+  ///
+  /// If this is not null and and this editor's width is larger than this value
+  /// then the contents will be constrained to the provided maximum width and
+  /// horizontally centered. This is mostly useful on devices with wide screens.
+  final double? maxContentWidth;
+
   final DefaultStyles? customStyles;
 
   /// Whether this editor's height will be sized to fill its parent.
@@ -519,6 +528,7 @@ class _QuillEditorState extends State<QuillEditor>
       textCapitalization: widget.textCapitalization,
       minHeight: widget.minHeight,
       maxHeight: widget.maxHeight,
+      maxContentWidth: widget.maxContentWidth,
       customStyles: widget.customStyles,
       expands: widget.expands,
       autoFocus: widget.autoFocus,
@@ -828,11 +838,13 @@ class RenderEditor extends RenderEditableContainerBox
     List<RenderEditableBox>? children,
     EdgeInsets floatingCursorAddedMargin =
         const EdgeInsets.fromLTRB(4, 4, 4, 5),
+    double? maxContentWidth,
   })  : _hasFocus = hasFocus,
         _extendSelectionOrigin = selection,
         _startHandleLayerLink = startHandleLayerLink,
         _endHandleLayerLink = endHandleLayerLink,
         _cursorController = cursorController,
+        _maxContentWidth = maxContentWidth,
         super(
           children,
           document.root,
@@ -965,6 +977,13 @@ class RenderEditor extends RenderEditableContainerBox
     }
     scrollBottomInset = value;
     markNeedsPaint();
+  }
+
+  double? _maxContentWidth;
+  set maxContentWidth(double? value) {
+    if (_maxContentWidth == value) return;
+    _maxContentWidth = value;
+    markNeedsLayout();
   }
 
   @override
@@ -1204,6 +1223,60 @@ class RenderEditor extends RenderEditableContainerBox
       return TextSelection.fromPosition(position);
     }
     return TextSelection(baseOffset: line.start, extentOffset: line.end);
+  }
+
+  @override
+  void performLayout() {
+    assert(() {
+      if (!constraints.hasBoundedHeight) return true;
+      throw FlutterError.fromParts(<DiagnosticsNode>[
+        ErrorSummary('RenderEditableContainerBox must have '
+            'unlimited space along its main axis.'),
+        ErrorDescription('RenderEditableContainerBox does not clip or'
+            ' resize its children, so it must be '
+            'placed in a parent that does not constrain the main '
+            'axis.'),
+        ErrorHint(
+            'You probably want to put the RenderEditableContainerBox inside a '
+            'RenderViewport with a matching main axis.')
+      ]);
+    }());
+    assert(() {
+      if (constraints.hasBoundedWidth) return true;
+      throw FlutterError.fromParts(<DiagnosticsNode>[
+        ErrorSummary('RenderEditableContainerBox must have a bounded'
+            ' constraint for its cross axis.'),
+        ErrorDescription('RenderEditableContainerBox forces its children to '
+            "expand to fit the RenderEditableContainerBox's container, "
+            'so it must be placed in a parent that constrains the cross '
+            'axis to a finite dimension.'),
+      ]);
+    }());
+
+    resolvePadding();
+    assert(resolvedPadding != null);
+
+    var mainAxisExtent = resolvedPadding!.top;
+    var child = firstChild;
+    final innerConstraints = BoxConstraints.tightFor(
+            width: math.min(
+                _maxContentWidth ?? double.infinity, constraints.maxWidth))
+        .deflate(resolvedPadding!);
+    final leftOffset = _maxContentWidth == null
+        ? 0.0
+        : math.max((constraints.maxWidth - _maxContentWidth!) / 2, 0);
+    while (child != null) {
+      child.layout(innerConstraints, parentUsesSize: true);
+      final childParentData = child.parentData as EditableContainerParentData
+        ..offset = Offset(resolvedPadding!.left + leftOffset, mainAxisExtent);
+      mainAxisExtent += child.size.height;
+      assert(child.parentData == childParentData);
+      child = childParentData.nextSibling;
+    }
+    mainAxisExtent += resolvedPadding!.bottom;
+    size = constraints.constrain(Size(constraints.maxWidth, mainAxisExtent));
+
+    assert(size.isFinite);
   }
 
   @override
@@ -1628,7 +1701,7 @@ class RenderEditableContainerBox extends RenderBox
 
   EdgeInsets? get resolvedPadding => _resolvedPadding;
 
-  void _resolvePadding() {
+  void resolvePadding() {
     if (_resolvedPadding != null) {
       return;
     }
@@ -1667,7 +1740,7 @@ class RenderEditableContainerBox extends RenderBox
 
   RenderEditableBox? childAtOffset(Offset offset) {
     assert(firstChild != null);
-    _resolvePadding();
+    resolvePadding();
 
     if (offset.dy <= _resolvedPadding!.top) {
       return firstChild;
@@ -1701,7 +1774,7 @@ class RenderEditableContainerBox extends RenderBox
   @override
   void performLayout() {
     assert(constraints.hasBoundedWidth);
-    _resolvePadding();
+    resolvePadding();
     assert(_resolvedPadding != null);
 
     var mainAxisExtent = _resolvedPadding!.top;
@@ -1747,7 +1820,7 @@ class RenderEditableContainerBox extends RenderBox
 
   @override
   double computeMinIntrinsicWidth(double height) {
-    _resolvePadding();
+    resolvePadding();
     return _getIntrinsicCrossAxis((child) {
       final childHeight = math.max<double>(
           0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
@@ -1759,7 +1832,7 @@ class RenderEditableContainerBox extends RenderBox
 
   @override
   double computeMaxIntrinsicWidth(double height) {
-    _resolvePadding();
+    resolvePadding();
     return _getIntrinsicCrossAxis((child) {
       final childHeight = math.max<double>(
           0, height - _resolvedPadding!.top + _resolvedPadding!.bottom);
@@ -1771,7 +1844,7 @@ class RenderEditableContainerBox extends RenderBox
 
   @override
   double computeMinIntrinsicHeight(double width) {
-    _resolvePadding();
+    resolvePadding();
     return _getIntrinsicMainAxis((child) {
       final childWidth = math.max<double>(
           0, width - _resolvedPadding!.left + _resolvedPadding!.right);
@@ -1783,7 +1856,7 @@ class RenderEditableContainerBox extends RenderBox
 
   @override
   double computeMaxIntrinsicHeight(double width) {
-    _resolvePadding();
+    resolvePadding();
     return _getIntrinsicMainAxis((child) {
       final childWidth = math.max<double>(
           0, width - _resolvedPadding!.left + _resolvedPadding!.right);
@@ -1795,7 +1868,7 @@ class RenderEditableContainerBox extends RenderBox
 
   @override
   double computeDistanceToActualBaseline(TextBaseline baseline) {
-    _resolvePadding();
+    resolvePadding();
     return defaultComputeDistanceToFirstActualBaseline(baseline)! +
         _resolvedPadding!.top;
   }

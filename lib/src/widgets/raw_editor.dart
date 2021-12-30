@@ -57,6 +57,7 @@ class RawEditor extends StatefulWidget {
       this.textCapitalization = TextCapitalization.none,
       this.maxHeight,
       this.minHeight,
+      this.maxContentWidth,
       this.customStyles,
       this.expands = false,
       this.autoFocus = false,
@@ -152,6 +153,14 @@ class RawEditor extends StatefulWidget {
 
   /// The minimum height this editor can have.
   final double? minHeight;
+
+  /// The maximum width to be occupied by the content of this editor.
+  ///
+  /// If this is not null and and this editor's width is larger than this value
+  /// then the contents will be constrained to the provided maximum width and
+  /// horizontally centered. This is mostly useful on devices with wide screens.
+  final double? maxContentWidth;
+
   final DefaultStyles? customStyles;
 
   /// Whether this widget's height will be sized to fill its parent.
@@ -281,6 +290,7 @@ class RawEditorState extends EditorState
           onSelectionChanged: _handleSelectionChanged,
           scrollBottomInset: widget.scrollBottomInset,
           padding: widget.padding,
+          maxContentWidth: widget.maxContentWidth,
           floatingCursorDisabled: widget.floatingCursorDisabled,
           children: _buildChildren(_doc, context),
         ),
@@ -310,6 +320,7 @@ class RawEditorState extends EditorState
               onSelectionChanged: _handleSelectionChanged,
               scrollBottomInset: widget.scrollBottomInset,
               padding: widget.padding,
+              maxContentWidth: widget.maxContentWidth,
               cursorController: _cursorCont,
               floatingCursorDisabled: widget.floatingCursorDisabled,
               children: _buildChildren(_doc, context),
@@ -907,6 +918,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     required this.cursorController,
     required this.floatingCursorDisabled,
     this.padding = EdgeInsets.zero,
+    this.maxContentWidth,
     this.offset,
   }) : super(key: key, children: children);
 
@@ -920,6 +932,7 @@ class _Editor extends MultiChildRenderObjectWidget {
   final TextSelectionChangedHandler onSelectionChanged;
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
+  final double? maxContentWidth;
   final CursorCont cursorController;
   final bool floatingCursorDisabled;
 
@@ -936,6 +949,7 @@ class _Editor extends MultiChildRenderObjectWidget {
         onSelectionChanged: onSelectionChanged,
         cursorController: cursorController,
         padding: padding,
+        maxContentWidth: maxContentWidth,
         scrollBottomInset: scrollBottomInset,
         floatingCursorDisabled: floatingCursorDisabled);
   }
@@ -954,6 +968,7 @@ class _Editor extends MultiChildRenderObjectWidget {
       ..setEndHandleLayerLink(endHandleLayerLink)
       ..onSelectionChanged = onSelectionChanged
       ..setScrollBottomInset(scrollBottomInset)
-      ..setPadding(padding);
+      ..setPadding(padding)
+      ..maxContentWidth = maxContentWidth;
   }
 }
