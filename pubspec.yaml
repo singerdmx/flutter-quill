@@ -25,7 +25,7 @@ dependencies:
   video_player:
     git:
       url: https://github.com/JasmitSingh90/plugins.git
-      ref: feature/AudioConfigurationEnabledIOS_Update
+      ref: plugin-latest-changes
       path: packages/video_player/video_player
   characters: ^1.1.0
   youtube_player_flutter: ^8.0.0
