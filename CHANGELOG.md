@@ -1,3 +1,139 @@
+# [3.0.4]
+* Add maxContentWidth constraint to editor.
+
+# [3.0.3]
+* Do not show caret on screen when the editor is not focused.
+
+# [3.0.2]
+* Fix launch link for read-only mode.
+
+## [3.0.1]
+* Handle null value of Attribute.link.
+
+## [3.0.0]
+* Launch link improvements.
+* Removed QuillSimpleViewer.
+
+## [2.5.2]
+* Skip image when pasting.
+
+## [2.5.1]
+* Bug fix for Desktop `Shift` + `Click` support.
+
+## [2.5.0]
+* Update checkbox list.
+
+## [2.4.1]
+* Desktop selection improvements.
+
+## [2.4.0]
+* Improve inline code style.
+
+## [2.3.3]
+* Improves selection rects to have consistent height regardless of individual segment text styles.
+
+## [2.3.2]
+* Allow disabling floating cursor.
+
+## [2.3.1]
+* Preserve last newline character on delete.
+
+## [2.3.0]
+* Massive changes to support flutter 2.8.
+
+## [2.2.2]
+* iOS - floating cursor.
+
+## [2.2.1]
+* Bug fix for imports supporting flutter 2.8.
+
+## [2.2.0]
+* Support flutter 2.8.
+
+## [2.1.1]
+* Add methods of clearing editor and moving cursor.
+
+## [2.1.0]
+* Add delete handler.
+
+## [2.0.23]
+* Support custom replaceText handler.
+
+## [2.0.22]
+* Fix attribute compare and fix font size parsing.
+
+## [2.0.21]
+* Handle click on embed object.
+
+## [2.0.20]
+* Improved UX/UI of Image widget.
+
+## [2.0.19]
+* When uploading a video, applying indicator.
+
+## [2.0.18]
+* Make toolbar dividers optional.
+
+## [2.0.17]
+* Allow alignment of the toolbar icons to match WrapAlignment.
+
+## [2.0.16]
+* Add hide / show alignment buttons.
+
+## [2.0.15]
+* Implement change cursor to SystemMouseCursors.click when hovering a link styled text.
+
+## [2.0.14]
+* Enable customize the checkbox widget using DefaultListBlockStyle style.
+
+## [2.0.13]
+* Improve the scrolling performance by reducing the repaint areas.
+
+## [2.0.12]
+* Fix the selection effect can't be seen as the textLine with background color.
+
+## [2.0.11]
+* Fix visibility of text selection handlers on scroll.
+
+## [2.0.10]
+* cursorConnt.color notify the text_line to repaint if it was disposed.
+
+## [2.0.9]
+* Improve UX when trying to add a link.
+
+## [2.0.8]
+* Adding translations to the toolbar.
+
+## [2.0.7]
+* Added theming options for toolbar icons and LinkDialog.
+
+## [2.0.6]
+* Avoid runtime error when placed inside TabBarView.
+
+## [2.0.5]
+* Support inline code formatting.
+
+## [2.0.4]
+* Enable history shortcuts for desktop.
+
+## [2.0.3]
+* Fix cursor when line contains image.
+
+## [2.0.2]
+* Address KeyboardListener class name conflict.
+
+## [2.0.1]
+* Upgrade flutter_colorpicker to 0.5.0.
+
+## [2.0.0]
+* Text Alignment functions + Block Format standards.
+
+## [1.9.6]
+* Support putting QuillEditor inside a Scrollable view.
+
+## [1.9.5]
+* Skip image when pasting.
+
 ## [1.9.4]
 * Bug fix for cursor position when tapping at the end of line with image(s).
 

@@ -94,7 +94,7 @@ abstract class Container<T extends Node?> extends Node {
 
     for (final node in children) {
       final len = node.length;
-      if (offset < len || (inclusive && offset == len && node.isLast)) {
+      if (offset < len || (inclusive && offset == len)) {
         return ChildQuery(node, offset);
       }
       offset -= len;

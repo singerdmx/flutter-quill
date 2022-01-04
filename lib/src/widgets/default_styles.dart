@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tuple/tuple.dart';
+
+import '../../flutter_quill.dart';
+import '../../models/documents/style.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
@@ -26,6 +28,8 @@ class QuillStyles extends InheritedWidget {
   }
 }
 
+/// Style theme applied to a block of rich text, including single-line
+/// paragraphs.
 class DefaultTextBlockStyle {
   DefaultTextBlockStyle(
     this.style,
@@ -34,13 +38,98 @@ class DefaultTextBlockStyle {
     this.decoration,
   );
 
+  /// Base text style for a text block.
   final TextStyle style;
 
+  /// Vertical spacing around a text block.
   final Tuple2<double, double> verticalSpacing;
 
+  /// Vertical spacing for individual lines within a text block.
+  ///
   final Tuple2<double, double> lineSpacing;
 
+  /// Decoration of a text block.
+  ///
+  /// Decoration, if present, is painted in the content area, excluding
+  /// any [spacing].
   final BoxDecoration? decoration;
+}
+
+/// Theme data for inline code.
+class InlineCodeStyle {
+  InlineCodeStyle({
+    required this.style,
+    this.header1,
+    this.header2,
+    this.header3,
+    this.backgroundColor,
+    this.radius,
+  });
+
+  /// Base text style for an inline code.
+  final TextStyle style;
+
+  /// Style override for inline code in header level 1.
+  final TextStyle? header1;
+
+  /// Style override for inline code in headings level 2.
+  final TextStyle? header2;
+
+  /// Style override for inline code in headings level 3.
+  final TextStyle? header3;
+
+  /// Background color for inline code.
+  final Color? backgroundColor;
+
+  /// Radius used when paining the background.
+  final Radius? radius;
+
+  /// Returns effective style to use for inline code for the specified
+  /// [lineStyle].
+  TextStyle styleFor(Style lineStyle) {
+    if (lineStyle.containsKey(Attribute.h1.key)) {
+      return header1 ?? style;
+    }
+    if (lineStyle.containsKey(Attribute.h2.key)) {
+      return header2 ?? style;
+    }
+    if (lineStyle.containsKey(Attribute.h3.key)) {
+      return header3 ?? style;
+    }
+    return style;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! InlineCodeStyle) {
+      return false;
+    }
+    return other.style == style &&
+        other.header1 == header1 &&
+        other.header2 == header2 &&
+        other.header3 == header3 &&
+        other.backgroundColor == backgroundColor &&
+        other.radius == radius;
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(style, header1, header2, header3, backgroundColor, radius);
+}
+
+class DefaultListBlockStyle extends DefaultTextBlockStyle {
+  DefaultListBlockStyle(
+    TextStyle style,
+    Tuple2<double, double> verticalSpacing,
+    Tuple2<double, double> lineSpacing,
+    BoxDecoration? decoration,
+    this.checkboxUIBuilder,
+  ) : super(style, verticalSpacing, lineSpacing, decoration);
+
+  final QuillCheckboxBuilder? checkboxUIBuilder;
 }
 
 class DefaultStyles {
@@ -51,8 +140,10 @@ class DefaultStyles {
     this.paragraph,
     this.bold,
     this.italic,
+    this.small,
     this.underline,
     this.strikeThrough,
+    this.inlineCode,
     this.link,
     this.color,
     this.placeHolder,
@@ -73,15 +164,19 @@ class DefaultStyles {
   final DefaultTextBlockStyle? paragraph;
   final TextStyle? bold;
   final TextStyle? italic;
+  final TextStyle? small;
   final TextStyle? underline;
   final TextStyle? strikeThrough;
+
+  /// Theme of inline code.
+  final InlineCodeStyle? inlineCode;
   final TextStyle? sizeSmall; // 'small'
   final TextStyle? sizeLarge; // 'large'
   final TextStyle? sizeHuge; // 'huge'
   final TextStyle? link;
   final Color? color;
   final DefaultTextBlockStyle? placeHolder;
-  final DefaultTextBlockStyle? lists;
+  final DefaultListBlockStyle? lists;
   final DefaultTextBlockStyle? quote;
   final DefaultTextBlockStyle? code;
   final DefaultTextBlockStyle? indent;
@@ -111,6 +206,12 @@ class DefaultStyles {
       default:
         throw UnimplementedError();
     }
+
+    final inlineCodeStyle = TextStyle(
+      fontSize: 14,
+      color: themeData.colorScheme.primaryVariant.withOpacity(0.8),
+      fontFamily: fontFamily,
+    );
 
     return DefaultStyles(
         h1: DefaultTextBlockStyle(
@@ -147,10 +248,25 @@ class DefaultStyles {
             baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
         italic: const TextStyle(fontStyle: FontStyle.italic),
+        small: const TextStyle(fontSize: 12, color: Colors.black45),
         underline: const TextStyle(decoration: TextDecoration.underline),
         strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
+        inlineCode: InlineCodeStyle(
+          backgroundColor: Colors.grey.shade100,
+          radius: const Radius.circular(3),
+          style: inlineCodeStyle,
+          header1: inlineCodeStyle.copyWith(
+            fontSize: 32,
+            fontWeight: FontWeight.w300,
+          ),
+          header2: inlineCodeStyle.copyWith(fontSize: 22),
+          header3: inlineCodeStyle.copyWith(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         link: TextStyle(
-          color: themeData.accentColor,
+          color: themeData.colorScheme.secondary,
           decoration: TextDecoration.underline,
         ),
         placeHolder: DefaultTextBlockStyle(
@@ -162,8 +278,8 @@ class DefaultStyles {
             const Tuple2(0, 0),
             const Tuple2(0, 0),
             null),
-        lists: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, const Tuple2(0, 6), null),
+        lists: DefaultListBlockStyle(
+            baseStyle, baseSpacing, const Tuple2(0, 6), null, null),
         quote: DefaultTextBlockStyle(
             TextStyle(color: baseStyle.color!.withOpacity(0.6)),
             baseSpacing,
@@ -205,8 +321,10 @@ class DefaultStyles {
         paragraph: other.paragraph ?? paragraph,
         bold: other.bold ?? bold,
         italic: other.italic ?? italic,
+        small: other.small ?? small,
         underline: other.underline ?? underline,
         strikeThrough: other.strikeThrough ?? strikeThrough,
+        inlineCode: other.inlineCode ?? inlineCode,
         link: other.link ?? link,
         color: other.color ?? color,
         placeHolder: other.placeHolder ?? placeHolder,

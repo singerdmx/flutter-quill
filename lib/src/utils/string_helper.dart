@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   final result = <String, String>{};
   final pairs = s.split(';');
@@ -13,4 +15,38 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   }
 
   return result;
+}
+
+Alignment getAlignment(String? s) {
+  const _defaultAlignment = Alignment.center;
+  if (s == null) {
+    return _defaultAlignment;
+  }
+
+  final _index = [
+    'topLeft',
+    'topCenter',
+    'topRight',
+    'centerLeft',
+    'center',
+    'centerRight',
+    'bottomLeft',
+    'bottomCenter',
+    'bottomRight'
+  ].indexOf(s);
+  if (_index < 0) {
+    return _defaultAlignment;
+  }
+
+  return [
+    Alignment.topLeft,
+    Alignment.topCenter,
+    Alignment.topRight,
+    Alignment.centerLeft,
+    Alignment.center,
+    Alignment.centerRight,
+    Alignment.bottomLeft,
+    Alignment.bottomCenter,
+    Alignment.bottomRight
+  ][_index];
 }

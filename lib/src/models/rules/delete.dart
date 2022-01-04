@@ -2,6 +2,7 @@ import '../documents/attribute.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
+/// A heuristic rule for delete operations.
 abstract class DeleteRule extends Rule {
   const DeleteRule();
 
@@ -16,18 +17,42 @@ abstract class DeleteRule extends Rule {
   }
 }
 
+class EnsureLastLineBreakDeleteRule extends DeleteRule {
+  const EnsureLastLineBreakDeleteRule();
+
+  @override
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    final itr = DeltaIterator(document)..skip(index + len!);
+
+    return Delta()
+      ..retain(index)
+      ..delete(itr.hasNext ? len : len - 1);
+  }
+}
+
+/// Fallback rule for delete operations which simply deletes specified text
+/// range without any special handling.
 class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
   @override
   Delta applyRule(Delta document, int index,
       {int? len, Object? data, Attribute? attribute}) {
+    final itr = DeltaIterator(document)..skip(index + len!);
+
     return Delta()
       ..retain(index)
-      ..delete(len!);
+      ..delete(itr.hasNext ? len : len - 1);
   }
 }
 
+/// Preserves line format when user deletes the line's newline character
+/// effectively merging it with the next line.
+///
+/// This rule makes sure to apply all style attributes of deleted newline
+/// to the next available newline, which may reset any style attributes
+/// already present there.
 class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
@@ -44,6 +69,14 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
     final attrs = op.attributes;
 
     itr.skip(len! - 1);
+
+    if (!itr.hasNext) {
+      // User attempts to delete the last newline character, prevent it.
+      return Delta()
+        ..retain(index)
+        ..delete(len - 1);
+    }
+
     final delta = Delta()
       ..retain(index)
       ..delete(len);
@@ -66,13 +99,16 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
         attributes ??= <String, dynamic>{};
         attributes.addAll(attrs!);
       }
-      delta..retain(lineBreak)..retain(1, attributes);
+      delta
+        ..retain(lineBreak)
+        ..retain(1, attributes);
       break;
     }
     return delta;
   }
 }
 
+/// Prevents user from merging a line containing an embed with other lines.
 class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 

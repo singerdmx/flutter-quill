@@ -1,22 +1,22 @@
 name: flutter_quill
 description: A rich text editor supporting mobile and web (Demo App @ bulletjournal.us)
-version: 1.9.4
+version: 3.0.4
 #author: bulletjournal
 homepage: https://bulletjournal.us/home/index.html
 repository: https://github.com/singerdmx/flutter-quill
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=2.5.3"
 
 dependencies:
   flutter:
     sdk: flutter
   collection: ^1.15.0
-  flutter_colorpicker: ^0.4.0
+  flutter_colorpicker: ^1.0.3
   flutter_keyboard_visibility: ^5.0.0
   image_picker: ^0.8.2
-  photo_view: ^0.12.0
+  photo_view: ^0.13.0
   quiver: ^3.0.0
   string_validator: ^0.3.0
   tuple: ^2.0.0
@@ -30,6 +30,7 @@ dependencies:
   characters: ^1.1.0
   youtube_player_flutter: ^8.0.0
   diff_match_patch: ^0.4.1
+  i18n_extension: ^4.1.3
 
 dev_dependencies:
   flutter_test:

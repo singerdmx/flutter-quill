@@ -1,20 +1,46 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../utils/diff_delta.dart';
 import '../editor.dart';
 
 mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {
   @override
   TextEditingValue get textEditingValue {
-    return getTextEditingValue();
+    return widget.controller.plainTextEditingValue;
   }
 
   @override
   set textEditingValue(TextEditingValue value) {
-    setTextEditingValue(value);
+    final cursorPosition = value.selection.extentOffset;
+    final oldText = widget.controller.document.toPlainText();
+    final newText = value.text;
+    final diff = getDiff(oldText, newText, cursorPosition);
+    final insertedText = _adjustInsertedText(diff.inserted);
+
+    widget.controller.replaceText(
+        diff.start, diff.deleted.length, insertedText, value.selection);
+  }
+
+  String _adjustInsertedText(String text) {
+    // For clip from editor, it may contain image, a.k.a 65532.
+    // For clip from browser, image is directly ignore.
+    // Here we skip image when pasting.
+    if (!text.codeUnits.contains(65532)) {
+      return text;
+    }
+
+    final sb = StringBuffer();
+    for (var i = 0; i < text.length; i++) {
+      if (text.codeUnitAt(i) == 65532) {
+        continue;
+      }
+      sb.write(text[i]);
+    }
+    return sb.toString();
   }
 
   @override
@@ -50,8 +76,8 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final expandedRect = Rect.fromCenter(
       center: rect.center,
       width: rect.width,
-      height:
-          max(rect.height, getRenderEditor()!.preferredLineHeight(position)),
+      height: math.max(
+          rect.height, getRenderEditor()!.preferredLineHeight(position)),
     );
 
     additionalOffset = expandedRect.height >= editableSize.height
@@ -81,10 +107,8 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
   @override
   void userUpdateTextEditingValue(
-    TextEditingValue value,
-    SelectionChangedCause cause,
-  ) {
-    setTextEditingValue(value);
+      TextEditingValue value, SelectionChangedCause cause) {
+    textEditingValue = value;
   }
 
   @override

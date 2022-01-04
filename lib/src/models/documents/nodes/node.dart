@@ -14,7 +14,8 @@ import 'line.dart';
 /// The [offset] property is relative to [parent]. See also [documentOffset]
 /// which provides absolute offset of this node within the document.
 ///
-/// The current parent node is exposed by the [parent] property.
+/// The current parent node is exposed by the [parent] property. A node is
+/// considered [mounted] when the [parent] property is not `null`.
 abstract class Node extends LinkedListEntry<Node> {
   /// Current parent of this node. May be null if this node is not mounted.
   Container? parent;

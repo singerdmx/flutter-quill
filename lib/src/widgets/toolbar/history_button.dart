@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../flutter_quill.dart';
-import 'quill_icon_button.dart';
 
 class HistoryButton extends StatefulWidget {
   const HistoryButton({
@@ -9,6 +8,7 @@ class HistoryButton extends StatefulWidget {
     required this.controller,
     required this.undo,
     this.iconSize = kDefaultIconSize,
+    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
@@ -16,6 +16,7 @@ class HistoryButton extends StatefulWidget {
   final double iconSize;
   final bool undo;
   final QuillController controller;
+  final QuillIconTheme? iconTheme;
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -30,7 +31,8 @@ class _HistoryButtonState extends State<HistoryButton> {
     theme = Theme.of(context);
     _setIconColor();
 
-    final fillColor = theme.canvasColor;
+    final fillColor =
+        widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     widget.controller.changes.listen((event) async {
       _setIconColor();
     });
@@ -50,14 +52,14 @@ class _HistoryButtonState extends State<HistoryButton> {
     if (widget.undo) {
       setState(() {
         _iconColor = widget.controller.hasUndo
-            ? theme.iconTheme.color
-            : theme.disabledColor;
+            ? widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
+            : widget.iconTheme?.disabledIconColor ?? theme.disabledColor;
       });
     } else {
       setState(() {
         _iconColor = widget.controller.hasRedo
-            ? theme.iconTheme.color
-            : theme.disabledColor;
+            ? widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
+            : widget.iconTheme?.disabledIconColor ?? theme.disabledColor;
       });
     }
   }
