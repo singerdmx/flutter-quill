@@ -1,3 +1,6 @@
+# [3.1.0]
+* Fixed image ontap functionality.
+
 # [3.0.4]
 * Add maxContentWidth constraint to editor.
 
