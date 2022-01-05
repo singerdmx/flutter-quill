@@ -12,7 +12,6 @@ import 'package:string_validator/string_validator.dart';
 
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
-import '../models/documents/nodes/embed.dart';
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../utils/string_helper.dart';
@@ -172,7 +171,7 @@ Widget defaultEmbedBuilder(
   switch (node.value.type) {
     case 'image':
       final imageUrl = _standardizeImageUrl(node.value.data);
-
+      var image;
       final style = node.style.attributes['style'];
       if (_isMobile() && style != null) {
         final _attrs = parseKeyValuePairs(style.value.toString(),
@@ -187,7 +186,7 @@ Widget defaultEmbedBuilder(
               ? 0.0
               : double.parse(_attrs['mobileMargin']!);
           final a = getAlignment(_attrs['mobileAlignment']);
-          return Padding(
+          image = Padding(
               padding: EdgeInsets.all(m),
               child: imageUrl.startsWith('http')
                   ? Image.network(imageUrl, width: w, height: h, alignment: a)
@@ -198,11 +197,31 @@ Widget defaultEmbedBuilder(
                           width: w, height: h, alignment: a));
         }
       }
-      return imageUrl.startsWith('http')
+      image ??= imageUrl.startsWith('http')
           ? Image.network(imageUrl)
           : isBase64(imageUrl)
               ? Image.memory(base64.decode(imageUrl))
               : Image.file(io.File(imageUrl));
+
+      if (!readOnly) {
+        return image;
+      }
+
+      return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ImageTapWrapper(
+                          imageProvider: imageUrl.startsWith('http')
+                              ? NetworkImage(imageUrl)
+                              : isBase64(imageUrl)
+                                  ? Image.memory(base64.decode(imageUrl))
+                                      as ImageProvider<Object>?
+                                  : FileImage(io.File(imageUrl)),
+                        )));
+          },
+          child: image);
     case 'video':
       final videoUrl = node.value.data;
       if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
@@ -624,7 +643,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
   }
 
-  bool _onTapping(TapUpDetails details) {
+  bool _isPositionSelected(TapUpDetails details) {
     if (_state.widget.controller.document.isEmpty()) {
       return false;
     }
@@ -636,35 +655,11 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
     final line = result.node as Line;
     final segmentResult = line.queryChild(result.offset, false);
-    if (segmentResult.node == null) {
-      if (line.length == 1) {
-        getEditor()!.widget.controller.updateSelection(
-            TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
-        return true;
-      }
-      return false;
+    if (segmentResult.node == null && line.length == 1) {
+      getEditor()!.widget.controller.updateSelection(
+          TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
+      return true;
     }
-    final segment = segmentResult.node as leaf.Leaf;
-    if (getEditor()!.widget.readOnly && segment.value is BlockEmbed) {
-      final blockEmbed = segment.value as BlockEmbed;
-      if (blockEmbed.type == 'image') {
-        final imageUrl = _standardizeImageUrl(blockEmbed.data);
-        Navigator.push(
-          getEditor()!.context,
-          MaterialPageRoute(
-            builder: (context) => ImageTapWrapper(
-              imageProvider: imageUrl.startsWith('http')
-                  ? NetworkImage(imageUrl)
-                  : isBase64(imageUrl)
-                      ? Image.memory(base64.decode(imageUrl))
-                          as ImageProvider<Object>?
-                      : FileImage(io.File(imageUrl)),
-            ),
-          ),
-        );
-      }
-    }
-
     return false;
   }
 
@@ -703,7 +698,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     getEditor()!.hideToolbar();
 
-    final positionSelected = _onTapping(details);
+    final positionSelected = _isPositionSelected(details);
 
     if (delegate.getSelectionEnabled() && !positionSelected) {
       switch (Theme.of(_state.context).platform) {
