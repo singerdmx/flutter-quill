@@ -45,11 +45,11 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
   @override
   void bringIntoView(TextPosition position) {
-    final localRect = getRenderEditor().getLocalRectForCaret(position);
+    final localRect = renderEditor.getLocalRectForCaret(position);
     final targetOffset = _getOffsetToRevealCaret(localRect, position);
 
     scrollController.jumpTo(targetOffset.offset);
-    getRenderEditor().showOnScreen(rect: targetOffset.rect);
+    renderEditor.showOnScreen(rect: targetOffset.rect);
   }
 
   // Finds the closest scroll offset to the current scroll offset that fully
@@ -66,7 +66,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       return RevealedOffset(offset: scrollController.offset, rect: rect);
     }
 
-    final editableSize = getRenderEditor().size;
+    final editableSize = renderEditor.size;
     final double additionalOffset;
     final Offset unitOffset;
 
@@ -76,8 +76,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final expandedRect = Rect.fromCenter(
       center: rect.center,
       width: rect.width,
-      height: math.max(
-          rect.height, getRenderEditor().preferredLineHeight(position)),
+      height: math.max(rect.height, renderEditor.preferredLineHeight(position)),
     );
 
     additionalOffset = expandedRect.height >= editableSize.height

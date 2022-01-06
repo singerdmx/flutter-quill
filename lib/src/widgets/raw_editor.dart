@@ -700,7 +700,7 @@ class RawEditorState extends EditorState
         toolbarLayerLink: _toolbarLayerLink,
         startHandleLayerLink: _startHandleLayerLink,
         endHandleLayerLink: _endHandleLayerLink,
-        renderObject: getRenderEditor(),
+        renderObject: renderEditor,
         selectionCtrls: widget.selectionCtrls,
         selectionDelegate: this,
         clipboardStatus: _clipboardStatus,
@@ -753,7 +753,6 @@ class RawEditorState extends EditorState
           return;
         }
 
-        final renderEditor = getRenderEditor();
         final viewport = RenderAbstractViewport.of(renderEditor);
         final editorOffset =
             renderEditor.localToGlobal(const Offset(0, 0), ancestor: viewport);
@@ -776,10 +775,12 @@ class RawEditorState extends EditorState
     });
   }
 
+  /// The renderer for this widget's editor descendant.
+  ///
+  /// This property is typically used to notify the renderer of input gestures.
   @override
-  RenderEditor getRenderEditor() {
-    return _editorKey.currentContext?.findRenderObject() as RenderEditor;
-  }
+  RenderEditor get renderEditor =>
+      _editorKey.currentContext?.findRenderObject() as RenderEditor;
 
   @override
   void requestKeyboard() {
@@ -806,7 +807,7 @@ class RawEditorState extends EditorState
 
   @override
   void debugAssertLayoutUpToDate() {
-    getRenderEditor().debugAssertLayoutUpToDate();
+    renderEditor.debugAssertLayoutUpToDate();
   }
 
   /// Shows the selection toolbar at the location of the current cursor.
@@ -903,7 +904,7 @@ class RawEditorState extends EditorState
   bool get readOnly => widget.readOnly;
 
   @override
-  TextLayoutMetrics get textLayoutMetrics => getRenderEditor();
+  TextLayoutMetrics get textLayoutMetrics => renderEditor;
 
   @override
   AnimationController get floatingCursorResetController =>

@@ -68,7 +68,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// provide a [EditorTextSelectionGestureDetector].
   @protected
   RenderEditor? getRenderEditor() {
-    return getEditor()!.getRenderEditor();
+    return getEditor()!.renderEditor;
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onTapDown].

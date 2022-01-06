@@ -187,7 +187,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   // origin, but the touch origin is used to determine which line the cursor is
   // on, we need this offset to correctly render and move the cursor.
   Offset _floatingCursorOffset(TextPosition textPosition) =>
-      Offset(0, getRenderEditor().preferredLineHeight(textPosition) / 2);
+      Offset(0, renderEditor.preferredLineHeight(textPosition) / 2);
 
   @override
   void updateFloatingCursor(RawFloatingCursorPoint point) {
@@ -202,14 +202,14 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         _pointOffsetOrigin = point.offset;
 
         final currentTextPosition =
-            TextPosition(offset: getRenderEditor().selection.baseOffset);
+            TextPosition(offset: renderEditor.selection.baseOffset);
         _startCaretRect =
-            getRenderEditor().getLocalRectForCaret(currentTextPosition);
+            renderEditor.getLocalRectForCaret(currentTextPosition);
 
         _lastBoundedOffset = _startCaretRect!.center -
             _floatingCursorOffset(currentTextPosition);
         _lastTextPosition = currentTextPosition;
-        getRenderEditor().setFloatingCursor(
+        renderEditor.setFloatingCursor(
             point.state, _lastBoundedOffset!, _lastTextPosition!);
         break;
       case FloatingCursorDragState.Update:
@@ -220,24 +220,22 @@ mixin RawEditorStateTextInputClientMixin on EditorState
             _startCaretRect!.center + centeredPoint - floatingCursorOffset;
 
         final preferredLineHeight =
-            getRenderEditor().preferredLineHeight(_lastTextPosition!);
-        _lastBoundedOffset =
-            getRenderEditor().calculateBoundedFloatingCursorOffset(
+            renderEditor.preferredLineHeight(_lastTextPosition!);
+        _lastBoundedOffset = renderEditor.calculateBoundedFloatingCursorOffset(
           rawCursorOffset,
           preferredLineHeight,
         );
-        _lastTextPosition = getRenderEditor().getPositionForOffset(
-            getRenderEditor()
-                .localToGlobal(_lastBoundedOffset! + floatingCursorOffset));
-        getRenderEditor().setFloatingCursor(
+        _lastTextPosition = renderEditor.getPositionForOffset(renderEditor
+            .localToGlobal(_lastBoundedOffset! + floatingCursorOffset));
+        renderEditor.setFloatingCursor(
             point.state, _lastBoundedOffset!, _lastTextPosition!);
         final newSelection = TextSelection.collapsed(
             offset: _lastTextPosition!.offset,
             affinity: _lastTextPosition!.affinity);
         // Setting selection as floating cursor moves will have scroll view
         // bring background cursor into view
-        getRenderEditor()
-            .onSelectionChanged(newSelection, SelectionChangedCause.forcePress);
+        renderEditor.onSelectionChanged(
+            newSelection, SelectionChangedCause.forcePress);
         break;
       case FloatingCursorDragState.End:
         // We skip animation if no update has happened.
@@ -259,10 +257,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// and current position of background cursor)
   void onFloatingCursorResetTick() {
     final finalPosition =
-        getRenderEditor().getLocalRectForCaret(_lastTextPosition!).centerLeft -
+        renderEditor.getLocalRectForCaret(_lastTextPosition!).centerLeft -
             _floatingCursorOffset(_lastTextPosition!);
     if (floatingCursorResetController.isCompleted) {
-      getRenderEditor().setFloatingCursor(
+      renderEditor.setFloatingCursor(
           FloatingCursorDragState.End, finalPosition, _lastTextPosition!);
       _startCaretRect = null;
       _lastTextPosition = null;
@@ -275,7 +273,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       final lerpY =
           lerpDouble(_lastBoundedOffset!.dy, finalPosition.dy, lerpValue)!;
 
-      getRenderEditor().setFloatingCursor(FloatingCursorDragState.Update,
+      renderEditor.setFloatingCursor(FloatingCursorDragState.Update,
           Offset(lerpX, lerpY), _lastTextPosition!,
           resetLerpValue: lerpValue);
     }
