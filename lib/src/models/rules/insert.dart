@@ -1,6 +1,6 @@
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../../models/documents/document.dart';
 import '../documents/attribute.dart';
 import '../documents/style.dart';
 import '../quill_delta.dart';
@@ -291,8 +291,8 @@ class InsertEmbedsRule extends InsertRule {
 /// the URL pattern.
 ///
 /// The link attribute is applied as the user types.
-class AutoFormatLinksRule extends InsertRule {
-  const AutoFormatLinksRule();
+class AutoFormatMultipleLinksRule extends InsertRule {
+  const AutoFormatMultipleLinksRule();
 
   /// Link pattern.
   ///
@@ -388,6 +388,47 @@ class AutoFormatLinksRule extends InsertRule {
 
     // Build and return resulting change delta.
     return baseDelta.compose(formatterDelta);
+  }
+}
+
+/// Applies link format to text segment (which looks like a link) when user
+/// inserts space character after it.
+class AutoFormatLinksRule extends InsertRule {
+  const AutoFormatLinksRule();
+
+  @override
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    if (data is! String || data != ' ') {
+      return null;
+    }
+
+    final itr = DeltaIterator(document);
+    final prev = itr.skip(index);
+    if (prev == null || prev.data is! String) {
+      return null;
+    }
+
+    try {
+      final cand = (prev.data as String).split('\n').last.split(' ').last;
+      final link = Uri.parse(cand);
+      if (!['https', 'http'].contains(link.scheme)) {
+        return null;
+      }
+      final attributes = prev.attributes ?? <String, dynamic>{};
+
+      if (attributes.containsKey(Attribute.link.key)) {
+        return null;
+      }
+
+      attributes.addAll(LinkAttribute(link.toString()).toJson());
+      return Delta()
+        ..retain(index + (len ?? 0) - cand.length)
+        ..retain(cand.length, attributes)
+        ..insert(data, prev.attributes);
+    } on FormatException {
+      return null;
+    }
   }
 }
 
