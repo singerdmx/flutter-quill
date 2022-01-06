@@ -288,6 +288,7 @@ class RawEditorState extends EditorState
           startHandleLayerLink: _startHandleLayerLink,
           endHandleLayerLink: _endHandleLayerLink,
           onSelectionChanged: _handleSelectionChanged,
+          onSelectionCompleted: _handleSelectionCompleted,
           scrollBottomInset: widget.scrollBottomInset,
           padding: widget.padding,
           maxContentWidth: widget.maxContentWidth,
@@ -318,6 +319,7 @@ class RawEditorState extends EditorState
               startHandleLayerLink: _startHandleLayerLink,
               endHandleLayerLink: _endHandleLayerLink,
               onSelectionChanged: _handleSelectionChanged,
+              onSelectionCompleted: _handleSelectionCompleted,
               scrollBottomInset: widget.scrollBottomInset,
               padding: widget.padding,
               maxContentWidth: widget.maxContentWidth,
@@ -372,6 +374,10 @@ class RawEditorState extends EditorState
         bringIntoView(selection.extent);
       }
     }
+  }
+
+  void _handleSelectionCompleted() {
+    widget.controller.onSelectionCompleted?.call();
   }
 
   /// Updates the checkbox positioned at [offset] in document
@@ -793,6 +799,9 @@ class RawEditorState extends EditorState
     }
     textEditingValue = value;
     userUpdateTextEditingValue(value, cause);
+
+    // keyboard and text input force a selection completion
+    _handleSelectionCompleted();
   }
 
   @override
@@ -914,6 +923,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     required this.startHandleLayerLink,
     required this.endHandleLayerLink,
     required this.onSelectionChanged,
+    required this.onSelectionCompleted,
     required this.scrollBottomInset,
     required this.cursorController,
     required this.floatingCursorDisabled,
@@ -930,6 +940,7 @@ class _Editor extends MultiChildRenderObjectWidget {
   final LayerLink startHandleLayerLink;
   final LayerLink endHandleLayerLink;
   final TextSelectionChangedHandler onSelectionChanged;
+  final TextSelectionCompletedHandler onSelectionCompleted;
   final double scrollBottomInset;
   final EdgeInsetsGeometry padding;
   final double? maxContentWidth;
@@ -947,6 +958,7 @@ class _Editor extends MultiChildRenderObjectWidget {
         startHandleLayerLink: startHandleLayerLink,
         endHandleLayerLink: endHandleLayerLink,
         onSelectionChanged: onSelectionChanged,
+        onSelectionCompleted: onSelectionCompleted,
         cursorController: cursorController,
         padding: padding,
         maxContentWidth: maxContentWidth,

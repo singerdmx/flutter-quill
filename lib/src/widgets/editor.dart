@@ -712,11 +712,14 @@ class _QuillEditorSelectionGestureDetectorBuilder
               // If `Shift` key is pressed then
               // extend current selection instead.
               if (isShiftClick(details.kind)) {
-                getRenderEditor()!.extendSelection(details.globalPosition,
-                    cause: SelectionChangedCause.tap);
+                getRenderEditor()!
+                  ..extendSelection(details.globalPosition,
+                      cause: SelectionChangedCause.tap)
+                  ..onSelectionCompleted();
               } else {
                 getRenderEditor()!
-                    .selectPosition(cause: SelectionChangedCause.tap);
+                  ..selectPosition(cause: SelectionChangedCause.tap)
+                  ..onSelectionCompleted();
               }
 
               break;
@@ -725,7 +728,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
               // On macOS/iOS/iPadOS a touch tap places the cursor at the edge
               // of the word.
               try {
-                getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
+                getRenderEditor()!
+                  ..selectWordEdge(SelectionChangedCause.tap)
+                  ..onSelectionCompleted();
               } finally {
                 break;
               }
@@ -736,7 +741,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
         case TargetPlatform.linux:
         case TargetPlatform.windows:
           try {
-            getRenderEditor()!.selectPosition(cause: SelectionChangedCause.tap);
+            getRenderEditor()!
+              ..selectPosition(cause: SelectionChangedCause.tap)
+              ..onSelectionCompleted();
           } finally {
             break;
           }
@@ -788,6 +795,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
             details, renderEditor.getPositionForOffset)) {
           return;
         }
+
+        if (delegate.getSelectionEnabled()) {
+          renderEditor.onSelectionCompleted();
+        }
       }
     }
     super.onSingleLongTapEnd(details);
@@ -800,6 +811,17 @@ class _QuillEditorSelectionGestureDetectorBuilder
 /// Used by [RenderEditor.onSelectionChanged].
 typedef TextSelectionChangedHandler = void Function(
     TextSelection selection, SelectionChangedCause cause);
+
+/// Signature for the callback that reports when a selection action is actually
+/// completed and ratified. Completion is defined as when the user input has
+/// concluded for an entire selection action. For simple taps and keyboard input
+/// events that change the selection, this callback is invoked immediately
+/// following the TextSelectionChangedHandler. For long taps, the selection is
+/// considered complete at the up event of a long tap. For drag selections, the
+/// selection completes once the drag/pan event ends or is interrupted.
+///
+/// Used by [RenderEditor.onSelectionCompleted].
+typedef TextSelectionCompletedHandler = void Function();
 
 // The padding applied to text field. Used to determine the bounds when
 // moving the floating cursor.
@@ -827,6 +849,7 @@ class RenderEditor extends RenderEditableContainerBox
     required EdgeInsetsGeometry padding,
     required CursorCont cursorController,
     required this.onSelectionChanged,
+    required this.onSelectionCompleted,
     required double scrollBottomInset,
     required this.floatingCursorDisabled,
     ViewportOffset? offset,
@@ -859,6 +882,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   /// Called when the selection changes.
   TextSelectionChangedHandler onSelectionChanged;
+  TextSelectionCompletedHandler onSelectionCompleted;
   final ValueNotifier<bool> _selectionStartInViewport =
       ValueNotifier<bool>(true);
 
@@ -1067,6 +1091,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   void handleDragEnd(DragEndDetails details) {
     _isDragging = false;
+    onSelectionCompleted();
   }
 
   @override
