@@ -104,14 +104,12 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
   double getFullHeightForCaret(TextPosition position) => size.height;
 
   @override
-  Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype) {
+  Offset getOffsetForCaret(TextPosition position, Rect caretPrototype) {
     assert(
         position.offset == 1 || position.offset == 0 || position.offset == -1);
     return position.offset <= 0
         ? Offset.zero
-        : Offset(
-            size.width - (caretPrototype == null ? 0 : caretPrototype.width),
-            0);
+        : Offset(size.width - caretPrototype.width, 0);
   }
 
   @override
@@ -275,8 +273,8 @@ class RenderParagraphProxy extends RenderProxyBox
   double get preferredLineHeight => _prototypePainter.preferredLineHeight;
 
   @override
-  Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype) =>
-      child!.getOffsetForCaret(position, caretPrototype!);
+  Offset getOffsetForCaret(TextPosition position, Rect caretPrototype) =>
+      child!.getOffsetForCaret(position, caretPrototype);
 
   @override
   TextPosition getPositionForOffset(Offset offset) =>

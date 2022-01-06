@@ -13,7 +13,7 @@ import '../models/documents/nodes/container.dart';
 abstract class RenderContentProxyBox implements RenderBox {
   double get preferredLineHeight;
 
-  Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype);
+  Offset getOffsetForCaret(TextPosition position, Rect caretPrototype);
 
   TextPosition getPositionForOffset(Offset offset);
 
@@ -21,6 +21,13 @@ abstract class RenderContentProxyBox implements RenderBox {
 
   TextRange getWordBoundary(TextPosition position);
 
+  /// Returns a list of rects that bound the given selection.
+  ///
+  /// A given selection might have more than one rect if this text painter
+  /// contains bidirectional text because logically contiguous text might not be
+  /// visually contiguous.
+  ///
+  /// Valid only after [layout]
   List<TextBox> getBoxesForSelection(TextSelection textSelection);
 }
 
