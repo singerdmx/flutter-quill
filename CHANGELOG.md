@@ -1,3 +1,6 @@
+# [3.1.1]
+* Add selection completed callback.
+
 # [3.1.0]
 * Fixed image ontap functionality.
 
