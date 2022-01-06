@@ -599,7 +599,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   void onForcePressStart(ForcePressDetails details) {
     super.onForcePressStart(details);
     if (delegate.getSelectionEnabled() && shouldShowSelectionToolbar) {
-      getEditor()!.showToolbar();
+      editor!.showToolbar();
     }
   }
 
@@ -609,12 +609,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (_state.widget.onSingleLongTapMoveUpdate != null) {
-      final renderEditor = getRenderEditor();
-      if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapMoveUpdate!(
-            details, renderEditor.getPositionForOffset)) {
-          return;
-        }
+      if (renderEditor != null &&
+          _state.widget.onSingleLongTapMoveUpdate!(
+              details, renderEditor!.getPositionForOffset)) {
+        return;
       }
     }
     if (!delegate.getSelectionEnabled()) {
@@ -623,7 +621,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     switch (Theme.of(_state.context).platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        getRenderEditor()!.selectPositionAt(
+        renderEditor!.selectPositionAt(
           from: details.globalPosition,
           cause: SelectionChangedCause.longPress,
         );
@@ -632,7 +630,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        getRenderEditor()!.selectWordsInRange(
+        renderEditor!.selectWordsInRange(
           details.globalPosition - details.offsetFromOrigin,
           details.globalPosition,
           SelectionChangedCause.longPress,
@@ -647,16 +645,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (_state.widget.controller.document.isEmpty()) {
       return false;
     }
-    final pos = getRenderEditor()!.getPositionForOffset(details.globalPosition);
-    final result =
-        getEditor()!.widget.controller.document.queryChild(pos.offset);
+    final pos = renderEditor!.getPositionForOffset(details.globalPosition);
+    final result = editor!.widget.controller.document.queryChild(pos.offset);
     if (result.node == null) {
       return false;
     }
     final line = result.node as Line;
     final segmentResult = line.queryChild(result.offset, false);
     if (segmentResult.node == null && line.length == 1) {
-      getEditor()!.widget.controller.updateSelection(
+      editor!.widget.controller.updateSelection(
           TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
       return true;
     }
@@ -666,12 +663,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   void onTapDown(TapDownDetails details) {
     if (_state.widget.onTapDown != null) {
-      final renderEditor = getRenderEditor();
-      if (renderEditor != null) {
-        if (_state.widget.onTapDown!(
-            details, renderEditor.getPositionForOffset)) {
-          return;
-        }
+      if (renderEditor != null &&
+          _state.widget.onTapDown!(
+              details, renderEditor!.getPositionForOffset)) {
+        return;
       }
     }
     super.onTapDown(details);
@@ -687,16 +682,13 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   void onSingleTapUp(TapUpDetails details) {
     if (_state.widget.onTapUp != null) {
-      final renderEditor = getRenderEditor();
-      if (renderEditor != null) {
-        if (_state.widget.onTapUp!(
-            details, renderEditor.getPositionForOffset)) {
-          return;
-        }
+      if (renderEditor != null &&
+          _state.widget.onTapUp!(details, renderEditor!.getPositionForOffset)) {
+        return;
       }
     }
 
-    getEditor()!.hideToolbar();
+    editor!.hideToolbar();
 
     final positionSelected = _isPositionSelected(details);
 
@@ -712,12 +704,12 @@ class _QuillEditorSelectionGestureDetectorBuilder
               // If `Shift` key is pressed then
               // extend current selection instead.
               if (isShiftClick(details.kind)) {
-                getRenderEditor()!
+                renderEditor!
                   ..extendSelection(details.globalPosition,
                       cause: SelectionChangedCause.tap)
                   ..onSelectionCompleted();
               } else {
-                getRenderEditor()!
+                renderEditor!
                   ..selectPosition(cause: SelectionChangedCause.tap)
                   ..onSelectionCompleted();
               }
@@ -728,7 +720,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
               // On macOS/iOS/iPadOS a touch tap places the cursor at the edge
               // of the word.
               try {
-                getRenderEditor()!
+                renderEditor!
                   ..selectWordEdge(SelectionChangedCause.tap)
                   ..onSelectionCompleted();
               } finally {
@@ -741,7 +733,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         case TargetPlatform.linux:
         case TargetPlatform.windows:
           try {
-            getRenderEditor()!
+            renderEditor!
               ..selectPosition(cause: SelectionChangedCause.tap)
               ..onSelectionCompleted();
           } finally {
@@ -755,12 +747,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (_state.widget.onSingleLongTapStart != null) {
-      final renderEditor = getRenderEditor();
-      if (renderEditor != null) {
-        if (_state.widget.onSingleLongTapStart!(
-            details, renderEditor.getPositionForOffset)) {
-          return;
-        }
+      if (renderEditor != null &&
+          _state.widget.onSingleLongTapStart!(
+              details, renderEditor!.getPositionForOffset)) {
+        return;
       }
     }
 
@@ -768,7 +758,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
-          getRenderEditor()!.selectPositionAt(
+          renderEditor!.selectPositionAt(
             from: details.globalPosition,
             cause: SelectionChangedCause.longPress,
           );
@@ -777,7 +767,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         case TargetPlatform.fuchsia:
         case TargetPlatform.linux:
         case TargetPlatform.windows:
-          getRenderEditor()!.selectWord(SelectionChangedCause.longPress);
+          renderEditor!.selectWord(SelectionChangedCause.longPress);
           Feedback.forLongPress(_state.context);
           break;
         default:
@@ -789,15 +779,14 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   void onSingleLongTapEnd(LongPressEndDetails details) {
     if (_state.widget.onSingleLongTapEnd != null) {
-      final renderEditor = getRenderEditor();
       if (renderEditor != null) {
         if (_state.widget.onSingleLongTapEnd!(
-            details, renderEditor.getPositionForOffset)) {
+            details, renderEditor!.getPositionForOffset)) {
           return;
         }
 
         if (delegate.getSelectionEnabled()) {
-          renderEditor.onSelectionCompleted();
+          renderEditor!.onSelectionCompleted();
         }
       }
     }

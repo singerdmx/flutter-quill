@@ -60,16 +60,12 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// The [State] of the [EditableText] for which the builder will provide a
   /// [EditorTextSelectionGestureDetector].
   @protected
-  EditorState? getEditor() {
-    return delegate.getEditableTextKey().currentState;
-  }
+  EditorState? get editor => delegate.getEditableTextKey().currentState;
 
   /// The [RenderObject] of the [EditableText] for which the builder will
   /// provide a [EditorTextSelectionGestureDetector].
   @protected
-  RenderEditor? getRenderEditor() {
-    return getEditor()!.renderEditor;
-  }
+  RenderEditor? get renderEditor => editor?.renderEditor;
 
   /// Handler for [EditorTextSelectionGestureDetector.onTapDown].
   ///
@@ -83,7 +79,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onTapDown(TapDownDetails details) {
-    getRenderEditor()!.handleTapDown(details);
+    renderEditor!.handleTapDown(details);
     // The selection overlay should only be shown when the user is interacting
     // through a touch screen (via either a finger or a stylus).
     // A mouse shouldn't trigger the selection overlay.
@@ -110,7 +106,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     assert(delegate.getForcePressEnabled());
     shouldShowSelectionToolbar = true;
     if (delegate.getSelectionEnabled()) {
-      getRenderEditor()!.selectWordsInRange(
+      renderEditor!.selectWordsInRange(
         details.globalPosition,
         null,
         SelectionChangedCause.forcePress,
@@ -132,13 +128,13 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onForcePressEnd(ForcePressDetails details) {
     assert(delegate.getForcePressEnabled());
-    getRenderEditor()!.selectWordsInRange(
+    renderEditor!.selectWordsInRange(
       details.globalPosition,
       null,
       SelectionChangedCause.forcePress,
     );
     if (shouldShowSelectionToolbar) {
-      getEditor()!.showToolbar();
+      editor!.showToolbar();
     }
   }
 
@@ -153,7 +149,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onSingleTapUp(TapUpDetails details) {
     if (delegate.getSelectionEnabled()) {
-      getRenderEditor()!.selectWordEdge(SelectionChangedCause.tap);
+      renderEditor!.selectWordEdge(SelectionChangedCause.tap);
     }
   }
 
@@ -182,7 +178,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.getSelectionEnabled()) {
-      getRenderEditor()!.selectPositionAt(
+      renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
       );
@@ -201,7 +197,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (delegate.getSelectionEnabled()) {
-      getRenderEditor()!.selectPositionAt(
+      renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
       );
@@ -219,7 +215,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onSingleLongTapEnd(LongPressEndDetails details) {
     if (shouldShowSelectionToolbar) {
-      getEditor()!.showToolbar();
+      editor!.showToolbar();
     }
   }
 
@@ -235,9 +231,9 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDoubleTapDown(TapDownDetails details) {
     if (delegate.getSelectionEnabled()) {
-      getRenderEditor()!.selectWord(SelectionChangedCause.tap);
+      renderEditor!.selectWord(SelectionChangedCause.tap);
       if (shouldShowSelectionToolbar) {
-        getEditor()!.showToolbar();
+        editor!.showToolbar();
       }
     }
   }
@@ -252,7 +248,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onDragSelectionStart(DragStartDetails details) {
-    getRenderEditor()!.handleDragStart(details);
+    renderEditor!.handleDragStart(details);
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onDragSelectionUpdate].
@@ -267,7 +263,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionUpdate(
       DragStartDetails startDetails, DragUpdateDetails updateDetails) {
-    getRenderEditor()!.extendSelection(updateDetails.globalPosition,
+    renderEditor!.extendSelection(updateDetails.globalPosition,
         cause: SelectionChangedCause.drag);
   }
 
@@ -281,7 +277,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onDragSelectionEnd(DragEndDetails details) {
-    getRenderEditor()!.handleDragEnd(details);
+    renderEditor!.handleDragEnd(details);
   }
 
   /// Returns a [EditorTextSelectionGestureDetector] configured with
