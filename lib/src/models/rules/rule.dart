@@ -43,6 +43,7 @@ class Rules {
     const PreserveLineStyleOnSplitRule(),
     const ResetLineFormatOnNewLineRule(),
     const AutoFormatLinksRule(),
+    const AutoFormatMultipleLinksRule(),
     const PreserveInlineStylesRule(),
     const CatchAllInsertRule(),
     const EnsureEmbedLineRule(),
