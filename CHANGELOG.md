@@ -1,3 +1,6 @@
+# [3.2.0]
+* Support multiple links insertion on the go.
+
 # [3.1.1]
 * Add selection completed callback.
 
