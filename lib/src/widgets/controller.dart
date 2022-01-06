@@ -242,6 +242,10 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
+  // callback sub classes can override to implement actions when a selection is
+  // completed.
+  void selectionCompleted() {}
+
   void compose(Delta delta, TextSelection textSelection, ChangeSource source) {
     if (delta.isNotEmpty) {
       document.compose(delta, source);
