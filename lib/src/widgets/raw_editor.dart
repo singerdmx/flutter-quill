@@ -377,7 +377,7 @@ class RawEditorState extends EditorState
   }
 
   void _handleSelectionCompleted() {
-    widget.controller.selectionCompleted();
+    widget.controller.onSelectionCompleted?.call();
   }
 
   /// Updates the checkbox positioned at [offset] in document
