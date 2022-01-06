@@ -21,12 +21,12 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 import 'float_cursor.dart';
-import 'image.dart';
+import 'embeds/image.dart';
 import 'link.dart';
 import 'raw_editor.dart';
 import 'text_selection.dart';
-import 'video_app.dart';
-import 'youtube_video_app.dart';
+import 'embeds/video_app.dart';
+import 'embeds/youtube_video_app.dart';
 
 const linkPrefixes = [
   'mailto:', // email
