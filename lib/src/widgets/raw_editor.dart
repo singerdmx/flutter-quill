@@ -238,7 +238,7 @@ class RawEditorState extends EditorState
 
   // Selection overlay
   @override
-  EditorTextSelectionOverlay? getSelectionOverlay() => _selectionOverlay;
+  EditorTextSelectionOverlay? get selectionOverlay => _selectionOverlay;
   EditorTextSelectionOverlay? _selectionOverlay;
 
   @override

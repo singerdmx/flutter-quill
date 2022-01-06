@@ -53,7 +53,7 @@ abstract class EditorState extends State<RawEditor>
 
   RenderEditor get renderEditor;
 
-  EditorTextSelectionOverlay? getSelectionOverlay();
+  EditorTextSelectionOverlay? get selectionOverlay;
 
   /// Controls the floating cursor animation when it is released.
   /// The floating cursor is animated to merge with the regular cursor.
