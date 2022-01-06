@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../flutter_quill.dart';
-import '../models/documents/nodes/container.dart' as container;
+import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
@@ -839,9 +839,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   @override
-  container.Container getContainer() {
-    return line;
-  }
+  container_node.Container get container => line;
 
   double get cursorWidth => cursorCont.style.width;
 
@@ -1188,10 +1186,10 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   TextPosition globalToLocalPosition(TextPosition position) {
-    assert(getContainer().containsOffset(position.offset),
+    assert(container.containsOffset(position.offset),
         'The provided text position is not in the current node');
     return TextPosition(
-      offset: position.offset - getContainer().documentOffset,
+      offset: position.offset - container.documentOffset,
       affinity: position.affinity,
     );
   }
