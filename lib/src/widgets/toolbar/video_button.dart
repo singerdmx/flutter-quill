@@ -5,9 +5,9 @@ import '../../models/documents/nodes/embed.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
-import '../link_dialog.dart';
 import '../toolbar.dart';
 import 'image_video_utils.dart';
+import 'link_dialog.dart';
 
 class VideoButton extends StatelessWidget {
   const VideoButton({

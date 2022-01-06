@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/themes/quill_dialog_theme.dart';
-import '../translations/toolbar.i18n.dart';
+import '../../models/themes/quill_dialog_theme.dart';
+import '../../translations/toolbar.i18n.dart';
 
 class LinkDialog extends StatefulWidget {
   const LinkDialog({this.dialogTheme, Key? key}) : super(key: key);

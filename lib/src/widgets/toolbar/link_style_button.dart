@@ -5,8 +5,8 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../controller.dart';
-import '../link_dialog.dart';
 import '../toolbar.dart';
+import 'link_dialog.dart';
 
 class LinkStyleButton extends StatefulWidget {
   const LinkStyleButton({
