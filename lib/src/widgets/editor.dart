@@ -51,7 +51,7 @@ abstract class EditorState extends State<RawEditor>
     implements TextSelectionDelegate {
   ScrollController get scrollController;
 
-  RenderEditor? getRenderEditor();
+  RenderEditor getRenderEditor();
 
   EditorTextSelectionOverlay? getSelectionOverlay();
 

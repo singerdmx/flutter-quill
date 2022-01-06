@@ -749,11 +749,11 @@ class RawEditorState extends EditorState
       if (widget.scrollable || _scrollController.hasClients) {
         _showCaretOnScreenScheduled = false;
 
-        final renderEditor = getRenderEditor();
-        if (renderEditor == null) {
+        if (!mounted) {
           return;
         }
 
+        final renderEditor = getRenderEditor();
         final viewport = RenderAbstractViewport.of(renderEditor);
         final editorOffset =
             renderEditor.localToGlobal(const Offset(0, 0), ancestor: viewport);
@@ -777,8 +777,8 @@ class RawEditorState extends EditorState
   }
 
   @override
-  RenderEditor? getRenderEditor() {
-    return _editorKey.currentContext?.findRenderObject() as RenderEditor?;
+  RenderEditor getRenderEditor() {
+    return _editorKey.currentContext?.findRenderObject() as RenderEditor;
   }
 
   @override
@@ -806,7 +806,7 @@ class RawEditorState extends EditorState
 
   @override
   void debugAssertLayoutUpToDate() {
-    getRenderEditor()!.debugAssertLayoutUpToDate();
+    getRenderEditor().debugAssertLayoutUpToDate();
   }
 
   /// Shows the selection toolbar at the location of the current cursor.
@@ -903,7 +903,7 @@ class RawEditorState extends EditorState
   bool get readOnly => widget.readOnly;
 
   @override
-  TextLayoutMetrics get textLayoutMetrics => getRenderEditor()!;
+  TextLayoutMetrics get textLayoutMetrics => getRenderEditor();
 
   @override
   AnimationController get floatingCursorResetController =>

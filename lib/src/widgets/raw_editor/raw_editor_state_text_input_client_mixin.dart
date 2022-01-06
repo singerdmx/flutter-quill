@@ -187,7 +187,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   // origin, but the touch origin is used to determine which line the cursor is
   // on, we need this offset to correctly render and move the cursor.
   Offset _floatingCursorOffset(TextPosition textPosition) =>
-      Offset(0, getRenderEditor()!.preferredLineHeight(textPosition) / 2);
+      Offset(0, getRenderEditor().preferredLineHeight(textPosition) / 2);
 
   @override
   void updateFloatingCursor(RawFloatingCursorPoint point) {
@@ -202,14 +202,14 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         _pointOffsetOrigin = point.offset;
 
         final currentTextPosition =
-            TextPosition(offset: getRenderEditor()!.selection.baseOffset);
+            TextPosition(offset: getRenderEditor().selection.baseOffset);
         _startCaretRect =
-            getRenderEditor()!.getLocalRectForCaret(currentTextPosition);
+            getRenderEditor().getLocalRectForCaret(currentTextPosition);
 
         _lastBoundedOffset = _startCaretRect!.center -
             _floatingCursorOffset(currentTextPosition);
         _lastTextPosition = currentTextPosition;
-        getRenderEditor()!.setFloatingCursor(
+        getRenderEditor().setFloatingCursor(
             point.state, _lastBoundedOffset!, _lastTextPosition!);
         break;
       case FloatingCursorDragState.Update:
@@ -220,23 +220,23 @@ mixin RawEditorStateTextInputClientMixin on EditorState
             _startCaretRect!.center + centeredPoint - floatingCursorOffset;
 
         final preferredLineHeight =
-            getRenderEditor()!.preferredLineHeight(_lastTextPosition!);
+            getRenderEditor().preferredLineHeight(_lastTextPosition!);
         _lastBoundedOffset =
-            getRenderEditor()!.calculateBoundedFloatingCursorOffset(
+            getRenderEditor().calculateBoundedFloatingCursorOffset(
           rawCursorOffset,
           preferredLineHeight,
         );
-        _lastTextPosition = getRenderEditor()!.getPositionForOffset(
-            getRenderEditor()!
+        _lastTextPosition = getRenderEditor().getPositionForOffset(
+            getRenderEditor()
                 .localToGlobal(_lastBoundedOffset! + floatingCursorOffset));
-        getRenderEditor()!.setFloatingCursor(
+        getRenderEditor().setFloatingCursor(
             point.state, _lastBoundedOffset!, _lastTextPosition!);
         final newSelection = TextSelection.collapsed(
             offset: _lastTextPosition!.offset,
             affinity: _lastTextPosition!.affinity);
         // Setting selection as floating cursor moves will have scroll view
         // bring background cursor into view
-        getRenderEditor()!
+        getRenderEditor()
             .onSelectionChanged(newSelection, SelectionChangedCause.forcePress);
         break;
       case FloatingCursorDragState.End:
@@ -259,10 +259,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// and current position of background cursor)
   void onFloatingCursorResetTick() {
     final finalPosition =
-        getRenderEditor()!.getLocalRectForCaret(_lastTextPosition!).centerLeft -
+        getRenderEditor().getLocalRectForCaret(_lastTextPosition!).centerLeft -
             _floatingCursorOffset(_lastTextPosition!);
     if (floatingCursorResetController.isCompleted) {
-      getRenderEditor()!.setFloatingCursor(
+      getRenderEditor().setFloatingCursor(
           FloatingCursorDragState.End, finalPosition, _lastTextPosition!);
       _startCaretRect = null;
       _lastTextPosition = null;
@@ -275,7 +275,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       final lerpY =
           lerpDouble(_lastBoundedOffset!.dy, finalPosition.dy, lerpValue)!;
 
-      getRenderEditor()!.setFloatingCursor(FloatingCursorDragState.Update,
+      getRenderEditor().setFloatingCursor(FloatingCursorDragState.Update,
           Offset(lerpX, lerpY), _lastTextPosition!,
           resetLerpValue: lerpValue);
     }
