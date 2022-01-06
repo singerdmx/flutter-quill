@@ -297,6 +297,27 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   /// Link pattern.
   ///
   /// This pattern is used to match a links within a text segment.
+  ///
+  /// It works for the following testing URLs:
+  // www.google.com
+  // http://google.com
+  // https://www.google.com
+  // http://beginner.example.edu/#act
+  // https://birth.example.net/beds/ants.php#bait
+  // http://example.com/babies
+  // https://www.example.com/
+  // https://attack.example.edu/?acoustics=blade&bed=bed
+  // http://basketball.example.com/
+  // https://birthday.example.com/birthday
+  // http://www.example.com/
+  // https://example.com/addition/action
+  // http://example.com/
+  // https://bite.example.net/#adjustment
+  // http://www.example.net/badge.php?bedroom=anger
+  // https://brass.example.com/?anger=branch&actor=amusement#adjustment
+  // http://www.example.com/?action=birds&brass=apparatus
+  // https://example.net/
+  // URL generator tool (https://www.randomlists.com/urls) is used.
   static const _linkPattern =
       r'(https?:\/\/|www\.)[\w-\.]+\.[\w-\.]+(\/([\S]+)?)?';
   static final _linkRegExp = RegExp(_linkPattern);
