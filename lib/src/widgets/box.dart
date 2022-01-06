@@ -2,8 +2,16 @@ import 'package:flutter/rendering.dart';
 
 import '../models/documents/nodes/container.dart';
 
+/// A common interface to render boxes which represent a piece of rich text
+/// content.
+///
+/// See also:
+///   * [RenderParagraphProxy] implementation of this interface which wraps
+///     built-in [RenderParagraph]
+///   * [RenderEmbedProxy] implementation of this interface which wraps
+///     an arbitrary render box representing an embeddable object.
 abstract class RenderContentProxyBox implements RenderBox {
-  double getPreferredLineHeight();
+  double get preferredLineHeight;
 
   Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype);
 

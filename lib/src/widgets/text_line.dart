@@ -835,7 +835,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   double preferredLineHeight(TextPosition position) {
-    return _body!.getPreferredLineHeight();
+    return _body!.preferredLineHeight;
   }
 
   @override

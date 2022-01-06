@@ -123,9 +123,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
       const TextRange(start: 0, end: 1);
 
   @override
-  double getPreferredLineHeight() {
-    return size.height;
-  }
+  double get preferredLineHeight => size.height;
 }
 
 class RichTextProxy extends SingleChildRenderObjectWidget {
@@ -274,9 +272,7 @@ class RenderParagraphProxy extends RenderProxyBox
   RenderParagraph? get child => super.child as RenderParagraph?;
 
   @override
-  double getPreferredLineHeight() {
-    return _prototypePainter.preferredLineHeight;
-  }
+  double get preferredLineHeight => _prototypePainter.preferredLineHeight;
 
   @override
   Offset getOffsetForCaret(TextPosition position, Rect? caretPrototype) =>
