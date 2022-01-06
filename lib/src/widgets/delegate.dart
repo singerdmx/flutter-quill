@@ -10,12 +10,32 @@ typedef EmbedBuilder = Widget Function(
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
+/// Delegate interface for the [EditorTextSelectionGestureDetectorBuilder].
+///
+/// The interface is usually implemented by textfield implementations wrapping
+/// [EditableText], that use a [EditorTextSelectionGestureDetectorBuilder]
+/// to build a [EditorTextSelectionGestureDetector] for their [EditableText].
+/// The delegate provides the builder with information about the current state
+/// of the textfield.
+/// Based on these information, the builder adds the correct gesture handlers
+/// to the gesture detector.
+///
+/// See also:
+///
+///  * [TextField], which implements this delegate for the Material textfield.
+///  * [CupertinoTextField], which implements this delegate for the Cupertino
+///    textfield.
 abstract class EditorTextSelectionGestureDetectorBuilderDelegate {
-  GlobalKey<EditorState> getEditableTextKey();
+  /// [GlobalKey] to the [EditableText] for which the
+  /// [EditorTextSelectionGestureDetectorBuilder] will build
+  /// a [EditorTextSelectionGestureDetector].
+  GlobalKey<EditorState> get editableTextKey;
 
-  bool getForcePressEnabled();
+  /// Whether the textfield should respond to force presses.
+  bool get forcePressEnabled;
 
-  bool getSelectionEnabled();
+  /// Whether the user may select text in the textfield.
+  bool get selectionEnabled;
 }
 
 /// Builds a [EditorTextSelectionGestureDetector] to wrap an [EditableText].
@@ -60,7 +80,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// The [State] of the [EditableText] for which the builder will provide a
   /// [EditorTextSelectionGestureDetector].
   @protected
-  EditorState? get editor => delegate.getEditableTextKey().currentState;
+  EditorState? get editor => delegate.editableTextKey.currentState;
 
   /// The [RenderObject] of the [EditableText] for which the builder will
   /// provide a [EditorTextSelectionGestureDetector].
@@ -103,9 +123,9 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onForcePressStart(ForcePressDetails details) {
-    assert(delegate.getForcePressEnabled());
+    assert(delegate.forcePressEnabled);
     shouldShowSelectionToolbar = true;
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.selectionEnabled) {
       renderEditor!.selectWordsInRange(
         details.globalPosition,
         null,
@@ -127,7 +147,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onForcePressEnd(ForcePressDetails details) {
-    assert(delegate.getForcePressEnabled());
+    assert(delegate.forcePressEnabled);
     renderEditor!.selectWordsInRange(
       details.globalPosition,
       null,
@@ -148,7 +168,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///    this callback.
   @protected
   void onSingleTapUp(TapUpDetails details) {
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.selectionEnabled) {
       renderEditor!.selectWordEdge(SelectionChangedCause.tap);
     }
   }
@@ -177,7 +197,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onSingleLongTapStart(LongPressStartDetails details) {
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.selectionEnabled) {
       renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
@@ -196,7 +216,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///    triggers this callback.
   @protected
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.selectionEnabled) {
       renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
@@ -230,7 +250,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onDoubleTapDown(TapDownDetails details) {
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.selectionEnabled) {
       renderEditor!.selectWord(SelectionChangedCause.tap);
       if (shouldShowSelectionToolbar) {
         editor!.showToolbar();
@@ -289,9 +309,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     return EditorTextSelectionGestureDetector(
       key: key,
       onTapDown: onTapDown,
-      onForcePressStart:
-          delegate.getForcePressEnabled() ? onForcePressStart : null,
-      onForcePressEnd: delegate.getForcePressEnabled() ? onForcePressEnd : null,
+      onForcePressStart: delegate.forcePressEnabled ? onForcePressStart : null,
+      onForcePressEnd: delegate.forcePressEnabled ? onForcePressEnd : null,
       onSingleTapUp: onSingleTapUp,
       onSingleTapCancel: onSingleTapCancel,
       onSingleLongTapStart: onSingleLongTapStart,

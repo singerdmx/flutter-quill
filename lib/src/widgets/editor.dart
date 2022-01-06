@@ -569,19 +569,13 @@ class _QuillEditorState extends State<QuillEditor>
   }
 
   @override
-  GlobalKey<EditorState> getEditableTextKey() {
-    return _editorKey;
-  }
+  GlobalKey<EditorState> get editableTextKey => _editorKey;
 
   @override
-  bool getForcePressEnabled() {
-    return false;
-  }
+  bool get forcePressEnabled => false;
 
   @override
-  bool getSelectionEnabled() {
-    return widget.enableInteractiveSelection;
-  }
+  bool get selectionEnabled => widget.enableInteractiveSelection;
 
   void _requestKeyboard() {
     _editorKey.currentState!.requestKeyboard();
@@ -598,7 +592,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   @override
   void onForcePressStart(ForcePressDetails details) {
     super.onForcePressStart(details);
-    if (delegate.getSelectionEnabled() && shouldShowSelectionToolbar) {
+    if (delegate.selectionEnabled && shouldShowSelectionToolbar) {
       editor!.showToolbar();
     }
   }
@@ -615,7 +609,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         return;
       }
     }
-    if (!delegate.getSelectionEnabled()) {
+    if (!delegate.selectionEnabled) {
       return;
     }
     switch (Theme.of(_state.context).platform) {
@@ -692,7 +686,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     final positionSelected = _isPositionSelected(details);
 
-    if (delegate.getSelectionEnabled() && !positionSelected) {
+    if (delegate.selectionEnabled && !positionSelected) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
@@ -754,7 +748,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
     }
 
-    if (delegate.getSelectionEnabled()) {
+    if (delegate.selectionEnabled) {
       switch (Theme.of(_state.context).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
@@ -785,7 +779,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
           return;
         }
 
-        if (delegate.getSelectionEnabled()) {
+        if (delegate.selectionEnabled) {
           renderEditor!.onSelectionCompleted();
         }
       }
