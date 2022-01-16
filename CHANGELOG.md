@@ -1,3 +1,6 @@
+# [3.2.1]
+* Added new translations.
+
 # [3.2.0]
 * Support multiple links insertion on the go.
 
