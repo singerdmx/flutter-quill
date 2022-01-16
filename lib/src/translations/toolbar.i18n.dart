@@ -114,7 +114,7 @@ extension Localization on String {
               'Por favor selecione primeiro um texto para '
                   'transformá-lo em um link',
         },
-       'pl': {
+        'pl': {
           'Paste a link': 'Wklej link',
           'Ok': 'OK',
           'Select Color': 'Wybierz kolor',
