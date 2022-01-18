@@ -220,7 +220,9 @@ Widget defaultEmbedBuilder(
                         text: 'Save',
                         onPressed: () {
                           // TODO: handle base64 and etc.
-                          GallerySaver.saveImage(imageUrl);
+                          GallerySaver.saveImage(imageUrl).then((_) =>
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Saved'))));
                         },
                       ),
                       SimpleDialogItem(
