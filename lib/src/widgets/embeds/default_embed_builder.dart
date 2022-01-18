@@ -5,7 +5,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import '../../../widgets/image.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../utils/platform_helper.dart';
-import '../../utils/simple_dialog_item.dart';
 import '../../utils/string_helper.dart';
 import 'video_app.dart';
 import 'youtube_video_app.dart';
@@ -42,7 +41,7 @@ Widget defaultEmbedBuilder(
         return image;
       }
 
-      /// We provide option menu only for mobile platform excluding base64
+      // We provide option menu only for mobile platform excluding base64 image
       return GestureDetector(
           onTap: () {
             showDialog(
@@ -54,7 +53,7 @@ Widget defaultEmbedBuilder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           children: [
-                            SimpleDialogItem(
+                            _SimpleDialogItem(
                               icon: Icons.save,
                               color: Colors.greenAccent,
                               text: 'Save',
@@ -66,7 +65,7 @@ Widget defaultEmbedBuilder(
                                             content: Text('Saved'))));
                               },
                             ),
-                            SimpleDialogItem(
+                            _SimpleDialogItem(
                               icon: Icons.zoom_in,
                               color: Colors.cyanAccent,
                               text: 'Zoom',
@@ -95,5 +94,37 @@ Widget defaultEmbedBuilder(
         'embed builder of QuillEditor. You must pass your own builder function '
         'to embedBuilder property of QuillEditor or QuillField widgets.',
       );
+  }
+}
+
+class _SimpleDialogItem extends StatelessWidget {
+  const _SimpleDialogItem(
+      {required this.icon,
+      required this.color,
+      required this.text,
+      required this.onPressed,
+      Key? key})
+      : super(key: key);
+
+  final IconData icon;
+  final Color color;
+  final String text;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialogOption(
+      onPressed: onPressed,
+      child: Row(
+        children: [
+          Icon(icon, size: 36, color: color),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 16),
+            child:
+                Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
   }
 }
