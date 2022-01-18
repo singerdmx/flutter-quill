@@ -14,6 +14,7 @@ import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
+import '../utils/platform_helper.dart';
 import '../utils/string_helper.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -163,8 +164,6 @@ String _standardizeImageUrl(String url) {
   return url;
 }
 
-bool _isMobile() => io.Platform.isAndroid || io.Platform.isIOS;
-
 Widget defaultEmbedBuilder(
     BuildContext context, leaf.Embed node, bool readOnly) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
@@ -173,7 +172,7 @@ Widget defaultEmbedBuilder(
       final imageUrl = _standardizeImageUrl(node.value.data);
       var image;
       final style = node.style.attributes['style'];
-      if (_isMobile() && style != null) {
+      if (isMobile() && style != null) {
         final _attrs = parseKeyValuePairs(style.value.toString(),
             {'mobileWidth', 'mobileHeight', 'mobileMargin', 'mobileAlignment'});
         if (_attrs.isNotEmpty) {
