@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../models/documents/document.dart';
@@ -15,6 +16,7 @@ import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../utils/platform_helper.dart';
+import '../utils/simple_dialog_item.dart';
 import '../utils/string_helper.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -202,23 +204,48 @@ Widget defaultEmbedBuilder(
               ? Image.memory(base64.decode(imageUrl))
               : Image.file(io.File(imageUrl));
 
-      if (!readOnly) {
+      if (!readOnly || !isMobile()) {
         return image;
       }
 
+      /// We provide these option menu only for mobile platform
       return GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ImageTapWrapper(
-                          imageProvider: imageUrl.startsWith('http')
-                              ? NetworkImage(imageUrl)
-                              : isBase64(imageUrl)
-                                  ? Image.memory(base64.decode(imageUrl))
-                                      as ImageProvider<Object>?
-                                  : FileImage(io.File(imageUrl)),
-                        )));
+            showDialog(
+                context: context,
+                builder: (context) => SimpleDialog(children: [
+                      SimpleDialogItem(
+                        icon: Icons.save,
+                        color: Colors.greenAccent,
+                        text: 'Save',
+                        onPressed: () {
+                          // TODO: handle base64 and etc.
+                          GallerySaver.saveImage(imageUrl).then((_) =>
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Saved'))));
+                        },
+                      ),
+                      SimpleDialogItem(
+                        icon: Icons.zoom_in,
+                        color: Colors.cyanAccent,
+                        text: 'Zoom',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ImageTapWrapper(
+                                        imageProvider: imageUrl
+                                                .startsWith('http')
+                                            ? NetworkImage(imageUrl)
+                                            : isBase64(imageUrl)
+                                                ? Image.memory(
+                                                        base64.decode(imageUrl))
+                                                    as ImageProvider<Object>?
+                                                : FileImage(io.File(imageUrl)),
+                                      )));
+                        },
+                      )
+                    ]));
           },
           child: image);
     case 'video':
