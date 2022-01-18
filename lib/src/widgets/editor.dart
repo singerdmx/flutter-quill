@@ -270,7 +270,8 @@ class QuillEditor extends StatefulWidget {
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.floatingCursorDisabled = false,
-      Key? key}) : super(key: key);
+      Key? key})
+      : super(key: key);
 
   factory QuillEditor.basic({
     required QuillController controller,

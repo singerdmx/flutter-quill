@@ -1,3 +1,6 @@
+# [3.3.1]
+* Pass any specified key in QuillEditor constructor to super.
+
 # [3.3.0]
 * Fixed Style toggle issue.
 
