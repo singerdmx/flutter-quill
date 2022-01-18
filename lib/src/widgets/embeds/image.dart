@@ -26,6 +26,13 @@ Widget imageByUrl(String imageUrl,
       width: width, height: height, alignment: alignment);
 }
 
+String standardizeImageUrl(String url) {
+  if (url.contains('base64')) {
+    return url.split(',')[1];
+  }
+  return url;
+}
+
 class ImageTapWrapper extends StatelessWidget {
   const ImageTapWrapper({
     required this.imageUrl,

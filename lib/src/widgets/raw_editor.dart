@@ -21,6 +21,7 @@ import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
+import 'embeds/default_embed_builder.dart';
 import 'keyboard_listener.dart';
 import 'link.dart';
 import 'proxy.dart';
