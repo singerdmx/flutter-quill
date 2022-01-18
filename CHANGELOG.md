@@ -1,3 +1,6 @@
+# [3.4.0]
+* Option to save image in read-only mode.
+
 # [3.3.1]
 * Pass any specified key in QuillEditor constructor to super.
 
