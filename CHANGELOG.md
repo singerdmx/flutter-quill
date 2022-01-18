@@ -1,3 +1,6 @@
+# [3.3.0]
+* Fixed Style toggle issue.
+
 # [3.2.1]
 * Added new translations.
 
