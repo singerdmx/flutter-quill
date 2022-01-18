@@ -1,12 +1,45 @@
+import 'dart:convert';
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:string_validator/string_validator.dart';
+
+bool isImageBase64(String imageUrl) {
+  return !imageUrl.startsWith('http') && isBase64(imageUrl);
+}
+
+Widget imageByUrl(String imageUrl,
+    {double? width,
+    double? height,
+    AlignmentGeometry alignment = Alignment.center}) {
+  if (isImageBase64(imageUrl)) {
+    return Image.memory(base64.decode(imageUrl),
+        width: width, height: height, alignment: alignment);
+  }
+
+  if (imageUrl.startsWith('http')) {
+    return Image.network(imageUrl,
+        width: width, height: height, alignment: alignment);
+  }
+  return Image.file(io.File(imageUrl),
+      width: width, height: height, alignment: alignment);
+}
 
 class ImageTapWrapper extends StatelessWidget {
   const ImageTapWrapper({
-    this.imageProvider,
+    required this.imageUrl,
   });
 
-  final ImageProvider? imageProvider;
+  final String imageUrl;
+
+  ImageProvider _imageProviderByUrl(String imageUrl) {
+    if (imageUrl.startsWith('http')) {
+      return NetworkImage(imageUrl);
+    }
+
+    return FileImage(io.File(imageUrl));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +51,7 @@ class ImageTapWrapper extends StatelessWidget {
         child: Stack(
           children: [
             PhotoView(
-              imageProvider: imageProvider,
+              imageProvider: _imageProviderByUrl(imageUrl),
               loadingBuilder: (context, event) {
                 return Container(
                   color: Colors.black,

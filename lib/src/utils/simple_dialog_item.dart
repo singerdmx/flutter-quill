@@ -23,7 +23,8 @@ class SimpleDialogItem extends StatelessWidget {
           Icon(icon, size: 36, color: color),
           Padding(
             padding: const EdgeInsetsDirectional.only(start: 16),
-            child: Text(text),
+            child:
+                Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
