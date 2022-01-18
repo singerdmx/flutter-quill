@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io' as io;
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
@@ -8,13 +6,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:string_validator/string_validator.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../utils/platform_helper.dart';
+import '../utils/simple_dialog_item.dart';
 import '../utils/string_helper.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -187,38 +186,53 @@ Widget defaultEmbedBuilder(
           final a = getAlignment(_attrs['mobileAlignment']);
           image = Padding(
               padding: EdgeInsets.all(m),
-              child: imageUrl.startsWith('http')
-                  ? Image.network(imageUrl, width: w, height: h, alignment: a)
-                  : isBase64(imageUrl)
-                      ? Image.memory(base64.decode(imageUrl),
-                          width: w, height: h, alignment: a)
-                      : Image.file(io.File(imageUrl),
-                          width: w, height: h, alignment: a));
+              child: imageByUrl(imageUrl, width: w, height: h, alignment: a));
         }
       }
-      image ??= imageUrl.startsWith('http')
-          ? Image.network(imageUrl)
-          : isBase64(imageUrl)
-              ? Image.memory(base64.decode(imageUrl))
-              : Image.file(io.File(imageUrl));
+      image ??= imageByUrl(imageUrl);
 
-      if (!readOnly) {
+      if (!readOnly || !isMobile() || isImageBase64(imageUrl)) {
         return image;
       }
 
+      /// We provide option menu only for mobile platform excluding base64
       return GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ImageTapWrapper(
-                          imageProvider: imageUrl.startsWith('http')
-                              ? NetworkImage(imageUrl)
-                              : isBase64(imageUrl)
-                                  ? Image.memory(base64.decode(imageUrl))
-                                      as ImageProvider<Object>?
-                                  : FileImage(io.File(imageUrl)),
-                        )));
+            showDialog(
+                context: context,
+                builder: (context) => Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                      child: SimpleDialog(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          children: [
+                            SimpleDialogItem(
+                              icon: Icons.save,
+                              color: Colors.greenAccent,
+                              text: 'Save',
+                              onPressed: () {
+                                // TODO: improve this
+                                GallerySaver.saveImage(imageUrl).then((_) =>
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text('Saved'))));
+                              },
+                            ),
+                            SimpleDialogItem(
+                              icon: Icons.zoom_in,
+                              color: Colors.cyanAccent,
+                              text: 'Zoom',
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ImageTapWrapper(
+                                            imageUrl: imageUrl)));
+                              },
+                            )
+                          ]),
+                    ));
           },
           child: image);
     case 'video':
