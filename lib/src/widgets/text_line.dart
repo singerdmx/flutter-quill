@@ -402,7 +402,7 @@ class _TextLineState extends State<TextLine> {
   }
 
   void _tapLink(String? link) {
-    if (!widget.readOnly || link == null) {
+    if (link == null) {
       return;
     }
 

@@ -1,3 +1,6 @@
+# [3.4.2]
+* Fix launch link edit mode.
+
 # [3.4.1]
 * Placeholder effective in scrollable.
 
