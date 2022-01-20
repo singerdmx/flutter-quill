@@ -1,3 +1,6 @@
+# [3.4.1]
+* Placeholder effective in scrollable.
+
 # [3.4.0]
 * Option to save image in read-only mode.
 

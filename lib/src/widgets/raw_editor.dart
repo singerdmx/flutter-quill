@@ -319,7 +319,7 @@ class RawEditorState extends EditorState
             child: _Editor(
               key: _editorKey,
               offset: offset,
-              document: widget.controller.document,
+              document: _doc,
               selection: widget.controller.selection,
               hasFocus: _hasFocus,
               textDirection: _textDirection,
