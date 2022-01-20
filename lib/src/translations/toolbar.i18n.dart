@@ -123,6 +123,15 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Na początku zaznacz tekst aby zamienić go w link.',
         },
+        'vi': {
+          'Paste a link': 'Chèn liên kết',
+          'Ok': 'OK',
+          'Select Color': 'Chọn Màu',
+          'Gallery': 'Thư viện',
+          'Link': 'Liên kết',
+          'Please first select some text to transform into a link.':
+              'Vui lòng chọn trước phần chữ cần đổi thành liên kết',
+        },
       };
 
   String get i18n => localize(this, _t);
