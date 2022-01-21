@@ -4,8 +4,7 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 
 class LinkDialog extends StatefulWidget {
-  const LinkDialog({this.dialogTheme, this.link, Key? key})
-      : super(key: key);
+  const LinkDialog({this.dialogTheme, this.link, Key? key}) : super(key: key);
 
   final QuillDialogTheme? dialogTheme;
   final String? link;

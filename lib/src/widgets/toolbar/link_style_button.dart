@@ -101,7 +101,8 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
       builder: (ctx) {
         final link = widget.controller
             .getSelectionStyle()
-            .attributes[Attribute.link.key]?.value;
+            .attributes[Attribute.link.key]
+            ?.value;
         return LinkDialog(dialogTheme: widget.dialogTheme, link: link);
       },
     ).then(_linkSubmitted);

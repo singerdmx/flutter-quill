@@ -1,3 +1,6 @@
+# [3.4.3]
+* Preset link from attributes.
+
 # [3.4.2]
 * Fix launch link edit mode.
 
