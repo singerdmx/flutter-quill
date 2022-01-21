@@ -4,16 +4,26 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 
 class LinkDialog extends StatefulWidget {
-  const LinkDialog({this.dialogTheme, Key? key}) : super(key: key);
+  const LinkDialog({this.dialogTheme, this.link, Key? key})
+      : super(key: key);
 
   final QuillDialogTheme? dialogTheme;
+  final String? link;
 
   @override
   LinkDialogState createState() => LinkDialogState();
 }
 
 class LinkDialogState extends State<LinkDialog> {
-  String _link = '';
+  late String _link;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _link = widget.link ?? '';
+    _controller = TextEditingController(text: _link);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +37,7 @@ class LinkDialogState extends State<LinkDialog> {
             floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
         autofocus: true,
         onChanged: _linkChanged,
+        controller: _controller,
       ),
       actions: [
         TextButton(
