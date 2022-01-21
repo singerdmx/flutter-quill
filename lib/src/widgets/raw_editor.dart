@@ -603,6 +603,11 @@ class RawEditorState extends EditorState
         openConnectionIfNeeded();
       }
     }
+
+    // in case customStyles changed in new widget
+    if (widget.customStyles != null) {
+      _styles = _styles!.merge(widget.customStyles!);
+    }
   }
 
   bool _shouldShowSelectionHandles() {
