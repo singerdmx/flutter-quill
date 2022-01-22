@@ -244,7 +244,9 @@ class Text extends Leaf {
 class Embed extends Leaf {
   Embed(Embeddable data) : super.val(data);
 
+  // Refer to https://www.fileformat.info/info/unicode/char/fffc/index.htm
   static const kObjectReplacementCharacter = '\uFFFC';
+  static const kObjectReplacementInt = 65532;
 
   @override
   Node newInstance() => throw UnimplementedError();
