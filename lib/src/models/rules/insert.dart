@@ -320,7 +320,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   // URL generator tool (https://www.randomlists.com/urls) is used.
   static const _linkPattern =
       r'(https?:\/\/|www\.)[\w-\.]+\.[\w-\.]+(\/([\S]+)?)?';
-  static final _linkRegExp = RegExp(_linkPattern);
+  static final linkRegExp = RegExp(_linkPattern);
 
   @override
   Delta? applyRule(
@@ -364,7 +364,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     final affectedWords = '$leftWordPart$data$rightWordPart';
 
     // Check for URL pattern.
-    final matches = _linkRegExp.allMatches(affectedWords);
+    final matches = linkRegExp.allMatches(affectedWords);
 
     // If there are no matches, do not apply any format.
     if (matches.isEmpty) return null;
@@ -394,7 +394,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
       // Keep the leading segment of text and add link with its proper
       // attribute.
       formatterDelta
-        ..retain(separationLength, LinkAttribute(null).toJson())
+        ..retain(separationLength, Attribute.link.toJson())
         ..retain(link.length, LinkAttribute(link).toJson());
 
       // Update reference index.
@@ -405,7 +405,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     final remainingLength = affectedWords.length - previousLinkEndRelativeIndex;
 
     // Remove links from remaining non-link text.
-    formatterDelta.retain(remainingLength, LinkAttribute(null).toJson());
+    formatterDelta.retain(remainingLength, Attribute.link.toJson());
 
     // Build and return resulting change delta.
     return baseDelta.compose(formatterDelta);

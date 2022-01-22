@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../models/documents/attribute.dart';
+import '../../models/rules/insert.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../controller.dart';
 import '../toolbar.dart';
-import 'link_dialog.dart';
 
 class LinkStyleButton extends StatefulWidget {
   const LinkStyleButton({
@@ -96,11 +97,19 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
   }
 
   void _openLinkDialog(BuildContext context) {
-    showDialog<String>(
+    showDialog<dynamic>(
       context: context,
       builder: (ctx) {
         final link = _getLinkAttributeValue();
-        return LinkDialog(dialogTheme: widget.dialogTheme, link: link);
+        if (link != null) {
+          // TODO: text should be the link's corresponding text, not selection
+        }
+        final index = widget.controller.selection.baseOffset;
+        final text = widget.controller.document
+            .toPlainText()
+            .substring(index, widget.controller.selection.extentOffset);
+        return _LinkDialog(
+            dialogTheme: widget.dialogTheme, link: link, text: text);
       },
     ).then(_linkSubmitted);
   }
@@ -112,10 +121,111 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         ?.value;
   }
 
-  void _linkSubmitted(String? value) {
-    if (value == null || value.isEmpty) {
-      return;
+  void _linkSubmitted(dynamic value) {
+    // text.isNotEmpty && link.isNotEmpty
+    final String text = (value as Tuple2).item1;
+    final String link = value.item2;
+
+    final index = widget.controller.selection.baseOffset;
+    final length = widget.controller.selection.extentOffset - index;
+    widget.controller.replaceText(index, length, text, null);
+    widget.controller.formatSelection(LinkAttribute(link));
+  }
+}
+
+class _LinkDialog extends StatefulWidget {
+  const _LinkDialog({this.dialogTheme, this.link, this.text, Key? key})
+      : super(key: key);
+
+  final QuillDialogTheme? dialogTheme;
+  final String? link;
+  final String? text;
+
+  @override
+  _LinkDialogState createState() => _LinkDialogState();
+}
+
+class _LinkDialogState extends State<_LinkDialog> {
+  late String _link;
+  late String _text;
+  late TextEditingController _linkController;
+  late TextEditingController _textController;
+
+  @override
+  void initState() {
+    super.initState();
+    _link = widget.link ?? '';
+    _text = widget.text ?? '';
+    _linkController = TextEditingController(text: _link);
+    _textController = TextEditingController(text: _text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
+      content: Column(
+        children: [
+          TextField(
+            style: widget.dialogTheme?.inputTextStyle,
+            decoration: InputDecoration(
+                labelText: 'Text'.i18n,
+                labelStyle: widget.dialogTheme?.labelTextStyle,
+                floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
+            autofocus: true,
+            onChanged: _textChanged,
+            controller: _textController,
+          ),
+          TextField(
+            style: widget.dialogTheme?.inputTextStyle,
+            decoration: InputDecoration(
+                labelText: 'Link'.i18n,
+                labelStyle: widget.dialogTheme?.labelTextStyle,
+                floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
+            autofocus: true,
+            onChanged: _linkChanged,
+            controller: _linkController,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: _canPress() ? _applyLink : null,
+          child: Text(
+            'Ok'.i18n,
+            style: widget.dialogTheme?.labelTextStyle,
+          ),
+        ),
+      ],
+    );
+  }
+
+  bool _canPress() {
+    if (_text.isEmpty || _link.isEmpty) {
+      return false;
     }
-    widget.controller.formatSelection(LinkAttribute(value));
+
+    if (!AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('What is entered is not a link'.i18n)));
+      return false;
+    }
+    return true;
+  }
+
+  void _linkChanged(String value) {
+    setState(() {
+      _link = value;
+    });
+  }
+
+  void _textChanged(String value) {
+    setState(() {
+      _text = value;
+    });
+  }
+
+  void _applyLink() {
+    Navigator.pop(context, Tuple2(_text, _link));
   }
 }

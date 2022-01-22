@@ -18,6 +18,7 @@ extension Localization on String {
           'Zoom': 'Zoom',
           'Saved': 'Saved',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -34,6 +35,7 @@ extension Localization on String {
           'Zoom': 'تكبير',
           'Saved': 'أنقذ',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -50,6 +52,7 @@ extension Localization on String {
           'Zoom': 'Zoom ind',
           'Saved': 'Gemt',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -67,6 +70,7 @@ extension Localization on String {
           'Zoom': 'Zoomen',
           'Saved': 'Gerettet',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -83,6 +87,7 @@ extension Localization on String {
           'Zoom': 'Zoom',
           'Saved': 'Enregistrée',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -99,6 +104,7 @@ extension Localization on String {
           'Zoom': '放大',
           'Saved': '已保存',
           'Text': '文字',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -115,6 +121,7 @@ extension Localization on String {
           'Zoom': '확대하기',
           'Saved': '저장되었습니다.',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -131,6 +138,7 @@ extension Localization on String {
           'Zoom': 'Увеличить',
           'Saved': 'Сохранено',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -148,6 +156,7 @@ extension Localization on String {
           'Zoom': 'Zoom',
           'Saved': 'Salvado',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -164,6 +173,7 @@ extension Localization on String {
           'Zoom': 'yakınlaştır',
           'Saved': 'kaydedildi',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -180,6 +190,7 @@ extension Localization on String {
           'Zoom': 'Збільшити',
           'Saved': 'Збережено',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -197,6 +208,7 @@ extension Localization on String {
           'Zoom': 'Ampliação',
           'Saved': 'Salvou',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -213,6 +225,7 @@ extension Localization on String {
           'Zoom': 'Powiększenie',
           'Saved': 'Zapisane',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -229,6 +242,7 @@ extension Localization on String {
           'Zoom': 'Thu phóng',
           'Saved': 'Đã lưu',
           'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
         },
       };
 
