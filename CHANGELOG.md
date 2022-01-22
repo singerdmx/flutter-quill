@@ -1,3 +1,6 @@
+# [3.6.1]
+* Remove SnackBar 'What is entered is not a link'.
+
 # [3.6.0]
 * Allow link button to enter text.
 
