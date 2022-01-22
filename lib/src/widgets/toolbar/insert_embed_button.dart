@@ -5,6 +5,7 @@ import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
+@Deprecated('This is for horizontal line and not supported')
 class InsertEmbedButton extends StatelessWidget {
   const InsertEmbedButton({
     required this.controller,

@@ -84,6 +84,7 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(buttonCount, (index) {
         return Padding(
+          // ignore: prefer_const_constructors
           padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(

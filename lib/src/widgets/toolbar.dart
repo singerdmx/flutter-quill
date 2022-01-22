@@ -410,6 +410,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             dialogTheme: dialogTheme,
           ),
         if (showHorizontalRule)
+          // ignore: deprecated_member_use_from_same_package
           InsertEmbedButton(
             controller: controller,
             icon: Icons.horizontal_rule,

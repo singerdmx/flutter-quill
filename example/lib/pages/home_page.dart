@@ -240,6 +240,7 @@ class _HomePageState extends State<HomePage> {
     return copiedFile.path.toString();
   }
 
+  // ignore: unused_element
   Future<MediaPickSetting?> _selectMediaPickSetting(BuildContext context) =>
       showDialog<MediaPickSetting>(
         context: context,

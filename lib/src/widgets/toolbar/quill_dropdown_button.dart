@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated('Not being used')
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.child,
@@ -26,6 +27,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   _QuillDropdownButtonState<T> createState() => _QuillDropdownButtonState<T>();
 }
 
+// ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   @override
   Widget build(BuildContext context) {
