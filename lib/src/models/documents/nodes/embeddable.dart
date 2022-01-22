@@ -25,9 +25,6 @@ class Embeddable {
   }
 }
 
-/// An object which occupies an entire line in a document and cannot co-exist
-/// inline with regular text.
-///
 /// There are two built-in embed types supported by Quill documents, however
 /// the document model itself does not make any assumptions about the types
 /// of embedded objects and allows users to define their own types.
