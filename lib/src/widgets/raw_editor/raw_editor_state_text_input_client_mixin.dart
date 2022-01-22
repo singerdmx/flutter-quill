@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../../models/documents/document.dart';
@@ -61,8 +62,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         ),
       );
 
+      _updateSizeAndTransform();
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
-      // _sentRemoteValues.add(_lastKnownRemoteTextEditingValue);
     }
 
     _textInputConnection!.show();
@@ -111,6 +112,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     );
   }
 
+  // Start TextInputClient implementation
   @override
   TextEditingValue? get currentTextEditingValue =>
       _lastKnownRemoteTextEditingValue;
@@ -292,5 +294,20 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.connectionClosedReceived();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
+  }
+
+  void _updateSizeAndTransform() {
+    if (hasConnection) {
+      // Asking for renderEditor.size here can cause errors if layout hasn't
+      // occurred yet. So we schedule a post frame callback instead.
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        final size = renderEditor.size;
+        final transform = renderEditor.getTransformTo(null);
+        _textInputConnection!.setEditableSizeAndTransform(size, transform);
+      });
+    }
   }
 }
