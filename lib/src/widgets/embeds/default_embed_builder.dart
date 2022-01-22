@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 
-import '../../../widgets/image.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform_helper.dart';
 import '../../utils/string_helper.dart';
+import 'image.dart';
 import 'video_app.dart';
 import 'youtube_video_app.dart';
 
