@@ -7,7 +7,7 @@ import '../attribute.dart';
 import '../style.dart';
 import 'block.dart';
 import 'container.dart';
-import 'embeddable.dart';
+import 'embed.dart';
 import 'leaf.dart';
 import 'node.dart';
 

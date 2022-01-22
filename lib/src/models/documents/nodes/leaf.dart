@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import '../../quill_delta.dart';
 import '../style.dart';
-import 'embeddable.dart';
+import 'embed.dart';
 import 'line.dart';
 import 'node.dart';
 
