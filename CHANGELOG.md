@@ -1,3 +1,6 @@
+# [3.6.5]
+* Update Link dialogue for image/video.
+
 # [3.6.4]
 * Link dialogue TextInputType.multiline.
 
