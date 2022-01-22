@@ -5,10 +5,69 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embeddable.dart';
+import '../../models/themes/quill_dialog_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
 import '../controller.dart';
 import '../toolbar.dart';
+
+class LinkDialog extends StatefulWidget {
+  const LinkDialog({this.dialogTheme, this.link, Key? key}) : super(key: key);
+
+  final QuillDialogTheme? dialogTheme;
+  final String? link;
+
+  @override
+  LinkDialogState createState() => LinkDialogState();
+}
+
+class LinkDialogState extends State<LinkDialog> {
+  late String _link;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _link = widget.link ?? '';
+    _controller = TextEditingController(text: _link);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
+      content: TextField(
+        style: widget.dialogTheme?.inputTextStyle,
+        decoration: InputDecoration(
+            labelText: 'Paste a link'.i18n,
+            labelStyle: widget.dialogTheme?.labelTextStyle,
+            floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
+        autofocus: true,
+        onChanged: _linkChanged,
+        controller: _controller,
+      ),
+      actions: [
+        TextButton(
+          onPressed: _link.isNotEmpty ? _applyLink : null,
+          child: Text(
+            'Ok'.i18n,
+            style: widget.dialogTheme?.labelTextStyle,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _linkChanged(String value) {
+    setState(() {
+      _link = value;
+    });
+  }
+
+  void _applyLink() {
+    Navigator.pop(context, _link);
+  }
+}
 
 enum MediaPickSetting {
   Gallery,
