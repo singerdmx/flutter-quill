@@ -1,3 +1,6 @@
+# [3.6.2]
+* Improve link button.
+
 # [3.6.1]
 * Remove SnackBar 'What is entered is not a link'.
 
