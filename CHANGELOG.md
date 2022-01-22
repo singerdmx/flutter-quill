@@ -1,3 +1,6 @@
+# [3.5.0]
+* Removed redundant classes.
+
 # [3.4.4]
 * Add more translations.
 
