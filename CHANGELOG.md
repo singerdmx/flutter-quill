@@ -1,3 +1,6 @@
+# [3.5.1]
+* Bug fix for platform util.
+
 # [3.5.0]
 * Removed redundant classes.
 

@@ -398,14 +398,7 @@ class _QuillEditorState extends State<QuillEditor>
     Color selectionColor;
     Radius? cursorRadius;
 
-    if (isKeyboardOS(theme.platform)) {
-      textSelectionControls = materialTextSelectionControls;
-      paintCursorAboveText = false;
-      cursorOpacityAnimates = false;
-      cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
-      selectionColor = selectionTheme.selectionColor ??
-          theme.colorScheme.primary.withOpacity(0.40);
-    } else if (isAppleOS(theme.platform)) {
+    if (isAppleOS(theme.platform)) {
       final cupertinoTheme = CupertinoTheme.of(context);
       textSelectionControls = cupertinoTextSelectionControls;
       paintCursorAboveText = true;
@@ -417,7 +410,12 @@ class _QuillEditorState extends State<QuillEditor>
       cursorOffset = Offset(
           iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
     } else {
-      throw UnimplementedError();
+      textSelectionControls = materialTextSelectionControls;
+      paintCursorAboveText = false;
+      cursorOpacityAnimates = false;
+      cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
+      selectionColor = selectionTheme.selectionColor ??
+          theme.colorScheme.primary.withOpacity(0.40);
     }
 
     final child = RawEditor(
@@ -523,14 +521,12 @@ class _QuillEditorSelectionGestureDetectorBuilder
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
       );
-    } else if (isKeyboardOS(_platform)) {
+    } else {
       renderEditor!.selectWordsInRange(
         details.globalPosition - details.offsetFromOrigin,
         details.globalPosition,
         SelectionChangedCause.longPress,
       );
-    } else {
-      throw UnimplementedError();
     }
   }
 
@@ -613,7 +609,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
               ..onSelectionCompleted();
             break;
         }
-      } else if (isKeyboardOS(_platform)) {
+      } else {
         renderEditor!
           ..selectPosition(cause: SelectionChangedCause.tap)
           ..onSelectionCompleted();
@@ -639,11 +635,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
           from: details.globalPosition,
           cause: SelectionChangedCause.longPress,
         );
-      } else if (isKeyboardOS(_platform)) {
+      } else {
         renderEditor!.selectWord(SelectionChangedCause.longPress);
         Feedback.forLongPress(_state.context);
-      } else {
-        throw UnimplementedError();
       }
     }
   }

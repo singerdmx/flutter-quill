@@ -851,7 +851,7 @@ class RawEditorState extends EditorState
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar(false);
 
-      if (isKeyboardOS() || Platform.isAndroid) {
+      if (!Platform.isIOS) {
         // Collapse the selection and hide the toolbar and handles.
         userUpdateTextEditingValue(
           TextEditingValue(

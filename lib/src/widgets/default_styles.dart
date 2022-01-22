@@ -195,10 +195,8 @@ class DefaultStyles {
     String fontFamily;
     if (isAppleOS(themeData.platform)) {
       fontFamily = 'Menlo';
-    } else if (isKeyboardOS(themeData.platform)) {
-      fontFamily = 'Roboto Mono';
     } else {
-      throw UnimplementedError();
+      fontFamily = 'Roboto Mono';
     }
 
     final inlineCodeStyle = TextStyle(

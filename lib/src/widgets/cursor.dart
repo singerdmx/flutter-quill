@@ -287,7 +287,15 @@ class CursorPainter {
 
     final caretHeight = editable!.getFullHeightForCaret(position);
     if (caretHeight != null) {
-      if (isKeyboardOS()) {
+      if (isAppleOS()) {
+        // Center the caret vertically along the text.
+        caretRect = Rect.fromLTWH(
+          caretRect.left,
+          caretRect.top + (caretHeight - caretRect.height) / 2,
+          caretRect.width,
+          caretRect.height,
+        );
+      } else {
         // Override the height to take the full height of the glyph at the
         // TextPosition when not on iOS. iOS has special handling that
         // creates a taller caret.
@@ -297,16 +305,6 @@ class CursorPainter {
           caretRect.width,
           caretHeight,
         );
-      } else if (isAppleOS()) {
-        // Center the caret vertically along the text.
-        caretRect = Rect.fromLTWH(
-          caretRect.left,
-          caretRect.top + (caretHeight - caretRect.height) / 2,
-          caretRect.width,
-          caretRect.height,
-        );
-      } else {
-        throw UnimplementedError();
       }
     }
 

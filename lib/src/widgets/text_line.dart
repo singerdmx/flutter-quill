@@ -855,10 +855,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   void _computeCaretPrototype() {
     if (isAppleOS()) {
       _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
-    } else if (isKeyboardOS()) {
-      _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
     } else {
-      throw UnimplementedError();
+      _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
     }
   }
 
