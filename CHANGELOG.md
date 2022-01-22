@@ -1,3 +1,6 @@
+# [3.4.4]
+* Add more translations.
+
 # [3.4.3]
 * Preset link from attributes.
 
