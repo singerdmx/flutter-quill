@@ -101,10 +101,11 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
       context: context,
       builder: (ctx) {
         final link = _getLinkAttributeValue();
+        final index = widget.controller.selection.baseOffset;
+
         if (link != null) {
           // TODO: text should be the link's corresponding text, not selection
         }
-        final index = widget.controller.selection.baseOffset;
         final text = widget.controller.document
             .toPlainText()
             .substring(index, widget.controller.selection.extentOffset);
@@ -206,10 +207,9 @@ class _LinkDialogState extends State<_LinkDialog> {
     }
 
     if (!AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('What is entered is not a link'.i18n)));
       return false;
     }
+
     return true;
   }
 
