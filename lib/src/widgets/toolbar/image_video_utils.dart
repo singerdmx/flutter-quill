@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/documents/nodes/embed.dart';
+import '../../models/documents/nodes/embeddable.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
 import '../controller.dart';
@@ -75,7 +75,7 @@ class ImageVideoUtils {
     }
 
     if (imageUrl != null) {
-      controller.replaceText(index, length, BlockEmbed.image(imageUrl), null);
+      controller.replaceText(index, length, Embeddable.image(imageUrl), null);
     }
   }
 
@@ -127,7 +127,7 @@ class ImageVideoUtils {
     }
 
     if (videoUrl != null) {
-      controller.replaceText(index, length, BlockEmbed.video(videoUrl), null);
+      controller.replaceText(index, length, Embeddable.video(videoUrl), null);
     }
   }
 

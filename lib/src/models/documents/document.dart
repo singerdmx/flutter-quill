@@ -8,7 +8,7 @@ import 'attribute.dart';
 import 'history.dart';
 import 'nodes/block.dart';
 import 'nodes/container.dart';
-import 'nodes/embed.dart';
+import 'nodes/embeddable.dart';
 import 'nodes/line.dart';
 import 'nodes/node.dart';
 import 'style.dart';
@@ -230,7 +230,7 @@ class Document {
     if (data is Embeddable) {
       return data;
     }
-    return Embeddable.fromJson(data as Map<String, dynamic>);
+    return Embeddable.fromJson(data as Map<String, String>);
   }
 
   void close() {

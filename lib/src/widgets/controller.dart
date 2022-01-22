@@ -5,7 +5,7 @@ import 'package:tuple/tuple.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
-import '../models/documents/nodes/embed.dart';
+import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
 import '../utils/delta.dart';
