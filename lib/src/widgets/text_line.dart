@@ -15,7 +15,7 @@ import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
 import '../utils/color.dart';
-import '../utils/platform_helper.dart';
+import '../utils/platform.dart';
 import 'box.dart';
 import 'cursor.dart';
 import 'delegate.dart';

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embed.dart';
 import '../../translations/toolbar.i18n.dart';
-import '../../utils/platform_helper.dart';
+import '../../utils/platform.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 

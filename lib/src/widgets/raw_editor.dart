@@ -17,7 +17,7 @@ import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
-import '../utils/platform_helper.dart';
+import '../utils/platform.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';

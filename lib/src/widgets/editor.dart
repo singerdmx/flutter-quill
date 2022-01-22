@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/line.dart';
-import '../utils/platform_helper.dart';
+import '../utils/platform.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
