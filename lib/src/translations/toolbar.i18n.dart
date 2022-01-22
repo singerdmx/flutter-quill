@@ -211,9 +211,9 @@ extension Localization on String {
               'Vui lòng chọn trước phần chữ cần đổi thành liên kết',
           'Open': 'Mở',
           'Copy': 'Sao chép',
-          'Remove': 'Tẩy',
-          'Save': 'Cứu',
-          'Zoom': 'Phóng',
+          'Remove': 'Xoá',
+          'Save': 'Lưu',
+          'Zoom': 'Thu phóng',
           'Saved': 'Đã lưu',
         },
       };
