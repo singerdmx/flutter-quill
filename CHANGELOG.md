@@ -1,3 +1,6 @@
+# [3.6.4]
+* Link dialogue TextInputType.multiline.
+
 # [3.6.3]
 * Bug fix for link button text selection.
 
