@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/documents/nodes/node.dart';
+import '../translations/toolbar.i18n.dart';
 
 /// List of possible actions returned from [LinkActionPickerDelegate].
 enum LinkMenuAction {
@@ -120,17 +121,17 @@ Future<LinkMenuAction> _showMaterialMenu(
         mainAxisSize: MainAxisSize.min,
         children: [
           _MaterialAction(
-            title: 'Open',
+            title: 'Open'.i18n,
             icon: Icons.language_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.launch),
           ),
           _MaterialAction(
-            title: 'Copy',
+            title: 'Copy'.i18n,
             icon: Icons.copy_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.copy),
           ),
           _MaterialAction(
-            title: 'Remove',
+            title: 'Remove'.i18n,
             icon: Icons.link_off_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.remove),
           ),

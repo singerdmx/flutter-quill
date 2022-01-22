@@ -4,6 +4,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 
 import '../../../widgets/image.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
+import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform_helper.dart';
 import '../../utils/string_helper.dart';
 import 'video_app.dart';
@@ -56,19 +57,18 @@ Widget defaultEmbedBuilder(
                             _SimpleDialogItem(
                               icon: Icons.save,
                               color: Colors.greenAccent,
-                              text: 'Save',
+                              text: 'Save'.i18n,
                               onPressed: () {
                                 // TODO: improve this
                                 GallerySaver.saveImage(imageUrl).then((_) =>
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content: Text('Saved'))));
+                                        SnackBar(content: Text('Saved'.i18n))));
                               },
                             ),
                             _SimpleDialogItem(
                               icon: Icons.zoom_in,
                               color: Colors.cyanAccent,
-                              text: 'Zoom',
+                              text: 'Zoom'.i18n,
                               onPressed: () {
                                 Navigator.push(
                                     context,

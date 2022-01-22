@@ -11,6 +11,12 @@ extension Localization on String {
           'Link': 'Link',
           'Please first select some text to transform into a link.':
               'Please first select some text to transform into a link.',
+          'Open': 'Open',
+          'Copy': 'Copy',
+          'Remove': 'Remove',
+          'Save': 'Save',
+          'Zoom': 'Zoom',
+          'Saved': 'Saved',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -20,6 +26,12 @@ extension Localization on String {
           'Link': 'الرابط',
           'Please first select some text to transform into a link.':
               'يرجى اختيار نص للتحويل إلى رابط',
+          'Open': 'فتح',
+          'Copy': 'ينسخ',
+          'Remove': 'إزالة',
+          'Save': 'يحفظ',
+          'Zoom': 'تكبير',
+          'Saved': 'أنقذ',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -29,6 +41,12 @@ extension Localization on String {
           'Link': 'Link',
           'Please first select some text to transform into a link.':
               'Vælg venligst først noget tekst for at lave det om til et link.',
+          'Open': 'Åben',
+          'Copy': 'Kopi',
+          'Remove': 'Fjerne',
+          'Save': 'Gemme',
+          'Zoom': 'Zoom ind',
+          'Saved': 'Gemt',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -39,6 +57,12 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Markiere bitte zuerst einen Text, um diesen in einen Link zu '
                   'verwandeln.',
+          'Open': 'Offen',
+          'Copy': 'Kopieren',
+          'Remove': 'Entfernen',
+          'Save': 'Speichern',
+          'Zoom': 'Zoomen',
+          'Saved': 'Gerettet',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -48,6 +72,12 @@ extension Localization on String {
           'Link': 'Lien',
           'Please first select some text to transform into a link.':
               "Veuillez d'abord sélectionner un texte à transformer en lien.",
+          'Open': 'Ouverte',
+          'Copy': 'Copie',
+          'Remove': 'Supprimer',
+          'Save': 'Sauvegarder',
+          'Zoom': 'Zoom',
+          'Saved': 'Enregistrée',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -57,6 +87,12 @@ extension Localization on String {
           'Link': '链接',
           'Please first select some text to transform into a link.':
               '请先选择一些要转化为链接的文本',
+          'Open': '打开',
+          'Copy': '复制',
+          'Remove': '移除',
+          'Save': '保存',
+          'Zoom': '放大',
+          'Saved': '已保存',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -66,6 +102,12 @@ extension Localization on String {
           'Link': '링크',
           'Please first select some text to transform into a link.':
               '링크로 전환할 글자를 먼저 선택해주세요.',
+          'Open': '열려있는',
+          'Copy': '복사',
+          'Remove': '제거하다',
+          'Save': '구하다',
+          'Zoom': '줌',
+          'Saved': '저장됨',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -75,6 +117,12 @@ extension Localization on String {
           'Link': 'Ссылка',
           'Please first select some text to transform into a link.':
               'Выделите часть текста для создания ссылки.',
+          'Open': 'Открытым',
+          'Copy': 'Копировать',
+          'Remove': 'Удалять',
+          'Save': 'Сохранять',
+          'Zoom': 'Увеличить',
+          'Saved': 'Сохранено',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -85,6 +133,12 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Por favor selecciona primero un texto para transformarlo '
                   'en un enlace',
+          'Open': 'Abierta',
+          'Copy': 'Dupdo',
+          'Remove': 'Eliminar',
+          'Save': 'Ahorrar',
+          'Zoom': 'Zoom',
+          'Saved': 'Salvado',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -94,6 +148,12 @@ extension Localization on String {
           'Link': 'Bağlantı',
           'Please first select some text to transform into a link.':
               'Lütfen bağlantıya dönüştürmek için bir metin seçin.',
+          'Open': 'Açık',
+          'Copy': 'kopyala',
+          'Remove': 'Kaldırmak',
+          'Save': 'Kayıt etmek',
+          'Zoom': 'yakınlaştır',
+          'Saved': 'kaydedildi',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -103,6 +163,12 @@ extension Localization on String {
           'Link': 'Посилання',
           'Please first select some text to transform into a link.':
               'Виділіть текст для створення посилання.',
+          'Open': 'відчинено',
+          'Copy': 'Копія',
+          'Remove': 'Видалити',
+          'Save': 'Зберегти',
+          'Zoom': 'Збільшити',
+          'Saved': 'Збережено',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -113,6 +179,12 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Por favor selecione primeiro um texto para '
                   'transformá-lo em um link',
+          'Open': 'Aberto',
+          'Copy': 'cópia de',
+          'Remove': 'Remover',
+          'Save': 'Salve',
+          'Zoom': 'Ampliação',
+          'Saved': 'Salvou',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -122,6 +194,12 @@ extension Localization on String {
           'Link': 'Link',
           'Please first select some text to transform into a link.':
               'Na początku zaznacz tekst aby zamienić go w link.',
+          'Open': 'otwarty',
+          'Copy': 'Kopiuj',
+          'Remove': 'Usunąć',
+          'Save': 'Zapisać',
+          'Zoom': 'Powiększenie',
+          'Saved': 'Zapisane',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -131,6 +209,12 @@ extension Localization on String {
           'Link': 'Liên kết',
           'Please first select some text to transform into a link.':
               'Vui lòng chọn trước phần chữ cần đổi thành liên kết',
+          'Open': 'Mở',
+          'Copy': 'Sao chép',
+          'Remove': 'Tẩy',
+          'Save': 'Cứu',
+          'Zoom': 'Phóng',
+          'Saved': 'Đã lưu',
         },
       };
 
