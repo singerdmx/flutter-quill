@@ -37,6 +37,8 @@ class LinkDialogState extends State<LinkDialog> {
     return AlertDialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       content: TextField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
         style: widget.dialogTheme?.inputTextStyle,
         decoration: InputDecoration(
             labelText: 'Paste a link'.i18n,
@@ -65,7 +67,7 @@ class LinkDialogState extends State<LinkDialog> {
   }
 
   void _applyLink() {
-    Navigator.pop(context, _link);
+    Navigator.pop(context, _link.trim());
   }
 }
 

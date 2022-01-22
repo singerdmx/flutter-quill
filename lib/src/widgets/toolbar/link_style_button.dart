@@ -133,7 +133,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
   void _linkSubmitted(dynamic value) {
     // text.isNotEmpty && link.isNotEmpty
     final String text = (value as Tuple2).item1;
-    final String link = value.item2;
+    final String link = value.item2.trim();
 
     var index = widget.controller.selection.baseOffset;
     var length = widget.controller.selection.extentOffset - index;
@@ -185,6 +185,8 @@ class _LinkDialogState extends State<_LinkDialog> {
       content: Column(
         children: [
           TextField(
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
             style: widget.dialogTheme?.inputTextStyle,
             decoration: InputDecoration(
                 labelText: 'Text'.i18n,
@@ -195,6 +197,8 @@ class _LinkDialogState extends State<_LinkDialog> {
             controller: _textController,
           ),
           TextField(
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
             style: widget.dialogTheme?.inputTextStyle,
             decoration: InputDecoration(
                 labelText: 'Link'.i18n,
@@ -243,6 +247,6 @@ class _LinkDialogState extends State<_LinkDialog> {
   }
 
   void _applyLink() {
-    Navigator.pop(context, Tuple2(_text, _link));
+    Navigator.pop(context, Tuple2(_text.trim(), _link.trim()));
   }
 }
