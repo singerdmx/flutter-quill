@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -81,7 +80,7 @@ class _TextLineState extends State<TextLine> {
 
     // Desktop platforms (macos, linux, windows):
     // only allow Meta(Control)+Click combinations
-    if (isDesktop) {
+    if (isDesktop()) {
       return _metaOrControlPressed;
     }
     // Mobile platforms (ios, android): always allow but we install a
@@ -376,7 +375,7 @@ class _TextLineState extends State<TextLine> {
       return _linkRecognizers[segment]!;
     }
 
-    if (isDesktop || widget.readOnly) {
+    if (isDesktop() || widget.readOnly) {
       _linkRecognizers[segment] = TapGestureRecognizer()
         ..onTap = () => _tapNodeLink(segment);
     } else {
@@ -854,19 +853,12 @@ class RenderEditableTextLine extends RenderEditableBox {
   /// of the cursor for iOS is approximate and obtained through an eyeball
   /// comparison.
   void _computeCaretPrototype() {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
-        break;
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
-        break;
-      default:
-        throw 'Invalid platform';
+    if (isAppleOS()) {
+      _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
+    } else if (isKeyboardOS()) {
+      _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
+    } else {
+      throw UnimplementedError();
     }
   }
 

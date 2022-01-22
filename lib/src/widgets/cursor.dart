@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+import '../utils/platform_helper.dart';
 import 'box.dart';
 
 /// Style properties of editing cursor.
@@ -287,33 +287,26 @@ class CursorPainter {
 
     final caretHeight = editable!.getFullHeightForCaret(position);
     if (caretHeight != null) {
-      switch (defaultTargetPlatform) {
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          // Override the height to take the full height of the glyph at the
-          // TextPosition when not on iOS. iOS has special handling that
-          // creates a taller caret.
-          caretRect = Rect.fromLTWH(
-            caretRect.left,
-            caretRect.top - 2.0,
-            caretRect.width,
-            caretHeight,
-          );
-          break;
-        case TargetPlatform.iOS:
-        case TargetPlatform.macOS:
-          // Center the caret vertically along the text.
-          caretRect = Rect.fromLTWH(
-            caretRect.left,
-            caretRect.top + (caretHeight - caretRect.height) / 2,
-            caretRect.width,
-            caretRect.height,
-          );
-          break;
-        default:
-          throw UnimplementedError();
+      if (isKeyboardOS()) {
+        // Override the height to take the full height of the glyph at the
+        // TextPosition when not on iOS. iOS has special handling that
+        // creates a taller caret.
+        caretRect = Rect.fromLTWH(
+          caretRect.left,
+          caretRect.top - 2.0,
+          caretRect.width,
+          caretHeight,
+        );
+      } else if (isAppleOS()) {
+        // Center the caret vertically along the text.
+        caretRect = Rect.fromLTWH(
+          caretRect.left,
+          caretRect.top + (caretHeight - caretRect.height) / 2,
+          caretRect.width,
+          caretRect.height,
+        );
+      } else {
+        throw UnimplementedError();
       }
     }
 

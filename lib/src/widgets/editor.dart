@@ -398,34 +398,26 @@ class _QuillEditorState extends State<QuillEditor>
     Color selectionColor;
     Radius? cursorRadius;
 
-    switch (theme.platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        textSelectionControls = materialTextSelectionControls;
-        paintCursorAboveText = false;
-        cursorOpacityAnimates = false;
-        cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
-        selectionColor = selectionTheme.selectionColor ??
-            theme.colorScheme.primary.withOpacity(0.40);
-        break;
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        final cupertinoTheme = CupertinoTheme.of(context);
-        textSelectionControls = cupertinoTextSelectionControls;
-        paintCursorAboveText = true;
-        cursorOpacityAnimates = true;
-        cursorColor ??=
-            selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
-        selectionColor = selectionTheme.selectionColor ??
-            cupertinoTheme.primaryColor.withOpacity(0.40);
-        cursorRadius ??= const Radius.circular(2);
-        cursorOffset = Offset(
-            iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
-        break;
-      default:
-        throw UnimplementedError();
+    if (isKeyboardOS(theme.platform)) {
+      textSelectionControls = materialTextSelectionControls;
+      paintCursorAboveText = false;
+      cursorOpacityAnimates = false;
+      cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
+      selectionColor = selectionTheme.selectionColor ??
+          theme.colorScheme.primary.withOpacity(0.40);
+    } else if (isAppleOS(theme.platform)) {
+      final cupertinoTheme = CupertinoTheme.of(context);
+      textSelectionControls = cupertinoTextSelectionControls;
+      paintCursorAboveText = true;
+      cursorOpacityAnimates = true;
+      cursorColor ??= selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
+      selectionColor = selectionTheme.selectionColor ??
+          cupertinoTheme.primaryColor.withOpacity(0.40);
+      cursorRadius ??= const Radius.circular(2);
+      cursorOffset = Offset(
+          iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
+    } else {
+      throw UnimplementedError();
     }
 
     final child = RawEditor(
@@ -524,26 +516,21 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (!delegate.selectionEnabled) {
       return;
     }
-    switch (Theme.of(_state.context).platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        renderEditor!.selectPositionAt(
-          from: details.globalPosition,
-          cause: SelectionChangedCause.longPress,
-        );
-        break;
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        renderEditor!.selectWordsInRange(
-          details.globalPosition - details.offsetFromOrigin,
-          details.globalPosition,
-          SelectionChangedCause.longPress,
-        );
-        break;
-      default:
-        throw 'Invalid platform';
+
+    final _platform = Theme.of(_state.context).platform;
+    if (isAppleOS(_platform)) {
+      renderEditor!.selectPositionAt(
+        from: details.globalPosition,
+        cause: SelectionChangedCause.longPress,
+      );
+    } else if (isKeyboardOS(_platform)) {
+      renderEditor!.selectWordsInRange(
+        details.globalPosition - details.offsetFromOrigin,
+        details.globalPosition,
+        SelectionChangedCause.longPress,
+      );
+    } else {
+      throw UnimplementedError();
     }
   }
 
@@ -599,52 +586,40 @@ class _QuillEditorSelectionGestureDetectorBuilder
     final positionSelected = _isPositionSelected(details);
 
     if (delegate.selectionEnabled && !positionSelected) {
-      switch (Theme.of(_state.context).platform) {
-        case TargetPlatform.iOS:
-        case TargetPlatform.macOS:
-          switch (details.kind) {
-            case PointerDeviceKind.mouse:
-            case PointerDeviceKind.stylus:
-            case PointerDeviceKind.invertedStylus:
-              // Precise devices should place the cursor at a precise position.
-              // If `Shift` key is pressed then
-              // extend current selection instead.
-              if (isShiftClick(details.kind)) {
-                renderEditor!
-                  ..extendSelection(details.globalPosition,
-                      cause: SelectionChangedCause.tap)
-                  ..onSelectionCompleted();
-              } else {
-                renderEditor!
-                  ..selectPosition(cause: SelectionChangedCause.tap)
-                  ..onSelectionCompleted();
-              }
+      final _platform = Theme.of(_state.context).platform;
+      if (isAppleOS(_platform)) {
+        switch (details.kind) {
+          case PointerDeviceKind.mouse:
+          case PointerDeviceKind.stylus:
+          case PointerDeviceKind.invertedStylus:
+            // Precise devices should place the cursor at a precise position.
+            // If `Shift` key is pressed then
+            // extend current selection instead.
+            if (isShiftClick(details.kind)) {
+              renderEditor!
+                ..extendSelection(details.globalPosition,
+                    cause: SelectionChangedCause.tap)
+                ..onSelectionCompleted();
+            } else {
+              renderEditor!
+                ..selectPosition(cause: SelectionChangedCause.tap)
+                ..onSelectionCompleted();
+            }
 
-              break;
-            case PointerDeviceKind.touch:
-            case PointerDeviceKind.unknown:
-              // On macOS/iOS/iPadOS a touch tap places the cursor at the edge
-              // of the word.
-              try {
-                renderEditor!
-                  ..selectWordEdge(SelectionChangedCause.tap)
-                  ..onSelectionCompleted();
-              } finally {
-                break;
-              }
-          }
-          break;
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          try {
-            renderEditor!
-              ..selectPosition(cause: SelectionChangedCause.tap)
-              ..onSelectionCompleted();
-          } finally {
             break;
-          }
+          case PointerDeviceKind.touch:
+          case PointerDeviceKind.unknown:
+            // On macOS/iOS/iPadOS a touch tap places the cursor at the edge
+            // of the word.
+            renderEditor!
+              ..selectWordEdge(SelectionChangedCause.tap)
+              ..onSelectionCompleted();
+            break;
+        }
+      } else if (isKeyboardOS(_platform)) {
+        renderEditor!
+          ..selectPosition(cause: SelectionChangedCause.tap)
+          ..onSelectionCompleted();
       }
     }
     _state._requestKeyboard();
@@ -661,23 +636,17 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
 
     if (delegate.selectionEnabled) {
-      switch (Theme.of(_state.context).platform) {
-        case TargetPlatform.iOS:
-        case TargetPlatform.macOS:
-          renderEditor!.selectPositionAt(
-            from: details.globalPosition,
-            cause: SelectionChangedCause.longPress,
-          );
-          break;
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          renderEditor!.selectWord(SelectionChangedCause.longPress);
-          Feedback.forLongPress(_state.context);
-          break;
-        default:
-          throw 'Invalid platform';
+      final _platform = Theme.of(_state.context).platform;
+      if (isAppleOS(_platform)) {
+        renderEditor!.selectPositionAt(
+          from: details.globalPosition,
+          cause: SelectionChangedCause.longPress,
+        );
+      } else if (isKeyboardOS(_platform)) {
+        renderEditor!.selectWord(SelectionChangedCause.longPress);
+        Feedback.forLongPress(_state.context);
+      } else {
+        throw UnimplementedError();
       }
     }
   }

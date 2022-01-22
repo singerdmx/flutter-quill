@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
+import '../utils/platform_helper.dart';
 import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
@@ -524,10 +526,7 @@ class RawEditorState extends EditorState
     _floatingCursorResetController = AnimationController(vsync: this);
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
 
-    if (defaultTargetPlatform == TargetPlatform.windows ||
-        defaultTargetPlatform == TargetPlatform.macOS ||
-        defaultTargetPlatform == TargetPlatform.linux ||
-        defaultTargetPlatform == TargetPlatform.fuchsia) {
+    if (isKeyboardOS()) {
       _keyboardVisible = true;
     } else {
       _keyboardVisibilityController = KeyboardVisibilityController();
@@ -852,24 +851,16 @@ class RawEditorState extends EditorState
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar(false);
 
-      switch (defaultTargetPlatform) {
-        case TargetPlatform.iOS:
-          break;
-        case TargetPlatform.macOS:
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          // Collapse the selection and hide the toolbar and handles.
-          userUpdateTextEditingValue(
-            TextEditingValue(
-              text: textEditingValue.text,
-              selection: TextSelection.collapsed(
-                  offset: textEditingValue.selection.end),
-            ),
-            SelectionChangedCause.toolbar,
-          );
-          break;
+      if (isKeyboardOS() || Platform.isAndroid) {
+        // Collapse the selection and hide the toolbar and handles.
+        userUpdateTextEditingValue(
+          TextEditingValue(
+            text: textEditingValue.text,
+            selection:
+                TextSelection.collapsed(offset: textEditingValue.selection.end),
+          ),
+          SelectionChangedCause.toolbar,
+        );
       }
     }
   }

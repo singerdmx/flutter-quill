@@ -3,6 +3,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../flutter_quill.dart';
 import '../../models/documents/style.dart';
+import '../utils/platform_helper.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
@@ -192,19 +193,12 @@ class DefaultStyles {
     );
     const baseSpacing = Tuple2<double, double>(6, 0);
     String fontFamily;
-    switch (themeData.platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        fontFamily = 'Menlo';
-        break;
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.windows:
-      case TargetPlatform.linux:
-        fontFamily = 'Roboto Mono';
-        break;
-      default:
-        throw UnimplementedError();
+    if (isAppleOS(themeData.platform)) {
+      fontFamily = 'Menlo';
+    } else if (isKeyboardOS(themeData.platform)) {
+      fontFamily = 'Roboto Mono';
+    } else {
+      throw UnimplementedError();
     }
 
     final inlineCodeStyle = TextStyle(
