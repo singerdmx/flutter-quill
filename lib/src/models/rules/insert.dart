@@ -1,6 +1,6 @@
 import 'package:tuple/tuple.dart';
 
-import '../../../models/documents/document.dart';
+import '../../models/documents/document.dart';
 import '../documents/attribute.dart';
 import '../documents/style.dart';
 import '../quill_delta.dart';

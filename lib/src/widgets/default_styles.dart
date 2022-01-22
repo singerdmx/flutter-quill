@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../flutter_quill.dart';
-import '../../models/documents/style.dart';
+import '../models/documents/style.dart';
 import '../utils/platform_helper.dart';
 
 class QuillStyles extends InheritedWidget {

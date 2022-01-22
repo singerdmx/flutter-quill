@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/documents/nodes/node.dart';
+import '../models/documents/nodes/node.dart';
 import '../translations/toolbar.i18n.dart';
 
 /// List of possible actions returned from [LinkActionPickerDelegate].
