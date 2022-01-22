@@ -15,7 +15,6 @@ import 'toolbar/history_button.dart';
 import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
 import 'toolbar/indent_button.dart';
-import 'toolbar/insert_horizontal_line_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
@@ -29,7 +28,6 @@ export 'toolbar/history_button.dart';
 export 'toolbar/image_button.dart';
 export 'toolbar/image_video_utils.dart';
 export 'toolbar/indent_button.dart';
-export 'toolbar/insert_horizontal_line_button.dart';
 export 'toolbar/link_style_button.dart';
 export 'toolbar/quill_dropdown_button.dart';
 export 'toolbar/quill_icon_button.dart';
@@ -97,7 +95,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showIndent = true,
     bool showLink = true,
     bool showHistory = true,
-    bool showHorizontalRule = false,
     bool multiRowsDisplay = true,
     bool showImageButton = true,
     bool showVideoButton = true,
@@ -147,7 +144,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       showHeaderStyle,
       showListNumbers || showListBullets || showListCheck || showCodeBlock,
       showQuote || showIndent,
-      showLink || showHorizontalRule
+      showLink
     ];
 
     return QuillToolbar(
@@ -408,14 +405,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
-          ),
-        if (showHorizontalRule)
-          // ignore: deprecated_member_use_from_same_package
-          InsertHorizontalLineButton(
-            controller: controller,
-            icon: Icons.horizontal_rule,
-            iconSize: toolbarIconSize,
-            iconTheme: iconTheme,
           ),
       ],
     );

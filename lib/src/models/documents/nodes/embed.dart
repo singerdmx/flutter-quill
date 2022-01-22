@@ -34,9 +34,6 @@ class Embeddable {
 class BlockEmbed extends Embeddable {
   const BlockEmbed(String type, String data) : super(type, data);
 
-  static const String horizontalRuleType = 'divider';
-  static BlockEmbed horizontalRule = const BlockEmbed(horizontalRuleType, 'hr');
-
   static const String imageType = 'image';
   static BlockEmbed image(String imageUrl) => BlockEmbed(imageType, imageUrl);
 
