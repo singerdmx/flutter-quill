@@ -1,3 +1,6 @@
+# [3.5.2]
+* Bug fix for embed.
+
 # [3.5.1]
 * Bug fix for platform util.
 
