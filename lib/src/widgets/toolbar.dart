@@ -15,7 +15,7 @@ import 'toolbar/history_button.dart';
 import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
 import 'toolbar/indent_button.dart';
-import 'toolbar/insert_embed_button.dart';
+import 'toolbar/insert_horizontal_line_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
@@ -29,7 +29,7 @@ export 'toolbar/history_button.dart';
 export 'toolbar/image_button.dart';
 export 'toolbar/image_video_utils.dart';
 export 'toolbar/indent_button.dart';
-export 'toolbar/insert_embed_button.dart';
+export 'toolbar/insert_horizontal_line_button.dart';
 export 'toolbar/link_style_button.dart';
 export 'toolbar/quill_dropdown_button.dart';
 export 'toolbar/quill_icon_button.dart';
@@ -411,7 +411,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         if (showHorizontalRule)
           // ignore: deprecated_member_use_from_same_package
-          InsertEmbedButton(
+          InsertHorizontalLineButton(
             controller: controller,
             icon: Icons.horizontal_rule,
             iconSize: toolbarIconSize,

@@ -6,8 +6,8 @@ import '../controller.dart';
 import '../toolbar.dart';
 
 @Deprecated('This is for horizontal line and not supported')
-class InsertEmbedButton extends StatelessWidget {
-  const InsertEmbedButton({
+class InsertHorizontalLineButton extends StatelessWidget {
+  const InsertHorizontalLineButton({
     required this.controller,
     required this.icon,
     this.iconSize = kDefaultIconSize,
