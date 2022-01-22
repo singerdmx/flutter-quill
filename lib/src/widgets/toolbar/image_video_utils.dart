@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embeddable.dart';
+import '../../models/rules/insert.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
@@ -50,7 +51,10 @@ class LinkDialogState extends State<LinkDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: _link.isNotEmpty ? _applyLink : null,
+          onPressed: _link.isNotEmpty &&
+                  AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)
+              ? _applyLink
+              : null,
           child: Text(
             'Ok'.i18n,
             style: widget.dialogTheme?.labelTextStyle,
