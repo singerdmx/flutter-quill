@@ -1,3 +1,6 @@
+# [3.6.3]
+* Bug fix for link button text selection.
+
 # [3.6.2]
 * Improve link button.
 
