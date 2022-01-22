@@ -59,8 +59,8 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isEnabled = !widget.controller.selection.isCollapsed;
-    final pressedHandler = isEnabled ? () => _openLinkDialog(context) : null;
+    final isToggled = _getLinkAttributeValue() != null;
+    final pressedHandler = () => _openLinkDialog(context);
     return GestureDetector(
       onTap: () async {
         final dynamic tooltip = _toolTipKey.currentState;
@@ -82,7 +82,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
           icon: Icon(
             widget.icon ?? Icons.link,
             size: widget.iconSize,
-            color: isEnabled
+            color: isToggled
                 ? (widget.iconTheme?.iconUnselectedColor ??
                     theme.iconTheme.color)
                 : (widget.iconTheme?.disabledIconColor ?? theme.disabledColor),
@@ -99,13 +99,17 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     showDialog<String>(
       context: context,
       builder: (ctx) {
-        final link = widget.controller
-            .getSelectionStyle()
-            .attributes[Attribute.link.key]
-            ?.value;
+        final link = _getLinkAttributeValue();
         return LinkDialog(dialogTheme: widget.dialogTheme, link: link);
       },
     ).then(_linkSubmitted);
+  }
+
+  String? _getLinkAttributeValue() {
+    return widget.controller
+        .getSelectionStyle()
+        .attributes[Attribute.link.key]
+        ?.value;
   }
 
   void _linkSubmitted(String? value) {

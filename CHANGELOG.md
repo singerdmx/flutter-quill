@@ -1,3 +1,6 @@
+# [3.5.3]
+* Change link button behavior.
+
 # [3.5.2]
 * Bug fix for embed.
 

@@ -17,6 +17,7 @@ extension Localization on String {
           'Save': 'Save',
           'Zoom': 'Zoom',
           'Saved': 'Saved',
+          'Text': 'Text',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -32,6 +33,7 @@ extension Localization on String {
           'Save': 'يحفظ',
           'Zoom': 'تكبير',
           'Saved': 'أنقذ',
+          'Text': 'Text',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -47,6 +49,7 @@ extension Localization on String {
           'Save': 'Gemme',
           'Zoom': 'Zoom ind',
           'Saved': 'Gemt',
+          'Text': 'Text',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -63,6 +66,7 @@ extension Localization on String {
           'Save': 'Speichern',
           'Zoom': 'Zoomen',
           'Saved': 'Gerettet',
+          'Text': 'Text',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -78,6 +82,7 @@ extension Localization on String {
           'Save': 'Sauvegarder',
           'Zoom': 'Zoom',
           'Saved': 'Enregistrée',
+          'Text': 'Text',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -93,6 +98,7 @@ extension Localization on String {
           'Save': '保存',
           'Zoom': '放大',
           'Saved': '已保存',
+          'Text': '文字',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -108,6 +114,7 @@ extension Localization on String {
           'Save': '저장하기',
           'Zoom': '확대하기',
           'Saved': '저장되었습니다.',
+          'Text': 'Text',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -123,6 +130,7 @@ extension Localization on String {
           'Save': 'Сохранять',
           'Zoom': 'Увеличить',
           'Saved': 'Сохранено',
+          'Text': 'Text',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -139,6 +147,7 @@ extension Localization on String {
           'Save': 'Ahorrar',
           'Zoom': 'Zoom',
           'Saved': 'Salvado',
+          'Text': 'Text',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -154,6 +163,7 @@ extension Localization on String {
           'Save': 'Kayıt etmek',
           'Zoom': 'yakınlaştır',
           'Saved': 'kaydedildi',
+          'Text': 'Text',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -169,6 +179,7 @@ extension Localization on String {
           'Save': 'Зберегти',
           'Zoom': 'Збільшити',
           'Saved': 'Збережено',
+          'Text': 'Text',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -185,6 +196,7 @@ extension Localization on String {
           'Save': 'Salve',
           'Zoom': 'Ampliação',
           'Saved': 'Salvou',
+          'Text': 'Text',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -200,6 +212,7 @@ extension Localization on String {
           'Save': 'Zapisać',
           'Zoom': 'Powiększenie',
           'Saved': 'Zapisane',
+          'Text': 'Text',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -215,6 +228,7 @@ extension Localization on String {
           'Save': 'Lưu',
           'Zoom': 'Thu phóng',
           'Saved': 'Đã lưu',
+          'Text': 'Text',
         },
       };
 

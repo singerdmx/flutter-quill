@@ -31,7 +31,7 @@ class LinkDialogState extends State<LinkDialog> {
       content: TextField(
         style: widget.dialogTheme?.inputTextStyle,
         decoration: InputDecoration(
-            labelText: 'Paste a link'.i18n,
+            labelText: 'Link'.i18n,
             labelStyle: widget.dialogTheme?.labelTextStyle,
             floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
         autofocus: true,
