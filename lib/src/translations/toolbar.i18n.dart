@@ -107,7 +107,7 @@ extension Localization on String {
           'Remove': '제거하기',
           'Save': '저장하기',
           'Zoom': '확대하기',
-          'Saved': '저장되었습니다',
+          'Saved': '저장되었습니다.',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',

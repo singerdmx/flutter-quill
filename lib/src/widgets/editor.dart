@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/line.dart';
+import '../utils/platform_helper.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
@@ -444,8 +445,7 @@ class _QuillEditorState extends State<QuillEditor>
         paste: widget.enableInteractiveSelection,
         selectAll: widget.enableInteractiveSelection,
       ),
-      showSelectionHandles: theme.platform == TargetPlatform.iOS ||
-          theme.platform == TargetPlatform.android,
+      showSelectionHandles: isMobile(theme.platform),
       showCursor: widget.showCursor,
       cursorStyle: CursorStyle(
         color: cursorColor,

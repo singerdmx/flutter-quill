@@ -16,6 +16,7 @@ import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
 import '../utils/color.dart';
+import '../utils/platform_helper.dart';
 import 'box.dart';
 import 'cursor.dart';
 import 'delegate.dart';
@@ -70,12 +71,6 @@ class _TextLineState extends State<TextLine> {
       });
     }
   }
-
-  bool get isDesktop => {
-        TargetPlatform.macOS,
-        TargetPlatform.linux,
-        TargetPlatform.windows
-      }.contains(defaultTargetPlatform);
 
   bool get canLaunchLinks {
     // In readOnly mode users can launch links
