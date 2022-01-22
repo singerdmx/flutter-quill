@@ -7,6 +7,7 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../controller.dart';
+import '../link.dart';
 import '../toolbar.dart';
 
 class LinkStyleButton extends StatefulWidget {
@@ -134,10 +135,19 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     final String text = (value as Tuple2).item1;
     final String link = value.item2;
 
-    final index = widget.controller.selection.baseOffset;
-    final length = widget.controller.selection.extentOffset - index;
+    var index = widget.controller.selection.baseOffset;
+    var length = widget.controller.selection.extentOffset - index;
+    if (_getLinkAttributeValue() != null) {
+      // text should be the link's corresponding text, not selection
+      final leaf = widget.controller.document.querySegmentLeafNode(index).item2;
+      if (leaf != null) {
+        final range = getLinkRange(leaf);
+        index = range.start;
+        length = range.end - range.start;
+      }
+    }
     widget.controller.replaceText(index, length, text, null);
-    widget.controller.formatSelection(LinkAttribute(link));
+    widget.controller.formatText(index, text.length, LinkAttribute(link));
   }
 }
 
