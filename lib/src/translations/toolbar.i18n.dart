@@ -102,12 +102,12 @@ extension Localization on String {
           'Link': '링크',
           'Please first select some text to transform into a link.':
               '링크로 전환할 글자를 먼저 선택해주세요.',
-          'Open': '열려있는',
-          'Copy': '복사',
-          'Remove': '제거하다',
-          'Save': '구하다',
-          'Zoom': '줌',
-          'Saved': '저장됨',
+          'Open': '열기',
+          'Copy': '복사하기',
+          'Remove': '제거하기',
+          'Save': '저장하기',
+          'Zoom': '확대하기',
+          'Saved': '저장되었습니다',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
