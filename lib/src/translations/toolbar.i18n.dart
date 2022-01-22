@@ -149,14 +149,14 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Por favor selecciona primero un texto para transformarlo '
                   'en un enlace',
-          'Open': 'Abierta',
-          'Copy': 'Dupdo',
+          'Open': 'Abrir',
+          'Copy': 'Copiar',
           'Remove': 'Eliminar',
-          'Save': 'Ahorrar',
+          'Save': 'Guardar',
           'Zoom': 'Zoom',
-          'Saved': 'Salvado',
-          'Text': 'Text',
-          'What is entered is not a link': 'What is entered is not a link',
+          'Saved': 'Guardado',
+          'Text': 'Texto',
+          'What is entered is not a link': 'El link ingresado no es válido',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -201,14 +201,14 @@ extension Localization on String {
           'Please first select some text to transform into a link.':
               'Por favor selecione primeiro um texto para '
                   'transformá-lo em um link',
-          'Open': 'Aberto',
-          'Copy': 'cópia de',
+          'Open': 'Abra',
+          'Copy': 'Copiar',
           'Remove': 'Remover',
-          'Save': 'Salve',
-          'Zoom': 'Ampliação',
-          'Saved': 'Salvou',
-          'Text': 'Text',
-          'What is entered is not a link': 'What is entered is not a link',
+          'Save': 'Salvar',
+          'Zoom': 'Zoom',
+          'Saved': 'Salvo',
+          'Text': 'Texto',
+          'What is entered is not a link': 'O link inserido não é válido',
         },
         'pl': {
           'Paste a link': 'Wklej link',
