@@ -10,6 +10,11 @@ import '../../utils/platform_helper.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
+enum MediaPickSetting {
+  Gallery,
+  Link,
+}
+
 class ImageVideoUtils {
   static Future<MediaPickSetting?> selectMediaPickSetting(
     BuildContext context,

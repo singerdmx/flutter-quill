@@ -6,7 +6,6 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
 import '../toolbar.dart';
-import 'image_video_utils.dart';
 import 'link_dialog.dart';
 
 class ImageButton extends StatelessWidget {

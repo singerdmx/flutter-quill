@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
 import '../toolbar.dart';
-import 'image_video_utils.dart';
 
 class CameraButton extends StatelessWidget {
   const CameraButton({
