@@ -104,7 +104,7 @@ extension Localization on String {
           'Zoom': '放大',
           'Saved': '已保存',
           'Text': '文字',
-          'What is entered is not a link': 'What is entered is not a link',
+          'What is entered is not a link': '输入的不是链接',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -120,8 +120,8 @@ extension Localization on String {
           'Save': '저장하기',
           'Zoom': '확대하기',
           'Saved': '저장되었습니다.',
-          'Text': 'Text',
-          'What is entered is not a link': 'What is entered is not a link',
+          'Text': '텍스트',
+          'What is entered is not a link': '입력한 내용은 링크가 아닙니다.',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -224,8 +224,9 @@ extension Localization on String {
           'Save': 'Zapisz',
           'Zoom': 'Powiększenie',
           'Saved': 'Zapisano',
-          'Text': 'Text',
-          'What is entered is not a link': 'What is entered is not a link',
+          'Text': 'Tekst',
+          'What is entered is not a link':
+              'To, co jest wpisane, nie jest linkiem',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -241,8 +242,9 @@ extension Localization on String {
           'Save': 'Lưu',
           'Zoom': 'Thu phóng',
           'Saved': 'Đã lưu',
-          'Text': 'Text',
-          'What is entered is not a link': 'What is entered is not a link',
+          'Text': 'Chữ',
+          'What is entered is not a link':
+              'Những gì được nhập không phải là một liên kết',
         },
       };
 
