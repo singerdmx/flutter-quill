@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
-import '../models/documents/nodes/line.dart';
 import '../utils/platform.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -535,13 +534,14 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return false;
     }
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);
-    final result = editor!.widget.controller.document.queryChild(pos.offset);
-    if (result.node == null) {
+    final result =
+        editor!.widget.controller.document.querySegmentLeafNode(pos.offset);
+    final line = result.item1;
+    if (line == null) {
       return false;
     }
-    final line = result.node as Line;
-    final segmentResult = line.queryChild(result.offset, false);
-    if (segmentResult.node == null && line.length == 1) {
+    final segmentLeaf = result.item2;
+    if (segmentLeaf == null && line.length == 1) {
       editor!.widget.controller.updateSelection(
           TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
       return true;

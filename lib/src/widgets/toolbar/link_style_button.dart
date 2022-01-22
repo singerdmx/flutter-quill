@@ -103,10 +103,17 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         final link = _getLinkAttributeValue();
         final index = widget.controller.selection.baseOffset;
 
+        var text;
         if (link != null) {
-          // TODO: text should be the link's corresponding text, not selection
+          // text should be the link's corresponding text, not selection
+          final leaf =
+              widget.controller.document.querySegmentLeafNode(index).item2;
+          if (leaf != null) {
+            text = leaf.toPlainText();
+          }
         }
-        final text = widget.controller.document
+
+        text ??= widget.controller.document
             .toPlainText()
             .substring(index, widget.controller.selection.extentOffset);
         return _LinkDialog(
