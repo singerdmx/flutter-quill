@@ -16,14 +16,17 @@ import 'style.dart';
 
 /// The rich text document
 class Document {
+  /// Creates new empty document.
   Document() : _delta = Delta()..insert('\n') {
     _loadDocument(_delta);
   }
 
+  /// Creates new document from provided JSON `data`.
   Document.fromJson(List data) : _delta = _transform(Delta.fromJson(data)) {
     _loadDocument(_delta);
   }
 
+  /// Creates new document from provided `delta`.
   Document.fromDelta(Delta delta) : _delta = delta {
     _loadDocument(delta);
   }
@@ -33,10 +36,12 @@ class Document {
 
   Root get root => _root;
 
+  /// Length of this document.
   int get length => _root.length;
 
   Delta _delta;
 
+  /// Returns contents of this document as [Delta].
   Delta toDelta() => Delta.from(_delta);
 
   final Rules _rules = Rules.getInstance();
@@ -50,8 +55,18 @@ class Document {
 
   final History _history = History();
 
+  /// Stream of [Change]s applied to this document.
   Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
 
+  /// Inserts [data] in this document at specified [index].
+  ///
+  /// The `data` parameter can be either a String or an instance of
+  /// [Embeddable].
+  ///
+  /// Applies heuristic rules before modifying this document and
+  /// produces a change event with its source set to [ChangeSource.local].
+  ///
+  /// Returns an instance of [Delta] actually composed into this document.
   Delta insert(int index, Object? data, {int replaceLength = 0}) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
@@ -67,6 +82,12 @@ class Document {
     return delta;
   }
 
+  /// Deletes [length] of characters from this document starting at [index].
+  ///
+  /// This method applies heuristic rules before modifying this document and
+  /// produces a [Change] with source set to [ChangeSource.local].
+  ///
+  /// Returns an instance of [Delta] actually composed into this document.
   Delta delete(int index, int len) {
     assert(index >= 0 && len > 0);
     final delta = _rules.apply(RuleType.DELETE, this, index, len: len);
@@ -76,6 +97,12 @@ class Document {
     return delta;
   }
 
+  /// Replaces [length] of characters starting at [index] with [data].
+  ///
+  /// This method applies heuristic rules before modifying this document and
+  /// produces a change event with its source set to [ChangeSource.local].
+  ///
+  /// Returns an instance of [Delta] actually composed into this document.
   Delta replace(int index, int len, Object? data) {
     assert(index >= 0);
     assert(data is String || data is Embeddable);
@@ -100,6 +127,14 @@ class Document {
     return delta;
   }
 
+  /// Formats segment of this document with specified [attribute].
+  ///
+  /// Applies heuristic rules before modifying this document and
+  /// produces a change event with its source set to [ChangeSource.local].
+  ///
+  /// Returns an instance of [Delta] actually composed into this document.
+  /// The returned [Delta] may be empty in which case this document remains
+  /// unchanged and no change event is published to the [changes] stream.
   Delta format(int index, int len, Attribute? attribute) {
     assert(index >= 0 && len >= 0 && attribute != null);
 
@@ -128,7 +163,9 @@ class Document {
     return (res.node as Line).collectAllStyles(res.offset, len);
   }
 
+  /// Returns [Line] located at specified character [offset].
   ChildQuery queryChild(int offset) {
+    // TODO: prevent user from moving caret after last line-break.
     final res = _root.queryChild(offset, true);
     if (res.node is Line) {
       return res;
@@ -153,6 +190,16 @@ class Document {
     return Tuple2(line, segment);
   }
 
+  /// Composes [change] Delta into this document.
+  ///
+  /// Use this method with caution as it does not apply heuristic rules to the
+  /// [change].
+  ///
+  /// It is callers responsibility to ensure that the [change] conforms to
+  /// the document model semantics and can be composed with the current state
+  /// of this document.
+  ///
+  /// In case the [change] is invalid, behavior of this method is unspecified.
   void compose(Delta delta, ChangeSource changeSource) {
     assert(!_observer.isClosed);
     delta.trim();
@@ -255,6 +302,7 @@ class Document {
     _history.clear();
   }
 
+  /// Returns plain text representation of this document.
   String toPlainText() => _root.children.map((e) => e.toPlainText()).join();
 
   void _loadDocument(Delta doc) {
@@ -302,7 +350,11 @@ class Document {
   }
 }
 
+/// Source of a [Change].
 enum ChangeSource {
+  /// Change originated from a local action. Typically triggered by user.
   LOCAL,
+
+  /// Change originated from a remote action.
   REMOTE,
 }
