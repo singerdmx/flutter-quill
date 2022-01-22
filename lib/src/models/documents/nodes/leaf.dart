@@ -101,6 +101,13 @@ abstract class Leaf extends Node {
     }
   }
 
+  @override
+  String toString() {
+    final keys = style.keys.toList(growable: false)..sort();
+    final styleKeys = keys.join();
+    return '⟨$value⟩$styleKeys';
+  }
+
   /// Adjust this text node by merging it with adjacent nodes if they share
   /// the same style.
   @override
