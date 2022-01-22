@@ -1,3 +1,6 @@
+# [3.6.0]
+* Allow link button to enter text.
+
 # [3.5.3]
 * Change link button behavior.
 
