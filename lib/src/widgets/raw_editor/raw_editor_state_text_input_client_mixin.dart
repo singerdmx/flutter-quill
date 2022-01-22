@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../models/documents/document.dart';
-import '../../utils/diff_delta.dart';
+import '../../utils/delta.dart';
 import '../editor.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState

@@ -8,7 +8,7 @@ import '../models/documents/document.dart';
 import '../models/documents/nodes/embed.dart';
 import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
-import '../utils/diff_delta.dart';
+import '../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
