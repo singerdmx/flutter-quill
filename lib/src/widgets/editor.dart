@@ -574,18 +574,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleTapUp(TapUpDetails details) {
-    if (_state.widget.onTapUp != null) {
-      if (renderEditor != null &&
-          _state.widget.onTapUp!(details, renderEditor!.getPositionForOffset)) {
-        return;
-      }
+    if (_state.widget.onTapUp != null &&
+        renderEditor != null &&
+        _state.widget.onTapUp!(details, renderEditor!.getPositionForOffset)) {
+      return;
     }
 
     editor!.hideToolbar();
 
-    final positionSelected = _isPositionSelected(details);
-
-    if (delegate.selectionEnabled && !positionSelected) {
+    if (delegate.selectionEnabled && !_isPositionSelected(details)) {
       final _platform = Theme.of(_state.context).platform;
       if (isAppleOS(_platform)) {
         switch (details.kind) {
