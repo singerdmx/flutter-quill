@@ -1,3 +1,6 @@
+# [3.7.1]
+* Change Embed toPlainText to be empty string.
+
 # [3.7.0]
 * Replace Toolbar showHistory group with individual showRedo and showUndo.
 

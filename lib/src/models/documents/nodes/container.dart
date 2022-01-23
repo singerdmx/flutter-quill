@@ -157,4 +157,10 @@ class ChildQuery {
   /// character in the document as the original offset passed to
   /// [Container.queryChild] method.
   final int offset;
+
+  /// Returns `true` if there is no child node found, e.g. [node] is `null`.
+  bool get isEmpty => node == null;
+
+  /// Returns `true` [node] is not `null`.
+  bool get isNotEmpty => node != null;
 }
