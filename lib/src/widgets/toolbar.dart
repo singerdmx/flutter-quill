@@ -95,6 +95,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showIndent = true,
     bool showLink = true,
     bool showHistory = true,
+    bool showUndo = true,
+    bool showRedo = true,
     bool multiRowsDisplay = true,
     bool showImageButton = true,
     bool showVideoButton = true,
@@ -155,7 +157,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       multiRowsDisplay: multiRowsDisplay,
       locale: locale,
       children: [
-        if (showHistory)
+        if (showUndo)
           HistoryButton(
             icon: Icons.undo_outlined,
             iconSize: toolbarIconSize,
@@ -163,7 +165,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             undo: true,
             iconTheme: iconTheme,
           ),
-        if (showHistory)
+        if (showRedo)
           HistoryButton(
             icon: Icons.redo_outlined,
             iconSize: toolbarIconSize,
