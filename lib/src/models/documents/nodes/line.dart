@@ -333,6 +333,8 @@ class Line extends Container<Leaf?> {
   ///   every line within this range (partially included lines are counted).
   /// - inline attribute X is included in the result only if it exists
   ///   for every character within this range (line-break characters excluded).
+  ///
+  /// In essence, it is INTERSECTION of each individual segment's styles
   Style collectStyle(int offset, int len) {
     final local = math.min(length - offset, len);
     var result = Style();
@@ -381,6 +383,7 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns all styles for any character within the specified text range.
+  /// In essence, it is UNION of each individual segment's styles
   List<Style> collectAllStyles(int offset, int len) {
     final local = math.min(length - offset, len);
     final result = <Style>[];
