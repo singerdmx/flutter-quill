@@ -94,7 +94,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showQuote = true,
     bool showIndent = true,
     bool showLink = true,
-    bool showHistory = true,
     bool showUndo = true,
     bool showRedo = true,
     bool multiRowsDisplay = true,
@@ -126,7 +125,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
   }) {
     final isButtonGroupShown = [
-      showHistory ||
           showBoldButton ||
           showItalicButton ||
           showSmallButton ||
