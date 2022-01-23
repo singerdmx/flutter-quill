@@ -125,7 +125,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
   }) {
     final isButtonGroupShown = [
-          showBoldButton ||
+      showBoldButton ||
           showItalicButton ||
           showSmallButton ||
           showUnderLineButton ||

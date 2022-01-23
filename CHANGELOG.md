@@ -1,3 +1,6 @@
+# [3.7.0]
+* Replace Toolbar showHistory group with individual showRedo and showUndo.
+
 # [3.6.5]
 * Update Link dialogue for image/video.
 
