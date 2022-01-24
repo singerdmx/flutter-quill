@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../quill_delta.dart';
 import '../attribute.dart';
@@ -377,6 +378,36 @@ class Line extends Container<Leaf?> {
     if (remaining > 0) {
       final rest = nextLine!.collectStyle(0, remaining);
       _handle(rest);
+    }
+
+    return result;
+  }
+
+  /// Returns each offset in selection with its corresponding styles as a list
+  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len) {
+    final local = math.min(length - offset, len);
+    final result = <Tuple2<int, Style>>[];
+
+    final data = queryChild(offset, true);
+    var node = data.node as Leaf?;
+    if (node != null) {
+      result.add(Tuple2(0, node.style));
+      var pos = node.length - data.offset; // 2
+      while (!node!.isLast && pos < local) {
+        node = node.next as Leaf;
+        result.add(Tuple2(pos, node.style)); // 2
+        pos += node.length; // 2 + 1 = 3
+      }
+    }
+
+    // Add line style
+    // result.add(style);
+    // TODO: add block style as well
+
+    final remaining = len - local;
+    if (remaining > 0) {
+      final rest = nextLine!.collectAllIndividualStyles(0, remaining);
+      result.addAll(rest);
     }
 
     return result;

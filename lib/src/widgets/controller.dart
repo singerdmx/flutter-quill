@@ -84,6 +84,13 @@ class QuillController extends ChangeNotifier {
         .mergeAll(toggledStyle);
   }
 
+  /// Returns all styles for each node within selection
+  List<Tuple2<int, Style>> getAllIndividualSelectionStyles() {
+    final styles = document.collectAllIndividualStyles(
+        selection.start, selection.end - selection.start);
+    return styles;
+  }
+
   /// Returns all styles for any character within the specified text range.
   List<Style> getAllSelectionStyles() {
     final styles = document.collectAllStyles(
