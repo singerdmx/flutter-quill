@@ -1,3 +1,6 @@
+# [3.8.0]
+* Support pasting with format.
+
 # [3.7.3]
 * Fix selection overlay for collapsed selection.
 
