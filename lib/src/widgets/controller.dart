@@ -91,6 +91,13 @@ class QuillController extends ChangeNotifier {
     return styles;
   }
 
+  /// Returns plain text for each node within selection
+  String getPlainText() {
+    final text =
+        document.getPlainText(selection.start, selection.end - selection.start);
+    return text;
+  }
+
   /// Returns all styles for any character within the specified text range.
   List<Style> getAllSelectionStyles() {
     final styles = document.collectAllStyles(

@@ -169,6 +169,12 @@ class Document {
     return (res.node as Line).collectAllStyles(res.offset, len);
   }
 
+  /// Returns plain text within the specified text range.
+  String getPlainText(int index, int len) {
+    final res = queryChild(index);
+    return (res.node as Line).getPlainText(res.offset, len);
+  }
+
   /// Returns [Line] located at specified character [offset].
   ChildQuery queryChild(int offset) {
     // TODO: prevent user from moving caret after last line-break.

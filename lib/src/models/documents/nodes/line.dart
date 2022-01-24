@@ -384,7 +384,7 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns each node segment's length in selection
-  /// with its corresponding styles as a list
+  /// with its corresponding style as a list
   List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len) {
     final local = math.min(length - offset, len);
     final result = <Tuple2<int, Style>>[];
@@ -401,7 +401,7 @@ class Line extends Container<Leaf?> {
       }
     }
 
-    // TODO: add current line's style and parent block style as well
+    // Need to add current line's style or parent block's style?
 
     final remaining = len - local;
     if (remaining > 0) {
@@ -443,5 +443,31 @@ class Line extends Container<Leaf?> {
     }
 
     return result;
+  }
+
+  /// Returns plain text within the specified text range.
+  String getPlainText(int offset, int len) {
+    final local = math.min(length - offset, len);
+    final result = <String>[];
+
+    final data = queryChild(offset, true);
+    var node = data.node as Leaf?;
+    if (node != null) {
+      result.add(node.toPlainText());
+      var pos = node.length - data.offset;
+      while (!node!.isLast && pos < local) {
+        node = node.next as Leaf;
+        result.add(node.toPlainText());
+        pos += node.length;
+      }
+    }
+
+    final remaining = len - local;
+    if (remaining > 0) {
+      final rest = nextLine!.getPlainText(0, remaining);
+      result.add(rest);
+    }
+
+    return result.join();
   }
 }
