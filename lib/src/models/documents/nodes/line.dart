@@ -383,9 +383,10 @@ class Line extends Container<Leaf?> {
     return result;
   }
 
-  /// Returns each node segment's length in selection
+  /// Returns each node segment's offset in selection
   /// with its corresponding style as a list
-  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len) {
+  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len,
+      {int beg = 0}) {
     final local = math.min(length - offset, len);
     final result = <Tuple2<int, Style>>[];
 
@@ -393,7 +394,7 @@ class Line extends Container<Leaf?> {
     var node = data.node as Leaf?;
     if (node != null) {
       var pos = node.length - data.offset;
-      result.add(Tuple2(pos, node.style));
+      result.add(Tuple2(pos + beg, node.style));
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
         result.add(Tuple2(node.length, node.style));
@@ -405,7 +406,8 @@ class Line extends Container<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0) {
-      final rest = nextLine!.collectAllIndividualStyles(0, remaining);
+      final rest =
+          nextLine!.collectAllIndividualStyles(0, remaining, beg: local);
       result.addAll(rest);
     }
 
