@@ -393,12 +393,17 @@ class Line extends Container<Leaf?> {
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      var pos = node.length - data.offset;
-      result.add(Tuple2(beg, node.style));
+      var pos = 0;
+      if (node is Text) {
+        pos = node.length - data.offset;
+        result.add(Tuple2(beg, node.style));
+      }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        result.add(Tuple2(pos + beg, node.style));
-        pos += node.length;
+        if (node is Text) {
+          result.add(Tuple2(pos + beg, node.style));
+          pos += node.length;
+        }
       }
     }
 
@@ -462,19 +467,23 @@ class Line extends Container<Leaf?> {
     // Adjust first node
     final firstNodeLen = res[1].item1;
     var text = res[0].item2;
-    total.add(text.substring(text.length - firstNodeLen));
+    if (text != Embed.kObjectReplacementCharacter) {
+      total.add(text.substring(text.length - firstNodeLen));
+    }
 
     for (var i = 1; i < res.length - 1; i++) {
-      total.add(res[i].item2);
+      if (res[i].item2 != Embed.kObjectReplacementCharacter) {
+        total.add(res[i].item2);
+      }
     }
 
     // Adjust last node
     final lastNodeLen = len - res[res.length - 1].item1;
     text = res[res.length - 1].item2;
-    total.add(text.substring(0, lastNodeLen));
-    return total
-        .skipWhile((value) => value == Embed.kObjectReplacementCharacter)
-        .join();
+    if (text != Embed.kObjectReplacementCharacter) {
+      total.add(text.substring(0, lastNodeLen));
+    }
+    return total.join();
   }
 
   List<Tuple2<int, String>> _getPlainText(int offset, int len, {int beg = 0}) {

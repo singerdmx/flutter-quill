@@ -17,6 +17,7 @@ import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
+import '../models/documents/style.dart';
 import '../utils/platform.dart';
 import 'controller.dart';
 import 'cursor.dart';
@@ -258,6 +259,14 @@ class RawEditorState extends EditorState
 
   // Theme
   DefaultStyles? _styles;
+
+  // for pasting style
+  @override
+  List<Tuple2<int, Style>> get pasteStyle => _pasteStyle;
+  List<Tuple2<int, Style>> _pasteStyle = <Tuple2<int, Style>>[];
+  @override
+  String get pastePlainText => _pastePlainText;
+  String _pastePlainText = '';
 
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
   final LayerLink _toolbarLayerLink = LayerLink();
@@ -843,6 +852,8 @@ class RawEditorState extends EditorState
 
   @override
   void copySelection(SelectionChangedCause cause) {
+    _pastePlainText = widget.controller.getPlainText();
+    _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
     // Copied straight from EditableTextState
     super.copySelection(cause);
     if (cause == SelectionChangedCause.toolbar) {
@@ -865,6 +876,8 @@ class RawEditorState extends EditorState
 
   @override
   void cutSelection(SelectionChangedCause cause) {
+    _pastePlainText = widget.controller.getPlainText();
+    _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
     // Copied straight from EditableTextState
     super.cutSelection(cause);
     if (cause == SelectionChangedCause.toolbar) {

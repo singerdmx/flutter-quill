@@ -6,6 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import '../models/documents/style.dart';
+import 'package:tuple/tuple.dart';
 
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
@@ -47,6 +49,10 @@ abstract class EditorState extends State<RawEditor>
   RenderEditor get renderEditor;
 
   EditorTextSelectionOverlay? get selectionOverlay;
+
+  List<Tuple2<int, Style>> get pasteStyle;
+
+  String get pastePlainText;
 
   /// Controls the floating cursor animation when it is released.
   /// The floating cursor is animated to merge with the regular cursor.
