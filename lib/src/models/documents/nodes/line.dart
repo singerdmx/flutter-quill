@@ -449,27 +449,52 @@ class Line extends Container<Leaf?> {
 
   /// Returns plain text within the specified text range.
   String getPlainText(int offset, int len) {
+    final res = _getPlainText(offset, len);
+    if (res.length == 1) {
+      final data = queryChild(offset, true);
+      final text = res.single.item2;
+      return text.substring(data.offset, data.offset + len);
+    }
+
+    final total = <String>[];
+    // Adjust first node
+    final firstNodeLen = res[1].item1;
+    var text = res[0].item2;
+    total.add(text.substring(text.length - firstNodeLen));
+
+    for (var i = 1; i < res.length - 1; i++) {
+      total.add(res[i].item2);
+    }
+
+    // Adjust last node
+    final lastNodeLen = len - res[res.length - 1].item1;
+    text = res[res.length - 1].item2;
+    total.add(text.substring(0, lastNodeLen));
+    return total.join();
+  }
+
+  List<Tuple2<int, String>> _getPlainText(int offset, int len, {int beg = 0}) {
     final local = math.min(length - offset, len);
-    final result = <String>[];
+    final result = <Tuple2<int, String>>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      result.add(node.toPlainText());
       var pos = node.length - data.offset;
+      result.add(Tuple2(beg, node.toPlainText()));
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        result.add(node.toPlainText());
+        result.add(Tuple2(pos + beg, node.toPlainText()));
         pos += node.length;
       }
     }
 
     final remaining = len - local;
     if (remaining > 0) {
-      final rest = nextLine!.getPlainText(0, remaining);
-      result.add(rest);
+      final rest = nextLine!._getPlainText(0, remaining, beg: local);
+      result.addAll(rest);
     }
 
-    return result.join();
+    return result;
   }
 }
