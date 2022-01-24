@@ -1,3 +1,6 @@
+# [3.7.3]
+* Fix selection overlay for collapsed selection.
+
 # [3.7.2]
 * Reverted Embed toPlainText change.
 
