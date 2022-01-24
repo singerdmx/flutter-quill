@@ -4,7 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../models/documents/nodes/leaf.dart';
-import '../../models/documents/style.dart';
 import '../../utils/delta.dart';
 import '../editor.dart';
 
@@ -27,17 +26,16 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
         diff.start, diff.deleted.length, insertedText, value.selection);
 
     if (insertedText == pastePlainText && pastePlainText != '') {
-      var pos = diff.start;
-      for ( var i = 0; i < pasteStyle.length; i++){
-        int offset = pasteStyle[i].item1;
-        Style style = pasteStyle[i].item2;
-        if (i == pasteStyle.length - 1) {
-          style.attributes.forEach((k, v) => widget.controller
-              .formatText(pos + offset, pastePlainText.length - offset, v));
-        } else {
-          style.attributes.forEach((k, v) => widget.controller
-              .formatText(pos + offset, pasteStyle[i + 1].item1, v));
-        }
+      final pos = diff.start;
+      for (var i = 0; i < pasteStyle.length; i++) {
+        final offset = pasteStyle[i].item1;
+        final style = pasteStyle[i].item2;
+        widget.controller.formatTextStyle(
+            pos + offset,
+            i == pasteStyle.length - 1
+                ? pastePlainText.length - offset
+                : pasteStyle[i + 1].item1,
+            style);
       }
     }
   }

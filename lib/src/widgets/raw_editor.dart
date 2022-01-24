@@ -852,7 +852,8 @@ class RawEditorState extends EditorState
 
   @override
   void copySelection(SelectionChangedCause cause) {
-    _pastePlainText = widget.controller.getPlainText();
+    _pastePlainText =
+        widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
     // Copied straight from EditableTextState
     super.copySelection(cause);
