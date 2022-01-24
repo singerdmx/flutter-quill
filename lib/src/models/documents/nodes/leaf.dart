@@ -254,10 +254,8 @@ class Embed extends Leaf {
   @override
   Embeddable get value => super.value as Embeddable;
 
-  // Embed nodes are represented as empty string in plain text.
+  // Embed nodes are represented as unicode object replacement character in
+  // plain text.
   @override
-  String toPlainText() => '';
-
-  @override
-  String toString() => kObjectReplacementCharacter;
+  String toPlainText() => kObjectReplacementCharacter;
 }

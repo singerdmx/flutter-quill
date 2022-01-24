@@ -1,3 +1,6 @@
+# [3.7.2]
+* Reverted Embed toPlainText change.
+
 # [3.7.1]
 * Change Embed toPlainText to be empty string.
 
