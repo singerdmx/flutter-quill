@@ -452,34 +452,29 @@ class Line extends Container<Leaf?> {
     final res = _getPlainText(offset, len);
     if (res.length == 1) {
       final data = queryChild(offset, true);
-      if ((data.node as Leaf) is Embed) {
-        return '';
-      }
       final text = res.single.item2;
-      return text.substring(data.offset, data.offset + len);
+      return text == Embed.kObjectReplacementCharacter
+          ? ''
+          : text.substring(data.offset, data.offset + len);
     }
 
     final total = <String>[];
     // Adjust first node
     final firstNodeLen = res[1].item1;
     var text = res[0].item2;
-    if (text != Embed.kObjectReplacementCharacter) {
-      total.add(text.substring(text.length - firstNodeLen));
-    }
+    total.add(text.substring(text.length - firstNodeLen));
 
     for (var i = 1; i < res.length - 1; i++) {
-      if (text != Embed.kObjectReplacementCharacter) {
-        total.add(res[i].item2);
-      }
+      total.add(res[i].item2);
     }
 
     // Adjust last node
     final lastNodeLen = len - res[res.length - 1].item1;
     text = res[res.length - 1].item2;
-    if (text != Embed.kObjectReplacementCharacter) {
-      total.add(text.substring(0, lastNodeLen));
-    }
-    return total.join();
+    total.add(text.substring(0, lastNodeLen));
+    return total
+        .skipWhile((value) => value == Embed.kObjectReplacementCharacter)
+        .join();
   }
 
   List<Tuple2<int, String>> _getPlainText(int offset, int len, {int beg = 0}) {
