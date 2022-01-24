@@ -306,7 +306,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         }
         final size = renderEditor.size;
         final transform = renderEditor.getTransformTo(null);
-        _textInputConnection!.setEditableSizeAndTransform(size, transform);
+        _textInputConnection?.setEditableSizeAndTransform(size, transform);
       });
     }
   }
