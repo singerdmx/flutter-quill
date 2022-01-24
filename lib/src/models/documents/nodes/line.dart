@@ -504,6 +504,10 @@ class Line extends Container<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0) {
+      final lastElem = result[result.length - 1];
+      result
+        ..removeLast()
+        ..add(Tuple2(lastElem.item1, '${lastElem.item2}\n'));
       final rest = nextLine!._getPlainText(0, remaining, beg: local);
       result.addAll(rest);
     }
