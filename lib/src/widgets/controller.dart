@@ -215,14 +215,25 @@ class QuillController extends ChangeNotifier {
   void handleDelete(int cursorPosition, bool forward) =>
       onDelete?.call(cursorPosition, forward);
 
+  void formatTextStyle(int index, int len, Style style) {
+    style.attributes.forEach((key, attr) {
+      formatText(index, len, attr);
+    });
+  }
+
   void formatText(int index, int len, Attribute? attribute) {
     if (len == 0 &&
         attribute!.isInline &&
         attribute.key != Attribute.link.key) {
+      // Add the attribute to our toggledStyle.
+      // It will be used later upon insertion.
       toggledStyle = toggledStyle.put(attribute);
     }
 
     final change = document.format(index, len, attribute);
+    // Transform selection against the composed change and give priority to
+    // the change. This is needed in cases when format operation actually
+    // inserts data into the document (e.g. embeds).
     final adjustedSelection = selection.copyWith(
         baseOffset: change.transformPosition(selection.baseOffset),
         extentOffset: change.transformPosition(selection.extentOffset));

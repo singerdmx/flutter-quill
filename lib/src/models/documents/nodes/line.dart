@@ -384,29 +384,29 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns each offset in selection with its corresponding styles as a list
-  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len) {
+  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len,
+      {int beg = 0}) {
     final local = math.min(length - offset, len);
     final result = <Tuple2<int, Style>>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      result.add(Tuple2(0, node.style));
-      var pos = node.length - data.offset; // 2
+      result.add(Tuple2(beg, node.style));
+      var pos = node.length - data.offset;
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        result.add(Tuple2(pos, node.style)); // 2
-        pos += node.length; // 2 + 1 = 3
+        result.add(Tuple2(pos + beg, node.style));
+        pos += node.length;
       }
     }
 
-    // Add line style
-    // result.add(style);
-    // TODO: add block style as well
+    // TODO: add current line's style and parent block style as well
 
     final remaining = len - local;
     if (remaining > 0) {
-      final rest = nextLine!.collectAllIndividualStyles(0, remaining);
+      final rest =
+          nextLine!.collectAllIndividualStyles(0, remaining, beg: local);
       result.addAll(rest);
     }
 
