@@ -1,3 +1,6 @@
+# [3.8.1]
+* Refactor _QuillEditorState to QuillEditorState.
+
 # [3.8.0]
 * Support pasting with format.
 
