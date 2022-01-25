@@ -374,10 +374,10 @@ class QuillEditor extends StatefulWidget {
   final bool floatingCursorDisabled;
 
   @override
-  _QuillEditorState createState() => _QuillEditorState();
+  QuillEditorState createState() => QuillEditorState();
 }
 
-class _QuillEditorState extends State<QuillEditor>
+class QuillEditorState extends State<QuillEditor>
     implements EditorTextSelectionGestureDetectorBuilderDelegate {
   final GlobalKey<EditorState> _editorKey = GlobalKey<EditorState>();
   late EditorTextSelectionGestureDetectorBuilder
@@ -494,7 +494,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   _QuillEditorSelectionGestureDetectorBuilder(this._state)
       : super(delegate: _state);
 
-  final _QuillEditorState _state;
+  final QuillEditorState _state;
 
   @override
   void onForcePressStart(ForcePressDetails details) {
