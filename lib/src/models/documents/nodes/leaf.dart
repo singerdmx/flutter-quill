@@ -40,8 +40,8 @@ abstract class Leaf extends Node {
     if (_value is String) {
       return (_value as String).length;
     }
-    // return 1 for embedded object
-    return 1;
+    // return 0 for embedded object
+    return 0;
   }
 
   @override
@@ -257,5 +257,8 @@ class Embed extends Leaf {
   // Embed nodes are represented as unicode object replacement character in
   // plain text.
   @override
-  String toPlainText() => kObjectReplacementCharacter;
+  String toPlainText() => '';
+
+  @override
+  String toString() => kObjectReplacementCharacter;
 }
