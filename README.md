@@ -23,7 +23,7 @@
 
 FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
 
-This library is a WYSIWYG editor built for the modern mobile platform, with web compatibility under development. You can join our [Slack Group] for discussion.
+This library is a WYSIWYG editor built for the modern mobile platform, with web compatibility under development. Check out our [Youtube Playlist] to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
 
 Demo App: https://bulletjournal.us/home/index.html
 
@@ -158,5 +158,6 @@ The translation file is located at [lib/src/translations/toolbar.i18n.dart](lib/
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
 [ReactQuill]: https://github.com/zenoamaro/react-quill
+[Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
