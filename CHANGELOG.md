@@ -1,3 +1,6 @@
+# [3.8.2]
+* Fix certain keys not working on web when editor is a child of a scroll view.
+
 # [3.8.1]
 * Refactor _QuillEditorState to QuillEditorState.
 
