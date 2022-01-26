@@ -721,6 +721,7 @@ class RenderEditor extends RenderEditableContainerBox
     required TextDirection textDirection,
     required bool hasFocus,
     required this.selection,
+    required this.scrollable,
     required LayerLink startHandleLayerLink,
     required LayerLink endHandleLayerLink,
     required EdgeInsetsGeometry padding,
@@ -750,6 +751,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   final CursorCont _cursorController;
   final bool floatingCursorDisabled;
+  final bool scrollable;
 
   Document document;
   TextSelection selection;
@@ -1125,17 +1127,18 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   void performLayout() {
     assert(() {
-      if (!constraints.hasBoundedHeight) return true;
+      if (!scrollable || !constraints.hasBoundedHeight) return true;
       throw FlutterError.fromParts(<DiagnosticsNode>[
         ErrorSummary('RenderEditableContainerBox must have '
-            'unlimited space along its main axis.'),
+            'unlimited space along its main axis when it is scrollable.'),
         ErrorDescription('RenderEditableContainerBox does not clip or'
             ' resize its children, so it must be '
             'placed in a parent that does not constrain the main '
             'axis.'),
         ErrorHint(
             'You probably want to put the RenderEditableContainerBox inside a '
-            'RenderViewport with a matching main axis.')
+            'RenderViewport with a matching main axis or disable the '
+            'scrollable property.')
       ]);
     }());
     assert(() {

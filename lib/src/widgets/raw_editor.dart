@@ -295,6 +295,7 @@ class RawEditorState extends EditorState
           document: _doc,
           selection: widget.controller.selection,
           hasFocus: _hasFocus,
+          scrollable: widget.scrollable,
           cursorController: _cursorCont,
           textDirection: _textDirection,
           startHandleLayerLink: _startHandleLayerLink,
@@ -333,6 +334,7 @@ class RawEditorState extends EditorState
               document: _doc,
               selection: widget.controller.selection,
               hasFocus: _hasFocus,
+              scrollable: widget.scrollable,
               textDirection: _textDirection,
               startHandleLayerLink: _startHandleLayerLink,
               endHandleLayerLink: _endHandleLayerLink,
@@ -934,6 +936,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     required this.document,
     required this.textDirection,
     required this.hasFocus,
+    required this.scrollable,
     required this.selection,
     required this.startHandleLayerLink,
     required this.endHandleLayerLink,
@@ -951,6 +954,7 @@ class _Editor extends MultiChildRenderObjectWidget {
   final Document document;
   final TextDirection textDirection;
   final bool hasFocus;
+  final bool scrollable;
   final TextSelection selection;
   final LayerLink startHandleLayerLink;
   final LayerLink endHandleLayerLink;
@@ -969,6 +973,7 @@ class _Editor extends MultiChildRenderObjectWidget {
         document: document,
         textDirection: textDirection,
         hasFocus: hasFocus,
+        scrollable: scrollable,
         selection: selection,
         startHandleLayerLink: startHandleLayerLink,
         endHandleLayerLink: endHandleLayerLink,
