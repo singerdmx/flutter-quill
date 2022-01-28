@@ -182,10 +182,11 @@ class _LinkDialogState extends State<_LinkDialog> {
     return AlertDialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(height: 8),
           TextField(
             keyboardType: TextInputType.multiline,
-            maxLines: null,
             style: widget.dialogTheme?.inputTextStyle,
             decoration: InputDecoration(
                 labelText: 'Text'.i18n,
@@ -195,9 +196,9 @@ class _LinkDialogState extends State<_LinkDialog> {
             onChanged: _textChanged,
             controller: _textController,
           ),
+          const SizedBox(height: 16),
           TextField(
             keyboardType: TextInputType.multiline,
-            maxLines: null,
             style: widget.dialogTheme?.inputTextStyle,
             decoration: InputDecoration(
                 labelText: 'Link'.i18n,
