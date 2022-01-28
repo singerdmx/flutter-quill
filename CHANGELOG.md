@@ -1,3 +1,6 @@
+# [3.8.4]
+* Fix link dialog layout.
+
 # [3.8.3]
 * Fix for errors on a non scrollable editor.
 
