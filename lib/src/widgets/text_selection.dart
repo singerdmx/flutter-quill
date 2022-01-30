@@ -322,12 +322,16 @@ class EditorTextSelectionOverlay {
     final isMultiline = endpoints.last.point.dy - endpoints.first.point.dy >
         smallestLineHeight / 2;
 
+    // If the selected text spans more than 1 line,
+    // horizontally center the toolbar.
+    // Derived from both iOS and Android.
     final midX = isMultiline
         ? editingRegion.width / 2
         : (endpoints.first.point.dx + endpoints.last.point.dx) / 2;
 
     final midpoint = Offset(
       midX,
+      // The y-coordinate won't be made use of most likely.
       endpoints[0].point.dy - baseLineHeight,
     );
 
@@ -345,7 +349,7 @@ class EditorTextSelectionOverlay {
             endpoints,
             selectionDelegate,
             clipboardStatus,
-            const Offset(0, 0)),
+            null),
       ),
     );
   }
