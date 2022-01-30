@@ -27,7 +27,7 @@ extension Localization on String {
           'Gallery': 'Gallery',
           'Link': 'Link',
           'Please first select some text to transform into a link.':
-          'Please first select some text to transform into a link.',
+              'Please first select some text to transform into a link.',
           'Open': 'Open',
           'Copy': 'Copy',
           'Remove': 'Remove',
