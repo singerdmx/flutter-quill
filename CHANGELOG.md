@@ -1,3 +1,6 @@
+# [3.8.5]
+* Fix _handleDragUpdate in _TextSelectionHandleOverlayState.
+
 # [3.8.4]
 * Fix link dialog layout.
 
