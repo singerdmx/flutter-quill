@@ -430,12 +430,14 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   _TextSelectionHandleOverlayState createState() =>
       _TextSelectionHandleOverlayState();
 
-  ValueListenable<bool>? get _visibility {
+  ValueListenable<bool> get _visibility {
     switch (position) {
       case _TextSelectionHandlePosition.START:
         return renderObject!.selectionStartInViewport;
       case _TextSelectionHandlePosition.END:
         return renderObject!.selectionEndInViewport;
+      default:
+        throw 'Invalid position';
     }
   }
 }
@@ -457,11 +459,11 @@ class _TextSelectionHandleOverlayState
         duration: const Duration(milliseconds: 150), vsync: this);
 
     _handleVisibilityChanged();
-    widget._visibility!.addListener(_handleVisibilityChanged);
+    widget._visibility.addListener(_handleVisibilityChanged);
   }
 
   void _handleVisibilityChanged() {
-    if (widget._visibility!.value) {
+    if (widget._visibility.value) {
       _controller.forward();
     } else {
       _controller.reverse();
@@ -471,14 +473,14 @@ class _TextSelectionHandleOverlayState
   @override
   void didUpdateWidget(_TextSelectionHandleOverlay oldWidget) {
     super.didUpdateWidget(oldWidget);
-    oldWidget._visibility!.removeListener(_handleVisibilityChanged);
+    oldWidget._visibility.removeListener(_handleVisibilityChanged);
     _handleVisibilityChanged();
-    widget._visibility!.addListener(_handleVisibilityChanged);
+    widget._visibility.addListener(_handleVisibilityChanged);
   }
 
   @override
   void dispose() {
-    widget._visibility!.removeListener(_handleVisibilityChanged);
+    widget._visibility.removeListener(_handleVisibilityChanged);
     _controller.dispose();
     super.dispose();
   }
