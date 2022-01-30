@@ -127,7 +127,7 @@ class EditorTextSelectionOverlay {
   final LayerLink endHandleLayerLink;
 
   /// The editable line in which the selected text is being displayed.
-  final RenderEditor? renderObject;
+  final RenderEditor renderObject;
 
   /// Builds text selection handles and toolbar.
   final TextSelectionControls selectionCtrls;
@@ -308,16 +308,16 @@ class EditorTextSelectionOverlay {
 
   Widget _buildToolbar(BuildContext context) {
     // Find the horizontal midpoint, just above the selected text.
-    final endpoints = renderObject!.getEndpointsForSelection(_selection);
+    final endpoints = renderObject.getEndpointsForSelection(_selection);
 
     final editingRegion = Rect.fromPoints(
-      renderObject!.localToGlobal(Offset.zero),
-      renderObject!.localToGlobal(renderObject!.size.bottomRight(Offset.zero)),
+      renderObject.localToGlobal(Offset.zero),
+      renderObject.localToGlobal(renderObject.size.bottomRight(Offset.zero)),
     );
 
-    final baseLineHeight = renderObject!.preferredLineHeight(_selection.base);
+    final baseLineHeight = renderObject.preferredLineHeight(_selection.base);
     final extentLineHeight =
-        renderObject!.preferredLineHeight(_selection.extent);
+        renderObject.preferredLineHeight(_selection.extent);
     final smallestLineHeight = math.min(baseLineHeight, extentLineHeight);
     final isMultiline = endpoints.last.point.dy - endpoints.first.point.dy >
         smallestLineHeight / 2;
@@ -420,7 +420,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   final _TextSelectionHandlePosition position;
   final LayerLink startHandleLayerLink;
   final LayerLink endHandleLayerLink;
-  final RenderEditor? renderObject;
+  final RenderEditor renderObject;
   final ValueChanged<TextSelection?> onSelectionHandleChanged;
   final VoidCallback? onSelectionHandleTapped;
   final TextSelectionControls selectionControls;
@@ -433,9 +433,9 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   ValueListenable<bool> get _visibility {
     switch (position) {
       case _TextSelectionHandlePosition.START:
-        return renderObject!.selectionStartInViewport;
+        return renderObject.selectionStartInViewport;
       case _TextSelectionHandlePosition.END:
-        return renderObject!.selectionEndInViewport;
+        return renderObject.selectionEndInViewport;
       default:
         throw 'Invalid position';
     }
@@ -491,7 +491,7 @@ class _TextSelectionHandleOverlayState
 
   void _handleDragUpdate(DragUpdateDetails details) {
     _dragPosition += details.delta;
-    final position = widget.renderObject!.getPositionForOffset(_dragPosition);
+    final position = widget.renderObject.getPositionForOffset(_dragPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
@@ -541,7 +541,7 @@ class _TextSelectionHandleOverlayState
       case _TextSelectionHandlePosition.START:
         layerLink = widget.startHandleLayerLink;
         type = _chooseType(
-          widget.renderObject!.textDirection,
+          widget.renderObject.textDirection,
           TextSelectionHandleType.left,
           TextSelectionHandleType.right,
         );
@@ -550,7 +550,7 @@ class _TextSelectionHandleOverlayState
         assert(!widget.selection.isCollapsed);
         layerLink = widget.endHandleLayerLink;
         type = _chooseType(
-          widget.renderObject!.textDirection,
+          widget.renderObject.textDirection,
           TextSelectionHandleType.right,
           TextSelectionHandleType.left,
         );
@@ -560,7 +560,7 @@ class _TextSelectionHandleOverlayState
     final textPosition = widget.position == _TextSelectionHandlePosition.START
         ? widget.selection.base
         : widget.selection.extent;
-    final lineHeight = widget.renderObject!.preferredLineHeight(textPosition);
+    final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
     final handleAnchor =
         widget.selectionControls.getHandleAnchor(type!, lineHeight);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
