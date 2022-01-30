@@ -445,8 +445,9 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
 class _TextSelectionHandleOverlayState
     extends State<_TextSelectionHandleOverlay>
     with SingleTickerProviderStateMixin {
+  // ignore: unused_field
   late Offset _dragPosition;
-  late Size _handleSize;
+
   late AnimationController _controller;
 
   Animation<double> get _opacity => _controller.view;
@@ -486,12 +487,18 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleDragStart(DragStartDetails details) {
-    _dragPosition = details.globalPosition + Offset(0, -_handleSize.height);
+    final textPosition = widget.position == _TextSelectionHandlePosition.START
+        ? widget.selection.base
+        : widget.selection.extent;
+    final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
+    final handleSize = widget.selectionControls.getHandleSize(lineHeight);
+    _dragPosition = details.globalPosition + Offset(0, -handleSize.height);
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
     _dragPosition += details.delta;
-    final position = widget.renderObject.getPositionForOffset(_dragPosition);
+    final position =
+        widget.renderObject.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
@@ -499,7 +506,7 @@ class _TextSelectionHandleOverlayState
 
     final isNormalized =
         widget.selection.extentOffset >= widget.selection.baseOffset;
-    TextSelection? newSelection;
+    TextSelection newSelection;
     switch (widget.position) {
       case _TextSelectionHandlePosition.START:
         newSelection = TextSelection(
@@ -517,6 +524,8 @@ class _TextSelectionHandleOverlayState
               isNormalized ? position.offset : widget.selection.extentOffset,
         );
         break;
+      default:
+        throw 'Invalid widget.position';
     }
 
     if (newSelection.baseOffset >= newSelection.extentOffset) {
@@ -571,7 +580,6 @@ class _TextSelectionHandleOverlayState
     final handleAnchor =
         widget.selectionControls.getHandleAnchor(type!, lineHeight);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
-    _handleSize = handleSize;
 
     final handleRect = Rect.fromLTWH(
       -handleAnchor.dx,
