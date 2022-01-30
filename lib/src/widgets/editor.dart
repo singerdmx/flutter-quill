@@ -1238,7 +1238,7 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   TextPosition getPositionForOffset(Offset offset) {
     final local = globalToLocal(offset);
-    final child = childAtOffset(local)!;
+    final child = childAtOffset(local);
 
     final parentData = child.parentData as BoxParentData;
     final localOffset = local - parentData.offset;
@@ -1651,15 +1651,20 @@ class RenderEditableContainerBox extends RenderBox
     markNeedsLayout();
   }
 
-  RenderEditableBox? childAtOffset(Offset offset) {
+  /// Returns child of this container located at the specified local `offset`.
+  ///
+  /// If `offset` is above this container (offset.dy is negative) returns
+  /// the first child. Likewise, if `offset` is below this container then
+  /// returns the last child.
+  RenderEditableBox childAtOffset(Offset offset) {
     assert(firstChild != null);
     resolvePadding();
 
     if (offset.dy <= _resolvedPadding!.top) {
-      return firstChild;
+      return firstChild!;
     }
     if (offset.dy >= size.height - _resolvedPadding!.bottom) {
-      return lastChild;
+      return lastChild!;
     }
 
     var child = firstChild;
@@ -1672,7 +1677,7 @@ class RenderEditableContainerBox extends RenderBox
       dy += child.size.height;
       child = childAfter(child);
     }
-    throw 'No child';
+    throw StateError('No child at offset $offset.');
   }
 
   @override

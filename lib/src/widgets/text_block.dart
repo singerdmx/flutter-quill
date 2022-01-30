@@ -370,7 +370,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
   @override
   TextPosition getPositionForOffset(Offset offset) {
-    final child = childAtOffset(offset)!;
+    final child = childAtOffset(offset);
     final parentData = child.parentData as BoxParentData;
     final localPosition =
         child.getPositionForOffset(offset - parentData.offset);
