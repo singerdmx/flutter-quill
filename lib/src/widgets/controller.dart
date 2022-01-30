@@ -259,6 +259,11 @@ class QuillController extends ChangeNotifier {
         const TextSelection.collapsed(offset: 0), ChangeSource.LOCAL);
   }
 
+  void moveCursorToPosition(int position) {
+    updateSelection(
+        TextSelection.collapsed(offset: position), ChangeSource.LOCAL);
+  }
+  
   void moveCursorToEnd() {
     updateSelection(
         TextSelection.collapsed(offset: plainTextEditingValue.text.length),
