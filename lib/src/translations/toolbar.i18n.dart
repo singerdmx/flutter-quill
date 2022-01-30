@@ -20,6 +20,23 @@ extension Localization on String {
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
         },
+        'en_us': {
+          'Paste a link': 'Paste a link',
+          'Ok': 'Ok',
+          'Select Color': 'Select Color',
+          'Gallery': 'Gallery',
+          'Link': 'Link',
+          'Please first select some text to transform into a link.':
+          'Please first select some text to transform into a link.',
+          'Open': 'Open',
+          'Copy': 'Copy',
+          'Remove': 'Remove',
+          'Save': 'Save',
+          'Zoom': 'Zoom',
+          'Saved': 'Saved',
+          'Text': 'Text',
+          'What is entered is not a link': 'What is entered is not a link',
+        },
         'ar': {
           'Paste a link': 'نسخ الرابط',
           'Ok': 'نعم',
