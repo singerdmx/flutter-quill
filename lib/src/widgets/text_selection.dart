@@ -547,6 +547,7 @@ class _TextSelectionHandleOverlayState
         );
         break;
       case _TextSelectionHandlePosition.END:
+        // For collapsed selections, we shouldn't be building the [end] handle.
         assert(!widget.selection.isCollapsed);
         layerLink = widget.endHandleLayerLink;
         type = _chooseType(
@@ -557,6 +558,12 @@ class _TextSelectionHandleOverlayState
         break;
     }
 
+    // TODO: This logic doesn't work for TextStyle.height larger 1.
+    // It makes the extent handle top end on iOS extend too high which makes
+    // stick out above the selection background.
+    // May have to use getSelectionBoxes instead of preferredLineHeight.
+    // or expose TextStyle on the render object and calculate
+    // preferredLineHeight / style.height
     final textPosition = widget.position == _TextSelectionHandlePosition.START
         ? widget.selection.base
         : widget.selection.extent;
@@ -573,6 +580,7 @@ class _TextSelectionHandleOverlayState
       handleSize.height,
     );
 
+    // Make sure the GestureDetector is big enough to be easily interactive.
     final interactiveRect = handleRect.expandToInclude(
       Rect.fromCircle(
           center: handleRect.center, radius: kMinInteractiveDimension / 2),
@@ -635,7 +643,24 @@ class _TextSelectionHandleOverlayState
   }
 }
 
+/// A gesture detector to respond to non-exclusive event chains for a
+/// text field.
+///
+/// An ordinary [GestureDetector] configured to handle events like tap and
+/// double tap will only recognize one or the other. This widget detects both:
+/// first the tap and then, if another tap down occurs within a time limit, the
+/// double tap.
+///
+/// See also:
+///
+///  * [TextField], a Material text field which uses this gesture detector.
+///  * [CupertinoTextField], a Cupertino text field which uses this gesture
+///    detector.
 class EditorTextSelectionGestureDetector extends StatefulWidget {
+  /// Create a [EditorTextSelectionGestureDetector].
+  ///
+  /// Multiple callbacks can be called for one sequence of input gesture.
+  /// The [child] parameter must not be null.
   const EditorTextSelectionGestureDetector({
     required this.child,
     this.onTapDown,
@@ -654,32 +679,64 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
+  /// Called for every tap down including every tap down that's part of a
+  /// double click or a long press, except touches that include enough movement
+  /// to not qualify as taps (e.g. pans and flings).
   final GestureTapDownCallback? onTapDown;
 
+  /// Called when a pointer has tapped down and the force of the pointer has
+  /// just become greater than [ForcePressGestureRecognizer.startPressure].
   final GestureForcePressStartCallback? onForcePressStart;
 
+  /// Called when a pointer that had previously triggered [onForcePressStart] is
+  /// lifted off the screen.
   final GestureForcePressEndCallback? onForcePressEnd;
 
+  /// Called for each distinct tap except for every second tap of a double tap.
+  /// For example, if the detector was configured with [onTapDown] and
+  /// [onDoubleTapDown], three quick taps would be recognized as a single tap
+  /// down, followed by a double tap down, followed by a single tap down.
   final GestureTapUpCallback? onSingleTapUp;
 
+  /// Called for each touch that becomes recognized as a gesture that is not a
+  /// short tap, such as a long tap or drag. It is called at the moment when
+  /// another gesture from the touch is recognized.
   final GestureTapCancelCallback? onSingleTapCancel;
 
+  /// Called for a single long tap that's sustained for longer than
+  /// [kLongPressTimeout] but not necessarily lifted. Not called for a
+  /// double-tap-hold, which calls [onDoubleTapDown] instead.
   final GestureLongPressStartCallback? onSingleLongTapStart;
 
+  /// Called after [onSingleLongTapStart] when the pointer is dragged.
   final GestureLongPressMoveUpdateCallback? onSingleLongTapMoveUpdate;
 
+  /// Called after [onSingleLongTapStart] when the pointer is lifted.
   final GestureLongPressEndCallback? onSingleLongTapEnd;
 
+  /// Called after a momentary hold or a short tap that is close in space and
+  /// time (within [kDoubleTapTimeout]) to a previous short tap.
   final GestureTapDownCallback? onDoubleTapDown;
 
+  /// Called when a mouse starts dragging to select text.
   final GestureDragStartCallback? onDragSelectionStart;
 
+  /// Called repeatedly as a mouse moves while dragging.
+  ///
+  /// The frequency of calls is throttled to avoid excessive text layout
+  /// operations in text fields. The throttling is controlled by the constant
+  /// [_kDragSelectionUpdateThrottle].
   final DragSelectionUpdateCallback? onDragSelectionUpdate;
 
+  /// Called when a mouse that was previously dragging is released.
   final GestureDragEndCallback? onDragSelectionEnd;
 
+  /// How this gesture detector should behave during hit testing.
+  ///
+  /// This defaults to [HitTestBehavior.deferToChild].
   final HitTestBehavior? behavior;
 
+  /// Child below this widget.
   final Widget child;
 
   @override
@@ -689,8 +746,12 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
 
 class _EditorTextSelectionGestureDetectorState
     extends State<EditorTextSelectionGestureDetector> {
+  // Counts down for a short duration after a previous tap. Null otherwise.
   Timer? _doubleTapTimer;
   Offset? _lastTapOffset;
+
+  // True if a second tap down of a double tap is detected. Used to discard
+  // subsequent tap up / tap hold of the same tap.
   bool _isDoubleTap = false;
 
   @override
@@ -700,13 +761,20 @@ class _EditorTextSelectionGestureDetectorState
     super.dispose();
   }
 
+  // The down handler is force-run on success of a single tap and optimistically
+  // run before a long press success.
   void _handleTapDown(TapDownDetails details) {
-    // renderObject.resetTapDownStatus();
     if (widget.onTapDown != null) {
       widget.onTapDown!(details);
     }
+    // This isn't detected as a double tap gesture in the gesture recognizer
+    // because it's 2 single taps, each of which may do different things
+    // depending on whether it's a single tap, the first tap of a double tap,
+    // the second tap held down, a clean double tap etc.
     if (_doubleTapTimer != null &&
         _isWithinDoubleTapTolerance(details.globalPosition)) {
+      // If there was already a previous tap, the second down hold/tap is a
+      // double tap down.
       if (widget.onDoubleTapDown != null) {
         widget.onDoubleTapDown!(details);
       }
@@ -752,6 +820,12 @@ class _EditorTextSelectionGestureDetectorState
         Timer(const Duration(milliseconds: 50), _handleDragUpdateThrottled);
   }
 
+  /// Drag updates are being throttled to avoid excessive text layouts in text
+  /// fields. The frequency of invocations is controlled by the constant
+  /// [_kDragSelectionUpdateThrottle].
+  ///
+  /// Once the drag gesture ends, any pending drag update will be fired
+  /// immediately. See [_handleDragEnd].
   void _handleDragUpdateThrottled() {
     assert(_lastDragStartDetails != null);
     assert(_lastDragUpdateDetails != null);
@@ -766,6 +840,8 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragEnd(DragEndDetails details) {
     assert(_lastDragStartDetails != null);
     if (_dragUpdateThrottleTimer != null) {
+      // If there's already an update scheduled, trigger it immediately and
+      // cancel the timer.
       _dragUpdateThrottleTimer!.cancel();
       _handleDragUpdateThrottled();
     }
@@ -867,6 +943,8 @@ class _EditorTextSelectionGestureDetectorState
             debugOwner: this,
             supportedDevices: <PointerDeviceKind>{PointerDeviceKind.mouse}),
         (instance) {
+          // Text selection should start from the position of the first pointer
+          // down event.
           instance
             ..dragStartBehavior = DragStartBehavior.down
             ..onStart = _handleDragStart
