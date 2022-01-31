@@ -69,21 +69,11 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                             context: context,
                             builder: (context) {
                               final _screenSize = MediaQuery.of(context).size;
-                              final _style = controller
-                                  .getAllSelectionStyles()
-                                  .firstWhere(
-                                      (s) => s.attributes
-                                          .containsKey(Attribute.style.key),
-                                      orElse: () => Style());
-
                               return ImageResizer(
                                   onImageResize: (w, h) {
                                     final res = _getImageNode(controller);
                                     final attr = replaceStyleString(
-                                        _style.attributes[Attribute.style.key]
-                                            ?.value,
-                                        w,
-                                        h);
+                                        _getImageStyleString(controller), w, h);
                                     controller.formatText(
                                         res.item1, 1, StyleAttribute(attr));
                                   },
@@ -101,7 +91,8 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       onPressed: () {
                         final imageNode = _getImageNode(controller).item2;
                         final imageUrl = imageNode.value.data;
-                        controller.copiedImageUrl = imageUrl;
+                        controller.copiedImageUrl =
+                            Tuple2(imageUrl, _getImageStyleString(controller));
                         Navigator.pop(context);
                       },
                     );
@@ -149,6 +140,16 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
         'to embedBuilder property of QuillEditor or QuillField widgets.',
       );
   }
+}
+
+String _getImageStyleString(QuillController controller) {
+  final String? s = controller
+      .getAllSelectionStyles()
+      .firstWhere((s) => s.attributes.containsKey(Attribute.style.key),
+          orElse: () => Style())
+      .attributes[Attribute.style.key]
+      ?.value;
+  return s ?? '';
 }
 
 Tuple2<int, leaf.Embed> _getImageNode(QuillController controller) {

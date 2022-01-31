@@ -334,12 +334,13 @@ class QuillController extends ChangeNotifier {
     return document.querySegmentLeafNode(offset).item2;
   }
 
-  /// Clipboard for image url
-  String? _copiedImageUrl;
+  /// Clipboard for image url and its corresponding style
+  /// item1 is url and item2 is style string
+  Tuple2<String, String>? _copiedImageUrl;
 
-  String? getCopiedImageUrl() => _copiedImageUrl;
+  Tuple2<String, String>? get copiedImageUrl => _copiedImageUrl;
 
-  set copiedImageUrl(String? value) {
+  set copiedImageUrl(Tuple2<String, String>? value) {
     _copiedImageUrl = value;
     Clipboard.setData(const ClipboardData(text: ''));
   }

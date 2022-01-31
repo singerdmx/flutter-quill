@@ -920,11 +920,16 @@ class RawEditorState extends EditorState
 
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (widget.controller.getCopiedImageUrl() != null) {
+    if (widget.controller.copiedImageUrl != null) {
       final index = textEditingValue.selection.baseOffset;
       final length = textEditingValue.selection.extentOffset - index;
-      widget.controller.replaceText(index, length,
-          BlockEmbed.image(widget.controller.getCopiedImageUrl()!), null);
+      final copied = widget.controller.copiedImageUrl!;
+      widget.controller
+          .replaceText(index, length, BlockEmbed.image(copied.item1), null);
+      if (copied.item2.isNotEmpty) {
+        widget.controller
+            .formatText(index + 1, 1, StyleAttribute(copied.item2));
+      }
       widget.controller.copiedImageUrl = null;
       await Clipboard.setData(const ClipboardData(text: ''));
       return;

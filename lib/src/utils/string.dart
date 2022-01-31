@@ -17,8 +17,7 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   return result;
 }
 
-String replaceStyleString(String? s, double width, double height) {
-  s ??= '';
+String replaceStyleString(String s, double width, double height) {
   final result = <String, String>{};
   final pairs = s.split(';');
   for (final pair in pairs) {
