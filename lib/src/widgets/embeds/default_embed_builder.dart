@@ -68,7 +68,10 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                             builder: (context) {
                               return ImageResizer(
                                   imageWidth: _widthHeight?.item1,
-                                  imageHeight: _widthHeight?.item2);
+                                  imageHeight: _widthHeight?.item2,
+                                  maxWidth: MediaQuery.of(context).size.width,
+                                  maxHeight:
+                                      MediaQuery.of(context).size.height);
                             });
                       },
                     );
