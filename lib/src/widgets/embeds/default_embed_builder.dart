@@ -43,44 +43,7 @@ Widget defaultEmbedBuilder(
       }
 
       // We provide option menu only for mobile platform excluding base64 image
-      return GestureDetector(
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (context) => Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                      child: SimpleDialog(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          children: [
-                            _SimpleDialogItem(
-                              icon: Icons.save,
-                              color: Colors.greenAccent,
-                              text: 'Save'.i18n,
-                              onPressed: () {
-                                // TODO: improve this
-                                GallerySaver.saveImage(imageUrl).then((_) =>
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text('Saved'.i18n))));
-                              },
-                            ),
-                            _SimpleDialogItem(
-                              icon: Icons.zoom_in,
-                              color: Colors.cyanAccent,
-                              text: 'Zoom'.i18n,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ImageTapWrapper(
-                                            imageUrl: imageUrl)));
-                              },
-                            )
-                          ]),
-                    ));
-          },
-          child: image);
+      return _menuOptionsForReadonlyImage(context, imageUrl, image);
     case 'video':
       final videoUrl = node.value.data;
       if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
@@ -95,6 +58,47 @@ Widget defaultEmbedBuilder(
         'to embedBuilder property of QuillEditor or QuillField widgets.',
       );
   }
+}
+
+GestureDetector _menuOptionsForReadonlyImage(
+    BuildContext context, String imageUrl, image) {
+  return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) => Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  child: SimpleDialog(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      children: [
+                        _SimpleDialogItem(
+                          icon: Icons.save,
+                          color: Colors.greenAccent,
+                          text: 'Save'.i18n,
+                          onPressed: () {
+                            // TODO: improve this
+                            GallerySaver.saveImage(imageUrl).then((_) =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Saved'.i18n))));
+                          },
+                        ),
+                        _SimpleDialogItem(
+                          icon: Icons.zoom_in,
+                          color: Colors.cyanAccent,
+                          text: 'Zoom'.i18n,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ImageTapWrapper(imageUrl: imageUrl)));
+                          },
+                        )
+                      ]),
+                ));
+      },
+      child: image);
 }
 
 class _SimpleDialogItem extends StatelessWidget {
