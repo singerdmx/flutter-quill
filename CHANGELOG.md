@@ -1,3 +1,6 @@
+# [3.8.6]
+* Fix cursor position changes when checking/unchecking the checkbox
+
 # [3.8.5]
 * Fix _handleDragUpdate in _TextSelectionHandleOverlayState.
 
