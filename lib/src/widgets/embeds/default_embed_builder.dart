@@ -41,7 +41,33 @@ Widget defaultEmbedBuilder(
 
       if (!readOnly && isMobile()) {
         // TODO: slider for width and height
-        // return _menuOptionsForEditableImageInMobile(context, imageUrl, image);
+        // return GestureDetector(
+        //     onTap: () {
+        //       showDialog(
+        //           context: context,
+        //           builder: (context) => Padding(
+        //                 padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+        //                 child: SimpleDialog(
+        //                     shape: const RoundedRectangleBorder(
+        //                         borderRadius:
+        //                             BorderRadius.all(Radius.circular(10))),
+        //                     children: [
+        //                       _SimpleDialogItem(
+        //                         icon: Icons.settings_outlined,
+        //                         color: Colors.lightBlueAccent,
+        //                         text: 'Resize'.i18n,
+        //                         onPressed: () {},
+        //                       ),
+        //                       _SimpleDialogItem(
+        //                         icon: Icons.delete_forever_outlined,
+        //                         color: Colors.red.shade200,
+        //                         text: 'Remove'.i18n,
+        //                         onPressed: () {},
+        //                       )
+        //                     ]),
+        //               ));
+        //     },
+        //     child: image);
       }
 
       if (!readOnly || !isMobile() || isImageBase64(imageUrl)) {
@@ -64,36 +90,6 @@ Widget defaultEmbedBuilder(
         'to embedBuilder property of QuillEditor or QuillField widgets.',
       );
   }
-}
-
-Widget _menuOptionsForEditableImageInMobile(
-    BuildContext context, String imageUrl, Image image) {
-  return GestureDetector(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (context) => Padding(
-                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                  child: SimpleDialog(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      children: [
-                        _SimpleDialogItem(
-                          icon: Icons.settings_outlined,
-                          color: Colors.greenAccent,
-                          text: 'Resize'.i18n,
-                          onPressed: () {},
-                        ),
-                        _SimpleDialogItem(
-                          icon: Icons.delete_forever_outlined,
-                          color: Colors.red.shade200,
-                          text: 'Remove'.i18n,
-                          onPressed: () {},
-                        )
-                      ]),
-                ));
-      },
-      child: image);
 }
 
 Widget _menuOptionsForReadonlyImage(
