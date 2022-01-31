@@ -93,13 +93,14 @@ class EditableTextBlock extends StatelessWidget {
 
     final defaultStyles = QuillStyles.getStyles(context, false);
     return _EditableBlock(
-        block,
-        textDirection,
-        verticalSpacing as Tuple2<double, double>,
-        scrollBottomInset,
-        _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
-        contentPadding,
-        _buildChildren(context, indentLevelCounts));
+        block: block,
+        textDirection: textDirection,
+        padding: verticalSpacing as Tuple2<double, double>,
+        scrollBottomInset: scrollBottomInset,
+        decoration: _getDecorationForBlock(block, defaultStyles) ??
+            const BoxDecoration(),
+        contentPadding: contentPadding,
+        children: _buildChildren(context, indentLevelCounts));
   }
 
   BoxDecoration? _getDecorationForBlock(
@@ -576,14 +577,15 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 
 class _EditableBlock extends MultiChildRenderObjectWidget {
   _EditableBlock(
-      this.block,
-      this.textDirection,
-      this.padding,
-      this.scrollBottomInset,
-      this.decoration,
-      this.contentPadding,
-      List<Widget> children)
-      : super(children: children);
+      {required this.block,
+      required this.textDirection,
+      required this.padding,
+      required this.scrollBottomInset,
+      required this.decoration,
+      required this.contentPadding,
+      required List<Widget> children,
+      Key? key})
+      : super(key: key, children: children);
 
   final Block block;
   final TextDirection textDirection;
