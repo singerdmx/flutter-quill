@@ -69,8 +69,8 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                             builder: (context) {
                               final _screenSize = MediaQuery.of(context).size;
                               return ImageResizer(
-                                  imageNode: res.item2!,
-                                  offset: res.item1!,
+                                  imageNode: res.item2,
+                                  offset: res.item1,
                                   imageWidth: _widthHeight?.item1,
                                   imageHeight: _widthHeight?.item2,
                                   maxWidth: _screenSize.width,
@@ -83,7 +83,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       color: Colors.cyanAccent,
                       text: 'Copy'.i18n,
                       onPressed: () {
-                        final imageNode = _getImageNode(controller).item2!;
+                        final imageNode = _getImageNode(controller).item2;
                         final imageUrl = imageNode.value.data;
                         controller.copiedImageUrl = imageUrl;
                         Navigator.pop(context);
@@ -94,7 +94,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       color: Colors.red.shade200,
                       text: 'Remove'.i18n,
                       onPressed: () {
-                        final offset = _getImageNode(controller).item1!;
+                        final offset = _getImageNode(controller).item1;
                         controller.replaceText(offset, 1, '',
                             TextSelection.collapsed(offset: offset));
                         Navigator.pop(context);
@@ -135,7 +135,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
   }
 }
 
-Tuple2<int?, leaf.Embed?> _getImageNode(QuillController controller) {
+Tuple2<int, leaf.Embed> _getImageNode(QuillController controller) {
   var offset = controller.selection.start;
   var imageNode = controller.queryNode(offset);
   if (imageNode == null || !(imageNode is leaf.Embed)) {
@@ -146,7 +146,7 @@ Tuple2<int?, leaf.Embed?> _getImageNode(QuillController controller) {
     return Tuple2(offset, imageNode);
   }
 
-  return const Tuple2(null, null);
+  return throw 'Image node not found by offset $offset';
 }
 
 Widget _menuOptionsForReadonlyImage(
