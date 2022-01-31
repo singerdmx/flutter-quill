@@ -268,6 +268,7 @@ class Line extends Container<Leaf?> {
       unlink();
       block.insertAfter(this);
     } else {
+      /// need to split this block into two as [line] is in the middle.
       final before = block.clone() as Block;
       block.insertBefore(before);
 
