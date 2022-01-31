@@ -19,6 +19,7 @@ extension Localization on String {
           'Saved': 'Saved',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -36,6 +37,7 @@ extension Localization on String {
           'Saved': 'Saved',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -53,6 +55,7 @@ extension Localization on String {
           'Saved': 'أنقذ',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -70,6 +73,7 @@ extension Localization on String {
           'Saved': 'Gemt',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -88,6 +92,7 @@ extension Localization on String {
           'Saved': 'Gerettet',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -105,6 +110,7 @@ extension Localization on String {
           'Saved': 'Enregistrée',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -122,6 +128,7 @@ extension Localization on String {
           'Saved': '已保存',
           'Text': '文字',
           'What is entered is not a link': '输入的不是链接',
+          'Resize': '删除',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -139,6 +146,7 @@ extension Localization on String {
           'Saved': '저장되었습니다.',
           'Text': '텍스트',
           'What is entered is not a link': '입력한 내용은 링크가 아닙니다.',
+          'Resize': 'Resize',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -156,6 +164,7 @@ extension Localization on String {
           'Saved': 'Сохранено',
           'Text': 'Текст',
           'What is entered is not a link': 'Некорректная ссылка',
+          'Resize': 'Resize',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -174,6 +183,7 @@ extension Localization on String {
           'Saved': 'Guardado',
           'Text': 'Texto',
           'What is entered is not a link': 'El link ingresado no es válido',
+          'Resize': 'Resize',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -191,6 +201,7 @@ extension Localization on String {
           'Saved': 'kaydedildi',
           'Text': 'Text',
           'What is entered is not a link': 'What is entered is not a link',
+          'Resize': 'Resize',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -208,6 +219,7 @@ extension Localization on String {
           'Saved': 'Збережено',
           'Text': 'Текст',
           'What is entered is not a link': 'Некоректне посилання',
+          'Resize': 'Resize',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -226,6 +238,7 @@ extension Localization on String {
           'Saved': 'Salvo',
           'Text': 'Texto',
           'What is entered is not a link': 'O link inserido não é válido',
+          'Resize': 'Resize',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -244,6 +257,7 @@ extension Localization on String {
           'Text': 'Tekst',
           'What is entered is not a link':
               'To, co jest wpisane, nie jest linkiem',
+          'Resize': 'Resize',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -262,6 +276,7 @@ extension Localization on String {
           'Text': 'Chữ',
           'What is entered is not a link':
               'Những gì được nhập không phải là một liên kết',
+          'Resize': 'Resize',
         },
       };
 

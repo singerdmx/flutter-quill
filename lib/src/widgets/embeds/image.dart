@@ -9,7 +9,7 @@ bool isImageBase64(String imageUrl) {
   return !imageUrl.startsWith('http') && isBase64(imageUrl);
 }
 
-Widget imageByUrl(String imageUrl,
+Image imageByUrl(String imageUrl,
     {double? width,
     double? height,
     AlignmentGeometry alignment = Alignment.center}) {
