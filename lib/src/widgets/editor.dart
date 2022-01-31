@@ -742,11 +742,11 @@ class RenderEditor extends RenderEditableContainerBox
         _cursorController = cursorController,
         _maxContentWidth = maxContentWidth,
         super(
-          children,
-          document.root,
-          textDirection,
-          scrollBottomInset,
-          padding,
+          children: children,
+          container: document.root,
+          textDirection: textDirection,
+          scrollBottomInset: scrollBottomInset,
+          padding: padding,
         );
 
   final CursorCont _cursorController;
@@ -1569,6 +1569,9 @@ class RenderEditor extends RenderEditableContainerBox
 class EditableContainerParentData
     extends ContainerBoxParentData<RenderEditableBox> {}
 
+/// Multi-child render box of editable content.
+///
+/// Common ancestor for [RenderEditor] and [RenderEditableTextBlock].
 class RenderEditableContainerBox extends RenderBox
     with
         ContainerRenderObjectMixin<RenderEditableBox,
@@ -1576,12 +1579,14 @@ class RenderEditableContainerBox extends RenderBox
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
   RenderEditableContainerBox(
-    List<RenderEditableBox>? children,
-    this._container,
-    this.textDirection,
-    this.scrollBottomInset,
-    this._padding,
-  ) : assert(_padding.isNonNegative) {
+      {required container_node.Container container,
+      required this.textDirection,
+      required this.scrollBottomInset,
+      required EdgeInsetsGeometry padding,
+      List<RenderEditableBox>? children})
+      : assert(padding.isNonNegative),
+        _container = container,
+        _padding = padding {
     addAll(children);
   }
 
@@ -1627,7 +1632,7 @@ class RenderEditableContainerBox extends RenderBox
   RenderEditableBox childAtPosition(TextPosition position) {
     assert(firstChild != null);
 
-    final targetNode = _container.queryChild(position.offset, false).node;
+    final targetNode = container.queryChild(position.offset, false).node;
 
     var targetChild = firstChild;
     while (targetChild != null) {

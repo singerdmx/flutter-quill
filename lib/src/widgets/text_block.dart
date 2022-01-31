@@ -294,18 +294,17 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     required double scrollBottomInset,
     required Decoration decoration,
     List<RenderEditableBox>? children,
-    ImageConfiguration configuration = ImageConfiguration.empty,
     EdgeInsets contentPadding = EdgeInsets.zero,
   })  : _decoration = decoration,
-        _configuration = configuration,
+        _configuration = ImageConfiguration(textDirection: textDirection),
         _savedPadding = padding,
         _contentPadding = contentPadding,
         super(
-          children,
-          block,
-          textDirection,
-          scrollBottomInset,
-          padding.add(contentPadding),
+          children: children,
+          container: block,
+          textDirection: textDirection,
+          scrollBottomInset: scrollBottomInset,
+          padding: padding.add(contentPadding),
         );
 
   EdgeInsetsGeometry _savedPadding;
