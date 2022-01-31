@@ -1,3 +1,6 @@
+# [3.8.8]
+* Update set textEditingValue.
+
 # [3.8.7]
 * Fix checkbox not toggled correctly in toolbar button.
 
