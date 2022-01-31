@@ -1,3 +1,6 @@
+# [3.9.2]
+* Copy image with its style.
+
 # [3.9.1]
 * Support resizing image.
 
