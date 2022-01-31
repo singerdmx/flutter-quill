@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../translations/toolbar.i18n.dart';
@@ -19,6 +20,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
     leaf.Embed node, bool readOnly) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
 
+  Tuple2<double?, double?>? _widthHeight;
   switch (node.value.type) {
     case 'image':
       final imageUrl = standardizeImageUrl(node.value.data);
@@ -33,6 +35,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
               'mobileWidth and mobileHeight must be specified');
           final w = double.parse(_attrs['mobileWidth']!);
           final h = double.parse(_attrs['mobileHeight']!);
+          _widthHeight = Tuple2(w, h);
           final m = _attrs['mobileMargin'] == null
               ? 0.0
               : double.parse(_attrs['mobileMargin']!);
@@ -42,7 +45,11 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
               child: imageByUrl(imageUrl, width: w, height: h, alignment: a));
         }
       }
-      image ??= imageByUrl(imageUrl);
+
+      if (_widthHeight == null) {
+        image = imageByUrl(imageUrl);
+        _widthHeight = Tuple2((image as Image).width, image.height);
+      }
 
       if (!readOnly && isMobile()) {
         return GestureDetector(
@@ -59,7 +66,9 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                         showCupertinoModalPopup<void>(
                             context: context,
                             builder: (context) {
-                              return const ImageResizer();
+                              return ImageResizer(
+                                  imageWidth: _widthHeight?.item1,
+                                  imageHeight: _widthHeight?.item2);
                             });
                       },
                     );
