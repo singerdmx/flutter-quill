@@ -15,6 +15,7 @@ import 'package:tuple/tuple.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
+import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
@@ -880,6 +881,7 @@ class RawEditorState extends EditorState
 
   @override
   void copySelection(SelectionChangedCause cause) {
+    widget.controller.copiedImageUrl = null;
     _pastePlainText = widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
     // Copied straight from EditableTextState
@@ -904,8 +906,10 @@ class RawEditorState extends EditorState
 
   @override
   void cutSelection(SelectionChangedCause cause) {
+    widget.controller.copiedImageUrl = null;
     _pastePlainText = widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
+
     // Copied straight from EditableTextState
     super.cutSelection(cause);
     if (cause == SelectionChangedCause.toolbar) {
@@ -916,8 +920,19 @@ class RawEditorState extends EditorState
 
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
+    if (widget.controller.getCopiedImageUrl() != null) {
+      final index = textEditingValue.selection.baseOffset;
+      final length = textEditingValue.selection.extentOffset - index;
+      widget.controller.replaceText(index, length,
+          BlockEmbed.image(widget.controller.getCopiedImageUrl()!), null);
+      widget.controller.copiedImageUrl = null;
+      await Clipboard.setData(const ClipboardData(text: ''));
+      return;
+    }
+
     // Copied straight from EditableTextState
     super.pasteText(cause); // ignore: unawaited_futures
+
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar();

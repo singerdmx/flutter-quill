@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -6,12 +9,14 @@ import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
 import '../../utils/string.dart';
+import '../controller.dart';
 import 'image.dart';
+import 'image_resizer.dart';
 import 'video_app.dart';
 import 'youtube_video_app.dart';
 
-Widget defaultEmbedBuilder(
-    BuildContext context, leaf.Embed node, bool readOnly) {
+Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
+    leaf.Embed node, bool readOnly) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
 
   switch (node.value.type) {
@@ -40,34 +45,68 @@ Widget defaultEmbedBuilder(
       image ??= imageByUrl(imageUrl);
 
       if (!readOnly && isMobile()) {
-        // TODO: slider for width and height
-        // return GestureDetector(
-        //     onTap: () {
-        //       showDialog(
-        //           context: context,
-        //           builder: (context) => Padding(
-        //                 padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-        //                 child: SimpleDialog(
-        //                     shape: const RoundedRectangleBorder(
-        //                         borderRadius:
-        //                             BorderRadius.all(Radius.circular(10))),
-        //                     children: [
-        //                       _SimpleDialogItem(
-        //                         icon: Icons.settings_outlined,
-        //                         color: Colors.lightBlueAccent,
-        //                         text: 'Resize'.i18n,
-        //                         onPressed: () {},
-        //                       ),
-        //                       _SimpleDialogItem(
-        //                         icon: Icons.delete_forever_outlined,
-        //                         color: Colors.red.shade200,
-        //                         text: 'Remove'.i18n,
-        //                         onPressed: () {},
-        //                       )
-        //                     ]),
-        //               ));
-        //     },
-        //     child: image);
+        return GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    final resizeOption = _SimpleDialogItem(
+                      icon: Icons.settings_outlined,
+                      color: Colors.lightBlueAccent,
+                      text: 'Resize'.i18n,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        showCupertinoModalPopup<void>(
+                            context: context,
+                            builder: (context) {
+                              return const ImageResizer();
+                            });
+                      },
+                    );
+                    final copyOption = _SimpleDialogItem(
+                      icon: Icons.copy_all_outlined,
+                      color: Colors.cyanAccent,
+                      text: 'Copy'.i18n,
+                      onPressed: () {
+                        var offset = controller.selection.start;
+                        var imageNode = controller.queryNode(offset);
+                        if (imageNode == null || !(imageNode is leaf.Embed)) {
+                          offset = max(0, offset - 1);
+                          imageNode = controller.queryNode(offset);
+                        }
+                        if (imageNode != null && imageNode is leaf.Embed) {
+                          final imageUrl = imageNode.value.data;
+                          controller.copiedImageUrl = imageUrl;
+                        }
+                        Navigator.pop(context);
+                      },
+                    );
+                    final removeOption = _SimpleDialogItem(
+                      icon: Icons.delete_forever_outlined,
+                      color: Colors.red.shade200,
+                      text: 'Remove'.i18n,
+                      onPressed: () {
+                        var offset = controller.selection.start;
+                        final imageNode = controller.queryNode(offset);
+                        if (imageNode == null || !(imageNode is leaf.Embed)) {
+                          offset = max(0, offset - 1);
+                        }
+                        controller.replaceText(offset, 1, '',
+                            TextSelection.collapsed(offset: offset));
+                        Navigator.pop(context);
+                      },
+                    );
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                      child: SimpleDialog(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          children: [copyOption, removeOption]),
+                    );
+                  });
+            },
+            child: image);
       }
 
       if (!readOnly || !isMobile() || isImageBase64(imageUrl)) {

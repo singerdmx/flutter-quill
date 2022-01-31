@@ -1,11 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:tuple/tuple.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/embeddable.dart';
+import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
 import '../utils/delta.dart';
@@ -325,6 +327,21 @@ class QuillController extends ChangeNotifier {
     _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
+  }
+
+  /// Given offset, find its leaf node in document
+  Leaf? queryNode(int offset) {
+    return document.querySegmentLeafNode(offset).item2;
+  }
+
+  /// Clipboard for image url
+  String? _copiedImageUrl;
+
+  String? getCopiedImageUrl() => _copiedImageUrl;
+
+  set copiedImageUrl(String? value) {
+    _copiedImageUrl = value;
+    Clipboard.setData(const ClipboardData(text: ''));
   }
 
   // Notify toolbar buttons directly with attributes
