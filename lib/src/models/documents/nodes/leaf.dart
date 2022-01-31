@@ -258,4 +258,7 @@ class Embed extends Leaf {
   // plain text.
   @override
   String toPlainText() => kObjectReplacementCharacter;
+
+  @override
+  String toString() => '${super.toString()} ${value.type}';
 }
