@@ -764,6 +764,7 @@ class RawEditorState extends EditorState
   // https://github.com/singerdmx/flutter-quill/issues/619
   // We cannot treat {"list": "checked"} and {"list": "unchecked"} as
   // block of the same style
+  // This causes controller.selection to go to offset 0
   bool _disableScrollControllerAnimateOnce = false;
 
   void _showCaretOnScreen() {

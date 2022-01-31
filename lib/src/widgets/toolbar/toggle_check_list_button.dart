@@ -55,15 +55,13 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    if (widget.attribute.key == Attribute.list.key) {
-      final attribute = attrs[widget.attribute.key];
-      if (attribute == null) {
-        return false;
-      }
-      return attribute.value == widget.attribute.value ||
-          attribute.value == Attribute.checked.value;
+    final attribute = attrs[Attribute.list.key];
+
+    if (attribute == null) {
+      return false;
     }
-    return attrs.containsKey(widget.attribute.key);
+    return attribute.value == Attribute.unchecked.value ||
+        attribute.value == Attribute.checked.value;
   }
 
   @override
