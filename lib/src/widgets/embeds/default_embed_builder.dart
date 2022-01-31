@@ -67,14 +67,14 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                         showCupertinoModalPopup<void>(
                             context: context,
                             builder: (context) {
+                              final _screenSize = MediaQuery.of(context).size;
                               return ImageResizer(
                                   imageNode: res.item2!,
                                   offset: res.item1!,
                                   imageWidth: _widthHeight?.item1,
                                   imageHeight: _widthHeight?.item2,
-                                  maxWidth: MediaQuery.of(context).size.width,
-                                  maxHeight:
-                                      MediaQuery.of(context).size.height);
+                                  maxWidth: _screenSize.width,
+                                  maxHeight: _screenSize.height);
                             });
                       },
                     );
