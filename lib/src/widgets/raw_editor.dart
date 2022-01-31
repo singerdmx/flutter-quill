@@ -404,6 +404,7 @@ class RawEditorState extends EditorState
   /// by changing its attribute according to [value].
   void _handleCheckboxTap(int offset, bool value) {
     if (!widget.readOnly) {
+      _disableScrollControllerAnimateOnce = true;
       widget.controller.formatText(
           offset, 0, value ? Attribute.checked : Attribute.unchecked);
     }
@@ -759,6 +760,12 @@ class RawEditorState extends EditorState
 
   bool _showCaretOnScreenScheduled = false;
 
+  // This is a workaround for checkbox tapping issue
+  // https://github.com/singerdmx/flutter-quill/issues/619
+  // We cannot treat {"list": "checked"} and {"list": "unchecked"} as
+  // block of the same style
+  bool _disableScrollControllerAnimateOnce = false;
+
   void _showCaretOnScreen() {
     if (!widget.showCursor || _showCaretOnScreenScheduled) {
       return;
@@ -785,6 +792,10 @@ class RawEditorState extends EditorState
         );
 
         if (offset != null) {
+          if (_disableScrollControllerAnimateOnce) {
+            _disableScrollControllerAnimateOnce = false;
+            return;
+          }
           _scrollController.animateTo(
             math.min(offset, _scrollController.position.maxScrollExtent),
             duration: const Duration(milliseconds: 100),
