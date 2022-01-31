@@ -4,6 +4,7 @@ export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
 export 'src/models/documents/nodes/embeddable.dart';
 export 'src/models/documents/nodes/leaf.dart';
+export 'src/models/documents/style.dart';
 export 'src/models/quill_delta.dart';
 export 'src/models/themes/quill_dialog_theme.dart';
 export 'src/models/themes/quill_icon_theme.dart';
