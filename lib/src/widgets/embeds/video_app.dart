@@ -38,7 +38,6 @@ class _VideoAppState extends State<VideoApp> {
       }).catchError((error) {
         setState(() {});
       });
-    ;
   }
 
   @override
