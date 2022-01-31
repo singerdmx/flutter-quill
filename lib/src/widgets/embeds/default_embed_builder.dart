@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
+import '../../models/documents/style.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
 import '../../utils/string.dart';
@@ -63,14 +65,28 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       text: 'Resize'.i18n,
                       onPressed: () {
                         Navigator.pop(context);
-                        final res = _getImageNode(controller);
                         showCupertinoModalPopup<void>(
                             context: context,
                             builder: (context) {
                               final _screenSize = MediaQuery.of(context).size;
+                              final _style = controller
+                                  .getAllSelectionStyles()
+                                  .firstWhere(
+                                      (s) => s.attributes
+                                          .containsKey(Attribute.style.key),
+                                      orElse: () => Style());
+
                               return ImageResizer(
-                                  imageNode: res.item2,
-                                  offset: res.item1,
+                                  onImageResize: (w, h) {
+                                    final res = _getImageNode(controller);
+                                    final attr = replaceStyleString(
+                                        _style.attributes[Attribute.style.key]
+                                            ?.value,
+                                        w,
+                                        h);
+                                    controller.formatText(
+                                        res.item1, 1, StyleAttribute(attr));
+                                  },
                                   imageWidth: _widthHeight?.item1,
                                   imageHeight: _widthHeight?.item2,
                                   maxWidth: _screenSize.width,
@@ -106,7 +122,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                           shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          children: [copyOption, removeOption]),
+                          children: [resizeOption, copyOption, removeOption]),
                     );
                   });
             },

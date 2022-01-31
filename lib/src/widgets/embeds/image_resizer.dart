@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
-import '../../models/documents/nodes/leaf.dart';
 import '../../translations/toolbar.i18n.dart';
 
 class ImageResizer extends StatefulWidget {
@@ -10,8 +10,7 @@ class ImageResizer extends StatefulWidget {
       required this.imageHeight,
       required this.maxWidth,
       required this.maxHeight,
-      required this.offset,
-      required this.imageNode,
+      required this.onImageResize,
       Key? key})
       : super(key: key);
 
@@ -19,8 +18,7 @@ class ImageResizer extends StatefulWidget {
   final double? imageHeight;
   final double maxWidth;
   final double maxHeight;
-  final int offset;
-  final Embed imageNode;
+  final Function(double, double) onImageResize;
 
   @override
   _ImageResizerState createState() => _ImageResizerState();
@@ -48,11 +46,12 @@ class _ImageResizerState extends State<ImageResizer> {
               child: Slider(
                 value: _width,
                 max: widget.maxWidth,
-                divisions: 100,
+                divisions: 1000,
                 label: 'Width'.i18n,
                 onChanged: (val) {
                   setState(() {
                     _width = val;
+                    _resizeImage();
                   });
                 },
               ),
@@ -66,16 +65,31 @@ class _ImageResizerState extends State<ImageResizer> {
               child: Slider(
                 value: _height,
                 max: widget.maxHeight,
-                divisions: 100,
+                divisions: 1000,
                 label: 'Height'.i18n,
                 onChanged: (val) {
                   setState(() {
                     _height = val;
+                    _resizeImage();
                   });
                 },
               ),
             )),
       )
     ]);
+  }
+
+  bool _scheduled = false;
+
+  void _resizeImage() {
+    if (_scheduled) {
+      return;
+    }
+
+    _scheduled = true;
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      widget.onImageResize(_width, _height);
+      _scheduled = false;
+    });
   }
 }

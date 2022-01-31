@@ -17,6 +17,32 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   return result;
 }
 
+String replaceStyleString(String? s, double width, double height) {
+  s ??= '';
+  final result = <String, String>{};
+  final pairs = s.split(';');
+  for (final pair in pairs) {
+    final _index = pair.indexOf(':');
+    if (_index < 0) {
+      continue;
+    }
+    final _key = pair.substring(0, _index).trim();
+    result[_key] = pair.substring(_index + 1).trim();
+  }
+
+  result['mobileWidth'] = width.toString();
+  result['mobileHeight'] = height.toString();
+  final sb = StringBuffer();
+  for (final pair in result.entries) {
+    sb
+      ..write(pair.key)
+      ..write(': ')
+      ..write(pair.value)
+      ..write('; ');
+  }
+  return sb.toString();
+}
+
 Alignment getAlignment(String? s) {
   const _defaultAlignment = Alignment.center;
   if (s == null) {

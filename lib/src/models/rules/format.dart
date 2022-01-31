@@ -136,7 +136,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
   }
 }
 
-/// Produces Delta with inline-level attributes applied too all characters
+/// Produces Delta with inline-level attributes applied to all characters
 /// except newlines.
 class ResolveInlineFormatRule extends FormatRule {
   const ResolveInlineFormatRule();
@@ -172,6 +172,27 @@ class ResolveInlineFormatRule extends FormatRule {
         delta.retain(op.length! - pos, attribute.toJson());
       }
     }
+
+    return delta;
+  }
+}
+
+/// Produces Delta with attributes applied to image leaf node
+class ResolveImageFormatRule extends FormatRule {
+  const ResolveImageFormatRule();
+
+  @override
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
+    if (attribute == null || attribute.key != Attribute.style.key) {
+      return null;
+    }
+
+    assert(len == 1 && data == null);
+
+    final delta = Delta()
+      ..retain(index)
+      ..retain(1, attribute.toJson());
 
     return delta;
   }

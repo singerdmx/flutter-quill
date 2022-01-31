@@ -37,6 +37,7 @@ class Rules {
     const FormatLinkAtCaretPositionRule(),
     const ResolveLineFormatRule(),
     const ResolveInlineFormatRule(),
+    const ResolveImageFormatRule(),
     const InsertEmbedsRule(),
     const AutoExitBlockRule(),
     const PreserveBlockStyleOnInsertRule(),
