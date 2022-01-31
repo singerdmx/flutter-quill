@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../models/documents/document.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../utils/delta.dart';
 import '../editor.dart';
@@ -20,13 +21,23 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final oldText = widget.controller.document.toPlainText();
     final newText = value.text;
     final diff = getDiff(oldText, newText, cursorPosition);
+    if (diff.deleted == '' && diff.inserted == '') {
+      // Only changing selection range
+      widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+      return;
+    }
+
     final insertedText = _adjustInsertedText(diff.inserted);
 
     widget.controller.replaceText(
         diff.start, diff.deleted.length, insertedText, value.selection);
 
+    _applyPasteStyle(insertedText, diff.start);
+  }
+
+  void _applyPasteStyle(String insertedText, int start) {
     if (insertedText == pastePlainText && pastePlainText != '') {
-      final pos = diff.start;
+      final pos = start;
       for (var i = 0; i < pasteStyle.length; i++) {
         final offset = pasteStyle[i].item1;
         final style = pasteStyle[i].item2;
