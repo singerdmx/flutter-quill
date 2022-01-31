@@ -55,7 +55,14 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    final attribute = attrs[Attribute.list.key];
+    var attribute = widget.controller.toolbarButtonToggler[Attribute.list.key];
+
+    if (attribute == null) {
+      attribute = attrs[Attribute.list.key];
+    } else {
+      // checkbox tapping causes controller.selection to go to offset 0
+      widget.controller.toolbarButtonToggler.remove(Attribute.list.key);
+    }
 
     if (attribute == null) {
       return false;

@@ -405,8 +405,21 @@ class RawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     if (!widget.readOnly) {
       _disableScrollControllerAnimateOnce = true;
-      widget.controller.formatText(
-          offset, 0, value ? Attribute.checked : Attribute.unchecked);
+      final attribute = value ? Attribute.checked : Attribute.unchecked;
+      widget.controller.formatText(offset, 0, attribute);
+
+      // Checkbox tapping causes controller.selection to go to offset 0
+      // Stop toggling those two toolbar buttons
+      widget.controller.toolbarButtonToggler = {
+        Attribute.list.key: attribute,
+        Attribute.header.key: Attribute.header
+      };
+
+      // Go back from offset 0 to current selection
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
+        widget.controller.updateSelection(
+            TextSelection.collapsed(offset: offset), ChangeSource.LOCAL);
+      });
     }
   }
 
