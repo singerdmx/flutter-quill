@@ -1,3 +1,6 @@
+# [3.9.0]
+* Image menu options for copy/remove.
+
 # [3.8.8]
 * Update set textEditingValue.
 
