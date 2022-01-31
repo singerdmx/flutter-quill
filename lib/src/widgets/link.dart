@@ -6,6 +6,23 @@ import '../models/documents/attribute.dart';
 import '../models/documents/nodes/node.dart';
 import '../translations/toolbar.i18n.dart';
 
+const linkPrefixes = [
+  'mailto:', // email
+  'tel:', // telephone
+  'sms:', // SMS
+  'callto:',
+  'wtai:',
+  'market:',
+  'geopoint:',
+  'ymsgr:',
+  'msnim:',
+  'gtalk:', // Google Talk
+  'skype:',
+  'sip:', // Lync
+  'whatsapp:',
+  'http'
+];
+
 /// List of possible actions returned from [LinkActionPickerDelegate].
 enum LinkMenuAction {
   /// Launch the link

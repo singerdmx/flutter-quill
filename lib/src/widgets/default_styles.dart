@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../flutter_quill.dart';
+import '../models/documents/attribute.dart';
 import '../models/documents/style.dart';
 import '../utils/platform.dart';
+import 'style_widgets/checkbox_point.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({

@@ -23,23 +23,6 @@ import 'link.dart';
 import 'raw_editor.dart';
 import 'text_selection.dart';
 
-const linkPrefixes = [
-  'mailto:', // email
-  'tel:', // telephone
-  'sms:', // SMS
-  'callto:',
-  'wtai:',
-  'market:',
-  'geopoint:',
-  'ymsgr:',
-  'msnim:',
-  'gtalk:', // Google Talk
-  'skype:',
-  'sip:', // Lync
-  'whatsapp:',
-  'http'
-];
-
 /// Base interface for the editor state which defines contract used by
 /// various mixins.
 abstract class EditorState extends State<RawEditor>
