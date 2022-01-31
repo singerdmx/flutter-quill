@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/documents/nodes/leaf.dart';
 import '../../translations/toolbar.i18n.dart';
 
 class ImageResizer extends StatefulWidget {
@@ -9,6 +10,8 @@ class ImageResizer extends StatefulWidget {
       required this.imageHeight,
       required this.maxWidth,
       required this.maxHeight,
+      required this.offset,
+      required this.imageNode,
       Key? key})
       : super(key: key);
 
@@ -16,6 +19,8 @@ class ImageResizer extends StatefulWidget {
   final double? imageHeight;
   final double maxWidth;
   final double maxHeight;
+  final int offset;
+  final Embed imageNode;
 
   @override
   _ImageResizerState createState() => _ImageResizerState();

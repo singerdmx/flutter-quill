@@ -63,10 +63,13 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       text: 'Resize'.i18n,
                       onPressed: () {
                         Navigator.pop(context);
+                        final res = _getImageNode(controller);
                         showCupertinoModalPopup<void>(
                             context: context,
                             builder: (context) {
                               return ImageResizer(
+                                  imageNode: res.item2!,
+                                  offset: res.item1!,
                                   imageWidth: _widthHeight?.item1,
                                   imageHeight: _widthHeight?.item2,
                                   maxWidth: MediaQuery.of(context).size.width,
@@ -80,16 +83,9 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       color: Colors.cyanAccent,
                       text: 'Copy'.i18n,
                       onPressed: () {
-                        var offset = controller.selection.start;
-                        var imageNode = controller.queryNode(offset);
-                        if (imageNode == null || !(imageNode is leaf.Embed)) {
-                          offset = max(0, offset - 1);
-                          imageNode = controller.queryNode(offset);
-                        }
-                        if (imageNode != null && imageNode is leaf.Embed) {
-                          final imageUrl = imageNode.value.data;
-                          controller.copiedImageUrl = imageUrl;
-                        }
+                        final imageNode = _getImageNode(controller).item2!;
+                        final imageUrl = imageNode.value.data;
+                        controller.copiedImageUrl = imageUrl;
                         Navigator.pop(context);
                       },
                     );
@@ -98,11 +94,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       color: Colors.red.shade200,
                       text: 'Remove'.i18n,
                       onPressed: () {
-                        var offset = controller.selection.start;
-                        final imageNode = controller.queryNode(offset);
-                        if (imageNode == null || !(imageNode is leaf.Embed)) {
-                          offset = max(0, offset - 1);
-                        }
+                        final offset = _getImageNode(controller).item1!;
                         controller.replaceText(offset, 1, '',
                             TextSelection.collapsed(offset: offset));
                         Navigator.pop(context);
@@ -141,6 +133,20 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
         'to embedBuilder property of QuillEditor or QuillField widgets.',
       );
   }
+}
+
+Tuple2<int?, leaf.Embed?> _getImageNode(QuillController controller) {
+  var offset = controller.selection.start;
+  var imageNode = controller.queryNode(offset);
+  if (imageNode == null || !(imageNode is leaf.Embed)) {
+    offset = max(0, offset - 1);
+    imageNode = controller.queryNode(offset);
+  }
+  if (imageNode != null && imageNode is leaf.Embed) {
+    return Tuple2(offset, imageNode);
+  }
+
+  return const Tuple2(null, null);
 }
 
 Widget _menuOptionsForReadonlyImage(
