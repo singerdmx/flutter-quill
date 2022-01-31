@@ -1,3 +1,6 @@
+# [3.9.1]
+* Support resizing image.
+
 # [3.9.0]
 * Image menu options for copy/remove.
 
