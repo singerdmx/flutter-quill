@@ -39,11 +39,12 @@ Widget defaultEmbedBuilder(
       }
       image ??= imageByUrl(imageUrl);
 
+      if (!readOnly && isMobile()) {
+        // TODO: slider for width and height
+        // return _menuOptionsForEditableImageInMobile(context, imageUrl, image);
+      }
+
       if (!readOnly || !isMobile() || isImageBase64(imageUrl)) {
-        if (!readOnly && isMobile()) {
-          // TODO: slider for width and height
-          // return _menuOptionsForEditableImageInMobile(context, imageUrl, image);
-        }
         return image;
       }
 
@@ -81,23 +82,13 @@ Widget _menuOptionsForEditableImageInMobile(
                           icon: Icons.settings_outlined,
                           color: Colors.greenAccent,
                           text: 'Resize'.i18n,
-                          onPressed: () {
-                            GallerySaver.saveImage(imageUrl).then((_) =>
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Saved'.i18n))));
-                          },
+                          onPressed: () {},
                         ),
                         _SimpleDialogItem(
                           icon: Icons.delete_forever_outlined,
                           color: Colors.red.shade200,
                           text: 'Remove'.i18n,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ImageTapWrapper(imageUrl: imageUrl)));
-                          },
+                          onPressed: () {},
                         )
                       ]),
                 ));
