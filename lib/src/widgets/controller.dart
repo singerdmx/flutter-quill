@@ -327,6 +327,6 @@ class QuillController extends ChangeNotifier {
         extentOffset: math.min(selection.extentOffset, end));
   }
 
-  // To notify toolbar buttons directly with attributes
+  // Notify toolbar buttons directly with attributes
   Map<String, Attribute> toolbarButtonToggler = {};
 }
