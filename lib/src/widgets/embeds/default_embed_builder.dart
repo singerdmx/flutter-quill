@@ -29,19 +29,24 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
       var image;
       final style = node.style.attributes['style'];
       if (isMobile() && style != null) {
-        final _attrs = parseKeyValuePairs(style.value.toString(),
-            {'mobileWidth', 'mobileHeight', 'mobileMargin', 'mobileAlignment'});
+        final _attrs = parseKeyValuePairs(style.value.toString(), {
+          Attribute.mobileWidth,
+          Attribute.mobileHeight,
+          Attribute.mobileMargin,
+          Attribute.mobileAlignment
+        });
         if (_attrs.isNotEmpty) {
           assert(
-              _attrs['mobileWidth'] != null && _attrs['mobileHeight'] != null,
+              _attrs[Attribute.mobileWidth] != null &&
+                  _attrs[Attribute.mobileHeight] != null,
               'mobileWidth and mobileHeight must be specified');
-          final w = double.parse(_attrs['mobileWidth']!);
-          final h = double.parse(_attrs['mobileHeight']!);
+          final w = double.parse(_attrs[Attribute.mobileWidth]!);
+          final h = double.parse(_attrs[Attribute.mobileHeight]!);
           _widthHeight = Tuple2(w, h);
-          final m = _attrs['mobileMargin'] == null
+          final m = _attrs[Attribute.mobileMargin] == null
               ? 0.0
-              : double.parse(_attrs['mobileMargin']!);
-          final a = getAlignment(_attrs['mobileAlignment']);
+              : double.parse(_attrs[Attribute.mobileMargin]!);
+          final a = getAlignment(_attrs[Attribute.mobileAlignment]);
           image = Padding(
               padding: EdgeInsets.all(m),
               child: imageByUrl(imageUrl, width: w, height: h, alignment: a));
