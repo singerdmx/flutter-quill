@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -37,46 +38,66 @@ class _ImageResizerState extends State<ImageResizer> {
 
   @override
   Widget build(BuildContext context) {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+        return _showCupertinoMenu();
+      case TargetPlatform.android:
+        return _showMaterialMenu();
+      default:
+        throw 'Not supposed to be invoked for $defaultTargetPlatform';
+    }
+  }
+
+  Widget _showMaterialMenu() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [_widthSlider(), _heightSlider()],
+    );
+  }
+
+  Widget _showCupertinoMenu() {
     return CupertinoActionSheet(actions: [
       CupertinoActionSheetAction(
         onPressed: () {},
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Card(
-              child: Slider(
-                value: _width,
-                max: widget.maxWidth,
-                divisions: 1000,
-                label: 'Width'.i18n,
-                onChanged: (val) {
-                  setState(() {
-                    _width = val;
-                    _resizeImage();
-                  });
-                },
-              ),
-            )),
+        child: _widthSlider(),
       ),
       CupertinoActionSheetAction(
         onPressed: () {},
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Card(
-              child: Slider(
-                value: _height,
-                max: widget.maxHeight,
-                divisions: 1000,
-                label: 'Height'.i18n,
-                onChanged: (val) {
-                  setState(() {
-                    _height = val;
-                    _resizeImage();
-                  });
-                },
-              ),
-            )),
+        child: _heightSlider(),
       )
     ]);
+  }
+
+  Widget _slider(
+      double value, double max, String label, ValueChanged<double> onChanged) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Card(
+          child: Slider(
+            value: value,
+            max: max,
+            divisions: 1000,
+            label: label.i18n,
+            onChanged: (val) {
+              setState(() {
+                onChanged(val);
+                _resizeImage();
+              });
+            },
+          ),
+        ));
+  }
+
+  Widget _heightSlider() {
+    return _slider(_height, widget.maxHeight, 'Height', (value) {
+      _height = value;
+    });
+  }
+
+  Widget _widthSlider() {
+    return _slider(_width, widget.maxWidth, 'Width', (value) {
+      _width = value;
+    });
   }
 
   bool _scheduled = false;
