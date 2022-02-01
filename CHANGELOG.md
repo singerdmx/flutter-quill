@@ -1,3 +1,6 @@
+# [3.9.3]
+* Update ImageResizer for Android.
+
 # [3.9.2]
 * Copy image with its style.
 
