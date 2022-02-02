@@ -184,9 +184,9 @@ Widget _menuOptionsForReadonlyImage(
                 text: 'Save'.i18n,
                 onPressed: () {
                   GallerySaver.saveImage(imageUrl).then((_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Saved'.i18n)));
-                      Navigator.pop(context);
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text('Saved'.i18n)));
+                    Navigator.pop(context);
                   });
                 },
               );

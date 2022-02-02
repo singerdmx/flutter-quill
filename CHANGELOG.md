@@ -1,3 +1,6 @@
+# [3.9.4]
+* Hiding dialog after selecting action for image.
+
 # [3.9.3]
 * Update ImageResizer for Android.
 
