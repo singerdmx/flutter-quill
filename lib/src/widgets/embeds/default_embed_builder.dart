@@ -183,9 +183,11 @@ Widget _menuOptionsForReadonlyImage(
                 color: Colors.greenAccent,
                 text: 'Save'.i18n,
                 onPressed: () {
-                  GallerySaver.saveImage(imageUrl).then((_) =>
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text('Saved'.i18n))));
+                  GallerySaver.saveImage(imageUrl).then((_) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Saved'.i18n)));
+                      Navigator.pop(context);
+                  });
                 },
               );
               final zoomOption = _SimpleDialogItem(
@@ -193,7 +195,7 @@ Widget _menuOptionsForReadonlyImage(
                 color: Colors.cyanAccent,
                 text: 'Zoom'.i18n,
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
