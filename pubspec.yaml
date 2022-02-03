@@ -22,7 +22,11 @@ dependencies:
   tuple: ^2.0.0
   url_launcher: ^6.0.2
   pedantic: ^1.11.0
-  video_player: ^2.1.10
+  video_player:
+    git:
+      url: https://github.com/JasmitSingh90/plugins.git
+      ref: plugin-latest-changes
+      path: packages/video_player/video_player
   characters: ^1.1.0
   youtube_player_flutter: ^8.0.0
   diff_match_patch: ^0.4.1
