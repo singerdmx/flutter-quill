@@ -1,3 +1,6 @@
+# [3.9.7]
+* Fix for clicking on the Link button without any text on a new line crashes.
+
 # [3.9.6]
 * Apply locale to QuillEditor(contents).
 
