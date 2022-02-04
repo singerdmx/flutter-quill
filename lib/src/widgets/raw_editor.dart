@@ -233,7 +233,6 @@ class RawEditorState extends EditorState
         AutomaticKeepAliveClientMixin<RawEditor>,
         WidgetsBindingObserver,
         TickerProviderStateMixin<RawEditor>,
-        TextEditingActionTarget,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
   final GlobalKey _editorKey = GlobalKey();
@@ -256,7 +255,6 @@ class RawEditorState extends EditorState
 
   // Focus
   bool _didAutoFocus = false;
-  FocusAttachment? _focusAttachment;
   bool get _hasFocus => widget.focusNode.hasFocus;
 
   // Theme
@@ -280,7 +278,6 @@ class RawEditorState extends EditorState
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
-    _focusAttachment!.reparent();
     super.build(context);
 
     var _doc = widget.controller.document;
@@ -568,7 +565,7 @@ class RawEditorState extends EditorState
       });
     }
 
-    _focusAttachment = widget.focusNode.attach(context);
+    // Focus
     widget.focusNode.addListener(_handleFocusChanged);
   }
 
@@ -612,8 +609,6 @@ class RawEditorState extends EditorState
 
     if (widget.focusNode != oldWidget.focusNode) {
       oldWidget.focusNode.removeListener(_handleFocusChanged);
-      _focusAttachment?.detach();
-      _focusAttachment = widget.focusNode.attach(context);
       widget.focusNode.addListener(_handleFocusChanged);
       updateKeepAlive();
     }
@@ -651,7 +646,6 @@ class RawEditorState extends EditorState
     _selectionOverlay = null;
     widget.controller.removeListener(_didChangeTextEditingValue);
     widget.focusNode.removeListener(_handleFocusChanged);
-    _focusAttachment!.detach();
     _cursorCont.dispose();
     _clipboardStatus
       ..removeListener(_onChangedClipboardStatus)
@@ -828,8 +822,15 @@ class RawEditorState extends EditorState
   /// This property is typically used to notify the renderer of input gestures.
   @override
   RenderEditor get renderEditor =>
-      _editorKey.currentContext?.findRenderObject() as RenderEditor;
+      _editorKey.currentContext!.findRenderObject() as RenderEditor;
 
+  /// Express interest in interacting with the keyboard.
+  ///
+  /// If this control is already attached to the keyboard, this function will
+  /// request that the keyboard become visible. Otherwise, this function will
+  /// ask the focus system that it become focused. If successful in acquiring
+  /// focus, the control will then attach to the keyboard and request that the
+  /// keyboard become visible.
   @override
   void requestKeyboard() {
     if (_hasFocus) {
@@ -838,24 +839,6 @@ class RawEditorState extends EditorState
     } else {
       widget.focusNode.requestFocus();
     }
-  }
-
-  @override
-  void setTextEditingValue(
-      TextEditingValue value, SelectionChangedCause cause) {
-    if (value == textEditingValue) {
-      return;
-    }
-    textEditingValue = value;
-    userUpdateTextEditingValue(value, cause);
-
-    // keyboard and text input force a selection completion
-    _handleSelectionCompleted();
-  }
-
-  @override
-  void debugAssertLayoutUpToDate() {
-    renderEditor.debugAssertLayoutUpToDate();
   }
 
   /// Shows the selection toolbar at the location of the current cursor.
@@ -885,8 +868,7 @@ class RawEditorState extends EditorState
     widget.controller.copiedImageUrl = null;
     _pastePlainText = widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
-    // Copied straight from EditableTextState
-    super.copySelection(cause);
+
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar(false);
@@ -911,8 +893,6 @@ class RawEditorState extends EditorState
     _pastePlainText = widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
 
-    // Copied straight from EditableTextState
-    super.cutSelection(cause);
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar();
@@ -938,9 +918,6 @@ class RawEditorState extends EditorState
       return;
     }
 
-    // Copied straight from EditableTextState
-    super.pasteText(cause); // ignore: unawaited_futures
-
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar();
@@ -949,8 +926,6 @@ class RawEditorState extends EditorState
 
   @override
   void selectAll(SelectionChangedCause cause) {
-    // Copied straight from EditableTextState
-    super.selectAll(cause);
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
     }
@@ -958,18 +933,6 @@ class RawEditorState extends EditorState
 
   @override
   bool get wantKeepAlive => widget.focusNode.hasFocus;
-
-  @override
-  bool get obscureText => false;
-
-  @override
-  bool get selectionEnabled => widget.enableInteractiveSelection;
-
-  @override
-  bool get readOnly => widget.readOnly;
-
-  @override
-  TextLayoutMetrics get textLayoutMetrics => renderEditor;
 
   @override
   AnimationController get floatingCursorResetController =>
