@@ -1,3 +1,6 @@
+# [3.9.5]
+* Fix image pasting.
+
 # [3.9.4]
 * Hiding dialog after selecting action for image.
 
