@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +5,8 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../models/documents/attribute.dart';
+import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
-import '../../models/documents/style.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
 import '../../utils/string.dart';
@@ -24,7 +22,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
 
   Tuple2<double?, double?>? _widthHeight;
   switch (node.value.type) {
-    case 'image':
+    case BlockEmbed.imageType:
       final imageUrl = standardizeImageUrl(node.value.data);
       var image;
       final style = node.style.attributes['style'];
@@ -76,9 +74,10 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                               final _screenSize = MediaQuery.of(context).size;
                               return ImageResizer(
                                   onImageResize: (w, h) {
-                                    final res = _getImageNode(controller);
+                                    final res = getImageNode(
+                                        controller, controller.selection.start);
                                     final attr = replaceStyleString(
-                                        _getImageStyleString(controller), w, h);
+                                        getImageStyleString(controller), w, h);
                                     controller.formatText(
                                         res.item1, 1, StyleAttribute(attr));
                                   },
@@ -94,10 +93,12 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       color: Colors.cyanAccent,
                       text: 'Copy'.i18n,
                       onPressed: () {
-                        final imageNode = _getImageNode(controller).item2;
+                        final imageNode =
+                            getImageNode(controller, controller.selection.start)
+                                .item2;
                         final imageUrl = imageNode.value.data;
                         controller.copiedImageUrl =
-                            Tuple2(imageUrl, _getImageStyleString(controller));
+                            Tuple2(imageUrl, getImageStyleString(controller));
                         Navigator.pop(context);
                       },
                     );
@@ -106,7 +107,9 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
                       color: Colors.red.shade200,
                       text: 'Remove'.i18n,
                       onPressed: () {
-                        final offset = _getImageNode(controller).item1;
+                        final offset =
+                            getImageNode(controller, controller.selection.start)
+                                .item1;
                         controller.replaceText(offset, 1, '',
                             TextSelection.collapsed(offset: offset));
                         Navigator.pop(context);
@@ -131,7 +134,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
 
       // We provide option menu for mobile platform excluding base64 image
       return _menuOptionsForReadonlyImage(context, imageUrl, image);
-    case 'video':
+    case BlockEmbed.videoType:
       final videoUrl = node.value.data;
       if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
         return YoutubeVideoApp(
@@ -145,30 +148,6 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
         'to embedBuilder property of QuillEditor or QuillField widgets.',
       );
   }
-}
-
-String _getImageStyleString(QuillController controller) {
-  final String? s = controller
-      .getAllSelectionStyles()
-      .firstWhere((s) => s.attributes.containsKey(Attribute.style.key),
-          orElse: () => Style())
-      .attributes[Attribute.style.key]
-      ?.value;
-  return s ?? '';
-}
-
-Tuple2<int, leaf.Embed> _getImageNode(QuillController controller) {
-  var offset = controller.selection.start;
-  var imageNode = controller.queryNode(offset);
-  if (imageNode == null || !(imageNode is leaf.Embed)) {
-    offset = max(0, offset - 1);
-    imageNode = controller.queryNode(offset);
-  }
-  if (imageNode != null && imageNode is leaf.Embed) {
-    return Tuple2(offset, imageNode);
-  }
-
-  return throw 'Image node not found by offset $offset';
 }
 
 Widget _menuOptionsForReadonlyImage(
