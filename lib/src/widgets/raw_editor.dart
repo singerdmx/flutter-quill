@@ -26,6 +26,7 @@ import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
 import 'embeds/default_embed_builder.dart';
+import 'embeds/image.dart';
 import 'keyboard_listener.dart';
 import 'link.dart';
 import 'proxy.dart';
@@ -927,8 +928,10 @@ class RawEditorState extends EditorState
       widget.controller
           .replaceText(index, length, BlockEmbed.image(copied.item1), null);
       if (copied.item2.isNotEmpty) {
-        widget.controller
-            .formatText(index + 1, 1, StyleAttribute(copied.item2));
+        widget.controller.formatText(
+            getImageNode(widget.controller, index + 1).item1,
+            1,
+            StyleAttribute(copied.item2));
       }
       widget.controller.copiedImageUrl = null;
       await Clipboard.setData(const ClipboardData(text: ''));

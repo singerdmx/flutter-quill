@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:tuple/tuple.dart';
 
 import '../models/documents/document.dart';
@@ -169,6 +170,7 @@ class QuillEditor extends StatefulWidget {
       this.embedBuilder = defaultEmbedBuilder,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
+      this.locale,
       this.floatingCursorDisabled = false,
       Key? key})
       : super(key: key);
@@ -339,6 +341,10 @@ class QuillEditor extends StatefulWidget {
   final EmbedBuilder embedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
 
+  /// The locale to use for the editor toolbar, defaults to system locale
+  /// and more https://github.com/singerdmx/flutter-quill#translation-of-toolbar
+  final Locale? locale;
+
   /// Delegate function responsible for showing menu with link actions on
   /// mobile platforms (iOS, Android).
   ///
@@ -452,10 +458,12 @@ class QuillEditorState extends State<QuillEditor>
       floatingCursorDisabled: widget.floatingCursorDisabled,
     );
 
-    final editor = _selectionGestureDetectorBuilder.build(
-      behavior: HitTestBehavior.translucent,
-      child: child,
-    );
+    final editor = I18n(
+        initialLocale: widget.locale,
+        child: _selectionGestureDetectorBuilder.build(
+          behavior: HitTestBehavior.translucent,
+          child: child,
+        ));
 
     if (kIsWeb) {
       // Intercept RawKeyEvent on Web to prevent it from propagating to parents

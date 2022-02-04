@@ -114,6 +114,7 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 The package offers translations for the quill toolbar, it will follow the system locale unless you set your own locale with:
 ```
 QuillToolbar(locale: Locale('fr'), ...)
+QuillEditor(locale: Locale('fr'), ...)
 ```
 Currently, translations are available for these locales:
 * `Locale('en')`
