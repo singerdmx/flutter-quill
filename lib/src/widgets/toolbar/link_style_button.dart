@@ -114,8 +114,9 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
           }
         }
 
-        text ??= widget.controller.document
-            .getPlainText(index, widget.controller.selection.end - index);
+        final len = widget.controller.selection.end - index;
+        text ??=
+            len == 0 ? '' : widget.controller.document.getPlainText(index, len);
         return _LinkDialog(
             dialogTheme: widget.dialogTheme, link: link, text: text);
       },
