@@ -308,7 +308,7 @@ extension Localization on String {
           'Width': 'Width',
           'Height': 'Height',
         },
-    'ur': {
+        'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
           'Ok': 'ٹھیک ہے',
           'Select Color': 'رنگ منتخب کریں',

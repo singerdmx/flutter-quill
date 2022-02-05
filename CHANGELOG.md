@@ -1,3 +1,6 @@
+# [3.9.8]
+* Added Urdu translation.
+
 # [3.9.7]
 * Fix for clicking on the Link button without any text on a new line crashes.
 
