@@ -869,6 +869,18 @@ class RawEditorState extends EditorState
     _pastePlainText = widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
 
+    // Copied straight from EditableTextState
+    void _copySelection(SelectionChangedCause cause) {
+      final selection = textEditingValue.selection;
+      final text = textEditingValue.text;
+      if (selection.isCollapsed || !selection.isValid) {
+        return;
+      }
+      Clipboard.setData(ClipboardData(text: selection.textInside(text)));
+    }
+
+    _copySelection(cause);
+
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar(false);
@@ -892,6 +904,31 @@ class RawEditorState extends EditorState
     widget.controller.copiedImageUrl = null;
     _pastePlainText = widget.controller.getPlainText();
     _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
+
+    // Copied straight from EditableTextState
+    void _cutSelection(SelectionChangedCause cause) {
+      final selection = textEditingValue.selection;
+      if (widget.readOnly || !selection.isValid) {
+        return;
+      }
+      final text = textEditingValue.text;
+      if (selection.isCollapsed) {
+        return;
+      }
+      Clipboard.setData(ClipboardData(text: selection.textInside(text)));
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: selection.textBefore(text) + selection.textAfter(text),
+          selection: TextSelection.collapsed(
+            offset: math.min(selection.start, selection.end),
+            affinity: selection.affinity,
+          ),
+        ),
+        cause,
+      );
+    }
+
+    _cutSelection(cause);
 
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
@@ -918,14 +955,71 @@ class RawEditorState extends EditorState
       return;
     }
 
+    // Copied straight from EditableTextState
+    Future<void> pasteText(SelectionChangedCause cause) async {
+      final selection = textEditingValue.selection;
+      if (widget.readOnly || !selection.isValid) {
+        return;
+      }
+      final text = textEditingValue.text;
+      assert(selection != null);
+      if (!selection.isValid) {
+        return;
+      }
+      // Snapshot the input before using `await`.
+      // See https://github.com/flutter/flutter/issues/11427
+      final data = await Clipboard.getData(Clipboard.kTextPlain);
+      if (data == null) {
+        return;
+      }
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: selection.textBefore(text) +
+              data.text! +
+              selection.textAfter(text),
+          selection: TextSelection.collapsed(
+            offset:
+                math.min(selection.start, selection.end) + data.text!.length,
+            affinity: selection.affinity,
+          ),
+        ),
+        cause,
+      );
+    }
+
+    pasteText(cause); // ignore: unawaited_futures
+
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
       hideToolbar();
     }
   }
 
+  void _setSelection(TextSelection nextSelection, SelectionChangedCause cause) {
+    if (nextSelection == textEditingValue.selection) {
+      return;
+    }
+    userUpdateTextEditingValue(
+      textEditingValue.copyWith(selection: nextSelection),
+      cause,
+    );
+  }
+
   @override
   void selectAll(SelectionChangedCause cause) {
+    // Copied straight from EditableTextState
+    void _selectAll(SelectionChangedCause cause) {
+      _setSelection(
+        textEditingValue.selection.copyWith(
+          baseOffset: 0,
+          extentOffset: textEditingValue.text.length,
+        ),
+        cause,
+      );
+    }
+
+    _selectAll(cause);
+
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
     }
