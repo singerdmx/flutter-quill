@@ -962,7 +962,6 @@ class RawEditorState extends EditorState
         return;
       }
       final text = textEditingValue.text;
-      assert(selection != null);
       if (!selection.isValid) {
         return;
       }
