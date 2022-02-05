@@ -128,6 +128,7 @@ Currently, translations are available for these locales:
 * `Locale('es')`
 * `Locale('tr')`
 * `Locale('uk')`
+* `Locale('ur')`
 * `Locale('pt')`
 * `Locale('pl')`
 * `Locale('vi')`
