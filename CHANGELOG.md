@@ -1,3 +1,6 @@
+# [3.9.9]
+* iOS: Save image whose filename does not end with image file extension.
+
 # [3.9.8]
 * Added Urdu translation.
 

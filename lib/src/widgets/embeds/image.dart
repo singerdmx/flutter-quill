@@ -12,6 +12,16 @@ import '../../models/documents/nodes/leaf.dart';
 import '../../models/documents/style.dart';
 import '../controller.dart';
 
+const List<String> imageFileExtensions = [
+  '.jpeg',
+  '.png',
+  '.jpg',
+  '.gif',
+  '.webp',
+  '.tif',
+  '.heic'
+];
+
 bool isImageBase64(String imageUrl) {
   return !imageUrl.startsWith('http') && isBase64(imageUrl);
 }
@@ -62,6 +72,25 @@ String standardizeImageUrl(String url) {
     return url.split(',')[1];
   }
   return url;
+}
+
+/// This is a bug of Gallery Saver Package.
+/// It can not save image that's filename does not end with it's file extension
+/// like below.
+// "https://firebasestorage.googleapis.com/v0/b/eventat-4ba96.appspot.com/o/2019-Metrology-Events.jpg?alt=media&token=bfc47032-5173-4b3f-86bb-9659f46b362a"
+/// If imageUrl does not end with it's file extension,
+/// file extension is added to image url for saving.
+String appendFileExtensionToImageUrl(String url) {
+  final endsWithImageFileExtension = imageFileExtensions
+      .firstWhere((s) => url.toLowerCase().endsWith(s), orElse: () => '');
+  if (endsWithImageFileExtension.isNotEmpty) {
+    return url;
+  }
+
+  final imageFileExtension = imageFileExtensions
+      .firstWhere((s) => url.toLowerCase().contains(s), orElse: () => '');
+
+  return url + imageFileExtension;
 }
 
 class ImageTapWrapper extends StatelessWidget {
