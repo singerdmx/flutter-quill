@@ -162,6 +162,26 @@ Widget _menuOptionsForReadonlyImage(
                 color: Colors.greenAccent,
                 text: 'Save'.i18n,
                 onPressed: () {
+                  const List<String> imageFormats = [
+                    '.jpeg',
+                    '.png',
+                    '.jpg',
+                    '.gif',
+                    '.webp',
+                    '.tif',
+                    '.heic'
+                  ];
+
+                  List endsWithFormats = imageFormats.where((imageFormat) => imageUrl.toLowerCase().endsWith(imageFormat)).toList();
+                  if (endsWithFormats.length == 0) {
+                    for(int i = 0; i < imageFormats.length; i++) {
+                      if (imageUrl.toLowerCase().contains(imageFormats[i])) {
+                        imageUrl += imageFormats[i];
+                        break;
+                      }
+                    }
+                  }
+
                   GallerySaver.saveImage(imageUrl).then((_) {
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text('Saved'.i18n)));
