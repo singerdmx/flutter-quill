@@ -557,13 +557,20 @@ class RawEditorState extends EditorState
     if (isKeyboardOS()) {
       _keyboardVisible = true;
     } else {
-      _keyboardVisibilityController = KeyboardVisibilityController();
-      _keyboardVisible = _keyboardVisibilityController!.isVisible;
-      _keyboardVisibilitySubscription =
-          _keyboardVisibilityController?.onChange.listen((visible) {
-        _keyboardVisible = visible;
-        if (visible) {
-          _onChangeTextEditingValue(!_hasFocus);
+      // treat iOS Simulator like a keyboard OS
+      isIosSimulator().then((isIosSimulator) {
+        if (isIosSimulator) {
+          _keyboardVisible = true;
+        } else {
+          _keyboardVisibilityController = KeyboardVisibilityController();
+          _keyboardVisible = _keyboardVisibilityController!.isVisible;
+          _keyboardVisibilitySubscription =
+              _keyboardVisibilityController?.onChange.listen((visible) {
+                _keyboardVisible = visible;
+                if (visible) {
+                  _onChangeTextEditingValue(!_hasFocus);
+                }
+              });
         }
       });
     }

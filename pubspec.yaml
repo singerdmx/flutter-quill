@@ -28,6 +28,7 @@ dependencies:
   diff_match_patch: ^0.4.1
   i18n_extension: ^4.2.0
   gallery_saver: ^2.3.2
+  device_info_plus: ^3.2.1
 
 dev_dependencies:
   flutter_test:
