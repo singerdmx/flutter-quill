@@ -1,3 +1,6 @@
+# [3.9.10]
+* Fix for undoing a modification ending with an indented line.
+
 # [3.9.9]
 * iOS: Save image whose filename does not end with image file extension.
 
