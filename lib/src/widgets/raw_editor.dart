@@ -566,11 +566,11 @@ class RawEditorState extends EditorState
           _keyboardVisible = _keyboardVisibilityController!.isVisible;
           _keyboardVisibilitySubscription =
               _keyboardVisibilityController?.onChange.listen((visible) {
-                _keyboardVisible = visible;
-                if (visible) {
-                  _onChangeTextEditingValue(!_hasFocus);
-                }
-              });
+            _keyboardVisible = visible;
+            if (visible) {
+              _onChangeTextEditingValue(!_hasFocus);
+            }
+          });
         }
       });
     }
