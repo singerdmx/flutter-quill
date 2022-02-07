@@ -558,7 +558,7 @@ class RawEditorState extends EditorState
       _keyboardVisible = true;
     } else {
       // treat iOS Simulator like a keyboard OS
-      isIosSimulator().then((isIosSimulator) {
+      isIOSSimulator().then((isIosSimulator) {
         if (isIosSimulator) {
           _keyboardVisible = true;
         } else {
