@@ -335,7 +335,7 @@ extension Localization on String {
           'Gallery': 'Galeri',
           'Link': 'Link',
           'Please first select some text to transform into a link.':
-              'Silakan pilih dulu beberapa teks untuk diubah menjadi tautan.',
+              'Silakan pilih dulu beberapa teks untuk diubah menjadi link.',
           'Open': 'Buka',
           'Copy': 'Salin',
           'Remove': 'Hapus',
