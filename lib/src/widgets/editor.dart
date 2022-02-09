@@ -342,7 +342,7 @@ class QuillEditor extends StatefulWidget {
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
-  /// and more https://github.com/singerdmx/flutter-quill#translation-of-toolbar
+  /// More https://github.com/singerdmx/flutter-quill#translation
   final Locale? locale;
 
   /// Delegate function responsible for showing menu with link actions on
