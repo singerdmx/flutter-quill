@@ -110,8 +110,8 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 }
 ```
 
-## Translation of toolbar
-The package offers translations for the quill toolbar, it will follow the system locale unless you set your own locale with:
+## Translation
+The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:
 ```
 QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
