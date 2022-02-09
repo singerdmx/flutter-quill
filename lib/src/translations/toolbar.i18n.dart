@@ -328,6 +328,26 @@ extension Localization on String {
           'Width': 'چوڑائی',
           'Height': 'اونچائی',
         },
+        'id': {
+          'Paste a link': 'Tempel tautan',
+          'Ok': 'Oke',
+          'Select Color': 'Pilih Warna',
+          'Gallery': 'Galeri',
+          'Link': 'Tautan',
+          'Please first select some text to transform into a link.':
+              'Silakan pilih dulu beberapa teks untuk diubah menjadi tautan.',
+          'Open': 'Buka',
+          'Copy': 'Salin',
+          'Remove': 'Hapus',
+          'Save': 'Simpan',
+          'Zoom': 'Perbesar',
+          'Saved': 'Tersimpan',
+          'Text': 'Teks',
+          'What is entered is not a link': 'Yang dimasukkan bukan tautan',
+          'Resize': 'Ubah Ukuran',
+          'Width': 'Lebar',
+          'Height': 'Tinggi',
+        },
       };
 
   String get i18n => localize(this, _t);
