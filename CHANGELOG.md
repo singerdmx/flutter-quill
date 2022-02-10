@@ -1,3 +1,6 @@
+# [3.9.11]
+* Added Indonesian translation.
+
 # [3.9.10]
 * Fix for undoing a modification ending with an indented line.
 
