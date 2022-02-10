@@ -1549,12 +1549,6 @@ class RenderEditor extends RenderEditableContainerBox
     super.systemFontsDidChange();
     markNeedsLayout();
   }
-
-  void debugAssertLayoutUpToDate() {
-    // no-op?
-    // this assert was added by Flutter TextEditingActionTarge
-    // so we have to comply here.
-  }
 }
 
 class EditableContainerParentData
