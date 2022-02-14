@@ -211,6 +211,8 @@ class RawEditor extends StatefulWidget {
   /// and paste, and moving the caret will be disabled.
   final bool enableInteractiveSelection;
 
+  bool get selectionEnabled => enableInteractiveSelection;
+
   /// The [ScrollPhysics] to use when vertically scrolling the input.
   ///
   /// If not specified, it will behave according to the current platform.
