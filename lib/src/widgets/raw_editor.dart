@@ -253,6 +253,8 @@ class RawEditorState extends EditorState
   // Cursors
   late CursorCont _cursorCont;
 
+  QuillController get controller => widget.controller;
+
   // Focus
   bool _didAutoFocus = false;
   bool get _hasFocus => widget.focusNode.hasFocus;
