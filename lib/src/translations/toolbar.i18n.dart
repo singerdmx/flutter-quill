@@ -348,6 +348,26 @@ extension Localization on String {
           'Width': 'Lebar',
           'Height': 'Tinggi',
         },
+        'no': {
+          'Paste a link': 'Lim inn lenke',
+          'Ok': 'Ok',
+          'Select Color': 'Velg farge',
+          'Gallery': 'Galleri',
+          'Link': 'Lenke',
+          'Please first select some text to transform into a link.':
+              'Velg først litt tekst for å forvandle til en lenke.',
+          'Open': 'Åpne',
+          'Copy': 'Kopier',
+          'Remove': 'Fjern',
+          'Save': 'Lagre',
+          'Zoom': 'Zoom',
+          'Saved': 'Lagret',
+          'Text': 'Tekst',
+          'What is entered is not a link': 'Du har oppgitt en ugyldig lenke',
+          'Resize': 'Endre størrelse',
+          'Width': 'Bredde',
+          'Height': 'Høyde',
+        },
       };
 
   String get i18n => localize(this, _t);
