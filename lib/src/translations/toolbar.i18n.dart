@@ -141,8 +141,8 @@ extension Localization on String {
           'Text': '文字',
           'What is entered is not a link': '输入的不是链接',
           'Resize': '调整大小',
-          'Width': 'Width',
-          'Height': 'Height',
+          'Width': '宽度',
+          'Height': '高度',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
