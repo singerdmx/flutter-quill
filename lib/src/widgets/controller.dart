@@ -327,6 +327,7 @@ class QuillController extends ChangeNotifier {
     _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
+    toggledStyle = Style();
   }
 
   /// Given offset, find its leaf node in document
