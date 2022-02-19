@@ -1,3 +1,6 @@
+# [4.0.2]
+* Clear toggled style on selection change.
+
 # [4.0.1]
 * Fix copy/cut/paste/selectAll not working.
 
