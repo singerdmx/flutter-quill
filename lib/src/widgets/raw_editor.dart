@@ -19,6 +19,7 @@ import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
+import '../utils/delta.dart';
 import '../utils/platform.dart';
 import 'controller.dart';
 import 'cursor.dart';
@@ -436,7 +437,8 @@ class RawEditorState extends EditorState
     for (final node in doc.root.children) {
       if (node is Line) {
         final editableTextLine = _getEditableTextLineFromNode(node, context);
-        result.add(editableTextLine);
+        result.add(Directionality(
+            textDirection: getDirectionOfNode(node), child: editableTextLine));
       } else if (node is Block) {
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
@@ -461,7 +463,8 @@ class RawEditorState extends EditorState
             onCheckboxTap: _handleCheckboxTap,
             readOnly: widget.readOnly,
             customStyleBuilder: widget.customStyleBuilder);
-        result.add(editableTextBlock);
+        result.add(Directionality(
+            textDirection: getDirectionOfNode(node), child: editableTextBlock));
       } else {
         throw StateError('Unreachable.');
       }

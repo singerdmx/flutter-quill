@@ -1,5 +1,8 @@
 import 'dart:math' as math;
+import 'dart:ui';
 
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/node.dart';
 import '../models/quill_delta.dart';
 
 // Diff between two texts - old text and new text
@@ -71,4 +74,12 @@ int getPositionDelta(Delta user, Delta actual) {
     }
   }
   return diff;
+}
+
+TextDirection getDirectionOfNode(Node node) {
+  final direction = node.style.attributes[Attribute.direction.key];
+  if (direction == Attribute.rtl) {
+    return TextDirection.rtl;
+  }
+  return TextDirection.ltr;
 }

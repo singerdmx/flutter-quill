@@ -5,6 +5,7 @@ import 'package:tuple/tuple.dart';
 import '../../flutter_quill.dart';
 import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
+import '../utils/delta.dart';
 import 'box.dart';
 import 'cursor.dart';
 import 'delegate.dart';
@@ -146,7 +147,9 @@ class EditableTextBlock extends StatelessWidget {
           hasFocus,
           MediaQuery.of(context).devicePixelRatio,
           cursorCont);
-      children.add(editableTextLine);
+      final nodeTextDirection = getDirectionOfNode(line);
+      children.add(Directionality(
+          textDirection: nodeTextDirection, child: editableTextLine));
     }
     return children.toList(growable: false);
   }

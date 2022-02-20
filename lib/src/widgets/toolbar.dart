@@ -100,6 +100,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showImageButton = true,
     bool showVideoButton = true,
     bool showCameraButton = true,
+    bool showDirection = false,
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
@@ -131,7 +132,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showClearFormat ||
           onImagePickCallback != null ||
           onVideoPickCallback != null,
-      showAlignmentButtons,
+      showAlignmentButtons || showDirection,
       showLeftAlignment,
       showCenterAlignment,
       showRightAlignment,
@@ -295,6 +296,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             showCenterAlignment: showCenterAlignment,
             showRightAlignment: showRightAlignment,
             showJustifyAlignment: showJustifyAlignment,
+          ),
+        if (showDirection)
+          ToggleStyleButton(
+            attribute: Attribute.rtl,
+            controller: controller,
+            icon: Icons.format_textdirection_r_to_l,
+            iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
           ),
         if (showDividers &&
             isButtonGroupShown[1] &&
