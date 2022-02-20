@@ -1,3 +1,6 @@
+# [4.0.3]
+* Support text direction rtl.
+
 # [4.0.2]
 * Clear toggled style on selection change.
 
