@@ -32,6 +32,7 @@ class Attribute<T> {
     Attribute.placeholder.key: Attribute.placeholder,
     Attribute.header.key: Attribute.header,
     Attribute.align.key: Attribute.align,
+    Attribute.direction.key: Attribute.direction,
     Attribute.list.key: Attribute.list,
     Attribute.codeBlock.key: Attribute.codeBlock,
     Attribute.blockQuote.key: Attribute.blockQuote,

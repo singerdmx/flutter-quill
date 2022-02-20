@@ -1,3 +1,6 @@
+# [4.0.4]
+* Bug fix for text direction rtl.
+
 # [4.0.3]
 * Support text direction rtl.
 
