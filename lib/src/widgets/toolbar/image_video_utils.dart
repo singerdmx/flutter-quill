@@ -141,6 +141,10 @@ class ImageVideoUtils {
 
     if (imageUrl != null) {
       controller.replaceText(index, length, BlockEmbed.image(imageUrl), null);
+      // ignore: cascade_invocations
+      controller.moveCursorToEnd();
+      final newLineIndex = controller.selection.baseOffset;
+      controller.replaceText(newLineIndex, 0, '\n', null);
     }
   }
 
