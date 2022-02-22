@@ -3,10 +3,22 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../flutter_quill.dart';
+import '../models/documents/nodes/line.dart';
 import 'text_selection.dart';
 
 typedef EmbedBuilder = Widget Function(BuildContext context,
     QuillController controller, Embed node, bool readOnly);
+
+typedef LeadingBuilder = Widget? Function(
+    BuildContext context,
+    Line line,
+    int index,
+    Map<int, int> indentLevelCounts,
+    int count,
+    CheckboxTapCallback onCheckboxTap,
+    bool readOnly);
+
+typedef CheckboxTapCallback = void Function(int index, bool checked);
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 

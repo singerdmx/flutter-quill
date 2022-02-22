@@ -29,6 +29,7 @@ import 'editor.dart';
 import 'embeds/default_embed_builder.dart';
 import 'embeds/image.dart';
 import 'keyboard_listener.dart';
+import 'leading/default_leading_builder.dart';
 import 'link.dart';
 import 'proxy.dart';
 import 'quill_single_child_scroll_view.dart';
@@ -72,6 +73,7 @@ class RawEditor extends StatefulWidget {
       this.enableInteractiveSelection = true,
       this.scrollPhysics,
       this.embedBuilder = defaultEmbedBuilder,
+      this.leadingBuilder = defaultLeadingBuilder,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.floatingCursorDisabled = false})
@@ -223,6 +225,9 @@ class RawEditor extends StatefulWidget {
 
   /// Builder function for embeddable objects.
   final EmbedBuilder embedBuilder;
+
+  /// Builder function for leading objects.
+  final LeadingBuilder leadingBuilder;
   final LinkActionPickerDelegate linkActionPickerDelegate;
   final CustomStyleBuilder? customStyleBuilder;
   final bool floatingCursorDisabled;
@@ -456,6 +461,7 @@ class RawEditorState extends EditorState
                 ? const EdgeInsets.all(16)
                 : null,
             embedBuilder: widget.embedBuilder,
+            leadingBuilder: widget.leadingBuilder,
             linkActionPicker: _linkActionPicker,
             onLaunchUrl: widget.onLaunchUrl,
             cursorCont: _cursorCont,

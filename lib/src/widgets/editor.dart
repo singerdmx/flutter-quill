@@ -20,6 +20,7 @@ import 'default_styles.dart';
 import 'delegate.dart';
 import 'embeds/default_embed_builder.dart';
 import 'float_cursor.dart';
+import 'leading/default_leading_builder.dart';
 import 'link.dart';
 import 'raw_editor.dart';
 import 'text_selection.dart';
@@ -168,6 +169,7 @@ class QuillEditor extends StatefulWidget {
       this.onSingleLongTapMoveUpdate,
       this.onSingleLongTapEnd,
       this.embedBuilder = defaultEmbedBuilder,
+      this.leadingBuilder = defaultLeadingBuilder,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.locale,
@@ -339,6 +341,7 @@ class QuillEditor extends StatefulWidget {
       onSingleLongTapEnd;
 
   final EmbedBuilder embedBuilder;
+  final LeadingBuilder leadingBuilder;
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
@@ -453,6 +456,7 @@ class QuillEditorState extends State<QuillEditor>
       enableInteractiveSelection: widget.enableInteractiveSelection,
       scrollPhysics: widget.scrollPhysics,
       embedBuilder: widget.embedBuilder,
+      leadingBuilder: widget.leadingBuilder,
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,

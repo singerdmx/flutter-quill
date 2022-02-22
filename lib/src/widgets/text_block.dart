@@ -59,6 +59,7 @@ class EditableTextBlock extends StatelessWidget {
       required this.hasFocus,
       required this.contentPadding,
       required this.embedBuilder,
+      required this.leadingBuilder,
       required this.linkActionPicker,
       required this.cursorCont,
       required this.indentLevelCounts,
@@ -80,12 +81,13 @@ class EditableTextBlock extends StatelessWidget {
   final bool hasFocus;
   final EdgeInsets? contentPadding;
   final EmbedBuilder embedBuilder;
+  final LeadingBuilder leadingBuilder;
   final LinkActionPicker linkActionPicker;
   final ValueChanged<String>? onLaunchUrl;
   final CustomStyleBuilder? customStyleBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
-  final Function(int, bool) onCheckboxTap;
+  final CheckboxTapCallback onCheckboxTap;
   final bool readOnly;
 
   @override
@@ -126,7 +128,15 @@ class EditableTextBlock extends StatelessWidget {
       index++;
       final editableTextLine = EditableTextLine(
           line,
-          _buildLeading(context, line, index, indentLevelCounts, count),
+          leadingBuilder(
+            context,
+            line,
+            index,
+            indentLevelCounts,
+            count,
+            onCheckboxTap,
+            readOnly,
+          ),
           TextLine(
             line: line,
             textDirection: textDirection,
@@ -152,66 +162,6 @@ class EditableTextBlock extends StatelessWidget {
           textDirection: nodeTextDirection, child: editableTextLine));
     }
     return children.toList(growable: false);
-  }
-
-  Widget? _buildLeading(BuildContext context, Line line, int index,
-      Map<int, int> indentLevelCounts, int count) {
-    final defaultStyles = QuillStyles.getStyles(context, false);
-    final attrs = line.style.attributes;
-    if (attrs[Attribute.list.key] == Attribute.ol) {
-      return QuillNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles!.leading!.style,
-        attrs: attrs,
-        width: 32,
-        padding: 8,
-      );
-    }
-
-    if (attrs[Attribute.list.key] == Attribute.ul) {
-      return QuillBulletPoint(
-        style:
-            defaultStyles!.leading!.style.copyWith(fontWeight: FontWeight.bold),
-        width: 32,
-      );
-    }
-
-    if (attrs[Attribute.list.key] == Attribute.checked) {
-      return CheckboxPoint(
-        size: 14,
-        value: true,
-        enabled: !readOnly,
-        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles?.lists?.checkboxUIBuilder,
-      );
-    }
-
-    if (attrs[Attribute.list.key] == Attribute.unchecked) {
-      return CheckboxPoint(
-        size: 14,
-        value: false,
-        enabled: !readOnly,
-        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles?.lists?.checkboxUIBuilder,
-      );
-    }
-
-    if (attrs.containsKey(Attribute.codeBlock.key)) {
-      return QuillNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles!.code!.style
-            .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: 32,
-        attrs: attrs,
-        padding: 16,
-        withDot: false,
-      );
-    }
-    return null;
   }
 
   double _getIndentWidth() {
