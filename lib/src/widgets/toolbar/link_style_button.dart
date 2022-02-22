@@ -120,7 +120,11 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         return _LinkDialog(
             dialogTheme: widget.dialogTheme, link: link, text: text);
       },
-    ).then(_linkSubmitted);
+    ).then(
+      (value) {
+        if (value != null) _linkSubmitted(value);
+      },
+    );
   }
 
   String? _getLinkAttributeValue() {
