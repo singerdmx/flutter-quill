@@ -1,3 +1,6 @@
+# [4.0.5]
+* Fixed casting null to Tuple2 when link dialog is dismissed without any input (e.g. barrier dismissed).
+
 # [4.0.4]
 * Bug fix for text direction rtl.
 
