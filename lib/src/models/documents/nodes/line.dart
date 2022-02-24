@@ -482,12 +482,11 @@ class Line extends Container<Leaf?> {
         total.add(res[i].item2);
       }
     }
-
+    
     // Adjust last node
-    final lastNodeLen = len - res[res.length - 1].item1;
     text = res[res.length - 1].item2;
     if (text != Embed.kObjectReplacementCharacter) {
-      total.add(text.substring(0, lastNodeLen));
+      total.add(text);
     }
     return total.join();
   }
