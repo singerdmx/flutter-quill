@@ -162,6 +162,7 @@ Widget _menuOptionsForReadonlyImage(
                 color: Colors.greenAccent,
                 text: 'Save'.i18n,
                 onPressed: () {
+                  imageUrl = appendFileExtensionToImageUrl(imageUrl);
                   GallerySaver.saveImage(imageUrl).then((_) {
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text('Saved'.i18n)));

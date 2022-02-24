@@ -115,7 +115,11 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
         delta.insert('\n', lineStyle.toJson());
       } else if (i < lines.length - 1) {
         // we don't want to insert a newline after the last chunk of text, so -1
-        delta.insert('\n', blockStyle);
+        final blockAttributes = blockStyle.isEmpty
+            ? null
+            : blockStyle.map<String, dynamic>((_, attribute) =>
+                MapEntry<String, dynamic>(attribute.key, attribute.value));
+        delta.insert('\n', blockAttributes);
       }
     }
 

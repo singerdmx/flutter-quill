@@ -1,3 +1,36 @@
+# [4.0.5]
+* Fixed casting null to Tuple2 when link dialog is dismissed without any input (e.g. barrier dismissed).
+
+# [4.0.4]
+* Bug fix for text direction rtl.
+
+# [4.0.3]
+* Support text direction rtl.
+
+# [4.0.2]
+* Clear toggled style on selection change.
+
+# [4.0.1]
+* Fix copy/cut/paste/selectAll not working.
+
+# [4.0.0]
+* Upgrade for Flutter 2.10.
+
+# [3.9.11]
+* Added Indonesian translation.
+
+# [3.9.10]
+* Fix for undoing a modification ending with an indented line.
+
+# [3.9.9]
+* iOS: Save image whose filename does not end with image file extension.
+
+# [3.9.8]
+* Added Urdu translation.
+
+# [3.9.7]
+* Fix for clicking on the Link button without any text on a new line crashes.
+
 # [3.9.6]
 * Apply locale to QuillEditor(contents).
 

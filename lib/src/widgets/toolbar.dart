@@ -100,6 +100,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showImageButton = true,
     bool showVideoButton = true,
     bool showCameraButton = true,
+    bool showDirection = false,
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
@@ -114,13 +115,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///shown when embedding an image, for example
     QuillDialogTheme? dialogTheme,
 
-    ///The locale to use for the editor toolbar, defaults to system locale
-    ///Currently the supported locales are:
-    /// * Locale('en')
-    /// * Locale('de')
-    /// * Locale('fr')
-    /// * Locale('zh')
-    /// and more https://github.com/singerdmx/flutter-quill#translation-of-toolbar
+    /// The locale to use for the editor toolbar, defaults to system locale
+    /// More at https://github.com/singerdmx/flutter-quill#translation
     Locale? locale,
     Key? key,
   }) {
@@ -136,7 +132,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showClearFormat ||
           onImagePickCallback != null ||
           onVideoPickCallback != null,
-      showAlignmentButtons,
+      showAlignmentButtons || showDirection,
       showLeftAlignment,
       showCenterAlignment,
       showRightAlignment,
@@ -301,6 +297,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             showRightAlignment: showRightAlignment,
             showJustifyAlignment: showJustifyAlignment,
           ),
+        if (showDirection)
+          ToggleStyleButton(
+            attribute: Attribute.rtl,
+            controller: controller,
+            icon: Icons.format_textdirection_r_to_l,
+            iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
+          ),
         if (showDividers &&
             isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
@@ -425,7 +429,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final FilePickImpl? filePickImpl;
 
   /// The locale to use for the editor toolbar, defaults to system locale
-  /// and more https://github.com/singerdmx/flutter-quill#translation-of-toolbar
+  /// More https://github.com/singerdmx/flutter-quill#translation
   final Locale? locale;
 
   @override
