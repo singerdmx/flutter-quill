@@ -1,3 +1,6 @@
+# [4.0.6]
+* Bug fix for copying text with new lines.
+
 # [4.0.5]
 * Fixed casting null to Tuple2 when link dialog is dismissed without any input (e.g. barrier dismissed).
 
