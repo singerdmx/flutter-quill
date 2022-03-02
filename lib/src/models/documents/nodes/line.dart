@@ -460,66 +460,53 @@ class Line extends Container<Leaf?> {
 
   /// Returns plain text within the specified text range.
   String getPlainText(int offset, int len) {
-    final res = _getPlainText(offset, len);
-    if (res.length == 1) {
-      final data = queryChild(offset, true);
-      final text = res.single.item2;
-      return text == Embed.kObjectReplacementCharacter
-          ? ''
-          : text.substring(data.offset, data.offset + len);
-    }
-
-    final total = <String>[];
-    // Adjust first node
-    final firstNodeLen = res[1].item1;
-    var text = res[0].item2;
-    if (text != Embed.kObjectReplacementCharacter) {
-      total.add(text.substring(text.length - firstNodeLen));
-    }
-
-    var middleNodesLen = 0;
-    for (var i = 1; i < res.length - 1; i++) {
-      if (res[i].item2 != Embed.kObjectReplacementCharacter) {
-        middleNodesLen += res[i].item1;
-        total.add(res[i].item2);
-      }
-    }
-
-    // Adjust last node
-    final lastNodeLen = len - middleNodesLen - res[res.length - 1].item1;
-    text = res[res.length - 1].item2;
-    if (text != Embed.kObjectReplacementCharacter) {
-      total.add(text.substring(0, lastNodeLen));
-    }
-    return total.join();
+    final plainText = StringBuffer();
+    _getPlainText(offset, len, plainText);
+    return plainText.toString();
   }
 
-  List<Tuple2<int, String>> _getPlainText(int offset, int len, {int beg = 0}) {
-    final local = math.min(length - offset, len);
-    final result = <Tuple2<int, String>>[];
+  int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining) {
+    final text = node.toPlainText();
+    if (text == Embed.kObjectReplacementCharacter) {
+      return remaining - node.length;
+    }
 
+    final end = math.min(offset + remaining, text.length);
+    buffer.write(text.substring(offset, end));
+    return remaining - (end - offset);
+  }
+
+  int _getPlainText(int offset, int len, StringBuffer plainText) {
+    var _len = len;
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
-    if (node != null) {
-      var pos = node.length - data.offset;
-      result.add(Tuple2(beg, node.toPlainText()));
-      while (!node!.isLast && pos < local) {
-        node = node.next as Leaf;
-        result.add(Tuple2(pos + beg, node.toPlainText()));
-        pos += node.length;
+
+    while (_len > 0) {
+      if (node == null) {
+        // blank line
+        plainText.write('\n');
+        _len -= 1;
+      }
+      else {
+        _len = _getNodeText(node, plainText, offset, _len);
+
+        while (!node!.isLast && _len > 0) {
+          node = node.next as Leaf;
+          _len = _getNodeText(node, plainText, 0, _len);
+        }
+
+        if (_len > 0) {
+          // end of this line
+          plainText.write('\n');
+          _len -= 1;
+        }
+      }
+
+      if (_len > 0) {
+        _len = nextLine!._getPlainText(0, _len, plainText);
       }
     }
 
-    final remaining = len - local;
-    if (remaining > 0) {
-      final lastElem = result[result.length - 1];
-      result
-        ..removeLast()
-        ..add(Tuple2(lastElem.item1, '${lastElem.item2}\n'));
-      final rest = nextLine!._getPlainText(0, remaining, beg: local);
-      result.addAll(rest);
-    }
-
-    return result;
+    return _len;
   }
 }
