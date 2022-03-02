@@ -987,8 +987,7 @@ class RawEditorState extends EditorState
       try {
         // ignore exception when paste window is at end of document
         bringIntoView(textEditingValue.selection.extent);
-      }
-      catch(_){};
+      } catch (_) {}
       hideToolbar();
     }
   }

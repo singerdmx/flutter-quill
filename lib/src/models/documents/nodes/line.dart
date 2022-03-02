@@ -486,8 +486,7 @@ class Line extends Container<Leaf?> {
         // blank line
         plainText.write('\n');
         _len -= 1;
-      }
-      else {
+      } else {
         _len = _getNodeText(node, plainText, offset, _len);
 
         while (!node!.isLast && _len > 0) {

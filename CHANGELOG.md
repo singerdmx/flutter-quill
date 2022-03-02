@@ -1,3 +1,6 @@
+# [4.0.7]
+* Refactor getPlainText (better handling of blank lines and lines with multiple markups.
+
 # [4.0.6]
 * Bug fix for copying text with new lines.
 
