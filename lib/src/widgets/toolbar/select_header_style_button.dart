@@ -42,19 +42,18 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
   @override
   Widget build(BuildContext context) {
     final _valueToText = <Attribute, String>{
-      Attribute.header: 'N',
       Attribute.h1: 'H1',
       Attribute.h2: 'H2',
-      Attribute.h3: 'H3',
     };
 
     final _valueAttribute = <Attribute>[
-      Attribute.header,
       Attribute.h1,
       Attribute.h2,
-      Attribute.h3
     ];
-    final _valueString = <String>['N', 'H1', 'H2', 'H3'];
+    final _valueString = <String>[
+      'H1',
+      'H2',
+    ];
 
     final theme = Theme.of(context);
     final style = TextStyle(
@@ -64,7 +63,7 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(4, (index) {
+      children: List.generate(2, (index) {
         return Padding(
           // ignore: prefer_const_constructors
           padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
@@ -136,3 +135,4 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
     super.dispose();
   }
 }
+
