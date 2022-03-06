@@ -1,3 +1,6 @@
+# [4.0.8]
+* Fix blank lines do not display when --web-renderer=html.
+
 # [4.0.7]
 * Refactor getPlainText (better handling of blank lines and lines with multiple markups.
 
