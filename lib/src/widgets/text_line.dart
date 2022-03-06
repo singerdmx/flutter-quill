@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -207,9 +208,11 @@ class _TextLineState extends State<TextLine> {
 
   TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
       TextStyle lineStyle) {
-    final children = nodes
+    final shouldWrap = nodes.isEmpty && kIsWeb;
+    LinkedList<Node> newNodes = LinkedList<Node>()..add(leaf.Text('\u{200B}'));
+    final children = (shouldWrap ? newNodes : nodes)
         .map((node) =>
-            _getTextSpanFromNode(defaultStyles, node, widget.line.style))
+        _getTextSpanFromNode(defaultStyles, node, widget.line.style))
         .toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
