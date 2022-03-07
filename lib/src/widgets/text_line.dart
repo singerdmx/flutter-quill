@@ -208,9 +208,10 @@ class _TextLineState extends State<TextLine> {
 
   TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
       TextStyle lineStyle) {
-    final shouldWrap = nodes.isEmpty && kIsWeb;
-    final newNodes = LinkedList<Node>()..add(leaf.Text('\u{200B}'));
-    final children = (shouldWrap ? newNodes : nodes)
+    if (nodes.isEmpty && kIsWeb) {
+      nodes = LinkedList<Node>()..add(leaf.Text('\u{200B}'));
+    }
+    final children = nodes
         .map((node) =>
             _getTextSpanFromNode(defaultStyles, node, widget.line.style))
         .toList(growable: false);
