@@ -1,3 +1,6 @@
+# [4.0.9]
+* Request keyboard focus when no child is found.
+
 # [4.0.8]
 * Fix blank lines do not display when --web-renderer=html.
 
