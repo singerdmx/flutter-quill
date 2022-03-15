@@ -1,3 +1,15 @@
+# [4.0.9]
+* Request keyboard focus when no child is found.
+
+# [4.0.8]
+* Fix blank lines do not display when --web-renderer=html.
+
+# [4.0.7]
+* Refactor getPlainText (better handling of blank lines and lines with multiple markups.
+
+# [4.0.6]
+* Bug fix for copying text with new lines.
+
 # [4.0.5]
 * Fixed casting null to Tuple2 when link dialog is dismissed without any input (e.g. barrier dismissed).
 
