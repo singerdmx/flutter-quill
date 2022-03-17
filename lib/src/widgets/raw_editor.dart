@@ -693,6 +693,8 @@ class RawEditorState extends EditorState
         });
       }
     }
+
+    _adjacentLineAction.stopCurrentVerticalRunIfSelectionChanges();
   }
 
   void _onChangeTextEditingValue([bool ignoreCaret = false]) {
