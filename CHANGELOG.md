@@ -1,3 +1,6 @@
+# [4.0.10]
+* Fix vertical caret position bug.
+
 # [4.0.9]
 * Request keyboard focus when no child is found.
 
