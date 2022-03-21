@@ -13,15 +13,14 @@ class Embeddable {
   final dynamic data;
 
   Map<String, dynamic> toJson() {
-    final m = <String, String>{type: data};
-    return m;
+    return {type: data};
   }
 
   static Embeddable fromJson(Map<String, dynamic> json) {
     final m = Map<String, dynamic>.from(json);
     assert(m.length == 1, 'Embeddable map must only have one key');
 
-    return BlockEmbed(m.keys.first, m.values.first);
+    return Embeddable(m.keys.first, m.values.first);
   }
 }
 
