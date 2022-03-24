@@ -1,3 +1,6 @@
+# [4.0.11]
+* Fix cut selection error in multi-node line.
+
 # [4.0.10]
 * Fix vertical caret position bug.
 
