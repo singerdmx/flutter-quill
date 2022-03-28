@@ -42,10 +42,10 @@ enum LinkMenuAction {
 typedef LinkActionPicker = Future<LinkMenuAction> Function(Node linkNode);
 
 typedef LinkActionPickerDelegate = Future<LinkMenuAction> Function(
-    BuildContext context, String link);
+    BuildContext context, String link, Node node);
 
 Future<LinkMenuAction> defaultLinkActionPickerDelegate(
-    BuildContext context, String link) async {
+    BuildContext context, String link, Node node) async {
   switch (defaultTargetPlatform) {
     case TargetPlatform.iOS:
       return _showCupertinoLinkMenu(context, link);
