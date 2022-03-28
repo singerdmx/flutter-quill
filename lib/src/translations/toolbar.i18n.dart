@@ -368,7 +368,7 @@ extension Localization on String {
           'Width': 'Bredde',
           'Height': 'Høyde',
         },
-    'fa': {
+        'fa': {
           'Paste a link': 'جایگذاری لینک',
           'Ok': 'اوکی',
           'Select Color': 'انتخاب رنگ',

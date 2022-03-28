@@ -1,3 +1,6 @@
+# [4.0.12]
+* Add Persian(fa) language.
+
 # [4.0.11]
 * Fix cut selection error in multi-node line.
 
