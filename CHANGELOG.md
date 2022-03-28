@@ -1,3 +1,6 @@
+# [4.1.0]
+* Added Node to linkActionPickerDelegate.
+
 # [4.0.12]
 * Add Persian(fa) language.
 
