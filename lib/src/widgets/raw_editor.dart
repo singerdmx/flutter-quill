@@ -783,7 +783,7 @@ class RawEditorState extends EditorState
 
   Future<LinkMenuAction> _linkActionPicker(Node linkNode) async {
     final link = linkNode.style.attributes[Attribute.link.key]!.value!;
-    return widget.linkActionPickerDelegate(context, link);
+    return widget.linkActionPickerDelegate(context, link, linkNode);
   }
 
   bool _showCaretOnScreenScheduled = false;
