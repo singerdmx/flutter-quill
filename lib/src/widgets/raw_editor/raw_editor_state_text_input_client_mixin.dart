@@ -14,6 +14,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   TextInputConnection? _textInputConnection;
   TextEditingValue? _lastKnownRemoteTextEditingValue;
 
+  /// ----------------------Flutter (Channel beta, 2.12.0-4.1.pre Add Function
+  void insertTextPlaceholder(Size size) {}
+  void removeTextPlaceholder() {}
+  /// ------------------------------------------------------------------------
+
   /// Whether to create an input connection with the platform for text editing
   /// or not.
   ///
