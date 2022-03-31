@@ -348,15 +348,12 @@ class Line extends Container<Leaf?> {
     final excluded = <Attribute>{};
 
     void _handle(Style style) {
-      if (result.isEmpty) {
-        excluded.addAll(style.values);
-      } else {
-        for (final attr in result.values) {
-          if (!style.containsKey(attr.key)) {
-            excluded.add(attr);
-          }
+      for (final attr in result.values) {
+        if (!style.containsKey(attr.key)) {
+          excluded.add(attr);
         }
       }
+
       final remaining = style.removeAll(excluded);
       result = result.removeAll(excluded);
       result = result.mergeAll(remaining);
