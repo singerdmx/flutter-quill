@@ -365,7 +365,7 @@ class QuillEditor extends StatefulWidget {
 
   /// allows to create a custom textSelectionControls,
   /// if this is null a default textSelectionControls based on the app's theme
-  /// will be used 
+  /// will be used
   final TextSelectionControls? textSelectionControls;
 
   @override
