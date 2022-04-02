@@ -1,3 +1,5 @@
+# [4.1.1]
+* Added textSelectionControls field in QuillEditor.
 # [4.1.0]
 * Added Node to linkActionPickerDelegate.
 
