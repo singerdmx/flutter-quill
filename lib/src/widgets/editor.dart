@@ -922,9 +922,9 @@ class RenderEditor extends RenderEditableContainerBox
       }
       extentChild = childAfter(extentChild);
     }
-    assert(extentChild != null);
+    extentChild ??= baseChild;
 
-    final extentParentData = extentChild!.parentData as BoxParentData;
+    final extentParentData = extentChild.parentData as BoxParentData;
     final extentSelection =
         localSelection(extentChild.container, textSelection, true);
     var extentPoint =
