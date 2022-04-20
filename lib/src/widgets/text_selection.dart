@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 import '../models/documents/nodes/node.dart';
@@ -224,6 +225,11 @@ class EditorTextSelectionOverlay {
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)!
         .insert(toolbar!);
     _toolbarController.forward(from: 0);
+
+    // make sure handles are visible as well
+    if (_handles == null) {
+      showHandles();
+    }
   }
 
   Widget _buildHandle(
@@ -308,7 +314,16 @@ class EditorTextSelectionOverlay {
 
   Widget _buildToolbar(BuildContext context) {
     // Find the horizontal midpoint, just above the selected text.
-    final endpoints = renderObject.getEndpointsForSelection(_selection);
+    List<TextSelectionPoint> endpoints;
+
+    try {
+      // building with an invalid selection with throw an exception
+      // This happens where the selection has changed, but the toolbar
+      // hasn't been dismissed yet.
+      endpoints = renderObject.getEndpointsForSelection(_selection);
+    } catch (_) {
+      return Container();
+    }
 
     final editingRegion = Rect.fromPoints(
       renderObject.localToGlobal(Offset.zero),
