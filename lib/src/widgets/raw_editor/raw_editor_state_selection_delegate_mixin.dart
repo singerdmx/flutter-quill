@@ -136,7 +136,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   void hideToolbar([bool hideHandles = true]) {
     // If the toolbar is currently visible.
     if (selectionOverlay?.toolbar != null) {
-      selectionOverlay?.hideToolbar();
+      hideHandles ? selectionOverlay?.hide() : selectionOverlay?.hideToolbar();
     }
   }
 

@@ -759,10 +759,10 @@ class RawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (!_hasFocus) {
+      if (!_hasFocus || textEditingValue.selection.isCollapsed) {
         _selectionOverlay!.dispose();
         _selectionOverlay = null;
-      } else if (!textEditingValue.selection.isCollapsed) {
+      } else {
         _selectionOverlay!.update(textEditingValue);
       }
     } else if (_hasFocus) {
@@ -929,10 +929,6 @@ class RawEditorState extends EditorState
 
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
-      // on iOS, Safari does not hide the selection after copy
-      // however, most other iOS apps do as well as other platforms
-      // so we'll hide toolbar & selection after copy
-      hideToolbar(false);
 
       // Collapse the selection and hide the toolbar and handles.
       userUpdateTextEditingValue(
@@ -1008,13 +1004,17 @@ class RawEditorState extends EditorState
     _replaceText(
         ReplaceTextIntent(textEditingValue, data.text!, selection, cause));
 
-    if (cause == SelectionChangedCause.toolbar) {
-      try {
-        // ignore exception when paste window is at end of document
-        bringIntoView(textEditingValue.selection.extent);
-      } catch (_) {}
-      hideToolbar();
-    }
+    bringIntoView(textEditingValue.selection.extent);
+
+    // Collapse the selection and hide the toolbar and handles.
+    userUpdateTextEditingValue(
+      TextEditingValue(
+        text: textEditingValue.text,
+        selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end),
+      ),
+      cause,
+    );
   }
 
   /// Select the entire text value.
