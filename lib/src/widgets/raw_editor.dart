@@ -1010,8 +1010,8 @@ class RawEditorState extends EditorState
     userUpdateTextEditingValue(
       TextEditingValue(
         text: textEditingValue.text,
-        selection: TextSelection.collapsed(
-            offset: textEditingValue.selection.end),
+        selection:
+            TextSelection.collapsed(offset: textEditingValue.selection.end),
       ),
       cause,
     );

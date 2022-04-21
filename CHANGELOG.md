@@ -1,3 +1,6 @@
+# [4.1.3]
+* Fix selection handles show/hide after paste, backspace, copy.
+
 # [4.1.2]
 * Add full support for hardware keyboards (Chromebook, Android tablets, etc) that don't alter screen UI.
 
