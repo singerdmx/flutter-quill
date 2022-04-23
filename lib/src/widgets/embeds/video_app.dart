@@ -50,7 +50,7 @@ class _VideoAppState extends State<VideoApp> {
               text: widget.videoUrl,
               style: defaultStyles.link,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => launch(widget.videoUrl)),
+                ..onTap = () => launchUrl(Uri.parse(widget.videoUrl))),
         );
       }
 

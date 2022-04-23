@@ -20,7 +20,7 @@ dependencies:
   quiver: ^3.0.0
   string_validator: ^0.3.0
   tuple: ^2.0.0
-  url_launcher: ^6.0.2
+  url_launcher: ^6.1.0
   pedantic: ^1.11.0
   video_player: ^2.1.10
   characters: ^1.1.0

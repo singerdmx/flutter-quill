@@ -44,7 +44,7 @@ class _YoutubeVideoAppState extends State<YoutubeVideoApp> {
               text: widget.videoUrl,
               style: defaultStyles.link,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => launch(widget.videoUrl)),
+                ..onTap = () => launchUrl(Uri.parse(widget.videoUrl))),
         );
       }
 
