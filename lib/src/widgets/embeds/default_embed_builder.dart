@@ -151,7 +151,7 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
 }
 
 Widget _menuOptionsForReadonlyImage(
-    BuildContext context, String imageUrl, Image image) {
+    BuildContext context, String imageUrl, Widget image) {
   return GestureDetector(
       onTap: () {
         showDialog(
