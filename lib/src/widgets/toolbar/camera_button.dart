@@ -53,6 +53,7 @@ class CameraButton extends StatelessWidget {
       hoverElevation: 0,
       size: iconSize * 1.77,
       fillColor: iconFillColor,
+      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _handleCameraButtonTap(context, controller,
           onImagePickCallback: onImagePickCallback,
           onVideoPickCallback: onVideoPickCallback,
