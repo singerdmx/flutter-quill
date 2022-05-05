@@ -42,6 +42,7 @@ class _HistoryButtonState extends State<HistoryButton> {
       size: widget.iconSize * 1.77,
       icon: Icon(widget.icon, size: widget.iconSize, color: _iconColor),
       fillColor: fillColor,
+      borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: _changeHistory,
     );
   }
