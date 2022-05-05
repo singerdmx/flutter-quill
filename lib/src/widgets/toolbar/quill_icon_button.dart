@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../models/themes/quill_icon_theme.dart';
 
 class QuillIconButton extends StatelessWidget {
   const QuillIconButton({
@@ -9,7 +8,6 @@ class QuillIconButton extends StatelessWidget {
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
-    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +17,6 @@ class QuillIconButton extends StatelessWidget {
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final QuillIconTheme? iconTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +24,7 @@ class QuillIconButton extends StatelessWidget {
       constraints: BoxConstraints.tightFor(width: size, height: size),
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(iconTheme?.borderRadius ?? 2)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
         fillColor: fillColor,
         elevation: 0,
         hoverElevation: hoverElevation,
