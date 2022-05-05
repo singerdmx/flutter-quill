@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/themes/quill_icon_theme.dart';
 
-@Deprecated('Not being used')
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.child,
