@@ -27,4 +27,7 @@ class QuillIconTheme {
 
   ///The fill color to use for disabled icons in the toolbar
   final Color? disabledIconFillColor;
+  
+  ///The borderRadius for icons
+  final double? borderRadius;
 }
