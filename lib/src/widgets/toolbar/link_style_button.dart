@@ -91,6 +91,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
           ),
           fillColor:
               widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor,
+          borderRadius: widget.iconTheme?.borderRadius ?? 2,
           onPressed: pressedHandler,
         ),
       ),
