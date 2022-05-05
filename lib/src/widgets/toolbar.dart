@@ -21,6 +21,7 @@ import 'toolbar/select_header_style_button.dart';
 import 'toolbar/toggle_check_list_button.dart';
 import 'toolbar/toggle_style_button.dart';
 import 'toolbar/video_button.dart';
+import 'toolbar/quill_dropdown_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
