@@ -8,6 +8,7 @@ class QuillIconTheme {
     this.iconUnselectedFillColor,
     this.disabledIconColor,
     this.disabledIconFillColor,
+    this.borderRadius
   });
 
   ///The color to use for selected icons in the toolbar
