@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/themes/quill_icon_theme.dart';
 
 @Deprecated('Not being used')
 class QuillDropdownButton<T> extends StatefulWidget {
@@ -11,6 +12,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
+    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
@@ -22,6 +24,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
   final ValueChanged<T> onSelected;
+  final QuillIconTheme? iconTheme;
 
   @override
   _QuillDropdownButtonState<T> createState() => _QuillDropdownButtonState<T>();
