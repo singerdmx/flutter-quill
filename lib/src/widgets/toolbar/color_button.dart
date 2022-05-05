@@ -124,6 +124,7 @@ class _ColorButtonState extends State<ColorButton> {
           size: widget.iconSize,
           color: widget.background ? iconColorBackground : iconColor),
       fillColor: widget.background ? fillColorBackground : fillColor,
+      borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: _showColorPicker,
     );
   }

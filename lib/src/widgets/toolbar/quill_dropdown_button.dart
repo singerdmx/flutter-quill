@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/themes/quill_icon_theme.dart';
 
 @Deprecated('Not being used')
 class QuillDropdownButton<T> extends StatefulWidget {
@@ -11,6 +12,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
+    this.iconTheme,
     Key? key,
   }) : super(key: key);
 
@@ -22,6 +24,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
   final ValueChanged<T> onSelected;
+  final QuillIconTheme? iconTheme;
 
   @override
   _QuillDropdownButtonState<T> createState() => _QuillDropdownButtonState<T>();
@@ -35,7 +38,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       constraints: BoxConstraints.tightFor(height: widget.height),
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
         fillColor: widget.fillColor,
         elevation: 0,
         hoverElevation: widget.hoverElevation,

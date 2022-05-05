@@ -97,7 +97,7 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
               elevation: 0,
               visualDensity: VisualDensity.compact,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(2)),
+                  borderRadius: BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
               fillColor: _valueToText[_value] == _valueString[index]
                   ? (widget.iconTheme?.iconSelectedFillColor ??
                       theme.toggleableActiveColor)

@@ -38,6 +38,7 @@ class _IndentButtonState extends State<IndentButton> {
       size: widget.iconSize * 1.77,
       icon: Icon(widget.icon, size: widget.iconSize, color: iconColor),
       fillColor: iconFillColor,
+      borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: () {
         final indent = widget.controller
             .getSelectionStyle()
