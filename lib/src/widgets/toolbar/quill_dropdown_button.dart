@@ -35,7 +35,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       constraints: BoxConstraints.tightFor(height: widget.height),
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
         fillColor: widget.fillColor,
         elevation: 0,
         hoverElevation: widget.hoverElevation,
