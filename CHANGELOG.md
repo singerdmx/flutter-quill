@@ -1,3 +1,6 @@
+# [4.1.4]
+* New borderRadius for iconTheme.
+
 # [4.1.3]
 * Fix selection handles show/hide after paste, backspace, copy.
 
