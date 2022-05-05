@@ -3,10 +3,10 @@ import '../../models/themes/quill_icon_theme.dart';
 
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
-    required this.child,
     required this.initialValue,
     required this.items,
     required this.onSelected,
+    this.startValue = 16,
     this.height = 40,
     this.fillColor,
     this.hoverElevation = 1,
@@ -15,11 +15,11 @@ class QuillDropdownButton<T> extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
+  final int startValue;
   final double height;
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final Widget child;
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
   final ValueChanged<T> onSelected;
@@ -31,6 +31,14 @@ class QuillDropdownButton<T> extends StatefulWidget {
 
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
+  
+  int _currentValue = 16;
+
+  @override
+  void initState(){
+      _currentValue = widget.startValue;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -80,7 +88,10 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         // if (widget.onCanceled != null) widget.onCanceled();
         return null;
       }
-      widget.onSelected(newValue);
+      setState(() {
+        _currentValue = newValue as int;
+        widget.onSelected(newValue);
+      });
     });
   }
 
@@ -91,7 +102,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
-            widget.child,
+            Text(_currentValue.toString()),
             Expanded(child: Container()),
             const Icon(Icons.arrow_drop_down, size: 15)
           ],
