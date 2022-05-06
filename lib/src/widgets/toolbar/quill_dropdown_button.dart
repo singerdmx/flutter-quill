@@ -4,6 +4,7 @@ import '../../models/themes/quill_icon_theme.dart';
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.initialValue,
+    required this.initialValueTitle,
     required this.items,
     required this.onSelected,
     this.height = 40,
@@ -19,6 +20,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final double hoverElevation;
   final double highlightElevation;
   final T initialValue;
+  final String initialValueTitle;
   final List<PopupMenuEntry<T>> items;
   final ValueChanged<T> onSelected;
   final QuillIconTheme? iconTheme;
@@ -29,12 +31,12 @@ class QuillDropdownButton<T> extends StatefulWidget {
 
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
-  int _currentValue = 0;
+  String _currentValue = '';
 
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.initialValue as int;
+    _currentValue = widget.initialValueTitle;
   }
 
   @override
@@ -87,7 +89,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         return null;
       }
       setState(() {
-        _currentValue = newValue as int;
+        _currentValue = ((widget.items[1].key) as ValueKey<String>).value;
         widget.onSelected(newValue);
       });
     });
