@@ -1,3 +1,6 @@
+# [4.1.7]
+* Convert FontSize to a Map to allow for named Font Size.
+
 # [4.1.6]
 * Update quill_dropdown_button.dart.
 

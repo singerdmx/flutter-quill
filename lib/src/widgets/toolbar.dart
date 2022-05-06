@@ -151,8 +151,19 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     //default font size values
-    final fontSizes =
-        fontSizeValues ?? {'10':10, '12':12, '14':14, '16':16, '18':18, '20':20, '24':24, '28':28, '32':32, '48':48};
+    final fontSizes = fontSizeValues ??
+        {
+          '10': 10,
+          '12': 12,
+          '14': 14,
+          '16': 16,
+          '18': 18,
+          '20': 20,
+          '24': 24,
+          '28': 28,
+          '32': 32,
+          '48': 48
+        };
 
     return QuillToolbar(
       key: key,
@@ -181,9 +192,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         if (showFontSize)
           QuillDropdownButton(
             iconTheme: iconTheme,
-            height: (toolbarIconSize * 2)-(toolbarIconSize / 3),
+            height: (toolbarIconSize * 2) - (toolbarIconSize / 3),
             items: [
-              for(MapEntry<String, int> fontSize in fontSizes.entries)
+              for (MapEntry<String, int> fontSize in fontSizes.entries)
                 PopupMenuItem<int>(
                   key: ValueKey(fontSize.key),
                   value: fontSize.value,
@@ -197,7 +208,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               }
             },
             rawitemsmap: fontSizes,
-            initialValue: (initialFontSizeValue != null) && (initialFontSizeValue <= fontSizes.length - 1) ? initialFontSizeValue : 0,
+            initialValue: (initialFontSizeValue != null) &&
+                    (initialFontSizeValue <= fontSizes.length - 1)
+                ? initialFontSizeValue
+                : 0,
           ),
         if (showBoldButton)
           ToggleStyleButton(

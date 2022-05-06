@@ -21,7 +21,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final double highlightElevation;
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
-  final Map<String,int> rawitemsmap;
+  final Map<String, int> rawitemsmap;
   final ValueChanged<T> onSelected;
   final QuillIconTheme? iconTheme;
 
@@ -36,7 +36,8 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.rawitemsmap.keys.elementAt(widget.initialValue as int);
+    _currentValue =
+        widget.rawitemsmap.keys.elementAt(widget.initialValue as int);
   }
 
   @override
@@ -89,7 +90,10 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         return null;
       }
       setState(() {
-        _currentValue = widget.rawitemsmap.entries.firstWhere((element) => element.value==newValue, orElse: () => widget.rawitemsmap.entries.first).key;
+        _currentValue = widget.rawitemsmap.entries
+            .firstWhere((element) => element.value == newValue,
+                orElse: () => widget.rawitemsmap.entries.first)
+            .key;
         widget.onSelected(newValue);
       });
     });
@@ -97,15 +101,15 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
 
   Widget _buildContent(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(_currentValue.toString()),
-            SizedBox(width:6),
-            const Icon(Icons.arrow_drop_down, size: 17)
-          ],
-        ),
-      );
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(_currentValue.toString()),
+          SizedBox(width: 6),
+          const Icon(Icons.arrow_drop_down, size: 17)
+        ],
+      ),
+    );
   }
 }

@@ -395,7 +395,7 @@ extension Localization on String {
           'Gallery': 'गैलरी',
           'Link': 'लिंक',
           'Please first select some text to transform into a link.':
-          'लिंक में बदलने के लिए कृपया पहले कुछ शब्द चुनें।',
+              'लिंक में बदलने के लिए कृपया पहले कुछ शब्द चुनें।',
           'Open': 'खोलें',
           'Copy': 'कॉपी करें',
           'Remove': 'हटाएं',
