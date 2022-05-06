@@ -113,7 +113,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///List of font sizes in [int]
     List? fontSizeValues,
     int? initialFontSizeValue,
-      
+
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
 
@@ -127,8 +127,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
   }) {
     final isButtonGroupShown = [
-      showFontSize ||  
-      showBoldButton ||
+      showFontSize ||
+          showBoldButton ||
           showItalicButton ||
           showSmallButton ||
           showUnderLineButton ||
@@ -151,19 +151,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     //default font size values
-    final fontSizes = fontSizeValues ?? [
-      10,
-      12,
-      14,
-      16,
-      18,
-      20,
-      24,
-      28,
-      32,
-      48
-    ];
-      
+    final fontSizes =
+        fontSizeValues ?? [10, 12, 14, 16, 18, 20, 24, 28, 32, 48];
+
     return QuillToolbar(
       key: key,
       toolbarHeight: toolbarIconSize * 2,
@@ -189,24 +179,24 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
           ),
         if (showFontSize)
-            QuillDropdownButton(
-              iconTheme: iconTheme,
-              height:toolbarIconSize*2,
-              items:[
-                for (var fontSize in fontSizes)
+          QuillDropdownButton(
+            iconTheme: iconTheme,
+            height: toolbarIconSize * 2,
+            items: [
+              for (var fontSize in fontSizes)
                 PopupMenuItem<int>(
                   value: fontSize,
                   child: Text(fontSize.toString()),
                 ),
-              ],
-              onSelected:(newSize){
-                if (newSize != null)
-                  {
-                    controller.formatSelection(Attribute.fromKeyValue('size', newSize));
-                  }
-                },
-              initialValue: fontSizes[initialFontSizeValue ?? 0],
-            ),          
+            ],
+            onSelected: (newSize) {
+              if (newSize != null) {
+                controller
+                    .formatSelection(Attribute.fromKeyValue('size', newSize));
+              }
+            },
+            initialValue: fontSizes[initialFontSizeValue ?? 0],
+          ),
         if (showBoldButton)
           ToggleStyleButton(
             attribute: Attribute.bold,

@@ -29,14 +29,13 @@ class QuillDropdownButton<T> extends StatefulWidget {
 
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
-  
   int _currentValue = 0;
 
   @override
-  void initState(){
-      _currentValue = widget.initialValue as int;
+  void initState() {
+    _currentValue = widget.initialValue as int;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(

@@ -1,3 +1,6 @@
+# [4.1.5]
+* Add Font Size dropdown to the toolbar.
+
 # [4.1.4]
 * New borderRadius for iconTheme.
 
