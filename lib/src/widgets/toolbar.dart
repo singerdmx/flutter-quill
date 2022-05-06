@@ -202,7 +202,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
             ],
             onSelected: (newSize) {
-              if (newSize != null) {
+              if (newSize != null) && (newSize > 0) {
                 controller
                     .formatSelection(Attribute.fromKeyValue('size', newSize));
               }
