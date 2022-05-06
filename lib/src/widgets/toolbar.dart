@@ -185,6 +185,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             items: [
               for(MapEntry<String, int> fontSize in fontSizes.entries)
                 PopupMenuItem<int>(
+                  key: ValueKey(fontSize.key),
                   value: fontSize.value,
                   child: Text(fontSize.key.toString()),
                 ),
