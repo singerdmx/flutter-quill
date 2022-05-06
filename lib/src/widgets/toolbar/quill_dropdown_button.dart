@@ -6,7 +6,6 @@ class QuillDropdownButton<T> extends StatefulWidget {
     required this.initialValue,
     required this.items,
     required this.onSelected,
-    this.startValue = 16,
     this.height = 40,
     this.fillColor,
     this.hoverElevation = 1,
@@ -15,7 +14,6 @@ class QuillDropdownButton<T> extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  final int startValue;
   final double height;
   final Color? fillColor;
   final double hoverElevation;
@@ -32,11 +30,11 @@ class QuillDropdownButton<T> extends StatefulWidget {
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   
-  int _currentValue = 16;
+  int _currentValue = 0;
 
   @override
   void initState(){
-      _currentValue = widget.startValue;
+      _currentValue = widget.initialValue as int;
   }
   
   @override
