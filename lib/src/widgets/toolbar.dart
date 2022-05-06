@@ -189,23 +189,24 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
           ),
         if (showFontSize)
-        QuillDropdownButton(
-          iconTheme: iconTheme,
-          items:[
-            for (var fontSize in fontSizes)
-            PopupMenuItem<int>(
-              value: fontSize,
-              child: Text(fontSize.toString()),
-            ),
-          ],
-          onSelected:(newSize){
-            if (newSize != null)
-              {
-                controller.formatSelection(Attribute.fromKeyValue('size', newSize));
-              }
-            },
-          initialValue: fontSizes[initialFontSizeValue ?? 0],
-        ),          
+            QuillDropdownButton(
+              iconTheme: iconTheme,
+              height:toolbarIconSize*2,
+              items:[
+                for (var fontSize in fontSizes)
+                PopupMenuItem<int>(
+                  value: fontSize,
+                  child: Text(fontSize.toString()),
+                ),
+              ],
+              onSelected:(newSize){
+                if (newSize != null)
+                  {
+                    controller.formatSelection(Attribute.fromKeyValue('size', newSize));
+                  }
+                },
+              initialValue: fontSizes[initialFontSizeValue ?? 0],
+            ),          
         if (showBoldButton)
           ToggleStyleButton(
             attribute: Attribute.bold,
