@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../controller.dart';
+import '../../models/documents/attribute.dart';
 
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.initialValue,
     required this.items,
     required this.onSelected,
+    required this.controller,
     this.startValue = 16,
     this.height = 40,
     this.fillColor,
@@ -23,6 +26,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
   final ValueChanged<T> onSelected;
+  final QuillController controller;
   final QuillIconTheme? iconTheme;
 
   @override
@@ -91,6 +95,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       setState(() {
         _currentValue = newValue as int;
         widget.onSelected(newValue);
+        widget.controller.formatSelection(Attribute.fromKeyValue('size', newValue));
       });
     });
   }
