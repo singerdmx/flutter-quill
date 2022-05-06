@@ -196,8 +196,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                     .formatSelection(Attribute.fromKeyValue('size', newSize));
               }
             },
-            initialValue: fontSizes.values.toList()[initialFontSizeValue ?? 0],
-            initialValueTitle: fontSizes.keys.toList()[initialFontSizeValue ?? 0]  
+            rawitemslist: fontSizes,
+            initialValue: (initialFontSizeValue != null) && (initialFontSizeValue <= fontSizes.length - 1) ? initialFontSizeValue : 0,
           ),
         if (showBoldButton)
           ToggleStyleButton(
