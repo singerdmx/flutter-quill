@@ -110,6 +110,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
 
+    ///List of font sizes in [int]
+    List? fontSizeValues,
+      
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
 
@@ -147,7 +150,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     //default font size values
-    final fontSizeValues = [
+    final fontSizes = fontSizeValues ?? [
       10,
       12,
       14,
@@ -190,10 +193,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         QuillDropdownButton(
           iconTheme: iconTheme,
           items:[
-            for (var fontSizeValue in fontSizeValues)
+            for (var fontSize in fontSizes)
             PopupMenuItem<int>(
-              value: fontSizeValue,
-              child: Text(fontSizeValue.toString()),
+              value: fontSize,
+              child: Text(fontSize.toString()),
             ),
           ],
           onSelected:(newSize){
