@@ -112,6 +112,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     ///List of font sizes in [int]
     List? fontSizeValues,
+    int? initialFontSizeValue,
       
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
@@ -205,7 +206,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 controller.formatSelection(Attribute.fromKeyValue('size', newSize));
               }
             },
-          initialValue: 0,
+          initialValue: initialFontSizeValue,
         ),          
         if (showBoldButton)
           ToggleStyleButton(
