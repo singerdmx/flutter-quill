@@ -144,6 +144,22 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       showLink
     ];
 
+    //default font size values
+    final fontSizeValues = [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      24,
+      28,
+      32,
+      48
+    ];
+
+    int _currentFontSize = 16;
+      
     return QuillToolbar(
       key: key,
       toolbarHeight: toolbarIconSize * 2,
