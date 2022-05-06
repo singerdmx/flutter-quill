@@ -4,8 +4,8 @@ import '../../models/themes/quill_icon_theme.dart';
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.initialValue,
-    required this.initialValueTitle,
     required this.items,
+    required this.rawitemsmap,
     required this.onSelected,
     this.height = 40,
     this.fillColor,
@@ -20,8 +20,8 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final double hoverElevation;
   final double highlightElevation;
   final T initialValue;
-  final String initialValueTitle;
   final List<PopupMenuEntry<T>> items;
+  final Map<String,int> rawitemsmap;
   final ValueChanged<T> onSelected;
   final QuillIconTheme? iconTheme;
 
@@ -36,7 +36,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.initialValueTitle;
+    _currentValue = widget.rawitemsmap.keys.elementAt(widget.initialValue as int);
   }
 
   @override
@@ -89,7 +89,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         return null;
       }
       setState(() {
-        _currentValue = ((widget.items[1].key) as ValueKey<String>).value;
+        _currentValue = widget.rawitemsmap.entries.firstWhere((element) => element.value==newValue, orElse: () => widget.rawitemsmap.entries.first).key;
         widget.onSelected(newValue);
       });
     });
@@ -97,7 +97,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
 
   Widget _buildContent(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
