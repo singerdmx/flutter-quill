@@ -73,6 +73,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     double toolbarSectionSpacing = 4,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     bool showDividers = true,
+    bool showFontSize = true,
     bool showBoldButton = true,
     bool showItalicButton = true,
     bool showSmallButton = false,
@@ -122,6 +123,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
   }) {
     final isButtonGroupShown = [
+      showFontSize ||  
       showBoldButton ||
           showItalicButton ||
           showSmallButton ||
@@ -184,6 +186,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             undo: false,
             iconTheme: iconTheme,
           ),
+        if (showFontSize)
         QuillDropdownButton(
           iconTheme: iconTheme,
           items:[
