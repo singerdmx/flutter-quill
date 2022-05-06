@@ -33,6 +33,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
 
   @override
   void initState() {
+    super.initState();
     _currentValue = widget.initialValue as int;
   }
 
