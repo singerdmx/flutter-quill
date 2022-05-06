@@ -388,6 +388,26 @@ extension Localization on String {
           'Width': 'عرض',
           'Height': 'طول',
         },
+        'hi': {
+          'Paste a link': 'लिंक पेस्ट करें',
+          'Ok': 'ठीक है',
+          'Select Color': 'रंग चुनें',
+          'Gallery': 'गैलरी',
+          'Link': 'लिंक',
+          'Please first select some text to transform into a link.':
+          'लिंक में बदलने के लिए कृपया पहले कुछ शब्द चुनें।',
+          'Open': 'खोलें',
+          'Copy': 'कॉपी करें',
+          'Remove': 'हटाएं',
+          'Save': 'सुरक्षित करें',
+          'Zoom': 'बड़ा करें',
+          'Saved': 'सुरक्षित कर दिया गया है',
+          'Text': 'शब्द',
+          'What is entered is not a link': 'जो लिखा गया है वह लिंक नहीं है',
+          'Resize': 'आकार बदलें',
+          'Width': 'चौड़ाई',
+          'Height': 'ऊंचाई',
+        },
       };
 
   String get i18n => localize(this, _t);

@@ -1,3 +1,6 @@
+# [4.1.6]
+* Update quill_dropdown_button.dart.
+
 # [4.1.5]
 * Add Font Size dropdown to the toolbar.
 
