@@ -110,8 +110,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
 
-    ///List of font sizes in [int]
-    List? fontSizeValues,
+    ///Map of font sizes in [int]
+    Map<String, int>? fontSizeValues,
     int? initialFontSizeValue,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
@@ -152,7 +152,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     //default font size values
     final fontSizes =
-        fontSizeValues ?? [10, 12, 14, 16, 18, 20, 24, 28, 32, 48];
+        fontSizeValues ?? {'10':10, '12':12, '14':14, '16':16, '18':18, '20':20, '24':24, '28':28, '32':32, '48':48};
 
     return QuillToolbar(
       key: key,
@@ -183,10 +183,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             height: (toolbarIconSize * 2)-(toolbarIconSize / 3),
             items: [
-              for (var fontSize in fontSizes)
+              for(MapEntry<String, int> fontSize in fontSizes.entries)
                 PopupMenuItem<int>(
-                  value: fontSize,
-                  child: Text(fontSize.toString()),
+                  value: fontSize.value,
+                  child: Text(fontSize.key.toString()),
                 ),
             ],
             onSelected: (newSize) {
@@ -195,7 +195,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                     .formatSelection(Attribute.fromKeyValue('size', newSize));
               }
             },
-            initialValue: fontSizes[initialFontSizeValue ?? 0],
+            initialValue: fontSizes.values.toList()[initialFontSizeValue ?? 0]
           ),
         if (showBoldButton)
           ToggleStyleButton(
