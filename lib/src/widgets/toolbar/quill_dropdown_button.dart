@@ -5,6 +5,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.initialValue,
     required this.items,
+    required this.rawitemsmap,
     required this.onSelected,
     this.height = 40,
     this.fillColor,
@@ -20,6 +21,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final double highlightElevation;
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
+  final Map<String,int> rawitemsmap;
   final ValueChanged<T> onSelected;
   final QuillIconTheme? iconTheme;
 
@@ -29,12 +31,12 @@ class QuillDropdownButton<T> extends StatefulWidget {
 
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
-  int _currentValue = 0;
+  String _currentValue = '';
 
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.initialValue as int;
+    _currentValue = widget.rawitemsmap.keys.elementAt(widget.initialValue as int);
   }
 
   @override
@@ -87,25 +89,23 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         return null;
       }
       setState(() {
-        _currentValue = newValue as int;
+        _currentValue = widget.rawitemsmap.entries.firstWhere((element) => element.value==newValue, orElse: () => widget.rawitemsmap.entries.first).key;
         widget.onSelected(newValue);
       });
     });
   }
 
   Widget _buildContent(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints.tightFor(width: 60),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(_currentValue.toString()),
-            Expanded(child: Container()),
-            const Icon(Icons.arrow_drop_down, size: 15)
+            SizedBox(width:6),
+            const Icon(Icons.arrow_drop_down, size: 17)
           ],
         ),
-      ),
-    );
+      );
   }
 }
