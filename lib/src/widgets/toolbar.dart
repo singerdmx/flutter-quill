@@ -194,6 +194,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           QuillDropdownButton(
             iconTheme: iconTheme,
             iconSize: toolbarIconSize,
+            attribute: Attribute.size,
+            controller: controller,
             items: [
               for (MapEntry<String, int> fontSize in fontSizes.entries)
                 PopupMenuItem<int>(
