@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../models/documents/style.dart';
+import '../../models/documents/attribute.dart';
+import '../controller.dart';
 
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.initialValue,
     required this.items,
     required this.rawitemsmap,
+    required this.attribute,
+    required this.controller,
     required this.onSelected,
     this.iconSize = 40,
     this.fillColor,
@@ -24,6 +29,8 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final Map<String, int> rawitemsmap;
   final ValueChanged<T> onSelected;
   final QuillIconTheme? iconTheme;
+  final Attribute attribute;
+  final QuillController controller;
 
   @override
   _QuillDropdownButtonState<T> createState() => _QuillDropdownButtonState<T>();
@@ -32,14 +39,53 @@ class QuillDropdownButton<T> extends StatefulWidget {
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   String _currentValue = '';
+  Style get _selectionStyle => widget.controller.getSelectionStyle();
 
   @override
   void initState() {
     super.initState();
+    widget.controller.addListener(_didChangeEditingValue);
     _currentValue =
         widget.rawitemsmap.keys.elementAt(widget.initialValue as int);
   }
 
+  @override
+  void dispose() {
+    widget.controller.removeListener(_didChangeEditingValue);
+    super.dispose();
+  }
+  
+  @override
+  void didUpdateWidget(covariant QuillDropdownButton<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_didChangeEditingValue);
+      widget.controller.addListener(_didChangeEditingValue);
+      //_isToggled = _getIsToggled(_selectionStyle.attributes);
+    }
+  }
+  
+  void _didChangeEditingValue() {
+    setState(() => _currentValue = _getKeyName(_selectionStyle.attributes));
+  }
+  
+  String _getKeyName(Map<String, Attribute> attrs) {
+    if (widget.attribute.key == Attribute.size.key) {
+      final attribute = attrs[widget.attribute.key];
+      
+      if (attribute == null) {
+        return widget.rawitemsmap.keys.elementAt(widget.initialValue as int).toString();
+      }
+      else {
+        return widget.rawitemsmap.entries
+            .firstWhere((element) => element.value == attribute.value,
+            orElse: () => widget.rawitemsmap.entries.first)
+            .key;
+      }
+    }
+    return widget.rawitemsmap.keys.elementAt(widget.initialValue as int).toString();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
