@@ -54,7 +54,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
     widget.controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
-  
+
   @override
   void didUpdateWidget(covariant QuillDropdownButton<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -64,28 +64,31 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       //_isToggled = _getIsToggled(_selectionStyle.attributes);
     }
   }
-  
+
   void _didChangeEditingValue() {
     setState(() => _currentValue = _getKeyName(_selectionStyle.attributes));
   }
-  
+
   String _getKeyName(Map<String, Attribute> attrs) {
     if (widget.attribute.key == Attribute.size.key) {
       final attribute = attrs[widget.attribute.key];
-      
+
       if (attribute == null) {
-        return widget.rawitemsmap.keys.elementAt(widget.initialValue as int).toString();
-      }
-      else {
+        return widget.rawitemsmap.keys
+            .elementAt(widget.initialValue as int)
+            .toString();
+      } else {
         return widget.rawitemsmap.entries
             .firstWhere((element) => element.value == attribute.value,
-            orElse: () => widget.rawitemsmap.entries.first)
+                orElse: () => widget.rawitemsmap.entries.first)
             .key;
       }
     }
-    return widget.rawitemsmap.keys.elementAt(widget.initialValue as int).toString();
+    return widget.rawitemsmap.keys
+        .elementAt(widget.initialValue as int)
+        .toString();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -148,13 +151,20 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10,0,0,0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(_currentValue.toString(), style: TextStyle(fontSize: widget.iconSize / 1.15, color: widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)),
+          Text(_currentValue.toString(),
+              style: TextStyle(
+                  fontSize: widget.iconSize / 1.15,
+                  color: widget.iconTheme?.iconUnselectedColor ??
+                      theme.iconTheme.color)),
           SizedBox(width: 3),
-          Icon(Icons.arrow_drop_down, size: widget.iconSize / 1.15, color: widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)
+          Icon(Icons.arrow_drop_down,
+              size: widget.iconSize / 1.15,
+              color: widget.iconTheme?.iconUnselectedColor ??
+                  theme.iconTheme.color)
         ],
       ),
     );

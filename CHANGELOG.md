@@ -1,3 +1,6 @@
+# [4.1.8]
+* Update font size dropdown.
+
 # [4.1.7]
 * Convert FontSize to a Map to allow for named Font Size.
 

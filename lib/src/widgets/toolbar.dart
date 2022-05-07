@@ -153,7 +153,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     //default font size values
     final fontSizes = fontSizeValues ??
         {
-          'Default':0,
+          'Default': 0,
           '10': 10,
           '12': 12,
           '14': 14,
@@ -209,11 +209,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 controller
                     .formatSelection(Attribute.fromKeyValue('size', newSize));
               }
-              if (newSize as int == 0)
-                {
+              if (newSize as int == 0) {
                 controller
                     .formatSelection(Attribute.fromKeyValue('size', null));
-                }
+              }
             },
             rawitemsmap: fontSizes,
             initialValue: (initialFontSizeValue != null) &&
