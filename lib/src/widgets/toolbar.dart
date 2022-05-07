@@ -193,7 +193,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         if (showFontSize)
           QuillDropdownButton(
             iconTheme: iconTheme,
-            height: (toolbarIconSize * 2) - (toolbarIconSize / 3),
+            iconSize: toolbarIconSize,
             items: [
               for (MapEntry<String, int> fontSize in fontSizes.entries)
                 PopupMenuItem<int>(
