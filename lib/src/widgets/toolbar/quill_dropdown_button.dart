@@ -7,7 +7,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
     required this.items,
     required this.rawitemsmap,
     required this.onSelected,
-    this.height = 40,
+    this.iconSize = 40,
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
@@ -15,7 +15,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  final double height;
+  final double iconSize;
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
@@ -43,7 +43,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(height: widget.height),
+      constraints: BoxConstraints.tightFor(height: (widget.iconSize * 1.81)),
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(
@@ -100,14 +100,15 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   }
 
   Widget _buildContent(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.fromLTRB(10,0,0,0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(_currentValue.toString()),
-          SizedBox(width: 6),
-          const Icon(Icons.arrow_drop_down, size: 17)
+          Text(_currentValue.toString(), style: TextStyle(fontSize: widget.iconSize / 1.15, color: widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)),
+          SizedBox(width: widget.iconSize / 3.83),
+          Icon(Icons.arrow_drop_down, size: widget.iconSize / 1.15, color: widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)
         ],
       ),
     );
