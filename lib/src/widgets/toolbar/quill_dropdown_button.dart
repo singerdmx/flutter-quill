@@ -107,7 +107,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(_currentValue.toString(), style: TextStyle(fontSize: widget.iconSize / 1.15, color: widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)),
-          SizedBox(width: widget.iconSize / 3.83),
+          SizedBox(width: 3),
           Icon(Icons.arrow_drop_down, size: widget.iconSize / 1.15, color: widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)
         ],
       ),
