@@ -1,3 +1,6 @@
+# [4.1.9]
+* Using properly iconTheme colors.
+
 # [4.1.8]
 * Update font size dropdown.
 
