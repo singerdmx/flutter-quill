@@ -64,6 +64,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.multiRowsDisplay = true,
     this.color,
     this.filePickImpl,
+    this.customIcons = const [],
     this.locale,
     Key? key,
   }) : super(key: key);
@@ -110,6 +111,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
+    List<QuillCustomIcon> customIcons = const [],
 
     ///Map of font sizes in [int]
     Map<String, int>? fontSizeValues,
@@ -173,6 +175,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
+      customIcons: customIcons,  
       locale: locale,
       children: [
         if (showUndo)
@@ -486,6 +489,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// More https://github.com/singerdmx/flutter-quill#translation
   final Locale? locale;
 
+  /// List of custom icons
+  final List<QuillCustomIcon> customIcons;
+    
   @override
   Size get preferredSize => Size.fromHeight(toolbarHeight);
 
