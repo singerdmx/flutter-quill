@@ -6,7 +6,7 @@ class QuillCustomIcon {
         this.onTap});
 
   ///The icon widget
-  final Widget? icon;
+  final IconData? icon;
 
   ///The function when the icon is tapped
   final VoidCallback? onTap;
