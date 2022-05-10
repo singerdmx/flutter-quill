@@ -6,6 +6,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import '../models/documents/attribute.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
+import '../models/themes/quill_custom_icon.dart';
 import 'controller.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/camera_button.dart';
