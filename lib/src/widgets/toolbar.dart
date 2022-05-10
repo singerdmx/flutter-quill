@@ -23,6 +23,7 @@ import 'toolbar/toggle_check_list_button.dart';
 import 'toolbar/toggle_style_button.dart';
 import 'toolbar/video_button.dart';
 import 'toolbar/quill_dropdown_button.dart';
+import 'toolbar/quill_icon_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
@@ -467,6 +468,22 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
           ),
+        if (customIcons.isNotEmpty)
+          if (showDividers)
+            VerticalDivider(
+              indent: 12,
+              endIndent: 12,
+              color: Colors.grey.shade400,
+            ),
+          for (var customIcon in customIcons)
+            QuillIconButton(
+                highlightElevation: 0,
+                hoverElevation: 0,
+                size: toolbarIconSize * kIconButtonFactor,
+                icon: Icon(customIcon.icon, size: toolbarIconSize),
+                borderRadius:iconTheme?.borderRadius ?? 2,
+                onPressed: customIcon.onTap
+            ),
       ],
     );
   }
