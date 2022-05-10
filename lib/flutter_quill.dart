@@ -8,6 +8,7 @@ export 'src/models/documents/style.dart';
 export 'src/models/quill_delta.dart';
 export 'src/models/themes/quill_dialog_theme.dart';
 export 'src/models/themes/quill_icon_theme.dart';
+export 'src/models/themes/quill_custom_icon.dart';
 export 'src/widgets/controller.dart';
 export 'src/widgets/default_styles.dart';
 export 'src/widgets/editor.dart';
