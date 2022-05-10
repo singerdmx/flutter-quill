@@ -85,7 +85,7 @@ _controller = QuillController(
 The `QuillToolbar` class lets you customise which formatting options are available.
 [Sample Page] provides sample code for advanced usage and configuration.
 
-#### Font Size
+### Font Size
 Within the editor toolbar, a drop-down with font-sizing capabilties is available.  This can be enabled or disabled with `showFontSize`.  
 
 When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, int>` consisting of a `String` title for the font size and an `int` value for the font size.  Example:
@@ -101,6 +101,46 @@ The initial value for font-size in the editor can also be defined via _optional_
 
 This initial font size is not applied to the delta when first building the widget, it is only used to change the initial value for the drop-down widget.
 
+### Custom Icons
+You may add custom icons to the _end_ of the toolbar, via the `customIcons` option, which is a `List` of `QuillCustomIcon`.
+
+To add an Icon, we should use a new QuillCustomIcon class
+```
+                                QuillCustomIcon(
+                                    icon:Icons.ac_unit,
+                                    onTap: (){
+                                      debugPrint('snowflake');
+                                    }
+                                ),
+```
+
+Each `QuillCustomIcon` is used as part of the `customIcons` option as follows:
+```
+QuillToolbar.basic(
+   (...),
+    customIcons: [
+                                QuillCustomIcon(
+                                    icon:Icons.ac_unit,
+                                    onTap: (){
+                                      debugPrint('snowflake1');
+                                    }
+                                ),
+
+                                QuillCustomIcon(
+                                    icon:Icons.ac_unit,
+                                    onTap: (){
+                                      debugPrint('snowflake2');
+                                    }
+                                ),
+
+                                QuillCustomIcon(
+                                    icon:Icons.ac_unit,
+                                    onTap: (){
+                                      debugPrint('snowflake3');
+                                    }
+                                ),
+    ]
+```                             
 
 ## Web
 
