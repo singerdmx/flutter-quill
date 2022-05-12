@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../models/themes/quill_icon_theme.dart';
-import '../../models/documents/style.dart';
+
 import '../../models/documents/attribute.dart';
+import '../../models/documents/style.dart';
+import '../../models/themes/quill_icon_theme.dart';
 import '../controller.dart';
 
 class QuillDropdownButton<T> extends StatefulWidget {
@@ -92,7 +93,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(height: (widget.iconSize * 1.81)),
+      constraints: BoxConstraints.tightFor(height: widget.iconSize * 1.81),
       child: RawMaterialButton(
         visualDensity: VisualDensity.compact,
         shape: RoundedRectangleBorder(
@@ -160,7 +161,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
                   fontSize: widget.iconSize / 1.15,
                   color: widget.iconTheme?.iconUnselectedColor ??
                       theme.iconTheme.color)),
-          SizedBox(width: 3),
+          const SizedBox(width: 3),
           Icon(Icons.arrow_drop_down,
               size: widget.iconSize / 1.15,
               color: widget.iconTheme?.iconUnselectedColor ??
