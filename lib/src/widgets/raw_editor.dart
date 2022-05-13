@@ -896,6 +896,14 @@ class RawEditorState extends EditorState
     if (kIsWeb) {
       return false;
     }
+
+    // selectionOverlay is aggressively released when selection is collapsed
+    // to remove unnecessary handles. Since a toolbar is requested here,
+    // attempt to create the selectionOverlay if it's not already created.
+    if (_selectionOverlay == null) {
+      _updateOrDisposeSelectionOverlayIfNeeded();
+    }
+
     if (_selectionOverlay == null || _selectionOverlay!.toolbar != null) {
       return false;
     }

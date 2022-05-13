@@ -71,13 +71,18 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
   @override
   void bringIntoView(TextPosition position) {
-    final localRect = renderEditor.getLocalRectForCaret(position);
-    final targetOffset = _getOffsetToRevealCaret(localRect, position);
+    // Ignore errors if position is invalid (i.e. paste on iOS when editor
+    // has no content and user pasted from toolbar)
+    try {
+      final localRect = renderEditor.getLocalRectForCaret(position);
+      final targetOffset = _getOffsetToRevealCaret(localRect, position);
 
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(targetOffset.offset);
+      if (scrollController.hasClients) {
+        scrollController.jumpTo(targetOffset.offset);
+      }
+      renderEditor.showOnScreen(rect: targetOffset.rect);
+    } catch (_) {
     }
-    renderEditor.showOnScreen(rect: targetOffset.rect);
   }
 
   // Finds the closest scroll offset to the current scroll offset that fully
