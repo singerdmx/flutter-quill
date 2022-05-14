@@ -29,6 +29,7 @@ dependencies:
   i18n_extension: ^4.2.1
   gallery_saver: ^2.3.2
   device_info_plus: ^3.2.3
+  platform: ^3.1.0
 
 dev_dependencies:
   flutter_test:
