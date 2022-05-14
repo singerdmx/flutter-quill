@@ -81,8 +81,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
         scrollController.jumpTo(targetOffset.offset);
       }
       renderEditor.showOnScreen(rect: targetOffset.rect);
-    } catch (_) {
-    }
+    } catch (_) {}
   }
 
   // Finds the closest scroll offset to the current scroll offset that fully

@@ -176,7 +176,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
-      customIcons: customIcons,  
+      customIcons: customIcons,
       locale: locale,
       children: [
         if (showUndo)
@@ -475,15 +475,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               endIndent: 12,
               color: Colors.grey.shade400,
             ),
-          for (var customIcon in customIcons)
-            QuillIconButton(
-                highlightElevation: 0,
-                hoverElevation: 0,
-                size: toolbarIconSize * kIconButtonFactor,
-                icon: Icon(customIcon.icon, size: toolbarIconSize),
-                borderRadius:iconTheme?.borderRadius ?? 2,
-                onPressed: customIcon.onTap
-            ),
+        for (var customIcon in customIcons)
+          QuillIconButton(
+              highlightElevation: 0,
+              hoverElevation: 0,
+              size: toolbarIconSize * kIconButtonFactor,
+              icon: Icon(customIcon.icon, size: toolbarIconSize),
+              borderRadius: iconTheme?.borderRadius ?? 2,
+              onPressed: customIcon.onTap),
       ],
     );
   }
@@ -508,7 +507,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   /// List of custom icons
   final List<QuillCustomIcon> customIcons;
-    
+
   @override
   Size get preferredSize => Size.fromHeight(toolbarHeight);
 
