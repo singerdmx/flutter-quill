@@ -1,3 +1,6 @@
+# [4.2.0]
+* Ensure selectionOverlay is available for showToolbar.
+
 # [4.1.9]
 * Using properly iconTheme colors.
 
