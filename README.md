@@ -88,13 +88,13 @@ The `QuillToolbar` class lets you customise which formatting options are availab
 ### Font Size
 Within the editor toolbar, a drop-down with font-sizing capabilties is available.  This can be enabled or disabled with `showFontSize`.  
 
-When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, int>` consisting of a `String` title for the font size and an `int` value for the font size.  Example:
+When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, String>` consisting of a `String` title for the font size and an `int` value for the font size.  Example:
 ```
-fontSizeValues: const {'Small':8, 'Medium':24, 'Large':46}
+fontSizeValues: const {'Small': '8', 'Medium': '24', 'Large': '46'}
 ```
 If a font size of `0` is used, then font sizing is removed from the given block of text.
 ```
-fontSizeValues: const {'Default':0, 'Small':8, 'Medium':24, 'Large':46}
+fontSizeValues: const {'Default': '0', 'Small': '8', 'Medium': '24', 'Large': '46'}
 ```
 
 The initial value for font-size in the editor can also be defined via _optional_ `initialFontSizeValue` which corresponds to the index value within your map.  For example, if you would like the Medium font size to be the default start size in the above example, you would set `initialFontSizeValue: 2`.  
