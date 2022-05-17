@@ -7,6 +7,7 @@ import '../models/documents/attribute.dart';
 import '../models/themes/quill_custom_icon.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
+import '../utils/font.dart';
 import 'controller.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/camera_button.dart';
@@ -114,8 +115,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     WebVideoPickImpl? webVideoPickImpl,
     List<QuillCustomIcon> customIcons = const [],
 
-    ///Map of font sizes in [int]
-    Map<String, int>? fontSizeValues,
+    ///Map of font sizes in string
+    Map<String, String>? fontSizeValues,
     int? initialFontSizeValue,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
@@ -155,20 +156,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     //default font size values
-    final fontSizes = fontSizeValues ??
-        {
-          'Default': 0,
-          '10': 10,
-          '12': 12,
-          '14': 14,
-          '16': 16,
-          '18': 18,
-          '20': 20,
-          '24': 24,
-          '28': 28,
-          '32': 32,
-          '48': 48
-        };
+    final fontSizes =
+        fontSizeValues ?? {'Small': 'small', 'Large': 'large', 'Huge': 'huge'};
 
     return QuillToolbar(
       key: key,
@@ -202,24 +191,20 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             attribute: Attribute.size,
             controller: controller,
             items: [
-              for (MapEntry<String, int> fontSize in fontSizes.entries)
-                PopupMenuItem<int>(
+              for (MapEntry<String, String> fontSize in fontSizes.entries)
+                PopupMenuItem<String>(
                   key: ValueKey(fontSize.key),
                   value: fontSize.value,
                   child: Text(fontSize.key.toString()),
                 ),
             ],
             onSelected: (newSize) {
-              if ((newSize != null) && (newSize as int > 0)) {
-                controller
-                    .formatSelection(Attribute.fromKeyValue('size', newSize));
-              }
-              if (newSize as int == 0) {
-                controller
-                    .formatSelection(Attribute.fromKeyValue('size', null));
+              if (newSize != null) {
+                controller.formatSelection(
+                    Attribute.fromKeyValue('size', getFontSize(newSize)));
               }
             },
-            rawitemsmap: fontSizes,
+            rawItemsMap: fontSizes,
             initialValue: (initialFontSizeValue != null) &&
                     (initialFontSizeValue <= fontSizes.length - 1)
                 ? initialFontSizeValue

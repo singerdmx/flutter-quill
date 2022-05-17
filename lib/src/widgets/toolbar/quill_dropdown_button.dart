@@ -9,7 +9,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
     required this.initialValue,
     required this.items,
-    required this.rawitemsmap,
+    required this.rawItemsMap,
     required this.attribute,
     required this.controller,
     required this.onSelected,
@@ -27,7 +27,7 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final double highlightElevation;
   final T initialValue;
   final List<PopupMenuEntry<T>> items;
-  final Map<String, int> rawitemsmap;
+  final Map<String, String> rawItemsMap;
   final ValueChanged<T> onSelected;
   final QuillIconTheme? iconTheme;
   final Attribute attribute;
@@ -47,7 +47,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
     super.initState();
     widget.controller.addListener(_didChangeEditingValue);
     _currentValue =
-        widget.rawitemsmap.keys.elementAt(widget.initialValue as int);
+        widget.rawItemsMap.keys.elementAt(widget.initialValue as int);
   }
 
   @override
@@ -75,17 +75,17 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       final attribute = attrs[widget.attribute.key];
 
       if (attribute == null) {
-        return widget.rawitemsmap.keys
+        return widget.rawItemsMap.keys
             .elementAt(widget.initialValue as int)
             .toString();
       } else {
-        return widget.rawitemsmap.entries
+        return widget.rawItemsMap.entries
             .firstWhere((element) => element.value == attribute.value,
-                orElse: () => widget.rawitemsmap.entries.first)
+                orElse: () => widget.rawItemsMap.entries.first)
             .key;
       }
     }
-    return widget.rawitemsmap.keys
+    return widget.rawItemsMap.keys
         .elementAt(widget.initialValue as int)
         .toString();
   }
@@ -126,7 +126,8 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
       context: context,
       elevation: 4,
       // widget.elevation ?? popupMenuTheme.elevation,
-      initialValue: widget.initialValue,
+      initialValue:
+          widget.rawItemsMap.values.elementAt(widget.initialValue as int) as T,
       items: widget.items,
       position: position,
       shape: popupMenuTheme.shape,
@@ -140,9 +141,9 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
         return null;
       }
       setState(() {
-        _currentValue = widget.rawitemsmap.entries
+        _currentValue = widget.rawItemsMap.entries
             .firstWhere((element) => element.value == newValue,
-                orElse: () => widget.rawitemsmap.entries.first)
+                orElse: () => widget.rawItemsMap.entries.first)
             .key;
         widget.onSelected(newValue);
       });

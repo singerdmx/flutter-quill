@@ -88,7 +88,7 @@ The `QuillToolbar` class lets you customise which formatting options are availab
 ### Font Size
 Within the editor toolbar, a drop-down with font-sizing capabilties is available.  This can be enabled or disabled with `showFontSize`.  
 
-When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, String>` consisting of a `String` title for the font size and an `int` value for the font size.  Example:
+When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, String>` consisting of a `String` title for the font size and an `String` value for the font size.  Example:
 ```
 fontSizeValues: const {'Small': '8', 'Medium': '24', 'Large': '46'}
 ```
