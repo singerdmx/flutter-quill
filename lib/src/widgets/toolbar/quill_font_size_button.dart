@@ -145,7 +145,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(_currentValue.toString(),
+          Text(_currentValue,
               style: TextStyle(
                   fontSize: widget.iconSize / 1.15,
                   color: widget.iconTheme?.iconUnselectedColor ??
