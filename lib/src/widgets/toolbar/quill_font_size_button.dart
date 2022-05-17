@@ -68,13 +68,11 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
     }
     final attribute = _selectionStyle.attributes[widget.attribute.key];
     if (attribute == null) {
+      setState(() => _currentValue = defaultDisplayText);
       return;
     }
     final keyName = _getKeyName(attribute.value);
-    if (keyName == null) {
-      return;
-    }
-    setState(() => _currentValue = keyName);
+    setState(() => _currentValue = keyName ?? defaultDisplayText);
   }
 
   String? _getKeyName(dynamic value) {
@@ -131,12 +129,11 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
         return;
       }
       final keyName = _getKeyName(newValue);
-      if (keyName == null) {
-        return;
-      }
       setState(() {
-        _currentValue = keyName;
-        widget.onSelected(newValue);
+        _currentValue = keyName ?? defaultDisplayText;
+        if (keyName != null) {
+          widget.onSelected(newValue);
+        }
       });
     });
   }
