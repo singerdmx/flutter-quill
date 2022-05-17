@@ -6,7 +6,7 @@ import '../../models/themes/quill_icon_theme.dart';
 import '../../utils/font.dart';
 import '../controller.dart';
 
-class QuillFontSizeButton<T> extends StatefulWidget {
+class QuillFontSizeButton extends StatefulWidget {
   const QuillFontSizeButton({
     required this.items,
     required this.rawItemsMap,
@@ -25,18 +25,18 @@ class QuillFontSizeButton<T> extends StatefulWidget {
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final List<PopupMenuEntry<T>> items;
+  final List<PopupMenuEntry<String>> items;
   final Map<String, String> rawItemsMap;
-  final ValueChanged<T> onSelected;
+  final ValueChanged<String> onSelected;
   final QuillIconTheme? iconTheme;
   final Attribute attribute;
   final QuillController controller;
 
   @override
-  _QuillFontSizeButtonState<T> createState() => _QuillFontSizeButtonState<T>();
+  _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
 }
 
-class _QuillFontSizeButtonState<T> extends State<QuillFontSizeButton<T>> {
+class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
   static const defaultDisplayText = 'Size';
   String _currentValue = defaultDisplayText;
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -54,7 +54,7 @@ class _QuillFontSizeButtonState<T> extends State<QuillFontSizeButton<T>> {
   }
 
   @override
-  void didUpdateWidget(covariant QuillFontSizeButton<T> oldWidget) {
+  void didUpdateWidget(covariant QuillFontSizeButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
@@ -63,24 +63,27 @@ class _QuillFontSizeButtonState<T> extends State<QuillFontSizeButton<T>> {
   }
 
   void _didChangeEditingValue() {
-    setState(() => _currentValue = _getKeyName(_selectionStyle.attributes));
+    if (widget.attribute.key != Attribute.size.key) {
+      return;
+    }
+    final attribute = _selectionStyle.attributes[widget.attribute.key];
+    if (attribute == null) {
+      return;
+    }
+    final keyName = _getKeyName(attribute.value);
+    if (keyName == null) {
+      return;
+    }
+    setState(() => _currentValue = keyName);
   }
 
-  String _getKeyName(Map<String, Attribute> attrs) {
-    if (widget.attribute.key != Attribute.size.key) {
-      return defaultDisplayText;
+  String? _getKeyName(dynamic value) {
+    for (final entry in widget.rawItemsMap.entries) {
+      if (getFontSize(entry.value) == getFontSize(value)) {
+        return entry.key;
+      }
     }
-    final attribute = attrs[widget.attribute.key];
-
-    if (attribute == null) {
-      return defaultDisplayText;
-    }
-    return widget.rawItemsMap.entries
-        .firstWhere(
-            (element) =>
-                getFontSize(element.value) == getFontSize(attribute.value),
-            orElse: () => widget.rawItemsMap.entries.first)
-        .key;
+    return null;
   }
 
   @override
@@ -115,7 +118,7 @@ class _QuillFontSizeButtonState<T> extends State<QuillFontSizeButton<T>> {
       ),
       Offset.zero & overlay.size,
     );
-    showMenu<T>(
+    showMenu<String>(
       context: context,
       elevation: 4,
       items: widget.items,
@@ -123,15 +126,16 @@ class _QuillFontSizeButtonState<T> extends State<QuillFontSizeButton<T>> {
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
     ).then((newValue) {
-      if (!mounted) return null;
+      if (!mounted) return;
       if (newValue == null) {
-        return null;
+        return;
+      }
+      final keyName = _getKeyName(newValue);
+      if (keyName == null) {
+        return;
       }
       setState(() {
-        _currentValue = widget.rawItemsMap.entries
-            .firstWhere((element) => element.value == newValue,
-                orElse: () => widget.rawItemsMap.entries.first)
-            .key;
+        _currentValue = keyName;
         widget.onSelected(newValue);
       });
     });

@@ -100,7 +100,7 @@ To add an Icon, we should use a new QuillCustomIcon class
 ```
     QuillCustomIcon(
         icon:Icons.ac_unit,
-        onTap: (){
+        onTap: () {
           debugPrint('snowflake');
         }
     ),
@@ -113,21 +113,21 @@ QuillToolbar.basic(
     customIcons: [
         QuillCustomIcon(
             icon:Icons.ac_unit,
-            onTap: (){
+            onTap: () {
               debugPrint('snowflake1');
             }
         ),
 
         QuillCustomIcon(
             icon:Icons.ac_unit,
-            onTap: (){
+            onTap: () {
               debugPrint('snowflake2');
             }
         ),
 
         QuillCustomIcon(
             icon:Icons.ac_unit,
-            onTap: (){
+            onTap: () {
               debugPrint('snowflake3');
             }
         ),
