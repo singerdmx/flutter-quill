@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../utils/font.dart';
 import '../controller.dart';
 
 class QuillDropdownButton<T> extends StatefulWidget {
   const QuillDropdownButton({
-    required this.initialValue,
     required this.items,
     required this.rawItemsMap,
     required this.attribute,
@@ -25,7 +25,6 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final T initialValue;
   final List<PopupMenuEntry<T>> items;
   final Map<String, String> rawItemsMap;
   final ValueChanged<T> onSelected;
@@ -39,15 +38,14 @@ class QuillDropdownButton<T> extends StatefulWidget {
 
 // ignore: deprecated_member_use_from_same_package
 class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
-  String _currentValue = '';
+  static const defaultDisplayText = 'Size';
+  String _currentValue = defaultDisplayText;
   Style get _selectionStyle => widget.controller.getSelectionStyle();
 
   @override
   void initState() {
     super.initState();
     widget.controller.addListener(_didChangeEditingValue);
-    _currentValue =
-        widget.rawItemsMap.keys.elementAt(widget.initialValue as int);
   }
 
   @override
@@ -62,7 +60,6 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
       widget.controller.addListener(_didChangeEditingValue);
-      //_isToggled = _getIsToggled(_selectionStyle.attributes);
     }
   }
 
@@ -71,23 +68,20 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   }
 
   String _getKeyName(Map<String, Attribute> attrs) {
-    if (widget.attribute.key == Attribute.size.key) {
-      final attribute = attrs[widget.attribute.key];
-
-      if (attribute == null) {
-        return widget.rawItemsMap.keys
-            .elementAt(widget.initialValue as int)
-            .toString();
-      } else {
-        return widget.rawItemsMap.entries
-            .firstWhere((element) => element.value == attribute.value,
-                orElse: () => widget.rawItemsMap.entries.first)
-            .key;
-      }
+    if (widget.attribute.key != Attribute.size.key) {
+      return defaultDisplayText;
     }
-    return widget.rawItemsMap.keys
-        .elementAt(widget.initialValue as int)
-        .toString();
+    final attribute = attrs[widget.attribute.key];
+
+    if (attribute == null) {
+      return defaultDisplayText;
+    }
+    return widget.rawItemsMap.entries
+        .firstWhere(
+            (element) =>
+                getFontSize(element.value) == getFontSize(attribute.value),
+            orElse: () => widget.rawItemsMap.entries.first)
+        .key;
   }
 
   @override
@@ -125,19 +119,13 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
     showMenu<T>(
       context: context,
       elevation: 4,
-      // widget.elevation ?? popupMenuTheme.elevation,
-      initialValue:
-          widget.rawItemsMap.values.elementAt(widget.initialValue as int) as T,
       items: widget.items,
       position: position,
       shape: popupMenuTheme.shape,
-      // widget.shape ?? popupMenuTheme.shape,
-      color: popupMenuTheme.color, // widget.color ?? popupMenuTheme.color,
-      // captureInheritedThemes: widget.captureInheritedThemes,
+      color: popupMenuTheme.color,
     ).then((newValue) {
       if (!mounted) return null;
       if (newValue == null) {
-        // if (widget.onCanceled != null) widget.onCanceled();
         return null;
       }
       setState(() {

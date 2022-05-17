@@ -117,7 +117,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     ///Map of font sizes in string
     Map<String, String>? fontSizeValues,
-    int? initialFontSizeValue,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
@@ -205,10 +204,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               }
             },
             rawItemsMap: fontSizes,
-            initialValue: (initialFontSizeValue != null) &&
-                    (initialFontSizeValue <= fontSizes.length - 1)
-                ? initialFontSizeValue
-                : 0,
           ),
         if (showBoldButton)
           ToggleStyleButton(
