@@ -18,7 +18,7 @@ import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
-import 'toolbar/quill_dropdown_button.dart';
+import 'toolbar/quill_font_size_button.dart';
 import 'toolbar/quill_icon_button.dart';
 import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
@@ -33,7 +33,7 @@ export 'toolbar/image_button.dart';
 export 'toolbar/image_video_utils.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
-export 'toolbar/quill_dropdown_button.dart';
+export 'toolbar/quill_font_size_button.dart';
 export 'toolbar/quill_icon_button.dart';
 export 'toolbar/select_alignment_button.dart';
 export 'toolbar/select_header_style_button.dart';
@@ -184,7 +184,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
           ),
         if (showFontSize)
-          QuillDropdownButton(
+          QuillFontSizeButton(
             iconTheme: iconTheme,
             iconSize: toolbarIconSize,
             attribute: Attribute.size,

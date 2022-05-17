@@ -6,8 +6,8 @@ import '../../models/themes/quill_icon_theme.dart';
 import '../../utils/font.dart';
 import '../controller.dart';
 
-class QuillDropdownButton<T> extends StatefulWidget {
-  const QuillDropdownButton({
+class QuillFontSizeButton<T> extends StatefulWidget {
+  const QuillFontSizeButton({
     required this.items,
     required this.rawItemsMap,
     required this.attribute,
@@ -33,11 +33,10 @@ class QuillDropdownButton<T> extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillDropdownButtonState<T> createState() => _QuillDropdownButtonState<T>();
+  _QuillFontSizeButtonState<T> createState() => _QuillFontSizeButtonState<T>();
 }
 
-// ignore: deprecated_member_use_from_same_package
-class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
+class _QuillFontSizeButtonState<T> extends State<QuillFontSizeButton<T>> {
   static const defaultDisplayText = 'Size';
   String _currentValue = defaultDisplayText;
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -55,7 +54,7 @@ class _QuillDropdownButtonState<T> extends State<QuillDropdownButton<T>> {
   }
 
   @override
-  void didUpdateWidget(covariant QuillDropdownButton<T> oldWidget) {
+  void didUpdateWidget(covariant QuillFontSizeButton<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
