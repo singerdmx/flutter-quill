@@ -1,3 +1,6 @@
+# [4.2.1]
+* Refactor font size dropdown.
+
 # [4.2.0]
 * Ensure selectionOverlay is available for showToolbar.
 

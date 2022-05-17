@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../translations/toolbar.i18n.dart';
 import '../../utils/font.dart';
 import '../controller.dart';
 
@@ -37,13 +38,14 @@ class QuillFontSizeButton extends StatefulWidget {
 }
 
 class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
-  static const defaultDisplayText = 'Size';
-  String _currentValue = defaultDisplayText;
+  late String _defaultDisplayText;
+  late String _currentValue;
   Style get _selectionStyle => widget.controller.getSelectionStyle();
 
   @override
   void initState() {
     super.initState();
+    _currentValue = _defaultDisplayText = 'Size'.i18n;
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -68,11 +70,11 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
     }
     final attribute = _selectionStyle.attributes[widget.attribute.key];
     if (attribute == null) {
-      setState(() => _currentValue = defaultDisplayText);
+      setState(() => _currentValue = _defaultDisplayText);
       return;
     }
     final keyName = _getKeyName(attribute.value);
-    setState(() => _currentValue = keyName ?? defaultDisplayText);
+    setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
   String? _getKeyName(dynamic value) {
@@ -130,7 +132,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       }
       final keyName = _getKeyName(newValue);
       setState(() {
-        _currentValue = keyName ?? defaultDisplayText;
+        _currentValue = keyName ?? _defaultDisplayText;
         if (keyName != null) {
           widget.onSelected(newValue);
         }

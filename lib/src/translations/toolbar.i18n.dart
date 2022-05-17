@@ -22,6 +22,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -42,6 +43,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -62,6 +64,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -82,6 +85,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -103,6 +107,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -123,6 +128,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -143,6 +149,7 @@ extension Localization on String {
           'Resize': '调整大小',
           'Width': '宽度',
           'Height': '高度',
+          'Size': '文字大小',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -183,6 +190,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -204,6 +212,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -224,6 +233,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -244,6 +254,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -265,6 +276,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -286,6 +298,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -307,6 +320,7 @@ extension Localization on String {
           'Resize': 'Resize',
           'Width': 'Width',
           'Height': 'Height',
+          'Size': 'Size',
         },
         'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
@@ -327,6 +341,7 @@ extension Localization on String {
           'Resize': 'سائز تبدیل کریں۔',
           'Width': 'چوڑائی',
           'Height': 'اونچائی',
+          'Size': 'Size',
         },
         'id': {
           'Paste a link': 'Tempel tautan',
@@ -347,6 +362,7 @@ extension Localization on String {
           'Resize': 'Ubah Ukuran',
           'Width': 'Lebar',
           'Height': 'Tinggi',
+          'Size': 'Size',
         },
         'no': {
           'Paste a link': 'Lim inn lenke',
@@ -367,6 +383,7 @@ extension Localization on String {
           'Resize': 'Endre størrelse',
           'Width': 'Bredde',
           'Height': 'Høyde',
+          'Size': 'Size',
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
@@ -387,6 +404,7 @@ extension Localization on String {
           'Resize': 'تغییر اندازه',
           'Width': 'عرض',
           'Height': 'طول',
+          'Size': 'Size',
         },
         'hi': {
           'Paste a link': 'लिंक पेस्ट करें',
@@ -407,6 +425,7 @@ extension Localization on String {
           'Resize': 'आकार बदलें',
           'Width': 'चौड़ाई',
           'Height': 'ऊंचाई',
+          'Size': 'Size',
         },
       };
 
