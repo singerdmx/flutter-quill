@@ -155,8 +155,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     //default font size values
-    final fontSizes =
-        fontSizeValues ?? {'Small': 'small', 'Large': 'large', 'Huge': 'huge'};
+    final fontSizes = fontSizeValues ??
+        {'Small': 'small', 'Large': 'large', 'Huge': 'huge', 'Clear': '0'};
 
     return QuillToolbar(
       key: key,
@@ -194,7 +194,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 PopupMenuItem<String>(
                   key: ValueKey(fontSize.key),
                   value: fontSize.value,
-                  child: Text(fontSize.key.toString()),
+                  child: Text(fontSize.key.toString(),
+                      style: TextStyle(
+                          color: fontSize.value == '0'
+                              ? Colors.red
+                              : Colors.black)),
                 ),
             ],
             onSelected: (newSize) {
