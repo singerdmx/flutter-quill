@@ -95,7 +95,7 @@ fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46'}
 
 Font size can be cleared with a value of `0`, for example: 
 ```
-fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear':'0'}
+fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'}
 ```
 
 ### Custom Icons
