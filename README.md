@@ -93,6 +93,11 @@ When enabled, the default font-size values can be modified via _optional_ `fontS
 fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46'}
 ```
 
+Font size can be cleared with a value of `0`, for example: 
+```
+fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'}
+```
+
 ### Custom Icons
 You may add custom icons to the _end_ of the toolbar, via the `customIcons` option, which is a `List` of `QuillCustomIcon`.
 
