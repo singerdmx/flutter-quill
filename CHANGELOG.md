@@ -1,3 +1,6 @@
+# [4.2.2]
+* Add clear option to font size dropdown.
+
 # [4.2.1]
 * Refactor font size dropdown.
 
