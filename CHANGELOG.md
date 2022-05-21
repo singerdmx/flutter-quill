@@ -1,3 +1,6 @@
+# [4.2.3]
+* Ignore color:inherit and convert double to int for level.
+
 # [4.2.2]
 * Add clear option to font size dropdown.
 

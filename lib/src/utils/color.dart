@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color stringToColor(String? s) {
+Color stringToColor(String? s, [Color? originalColor]) {
   switch (s) {
     case 'transparent':
       return Colors.transparent;
@@ -114,7 +114,7 @@ Color stringToColor(String? s) {
 
   // TODO: take care of "color": "inherit"
   if (s.startsWith('inherit')) {
-    return Colors.black;
+    return originalColor ?? Colors.black;
   }
 
   if (!s.startsWith('#')) {
