@@ -112,6 +112,11 @@ Color stringToColor(String? s) {
         int.parse(arr[2]), double.parse(arr[3]));
   }
 
+  // TODO: take care of "color": "inherit"
+  if (s.startsWith('inherit')) {
+    return Colors.black;
+  }
+
   if (!s.startsWith('#')) {
     throw 'Color code not supported';
   }

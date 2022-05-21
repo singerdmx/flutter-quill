@@ -504,7 +504,12 @@ class RawEditorState extends EditorState
       Line line, DefaultStyles? defaultStyles) {
     final attrs = line.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
-      final int? level = attrs[Attribute.header.key]!.value;
+      int level;
+      if (attrs[Attribute.header.key]!.value is double) {
+        level = attrs[Attribute.header.key]!.value.toInt();
+      } else {
+        level = attrs[Attribute.header.key]!.value;
+      }
       switch (level) {
         case 1:
           return defaultStyles!.h1!.verticalSpacing;
