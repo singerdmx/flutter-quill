@@ -12,21 +12,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.15.0
+  collection: ^1.16.0
   flutter_colorpicker: ^1.0.3
   flutter_keyboard_visibility: ^5.2.0
-  image_picker: ^0.8.5
+  image_picker: ^0.8.5+3
   photo_view: ^0.13.0
   quiver: ^3.1.0
   string_validator: ^0.3.0
   tuple: ^2.0.0
-  url_launcher: ^6.1.0
+  url_launcher: ^6.1.2
   pedantic: ^1.11.1
-  video_player: ^2.4.0
+  video_player: ^2.4.2
   characters: ^1.2.0
-  youtube_player_flutter: ^8.0.0
+  youtube_player_flutter: ^8.1.0
   diff_match_patch: ^0.4.1
-  i18n_extension: ^4.2.1
+  i18n_extension: ^5.0.0
   gallery_saver: ^2.3.2
   device_info_plus: ^3.2.3
   platform: ^3.1.0
