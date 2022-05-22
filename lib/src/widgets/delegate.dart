@@ -259,7 +259,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       // if double tap happens on an editor that doesn't
       // have focus, selection hasn't been set when the toolbars
       // get added
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         if (shouldShowSelectionToolbar) {
           editor!.showToolbar();
         }

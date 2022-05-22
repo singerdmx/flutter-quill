@@ -108,7 +108,7 @@ class _ImageResizerState extends State<ImageResizer> {
     }
 
     _scheduled = true;
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       widget.onImageResize(_width, _height);
       _scheduled = false;
     });

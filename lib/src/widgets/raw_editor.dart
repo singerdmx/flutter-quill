@@ -423,7 +423,7 @@ class RawEditorState extends EditorState
       };
 
       // Go back from offset 0 to current selection
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         widget.controller.updateSelection(
             TextSelection.collapsed(offset: offset), ChangeSource.LOCAL);
       });
@@ -748,7 +748,7 @@ class RawEditorState extends EditorState
     // a new RenderEditableBox child. If we try to update selection overlay
     // immediately it'll not be able to find the new child since it hasn't been
     // built yet.
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
@@ -794,10 +794,10 @@ class RawEditorState extends EditorState
         _hasFocus, widget.controller.selection);
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
-      WidgetsBinding.instance!.addObserver(this);
+      WidgetsBinding.instance.addObserver(this);
       _showCaretOnScreen();
     } else {
-      WidgetsBinding.instance!.removeObserver(this);
+      WidgetsBinding.instance.removeObserver(this);
     }
     updateKeepAlive();
   }
@@ -830,7 +830,7 @@ class RawEditorState extends EditorState
     }
 
     _showCaretOnScreenScheduled = true;
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.scrollable || _scrollController.hasClients) {
         _showCaretOnScreenScheduled = false;
 
@@ -1174,13 +1174,13 @@ class RawEditorState extends EditorState
 
   @override
   void insertTextPlaceholder(Size size) {
-    // this is needed for Scribble ( Stylus input) in Apple platforms
+    // this is needed for Scribble (Stylus input) in Apple platforms
     // and this package does not implement this feature
   }
 
   @override
   void removeTextPlaceholder() {
-    // this is needed for Scribble ( Stylus input) in Apple platforms
+    // this is needed for Scribble (Stylus input) in Apple platforms
     // and this package does not implement this feature
   }
 }

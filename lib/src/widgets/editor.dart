@@ -628,6 +628,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
                 ..selectWordEdge(SelectionChangedCause.tap)
                 ..onSelectionCompleted();
               break;
+            case PointerDeviceKind.trackpad:
+              // TODO: Handle this case.
+              break;
           }
         } else {
           renderEditor!

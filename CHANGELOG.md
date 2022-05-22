@@ -1,3 +1,6 @@
+# [5.0.1]
+* Fix static analysis errors.
+
 # [5.0.0]
 * Flutter 3.0.0 support.
 

@@ -31,7 +31,7 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
     // Listening to the WidgetsBinding instance is necessary so that we can
     // hide the arrows when the window gets a new size and thus the toolbar
     // becomes scrollable/unscrollable.
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     // Workaround to allow the scroll controller attach to our ListView so that
     // we can detect if overflow arrows need to be shown on init.
@@ -55,7 +55,7 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
   @override
   void dispose() {
     _controller.dispose();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
