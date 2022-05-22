@@ -1,3 +1,6 @@
+# [5.0.0]
+* Flutter 3.0.0 support.
+
 # [4.2.3]
 * Ignore color:inherit and convert double to int for level.
 

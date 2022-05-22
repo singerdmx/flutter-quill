@@ -1174,12 +1174,14 @@ class RawEditorState extends EditorState
 
   @override
   void insertTextPlaceholder(Size size) {
-    // TODO: implement insertTextPlaceholder
+    // this is needed for Scribble ( Stylus input) in Apple platforms
+    // and this package does not implement this feature
   }
 
   @override
   void removeTextPlaceholder() {
-    // TODO: implement removeTextPlaceholder
+    // this is needed for Scribble ( Stylus input) in Apple platforms
+    // and this package does not implement this feature
   }
 }
 
