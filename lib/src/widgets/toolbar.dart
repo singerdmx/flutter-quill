@@ -198,7 +198,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                       style: TextStyle(
                           color: fontSize.value == '0'
                               ? Colors.red
-                              : Colors.black)),
+                              : null)),
                 ),
             ],
             onSelected: (newSize) {
