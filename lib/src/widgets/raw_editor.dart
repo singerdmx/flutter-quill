@@ -411,6 +411,8 @@ class RawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     if (!widget.readOnly) {
       _disableScrollControllerAnimateOnce = true;
+      widget.controller.ignoreFocusOnTextChange = true;
+      final currentSelection = widget.controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
       widget.controller.formatText(offset, 0, attribute);
@@ -424,8 +426,8 @@ class RawEditorState extends EditorState
 
       // Go back from offset 0 to current selection
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        widget.controller.updateSelection(
-            TextSelection.collapsed(offset: offset), ChangeSource.LOCAL);
+        widget.controller.ignoreFocusOnTextChange = false;
+        widget.controller.updateSelection(currentSelection, ChangeSource.LOCAL);
       });
     }
   }
