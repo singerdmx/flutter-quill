@@ -1,3 +1,6 @@
+# [5.0.2]
+* Keep cursor position on checkbox tap.
+
 # [5.0.1]
 * Fix static analysis errors.
 
