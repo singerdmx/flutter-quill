@@ -16,7 +16,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   flutter_keyboard_visibility: ^5.2.0
   image_picker: ^0.8.5+3
-  photo_view: ^0.13.0
+  photo_view: ^0.14.0
   quiver: ^3.1.0
   string_validator: ^0.3.0
   tuple: ^2.0.0
