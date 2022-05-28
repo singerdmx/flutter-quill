@@ -1,3 +1,6 @@
+# [5.0.3]
+* Update dependencies.
+
 # [5.0.2]
 * Keep cursor position on checkbox tap.
 
