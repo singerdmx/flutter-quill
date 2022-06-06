@@ -170,7 +170,7 @@ The package offers translations for the quill toolbar and editor, it will follow
 QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
-Currently, translations are available for these 19 locales:
+Currently, translations are available for these 20 locales:
 * `Locale('en')`
 * `Locale('ar')`
 * `Locale('de')`
@@ -187,6 +187,7 @@ Currently, translations are available for these 19 locales:
 * `Locale('pl')`
 * `Locale('vi')`
 * `Locale('id')`
+* `Locale('nl')`
 * `Locale('no')`
 * `Locale('fa')`
 * `Locale('hi')`
