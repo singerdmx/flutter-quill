@@ -427,6 +427,27 @@ extension Localization on String {
           'Height': 'ऊंचाई',
           'Size': 'Size',
         },
+        'nl': {
+          'Paste a link': 'Plak een link',
+          'Ok': 'Ok',
+          'Select Color': 'Selecteer kleur',
+          'Gallery': 'Gallerij',
+          'Link': 'Link',
+          'Please first select some text to transform into a link.':
+              'Selecteer eerst tekst om een link van te maken.',
+          'Open': 'Open',
+          'Copy': 'Kopieer',
+          'Remove': 'Verwijderd',
+          'Save': 'Opslaan',
+          'Zoom': 'Zoom',
+          'Saved': 'Opgeslagen',
+          'Text': 'Tekst',
+          'What is entered is not a link': 'Wat is ingevuld is geen link',
+          'Resize': 'Formaat wijzigen',
+          'Width': 'Breedte',
+          'Height': 'Hoogte',
+          'Size': 'Grootte',
+        },
       };
 
   String get i18n => localize(this, _t);
