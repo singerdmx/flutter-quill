@@ -190,6 +190,10 @@ class Delta {
   factory Delta.from(Delta other) =>
       Delta._(List<Operation>.from(other._operations));
 
+  /// Creates new [Delta] from a List of Operation
+  factory Delta.fromOperations(List<Operation> operations) =>
+      Delta._(operations.toList());
+
   // Placeholder char for embed in diff()
   static final String _kNullCharacter = String.fromCharCode(0);
 
