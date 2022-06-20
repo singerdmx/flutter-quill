@@ -448,6 +448,27 @@ extension Localization on String {
           'Height': 'Hoogte',
           'Size': 'Grootte',
         },
+        'zh_HK': {
+          'Paste a link': '貼上連結',
+          'Ok': '確定',
+          'Select Color': '選擇顏色',
+          'Gallery': '圖片庫',
+          'Link': '連結',
+          'Please first select some text to transform into a link.':
+              '請選擇文字以轉換為連結。',
+          'Open': '開啓',
+          'Copy': '複製',
+          'Remove': '移除',
+          'Save': '儲存',
+          'Zoom': '放大',
+          'Saved': '已儲存',
+          'Text': '文字',
+          'What is entered is not a link': '輸入的不是連結',
+          'Resize': '變更大小',
+          'Width': '寛',
+          'Height': '高',
+          'Size': '大小',
+        },
       };
 
   String get i18n => localize(this, _t);
