@@ -191,6 +191,7 @@ class DefaultStyles {
     final baseStyle = defaultTextStyle.style.copyWith(
       fontSize: 16,
       height: 1.3,
+      decoration: TextDecoration.none,
     );
     const baseSpacing = Tuple2<double, double>(6, 0);
     String fontFamily;
@@ -213,6 +214,7 @@ class DefaultStyles {
               color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.15,
               fontWeight: FontWeight.w300,
+              decoration: TextDecoration.none,
             ),
             const Tuple2(16, 0),
             const Tuple2(0, 0),
@@ -223,6 +225,7 @@ class DefaultStyles {
               color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.15,
               fontWeight: FontWeight.normal,
+              decoration: TextDecoration.none,
             ),
             const Tuple2(8, 0),
             const Tuple2(0, 0),
@@ -233,6 +236,7 @@ class DefaultStyles {
               color: defaultTextStyle.style.color!.withOpacity(0.70),
               height: 1.25,
               fontWeight: FontWeight.w500,
+              decoration: TextDecoration.none,
             ),
             const Tuple2(8, 0),
             const Tuple2(0, 0),
