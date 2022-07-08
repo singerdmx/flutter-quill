@@ -101,7 +101,9 @@ abstract class Node extends LinkedListEntry<Node> {
     super.unlink();
   }
 
-  void adjust() {/* no-op */}
+  void adjust() {
+    /* no-op */
+  }
 
   /// abstract methods begin
 

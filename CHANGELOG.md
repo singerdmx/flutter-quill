@@ -1,3 +1,6 @@
+# [5.0.4]
+* Added onVideoInit callback for video documents.
+
 # [5.0.3]
 * Update dependencies.
 
