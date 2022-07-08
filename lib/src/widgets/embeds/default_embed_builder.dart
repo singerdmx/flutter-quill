@@ -16,8 +16,13 @@ import 'image_resizer.dart';
 import 'video_app.dart';
 import 'youtube_video_app.dart';
 
-Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
-    leaf.Embed node, bool readOnly) {
+Widget defaultEmbedBuilder(
+  BuildContext context,
+  QuillController controller,
+  leaf.Embed node,
+  bool readOnly,
+  void Function(GlobalKey videoContainerKey)? onVideoInit,
+) {
   assert(!kIsWeb, 'Please provide EmbedBuilder for Web');
 
   Tuple2<double?, double?>? _widthHeight;
@@ -140,7 +145,12 @@ Widget defaultEmbedBuilder(BuildContext context, QuillController controller,
         return YoutubeVideoApp(
             videoUrl: videoUrl, context: context, readOnly: readOnly);
       }
-      return VideoApp(videoUrl: videoUrl, context: context, readOnly: readOnly);
+      return VideoApp(
+        videoUrl: videoUrl,
+        context: context,
+        readOnly: readOnly,
+        onVideoInit: onVideoInit,
+      );
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '

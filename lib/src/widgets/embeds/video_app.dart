@@ -10,12 +10,17 @@ import '../../../flutter_quill.dart';
 /// Widget for playing back video
 /// Refer to https://github.com/flutter/plugins/tree/master/packages/video_player/video_player
 class VideoApp extends StatefulWidget {
-  const VideoApp(
-      {required this.videoUrl, required this.context, required this.readOnly});
+  const VideoApp({
+    required this.videoUrl,
+    required this.context,
+    required this.readOnly,
+    this.onVideoInit,
+  });
 
   final String videoUrl;
   final BuildContext context;
   final bool readOnly;
+  final void Function(GlobalKey videoContainerKey)? onVideoInit;
 
   @override
   _VideoAppState createState() => _VideoAppState();
@@ -23,6 +28,7 @@ class VideoApp extends StatefulWidget {
 
 class _VideoAppState extends State<VideoApp> {
   late VideoPlayerController _controller;
+  GlobalKey videoContainerKey = GlobalKey();
 
   @override
   void initState() {
@@ -35,6 +41,9 @@ class _VideoAppState extends State<VideoApp> {
         // Ensure the first frame is shown after the video is initialized,
         // even before the play button has been pressed.
         setState(() {});
+        if (widget.onVideoInit != null) {
+          widget.onVideoInit?.call(videoContainerKey);
+        }
       }).catchError((error) {
         setState(() {});
       });
@@ -65,7 +74,8 @@ class _VideoAppState extends State<VideoApp> {
     }
 
     return Container(
-      height: 300,
+      key: videoContainerKey,
+      // height: 300,
       child: InkWell(
         onTap: () {
           setState(() {
