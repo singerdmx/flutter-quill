@@ -13,6 +13,7 @@ import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/camera_button.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
+import 'toolbar/emoji_button.dart';
 import 'toolbar/history_button.dart';
 import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
@@ -107,6 +108,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showVideoButton = true,
     bool showCameraButton = true,
     bool showDirection = false,
+    // Emoji
+    bool showEmoji = true,
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
@@ -175,6 +178,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             undo: true,
             iconTheme: iconTheme,
           ),
+
         if (showRedo)
           HistoryButton(
             icon: Icons.redo_outlined,
@@ -182,6 +186,16 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             undo: false,
             iconTheme: iconTheme,
+          ),
+        // Emoji
+        if (showEmoji)
+          EmojiButton(
+            icon: Icons.emoji_emotions,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            iconTheme: iconTheme,
+            selectEmoji: (emoji, category) {
+            },
           ),
         if (showFontSize)
           QuillFontSizeButton(

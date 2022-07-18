@@ -6,7 +6,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,8 +31,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadFromAssets() async {
     try {
-      final result = await rootBundle.loadString('assets/sample_data.json');
-      final doc = Document.fromJson(jsonDecode(result));
+      // final result = await rootBundle.loadString('assets/sample_data.json');
+      final doc = Document.fromJson(jsonDecode('[{}]'));
       setState(() {
         _controller = QuillController(
             document: doc, selection: const TextSelection.collapsed(offset: 0));
