@@ -337,11 +337,6 @@ extension Localization on String {
           'Width': 'Largura',
           'Height': 'Altura',
           'Size': 'Tamanho',
-          'Small': 'Small',
-          'Large': 'Large',
-          'Huge': 'Huge',
-          'Clear': 'Clear',
-          'Font': 'Font',
         },
         'pl': {
           'Paste a link': 'Wklej link',
