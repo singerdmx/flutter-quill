@@ -22,6 +22,7 @@ import 'embeds/default_embed_builder.dart';
 import 'float_cursor.dart';
 import 'link.dart';
 import 'raw_editor.dart';
+import 'shortcuts/edit_shortcuts.dart';
 import 'text_selection.dart';
 
 /// Base interface for the editor state which defines contract used by
@@ -468,21 +469,21 @@ class QuillEditorState extends State<QuillEditor>
         initialLocale: widget.locale,
         child: _selectionGestureDetectorBuilder.build(
           behavior: HitTestBehavior.translucent,
-          child: child,
+          child:  GridEditShortcuts(child: child,controller: widget.controller,),
         ));
 
     if (kIsWeb) {
-      // Intercept RawKeyEvent on Web to prevent it from propagating to parents
-      // that might interfere with the editor key behavior, such as
-      // SingleChildScrollView. Thanks to @wliumelb for the workaround.
-      // See issue https://github.com/singerdmx/flutter-quill/issues/304
-      return RawKeyboardListener(
-        onKey: (_) {},
-        focusNode: FocusNode(
-          onKey: (node, event) => KeyEventResult.skipRemainingHandlers,
-        ),
-        child: editor,
-      );
+    // Intercept RawKeyEvent on Web to prevent it from propagating to parents
+    // that might interfere with the editor key behavior, such as
+    // SingleChildScrollView. Thanks to @wliumelb for the workaround.
+    // See issue https://github.com/singerdmx/flutter-quill/issues/304
+    return RawKeyboardListener(
+      onKey: (_) {},
+      focusNode: FocusNode(
+        onKey: (node, event) => KeyEventResult.skipRemainingHandlers,
+      ),
+      child:  editor,
+    );
     }
 
     return editor;

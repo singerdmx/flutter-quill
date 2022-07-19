@@ -108,6 +108,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
     widget.controller.formatSelection(_isToggled!
         ? Attribute.clone(widget.attribute, null)
         : widget.attribute);
+    print(widget.controller.document.toDelta().toJson());
   }
 }
 

@@ -71,6 +71,7 @@ class _HomePageState extends State<HomePage> {
       body: RawKeyboardListener(
         focusNode: FocusNode(),
         onKey: (event) {
+          // print(event);
           if (event.data.isControlPressed && event.character == 'b') {
             if (_controller!
                 .getSelectionStyle()
@@ -84,7 +85,9 @@ class _HomePageState extends State<HomePage> {
             }
           }
         },
-        child: _buildWelcomeEditor(context),
+        child: 
+        // GridEditShortcuts
+         _buildWelcomeEditor(context),
       ),
     );
   }
