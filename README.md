@@ -170,7 +170,7 @@ The package offers translations for the quill toolbar and editor, it will follow
 QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
-Currently, translations are available for these 21 locales:
+Currently, translations are available for these 22 locales:
 * `Locale('en')`
 * `Locale('ar')`
 * `Locale('de')`
@@ -192,6 +192,7 @@ Currently, translations are available for these 21 locales:
 * `Locale('no')`
 * `Locale('fa')`
 * `Locale('hi')`
+* `Locale('sr')`
 
 ### Contributing to translations
 The translation file is located at [lib/src/translations/toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
