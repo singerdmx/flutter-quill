@@ -469,6 +469,27 @@ extension Localization on String {
           'Height': '高',
           'Size': '大小',
         },
+        'sr': {
+          'Paste a link': 'Nalepi vezu',
+          'Ok': 'OK',
+          'Select Color': 'Odaberi boju',
+          'Gallery': 'Galerija',
+          'Link': 'Veza',
+          'Please first select some text to transform into a link.':
+              'Označite tekst kako bi ga pretvorili u vezu.',
+          'Open': 'Otvori',
+          'Copy': 'Kopiraj',
+          'Remove': 'Ukloni',
+          'Save': 'Sačuvaj',
+          'Zoom': 'Uvećaj',
+          'Saved': 'Sačuvano',
+          'Text': 'Tekst',
+          'What is entered is not a link': 'Neispravna veza',
+          'Resize': 'Promeni veličinu',
+          'Width': 'Širina',
+          'Height': 'Visina',
+          'Size': 'Veličina',
+        },
       };
 
   String get i18n => localize(this, _t);
