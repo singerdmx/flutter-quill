@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:tuple/tuple.dart';
 
-import '../../flutter_quill.dart';
+import '../models/documents/nodes/leaf.dart';
+import '../widgets/controller.dart';
 
 Tuple2<int, Embed> getEmbedNode(QuillController controller, int offset) {
   var offset = controller.selection.start;

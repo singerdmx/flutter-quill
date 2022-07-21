@@ -1,3 +1,9 @@
+# [5.1.0]
+* Added CustomBlockEmbed and customElementsEmbedBuilder.
+
+# [5.0.5]
+* Upgrade device_info_plus to 4.0.0.
+
 # [5.0.4]
 * Added onVideoInit callback for video documents.
 
