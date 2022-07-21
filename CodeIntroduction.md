@@ -135,6 +135,7 @@ Embeds can be introduced as Embedabble via the controller, not only Quill. This 
 
 
 **toolbar.dart**
+
 Quill editors can have a Toolbar connected. The toolbar commands the controller which in turn commands the Document which commands the Renderer.
 The toolbar can be customized to show all or part of the editing controls/buttons.
 The Toolbar offers callbacks for reacting to adding images or videos.
@@ -142,16 +143,18 @@ For our own custom embeds we don't have to define extra callback here on the Too
 
 
 **quill_icon_button.dart**
+
 If we want to create more similar buttons for the Toolbar
 
 **delegate.dart**
-EditorTextSelectionGestureDetectorBuilderDelegate - Signatures for the methods that the EditableText (QuillEditor) must define to be able to run gesture detector
-- getEditableTextKey()
-  EditableText is the delegate.
-  EditableText comes from Flutter
-  The key is the editor widget key.
-  The key is used to get the state.
-  In the state we have RenderEditor.
+
+`EditorTextSelectionGestureDetectorBuilderDelegate` - Signatures for the methods that the EditableText (QuillEditor) must define to be able to run gesture detector
+- `getEditableTextKey()`
+  - EditableText is the delegate.
+  - EditableText comes from Flutter
+  - The key is the editor widget key.
+  - The key is used to get the state.
+  - In the state we have RenderEditor.
 
 
 ###  RAW EDITOR
