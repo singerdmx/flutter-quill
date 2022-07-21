@@ -30,7 +30,7 @@ This document describes the most important files and classes in Quill.
 **defaultEmbedBuilder()**
 
 `BlockEmbed` &rarr; `Image, video or CustomEmbedBlock`
-- It could be replaced with a custom implementation that supports all sorts of embers (VS data types)
+- It could be replaced with a custom implementation that supports all sorts of embeds (VS data types)
 - Provided as argument in the QuillEditor instance
 
 **QuillEditor**
