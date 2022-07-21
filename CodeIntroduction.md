@@ -17,7 +17,7 @@ This document describes the most important files and classes in Quill.
 **abstract RenderAbstractEditor**
 - Base interface for editable render objects
 - Defines which methods the RenderEditor must implement
-- Seems to be defined for the sake of documenting the most important operations
+- Defined for the sake of documenting the most important operations
   Useful:
 - selectWordAtPosition() selectLineAtPosition();
 - getLocalRectForCaret() - Useful to enforce visibility of full caret at given position
@@ -90,7 +90,7 @@ There methods are pivotal for synchronising the position of inline reactions to 
   - Selection coordinates
 - _getOffsetForCaret()
 - size - Dimensions of the render box from Flutter.
-- setDocument() - Seems to be unused
+- setDocument()
 - setSelection()
   - getEndpointsForSelection() - Selection coordinates
 - handleDragStart() handleDragEnd()
@@ -425,7 +425,7 @@ The Document contains the Delta which contains all the operations. Inside operat
 - setCustomRules -&rarr; Could be extremely useful because we can edit the text editor each time something outstanding happens
 
 **/rules**
-- Seems to contain business logic for handling operations and delta modifications
+- Contain business logic for handling operations and delta modifications
   - PreserveLineStyleOnSplitRule - Preserves the style to the split line
 
 **node.dart**
