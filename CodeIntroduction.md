@@ -125,7 +125,7 @@ Embeds can be introduced as Embedabble via the controller, not only Quill. This 
   EditorTextSelectionOverlay - An object that manages a pair of text selection handles.
 - setState &rarr; Build &rarr; _Editor
 
-### NotifiesListers
+### notifyListeners
 - history change
 - replace text
 - format text
