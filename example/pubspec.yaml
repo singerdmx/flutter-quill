@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.4
   path_provider: ^2.0.9
   filesystem_picker: ^2.0.0
-  file_picker: ^4.5.1
+  file_picker: ^4.6.1
   flutter_quill:
     path: ../
 
