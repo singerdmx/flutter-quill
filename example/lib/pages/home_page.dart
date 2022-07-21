@@ -35,14 +35,14 @@ class _HomePageState extends State<HomePage> {
       final result = await rootBundle.loadString('assets/sample_data.json');
       final doc = Document.fromJson(jsonDecode(result));
       setState(() {
-        _controller =
-            QuillController(document: doc, selection: const TextSelection.collapsed(offset: 0));
+        _controller = QuillController(
+            document: doc, selection: const TextSelection.collapsed(offset: 0));
       });
     } catch (error) {
       final doc = Document()..insert(0, 'Empty asset');
       setState(() {
-        _controller =
-            QuillController(document: doc, selection: const TextSelection.collapsed(offset: 0));
+        _controller = QuillController(
+            document: doc, selection: const TextSelection.collapsed(offset: 0));
       });
     }
   }
@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: Container(
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
         color: Colors.grey.shade800,
         child: _buildMenuBar(context),
       ),
@@ -77,8 +78,13 @@ class _HomePageState extends State<HomePage> {
         focusNode: FocusNode(),
         onKey: (event) {
           if (event.data.isControlPressed && event.character == 'b') {
-            if (_controller!.getSelectionStyle().attributes.keys.contains('bold')) {
-              _controller!.formatSelection(Attribute.clone(Attribute.bold, null));
+            if (_controller!
+                .getSelectionStyle()
+                .attributes
+                .keys
+                .contains('bold')) {
+              _controller!
+                  .formatSelection(Attribute.clone(Attribute.bold, null));
             } else {
               _controller!.formatSelection(Attribute.bold);
             }
@@ -184,7 +190,8 @@ class _HomePageState extends State<HomePage> {
           kIsWeb
               ? Expanded(
                   child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                   child: toolbar,
                 ))
               : Container(child: toolbar)
@@ -210,11 +217,13 @@ class _HomePageState extends State<HomePage> {
   Future<String> _onImagePickCallback(File file) async {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
-    final copiedFile = await file.copy('${appDocDir.path}/${basename(file.path)}');
+    final copiedFile =
+        await file.copy('${appDocDir.path}/${basename(file.path)}');
     return copiedFile.path.toString();
   }
 
-  Future<String?> _webImagePickImpl(OnImagePickCallback onImagePickCallback) async {
+  Future<String?> _webImagePickImpl(
+      OnImagePickCallback onImagePickCallback) async {
     final result = await FilePicker.platform.pickFiles();
     if (result == null) {
       return null;
@@ -233,7 +242,8 @@ class _HomePageState extends State<HomePage> {
   Future<String> _onVideoPickCallback(File file) async {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
-    final copiedFile = await file.copy('${appDocDir.path}/${basename(file.path)}');
+    final copiedFile =
+        await file.copy('${appDocDir.path}/${basename(file.path)}');
     return copiedFile.path.toString();
   }
 
