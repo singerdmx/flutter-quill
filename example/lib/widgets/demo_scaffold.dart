@@ -85,6 +85,9 @@ class _DemoScaffoldState extends State<DemoScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    if (_controller == null) {
+      return const Scaffold(body: Center(child: Text('Loading...')));
+    }
     final actions = widget.actions ?? <Widget>[];
     var toolbar = QuillToolbar.basic(controller: _controller!);
     if (_isDesktop()) {
