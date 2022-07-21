@@ -61,7 +61,12 @@ class _HomePageState extends State<HomePage> {
         title: const Text(
           'Flutter Quill',
         ),
-        actions: [],
+        actions: [
+          IconButton(
+            onPressed: () => _addEditNote(context),
+            icon: const Icon(Icons.note_add),
+          ),
+        ],
       ),
       drawer: Container(
         constraints:
@@ -92,28 +97,30 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildWelcomeEditor(BuildContext context) {
     var quillEditor = QuillEditor(
-        controller: _controller!,
-        scrollController: ScrollController(),
-        scrollable: true,
-        focusNode: _focusNode,
-        autoFocus: false,
-        readOnly: false,
-        placeholder: 'Add content',
-        expands: false,
-        padding: EdgeInsets.zero,
-        customStyles: DefaultStyles(
-          h1: DefaultTextBlockStyle(
-              const TextStyle(
-                fontSize: 32,
-                color: Colors.black,
-                height: 1.15,
-                fontWeight: FontWeight.w300,
-              ),
-              const Tuple2(16, 0),
-              const Tuple2(0, 0),
-              null),
-          sizeSmall: const TextStyle(fontSize: 9),
-        ));
+      controller: _controller!,
+      scrollController: ScrollController(),
+      scrollable: true,
+      focusNode: _focusNode,
+      autoFocus: false,
+      readOnly: false,
+      placeholder: 'Add content',
+      expands: false,
+      padding: EdgeInsets.zero,
+      customStyles: DefaultStyles(
+        h1: DefaultTextBlockStyle(
+            const TextStyle(
+              fontSize: 32,
+              color: Colors.black,
+              height: 1.15,
+              fontWeight: FontWeight.w300,
+            ),
+            const Tuple2(16, 0),
+            const Tuple2(0, 0),
+            null),
+        sizeSmall: const TextStyle(fontSize: 9),
+      ),
+      customElementsEmbedBuilder: customElementsEmbedBuilder,
+    );
     if (kIsWeb) {
       quillEditor = QuillEditor(
           controller: _controller!,
@@ -304,4 +311,91 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Future<void> _addEditNote(BuildContext context, {Document? document}) async {
+    final isEditing = document != null;
+    final quillEditorController = QuillController(
+      document: document ?? Document(),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        titlePadding: const EdgeInsets.only(left: 16, top: 8),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('${isEditing ? 'Edit' : 'Add'} note'),
+            IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.close),
+            )
+          ],
+        ),
+        content: QuillEditor.basic(
+          controller: quillEditorController,
+          readOnly: false,
+        ),
+      ),
+    );
+
+    if (quillEditorController.document.isEmpty()) return;
+
+    final block = BlockEmbed.custom(
+      NotesBlockEmbed.fromDocument(quillEditorController.document),
+    );
+    final controller = _controller!;
+    final index = controller.selection.baseOffset;
+    final length = controller.selection.extentOffset - index;
+
+    if (isEditing) {
+      final offset = getEmbedNode(controller, controller.selection.start).item1;
+      controller.replaceText(
+          offset, 1, block, TextSelection.collapsed(offset: offset));
+    } else {
+      controller.replaceText(index, length, block, null);
+    }
+  }
+
+  Widget customElementsEmbedBuilder(
+    BuildContext context,
+    QuillController controller,
+    CustomBlockEmbed block,
+    bool readOnly,
+    void Function(GlobalKey videoContainerKey)? onVideoInit,
+  ) {
+    switch (block.type) {
+      case 'notes':
+        final notes = NotesBlockEmbed(block.data).document;
+
+        return Material(
+          color: Colors.transparent,
+          child: ListTile(
+            title: Text(
+              notes.toPlainText().replaceAll('\n', ' '),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            leading: const Icon(Icons.notes),
+            onTap: () => _addEditNote(context, document: notes),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: const BorderSide(color: Colors.grey),
+            ),
+          ),
+        );
+      default:
+        return const SizedBox();
+    }
+  }
+}
+
+class NotesBlockEmbed extends CustomBlockEmbed {
+  const NotesBlockEmbed(String value) : super('notes', value);
+
+  static NotesBlockEmbed fromDocument(Document document) =>
+      NotesBlockEmbed(jsonEncode(document.toDelta().toJson()));
+
+  Document get document => Document.fromJson(jsonDecode(data));
 }
