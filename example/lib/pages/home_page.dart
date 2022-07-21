@@ -392,7 +392,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class NotesBlockEmbed extends CustomBlockEmbed {
-  const NotesBlockEmbed(String value) : super('notes', value);
+  const NotesBlockEmbed(String value) : super(noteType, value);
+
+  static const String noteType = 'notes';
 
   static NotesBlockEmbed fromDocument(Document document) =>
       NotesBlockEmbed(jsonEncode(document.toDelta().toJson()));
