@@ -1,7 +1,7 @@
 # Quill Overview
 This document describes the most important files and classes in Quill.
 
-##QUILL EDITOR, RENDER EDITOR, HANDLERS
+## QUILL EDITOR, RENDER EDITOR, HANDLERS
 
 **editor.dart**
 
@@ -108,7 +108,7 @@ There methods are pivotal for synchronising the position of inline reactions to 
 **controller.dart**
 Embeds can be introduced as Embedabble via the controller, not only Quill. This method can be tracked to understand how to add topic from state store.
 
-###QuillController
+### QuillController
 - updateSelection()
 - addListener() - START UPDATE
 - These methods are used to inform many parts of Quill that the controller state has changed
@@ -125,7 +125,7 @@ Embeds can be introduced as Embedabble via the controller, not only Quill. This 
   EditorTextSelectionOverlay - An object that manages a pair of text selection handles.
 - setState &rarr; Build &rarr; _Editor
 
-###NotifiesListers
+### NotifiesListers
 - history change
 - replace text
 - format text
@@ -154,7 +154,7 @@ EditorTextSelectionGestureDetectorBuilderDelegate - Signatures for the methods t
   In the state we have RenderEditor.
 
 
-### RAW EDITOR
+###  RAW EDITOR
 
 **raw_editor.dart**
 - Displays a document as a vertical list of document segments (lines and blocks)
@@ -229,7 +229,7 @@ MultiChildRenderObjectWidget takes the duty of rendering the line and block widg
 
 
 
-###Intents to Actions map
+### Intents to Actions map
 
 Flutter has a system of dispatching Intents when hotkeys are pressed and then Actions that react to these intents.
 Actions can decide if they are enabled or not. This system is an alternative to callbacks.
@@ -336,7 +336,7 @@ compute Min/Max Intrinsic Height/Width()
 computeDistanceToActualBaseline()
 performLayout() &rarr; Flutter layouting
 
-####Drawing text selection
+#### Drawing text selection
 
 For rendering custom highlights we are most interested in these methods:
 - paint()
