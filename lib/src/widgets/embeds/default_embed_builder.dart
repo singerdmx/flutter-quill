@@ -8,6 +8,7 @@ import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../translations/toolbar.i18n.dart';
+import '../../utils/embeds.dart';
 import '../../utils/platform.dart';
 import '../../utils/string.dart';
 import '../controller.dart';
@@ -79,7 +80,7 @@ Widget defaultEmbedBuilder(
                               final _screenSize = MediaQuery.of(context).size;
                               return ImageResizer(
                                   onImageResize: (w, h) {
-                                    final res = getImageNode(
+                                    final res = getEmbedNode(
                                         controller, controller.selection.start);
                                     final attr = replaceStyleString(
                                         getImageStyleString(controller), w, h);
@@ -99,7 +100,7 @@ Widget defaultEmbedBuilder(
                       text: 'Copy'.i18n,
                       onPressed: () {
                         final imageNode =
-                            getImageNode(controller, controller.selection.start)
+                            getEmbedNode(controller, controller.selection.start)
                                 .item2;
                         final imageUrl = imageNode.value.data;
                         controller.copiedImageUrl =
@@ -113,7 +114,7 @@ Widget defaultEmbedBuilder(
                       text: 'Remove'.i18n,
                       onPressed: () {
                         final offset =
-                            getImageNode(controller, controller.selection.start)
+                            getEmbedNode(controller, controller.selection.start)
                                 .item1;
                         controller.replaceText(offset, 1, '',
                             TextSelection.collapsed(offset: offset));

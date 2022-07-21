@@ -14,6 +14,14 @@ typedef EmbedBuilder = Widget Function(
   void Function(GlobalKey videoContainerKey)? onVideoInit,
 );
 
+typedef CustomEmbedBuilder = Widget Function(
+  BuildContext context,
+  QuillController controller,
+  CustomBlockEmbed block,
+  bool readOnly,
+  void Function(GlobalKey videoContainerKey)? onVideoInit,
+);
+
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
 /// Delegate interface for the [EditorTextSelectionGestureDetectorBuilder].

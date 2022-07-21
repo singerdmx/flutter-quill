@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:io' as io;
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:tuple/tuple.dart';
 
 import '../../models/documents/attribute.dart';
-import '../../models/documents/nodes/leaf.dart';
 import '../../models/documents/style.dart';
 import '../controller.dart';
 
@@ -24,20 +21,6 @@ const List<String> imageFileExtensions = [
 
 bool isImageBase64(String imageUrl) {
   return !imageUrl.startsWith('http') && isBase64(imageUrl);
-}
-
-Tuple2<int, Embed> getImageNode(QuillController controller, int offset) {
-  var offset = controller.selection.start;
-  var imageNode = controller.queryNode(offset);
-  if (imageNode == null || !(imageNode is Embed)) {
-    offset = max(0, offset - 1);
-    imageNode = controller.queryNode(offset);
-  }
-  if (imageNode != null && imageNode is Embed) {
-    return Tuple2(offset, imageNode);
-  }
-
-  return throw 'Image node not found by offset $offset';
 }
 
 String getImageStyleString(QuillController controller) {
