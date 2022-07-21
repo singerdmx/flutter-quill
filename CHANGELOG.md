@@ -1,3 +1,6 @@
+# [5.1.1]
+* Update README.
+
 # [5.1.0]
 * Added CustomBlockEmbed and customElementsEmbedBuilder.
 
