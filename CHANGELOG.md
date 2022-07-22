@@ -1,3 +1,6 @@
+# [5.2.0]
+* Support font family selection.
+
 # [5.1.1]
 * Update README.
 
