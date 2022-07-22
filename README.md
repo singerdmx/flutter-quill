@@ -110,7 +110,7 @@ fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '
 ```
 
 ### Font Family
-
+To use your own fonts, update your [assets folder](https://github.com/singerdmx/flutter-quill/tree/master/example/assets/fonts) and pass in `fontFamilyValues`. More details at [this change](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) and [this](https://www.flutterbeads.com/change-font-family-flutter/).
 
 ### Custom Icons
 You may add custom icons to the _end_ of the toolbar, via the `customIcons` option, which is a `List` of `QuillCustomIcon`.
