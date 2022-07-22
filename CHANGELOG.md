@@ -1,3 +1,6 @@
+# [5.2.1]
+* Rename QuillCustomIcon to QuillCustomButton.
+
 # [5.2.0]
 * Support font family selection.
 
