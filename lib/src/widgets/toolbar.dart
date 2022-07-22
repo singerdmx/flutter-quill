@@ -7,6 +7,7 @@ import '../models/documents/attribute.dart';
 import '../models/themes/quill_custom_icon.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
+import '../translations/toolbar.i18n.dart';
 import '../utils/font.dart';
 import 'controller.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
@@ -156,7 +157,12 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     //default font size values
     final fontSizes = fontSizeValues ??
-        {'Small': 'small', 'Large': 'large', 'Huge': 'huge', 'Clear': '0'};
+        {
+          'Small'.i18n: 'small',
+          'Large'.i18n: 'large',
+          'Huge'.i18n: 'huge',
+          'Clear'.i18n: '0'
+        };
 
     return QuillToolbar(
       key: key,
