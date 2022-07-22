@@ -5,7 +5,7 @@ This document describes the most important files and classes in Quill.
 
 **editor.dart**
 
-`abstract EditorState &rarr; extends State<RawEditor>`
+`abstract EditorState extends State<RawEditor>`
 - RawEditorState can be reference from QuillEditorState. This interface details several methods that are available from the mixins added to the RawEditor class.
 - These methods are defined in the inherited classes from Flutter. So this Class helps us keep in mind several useful methods such as:
 - showToolbar()
@@ -106,6 +106,7 @@ There methods are pivotal for synchronising the position of inline reactions to 
 
 
 **controller.dart**
+
 Embeds can be introduced as Embedabble via the controller, not only Quill. This method can be tracked to understand how to add topic from state store.
 
 ### QuillController
