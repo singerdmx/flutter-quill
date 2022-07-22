@@ -80,6 +80,17 @@ _controller = QuillController(
           selection: TextSelection.collapsed(offset: 0));
 ```
 
+## Web
+
+For web development, use `flutter config --enable-web` for flutter or use [ReactQuill] for React.
+
+It is required to provide `EmbedBuilder`, e.g. [defaultEmbedBuilderWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L28).
+Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L225).
+
+## Desktop
+
+It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L205).
+
 ## Configuration
 
 The `QuillToolbar` class lets you customise which formatting options are available.
@@ -97,6 +108,9 @@ Font size can be cleared with a value of `0`, for example:
 ```
 fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'}
 ```
+
+### Font Family
+
 
 ### Custom Icons
 You may add custom icons to the _end_ of the toolbar, via the `customIcons` option, which is a `List` of `QuillCustomIcon`.
@@ -139,18 +153,7 @@ QuillToolbar.basic(
     ]
 ```                             
 
-## Web
-
-For web development, use `flutter config --enable-web` for flutter or use [ReactQuill] for React.
-
-It is required to provide `EmbedBuilder`, e.g. [defaultEmbedBuilderWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L28).
-Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L225).
-
-## Desktop
-
-It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L205).
-
-## Custom Size Image for Mobile
+### Custom Size Image for Mobile
 
 Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
 ```
@@ -164,7 +167,7 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 }
 ```
 
-## Custom Embed Blocks
+### Custom Embed Blocks
 
 Sometimes you want to add some custom content inside your text, custom widgets inside of them. An example is adding notes to the text, or anything custom that you want to add in your text editor.
 
@@ -284,7 +287,7 @@ And voila, we have a custom widget inside of the rich text editor!
 
 > For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
 
-## Translation
+### Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:
 
@@ -318,7 +321,7 @@ Currently, translations are available for these 22 locales:
 * `Locale('hi')`
 * `Locale('sr')`
 
-### Contributing to translations
+#### Contributing to translations
 The translation file is located at [lib/src/translations/toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
 
 ---
@@ -333,6 +336,8 @@ The translation file is located at [lib/src/translations/toolbar.i18n.dart](lib/
   <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
   <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
 </p>
+
+
 
 ## Sponsors
 
