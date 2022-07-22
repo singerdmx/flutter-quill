@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class QuillCustomIcon {
-  const QuillCustomIcon({this.icon, this.onTap});
+class QuillCustomButton {
+  const QuillCustomButton({this.icon, this.onTap});
 
   ///The icon widget
   final IconData? icon;
