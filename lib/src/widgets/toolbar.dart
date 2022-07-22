@@ -19,6 +19,7 @@ import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
+import 'toolbar/quill_font_family_button.dart';
 import 'toolbar/quill_font_size_button.dart';
 import 'toolbar/quill_icon_button.dart';
 import 'toolbar/select_alignment_button.dart';
@@ -78,6 +79,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     double toolbarSectionSpacing = 4,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     bool showDividers = true,
+    bool showFontFamily = true,
     bool showFontSize = true,
     bool showBoldButton = true,
     bool showItalicButton = true,
@@ -119,6 +121,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///Map of font sizes in string
     Map<String, String>? fontSizeValues,
 
+    ///Map of font families in string
+    Map<String, String>? fontFamilyValues,
+
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
 
@@ -132,7 +137,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
   }) {
     final isButtonGroupShown = [
-      showFontSize ||
+      showFontFamily ||
+          showFontSize ||
           showBoldButton ||
           showItalicButton ||
           showSmallButton ||
@@ -164,6 +170,15 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           'Clear'.i18n: '0'
         };
 
+    //default font family values
+    final fontFamilies = fontFamilyValues ??
+        {
+          'Sans Serif': 'sans-serif',
+          'Serif': 'serif',
+          'Monospace': 'monospace',
+          'Clear': 'Clear'
+        };
+
     return QuillToolbar(
       key: key,
       toolbarHeight: toolbarIconSize * 2,
@@ -188,6 +203,29 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             undo: false,
             iconTheme: iconTheme,
+          ),
+        if (showFontFamily)
+          QuillFontFamilyButton(
+            iconTheme: iconTheme,
+            iconSize: toolbarIconSize,
+            attribute: Attribute.font,
+            controller: controller,
+            items: [
+              for (MapEntry<String, String> fontFamily in fontFamilies.entries)
+                PopupMenuItem<String>(
+                  key: ValueKey(fontFamily.key),
+                  value: fontFamily.value,
+                  child: Text(fontFamily.key.toString(),
+                      style: TextStyle(
+                          color:
+                              fontFamily.value == 'Clear' ? Colors.red : null)),
+                ),
+            ],
+            onSelected: (newFont) {
+              controller.formatSelection(Attribute.fromKeyValue(
+                  'font', newFont == 'Clear' ? null : newFont));
+            },
+            rawItemsMap: fontFamilies,
           ),
         if (showFontSize)
           QuillFontSizeButton(

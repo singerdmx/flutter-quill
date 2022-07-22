@@ -4,11 +4,10 @@ import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
-import '../../utils/font.dart';
 import '../controller.dart';
 
-class QuillFontSizeButton extends StatefulWidget {
-  const QuillFontSizeButton({
+class QuillFontFamilyButton extends StatefulWidget {
+  const QuillFontFamilyButton({
     required this.items,
     required this.rawItemsMap,
     required this.attribute,
@@ -34,10 +33,10 @@ class QuillFontSizeButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
+  _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
 }
 
-class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
+class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
   late String _defaultDisplayText;
   late String _currentValue;
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -45,7 +44,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
   @override
   void initState() {
     super.initState();
-    _currentValue = _defaultDisplayText = 'Size'.i18n;
+    _currentValue = _defaultDisplayText = 'Font'.i18n;
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -56,7 +55,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
   }
 
   @override
-  void didUpdateWidget(covariant QuillFontSizeButton oldWidget) {
+  void didUpdateWidget(covariant QuillFontFamilyButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
@@ -74,9 +73,9 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
     setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
-  String? _getKeyName(dynamic value) {
+  String? _getKeyName(String value) {
     for (final entry in widget.rawItemsMap.entries) {
-      if (getFontSize(entry.value) == getFontSize(value)) {
+      if (entry.value == value) {
         return entry.key;
       }
     }
