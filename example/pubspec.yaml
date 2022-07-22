@@ -56,7 +56,16 @@ flutter:
   assets:
     - assets/
 
-
+  fonts:
+    - family: monospace
+      fonts:
+        - asset: assets/fonts/MonoSpace.ttf
+    - family: serif
+      fonts:
+        - asset: assets/fonts/Serif.ttf
+    - family: sans-serif
+      fonts:
+        - asset: assets/fonts/SansSerif.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
