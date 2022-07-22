@@ -282,6 +282,8 @@ And voila, we have a custom widget inside of the rich text editor!
 
 > For more info and a video example, see the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
 
+> For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
+
 ## Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:
