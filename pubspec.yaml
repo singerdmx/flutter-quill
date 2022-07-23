@@ -26,7 +26,7 @@ dependencies:
   characters: ^1.2.0
   youtube_player_flutter:
     git:
-      url: git://github.com/garv-shah/youtube_player_flutter
+      url: https://github.com/garv-shah/youtube_player_flutter
       ref: master
       path: packages/youtube_player_flutter/
   diff_match_patch: ^0.4.1
