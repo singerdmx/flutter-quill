@@ -24,7 +24,11 @@ dependencies:
   pedantic: ^1.11.1
   video_player: ^2.4.2
   characters: ^1.2.0
-  youtube_player_flutter: ^8.1.0
+  youtube_player_flutter:
+    git:
+      url: git://github.com/garv-shah/youtube_player_flutter
+      ref: master
+      path: packages/youtube_player_flutter/
   diff_match_patch: ^0.4.1
   i18n_extension: ^5.0.0
   gallery_saver: ^2.3.2
