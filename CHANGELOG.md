@@ -1,3 +1,6 @@
+# [5.2.2]
+* Fix <Web> Unsupported operation: Platform._operatingSystem error.
+
 # [5.2.1]
 * Rename QuillCustomIcon to QuillCustomButton.
 
