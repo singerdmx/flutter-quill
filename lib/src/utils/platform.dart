@@ -28,9 +28,12 @@ bool isAppleOS([TargetPlatform? targetPlatform]) {
 }
 
 Future<bool> isIOSSimulator() async {
-  if (Platform.isIOS) {
-    final deviceInfo = DeviceInfoPlugin();
-    final iosInfo = await deviceInfo.iosInfo;
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+  var osInfo = await deviceInfo.deviceInfo;
+
+  if (osInfo is IosDeviceInfo) {
+    final iosInfo = osInfo as IosDeviceInfo;
     return !iosInfo.isPhysicalDevice;
   }
   return false;
