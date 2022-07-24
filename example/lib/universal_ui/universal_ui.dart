@@ -33,7 +33,7 @@ Widget defaultEmbedBuilderWeb(
   void Function(GlobalKey videoContainerKey)? onVideoInit,
 ) {
   switch (node.value.type) {
-    case 'image':
+    case BlockEmbed.imageType:
       // TODO: handle imageUrl of base64
       final imageUrl = node.value.data;
       final size = MediaQuery.of(context).size;
@@ -54,7 +54,7 @@ Widget defaultEmbedBuilderWeb(
           ),
         ),
       );
-    case 'video':
+    case BlockEmbed.videoType:
       // TODO: implement 'video' builder
       return const SizedBox();
     default:
