@@ -34,6 +34,7 @@ Widget defaultEmbedBuilderWeb(
 ) {
   switch (node.value.type) {
     case 'image':
+      // TODO: handle imageUrl of base64
       final imageUrl = node.value.data;
       final size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
@@ -53,7 +54,9 @@ Widget defaultEmbedBuilderWeb(
           ),
         ),
       );
-
+    case 'video':
+      // TODO: implement 'video' builder
+      return const SizedBox();
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '
