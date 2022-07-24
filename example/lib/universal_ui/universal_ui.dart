@@ -64,7 +64,7 @@ Widget defaultEmbedBuilderWeb(
 
       if (youtubeID != null) {
         embedUrl =
-            'https://www.youtube.com/embed/${YoutubePlayer.convertUrlToId(node.value.data)}';
+            'https://www.youtube.com/embed/${YoutubePlayer.convertUrlToId(embedUrl)}';
       }
 
       UniversalUI().platformViewRegistry.registerViewFactory(
