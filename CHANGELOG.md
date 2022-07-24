@@ -1,3 +1,6 @@
+# [5.2.3]
+* Flutter Quill Doesn't Work On iOS 16 or Xcode 14 Betas (Stored properties cannot be marked potentially unavailable with '@available').
+
 # [5.2.2]
 * Fix <Web> Unsupported operation: Platform._operatingSystem error.
 
