@@ -1,3 +1,6 @@
+# [5.2.5]
+* Upgrade youtube_player_flutter_quill to 8.2.2.
+
 # [5.2.4]
 * Upgrade youtube_player_flutter_quill to 8.2.1.
 
