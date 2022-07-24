@@ -59,26 +59,26 @@ Widget defaultEmbedBuilderWeb(
         ),
       );
     case BlockEmbed.videoType:
-      final youtubeID = YoutubePlayer.convertUrlToId(node.value.data);
-      var embedUrl = node.value.data;
-
-      if (youtubeID != null) {
-        embedUrl =
-            'https://www.youtube.com/embed/${YoutubePlayer.convertUrlToId(embedUrl)}';
+      var videoUrl = node.value.data;
+      if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
+        final youtubeID = YoutubePlayer.convertUrlToId(videoUrl);
+        if (youtubeID != null) {
+          videoUrl = 'https://www.youtube.com/embed/$youtubeID';
+        }
       }
 
       UniversalUI().platformViewRegistry.registerViewFactory(
-          embedUrl,
+          videoUrl,
           (id) => html.IFrameElement()
             ..width = MediaQuery.of(context).size.width.toString()
             ..height = MediaQuery.of(context).size.height.toString()
-            ..src = embedUrl
+            ..src = videoUrl
             ..style.border = 'none');
 
       return SizedBox(
         height: 500,
         child: HtmlElementView(
-          viewType: embedUrl,
+          viewType: videoUrl,
         ),
       );
     default:
