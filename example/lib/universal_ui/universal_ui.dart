@@ -35,8 +35,11 @@ Widget defaultEmbedBuilderWeb(
 ) {
   switch (node.value.type) {
     case BlockEmbed.imageType:
-      // TODO: handle imageUrl of base64
       final imageUrl = node.value.data;
+      if (isImageBase64(imageUrl)) {
+        // TODO: handle imageUrl of base64
+        return const SizedBox();
+      }
       final size = MediaQuery.of(context).size;
       UniversalUI().platformViewRegistry.registerViewFactory(
           imageUrl, (viewId) => html.ImageElement()..src = imageUrl);
