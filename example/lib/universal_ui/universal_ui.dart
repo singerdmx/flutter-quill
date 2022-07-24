@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
+import 'package:youtube_player_flutter_quill/youtube_player_flutter_quill.dart';
 
 import '../widgets/responsive_widget.dart';
 import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui_instance;
@@ -55,8 +56,28 @@ Widget defaultEmbedBuilderWeb(
         ),
       );
     case BlockEmbed.videoType:
-      // TODO: implement 'video' builder
-      return const SizedBox();
+      final youtubeID = YoutubePlayer.convertUrlToId(node.value.data);
+      var embedUrl = node.value.data;
+
+      if (youtubeID != null) {
+        embedUrl =
+            'https://www.youtube.com/embed/${YoutubePlayer.convertUrlToId(node.value.data)}';
+      }
+
+      UniversalUI().platformViewRegistry.registerViewFactory(
+          embedUrl,
+          (id) => html.IFrameElement()
+            ..width = MediaQuery.of(context).size.width.toString()
+            ..height = MediaQuery.of(context).size.height.toString()
+            ..src = embedUrl
+            ..style.border = 'none');
+
+      return SizedBox(
+        height: 500,
+        child: HtmlElementView(
+          viewType: embedUrl,
+        ),
+      );
     default:
       throw UnimplementedError(
         'Embeddable type "${node.value.type}" is not supported by default '
