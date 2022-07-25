@@ -284,7 +284,7 @@ class RawEditorState extends EditorState
     assert(debugCheckHasMediaQuery(context));
     super.build(context);
 
-    var _doc = widget.controller.document;
+    var _doc = controller.document;
     if (_doc.isEmpty() && widget.placeholder != null) {
       _doc = Document.fromJson(jsonDecode(
           '[{"attributes":{"placeholder":true},"insert":"${widget.placeholder}\\n"}]'));
@@ -296,7 +296,7 @@ class RawEditorState extends EditorState
         child: _Editor(
           key: _editorKey,
           document: _doc,
-          selection: widget.controller.selection,
+          selection: controller.selection,
           hasFocus: _hasFocus,
           scrollable: widget.scrollable,
           cursorController: _cursorCont,
@@ -335,7 +335,7 @@ class RawEditorState extends EditorState
               key: _editorKey,
               offset: offset,
               document: _doc,
-              selection: widget.controller.selection,
+              selection: controller.selection,
               hasFocus: _hasFocus,
               scrollable: widget.scrollable,
               textDirection: _textDirection,
@@ -380,8 +380,8 @@ class RawEditorState extends EditorState
 
   void _handleSelectionChanged(
       TextSelection selection, SelectionChangedCause cause) {
-    final oldSelection = widget.controller.selection;
-    widget.controller.updateSelection(selection, ChangeSource.LOCAL);
+    final oldSelection = controller.selection;
+    controller.updateSelection(selection, ChangeSource.LOCAL);
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
@@ -403,7 +403,7 @@ class RawEditorState extends EditorState
   }
 
   void _handleSelectionCompleted() {
-    widget.controller.onSelectionCompleted?.call();
+    controller.onSelectionCompleted?.call();
   }
 
   /// Updates the checkbox positioned at [offset] in document
@@ -411,23 +411,25 @@ class RawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     if (!widget.readOnly) {
       _disableScrollControllerAnimateOnce = true;
-      widget.controller.ignoreFocusOnTextChange = true;
-      final currentSelection = widget.controller.selection.copyWith();
+      controller.ignoreFocusOnTextChange = true;
+      final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
-      widget.controller.formatText(offset, 0, attribute);
+      controller
+        ..formatText(offset, 0, attribute)
 
-      // Checkbox tapping causes controller.selection to go to offset 0
-      // Stop toggling those two toolbar buttons
-      widget.controller.toolbarButtonToggler = {
-        Attribute.list.key: attribute,
-        Attribute.header.key: Attribute.header
-      };
+        // Checkbox tapping causes controller.selection to go to offset 0
+        // Stop toggling those two toolbar buttons
+        ..toolbarButtonToggler = {
+          Attribute.list.key: attribute,
+          Attribute.header.key: Attribute.header
+        };
 
       // Go back from offset 0 to current selection
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        widget.controller.ignoreFocusOnTextChange = false;
-        widget.controller.updateSelection(currentSelection, ChangeSource.LOCAL);
+        controller
+          ..ignoreFocusOnTextChange = false
+          ..updateSelection(currentSelection, ChangeSource.LOCAL);
       });
     }
   }
@@ -444,11 +446,11 @@ class RawEditorState extends EditorState
         final attrs = node.style.attributes;
         final editableTextBlock = EditableTextBlock(
             block: node,
-            controller: widget.controller,
+            controller: controller,
             textDirection: _textDirection,
             scrollBottomInset: widget.scrollBottomInset,
             verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
-            textSelection: widget.controller.selection,
+            textSelection: controller.selection,
             color: widget.selectionColor,
             styles: _styles,
             enableInteractiveSelection: widget.enableInteractiveSelection,
@@ -482,7 +484,7 @@ class RawEditorState extends EditorState
       customStyleBuilder: widget.customStyleBuilder,
       styles: _styles!,
       readOnly: widget.readOnly,
-      controller: widget.controller,
+      controller: controller,
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.onLaunchUrl,
     );
@@ -493,7 +495,7 @@ class RawEditorState extends EditorState
         0,
         _getVerticalSpacingForLine(node, _styles),
         _textDirection,
-        widget.controller.selection,
+        controller.selection,
         widget.selectionColor,
         widget.enableInteractiveSelection,
         _hasFocus,
@@ -550,8 +552,8 @@ class RawEditorState extends EditorState
 
     _clipboardStatus.addListener(_onChangedClipboardStatus);
 
-    widget.controller.addListener(() {
-      _didChangeTextEditingValue(widget.controller.ignoreFocusOnTextChange);
+    controller.addListener(() {
+      _didChangeTextEditingValue(controller.ignoreFocusOnTextChange);
     });
 
     _scrollController = widget.scrollController;
@@ -641,9 +643,9 @@ class RawEditorState extends EditorState
     _cursorCont.show.value = widget.showCursor;
     _cursorCont.style = widget.cursorStyle;
 
-    if (widget.controller != oldWidget.controller) {
+    if (controller != oldWidget.controller) {
       oldWidget.controller.removeListener(_didChangeTextEditingValue);
-      widget.controller.addListener(_didChangeTextEditingValue);
+      controller.addListener(_didChangeTextEditingValue);
       updateRemoteValueIfNeeded();
     }
 
@@ -659,7 +661,7 @@ class RawEditorState extends EditorState
       updateKeepAlive();
     }
 
-    if (widget.controller.selection != oldWidget.controller.selection) {
+    if (controller.selection != oldWidget.controller.selection) {
       _selectionOverlay?.update(textEditingValue);
     }
 
@@ -679,8 +681,7 @@ class RawEditorState extends EditorState
   }
 
   bool _shouldShowSelectionHandles() {
-    return widget.showSelectionHandles &&
-        !widget.controller.selection.isCollapsed;
+    return widget.showSelectionHandles && !controller.selection.isCollapsed;
   }
 
   @override
@@ -691,7 +692,7 @@ class RawEditorState extends EditorState
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
-    widget.controller.removeListener(_didChangeTextEditingValue);
+    controller.removeListener(_didChangeTextEditingValue);
     widget.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
     _clipboardStatus
@@ -708,11 +709,7 @@ class RawEditorState extends EditorState
     if (kIsWeb) {
       _onChangeTextEditingValue(ignoreFocus);
       if (!ignoreFocus) {
-        if (controller.skipRequestKeyboard) {
-          controller.skipRequestKeyboard = false;
-        } else {
-          requestKeyboard();
-        }
+        requestKeyboard();
       }
       return;
     }
@@ -720,14 +717,10 @@ class RawEditorState extends EditorState
     if (ignoreFocus || _keyboardVisible) {
       _onChangeTextEditingValue(ignoreFocus);
     } else {
-      if (controller.skipRequestKeyboard) {
-        controller.skipRequestKeyboard = false;
-      } else {
-        requestKeyboard();
-      }
+      requestKeyboard();
       if (mounted) {
         setState(() {
-          // Use widget.controller.value in build()
+          // Use controller.value in build()
           // Trigger build and updateChildren
         });
       }
@@ -742,8 +735,7 @@ class RawEditorState extends EditorState
       return;
     }
     _showCaretOnScreen();
-    _cursorCont.startOrStopCursorTimerIfNeeded(
-        _hasFocus, widget.controller.selection);
+    _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, controller.selection);
     if (hasConnection) {
       // To keep the cursor from blinking while typing, we want to restart the
       // cursor timer every time a new character is typed.
@@ -766,7 +758,7 @@ class RawEditorState extends EditorState
     });
     if (mounted) {
       setState(() {
-        // Use widget.controller.value in build()
+        // Use controller.value in build()
         // Trigger build and updateChildren
       });
     }
@@ -800,8 +792,7 @@ class RawEditorState extends EditorState
 
   void _handleFocusChanged() {
     openOrCloseConnection();
-    _cursorCont.startOrStopCursorTimerIfNeeded(
-        _hasFocus, widget.controller.selection);
+    _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, controller.selection);
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
       WidgetsBinding.instance.addObserver(this);
@@ -890,6 +881,10 @@ class RawEditorState extends EditorState
   /// keyboard become visible.
   @override
   void requestKeyboard() {
+    if (controller.skipRequestKeyboard) {
+      controller.skipRequestKeyboard = false;
+      return;
+    }
     if (_hasFocus) {
       openConnectionIfNeeded();
       _showCaretOnScreen();
@@ -939,9 +934,9 @@ class RawEditorState extends EditorState
   /// Copy current selection to [Clipboard].
   @override
   void copySelection(SelectionChangedCause cause) {
-    widget.controller.copiedImageUrl = null;
-    _pastePlainText = widget.controller.getPlainText();
-    _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
+    controller.copiedImageUrl = null;
+    _pastePlainText = controller.getPlainText();
+    _pasteStyle = controller.getAllIndividualSelectionStyles();
 
     final selection = textEditingValue.selection;
     final text = textEditingValue.text;
@@ -968,9 +963,9 @@ class RawEditorState extends EditorState
   /// Cut current selection to [Clipboard].
   @override
   void cutSelection(SelectionChangedCause cause) {
-    widget.controller.copiedImageUrl = null;
-    _pastePlainText = widget.controller.getPlainText();
-    _pasteStyle = widget.controller.getAllIndividualSelectionStyles();
+    controller.copiedImageUrl = null;
+    _pastePlainText = controller.getPlainText();
+    _pasteStyle = controller.getAllIndividualSelectionStyles();
 
     if (widget.readOnly) {
       return;
@@ -996,19 +991,17 @@ class RawEditorState extends EditorState
       return;
     }
 
-    if (widget.controller.copiedImageUrl != null) {
+    if (controller.copiedImageUrl != null) {
       final index = textEditingValue.selection.baseOffset;
       final length = textEditingValue.selection.extentOffset - index;
-      final copied = widget.controller.copiedImageUrl!;
-      widget.controller
-          .replaceText(index, length, BlockEmbed.image(copied.item1), null);
+      final copied = controller.copiedImageUrl!;
+      controller.replaceText(
+          index, length, BlockEmbed.image(copied.item1), null);
       if (copied.item2.isNotEmpty) {
-        widget.controller.formatText(
-            getEmbedNode(widget.controller, index + 1).item1,
-            1,
+        controller.formatText(getEmbedNode(controller, index + 1).item1, 1,
             StyleAttribute(copied.item2));
       }
-      widget.controller.copiedImageUrl = null;
+      controller.copiedImageUrl = null;
       await Clipboard.setData(const ClipboardData(text: ''));
       return;
     }
@@ -1783,7 +1776,7 @@ class _UpdateTextSelectionToAdjacentLineAction<
       return;
     }
     _runSelection = state.textEditingValue.selection;
-    final currentSelection = state.widget.controller.selection;
+    final currentSelection = state.controller.selection;
     final continueCurrentRun = currentSelection.isValid &&
         currentSelection.isCollapsed &&
         currentSelection.baseOffset == runSelection.baseOffset &&
