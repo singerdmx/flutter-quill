@@ -1,3 +1,6 @@
+# [5.2.7]
+* Add locale to QuillEditor.basic.
+
 # [5.2.6]
 * Fix keyboard pops up when resizing the image.
 
