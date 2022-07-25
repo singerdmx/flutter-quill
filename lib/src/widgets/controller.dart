@@ -62,6 +62,10 @@ class QuillController extends ChangeNotifier {
 
   bool ignoreFocusOnTextChange = false;
 
+  /// Skip requestKeyboard being called in
+  /// RawEditorState#_didChangeTextEditingValue
+  bool skipRequestKeyboard = false;
+
   /// True when this [QuillController] instance has been disposed.
   ///
   /// A safety mechanism to ensure that listeners don't crash when adding,

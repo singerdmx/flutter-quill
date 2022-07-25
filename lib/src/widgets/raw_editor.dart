@@ -708,7 +708,11 @@ class RawEditorState extends EditorState
     if (kIsWeb) {
       _onChangeTextEditingValue(ignoreFocus);
       if (!ignoreFocus) {
-        requestKeyboard();
+        if (controller.skipRequestKeyboard) {
+          controller.skipRequestKeyboard = false;
+        } else {
+          requestKeyboard();
+        }
       }
       return;
     }
@@ -716,7 +720,11 @@ class RawEditorState extends EditorState
     if (ignoreFocus || _keyboardVisible) {
       _onChangeTextEditingValue(ignoreFocus);
     } else {
-      requestKeyboard();
+      if (controller.skipRequestKeyboard) {
+        controller.skipRequestKeyboard = false;
+      } else {
+        requestKeyboard();
+      }
       if (mounted) {
         setState(() {
           // Use widget.controller.value in build()

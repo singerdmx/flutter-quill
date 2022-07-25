@@ -84,8 +84,10 @@ Widget defaultEmbedBuilder(
                                         controller, controller.selection.start);
                                     final attr = replaceStyleString(
                                         getImageStyleString(controller), w, h);
-                                    controller.formatText(
-                                        res.item1, 1, StyleAttribute(attr));
+                                    controller
+                                      ..skipRequestKeyboard = true
+                                      ..formatText(
+                                          res.item1, 1, StyleAttribute(attr));
                                   },
                                   imageWidth: _widthHeight?.item1,
                                   imageHeight: _widthHeight?.item2,
