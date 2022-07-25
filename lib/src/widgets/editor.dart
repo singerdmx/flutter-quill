@@ -182,6 +182,10 @@ class QuillEditor extends StatefulWidget {
     required QuillController controller,
     required bool readOnly,
     Brightness? keyboardAppearance,
+
+    /// The locale to use for the editor toolbar, defaults to system locale
+    /// More at https://github.com/singerdmx/flutter-quill#translation
+    Locale? locale,
   }) {
     return QuillEditor(
       controller: controller,
@@ -193,6 +197,7 @@ class QuillEditor extends StatefulWidget {
       expands: false,
       padding: EdgeInsets.zero,
       keyboardAppearance: keyboardAppearance ?? Brightness.light,
+      locale: locale,
     );
   }
 
