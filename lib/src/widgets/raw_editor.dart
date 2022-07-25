@@ -411,11 +411,11 @@ class RawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     if (!widget.readOnly) {
       _disableScrollControllerAnimateOnce = true;
-      controller.ignoreFocusOnTextChange = true;
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
       controller
+        ..ignoreFocusOnTextChange = true
         ..formatText(offset, 0, attribute)
 
         // Checkbox tapping causes controller.selection to go to offset 0
