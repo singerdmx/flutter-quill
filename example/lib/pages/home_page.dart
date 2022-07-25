@@ -351,7 +351,8 @@ class _HomePageState extends State<HomePage> {
 
     if (isEditing) {
       final offset = getEmbedNode(controller, controller.selection.start).item1;
-      controller.replaceText(offset, 1, block, TextSelection.collapsed(offset: offset));
+      controller.replaceText(
+          offset, 1, block, TextSelection.collapsed(offset: offset));
     } else {
       controller.replaceText(index, length, block, null);
     }

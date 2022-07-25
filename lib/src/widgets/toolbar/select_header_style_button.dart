@@ -27,7 +27,8 @@ class SelectHeaderStyleButton extends StatefulWidget {
   final List<Attribute> attributes;
 
   @override
-  _SelectHeaderStyleButtonState createState() => _SelectHeaderStyleButtonState();
+  _SelectHeaderStyleButtonState createState() =>
+      _SelectHeaderStyleButtonState();
 }
 
 class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
@@ -82,17 +83,22 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
               elevation: 0,
               visualDensity: VisualDensity.compact,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
+                  borderRadius: BorderRadius.circular(
+                      widget.iconTheme?.borderRadius ?? 2)),
               fillColor: isSelected
-                  ? (widget.iconTheme?.iconSelectedFillColor ?? theme.toggleableActiveColor)
-                  : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
+                  ? (widget.iconTheme?.iconSelectedFillColor ??
+                      theme.toggleableActiveColor)
+                  : (widget.iconTheme?.iconUnselectedFillColor ??
+                      theme.canvasColor),
               onPressed: () => widget.controller.formatSelection(attribute),
               child: Text(
                 _valueToText[attribute] ?? '',
                 style: style.copyWith(
                   color: isSelected
-                      ? (widget.iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
-                      : (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
+                      ? (widget.iconTheme?.iconSelectedColor ??
+                          theme.primaryIconTheme.color)
+                      : (widget.iconTheme?.iconUnselectedColor ??
+                          theme.iconTheme.color),
                 ),
               ),
             ),
