@@ -56,49 +56,29 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     widget.controller.removeListener(_didChangeSelection);
   }
 
-  final GlobalKey _toolTipKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isToggled = _getLinkAttributeValue() != null;
     final pressedHandler = () => _openLinkDialog(context);
-    return GestureDetector(
-      onTap: () async {
-        final dynamic tooltip = _toolTipKey.currentState;
-        tooltip.ensureTooltipVisible();
-        Future.delayed(
-          const Duration(
-            seconds: 3,
-          ),
-          tooltip.deactivate,
-        );
-      },
-      child: Tooltip(
-        key: _toolTipKey,
-        message: 'Please first select some text to transform into a link.'.i18n,
-        child: QuillIconButton(
-          highlightElevation: 0,
-          hoverElevation: 0,
-          size: widget.iconSize * kIconButtonFactor,
-          icon: Icon(
-            widget.icon ?? Icons.link,
-            size: widget.iconSize,
-            color: isToggled
-                ? (widget.iconTheme?.iconSelectedColor ??
-                    theme.primaryIconTheme.color)
-                : (widget.iconTheme?.iconUnselectedColor ??
-                    theme.iconTheme.color),
-          ),
-          fillColor: isToggled
-              ? (widget.iconTheme?.iconSelectedFillColor ??
-                  theme.toggleableActiveColor)
-              : (widget.iconTheme?.iconUnselectedFillColor ??
-                  theme.canvasColor),
-          borderRadius: widget.iconTheme?.borderRadius ?? 2,
-          onPressed: pressedHandler,
-        ),
+    return QuillIconButton(
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: widget.iconSize * kIconButtonFactor,
+      icon: Icon(
+        widget.icon ?? Icons.link,
+        size: widget.iconSize,
+        color: isToggled
+            ? (widget.iconTheme?.iconSelectedColor ??
+                theme.primaryIconTheme.color)
+            : (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
+      fillColor: isToggled
+          ? (widget.iconTheme?.iconSelectedFillColor ??
+              theme.toggleableActiveColor)
+          : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
+      borderRadius: widget.iconTheme?.borderRadius ?? 2,
+      onPressed: pressedHandler,
     );
   }
 
