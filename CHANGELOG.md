@@ -1,3 +1,7 @@
+# [5.2.9]
+* Added option to modify SelectHeaderStyleButton options.
+* Added option to click again on h1, h2, h3 button to go back to normal.
+
 # [5.2.8]
 * Remove tooltip for LinkStyleButton.
 * Make link match regex case insensitive.
