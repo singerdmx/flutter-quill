@@ -1,3 +1,6 @@
+# [5.2.10]
+* Don't wrap the QuillEditor's child in the EditorTextSelectionGestureDetector if selection is disabled.
+
 # [5.2.9]
 * Added option to modify SelectHeaderStyleButton options.
 * Added option to click again on h1, h2, h3 button to go back to normal.
