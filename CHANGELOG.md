@@ -1,3 +1,7 @@
+# [5.2.8]
+* Remove tooltip for LinkStyleButton.
+* Make link match regex case insensitive.
+
 # [5.2.7]
 * Add locale to QuillEditor.basic.
 
