@@ -29,8 +29,6 @@ Demo App: https://bulletjournal.us/home/index.html
 
 Pub: https://pub.dev/packages/flutter_quill
 
-[简体中文文档](./doc_cn.md)
-
 ## Usage
 
 See the `example` directory for a minimal example of how to use FlutterQuill.  You typically just need to instantiate a controller:
@@ -347,6 +345,8 @@ The translation file is located at [toolbar.i18n.dart](lib/src/translations/tool
 <img src=
 "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
  width="150px" height="150px"></a>
+
+[Chinese Documentation](./doc_cn.md)
 
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter
