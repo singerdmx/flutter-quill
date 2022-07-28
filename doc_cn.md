@@ -21,7 +21,7 @@
 [github-forks-link]: https://github.com/singerdmx/flutter-quill/network/members
 
 
-FlutterQuill 是一个富文本编辑器，同样也是 [Quill] 在 [Flutter] 的分枝。
+FlutterQuill 是一个富文本编辑器，同样也是 [Quill] 在 [Flutter] 的版本。
 
 该库是为移动平台构建的 “ 所见即所得 ” 的富文本编辑器，同时我们还正在对 Web 平台进行兼容。查看我们的 [Youtube 播放列表] 或 [代码介绍] 以了解代码的详细内容。你可以加入我们的 [Slack Group] 来进行讨论。
 
