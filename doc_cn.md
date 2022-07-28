@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/10923085/119221946-2de89000-baf2-11eb-8285-68168a78c658.png" width="600px">
 </p>
-<h1 align="center">A rich text editor for Flutter</h1>
+<h1 align="center">支持 Flutter 平台的富文本编辑器</h1>
 
 [![MIT License][license-badge]][license-link]
 [![PRs Welcome][prs-badge]][prs-link]
@@ -21,25 +21,23 @@
 [github-forks-link]: https://github.com/singerdmx/flutter-quill/network/members
 
 
-FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
+FlutterQuill 是一个富文本编辑器，同样也是 [Quill] 在 [Flutter] 的分枝。
 
-This library is a WYSIWYG editor built for the modern mobile platform, with web compatibility under development. Check out our [Youtube Playlist] or [Code Introduction] to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
+该库是为移动平台构建的 “ 所见即所得 ” 的富文本编辑器，同时我们还正在对 Web 平台进行兼容。查看我们的 [Youtube 播放列表] 或 [代码介绍] 以了解代码的详细内容。你可以加入我们的 [Slack Group] 来进行讨论。
 
 Demo App: https://bulletjournal.us/home/index.html
 
 Pub: https://pub.dev/packages/flutter_quill
 
-[简体中文文档](./doc_cn.md)
+## 用法
 
-## Usage
-
-See the `example` directory for a minimal example of how to use FlutterQuill.  You typically just need to instantiate a controller:
+查看  `示例` 目录来学习 FlutterQuill 最简单的使用方法，你通常只需要实例化一个控制器：
 
 ```
 QuillController _controller = QuillController.basic();
 ```
 
-and then embed the toolbar and the editor, within your app.  For example:
+然后在你的 App 中嵌入工具栏和编辑器，例如：
 
 ```dart
 Column(
@@ -56,24 +54,24 @@ Column(
   ],
 )
 ```
-Check out [Sample Page] for advanced usage.
+查看 [示例页面] 以了解高级用户。
 
-## Input / Output
+## 输入 / 输出
 
-This library uses [Quill] as an internal data format.
+该库使用 [Quill] 作为内部数据格式。
 
-* Use `_controller.document.toDelta()` to extract the deltas.
-* Use `_controller.document.toPlainText()` to extract plain text.
+* 使用 `_controller.document.toDelta()` 获取增量。
+* 使用 `_controller.document.toPlainText()` 获取纯文本。
 
-FlutterQuill provides some JSON serialisation support, so that you can save and open documents.  To save a document as JSON, do something like the following:
+FlutterQuill 提供了一些 JSON 序列化支持，以便您可以保存和打开文档。 要将文档保存为 JSON 类型，请执行以下操作：
 
 ```
 var json = jsonEncode(_controller.document.toDelta().toJson());
 ```
 
-You can then write this to storage.
+然后你就可以将其存储。
 
-To open a FlutterQuill editor with an existing JSON representation that you've previously stored, you can do something like this:
+想要 FlutterQuill 编辑器使用你之前存储的 JSON 数据，请执行以下操作：
 
 ```
 var myJSON = jsonDecode(incomingJSONText);
@@ -83,41 +81,40 @@ _controller = QuillController(
 ```
 
 ## Web
+对于 web 开发，请执行 `flutter config --enable-web` 来获取对 flutter 的支持或使用 [ReactQuill] 获取对 React 的支持。
 
-For web development, use `flutter config --enable-web` for flutter or use [ReactQuill] for React.
+进行 Web 开发需要提供 `EmbedBuilder`, 参考：[defaultEmbedBuilderWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L29).
+进行 Web 开发还需要提供 `webImagePickImpl`, 参考： [示例页面](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L225).
 
-It is required to provide `EmbedBuilder`, e.g. [defaultEmbedBuilderWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L29).
-Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L225).
 
 ## Desktop
 
-It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L205).
+在桌面端进行工具栏按钮开发，需要提供 `filePickImpl`。参考：  [示例页面](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L205).
 
-## Configuration
+## 配置
 
-The `QuillToolbar` class lets you customise which formatting options are available.
-[Sample Page] provides sample code for advanced usage and configuration.
+`QuillToolbar` 类允许您自定义可用的格式选项。[示例页面] 提供了高级使用和配置的示例代码。
 
-### Font Size
-Within the editor toolbar, a drop-down with font-sizing capabilities is available. This can be enabled or disabled with `showFontSize`.  
+### 字号
+在编辑器工具栏中，提供了具有字号功能的下拉菜单。 这可以通过 `showFontSize` 启用或禁用。
 
-When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, String>` consisting of a `String` title for the font size and a `String` value for the font size.  Example:
+启用后，可以通过*可选的* `fontSizeValues` 属性修改默认字号。 `fontSizeValues` 接受一个 `Map<String, String>`，其中包含一个 `String` 类型的标题和一个 `String` 类型的字号。 例子：
 ```
 fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46'}
 ```
 
-Font size can be cleared with a value of `0`, for example: 
+字体大小可以使用 `0` 值清除，例如：
 ```
 fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'}
 ```
 
-### Font Family
-To use your own fonts, update your [assets folder](https://github.com/singerdmx/flutter-quill/tree/master/example/assets/fonts) and pass in `fontFamilyValues`. More details at [this change](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) and [this](https://www.flutterbeads.com/change-font-family-flutter/).
+### 字体
+想要使用你自己的字体，请更新你的 [assets folder](https://github.com/singerdmx/flutter-quill/tree/master/example/assets/fonts) 并且传入 `fontFamilyValues`。详情内容请查看 [this change](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) 和 [this](https://www.flutterbeads.com/change-font-family-flutter/)。
 
-### Custom Buttons
-You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List` of `QuillCustomButton`.
+### 自定义按钮
+您可以通过 `customButtons` 可选参数将自定义按钮添加到工具栏的*末尾*，该参数接收的了行是 `QuillCustomButton` 的 `List`。
 
-To add an Icon, we should use a new QuillCustomButton class
+要添加一个 Icon，我们应该实例化一个新的新的 `QuillCustomButton`
 ```
     QuillCustomButton(
         icon:Icons.ac_unit,
@@ -127,7 +124,7 @@ To add an Icon, we should use a new QuillCustomButton class
     ),
 ```
 
-Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
+每个 `QuillCustomButton` 都是 `customButtons` 可选参数的一部分，如下所示：
 ```
 QuillToolbar.basic(
    (...),
@@ -155,9 +152,9 @@ QuillToolbar.basic(
     ]
 ```
 
-### Custom Size Image for Mobile
+### 移动端上自定义图片尺寸
 
-Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
+定义`mobileWidth`、`mobileHeight`、`mobileMargin`、`mobileAlignment`如下：
 ```
 {
       "insert": {
@@ -169,15 +166,14 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 }
 ```
 
-### Custom Embed Blocks
+### 自定义嵌入块
+有时您想在文本中添加一些自定义内容或者是自定义小部件。 比如向文本添加注释，或者在文本编辑器中添加的任何自定义内容。
 
-Sometimes you want to add some custom content inside your text, custom widgets inside of them. An example is adding notes to the text, or anything custom that you want to add in your text editor.
+您唯一需要做的就是添加一个 `CustomBlockEmbed` 并将其映射到 `customElementsEmbedBuilder` 中，以将自定义块内的数据转换为一个 widget！
 
-The only thing that you need is to add a `CustomBlockEmbed` and map it into the `customElementsEmbedBuilder`, to transform the data inside of the Custom Block into a widget!
+例子：
 
-Here is an example:
-
-Starting with the `CustomBlockEmbed`, here we extend it and add the methods that are useful for the 'Note' widget, that will be the `Document`, used by the `flutter_quill` to render the rich text.
+从 `CustomBlockEmbed` 开始，我们在这里扩展它并添加对 'Note' widget 的方法，这就是 `Document`，`flutter_quill` 使用它来呈现富文本。
 
 ```dart
 class NotesBlockEmbed extends CustomBlockEmbed {
@@ -192,8 +188,7 @@ class NotesBlockEmbed extends CustomBlockEmbed {
 }
 ```
 
-After that, we need to map this "notes" type into a widget. In that case, I used a `ListTile` with a text to show the plain text resume of the note, and the `onTap` function to edit the note.
-Don't forget to add this method to the `QuillEditor` after that!
+然后，我们需要将这个 “notes” 类型映射到 widget 中。在例子中，我使用 `ListTile` 来显示它，使用 `onTap` 方法俩编辑内容，另外不要忘记将此方法添加到 `QuillEditor` 中。
 
 ```dart
 Widget customElementsEmbedBuilder(
@@ -229,7 +224,7 @@ Widget customElementsEmbedBuilder(
 }
 ```
 
-And finally, we write the function to add/edit this note. The `showDialog` function shows the QuillEditor to edit the note, after the user ends the edition, we check if the document has something, and if it has, we add or edit the `NotesBlockEmbed` inside of a `BlockEmbed.custom` (this is a little detail that will not work if you don't pass the `CustomBlockEmbed` inside of a `BlockEmbed.custom`).
+然后，编写一个方法来添加/编辑内容，`showDialog` 方法显示 Quill 编辑器以编辑内容，用户编辑完成后，需要检查文档是否有内容，如果有内容，在 `CustomBlockEmbed` 中添加/编辑 `NotesBlockEmbed`（注意，如果没有在 `NotesBlockEmbed` 中传递 `CustomBlockEmbed` ，编辑将不会生效）。
 
 ```dart
 Future<void> _addEditNote(BuildContext context, {Document? document}) async {
@@ -279,26 +274,26 @@ Future<void> _addEditNote(BuildContext context, {Document? document}) async {
 }
 ```
 
-And voila, we have a custom widget inside of the rich text editor!
+这样我们就成功的在富文本编辑器中添加了一个自定义小组件。
 
 <p float="left">
   <img width="400" alt="1" src="https://i.imgur.com/yBTPYeS.png">
 </p>
 
-> For more info and a video example, see the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
+> 更多信息和视频示例，请参阅 [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
 
-> For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
+> 有关更多详细信息，请查看 [this YouTube video](https://youtu.be/pI5p5j7cfHc)
 
-### Translation
+### 翻译
 
-The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:
+该库为 quill 工具栏和编辑器提供翻译，除非您设置自己的语言环境，否则它将遵循系统语言环境：
 
 ```dart
 QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-Currently, translations are available for these 22 locales:
+目前，可提供以下 22 种语言环境的翻译：
 
 * `Locale('en')`
 * `Locale('ar')`
@@ -323,8 +318,8 @@ Currently, translations are available for these 22 locales:
 * `Locale('hi')`
 * `Locale('sr')`
 
-#### Contributing to translations
-The translation file is located at [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
+#### 贡献翻译
+翻译文件位于 [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart)。 随意贡献您自己的翻译，只需复制英文翻译映射并将值替换为您的翻译。 然后打开一个拉取请求，这样每个人都可以从您的翻译中受益！
 
 ---
 
@@ -341,7 +336,7 @@ The translation file is located at [toolbar.i18n.dart](lib/src/translations/tool
 
 
 
-## Sponsors
+## 帮助
 
 <a href="https://bulletjournal.us/home/index.html">
 <img src=
@@ -352,7 +347,7 @@ The translation file is located at [toolbar.i18n.dart](lib/src/translations/tool
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
 [ReactQuill]: https://github.com/zenoamaro/react-quill
-[Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
+[Youtube 播放列表]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
-[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
-[Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/CodeIntroduction.md
+[示例页面]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
+[代码介绍]: https://github.com/singerdmx/flutter-quill/blob/master/CodeIntroduction.md
