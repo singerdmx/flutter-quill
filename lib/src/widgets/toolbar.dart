@@ -176,6 +176,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           'Sans Serif': 'sans-serif',
           'Serif': 'serif',
           'Monospace': 'monospace',
+          'Ibarra Real Nova': 'ibarra-real-nova',
+          'SquarePeg': 'square-peg',
           'Clear': 'Clear'
         };
 

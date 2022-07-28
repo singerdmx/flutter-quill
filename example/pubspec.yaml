@@ -67,6 +67,13 @@ flutter:
     - family: sans-serif
       fonts:
         - asset: assets/fonts/SansSerif.ttf
+    - family: ibarra-real-nova
+      fonts:
+          - asset: assets/fonts/IbarraRealNova-Regular.ttf
+    - family: square-peg
+      fonts:
+        - asset: assets/fonts/SquarePeg-Regular.ttf
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
