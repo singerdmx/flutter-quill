@@ -186,6 +186,35 @@ class Document {
     return block.queryChild(res.offset, true);
   }
 
+  /// Search the whole document for any substring matching the pattern
+  /// Returns the offsets that matches the pattern
+  List<int> search(Pattern other) {
+    final matches = <int>[];
+    for (final node in _root.children) {
+      if (node is Line) {
+        _searchLine(other, node, matches);
+      } else if (node is Block) {
+        for (final line in Iterable.castFrom<dynamic, Line>(node.children)) {
+          _searchLine(other, line, matches);
+        }
+      } else {
+        throw StateError('Unreachable.');
+      }
+    }
+    return matches;
+  }
+
+  void _searchLine(Pattern other, Line line, List<int> matches) {
+    var index = -1;
+    while (true) {
+      index = line.toPlainText().indexOf(other, index + 1);
+      if (index < 0) {
+        break;
+      }
+      matches.add(index + line.documentOffset);
+    }
+  }
+
   /// Given offset, find its leaf node in document
   Tuple2<Line?, Leaf?> querySegmentLeafNode(int offset) {
     final result = queryChild(offset);
