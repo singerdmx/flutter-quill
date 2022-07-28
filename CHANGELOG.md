@@ -1,3 +1,6 @@
+# [5.2.11]
+* Remove default small color.
+
 # [5.2.10]
 * Don't wrap the QuillEditor's child in the EditorTextSelectionGestureDetector if selection is disabled.
 
