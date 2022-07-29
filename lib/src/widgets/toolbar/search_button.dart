@@ -155,7 +155,6 @@ class _SearchDialogState extends State<_SearchDialog> {
                 setState(() {
                   _offsets = widget.controller.document.search(_text);
                   _index = 0;
-                  debugPrint(_offsets.toString());
                 });
                 if (_offsets!.isNotEmpty) {
                   _moveToPosition();
