@@ -28,6 +28,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -54,6 +55,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -80,6 +82,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -106,6 +109,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -133,6 +137,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -159,6 +164,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -185,6 +191,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -210,6 +217,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -236,6 +244,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -263,6 +272,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -289,6 +299,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -315,6 +326,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -342,6 +354,7 @@ extension Localization on String {
           'Huge': 'Gigante',
           'Clear': 'Limpar',
           'Font': 'Fonte',
+          'Search': 'Search',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -369,6 +382,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -396,6 +410,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
@@ -422,6 +437,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'id': {
           'Paste a link': 'Tempel tautan',
@@ -448,6 +464,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'no': {
           'Paste a link': 'Lim inn lenke',
@@ -474,6 +491,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
@@ -500,6 +518,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'hi': {
           'Paste a link': 'लिंक पेस्ट करें',
@@ -526,6 +545,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'nl': {
           'Paste a link': 'Plak een link',
@@ -552,6 +572,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'zh_HK': {
           'Paste a link': '貼上連結',
@@ -578,6 +599,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
         'sr': {
           'Paste a link': 'Nalepi vezu',
@@ -604,6 +626,7 @@ extension Localization on String {
           'Huge': 'Huge',
           'Clear': 'Clear',
           'Font': 'Font',
+          'Search': 'Search',
         },
       };
 

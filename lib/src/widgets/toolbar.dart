@@ -111,7 +111,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showVideoButton = true,
     bool showCameraButton = true,
     bool showDirection = false,
-    bool showSearchButton = true,
+    bool showSearchButton = false,
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
