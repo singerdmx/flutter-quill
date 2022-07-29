@@ -72,48 +72,109 @@ class _SearchDialog extends StatefulWidget {
 class _SearchDialogState extends State<_SearchDialog> {
   late String _text;
   late TextEditingController _controller;
+  late List<int>? _offsets;
+  late int _index;
 
   @override
   void initState() {
     super.initState();
     _text = widget.text ?? '';
+    _offsets = null;
+    _index = 0;
     _controller = TextEditingController(text: _text);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
-      content: TextField(
-        keyboardType: TextInputType.multiline,
-        maxLines: null,
-        style: widget.dialogTheme?.inputTextStyle,
-        decoration: InputDecoration(
-            labelText: 'Search'.i18n,
-            labelStyle: widget.dialogTheme?.labelTextStyle,
-            floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
-        autofocus: true,
-        onChanged: _textChanged,
-        controller: _controller,
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            final offsets = widget.controller.document.search(_text);
-            debugPrint(offsets.toString());
-          },
-          child: Text(
-            'Ok'.i18n,
-            style: widget.dialogTheme?.labelTextStyle,
+    return StatefulBuilder(builder: (context, setState) {
+      var label = '';
+      if (_offsets != null) {
+        label = '${_offsets!.length} ${'matches'.i18n}';
+        if (_offsets!.isNotEmpty) {
+          label += ', ${'showing match'.i18n} ${_index + 1}';
+        }
+      }
+      return AlertDialog(
+        backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
+        content: Container(
+          height: 100,
+          child: Column(
+            children: [
+              TextField(
+                keyboardType: TextInputType.multiline,
+                style: widget.dialogTheme?.inputTextStyle,
+                decoration: InputDecoration(
+                    labelText: 'Search'.i18n,
+                    labelStyle: widget.dialogTheme?.labelTextStyle,
+                    floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
+                autofocus: true,
+                onChanged: _textChanged,
+                controller: _controller,
+              ),
+              if (_offsets != null)
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(label, textAlign: TextAlign.left),
+                ),
+            ],
           ),
         ),
-      ],
-    );
+        actions: [
+          if (_offsets != null && _offsets!.isNotEmpty && _index > 0)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _index -= 1;
+                });
+                widget.controller.moveCursorToPosition(_offsets![_index]);
+              },
+              child: Text(
+                'Prev'.i18n,
+                style: widget.dialogTheme?.labelTextStyle,
+              ),
+            ),
+          if (_offsets != null &&
+              _offsets!.isNotEmpty &&
+              _index < _offsets!.length - 1)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _index += 1;
+                });
+                widget.controller.moveCursorToPosition(_offsets![_index]);
+              },
+              child: Text(
+                'Next'.i18n,
+                style: widget.dialogTheme?.labelTextStyle,
+              ),
+            ),
+          if (_offsets == null)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _offsets = widget.controller.document.search(_text);
+                  _index = 0;
+                  debugPrint(_offsets.toString());
+                });
+                if (_offsets!.isNotEmpty) {
+                  widget.controller.moveCursorToPosition(_offsets![0]);
+                }
+              },
+              child: Text(
+                'Ok'.i18n,
+                style: widget.dialogTheme?.labelTextStyle,
+              ),
+            ),
+        ],
+      );
+    });
   }
 
   void _textChanged(String value) {
     setState(() {
       _text = value;
+      _offsets = null;
+      _index = 0;
     });
   }
 }
