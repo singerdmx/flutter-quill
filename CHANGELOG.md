@@ -1,3 +1,6 @@
+# [5.3.1]
+* Enable search when text is not empty.
+
 # [5.3.0]
 * Added search function.
 

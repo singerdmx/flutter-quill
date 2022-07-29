@@ -149,7 +149,7 @@ class _SearchDialogState extends State<_SearchDialog> {
                 style: widget.dialogTheme?.labelTextStyle,
               ),
             ),
-          if (_offsets == null)
+          if (_offsets == null && _text.isNotEmpty)
             TextButton(
               onPressed: () {
                 setState(() {
