@@ -299,6 +299,12 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Search the whole document for any substring matching the pattern
+  /// Returns the offsets that matches the pattern
+  List<int> search(Pattern other) {
+    return document.search(other);
+  }
+
   @override
   void addListener(VoidCallback listener) {
     // By using `_isDisposed`, make sure that `addListener` won't be called on a

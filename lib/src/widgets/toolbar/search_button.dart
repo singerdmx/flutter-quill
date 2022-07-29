@@ -48,7 +48,8 @@ class SearchButton extends StatelessWidget {
   Future<void> _onPressedHandler(BuildContext context) async {
     await showDialog<String>(
       context: context,
-      builder: (_) => _SearchDialog(dialogTheme: dialogTheme, text: ''),
+      builder: (_) => _SearchDialog(
+          controller: controller, dialogTheme: dialogTheme, text: ''),
     ).then(_searchSubmitted);
   }
 
@@ -56,9 +57,11 @@ class SearchButton extends StatelessWidget {
 }
 
 class _SearchDialog extends StatefulWidget {
-  const _SearchDialog({this.dialogTheme, this.text, Key? key})
+  const _SearchDialog(
+      {required this.controller, this.dialogTheme, this.text, Key? key})
       : super(key: key);
 
+  final QuillController controller;
   final QuillDialogTheme? dialogTheme;
   final String? text;
 
@@ -90,11 +93,15 @@ class _SearchDialogState extends State<_SearchDialog> {
             labelStyle: widget.dialogTheme?.labelTextStyle,
             floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
         autofocus: true,
+        onChanged: _textChanged,
         controller: _controller,
       ),
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            final offsets = widget.controller.document.search(_text);
+            debugPrint(offsets.toString());
+          },
           child: Text(
             'Ok'.i18n,
             style: widget.dialogTheme?.labelTextStyle,
@@ -102,5 +109,11 @@ class _SearchDialogState extends State<_SearchDialog> {
         ),
       ],
     );
+  }
+
+  void _textChanged(String value) {
+    setState(() {
+      _text = value;
+    });
   }
 }
