@@ -1,3 +1,6 @@
+# [5.3.2]
+* Add more font family.
+
 # [5.3.1]
 * Enable search when text is not empty.
 

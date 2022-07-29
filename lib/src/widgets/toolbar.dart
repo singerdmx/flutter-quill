@@ -180,6 +180,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           'Monospace': 'monospace',
           'Ibarra Real Nova': 'ibarra-real-nova',
           'SquarePeg': 'square-peg',
+          'Nunito': 'nunito',
+          'Pacifico': 'pacifico',
+          'Roboto Mono': 'roboto-mono',
           'Clear': 'Clear'
         };
 

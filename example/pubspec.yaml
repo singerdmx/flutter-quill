@@ -73,6 +73,15 @@ flutter:
     - family: square-peg
       fonts:
         - asset: assets/fonts/SquarePeg-Regular.ttf
+    - family: nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Regular.ttf
+    - family: pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico-Regular.ttf
+    - family: roboto-mono
+      fonts:
+        - asset: assets/fonts/RobotoMono-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
