@@ -22,6 +22,7 @@ import 'toolbar/link_style_button.dart';
 import 'toolbar/quill_font_family_button.dart';
 import 'toolbar/quill_font_size_button.dart';
 import 'toolbar/quill_icon_button.dart';
+import 'toolbar/search_button.dart';
 import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
 import 'toolbar/toggle_check_list_button.dart';
@@ -110,6 +111,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showVideoButton = true,
     bool showCameraButton = true,
     bool showDirection = false,
+    bool showSearchButton = true,
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
@@ -158,7 +160,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       showHeaderStyle,
       showListNumbers || showListBullets || showListCheck || showCodeBlock,
       showQuote || showIndent,
-      showLink
+      showLink || showSearchButton
     ];
 
     //default font size values
@@ -491,6 +493,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           LinkStyleButton(
             controller: controller,
             iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
+          ),
+        if (showSearchButton)
+          SearchButton(
+            icon: Icons.search,
+            iconSize: toolbarIconSize,
+            controller: controller,
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
           ),
