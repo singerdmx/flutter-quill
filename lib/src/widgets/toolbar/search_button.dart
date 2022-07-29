@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/documents/document.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
@@ -126,7 +127,7 @@ class _SearchDialogState extends State<_SearchDialog> {
                 setState(() {
                   _index -= 1;
                 });
-                widget.controller.moveCursorToPosition(_offsets![_index]);
+                _moveToPosition();
               },
               child: Text(
                 'Prev'.i18n,
@@ -141,7 +142,7 @@ class _SearchDialogState extends State<_SearchDialog> {
                 setState(() {
                   _index += 1;
                 });
-                widget.controller.moveCursorToPosition(_offsets![_index]);
+                _moveToPosition();
               },
               child: Text(
                 'Next'.i18n,
@@ -157,7 +158,7 @@ class _SearchDialogState extends State<_SearchDialog> {
                   debugPrint(_offsets.toString());
                 });
                 if (_offsets!.isNotEmpty) {
-                  widget.controller.moveCursorToPosition(_offsets![0]);
+                  _moveToPosition();
                 }
               },
               child: Text(
@@ -168,6 +169,14 @@ class _SearchDialogState extends State<_SearchDialog> {
         ],
       );
     });
+  }
+
+  void _moveToPosition() {
+    widget.controller.updateSelection(
+        TextSelection(
+            baseOffset: _offsets![_index],
+            extentOffset: _offsets![_index] + _text.length),
+        ChangeSource.LOCAL);
   }
 
   void _textChanged(String value) {

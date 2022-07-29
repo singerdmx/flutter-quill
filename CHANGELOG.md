@@ -1,3 +1,6 @@
+# [5.3.0]
+* Added search function.
+
 # [5.2.11]
 * Remove default small color.
 
