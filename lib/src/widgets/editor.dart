@@ -536,6 +536,11 @@ class QuillEditorState extends State<QuillEditor>
   void _requestKeyboard() {
     _editorKey.currentState!.requestKeyboard();
   }
+
+  Offset? getCursorOffSet() {
+    return _editorKey.currentState?.renderEditor
+        .getEndpointsForSelection(widget.controller.selection).last.point;
+  }
 }
 
 class _QuillEditorSelectionGestureDetectorBuilder
