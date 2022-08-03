@@ -110,6 +110,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool multiRowsDisplay = true,
     bool showImageButton = true,
     bool showVideoButton = true,
+    bool showFormulaButton = false,
     bool showCameraButton = true,
     bool showDirection = false,
     bool showSearchButton = true,
@@ -365,7 +366,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             webVideoPickImpl: webVideoPickImpl,
             iconTheme: iconTheme,
           ),
-        if (showImageButton)
+        if (showFormulaButton)
           FormulaButton(
             icon: Icons.functions,
             iconSize: toolbarIconSize,
