@@ -38,6 +38,9 @@ class BlockEmbed extends Embeddable {
   static const String videoType = 'video';
   static BlockEmbed video(String videoUrl) => BlockEmbed(videoType, videoUrl);
 
+  static const String formulaType = 'formula';
+  static BlockEmbed formula(String formula) => BlockEmbed(formulaType, formula);
+
   static const String customType = 'custom';
   static BlockEmbed custom(CustomBlockEmbed customBlock) =>
       BlockEmbed(customType, customBlock.toJsonString());

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:math_keyboard/math_keyboard.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../models/documents/attribute.dart';
@@ -153,6 +155,24 @@ Widget defaultEmbedBuilder(
         context: context,
         readOnly: readOnly,
         onVideoInit: onVideoInit,
+      );
+    case BlockEmbed.formulaType:
+      final mathController = MathFieldEditingController();
+
+      return Focus(
+        onFocusChange: (hasFocus) {
+          if (hasFocus) {
+            // If the MathField is tapped, hides the built in keyboard
+            SystemChannels.textInput.invokeMethod('TextInput.hide');
+            print(mathController.currentEditingValue());
+          }
+        },
+        child: MathField(
+          controller: mathController,
+          variables: const ['x', 'y', 'z'],
+          onChanged: (value) {},
+          onSubmitted: (value) {},
+        ),
       );
     default:
       throw UnimplementedError(
