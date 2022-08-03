@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/themes/quill_dialog_theme.dart';
