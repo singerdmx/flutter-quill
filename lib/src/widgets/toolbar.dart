@@ -14,6 +14,7 @@ import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/camera_button.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
+import 'toolbar/formula_button.dart';
 import 'toolbar/history_button.dart';
 import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
@@ -363,6 +364,18 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             webImagePickImpl: webImagePickImpl,
             webVideoPickImpl: webVideoPickImpl,
             iconTheme: iconTheme,
+          ),
+        if (showImageButton)
+          FormulaButton(
+            icon: Icons.functions,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            onImagePickCallback: onImagePickCallback,
+            filePickImpl: filePickImpl,
+            webImagePickImpl: webImagePickImpl,
+            mediaPickSettingSelector: mediaPickSettingSelector,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
           ),
         if (showDividers &&
             isButtonGroupShown[0] &&
