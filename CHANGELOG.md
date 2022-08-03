@@ -1,3 +1,6 @@
+# [5.4.0]
+* Added Formula Button (for maths support).
+
 # [5.3.2]
 * Add more font family.
 

@@ -164,7 +164,7 @@ Widget defaultEmbedBuilder(
           if (hasFocus) {
             // If the MathField is tapped, hides the built in keyboard
             SystemChannels.textInput.invokeMethod('TextInput.hide');
-            print(mathController.currentEditingValue());
+            debugPrint(mathController.currentEditingValue());
           }
         },
         child: MathField(
