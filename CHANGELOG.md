@@ -1,3 +1,6 @@
+# [5.4.1]
+* Update German Translation. 
+
 # [5.4.0]
 * Added Formula Button (for maths support).
 
