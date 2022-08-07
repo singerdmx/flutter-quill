@@ -54,6 +54,8 @@ typedef WebVideoPickImpl = Future<String?> Function(
     OnVideoPickCallback onImagePickCallback);
 typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
     BuildContext context);
+typedef CameraPickSettingSelector = Future<MediaPickSetting?> Function(
+    BuildContext context);
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -117,6 +119,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
+    CameraPickSettingSelector? cameraPickSettingSelector,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
@@ -364,6 +367,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             filePickImpl: filePickImpl,
             webImagePickImpl: webImagePickImpl,
             webVideoPickImpl: webVideoPickImpl,
+            cameraPickSettingSelector: cameraPickSettingSelector,
             iconTheme: iconTheme,
           ),
         if (showFormulaButton)

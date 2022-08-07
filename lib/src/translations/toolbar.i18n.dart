@@ -33,6 +33,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -64,6 +66,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -95,6 +99,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -126,6 +132,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -189,6 +197,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'zh_CN': {
           'Paste a link': '粘贴链接',
@@ -220,6 +230,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -250,6 +262,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -281,6 +295,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -313,6 +329,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -344,6 +362,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -375,6 +395,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -407,6 +429,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -439,6 +463,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -471,6 +497,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
@@ -502,6 +530,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'id': {
           'Paste a link': 'Tempel tautan',
@@ -533,6 +563,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'no': {
           'Paste a link': 'Lim inn lenke',
@@ -564,6 +596,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
@@ -595,6 +629,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'hi': {
           'Paste a link': 'लिंक पेस्ट करें',
@@ -626,6 +662,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'nl': {
           'Paste a link': 'Plak een link',
@@ -657,6 +695,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'zh_HK': {
           'Paste a link': '貼上連結',
@@ -688,6 +728,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'sr': {
           'Paste a link': 'Nalepi vezu',
@@ -719,6 +761,8 @@ extension Localization on String {
           'showing match': 'showing match',
           'Prev': 'Prev',
           'Next': 'Next',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
       };
 

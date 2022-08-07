@@ -78,6 +78,8 @@ class LinkDialogState extends State<LinkDialog> {
 enum MediaPickSetting {
   Gallery,
   Link,
+  Camera,
+  Video,
 }
 
 class ImageVideoUtils {

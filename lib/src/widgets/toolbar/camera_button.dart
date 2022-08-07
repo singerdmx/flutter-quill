@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/themes/quill_icon_theme.dart';
+import '../../translations/toolbar.i18n.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
@@ -16,6 +17,7 @@ class CameraButton extends StatelessWidget {
     this.filePickImpl,
     this.webImagePickImpl,
     this.webVideoPickImpl,
+    this.cameraPickSettingSelector,
     this.iconTheme,
     Key? key,
   }) : super(key: key);
@@ -36,6 +38,8 @@ class CameraButton extends StatelessWidget {
   final WebVideoPickImpl? webVideoPickImpl;
 
   final FilePickImpl? filePickImpl;
+
+  final CameraPickSettingSelector? cameraPickSettingSelector;
 
   final QuillIconTheme? iconTheme;
 
@@ -69,48 +73,55 @@ class CameraButton extends StatelessWidget {
       FilePickImpl? filePickImpl,
       WebImagePickImpl? webImagePickImpl}) async {
     if (onImagePickCallback != null && onVideoPickCallback != null) {
-      // Show dialog to choose Photo or Video
-      return await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                contentPadding: const EdgeInsets.all(0),
-                backgroundColor: Colors.transparent,
-                content: Column(mainAxisSize: MainAxisSize.min, children: [
-                  TextButton.icon(
-                    icon: const Icon(Icons.photo, color: Colors.cyanAccent),
-                    label: const Text('Photo'),
-                    onPressed: () {
-                      ImageVideoUtils.handleImageButtonTap(context, controller,
-                          ImageSource.camera, onImagePickCallback,
-                          filePickImpl: filePickImpl,
-                          webImagePickImpl: webImagePickImpl);
-                    },
+      final selector = cameraPickSettingSelector ??
+          (context) => showDialog<MediaPickSetting>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  backgroundColor: Colors.transparent,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton.icon(
+                        icon: const Icon(
+                          Icons.camera,
+                          color: Colors.orangeAccent,
+                        ),
+                        label: Text('Camera'.i18n),
+                        onPressed: () =>
+                            Navigator.pop(ctx, MediaPickSetting.Camera),
+                      ),
+                      TextButton.icon(
+                        icon: const Icon(
+                          Icons.video_call,
+                          color: Colors.cyanAccent,
+                        ),
+                        label: Text('Video'.i18n),
+                        onPressed: () =>
+                            Navigator.pop(ctx, MediaPickSetting.Video),
+                      )
+                    ],
                   ),
-                  TextButton.icon(
-                    icon: const Icon(Icons.movie_creation,
-                        color: Colors.orangeAccent),
-                    label: const Text('Video'),
-                    onPressed: () {
-                      ImageVideoUtils.handleVideoButtonTap(context, controller,
-                          ImageSource.camera, onVideoPickCallback,
-                          filePickImpl: filePickImpl,
-                          webVideoPickImpl: webVideoPickImpl);
-                    },
-                  )
-                ]));
-          });
-    }
+                ),
+              );
 
-    if (onImagePickCallback != null) {
-      return ImageVideoUtils.handleImageButtonTap(
-          context, controller, ImageSource.camera, onImagePickCallback,
-          filePickImpl: filePickImpl, webImagePickImpl: webImagePickImpl);
+      final source = await selector(context);
+      if (source != null) {
+        switch (source) {
+          case MediaPickSetting.Camera:
+            await ImageVideoUtils.handleImageButtonTap(
+                context, controller, ImageSource.camera, onImagePickCallback,
+                filePickImpl: filePickImpl, webImagePickImpl: webImagePickImpl);
+            break;
+          case MediaPickSetting.Video:
+            await ImageVideoUtils.handleVideoButtonTap(
+                context, controller, ImageSource.camera, onVideoPickCallback,
+                filePickImpl: filePickImpl, webVideoPickImpl: webVideoPickImpl);
+            break;
+          default:
+            throw ArgumentError('Invalid MediaSetting');
+        }
+      }
     }
-
-    assert(onVideoPickCallback != null, 'onVideoPickCallback must not be null');
-    return ImageVideoUtils.handleVideoButtonTap(
-        context, controller, ImageSource.camera, onVideoPickCallback!,
-        filePickImpl: filePickImpl, webVideoPickImpl: webVideoPickImpl);
   }
 }
