@@ -166,6 +166,8 @@ extension Localization on String {
           'showing match': 'zeige Treffer',
           'Prev': 'Vorheriger',
           'Next': 'Nächster',
+          'Camera': 'Camera',
+          'Video': 'Video',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
