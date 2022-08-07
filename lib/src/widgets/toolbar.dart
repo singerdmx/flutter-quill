@@ -18,6 +18,7 @@ import 'toolbar/formula_button.dart';
 import 'toolbar/history_button.dart';
 import 'toolbar/image_button.dart';
 import 'toolbar/image_video_utils.dart';
+import 'toolbar/camera_video_utils.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/quill_font_family_button.dart';
@@ -35,6 +36,7 @@ export 'toolbar/color_button.dart';
 export 'toolbar/history_button.dart';
 export 'toolbar/image_button.dart';
 export 'toolbar/image_video_utils.dart';
+export 'toolbar/camera_video_utils.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
 export 'toolbar/quill_font_size_button.dart';
@@ -53,6 +55,8 @@ typedef WebImagePickImpl = Future<String?> Function(
 typedef WebVideoPickImpl = Future<String?> Function(
     OnVideoPickCallback onImagePickCallback);
 typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
+    BuildContext context);
+typedef CameraPickSettingSelector = Future<CameraPickSetting?> Function(
     BuildContext context);
 
 // The default size of the icon of a button.
@@ -117,6 +121,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
+    CameraPickSettingSelector? cameraPickSettingSelector,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
@@ -364,6 +369,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             filePickImpl: filePickImpl,
             webImagePickImpl: webImagePickImpl,
             webVideoPickImpl: webVideoPickImpl,
+            cameraPickSettingSelector: cameraPickSettingSelector,
             iconTheme: iconTheme,
           ),
         if (showFormulaButton)
