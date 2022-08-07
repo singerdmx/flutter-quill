@@ -39,7 +39,7 @@ class CameraButton extends StatelessWidget {
 
   final FilePickImpl? filePickImpl;
 
-  final CameraPickSettingSelector? cameraPickSettingSelector;
+  final MediaPickSettingSelector? cameraPickSettingSelector;
 
   final QuillIconTheme? iconTheme;
 
