@@ -1,3 +1,6 @@
+# [5.4.2]
+* Upgrade i18n_extension.
+
 # [5.4.1]
 * Update German Translation. 
 
