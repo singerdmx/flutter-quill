@@ -1607,8 +1607,7 @@ class RenderEditor extends RenderEditableContainerBox
   }
 }
 
-class QuillVerticalCaretMovementRun
-    extends BidirectionalIterator<TextPosition> {
+class QuillVerticalCaretMovementRun extends Iterator<TextPosition> {
   QuillVerticalCaretMovementRun._(
     this._editor,
     this._currentTextPosition,
@@ -1629,7 +1628,6 @@ class QuillVerticalCaretMovementRun
     return true;
   }
 
-  @override
   bool movePrevious() {
     _currentTextPosition = _editor.getTextPositionAbove(_currentTextPosition);
     return true;
