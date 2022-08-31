@@ -3,8 +3,10 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../widgets/controller.dart';
+import '../../widgets/toolbar.dart';
+import '../default_embed_builder.dart';
+import 'image_video_utils.dart';
 
 class CameraButton extends StatelessWidget {
   const CameraButton({

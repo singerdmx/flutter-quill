@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../widgets/controller.dart';
+import '../../widgets/toolbar.dart';
+import '../default_embed_builder.dart';
 
 class FormulaButton extends StatelessWidget {
   const FormulaButton({

@@ -4,18 +4,20 @@ import 'package:image_picker/image_picker.dart';
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../widgets/controller.dart';
+import '../../widgets/toolbar.dart';
+import '../default_embed_builder.dart';
+import 'image_video_utils.dart';
 
-class VideoButton extends StatelessWidget {
-  const VideoButton({
+class ImageButton extends StatelessWidget {
+  const ImageButton({
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
-    this.onVideoPickCallback,
+    this.onImagePickCallback,
     this.fillColor,
     this.filePickImpl,
-    this.webVideoPickImpl,
+    this.webImagePickImpl,
     this.mediaPickSettingSelector,
     this.iconTheme,
     this.dialogTheme,
@@ -29,9 +31,9 @@ class VideoButton extends StatelessWidget {
 
   final QuillController controller;
 
-  final OnVideoPickCallback? onVideoPickCallback;
+  final OnImagePickCallback? onImagePickCallback;
 
-  final WebVideoPickImpl? webVideoPickImpl;
+  final WebImagePickImpl? webImagePickImpl;
 
   final FilePickImpl? filePickImpl;
 
@@ -61,13 +63,13 @@ class VideoButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    if (onVideoPickCallback != null) {
+    if (onImagePickCallback != null) {
       final selector =
           mediaPickSettingSelector ?? ImageVideoUtils.selectMediaPickSetting;
       final source = await selector(context);
       if (source != null) {
         if (source == MediaPickSetting.Gallery) {
-          _pickVideo(context);
+          _pickImage(context);
         } else {
           _typeLink(context);
         }
@@ -77,13 +79,13 @@ class VideoButton extends StatelessWidget {
     }
   }
 
-  void _pickVideo(BuildContext context) => ImageVideoUtils.handleVideoButtonTap(
+  void _pickImage(BuildContext context) => ImageVideoUtils.handleImageButtonTap(
         context,
         controller,
         ImageSource.gallery,
-        onVideoPickCallback!,
+        onImagePickCallback!,
         filePickImpl: filePickImpl,
-        webVideoPickImpl: webVideoPickImpl,
+        webImagePickImpl: webImagePickImpl,
       );
 
   void _typeLink(BuildContext context) {
@@ -98,7 +100,7 @@ class VideoButton extends StatelessWidget {
       final index = controller.selection.baseOffset;
       final length = controller.selection.extentOffset - index;
 
-      controller.replaceText(index, length, BlockEmbed.video(value), null);
+      controller.replaceText(index, length, BlockEmbed.image(value), null);
     }
   }
 }

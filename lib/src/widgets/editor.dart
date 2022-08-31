@@ -19,7 +19,7 @@ import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
-import 'embeds/default_embed_builder.dart';
+import '../embeds/default_embed_builder.dart';
 import 'float_cursor.dart';
 import 'link.dart';
 import 'raw_editor.dart';

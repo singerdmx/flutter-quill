@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
+import '../embeds/default_embed_builder.dart';
+import '../embeds/toolbar/camera_button.dart';
+import '../embeds/toolbar/formula_button.dart';
 import '../models/documents/attribute.dart';
 import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
@@ -11,13 +14,9 @@ import '../translations/toolbar.i18n.dart';
 import '../utils/font.dart';
 import 'controller.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
-import 'toolbar/camera_button.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
-import 'toolbar/formula_button.dart';
 import 'toolbar/history_button.dart';
-import 'toolbar/image_button.dart';
-import 'toolbar/image_video_utils.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/quill_font_family_button.dart';
@@ -28,13 +27,10 @@ import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
 import 'toolbar/toggle_check_list_button.dart';
 import 'toolbar/toggle_style_button.dart';
-import 'toolbar/video_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
 export 'toolbar/history_button.dart';
-export 'toolbar/image_button.dart';
-export 'toolbar/image_video_utils.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
 export 'toolbar/quill_font_size_button.dart';
@@ -43,17 +39,6 @@ export 'toolbar/select_alignment_button.dart';
 export 'toolbar/select_header_style_button.dart';
 export 'toolbar/toggle_check_list_button.dart';
 export 'toolbar/toggle_style_button.dart';
-export 'toolbar/video_button.dart';
-
-typedef OnImagePickCallback = Future<String?> Function(File file);
-typedef OnVideoPickCallback = Future<String?> Function(File file);
-typedef FilePickImpl = Future<String?> Function(BuildContext context);
-typedef WebImagePickImpl = Future<String?> Function(
-    OnImagePickCallback onImagePickCallback);
-typedef WebVideoPickImpl = Future<String?> Function(
-    OnVideoPickCallback onImagePickCallback);
-typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
-    BuildContext context);
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;

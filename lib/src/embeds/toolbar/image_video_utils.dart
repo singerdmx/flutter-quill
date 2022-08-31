@@ -9,8 +9,8 @@ import '../../models/rules/insert.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../widgets/controller.dart';
+import '../default_embed_builder.dart';
 
 class LinkDialog extends StatefulWidget {
   const LinkDialog({this.dialogTheme, this.link, Key? key}) : super(key: key);

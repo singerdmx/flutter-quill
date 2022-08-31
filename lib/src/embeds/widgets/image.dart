@@ -7,7 +7,7 @@ import 'package:string_validator/string_validator.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
-import '../controller.dart';
+import '../../widgets/controller.dart';
 
 const List<String> imageFileExtensions = [
   '.jpeg',
