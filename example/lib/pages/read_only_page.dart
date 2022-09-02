@@ -38,6 +38,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
       readOnly: !_edit,
       expands: false,
       padding: EdgeInsets.zero,
+      embedBuilders: defaultEmbedBuilders,
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
@@ -49,7 +50,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           readOnly: !_edit,
           expands: false,
           padding: EdgeInsets.zero,
-          embedBuilder: defaultEmbedBuilderWeb);
+          embedBuilders: defaultEmbedBuildersWeb);
     }
     return Padding(
       padding: const EdgeInsets.all(8),

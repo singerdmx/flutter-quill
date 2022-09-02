@@ -119,7 +119,10 @@ class _HomePageState extends State<HomePage> {
             null),
         sizeSmall: const TextStyle(fontSize: 9),
       ),
-      customElementsEmbedBuilder: customElementsEmbedBuilder,
+      embedBuilders: [
+        ...defaultEmbedBuilders,
+        NotesEmbedBuilder(addEditNote: _addEditNote)
+      ],
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
@@ -145,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                 null),
             sizeSmall: const TextStyle(fontSize: 9),
           ),
-          embedBuilder: defaultEmbedBuilderWeb);
+          embedBuilders: defaultEmbedBuildersWeb);
     }
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
@@ -386,37 +389,42 @@ class _HomePageState extends State<HomePage> {
       controller.replaceText(index, length, block, null);
     }
   }
+}
 
-  Widget customElementsEmbedBuilder(
-    BuildContext context,
-    QuillController controller,
-    CustomBlockEmbed block,
-    bool readOnly,
-    void Function(GlobalKey videoContainerKey)? onVideoInit,
-  ) {
-    switch (block.type) {
-      case 'notes':
-        final notes = NotesBlockEmbed(block.data).document;
+class NotesEmbedBuilder implements IEmbedBuilder {
+  NotesEmbedBuilder({required this.addEditNote});
 
-        return Material(
-          color: Colors.transparent,
-          child: ListTile(
-            title: Text(
-              notes.toPlainText().replaceAll('\n', ' '),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-            leading: const Icon(Icons.notes),
-            onTap: () => _addEditNote(context, document: notes),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: const BorderSide(color: Colors.grey),
-            ),
-          ),
-        );
-      default:
-        return const SizedBox();
-    }
+  Future<void> Function(BuildContext context, {Document? document}) addEditNote;
+
+  @override
+  String get key => 'notes';
+
+  @override
+  Widget build(
+      BuildContext context,
+      QuillController controller,
+      Embed node,
+      bool readOnly,
+      void Function(GlobalKey<State<StatefulWidget>> videoContainerKey)?
+          onVideoInit) {
+    final notes = NotesBlockEmbed(node.value.data).document;
+
+    return Material(
+      color: Colors.transparent,
+      child: ListTile(
+        title: Text(
+          notes.toPlainText().replaceAll('\n', ' '),
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ),
+        leading: const Icon(Icons.notes),
+        onTap: () => addEditNote(context, document: notes),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: Colors.grey),
+        ),
+      ),
+    );
   }
 }
 

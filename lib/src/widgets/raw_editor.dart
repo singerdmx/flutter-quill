@@ -46,6 +46,7 @@ class RawEditor extends StatefulWidget {
       required this.cursorStyle,
       required this.selectionColor,
       required this.selectionCtrls,
+      required this.embedBuilder,
       Key? key,
       this.scrollable = true,
       this.padding = EdgeInsets.zero,
@@ -70,7 +71,6 @@ class RawEditor extends StatefulWidget {
       this.keyboardAppearance = Brightness.light,
       this.enableInteractiveSelection = true,
       this.scrollPhysics,
-      this.embedBuilder = defaultEmbedBuilder,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.floatingCursorDisabled = false})
