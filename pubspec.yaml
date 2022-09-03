@@ -1,6 +1,6 @@
 name: flutter_quill
 description: A rich text editor supporting mobile and web (Demo App @ bulletjournal.us)
-version: 5.4.1
+version: 5.4.2
 #author: bulletjournal
 homepage: https://bulletjournal.us/home/index.html
 repository: https://github.com/singerdmx/flutter-quill
@@ -21,7 +21,7 @@ dependencies:
   pedantic: ^1.11.1
   characters: ^1.2.0
   diff_match_patch: ^0.4.1
-  i18n_extension: ^5.0.0
+  i18n_extension: ^5.0.1
   device_info_plus: ^4.0.0
   platform: ^3.1.0
 
