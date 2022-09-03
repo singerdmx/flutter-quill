@@ -89,11 +89,16 @@ class _DemoScaffoldState extends State<DemoScaffold> {
       return const Scaffold(body: Center(child: Text('Loading...')));
     }
     final actions = widget.actions ?? <Widget>[];
-    var toolbar = QuillToolbar.basic(controller: _controller!);
+    var toolbar = QuillToolbar.basic(
+      controller: _controller!,
+      embedToolbar: EmbedToolbar(),
+    );
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
-          controller: _controller!,
-          filePickImpl: openFileSystemPickerForDesktop);
+        controller: _controller!,
+        embedToolbar:
+            EmbedToolbar(filePickImpl: openFileSystemPickerForDesktop),
+      );
     }
     return Scaffold(
       key: _scaffoldKey,

@@ -10,7 +10,7 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../translations/toolbar.i18n.dart';
 import '../../utils/platform.dart';
 import '../../widgets/controller.dart';
-import '../default_embed_builder.dart';
+import '../embed_types.dart';
 
 class LinkDialog extends StatefulWidget {
   const LinkDialog({this.dialogTheme, this.link, Key? key}) : super(key: key);
@@ -73,13 +73,6 @@ class LinkDialogState extends State<LinkDialog> {
   void _applyLink() {
     Navigator.pop(context, _link.trim());
   }
-}
-
-enum MediaPickSetting {
-  Gallery,
-  Link,
-  Camera,
-  Video,
 }
 
 class ImageVideoUtils {

@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import '../embeds/default_embed_builder.dart';
-import '../embeds/toolbar/camera_button.dart';
-import '../embeds/toolbar/formula_button.dart';
+import '../embeds/default_embed_toolbar.dart';
 import '../models/documents/attribute.dart';
 import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
@@ -54,7 +50,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
     this.color,
-    this.filePickImpl,
     this.customButtons = const [],
     this.locale,
     Key? key,
@@ -93,19 +88,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showUndo = true,
     bool showRedo = true,
     bool multiRowsDisplay = true,
-    bool showImageButton = true,
-    bool showVideoButton = true,
-    bool showFormulaButton = false,
-    bool showCameraButton = true,
     bool showDirection = false,
     bool showSearchButton = true,
-    OnImagePickCallback? onImagePickCallback,
-    OnVideoPickCallback? onVideoPickCallback,
-    MediaPickSettingSelector? mediaPickSettingSelector,
-    MediaPickSettingSelector? cameraPickSettingSelector,
-    FilePickImpl? filePickImpl,
-    WebImagePickImpl? webImagePickImpl,
-    WebVideoPickImpl? webVideoPickImpl,
     List<QuillCustomButton> customButtons = const [],
 
     ///Map of font sizes in string
@@ -113,6 +97,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     ///Map of font families in string
     Map<String, String>? fontFamilyValues,
+
+    /// Toolbar items to display for controls of embed blocks
+    IEmbedToolbar? embedToolbar,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
@@ -138,8 +125,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showColorButton ||
           showBackgroundColorButton ||
           showClearFormat ||
-          onImagePickCallback != null ||
-          onVideoPickCallback != null,
+          embedToolbar?.notEmpty == true,
       showAlignmentButtons || showDirection,
       showLeftAlignment,
       showCenterAlignment,
@@ -315,56 +301,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             iconTheme: iconTheme,
           ),
-        if (showImageButton)
-          ImageButton(
-            icon: Icons.image,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onImagePickCallback: onImagePickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-            mediaPickSettingSelector: mediaPickSettingSelector,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          ),
-        if (showVideoButton)
-          VideoButton(
-            icon: Icons.movie_creation,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onVideoPickCallback: onVideoPickCallback,
-            filePickImpl: filePickImpl,
-            webVideoPickImpl: webImagePickImpl,
-            mediaPickSettingSelector: mediaPickSettingSelector,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          ),
-        if ((onImagePickCallback != null || onVideoPickCallback != null) &&
-            showCameraButton)
-          CameraButton(
-            icon: Icons.photo_camera,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onImagePickCallback: onImagePickCallback,
-            onVideoPickCallback: onVideoPickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-            webVideoPickImpl: webVideoPickImpl,
-            cameraPickSettingSelector: cameraPickSettingSelector,
-            iconTheme: iconTheme,
-          ),
-        if (showFormulaButton)
-          FormulaButton(
-            icon: Icons.functions,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onImagePickCallback: onImagePickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-            mediaPickSettingSelector: mediaPickSettingSelector,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          ),
+        ...?embedToolbar?.build(
+            controller, toolbarIconSize, iconTheme, dialogTheme),
         if (showDividers &&
             isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
@@ -538,8 +476,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// Defaults to [ThemeData.canvasColor] of the current [Theme] if no color
   /// is given.
   final Color? color;
-
-  final FilePickImpl? filePickImpl;
 
   /// The locale to use for the editor toolbar, defaults to system locale
   /// More https://github.com/singerdmx/flutter-quill#translation

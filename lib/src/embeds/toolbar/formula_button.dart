@@ -6,6 +6,7 @@ import '../../models/themes/quill_icon_theme.dart';
 import '../../widgets/controller.dart';
 import '../../widgets/toolbar.dart';
 import '../default_embed_builder.dart';
+import '../embed_types.dart';
 
 class FormulaButton extends StatelessWidget {
   const FormulaButton({
