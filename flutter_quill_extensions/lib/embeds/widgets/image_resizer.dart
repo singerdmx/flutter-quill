@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../../translations/toolbar.i18n.dart';
+import 'package:flutter_quill/translations.dart';
 
 class ImageResizer extends StatefulWidget {
   const ImageResizer(

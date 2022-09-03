@@ -2,38 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:math_keyboard/math_keyboard.dart';
 import 'package:tuple/tuple.dart';
 
-import '../models/documents/attribute.dart';
-import '../models/documents/nodes/embeddable.dart';
-import '../models/documents/nodes/leaf.dart' as leaf;
-import '../translations/toolbar.i18n.dart';
-import '../utils/embeds.dart';
-import '../utils/platform.dart';
-import '../utils/string.dart';
-import '../widgets/controller.dart';
+import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/extensions.dart' as base;
+
+import 'utils.dart';
 import 'widgets/image.dart';
 import 'widgets/image_resizer.dart';
 import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
-
-export 'toolbar/image_button.dart';
-export 'toolbar/image_video_utils.dart';
-export 'toolbar/video_button.dart';
-
-abstract class IEmbedBuilder {
-  String get key;
-
-  Widget build(
-    BuildContext context,
-    QuillController controller,
-    leaf.Embed node,
-    bool readOnly,
-    void Function(GlobalKey videoContainerKey)? onVideoInit,
-  );
-}
 
 class ImageEmbedBuilder implements IEmbedBuilder {
   @override
@@ -43,7 +24,7 @@ class ImageEmbedBuilder implements IEmbedBuilder {
   Widget build(
     BuildContext context,
     QuillController controller,
-    leaf.Embed node,
+    base.Embed node,
     bool readOnly,
     void Function(GlobalKey videoContainerKey)? onVideoInit,
   ) {
@@ -53,8 +34,8 @@ class ImageEmbedBuilder implements IEmbedBuilder {
     final imageUrl = standardizeImageUrl(node.value.data);
     Tuple2<double?, double?>? _widthHeight;
     final style = node.style.attributes['style'];
-    if (isMobile() && style != null) {
-      final _attrs = parseKeyValuePairs(style.value.toString(), {
+    if (base.isMobile() && style != null) {
+      final _attrs = base.parseKeyValuePairs(style.value.toString(), {
         Attribute.mobileWidth,
         Attribute.mobileHeight,
         Attribute.mobileMargin,
@@ -71,7 +52,7 @@ class ImageEmbedBuilder implements IEmbedBuilder {
         final m = _attrs[Attribute.mobileMargin] == null
             ? 0.0
             : double.parse(_attrs[Attribute.mobileMargin]!);
-        final a = getAlignment(_attrs[Attribute.mobileAlignment]);
+        final a = base.getAlignment(_attrs[Attribute.mobileAlignment]);
         image = Padding(
             padding: EdgeInsets.all(m),
             child: imageByUrl(imageUrl, width: w, height: h, alignment: a));
@@ -83,7 +64,7 @@ class ImageEmbedBuilder implements IEmbedBuilder {
       _widthHeight = Tuple2((image as Image).width, image.height);
     }
 
-    if (!readOnly && isMobile()) {
+    if (!readOnly && base.isMobile()) {
       return GestureDetector(
           onTap: () {
             showDialog(
@@ -103,7 +84,7 @@ class ImageEmbedBuilder implements IEmbedBuilder {
                                 onImageResize: (w, h) {
                                   final res = getEmbedNode(
                                       controller, controller.selection.start);
-                                  final attr = replaceStyleString(
+                                  final attr = base.replaceStyleString(
                                       getImageStyleString(controller), w, h);
                                   controller
                                     ..skipRequestKeyboard = true
@@ -157,7 +138,7 @@ class ImageEmbedBuilder implements IEmbedBuilder {
           child: image);
     }
 
-    if (!readOnly || !isMobile() || isImageBase64(imageUrl)) {
+    if (!readOnly || !base.isMobile() || isImageBase64(imageUrl)) {
       return image;
     }
 
@@ -174,7 +155,7 @@ class VideoEmbedBuilder implements IEmbedBuilder {
   Widget build(
       BuildContext context,
       QuillController controller,
-      leaf.Embed node,
+      base.Embed node,
       bool readOnly,
       void Function(GlobalKey videoContainerKey)? onVideoInit) {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
@@ -201,7 +182,7 @@ class FormulaEmbedBuilder implements IEmbedBuilder {
   Widget build(
       BuildContext context,
       QuillController controller,
-      leaf.Embed node,
+      base.Embed node,
       bool readOnly,
       void Function(GlobalKey videoContainerKey)? onVideoInit) {
     assert(!kIsWeb, 'Please provide formula EmbedBuilder for Web');
@@ -224,12 +205,6 @@ class FormulaEmbedBuilder implements IEmbedBuilder {
     );
   }
 }
-
-List<IEmbedBuilder> get defaultEmbedBuilders => [
-      ImageEmbedBuilder(),
-      VideoEmbedBuilder(),
-      FormulaEmbedBuilder(),
-    ];
 
 Widget _menuOptionsForReadonlyImage(
     BuildContext context, String imageUrl, Widget image) {

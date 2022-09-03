@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import '../embeds/default_embed_toolbar.dart';
 import '../models/documents/attribute.dart';
 import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
@@ -9,6 +8,7 @@ import '../models/themes/quill_icon_theme.dart';
 import '../translations/toolbar.i18n.dart';
 import '../utils/font.dart';
 import 'controller.dart';
+import 'embeds.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';

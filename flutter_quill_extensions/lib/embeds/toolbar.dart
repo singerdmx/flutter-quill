@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
-import '../models/themes/quill_dialog_theme.dart';
-import '../models/themes/quill_icon_theme.dart';
-import '../widgets/controller.dart';
 import 'embed_types.dart';
 import 'toolbar/camera_button.dart';
 import 'toolbar/formula_button.dart';
 import 'toolbar/image_button.dart';
 import 'toolbar/video_button.dart';
 
-abstract class IEmbedToolbar {
-  Iterable<Widget> build(QuillController controller, double toolbarIconSize,
-      QuillIconTheme? iconTheme, QuillDialogTheme? dialogTheme);
+export 'toolbar/image_button.dart';
+export 'toolbar/image_video_utils.dart';
+export 'toolbar/video_button.dart';
+export 'toolbar/formula_button.dart';
+export 'toolbar/camera_button.dart';
 
-  bool get notEmpty;
-}
-
-class EmbedToolbar implements IEmbedToolbar {
-  EmbedToolbar({
+class QuillEmbedToolbar implements IEmbedToolbar {
+  QuillEmbedToolbar({
     this.showImageButton = true,
     this.showVideoButton = true,
     this.showCameraButton = true,

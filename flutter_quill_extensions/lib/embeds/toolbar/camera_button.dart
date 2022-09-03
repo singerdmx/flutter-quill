@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/themes/quill_icon_theme.dart';
-import '../../translations/toolbar.i18n.dart';
-import '../../widgets/controller.dart';
-import '../../widgets/toolbar.dart';
-import '../default_embed_builder.dart';
+import 'package:flutter_quill/translations.dart';
+
 import '../embed_types.dart';
 import 'image_video_utils.dart';
 

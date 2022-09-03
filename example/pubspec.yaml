@@ -34,6 +34,12 @@ dependencies:
   file_picker: ^4.6.1
   flutter_quill:
     path: ../
+  flutter_quill_extensions:
+    path: ../flutter_quill_extensions
+
+dependency_overrides:
+  flutter_quill:
+    path: ../
 
 dev_dependencies:
   flutter_test:

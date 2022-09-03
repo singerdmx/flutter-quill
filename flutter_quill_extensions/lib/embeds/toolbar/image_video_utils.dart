@@ -2,14 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/documents/nodes/embeddable.dart';
-import '../../models/rules/insert.dart';
-import '../../models/themes/quill_dialog_theme.dart';
-import '../../translations/toolbar.i18n.dart';
-import '../../utils/platform.dart';
-import '../../widgets/controller.dart';
+import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/extensions.dart';
+
 import '../embed_types.dart';
 
 class LinkDialog extends StatefulWidget {

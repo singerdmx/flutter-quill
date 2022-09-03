@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
         sizeSmall: const TextStyle(fontSize: 9),
       ),
       embedBuilders: [
-        ...defaultEmbedBuilders,
+        ...FlutterQuillEmbeds.builders,
         NotesEmbedBuilder(addEditNote: _addEditNote)
       ],
     );
@@ -152,7 +153,7 @@ class _HomePageState extends State<HomePage> {
     }
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
-      embedToolbar: EmbedToolbar(
+      embedToolbar: QuillEmbedToolbar(
         // provide a callback to enable picking images from device.
         // if omit, "image" button only allows adding images from url.
         // same goes for videos.
@@ -168,7 +169,7 @@ class _HomePageState extends State<HomePage> {
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
-        embedToolbar: EmbedToolbar(
+        embedToolbar: QuillEmbedToolbar(
           onImagePickCallback: _onImagePickCallback,
           webImagePickImpl: _webImagePickImpl,
         ),
@@ -178,7 +179,7 @@ class _HomePageState extends State<HomePage> {
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
-        embedToolbar: EmbedToolbar(
+        embedToolbar: QuillEmbedToolbar(
           onImagePickCallback: _onImagePickCallback,
           filePickImpl: openFileSystemPickerForDesktop,
         ),
