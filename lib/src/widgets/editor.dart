@@ -182,7 +182,7 @@ class QuillEditor extends StatefulWidget {
     required QuillController controller,
     required bool readOnly,
     Brightness? keyboardAppearance,
-    Iterable<IEmbedBuilder>? embedBuilders,
+    Iterable<EmbedBuilder>? embedBuilders,
 
     /// The locale to use for the editor toolbar, defaults to system locale
     /// More at https://github.com/singerdmx/flutter-quill#translation
@@ -348,7 +348,7 @@ class QuillEditor extends StatefulWidget {
           LongPressEndDetails details, TextPosition Function(Offset offset))?
       onSingleLongTapEnd;
 
-  final Iterable<IEmbedBuilder>? embedBuilders;
+  final Iterable<EmbedBuilder>? embedBuilders;
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale

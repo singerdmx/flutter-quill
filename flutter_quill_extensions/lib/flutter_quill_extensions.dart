@@ -10,7 +10,7 @@ export 'embeds/embed_types.dart';
 export 'embeds/utils.dart';
 
 class FlutterQuillEmbeds {
-  static List<IEmbedBuilder> get builders => [
+  static List<EmbedBuilder> get builders => [
         ImageEmbedBuilder(),
         VideoEmbedBuilder(),
         FormulaEmbedBuilder(),

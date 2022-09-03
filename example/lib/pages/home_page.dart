@@ -398,7 +398,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class NotesEmbedBuilder implements IEmbedBuilder {
+class NotesEmbedBuilder implements EmbedBuilder {
   NotesEmbedBuilder({required this.addEditNote});
 
   Future<void> Function(BuildContext context, {Document? document}) addEditNote;

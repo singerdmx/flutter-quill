@@ -15,7 +15,7 @@ import 'widgets/image_resizer.dart';
 import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
 
-class ImageEmbedBuilder implements IEmbedBuilder {
+class ImageEmbedBuilder implements EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
@@ -146,7 +146,7 @@ class ImageEmbedBuilder implements IEmbedBuilder {
   }
 }
 
-class VideoEmbedBuilder implements IEmbedBuilder {
+class VideoEmbedBuilder implements EmbedBuilder {
   @override
   String get key => BlockEmbed.videoType;
 
@@ -173,7 +173,7 @@ class VideoEmbedBuilder implements IEmbedBuilder {
   }
 }
 
-class FormulaEmbedBuilder implements IEmbedBuilder {
+class FormulaEmbedBuilder implements EmbedBuilder {
   @override
   String get key => BlockEmbed.formulaType;
 

@@ -13,7 +13,7 @@ export 'toolbar/video_button.dart';
 export 'toolbar/formula_button.dart';
 export 'toolbar/camera_button.dart';
 
-class QuillEmbedToolbar implements IEmbedToolbar {
+class QuillEmbedToolbar implements EmbedToolbar {
   QuillEmbedToolbar({
     this.showImageButton = true,
     this.showVideoButton = true,

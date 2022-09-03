@@ -45,7 +45,7 @@ class TextLine extends StatefulWidget {
 
   final Line line;
   final TextDirection? textDirection;
-  final EmbedBuilder embedBuilder;
+  final EmbedsBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
   final QuillController controller;

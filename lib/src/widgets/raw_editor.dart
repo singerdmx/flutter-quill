@@ -220,7 +220,7 @@ class RawEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
 
   /// Builder function for embeddable objects.
-  final EmbedBuilder embedBuilder;
+  final EmbedsBuilder embedBuilder;
   final LinkActionPickerDelegate linkActionPickerDelegate;
   final CustomStyleBuilder? customStyleBuilder;
   final bool floatingCursorDisabled;

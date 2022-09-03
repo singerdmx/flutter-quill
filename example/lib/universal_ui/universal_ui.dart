@@ -27,7 +27,7 @@ class UniversalUI {
 
 var ui = UniversalUI();
 
-class ImageEmbedBuilderWeb implements IEmbedBuilder {
+class ImageEmbedBuilderWeb implements EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
@@ -60,7 +60,7 @@ class ImageEmbedBuilderWeb implements IEmbedBuilder {
   }
 }
 
-class VideoEmbedBuilderWeb implements IEmbedBuilder {
+class VideoEmbedBuilderWeb implements EmbedBuilder {
   @override
   String get key => BlockEmbed.videoType;
 
@@ -92,7 +92,7 @@ class VideoEmbedBuilderWeb implements IEmbedBuilder {
   }
 }
 
-List<IEmbedBuilder> get defaultEmbedBuildersWeb => [
+List<EmbedBuilder> get defaultEmbedBuildersWeb => [
       ImageEmbedBuilderWeb(),
       VideoEmbedBuilderWeb(),
     ];

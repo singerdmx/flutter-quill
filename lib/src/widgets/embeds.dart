@@ -5,7 +5,7 @@ import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
 import 'controller.dart';
 
-abstract class IEmbedBuilder {
+abstract class EmbedBuilder {
   String get key;
 
   Widget build(
@@ -17,7 +17,7 @@ abstract class IEmbedBuilder {
   );
 }
 
-abstract class IEmbedToolbar {
+abstract class EmbedToolbar {
   Iterable<Widget> build(QuillController controller, double toolbarIconSize,
       QuillIconTheme? iconTheme, QuillDialogTheme? dialogTheme);
 

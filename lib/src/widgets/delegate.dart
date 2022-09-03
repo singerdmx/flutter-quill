@@ -6,18 +6,10 @@ import 'package:flutter/scheduler.dart';
 import '../../flutter_quill.dart';
 import 'text_selection.dart';
 
-typedef EmbedBuilder = Widget Function(
+typedef EmbedsBuilder = Widget Function(
   BuildContext context,
   QuillController controller,
   Embed node,
-  bool readOnly,
-  void Function(GlobalKey videoContainerKey)? onVideoInit,
-);
-
-typedef CustomEmbedBuilder = Widget Function(
-  BuildContext context,
-  QuillController controller,
-  CustomBlockEmbed block,
   bool readOnly,
   void Function(GlobalKey videoContainerKey)? onVideoInit,
 );

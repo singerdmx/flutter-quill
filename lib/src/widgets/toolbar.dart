@@ -99,7 +99,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Map<String, String>? fontFamilyValues,
 
     /// Toolbar items to display for controls of embed blocks
-    IEmbedToolbar? embedToolbar,
+    EmbedToolbar? embedToolbar,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
