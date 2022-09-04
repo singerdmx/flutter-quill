@@ -472,7 +472,6 @@ class QuillEditorState extends State<QuillEditor>
         controller,
         node,
         readOnly,
-        onVideoInit,
       ) {
         final builders = widget.embedBuilders;
 
@@ -486,8 +485,7 @@ class QuillEditorState extends State<QuillEditor>
 
           for (final builder in builders) {
             if (builder.key == _node.value.type) {
-              return builder.build(
-                  context, controller, _node, readOnly, onVideoInit);
+              return builder.build(context, controller, _node, readOnly);
             }
           }
         }

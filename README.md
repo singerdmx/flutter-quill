@@ -167,7 +167,7 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 QuillEditor.basic(
   controller: controller,
-  embedBuilders: FlutterQuillEmbeds.builders,
+  embedBuilders: FlutterQuillEmbeds.builders(),
 );
 
 QuillToolbar.basic(
@@ -229,12 +229,11 @@ class NotesEmbedBuilder implements EmbedBuilder {
 
   @override
   Widget build(
-      BuildContext context,
-      QuillController controller,
-      Embed node,
-      bool readOnly,
-      void Function(GlobalKey<State<StatefulWidget>> videoContainerKey)?
-          onVideoInit) {
+    BuildContext context,
+    QuillController controller,
+    Embed node,
+    bool readOnly,
+  ) {
     final notes = NotesBlockEmbed(node.value.data).document;
 
     return Material(

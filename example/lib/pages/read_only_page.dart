@@ -39,7 +39,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
       readOnly: !_edit,
       expands: false,
       padding: EdgeInsets.zero,
-      embedBuilders: FlutterQuillEmbeds.builders,
+      embedBuilders: FlutterQuillEmbeds.builders(),
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(

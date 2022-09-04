@@ -10,7 +10,7 @@ values provided by this repository.
 ```
 QuillEditor.basic(
   controller: controller,
-  embedBuilders: FlutterQuillEmbeds.builders,
+  embedBuilders: FlutterQuillEmbeds.builders(),
 );
 ```
 

@@ -8,7 +8,7 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 QuillEditor.basic(
   controller: controller,
-  embedBuilders: FlutterQuillEmbeds.builders,
+  embedBuilders: FlutterQuillEmbeds.builders(),
 );
 
 QuillToolbar.basic(
