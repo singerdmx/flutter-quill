@@ -1,8 +1,7 @@
 name: flutter_quill_extensions
 description: Embed extensions for flutter_quill
-version: 0.0.1
+version: 0.1.0
 homepage: https://bulletjournal.us/home/index.html
-#author: bulletjournal
 repository: https://github.com/singerdmx/flutter-quill/flutter_quill_extensions
 
 environment:

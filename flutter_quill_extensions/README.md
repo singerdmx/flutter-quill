@@ -1,6 +1,6 @@
 # Flutter Quill Extensions
 
-Helpers to support embed widgets in flutter_quill.
+Helpers to support embed widgets in flutter_quill. See [Flutter Quill](https://pub.dev/packages/flutter_quill) for details of use.
 
 ## Usage
 
