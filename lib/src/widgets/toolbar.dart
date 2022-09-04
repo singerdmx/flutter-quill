@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
@@ -10,14 +8,11 @@ import '../models/themes/quill_icon_theme.dart';
 import '../translations/toolbar.i18n.dart';
 import '../utils/font.dart';
 import 'controller.dart';
+import 'embeds.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
-import 'toolbar/camera_button.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
-import 'toolbar/formula_button.dart';
 import 'toolbar/history_button.dart';
-import 'toolbar/image_button.dart';
-import 'toolbar/image_video_utils.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/quill_font_family_button.dart';
@@ -28,13 +23,10 @@ import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
 import 'toolbar/toggle_check_list_button.dart';
 import 'toolbar/toggle_style_button.dart';
-import 'toolbar/video_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
 export 'toolbar/history_button.dart';
-export 'toolbar/image_button.dart';
-export 'toolbar/image_video_utils.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
 export 'toolbar/quill_font_size_button.dart';
@@ -43,17 +35,6 @@ export 'toolbar/select_alignment_button.dart';
 export 'toolbar/select_header_style_button.dart';
 export 'toolbar/toggle_check_list_button.dart';
 export 'toolbar/toggle_style_button.dart';
-export 'toolbar/video_button.dart';
-
-typedef OnImagePickCallback = Future<String?> Function(File file);
-typedef OnVideoPickCallback = Future<String?> Function(File file);
-typedef FilePickImpl = Future<String?> Function(BuildContext context);
-typedef WebImagePickImpl = Future<String?> Function(
-    OnImagePickCallback onImagePickCallback);
-typedef WebVideoPickImpl = Future<String?> Function(
-    OnVideoPickCallback onImagePickCallback);
-typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
-    BuildContext context);
 
 // The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -69,7 +50,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
     this.color,
-    this.filePickImpl,
     this.customButtons = const [],
     this.locale,
     Key? key,
@@ -108,19 +88,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showUndo = true,
     bool showRedo = true,
     bool multiRowsDisplay = true,
-    bool showImageButton = true,
-    bool showVideoButton = true,
-    bool showFormulaButton = false,
-    bool showCameraButton = true,
     bool showDirection = false,
     bool showSearchButton = true,
-    OnImagePickCallback? onImagePickCallback,
-    OnVideoPickCallback? onVideoPickCallback,
-    MediaPickSettingSelector? mediaPickSettingSelector,
-    MediaPickSettingSelector? cameraPickSettingSelector,
-    FilePickImpl? filePickImpl,
-    WebImagePickImpl? webImagePickImpl,
-    WebVideoPickImpl? webVideoPickImpl,
     List<QuillCustomButton> customButtons = const [],
 
     ///Map of font sizes in string
@@ -128,6 +97,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     ///Map of font families in string
     Map<String, String>? fontFamilyValues,
+
+    /// Toolbar items to display for controls of embed blocks
+    List<EmbedButtonBuilder>? embedButtons,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
@@ -153,8 +125,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showColorButton ||
           showBackgroundColorButton ||
           showClearFormat ||
-          onImagePickCallback != null ||
-          onVideoPickCallback != null,
+          embedButtons?.isNotEmpty == true,
       showAlignmentButtons || showDirection,
       showLeftAlignment,
       showCenterAlignment,
@@ -330,56 +301,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             iconTheme: iconTheme,
           ),
-        if (showImageButton)
-          ImageButton(
-            icon: Icons.image,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onImagePickCallback: onImagePickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-            mediaPickSettingSelector: mediaPickSettingSelector,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          ),
-        if (showVideoButton)
-          VideoButton(
-            icon: Icons.movie_creation,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onVideoPickCallback: onVideoPickCallback,
-            filePickImpl: filePickImpl,
-            webVideoPickImpl: webImagePickImpl,
-            mediaPickSettingSelector: mediaPickSettingSelector,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          ),
-        if ((onImagePickCallback != null || onVideoPickCallback != null) &&
-            showCameraButton)
-          CameraButton(
-            icon: Icons.photo_camera,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onImagePickCallback: onImagePickCallback,
-            onVideoPickCallback: onVideoPickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-            webVideoPickImpl: webVideoPickImpl,
-            cameraPickSettingSelector: cameraPickSettingSelector,
-            iconTheme: iconTheme,
-          ),
-        if (showFormulaButton)
-          FormulaButton(
-            icon: Icons.functions,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            onImagePickCallback: onImagePickCallback,
-            filePickImpl: filePickImpl,
-            webImagePickImpl: webImagePickImpl,
-            mediaPickSettingSelector: mediaPickSettingSelector,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          ),
+        if (embedButtons != null)
+          for (final builder in embedButtons)
+            builder(controller, toolbarIconSize, iconTheme, dialogTheme),
         if (showDividers &&
             isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
@@ -553,8 +477,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// Defaults to [ThemeData.canvasColor] of the current [Theme] if no color
   /// is given.
   final Color? color;
-
-  final FilePickImpl? filePickImpl;
 
   /// The locale to use for the editor toolbar, defaults to system locale
   /// More https://github.com/singerdmx/flutter-quill#translation

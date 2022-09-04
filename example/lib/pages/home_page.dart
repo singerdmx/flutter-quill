@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
@@ -119,7 +120,10 @@ class _HomePageState extends State<HomePage> {
             null),
         sizeSmall: const TextStyle(fontSize: 9),
       ),
-      customElementsEmbedBuilder: customElementsEmbedBuilder,
+      embedBuilders: [
+        ...FlutterQuillEmbeds.builders,
+        NotesEmbedBuilder(addEditNote: _addEditNote)
+      ],
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
@@ -145,34 +149,40 @@ class _HomePageState extends State<HomePage> {
                 null),
             sizeSmall: const TextStyle(fontSize: 9),
           ),
-          embedBuilder: defaultEmbedBuilderWeb);
+          embedBuilders: defaultEmbedBuildersWeb);
     }
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
-      // provide a callback to enable picking images from device.
-      // if omit, "image" button only allows adding images from url.
-      // same goes for videos.
-      onImagePickCallback: _onImagePickCallback,
-      onVideoPickCallback: _onVideoPickCallback,
-      // uncomment to provide a custom "pick from" dialog.
-      // mediaPickSettingSelector: _selectMediaPickSetting,
-      // uncomment to provide a custom "pick from" dialog.
-      // cameraPickSettingSelector: _selectCameraPickSetting,
+      embedButtons: FlutterQuillEmbeds.buttons(
+        // provide a callback to enable picking images from device.
+        // if omit, "image" button only allows adding images from url.
+        // same goes for videos.
+        onImagePickCallback: _onImagePickCallback,
+        onVideoPickCallback: _onVideoPickCallback,
+        // uncomment to provide a custom "pick from" dialog.
+        // mediaPickSettingSelector: _selectMediaPickSetting,
+        // uncomment to provide a custom "pick from" dialog.
+        // cameraPickSettingSelector: _selectCameraPickSetting,
+      ),
       showAlignmentButtons: true,
     );
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
-        onImagePickCallback: _onImagePickCallback,
-        webImagePickImpl: _webImagePickImpl,
+        embedButtons: FlutterQuillEmbeds.buttons(
+          onImagePickCallback: _onImagePickCallback,
+          webImagePickImpl: _webImagePickImpl,
+        ),
         showAlignmentButtons: true,
       );
     }
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
-        onImagePickCallback: _onImagePickCallback,
-        filePickImpl: openFileSystemPickerForDesktop,
+        embedButtons: FlutterQuillEmbeds.buttons(
+          onImagePickCallback: _onImagePickCallback,
+          filePickImpl: openFileSystemPickerForDesktop,
+        ),
         showAlignmentButtons: true,
       );
     }
@@ -386,37 +396,42 @@ class _HomePageState extends State<HomePage> {
       controller.replaceText(index, length, block, null);
     }
   }
+}
 
-  Widget customElementsEmbedBuilder(
-    BuildContext context,
-    QuillController controller,
-    CustomBlockEmbed block,
-    bool readOnly,
-    void Function(GlobalKey videoContainerKey)? onVideoInit,
-  ) {
-    switch (block.type) {
-      case 'notes':
-        final notes = NotesBlockEmbed(block.data).document;
+class NotesEmbedBuilder implements EmbedBuilder {
+  NotesEmbedBuilder({required this.addEditNote});
 
-        return Material(
-          color: Colors.transparent,
-          child: ListTile(
-            title: Text(
-              notes.toPlainText().replaceAll('\n', ' '),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-            leading: const Icon(Icons.notes),
-            onTap: () => _addEditNote(context, document: notes),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: const BorderSide(color: Colors.grey),
-            ),
-          ),
-        );
-      default:
-        return const SizedBox();
-    }
+  Future<void> Function(BuildContext context, {Document? document}) addEditNote;
+
+  @override
+  String get key => 'notes';
+
+  @override
+  Widget build(
+      BuildContext context,
+      QuillController controller,
+      Embed node,
+      bool readOnly,
+      void Function(GlobalKey<State<StatefulWidget>> videoContainerKey)?
+          onVideoInit) {
+    final notes = NotesBlockEmbed(node.value.data).document;
+
+    return Material(
+      color: Colors.transparent,
+      child: ListTile(
+        title: Text(
+          notes.toPlainText().replaceAll('\n', ' '),
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ),
+        leading: const Icon(Icons.notes),
+        onTap: () => addEditNote(context, document: notes),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: Colors.grey),
+        ),
+      ),
+    );
   }
 }
 

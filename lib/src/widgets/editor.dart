@@ -12,6 +12,7 @@ import 'package:tuple/tuple.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/embeddable.dart';
+import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../utils/platform.dart';
 import 'box.dart';
@@ -19,7 +20,7 @@ import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
-import 'embeds/default_embed_builder.dart';
+import 'embeds.dart';
 import 'float_cursor.dart';
 import 'link.dart';
 import 'raw_editor.dart';
@@ -168,8 +169,7 @@ class QuillEditor extends StatefulWidget {
       this.onSingleLongTapStart,
       this.onSingleLongTapMoveUpdate,
       this.onSingleLongTapEnd,
-      this.embedBuilder = defaultEmbedBuilder,
-      this.customElementsEmbedBuilder,
+      this.embedBuilders,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.locale,
@@ -182,6 +182,7 @@ class QuillEditor extends StatefulWidget {
     required QuillController controller,
     required bool readOnly,
     Brightness? keyboardAppearance,
+    Iterable<EmbedBuilder>? embedBuilders,
 
     /// The locale to use for the editor toolbar, defaults to system locale
     /// More at https://github.com/singerdmx/flutter-quill#translation
@@ -198,6 +199,7 @@ class QuillEditor extends StatefulWidget {
       padding: EdgeInsets.zero,
       keyboardAppearance: keyboardAppearance ?? Brightness.light,
       locale: locale,
+      embedBuilders: embedBuilders,
     );
   }
 
@@ -346,8 +348,7 @@ class QuillEditor extends StatefulWidget {
           LongPressEndDetails details, TextPosition Function(Offset offset))?
       onSingleLongTapEnd;
 
-  final EmbedBuilder embedBuilder;
-  final CustomEmbedBuilder? customElementsEmbedBuilder;
+  final Iterable<EmbedBuilder>? embedBuilders;
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
@@ -473,23 +474,28 @@ class QuillEditorState extends State<QuillEditor>
         readOnly,
         onVideoInit,
       ) {
-        final customElementsEmbedBuilder = widget.customElementsEmbedBuilder;
-        final isCustomType = node.value.type == BlockEmbed.customType;
-        if (customElementsEmbedBuilder != null && isCustomType) {
-          return customElementsEmbedBuilder(
-            context,
-            controller,
-            CustomBlockEmbed.fromJsonString(node.value.data),
-            readOnly,
-            onVideoInit,
-          );
+        final builders = widget.embedBuilders;
+
+        if (builders != null) {
+          var _node = node;
+
+          // Creates correct node for custom embed
+          if (node.value.type == BlockEmbed.customType) {
+            _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
+          }
+
+          for (final builder in builders) {
+            if (builder.key == _node.value.type) {
+              return builder.build(
+                  context, controller, _node, readOnly, onVideoInit);
+            }
+          }
         }
-        return widget.embedBuilder(
-          context,
-          controller,
-          node,
-          readOnly,
-          onVideoInit,
+
+        throw UnimplementedError(
+          'Embeddable type "${node.value.type}" is not supported by supplied '
+          'embed builders. You must pass your own builder function to '
+          'embedBuilders property of QuillEditor or QuillField widgets.',
         );
       },
       linkActionPickerDelegate: widget.linkActionPickerDelegate,

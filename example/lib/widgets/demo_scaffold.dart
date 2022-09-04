@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path_provider/path_provider.dart';
 
 typedef DemoContentBuilder = Widget Function(
@@ -89,11 +90,16 @@ class _DemoScaffoldState extends State<DemoScaffold> {
       return const Scaffold(body: Center(child: Text('Loading...')));
     }
     final actions = widget.actions ?? <Widget>[];
-    var toolbar = QuillToolbar.basic(controller: _controller!);
+    var toolbar = QuillToolbar.basic(
+      controller: _controller!,
+      embedButtons: FlutterQuillEmbeds.buttons(),
+    );
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
-          controller: _controller!,
-          filePickImpl: openFileSystemPickerForDesktop);
+        controller: _controller!,
+        embedButtons: FlutterQuillEmbeds.buttons(
+            filePickImpl: openFileSystemPickerForDesktop),
+      );
     }
     return Scaffold(
       key: _scaffoldKey,

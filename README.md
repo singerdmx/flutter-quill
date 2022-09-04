@@ -153,6 +153,31 @@ QuillToolbar.basic(
     ]
 ```
 
+
+## Embed Blocks
+
+As of version 6.0, embed blocks are not provided by default as part of this package. Instead, this packet provides an interface to all the user to provide there own implementations for embed blocks. Implementations for image, video and forumal embed blocks is proved in a separate package `flutter_quill_extensions`.
+
+Provide a list of embed 
+
+### Using the embed blocks from `flutter_quill_extensions`
+
+```
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+
+QuillEditor.basic(
+  controller: controller,
+  embedBuilders: FlutterQuillEmbeds.builders,
+);
+
+QuillToolbar.basic(
+  controller: controller,
+  embedButtons: FlutterQuillEmbeds.buttons(),
+);
+```
+
+
+
 ### Custom Size Image for Mobile
 
 Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
@@ -171,7 +196,7 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 
 Sometimes you want to add some custom content inside your text, custom widgets inside of them. An example is adding notes to the text, or anything custom that you want to add in your text editor.
 
-The only thing that you need is to add a `CustomBlockEmbed` and map it into the `customElementsEmbedBuilder`, to transform the data inside of the Custom Block into a widget!
+The only thing that you need is to add a `CustomBlockEmbed` and provider a builder for it to the `embedBuilders` parameter, to transform the data inside of the Custom Block into a widget!
 
 Here is an example:
 
@@ -194,35 +219,40 @@ After that, we need to map this "notes" type into a widget. In that case, I used
 Don't forget to add this method to the `QuillEditor` after that!
 
 ```dart
-Widget customElementsEmbedBuilder(
-  BuildContext context,
-  QuillController controller,
-  CustomBlockEmbed block,
-  bool readOnly,
-  void Function(GlobalKey videoContainerKey)? onVideoInit,
-) {
-  switch (block.type) {
-    case 'notes':
-      final notes = NotesBlockEmbed(block.data).document;
+class NotesEmbedBuilder implements EmbedBuilder {
+  NotesEmbedBuilder({required this.addEditNote});
 
-      return Material(
-        color: Colors.transparent,
-        child: ListTile(
-          title: Text(
-            notes.toPlainText().replaceAll('\n', ' '),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-          leading: const Icon(Icons.notes),
-          onTap: () => _addEditNote(context, document: notes),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: Colors.grey),
-          ),
+  Future<void> Function(BuildContext context, {Document? document}) addEditNote;
+
+  @override
+  String get key => 'notes';
+
+  @override
+  Widget build(
+      BuildContext context,
+      QuillController controller,
+      Embed node,
+      bool readOnly,
+      void Function(GlobalKey<State<StatefulWidget>> videoContainerKey)?
+          onVideoInit) {
+    final notes = NotesBlockEmbed(node.value.data).document;
+
+    return Material(
+      color: Colors.transparent,
+      child: ListTile(
+        title: Text(
+          notes.toPlainText().replaceAll('\n', ' '),
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
-      );
-    default:
-      return const SizedBox();
+        leading: const Icon(Icons.notes),
+        onTap: () => addEditNote(context, document: notes),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: Colors.grey),
+        ),
+      ),
+    );
   }
 }
 ```

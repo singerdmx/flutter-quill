@@ -1,0 +1,37 @@
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  errors:
+    undefined_prefixed_name: ignore
+    unsafe_html: ignore
+linter:
+  rules:
+    - always_declare_return_types
+    - always_put_required_named_parameters_first
+    - annotate_overrides
+    - avoid_empty_else
+    - avoid_escaping_inner_quotes
+    - avoid_print
+    - avoid_redundant_argument_values
+    - avoid_types_on_closure_parameters
+    - avoid_void_async
+    - cascade_invocations
+    - directives_ordering
+    - lines_longer_than_80_chars
+    - omit_local_variable_types
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_final_in_for_each
+    - prefer_final_locals
+    - prefer_initializing_formals
+    - prefer_int_literals
+    - prefer_interpolation_to_compose_strings
+    - prefer_relative_imports
+    - prefer_single_quotes
+    - sort_constructors_first
+    - sort_unnamed_constructors_first
+    - unnecessary_lambdas
+    - unnecessary_parenthesis
+    - unnecessary_string_interpolations
