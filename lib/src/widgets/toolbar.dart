@@ -99,7 +99,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Map<String, String>? fontFamilyValues,
 
     /// Toolbar items to display for controls of embed blocks
-    EmbedToolbar? embedToolbar,
+    List<EmbedButtonBuilder>? embedButtons,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     QuillIconTheme? iconTheme,
@@ -125,7 +125,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showColorButton ||
           showBackgroundColorButton ||
           showClearFormat ||
-          embedToolbar?.notEmpty == true,
+          embedButtons?.isNotEmpty == true,
       showAlignmentButtons || showDirection,
       showLeftAlignment,
       showCenterAlignment,
@@ -301,8 +301,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             iconTheme: iconTheme,
           ),
-        ...?embedToolbar?.build(
-            controller, toolbarIconSize, iconTheme, dialogTheme),
+        if (embedButtons != null)
+          for (final builder in embedButtons)
+            builder(controller, toolbarIconSize, iconTheme, dialogTheme),
         if (showDividers &&
             isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||

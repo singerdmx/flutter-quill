@@ -17,9 +17,8 @@ abstract class EmbedBuilder {
   );
 }
 
-abstract class EmbedToolbar {
-  Iterable<Widget> build(QuillController controller, double toolbarIconSize,
-      QuillIconTheme? iconTheme, QuillDialogTheme? dialogTheme);
-
-  bool get notEmpty;
-}
+typedef EmbedButtonBuilder = Widget Function(
+    QuillController controller,
+    double toolbarIconSize,
+    QuillIconTheme? iconTheme,
+    QuillDialogTheme? dialogTheme);

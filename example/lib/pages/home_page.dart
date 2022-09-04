@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
     }
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
-      embedToolbar: QuillEmbedToolbar(
+      embedButtons: FlutterQuillEmbeds.buttons(
         // provide a callback to enable picking images from device.
         // if omit, "image" button only allows adding images from url.
         // same goes for videos.
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
-        embedToolbar: QuillEmbedToolbar(
+        embedButtons: FlutterQuillEmbeds.buttons(
           onImagePickCallback: _onImagePickCallback,
           webImagePickImpl: _webImagePickImpl,
         ),
@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage> {
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
-        embedToolbar: QuillEmbedToolbar(
+        embedButtons: FlutterQuillEmbeds.buttons(
           onImagePickCallback: _onImagePickCallback,
           filePickImpl: openFileSystemPickerForDesktop,
         ),

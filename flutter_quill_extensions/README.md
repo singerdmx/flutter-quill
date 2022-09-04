@@ -17,6 +17,6 @@ QuillEditor.basic(
 ```
 QuillToolbar.basic(
   controller: controller,
-  embedToolbar: QuillEmbedToolbar(),
+  embedButtons: FlutterQuillEmbeds.buttons(),
 );
 ```
