@@ -25,7 +25,6 @@ class ImageEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
-    void Function(GlobalKey videoContainerKey)? onVideoInit,
   ) {
     assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
@@ -147,16 +146,20 @@ class ImageEmbedBuilder implements EmbedBuilder {
 }
 
 class VideoEmbedBuilder implements EmbedBuilder {
+  VideoEmbedBuilder({this.onVideoInit});
+
+  final void Function(GlobalKey videoContainerKey)? onVideoInit;
+
   @override
   String get key => BlockEmbed.videoType;
 
   @override
   Widget build(
-      BuildContext context,
-      QuillController controller,
-      base.Embed node,
-      bool readOnly,
-      void Function(GlobalKey videoContainerKey)? onVideoInit) {
+    BuildContext context,
+    QuillController controller,
+    base.Embed node,
+    bool readOnly,
+  ) {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
     final videoUrl = node.value.data;
@@ -179,11 +182,11 @@ class FormulaEmbedBuilder implements EmbedBuilder {
 
   @override
   Widget build(
-      BuildContext context,
-      QuillController controller,
-      base.Embed node,
-      bool readOnly,
-      void Function(GlobalKey videoContainerKey)? onVideoInit) {
+    BuildContext context,
+    QuillController controller,
+    base.Embed node,
+    bool readOnly,
+  ) {
     assert(!kIsWeb, 'Please provide formula EmbedBuilder for Web');
 
     final mathController = MathFieldEditingController();

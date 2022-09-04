@@ -13,7 +13,6 @@ abstract class EmbedBuilder {
     QuillController controller,
     leaf.Embed node,
     bool readOnly,
-    void Function(GlobalKey videoContainerKey)? onVideoInit,
   );
 }
 

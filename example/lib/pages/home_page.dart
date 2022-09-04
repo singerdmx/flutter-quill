@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
         sizeSmall: const TextStyle(fontSize: 9),
       ),
       embedBuilders: [
-        ...FlutterQuillEmbeds.builders,
+        ...FlutterQuillEmbeds.builders(),
         NotesEmbedBuilder(addEditNote: _addEditNote)
       ],
     );
@@ -287,27 +287,24 @@ class _HomePageState extends State<HomePage> {
   Future<MediaPickSetting?> _selectCameraPickSetting(BuildContext context) =>
       showDialog<MediaPickSetting>(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              contentPadding: EdgeInsets.zero,
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextButton.icon(
-                    icon: const Icon(Icons.camera),
-                    label: const Text('Capture a photo'),
-                    onPressed: () =>
-                        Navigator.pop(ctx, MediaPickSetting.Camera),
-                  ),
-                  TextButton.icon(
-                    icon: const Icon(Icons.video_call),
-                    label: const Text('Capture a video'),
-                    onPressed: () =>
-                        Navigator.pop(ctx, MediaPickSetting.Video),
-                  )
-                ],
+        builder: (ctx) => AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton.icon(
+                icon: const Icon(Icons.camera),
+                label: const Text('Capture a photo'),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Camera),
               ),
-            ),
+              TextButton.icon(
+                icon: const Icon(Icons.video_call),
+                label: const Text('Capture a video'),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Video),
+              )
+            ],
+          ),
+        ),
       );
 
   Widget _buildMenuBar(BuildContext context) {
@@ -408,12 +405,11 @@ class NotesEmbedBuilder implements EmbedBuilder {
 
   @override
   Widget build(
-      BuildContext context,
-      QuillController controller,
-      Embed node,
-      bool readOnly,
-      void Function(GlobalKey<State<StatefulWidget>> videoContainerKey)?
-          onVideoInit) {
+    BuildContext context,
+    QuillController controller,
+    Embed node,
+    bool readOnly,
+  ) {
     final notes = NotesBlockEmbed(node.value.data).document;
 
     return Material(

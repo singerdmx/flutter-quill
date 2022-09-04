@@ -19,9 +19,11 @@ export 'embeds/toolbar/video_button.dart';
 export 'embeds/utils.dart';
 
 class FlutterQuillEmbeds {
-  static List<EmbedBuilder> get builders => [
+  static List<EmbedBuilder> builders(
+          {void Function(GlobalKey videoContainerKey)? onVideoInit}) =>
+      [
         ImageEmbedBuilder(),
-        VideoEmbedBuilder(),
+        VideoEmbedBuilder(onVideoInit: onVideoInit),
         FormulaEmbedBuilder(),
       ];
 

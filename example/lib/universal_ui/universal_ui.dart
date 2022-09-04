@@ -32,8 +32,12 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
   String get key => BlockEmbed.imageType;
 
   @override
-  Widget build(BuildContext context, QuillController controller, Embed node,
-      bool readOnly, void Function(GlobalKey videoContainerKey)? onVideoInit) {
+  Widget build(
+    BuildContext context,
+    QuillController controller,
+    Embed node,
+    bool readOnly,
+  ) {
     final imageUrl = node.value.data;
     if (isImageBase64(imageUrl)) {
       // TODO: handle imageUrl of base64
@@ -66,7 +70,7 @@ class VideoEmbedBuilderWeb implements EmbedBuilder {
 
   @override
   Widget build(BuildContext context, QuillController controller, Embed node,
-      bool readOnly, void Function(GlobalKey videoContainerKey)? onVideoInit) {
+      bool readOnly) {
     var videoUrl = node.value.data;
     if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
       final youtubeID = YoutubePlayer.convertUrlToId(videoUrl);

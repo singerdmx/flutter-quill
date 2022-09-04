@@ -11,7 +11,6 @@ typedef EmbedsBuilder = Widget Function(
   QuillController controller,
   Embed node,
   bool readOnly,
-  void Function(GlobalKey videoContainerKey)? onVideoInit,
 );
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);

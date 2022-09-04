@@ -141,7 +141,6 @@ class _TextLineState extends State<TextLine> {
           widget.controller,
           embed,
           widget.readOnly,
-          null,
         ),
       );
     }
@@ -189,7 +188,6 @@ class _TextLineState extends State<TextLine> {
               widget.controller,
               child,
               widget.readOnly,
-              null,
             ),
           ),
         );
