@@ -21,8 +21,6 @@ dependencies:
   gallery_saver: ^2.3.2
   math_keyboard: ^0.1.6
   string_validator: ^0.3.0
-  url_launcher: ^6.1.2
-  tuple: ^2.0.0
 
 #dependency_overrides:
 #  flutter_quill:
