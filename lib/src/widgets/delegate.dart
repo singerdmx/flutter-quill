@@ -112,7 +112,9 @@ class EditorTextSelectionGestureDetectorBuilder {
     // For backwards-compatibility, we treat a null kind the same as touch.
     final kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
-        kind == PointerDeviceKind.mouse ||  //  this is added to enable word selection by mouse double tap
+        kind ==
+            PointerDeviceKind
+                .mouse || //  this is added to enable word selection by mouse double tap
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;
   }
@@ -182,7 +184,8 @@ class EditorTextSelectionGestureDetectorBuilder {
 
   /// onSingleTapUp for mouse right click
   @protected
-  void onSecondarySingleTapUp(TapUpDetails details) {   // added to show toolbar by right click
+  void onSecondarySingleTapUp(TapUpDetails details) {
+    // added to show toolbar by right click
     if (shouldShowSelectionToolbar) {
       editor!.showToolbar();
     }
@@ -321,7 +324,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionEnd(DragEndDetails details) {
     renderEditor!.handleDragEnd(details);
-    if (isDesktop()) {    // added to show selection copy/paste toolbar after drag to select
+    if (isDesktop()) {
+      // added to show selection copy/paste toolbar after drag to select
       if (delegate.selectionEnabled) {
         if (shouldShowSelectionToolbar) {
           editor!.showToolbar();

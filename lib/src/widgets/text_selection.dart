@@ -736,10 +736,13 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
 
   /// onTapDown for mouse right click
   final GestureTapDownCallback? onSecondaryTapDown;
+
   /// onTapUp for mouse right click
   final GestureTapUpCallback? onSecondarySingleTapUp;
+
   /// onTapCancel for mouse right click
   final GestureTapCancelCallback? onSecondarySingleTapCancel;
+
   /// onDoubleTap for mouse right click
   final GestureTapDownCallback? onSecondaryDoubleTapDown;
 

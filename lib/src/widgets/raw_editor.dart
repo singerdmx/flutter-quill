@@ -363,10 +363,14 @@ class RawEditorState extends EditorState
     return QuillStyles(
       data: _styles!,
       child: Shortcuts(
-        shortcuts: <LogicalKeySet, Intent>{ // shortcuts added for Windows platform
-          LogicalKeySet(LogicalKeyboardKey.escape): HideSelectionToolbarIntent(),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ): const UndoTextIntent(SelectionChangedCause.keyboard),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY): const RedoTextIntent(SelectionChangedCause.keyboard),
+        shortcuts: <LogicalKeySet, Intent>{
+          // shortcuts added for Windows platform
+          LogicalKeySet(LogicalKeyboardKey.escape):
+              HideSelectionToolbarIntent(),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
+              const UndoTextIntent(SelectionChangedCause.keyboard),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY):
+              const RedoTextIntent(SelectionChangedCause.keyboard),
         },
         child: Actions(
           actions: _actions,
@@ -1180,7 +1184,8 @@ class RawEditorState extends EditorState
     PasteTextIntent: _makeOverridable(CallbackAction<PasteTextIntent>(
         onInvoke: (intent) => pasteText(intent.cause))),
 
-    HideSelectionToolbarIntent: _makeOverridable(_HideSelectionToolbarAction(this)),
+    HideSelectionToolbarIntent:
+        _makeOverridable(_HideSelectionToolbarAction(this)),
     UndoTextIntent: _makeOverridable(_UndoKeyboardAction(this)),
     RedoTextIntent: _makeOverridable(_RedoKeyboardAction(this)),
   };
@@ -1885,7 +1890,8 @@ class HideSelectionToolbarIntent extends Intent {
   const HideSelectionToolbarIntent();
 }
 
-class _HideSelectionToolbarAction extends ContextAction<HideSelectionToolbarIntent> {
+class _HideSelectionToolbarAction
+    extends ContextAction<HideSelectionToolbarIntent> {
   _HideSelectionToolbarAction(this.state);
 
   final RawEditorState state;
@@ -1896,8 +1902,7 @@ class _HideSelectionToolbarAction extends ContextAction<HideSelectionToolbarInte
   }
 
   @override
-  bool get isActionEnabled =>
-      state.textEditingValue.selection.isValid;
+  bool get isActionEnabled => state.textEditingValue.selection.isValid;
 }
 
 class _UndoKeyboardAction extends ContextAction<UndoTextIntent> {
@@ -1931,4 +1936,3 @@ class _RedoKeyboardAction extends ContextAction<RedoTextIntent> {
   @override
   bool get isActionEnabled => true;
 }
-
