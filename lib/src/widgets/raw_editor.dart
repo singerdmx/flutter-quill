@@ -362,14 +362,21 @@ class RawEditorState extends EditorState
 
     return QuillStyles(
       data: _styles!,
-      child: Actions(
-        actions: _actions,
-        child: Focus(
-          focusNode: widget.focusNode,
-          child: QuillKeyboardListener(
-            child: Container(
-              constraints: constraints,
-              child: child,
+      child: Shortcuts(
+        shortcuts: <LogicalKeySet, Intent>{ // shortcuts added for Windows platform
+          LogicalKeySet(LogicalKeyboardKey.escape): HideSelectionToolbarIntent(),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ): const UndoTextIntent(SelectionChangedCause.keyboard),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY): const RedoTextIntent(SelectionChangedCause.keyboard),
+        },
+        child: Actions(
+          actions: _actions,
+          child: Focus(
+            focusNode: widget.focusNode,
+            child: QuillKeyboardListener(
+              child: Container(
+                constraints: constraints,
+                child: child,
+              ),
             ),
           ),
         ),
@@ -1172,6 +1179,10 @@ class RawEditorState extends EditorState
     CopySelectionTextIntent: _makeOverridable(_CopySelectionAction(this)),
     PasteTextIntent: _makeOverridable(CallbackAction<PasteTextIntent>(
         onInvoke: (intent) => pasteText(intent.cause))),
+
+    HideSelectionToolbarIntent: _makeOverridable(_HideSelectionToolbarAction(this)),
+    UndoTextIntent: _makeOverridable(_UndoKeyboardAction(this)),
+    RedoTextIntent: _makeOverridable(_RedoKeyboardAction(this)),
   };
 
   @override
@@ -1868,3 +1879,56 @@ class _CopySelectionAction extends ContextAction<CopySelectionTextIntent> {
       state.textEditingValue.selection.isValid &&
       !state.textEditingValue.selection.isCollapsed;
 }
+
+// intent class for "escape" key to dismiss selection toolbar in Windows platform
+class HideSelectionToolbarIntent extends Intent {
+  const HideSelectionToolbarIntent();
+}
+
+class _HideSelectionToolbarAction extends ContextAction<HideSelectionToolbarIntent> {
+  _HideSelectionToolbarAction(this.state);
+
+  final RawEditorState state;
+
+  @override
+  void invoke(HideSelectionToolbarIntent intent, [BuildContext? context]) {
+    state.hideToolbar();
+  }
+
+  @override
+  bool get isActionEnabled =>
+      state.textEditingValue.selection.isValid;
+}
+
+class _UndoKeyboardAction extends ContextAction<UndoTextIntent> {
+  _UndoKeyboardAction(this.state);
+
+  final RawEditorState state;
+
+  @override
+  void invoke(UndoTextIntent intent, [BuildContext? context]) {
+    if (state.controller.hasUndo) {
+      state.controller.undo();
+    }
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class _RedoKeyboardAction extends ContextAction<RedoTextIntent> {
+  _RedoKeyboardAction(this.state);
+
+  final RawEditorState state;
+
+  @override
+  void invoke(RedoTextIntent intent, [BuildContext? context]) {
+    if (state.controller.hasRedo) {
+      state.controller.redo();
+    }
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+

@@ -7,6 +7,7 @@ import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart';
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadFromAssets() async {
     try {
-      final result = await rootBundle.loadString('assets/sample_data.json');
+      final result = await rootBundle.loadString(isDesktop() ? 'assets/sample_data_nomedia.json' : 'assets/sample_data.json');
       final doc = Document.fromJson(jsonDecode(result));
       setState(() {
         _controller = QuillController(

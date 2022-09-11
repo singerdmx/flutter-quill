@@ -640,7 +640,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     try {
       if (delegate.selectionEnabled && !_isPositionSelected(details)) {
         final _platform = Theme.of(_state.context).platform;
-        if (isAppleOS(_platform)) {
+        if (isAppleOS(_platform) || isDesktop()) {    // added isDesktop() to enable extend selection in Windows platform
           switch (details.kind) {
             case PointerDeviceKind.mouse:
             case PointerDeviceKind.stylus:
