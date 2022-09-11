@@ -734,7 +734,7 @@ extension Localization on String {
           'Camera': 'Camera',
           'Video': 'Video',
         },
-        'zh_HK': {
+        'zh_hk': {
           'Paste a link': '貼上連結',
           'Ok': '確定',
           'Select Color': '選擇顏色',

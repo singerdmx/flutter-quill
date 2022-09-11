@@ -695,6 +695,10 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onForcePressEnd,
     this.onSingleTapUp,
     this.onSingleTapCancel,
+    this.onSecondaryTapDown,
+    this.onSecondarySingleTapUp,
+    this.onSecondarySingleTapCancel,
+    this.onSecondaryDoubleTapDown,
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
@@ -729,6 +733,15 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
   /// short tap, such as a long tap or drag. It is called at the moment when
   /// another gesture from the touch is recognized.
   final GestureTapCancelCallback? onSingleTapCancel;
+
+  /// onTapDown for mouse right click
+  final GestureTapDownCallback? onSecondaryTapDown;
+  /// onTapUp for mouse right click
+  final GestureTapUpCallback? onSecondarySingleTapUp;
+  /// onTapCancel for mouse right click
+  final GestureTapCancelCallback? onSecondarySingleTapCancel;
+  /// onDoubleTap for mouse right click
+  final GestureTapDownCallback? onSecondaryDoubleTapDown;
 
   /// Called for a single long tap that's sustained for longer than
   /// [kLongPressTimeout] but not necessarily lifted. Not called for a
@@ -781,6 +794,9 @@ class _EditorTextSelectionGestureDetectorState
   // subsequent tap up / tap hold of the same tap.
   bool _isDoubleTap = false;
 
+  // _isDoubleTap for mouse right click
+  bool _isSecondaryDoubleTap = false;
+
   @override
   void dispose() {
     _doubleTapTimer?.cancel();
@@ -826,6 +842,40 @@ class _EditorTextSelectionGestureDetectorState
   void _handleTapCancel() {
     if (widget.onSingleTapCancel != null) {
       widget.onSingleTapCancel!();
+    }
+  }
+
+  // added secondary tap function for mouse right click to show toolbar
+  void _handleSecondaryTapDown(TapDownDetails details) {
+    if (widget.onSecondaryTapDown != null) {
+      widget.onSecondaryTapDown!(details);
+    }
+    if (_doubleTapTimer != null &&
+        _isWithinDoubleTapTolerance(details.globalPosition)) {
+      if (widget.onSecondaryDoubleTapDown != null) {
+        widget.onSecondaryDoubleTapDown!(details);
+      }
+
+      _doubleTapTimer!.cancel();
+      _doubleTapTimeout();
+      _isDoubleTap = true;
+    }
+  }
+
+  void _handleSecondaryTapUp(TapUpDetails details) {
+    if (!_isSecondaryDoubleTap) {
+      if (widget.onSecondarySingleTapUp != null) {
+        widget.onSecondarySingleTapUp!(details);
+      }
+      _lastTapOffset = details.globalPosition;
+      _doubleTapTimer = Timer(kDoubleTapTimeout, _doubleTapTimeout);
+    }
+    _isSecondaryDoubleTap = false;
+  }
+
+  void _handleSecondaryTapCancel() {
+    if (widget.onSecondarySingleTapCancel != null) {
+      widget.onSecondarySingleTapCancel!();
     }
   }
 
@@ -940,7 +990,10 @@ class _EditorTextSelectionGestureDetectorState
         instance
           ..onTapDown = _handleTapDown
           ..onTapUp = _handleTapUp
-          ..onTapCancel = _handleTapCancel;
+          ..onTapCancel = _handleTapCancel
+          ..onSecondaryTapDown = _handleSecondaryTapDown
+          ..onSecondaryTapUp = _handleSecondaryTapUp
+          ..onSecondaryTapCancel = _handleSecondaryTapCancel;
       },
     );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
@@ -19,7 +20,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
   @override
   Widget build(BuildContext context) {
     return DemoScaffold(
-      documentFilename: 'sample_data.json',
+      documentFilename: isDesktop() ? 'assets/sample_data_nomedia.json' : 'sample_data_nomedia.json',
       builder: _buildContent,
       showToolbar: _edit == true,
       floatingActionButton: FloatingActionButton.extended(
