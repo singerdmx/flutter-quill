@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_quill/src/utils/platform.dart';
 
 import '../../flutter_quill.dart';
+import '../utils/platform.dart';
 import 'text_selection.dart';
 
 typedef EmbedsBuilder = Widget Function(
@@ -114,7 +114,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     shouldShowSelectionToolbar = kind == null ||
         kind ==
             PointerDeviceKind
-                .mouse || //  this is added to enable word selection by mouse double tap
+                .mouse || // Enable word selection by mouse double tap
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;
   }
@@ -351,10 +351,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
       onSingleLongTapEnd: onSingleLongTapEnd,
       onDoubleTapDown: onDoubleTapDown,
-      onSecondaryTapDown: null,
       onSecondarySingleTapUp: onSecondarySingleTapUp,
-      onSecondarySingleTapCancel: null,
-      onSecondaryDoubleTapDown: null,
       onDragSelectionStart: onDragSelectionStart,
       onDragSelectionUpdate: onDragSelectionUpdate,
       onDragSelectionEnd: onDragSelectionEnd,

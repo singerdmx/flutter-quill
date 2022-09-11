@@ -366,7 +366,7 @@ class RawEditorState extends EditorState
         shortcuts: <LogicalKeySet, Intent>{
           // shortcuts added for Windows platform
           LogicalKeySet(LogicalKeyboardKey.escape):
-              HideSelectionToolbarIntent(),
+              const HideSelectionToolbarIntent(),
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
               const UndoTextIntent(SelectionChangedCause.keyboard),
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY):
@@ -1885,7 +1885,7 @@ class _CopySelectionAction extends ContextAction<CopySelectionTextIntent> {
       !state.textEditingValue.selection.isCollapsed;
 }
 
-// intent class for "escape" key to dismiss selection toolbar in Windows platform
+//Intent class for "escape" key to dismiss selection toolbar in Windows platform
 class HideSelectionToolbarIntent extends Intent {
   const HideSelectionToolbarIntent();
 }

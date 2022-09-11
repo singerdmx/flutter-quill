@@ -1,3 +1,6 @@
+# [6.0.2]
+* Address Dart Analysis issues.
+
 # [6.0.1]
 * Changed translation country code (zh_HK -> zh_hk) to lower case, which is required for i18n_extension used in flutter_quill.
 * Add localization in example's main to demonstrate translation.

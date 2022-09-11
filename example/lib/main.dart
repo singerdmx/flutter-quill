@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'pages/home_page.dart';
 
 void main() {
@@ -36,8 +37,8 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en', "US"),
-        const Locale('zh', "HK"),
+        const Locale('en', 'US'),
+        const Locale('zh', 'HK'),
       ],
       home: HomePage(),
     );
