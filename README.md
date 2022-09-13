@@ -332,8 +332,8 @@ Currently, translations are available for these 22 locales:
 * `Locale('de')`
 * `Locale('da')`
 * `Locale('fr')`
-* `Locale('zh', 'CN')`
-* `Locale('zh', 'HK')`
+* `Locale('zh', 'cn')`
+* `Locale('zh', 'hk')`
 * `Locale('ko')`
 * `Locale('ru')`
 * `Locale('es')`

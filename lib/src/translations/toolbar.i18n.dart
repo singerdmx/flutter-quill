@@ -202,7 +202,7 @@ extension Localization on String {
           'Camera': 'Camera',
           'Video': 'Video',
         },
-        'zh_CN': {
+        'zh_cn': {
           'Paste a link': '粘贴链接',
           'Ok': '好',
           'Select Color': '选择颜色',

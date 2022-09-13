@@ -324,13 +324,11 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionEnd(DragEndDetails details) {
     renderEditor!.handleDragEnd(details);
-    if (isDesktop()) {
+    if (isDesktop() &&
+        delegate.selectionEnabled &&
+        shouldShowSelectionToolbar) {
       // added to show selection copy/paste toolbar after drag to select
-      if (delegate.selectionEnabled) {
-        if (shouldShowSelectionToolbar) {
-          editor!.showToolbar();
-        }
-      }
+      editor!.showToolbar();
     }
   }
 
