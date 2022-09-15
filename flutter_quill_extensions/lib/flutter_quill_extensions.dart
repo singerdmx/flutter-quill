@@ -84,10 +84,6 @@ class FlutterQuillEmbeds {
               icon: Icons.functions,
               iconSize: toolbarIconSize,
               controller: controller,
-              onImagePickCallback: onImagePickCallback,
-              filePickImpl: filePickImpl,
-              webImagePickImpl: webImagePickImpl,
-              mediaPickSettingSelector: mediaPickSettingSelector,
               iconTheme: iconTheme,
               dialogTheme: dialogTheme,
             )

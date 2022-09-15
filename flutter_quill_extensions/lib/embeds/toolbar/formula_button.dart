@@ -1,37 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../embed_types.dart';
-
 class FormulaButton extends StatelessWidget {
   const FormulaButton({
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
-    this.onImagePickCallback,
     this.fillColor,
-    this.filePickImpl,
-    this.webImagePickImpl,
-    this.mediaPickSettingSelector,
     this.iconTheme,
     this.dialogTheme,
     Key? key,
   }) : super(key: key);
 
   final IconData icon;
+
   final double iconSize;
 
   final Color? fillColor;
 
   final QuillController controller;
-
-  final OnImagePickCallback? onImagePickCallback;
-
-  final WebImagePickImpl? webImagePickImpl;
-
-  final FilePickImpl? filePickImpl;
-
-  final MediaPickSettingSelector? mediaPickSettingSelector;
 
   final QuillIconTheme? iconTheme;
 
