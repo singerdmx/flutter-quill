@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -175,6 +176,7 @@ class QuillEditor extends StatefulWidget {
       this.locale,
       this.floatingCursorDisabled = false,
       this.textSelectionControls,
+      this.onImagePaste,
       Key? key})
       : super(key: key);
 
@@ -377,6 +379,11 @@ class QuillEditor extends StatefulWidget {
   /// will be used
   final TextSelectionControls? textSelectionControls;
 
+  /// Callback when the user pastes the given image.
+  ///
+  /// Returns the url of the image if the image should be inserted.
+  final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -499,6 +506,7 @@ class QuillEditorState extends State<QuillEditor>
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
+      onImagePaste: widget.onImagePaste,
     );
 
     final editor = I18n(

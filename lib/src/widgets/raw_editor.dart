@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:pasteboard/pasteboard.dart';
 import 'package:tuple/tuple.dart';
 
 import '../models/documents/attribute.dart';
@@ -72,7 +74,8 @@ class RawEditor extends StatefulWidget {
       this.scrollPhysics,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
-      this.floatingCursorDisabled = false})
+      this.floatingCursorDisabled = false,
+      this.onImagePaste})
       : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -218,6 +221,8 @@ class RawEditor extends StatefulWidget {
   ///
   /// See [Scrollable.physics].
   final ScrollPhysics? scrollPhysics;
+
+  final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
 
   /// Builder function for embeddable objects.
   final EmbedsBuilder embedBuilder;
@@ -1022,25 +1027,45 @@ class RawEditorState extends EditorState
     }
     // Snapshot the input before using `await`.
     // See https://github.com/flutter/flutter/issues/11427
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (data == null) {
+    final text = await Clipboard.getData(Clipboard.kTextPlain);
+    if (text != null) {
+      _replaceText(
+          ReplaceTextIntent(textEditingValue, text.text!, selection, cause));
+
+      bringIntoView(textEditingValue.selection.extent);
+
+      // Collapse the selection and hide the toolbar and handles.
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: textEditingValue.text,
+          selection:
+              TextSelection.collapsed(offset: textEditingValue.selection.end),
+        ),
+        cause,
+      );
+
       return;
     }
 
-    _replaceText(
-        ReplaceTextIntent(textEditingValue, data.text!, selection, cause));
+    if (widget.onImagePaste != null) {
+      final image = await Pasteboard.image;
 
-    bringIntoView(textEditingValue.selection.extent);
+      if (image == null) {
+        return;
+      }
 
-    // Collapse the selection and hide the toolbar and handles.
-    userUpdateTextEditingValue(
-      TextEditingValue(
-        text: textEditingValue.text,
-        selection:
-            TextSelection.collapsed(offset: textEditingValue.selection.end),
-      ),
-      cause,
-    );
+      final imageUrl = await widget.onImagePaste!(image);
+      if (imageUrl == null) {
+        return;
+      }
+
+      controller.replaceText(
+        textEditingValue.selection.end,
+        0,
+        BlockEmbed.image(imageUrl),
+        null,
+      );
+    }
   }
 
   /// Select the entire text value.
