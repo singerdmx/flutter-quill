@@ -1,3 +1,6 @@
+# [6.0.3]
+* Add ability to paste images.
+
 # [6.0.2]
 * Address Dart Analysis issues.
 
