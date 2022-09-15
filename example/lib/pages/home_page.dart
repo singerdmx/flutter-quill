@@ -353,7 +353,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<String> _onImagePaste(Uint8List imageBytes) async {
-    // Copies the picked file from temporary cache to applications directory
+    // Saves the image to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final file = await File(
             '${appDocDir.path}/${basename('${DateTime.now().millisecondsSinceEpoch}.png')}')
