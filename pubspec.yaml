@@ -24,6 +24,7 @@ dependencies:
   i18n_extension: ^5.0.1
   device_info_plus: ^4.0.0
   platform: ^3.1.0
+  pasteboard: ^0.2.0
 
 dev_dependencies:
   flutter_test:
