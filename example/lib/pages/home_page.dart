@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
       placeholder: 'Add content',
       expands: false,
       padding: EdgeInsets.zero,
+      onImagePaste: _onImagePaste,
       customStyles: DefaultStyles(
         h1: DefaultTextBlockStyle(
             const TextStyle(
@@ -349,6 +350,15 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => ReadOnlyPage(),
       ),
     );
+  }
+
+  Future<String> _onImagePaste(Uint8List imageBytes) async {
+    // Copies the picked file from temporary cache to applications directory
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final file = await File(
+            '${appDocDir.path}/${basename('${DateTime.now().millisecondsSinceEpoch}.png')}')
+        .writeAsBytes(imageBytes);
+    return file.path.toString();
   }
 
   Future<void> _addEditNote(BuildContext context, {Document? document}) async {
