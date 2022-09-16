@@ -357,7 +357,7 @@ class _HomePageState extends State<HomePage> {
     final appDocDir = await getApplicationDocumentsDirectory();
     final file = await File(
             '${appDocDir.path}/${basename('${DateTime.now().millisecondsSinceEpoch}.png')}')
-        .writeAsBytes(imageBytes);
+        .writeAsBytes(imageBytes, flush: true);
     return file.path.toString();
   }
 
