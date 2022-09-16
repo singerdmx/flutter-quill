@@ -1,3 +1,6 @@
+# [6.0.4]
+* Bug fix for Type 'Uint8List' not found.
+
 # [6.0.3]
 * Add ability to paste images.
 
