@@ -169,6 +169,7 @@ class _HomePageState extends State<HomePage> {
         // cameraPickSettingSelector: _selectCameraPickSetting,
       ),
       showAlignmentButtons: true,
+      afterButtonPressed: _focusNode.requestFocus,
     );
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
@@ -178,6 +179,7 @@ class _HomePageState extends State<HomePage> {
           webImagePickImpl: _webImagePickImpl,
         ),
         showAlignmentButtons: true,
+        afterButtonPressed: _focusNode.requestFocus,
       );
     }
     if (_isDesktop()) {
@@ -188,6 +190,7 @@ class _HomePageState extends State<HomePage> {
           filePickImpl: openFileSystemPickerForDesktop,
         ),
         showAlignmentButtons: true,
+        afterButtonPressed: _focusNode.requestFocus,
       );
     }
 

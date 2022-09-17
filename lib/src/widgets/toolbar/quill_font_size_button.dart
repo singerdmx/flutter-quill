@@ -19,6 +19,7 @@ class QuillFontSizeButton extends StatefulWidget {
     this.hoverElevation = 1,
     this.highlightElevation = 1,
     this.iconTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -32,6 +33,7 @@ class QuillFontSizeButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
   final Attribute attribute;
   final QuillController controller;
+  final VoidCallback? afterButtonPressed;
 
   @override
   _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
@@ -96,7 +98,10 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
         elevation: 0,
         hoverElevation: widget.hoverElevation,
         highlightElevation: widget.hoverElevation,
-        onPressed: _showMenu,
+        onPressed: () {
+          _showMenu();
+          widget.afterButtonPressed?.call();
+        },
         child: _buildContent(context),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class QuillIconButton extends StatelessWidget {
   const QuillIconButton({
     required this.onPressed,
+    this.afterPressed,
     this.icon,
     this.size = 40,
     this.fillColor,
@@ -13,6 +14,7 @@ class QuillIconButton extends StatelessWidget {
   }) : super(key: key);
 
   final VoidCallback? onPressed;
+  final VoidCallback? afterPressed;
   final Widget? icon;
   final double size;
   final Color? fillColor;
@@ -32,7 +34,10 @@ class QuillIconButton extends StatelessWidget {
         elevation: 0,
         hoverElevation: hoverElevation,
         highlightElevation: hoverElevation,
-        onPressed: onPressed,
+        onPressed: () {
+          onPressed?.call();
+          afterPressed?.call();
+        },
         child: icon,
       ),
     );

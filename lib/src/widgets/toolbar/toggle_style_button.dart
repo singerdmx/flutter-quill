@@ -12,7 +12,8 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   IconData icon,
   Color? fillColor,
   bool? isToggled,
-  VoidCallback? onPressed, [
+  VoidCallback? onPressed,
+  VoidCallback? afterPressed, [
   double iconSize,
   QuillIconTheme? iconTheme,
 ]);
@@ -26,6 +27,7 @@ class ToggleStyleButton extends StatefulWidget {
     this.fillColor,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     this.iconTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -42,6 +44,8 @@ class ToggleStyleButton extends StatefulWidget {
 
   ///Specify an icon theme for the icons in the toolbar
   final QuillIconTheme? iconTheme;
+
+  final VoidCallback? afterButtonPressed;
 
   @override
   _ToggleStyleButtonState createState() => _ToggleStyleButtonState();
@@ -68,6 +72,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
       widget.fillColor,
       _isToggled,
       _toggleAttribute,
+      widget.afterButtonPressed,
       widget.iconSize,
       widget.iconTheme,
     );
@@ -117,7 +122,8 @@ Widget defaultToggleStyleButtonBuilder(
   IconData icon,
   Color? fillColor,
   bool? isToggled,
-  VoidCallback? onPressed, [
+  VoidCallback? onPressed,
+  VoidCallback? afterPressed, [
   double iconSize = kDefaultIconSize,
   QuillIconTheme? iconTheme,
 ]) {
@@ -145,6 +151,7 @@ Widget defaultToggleStyleButtonBuilder(
     icon: Icon(icon, size: iconSize, color: iconColor),
     fillColor: fill,
     onPressed: onPressed,
+    afterPressed: afterPressed,
     borderRadius: iconTheme?.borderRadius ?? 2,
   );
 }

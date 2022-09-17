@@ -17,6 +17,7 @@ class LinkStyleButton extends StatefulWidget {
     this.icon,
     this.iconTheme,
     this.dialogTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -25,6 +26,7 @@ class LinkStyleButton extends StatefulWidget {
   final double iconSize;
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
+  final VoidCallback? afterButtonPressed;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -79,6 +81,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
           : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
       borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: pressedHandler,
+      afterPressed: widget.afterButtonPressed,
     );
   }
 

@@ -18,6 +18,7 @@ class SelectHeaderStyleButton extends StatefulWidget {
       Attribute.h2,
       Attribute.h3,
     ],
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -25,6 +26,7 @@ class SelectHeaderStyleButton extends StatefulWidget {
   final double iconSize;
   final QuillIconTheme? iconTheme;
   final List<Attribute> attributes;
+  final VoidCallback? afterButtonPressed;
 
   @override
   _SelectHeaderStyleButtonState createState() =>
@@ -95,6 +97,7 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
                     ? Attribute.header
                     : attribute;
                 widget.controller.formatSelection(_attribute);
+                widget.afterButtonPressed?.call();
               },
               child: Text(
                 _valueToText[attribute] ?? '',

@@ -15,6 +15,7 @@ class ToggleCheckListButton extends StatefulWidget {
     this.fillColor,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     this.iconTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -30,6 +31,7 @@ class ToggleCheckListButton extends StatefulWidget {
   final Attribute attribute;
 
   final QuillIconTheme? iconTheme;
+  final VoidCallback? afterButtonPressed;
 
   @override
   _ToggleCheckListButtonState createState() => _ToggleCheckListButtonState();
@@ -96,6 +98,7 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
       widget.fillColor,
       _isToggled,
       _toggleAttribute,
+      widget.afterButtonPressed,
       widget.iconSize,
       widget.iconTheme,
     );
