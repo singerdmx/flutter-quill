@@ -1,3 +1,6 @@
+# [6.0.5]
+* Fixes toolbar buttons stealing focus from editor.
+
 # [6.0.4]
 * Bug fix for Type 'Uint8List' not found.
 
