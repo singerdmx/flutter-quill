@@ -9,6 +9,7 @@ class IndentButton extends StatefulWidget {
     required this.isIncrease,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -16,6 +17,7 @@ class IndentButton extends StatefulWidget {
   final double iconSize;
   final QuillController controller;
   final bool isIncrease;
+  final VoidCallback? afterButtonPressed;
 
   final QuillIconTheme? iconTheme;
 
@@ -62,6 +64,7 @@ class _IndentButtonState extends State<IndentButton> {
         widget.controller
             .formatSelection(Attribute.getIndentLevel(indent.value - 1));
       },
+      afterPressed: widget.afterButtonPressed,
     );
   }
 }

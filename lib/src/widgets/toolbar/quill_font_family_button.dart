@@ -18,6 +18,7 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.hoverElevation = 1,
     this.highlightElevation = 1,
     this.iconTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +32,7 @@ class QuillFontFamilyButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
   final Attribute attribute;
   final QuillController controller;
+  final VoidCallback? afterButtonPressed;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -95,7 +97,10 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
         elevation: 0,
         hoverElevation: widget.hoverElevation,
         highlightElevation: widget.hoverElevation,
-        onPressed: _showMenu,
+        onPressed: () {
+          _showMenu();
+          widget.afterButtonPressed?.call();
+        },
         child: _buildContent(context),
       ),
     );

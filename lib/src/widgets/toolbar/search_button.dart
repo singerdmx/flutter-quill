@@ -15,6 +15,7 @@ class SearchButton extends StatelessWidget {
     this.fillColor,
     this.iconTheme,
     this.dialogTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -26,6 +27,7 @@ class SearchButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
 
   final QuillDialogTheme? dialogTheme;
+  final VoidCallback? afterButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class SearchButton extends StatelessWidget {
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _onPressedHandler(context),
+      afterPressed: afterButtonPressed,
     );
   }
 

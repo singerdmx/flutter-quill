@@ -20,6 +20,7 @@ class ColorButton extends StatefulWidget {
     required this.background,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
+    this.afterButtonPressed,
     Key? key,
   }) : super(key: key);
 
@@ -28,6 +29,7 @@ class ColorButton extends StatefulWidget {
   final bool background;
   final QuillController controller;
   final QuillIconTheme? iconTheme;
+  final VoidCallback? afterButtonPressed;
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -126,6 +128,7 @@ class _ColorButtonState extends State<ColorButton> {
       fillColor: widget.background ? fillColorBackground : fillColor,
       borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: _showColorPicker,
+      afterPressed: widget.afterButtonPressed,
     );
   }
 
