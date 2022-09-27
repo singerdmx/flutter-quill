@@ -480,31 +480,8 @@ class QuillEditorState extends State<QuillEditor>
         controller,
         node,
         readOnly,
-      ) {
-        final builders = widget.embedBuilders;
-
-        if (builders != null) {
-          var _node = node;
-          final type = node.value.type;
-
-          // Creates correct node for custom embed
-          if (type == BlockEmbed.customType) {
-            _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
-          }
-
-          for (final builder in builders) {
-            if (builder.key == type) {
-              return builder.build(context, controller, _node, readOnly);
-            }
-          }
-        }
-
-        throw UnimplementedError(
-          'Embeddable type "${node.value.type}" is not supported by supplied '
-          'embed builders. You must pass your own builder function to '
-          'embedBuilders property of QuillEditor or QuillField widgets.',
-        );
-      },
+      ) =>
+          _buildCustomBlockEmbed(node, context, controller, readOnly),
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
@@ -536,6 +513,33 @@ class QuillEditorState extends State<QuillEditor>
     }
 
     return editor;
+  }
+
+  Widget _buildCustomBlockEmbed(Embed node, BuildContext context,
+      QuillController controller, bool readOnly) {
+    final builders = widget.embedBuilders;
+
+    if (builders != null) {
+      var _node = node;
+      final type = node.value.type;
+
+      // Creates correct node for custom embed
+      if (type == BlockEmbed.customType) {
+        _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
+      }
+
+      for (final builder in builders) {
+        if (builder.key == type) {
+          return builder.build(context, controller, _node, readOnly);
+        }
+      }
+    }
+
+    throw UnimplementedError(
+      'Embeddable type "${node.value.type}" is not supported by supplied '
+      'embed builders. You must pass your own builder function to '
+      'embedBuilders property of QuillEditor or QuillField widgets.',
+    );
   }
 
   @override
