@@ -1,3 +1,6 @@
+# [6.0.6]
+* Fix wrong custom embed key.
+
 # [6.0.5]
 * Fixes toolbar buttons stealing focus from editor.
 
