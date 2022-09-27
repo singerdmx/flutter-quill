@@ -485,14 +485,15 @@ class QuillEditorState extends State<QuillEditor>
 
         if (builders != null) {
           var _node = node;
+          final type = node.value.type;
 
           // Creates correct node for custom embed
-          if (node.value.type == BlockEmbed.customType) {
+          if (type == BlockEmbed.customType) {
             _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
           }
 
           for (final builder in builders) {
-            if (builder.key == _node.value.type) {
+            if (builder.key == type) {
               return builder.build(context, controller, _node, readOnly);
             }
           }
