@@ -1,3 +1,6 @@
+# [6.0.6+1]
+* Revert 6.0.6
+
 # [6.0.6]
 * Fix wrong custom embed key.
 
