@@ -347,6 +347,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _readOnly() {
+    Navigator.pop(super.context);
     Navigator.push(
       super.context,
       MaterialPageRoute(
