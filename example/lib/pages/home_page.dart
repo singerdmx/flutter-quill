@@ -15,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:tuple/tuple.dart';
 
 import '../universal_ui/universal_ui.dart';
+import 'custom_attr_page.dart';
 import 'read_only_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -342,15 +343,33 @@ class _HomePageState extends State<HomePage> {
           indent: size.width * 0.1,
           endIndent: size.width * 0.1,
         ),
+        ListTile(
+          title:
+              const Center(child: Text('Custom attr demo', style: itemStyle)),
+          dense: true,
+          visualDensity: VisualDensity.compact,
+          onTap: _openCustomAttrPage,
+        ),
       ],
     );
   }
 
   void _readOnly() {
+    Navigator.pop(super.context);
     Navigator.push(
       super.context,
       MaterialPageRoute(
         builder: (context) => ReadOnlyPage(),
+      ),
+    );
+  }
+
+  void _openCustomAttrPage() {
+    Navigator.pop(super.context);
+    Navigator.push(
+      super.context,
+      MaterialPageRoute(
+        builder: (context) => CustomAttrPage(),
       ),
     );
   }

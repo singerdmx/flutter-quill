@@ -17,6 +17,10 @@ class Attribute<T> {
   final AttributeScope scope;
   final T value;
 
+  static void addCustomAttribute(Attribute attr) {
+    _registry[attr.key] = attr;
+  }
+
   static final Map<String, Attribute> _registry = LinkedHashMap.of({
     Attribute.bold.key: Attribute.bold,
     Attribute.italic.key: Attribute.italic,

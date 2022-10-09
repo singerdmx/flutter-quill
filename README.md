@@ -153,6 +153,81 @@ QuillToolbar.basic(
     ]
 ```
 
+### Custom Attributes
+Often times we want to apply a style that is not available by default with the use of existing toolbar buttons. For such cases, we can simply add a custom toolbar button to apply a custom attribute to the selected text.
+
+We can create a custom attribute by defining the class as such:
+```dart
+class CustomAttribute extends Attribute<bool?> {
+  const CustomAttribute(bool? val)
+      : super(KEY, AttributeScope.INLINE, val);
+
+  static const String KEY = 'my-custom-attr';
+}
+```
+
+We should then register the attribute when the app is started.
+
+```dart
+void main() {
+  Attribute.addCustomAttribute(const CustomAttribute(null));
+  runApp(MyApp());
+}
+```
+
+After that we can define a custom style builder and handle the text style that will be applied for the given attribute. For example, the below code will apply a blue color and yellow background if a text contains this attribute.
+```dart
+  TextStyle _customStyleBuilder(Attribute attr) {
+    if (attr.key == CustomAttribute.KEY) {
+      return TextStyle(
+          color: Colors.blue, backgroundColor: Colors.yellow);
+    }
+
+    return const TextStyle();
+  }
+
+  Widget build(BuildContext context) {
+    var quillEditor = QuillEditor(
+    ...
+    customStyleBuilder: _customStyleBuilder,
+    );
+    ...
+  }
+```
+
+You can then add a custom toolbar button that will apply this attribute to the selected text.
+```dart
+  var toolbar = QuillToolbar.basic(
+    controller: controller,
+    customButtons: [
+      QuillCustomButton(
+          icon: Icons.smart_toy_sharp,
+          onTap: () {
+            if (controller
+                .getSelectionStyle()
+                .attributes
+                .keys
+                .contains(CustomAttribute.KEY)) {
+              // remove the attribute if it's already applied
+              controller
+                  .formatSelection(const CustomAttribute(null));
+            } else {
+              // add the attribute
+              controller
+                  .formatSelection(const CustomAttribute(true));
+            }
+          },
+          isToggled: () {
+            // determine whether the button should be in a toggled state
+            return controller
+                .getSelectionStyle()
+                .attributes
+                .containsKey(CustomAttribute.KEY);
+          })
+    ],
+);
+```
+
 
 ## Embed Blocks
 

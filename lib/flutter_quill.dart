@@ -7,6 +7,7 @@ export 'src/models/documents/nodes/leaf.dart';
 export 'src/models/documents/nodes/node.dart';
 export 'src/models/documents/style.dart';
 export 'src/models/quill_delta.dart';
+export 'src/models/rules/rule.dart';
 export 'src/models/themes/quill_custom_button.dart';
 export 'src/models/themes/quill_dialog_theme.dart';
 export 'src/models/themes/quill_icon_theme.dart';

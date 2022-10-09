@@ -20,6 +20,8 @@ class DemoScaffold extends StatefulWidget {
     this.actions,
     this.showToolbar = true,
     this.floatingActionButton,
+    this.customButtons,
+    this.title = '',
     Key? key,
   }) : super(key: key);
 
@@ -29,24 +31,23 @@ class DemoScaffold extends StatefulWidget {
   final List<Widget>? actions;
   final Widget? floatingActionButton;
   final bool showToolbar;
+  final List<QuillCustomButton>? customButtons;
+  final String title;
 
   @override
   _DemoScaffoldState createState() => _DemoScaffoldState();
 }
 
 class _DemoScaffoldState extends State<DemoScaffold> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   QuillController? _controller;
 
   bool _loading = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_controller == null && !_loading) {
-      _loading = true;
-      _loadFromAssets();
-    }
+  void initState() {
+    super.initState();
+    _loading = true;
+    _loadFromAssets();
   }
 
   @override
@@ -93,36 +94,34 @@ class _DemoScaffoldState extends State<DemoScaffold> {
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
       embedButtons: FlutterQuillEmbeds.buttons(),
+      customButtons: widget.customButtons ?? [],
     );
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
         controller: _controller!,
         embedButtons: FlutterQuillEmbeds.buttons(
             filePickImpl: openFileSystemPickerForDesktop),
+        customButtons: widget.customButtons ?? [],
       );
     }
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).canvasColor,
+        backgroundColor: Colors.grey.shade800,
+        title: Text(widget.title),
         centerTitle: false,
         titleSpacing: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.chevron_left,
-            color: Colors.grey.shade800,
-            size: 18,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: _loading || !widget.showToolbar ? null : toolbar,
         actions: actions,
       ),
       floatingActionButton: widget.floatingActionButton,
       body: _loading
           ? const Center(child: Text('Loading...'))
           : widget.builder(context, _controller),
+      bottomNavigationBar: _loading || !widget.showToolbar
+          ? null
+          : BottomAppBar(
+              child: toolbar,
+            ),
     );
   }
 
