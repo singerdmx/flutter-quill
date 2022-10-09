@@ -157,6 +157,7 @@ class QuillEditor extends StatefulWidget {
       this.paintCursorAboveText,
       this.placeholder,
       this.enableInteractiveSelection = true,
+      this.enableSelectionToolbar = true,
       this.scrollBottomInset = 0,
       this.minHeight,
       this.maxHeight,
@@ -266,7 +267,13 @@ class QuillEditor extends StatefulWidget {
   /// When this is false, the text selection cannot be adjusted by
   /// the user, text cannot be copied, and the user cannot paste into
   /// the text field from the clipboard.
+  ///
+  /// To disable just the selection toolbar, set enableSelectionToolbar
+  /// to false.
   final bool enableInteractiveSelection;
+
+  /// Whether to show the cut/copy/paste menu when selecting text.
+  final bool enableSelectionToolbar;
 
   /// The minimum height to be occupied by this editor.
   ///
@@ -435,6 +442,9 @@ class QuillEditorState extends State<QuillEditor>
           theme.colorScheme.primary.withOpacity(0.40);
     }
 
+    final showSelectionToolbar =
+        widget.enableInteractiveSelection && widget.enableSelectionToolbar;
+
     final child = RawEditor(
       key: _editorKey,
       controller: widget.controller,
@@ -447,10 +457,10 @@ class QuillEditorState extends State<QuillEditor>
       placeholder: widget.placeholder,
       onLaunchUrl: widget.onLaunchUrl,
       toolbarOptions: ToolbarOptions(
-        copy: widget.enableInteractiveSelection,
-        cut: widget.enableInteractiveSelection,
-        paste: widget.enableInteractiveSelection,
-        selectAll: widget.enableInteractiveSelection,
+        copy: showSelectionToolbar,
+        cut: showSelectionToolbar,
+        paste: showSelectionToolbar,
+        selectAll: showSelectionToolbar,
       ),
       showSelectionHandles: isMobile(theme.platform),
       showCursor: widget.showCursor,
