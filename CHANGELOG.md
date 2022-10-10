@@ -1,3 +1,6 @@
+# [6.0.8+1]
+* Fixes null pointer when setting documents.
+
 # [6.0.8]
 * Make QuillController.document mutable.
 
