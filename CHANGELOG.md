@@ -1,3 +1,6 @@
+# [6.0.8]
+* Make QuillController.document mutable.
+
 # [6.0.7]
 * Allow disabling of selection toolbar.
 
