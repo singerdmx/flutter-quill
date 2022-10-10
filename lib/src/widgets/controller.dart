@@ -40,6 +40,10 @@ class QuillController extends ChangeNotifier {
   Document get document => _document;
   set document(doc) {
     _document = doc;
+
+    // Prevent the selection from
+    _selection = const TextSelection(baseOffset: 0, extentOffset: 0);
+
     notifyListeners();
   }
 
