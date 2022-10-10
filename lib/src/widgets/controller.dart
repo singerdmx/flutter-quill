@@ -17,14 +17,15 @@ typedef DeleteCallback = void Function(int cursorPosition, bool forward);
 
 class QuillController extends ChangeNotifier {
   QuillController({
-    required this.document,
+    required Document document,
     required TextSelection selection,
     bool keepStyleOnNewLine = false,
     this.onReplaceText,
     this.onDelete,
     this.onSelectionCompleted,
     this.onSelectionChanged,
-  })  : _selection = selection,
+  })  : _document = document,
+        _selection = selection,
         _keepStyleOnNewLine = keepStyleOnNewLine;
 
   factory QuillController.basic() {
@@ -35,7 +36,12 @@ class QuillController extends ChangeNotifier {
   }
 
   /// Document managed by this controller.
-  final Document document;
+  Document _document;
+  Document get document => _document;
+  set document(doc) {
+    _document = doc;
+    notifyListeners();
+  }
 
   /// Tells whether to keep or reset the [toggledStyle]
   /// when user adds a new line.
