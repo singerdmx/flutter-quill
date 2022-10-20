@@ -283,7 +283,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   @override
   void showAutocorrectionPromptRect(int start, int end) {
-    throw UnimplementedError();
+    // this is called VERY OFTEN when editing a document, no longer throw an exception
+    // throw UnimplementedError();
   }
 
   @override
