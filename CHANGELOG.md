@@ -1,3 +1,6 @@
+# [6.0.9]
+* Don't throw showAutocorrectionPromptRect not implemented. The function is called with every keystroke as a user is typing.
+
 # [6.0.8+1]
 * Fixes null pointer when setting documents.
 
