@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../flutter_quill.dart' hide Text;
 import '../../../translations.dart';
+import '../../models/documents/document.dart';
+import '../../models/themes/quill_dialog_theme.dart';
+import '../controller.dart';
 
 class SearchDialog extends StatefulWidget {
   const SearchDialog(
