@@ -4,7 +4,6 @@ import 'dart:math' as math;
 // ignore: unnecessary_import
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -38,6 +37,7 @@ import 'raw_editor/raw_editor_state_text_input_client_mixin.dart';
 import 'text_block.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
+import 'toolbar/search_dialog.dart';
 
 class RawEditor extends StatefulWidget {
   const RawEditor(
@@ -370,13 +370,59 @@ class RawEditorState extends EditorState
       data: _styles!,
       child: Shortcuts(
         shortcuts: <LogicalKeySet, Intent>{
-          // shortcuts added for Windows platform
+          // shortcuts added for Desktop platforms.
           LogicalKeySet(LogicalKeyboardKey.escape):
               const HideSelectionToolbarIntent(),
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
               const UndoTextIntent(SelectionChangedCause.keyboard),
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY):
               const RedoTextIntent(SelectionChangedCause.keyboard),
+
+          // Selection formatting.
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyB):
+              const ToggleTextStyleIntent(Attribute.bold),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyU):
+              const ToggleTextStyleIntent(Attribute.underline),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyI):
+              const ToggleTextStyleIntent(Attribute.italic),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                  LogicalKeyboardKey.keyS):
+              const ToggleTextStyleIntent(Attribute.strikeThrough),
+          LogicalKeySet(
+                  LogicalKeyboardKey.control, LogicalKeyboardKey.backquote):
+              const ToggleTextStyleIntent(Attribute.inlineCode),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyL):
+              const ToggleTextStyleIntent(Attribute.ul),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyO):
+              const ToggleTextStyleIntent(Attribute.ol),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                  LogicalKeyboardKey.keyB):
+              const ToggleTextStyleIntent(Attribute.blockQuote),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                  LogicalKeyboardKey.tilde):
+              const ToggleTextStyleIntent(Attribute.codeBlock),
+          // Indent
+          LogicalKeySet(
+                  LogicalKeyboardKey.control, LogicalKeyboardKey.bracketRight):
+              const IndentSelectionIntent(true),
+          LogicalKeySet(
+                  LogicalKeyboardKey.control, LogicalKeyboardKey.bracketLeft):
+              const IndentSelectionIntent(false),
+
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF):
+              const OpenSearchIntent(),
+
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit1):
+              const ApplyHeaderIntent(Attribute.h1),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit2):
+              const ApplyHeaderIntent(Attribute.h2),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit3):
+              const ApplyHeaderIntent(Attribute.h3),
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit0):
+              const ApplyHeaderIntent(Attribute.header),
+
+          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+              LogicalKeyboardKey.keyL): const ApplyCheckListIntent(),
         },
         child: Actions(
           actions: _actions,
@@ -1168,6 +1214,17 @@ class RawEditorState extends EditorState
       _UpdateTextSelectionToAdjacentLineAction<
           ExtendSelectionVerticallyToAdjacentLineIntent>(this);
 
+  late final _ToggleTextStyleAction _formatSelectionAction =
+      _ToggleTextStyleAction(this);
+
+  late final _IndentSelectionAction _indentSelectionAction =
+      _IndentSelectionAction(this);
+
+  late final _OpenSearchAction _openSearchAction = _OpenSearchAction(this);
+  late final _ApplyHeaderAction _applyHeaderAction = _ApplyHeaderAction(this);
+  late final _ApplyCheckListAction _applyCheckListAction =
+      _ApplyCheckListAction(this);
+
   late final Map<Type, Action<Intent>> _actions = <Type, Action<Intent>>{
     DoNothingAndStopPropagationTextIntent: DoNothingAction(consumesKey: false),
     ReplaceTextIntent: _replaceTextAction,
@@ -1214,6 +1271,13 @@ class RawEditorState extends EditorState
         _makeOverridable(_HideSelectionToolbarAction(this)),
     UndoTextIntent: _makeOverridable(_UndoKeyboardAction(this)),
     RedoTextIntent: _makeOverridable(_RedoKeyboardAction(this)),
+
+    OpenSearchIntent: _openSearchAction,
+    // Selection Formatting
+    ToggleTextStyleIntent: _formatSelectionAction,
+    IndentSelectionIntent: _indentSelectionAction,
+    ApplyHeaderIntent: _applyHeaderAction,
+    ApplyCheckListIntent: _applyCheckListAction,
   };
 
   @override
@@ -1957,6 +2021,172 @@ class _RedoKeyboardAction extends ContextAction<RedoTextIntent> {
     if (state.controller.hasRedo) {
       state.controller.redo();
     }
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class ToggleTextStyleIntent extends Intent {
+  const ToggleTextStyleIntent(this.attribute);
+
+  final Attribute attribute;
+}
+
+// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
+class _ToggleTextStyleAction extends Action<ToggleTextStyleIntent> {
+  _ToggleTextStyleAction(this.state);
+
+  final RawEditorState state;
+
+  bool _isStyleActive(Attribute styleAttr, Map<String, Attribute> attrs) {
+    if (styleAttr.key == Attribute.list.key) {
+      final attribute = attrs[styleAttr.key];
+      if (attribute == null) {
+        return false;
+      }
+      return attribute.value == styleAttr.value;
+    }
+    return attrs.containsKey(styleAttr.key);
+  }
+
+  @override
+  void invoke(ToggleTextStyleIntent intent, [BuildContext? context]) {
+    final isActive = _isStyleActive(
+        intent.attribute, state.controller.getSelectionStyle().attributes);
+    state.controller.formatSelection(
+        isActive ? Attribute.clone(intent.attribute, null) : intent.attribute);
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class IndentSelectionIntent extends Intent {
+  const IndentSelectionIntent(this.isIncrease);
+
+  final bool isIncrease;
+}
+
+// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
+class _IndentSelectionAction extends Action<IndentSelectionIntent> {
+  _IndentSelectionAction(this.state);
+
+  final RawEditorState state;
+
+  @override
+  void invoke(IndentSelectionIntent intent, [BuildContext? context]) {
+    final indent =
+        state.controller.getSelectionStyle().attributes[Attribute.indent.key];
+    if (indent == null) {
+      if (intent.isIncrease) {
+        state.controller.formatSelection(Attribute.indentL1);
+      }
+      return;
+    }
+    if (indent.value == 1 && !intent.isIncrease) {
+      state.controller
+          .formatSelection(Attribute.clone(Attribute.indentL1, null));
+      return;
+    }
+    if (intent.isIncrease) {
+      state.controller
+          .formatSelection(Attribute.getIndentLevel(indent.value + 1));
+      return;
+    }
+    state.controller
+        .formatSelection(Attribute.getIndentLevel(indent.value - 1));
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class OpenSearchIntent extends Intent {
+  const OpenSearchIntent();
+}
+
+// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
+class _OpenSearchAction extends ContextAction<OpenSearchIntent> {
+  _OpenSearchAction(this.state);
+
+  final RawEditorState state;
+
+  @override
+  Future invoke(OpenSearchIntent intent, [BuildContext? context]) async {
+    await showDialog<String>(
+      context: context!,
+      builder: (_) => SearchDialog(controller: state.controller, text: ''),
+    );
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class ApplyHeaderIntent extends Intent {
+  const ApplyHeaderIntent(this.header);
+
+  final Attribute header;
+}
+
+// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
+class _ApplyHeaderAction extends Action<ApplyHeaderIntent> {
+  _ApplyHeaderAction(this.state);
+
+  final RawEditorState state;
+
+  Attribute<dynamic> _getHeaderValue() {
+    return state.controller
+            .getSelectionStyle()
+            .attributes[Attribute.header.key] ??
+        Attribute.header;
+  }
+
+  @override
+  void invoke(ApplyHeaderIntent intent, [BuildContext? context]) {
+    final _attribute =
+        _getHeaderValue() == intent.header ? Attribute.header : intent.header;
+    state.controller.formatSelection(_attribute);
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class ApplyCheckListIntent extends Intent {
+  const ApplyCheckListIntent();
+}
+
+// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
+class _ApplyCheckListAction extends Action<ApplyCheckListIntent> {
+  _ApplyCheckListAction(this.state);
+
+  final RawEditorState state;
+
+  bool _getIsToggled() {
+    final attrs = state.controller.getSelectionStyle().attributes;
+    var attribute = state.controller.toolbarButtonToggler[Attribute.list.key];
+
+    if (attribute == null) {
+      attribute = attrs[Attribute.list.key];
+    } else {
+      // checkbox tapping causes controller.selection to go to offset 0
+      state.controller.toolbarButtonToggler.remove(Attribute.list.key);
+    }
+
+    if (attribute == null) {
+      return false;
+    }
+    return attribute.value == Attribute.unchecked.value ||
+        attribute.value == Attribute.checked.value;
+  }
+
+  @override
+  void invoke(ApplyCheckListIntent intent, [BuildContext? context]) {
+    state.controller.formatSelection(_getIsToggled()
+        ? Attribute.clone(Attribute.unchecked, null)
+        : Attribute.unchecked);
   }
 
   @override
