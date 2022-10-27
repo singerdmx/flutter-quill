@@ -1,3 +1,6 @@
+# [6.1.0]
+* Add keyboard shortcuts for editor actions.
+
 # [6.0.10]
 * Upgrade device info plus to ^7.0.0.
 
