@@ -1,3 +1,6 @@
+# [6.1.1]
+* Fix order list numbering.
+
 # [6.1.0]
 * Add keyboard shortcuts for editor actions.
 

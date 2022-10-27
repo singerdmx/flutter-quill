@@ -82,11 +82,14 @@ class QuillNumberPoint extends StatelessWidget {
 
     final builder = StringBuffer();
     for (var a = 0; a < arabianRomanNumbers.length; a++) {
-      final times = (num / arabianRomanNumbers[a]).truncate(); // equals 1 only when arabianRomanNumbers[a] = num
+      final times = (num / arabianRomanNumbers[a])
+          .truncate(); // equals 1 only when arabianRomanNumbers[a] = num
       // executes n times where n is the number of times you have to add
       // the current roman number value to reach current num.
       builder.write(romanNumbers[a] * times);
-      num -= times * arabianRomanNumbers[a]; // subtract previous roman number value from num
+      num -= times *
+          arabianRomanNumbers[
+              a]; // subtract previous roman number value from num
     }
 
     return builder.toString().toLowerCase();
