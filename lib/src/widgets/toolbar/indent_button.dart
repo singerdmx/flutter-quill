@@ -42,27 +42,7 @@ class _IndentButtonState extends State<IndentButton> {
       fillColor: iconFillColor,
       borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: () {
-        final indent = widget.controller
-            .getSelectionStyle()
-            .attributes[Attribute.indent.key];
-        if (indent == null) {
-          if (widget.isIncrease) {
-            widget.controller.formatSelection(Attribute.indentL1);
-          }
-          return;
-        }
-        if (indent.value == 1 && !widget.isIncrease) {
-          widget.controller
-              .formatSelection(Attribute.clone(Attribute.indentL1, null));
-          return;
-        }
-        if (widget.isIncrease) {
-          widget.controller
-              .formatSelection(Attribute.getIndentLevel(indent.value + 1));
-          return;
-        }
-        widget.controller
-            .formatSelection(Attribute.getIndentLevel(indent.value - 1));
+        widget.controller.indentSelection(widget.isIncrease);
       },
       afterPressed: widget.afterButtonPressed,
     );

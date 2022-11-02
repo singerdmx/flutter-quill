@@ -102,6 +102,26 @@ class QuillController extends ChangeNotifier {
         .mergeAll(toggledStyle);
   }
 
+  // Increases or decreases the indent of the current selection by 1.
+  void indentSelection(bool isIncrease) {
+    final indent = getSelectionStyle().attributes[Attribute.indent.key];
+    if (indent == null) {
+      if (isIncrease) {
+        formatSelection(Attribute.indentL1);
+      }
+      return;
+    }
+    if (indent.value == 1 && !isIncrease) {
+      formatSelection(Attribute.clone(Attribute.indentL1, null));
+      return;
+    }
+    if (isIncrease) {
+      formatSelection(Attribute.getIndentLevel(indent.value + 1));
+      return;
+    }
+    formatSelection(Attribute.getIndentLevel(indent.value - 1));
+  }
+
   /// Returns all styles for each node within selection
   List<Tuple2<int, Style>> getAllIndividualSelectionStyles() {
     final styles = document.collectAllIndividualStyles(

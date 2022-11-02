@@ -19,7 +19,9 @@ import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
+import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/style.dart';
+import '../utils/cast.dart';
 import '../utils/delta.dart';
 import '../utils/embeds.dart';
 import '../utils/platform.dart';
@@ -428,6 +430,7 @@ class RawEditorState extends EditorState
           actions: _actions,
           child: Focus(
             focusNode: widget.focusNode,
+            onKey: _onKey,
             child: QuillKeyboardListener(
               child: Container(
                 constraints: constraints,
@@ -438,6 +441,125 @@ class RawEditorState extends EditorState
         ),
       ),
     );
+  }
+
+  KeyEventResult _onKey(node, RawKeyEvent event) {
+    // Don't handle key if there is a meta key pressed.
+    if (event.isAltPressed || event.isControlPressed || event.isMetaPressed) {
+      return KeyEventResult.ignored;
+    }
+
+    if (event is! RawKeyDownEvent) {
+      return KeyEventResult.ignored;
+    }
+
+    // Don't handle key if there is an active selection.
+    if (controller.selection.baseOffset != controller.selection.extentOffset) {
+      return KeyEventResult.ignored;
+    }
+
+    // Handle indenting blocks when pressing the tab key.
+    if (event.logicalKey == LogicalKeyboardKey.tab) {
+      return _handleTabKey(event);
+    }
+
+    // Handle inserting lists when space is pressed following
+    // a list initiating phrase.
+    if (event.logicalKey == LogicalKeyboardKey.space) {
+      return _handleSpaceKey(event);
+    }
+
+    return KeyEventResult.ignored;
+  }
+
+  KeyEventResult _handleSpaceKey(RawKeyEvent event) {
+    final child =
+        controller.document.queryChild(controller.selection.baseOffset);
+    if (child.node == null) {
+      return KeyEventResult.ignored;
+    }
+
+    final line = child.node as Line?;
+    if (line == null) {
+      return KeyEventResult.ignored;
+    }
+
+    final text = castOrNull<leaf.Text>(line.first);
+    if (text == null) {
+      return KeyEventResult.ignored;
+    }
+
+    const olKeyPhrase = '1.';
+    const ulKeyPhrase = '-';
+
+    if (text.value == olKeyPhrase) {
+      _updateSelectionForKeyPhrase(olKeyPhrase, Attribute.ol);
+    } else if (text.value == ulKeyPhrase) {
+      _updateSelectionForKeyPhrase(ulKeyPhrase, Attribute.ul);
+    } else {
+      return KeyEventResult.ignored;
+    }
+
+    return KeyEventResult.handled;
+  }
+
+  KeyEventResult _handleTabKey(RawKeyEvent event) {
+    final child =
+        controller.document.queryChild(controller.selection.baseOffset);
+
+    KeyEventResult insertTabCharacter() {
+      controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
+      _moveCursor(1);
+      return KeyEventResult.handled;
+    }
+
+    if (child.node == null) {
+      return insertTabCharacter();
+    }
+
+    final node = child.node!;
+
+    final parent = node.parent;
+    if (parent == null || parent is! Block) {
+      return insertTabCharacter();
+    }
+
+    if (node is! Line || (node.isNotEmpty && node.first is! leaf.Text)) {
+      return insertTabCharacter();
+    }
+
+    if (node.isNotEmpty && (node.first as leaf.Text).value.isNotEmpty) {
+      return insertTabCharacter();
+    }
+
+    final parentBlock = parent;
+    if (parentBlock.style.containsKey(Attribute.ol.key) ||
+        parentBlock.style.containsKey(Attribute.ul.key) ||
+        parentBlock.style.containsKey(Attribute.checked.key)) {
+      controller.indentSelection(!event.isShiftPressed);
+      return KeyEventResult.handled;
+    }
+
+    return insertTabCharacter();
+  }
+
+  void _moveCursor(int chars) {
+    final selection = controller.selection;
+    controller.updateSelection(
+        controller.selection.copyWith(
+            baseOffset: selection.baseOffset + chars,
+            extentOffset: selection.baseOffset + chars),
+        ChangeSource.LOCAL);
+  }
+
+  void _updateSelectionForKeyPhrase(String phrase, Attribute attribute) {
+    controller
+      ..formatSelection(attribute)
+      ..replaceText(controller.selection.baseOffset - phrase.length,
+          phrase.length, '', null);
+
+    // It is unclear why the selection moves forward the edit distance.
+    _moveCursor(-2);
   }
 
   void _handleSelectionChanged(
@@ -2076,26 +2198,7 @@ class _IndentSelectionAction extends Action<IndentSelectionIntent> {
 
   @override
   void invoke(IndentSelectionIntent intent, [BuildContext? context]) {
-    final indent =
-        state.controller.getSelectionStyle().attributes[Attribute.indent.key];
-    if (indent == null) {
-      if (intent.isIncrease) {
-        state.controller.formatSelection(Attribute.indentL1);
-      }
-      return;
-    }
-    if (indent.value == 1 && !intent.isIncrease) {
-      state.controller
-          .formatSelection(Attribute.clone(Attribute.indentL1, null));
-      return;
-    }
-    if (intent.isIncrease) {
-      state.controller
-          .formatSelection(Attribute.getIndentLevel(indent.value + 1));
-      return;
-    }
-    state.controller
-        .formatSelection(Attribute.getIndentLevel(indent.value - 1));
+    state.controller.indentSelection(intent.isIncrease);
   }
 
   @override
