@@ -2,8 +2,10 @@ library flutter_quill;
 
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
+export 'src/models/documents/nodes/block.dart';
 export 'src/models/documents/nodes/embeddable.dart';
 export 'src/models/documents/nodes/leaf.dart';
+export 'src/models/documents/nodes/line.dart';
 export 'src/models/documents/nodes/node.dart';
 export 'src/models/documents/style.dart';
 export 'src/models/quill_delta.dart';
