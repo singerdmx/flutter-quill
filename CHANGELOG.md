@@ -1,3 +1,6 @@
+# [6.1.2]
+* Add typing shortcuts.
+
 # [6.1.1]
 * Fix order list numbering.
 
