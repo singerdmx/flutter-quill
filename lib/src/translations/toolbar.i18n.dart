@@ -637,7 +637,7 @@ extension Localization on String {
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
-          'Ok': 'اوکی',
+          'Ok': 'تایید',
           'Select Color': 'انتخاب رنگ',
           'Gallery': 'گالری',
           'Link': 'لینک',
@@ -650,7 +650,7 @@ extension Localization on String {
           'Zoom': 'بزرگنمایی',
           'Saved': 'ذخیره شد',
           'Text': 'متن',
-          'What is entered is not a link': 'ورودی وارد شده لینک نمی باشد',
+          'What is entered is not a link': 'لینک وارد شده معتبر نمی باشد',
           'Resize': 'تغییر اندازه',
           'Width': 'عرض',
           'Height': 'طول',
