@@ -27,40 +27,51 @@ class QuillNumberPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final olString = _getOlString();
+    var s = index.toString();
+    int? level = 0;
+    if (!attrs.containsKey(Attribute.indent.key) &&
+        !indentLevelCounts.containsKey(1)) {
+      indentLevelCounts.clear();
+      return Container(
+        alignment: AlignmentDirectional.topEnd,
+        width: width,
+        padding: EdgeInsetsDirectional.only(end: padding),
+        child: Text(withDot ? '$s.' : s, style: style),
+      );
+    }
+    if (attrs.containsKey(Attribute.indent.key)) {
+      level = attrs[Attribute.indent.key]!.value;
+    } else {
+      // first level but is back from previous indent level
+      // supposed to be "2."
+      indentLevelCounts[0] = 1;
+    }
+    if (indentLevelCounts.containsKey(level! + 1)) {
+      // last visited level is done, going up
+      indentLevelCounts.remove(level + 1);
+    }
+    final count = (indentLevelCounts[level] ?? 0) + 1;
+    indentLevelCounts[level] = count;
+
+    s = count.toString();
+    if (level % 3 == 1) {
+      // a. b. c. d. e. ...
+      s = _toExcelSheetColumnTitle(count);
+    } else if (level % 3 == 2) {
+      // i. ii. iii. ...
+      s = _intToRoman(count);
+    }
+    // level % 3 == 0 goes back to 1. 2. 3.
 
     return Container(
       alignment: AlignmentDirectional.topEnd,
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
-      child: Text('$olString${withDot ? '.' : ''}', style: style),
+      child: Text(withDot ? '$s.' : s, style: style),
     );
   }
 
-  String _getOlString() {
-    final int indentLevel = attrs[Attribute.indent.key]?.value ?? 0;
-
-    if (indentLevelCounts.containsKey(indentLevel + 1)) {
-      // last visited level is done, going up
-      indentLevelCounts.remove(indentLevel + 1);
-    }
-
-    final count = (indentLevelCounts[indentLevel] ?? 0) + 1;
-    indentLevelCounts[indentLevel] = count;
-
-    final numberingMode = indentLevel % 3;
-    if (numberingMode == 1) {
-      // a. b. c.
-      return _intToAlpha(count);
-    } else if (numberingMode == 2) {
-      // i. ii. iii.
-      return _intToRoman(count);
-    }
-
-    return count.toString();
-  }
-
-  String _intToAlpha(int n) {
+  String _toExcelSheetColumnTitle(int n) {
     final result = StringBuffer();
     while (n > 0) {
       n--;
