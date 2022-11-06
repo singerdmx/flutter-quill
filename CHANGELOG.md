@@ -1,3 +1,6 @@
+# [6.1.3]
+* Revert "fix order list numbering (#988)".
+
 # [6.1.2]
 * Add typing shortcuts.
 
