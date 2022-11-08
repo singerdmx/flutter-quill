@@ -1,3 +1,6 @@
+# [6.1.4]
+* Add double quotes validation.
+
 # [6.1.3]
 * Revert "fix order list numbering (#988)".
 
