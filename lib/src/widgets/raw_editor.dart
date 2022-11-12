@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
+
 // ignore: unnecessary_import
 import 'dart:typed_data';
 
@@ -266,6 +267,7 @@ class RawEditorState extends EditorState
 
   // Focus
   bool _didAutoFocus = false;
+
   bool get _hasFocus => widget.focusNode.hasFocus;
 
   // Theme
@@ -275,6 +277,7 @@ class RawEditorState extends EditorState
   @override
   List<Tuple2<int, Style>> get pasteStyle => _pasteStyle;
   List<Tuple2<int, Style>> _pasteStyle = <Tuple2<int, Style>>[];
+
   @override
   String get pastePlainText => _pastePlainText;
   String _pastePlainText = '';
@@ -554,13 +557,13 @@ class RawEditorState extends EditorState
   }
 
   void _updateSelectionForKeyPhrase(String phrase, Attribute attribute) {
+    controller.replaceText(controller.selection.baseOffset - phrase.length,
+        phrase.length, '\n', null);
+    _moveCursor(-phrase.length);
     controller
       ..formatSelection(attribute)
-      ..replaceText(controller.selection.baseOffset - phrase.length,
-          phrase.length, '', null);
-
-    // It is unclear why the selection moves forward the edit distance.
-    _moveCursor(-2);
+      // Remove the added newline.
+      ..replaceText(controller.selection.baseOffset + 1, 1, '', null);
   }
 
   void _handleSelectionChanged(
@@ -1678,6 +1681,7 @@ class _DocumentBoundary extends _TextBoundary {
   @override
   TextPosition getLeadingTextBoundaryAt(TextPosition position) =>
       const TextPosition(offset: 0);
+
   @override
   TextPosition getTrailingTextBoundaryAt(TextPosition position) {
     return TextPosition(
