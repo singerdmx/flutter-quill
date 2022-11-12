@@ -1,3 +1,6 @@
+# [6.1.5]
+* Fix formatting exception.
+
 # [6.1.4]
 * Add double quotes validation.
 
