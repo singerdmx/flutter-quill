@@ -1,3 +1,6 @@
+# [6.1.6]
+* Upgrade i18n_extension to 6.0.0.
+
 # [6.1.5]
 * Fix formatting exception.
 
