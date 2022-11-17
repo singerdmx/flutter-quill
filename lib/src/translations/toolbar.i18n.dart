@@ -184,8 +184,7 @@ extension Localization on String {
           'Zoom': 'Zoom',
           'Saved': 'Enregistrée',
           'Text': 'Text',
-          'What is entered is not a link':
-              "Ce qui est saisi n'est pas un lien",
+          'What is entered is not a link': "Ce qui est saisi n'est pas un lien",
           'Resize': 'Redimensionner',
           'Width': 'Largeur',
           'Height': 'Hauteur',
