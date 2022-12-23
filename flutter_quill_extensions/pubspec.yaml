@@ -17,7 +17,7 @@ dependencies:
   image_picker: ^0.8.5+3
   photo_view: ^0.14.0
   video_player: ^2.4.2
-  youtube_player_flutter_quill: ^8.2.2
+  youtube_player_flutter: ^8.1.1
   gallery_saver: ^2.3.2
   math_keyboard: ^0.1.6
   string_validator: ^0.3.0
