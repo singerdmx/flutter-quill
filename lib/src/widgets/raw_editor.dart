@@ -1073,8 +1073,14 @@ class RawEditorState extends EditorState
       return;
     }
     if (_hasFocus) {
+      final keyboardAlreadyShown = _keyboardVisible;
       openConnectionIfNeeded();
-      _showCaretOnScreen();
+      if (keyboardAlreadyShown) {
+        _showCaretOnScreen();
+      } else {
+        /// delay 500 milliseconds for waiting keyboard show up
+        Future.delayed(const Duration(milliseconds: 500), _showCaretOnScreen);
+      }
     } else {
       widget.focusNode.requestFocus();
     }

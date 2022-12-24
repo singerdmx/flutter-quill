@@ -1,3 +1,6 @@
+# [6.1.8]
+* Recalculate focus when showing keyboard.
+
 # [6.1.7]
 * Add czech localizations.
 
