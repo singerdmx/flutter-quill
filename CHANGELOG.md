@@ -1,3 +1,6 @@
+# [6.1.9]
+* Bump keyboard show up wait to 1 sec.
+
 # [6.1.8]
 * Recalculate focus when showing keyboard.
 

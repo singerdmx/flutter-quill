@@ -1078,8 +1078,8 @@ class RawEditorState extends EditorState
       if (keyboardAlreadyShown) {
         _showCaretOnScreen();
       } else {
-        /// delay 500 milliseconds for waiting keyboard show up
-        Future.delayed(const Duration(milliseconds: 500), _showCaretOnScreen);
+        /// delay 1000 milliseconds for waiting keyboard show up
+        Future.delayed(const Duration(milliseconds: 1000), _showCaretOnScreen);
       }
     } else {
       widget.focusNode.requestFocus();
