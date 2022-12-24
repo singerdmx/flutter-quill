@@ -32,7 +32,7 @@ Demo App: [BULLET JOURNAL](https://bulletjournal.us/home/index.html)
 
 Pub: [FlutterQuill]
 
-## Presentations
+## Demo
 
 <p float="left">
   <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
