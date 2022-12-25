@@ -20,8 +20,6 @@
 [github-forks-badge]: https://img.shields.io/github/forks/singerdmx/flutter-quill.svg?style=for-the-badge&logo=github&logoColor=ffffff
 [github-forks-link]: https://github.com/singerdmx/flutter-quill/network/members
 
-[中文文档](./doc_cn.md)
-
 ---
 
 FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
@@ -378,6 +376,8 @@ Currently, translations are available for these 24 locales:
 #### Contributing to translations
 
 The translation file is located at [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
+
+[中文文档](./doc_cn.md)
 
 ## Sponsors
 
