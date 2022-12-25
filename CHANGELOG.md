@@ -1,3 +1,6 @@
+# [6.1.10]
+* Delay focus calculation for iOS.
+
 # [6.1.9]
 * Bump keyboard show up wait to 1 sec.
 

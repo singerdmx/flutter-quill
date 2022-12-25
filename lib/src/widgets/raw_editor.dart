@@ -1075,11 +1075,12 @@ class RawEditorState extends EditorState
     if (_hasFocus) {
       final keyboardAlreadyShown = _keyboardVisible;
       openConnectionIfNeeded();
-      if (keyboardAlreadyShown) {
-        _showCaretOnScreen();
+      if (!keyboardAlreadyShown ||
+          defaultTargetPlatform == TargetPlatform.iOS) {
+        /// delay 500 milliseconds for waiting keyboard show up
+        Future.delayed(const Duration(milliseconds: 500), _showCaretOnScreen);
       } else {
-        /// delay 1000 milliseconds for waiting keyboard show up
-        Future.delayed(const Duration(milliseconds: 1000), _showCaretOnScreen);
+        _showCaretOnScreen();
       }
     } else {
       widget.focusNode.requestFocus();
