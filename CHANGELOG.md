@@ -1,3 +1,6 @@
+# [6.1.11]
+* Remove iOS hack for delaying focus calculation.
+
 # [6.1.10]
 * Delay focus calculation for iOS.
 
