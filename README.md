@@ -94,7 +94,7 @@ var myJSON = jsonDecode(incomingJSONText);
 _controller = QuillController(
           document: Document.fromJson(myJSON),
           selection: TextSelection.collapsed(offset: 0),
-          );
+        );
 ```
 
 ## Web
