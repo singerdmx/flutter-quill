@@ -377,8 +377,6 @@ Currently, translations are available for these 24 locales:
 
 The translation file is located at [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
 
-[中文文档](./doc_cn.md)
-
 ## Sponsors
 
 <a href="https://bulletjournal.us/home/index.html">
@@ -394,3 +392,7 @@ The translation file is located at [toolbar.i18n.dart](lib/src/translations/tool
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
 [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/CodeIntroduction.md
+
+<hr/>
+
+[中文文档](./doc_cn.md)
