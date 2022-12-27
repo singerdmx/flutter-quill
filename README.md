@@ -377,6 +377,16 @@ Currently, translations are available for these 24 locales:
 
 The translation file is located at [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
 
+## Conversion to HTML
+
+Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
+it to other formats such as HTML in order to publish it, or send an email. One option is to use
+[vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
+to HTML. This package has full support for all Quill operations - including images, videos, formulas, 
+tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter. 
+It is a complete Dart port of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
+Typescript/Javascript package. 
+
 ## Sponsors
 
 <a href="https://bulletjournal.us/home/index.html">
