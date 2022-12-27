@@ -384,7 +384,7 @@ it to other formats such as HTML in order to publish it, or send an email. One o
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML. This package has full support for all Quill operations - including images, videos, formulas, 
 tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter. 
-It is a complete Dart port of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
+It is a complete Dart part of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
 Typescript/Javascript package. 
 
 ## Sponsors
