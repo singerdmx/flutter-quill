@@ -1,3 +1,6 @@
+# [6.1.12]
+* Apply i18n for default font dropdown option labels corresponding to 'Clear'.
+
 # [6.1.11]
 * Remove iOS hack for delaying focus calculation.
 
