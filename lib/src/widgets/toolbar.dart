@@ -162,7 +162,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           'Nunito': 'nunito',
           'Pacifico': 'pacifico',
           'Roboto Mono': 'roboto-mono',
-          'Clear': 'Clear'
+          'Clear'.i18n: 'Clear'
         };
 
     return QuillToolbar(
