@@ -38,12 +38,14 @@ class TextLine extends StatefulWidget {
     required this.controller,
     required this.onLaunchUrl,
     required this.linkActionPicker,
+    this.index,
     this.textDirection,
     this.customStyleBuilder,
     Key? key,
   }) : super(key: key);
 
   final Line line;
+  final int? index;
   final TextDirection? textDirection;
   final EmbedsBuilder embedBuilder;
   final DefaultStyles styles;
@@ -294,9 +296,22 @@ class _TextLineState extends State<TextLine> {
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
+    final attrs = widget.line.style.attributes;
+    const whiteSpace = TextSpan(text: ' ');
+
+    var leading = const TextSpan();
+    if (attrs[Attribute.list.key] == Attribute.ol) {
+      leading = TextSpan(text: '${widget.index.toString()}.');
+    } else if (attrs[Attribute.list.key] == Attribute.ul) {
+      leading = TextSpan(
+        text: '•',
+        style:
+            defaultStyles.leading!.style.copyWith(fontWeight: FontWeight.bold),
+      );
+    }
 
     return TextSpan(
-      text: textNode.value,
+      children: [leading, whiteSpace, TextSpan(text: textNode.value)],
       style: _getInlineTextStyle(
           textNode, defaultStyles, nodeStyle, lineStyle, isLink),
       recognizer: isLink && canLaunchLinks ? _getRecognizer(node) : null,
