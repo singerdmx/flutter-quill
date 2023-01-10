@@ -1,3 +1,6 @@
+# [6.2.0]
+* Align numerical and bullet lists along with text content.
+
 # [6.1.12]
 * Apply i18n for default font dropdown option labels corresponding to 'Clear'.
 
