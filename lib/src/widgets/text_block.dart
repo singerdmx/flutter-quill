@@ -13,7 +13,6 @@ import 'default_styles.dart';
 import 'delegate.dart';
 import 'editor.dart';
 import 'link.dart';
-import 'style_widgets/bullet_point.dart';
 import 'style_widgets/checkbox_point.dart';
 import 'style_widgets/number_point.dart';
 import 'text_line.dart';
