@@ -1,3 +1,6 @@
+# [6.2.1]
+* Revert "Align numerical and bullet lists along with text content".
+
 # [6.2.0]
 * Align numerical and bullet lists along with text content.
 
