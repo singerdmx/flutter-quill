@@ -1,3 +1,6 @@
+# [6.2.2]
+* Fix: nextLine getter null where no assertion.
+
 # [6.2.1]
 * Revert "Align numerical and bullet lists along with text content".
 
