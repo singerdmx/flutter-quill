@@ -237,8 +237,7 @@ class RawEditor extends StatefulWidget {
   State<StatefulWidget> createState() => RawEditorState();
 }
 
-class RawEditorState extends EditorState
-    with
+class RawEditorState extends EditorState with
         AutomaticKeepAliveClientMixin<RawEditor>,
         WidgetsBindingObserver,
         TickerProviderStateMixin<RawEditor>,
@@ -1421,6 +1420,16 @@ class RawEditorState extends EditorState
   void removeTextPlaceholder() {
     // this is needed for Scribble (Stylus input) in Apple platforms
     // and this package does not implement this feature
+  }
+  
+  @override
+  void didChangeInputControl(TextInputControl? oldControl, TextInputControl? newControl) {
+    // TODO: implement didChangeInputControl
+  }
+  
+  @override
+  void performSelector(String selectorName) {
+    // TODO: implement performSelector
   }
 }
 
