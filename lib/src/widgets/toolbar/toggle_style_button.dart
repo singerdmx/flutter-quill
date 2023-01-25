@@ -139,7 +139,7 @@ Widget defaultToggleStyleButtonBuilder(
   final fill = isEnabled
       ? isToggled == true
           ? (iconTheme?.iconSelectedFillColor ??
-              theme.toggleableActiveColor) //Selected icon fill color
+              Theme.of(context).primaryColor) //Selected icon fill color
           : (iconTheme?.iconUnselectedFillColor ??
               theme.canvasColor) //Unselected icon fill color :
       : (iconTheme?.disabledIconFillColor ??

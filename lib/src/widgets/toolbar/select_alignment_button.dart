@@ -103,7 +103,7 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
                       widget.iconTheme?.borderRadius ?? 2)),
               fillColor: _valueToText[_value] == _valueString[index]
                   ? (widget.iconTheme?.iconSelectedFillColor ??
-                      theme.toggleableActiveColor)
+                      Theme.of(context).primaryColor)
                   : (widget.iconTheme?.iconUnselectedFillColor ??
                       theme.canvasColor),
               onPressed: () {
