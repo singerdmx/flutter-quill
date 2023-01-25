@@ -120,7 +120,6 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
 
 /// ScrollBehavior without the Material glow effect.
 class _NoGlowBehavior extends ScrollBehavior {
-  @override
   Widget buildViewportChrome(BuildContext _, Widget child, AxisDirection __) {
     return child;
   }

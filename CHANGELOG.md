@@ -1,3 +1,6 @@
+# [6.3.0]
+* Support Flutter 3.7.
+
 # [6.2.2]
 * Fix: nextLine getter null where no assertion.
 
