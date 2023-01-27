@@ -116,6 +116,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     /// The locale to use for the editor toolbar, defaults to system locale
     /// More at https://github.com/singerdmx/flutter-quill#translation
     Locale? locale,
+    
+    /// The color of the toolbar
+    Color? color,
+    
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -167,6 +171,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     return QuillToolbar(
       key: key,
+      color: color,
       toolbarHeight: toolbarIconSize * 2,
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
