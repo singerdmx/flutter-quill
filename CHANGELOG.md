@@ -1,3 +1,6 @@
+# [6.3.1]
+* Add color property to the basic factory function.
+
 # [6.3.0]
 * Support Flutter 3.7.
 
