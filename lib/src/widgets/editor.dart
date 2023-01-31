@@ -173,6 +173,7 @@ class QuillEditor extends StatefulWidget {
       this.onSingleLongTapMoveUpdate,
       this.onSingleLongTapEnd,
       this.embedBuilders,
+      this.unknownEmbedBuilder,
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.locale,
@@ -359,6 +360,7 @@ class QuillEditor extends StatefulWidget {
       onSingleLongTapEnd;
 
   final Iterable<EmbedBuilder>? embedBuilders;
+  final EmbedsBuilder? unknownEmbedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
@@ -491,7 +493,13 @@ class QuillEditorState extends State<QuillEditor>
         node,
         readOnly,
       ) =>
-          _buildCustomBlockEmbed(node, context, controller, readOnly),
+          _buildCustomBlockEmbed(
+            node,
+            context,
+            controller,
+            readOnly,
+            widget.unknownEmbedBuilder,
+          ),
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
@@ -525,29 +533,38 @@ class QuillEditorState extends State<QuillEditor>
     return editor;
   }
 
-  Widget _buildCustomBlockEmbed(Embed node, BuildContext context,
-      QuillController controller, bool readOnly) {
+  Widget _buildCustomBlockEmbed(
+    Embed node,
+    BuildContext context,
+    QuillController controller,
+    bool readOnly,
+    EmbedsBuilder? unknownEmbedBuilder,
+  ) {
     final builders = widget.embedBuilders;
+    
+    var _node = node;
+    // Creates correct node for custom embed
+    if (node.value.type == BlockEmbed.customType) {
+      _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
+    }
 
     if (builders != null) {
-      var _node = node;
-
-      // Creates correct node for custom embed
-      if (node.value.type == BlockEmbed.customType) {
-        _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
-      }
-
       for (final builder in builders) {
         if (builder.key == _node.value.type) {
           return builder.build(context, controller, _node, readOnly);
         }
       }
     }
+    
+    if (unknownEmbedBuilder != null) {
+      return unknownEmbedBuilder(context, controller, _node, readOnly);
+    }
 
     throw UnimplementedError(
       'Embeddable type "${node.value.type}" is not supported by supplied '
       'embed builders. You must pass your own builder function to '
-      'embedBuilders property of QuillEditor or QuillField widgets.',
+      'embedBuilders property of QuillEditor or QuillField widgets or '
+      'specify an unknownEmbedBuilder.',
     );
   }
 
