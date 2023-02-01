@@ -187,7 +187,7 @@ QuillToolbar.basic(
 
 若需要图片、视频、公式块的支持，请查看独立库 [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions)
 
-### 根据 `flutter_quill_extensions` 使用自定义嵌入块
+### 根据 `flutter_quill_extensions` 使用图片、视频、公式等自定义嵌入块
 
 ```dart
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
@@ -355,7 +355,7 @@ QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-目前，可提供以下 24 种语言环境的翻译：
+目前，可提供以下 25 种语言环境的翻译：
 
 * `Locale('en')`
 * `Locale('ar')`
@@ -363,6 +363,7 @@ QuillEditor(locale: Locale('fr'), ...)
 * `Locale('de')`
 * `Locale('da')`
 * `Locale('fr')`
+* `Locale('he')`
 * `Locale('zh', 'cn')`
 * `Locale('zh', 'hk')`
 * `Locale('ko')`
@@ -384,20 +385,23 @@ QuillEditor(locale: Locale('fr'), ...)
 
 #### 贡献翻译
 
-翻译文件位于 [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart)。
+翻译文件位于 [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart)
 
-随意贡献你自己的翻译，只需复制英文翻译映射并将值替换为你的翻译即可。
+随意贡献你自己的翻译，只需复制英文翻译映射并将值替换为你的翻译即可
 
 然后打开一个拉取请求，这样每个人都可以从你的翻译中受益！
 
+### 转化至 HTML
+
+将你的文档转为 `Quill Delta` 格式有时还不够，通常你需要将其转化为其他如 `HTML` 格式来分发他，或作为邮件发出
+
+一个方案是使用 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) `Flutter` 包来转化至 `HTML` 格式。此包支持所以的 `Quill` 操作，包含图片、视频、公式、表格和注释
+
+转化过程可以在 `vanilla Dart` 如服务器端或 `CLI` 执行，也可在 `Flutter` 中执行
+
+其是流行且成熟的 [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html) `Typescript/Javascript` 包的 `Dart` 部分
+
 ---
-
-## 帮助
-
-<a href="https://bulletjournal.us/home/index.html">
-<img src=
-"https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
- width="150px" height="150px"></a>
 
 ## 赞助
 
