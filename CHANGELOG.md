@@ -1,3 +1,7 @@
+# [6.3.2]
+* Added `unknownEmbedBuilder` to QuillEditor.
+* Fix error style when input chinese japanese or korean.
+
 # [6.3.1]
 * Add color property to the basic factory function.
 

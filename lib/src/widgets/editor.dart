@@ -494,12 +494,12 @@ class QuillEditorState extends State<QuillEditor>
         readOnly,
       ) =>
           _buildCustomBlockEmbed(
-            node,
-            context,
-            controller,
-            readOnly,
-            widget.unknownEmbedBuilder,
-          ),
+        node,
+        context,
+        controller,
+        readOnly,
+        widget.unknownEmbedBuilder,
+      ),
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
@@ -541,7 +541,7 @@ class QuillEditorState extends State<QuillEditor>
     EmbedsBuilder? unknownEmbedBuilder,
   ) {
     final builders = widget.embedBuilders;
-    
+
     var _node = node;
     // Creates correct node for custom embed
     if (node.value.type == BlockEmbed.customType) {
@@ -555,7 +555,7 @@ class QuillEditorState extends State<QuillEditor>
         }
       }
     }
-    
+
     if (unknownEmbedBuilder != null) {
       return unknownEmbedBuilder(context, controller, _node, readOnly);
     }
