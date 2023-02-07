@@ -1,3 +1,6 @@
+# [6.3.3]
+* Fixed handling of mac intents.
+
 # [6.3.2]
 * Added `unknownEmbedBuilder` to QuillEditor.
 * Fix error style when input chinese japanese or korean.
