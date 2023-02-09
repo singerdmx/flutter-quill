@@ -21,7 +21,7 @@ dependencies:
   pedantic: ^1.11.1
   characters: ^1.2.0
   diff_match_patch: ^0.4.1
-  i18n_extension: ^6.0.0
+  i18n_extension:
   device_info_plus: ^8.0.0
   platform: ^3.1.0
   pasteboard: ^0.2.0

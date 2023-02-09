@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 import '../models/documents/nodes/node.dart';
@@ -84,7 +85,8 @@ class EditorTextSelectionOverlay {
     final overlay = Overlay.of(context, rootOverlay: true);
 
     _toolbarController = AnimationController(
-        duration: const Duration(milliseconds: 150), vsync: overlay);
+        duration: const Duration(milliseconds: 150),
+        vsync: overlay as TickerProvider);
   }
 
   TextEditingValue value;
@@ -222,7 +224,7 @@ class EditorTextSelectionOverlay {
     assert(toolbar == null);
     toolbar = OverlayEntry(builder: _buildToolbar);
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
-        .insert(toolbar!);
+        ?.insert(toolbar!);
     _toolbarController.forward(from: 0);
 
     // make sure handles are visible as well
@@ -407,7 +409,7 @@ class EditorTextSelectionOverlay {
     ];
 
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
-        .insertAll(_handles!);
+        ?.insertAll(_handles!);
   }
 
   /// Causes the overlay to update its rendering.
