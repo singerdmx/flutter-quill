@@ -1,3 +1,6 @@
+# [6.3.4]
+* Update clipboard status prior to showing selected text overlay.
+
 # [6.3.3]
 * Fixed handling of mac intents.
 
