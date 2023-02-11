@@ -83,6 +83,11 @@ class EditorTextSelectionOverlay {
   }) {
     final overlay = Overlay.of(context, rootOverlay: true);
 
+    // Clipboard status is only checked on first instance of ClipboardStatusNotifier
+    // if state has changed after creation, but prior to our listener being created
+    // we won't know the status unless there is forced update i.e. occasionally no paste
+    this.clipboardStatus.update();
+
     _toolbarController = AnimationController(
         duration: const Duration(milliseconds: 150), vsync: overlay);
   }
