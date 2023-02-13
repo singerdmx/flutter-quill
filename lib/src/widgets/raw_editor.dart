@@ -70,6 +70,8 @@ class RawEditor extends StatefulWidget {
       this.minHeight,
       this.maxContentWidth,
       this.customStyles,
+      this.customShortcuts,
+      this.customActions,
       this.expands = false,
       this.autoFocus = false,
       this.keyboardAppearance = Brightness.light,
@@ -226,6 +228,9 @@ class RawEditor extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
 
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
+
+  final Map<LogicalKeySet, Intent>? customShortcuts;
+  final Map<Type, Action<Intent>>? customActions;
 
   /// Builder function for embeddable objects.
   final EmbedsBuilder embedBuilder;
@@ -428,9 +433,14 @@ class RawEditorState extends EditorState
 
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
               LogicalKeyboardKey.keyL): const ApplyCheckListIntent(),
+
+          if (widget.customShortcuts != null) ...widget.customShortcuts!,
         },
         child: Actions(
-          actions: _actions,
+          actions: {
+            ..._actions,
+            if (widget.customActions != null) ...widget.customActions!,
+          },
           child: Focus(
             focusNode: widget.focusNode,
             onKey: _onKey,
