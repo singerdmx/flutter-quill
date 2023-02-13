@@ -906,7 +906,8 @@ extension Localization on String {
           'Gallery': 'Galeri',
           'Link': 'Pautan',
           'Please first select some text to transform into a link.':
-              'Sila pilih beberapa patah perkataan untuk diubah menjadi pautan.',
+              'Sila pilih beberapa patah perkataan'
+                  ' untuk diubah menjadi pautan.',
           'Open': 'Buka',
           'Copy': 'Salin',
           'Remove': 'Buang',
