@@ -1,3 +1,6 @@
+# [6.3.5]
+* Ability to add custom shortcuts.
+
 # [6.3.4]
 * Update clipboard status prior to showing selected text overlay.
 
