@@ -180,6 +180,8 @@ class QuillEditor extends StatefulWidget {
       this.floatingCursorDisabled = false,
       this.textSelectionControls,
       this.onImagePaste,
+      this.customShortcuts,
+      this.customActions,
       Key? key})
       : super(key: key);
 
@@ -394,6 +396,9 @@ class QuillEditor extends StatefulWidget {
   /// Returns the url of the image if the image should be inserted.
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
 
+  final Map<LogicalKeySet, Intent>? customShortcuts;
+  final Map<Type, Action<Intent>>? customActions;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -504,6 +509,8 @@ class QuillEditorState extends State<QuillEditor>
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
       onImagePaste: widget.onImagePaste,
+      customShortcuts: widget.customShortcuts,
+      customActions: widget.customActions,
     );
 
     final editor = I18n(
