@@ -63,6 +63,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   factory QuillToolbar.basic({
     required QuillController controller,
+    Axis axis = Axis.horizontal,
     double toolbarIconSize = kDefaultIconSize,
     double toolbarSectionSpacing = 4,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
@@ -175,6 +176,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     return QuillToolbar(
       key: key,
+      axis: axis,
       color: color,
       toolbarSize: toolbarIconSize * 2,
       toolbarSectionSpacing: toolbarSectionSpacing,
