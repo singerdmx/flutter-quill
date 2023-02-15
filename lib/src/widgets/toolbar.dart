@@ -337,11 +337,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          VerticalDivider(
-            indent: 12,
-            endIndent: 12,
-            color: Colors.grey.shade400,
-          ),
+          _dividerOnAxis(axis),
         if (showAlignmentButtons)
           SelectAlignmentButton(
             controller: controller,
@@ -368,11 +364,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          VerticalDivider(
-            indent: 12,
-            endIndent: 12,
-            color: Colors.grey.shade400,
-          ),
+          _dividerOnAxis(axis),
         if (showHeaderStyle)
           SelectHeaderStyleButton(
             controller: controller,
@@ -387,11 +379,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          VerticalDivider(
-            indent: 12,
-            endIndent: 12,
-            color: Colors.grey.shade400,
-          ),
+          _dividerOnAxis(axis),
         if (showListNumbers)
           ToggleStyleButton(
             attribute: Attribute.ol,
@@ -431,11 +419,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         if (showDividers &&
             isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5]))
-          VerticalDivider(
-            indent: 12,
-            endIndent: 12,
-            color: Colors.grey.shade400,
-          ),
+          _dividerOnAxis(axis),
         if (showQuote)
           ToggleStyleButton(
             attribute: Attribute.blockQuote,
@@ -464,11 +448,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             afterButtonPressed: afterButtonPressed,
           ),
         if (showDividers && isButtonGroupShown[4] && isButtonGroupShown[5])
-          VerticalDivider(
-            indent: 12,
-            endIndent: 12,
-            color: Colors.grey.shade400,
-          ),
+          _dividerOnAxis(axis),
         if (showLink)
           LinkStyleButton(
             controller: controller,
@@ -488,11 +468,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         if (customButtons.isNotEmpty)
           if (showDividers)
-            VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: Colors.grey.shade400,
-            ),
+            _dividerOnAxis(axis),
         for (var customButton in customButtons)
           QuillIconButton(
             highlightElevation: 0,
@@ -505,6 +481,22 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
       ],
     );
+  }
+
+  static Widget _dividerOnAxis(Axis axis) {
+    if (axis == Axis.horizontal) {
+      return const VerticalDivider(
+        indent: 12,
+        endIndent: 12,
+        color: Colors.grey,
+      );
+    } else {
+      return const Divider(
+        indent: 12,
+        endIndent: 12,
+        color: Colors.grey,
+      );
+    }
   }
 
   final List<Widget> children;
