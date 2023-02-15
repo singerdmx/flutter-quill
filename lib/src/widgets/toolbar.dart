@@ -43,12 +43,10 @@ const double kDefaultIconSize = 18;
 const double kIconButtonFactor = 1.77;
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
-  QuillToolbar({
+  const QuillToolbar({
     required this.children,
     this.axis = Axis.horizontal,
-    @Deprecated('Use toolbarSize instead')
-    double? toolbarHeight,
-    double? toolbarSize,
+    this.toolbarSize = 36,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
@@ -57,9 +55,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.locale,
     VoidCallback? afterButtonPressed,
     Key? key,
-  }) : super(key: key) {
-    this.toolbarSize = toolbarSize ?? toolbarHeight ?? 36;
-  }
+  }) : super(key: key);
 
   factory QuillToolbar.basic({
     required QuillController controller,
@@ -512,7 +508,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   final List<Widget> children;
   final Axis axis;
-  late final double toolbarSize;
+  final double toolbarSize;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
   final bool multiRowsDisplay;
