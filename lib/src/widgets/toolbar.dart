@@ -43,9 +43,12 @@ const double kDefaultIconSize = 18;
 const double kIconButtonFactor = 1.77;
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
-  const QuillToolbar({
+  QuillToolbar({
     required this.children,
-    this.toolbarHeight = 36,
+    this.axis = Axis.horizontal,
+    @Deprecated('Use toolbarSize instead')
+    double? toolbarHeight,
+    double? toolbarSize,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
@@ -54,7 +57,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.locale,
     VoidCallback? afterButtonPressed,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    this.toolbarSize = toolbarSize ?? toolbarHeight ?? 36;
+  }
 
   factory QuillToolbar.basic({
     required QuillController controller,
@@ -171,7 +176,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     return QuillToolbar(
       key: key,
       color: color,
-      toolbarHeight: toolbarIconSize * 2,
+      toolbarSize: toolbarIconSize * 2,
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
@@ -504,7 +509,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   final List<Widget> children;
-  final double toolbarHeight;
+  final Axis axis;
+  late final double toolbarSize;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
   final bool multiRowsDisplay;
@@ -523,7 +529,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final List<QuillCustomButton> customButtons;
 
   @override
-  Size get preferredSize => Size.fromHeight(toolbarHeight);
+  Size get preferredSize => axis == Axis.horizontal
+      ? Size.fromHeight(toolbarSize)
+      : Size.fromWidth(toolbarSize);
 
   @override
   Widget build(BuildContext context) {
@@ -531,14 +539,17 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       initialLocale: locale,
       child: multiRowsDisplay
           ? Wrap(
+              direction: axis,
               alignment: toolbarIconAlignment,
               runSpacing: 4,
               spacing: toolbarSectionSpacing,
               children: children,
             )
           : Container(
-              constraints:
-                  BoxConstraints.tightFor(height: preferredSize.height),
+              constraints: BoxConstraints.tightFor(
+                height: axis == Axis.horizontal ? toolbarSize : null,
+                width: axis == Axis.vertical ? toolbarSize : null,
+              ),
               color: color ?? Theme.of(context).canvasColor,
               child: ArrowIndicatedButtonList(buttons: children),
             ),
