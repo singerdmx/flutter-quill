@@ -48,6 +48,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.axis = Axis.horizontal,
     this.toolbarSize = 36,
     this.toolbarIconAlignment = WrapAlignment.center,
+    this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
     this.color,
@@ -63,6 +64,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     double toolbarIconSize = kDefaultIconSize,
     double toolbarSectionSpacing = 4,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
+    WrapCrossAlignment toolbarIconCrossAlignment = WrapCrossAlignment.center,
     bool showDividers = true,
     bool showFontFamily = true,
     bool showFontSize = true,
@@ -177,6 +179,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       toolbarSize: toolbarIconSize * 2,
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
+      toolbarIconCrossAlignment: toolbarIconCrossAlignment,
       multiRowsDisplay: multiRowsDisplay,
       customButtons: customButtons,
       locale: locale,
@@ -504,6 +507,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final double toolbarSize;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
+  final WrapCrossAlignment toolbarIconCrossAlignment;
   final bool multiRowsDisplay;
 
   /// The color of the toolbar.
@@ -532,9 +536,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ? Wrap(
               direction: axis,
               alignment: toolbarIconAlignment,
-              crossAxisAlignment: toolbarIconAlignment == WrapAlignment.center
-                ? WrapCrossAlignment.center
-                : WrapCrossAlignment.start,
+              crossAxisAlignment: toolbarIconCrossAlignment,
               runSpacing: 4,
               spacing: toolbarSectionSpacing,
               children: children,
