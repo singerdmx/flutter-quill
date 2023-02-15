@@ -376,6 +376,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         if (showHeaderStyle)
           SelectHeaderStyleButton(
             controller: controller,
+            axis: axis,
             iconSize: toolbarIconSize,
             iconTheme: iconTheme,
             afterButtonPressed: afterButtonPressed,
