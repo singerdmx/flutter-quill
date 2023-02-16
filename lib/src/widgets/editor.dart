@@ -522,6 +522,7 @@ class QuillEditorState extends State<QuillEditor>
       child: selectionEnabled
           ? _selectionGestureDetectorBuilder.build(
               behavior: HitTestBehavior.translucent,
+              detectWordBoundary: widget.detectWordBoundary,
               child: child,
             )
           : child,
