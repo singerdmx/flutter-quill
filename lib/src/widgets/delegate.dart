@@ -341,7 +341,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///
   /// The [child] or its subtree should contain [EditableText].
   Widget build(
-      {required HitTestBehavior behavior, required Widget child, Key? key}) {
+      {required HitTestBehavior behavior, required Widget child, Key? key,
+        bool detectWordBoundary = true}) {
     return EditorTextSelectionGestureDetector(
       key: key,
       onTapDown: onTapDown,
