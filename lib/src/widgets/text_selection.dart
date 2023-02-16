@@ -714,6 +714,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionUpdate,
     this.onDragSelectionEnd,
     this.behavior,
+    this.detectWordBoundary = true,
     Key? key,
   }) : super(key: key);
 
@@ -788,6 +789,8 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
 
   /// Child below this widget.
   final Widget child;
+
+  final bool detectWordBoundary;
 
   @override
   State<StatefulWidget> createState() =>
