@@ -1,3 +1,8 @@
+# [6.4.0]
+* Use `axis` to make the toolbar vertical.
+* Use `toolbarIconCrossAlignment` to align the toolbar icons on the cross axis.
+* Breaking change: `QuillToolbar`'s parameter `toolbarHeight` was renamed to `toolbarSize`.
+
 # [6.3.5]
 * Ability to add custom shortcuts.
 
