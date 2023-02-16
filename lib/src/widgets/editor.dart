@@ -182,6 +182,7 @@ class QuillEditor extends StatefulWidget {
       this.onImagePaste,
       this.customShortcuts,
       this.customActions,
+      this.detectWordBoundary = true,
       Key? key})
       : super(key: key);
 
@@ -399,6 +400,8 @@ class QuillEditor extends StatefulWidget {
   final Map<LogicalKeySet, Intent>? customShortcuts;
   final Map<Type, Action<Intent>>? customActions;
 
+  final bool detectWordBoundary;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -413,7 +416,8 @@ class QuillEditorState extends State<QuillEditor>
   void initState() {
     super.initState();
     _selectionGestureDetectorBuilder =
-        _QuillEditorSelectionGestureDetectorBuilder(this);
+        _QuillEditorSelectionGestureDetectorBuilder(this,
+            widget.detectWordBoundary);
   }
 
   @override
@@ -591,10 +595,11 @@ class QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  _QuillEditorSelectionGestureDetectorBuilder(this._state)
+  _QuillEditorSelectionGestureDetectorBuilder(this._state, this._detectWordBoundary)
       : super(delegate: _state);
 
   final QuillEditorState _state;
+  final bool _detectWordBoundary;
 
   @override
   void onForcePressStart(ForcePressDetails details) {
@@ -712,9 +717,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
             case PointerDeviceKind.unknown:
               // On macOS/iOS/iPadOS a touch tap places the cursor at the edge
               // of the word.
-              renderEditor!
-                ..selectWordEdge(SelectionChangedCause.tap)
-                ..onSelectionCompleted();
+              if (_detectWordBoundary) {
+                renderEditor!
+                  ..selectWordEdge(SelectionChangedCause.tap)
+                  ..onSelectionCompleted();
+              } else {
+                renderEditor!
+                  ..selectPosition(cause: SelectionChangedCause.tap)
+                  ..onSelectionCompleted();
+              }
               break;
             case PointerDeviceKind.trackpad:
               // TODO: Handle this case.
