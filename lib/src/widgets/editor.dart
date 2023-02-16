@@ -467,12 +467,9 @@ class QuillEditorState extends State<QuillEditor>
       readOnly: widget.readOnly,
       placeholder: widget.placeholder,
       onLaunchUrl: widget.onLaunchUrl,
-      toolbarOptions: ToolbarOptions(
-        copy: showSelectionToolbar,
-        cut: showSelectionToolbar,
-        paste: showSelectionToolbar,
-        selectAll: showSelectionToolbar,
-      ),
+      contextMenuBuilder: showSelectionToolbar
+        ? RawEditor.defaultContextMenuBuilder
+        : null,
       showSelectionHandles: isMobile(theme.platform),
       showCursor: widget.showCursor,
       cursorStyle: CursorStyle(
