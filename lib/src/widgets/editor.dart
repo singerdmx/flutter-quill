@@ -416,8 +416,8 @@ class QuillEditorState extends State<QuillEditor>
   void initState() {
     super.initState();
     _selectionGestureDetectorBuilder =
-        _QuillEditorSelectionGestureDetectorBuilder(this,
-            widget.detectWordBoundary);
+        _QuillEditorSelectionGestureDetectorBuilder(
+            this, widget.detectWordBoundary);
   }
 
   @override
@@ -467,9 +467,8 @@ class QuillEditorState extends State<QuillEditor>
       readOnly: widget.readOnly,
       placeholder: widget.placeholder,
       onLaunchUrl: widget.onLaunchUrl,
-      contextMenuBuilder: showSelectionToolbar
-        ? RawEditor.defaultContextMenuBuilder
-        : null,
+      contextMenuBuilder:
+          showSelectionToolbar ? RawEditor.defaultContextMenuBuilder : null,
       showSelectionHandles: isMobile(theme.platform),
       showCursor: widget.showCursor,
       cursorStyle: CursorStyle(
@@ -593,7 +592,8 @@ class QuillEditorState extends State<QuillEditor>
 
 class _QuillEditorSelectionGestureDetectorBuilder
     extends EditorTextSelectionGestureDetectorBuilder {
-  _QuillEditorSelectionGestureDetectorBuilder(this._state, this._detectWordBoundary)
+  _QuillEditorSelectionGestureDetectorBuilder(
+      this._state, this._detectWordBoundary)
       : super(delegate: _state, detectWordBoundary: _detectWordBoundary);
 
   final QuillEditorState _state;

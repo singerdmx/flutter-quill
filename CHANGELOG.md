@@ -1,3 +1,6 @@
+# [6.4.1]
+* Control the detect word boundary behaviour.
+
 # [6.4.0]
 * Use `axis` to make the toolbar vertical.
 * Use `toolbarIconCrossAlignment` to align the toolbar icons on the cross axis.

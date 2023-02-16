@@ -311,12 +311,10 @@ class RawEditorState extends EditorState
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
-      onCut: cutEnabled
-          ? () => cutSelection(SelectionChangedCause.toolbar)
-          : null,
-      onPaste: pasteEnabled
-          ? () => pasteText(SelectionChangedCause.toolbar)
-          : null,
+      onCut:
+          cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
+      onPaste:
+          pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
       onSelectAll: selectAllEnabled
           ? () => selectAll(SelectionChangedCause.toolbar)
           : null,
