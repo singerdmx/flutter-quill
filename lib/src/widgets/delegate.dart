@@ -66,7 +66,9 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// Creates a [EditorTextSelectionGestureDetectorBuilder].
   ///
   /// The [delegate] must not be null.
-  EditorTextSelectionGestureDetectorBuilder({required this.delegate});
+  EditorTextSelectionGestureDetectorBuilder({
+    required this.delegate,
+    this.detectWordBoundary = true});
 
   /// The delegate for this [EditorTextSelectionGestureDetectorBuilder].
   ///
@@ -82,6 +84,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// will return true if current [onTapDown] event is triggered by a touch or
   /// a stylus.
   bool shouldShowSelectionToolbar = true;
+
+  bool detectWordBoundary = true;
 
   /// The [State] of the [EditableText] for which the builder will provide a
   /// [EditorTextSelectionGestureDetector].
@@ -354,7 +358,8 @@ class EditorTextSelectionGestureDetectorBuilder {
       onDragSelectionUpdate: onDragSelectionUpdate,
       onDragSelectionEnd: onDragSelectionEnd,
       behavior: behavior,
-      child: child,
+      detectWordBoundary: detectWordBoundary,
+      child: child
     );
   }
 }
