@@ -470,8 +470,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             afterButtonPressed: afterButtonPressed,
           ),
         if (customButtons.isNotEmpty)
-          if (showDividers)
-            _dividerOnAxis(axis),
+          if (showDividers) _dividerOnAxis(axis),
         for (var customButton in customButtons)
           QuillIconButton(
             highlightElevation: 0,
