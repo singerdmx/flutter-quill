@@ -1,3 +1,6 @@
+# [6.4.3]
+* Update dependencies (collection: 1.17.0, flutter_keyboard_visibility: 5.4.0, quiver: 3.2.1, tuple: 2.0.1, url_launcher: 6.1.9, characters: 1.2.1, i18n_extension: 7.0.0, device_info_plus: 8.1.0)
+
 # [6.4.2]
 * Replace `buildToolbar` with `contextMenuBuilder`.
 
