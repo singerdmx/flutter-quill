@@ -1,3 +1,6 @@
+# [6.4.2]
+* Replace `buildToolbar` with `contextMenuBuilder`.
+
 # [6.4.1]
 * Control the detect word boundary behaviour.
 
