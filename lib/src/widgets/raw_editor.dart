@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 // ignore: unnecessary_import
 import 'dart:typed_data';
@@ -843,6 +844,9 @@ class RawEditorState extends EditorState
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
 
     if (isKeyboardOS()) {
+      _keyboardVisible = true;
+    } else if (!kIsWeb && Platform.environment.containsKey('FLUTTER_TEST')) {
+      // treat tests like a keyboard OS
       _keyboardVisible = true;
     } else {
       // treat iOS Simulator like a keyboard OS
