@@ -92,7 +92,7 @@ var json = jsonEncode(_controller.document.toDelta().toJson());
 要将 `FlutterQuill` 使用之前存储的 `JSON` 数据，请执行以下操作：
 
 ```dart
-var myJSON = jsonDecode(incomingJSONText);
+var myJSON = jsonDecode(r'{"insert":"hello\n"}');
 _controller = QuillController(
           document: Document.fromJson(myJSON),
           selection: TextSelection.collapsed(offset: 0),
@@ -355,7 +355,7 @@ QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-目前，可提供以下 25 种语言环境的翻译：
+目前，可提供以下 26 种语言环境的翻译：
 
 * `Locale('en')`
 * `Locale('ar')`
@@ -376,6 +376,7 @@ QuillEditor(locale: Locale('fr'), ...)
 * `Locale('pl')`
 * `Locale('vi')`
 * `Locale('id')`
+* `Locale('ms')`
 * `Locale('nl')`
 * `Locale('no')`
 * `Locale('fa')`
