@@ -10,6 +10,7 @@ import '../toolbar.dart';
 class SelectHeaderStyleButton extends StatefulWidget {
   const SelectHeaderStyleButton({
     required this.controller,
+    this.axis = Axis.horizontal,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.attributes = const [
@@ -23,6 +24,7 @@ class SelectHeaderStyleButton extends StatefulWidget {
   }) : super(key: key);
 
   final QuillController controller;
+  final Axis axis;
   final double iconSize;
   final QuillIconTheme? iconTheme;
   final List<Attribute> attributes;
@@ -67,53 +69,60 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
       fontSize: widget.iconSize * 0.7,
     );
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: widget.attributes.map((attribute) {
-        final isSelected = _selectedAttribute == attribute;
-        return Padding(
-          // ignore: prefer_const_constructors
-          padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints.tightFor(
-              width: widget.iconSize * kIconButtonFactor,
-              height: widget.iconSize * kIconButtonFactor,
-            ),
-            child: RawMaterialButton(
-              hoverElevation: 0,
-              highlightElevation: 0,
-              elevation: 0,
-              visualDensity: VisualDensity.compact,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      widget.iconTheme?.borderRadius ?? 2)),
-              fillColor: isSelected
-                  ? (widget.iconTheme?.iconSelectedFillColor ??
-                      Theme.of(context).primaryColor)
-                  : (widget.iconTheme?.iconUnselectedFillColor ??
-                      theme.canvasColor),
-              onPressed: () {
-                final _attribute = _selectedAttribute == attribute
-                    ? Attribute.header
-                    : attribute;
-                widget.controller.formatSelection(_attribute);
-                widget.afterButtonPressed?.call();
-              },
-              child: Text(
-                _valueToText[attribute] ?? '',
-                style: style.copyWith(
-                  color: isSelected
-                      ? (widget.iconTheme?.iconSelectedColor ??
-                          theme.primaryIconTheme.color)
-                      : (widget.iconTheme?.iconUnselectedColor ??
-                          theme.iconTheme.color),
-                ),
+    final children = widget.attributes.map((attribute) {
+      final isSelected = _selectedAttribute == attribute;
+      return Padding(
+        // ignore: prefer_const_constructors
+        padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(
+            width: widget.iconSize * kIconButtonFactor,
+            height: widget.iconSize * kIconButtonFactor,
+          ),
+          child: RawMaterialButton(
+            hoverElevation: 0,
+            highlightElevation: 0,
+            elevation: 0,
+            visualDensity: VisualDensity.compact,
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
+            fillColor: isSelected
+                ? (widget.iconTheme?.iconSelectedFillColor ??
+                    Theme.of(context).primaryColor)
+                : (widget.iconTheme?.iconUnselectedFillColor ??
+                    theme.canvasColor),
+            onPressed: () {
+              final _attribute = _selectedAttribute == attribute
+                  ? Attribute.header
+                  : attribute;
+              widget.controller.formatSelection(_attribute);
+              widget.afterButtonPressed?.call();
+            },
+            child: Text(
+              _valueToText[attribute] ?? '',
+              style: style.copyWith(
+                color: isSelected
+                    ? (widget.iconTheme?.iconSelectedColor ??
+                        theme.primaryIconTheme.color)
+                    : (widget.iconTheme?.iconUnselectedColor ??
+                        theme.iconTheme.color),
               ),
             ),
           ),
-        );
-      }).toList(),
-    );
+        ),
+      );
+    }).toList();
+
+    return widget.axis == Axis.horizontal
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          )
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          );
   }
 
   void _didChangeEditingValue() {

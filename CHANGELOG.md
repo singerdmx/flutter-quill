@@ -1,3 +1,33 @@
+# [6.4.4]
+* Increased compatibility with Flutter widget tests.
+
+# [6.4.3]
+* Update dependencies (collection: 1.17.0, flutter_keyboard_visibility: 5.4.0, quiver: 3.2.1, tuple: 2.0.1, url_launcher: 6.1.9, characters: 1.2.1, i18n_extension: 7.0.0, device_info_plus: 8.1.0)
+
+# [6.4.2]
+* Replace `buildToolbar` with `contextMenuBuilder`.
+
+# [6.4.1]
+* Control the detect word boundary behaviour.
+
+# [6.4.0]
+* Use `axis` to make the toolbar vertical.
+* Use `toolbarIconCrossAlignment` to align the toolbar icons on the cross axis.
+* Breaking change: `QuillToolbar`'s parameter `toolbarHeight` was renamed to `toolbarSize`.
+
+# [6.3.5]
+* Ability to add custom shortcuts.
+
+# [6.3.4]
+* Update clipboard status prior to showing selected text overlay.
+
+# [6.3.3]
+* Fixed handling of mac intents.
+
+# [6.3.2]
+* Added `unknownEmbedBuilder` to QuillEditor.
+* Fix error style when input chinese japanese or korean.
+
 # [6.3.1]
 * Add color property to the basic factory function.
 

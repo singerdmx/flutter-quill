@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 // ignore: unnecessary_import
 import 'dart:typed_data';
@@ -57,12 +58,7 @@ class RawEditor extends StatefulWidget {
       this.readOnly = false,
       this.placeholder,
       this.onLaunchUrl,
-      this.toolbarOptions = const ToolbarOptions(
-        copy: true,
-        cut: true,
-        paste: true,
-        selectAll: true,
-      ),
+      this.contextMenuBuilder = defaultContextMenuBuilder,
       this.showSelectionHandles = false,
       bool? showCursor,
       this.textCapitalization = TextCapitalization.none,
@@ -70,6 +66,8 @@ class RawEditor extends StatefulWidget {
       this.minHeight,
       this.maxContentWidth,
       this.customStyles,
+      this.customShortcuts,
+      this.customActions,
       this.expands = false,
       this.autoFocus = false,
       this.keyboardAppearance = Brightness.light,
@@ -112,11 +110,24 @@ class RawEditor extends StatefulWidget {
   /// a link in the document.
   final ValueChanged<String>? onLaunchUrl;
 
-  /// Configuration of toolbar options.
+  /// Builds the text selection toolbar when requested by the user.
   ///
-  /// By default, all options are enabled. If [readOnly] is true,
-  /// paste and cut will be disabled regardless.
-  final ToolbarOptions toolbarOptions;
+  /// See also:
+  ///   * [EditableText.contextMenuBuilder], which builds the default
+  ///     text selection toolbar for [EditableText].
+  ///
+  /// If not provided, no context menu will be shown.
+  final QuillEditorContextMenuBuilder? contextMenuBuilder;
+
+  static Widget defaultContextMenuBuilder(
+    BuildContext context,
+    RawEditorState state,
+  ) {
+    return AdaptiveTextSelectionToolbar.buttonItems(
+      buttonItems: state.contextMenuButtonItems,
+      anchors: state.contextMenuAnchors,
+    );
+  }
 
   /// Whether to show selection handles.
   ///
@@ -227,6 +238,9 @@ class RawEditor extends StatefulWidget {
 
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
 
+  final Map<LogicalKeySet, Intent>? customShortcuts;
+  final Map<Type, Action<Intent>>? customActions;
+
   /// Builder function for embeddable objects.
   final EmbedsBuilder embedBuilder;
   final LinkActionPickerDelegate linkActionPickerDelegate;
@@ -287,6 +301,74 @@ class RawEditorState extends EditorState
   final LayerLink _endHandleLayerLink = LayerLink();
 
   TextDirection get _textDirection => Directionality.of(context);
+
+  /// Returns the [ContextMenuButtonItem]s representing the buttons in this
+  /// platform's default selection menu for [RawEditor].
+  ///
+  /// Copied from [EditableTextState].
+  List<ContextMenuButtonItem> get contextMenuButtonItems {
+    return EditableText.getEditableButtonItems(
+      clipboardStatus: _clipboardStatus.value,
+      onCopy: copyEnabled
+          ? () => copySelection(SelectionChangedCause.toolbar)
+          : null,
+      onCut:
+          cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
+      onPaste:
+          pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
+      onSelectAll: selectAllEnabled
+          ? () => selectAll(SelectionChangedCause.toolbar)
+          : null,
+    );
+  }
+
+  /// Returns the anchor points for the default context menu.
+  ///
+  /// Copied from [EditableTextState].
+  TextSelectionToolbarAnchors get contextMenuAnchors {
+    final glyphHeights = _getGlyphHeights();
+    final selection = textEditingValue.selection;
+    final points = renderEditor.getEndpointsForSelection(selection);
+    return TextSelectionToolbarAnchors.fromSelection(
+      renderBox: renderEditor,
+      startGlyphHeight: glyphHeights.item1,
+      endGlyphHeight: glyphHeights.item2,
+      selectionEndpoints: points,
+    );
+  }
+
+  /// Gets the line heights at the start and end of the selection for the given
+  /// [RawEditorState].
+  ///
+  /// Copied from [EditableTextState].
+  Tuple2<double, double> _getGlyphHeights() {
+    final selection = textEditingValue.selection;
+
+    // Only calculate handle rects if the text in the previous frame
+    // is the same as the text in the current frame. This is done because
+    // widget.renderObject contains the renderEditable from the previous frame.
+    // If the text changed between the current and previous frames then
+    // widget.renderObject.getRectForComposingRange might fail. In cases where
+    // the current frame is different from the previous we fall back to
+    // renderObject.preferredLineHeight.
+    final prevText = renderEditor.document.toPlainText();
+    final currText = textEditingValue.text;
+    if (prevText != currText || !selection.isValid || selection.isCollapsed) {
+      return Tuple2(
+        renderEditor.preferredLineHeight(selection.base),
+        renderEditor.preferredLineHeight(selection.base),
+      );
+    }
+
+    final startCharacterRect =
+        renderEditor.getLocalRectForCaret(selection.base);
+    final endCharacterRect =
+        renderEditor.getLocalRectForCaret(selection.extent);
+    return Tuple2(
+      startCharacterRect.height,
+      endCharacterRect.height,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -428,9 +510,14 @@ class RawEditorState extends EditorState
 
           LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
               LogicalKeyboardKey.keyL): const ApplyCheckListIntent(),
+
+          if (widget.customShortcuts != null) ...widget.customShortcuts!,
         },
         child: Actions(
-          actions: _actions,
+          actions: {
+            ..._actions,
+            if (widget.customActions != null) ...widget.customActions!,
+          },
           child: Focus(
             focusNode: widget.focusNode,
             onKey: _onKey,
@@ -758,6 +845,9 @@ class RawEditorState extends EditorState
 
     if (isKeyboardOS()) {
       _keyboardVisible = true;
+    } else if (!kIsWeb && Platform.environment.containsKey('FLUTTER_TEST')) {
+      // treat tests like a keyboard OS
+      _keyboardVisible = true;
     } else {
       // treat iOS Simulator like a keyboard OS
       isIOSSimulator().then((isIosSimulator) {
@@ -964,13 +1054,15 @@ class RawEditorState extends EditorState
         value: textEditingValue,
         context: context,
         debugRequiredFor: widget,
-        toolbarLayerLink: _toolbarLayerLink,
         startHandleLayerLink: _startHandleLayerLink,
         endHandleLayerLink: _endHandleLayerLink,
         renderObject: renderEditor,
         selectionCtrls: widget.selectionCtrls,
         selectionDelegate: this,
         clipboardStatus: _clipboardStatus,
+        contextMenuBuilder: widget.contextMenuBuilder == null
+            ? null
+            : (context) => widget.contextMenuBuilder!(context, this),
       );
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
@@ -1431,7 +1523,14 @@ class RawEditorState extends EditorState
 
   @override
   void performSelector(String selectorName) {
-    // TODO: implement performSelector
+    final intent = intentForMacOSSelector(selectorName);
+
+    if (intent != null) {
+      final primaryContext = primaryFocus?.context;
+      if (primaryContext != null) {
+        Actions.invoke(primaryContext, intent);
+      }
+    }
   }
 }
 
@@ -2316,3 +2415,15 @@ class _ApplyCheckListAction extends Action<ApplyCheckListIntent> {
   @override
   bool get isActionEnabled => true;
 }
+
+/// Signature for a widget builder that builds a context menu for the given
+/// [RawEditorState].
+///
+/// See also:
+///
+///  * [EditableTextContextMenuBuilder], which performs the same role for
+///    [EditableText]
+typedef QuillEditorContextMenuBuilder = Widget Function(
+  BuildContext context,
+  RawEditorState rawEditorState,
+);

@@ -66,7 +66,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// Creates a [EditorTextSelectionGestureDetectorBuilder].
   ///
   /// The [delegate] must not be null.
-  EditorTextSelectionGestureDetectorBuilder({required this.delegate});
+  EditorTextSelectionGestureDetectorBuilder(
+      {required this.delegate, this.detectWordBoundary = true});
 
   /// The delegate for this [EditorTextSelectionGestureDetectorBuilder].
   ///
@@ -82,6 +83,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// will return true if current [onTapDown] event is triggered by a touch or
   /// a stylus.
   bool shouldShowSelectionToolbar = true;
+
+  bool detectWordBoundary = true;
 
   /// The [State] of the [EditableText] for which the builder will provide a
   /// [EditorTextSelectionGestureDetector].
@@ -337,24 +340,28 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///
   /// The [child] or its subtree should contain [EditableText].
   Widget build(
-      {required HitTestBehavior behavior, required Widget child, Key? key}) {
+      {required HitTestBehavior behavior,
+      required Widget child,
+      Key? key,
+      bool detectWordBoundary = true}) {
     return EditorTextSelectionGestureDetector(
-      key: key,
-      onTapDown: onTapDown,
-      onForcePressStart: delegate.forcePressEnabled ? onForcePressStart : null,
-      onForcePressEnd: delegate.forcePressEnabled ? onForcePressEnd : null,
-      onSingleTapUp: onSingleTapUp,
-      onSingleTapCancel: onSingleTapCancel,
-      onSingleLongTapStart: onSingleLongTapStart,
-      onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
-      onSingleLongTapEnd: onSingleLongTapEnd,
-      onDoubleTapDown: onDoubleTapDown,
-      onSecondarySingleTapUp: onSecondarySingleTapUp,
-      onDragSelectionStart: onDragSelectionStart,
-      onDragSelectionUpdate: onDragSelectionUpdate,
-      onDragSelectionEnd: onDragSelectionEnd,
-      behavior: behavior,
-      child: child,
-    );
+        key: key,
+        onTapDown: onTapDown,
+        onForcePressStart:
+            delegate.forcePressEnabled ? onForcePressStart : null,
+        onForcePressEnd: delegate.forcePressEnabled ? onForcePressEnd : null,
+        onSingleTapUp: onSingleTapUp,
+        onSingleTapCancel: onSingleTapCancel,
+        onSingleLongTapStart: onSingleLongTapStart,
+        onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
+        onSingleLongTapEnd: onSingleLongTapEnd,
+        onDoubleTapDown: onDoubleTapDown,
+        onSecondarySingleTapUp: onSecondarySingleTapUp,
+        onDragSelectionStart: onDragSelectionStart,
+        onDragSelectionUpdate: onDragSelectionUpdate,
+        onDragSelectionEnd: onDragSelectionEnd,
+        behavior: behavior,
+        detectWordBoundary: detectWordBoundary,
+        child: child);
   }
 }

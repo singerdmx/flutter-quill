@@ -90,7 +90,7 @@ You can then write this to storage.
 To open a FlutterQuill editor with an existing JSON representation that you've previously stored, you can do something like this:
 
 ```dart
-var myJSON = jsonDecode(incomingJSONText);
+var myJSON = jsonDecode(r'{"insert":"hello\n"}');
 _controller = QuillController(
           document: Document.fromJson(myJSON),
           selection: TextSelection.collapsed(offset: 0),
@@ -346,7 +346,7 @@ QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-Currently, translations are available for these 25 locales:
+Currently, translations are available for these 26 locales:
 
 * `Locale('en')`
 * `Locale('ar')`
@@ -367,6 +367,7 @@ Currently, translations are available for these 25 locales:
 * `Locale('pl')`
 * `Locale('vi')`
 * `Locale('id')`
+* `Locale('ms')`
 * `Locale('nl')`
 * `Locale('no')`
 * `Locale('fa')`
