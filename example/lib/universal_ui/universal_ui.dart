@@ -44,8 +44,12 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
       return const SizedBox();
     }
     final size = MediaQuery.of(context).size;
-    UniversalUI().platformViewRegistry.registerViewFactory(
-        imageUrl, (viewId) => html.ImageElement()..src = imageUrl);
+    UniversalUI().platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
+      return html.ImageElement()
+        ..src = imageUrl
+        ..style.height = 'auto'
+        ..style.width = 'auto';
+    });
     return Padding(
       padding: EdgeInsets.only(
         right: ResponsiveWidget.isMediumScreen(context)
