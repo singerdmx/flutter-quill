@@ -287,6 +287,7 @@ extension Localization on String {
           'Resize': '크기조정',
           'Width': '넓이',
           'Height': '높이',
+          'Size': '크기',
           'Small': '작게',
           'Large': '크게',
           'Huge': '매우크게',
