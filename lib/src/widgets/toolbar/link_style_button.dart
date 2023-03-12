@@ -85,7 +85,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
   }
 
   void _openLinkDialog(BuildContext context) {
-    showDialog<dynamic>(
+    showDialog<_TextLink>(
       context: context,
       builder: (ctx) {
         final link = _getLinkAttributeValue();
@@ -121,11 +121,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         ?.value;
   }
 
-  void _linkSubmitted(dynamic value) {
-    // text.isNotEmpty && link.isNotEmpty
-    final String text = (value as Tuple2).item1;
-    final String link = value.item2.trim();
-
+  void _linkSubmitted(_TextLink value) {
     var index = widget.controller.selection.start;
     var length = widget.controller.selection.end - index;
     if (_getLinkAttributeValue() != null) {
@@ -137,8 +133,9 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         length = range.end - range.start;
       }
     }
-    widget.controller.replaceText(index, length, text, null);
-    widget.controller.formatText(index, text.length, LinkAttribute(link));
+    widget.controller.replaceText(index, length, value.text, null);
+    widget.controller.formatText(
+        index, value.text.length, LinkAttribute(value.link));
   }
 }
 
@@ -239,6 +236,16 @@ class _LinkDialogState extends State<_LinkDialog> {
   }
 
   void _applyLink() {
-    Navigator.pop(context, Tuple2(_text.trim(), _link.trim()));
+    Navigator.pop(context, _TextLink(_text.trim(), _link.trim()));
   }
+}
+
+class _TextLink {
+  _TextLink(
+      this.text,
+      this.link,
+      );
+
+  final String text;
+  final String link;
 }
