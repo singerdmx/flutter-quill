@@ -22,11 +22,9 @@ dependencies:
   math_keyboard: ^0.1.8
   string_validator: ^1.0.0
 
-dependency_overrides:
-  # flutter_quill:
-    # path: ../
-
-  intl: ^0.18.0
+# dependency_overrides:
+#   flutter_quill:
+#     path: ../
 
 dev_dependencies:
   flutter_test:
