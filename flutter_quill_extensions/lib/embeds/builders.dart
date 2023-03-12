@@ -29,7 +29,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
 
     var image;
     final imageUrl = standardizeImageUrl(node.value.data);
-    Tuple2<double?, double?>? _widthHeight;
+    OptionalSize? _imageSize;
     final style = node.style.attributes['style'];
     if (base.isMobile() && style != null) {
       final _attrs = base.parseKeyValuePairs(style.value.toString(), {
@@ -45,7 +45,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
             'mobileWidth and mobileHeight must be specified');
         final w = double.parse(_attrs[Attribute.mobileWidth]!);
         final h = double.parse(_attrs[Attribute.mobileHeight]!);
-        _widthHeight = Tuple2(w, h);
+        _imageSize = OptionalSize(w, h);
         final m = _attrs[Attribute.mobileMargin] == null
             ? 0.0
             : double.parse(_attrs[Attribute.mobileMargin]!);
@@ -56,9 +56,9 @@ class ImageEmbedBuilder implements EmbedBuilder {
       }
     }
 
-    if (_widthHeight == null) {
+    if (_imageSize == null) {
       image = imageByUrl(imageUrl);
-      _widthHeight = Tuple2((image as Image).width, image.height);
+      _imageSize = OptionalSize((image as Image).width, image.height);
     }
 
     if (!readOnly && base.isMobile()) {
@@ -88,8 +88,8 @@ class ImageEmbedBuilder implements EmbedBuilder {
                                     ..formatText(
                                         res.item1, 1, StyleAttribute(attr));
                                 },
-                                imageWidth: _widthHeight?.item1,
-                                imageHeight: _widthHeight?.item2,
+                                imageWidth: _imageSize?.width,
+                                imageHeight: _imageSize?.height,
                                 maxWidth: _screenSize.width,
                                 maxHeight: _screenSize.height);
                           });
