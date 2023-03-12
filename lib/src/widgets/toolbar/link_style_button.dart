@@ -95,7 +95,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         if (link != null) {
           // text should be the link's corresponding text, not selection
           final leaf =
-              widget.controller.document.querySegmentLeafNode(index).item2;
+              widget.controller.document.querySegmentLeafNode(index).leaf;
           if (leaf != null) {
             text = leaf.toPlainText();
           }
@@ -126,7 +126,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     var length = widget.controller.selection.end - index;
     if (_getLinkAttributeValue() != null) {
       // text should be the link's corresponding text, not selection
-      final leaf = widget.controller.document.querySegmentLeafNode(index).item2;
+      final leaf = widget.controller.document.querySegmentLeafNode(index).leaf;
       if (leaf != null) {
         final range = getLinkRange(leaf);
         index = range.start;

@@ -4,6 +4,7 @@ import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';
 import '../structs/offset_value.dart';
+import '../structs/segment_leaf_node.dart';
 import 'attribute.dart';
 import 'history.dart';
 import 'nodes/block.dart';
@@ -215,19 +216,15 @@ class Document {
   }
 
   /// Given offset, find its leaf node in document
-  Tuple2<Line?, Leaf?> querySegmentLeafNode(int offset) {
+  SegmentLeafNode querySegmentLeafNode(int offset) {
     final result = queryChild(offset);
     if (result.node == null) {
-      return const Tuple2(null, null);
+      return const SegmentLeafNode(null, null);
     }
 
     final line = result.node as Line;
     final segmentResult = line.queryChild(result.offset, false);
-    if (segmentResult.node == null) {
-      return Tuple2(line, null);
-    }
-    final segment = segmentResult.node as Leaf;
-    return Tuple2(line, segment);
+    return SegmentLeafNode(line, segmentResult.node as Leaf?);
   }
 
   /// Composes [change] Delta into this document.

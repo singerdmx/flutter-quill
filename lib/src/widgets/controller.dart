@@ -366,7 +366,7 @@ class QuillController extends ChangeNotifier {
 
   /// Given offset, find its leaf node in document
   Leaf? queryNode(int offset) {
-    return document.querySegmentLeafNode(offset).item2;
+    return document.querySegmentLeafNode(offset).leaf;
   }
 
   /// Clipboard for image url and its corresponding style
