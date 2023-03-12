@@ -1,5 +1,6 @@
 import '../quill_delta.dart';
 import '../structs/doc_change.dart';
+import '../structs/history_changed.dart';
 import 'document.dart';
 
 class History {
@@ -84,9 +85,9 @@ class History {
     }
   }
 
-  Tuple2 _change(Document doc, List<Delta> source, List<Delta> dest) {
+  HistoryChanged _change(Document doc, List<Delta> source, List<Delta> dest) {
     if (source.isEmpty) {
-      return const Tuple2(false, 0);
+      return const HistoryChanged(false, 0);
     }
     final delta = source.removeLast();
     // look for insert or delete
@@ -106,14 +107,14 @@ class History {
     ignoreChange = true;
     doc.compose(delta, ChangeSource.LOCAL);
     ignoreChange = false;
-    return Tuple2(true, len);
+    return HistoryChanged(true, len);
   }
 
-  Tuple2 undo(Document doc) {
+  HistoryChanged undo(Document doc) {
     return _change(doc, stack.undo, stack.redo);
   }
 
-  Tuple2 redo(Document doc) {
+  HistoryChanged redo(Document doc) {
     return _change(doc, stack.redo, stack.undo);
   }
 }

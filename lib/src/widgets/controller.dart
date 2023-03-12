@@ -142,9 +142,9 @@ class QuillController extends ChangeNotifier {
   }
 
   void undo() {
-    final tup = document.undo();
-    if (tup.item1) {
-      _handleHistoryChange(tup.item2);
+    final result = document.undo();
+    if (result.changed) {
+      _handleHistoryChange(result.len);
     }
   }
 
@@ -164,9 +164,9 @@ class QuillController extends ChangeNotifier {
   }
 
   void redo() {
-    final tup = document.redo();
-    if (tup.item1) {
-      _handleHistoryChange(tup.item2);
+    final result = document.redo();
+    if (result.changed) {
+      _handleHistoryChange(result.len);
     }
   }
 

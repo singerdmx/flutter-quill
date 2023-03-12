@@ -3,6 +3,7 @@ import 'dart:async';
 import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';
+import '../structs/history_changed.dart';
 import '../structs/offset_value.dart';
 import '../structs/segment_leaf_node.dart';
 import 'attribute.dart';
@@ -277,11 +278,11 @@ class Document {
     _history.handleDocChange(change);
   }
 
-  Tuple2 undo() {
+  HistoryChanged undo() {
     return _history.undo(this);
   }
 
-  Tuple2 redo() {
+  HistoryChanged redo() {
     return _history.redo(this);
   }
 
