@@ -1,3 +1,6 @@
+# [7.0.1]
+* Update i18n_extension depedency to version 8.0.0
+
 # [7.0.0]
 * Breaking change: Tuples are no longer used. They have been replaced with a number of data classes.
 
