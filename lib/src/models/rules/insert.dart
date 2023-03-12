@@ -1,4 +1,3 @@
-import 'package:tuple/tuple.dart';
 
 import '../../models/documents/document.dart';
 import '../documents/attribute.dart';

@@ -12,7 +12,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pasteboard/pasteboard.dart';
-import 'package:tuple/tuple.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';

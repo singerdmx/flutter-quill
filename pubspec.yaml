@@ -16,7 +16,6 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   flutter_keyboard_visibility: ^5.4.0
   quiver: ^3.2.1
-  tuple: ^2.0.1
   url_launcher: ^6.1.9
   pedantic: ^1.11.1
   characters: ^1.2.1

@@ -1,4 +1,3 @@
-import 'package:tuple/tuple.dart';
 
 import '../quill_delta.dart';
 import 'document.dart';

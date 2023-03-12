@@ -7,7 +7,6 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:math_keyboard/math_keyboard.dart';
-import 'package:tuple/tuple.dart';
 
 import 'utils.dart';
 import 'widgets/image.dart';

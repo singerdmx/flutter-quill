@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:tuple/tuple.dart';
 
 import '../../quill_delta.dart';
 import '../attribute.dart';

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:tuple/tuple.dart';
-
 import '../quill_delta.dart';
 import '../rules/rule.dart';
 import 'attribute.dart';

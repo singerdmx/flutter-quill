@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:tuple/tuple.dart';
 
 import '../models/documents/nodes/leaf.dart';
 import '../widgets/controller.dart';
