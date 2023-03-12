@@ -15,6 +15,7 @@ import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
+import '../models/structs/offset_value.dart';
 import '../utils/platform.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -37,7 +38,7 @@ abstract class EditorState extends State<RawEditor>
 
   EditorTextSelectionOverlay? get selectionOverlay;
 
-  List<Tuple2<int, Style>> get pasteStyle;
+  List<OffsetValue<Style>> get pasteStyle;
 
   String get pastePlainText;
 

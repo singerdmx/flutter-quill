@@ -38,13 +38,13 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     if (insertedText == pastePlainText && pastePlainText != '') {
       final pos = start;
       for (var i = 0; i < pasteStyle.length; i++) {
-        final offset = pasteStyle[i].item1;
-        final style = pasteStyle[i].item2;
+        final offset = pasteStyle[i].offset;
+        final style = pasteStyle[i].value;
         widget.controller.formatTextStyle(
             pos + offset,
             i == pasteStyle.length - 1
                 ? pastePlainText.length - offset
-                : pasteStyle[i + 1].item1,
+                : pasteStyle[i + 1].offset,
             style);
       }
     }

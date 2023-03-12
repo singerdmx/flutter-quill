@@ -3,6 +3,7 @@ import 'dart:async';
 import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';
+import '../structs/offset_value.dart';
 import 'attribute.dart';
 import 'history.dart';
 import 'nodes/block.dart';
@@ -156,7 +157,7 @@ class Document {
   }
 
   /// Returns all styles for each node within selection
-  List<Tuple2<int, Style>> collectAllIndividualStyles(int index, int len) {
+  List<OffsetValue<Style>> collectAllIndividualStyles(int index, int len) {
     final res = queryChild(index);
     return (res.node as Line).collectAllIndividualStyles(res.offset, len);
   }

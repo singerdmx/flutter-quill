@@ -10,6 +10,8 @@ import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
 import '../models/structs/doc_change.dart';
+import '../models/structs/image_url.dart';
+import '../models/structs/offset_value.dart';
 import '../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
@@ -118,7 +120,7 @@ class QuillController extends ChangeNotifier {
   }
 
   /// Returns all styles for each node within selection
-  List<Tuple2<int, Style>> getAllIndividualSelectionStyles() {
+  List<OffsetValue<Style>> getAllIndividualSelectionStyles() {
     final styles = document.collectAllIndividualStyles(
         selection.start, selection.end - selection.start);
     return styles;

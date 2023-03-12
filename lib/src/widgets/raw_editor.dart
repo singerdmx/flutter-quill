@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pasteboard/pasteboard.dart';
 
+import '../../flutter_quill.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
@@ -288,8 +289,8 @@ class RawEditorState extends EditorState
 
   // for pasting style
   @override
-  List<Tuple2<int, Style>> get pasteStyle => _pasteStyle;
-  List<Tuple2<int, Style>> _pasteStyle = <Tuple2<int, Style>>[];
+  List<OffsetValue<Style>> get pasteStyle => _pasteStyle;
+  List<OffsetValue<Style>> _pasteStyle = <OffsetValue<Style>>[];
 
   @override
   String get pastePlainText => _pastePlainText;
