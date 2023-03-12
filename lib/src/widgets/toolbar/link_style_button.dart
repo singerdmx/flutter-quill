@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/rules/insert.dart';
@@ -86,7 +85,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
   }
 
   void _openLinkDialog(BuildContext context) {
-    showDialog<dynamic>(
+    showDialog<_TextLink>(
       context: context,
       builder: (ctx) {
         final link = _getLinkAttributeValue();
@@ -96,7 +95,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         if (link != null) {
           // text should be the link's corresponding text, not selection
           final leaf =
-              widget.controller.document.querySegmentLeafNode(index).item2;
+              widget.controller.document.querySegmentLeafNode(index).leaf;
           if (leaf != null) {
             text = leaf.toPlainText();
           }
@@ -122,24 +121,21 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         ?.value;
   }
 
-  void _linkSubmitted(dynamic value) {
-    // text.isNotEmpty && link.isNotEmpty
-    final String text = (value as Tuple2).item1;
-    final String link = value.item2.trim();
-
+  void _linkSubmitted(_TextLink value) {
     var index = widget.controller.selection.start;
     var length = widget.controller.selection.end - index;
     if (_getLinkAttributeValue() != null) {
       // text should be the link's corresponding text, not selection
-      final leaf = widget.controller.document.querySegmentLeafNode(index).item2;
+      final leaf = widget.controller.document.querySegmentLeafNode(index).leaf;
       if (leaf != null) {
         final range = getLinkRange(leaf);
         index = range.start;
         length = range.end - range.start;
       }
     }
-    widget.controller.replaceText(index, length, text, null);
-    widget.controller.formatText(index, text.length, LinkAttribute(link));
+    widget.controller.replaceText(index, length, value.text, null);
+    widget.controller.formatText(
+        index, value.text.length, LinkAttribute(value.link));
   }
 }
 
@@ -240,6 +236,16 @@ class _LinkDialogState extends State<_LinkDialog> {
   }
 
   void _applyLink() {
-    Navigator.pop(context, Tuple2(_text.trim(), _link.trim()));
+    Navigator.pop(context, _TextLink(_text.trim(), _link.trim()));
   }
+}
+
+class _TextLink {
+  _TextLink(
+      this.text,
+      this.link,
+      );
+
+  final String text;
+  final String link;
 }

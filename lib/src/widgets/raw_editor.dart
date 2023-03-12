@@ -12,8 +12,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pasteboard/pasteboard.dart';
-import 'package:tuple/tuple.dart';
 
+import '../../flutter_quill.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
@@ -22,6 +22,7 @@ import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
+import '../models/structs/vertical_spacing.dart';
 import '../utils/cast.dart';
 import '../utils/delta.dart';
 import '../utils/embeds.dart';
@@ -288,8 +289,8 @@ class RawEditorState extends EditorState
 
   // for pasting style
   @override
-  List<Tuple2<int, Style>> get pasteStyle => _pasteStyle;
-  List<Tuple2<int, Style>> _pasteStyle = <Tuple2<int, Style>>[];
+  List<OffsetValue<Style>> get pasteStyle => _pasteStyle;
+  List<OffsetValue<Style>> _pasteStyle = <OffsetValue<Style>>[];
 
   @override
   String get pastePlainText => _pastePlainText;
@@ -331,8 +332,8 @@ class RawEditorState extends EditorState
     final points = renderEditor.getEndpointsForSelection(selection);
     return TextSelectionToolbarAnchors.fromSelection(
       renderBox: renderEditor,
-      startGlyphHeight: glyphHeights.item1,
-      endGlyphHeight: glyphHeights.item2,
+      startGlyphHeight: glyphHeights.startGlyphHeight,
+      endGlyphHeight: glyphHeights.endGlyphHeight,
       selectionEndpoints: points,
     );
   }
@@ -341,7 +342,7 @@ class RawEditorState extends EditorState
   /// [RawEditorState].
   ///
   /// Copied from [EditableTextState].
-  Tuple2<double, double> _getGlyphHeights() {
+  _GlyphHeights _getGlyphHeights() {
     final selection = textEditingValue.selection;
 
     // Only calculate handle rects if the text in the previous frame
@@ -354,7 +355,7 @@ class RawEditorState extends EditorState
     final prevText = renderEditor.document.toPlainText();
     final currText = textEditingValue.text;
     if (prevText != currText || !selection.isValid || selection.isCollapsed) {
-      return Tuple2(
+      return _GlyphHeights(
         renderEditor.preferredLineHeight(selection.base),
         renderEditor.preferredLineHeight(selection.base),
       );
@@ -364,7 +365,7 @@ class RawEditorState extends EditorState
         renderEditor.getLocalRectForCaret(selection.base);
     final endCharacterRect =
         renderEditor.getLocalRectForCaret(selection.extent);
-    return Tuple2(
+    return _GlyphHeights(
       startCharacterRect.height,
       endCharacterRect.height,
     );
@@ -414,7 +415,7 @@ class RawEditorState extends EditorState
       /// baseline.
       // This implies that the first line has no styles applied to it.
       final baselinePadding =
-          EdgeInsets.only(top: _styles!.paragraph!.verticalSpacing.item1);
+          EdgeInsets.only(top: _styles!.paragraph!.verticalSpacing.top);
       child = BaselineProxy(
         textStyle: _styles!.paragraph!.style,
         padding: baselinePadding,
@@ -778,7 +779,7 @@ class RawEditorState extends EditorState
     return editableTextLine;
   }
 
-  Tuple2<double, double> _getVerticalSpacingForLine(
+  VerticalSpacing _getVerticalSpacingForLine(
       Line line, DefaultStyles? defaultStyles) {
     final attrs = line.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
@@ -803,7 +804,7 @@ class RawEditorState extends EditorState
     return defaultStyles!.paragraph!.verticalSpacing;
   }
 
-  Tuple2<double, double> _getVerticalSpacingForBlock(
+  VerticalSpacing _getVerticalSpacingForBlock(
       Block node, DefaultStyles? defaultStyles) {
     final attrs = node.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
@@ -817,7 +818,7 @@ class RawEditorState extends EditorState
     } else if (attrs.containsKey(Attribute.align.key)) {
       return defaultStyles!.align!.verticalSpacing;
     }
-    return const Tuple2(0, 0);
+    return const VerticalSpacing(0, 0);
   }
 
   @override
@@ -1281,10 +1282,10 @@ class RawEditorState extends EditorState
       final length = textEditingValue.selection.extentOffset - index;
       final copied = controller.copiedImageUrl!;
       controller.replaceText(
-          index, length, BlockEmbed.image(copied.item1), null);
-      if (copied.item2.isNotEmpty) {
-        controller.formatText(getEmbedNode(controller, index + 1).item1, 1,
-            StyleAttribute(copied.item2));
+          index, length, BlockEmbed.image(copied.url), null);
+      if (copied.styleString.isNotEmpty) {
+        controller.formatText(getEmbedNode(controller, index + 1).offset, 1,
+            StyleAttribute(copied.styleString));
       }
       controller.copiedImageUrl = null;
       await Clipboard.setData(const ClipboardData(text: ''));
@@ -2427,3 +2428,13 @@ typedef QuillEditorContextMenuBuilder = Widget Function(
   BuildContext context,
   RawEditorState rawEditorState,
 );
+
+class _GlyphHeights {
+  _GlyphHeights(
+    this.startGlyphHeight,
+    this.endGlyphHeight,
+  );
+
+  final double startGlyphHeight;
+  final double endGlyphHeight;
+}

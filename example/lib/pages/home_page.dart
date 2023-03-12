@@ -12,7 +12,6 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tuple/tuple.dart';
 
 import '../universal_ui/universal_ui.dart';
 import 'read_only_page.dart';
@@ -184,8 +183,8 @@ class _HomePageState extends State<HomePage> {
                 height: 1.15,
                 fontWeight: FontWeight.w300,
               ),
-              const Tuple2(16, 0),
-              const Tuple2(0, 0),
+              const VerticalSpacing(16, 0),
+              const VerticalSpacing(0, 0),
               null),
           sizeSmall: const TextStyle(fontSize: 9),
         ),
@@ -219,8 +218,8 @@ class _HomePageState extends State<HomePage> {
                   height: 1.15,
                   fontWeight: FontWeight.w300,
                 ),
-                const Tuple2(16, 0),
-                const Tuple2(0, 0),
+                const VerticalSpacing(16, 0),
+                const VerticalSpacing(0, 0),
                 null),
             sizeSmall: const TextStyle(fontSize: 9),
           ),
@@ -476,7 +475,8 @@ class _HomePageState extends State<HomePage> {
     final length = controller.selection.extentOffset - index;
 
     if (isEditing) {
-      final offset = getEmbedNode(controller, controller.selection.start).item1;
+      final offset =
+          getEmbedNode(controller, controller.selection.start).offset;
       controller.replaceText(
           offset, 1, block, TextSelection.collapsed(offset: offset));
     } else {

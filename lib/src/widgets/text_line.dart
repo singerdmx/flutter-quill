@@ -6,7 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/documents/attribute.dart';
@@ -16,6 +15,7 @@ import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
+import '../models/structs/vertical_spacing.dart';
 import '../utils/color.dart';
 import '../utils/font.dart';
 import '../utils/platform.dart';
@@ -476,7 +476,7 @@ class EditableTextLine extends RenderObjectWidget {
   final Widget? leading;
   final Widget body;
   final double indentWidth;
-  final Tuple2 verticalSpacing;
+  final VerticalSpacing verticalSpacing;
   final TextDirection textDirection;
   final TextSelection textSelection;
   final Color color;
@@ -526,8 +526,8 @@ class EditableTextLine extends RenderObjectWidget {
   EdgeInsetsGeometry _getPadding() {
     return EdgeInsetsDirectional.only(
         start: indentWidth,
-        top: verticalSpacing.item1,
-        bottom: verticalSpacing.item2);
+        top: verticalSpacing.top,
+        bottom: verticalSpacing.bottom);
   }
 }
 

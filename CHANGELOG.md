@@ -1,3 +1,6 @@
+# [7.0.0]
+* Breaking change: Tuples are no longer used. They have been replaced with a number of data classes.
+
 # [6.4.4]
 * Increased compatibility with Flutter widget tests.
 

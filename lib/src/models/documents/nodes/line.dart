@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:tuple/tuple.dart';
 
 import '../../quill_delta.dart';
+import '../../structs/offset_value.dart';
 import '../attribute.dart';
 import '../style.dart';
 import 'block.dart';
@@ -391,10 +391,10 @@ class Line extends Container<Leaf?> {
 
   /// Returns each node segment's offset in selection
   /// with its corresponding style as a list
-  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len,
+  List<OffsetValue<Style>> collectAllIndividualStyles(int offset, int len,
       {int beg = 0}) {
     final local = math.min(length - offset, len);
-    final result = <Tuple2<int, Style>>[];
+    final result = <OffsetValue<Style>>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
@@ -402,12 +402,12 @@ class Line extends Container<Leaf?> {
       var pos = 0;
       if (node is Text) {
         pos = node.length - data.offset;
-        result.add(Tuple2(beg, node.style));
+        result.add(OffsetValue(beg, node.style));
       }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
         if (node is Text) {
-          result.add(Tuple2(pos + beg, node.style));
+          result.add(OffsetValue(pos + beg, node.style));
           pos += node.length;
         }
       }
