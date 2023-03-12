@@ -1,4 +1,3 @@
-
 import '../../models/documents/document.dart';
 import '../documents/attribute.dart';
 import '../documents/nodes/embeddable.dart';
@@ -55,7 +54,7 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
       return delta;
     }
     final nextNewLine = _getNextNewLine(itr);
-    final attributes = nextNewLine.item1?.attributes;
+    final attributes = nextNewLine.operation?.attributes;
 
     return delta..insert('\n', attributes);
   }
@@ -85,7 +84,8 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     // Look for the next newline.
     final nextNewLine = _getNextNewLine(itr);
     final lineStyle =
-        Style.fromJson(nextNewLine.item1?.attributes ?? <String, dynamic>{});
+        Style.fromJson(
+            nextNewLine.operation?.attributes ?? <String, dynamic>{});
 
     final blockStyle = lineStyle.getBlocksExceptHeader();
     // Are we currently in a block? If not then ignore.
@@ -125,8 +125,8 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     // Reset style of the original newline character if needed.
     if (resetStyle.isNotEmpty) {
       delta
-        ..retain(nextNewLine.item2!)
-        ..retain((nextNewLine.item1!.data as String).indexOf('\n'))
+        ..retain(nextNewLine.skipped!)
+        ..retain((nextNewLine.operation!.data as String).indexOf('\n'))
         ..retain(1, resetStyle);
     }
 
@@ -187,10 +187,10 @@ class AutoExitBlockRule extends InsertRule {
     // Keep looking for the next newline character to see if it shares the same
     // block style as `cur`.
     final nextNewLine = _getNextNewLine(itr);
-    if (nextNewLine.item1 != null &&
-        nextNewLine.item1!.attributes != null &&
-        Style.fromJson(nextNewLine.item1!.attributes).getBlockExceptHeader() ==
-            blockStyle) {
+    if (nextNewLine.operation != null &&
+        nextNewLine.operation!.attributes != null &&
+        Style.fromJson(nextNewLine.operation!.attributes).getBlockExceptHeader()
+            == blockStyle) {
       // We are not at the end of this block, ignore.
       return null;
     }
@@ -523,15 +523,22 @@ class CatchAllInsertRule extends InsertRule {
   }
 }
 
-Tuple2<Operation?, int?> _getNextNewLine(DeltaIterator iterator) {
+_NextNewLine _getNextNewLine(DeltaIterator iterator) {
   Operation op;
   for (var skipped = 0; iterator.hasNext; skipped += op.length!) {
     op = iterator.next();
     final lineBreak =
         (op.data is String ? op.data as String? : '')!.indexOf('\n');
     if (lineBreak >= 0) {
-      return Tuple2(op, skipped);
+      return _NextNewLine(op, skipped);
     }
   }
-  return const Tuple2(null, null);
+  return const _NextNewLine(null, null);
+}
+
+class _NextNewLine {
+  const _NextNewLine(this.operation, this.skipped);
+
+  final Operation? operation;
+  final int? skipped;
 }
