@@ -105,7 +105,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
                               .item2;
                       final imageUrl = imageNode.value.data;
                       controller.copiedImageUrl =
-                          Tuple2(imageUrl, getImageStyleString(controller));
+                          ImageUrl(imageUrl, getImageStyleString(controller));
                       Navigator.pop(context);
                     },
                   );

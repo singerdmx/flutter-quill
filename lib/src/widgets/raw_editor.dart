@@ -1282,10 +1282,10 @@ class RawEditorState extends EditorState
       final length = textEditingValue.selection.extentOffset - index;
       final copied = controller.copiedImageUrl!;
       controller.replaceText(
-          index, length, BlockEmbed.image(copied.item1), null);
-      if (copied.item2.isNotEmpty) {
+          index, length, BlockEmbed.image(copied.url), null);
+      if (copied.styleString.isNotEmpty) {
         controller.formatText(getEmbedNode(controller, index + 1).item1, 1,
-            StyleAttribute(copied.item2));
+            StyleAttribute(copied.styleString));
       }
       controller.copiedImageUrl = null;
       await Clipboard.setData(const ClipboardData(text: ''));

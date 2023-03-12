@@ -370,12 +370,11 @@ class QuillController extends ChangeNotifier {
   }
 
   /// Clipboard for image url and its corresponding style
-  /// item1 is url and item2 is style string
-  Tuple2<String, String>? _copiedImageUrl;
+  ImageUrl? _copiedImageUrl;
 
-  Tuple2<String, String>? get copiedImageUrl => _copiedImageUrl;
+  ImageUrl? get copiedImageUrl => _copiedImageUrl;
 
-  set copiedImageUrl(Tuple2<String, String>? value) {
+  set copiedImageUrl(ImageUrl? value) {
     _copiedImageUrl = value;
     Clipboard.setData(const ClipboardData(text: ''));
   }
