@@ -241,11 +241,8 @@ class DefaultStyles {
             const VerticalSpacing(8, 0),
             const VerticalSpacing(0, 0),
             null),
-        paragraph: DefaultTextBlockStyle(
-            baseStyle,
-            const VerticalSpacing(0, 0),
-            const VerticalSpacing(0, 0),
-            null),
+        paragraph: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
         italic: const TextStyle(fontStyle: FontStyle.italic),
         small: const TextStyle(fontSize: 12),
@@ -304,16 +301,10 @@ class DefaultStyles {
             )),
         indent: DefaultTextBlockStyle(
             baseStyle, baseSpacing, const VerticalSpacing(0, 6), null),
-        align: DefaultTextBlockStyle(
-            baseStyle,
-            const VerticalSpacing(0, 0),
-            const VerticalSpacing(0, 0),
-            null),
-        leading: DefaultTextBlockStyle(
-            baseStyle,
-            const VerticalSpacing(0, 0),
-            const VerticalSpacing(0, 0),
-            null),
+        align: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0), null),
+        leading: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0), null),
         sizeSmall: const TextStyle(fontSize: 10),
         sizeLarge: const TextStyle(fontSize: 18),
         sizeHuge: const TextStyle(fontSize: 22));

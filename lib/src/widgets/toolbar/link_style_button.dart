@@ -134,8 +134,8 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
       }
     }
     widget.controller.replaceText(index, length, value.text, null);
-    widget.controller.formatText(
-        index, value.text.length, LinkAttribute(value.link));
+    widget.controller
+        .formatText(index, value.text.length, LinkAttribute(value.link));
   }
 }
 
@@ -242,9 +242,9 @@ class _LinkDialogState extends State<_LinkDialog> {
 
 class _TextLink {
   _TextLink(
-      this.text,
-      this.link,
-      );
+    this.text,
+    this.link,
+  );
 
   final String text;
   final String link;

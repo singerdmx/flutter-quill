@@ -83,9 +83,8 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
 
     // Look for the next newline.
     final nextNewLine = _getNextNewLine(itr);
-    final lineStyle =
-        Style.fromJson(
-            nextNewLine.operation?.attributes ?? <String, dynamic>{});
+    final lineStyle = Style.fromJson(
+        nextNewLine.operation?.attributes ?? <String, dynamic>{});
 
     final blockStyle = lineStyle.getBlocksExceptHeader();
     // Are we currently in a block? If not then ignore.
@@ -189,8 +188,9 @@ class AutoExitBlockRule extends InsertRule {
     final nextNewLine = _getNextNewLine(itr);
     if (nextNewLine.operation != null &&
         nextNewLine.operation!.attributes != null &&
-        Style.fromJson(nextNewLine.operation!.attributes).getBlockExceptHeader()
-            == blockStyle) {
+        Style.fromJson(nextNewLine.operation!.attributes)
+                .getBlockExceptHeader() ==
+            blockStyle) {
       // We are not at the end of this block, ignore.
       return null;
     }

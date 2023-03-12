@@ -1281,8 +1281,7 @@ class RawEditorState extends EditorState
       final index = textEditingValue.selection.baseOffset;
       final length = textEditingValue.selection.extentOffset - index;
       final copied = controller.copiedImageUrl!;
-      controller.replaceText(
-          index, length, BlockEmbed.image(copied.url), null);
+      controller.replaceText(index, length, BlockEmbed.image(copied.url), null);
       if (copied.styleString.isNotEmpty) {
         controller.formatText(getEmbedNode(controller, index + 1).offset, 1,
             StyleAttribute(copied.styleString));
