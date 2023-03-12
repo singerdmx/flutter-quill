@@ -1284,7 +1284,7 @@ class RawEditorState extends EditorState
       controller.replaceText(
           index, length, BlockEmbed.image(copied.url), null);
       if (copied.styleString.isNotEmpty) {
-        controller.formatText(getEmbedNode(controller, index + 1).item1, 1,
+        controller.formatText(getEmbedNode(controller, index + 1).offset, 1,
             StyleAttribute(copied.styleString));
       }
       controller.copiedImageUrl = null;

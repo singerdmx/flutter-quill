@@ -86,7 +86,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
                                   controller
                                     ..skipRequestKeyboard = true
                                     ..formatText(
-                                        res.item1, 1, StyleAttribute(attr));
+                                        res.offset, 1, StyleAttribute(attr));
                                 },
                                 imageWidth: _imageSize?.width,
                                 imageHeight: _imageSize?.height,
@@ -102,7 +102,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
                     onPressed: () {
                       final imageNode =
                           getEmbedNode(controller, controller.selection.start)
-                              .item2;
+                              .value;
                       final imageUrl = imageNode.value.data;
                       controller.copiedImageUrl =
                           ImageUrl(imageUrl, getImageStyleString(controller));
@@ -116,7 +116,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
                     onPressed: () {
                       final offset =
                           getEmbedNode(controller, controller.selection.start)
-                              .item1;
+                              .offset;
                       controller.replaceText(offset, 1, '',
                           TextSelection.collapsed(offset: offset));
                       Navigator.pop(context);
