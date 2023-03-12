@@ -1,5 +1,5 @@
-
 import '../quill_delta.dart';
+import '../structs/doc_change.dart';
 import 'document.dart';
 
 class History {
@@ -31,12 +31,12 @@ class History {
   ///record delay
   final int interval;
 
-  void handleDocChange(Tuple3<Delta, Delta, ChangeSource> change) {
+  void handleDocChange(DocChange docChange) {
     if (ignoreChange) return;
-    if (!userOnly || change.item3 == ChangeSource.LOCAL) {
-      record(change.item2, change.item1);
+    if (!userOnly || docChange.source == ChangeSource.LOCAL) {
+      record(docChange.change, docChange.before);
     } else {
-      transform(change.item2);
+      transform(docChange.change);
     }
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../quill_delta.dart';
 import '../rules/rule.dart';
+import '../structs/doc_change.dart';
 import 'attribute.dart';
 import 'history.dart';
 import 'nodes/block.dart';
@@ -48,13 +49,12 @@ class Document {
     _rules.setCustomRules(customRules);
   }
 
-  final StreamController<Tuple3<Delta, Delta, ChangeSource>> _observer =
-      StreamController.broadcast();
+  final StreamController<DocChange> _observer = StreamController.broadcast();
 
   final History _history = History();
 
-  /// Stream of [Change]s applied to this document.
-  Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => _observer.stream;
+  /// Stream of [DocChange]s applied to this document.
+  Stream<DocChange> get changes => _observer.stream;
 
   /// Inserts [data] in this document at specified [index].
   ///
@@ -274,7 +274,7 @@ class Document {
     if (_delta != _root.toDelta()) {
       throw 'Compose failed';
     }
-    final change = Tuple3(originalDelta, delta, changeSource);
+    final change = DocChange(originalDelta, delta, changeSource);
     _observer.add(change);
     _history.handleDocChange(change);
   }

@@ -9,6 +9,7 @@ export 'src/models/documents/nodes/line.dart';
 export 'src/models/documents/nodes/node.dart';
 export 'src/models/documents/style.dart';
 export 'src/models/quill_delta.dart';
+export 'src/models/structs/doc_change.dart';
 export 'src/models/structs/vertical_spacing.dart';
 export 'src/models/themes/quill_custom_button.dart';
 export 'src/models/themes/quill_dialog_theme.dart';

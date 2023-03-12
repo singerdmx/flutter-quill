@@ -9,6 +9,7 @@ import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
+import '../models/structs/doc_change.dart';
 import '../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
@@ -81,12 +82,7 @@ class QuillController extends ChangeNotifier {
   /// removing or listeners to this instance.
   bool _isDisposed = false;
 
-  // item1: Document state before [change].
-  //
-  // item2: Change delta applied to the document.
-  //
-  // item3: The source of this change.
-  Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => document.changes;
+  Stream<DocChange> get changes => document.changes;
 
   TextEditingValue get plainTextEditingValue => TextEditingValue(
         text: document.toPlainText(),
