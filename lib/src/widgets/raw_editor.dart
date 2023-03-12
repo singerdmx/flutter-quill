@@ -332,8 +332,8 @@ class RawEditorState extends EditorState
     final points = renderEditor.getEndpointsForSelection(selection);
     return TextSelectionToolbarAnchors.fromSelection(
       renderBox: renderEditor,
-      startGlyphHeight: glyphHeights.item1,
-      endGlyphHeight: glyphHeights.item2,
+      startGlyphHeight: glyphHeights.startGlyphHeight,
+      endGlyphHeight: glyphHeights.endGlyphHeight,
       selectionEndpoints: points,
     );
   }
@@ -342,7 +342,7 @@ class RawEditorState extends EditorState
   /// [RawEditorState].
   ///
   /// Copied from [EditableTextState].
-  Tuple2<double, double> _getGlyphHeights() {
+  _GlyphHeights _getGlyphHeights() {
     final selection = textEditingValue.selection;
 
     // Only calculate handle rects if the text in the previous frame
@@ -355,7 +355,7 @@ class RawEditorState extends EditorState
     final prevText = renderEditor.document.toPlainText();
     final currText = textEditingValue.text;
     if (prevText != currText || !selection.isValid || selection.isCollapsed) {
-      return Tuple2(
+      return _GlyphHeights(
         renderEditor.preferredLineHeight(selection.base),
         renderEditor.preferredLineHeight(selection.base),
       );
@@ -365,7 +365,7 @@ class RawEditorState extends EditorState
         renderEditor.getLocalRectForCaret(selection.base);
     final endCharacterRect =
         renderEditor.getLocalRectForCaret(selection.extent);
-    return Tuple2(
+    return _GlyphHeights(
       startCharacterRect.height,
       endCharacterRect.height,
     );
@@ -2428,3 +2428,13 @@ typedef QuillEditorContextMenuBuilder = Widget Function(
   BuildContext context,
   RawEditorState rawEditorState,
 );
+
+class _GlyphHeights {
+  _GlyphHeights(
+    this.startGlyphHeight,
+    this.endGlyphHeight,
+  );
+
+  final double startGlyphHeight;
+  final double endGlyphHeight;
+}
