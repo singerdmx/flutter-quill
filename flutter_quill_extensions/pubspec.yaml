@@ -19,8 +19,8 @@ dependencies:
   video_player: ^2.4.2
   youtube_player_flutter: ^8.1.1
   gallery_saver: ^2.3.2
-  math_keyboard: ^0.1.6
-  string_validator: ^0.3.0
+  math_keyboard: ^0.1.8
+  string_validator: ^1.0.0
 
 #dependency_overrides:
 #  flutter_quill:
