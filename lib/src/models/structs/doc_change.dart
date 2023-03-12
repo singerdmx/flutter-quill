@@ -1,4 +1,5 @@
-import '../../../flutter_quill.dart';
+import '../documents/document.dart';
+import '../quill_delta.dart';
 
 class DocChange {
   DocChange(

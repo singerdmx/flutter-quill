@@ -13,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pasteboard/pasteboard.dart';
 
-import '../../flutter_quill.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
 import '../models/documents/nodes/block.dart';
@@ -22,6 +21,7 @@ import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/documents/nodes/line.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
+import '../models/structs/offset_value.dart';
 import '../models/structs/vertical_spacing.dart';
 import '../utils/cast.dart';
 import '../utils/delta.dart';

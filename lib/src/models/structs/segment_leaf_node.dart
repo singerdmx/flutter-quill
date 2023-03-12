@@ -1,4 +1,5 @@
-import '../../../flutter_quill.dart';
+import '../documents/nodes/leaf.dart';
+import '../documents/nodes/line.dart';
 
 class SegmentLeafNode {
   const SegmentLeafNode(this.line, this.leaf);

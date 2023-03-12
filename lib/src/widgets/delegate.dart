@@ -3,8 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../../flutter_quill.dart';
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/leaf.dart';
 import '../utils/platform.dart';
+import 'controller.dart';
+import 'editor.dart';
 import 'text_selection.dart';
 
 typedef EmbedsBuilder = Widget Function(
