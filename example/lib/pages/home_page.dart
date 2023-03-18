@@ -198,33 +198,35 @@ class _HomePageState extends State<HomePage> {
       quillEditor = MouseRegion(
         cursor: SystemMouseCursors.text,
         child: QuillEditor(
-          controller: _controller!,
-          scrollController: ScrollController(),
-          scrollable: true,
-          focusNode: _focusNode,
-          autoFocus: false,
-          readOnly: false,
-          placeholder: 'Add content',
-          expands: false,
-          padding: EdgeInsets.zero,
-          onTapUp: (details, p1) {
-            return _onTripleClickSelection();
-          },
-          customStyles: DefaultStyles(
-            h1: DefaultTextBlockStyle(
-                const TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  height: 1.15,
-                  fontWeight: FontWeight.w300,
-                ),
-                const VerticalSpacing(16, 0),
-                const VerticalSpacing(0, 0),
-                null),
-            sizeSmall: const TextStyle(fontSize: 9),
-          ),
-          embedBuilders: defaultEmbedBuildersWeb,
-        ),
+            controller: _controller!,
+            scrollController: ScrollController(),
+            scrollable: true,
+            focusNode: _focusNode,
+            autoFocus: false,
+            readOnly: false,
+            placeholder: 'Add content',
+            expands: false,
+            padding: EdgeInsets.zero,
+            onTapUp: (details, p1) {
+              return _onTripleClickSelection();
+            },
+            customStyles: DefaultStyles(
+              h1: DefaultTextBlockStyle(
+                  const TextStyle(
+                    fontSize: 32,
+                    color: Colors.black,
+                    height: 1.15,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  const VerticalSpacing(16, 0),
+                  const VerticalSpacing(0, 0),
+                  null),
+              sizeSmall: const TextStyle(fontSize: 9),
+            ),
+            embedBuilders: [
+              ...defaultEmbedBuildersWeb,
+              NotesEmbedBuilder(addEditNote: _addEditNote),
+            ]),
       );
     }
     var toolbar = QuillToolbar.basic(
