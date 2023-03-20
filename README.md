@@ -346,7 +346,7 @@ QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-Currently, translations are available for these 26 locales:
+Currently, translations are available for these 27 locales:
 
 * `Locale('en')`
 * `Locale('ar')`
@@ -367,6 +367,7 @@ Currently, translations are available for these 26 locales:
 * `Locale('pl')`
 * `Locale('vi')`
 * `Locale('id')`
+* `Locale('it')`
 * `Locale('ms')`
 * `Locale('nl')`
 * `Locale('no')`
