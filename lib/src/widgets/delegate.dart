@@ -6,7 +6,6 @@ import 'package:flutter/scheduler.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/nodes/leaf.dart';
 import '../utils/platform.dart';
-import 'controller.dart';
 import 'editor.dart';
 import 'embeds.dart';
 import 'text_selection.dart';

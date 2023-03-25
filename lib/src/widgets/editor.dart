@@ -12,7 +12,6 @@ import 'package:i18n_extension/i18n_widget.dart';
 
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
-import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/structs/offset_value.dart';
