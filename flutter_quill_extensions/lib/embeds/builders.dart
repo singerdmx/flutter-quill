@@ -14,7 +14,7 @@ import 'widgets/image_resizer.dart';
 import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
 
-class ImageEmbedBuilder implements EmbedBuilder {
+class ImageEmbedBuilder extends EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
@@ -24,6 +24,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
+    bool inline,
   ) {
     assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
@@ -144,7 +145,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
   }
 }
 
-class VideoEmbedBuilder implements EmbedBuilder {
+class VideoEmbedBuilder extends EmbedBuilder {
   VideoEmbedBuilder({this.onVideoInit});
 
   final void Function(GlobalKey videoContainerKey)? onVideoInit;
@@ -158,6 +159,7 @@ class VideoEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
+    bool inline,
   ) {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
@@ -175,7 +177,7 @@ class VideoEmbedBuilder implements EmbedBuilder {
   }
 }
 
-class FormulaEmbedBuilder implements EmbedBuilder {
+class FormulaEmbedBuilder extends EmbedBuilder {
   @override
   String get key => BlockEmbed.formulaType;
 
@@ -185,6 +187,7 @@ class FormulaEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
+    bool inline,
   ) {
     assert(!kIsWeb, 'Please provide formula EmbedBuilder for Web');
 

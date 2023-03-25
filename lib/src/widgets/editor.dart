@@ -363,7 +363,7 @@ class QuillEditor extends StatefulWidget {
       onSingleLongTapEnd;
 
   final Iterable<EmbedBuilder>? embedBuilders;
-  final EmbedsBuilder? unknownEmbedBuilder;
+  final EmbedBuilder? unknownEmbedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
@@ -492,19 +492,7 @@ class QuillEditorState extends State<QuillEditor>
       keyboardAppearance: widget.keyboardAppearance,
       enableInteractiveSelection: widget.enableInteractiveSelection,
       scrollPhysics: widget.scrollPhysics,
-      embedBuilder: (
-        context,
-        controller,
-        node,
-        readOnly,
-      ) =>
-          _buildCustomBlockEmbed(
-        node,
-        context,
-        controller,
-        readOnly,
-        widget.unknownEmbedBuilder,
-      ),
+      embedBuilder: _getEmbedBuilder,
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
@@ -541,31 +529,19 @@ class QuillEditorState extends State<QuillEditor>
     return editor;
   }
 
-  Widget _buildCustomBlockEmbed(
-    Embed node,
-    BuildContext context,
-    QuillController controller,
-    bool readOnly,
-    EmbedsBuilder? unknownEmbedBuilder,
-  ) {
+  EmbedBuilder _getEmbedBuilder(Embed node) {
     final builders = widget.embedBuilders;
-
-    var _node = node;
-    // Creates correct node for custom embed
-    if (node.value.type == BlockEmbed.customType) {
-      _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
-    }
 
     if (builders != null) {
       for (final builder in builders) {
-        if (builder.key == _node.value.type) {
-          return builder.build(context, controller, _node, readOnly);
+        if (builder.key == node.value.type) {
+          return builder;
         }
       }
     }
 
-    if (unknownEmbedBuilder != null) {
-      return unknownEmbedBuilder(context, controller, _node, readOnly);
+    if (widget.unknownEmbedBuilder != null) {
+      return widget.unknownEmbedBuilder!;
     }
 
     throw UnimplementedError(
