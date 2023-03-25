@@ -949,7 +949,7 @@ extension Localization on String {
           'Zoom': 'Ingrandisci',
           'Saved': 'Salvato',
           'Text': 'Testo',
-          'What is entered is not a link': 
+          'What is entered is not a link':
               'Ciò che viene inserito non è un collegamento',
           'Resize': 'Ridimensiona',
           'Width': 'Larghezza',
