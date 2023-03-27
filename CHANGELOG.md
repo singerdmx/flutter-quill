@@ -1,3 +1,6 @@
+# [7.0.3]
+* Fix ordered list numeration for lists with more than one level of list.
+
 # [7.0.2]
 * Allow widgets to override widget span properties.
 
