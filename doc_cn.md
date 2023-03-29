@@ -356,7 +356,7 @@ QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-目前，可提供以下 26 种语言环境的翻译：
+目前，可提供以下 27 种语言环境的翻译：
 
 * `Locale('en')`
 * `Locale('ar')`
@@ -377,6 +377,7 @@ QuillEditor(locale: Locale('fr'), ...)
 * `Locale('pl')`
 * `Locale('vi')`
 * `Locale('id')`
+* `Locale('it')`
 * `Locale('ms')`
 * `Locale('nl')`
 * `Locale('no')`
