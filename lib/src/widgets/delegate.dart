@@ -3,16 +3,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../../flutter_quill.dart';
+import '../models/documents/attribute.dart';
+import '../models/documents/nodes/leaf.dart';
 import '../utils/platform.dart';
+import 'editor.dart';
+import 'embeds.dart';
 import 'text_selection.dart';
 
-typedef EmbedsBuilder = Widget Function(
-  BuildContext context,
-  QuillController controller,
-  Embed node,
-  bool readOnly,
-);
+typedef EmbedsBuilder = EmbedBuilder Function(Embed node);
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 

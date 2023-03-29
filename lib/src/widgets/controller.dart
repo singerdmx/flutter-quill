@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:tuple/tuple.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
@@ -10,6 +9,9 @@ import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/quill_delta.dart';
+import '../models/structs/doc_change.dart';
+import '../models/structs/image_url.dart';
+import '../models/structs/offset_value.dart';
 import '../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
@@ -82,12 +84,7 @@ class QuillController extends ChangeNotifier {
   /// removing or listeners to this instance.
   bool _isDisposed = false;
 
-  // item1: Document state before [change].
-  //
-  // item2: Change delta applied to the document.
-  //
-  // item3: The source of this change.
-  Stream<Tuple3<Delta, Delta, ChangeSource>> get changes => document.changes;
+  Stream<DocChange> get changes => document.changes;
 
   TextEditingValue get plainTextEditingValue => TextEditingValue(
         text: document.toPlainText(),
@@ -123,7 +120,7 @@ class QuillController extends ChangeNotifier {
   }
 
   /// Returns all styles for each node within selection
-  List<Tuple2<int, Style>> getAllIndividualSelectionStyles() {
+  List<OffsetValue<Style>> getAllIndividualSelectionStyles() {
     final styles = document.collectAllIndividualStyles(
         selection.start, selection.end - selection.start);
     return styles;
@@ -145,9 +142,9 @@ class QuillController extends ChangeNotifier {
   }
 
   void undo() {
-    final tup = document.undo();
-    if (tup.item1) {
-      _handleHistoryChange(tup.item2);
+    final result = document.undo();
+    if (result.changed) {
+      _handleHistoryChange(result.len);
     }
   }
 
@@ -167,9 +164,9 @@ class QuillController extends ChangeNotifier {
   }
 
   void redo() {
-    final tup = document.redo();
-    if (tup.item1) {
-      _handleHistoryChange(tup.item2);
+    final result = document.redo();
+    if (result.changed) {
+      _handleHistoryChange(result.len);
     }
   }
 
@@ -369,16 +366,15 @@ class QuillController extends ChangeNotifier {
 
   /// Given offset, find its leaf node in document
   Leaf? queryNode(int offset) {
-    return document.querySegmentLeafNode(offset).item2;
+    return document.querySegmentLeafNode(offset).leaf;
   }
 
   /// Clipboard for image url and its corresponding style
-  /// item1 is url and item2 is style string
-  Tuple2<String, String>? _copiedImageUrl;
+  ImageUrl? _copiedImageUrl;
 
-  Tuple2<String, String>? get copiedImageUrl => _copiedImageUrl;
+  ImageUrl? get copiedImageUrl => _copiedImageUrl;
 
-  set copiedImageUrl(Tuple2<String, String>? value) {
+  set copiedImageUrl(ImageUrl? value) {
     _copiedImageUrl = value;
     Clipboard.setData(const ClipboardData(text: ''));
   }

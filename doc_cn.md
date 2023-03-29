@@ -246,7 +246,7 @@ class NotesBlockEmbed extends CustomBlockEmbed {
 在这里我们使用 `ListTile` 来渲染它，并使用 `onTap` 方法来编辑内容，最后不要忘记将此方法添加到 `QuillEditor` 中
 
 ```dart
-class NotesEmbedBuilder implements EmbedBuilder {
+class NotesEmbedBuilder extends EmbedBuilder {
   NotesEmbedBuilder({required this.addEditNote});
 
   Future<void> Function(BuildContext context, {Document? document}) addEditNote;
@@ -260,6 +260,7 @@ class NotesEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     Embed node,
     bool readOnly,
+    bool inline,
   ) {
     final notes = NotesBlockEmbed(node.value.data).document;
 
@@ -328,7 +329,7 @@ Future<void> _addEditNote(BuildContext context, {Document? document}) async {
   final length = controller.selection.extentOffset - index;
 
   if (isEditing) {
-    final offset = getEmbedNode(controller, controller.selection.start).item1;
+    final offset = getEmbedNode(controller, controller.selection.start).offset;
     controller.replaceText(
         offset, 1, block, TextSelection.collapsed(offset: offset));
   } else {

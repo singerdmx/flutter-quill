@@ -27,7 +27,7 @@ class UniversalUI {
 
 var ui = UniversalUI();
 
-class ImageEmbedBuilderWeb implements EmbedBuilder {
+class ImageEmbedBuilderWeb extends EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
@@ -37,6 +37,7 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
     QuillController controller,
     Embed node,
     bool readOnly,
+    bool inline,
   ) {
     final imageUrl = node.value.data;
     if (isImageBase64(imageUrl)) {
@@ -44,8 +45,12 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
       return const SizedBox();
     }
     final size = MediaQuery.of(context).size;
-    UniversalUI().platformViewRegistry.registerViewFactory(
-        imageUrl, (viewId) => html.ImageElement()..src = imageUrl);
+    UniversalUI().platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
+      return html.ImageElement()
+        ..src = imageUrl
+        ..style.height = 'auto'
+        ..style.width = 'auto';
+    });
     return Padding(
       padding: EdgeInsets.only(
         right: ResponsiveWidget.isMediumScreen(context)
@@ -64,13 +69,18 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
   }
 }
 
-class VideoEmbedBuilderWeb implements EmbedBuilder {
+class VideoEmbedBuilderWeb extends EmbedBuilder {
   @override
   String get key => BlockEmbed.videoType;
 
   @override
-  Widget build(BuildContext context, QuillController controller, Embed node,
-      bool readOnly) {
+  Widget build(
+    BuildContext context,
+    QuillController controller,
+    Embed node,
+    bool readOnly,
+    bool inline,
+  ) {
     var videoUrl = node.value.data;
     if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
       final youtubeID = YoutubePlayer.convertUrlToId(videoUrl);

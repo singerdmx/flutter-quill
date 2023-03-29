@@ -9,13 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:tuple/tuple.dart';
 
 import '../models/documents/document.dart';
 import '../models/documents/nodes/container.dart' as container_node;
-import '../models/documents/nodes/embeddable.dart';
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
+import '../models/structs/offset_value.dart';
 import '../utils/platform.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -38,7 +37,7 @@ abstract class EditorState extends State<RawEditor>
 
   EditorTextSelectionOverlay? get selectionOverlay;
 
-  List<Tuple2<int, Style>> get pasteStyle;
+  List<OffsetValue<Style>> get pasteStyle;
 
   String get pastePlainText;
 
@@ -363,7 +362,7 @@ class QuillEditor extends StatefulWidget {
       onSingleLongTapEnd;
 
   final Iterable<EmbedBuilder>? embedBuilders;
-  final EmbedsBuilder? unknownEmbedBuilder;
+  final EmbedBuilder? unknownEmbedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
@@ -492,19 +491,7 @@ class QuillEditorState extends State<QuillEditor>
       keyboardAppearance: widget.keyboardAppearance,
       enableInteractiveSelection: widget.enableInteractiveSelection,
       scrollPhysics: widget.scrollPhysics,
-      embedBuilder: (
-        context,
-        controller,
-        node,
-        readOnly,
-      ) =>
-          _buildCustomBlockEmbed(
-        node,
-        context,
-        controller,
-        readOnly,
-        widget.unknownEmbedBuilder,
-      ),
+      embedBuilder: _getEmbedBuilder,
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
@@ -541,31 +528,19 @@ class QuillEditorState extends State<QuillEditor>
     return editor;
   }
 
-  Widget _buildCustomBlockEmbed(
-    Embed node,
-    BuildContext context,
-    QuillController controller,
-    bool readOnly,
-    EmbedsBuilder? unknownEmbedBuilder,
-  ) {
+  EmbedBuilder _getEmbedBuilder(Embed node) {
     final builders = widget.embedBuilders;
-
-    var _node = node;
-    // Creates correct node for custom embed
-    if (node.value.type == BlockEmbed.customType) {
-      _node = Embed(CustomBlockEmbed.fromJsonString(node.value.data));
-    }
 
     if (builders != null) {
       for (final builder in builders) {
-        if (builder.key == _node.value.type) {
-          return builder.build(context, controller, _node, readOnly);
+        if (builder.key == node.value.type) {
+          return builder;
         }
       }
     }
 
-    if (unknownEmbedBuilder != null) {
-      return unknownEmbedBuilder(context, controller, _node, readOnly);
+    if (widget.unknownEmbedBuilder != null) {
+      return widget.unknownEmbedBuilder!;
     }
 
     throw UnimplementedError(
@@ -645,11 +620,11 @@ class _QuillEditorSelectionGestureDetectorBuilder
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);
     final result =
         editor!.widget.controller.document.querySegmentLeafNode(pos.offset);
-    final line = result.item1;
+    final line = result.line;
     if (line == null) {
       return false;
     }
-    final segmentLeaf = result.item2;
+    final segmentLeaf = result.leaf;
     if (segmentLeaf == null && line.length == 1) {
       editor!.widget.controller.updateSelection(
           TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);

@@ -1,3 +1,15 @@
+# [7.0.3]
+* Fix ordered list numeration for lists with more than one level of list.
+
+# [7.0.2]
+* Allow widgets to override widget span properties.
+
+# [7.0.1]
+* Update i18n_extension dependency to version 8.0.0.
+
+# [7.0.0]
+* Breaking change: Tuples are no longer used. They have been replaced with a number of data classes.
+
 # [6.4.4]
 * Increased compatibility with Flutter widget tests.
 
