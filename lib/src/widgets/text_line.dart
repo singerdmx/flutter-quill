@@ -1107,6 +1107,19 @@ class RenderEditableTextLine extends RenderEditableBox {
         _selectedRects ??= _body!.getBoxesForSelection(
           local,
         );
+
+        // Paint a small rect at the start of empty lines that
+        // are contained by the selection.
+        if (line.isEmpty &&
+          textSelection.baseOffset <= line.offset &&
+          textSelection.extentOffset > line.offset
+        ) {
+          final lineHeight =
+            preferredLineHeight(TextPosition(offset: line.offset));
+          _selectedRects?.add(
+            TextBox.fromLTRBD(0, 0, 3, lineHeight, textDirection));
+        }
+
         _paintSelection(context, effectiveOffset);
       }
     }
