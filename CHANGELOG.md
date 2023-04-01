@@ -1,3 +1,6 @@
+# [7.0.4]
+* Have text selection span full line height for uneven sized text.
+
 # [7.0.3]
 * Fix ordered list numeration for lists with more than one level of list.
 
