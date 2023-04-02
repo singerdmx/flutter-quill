@@ -63,10 +63,26 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       );
 
       _updateSizeAndTransform();
+      //update IME position for Macos
+      _updateCaretRectIfNeeded();
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
     }
-
     _textInputConnection!.show();
+  }
+
+  void _updateCaretRectIfNeeded() {
+    if (hasConnection) {
+      if (renderEditor.selection.isValid &&
+          renderEditor.selection.isCollapsed) {
+        final TextPosition currentTextPosition =
+            TextPosition(offset: renderEditor.selection.baseOffset);
+        final Rect caretRect =
+            renderEditor.getLocalRectForCaret(currentTextPosition);
+        _textInputConnection!.setCaretRect(caretRect);
+      }
+      SchedulerBinding.instance
+          .addPostFrameCallback((Duration _) => _updateCaretRectIfNeeded());
+    }
   }
 
   /// Closes input connection if it's currently open. Otherwise does nothing.
