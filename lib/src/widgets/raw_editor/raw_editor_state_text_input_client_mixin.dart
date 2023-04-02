@@ -63,6 +63,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       );
 
       _updateSizeAndTransform();
+      //update IME position for Windows
+      _updateComposingRectIfNeeded();
       //update IME position for Macos
       _updateCaretRectIfNeeded();
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
@@ -70,18 +72,32 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.show();
   }
 
+  void _updateComposingRectIfNeeded() {
+    final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
+        textEditingValue.composing;
+    if (hasConnection) {
+      assert(mounted);
+      final offset = composingRange.isValid ? composingRange.start : 0;
+      final composingRect =
+          renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
+      _textInputConnection!.setComposingRect(composingRect);
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => _updateComposingRectIfNeeded());
+    }
+  }
+
   void _updateCaretRectIfNeeded() {
     if (hasConnection) {
       if (renderEditor.selection.isValid &&
           renderEditor.selection.isCollapsed) {
-        final TextPosition currentTextPosition =
+        final currentTextPosition =
             TextPosition(offset: renderEditor.selection.baseOffset);
-        final Rect caretRect =
+        final caretRect =
             renderEditor.getLocalRectForCaret(currentTextPosition);
         _textInputConnection!.setCaretRect(caretRect);
       }
       SchedulerBinding.instance
-          .addPostFrameCallback((Duration _) => _updateCaretRectIfNeeded());
+          .addPostFrameCallback((_) => _updateCaretRectIfNeeded());
     }
   }
 
