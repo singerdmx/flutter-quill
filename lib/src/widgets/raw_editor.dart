@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui hide TextStyle;
 import 'dart:math' as math;
 // ignore: unnecessary_import
 import 'dart:typed_data';
@@ -371,6 +372,40 @@ class RawEditorState extends EditorState
     );
   }
 
+  void _defaultOnTapOutside(PointerDownEvent event) {
+    /// The focus dropping behavior is only present on desktop platforms
+    /// and mobile browsers.
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.iOS:
+      case TargetPlatform.fuchsia:
+        // On mobile platforms, we don't unfocus on touch events unless they're
+        // in the web browser, but we do unfocus for all other kinds of events.
+        switch (event.kind) {
+          case ui.PointerDeviceKind.touch:
+            if (kIsWeb) {
+              widget.focusNode.unfocus();
+            }
+            break;
+          case ui.PointerDeviceKind.mouse:
+          case ui.PointerDeviceKind.stylus:
+          case ui.PointerDeviceKind.invertedStylus:
+          case ui.PointerDeviceKind.unknown:
+            widget.focusNode.unfocus();
+            break;
+          case ui.PointerDeviceKind.trackpad:
+            throw UnimplementedError(
+                'Unexpected pointer down event for trackpad');
+        }
+        break;
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+        widget.focusNode.unfocus();
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -454,78 +489,85 @@ class RawEditorState extends EditorState
             minHeight: widget.minHeight ?? 0.0,
             maxHeight: widget.maxHeight ?? double.infinity);
 
-    return QuillStyles(
-      data: _styles!,
-      child: Shortcuts(
-        shortcuts: <LogicalKeySet, Intent>{
-          // shortcuts added for Desktop platforms.
-          LogicalKeySet(LogicalKeyboardKey.escape):
-              const HideSelectionToolbarIntent(),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
-              const UndoTextIntent(SelectionChangedCause.keyboard),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY):
-              const RedoTextIntent(SelectionChangedCause.keyboard),
+    return TextFieldTapRegion(
+      onTapOutside: _defaultOnTapOutside,
+      child: QuillStyles(
+        data: _styles!,
+        child: Shortcuts(
+          shortcuts: <LogicalKeySet, Intent>{
+            // shortcuts added for Desktop platforms.
+            LogicalKeySet(LogicalKeyboardKey.escape):
+                const HideSelectionToolbarIntent(),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyZ):
+                const UndoTextIntent(SelectionChangedCause.keyboard),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyY):
+                const RedoTextIntent(SelectionChangedCause.keyboard),
 
-          // Selection formatting.
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyB):
-              const ToggleTextStyleIntent(Attribute.bold),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyU):
-              const ToggleTextStyleIntent(Attribute.underline),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyI):
-              const ToggleTextStyleIntent(Attribute.italic),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
-                  LogicalKeyboardKey.keyS):
-              const ToggleTextStyleIntent(Attribute.strikeThrough),
-          LogicalKeySet(
-                  LogicalKeyboardKey.control, LogicalKeyboardKey.backquote):
-              const ToggleTextStyleIntent(Attribute.inlineCode),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyL):
-              const ToggleTextStyleIntent(Attribute.ul),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyO):
-              const ToggleTextStyleIntent(Attribute.ol),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
-                  LogicalKeyboardKey.keyB):
-              const ToggleTextStyleIntent(Attribute.blockQuote),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
-                  LogicalKeyboardKey.tilde):
-              const ToggleTextStyleIntent(Attribute.codeBlock),
-          // Indent
-          LogicalKeySet(
-                  LogicalKeyboardKey.control, LogicalKeyboardKey.bracketRight):
-              const IndentSelectionIntent(true),
-          LogicalKeySet(
-                  LogicalKeyboardKey.control, LogicalKeyboardKey.bracketLeft):
-              const IndentSelectionIntent(false),
+            // Selection formatting.
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyB):
+                const ToggleTextStyleIntent(Attribute.bold),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyU):
+                const ToggleTextStyleIntent(Attribute.underline),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyI):
+                const ToggleTextStyleIntent(Attribute.italic),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                    LogicalKeyboardKey.keyS):
+                const ToggleTextStyleIntent(Attribute.strikeThrough),
+            LogicalKeySet(
+                    LogicalKeyboardKey.control, LogicalKeyboardKey.backquote):
+                const ToggleTextStyleIntent(Attribute.inlineCode),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyL):
+                const ToggleTextStyleIntent(Attribute.ul),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyO):
+                const ToggleTextStyleIntent(Attribute.ol),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                    LogicalKeyboardKey.keyB):
+                const ToggleTextStyleIntent(Attribute.blockQuote),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                    LogicalKeyboardKey.tilde):
+                const ToggleTextStyleIntent(Attribute.codeBlock),
+            // Indent
+            LogicalKeySet(LogicalKeyboardKey.control,
+                    LogicalKeyboardKey.bracketRight):
+                const IndentSelectionIntent(true),
+            LogicalKeySet(
+                    LogicalKeyboardKey.control, LogicalKeyboardKey.bracketLeft):
+                const IndentSelectionIntent(false),
 
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF):
-              const OpenSearchIntent(),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.keyF):
+                const OpenSearchIntent(),
 
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit1):
-              const ApplyHeaderIntent(Attribute.h1),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit2):
-              const ApplyHeaderIntent(Attribute.h2),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit3):
-              const ApplyHeaderIntent(Attribute.h3),
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit0):
-              const ApplyHeaderIntent(Attribute.header),
+            LogicalKeySet(
+                    LogicalKeyboardKey.control, LogicalKeyboardKey.digit1):
+                const ApplyHeaderIntent(Attribute.h1),
+            LogicalKeySet(
+                    LogicalKeyboardKey.control, LogicalKeyboardKey.digit2):
+                const ApplyHeaderIntent(Attribute.h2),
+            LogicalKeySet(
+                    LogicalKeyboardKey.control, LogicalKeyboardKey.digit3):
+                const ApplyHeaderIntent(Attribute.h3),
+            LogicalKeySet(
+                    LogicalKeyboardKey.control, LogicalKeyboardKey.digit0):
+                const ApplyHeaderIntent(Attribute.header),
 
-          LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
-              LogicalKeyboardKey.keyL): const ApplyCheckListIntent(),
+            LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.shift,
+                LogicalKeyboardKey.keyL): const ApplyCheckListIntent(),
 
-          if (widget.customShortcuts != null) ...widget.customShortcuts!,
-        },
-        child: Actions(
-          actions: {
-            ..._actions,
-            if (widget.customActions != null) ...widget.customActions!,
+            if (widget.customShortcuts != null) ...widget.customShortcuts!,
           },
-          child: Focus(
-            focusNode: widget.focusNode,
-            onKey: _onKey,
-            child: QuillKeyboardListener(
-              child: Container(
-                constraints: constraints,
-                child: child,
+          child: Actions(
+            actions: {
+              ..._actions,
+              if (widget.customActions != null) ...widget.customActions!,
+            },
+            child: Focus(
+              focusNode: widget.focusNode,
+              onKey: _onKey,
+              child: QuillKeyboardListener(
+                child: Container(
+                  constraints: constraints,
+                  child: child,
+                ),
               ),
             ),
           ),
