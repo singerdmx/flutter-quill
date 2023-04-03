@@ -1,3 +1,6 @@
+# [7.0.6]
+* Fix line style loss on new line from non string.
+
 # [7.0.5]
 * Fix IME position bug for Mac and Windows.
 * Unfocus when tap outside editor. fix the bug that cant refocus in afterButtonPressed after click ToggleStyleButton on Mac.
