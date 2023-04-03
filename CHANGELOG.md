@@ -1,3 +1,10 @@
+# [7.0.5]
+* Fix IME position bug for Mac and Windows.
+* Unfocus when tap outside editor. fix the bug that cant refocus in afterButtonPressed after click ToggleStyleButton on Mac.
+
+# [7.0.4]
+* Have text selection span full line height for uneven sized text.
+
 # [7.0.3]
 * Fix ordered list numeration for lists with more than one level of list.
 
