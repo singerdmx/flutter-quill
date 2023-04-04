@@ -1,3 +1,6 @@
+# [7.0.7]
+* Add TextFieldTapRegion for contextMenu.
+
 # [7.0.6]
 * Fix line style loss on new line from non string.
 
