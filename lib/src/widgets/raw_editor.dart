@@ -125,9 +125,11 @@ class RawEditor extends StatefulWidget {
     BuildContext context,
     RawEditorState state,
   ) {
-    return AdaptiveTextSelectionToolbar.buttonItems(
-      buttonItems: state.contextMenuButtonItems,
-      anchors: state.contextMenuAnchors,
+    return TextFieldTapRegion(
+      child: AdaptiveTextSelectionToolbar.buttonItems(
+        buttonItems: state.contextMenuButtonItems,
+        anchors: state.contextMenuAnchors,
+      ),
     );
   }
 
