@@ -6,6 +6,8 @@ import '../models/themes/quill_icon_theme.dart';
 import 'controller.dart';
 
 abstract class EmbedBuilder {
+  const EmbedBuilder();
+
   String get key;
   bool get expanded => true;
 
