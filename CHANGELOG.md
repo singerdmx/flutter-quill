@@ -1,3 +1,6 @@
+# [7.0.9]
+* Use const constructor for EmbedBuilder.
+
 # [7.0.8]
 * Fix IME position bug with scroller.
 
