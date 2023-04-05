@@ -1,3 +1,6 @@
+# [7.0.8]
+* Fix IME position bug with scroller.
+
 # [7.0.7]
 * Add TextFieldTapRegion for contextMenu.
 
