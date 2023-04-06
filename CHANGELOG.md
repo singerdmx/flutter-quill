@@ -1,3 +1,6 @@
+# [7.1.0]
+* Fix ordered list numeration with several lists in document.
+
 # [7.0.9]
 * Use const constructor for EmbedBuilder.
 
