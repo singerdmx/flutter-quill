@@ -73,6 +73,7 @@ class EditableTextBlock extends StatelessWidget {
       required this.readOnly,
       this.onLaunchUrl,
       this.customStyleBuilder,
+      this.customLinkPrefixes = const <String>[],
       Key? key});
 
   final Block block;
@@ -95,6 +96,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool clearIndents;
   final Function(int, bool) onCheckboxTap;
   final bool readOnly;
+  final List<String> customLinkPrefixes;
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +150,7 @@ class EditableTextBlock extends StatelessWidget {
             controller: controller,
             linkActionPicker: linkActionPicker,
             onLaunchUrl: onLaunchUrl,
+            customLinkPrefixes: customLinkPrefixes,
           ),
           _getIndentWidth(),
           _getSpacingForLine(line, index, count, defaultStyles),

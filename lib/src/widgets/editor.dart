@@ -182,6 +182,7 @@ class QuillEditor extends StatefulWidget {
       this.customShortcuts,
       this.customActions,
       this.detectWordBoundary = true,
+      this.customLinkPrefixes = const <String>[],
       Key? key})
       : super(key: key);
 
@@ -401,6 +402,12 @@ class QuillEditor extends StatefulWidget {
 
   final bool detectWordBoundary;
 
+  /// Additional list if links prefixes, which must not be prepended
+  /// with "https://" when [LinkMenuAction.launch] happened
+  ///
+  /// Useful for deeplinks
+  final List<String> customLinkPrefixes;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -498,6 +505,7 @@ class QuillEditorState extends State<QuillEditor>
       onImagePaste: widget.onImagePaste,
       customShortcuts: widget.customShortcuts,
       customActions: widget.customActions,
+      customLinkPrefixes: widget.customLinkPrefixes,
     );
 
     final editor = I18n(

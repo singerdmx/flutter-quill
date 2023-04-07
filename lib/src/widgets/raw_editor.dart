@@ -78,7 +78,8 @@ class RawEditor extends StatefulWidget {
       this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
       this.customStyleBuilder,
       this.floatingCursorDisabled = false,
-      this.onImagePaste})
+      this.onImagePaste,
+      this.customLinkPrefixes = const <String>[]})
       : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -250,6 +251,7 @@ class RawEditor extends StatefulWidget {
   final LinkActionPickerDelegate linkActionPickerDelegate;
   final CustomStyleBuilder? customStyleBuilder;
   final bool floatingCursorDisabled;
+  final List<String> customLinkPrefixes;
 
   @override
   State<StatefulWidget> createState() => RawEditorState();
@@ -800,7 +802,8 @@ class RawEditorState extends EditorState
             clearIndents: clearIndents,
             onCheckboxTap: _handleCheckboxTap,
             readOnly: widget.readOnly,
-            customStyleBuilder: widget.customStyleBuilder);
+            customStyleBuilder: widget.customStyleBuilder,
+            customLinkPrefixes: widget.customLinkPrefixes);
         result.add(Directionality(
             textDirection: getDirectionOfNode(node), child: editableTextBlock));
 
@@ -824,6 +827,7 @@ class RawEditorState extends EditorState
       controller: controller,
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.onLaunchUrl,
+      customLinkPrefixes: widget.customLinkPrefixes,
     );
     final editableTextLine = EditableTextLine(
         node,
