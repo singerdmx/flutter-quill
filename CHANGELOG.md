@@ -1,3 +1,6 @@
+# [7.1.1]
+* customLinkPrefixes parameter - makes possible to open links with custom protoco.
+
 # [7.1.0]
 * Fix ordered list numeration with several lists in document.
 
