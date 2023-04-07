@@ -1,3 +1,6 @@
+# [7.1.2]
+* Fix non scrollable editor exception, when tapped under content.
+
 # [7.1.1]
 * customLinkPrefixes parameter - makes possible to open links with custom protoco.
 
