@@ -1794,7 +1794,10 @@ class RenderEditableContainerBox extends RenderBox
       dy += child.size.height;
       child = childAfter(child);
     }
-    throw StateError('No child at offset $offset.');
+
+    // this case possible, when editor not scrollable,
+    // but minHeight > content height and tap was under content
+    return lastChild!;
   }
 
   @override
