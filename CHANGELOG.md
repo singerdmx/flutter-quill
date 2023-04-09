@@ -1,3 +1,6 @@
+# [7.1.3]
+* Fix ios cursor bug when word.length==1.
+
 # [7.1.2]
 * Fix non scrollable editor exception, when tapped under content.
 
