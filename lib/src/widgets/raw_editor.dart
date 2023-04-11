@@ -665,16 +665,20 @@ class RawEditorState extends EditorState
       return insertTabCharacter();
     }
 
-    if (node.isNotEmpty && (node.first as leaf.Text).value.isNotEmpty) {
-      return insertTabCharacter();
-    }
-
     final parentBlock = parent;
     if (parentBlock.style.containsKey(Attribute.ol.key) ||
         parentBlock.style.containsKey(Attribute.ul.key) ||
         parentBlock.style.containsKey(Attribute.checked.key)) {
+      if (node.isNotEmpty && (node.first as leaf.Text).value.isNotEmpty
+          && controller.selection.base.offset > node.documentOffset) {
+        return insertTabCharacter();
+      }
       controller.indentSelection(!event.isShiftPressed);
       return KeyEventResult.handled;
+    }
+
+    if (node.isNotEmpty && (node.first as leaf.Text).value.isNotEmpty) {
+      return insertTabCharacter();
     }
 
     return insertTabCharacter();
