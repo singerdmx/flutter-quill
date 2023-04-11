@@ -1,3 +1,6 @@
+# [7.1.4]
+* Fix inserting tab character in lists.
+
 # [7.1.3]
 * Fix ios cursor bug when word.length==1.
 

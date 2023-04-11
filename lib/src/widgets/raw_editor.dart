@@ -669,8 +669,9 @@ class RawEditorState extends EditorState
     if (parentBlock.style.containsKey(Attribute.ol.key) ||
         parentBlock.style.containsKey(Attribute.ul.key) ||
         parentBlock.style.containsKey(Attribute.checked.key)) {
-      if (node.isNotEmpty && (node.first as leaf.Text).value.isNotEmpty
-          && controller.selection.base.offset > node.documentOffset) {
+      if (node.isNotEmpty &&
+          (node.first as leaf.Text).value.isNotEmpty &&
+          controller.selection.base.offset > node.documentOffset) {
         return insertTabCharacter();
       }
       controller.indentSelection(!event.isShiftPressed);
