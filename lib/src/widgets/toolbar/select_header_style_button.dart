@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../utils/widgets.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
@@ -20,6 +21,7 @@ class SelectHeaderStyleButton extends StatefulWidget {
       Attribute.h3,
     ],
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +31,7 @@ class SelectHeaderStyleButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
   final List<Attribute> attributes;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _SelectHeaderStyleButtonState createState() =>
@@ -79,34 +82,37 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
             width: widget.iconSize * kIconButtonFactor,
             height: widget.iconSize * kIconButtonFactor,
           ),
-          child: RawMaterialButton(
-            hoverElevation: 0,
-            highlightElevation: 0,
-            elevation: 0,
-            visualDensity: VisualDensity.compact,
-            shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
-            fillColor: isSelected
-                ? (widget.iconTheme?.iconSelectedFillColor ??
-                    Theme.of(context).primaryColor)
-                : (widget.iconTheme?.iconUnselectedFillColor ??
-                    theme.canvasColor),
-            onPressed: () {
-              final _attribute = _selectedAttribute == attribute
-                  ? Attribute.header
-                  : attribute;
-              widget.controller.formatSelection(_attribute);
-              widget.afterButtonPressed?.call();
-            },
-            child: Text(
-              _valueToText[attribute] ?? '',
-              style: style.copyWith(
-                color: isSelected
-                    ? (widget.iconTheme?.iconSelectedColor ??
-                        theme.primaryIconTheme.color)
-                    : (widget.iconTheme?.iconUnselectedColor ??
-                        theme.iconTheme.color),
+          child: UtilityWidgets.maybeTooltip(
+            message: widget.tooltip,
+            child: RawMaterialButton(
+              hoverElevation: 0,
+              highlightElevation: 0,
+              elevation: 0,
+              visualDensity: VisualDensity.compact,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      widget.iconTheme?.borderRadius ?? 2)),
+              fillColor: isSelected
+                  ? (widget.iconTheme?.iconSelectedFillColor ??
+                      Theme.of(context).primaryColor)
+                  : (widget.iconTheme?.iconUnselectedFillColor ??
+                      theme.canvasColor),
+              onPressed: () {
+                final _attribute = _selectedAttribute == attribute
+                    ? Attribute.header
+                    : attribute;
+                widget.controller.formatSelection(_attribute);
+                widget.afterButtonPressed?.call();
+              },
+              child: Text(
+                _valueToText[attribute] ?? '',
+                style: style.copyWith(
+                  color: isSelected
+                      ? (widget.iconTheme?.iconSelectedColor ??
+                          theme.primaryIconTheme.color)
+                      : (widget.iconTheme?.iconUnselectedColor ??
+                          theme.iconTheme.color),
+                ),
               ),
             ),
           ),

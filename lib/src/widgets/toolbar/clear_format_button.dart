@@ -12,6 +12,7 @@ class ClearFormatButton extends StatefulWidget {
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -22,6 +23,7 @@ class ClearFormatButton extends StatefulWidget {
 
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _ClearFormatButtonState createState() => _ClearFormatButtonState();
@@ -36,6 +38,7 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
     final fillColor =
         widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     return QuillIconButton(
+      tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
       size: widget.iconSize * kIconButtonFactor,
