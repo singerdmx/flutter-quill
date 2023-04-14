@@ -17,6 +17,7 @@ class VideoButton extends StatelessWidget {
     this.mediaPickSettingSelector,
     this.iconTheme,
     this.dialogTheme,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -38,6 +39,7 @@ class VideoButton extends StatelessWidget {
   final QuillIconTheme? iconTheme;
 
   final QuillDialogTheme? dialogTheme;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
