@@ -28,5 +28,4 @@ typedef EmbedButtonBuilder = Widget Function(
     QuillController controller,
     double toolbarIconSize,
     QuillIconTheme? iconTheme,
-    QuillDialogTheme? dialogTheme,
-    String? tooltip);
+    QuillDialogTheme? dialogTheme);

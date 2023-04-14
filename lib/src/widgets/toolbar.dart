@@ -379,7 +379,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         if (embedButtons != null)
           for (final builder in embedButtons)
-            builder(controller, toolbarIconSize, iconTheme, dialogTheme, null),
+            builder(controller, toolbarIconSize, iconTheme, dialogTheme),
         if (showDividers &&
             isButtonGroupShown[0] &&
             (isButtonGroupShown[1] ||
