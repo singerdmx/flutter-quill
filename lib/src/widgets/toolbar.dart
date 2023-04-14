@@ -56,7 +56,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.customButtons = const [],
     this.locale,
     VoidCallback? afterButtonPressed,
-    this.tooltips = const <ToolbarButtons, String>{},
+    this.tooltips,
     Key? key,
   }) : super(key: key);
 
@@ -99,9 +99,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showSearchButton = true,
     List<QuillCustomButton> customButtons = const [],
 
-    ///Map of tooltips for toolbar  buttons
-    Map<ToolbarButtons, String>? tooltips,
-
     ///Map of font sizes in string
     Map<String, String>? fontSizeValues,
 
@@ -121,6 +118,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     /// Callback to be called after any button on the toolbar is pressed.
     /// Is called after whatever logic the button performs has run.
     VoidCallback? afterButtonPressed,
+
+    ///Map of tooltips for toolbar  buttons
+    Map<ToolbarButtons, String>? tooltips,
 
     /// The locale to use for the editor toolbar, defaults to system locale
     /// More at https://github.com/singerdmx/flutter-quill#translation
@@ -177,6 +177,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           'Clear'.i18n: 'Clear'
         };
 
+    //default button tooltips
     final buttonTooltips = tooltips ??
         <ToolbarButtons, String>{
           ToolbarButtons.undo: 'Undo'.i18n,
@@ -592,7 +593,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final List<QuillCustomButton> customButtons;
 
   /// Tooltips for toolbar buttons.
-  ///Map of tooltips for toolbar  buttons
   ///
   ///The example is:
   ///```dart
@@ -602,7 +602,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// }
   ///
   ///```
-  final Map<ToolbarButtons, String> tooltips;
+  ///
+  /// To disable tooltips just pass empty map as well.
+  final Map<ToolbarButtons, String>? tooltips;
 
   @override
   Size get preferredSize => axis == Axis.horizontal
