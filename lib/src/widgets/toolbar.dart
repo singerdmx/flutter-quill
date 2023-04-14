@@ -56,7 +56,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.customButtons = const [],
     this.locale,
     VoidCallback? afterButtonPressed,
-    this.tooltips,
     Key? key,
   }) : super(key: key);
 
@@ -120,6 +119,17 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     VoidCallback? afterButtonPressed,
 
     ///Map of tooltips for toolbar  buttons
+    ///
+    ///The example is:
+    ///```dart
+    /// tooltips = <ToolbarButtons, String>{
+    ///   ToolbarButtons.undo: 'Undo',
+    ///   ToolbarButtons.redo: 'Redo',
+    /// }
+    ///
+    ///```
+    ///
+    /// To disable tooltips just pass empty map as well.
     Map<ToolbarButtons, String>? tooltips,
 
     /// The locale to use for the editor toolbar, defaults to system locale
@@ -591,20 +601,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   /// List of custom buttons
   final List<QuillCustomButton> customButtons;
-
-  /// Tooltips for toolbar buttons.
-  ///
-  ///The example is:
-  ///```dart
-  /// tooltips = <ToolbarButtons, String>{
-  ///   ToolbarButtons.undo: 'Undo',
-  ///   ToolbarButtons.redo: 'Redo',
-  /// }
-  ///
-  ///```
-  ///
-  /// To disable tooltips just pass empty map as well.
-  final Map<ToolbarButtons, String>? tooltips;
 
   @override
   Size get preferredSize => axis == Axis.horizontal
