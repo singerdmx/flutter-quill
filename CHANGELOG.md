@@ -1,3 +1,6 @@
+# [7.1.5]
+* Add tooltips for toolbar buttons.
+
 # [7.1.4]
 * Fix inserting tab character in lists.
 
