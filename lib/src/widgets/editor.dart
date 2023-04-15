@@ -182,6 +182,7 @@ class QuillEditor extends StatefulWidget {
       this.customShortcuts,
       this.customActions,
       this.detectWordBoundary = true,
+      this.enableUnfocusOnTapOutside = true,
       this.customLinkPrefixes = const <String>[],
       Key? key})
       : super(key: key);
@@ -245,6 +246,9 @@ class QuillEditor extends StatefulWidget {
   ///
   /// Defaults to `false`. Cannot be `null`.
   final bool autoFocus;
+
+  /// Whether focus should be revoked on tap outside the editor.
+  final bool enableUnfocusOnTapOutside;
 
   /// Whether to show cursor.
   ///
@@ -506,6 +510,7 @@ class QuillEditorState extends State<QuillEditor>
       customShortcuts: widget.customShortcuts,
       customActions: widget.customActions,
       customLinkPrefixes: widget.customLinkPrefixes,
+      enableUnfocusOnTapOutside: widget.enableUnfocusOnTapOutside,
     );
 
     final editor = I18n(
