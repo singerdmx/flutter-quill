@@ -72,6 +72,7 @@ class RawEditor extends StatefulWidget {
       this.customActions,
       this.expands = false,
       this.autoFocus = false,
+      this.enableUnfocusOnTapOutside = true,
       this.keyboardAppearance = Brightness.light,
       this.enableInteractiveSelection = true,
       this.scrollPhysics,
@@ -95,6 +96,7 @@ class RawEditor extends StatefulWidget {
   final ScrollController scrollController;
   final bool scrollable;
   final double scrollBottomInset;
+  final bool enableUnfocusOnTapOutside;
 
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;
@@ -494,6 +496,7 @@ class RawEditorState extends EditorState
             maxHeight: widget.maxHeight ?? double.infinity);
 
     return TextFieldTapRegion(
+      enabled: widget.enableUnfocusOnTapOutside,
       onTapOutside: _defaultOnTapOutside,
       child: QuillStyles(
         data: _styles!,
