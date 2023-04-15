@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.0.2
+  flutter_quill: ^7.1.4
 
   image_picker: ^0.8.5+3
   photo_view: ^0.14.0
@@ -22,10 +22,6 @@ dependencies:
   math_keyboard: ^0.1.8
   string_validator: ^1.0.0
   url_launcher: ^6.1.9
-
-# dependency_overrides:
-#   flutter_quill:
-#     path: ../
 
 dev_dependencies:
   flutter_test:

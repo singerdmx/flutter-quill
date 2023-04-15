@@ -15,6 +15,7 @@ class SearchButton extends StatelessWidget {
     this.iconTheme,
     this.dialogTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -27,6 +28,7 @@ class SearchButton extends StatelessWidget {
 
   final QuillDialogTheme? dialogTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class SearchButton extends StatelessWidget {
         iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
+      tooltip: tooltip,
       icon: Icon(icon, size: iconSize, color: iconColor),
       highlightElevation: 0,
       hoverElevation: 0,

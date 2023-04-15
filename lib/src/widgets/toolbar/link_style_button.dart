@@ -17,6 +17,7 @@ class LinkStyleButton extends StatefulWidget {
     this.iconTheme,
     this.dialogTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -26,6 +27,7 @@ class LinkStyleButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -63,6 +65,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     final isToggled = _getLinkAttributeValue() != null;
     final pressedHandler = () => _openLinkDialog(context);
     return QuillIconButton(
+      tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
       size: widget.iconSize * kIconButtonFactor,

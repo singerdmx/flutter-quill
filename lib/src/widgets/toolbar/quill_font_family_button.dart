@@ -4,6 +4,7 @@ import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
+import '../../utils/widgets.dart';
 import '../controller.dart';
 
 class QuillFontFamilyButton extends StatefulWidget {
@@ -19,6 +20,7 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.highlightElevation = 1,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -33,6 +35,7 @@ class QuillFontFamilyButton extends StatefulWidget {
   final Attribute attribute;
   final QuillController controller;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -88,20 +91,23 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(height: widget.iconSize * 1.81),
-      child: RawMaterialButton(
-        visualDensity: VisualDensity.compact,
-        shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
-        fillColor: widget.fillColor,
-        elevation: 0,
-        hoverElevation: widget.hoverElevation,
-        highlightElevation: widget.hoverElevation,
-        onPressed: () {
-          _showMenu();
-          widget.afterButtonPressed?.call();
-        },
-        child: _buildContent(context),
+      child: UtilityWidgets.maybeTooltip(
+        message: widget.tooltip,
+        child: RawMaterialButton(
+          visualDensity: VisualDensity.compact,
+          shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
+          fillColor: widget.fillColor,
+          elevation: 0,
+          hoverElevation: widget.hoverElevation,
+          highlightElevation: widget.hoverElevation,
+          onPressed: () {
+            _showMenu();
+            widget.afterButtonPressed?.call();
+          },
+          child: _buildContent(context),
+        ),
       ),
     );
   }
