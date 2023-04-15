@@ -1,3 +1,6 @@
+# [7.1.6]
+* Add enableUnfocusOnTapOutside field to RawEditor and Editor widgets.
+
 # [7.1.5]
 * Add tooltips for toolbar buttons.
 
