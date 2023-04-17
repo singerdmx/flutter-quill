@@ -26,6 +26,7 @@ class QuillFontSizeButton extends StatefulWidget {
     this.style,
     this.width,
     this.initialValue,
+    this.alignment,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
         super(key: key);
@@ -47,6 +48,7 @@ class QuillFontSizeButton extends StatefulWidget {
   final TextStyle? style;
   final double? width;
   final String? initialValue;
+  final AlignmentGeometry? alignment;
 
   @override
   _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
@@ -103,7 +105,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
         height: widget.iconSize * 1.81,
-        width: widget.width ?? 60,
+        width: widget.width,
       ),
       child: UtilityWidgets.maybeTooltip(
         message: widget.tooltip,
@@ -175,7 +177,8 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
+    return Container(
+      alignment: widget.alignment ?? Alignment.center,
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.min,

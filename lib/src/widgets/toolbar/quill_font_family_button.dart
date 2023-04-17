@@ -25,6 +25,7 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.style,
     this.width,
     this.renderFontFamilies = true,
+    this.alignment,
     Key? key,
   }) : super(key: key);
 
@@ -45,6 +46,7 @@ class QuillFontFamilyButton extends StatefulWidget {
   final TextStyle? style;
   final double? width;
   final bool renderFontFamilies;
+  final AlignmentGeometry? alignment;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -101,7 +103,7 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
         height: widget.iconSize * 1.81,
-        width: widget.width ?? 120,
+        width: widget.width,
       ),
       child: UtilityWidgets.maybeTooltip(
         message: widget.tooltip,
@@ -175,7 +177,8 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
+    return Container(
+      alignment: widget.alignment ?? Alignment.center,
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
