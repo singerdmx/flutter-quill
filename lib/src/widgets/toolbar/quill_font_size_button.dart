@@ -10,11 +10,11 @@ import '../controller.dart';
 
 class QuillFontSizeButton extends StatefulWidget {
   const QuillFontSizeButton({
-    required this.items,
     required this.rawItemsMap,
     required this.attribute,
     required this.controller,
-    required this.onSelected,
+    this.onSelected,
+    @Deprecated('It is not required because of `rawItemsMap`') this.items,
     this.iconSize = 40,
     this.fillColor,
     this.hoverElevation = 1,
@@ -25,15 +25,17 @@ class QuillFontSizeButton extends StatefulWidget {
     this.padding,
     this.style,
     Key? key,
-  }) : super(key: key);
+  })  : assert(rawItemsMap.length > 0),
+        super(key: key);
 
   final double iconSize;
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final List<PopupMenuEntry<String>> items;
+  @Deprecated('It is not required because of `rawItemsMap`')
+  final List<PopupMenuEntry<String>>? items;
   final Map<String, String> rawItemsMap;
-  final ValueChanged<String> onSelected;
+  final ValueChanged<String>? onSelected;
   final QuillIconTheme? iconTheme;
   final Attribute attribute;
   final QuillController controller;
@@ -132,7 +134,18 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
     showMenu<String>(
       context: context,
       elevation: 4,
-      items: widget.items,
+      items: [
+        for (MapEntry<String, String> fontSize in widget.rawItemsMap.entries)
+          PopupMenuItem<String>(
+            key: ValueKey(fontSize.key),
+            value: fontSize.value,
+            child: Text(
+              fontSize.key.toString(),
+              style:
+                  TextStyle(color: fontSize.value == '0' ? Colors.red : null),
+            ),
+          ),
+      ],
       position: position,
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
@@ -145,7 +158,9 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       setState(() {
         _currentValue = keyName ?? _defaultDisplayText;
         if (keyName != null) {
-          widget.onSelected(newValue);
+          widget.controller.formatSelection(Attribute.fromKeyValue(
+              'size', newValue == '0' ? null : getFontSize(newValue)));
+          widget.onSelected?.call(newValue);
         }
       });
     });

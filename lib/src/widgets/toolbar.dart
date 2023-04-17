@@ -6,7 +6,6 @@ import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
 import '../translations/toolbar.i18n.dart';
-import '../utils/font.dart';
 import 'controller.dart';
 import 'embeds.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
@@ -297,20 +296,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             tooltip: buttonTooltips[ToolbarButtons.fontSize],
             attribute: Attribute.size,
             controller: controller,
-            items: [
-              for (MapEntry<String, String> fontSize in fontSizes.entries)
-                PopupMenuItem<String>(
-                  key: ValueKey(fontSize.key),
-                  value: fontSize.value,
-                  child: Text(fontSize.key.toString(),
-                      style: TextStyle(
-                          color: fontSize.value == '0' ? Colors.red : null)),
-                ),
-            ],
-            onSelected: (newSize) {
-              controller.formatSelection(Attribute.fromKeyValue(
-                  'size', newSize == '0' ? null : getFontSize(newSize)));
-            },
             rawItemsMap: fontSizes,
             afterButtonPressed: afterButtonPressed,
           ),
