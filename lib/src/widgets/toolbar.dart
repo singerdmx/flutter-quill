@@ -32,6 +32,7 @@ export 'toolbar/link_style_button.dart';
 export 'toolbar/quill_font_family_button.dart';
 export 'toolbar/quill_font_size_button.dart';
 export 'toolbar/quill_icon_button.dart';
+export 'toolbar/search_button.dart';
 export 'toolbar/select_alignment_button.dart';
 export 'toolbar/select_header_style_button.dart';
 export 'toolbar/toggle_check_list_button.dart';
