@@ -37,25 +37,30 @@ export 'toolbar/select_header_style_button.dart';
 export 'toolbar/toggle_check_list_button.dart';
 export 'toolbar/toggle_style_button.dart';
 
-// The default size of the icon of a button.
+/// The default size of the icon of a button.
 const double kDefaultIconSize = 18;
 
-// The factor of how much larger the button is in relation to the icon.
+/// The factor of how much larger the button is in relation to the icon.
 const double kIconButtonFactor = 1.77;
+
+/// The horizontal margin between the contents of each toolbar section.
+const double kToolbarSectionSpacing = 4;
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.children,
     this.axis = Axis.horizontal,
-    this.toolbarSize = 36,
+    this.toolbarSize = kDefaultIconSize * 2,
+    this.toolbarSectionSpacing = kToolbarSectionSpacing,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
-    this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
     this.color,
     this.customButtons = const [],
     this.locale,
     VoidCallback? afterButtonPressed,
+    this.dividerColor,
+    this.dividerSpace,
     Key? key,
   }) : super(key: key);
 
@@ -63,9 +68,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required QuillController controller,
     Axis axis = Axis.horizontal,
     double toolbarIconSize = kDefaultIconSize,
-    double toolbarSectionSpacing = 4,
+    double toolbarSectionSpacing = kToolbarSectionSpacing,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     WrapCrossAlignment toolbarIconCrossAlignment = WrapCrossAlignment.center,
+    bool multiRowsDisplay = true,
     bool showDividers = true,
     bool showFontFamily = true,
     bool showFontSize = true,
@@ -93,7 +99,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showLink = true,
     bool showUndo = true,
     bool showRedo = true,
-    bool multiRowsDisplay = true,
     bool showDirection = false,
     bool showSearchButton = true,
     List<QuillCustomButton> customButtons = const [],
@@ -138,6 +143,12 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// The color of the toolbar
     Color? color,
+
+    /// The color of the toolbar section divider
+    Color? dividerColor,
+
+    /// The space occupied by toolbar divider
+    double? dividerSpace,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -401,7 +412,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          _dividerOnAxis(axis),
+          AxisDivider(axis, color: dividerColor, space: dividerSpace),
         if (showAlignmentButtons)
           SelectAlignmentButton(
             controller: controller,
@@ -436,7 +447,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          _dividerOnAxis(axis),
+          AxisDivider(axis, color: dividerColor, space: dividerSpace),
         if (showHeaderStyle)
           SelectHeaderStyleButton(
             tooltip: buttonTooltips[ToolbarButtons.headerStyle],
@@ -452,7 +463,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          _dividerOnAxis(axis),
+          AxisDivider(axis, color: dividerColor, space: dividerSpace),
         if (showListNumbers)
           ToggleStyleButton(
             attribute: Attribute.ol,
@@ -496,7 +507,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         if (showDividers &&
             isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5]))
-          _dividerOnAxis(axis),
+          AxisDivider(axis, color: dividerColor, space: dividerSpace),
         if (showQuote)
           ToggleStyleButton(
             attribute: Attribute.blockQuote,
@@ -528,7 +539,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             afterButtonPressed: afterButtonPressed,
           ),
         if (showDividers && isButtonGroupShown[4] && isButtonGroupShown[5])
-          _dividerOnAxis(axis),
+          AxisDivider(axis, color: dividerColor, space: dividerSpace),
         if (showLink)
           LinkStyleButton(
             tooltip: buttonTooltips[ToolbarButtons.link],
@@ -549,7 +560,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             afterButtonPressed: afterButtonPressed,
           ),
         if (customButtons.isNotEmpty)
-          if (showDividers) _dividerOnAxis(axis),
+          if (showDividers)
+            AxisDivider(axis, color: dividerColor, space: dividerSpace),
         for (var customButton in customButtons)
           QuillIconButton(
             highlightElevation: 0,
@@ -563,22 +575,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
       ],
     );
-  }
-
-  static Widget _dividerOnAxis(Axis axis) {
-    if (axis == Axis.horizontal) {
-      return const VerticalDivider(
-        indent: 12,
-        endIndent: 12,
-        color: Colors.grey,
-      );
-    } else {
-      return const Divider(
-        indent: 12,
-        endIndent: 12,
-        color: Colors.grey,
-      );
-    }
   }
 
   final List<Widget> children;
@@ -601,6 +597,15 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   /// List of custom buttons
   final List<QuillCustomButton> customButtons;
+
+  /// The color to use when painting the line.
+  ///
+  /// If this is null, then the [DividerThemeData.color] is used. If that is
+  /// also null, then [ThemeData.dividerColor] is used.
+  final Color? dividerColor;
+
+  /// The space occupied by toolbar divider.
+  final double? dividerSpace;
 
   @override
   Size get preferredSize => axis == Axis.horizontal
@@ -632,5 +637,41 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
     );
+  }
+}
+
+class AxisDivider extends StatelessWidget {
+  const AxisDivider(
+    this.axis, {
+    Key? key,
+    this.color,
+    this.space,
+  }) : super(key: key);
+
+  const AxisDivider.horizontal({Color? color, double? space})
+      : this(Axis.horizontal, color: color, space: space);
+
+  const AxisDivider.vertical({Color? color, double? space})
+      : this(Axis.vertical, color: color, space: space);
+
+  final Axis axis;
+  final Color? color;
+  final double? space;
+
+  @override
+  Widget build(BuildContext context) {
+    return axis == Axis.horizontal
+        ? Divider(
+            height: space,
+            color: color,
+            indent: 12,
+            endIndent: 12,
+          )
+        : VerticalDivider(
+            width: space,
+            color: color,
+            indent: 12,
+            endIndent: 12,
+          );
   }
 }
