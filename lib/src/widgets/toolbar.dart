@@ -60,8 +60,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.customButtons = const [],
     this.locale,
     VoidCallback? afterButtonPressed,
-    this.dividerColor,
-    this.dividerSpace,
+    this.sectionDividerColor,
+    this.sectionDividerSpace,
     Key? key,
   }) : super(key: key);
 
@@ -146,10 +146,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     Color? color,
 
     /// The color of the toolbar section divider
-    Color? dividerColor,
+    Color? sectionDividerColor,
 
     /// The space occupied by toolbar divider
-    double? dividerSpace,
+    double? sectionDividerSpace,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -384,7 +384,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          AxisDivider(axis, color: dividerColor, space: dividerSpace),
+          AxisDivider(axis,
+              color: sectionDividerColor, space: sectionDividerSpace),
         if (showAlignmentButtons)
           SelectAlignmentButton(
             controller: controller,
@@ -419,7 +420,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          AxisDivider(axis, color: dividerColor, space: dividerSpace),
+          AxisDivider(axis,
+              color: sectionDividerColor, space: sectionDividerSpace),
         if (showHeaderStyle)
           SelectHeaderStyleButton(
             tooltip: buttonTooltips[ToolbarButtons.headerStyle],
@@ -435,7 +437,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          AxisDivider(axis, color: dividerColor, space: dividerSpace),
+          AxisDivider(axis,
+              color: sectionDividerColor, space: sectionDividerSpace),
         if (showListNumbers)
           ToggleStyleButton(
             attribute: Attribute.ol,
@@ -479,7 +482,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
         if (showDividers &&
             isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5]))
-          AxisDivider(axis, color: dividerColor, space: dividerSpace),
+          AxisDivider(axis,
+              color: sectionDividerColor, space: sectionDividerSpace),
         if (showQuote)
           ToggleStyleButton(
             attribute: Attribute.blockQuote,
@@ -511,7 +515,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             afterButtonPressed: afterButtonPressed,
           ),
         if (showDividers && isButtonGroupShown[4] && isButtonGroupShown[5])
-          AxisDivider(axis, color: dividerColor, space: dividerSpace),
+          AxisDivider(axis,
+              color: sectionDividerColor, space: sectionDividerSpace),
         if (showLink)
           LinkStyleButton(
             tooltip: buttonTooltips[ToolbarButtons.link],
@@ -533,7 +538,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         if (customButtons.isNotEmpty)
           if (showDividers)
-            AxisDivider(axis, color: dividerColor, space: dividerSpace),
+            AxisDivider(axis,
+                color: sectionDividerColor, space: sectionDividerSpace),
         for (var customButton in customButtons)
           QuillIconButton(
             highlightElevation: 0,
@@ -570,14 +576,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// List of custom buttons
   final List<QuillCustomButton> customButtons;
 
-  /// The color to use when painting the line.
+  /// The color to use when painting the toolbar section divider.
   ///
   /// If this is null, then the [DividerThemeData.color] is used. If that is
   /// also null, then [ThemeData.dividerColor] is used.
-  final Color? dividerColor;
+  final Color? sectionDividerColor;
 
-  /// The space occupied by toolbar divider.
-  final double? dividerSpace;
+  /// The space occupied by toolbar section divider.
+  final double? sectionDividerSpace;
 
   @override
   Size get preferredSize => axis == Axis.horizontal
