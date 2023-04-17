@@ -21,6 +21,8 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.iconTheme,
     this.afterButtonPressed,
     this.tooltip,
+    this.padding,
+    this.style,
     Key? key,
   }) : super(key: key);
 
@@ -36,6 +38,8 @@ class QuillFontFamilyButton extends StatefulWidget {
   final QuillController controller;
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
+  final EdgeInsetsGeometry? padding;
+  final TextStyle? style;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -149,15 +153,16 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(_currentValue,
-              style: TextStyle(
-                  fontSize: widget.iconSize / 1.15,
-                  color: widget.iconTheme?.iconUnselectedColor ??
-                      theme.iconTheme.color)),
+              style: widget.style ??
+                  TextStyle(
+                      fontSize: widget.iconSize / 1.15,
+                      color: widget.iconTheme?.iconUnselectedColor ??
+                          theme.iconTheme.color)),
           const SizedBox(width: 3),
           Icon(Icons.arrow_drop_down,
               size: widget.iconSize / 1.15,
