@@ -20,6 +20,7 @@ class SelectAlignmentButton extends StatefulWidget {
     this.showJustifyAlignment,
     this.afterButtonPressed,
     this.tooltips = const <ToolbarButtons, String>{},
+    this.padding,
     Key? key,
   }) : super(key: key);
 
@@ -33,6 +34,7 @@ class SelectAlignmentButton extends StatefulWidget {
   final bool? showJustifyAlignment;
   final VoidCallback? afterButtonPressed;
   final Map<ToolbarButtons, String> tooltips;
+  final EdgeInsetsGeometry? padding;
 
   @override
   _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
@@ -100,8 +102,8 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(buttonCount, (index) {
         return Padding(
-          // ignore: prefer_const_constructors
-          padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+          padding: widget.padding ??
+              const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(
               width: widget.iconSize * kIconButtonFactor,

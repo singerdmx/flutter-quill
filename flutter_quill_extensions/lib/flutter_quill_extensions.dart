@@ -32,6 +32,10 @@ class FlutterQuillEmbeds {
     bool showVideoButton = true,
     bool showCameraButton = true,
     bool showFormulaButton = false,
+    String? imageButtonTooltip,
+    String? videoButtonTooltip,
+    String? cameraButtonTooltip,
+    String? formulaButtonTooltip,
     OnImagePickCallback? onImagePickCallback,
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
@@ -45,6 +49,7 @@ class FlutterQuillEmbeds {
         (controller, toolbarIconSize, iconTheme, dialogTheme) => ImageButton(
               icon: Icons.image,
               iconSize: toolbarIconSize,
+              tooltip: imageButtonTooltip,
               controller: controller,
               onImagePickCallback: onImagePickCallback,
               filePickImpl: filePickImpl,
@@ -57,6 +62,7 @@ class FlutterQuillEmbeds {
         (controller, toolbarIconSize, iconTheme, dialogTheme) => VideoButton(
               icon: Icons.movie_creation,
               iconSize: toolbarIconSize,
+              tooltip: videoButtonTooltip,
               controller: controller,
               onVideoPickCallback: onVideoPickCallback,
               filePickImpl: filePickImpl,
@@ -70,6 +76,7 @@ class FlutterQuillEmbeds {
         (controller, toolbarIconSize, iconTheme, dialogTheme) => CameraButton(
               icon: Icons.photo_camera,
               iconSize: toolbarIconSize,
+              tooltip: cameraButtonTooltip,
               controller: controller,
               onImagePickCallback: onImagePickCallback,
               onVideoPickCallback: onVideoPickCallback,
@@ -83,6 +90,7 @@ class FlutterQuillEmbeds {
         (controller, toolbarIconSize, iconTheme, dialogTheme) => FormulaButton(
               icon: Icons.functions,
               iconSize: toolbarIconSize,
+              tooltip: formulaButtonTooltip,
               controller: controller,
               iconTheme: iconTheme,
               dialogTheme: dialogTheme,

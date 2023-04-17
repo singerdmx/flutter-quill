@@ -9,11 +9,11 @@ import '../controller.dart';
 
 class QuillFontFamilyButton extends StatefulWidget {
   const QuillFontFamilyButton({
-    required this.items,
     required this.rawItemsMap,
     required this.attribute,
     required this.controller,
-    required this.onSelected,
+    @Deprecated('It is not required because of `rawItemsMap`') this.items,
+    this.onSelected,
     this.iconSize = 40,
     this.fillColor,
     this.hoverElevation = 1,
@@ -21,6 +21,11 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.iconTheme,
     this.afterButtonPressed,
     this.tooltip,
+    this.padding,
+    this.style,
+    this.width,
+    this.renderFontFamilies = true,
+    this.alignment,
     Key? key,
   }) : super(key: key);
 
@@ -28,14 +33,20 @@ class QuillFontFamilyButton extends StatefulWidget {
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final List<PopupMenuEntry<String>> items;
+  @Deprecated('It is not required because of `rawItemsMap`')
+  final List<PopupMenuEntry<String>>? items;
   final Map<String, String> rawItemsMap;
-  final ValueChanged<String> onSelected;
+  final ValueChanged<String>? onSelected;
   final QuillIconTheme? iconTheme;
   final Attribute attribute;
   final QuillController controller;
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
+  final EdgeInsetsGeometry? padding;
+  final TextStyle? style;
+  final double? width;
+  final bool renderFontFamilies;
+  final AlignmentGeometry? alignment;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -90,7 +101,10 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(height: widget.iconSize * 1.81),
+      constraints: BoxConstraints.tightFor(
+        height: widget.iconSize * 1.81,
+        width: widget.width,
+      ),
       child: UtilityWidgets.maybeTooltip(
         message: widget.tooltip,
         child: RawMaterialButton(
@@ -127,7 +141,20 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
     showMenu<String>(
       context: context,
       elevation: 4,
-      items: widget.items,
+      items: [
+        for (MapEntry<String, String> fontFamily in widget.rawItemsMap.entries)
+          PopupMenuItem<String>(
+            key: ValueKey(fontFamily.key),
+            value: fontFamily.value,
+            child: Text(
+              fontFamily.key.toString(),
+              style: TextStyle(
+                  fontFamily:
+                      widget.renderFontFamilies ? fontFamily.value : null,
+                  color: fontFamily.value == 'Clear' ? Colors.red : null),
+            ),
+          ),
+      ],
       position: position,
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
@@ -140,7 +167,9 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
       setState(() {
         _currentValue = keyName ?? _defaultDisplayText;
         if (keyName != null) {
-          widget.onSelected(newValue);
+          widget.controller.formatSelection(Attribute.fromKeyValue(
+              'font', newValue == 'Clear' ? null : newValue));
+          widget.onSelected?.call(newValue);
         }
       });
     });
@@ -148,16 +177,18 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+    return Container(
+      alignment: widget.alignment ?? Alignment.center,
+      padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(_currentValue,
-              style: TextStyle(
-                  fontSize: widget.iconSize / 1.15,
-                  color: widget.iconTheme?.iconUnselectedColor ??
-                      theme.iconTheme.color)),
+              style: widget.style ??
+                  TextStyle(
+                      fontSize: widget.iconSize / 1.15,
+                      color: widget.iconTheme?.iconUnselectedColor ??
+                          theme.iconTheme.color)),
           const SizedBox(width: 3),
           Icon(Icons.arrow_drop_down,
               size: widget.iconSize / 1.15,

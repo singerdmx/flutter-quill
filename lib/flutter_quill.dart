@@ -25,3 +25,4 @@ export 'src/widgets/embeds.dart';
 export 'src/widgets/link.dart' show LinkActionPickerDelegate, LinkMenuAction;
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar.dart';
+export 'src/widgets/toolbar/enum.dart';
