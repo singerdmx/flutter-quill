@@ -24,6 +24,8 @@ class QuillFontSizeButton extends StatefulWidget {
     this.tooltip,
     this.padding,
     this.style,
+    this.width,
+    this.initialValue,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
         super(key: key);
@@ -43,6 +45,8 @@ class QuillFontSizeButton extends StatefulWidget {
   final String? tooltip;
   final EdgeInsetsGeometry? padding;
   final TextStyle? style;
+  final double? width;
+  final String? initialValue;
 
   @override
   _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
@@ -56,7 +60,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
   @override
   void initState() {
     super.initState();
-    _currentValue = _defaultDisplayText = 'Size'.i18n;
+    _currentValue = _defaultDisplayText = widget.initialValue ?? 'Size'.i18n;
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -97,7 +101,10 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(height: widget.iconSize * 1.81),
+      constraints: BoxConstraints.tightFor(
+        height: widget.iconSize * 1.81,
+        width: widget.width ?? 60,
+      ),
       child: UtilityWidgets.maybeTooltip(
         message: widget.tooltip,
         child: RawMaterialButton(
