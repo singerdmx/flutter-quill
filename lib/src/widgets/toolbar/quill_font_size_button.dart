@@ -32,6 +32,7 @@ class QuillFontSizeButton extends StatefulWidget {
     this.itemPadding,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
+        assert(initialValue == null || initialValue.length > 0),
         super(key: key);
 
   final double iconSize;

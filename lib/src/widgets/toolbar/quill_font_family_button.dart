@@ -32,7 +32,9 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.itemHeight,
     this.itemPadding,
     Key? key,
-  }) : super(key: key);
+  })  : assert(rawItemsMap.length > 0),
+        assert(initialValue == null || initialValue.length > 0),
+        super(key: key);
 
   final double iconSize;
   final Color? fillColor;
