@@ -30,6 +30,7 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.overrideTooltipByFontFamily = false,
     this.itemHeight,
     this.itemPadding,
+    this.defaultItemColor = Colors.red,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
         assert(initialValue == null || initialValue.length > 0),
@@ -57,6 +58,7 @@ class QuillFontFamilyButton extends StatefulWidget {
   final bool overrideTooltipByFontFamily;
   final double? itemHeight;
   final EdgeInsets? itemPadding;
+  final Color? defaultItemColor;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -171,9 +173,11 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
             child: Text(
               fontFamily.key.toString(),
               style: TextStyle(
-                  fontFamily:
-                      widget.renderFontFamilies ? fontFamily.value : null,
-                  color: fontFamily.value == 'Clear' ? Colors.red : null),
+                fontFamily: widget.renderFontFamilies ? fontFamily.value : null,
+                color: fontFamily.value == 'Clear'
+                    ? widget.defaultItemColor
+                    : null,
+              ),
             ),
           ),
       ],

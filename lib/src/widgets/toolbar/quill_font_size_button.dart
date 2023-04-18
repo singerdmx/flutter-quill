@@ -29,6 +29,7 @@ class QuillFontSizeButton extends StatefulWidget {
     this.labelOverflow = TextOverflow.visible,
     this.itemHeight,
     this.itemPadding,
+    this.defaultItemColor = Colors.red,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
         assert(initialValue == null || initialValue.length > 0),
@@ -54,6 +55,7 @@ class QuillFontSizeButton extends StatefulWidget {
   final TextOverflow labelOverflow;
   final double? itemHeight;
   final EdgeInsets? itemPadding;
+  final Color? defaultItemColor;
 
   @override
   _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
@@ -157,8 +159,9 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
             padding: widget.itemPadding,
             child: Text(
               fontSize.key.toString(),
-              style:
-                  TextStyle(color: fontSize.value == '0' ? Colors.red : null),
+              style: TextStyle(
+                color: fontSize.value == '0' ? widget.defaultItemColor : null,
+              ),
             ),
           ),
       ],
