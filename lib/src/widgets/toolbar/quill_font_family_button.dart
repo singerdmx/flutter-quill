@@ -25,7 +25,6 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.style,
     this.width,
     this.renderFontFamilies = true,
-    this.alignment,
     this.initialValue,
     this.labelOverflow = TextOverflow.visible,
     this.overrideTooltipByFontFamily = false,
@@ -53,7 +52,6 @@ class QuillFontFamilyButton extends StatefulWidget {
   final TextStyle? style;
   final double? width;
   final bool renderFontFamilies;
-  final AlignmentGeometry? alignment;
   final String? initialValue;
   final TextOverflow labelOverflow;
   final bool overrideTooltipByFontFamily;
@@ -201,13 +199,16 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      alignment: widget.alignment ?? Alignment.center,
+    final hasFinalWidth = widget.width != null;
+    return Padding(
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
+        mainAxisSize: !hasFinalWidth ? MainAxisSize.min : MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          UtilityWidgets.maybeWidget(
+            enabled: hasFinalWidth,
+            wrapper: (child) => Expanded(child: child),
             child: Text(
               _currentValue,
               maxLines: 1,

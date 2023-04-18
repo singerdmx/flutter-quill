@@ -26,7 +26,6 @@ class QuillFontSizeButton extends StatefulWidget {
     this.style,
     this.width,
     this.initialValue,
-    this.alignment,
     this.labelOverflow = TextOverflow.visible,
     this.itemHeight,
     this.itemPadding,
@@ -52,7 +51,6 @@ class QuillFontSizeButton extends StatefulWidget {
   final TextStyle? style;
   final double? width;
   final String? initialValue;
-  final AlignmentGeometry? alignment;
   final TextOverflow labelOverflow;
   final double? itemHeight;
   final EdgeInsets? itemPadding;
@@ -186,13 +184,16 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      alignment: widget.alignment ?? Alignment.center,
+    final hasFinalWidth = widget.width != null;
+    return Padding(
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
+        mainAxisSize: !hasFinalWidth ? MainAxisSize.min : MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          UtilityWidgets.maybeWidget(
+            enabled: hasFinalWidth,
+            wrapper: (child) => Expanded(child: child),
             child: Text(_currentValue,
                 overflow: widget.labelOverflow,
                 style: widget.style ??
