@@ -27,6 +27,9 @@ class QuillFontSizeButton extends StatefulWidget {
     this.width,
     this.initialValue,
     this.alignment,
+    this.labelOverflow = TextOverflow.visible,
+    this.itemHeight,
+    this.itemPadding,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
         super(key: key);
@@ -49,6 +52,9 @@ class QuillFontSizeButton extends StatefulWidget {
   final double? width;
   final String? initialValue;
   final AlignmentGeometry? alignment;
+  final TextOverflow labelOverflow;
+  final double? itemHeight;
+  final EdgeInsets? itemPadding;
 
   @override
   _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
@@ -148,6 +154,8 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
           PopupMenuItem<String>(
             key: ValueKey(fontSize.key),
             value: fontSize.value,
+            height: widget.itemHeight ?? kMinInteractiveDimension,
+            padding: widget.itemPadding,
             child: Text(
               fontSize.key.toString(),
               style:
@@ -181,14 +189,17 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       alignment: widget.alignment ?? Alignment.center,
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(_currentValue,
-              style: widget.style ??
-                  TextStyle(
-                      fontSize: widget.iconSize / 1.15,
-                      color: widget.iconTheme?.iconUnselectedColor ??
-                          theme.iconTheme.color)),
+          Expanded(
+            child: Text(_currentValue,
+                overflow: widget.labelOverflow,
+                style: widget.style ??
+                    TextStyle(
+                        fontSize: widget.iconSize / 1.15,
+                        color: widget.iconTheme?.iconUnselectedColor ??
+                            theme.iconTheme.color)),
+          ),
           const SizedBox(width: 3),
           Icon(Icons.arrow_drop_down,
               size: widget.iconSize / 1.15,
