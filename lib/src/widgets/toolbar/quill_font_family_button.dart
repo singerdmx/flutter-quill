@@ -117,8 +117,18 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
         height: widget.iconSize * 1.81,
         width: widget.width,
       ),
-      child: UtilityWidgets.maybeTooltip(
-        message: widget.tooltip,
+      child: UtilityWidgets.maybeWidget(
+        enabled: (widget.tooltip ?? '').isNotEmpty ||
+            widget.overrideTooltipByFontFamily,
+        wrapper: (child) {
+          var effectiveTooltip = widget.tooltip ?? '';
+          if (widget.overrideTooltipByFontFamily) {
+            effectiveTooltip = effectiveTooltip.isNotEmpty
+                ? '$effectiveTooltip: $_currentValue'
+                : '${'Font'.i18n}: $_currentValue';
+          }
+          return Tooltip(message: effectiveTooltip, child: child);
+        },
         child: RawMaterialButton(
           visualDensity: VisualDensity.compact,
           shape: RoundedRectangleBorder(
@@ -198,19 +208,15 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: UtilityWidgets.maybeWidget(
-              enabled: widget.overrideTooltipByFontFamily,
-              wrapper: (child) => Tooltip(message: _currentValue, child: child),
-              child: Text(
-                _currentValue,
-                maxLines: 1,
-                overflow: widget.labelOverflow,
-                style: widget.style ??
-                    TextStyle(
-                        fontSize: widget.iconSize / 1.15,
-                        color: widget.iconTheme?.iconUnselectedColor ??
-                            theme.iconTheme.color),
-              ),
+            child: Text(
+              _currentValue,
+              maxLines: 1,
+              overflow: widget.labelOverflow,
+              style: widget.style ??
+                  TextStyle(
+                      fontSize: widget.iconSize / 1.15,
+                      color: widget.iconTheme?.iconUnselectedColor ??
+                          theme.iconTheme.color),
             ),
           ),
           const SizedBox(width: 3),
