@@ -26,6 +26,11 @@ class QuillFontFamilyButton extends StatefulWidget {
     this.width,
     this.renderFontFamilies = true,
     this.alignment,
+    this.initialValue,
+    this.labelOverflow = TextOverflow.visible,
+    this.overrideTooltipByFontFamily = false,
+    this.itemHeight,
+    this.itemPadding,
     Key? key,
   }) : super(key: key);
 
@@ -47,6 +52,11 @@ class QuillFontFamilyButton extends StatefulWidget {
   final double? width;
   final bool renderFontFamilies;
   final AlignmentGeometry? alignment;
+  final String? initialValue;
+  final TextOverflow labelOverflow;
+  final bool overrideTooltipByFontFamily;
+  final double? itemHeight;
+  final EdgeInsets? itemPadding;
 
   @override
   _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
@@ -60,7 +70,7 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
   @override
   void initState() {
     super.initState();
-    _currentValue = _defaultDisplayText = 'Font'.i18n;
+    _currentValue = _defaultDisplayText = widget.initialValue ?? 'Font'.i18n;
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -146,6 +156,8 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
           PopupMenuItem<String>(
             key: ValueKey(fontFamily.key),
             value: fontFamily.value,
+            height: widget.itemHeight ?? kMinInteractiveDimension,
+            padding: widget.itemPadding,
             child: Text(
               fontFamily.key.toString(),
               style: TextStyle(
@@ -181,14 +193,24 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
       alignment: widget.alignment ?? Alignment.center,
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(_currentValue,
-              style: widget.style ??
-                  TextStyle(
-                      fontSize: widget.iconSize / 1.15,
-                      color: widget.iconTheme?.iconUnselectedColor ??
-                          theme.iconTheme.color)),
+          Expanded(
+            child: UtilityWidgets.maybeWidget(
+              enabled: widget.overrideTooltipByFontFamily,
+              wrapper: (child) => Tooltip(message: _currentValue, child: child),
+              child: Text(
+                _currentValue,
+                maxLines: 1,
+                overflow: widget.labelOverflow,
+                style: widget.style ??
+                    TextStyle(
+                        fontSize: widget.iconSize / 1.15,
+                        color: widget.iconTheme?.iconUnselectedColor ??
+                            theme.iconTheme.color),
+              ),
+            ),
+          ),
           const SizedBox(width: 3),
           Icon(Icons.arrow_drop_down,
               size: widget.iconSize / 1.15,
