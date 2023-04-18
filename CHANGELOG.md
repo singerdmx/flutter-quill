@@ -1,3 +1,6 @@
+# [7.1.8]
+* Dropdown tweaks.
+
 # [7.1.7]
 * Toolbar tweaks.
 
