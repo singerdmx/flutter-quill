@@ -26,9 +26,13 @@ class QuillFontSizeButton extends StatefulWidget {
     this.style,
     this.width,
     this.initialValue,
-    this.alignment,
+    this.labelOverflow = TextOverflow.visible,
+    this.itemHeight,
+    this.itemPadding,
+    this.defaultItemColor = Colors.red,
     Key? key,
   })  : assert(rawItemsMap.length > 0),
+        assert(initialValue == null || initialValue.length > 0),
         super(key: key);
 
   final double iconSize;
@@ -48,7 +52,10 @@ class QuillFontSizeButton extends StatefulWidget {
   final TextStyle? style;
   final double? width;
   final String? initialValue;
-  final AlignmentGeometry? alignment;
+  final TextOverflow labelOverflow;
+  final double? itemHeight;
+  final EdgeInsets? itemPadding;
+  final Color? defaultItemColor;
 
   @override
   _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
@@ -148,10 +155,13 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
           PopupMenuItem<String>(
             key: ValueKey(fontSize.key),
             value: fontSize.value,
+            height: widget.itemHeight ?? kMinInteractiveDimension,
+            padding: widget.itemPadding,
             child: Text(
               fontSize.key.toString(),
-              style:
-                  TextStyle(color: fontSize.value == '0' ? Colors.red : null),
+              style: TextStyle(
+                color: fontSize.value == '0' ? widget.defaultItemColor : null,
+              ),
             ),
           ),
       ],
@@ -177,18 +187,24 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      alignment: widget.alignment ?? Alignment.center,
+    final hasFinalWidth = widget.width != null;
+    return Padding(
       padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: !hasFinalWidth ? MainAxisSize.min : MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(_currentValue,
-              style: widget.style ??
-                  TextStyle(
-                      fontSize: widget.iconSize / 1.15,
-                      color: widget.iconTheme?.iconUnselectedColor ??
-                          theme.iconTheme.color)),
+          UtilityWidgets.maybeWidget(
+            enabled: hasFinalWidth,
+            wrapper: (child) => Expanded(child: child),
+            child: Text(_currentValue,
+                overflow: widget.labelOverflow,
+                style: widget.style ??
+                    TextStyle(
+                        fontSize: widget.iconSize / 1.15,
+                        color: widget.iconTheme?.iconUnselectedColor ??
+                            theme.iconTheme.color)),
+          ),
           const SizedBox(width: 3),
           Icon(Icons.arrow_drop_down,
               size: widget.iconSize / 1.15,
