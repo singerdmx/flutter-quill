@@ -18,6 +18,7 @@ class LinkStyleButton extends StatefulWidget {
     this.dialogTheme,
     this.afterButtonPressed,
     this.tooltip,
+    this.useAlternativeDialog = false,
     Key? key,
   }) : super(key: key);
 
@@ -28,6 +29,7 @@ class LinkStyleButton extends StatefulWidget {
   final QuillDialogTheme? dialogTheme;
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
+  final bool useAlternativeDialog;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -87,34 +89,29 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     );
   }
 
-  void _openLinkDialog(BuildContext context) {
-    showDialog<_TextLink>(
+  Future<void> _openLinkDialog(BuildContext context) async {
+    final initialTextLink = QuillTextLink.prepare(widget.controller);
+
+    final textLink = await showDialog<QuillTextLink>(
       context: context,
-      builder: (ctx) {
-        final link = _getLinkAttributeValue();
-        final index = widget.controller.selection.start;
-
-        var text;
-        if (link != null) {
-          // text should be the link's corresponding text, not selection
-          final leaf =
-              widget.controller.document.querySegmentLeafNode(index).leaf;
-          if (leaf != null) {
-            text = leaf.toPlainText();
-          }
-        }
-
-        final len = widget.controller.selection.end - index;
-        text ??=
-            len == 0 ? '' : widget.controller.document.getPlainText(index, len);
-        return _LinkDialog(
-            dialogTheme: widget.dialogTheme, link: link, text: text);
-      },
-    ).then(
-      (value) {
-        if (value != null) _linkSubmitted(value);
+      builder: (_) {
+        return widget.useAlternativeDialog
+            ? LinkStyleDialog(
+                dialogTheme: widget.dialogTheme,
+                text: initialTextLink.text,
+                link: initialTextLink.link,
+              )
+            : _LinkDialog(
+                dialogTheme: widget.dialogTheme,
+                text: initialTextLink.text,
+                link: initialTextLink.link,
+              );
       },
     );
+
+    if (textLink != null) {
+      textLink.submit(widget.controller);
+    }
   }
 
   String? _getLinkAttributeValue() {
@@ -122,23 +119,6 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         .getSelectionStyle()
         .attributes[Attribute.link.key]
         ?.value;
-  }
-
-  void _linkSubmitted(_TextLink value) {
-    var index = widget.controller.selection.start;
-    var length = widget.controller.selection.end - index;
-    if (_getLinkAttributeValue() != null) {
-      // text should be the link's corresponding text, not selection
-      final leaf = widget.controller.document.querySegmentLeafNode(index).leaf;
-      if (leaf != null) {
-        final range = getLinkRange(leaf);
-        index = range.start;
-        length = range.end - range.start;
-      }
-    }
-    widget.controller.replaceText(index, length, value.text, null);
-    widget.controller
-        .formatText(index, value.text.length, LinkAttribute(value.link));
   }
 }
 
@@ -239,16 +219,187 @@ class _LinkDialogState extends State<_LinkDialog> {
   }
 
   void _applyLink() {
-    Navigator.pop(context, _TextLink(_text.trim(), _link.trim()));
+    Navigator.pop(context, QuillTextLink(_text.trim(), _link.trim()));
   }
 }
 
-class _TextLink {
-  _TextLink(
+class LinkStyleDialog extends StatefulWidget {
+  const LinkStyleDialog({
+    Key? key,
+    this.dialogTheme,
+    this.link,
+    this.text,
+  }) : super(key: key);
+
+  final QuillDialogTheme? dialogTheme;
+  final String? link;
+  final String? text;
+
+  @override
+  State<LinkStyleDialog> createState() => _LinkStyleDialogState();
+}
+
+class _LinkStyleDialogState extends State<LinkStyleDialog> {
+  late final TextEditingController _linkController;
+  late final TextEditingController _textController;
+
+  late String _link;
+  late String _text;
+
+  late bool _isEditMode;
+
+  @override
+  void dispose() {
+    _linkController.dispose();
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _link = widget.link ?? '';
+    _text = widget.text ?? '';
+    _linkController = TextEditingController(text: _link);
+    _textController = TextEditingController(text: _text);
+    _isEditMode = _link.isNotEmpty;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
+      shape: widget.dialogTheme?.shape ??
+          DialogTheme.of(context).shape ??
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints.tightFor(width: 200),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: [
+              if (_isEditMode) ...[
+                Text('Visit link'.i18n),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    widget.link!,
+                    style:
+                        const TextStyle(decoration: TextDecoration.underline),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _isEditMode = !_isEditMode;
+                    });
+                  },
+                  child: Text('Edit'.i18n),
+                ),
+                const VerticalDivider(
+                  width: 10,
+                  indent: 2,
+                  endIndent: 2,
+                ),
+                TextButton(
+                  onPressed: _removeLink,
+                  child: Text('Remove'.i18n),
+                ),
+              ] else ...[
+                Text('Enter link'.i18n),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: TextField(
+                    controller: _linkController,
+                    keyboardType: TextInputType.url,
+                    onChanged: _linkChanged,
+                  ),
+                ),
+                TextButton(
+                  onPressed: _canPress() ? _applyLink : null,
+                  child: Text('Save'.i18n),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  bool _canPress() {
+    if (_link.isEmpty) {
+      return false;
+    }
+
+    if (!AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  void _linkChanged(String value) {
+    setState(() {
+      _link = value;
+    });
+  }
+
+  void _applyLink() {
+    Navigator.pop(context, QuillTextLink(_text.trim(), _link.trim()));
+  }
+
+  void _removeLink() {
+    Navigator.pop(context, QuillTextLink(_text.trim(), ''));
+  }
+}
+
+class QuillTextLink {
+  QuillTextLink(
     this.text,
     this.link,
   );
 
   final String text;
   final String link;
+
+  static QuillTextLink prepare(QuillController controller) {
+    final link =
+        controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
+    final index = controller.selection.start;
+
+    var text;
+    if (link != null) {
+      // text should be the link's corresponding text, not selection
+      final leaf = controller.document.querySegmentLeafNode(index).leaf;
+      if (leaf != null) {
+        text = leaf.toPlainText();
+      }
+    }
+
+    final len = controller.selection.end - index;
+    text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
+
+    return QuillTextLink(text, link);
+  }
+
+  void submit(QuillController controller) {
+    var index = controller.selection.start;
+    var length = controller.selection.end - index;
+    final link =
+        controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
+
+    if (link != null) {
+      // text should be the link's corresponding text, not selection
+      final leaf = controller.document.querySegmentLeafNode(index).leaf;
+      if (leaf != null) {
+        final range = getLinkRange(leaf);
+        index = range.start;
+        length = range.end - range.start;
+      }
+    }
+    controller
+      ..replaceText(index, length, text, null)
+      ..formatText(index, text.length, LinkAttribute(link));
+  }
 }
