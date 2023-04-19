@@ -61,6 +61,9 @@ extension Localization on String {
           'Increase indent': 'Increase indent',
           'Decrease indent': 'Decrease indent',
           'Insert URL': 'Insert URL',
+          'Visit link': 'Visit link',
+          'Enter link': 'Enter link',
+          'Edit': 'Edit',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -120,6 +123,9 @@ extension Localization on String {
           'Increase indent': 'Increase indent',
           'Decrease indent': 'Decrease indent',
           'Insert URL': 'Insert URL',
+          'Visit link': 'Visit link',
+          'Enter link': 'Enter link',
+          'Edit': 'Edit',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
