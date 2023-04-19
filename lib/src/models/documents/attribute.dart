@@ -42,6 +42,8 @@ class Attribute<T> {
     Attribute.style.key: Attribute.style,
     Attribute.token.key: Attribute.token,
     Attribute.script.key: Attribute.script,
+    Attribute.image.key: Attribute.image,
+    Attribute.video.key: Attribute.video,
   });
 
   static const BoldAttribute bold = BoldAttribute();
@@ -90,7 +92,7 @@ class Attribute<T> {
 
   static const TokenAttribute token = TokenAttribute('');
 
-  static const ScriptAttribute script = ScriptAttribute('');
+  static const ScriptAttribute script = ScriptAttribute(null);
 
   static const String mobileWidth = 'mobileWidth';
 
@@ -99,6 +101,10 @@ class Attribute<T> {
   static const String mobileMargin = 'mobileMargin';
 
   static const String mobileAlignment = 'mobileAlignment';
+
+  static const ImageAttribute image = ImageAttribute(null);
+
+  static const VideoAttribute video = VideoAttribute(null);
 
   static final Set<String> inlineKeys = {
     Attribute.bold.key,
@@ -137,6 +143,11 @@ class Attribute<T> {
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
   });
+
+  static final Set<String> embedKeys = {
+    Attribute.image.key,
+    Attribute.video.key,
+  };
 
   static const Attribute<int?> h1 = HeaderAttribute(level: 1);
 
@@ -346,7 +357,19 @@ class TokenAttribute extends Attribute<String> {
 }
 
 // `script` is supposed to be inline attribute but it is not supported yet
-class ScriptAttribute extends Attribute<String> {
-  const ScriptAttribute(String val)
+class ScriptAttribute extends Attribute<ScriptAttributes?> {
+  const ScriptAttribute(ScriptAttributes? val)
       : super('script', AttributeScope.IGNORE, val);
+}
+
+enum ScriptAttributes { sup, sub }
+
+class ImageAttribute extends Attribute<String?> {
+  const ImageAttribute(String? url)
+      : super('image', AttributeScope.EMBEDS, url);
+}
+
+class VideoAttribute extends Attribute<String?> {
+  const VideoAttribute(String? url)
+      : super('video', AttributeScope.EMBEDS, url);
 }
