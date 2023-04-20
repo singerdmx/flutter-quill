@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -515,7 +516,7 @@ class RawEditorState extends EditorState
       child: QuillStyles(
         data: _styles!,
         child: Shortcuts(
-          shortcuts: <ShortcutActivator, Intent>{
+          shortcuts: mergeMaps<ShortcutActivator, Intent>({
             // shortcuts added for Desktop platforms.
             const SingleActivator(
               LogicalKeyboardKey.escape,
@@ -642,14 +643,13 @@ class RawEditorState extends EditorState
               control: !isMacOS,
               meta: isMacOS,
             ): const OpenSearchIntent(),
-
-            ...?widget.customShortcuts,
-          },
+          }, {
+            ...?widget.customShortcuts
+          }),
           child: Actions(
-            actions: {
-              ..._actions,
+            actions: mergeMaps<Type, Action<Intent>>(_actions, {
               ...?widget.customActions,
-            },
+            }),
             child: Focus(
               focusNode: widget.focusNode,
               onKey: _onKey,
