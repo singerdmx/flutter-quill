@@ -524,6 +524,7 @@ class QuillEditorState extends State<QuillEditor>
       customActions: widget.customActions,
       customLinkPrefixes: widget.customLinkPrefixes,
       enableUnfocusOnTapOutside: widget.enableUnfocusOnTapOutside,
+      dialogTheme: widget.dialogTheme,
     );
 
     final editor = I18n(
