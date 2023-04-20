@@ -12,6 +12,7 @@ class HistoryButton extends StatefulWidget {
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class HistoryButton extends StatefulWidget {
   final QuillController controller;
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -41,6 +43,7 @@ class _HistoryButtonState extends State<HistoryButton> {
       _setIconColor();
     });
     return QuillIconButton(
+      tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
       size: widget.iconSize * 1.77,

@@ -35,20 +35,20 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
 
     final itr = DeltaIterator(document);
     final before = itr.skip(index);
-    if (before == null ||
-        before.data is! String ||
-        (before.data as String).endsWith('\n')) {
+    if (before == null) {
       return null;
     }
-    final after = itr.next();
-    if (after.data is! String || (after.data as String).startsWith('\n')) {
+    if (before.data is String && (before.data as String).endsWith('\n')) {
       return null;
     }
 
-    final text = after.data as String;
+    final after = itr.next();
+    if (after.data is String && (after.data as String).startsWith('\n')) {
+      return null;
+    }
 
     final delta = Delta()..retain(index + (len ?? 0));
-    if (text.contains('\n')) {
+    if (after.data is String && (after.data as String).contains('\n')) {
       assert(after.isPlain);
       delta.insert('\n');
       return delta;

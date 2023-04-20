@@ -1,5 +1,6 @@
 dynamic getFontSize(dynamic sizeValue) {
-  if (sizeValue is String && ['small', 'large', 'huge'].contains(sizeValue)) {
+  if (sizeValue is String &&
+      ['small', 'normal', 'large', 'huge'].contains(sizeValue)) {
     return sizeValue;
   }
 

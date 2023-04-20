@@ -68,10 +68,12 @@ class EditableTextBlock extends StatelessWidget {
       required this.linkActionPicker,
       required this.cursorCont,
       required this.indentLevelCounts,
+      required this.clearIndents,
       required this.onCheckboxTap,
       required this.readOnly,
       this.onLaunchUrl,
       this.customStyleBuilder,
+      this.customLinkPrefixes = const <String>[],
       Key? key});
 
   final Block block;
@@ -91,8 +93,10 @@ class EditableTextBlock extends StatelessWidget {
   final CustomStyleBuilder? customStyleBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
+  final bool clearIndents;
   final Function(int, bool) onCheckboxTap;
   final bool readOnly;
+  final List<String> customLinkPrefixes;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +111,7 @@ class EditableTextBlock extends StatelessWidget {
         decoration: _getDecorationForBlock(block, defaultStyles) ??
             const BoxDecoration(),
         contentPadding: contentPadding,
-        children: _buildChildren(context, indentLevelCounts));
+        children: _buildChildren(context, indentLevelCounts, clearIndents));
   }
 
   BoxDecoration? _getDecorationForBlock(
@@ -122,11 +126,14 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  List<Widget> _buildChildren(
-      BuildContext context, Map<int, int> indentLevelCounts) {
+  List<Widget> _buildChildren(BuildContext context,
+      Map<int, int> indentLevelCounts, bool clearIndents) {
     final defaultStyles = QuillStyles.getStyles(context, false);
     final count = block.children.length;
     final children = <Widget>[];
+    if (clearIndents) {
+      indentLevelCounts.clear();
+    }
     var index = 0;
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
@@ -143,6 +150,7 @@ class EditableTextBlock extends StatelessWidget {
             controller: controller,
             linkActionPicker: linkActionPicker,
             onLaunchUrl: onLaunchUrl,
+            customLinkPrefixes: customLinkPrefixes,
           ),
           _getIndentWidth(),
           _getSpacingForLine(line, index, count, defaultStyles),

@@ -41,6 +41,7 @@ class TextLine extends StatefulWidget {
     required this.linkActionPicker,
     this.textDirection,
     this.customStyleBuilder,
+    this.customLinkPrefixes = const <String>[],
     Key? key,
   }) : super(key: key);
 
@@ -53,6 +54,7 @@ class TextLine extends StatefulWidget {
   final CustomStyleBuilder? customStyleBuilder;
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
+  final List<String> customLinkPrefixes;
 
   @override
   State<TextLine> createState() => _TextLineState();
@@ -430,7 +432,7 @@ class _TextLineState extends State<TextLine> {
     launchUrl ??= _launchUrl;
 
     link = link.trim();
-    if (!linkPrefixes
+    if (!(widget.customLinkPrefixes + linkPrefixes)
         .any((linkPrefix) => link!.toLowerCase().startsWith(linkPrefix))) {
       link = 'https://$link';
     }

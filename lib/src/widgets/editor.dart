@@ -182,6 +182,8 @@ class QuillEditor extends StatefulWidget {
       this.customShortcuts,
       this.customActions,
       this.detectWordBoundary = true,
+      this.enableUnfocusOnTapOutside = true,
+      this.customLinkPrefixes = const <String>[],
       Key? key})
       : super(key: key);
 
@@ -244,6 +246,9 @@ class QuillEditor extends StatefulWidget {
   ///
   /// Defaults to `false`. Cannot be `null`.
   final bool autoFocus;
+
+  /// Whether focus should be revoked on tap outside the editor.
+  final bool enableUnfocusOnTapOutside;
 
   /// Whether to show cursor.
   ///
@@ -401,6 +406,12 @@ class QuillEditor extends StatefulWidget {
 
   final bool detectWordBoundary;
 
+  /// Additional list if links prefixes, which must not be prepended
+  /// with "https://" when [LinkMenuAction.launch] happened
+  ///
+  /// Useful for deeplinks
+  final List<String> customLinkPrefixes;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -498,6 +509,8 @@ class QuillEditorState extends State<QuillEditor>
       onImagePaste: widget.onImagePaste,
       customShortcuts: widget.customShortcuts,
       customActions: widget.customActions,
+      customLinkPrefixes: widget.customLinkPrefixes,
+      enableUnfocusOnTapOutside: widget.enableUnfocusOnTapOutside,
     );
 
     final editor = I18n(
@@ -1127,7 +1140,7 @@ class RenderEditor extends RenderEditableContainerBox
       start: localWord.start + nodeOffset,
       end: localWord.end + nodeOffset,
     );
-    if (position.offset - word.start <= 1) {
+    if (position.offset - word.start <= 1 && word.end != position.offset) {
       _handleSelectionChange(
         TextSelection.collapsed(offset: word.start),
         cause,
@@ -1786,7 +1799,10 @@ class RenderEditableContainerBox extends RenderBox
       dy += child.size.height;
       child = childAfter(child);
     }
-    throw StateError('No child at offset $offset.');
+
+    // this case possible, when editor not scrollable,
+    // but minHeight > content height and tap was under content
+    return lastChild!;
   }
 
   @override
