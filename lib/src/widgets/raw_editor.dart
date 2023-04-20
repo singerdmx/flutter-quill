@@ -191,6 +191,7 @@ class RawEditor extends StatefulWidget {
   /// horizontally centered. This is mostly useful on devices with wide screens.
   final double? maxContentWidth;
 
+  /// Allows to override [DefaultStyles].
   final DefaultStyles? customStyles;
 
   /// Whether this widget's height will be sized to fill its parent.
@@ -246,7 +247,14 @@ class RawEditor extends StatefulWidget {
 
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
 
-  final Map<LogicalKeySet, Intent>? customShortcuts;
+  /// Contains user-defined shortcuts map.
+  ///
+  /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
+  final Map<ShortcutActivator, Intent>? customShortcuts;
+
+  /// Contains user-defined actions.
+  ///
+  /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#actions]
   final Map<Type, Action<Intent>>? customActions;
 
   /// Builder function for embeddable objects.
