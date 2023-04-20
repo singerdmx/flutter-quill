@@ -42,7 +42,7 @@ import 'raw_editor/raw_editor_state_text_input_client_mixin.dart';
 import 'text_block.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
-import 'toolbar/link_style_button.dart';
+import 'toolbar/link_style_button2.dart';
 import 'toolbar/search_dialog.dart';
 
 class RawEditor extends StatefulWidget {
@@ -2574,13 +2574,22 @@ class ApplyLinkAction extends Action<ApplyLinkIntent> {
   final RawEditorState state;
 
   @override
-  Object? invoke(ApplyLinkIntent intent) {
-    showDialog(
+  Object? invoke(ApplyLinkIntent intent) async {
+    final initialTextLink = QuillTextLink.prepare(state.controller);
+
+    final textLink = await showDialog<QuillTextLink>(
       context: state.context,
       builder: (context) {
-        return const LinkStyleDialog();
+        return LinkStyleDialog(
+          text: initialTextLink.text,
+          link: initialTextLink.link,
+        );
       },
     );
+
+    if (textLink != null) {
+      textLink.submit(state.controller);
+    }
     return null;
   }
 }
