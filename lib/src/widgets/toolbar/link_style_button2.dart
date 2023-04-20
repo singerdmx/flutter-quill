@@ -247,9 +247,16 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
               kIsWeb ? mediaQuery.size.width / 4 : mediaQuery.size.width - 80;
           return BoxConstraints(maxWidth: maxWidth, maxHeight: 80);
         }();
-    final buttonStyle = Theme.of(context).elevatedButtonTheme.style?.copyWith(
-          fixedSize: MaterialStatePropertyAll(widget.buttonSize),
-        );
+
+    var buttonStyle = widget.dialogTheme?.buttonStyle;
+    if (buttonStyle == null) {
+      if (widget.buttonSize != null) {
+        buttonStyle = Theme.of(context).elevatedButtonTheme.style?.copyWith(
+              fixedSize: MaterialStatePropertyAll(widget.buttonSize),
+            );
+      }
+    }
+
     return Dialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       shape: widget.dialogTheme?.shape ??

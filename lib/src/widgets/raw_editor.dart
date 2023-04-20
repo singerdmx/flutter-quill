@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
-// ignore: unnecessary_import
-import 'dart:typed_data';
 import 'dart:ui' as ui hide TextStyle;
 
 import 'package:flutter/foundation.dart';
@@ -24,6 +22,7 @@ import '../models/documents/nodes/node.dart';
 import '../models/documents/style.dart';
 import '../models/structs/offset_value.dart';
 import '../models/structs/vertical_spacing.dart';
+import '../models/themes/quill_dialog_theme.dart';
 import '../utils/cast.dart';
 import '../utils/delta.dart';
 import '../utils/embeds.dart';
@@ -82,6 +81,7 @@ class RawEditor extends StatefulWidget {
     this.floatingCursorDisabled = false,
     this.onImagePaste,
     this.customLinkPrefixes = const <String>[],
+    this.dialogTheme,
   })  : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -263,6 +263,9 @@ class RawEditor extends StatefulWidget {
   final CustomStyleBuilder? customStyleBuilder;
   final bool floatingCursorDisabled;
   final List<String> customLinkPrefixes;
+
+  /// Configures the dialog theme.
+  final QuillDialogTheme? dialogTheme;
 
   @override
   State<StatefulWidget> createState() => RawEditorState();
@@ -2591,6 +2594,7 @@ class ApplyLinkAction extends Action<ApplyLinkIntent> {
         return LinkStyleDialog(
           text: initialTextLink.text,
           link: initialTextLink.link,
+          dialogTheme: state.widget.dialogTheme,
         );
       },
     );

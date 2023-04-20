@@ -15,6 +15,7 @@ import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/structs/offset_value.dart';
+import '../models/themes/quill_dialog_theme.dart';
 import '../utils/platform.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -184,6 +185,7 @@ class QuillEditor extends StatefulWidget {
     this.detectWordBoundary = true,
     this.enableUnfocusOnTapOutside = true,
     this.customLinkPrefixes = const <String>[],
+    this.dialogTheme,
     Key? key,
   }) : super(key: key);
 
@@ -419,6 +421,9 @@ class QuillEditor extends StatefulWidget {
   ///
   /// Useful for deeplinks
   final List<String> customLinkPrefixes;
+
+  /// Configures the dialog theme.
+  final QuillDialogTheme? dialogTheme;
 
   @override
   QuillEditorState createState() => QuillEditorState();
