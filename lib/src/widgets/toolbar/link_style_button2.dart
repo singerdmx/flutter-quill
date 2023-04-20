@@ -7,6 +7,7 @@ import '../../../translations.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../utils/widgets.dart';
 import '../controller.dart';
 import '../link.dart';
 import '../toolbar.dart';
@@ -232,8 +233,10 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
     _isEditMode = _link.isNotEmpty;
     _linkController = TextEditingController.fromValue(
       TextEditingValue(
-        text: _isEditMode ? _link : _text,
-        selection: TextSelection(baseOffset: 0, extentOffset: _text.length),
+        text: _isEditMode ? _link : '',
+        selection: _isEditMode
+            ? TextSelection(baseOffset: 0, extentOffset: _link.length)
+            : const TextSelection.collapsed(offset: 0),
       ),
     );
   }
@@ -255,7 +258,94 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
             .style
             ?.copyWith(fixedSize: MaterialStatePropertyAll(widget.buttonSize))
         : widget.dialogTheme?.buttonStyle;
-    ;
+
+    final isWrappable = widget.dialogTheme?.isWrappable ?? false;
+
+    final children = _isEditMode
+        ? [
+            Text(widget.editLinkLabel ?? 'Visit link'.i18n),
+            UtilityWidgets.maybeWidget(
+              enabled: !isWrappable,
+              wrapper: (child) => Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: child,
+                ),
+              ),
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
+                child: Link(
+                  uri: Uri.parse(_linkController.text),
+                  builder: (context, followLink) {
+                    return TextButton(
+                      onPressed: followLink,
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                      ),
+                      child: Text(
+                        widget.link!,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        style: widget.dialogTheme?.inputTextStyle?.copyWith(
+                          color: widget.linkColor ?? Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isEditMode = !_isEditMode;
+                });
+              },
+              style: buttonStyle,
+              child: Text('Edit'.i18n),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: widget.childrenSpacing),
+              child: ElevatedButton(
+                onPressed: _removeLink,
+                style: buttonStyle,
+                child: Text('Remove'.i18n),
+              ),
+            ),
+          ]
+        : [
+            Text(widget.addLinkLabel ?? 'Enter link'.i18n),
+            UtilityWidgets.maybeWidget(
+              enabled: !isWrappable,
+              wrapper: (child) => Expanded(
+                child: child,
+              ),
+              child: Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
+                child: TextFormField(
+                  controller: _linkController,
+                  style: widget.dialogTheme?.inputTextStyle,
+                  keyboardType: TextInputType.url,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    labelStyle: widget.dialogTheme?.labelTextStyle,
+                  ),
+                  autofocus: true,
+                  autovalidateMode: widget.autovalidateMode,
+                  validator: _validateLink,
+                  onChanged: _linkChanged,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _canPress() ? _applyLink : null,
+              style: buttonStyle,
+              child: Text('Apply'.i18n),
+            ),
+          ];
 
     return Dialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
@@ -266,86 +356,16 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
         constraints: constraints,
         child: Padding(
           padding: widget.contentPadding,
-          child: Row(
-            children: [
-              if (_isEditMode) ...[
-                Text(widget.editLinkLabel ?? 'Visit link'.i18n),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: widget.childrenSpacing),
-                      child: Link(
-                        uri: Uri.parse(_linkController.text),
-                        builder: (context, followLink) {
-                          return TextButton(
-                            onPressed: followLink,
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                            ),
-                            child: Text(
-                              widget.link!,
-                              textAlign: TextAlign.left,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  widget.dialogTheme?.inputTextStyle?.copyWith(
-                                color: widget.linkColor ?? Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+          child: isWrappable
+              ? Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runSpacing: widget.dialogTheme?.runSpacing ?? 0.0,
+                  children: children,
+                )
+              : Row(
+                  children: children,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _isEditMode = !_isEditMode;
-                    });
-                  },
-                  style: buttonStyle,
-                  child: Text('Edit'.i18n),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: widget.childrenSpacing),
-                  child: ElevatedButton(
-                    onPressed: _removeLink,
-                    style: buttonStyle,
-                    child: Text('Remove'.i18n),
-                  ),
-                ),
-              ] else ...[
-                Text(widget.addLinkLabel ?? 'Enter link'.i18n),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: widget.childrenSpacing),
-                    child: TextFormField(
-                      controller: _linkController,
-                      style: widget.dialogTheme?.inputTextStyle,
-                      keyboardType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                        labelStyle: widget.dialogTheme?.labelTextStyle,
-                      ),
-                      autofocus: true,
-                      autovalidateMode: widget.autovalidateMode,
-                      validator: _validateLink,
-                      onChanged: _linkChanged,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: _canPress() ? _applyLink : null,
-                  style: buttonStyle,
-                  child: Text('Apply'.i18n),
-                ),
-              ],
-            ],
-          ),
         ),
       ),
     );
