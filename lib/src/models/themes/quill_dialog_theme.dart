@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// Used to configure the dialog's look and feel.
 class QuillDialogTheme with Diagnosticable {
   const QuillDialogTheme({
     this.labelTextStyle,
     this.inputTextStyle,
     this.dialogBackgroundColor,
     this.shape,
+    this.buttonStyle,
   });
 
   ///The text style to use for the label shown in the link-input dialog
@@ -25,11 +27,15 @@ class QuillDialogTheme with Diagnosticable {
   /// The default shape is a [RoundedRectangleBorder] with a radius of 4.0
   final ShapeBorder? shape;
 
+  /// Customizes this button's appearance.
+  final ButtonStyle? buttonStyle;
+
   QuillDialogTheme copyWith({
     TextStyle? labelTextStyle,
     TextStyle? inputTextStyle,
     Color? dialogBackgroundColor,
     ShapeBorder? shape,
+    ButtonStyle? buttonStyle,
   }) {
     return QuillDialogTheme(
       labelTextStyle: labelTextStyle ?? this.labelTextStyle,
@@ -37,6 +43,7 @@ class QuillDialogTheme with Diagnosticable {
       dialogBackgroundColor:
           dialogBackgroundColor ?? this.dialogBackgroundColor,
       shape: shape ?? this.shape,
+      buttonStyle: buttonStyle ?? buttonStyle,
     );
   }
 
@@ -49,7 +56,8 @@ class QuillDialogTheme with Diagnosticable {
         other.labelTextStyle == labelTextStyle &&
         other.inputTextStyle == inputTextStyle &&
         other.dialogBackgroundColor == dialogBackgroundColor &&
-        other.shape == shape;
+        other.shape == shape &&
+        other.buttonStyle == buttonStyle;
   }
 
   @override
@@ -58,5 +66,6 @@ class QuillDialogTheme with Diagnosticable {
         inputTextStyle,
         dialogBackgroundColor,
         shape,
+        buttonStyle,
       );
 }
