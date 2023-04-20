@@ -11,7 +11,9 @@ class QuillDialogTheme with Diagnosticable {
     this.buttonStyle,
     this.linkDialogConstraints,
     this.imageDialogConstraints,
-  });
+    this.isWrappable = false,
+    this.runSpacing = 8.0,
+  }) : assert(runSpacing >= 0);
 
   ///The text style to use for the label shown in the link-input dialog
   final TextStyle? labelTextStyle;
@@ -38,6 +40,16 @@ class QuillDialogTheme with Diagnosticable {
   /// Customizes this button's appearance.
   final ButtonStyle? buttonStyle;
 
+  /// Whether dialog's children are wrappred with [Wrap] instead of [Row].
+  final bool isWrappable;
+
+  /// How much space to place between the runs themselves in the cross axis.
+  ///
+  /// Make sense if [isWrappable] is `true`.
+  ///
+  /// Defaults to 0.0.
+  final double runSpacing;
+
   QuillDialogTheme copyWith({
     TextStyle? labelTextStyle,
     TextStyle? inputTextStyle,
@@ -46,6 +58,8 @@ class QuillDialogTheme with Diagnosticable {
     ButtonStyle? buttonStyle,
     BoxConstraints? linkDialogConstraints,
     BoxConstraints? imageDialogConstraints,
+    bool? isWrappable,
+    double? runSpacing,
   }) {
     return QuillDialogTheme(
       labelTextStyle: labelTextStyle ?? this.labelTextStyle,
@@ -58,6 +72,8 @@ class QuillDialogTheme with Diagnosticable {
           linkDialogConstraints ?? this.linkDialogConstraints,
       imageDialogConstraints:
           imageDialogConstraints ?? this.imageDialogConstraints,
+      isWrappable: isWrappable ?? this.isWrappable,
+      runSpacing: runSpacing ?? this.runSpacing,
     );
   }
 
@@ -73,7 +89,9 @@ class QuillDialogTheme with Diagnosticable {
         other.shape == shape &&
         other.buttonStyle == buttonStyle &&
         other.linkDialogConstraints == linkDialogConstraints &&
-        other.imageDialogConstraints == imageDialogConstraints;
+        other.imageDialogConstraints == imageDialogConstraints &&
+        other.isWrappable == isWrappable &&
+        other.runSpacing == runSpacing;
   }
 
   @override
@@ -85,5 +103,7 @@ class QuillDialogTheme with Diagnosticable {
         buttonStyle,
         linkDialogConstraints,
         imageDialogConstraints,
+        isWrappable,
+        runSpacing,
       );
 }
