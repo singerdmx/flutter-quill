@@ -92,7 +92,7 @@ class Attribute<T> {
 
   static const TokenAttribute token = TokenAttribute('');
 
-  static const ScriptAttribute script = ScriptAttribute(null);
+  static final ScriptAttribute script = ScriptAttribute(null);
 
   static const String mobileWidth = 'mobileWidth';
 
@@ -357,12 +357,19 @@ class TokenAttribute extends Attribute<String> {
 }
 
 // `script` is supposed to be inline attribute but it is not supported yet
-class ScriptAttribute extends Attribute<ScriptAttributes?> {
-  const ScriptAttribute(ScriptAttributes? val)
-      : super('script', AttributeScope.IGNORE, val);
+class ScriptAttribute extends Attribute<String?> {
+  ScriptAttribute(ScriptAttributes? val)
+      : super('script', AttributeScope.IGNORE, val?.value);
 }
 
-enum ScriptAttributes { sup, sub }
+enum ScriptAttributes {
+  sup('super'),
+  sub('sup');
+
+  const ScriptAttributes(this.value);
+
+  final String value;
+}
 
 class ImageAttribute extends Attribute<String?> {
   const ImageAttribute(String? url)
