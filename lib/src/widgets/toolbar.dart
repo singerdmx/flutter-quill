@@ -29,6 +29,7 @@ export 'toolbar/color_button.dart';
 export 'toolbar/history_button.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
+export 'toolbar/link_style_button2.dart';
 export 'toolbar/quill_font_family_button.dart';
 export 'toolbar/quill_font_size_button.dart';
 export 'toolbar/quill_icon_button.dart';

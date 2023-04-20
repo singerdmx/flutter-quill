@@ -15,6 +15,7 @@ import '../models/documents/nodes/container.dart' as container_node;
 import '../models/documents/nodes/leaf.dart';
 import '../models/documents/style.dart';
 import '../models/structs/offset_value.dart';
+import '../models/themes/quill_dialog_theme.dart';
 import '../utils/platform.dart';
 import 'box.dart';
 import 'controller.dart';
@@ -143,49 +144,50 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
 }
 
 class QuillEditor extends StatefulWidget {
-  const QuillEditor(
-      {required this.controller,
-      required this.focusNode,
-      required this.scrollController,
-      required this.scrollable,
-      required this.padding,
-      required this.autoFocus,
-      required this.readOnly,
-      required this.expands,
-      this.showCursor,
-      this.paintCursorAboveText,
-      this.placeholder,
-      this.enableInteractiveSelection = true,
-      this.enableSelectionToolbar = true,
-      this.scrollBottomInset = 0,
-      this.minHeight,
-      this.maxHeight,
-      this.maxContentWidth,
-      this.customStyles,
-      this.textCapitalization = TextCapitalization.sentences,
-      this.keyboardAppearance = Brightness.light,
-      this.scrollPhysics,
-      this.onLaunchUrl,
-      this.onTapDown,
-      this.onTapUp,
-      this.onSingleLongTapStart,
-      this.onSingleLongTapMoveUpdate,
-      this.onSingleLongTapEnd,
-      this.embedBuilders,
-      this.unknownEmbedBuilder,
-      this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
-      this.customStyleBuilder,
-      this.locale,
-      this.floatingCursorDisabled = false,
-      this.textSelectionControls,
-      this.onImagePaste,
-      this.customShortcuts,
-      this.customActions,
-      this.detectWordBoundary = true,
-      this.enableUnfocusOnTapOutside = true,
-      this.customLinkPrefixes = const <String>[],
-      Key? key})
-      : super(key: key);
+  const QuillEditor({
+    required this.controller,
+    required this.focusNode,
+    required this.scrollController,
+    required this.scrollable,
+    required this.padding,
+    required this.autoFocus,
+    required this.readOnly,
+    required this.expands,
+    this.showCursor,
+    this.paintCursorAboveText,
+    this.placeholder,
+    this.enableInteractiveSelection = true,
+    this.enableSelectionToolbar = true,
+    this.scrollBottomInset = 0,
+    this.minHeight,
+    this.maxHeight,
+    this.maxContentWidth,
+    this.customStyles,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.keyboardAppearance = Brightness.light,
+    this.scrollPhysics,
+    this.onLaunchUrl,
+    this.onTapDown,
+    this.onTapUp,
+    this.onSingleLongTapStart,
+    this.onSingleLongTapMoveUpdate,
+    this.onSingleLongTapEnd,
+    this.embedBuilders,
+    this.unknownEmbedBuilder,
+    this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
+    this.customStyleBuilder,
+    this.locale,
+    this.floatingCursorDisabled = false,
+    this.textSelectionControls,
+    this.onImagePaste,
+    this.customShortcuts,
+    this.customActions,
+    this.detectWordBoundary = true,
+    this.enableUnfocusOnTapOutside = true,
+    this.customLinkPrefixes = const <String>[],
+    this.dialogTheme,
+    Key? key,
+  }) : super(key: key);
 
   factory QuillEditor.basic({
     required QuillController controller,
@@ -302,6 +304,7 @@ class QuillEditor extends StatefulWidget {
   /// horizontally centered. This is mostly useful on devices with wide screens.
   final double? maxContentWidth;
 
+  /// Allows to override [DefaultStyles].
   final DefaultStyles? customStyles;
 
   /// Whether this editor's height will be sized to fill its parent.
@@ -401,7 +404,14 @@ class QuillEditor extends StatefulWidget {
   /// Returns the url of the image if the image should be inserted.
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
 
-  final Map<LogicalKeySet, Intent>? customShortcuts;
+  /// Contains user-defined shortcuts map.
+  ///
+  /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
+  final Map<ShortcutActivator, Intent>? customShortcuts;
+
+  /// Contains user-defined actions.
+  ///
+  /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#actions]
   final Map<Type, Action<Intent>>? customActions;
 
   final bool detectWordBoundary;
@@ -411,6 +421,9 @@ class QuillEditor extends StatefulWidget {
   ///
   /// Useful for deeplinks
   final List<String> customLinkPrefixes;
+
+  /// Configures the dialog theme.
+  final QuillDialogTheme? dialogTheme;
 
   @override
   QuillEditorState createState() => QuillEditorState();
@@ -511,6 +524,7 @@ class QuillEditorState extends State<QuillEditor>
       customActions: widget.customActions,
       customLinkPrefixes: widget.customLinkPrefixes,
       enableUnfocusOnTapOutside: widget.enableUnfocusOnTapOutside,
+      dialogTheme: widget.dialogTheme,
     );
 
     final editor = I18n(
