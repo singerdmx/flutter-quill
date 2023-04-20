@@ -9,6 +9,8 @@ class QuillDialogTheme with Diagnosticable {
     this.dialogBackgroundColor,
     this.shape,
     this.buttonStyle,
+    this.linkDialogConstraints,
+    this.imageDialogConstraints,
   });
 
   ///The text style to use for the label shown in the link-input dialog
@@ -27,6 +29,12 @@ class QuillDialogTheme with Diagnosticable {
   /// The default shape is a [RoundedRectangleBorder] with a radius of 4.0
   final ShapeBorder? shape;
 
+  /// Constrains for [LinkStyleDialog].
+  final BoxConstraints? linkDialogConstraints;
+
+  /// Constrains for [EmbedImageDialog].
+  final BoxConstraints? imageDialogConstraints;
+
   /// Customizes this button's appearance.
   final ButtonStyle? buttonStyle;
 
@@ -36,6 +44,8 @@ class QuillDialogTheme with Diagnosticable {
     Color? dialogBackgroundColor,
     ShapeBorder? shape,
     ButtonStyle? buttonStyle,
+    BoxConstraints? linkDialogConstraints,
+    BoxConstraints? imageDialogConstraints,
   }) {
     return QuillDialogTheme(
       labelTextStyle: labelTextStyle ?? this.labelTextStyle,
@@ -43,7 +53,11 @@ class QuillDialogTheme with Diagnosticable {
       dialogBackgroundColor:
           dialogBackgroundColor ?? this.dialogBackgroundColor,
       shape: shape ?? this.shape,
-      buttonStyle: buttonStyle ?? buttonStyle,
+      buttonStyle: buttonStyle ?? this.buttonStyle,
+      linkDialogConstraints:
+          linkDialogConstraints ?? this.linkDialogConstraints,
+      imageDialogConstraints:
+          imageDialogConstraints ?? this.imageDialogConstraints,
     );
   }
 
@@ -57,7 +71,9 @@ class QuillDialogTheme with Diagnosticable {
         other.inputTextStyle == inputTextStyle &&
         other.dialogBackgroundColor == dialogBackgroundColor &&
         other.shape == shape &&
-        other.buttonStyle == buttonStyle;
+        other.buttonStyle == buttonStyle &&
+        other.linkDialogConstraints == linkDialogConstraints &&
+        other.imageDialogConstraints == imageDialogConstraints;
   }
 
   @override
@@ -67,5 +83,7 @@ class QuillDialogTheme with Diagnosticable {
         dialogBackgroundColor,
         shape,
         buttonStyle,
+        linkDialogConstraints,
+        imageDialogConstraints,
       );
 }
