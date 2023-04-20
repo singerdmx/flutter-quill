@@ -64,6 +64,7 @@ extension Localization on String {
           'Visit link': 'Visit link',
           'Enter link': 'Enter link',
           'Edit': 'Edit',
+          'Apply': 'Apply',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -126,6 +127,7 @@ extension Localization on String {
           'Visit link': 'Visit link',
           'Enter link': 'Enter link',
           'Edit': 'Edit',
+          'Apply': 'Apply',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
