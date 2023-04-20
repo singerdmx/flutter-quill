@@ -241,6 +241,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
   @override
   Widget build(BuildContext context) {
     final constraints = widget.constraints ??
+        widget.dialogTheme?.linkDialogConstraints ??
         () {
           final mediaQuery = MediaQuery.of(context);
           final maxWidth =
@@ -248,14 +249,13 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
           return BoxConstraints(maxWidth: maxWidth, maxHeight: 80);
         }();
 
-    var buttonStyle = widget.dialogTheme?.buttonStyle;
-    if (buttonStyle == null) {
-      if (widget.buttonSize != null) {
-        buttonStyle = Theme.of(context).elevatedButtonTheme.style?.copyWith(
-              fixedSize: MaterialStatePropertyAll(widget.buttonSize),
-            );
-      }
-    }
+    final buttonStyle = widget.buttonSize != null
+        ? Theme.of(context)
+            .elevatedButtonTheme
+            .style
+            ?.copyWith(fixedSize: MaterialStatePropertyAll(widget.buttonSize))
+        : widget.dialogTheme?.buttonStyle;
+    ;
 
     return Dialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
