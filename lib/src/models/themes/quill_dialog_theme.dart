@@ -65,7 +65,9 @@ class QuillDialogTheme with Diagnosticable {
     ShapeBorder? shape,
     ButtonStyle? buttonStyle,
     BoxConstraints? linkDialogConstraints,
+    EdgeInsetsGeometry? linkDialogPadding,
     BoxConstraints? imageDialogConstraints,
+    EdgeInsetsGeometry? mediaDialogPadding,
     bool? isWrappable,
     double? runSpacing,
   }) {
@@ -78,7 +80,9 @@ class QuillDialogTheme with Diagnosticable {
       buttonStyle: buttonStyle ?? this.buttonStyle,
       linkDialogConstraints:
           linkDialogConstraints ?? this.linkDialogConstraints,
+      linkDialogPadding: linkDialogPadding ?? this.linkDialogPadding,
       mediaDialogConstraints: imageDialogConstraints ?? mediaDialogConstraints,
+      mediaDialogPadding: mediaDialogPadding ?? this.mediaDialogPadding,
       isWrappable: isWrappable ?? this.isWrappable,
       runSpacing: runSpacing ?? this.runSpacing,
     );
@@ -96,7 +100,9 @@ class QuillDialogTheme with Diagnosticable {
         other.shape == shape &&
         other.buttonStyle == buttonStyle &&
         other.linkDialogConstraints == linkDialogConstraints &&
+        other.linkDialogPadding == linkDialogPadding &&
         other.mediaDialogConstraints == mediaDialogConstraints &&
+        other.mediaDialogPadding == mediaDialogPadding &&
         other.isWrappable == isWrappable &&
         other.runSpacing == runSpacing;
   }
@@ -109,7 +115,9 @@ class QuillDialogTheme with Diagnosticable {
         shape,
         buttonStyle,
         linkDialogConstraints,
+        linkDialogPadding,
         mediaDialogConstraints,
+        mediaDialogPadding,
         isWrappable,
         runSpacing,
       );
