@@ -14,8 +14,8 @@ export 'embeds/embed_types.dart';
 export 'embeds/toolbar/camera_button.dart';
 export 'embeds/toolbar/formula_button.dart';
 export 'embeds/toolbar/image_button.dart';
-export 'embeds/toolbar/image_button2.dart';
 export 'embeds/toolbar/image_video_utils.dart';
+export 'embeds/toolbar/media_button.dart';
 export 'embeds/toolbar/video_button.dart';
 export 'embeds/utils.dart';
 
