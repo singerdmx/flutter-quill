@@ -10,7 +10,9 @@ class QuillDialogTheme with Diagnosticable {
     this.shape,
     this.buttonStyle,
     this.linkDialogConstraints,
-    this.imageDialogConstraints,
+    this.linkDialogPadding = const EdgeInsets.all(16),
+    this.mediaSelectorDialogConstraints,
+    this.mediaSelectorDialogPadding = const EdgeInsets.all(16),
     this.isWrappable = false,
     this.runSpacing = 8.0,
   }) : assert(runSpacing >= 0);
@@ -34,8 +36,14 @@ class QuillDialogTheme with Diagnosticable {
   /// Constrains for [LinkStyleDialog].
   final BoxConstraints? linkDialogConstraints;
 
-  /// Constrains for [EmbedImageDialog].
-  final BoxConstraints? imageDialogConstraints;
+  /// The padding for content of [LinkStyleDialog].
+  final EdgeInsetsGeometry linkDialogPadding;
+
+  /// Constrains for [MediaSourceSelectorDialog].
+  final BoxConstraints? mediaSelectorDialogConstraints;
+
+  /// The padding for content of [MediaSourceSelectorDialog].
+  final EdgeInsetsGeometry mediaSelectorDialogPadding;
 
   /// Customizes this button's appearance.
   final ButtonStyle? buttonStyle;
@@ -57,7 +65,9 @@ class QuillDialogTheme with Diagnosticable {
     ShapeBorder? shape,
     ButtonStyle? buttonStyle,
     BoxConstraints? linkDialogConstraints,
+    EdgeInsetsGeometry? linkDialogPadding,
     BoxConstraints? imageDialogConstraints,
+    EdgeInsetsGeometry? mediaDialogPadding,
     bool? isWrappable,
     double? runSpacing,
   }) {
@@ -70,8 +80,11 @@ class QuillDialogTheme with Diagnosticable {
       buttonStyle: buttonStyle ?? this.buttonStyle,
       linkDialogConstraints:
           linkDialogConstraints ?? this.linkDialogConstraints,
-      imageDialogConstraints:
-          imageDialogConstraints ?? this.imageDialogConstraints,
+      linkDialogPadding: linkDialogPadding ?? this.linkDialogPadding,
+      mediaSelectorDialogConstraints:
+          imageDialogConstraints ?? mediaSelectorDialogConstraints,
+      mediaSelectorDialogPadding:
+          mediaDialogPadding ?? mediaSelectorDialogPadding,
       isWrappable: isWrappable ?? this.isWrappable,
       runSpacing: runSpacing ?? this.runSpacing,
     );
@@ -89,7 +102,10 @@ class QuillDialogTheme with Diagnosticable {
         other.shape == shape &&
         other.buttonStyle == buttonStyle &&
         other.linkDialogConstraints == linkDialogConstraints &&
-        other.imageDialogConstraints == imageDialogConstraints &&
+        other.linkDialogPadding == linkDialogPadding &&
+        other.mediaSelectorDialogConstraints ==
+            mediaSelectorDialogConstraints &&
+        other.mediaSelectorDialogPadding == mediaSelectorDialogPadding &&
         other.isWrappable == isWrappable &&
         other.runSpacing == runSpacing;
   }
@@ -102,7 +118,9 @@ class QuillDialogTheme with Diagnosticable {
         shape,
         buttonStyle,
         linkDialogConstraints,
-        imageDialogConstraints,
+        linkDialogPadding,
+        mediaSelectorDialogConstraints,
+        mediaSelectorDialogPadding,
         isWrappable,
         runSpacing,
       );

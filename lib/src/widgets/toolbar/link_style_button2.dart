@@ -7,7 +7,6 @@ import '../../../translations.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
-import '../../utils/widgets.dart';
 import '../controller.dart';
 import '../link.dart';
 import '../toolbar.dart';

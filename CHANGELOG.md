@@ -1,3 +1,8 @@
+# [7.1.10]
+- Image embedding tweaks
+  - Add MediaButton which is intened to superseed the ImageButton and VideoButton. Only image selection is working.
+  - Implement image insert for web (image as base64)
+
 # [7.1.9]
 
 - Editor tweaks PR from [bambinoua](https://github.com/bambinoua).
@@ -8,13 +13,11 @@
   - Update minimum Dart SDK version to 2.17.0 to use enum extensions.
   - Use merging shortcuts and actions correclty (if the key combination is the same)
 
-
 # [7.1.8]
 - Dropdown tweaks
   - Add itemHeight, itemPadding, defaultItemColor for customization of dropdown items.
   - Remove alignment property as useless.
   - Fix bugs with max width when width property is null.
-
 
 # [7.1.7]
 
@@ -29,7 +32,6 @@
   - Make onSelection QuillFontFamilyButton, QuillFontSizeButton omittable as no need to execute callback outside if controller is passed to widget.
 
 Now the package is more friendly for web projects.
-
 
 # [7.1.6]
 

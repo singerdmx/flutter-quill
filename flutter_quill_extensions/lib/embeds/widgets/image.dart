@@ -21,7 +21,7 @@ String getImageStyleString(QuillController controller) {
   final String? s = controller
       .getAllSelectionStyles()
       .firstWhere((s) => s.attributes.containsKey(Attribute.style.key),
-          orElse: () => Style())
+          orElse: Style.new)
       .attributes[Attribute.style.key]
       ?.value;
   return s ?? '';
