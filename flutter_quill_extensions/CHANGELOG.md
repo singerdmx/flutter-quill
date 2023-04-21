@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Added support for adding custom tooltips to toolbar buttons
+
 ## 0.2.0
 
 * Allow widgets to override widget span properties [b7951b0](https://github.com/singerdmx/flutter-quill/commit/b7951b02c9086ea42e7aad6d78e6c9b0297562e5)
