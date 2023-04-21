@@ -1,18 +1,18 @@
 name: flutter_quill_extensions
 description: Embed extensions for flutter_quill including image, video, formula and etc.
-version: 0.2.1
+version: 0.2.1+1
 homepage: https://bulletjournal.us/home/index.html
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.1.7
+  flutter_quill: ^7.1.9
 
   image_picker: ^0.8.5+3
   photo_view: ^0.14.0
