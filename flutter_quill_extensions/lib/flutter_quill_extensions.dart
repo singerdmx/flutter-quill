@@ -29,6 +29,10 @@ class FlutterQuillEmbeds {
         FormulaEmbedBuilder(),
       ];
 
+  static List<EmbedBuilder> webBuilders() => [
+        ImageEmbedBuilderWeb(),
+      ];
+
   static List<EmbedButtonBuilder> buttons({
     bool showImageButton = true,
     bool showVideoButton = true,
