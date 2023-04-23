@@ -675,15 +675,14 @@ class RawEditorState extends EditorState
     if (event is! RawKeyDownEvent) {
       return KeyEventResult.ignored;
     }
+    // Handle indenting blocks when pressing the tab key.
+    if (event.logicalKey == LogicalKeyboardKey.tab) {
+      return _handleTabKey(event);
+    }
 
     // Don't handle key if there is an active selection.
     if (controller.selection.baseOffset != controller.selection.extentOffset) {
       return KeyEventResult.ignored;
-    }
-
-    // Handle indenting blocks when pressing the tab key.
-    if (event.logicalKey == LogicalKeyboardKey.tab) {
-      return _handleTabKey(event);
     }
 
     // Handle inserting lists when space is pressed following
@@ -733,6 +732,19 @@ class RawEditorState extends EditorState
     KeyEventResult insertTabCharacter() {
       controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
       _moveCursor(1);
+      return KeyEventResult.handled;
+    }
+
+    if (controller.selection.baseOffset != controller.selection.extentOffset) {
+      if (child.node == null || child.node!.parent == null) {
+        return KeyEventResult.handled;
+      }
+      final parentBlock = child.node!.parent!;
+      if (parentBlock.style.containsKey(Attribute.ol.key) ||
+          parentBlock.style.containsKey(Attribute.ul.key) ||
+          parentBlock.style.containsKey(Attribute.checked.key)) {
+        controller.indentSelection(!event.isShiftPressed);
+      }
       return KeyEventResult.handled;
     }
 
