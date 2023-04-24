@@ -1,3 +1,6 @@
+# [7.1.11]
+- Add inserting indents for lines of list if text is selected
+
 # [7.1.10]
 - Image embedding tweaks
   - Add MediaButton which is intened to superseed the ImageButton and VideoButton. Only image selection is working.
