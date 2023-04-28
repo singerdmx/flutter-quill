@@ -1,5 +1,8 @@
+# [7.1.12]
+- Add superscript and subscript styles.
+
 # [7.1.11]
-- Add inserting indents for lines of list if text is selected
+- Add inserting indents for lines of list if text is selected.
 
 # [7.1.10]
 - Image embedding tweaks

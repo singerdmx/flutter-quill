@@ -50,9 +50,11 @@ class Attribute<T> {
 
   static const BoldAttribute bold = BoldAttribute();
 
-  static final ScriptAttribute subscript = ScriptAttribute(ScriptAttributes.sub);
+  static final ScriptAttribute subscript =
+      ScriptAttribute(ScriptAttributes.sub);
 
-  static final ScriptAttribute superscript = ScriptAttribute(ScriptAttributes.sup);
+  static final ScriptAttribute superscript =
+      ScriptAttribute(ScriptAttributes.sup);
 
   static const ItalicAttribute italic = ItalicAttribute();
 

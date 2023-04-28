@@ -300,7 +300,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             afterButtonPressed: afterButtonPressed,
           ),
-
         if (showSubscript)
           ToggleStyleButton(
             attribute: Attribute.subscript,
@@ -311,7 +310,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             afterButtonPressed: afterButtonPressed,
           ),
-
         if (showSuperscript)
           ToggleStyleButton(
             attribute: Attribute.superscript,
@@ -322,7 +320,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             afterButtonPressed: afterButtonPressed,
           ),
-
         if (showItalicButton)
           ToggleStyleButton(
             attribute: Attribute.italic,

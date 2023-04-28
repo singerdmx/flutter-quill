@@ -355,7 +355,7 @@ class _TextLineState extends State<TextLine> {
     if (nodeStyle.containsKey(Attribute.script.key)) {
       if (nodeStyle.attributes.values.contains(Attribute.subscript)) {
         res = _merge(res, defaultStyles.subscript!);
-      }else if (nodeStyle.attributes.values.contains(Attribute.superscript)) {
+      } else if (nodeStyle.attributes.values.contains(Attribute.superscript)) {
         res = _merge(res, defaultStyles.superscript!);
       }
     }
