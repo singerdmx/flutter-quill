@@ -250,8 +250,9 @@ class DefaultStyles {
         paragraph: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
             const VerticalSpacing(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
-        subscript: TextStyle(fontFeatures: [FontFeature.subscripts()]),
-        superscript: TextStyle(fontFeatures: [FontFeature.superscripts()]),
+        subscript: const TextStyle(fontFeatures: [FontFeature.subscripts()]),
+        superscript:
+            const TextStyle(fontFeatures: [FontFeature.superscripts()]),
         italic: const TextStyle(fontStyle: FontStyle.italic),
         small: const TextStyle(fontSize: 12),
         underline: const TextStyle(decoration: TextDecoration.underline),
