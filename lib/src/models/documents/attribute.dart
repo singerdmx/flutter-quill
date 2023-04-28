@@ -364,7 +364,6 @@ class TokenAttribute extends Attribute<String> {
   const TokenAttribute(String val) : super('token', AttributeScope.IGNORE, val);
 }
 
-// `script` is supposed to be inline attribute but it is not supported yet
 class ScriptAttribute extends Attribute<String?> {
   ScriptAttribute(ScriptAttributes? val)
       : super('script', AttributeScope.INLINE, val?.value);
