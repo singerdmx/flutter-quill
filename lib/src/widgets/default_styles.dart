@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/style.dart';
