@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/style.dart';
@@ -141,6 +142,8 @@ class DefaultStyles {
     this.h3,
     this.paragraph,
     this.bold,
+    this.subscript,
+    this.superscript,
     this.italic,
     this.small,
     this.underline,
@@ -165,6 +168,8 @@ class DefaultStyles {
   final DefaultTextBlockStyle? h3;
   final DefaultTextBlockStyle? paragraph;
   final TextStyle? bold;
+  final TextStyle? subscript;
+  final TextStyle? superscript;
   final TextStyle? italic;
   final TextStyle? small;
   final TextStyle? underline;
@@ -244,6 +249,8 @@ class DefaultStyles {
         paragraph: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
             const VerticalSpacing(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
+        subscript: TextStyle(fontFeatures: [FontFeature.subscripts()]),
+        superscript: TextStyle(fontFeatures: [FontFeature.superscripts()]),
         italic: const TextStyle(fontStyle: FontStyle.italic),
         small: const TextStyle(fontSize: 12),
         underline: const TextStyle(decoration: TextDecoration.underline),
@@ -317,6 +324,8 @@ class DefaultStyles {
         h3: other.h3 ?? h3,
         paragraph: other.paragraph ?? paragraph,
         bold: other.bold ?? bold,
+        subscript: other.subscript ?? subscript,
+        superscript: other.superscript ?? superscript,
         italic: other.italic ?? italic,
         small: other.small ?? small,
         underline: other.underline ?? underline,

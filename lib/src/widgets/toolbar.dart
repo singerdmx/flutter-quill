@@ -103,6 +103,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     bool showRedo = true,
     bool showDirection = false,
     bool showSearchButton = true,
+    bool showSubscript = true,
+    bool showSuperscript = true,
     List<QuillCustomButton> customButtons = const [],
 
     ///Map of font sizes in string
@@ -208,6 +210,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ToolbarButtons.fontFamily: 'Font family'.i18n,
           ToolbarButtons.fontSize: 'Font size'.i18n,
           ToolbarButtons.bold: 'Bold'.i18n,
+          ToolbarButtons.subscript: 'Subscript'.i18n,
+          ToolbarButtons.superscript: 'Superscript'.i18n,
           ToolbarButtons.italic: 'Italic'.i18n,
           ToolbarButtons.small: 'Small'.i18n,
           ToolbarButtons.underline: 'Underline'.i18n,
@@ -296,6 +300,29 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             afterButtonPressed: afterButtonPressed,
           ),
+
+        if (showSubscript)
+          ToggleStyleButton(
+            attribute: Attribute.subscript,
+            icon: Icons.subscript,
+            iconSize: toolbarIconSize,
+            tooltip: buttonTooltips[ToolbarButtons.subscript],
+            controller: controller,
+            iconTheme: iconTheme,
+            afterButtonPressed: afterButtonPressed,
+          ),
+
+        if (showSuperscript)
+          ToggleStyleButton(
+            attribute: Attribute.superscript,
+            icon: Icons.superscript,
+            iconSize: toolbarIconSize,
+            tooltip: buttonTooltips[ToolbarButtons.superscript],
+            controller: controller,
+            iconTheme: iconTheme,
+            afterButtonPressed: afterButtonPressed,
+          ),
+
         if (showItalicButton)
           ToggleStyleButton(
             attribute: Attribute.italic,

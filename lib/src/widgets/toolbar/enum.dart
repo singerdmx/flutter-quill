@@ -4,6 +4,8 @@ enum ToolbarButtons {
   fontFamily,
   fontSize,
   bold,
+  subscript,
+  superscript,
   italic,
   small,
   underline,
