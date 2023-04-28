@@ -19,6 +19,8 @@ class Attribute<T> {
 
   static final Map<String, Attribute> _registry = LinkedHashMap.of({
     Attribute.bold.key: Attribute.bold,
+    Attribute.subscript.key: Attribute.subscript,
+    Attribute.superscript.key: Attribute.superscript,
     Attribute.italic.key: Attribute.italic,
     Attribute.small.key: Attribute.small,
     Attribute.underline.key: Attribute.underline,
@@ -47,6 +49,10 @@ class Attribute<T> {
   });
 
   static const BoldAttribute bold = BoldAttribute();
+
+  static final ScriptAttribute subscript = ScriptAttribute(ScriptAttributes.sub);
+
+  static final ScriptAttribute superscript = ScriptAttribute(ScriptAttributes.sup);
 
   static const ItalicAttribute italic = ItalicAttribute();
 
@@ -108,6 +114,8 @@ class Attribute<T> {
 
   static final Set<String> inlineKeys = {
     Attribute.bold.key,
+    Attribute.subscript.key,
+    Attribute.superscript.key,
     Attribute.italic.key,
     Attribute.small.key,
     Attribute.underline.key,
@@ -356,10 +364,9 @@ class TokenAttribute extends Attribute<String> {
   const TokenAttribute(String val) : super('token', AttributeScope.IGNORE, val);
 }
 
-// `script` is supposed to be inline attribute but it is not supported yet
 class ScriptAttribute extends Attribute<String?> {
   ScriptAttribute(ScriptAttributes? val)
-      : super('script', AttributeScope.IGNORE, val?.value);
+      : super('script', AttributeScope.INLINE, val?.value);
 }
 
 enum ScriptAttributes {

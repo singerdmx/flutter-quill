@@ -105,7 +105,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    if (widget.attribute.key == Attribute.list.key) {
+    if (widget.attribute.key == Attribute.list.key || widget.attribute.key == Attribute.script.key) {
       final attribute = attrs[widget.attribute.key];
       if (attribute == null) {
         return false;
