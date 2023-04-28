@@ -315,8 +315,8 @@ class _TextLineState extends State<TextLine> {
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
-    final GestureRecognizer? recognizer = _getRecognizer(node, isLink);
-    
+    final recognizer = _getRecognizer(node, isLink);
+
     return TextSpan(
       text: textNode.value,
       style: _getInlineTextStyle(
@@ -359,7 +359,7 @@ class _TextLineState extends State<TextLine> {
     if (nodeStyle.containsKey(Attribute.script.key)) {
       if (nodeStyle.attributes.values.contains(Attribute.subscript)) {
         res = _merge(res, defaultStyles.subscript!);
-      }else if (nodeStyle.attributes.values.contains(Attribute.superscript)) {
+      } else if (nodeStyle.attributes.values.contains(Attribute.superscript)) {
         res = _merge(res, defaultStyles.superscript!);
       }
     }
@@ -419,16 +419,17 @@ class _TextLineState extends State<TextLine> {
       final textNode = segment as leaf.Text;
       final nodeStyle = textNode.style;
 
-      for (String key in nodeStyle.attributes.keys) {
-        final attr = nodeStyle.attributes[key];
-        if (attr != null) {
-          GestureRecognizer? recognizer = widget.customRecognizerBuilder!.call(attr);
-          if (recognizer != null) {
-            _linkRecognizers[segment] = recognizer!;
-            return recognizer;
-          }
+      nodeStyle.attributes.forEach((key, value) {
+        final recognizer = widget.customRecognizerBuilder!.call(value);
+        if (recognizer != null) {
+          _linkRecognizers[segment] = recognizer;
+          return;
         }
-      }
+      });
+    }
+
+    if (_linkRecognizers.containsKey(segment)) {
+      return _linkRecognizers[segment]!;
     }
 
     if (isLink && canLaunchLinks) {
