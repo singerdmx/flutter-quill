@@ -176,6 +176,7 @@ class QuillEditor extends StatefulWidget {
     this.unknownEmbedBuilder,
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
+    this.customRecognizerBuilder,
     this.locale,
     this.floatingCursorDisabled = false,
     this.textSelectionControls,
@@ -372,6 +373,7 @@ class QuillEditor extends StatefulWidget {
   final Iterable<EmbedBuilder>? embedBuilders;
   final EmbedBuilder? unknownEmbedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
+  final CustomRecognizerBuilder? customRecognizerBuilder;
 
   /// The locale to use for the editor toolbar, defaults to system locale
   /// More https://github.com/singerdmx/flutter-quill#translation
@@ -518,6 +520,7 @@ class QuillEditorState extends State<QuillEditor>
       embedBuilder: _getEmbedBuilder,
       linkActionPickerDelegate: widget.linkActionPickerDelegate,
       customStyleBuilder: widget.customStyleBuilder,
+      customRecognizerBuilder: widget.customRecognizerBuilder,
       floatingCursorDisabled: widget.floatingCursorDisabled,
       onImagePaste: widget.onImagePaste,
       customShortcuts: widget.customShortcuts,
