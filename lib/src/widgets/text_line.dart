@@ -41,6 +41,7 @@ class TextLine extends StatefulWidget {
     required this.linkActionPicker,
     this.textDirection,
     this.customStyleBuilder,
+    this.customRecognizerBuilder,
     this.customLinkPrefixes = const <String>[],
     Key? key,
   }) : super(key: key);
@@ -52,6 +53,7 @@ class TextLine extends StatefulWidget {
   final bool readOnly;
   final QuillController controller;
   final CustomStyleBuilder? customStyleBuilder;
+  final CustomRecognizerBuilder? customRecognizerBuilder;
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
@@ -313,12 +315,14 @@ class _TextLineState extends State<TextLine> {
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
+    final GestureRecognizer? recognizer = _getRecognizer(node, isLink);
+    
     return TextSpan(
       text: textNode.value,
       style: _getInlineTextStyle(
           textNode, defaultStyles, nodeStyle, lineStyle, isLink),
-      recognizer: isLink && canLaunchLinks ? _getRecognizer(node) : null,
-      mouseCursor: isLink && canLaunchLinks ? SystemMouseCursors.click : null,
+      recognizer: recognizer,
+      mouseCursor: (recognizer != null) ? SystemMouseCursors.click : null,
     );
   }
 
@@ -406,19 +410,37 @@ class _TextLineState extends State<TextLine> {
     return res;
   }
 
-  GestureRecognizer _getRecognizer(Node segment) {
+  GestureRecognizer? _getRecognizer(Node segment, bool isLink) {
     if (_linkRecognizers.containsKey(segment)) {
       return _linkRecognizers[segment]!;
     }
 
-    if (isDesktop() || widget.readOnly) {
-      _linkRecognizers[segment] = TapGestureRecognizer()
-        ..onTap = () => _tapNodeLink(segment);
-    } else {
-      _linkRecognizers[segment] = LongPressGestureRecognizer()
-        ..onLongPress = () => _longPressLink(segment);
+    if (widget.customRecognizerBuilder != null) {
+      final textNode = segment as leaf.Text;
+      final nodeStyle = textNode.style;
+
+      for (String key in nodeStyle.attributes.keys) {
+        final attr = nodeStyle.attributes[key];
+        if (attr != null) {
+          GestureRecognizer? recognizer = widget.customRecognizerBuilder!.call(attr);
+          if (recognizer != null) {
+            _linkRecognizers[segment] = recognizer!;
+            return recognizer;
+          }
+        }
+      }
     }
-    return _linkRecognizers[segment]!;
+
+    if (isLink && canLaunchLinks) {
+      if (isDesktop() || widget.readOnly) {
+        _linkRecognizers[segment] = TapGestureRecognizer()
+          ..onTap = () => _tapNodeLink(segment);
+      } else {
+        _linkRecognizers[segment] = LongPressGestureRecognizer()
+          ..onLongPress = () => _longPressLink(segment);
+      }
+    }
+    return _linkRecognizers[segment];
   }
 
   Future<void> _launchUrl(String url) async {

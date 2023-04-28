@@ -79,6 +79,7 @@ class RawEditor extends StatefulWidget {
     this.scrollPhysics,
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
+    this.customRecognizerBuilder,
     this.floatingCursorDisabled = false,
     this.onImagePaste,
     this.customLinkPrefixes = const <String>[],
@@ -262,6 +263,7 @@ class RawEditor extends StatefulWidget {
   final EmbedsBuilder embedBuilder;
   final LinkActionPickerDelegate linkActionPickerDelegate;
   final CustomStyleBuilder? customStyleBuilder;
+  final CustomRecognizerBuilder? customRecognizerBuilder;
   final bool floatingCursorDisabled;
   final List<String> customLinkPrefixes;
 
@@ -925,6 +927,7 @@ class RawEditorState extends EditorState
       textDirection: _textDirection,
       embedBuilder: widget.embedBuilder,
       customStyleBuilder: widget.customStyleBuilder,
+      customRecognizerBuilder: widget.customRecognizerBuilder,
       styles: _styles!,
       readOnly: widget.readOnly,
       controller: controller,
