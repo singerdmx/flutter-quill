@@ -1,3 +1,6 @@
+# [7.1.13]
+- Add custom recognizer.
+
 # [7.1.12]
 - Add superscript and subscript styles.
 

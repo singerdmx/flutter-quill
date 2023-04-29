@@ -14,7 +14,8 @@ typedef EmbedsBuilder = EmbedBuilder Function(Embed node);
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
-typedef CustomRecognizerBuilder = GestureRecognizer? Function(Attribute attribute);
+typedef CustomRecognizerBuilder = GestureRecognizer? Function(
+    Attribute attribute);
 
 /// Delegate interface for the [EditorTextSelectionGestureDetectorBuilder].
 ///
