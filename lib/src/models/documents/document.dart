@@ -170,6 +170,12 @@ class Document {
     return (res.node as Line).collectAllStyles(res.offset, len);
   }
 
+  /// Returns all styles for any character within the specified text range.
+  List<OffsetValue<Style>> collectAllStylesWithOffset(int index, int len) {
+    final res = queryChild(index);
+    return (res.node as Line).collectAllStylesWithOffsets(res.offset, len);
+  }
+
   /// Returns plain text within the specified text range.
   String getPlainText(int index, int len) {
     final res = queryChild(index);
