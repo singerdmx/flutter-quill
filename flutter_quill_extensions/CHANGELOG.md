@@ -1,3 +1,8 @@
+## 0.3.1
+* Image embedding tweaks
+  * Add MediaButton which is intened to superseed the ImageButton and VideoButton. Only image selection is working.
+  * Implement image insert for web (image as base64)
+
 ## 0.3.0
 
 * Added support for adding custom tooltips to toolbar buttons

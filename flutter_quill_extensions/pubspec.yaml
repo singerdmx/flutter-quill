@@ -14,11 +14,10 @@ dependencies:
 
   flutter_quill: ^7.1.12
 
-  file_picker: ^5.2.10
-  image_picker: ^0.8.7+3
+  image_picker: ^0.8.5+3
   photo_view: ^0.14.0
-  video_player: ^2.6.1
-  youtube_player_flutter: ^8.1.2
+  video_player: ^2.4.2
+  youtube_player_flutter: ^8.1.1
   gallery_saver: ^2.3.2
   math_keyboard: ^0.1.8
   string_validator: ^1.0.0
