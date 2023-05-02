@@ -489,7 +489,7 @@ class Line extends Container<Leaf?> {
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
       final rest =
-      nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
+          nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
       result.addAll(rest);
     }
 

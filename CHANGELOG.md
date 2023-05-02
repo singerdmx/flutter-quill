@@ -1,3 +1,6 @@
+# [7.1.14]
+- Add indents change for multiline selection.
+
 # [7.1.13]
 - Add custom recognizer.
 

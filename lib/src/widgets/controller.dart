@@ -136,9 +136,10 @@ class QuillController extends ChangeNotifier {
       final indent = style.value.attributes[Attribute.indent.key];
       final formatIndex = math.max(style.offset, selection.start);
       final formatLength = math.min(
-        style.offset + (style.length ?? 0),
-        selection.end,
-      ) - style.offset;
+            style.offset + (style.length ?? 0),
+            selection.end,
+          ) -
+          style.offset;
       Attribute? formatAttribute;
       if (indent == null) {
         if (isIncrease) {
