@@ -458,6 +458,44 @@ class Line extends Container<Leaf?> {
     return result;
   }
 
+  /// Returns all styles for any character within the specified text range.
+  List<OffsetValue<Style>> collectAllStylesWithOffsets(
+    int offset,
+    int len, {
+    int beg = 0,
+  }) {
+    final local = math.min(length - offset, len);
+    final result = <OffsetValue<Style>>[];
+
+    final data = queryChild(offset, true);
+    var node = data.node as Leaf?;
+    if (node != null) {
+      var pos = 0;
+      pos = node.length - data.offset;
+      result.add(OffsetValue(node.documentOffset, node.style, node.length));
+      while (!node!.isLast && pos < local) {
+        node = node.next as Leaf;
+        result.add(OffsetValue(node.documentOffset, node.style, node.length));
+        pos += node.length;
+      }
+    }
+
+    result.add(OffsetValue(documentOffset, style, length));
+    if (parent is Block) {
+      final block = parent as Block;
+      result.add(OffsetValue(block.documentOffset, block.style, block.length));
+    }
+
+    final remaining = len - local;
+    if (remaining > 0 && nextLine != null) {
+      final rest =
+          nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
+      result.addAll(rest);
+    }
+
+    return result;
+  }
+
   /// Returns plain text within the specified text range.
   String getPlainText(int offset, int len) {
     final plainText = StringBuffer();

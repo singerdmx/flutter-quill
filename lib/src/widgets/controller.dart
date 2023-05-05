@@ -101,6 +101,14 @@ class QuillController extends ChangeNotifier {
 
   // Increases or decreases the indent of the current selection by 1.
   void indentSelection(bool isIncrease) {
+    if (selection.isCollapsed) {
+      _indentSelectionFormat(isIncrease);
+    } else {
+      _indentSelectionEachLine(isIncrease);
+    }
+  }
+
+  void _indentSelectionFormat(bool isIncrease) {
     final indent = getSelectionStyle().attributes[Attribute.indent.key];
     if (indent == null) {
       if (isIncrease) {
@@ -117,6 +125,38 @@ class QuillController extends ChangeNotifier {
       return;
     }
     formatSelection(Attribute.getIndentLevel(indent.value - 1));
+  }
+
+  void _indentSelectionEachLine(bool isIncrease) {
+    final styles = document.collectAllStylesWithOffset(
+      selection.start,
+      selection.end - selection.start,
+    );
+    for (final style in styles) {
+      final indent = style.value.attributes[Attribute.indent.key];
+      final formatIndex = math.max(style.offset, selection.start);
+      final formatLength = math.min(
+            style.offset + (style.length ?? 0),
+            selection.end,
+          ) -
+          style.offset;
+      Attribute? formatAttribute;
+      if (indent == null) {
+        if (isIncrease) {
+          formatAttribute = Attribute.indentL1;
+        }
+      } else if (indent.value == 1 && !isIncrease) {
+        formatAttribute = Attribute.clone(Attribute.indentL1, null);
+      } else if (isIncrease) {
+        formatAttribute = Attribute.getIndentLevel(indent.value + 1);
+      } else {
+        formatAttribute = Attribute.getIndentLevel(indent.value - 1);
+      }
+      if (formatAttribute != null) {
+        document.format(formatIndex, formatLength, formatAttribute);
+      }
+    }
+    notifyListeners();
   }
 
   /// Returns all styles for each node within selection
