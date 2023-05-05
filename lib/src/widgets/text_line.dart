@@ -420,7 +420,7 @@ class _TextLineState extends State<TextLine> {
       final nodeStyle = textNode.style;
 
       nodeStyle.attributes.forEach((key, value) {
-        final recognizer = widget.customRecognizerBuilder!.call(value);
+        final recognizer = widget.customRecognizerBuilder!.call(value, segment);
         if (recognizer != null) {
           _linkRecognizers[segment] = recognizer;
           return;
