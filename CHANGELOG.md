@@ -1,3 +1,6 @@
+# [7.1.15]
+- Fixed a bug introduced in 7.1.7 where each section in `QuillToolbar` was displayed on its own line.
+
 # [7.1.14]
 - Add indents change for multiline selection.
 
