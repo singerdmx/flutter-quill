@@ -663,7 +663,8 @@ class AxisDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return axis == Axis.horizontal
+    // Vertical toolbar requires horizontal divider, and vice versa
+    return axis == Axis.vertical
         ? Divider(
             height: space,
             color: color,
