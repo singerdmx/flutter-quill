@@ -799,6 +799,26 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
     super.onSingleLongTapEnd(details);
   }
+  
+  bool _positionWasOnSelectionExclusive(TextPosition textPosition) {
+    final TextSelection? selection = renderEditor!.selection;
+    if (selection == null) {
+      return false;
+    }
+
+    return selection.start < textPosition.offset
+        && selection.end > textPosition.offset;
+  }
+
+  bool _positionWasOnSelectionInclusive(TextPosition textPosition) {
+    final TextSelection? selection = renderEditor!.selection;
+    if (selection == null) {
+      return false;
+    }
+
+    return selection.start <= textPosition.offset
+        && selection.end >= textPosition.offset;
+  }
 }
 
 /// Signature for the callback that reports when the user changes the selection
@@ -1945,25 +1965,5 @@ class RenderEditableContainerBox extends RenderBox
     resolvePadding();
     return defaultComputeDistanceToFirstActualBaseline(baseline)! +
         _resolvedPadding!.top;
-  }
-
-  bool _positionWasOnSelectionExclusive(TextPosition textPosition) {
-    final TextSelection? selection = renderEditor!.selection;
-    if (selection == null) {
-      return false;
-    }
-
-    return selection.start < textPosition.offset
-        && selection.end > textPosition.offset;
-  }
-
-  bool _positionWasOnSelectionInclusive(TextPosition textPosition) {
-    final TextSelection? selection = renderEditor!.selection;
-    if (selection == null) {
-      return false;
-    }
-
-    return selection.start <= textPosition.offset
-        && selection.end >= textPosition.offset;
   }
 }
