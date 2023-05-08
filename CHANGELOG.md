@@ -1,3 +1,6 @@
+# [7.1.16]
+- Fixed subscript key from 'sup' to 'sub'.
+
 # [7.1.15]
 - Fixed a bug introduced in 7.1.7 where each section in `QuillToolbar` was displayed on its own line.
 
