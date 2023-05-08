@@ -721,9 +721,23 @@ class _QuillEditorSelectionGestureDetectorBuilder
               // On macOS/iOS/iPadOS a touch tap places the cursor at the edge
               // of the word.
               if (_detectWordBoundary) {
-                renderEditor!
-                  ..selectWordEdge(SelectionChangedCause.tap)
-                  ..onSelectionCompleted();
+                final TextSelection previousSelection = renderEditor!.selection;
+                final TextPosition textPosition = renderEditor!.getPositionForOffset(details.globalPosition);
+                final bool isAffinityTheSame = textPosition.affinity == previousSelection.affinity;
+                if (((_positionWasOnSelectionExclusive(textPosition) && !previousSelection.isCollapsed)
+                    || (_positionWasOnSelectionInclusive(textPosition) && previousSelection.isCollapsed && isAffinityTheSame))
+                    && renderEditor!._hasFocus) {
+                  editor!.showToolbar();
+                } else {
+                  renderEditor!
+                    ..selectWordEdge(SelectionChangedCause.tap)
+                    ..onSelectionCompleted();
+                  if (previousSelection == editor!.textEditingValue.selection && renderEditor!._hasFocus) {
+                    editor!.showToolbar();
+                  } else {
+                    editor!.hideToolbar(false);
+                  }
+                }
               } else {
                 renderEditor!
                   ..selectPosition(cause: SelectionChangedCause.tap)
@@ -784,6 +798,26 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
     }
     super.onSingleLongTapEnd(details);
+  }
+  
+  bool _positionWasOnSelectionExclusive(TextPosition textPosition) {
+    final TextSelection? selection = renderEditor!.selection;
+    if (selection == null) {
+      return false;
+    }
+
+    return selection.start < textPosition.offset
+        && selection.end > textPosition.offset;
+  }
+
+  bool _positionWasOnSelectionInclusive(TextPosition textPosition) {
+    final TextSelection? selection = renderEditor!.selection;
+    if (selection == null) {
+      return false;
+    }
+
+    return selection.start <= textPosition.offset
+        && selection.end >= textPosition.offset;
   }
 }
 
