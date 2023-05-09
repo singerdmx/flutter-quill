@@ -282,7 +282,7 @@ class _TextLineState extends State<TextLine> {
       toMerge = defaultStyles.quote!.style;
     } else if (block == Attribute.codeBlock) {
       toMerge = defaultStyles.code!.style;
-    } else if (block == Attribute.list) {
+    } else if (block?.key == Attribute.list.key) {
       toMerge = defaultStyles.lists!.style;
     }
 
