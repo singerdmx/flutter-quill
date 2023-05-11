@@ -596,7 +596,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 }
 
 class _EditableBlock extends MultiChildRenderObjectWidget {
-  _EditableBlock(
+  const _EditableBlock(
       {required this.block,
       required this.textDirection,
       required this.padding,
