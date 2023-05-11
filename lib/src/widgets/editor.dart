@@ -690,7 +690,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return;
     }
 
-    editor!.hideToolbar();
+    // editor!.hideToolbar();
 
     try {
       if (delegate.selectionEnabled && !_isPositionSelected(details)) {
@@ -701,6 +701,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
             case PointerDeviceKind.mouse:
             case PointerDeviceKind.stylus:
             case PointerDeviceKind.invertedStylus:
+              editor!.hideToolbar();
               // Precise devices should place the cursor at a precise position.
               // If `Shift` key is pressed then
               // extend current selection instead.
@@ -724,31 +725,42 @@ class _QuillEditorSelectionGestureDetectorBuilder
                 final TextSelection previousSelection = renderEditor!.selection;
                 final TextPosition textPosition = renderEditor!.getPositionForOffset(details.globalPosition);
                 final bool isAffinityTheSame = textPosition.affinity == previousSelection.affinity;
-                if (((_positionWasOnSelectionExclusive(textPosition) && !previousSelection.isCollapsed)
-                    || (_positionWasOnSelectionInclusive(textPosition) && previousSelection.isCollapsed && isAffinityTheSame))
-                    && renderEditor!._hasFocus) {
-                  editor!.showToolbar();
+                if (((_positionWasOnSelectionExclusive(textPosition) && !previousSelection.isCollapsed) ||
+                        (_positionWasOnSelectionInclusive(textPosition) &&
+                            previousSelection.isCollapsed &&
+                            isAffinityTheSame)) &&
+                    renderEditor!._hasFocus) {
+                  toggleToolbar(false);
                 } else {
                   renderEditor!
                     ..selectWordEdge(SelectionChangedCause.tap)
                     ..onSelectionCompleted();
-                  if (previousSelection == editor!.textEditingValue.selection && renderEditor!._hasFocus) {
-                    editor!.showToolbar();
-                  } else {
-                    editor!.hideToolbar(false);
+
+                  if (editor!.selectionOverlay?.toolbar != null && previousSelection.start == 0) {
+                    editor!.hideToolbar(true);
+                    break;
                   }
+
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    if (previousSelection == editor!.textEditingValue.selection && renderEditor!._hasFocus) {
+                      toggleToolbar(false);
+                    }
+                  });
                 }
               } else {
+                editor!.hideToolbar();
                 renderEditor!
                   ..selectPosition(cause: SelectionChangedCause.tap)
                   ..onSelectionCompleted();
               }
               break;
             case PointerDeviceKind.trackpad:
+              editor!.hideToolbar();
               // TODO: Handle this case.
               break;
           }
         } else {
+          editor!.hideToolbar();
           renderEditor!
             ..selectPosition(cause: SelectionChangedCause.tap)
             ..onSelectionCompleted();
@@ -799,7 +811,16 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
     super.onSingleLongTapEnd(details);
   }
-  
+
+  /// Toggles the visibility of the toolbar.
+  void toggleToolbar([bool hideHandles = true]) {
+    if (editor!.selectionOverlay?.toolbar != null) {
+      editor!.hideToolbar(hideHandles);
+    } else {
+      editor!.showToolbar();
+    }
+  }
+
   bool _positionWasOnSelectionExclusive(TextPosition textPosition) {
     final TextSelection? selection = renderEditor!.selection;
     if (selection == null) {
