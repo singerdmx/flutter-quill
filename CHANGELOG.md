@@ -1,3 +1,12 @@
+# [7.1.17]
+- Updates `device_info_plus` to version 9.0.0 to benefit from AGP 8 (see [changelog#900](https://pub.dev/packages/device_info_plus/changelog#900)).
+
+# [7.1.16]
+- Fixed subscript key from 'sup' to 'sub'.
+
+# [7.1.15]
+- Fixed a bug introduced in 7.1.7 where each section in `QuillToolbar` was displayed on its own line.
+
 # [7.1.14]
 - Add indents change for multiline selection.
 
