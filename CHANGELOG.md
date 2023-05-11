@@ -1,4 +1,7 @@
-# [7.1.17]
+# [7.1.18]
+- Support flutter latest version.
+
+# [7.1.17+1]
 - Updates `device_info_plus` to version 9.0.0 to benefit from AGP 8 (see [changelog#900](https://pub.dev/packages/device_info_plus/changelog#900)).
 
 # [7.1.16]
