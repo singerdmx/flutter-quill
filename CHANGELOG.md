@@ -1,3 +1,5 @@
+# [7.1.18]
+- Fixed issues related Flutter update.
 # [7.1.17]
 - Updates `device_info_plus` to version 9.0.0 to benefit from AGP 8 (see [changelog#900](https://pub.dev/packages/device_info_plus/changelog#900)).
 
