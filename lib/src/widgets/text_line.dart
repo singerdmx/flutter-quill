@@ -1082,9 +1082,16 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     if (_leading != null) {
-      final parentData = _leading!.parentData as BoxParentData;
-      final effectiveOffset = offset + parentData.offset;
-      context.paintChild(_leading!, effectiveOffset);
+      if (textDirection == TextDirection.ltr) {
+        final parentData = _leading!.parentData as BoxParentData;
+        final effectiveOffset = offset + parentData.offset;
+        context.paintChild(_leading!, effectiveOffset);
+      } else {
+        final parentData = _leading!.parentData as BoxParentData;
+        final effectiveOffset = offset + parentData.offset;
+        context.paintChild(_leading!,
+            Offset(size.width - _leading!.size.width, effectiveOffset.dy));
+      }
     }
 
     if (_body != null) {
