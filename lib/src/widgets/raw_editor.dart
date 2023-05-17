@@ -891,7 +891,7 @@ class RawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
             block: node,
             controller: controller,
-            textDirection: _textDirection,
+            textDirection: getDirectionOfNode(node),
             scrollBottomInset: widget.scrollBottomInset,
             verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
             textSelection: controller.selection,
