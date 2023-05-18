@@ -1,3 +1,6 @@
+# [7.1.19]
+- Fix Rtl leading alignment problem.
+
 # [7.1.18]
 - Support flutter latest version.
 
