@@ -152,7 +152,7 @@ class EditableTextBlock extends StatelessWidget {
             onLaunchUrl: onLaunchUrl,
             customLinkPrefixes: customLinkPrefixes,
           ),
-          _getIndentWidth(),
+          _getIndentWidth(context),
           _getSpacingForLine(line, index, count, defaultStyles),
           textDirection,
           textSelection,
@@ -230,24 +230,26 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  double _getIndentWidth() {
+  double _getIndentWidth(BuildContext context) {
+    final defaultStyles = QuillStyles.getStyles(context, false)!;
+    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = block.style.attributes;
 
     final indent = attrs[Attribute.indent.key];
     var extraIndent = 0.0;
     if (indent != null && indent.value != null) {
-      extraIndent = 16.0 * indent.value;
+      extraIndent = fontSize * indent.value;
     }
 
     if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return 16.0 + extraIndent;
+      return fontSize + extraIndent;
     }
 
     var baseIndent = 0.0;
 
     if (attrs.containsKey(Attribute.list.key) ||
         attrs.containsKey(Attribute.codeBlock.key)) {
-      baseIndent = 32.0;
+      baseIndent = fontSize * 2;
     }
 
     return baseIndent + extraIndent;
