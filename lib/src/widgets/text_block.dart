@@ -191,6 +191,7 @@ class EditableTextBlock extends StatelessWidget {
         style:
             defaultStyles.leading!.style.copyWith(fontWeight: FontWeight.bold),
         width: fontSize * 2,
+        padding: fontSize / 2,
       );
     }
 
