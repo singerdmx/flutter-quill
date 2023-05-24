@@ -1,3 +1,6 @@
+## 0.3.3
+* Fix a prototype bug which was bring by [PR #1230](https://github.com/singerdmx/flutter-quill/pull/1230#issuecomment-1560597099)
+
 ## 0.3.2
 * Updated dependencies to support intl 0.18
 
