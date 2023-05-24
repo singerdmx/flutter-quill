@@ -1,3 +1,6 @@
+# [7.1.20]
+- Pass linestyle to embedded block.
+
 # [7.1.19]
 - Fix Rtl leading alignment problem.
 
