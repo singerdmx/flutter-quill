@@ -21,6 +21,7 @@ abstract class EmbedBuilder {
     leaf.Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   );
 }
 
