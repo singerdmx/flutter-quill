@@ -1,3 +1,6 @@
+# [7.2.0]
+- Checkboxes, bullet points, and number points are now scaled based on the default paragraph font size.
+
 # [7.1.20]
 - Pass linestyle to embedded block.
 
