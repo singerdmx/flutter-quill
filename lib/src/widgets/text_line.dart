@@ -193,7 +193,8 @@ class _TextLineState extends State<TextLine> {
         }
         // Creates correct node for custom embed
         if (child.value.type == BlockEmbed.customType) {
-          child = Embed(CustomBlockEmbed.fromJsonString(child.value.data));
+          child = Embed(CustomBlockEmbed.fromJsonString(child.value.data))
+            ..applyStyle(child.style);
         }
         final embedBuilder = widget.embedBuilder(child);
         final embedWidget = EmbedProxy(
