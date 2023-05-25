@@ -187,6 +187,7 @@ class QuillEditor extends StatefulWidget {
     this.enableUnfocusOnTapOutside = true,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
+    this.contentInsertionConfiguration,
     Key? key,
   }) : super(key: key);
 
@@ -427,6 +428,11 @@ class QuillEditor extends StatefulWidget {
   /// Configures the dialog theme.
   final QuillDialogTheme? dialogTheme;
 
+  /// Configuration of handler for media content inserted via the system input method.
+  ///
+  /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
+  final ContentInsertionConfiguration? contentInsertionConfiguration;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -528,6 +534,7 @@ class QuillEditorState extends State<QuillEditor>
       customLinkPrefixes: widget.customLinkPrefixes,
       enableUnfocusOnTapOutside: widget.enableUnfocusOnTapOutside,
       dialogTheme: widget.dialogTheme,
+      contentInsertionConfiguration: widget.contentInsertionConfiguration,
     );
 
     final editor = I18n(
