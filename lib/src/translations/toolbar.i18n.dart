@@ -68,6 +68,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Hex': 'Hex',
+          'Material': 'Material',
+          'Color': 'Color',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -134,6 +137,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Hex': 'Hex',
+          'Material': 'Material',
+          'Color': 'Color',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -202,6 +208,9 @@ extension Localization on String {
           'Enter media': 'ادخل وسائط',
           'Edit': 'تعديل',
           'Apply': 'تطبيق',
+          'Hex': 'Hex',
+          'Material': 'Material',
+          'Color': 'اللون',
         },
         'da': {
           'Paste a link': 'Indsæt link',
