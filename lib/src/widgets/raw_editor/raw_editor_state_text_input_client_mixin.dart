@@ -60,8 +60,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
           allowedMimeTypes: widget.contentInsertionConfiguration == null
-        ? const <String>[]
-        : widget.contentInsertionConfiguration!.allowedMimeTypes,
+              ? const <String>[]
+              : widget.contentInsertionConfiguration!.allowedMimeTypes,
         ),
       );
 

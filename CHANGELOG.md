@@ -1,3 +1,7 @@
+# [7.2.1]
+- Add support for android keyboard content insertion.
+- Enhance color picker, enter hex color and color palette option.
+
 # [7.2.0]
 - Checkboxes, bullet points, and number points are now scaled based on the default paragraph font size.
 
