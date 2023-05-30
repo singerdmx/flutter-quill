@@ -570,7 +570,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             highlightElevation: 0,
             hoverElevation: 0,
             size: toolbarIconSize * kIconButtonFactor,
-            icon: Icon(customButton.icon, size: toolbarIconSize),
+            icon: Icon(
+              customButton.icon, 
+              size: toolbarIconSize,
+              color: customButton.iconColor,
+            ),
             tooltip: customButton.tooltip,
             borderRadius: iconTheme?.borderRadius ?? 2,
             onPressed: customButton.onTap,
