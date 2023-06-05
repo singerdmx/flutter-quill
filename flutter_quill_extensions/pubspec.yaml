@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.1.20
+  flutter_quill: ^7.2.1
 
   image_picker: ^0.8.5+3
   photo_view: ^0.14.0
