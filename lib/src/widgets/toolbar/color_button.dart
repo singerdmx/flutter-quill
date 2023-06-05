@@ -170,9 +170,9 @@ class _ColorButtonState extends State<ColorButton> {
                   child: Text('OK'.i18n)),
             ],
             backgroundColor: Theme.of(context).canvasColor,
-            content: SizedBox(
-              height: 400,
+            content: SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     children: [
@@ -192,8 +192,7 @@ class _ColorButtonState extends State<ColorButton> {
                           child: Text('Color'.i18n)),
                     ],
                   ),
-                  Expanded(
-                      child: Column(children: [
+                  Column(children: [
                     if (pickerType == 'material')
                       MaterialPicker(
                         pickerColor: selectedColor,
@@ -253,7 +252,7 @@ class _ColorButtonState extends State<ColorButton> {
                         }),
                       ],
                     ),
-                  ]))
+                  ])
                 ],
               ),
             ));
