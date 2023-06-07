@@ -1,3 +1,6 @@
+# [7.2.2]
+- Prevent operations on stale editor state.
+
 # [7.2.1]
 - Add support for android keyboard content insertion.
 - Enhance color picker, enter hex color and color palette option.

@@ -13,7 +13,7 @@ class QuillCustomButton {
 
   ///The icon color;
   final Color? iconColor;
-  
+
   ///The function when the icon is tapped
   final VoidCallback? onTap;
 
