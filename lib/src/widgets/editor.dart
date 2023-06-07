@@ -46,6 +46,9 @@ abstract class EditorState extends State<RawEditor>
   /// The floating cursor is animated to merge with the regular cursor.
   AnimationController get floatingCursorResetController;
 
+  /// Returns true if the editor has been marked as needing to be rebuilt.
+  bool get dirty;
+
   bool showToolbar();
 
   void requestKeyboard();

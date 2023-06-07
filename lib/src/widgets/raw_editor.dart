@@ -333,6 +333,10 @@ class RawEditorState extends EditorState
   TextDirection get _textDirection => Directionality.of(context);
 
   @override
+  bool get dirty => _dirty;
+  bool _dirty = false;
+
+  @override
   void insertContent(KeyboardInsertedContent content) {
     assert(widget.contentInsertionConfiguration?.allowedMimeTypes
             .contains(content.mimeType) ??
@@ -855,6 +859,7 @@ class RawEditorState extends EditorState
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
+      _markNeedsBuild();
       controller
         ..ignoreFocusOnTextChange = true
         ..formatText(offset, 0, attribute)
@@ -929,9 +934,11 @@ class RawEditorState extends EditorState
 
         clearIndents = false;
       } else {
+        _dirty = false;
         throw StateError('Unreachable.');
       }
     }
+    _dirty = false;
     return result;
   }
 
@@ -1170,6 +1177,17 @@ class RawEditorState extends EditorState
     _selectionOverlay?.updateForScroll();
   }
 
+  /// Marks the editor as dirty and trigger a rebuild.
+  ///
+  /// When the editor is dirty methods that depend on the editor
+  /// state being in sync with the controller know they may be
+  /// operating on stale data.
+  void _markNeedsBuild() {
+    setState(() {
+      _dirty = true;
+    });
+  }
+
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {
     if (kIsWeb) {
       _onChangeTextEditingValue(ignoreFocus);
@@ -1184,10 +1202,9 @@ class RawEditorState extends EditorState
     } else {
       requestKeyboard();
       if (mounted) {
-        setState(() {
-          // Use controller.value in build()
-          // Trigger build and updateChildren
-        });
+        // Use controller.value in build()
+        // Mark widget as dirty and trigger build and updateChildren
+        _markNeedsBuild();
       }
     }
 
@@ -1222,10 +1239,9 @@ class RawEditorState extends EditorState
       _updateOrDisposeSelectionOverlayIfNeeded();
     });
     if (mounted) {
-      setState(() {
-        // Use controller.value in build()
-        // Trigger build and updateChildren
-      });
+      // Use controller.value in build()
+      // Mark widget as dirty and trigger build and updateChildren
+      _markNeedsBuild();
     }
   }
 
@@ -1258,6 +1274,11 @@ class RawEditorState extends EditorState
   }
 
   void _handleFocusChanged() {
+    if (dirty) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => _handleFocusChanged());
+      return;
+    }
     openOrCloseConnection();
     _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, controller.selection);
     _updateOrDisposeSelectionOverlayIfNeeded();
@@ -1272,10 +1293,9 @@ class RawEditorState extends EditorState
 
   void _onChangedClipboardStatus() {
     if (!mounted) return;
-    setState(() {
-      // Inform the widget that the value of clipboardStatus has changed.
-      // Trigger build and updateChildren
-    });
+    // Inform the widget that the value of clipboardStatus has changed.
+    // Trigger build and updateChildren
+    _markNeedsBuild();
   }
 
   Future<LinkMenuAction> _linkActionPicker(Node linkNode) async {
