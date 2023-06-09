@@ -1,3 +1,6 @@
+# [7.2.3]
+- Get pixel ratio from view.
+
 # [7.2.2]
 - Prevent operations on stale editor state.
 
