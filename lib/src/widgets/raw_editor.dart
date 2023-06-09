@@ -968,7 +968,7 @@ class RawEditorState extends EditorState
         widget.selectionColor,
         widget.enableInteractiveSelection,
         _hasFocus,
-        MediaQuery.of(context).devicePixelRatio,
+        View.of(context).devicePixelRatio,
         _cursorCont);
     return editableTextLine;
   }
