@@ -2,11 +2,9 @@ import 'dart:convert' show jsonDecode;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/src/widgets/controller.dart';
-import 'package:flutter_quill/src/widgets/editor.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../widget_tester_extension.dart';
 
 void main() {
   late QuillController controller;
