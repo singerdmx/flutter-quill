@@ -25,7 +25,7 @@ dependencies:
   platform: ^3.1.0
   pasteboard: ^0.2.0
 
-dev_dependencies:
+  # Dependencies for testing utilities
   flutter_test:
     sdk: flutter
 
