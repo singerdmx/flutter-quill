@@ -255,14 +255,6 @@ class QuillController extends ChangeNotifier {
       }
     }
 
-    if (_keepStyleOnNewLine) {
-      final style = getSelectionStyle();
-      final notInlineStyle = style.attributes.values.where((s) => !s.isInline);
-      toggledStyle = style.removeAll(notInlineStyle.toSet());
-    } else {
-      toggledStyle = Style();
-    }
-
     if (textSelection != null) {
       if (delta == null || delta.isEmpty) {
         _updateSelection(textSelection, ChangeSource.LOCAL);
@@ -400,7 +392,13 @@ class QuillController extends ChangeNotifier {
     _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
-    toggledStyle = Style();
+    if (_keepStyleOnNewLine) {
+      final style = getSelectionStyle();
+      final notInlineStyle = style.attributes.values.where((s) => !s.isInline);
+      toggledStyle = style.removeAll(notInlineStyle.toSet());
+    } else {
+      toggledStyle = Style();
+    }
     onSelectionChanged?.call(textSelection);
   }
 
