@@ -1,3 +1,6 @@
+# [7.2.4]
+- Fixed keepStyleOnNewLine.
+
 # [7.2.3]
 - Get pixel ratio from view.
 
