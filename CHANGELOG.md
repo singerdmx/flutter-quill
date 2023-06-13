@@ -1,3 +1,6 @@
+# [7.2.6]
+- Style custom toolbar buttons like builtins.
+
 # [7.2.5]
 - Always use text cursor for editor on desktop.
 
