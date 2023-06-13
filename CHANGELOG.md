@@ -1,3 +1,6 @@
+# [7.2.5]
+- Always use text cursor for editor on desktop.
+
 # [7.2.4]
 - Fixed keepStyleOnNewLine.
 
