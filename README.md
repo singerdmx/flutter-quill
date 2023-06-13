@@ -391,22 +391,6 @@ tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-
 It is a complete Dart part of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
 Typescript/Javascript package.
 
-## Testing
-
-To aid in testing applications using the editor an extension to the flutter `WidgetTester` is provided which includes methods to simplify interacting with the editor in test cases.
-
-Import the test utilities in your test file:
-
-```dart
-import 'package:flutter_quill/flutter_quill_test.dart';
-```
-
-and then enter text using `quillEnterText`:
-
-```dart
-await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
-```
-
 ## Sponsors
 
 <a href="https://bulletjournal.us/home/index.html">
