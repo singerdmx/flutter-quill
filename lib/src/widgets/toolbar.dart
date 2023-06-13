@@ -11,13 +11,13 @@ import 'embeds.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
+import 'toolbar/custom_button.dart';
 import 'toolbar/enum.dart';
 import 'toolbar/history_button.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/quill_font_family_button.dart';
 import 'toolbar/quill_font_size_button.dart';
-import 'toolbar/quill_icon_button.dart';
 import 'toolbar/search_button.dart';
 import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
@@ -26,6 +26,7 @@ import 'toolbar/toggle_style_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
+export 'toolbar/custom_button.dart';
 export 'toolbar/history_button.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
@@ -566,19 +567,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             QuillDivider(axis,
                 color: sectionDividerColor, space: sectionDividerSpace),
         for (var customButton in customButtons)
-          QuillIconButton(
-            highlightElevation: 0,
-            hoverElevation: 0,
-            size: toolbarIconSize * kIconButtonFactor,
-            icon: Icon(
-              customButton.icon,
-              size: toolbarIconSize,
-              color: customButton.iconColor,
-            ),
-            tooltip: customButton.tooltip,
-            borderRadius: iconTheme?.borderRadius ?? 2,
+          CustomButton(
             onPressed: customButton.onTap,
-            afterPressed: afterButtonPressed,
+            icon: customButton.icon,
+            iconColor: customButton.iconColor,
+            iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
+            afterButtonPressed: afterButtonPressed,
+            tooltip: customButton.tooltip,
           ),
       ],
     );
@@ -650,7 +646,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 /// The divider which is used for separation of buttons in the toolbar.
 ///
 /// It can be used outside of this package, for example when user does not use
-/// [QuillToolbar.basic] and compose toolbat's children on its own.
+/// [QuillToolbar.basic] and compose toolbar's children on its own.
 class QuillDivider extends StatelessWidget {
   const QuillDivider(
     this.axis, {
@@ -659,11 +655,11 @@ class QuillDivider extends StatelessWidget {
     this.space,
   }) : super(key: key);
 
-  /// Provides a horizonal divider for vertical toolbar.
+  /// Provides a horizontal divider for vertical toolbar.
   const QuillDivider.horizontal({Color? color, double? space})
       : this(Axis.horizontal, color: color, space: space);
 
-  /// Provides a horizonal divider for horizontal toolbar.
+  /// Provides a horizontal divider for horizontal toolbar.
   const QuillDivider.vertical({Color? color, double? space})
       : this(Axis.vertical, color: color, space: space);
 
