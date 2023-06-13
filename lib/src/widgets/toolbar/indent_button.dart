@@ -42,7 +42,7 @@ class _IndentButtonState extends State<IndentButton> {
       tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * 1.77,
+      size: widget.iconSize * kIconButtonFactor,
       icon: Icon(widget.icon, size: widget.iconSize, color: iconColor),
       fillColor: iconFillColor,
       borderRadius: widget.iconTheme?.borderRadius ?? 2,

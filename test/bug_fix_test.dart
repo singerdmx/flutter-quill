@@ -5,6 +5,41 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Bug fix', () {
+    group(
+        '1266 - QuillToolbar.basic() custom buttons do not have correct fill'
+        'color set', () {
+      testWidgets('fillColor of custom buttons and builtin buttons match',
+          (tester) async {
+        const tooltip = 'custom button';
+
+        await tester.pumpWidget(MaterialApp(
+            home: QuillToolbar.basic(
+          showRedo: false,
+          controller: QuillController.basic(),
+          customButtons: [const QuillCustomButton(tooltip: tooltip)],
+        )));
+
+        final builtinFinder = find.descendant(
+            of: find.byType(HistoryButton),
+            matching: find.byType(QuillIconButton),
+            matchRoot: true);
+        expect(builtinFinder, findsOneWidget);
+        final builtinButton =
+            builtinFinder.evaluate().first.widget as QuillIconButton;
+
+        final customFinder = find.descendant(
+            of: find.byType(QuillToolbar),
+            matching: find.byWidgetPredicate((widget) =>
+                widget is QuillIconButton && widget.tooltip == tooltip),
+            matchRoot: true);
+        expect(customFinder, findsOneWidget);
+        final customButton =
+            customFinder.evaluate().first.widget as QuillIconButton;
+
+        expect(customButton.fillColor, equals(builtinButton.fillColor));
+      });
+    });
+
     group('1189 - The provided text position is not in the current node', () {
       late QuillController controller;
       late QuillEditor editor;

@@ -43,7 +43,7 @@ class SearchButton extends StatelessWidget {
       icon: Icon(icon, size: iconSize, color: iconColor),
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * 1.77,
+      size: iconSize * kIconButtonFactor,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _onPressedHandler(context),
