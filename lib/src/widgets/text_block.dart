@@ -152,14 +152,14 @@ class EditableTextBlock extends StatelessWidget {
             onLaunchUrl: onLaunchUrl,
             customLinkPrefixes: customLinkPrefixes,
           ),
-          _getIndentWidth(),
+          _getIndentWidth(context),
           _getSpacingForLine(line, index, count, defaultStyles),
           textDirection,
           textSelection,
           color,
           enableInteractiveSelection,
           hasFocus,
-          MediaQuery.of(context).devicePixelRatio,
+          View.of(context).devicePixelRatio,
           cursorCont);
       final nodeTextDirection = getDirectionOfNode(line);
       children.add(Directionality(
@@ -170,45 +170,48 @@ class EditableTextBlock extends StatelessWidget {
 
   Widget? _buildLeading(BuildContext context, Line line, int index,
       Map<int, int> indentLevelCounts, int count) {
-    final defaultStyles = QuillStyles.getStyles(context, false);
+    final defaultStyles = QuillStyles.getStyles(context, false)!;
+    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = line.style.attributes;
+
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return QuillNumberPoint(
         index: index,
         indentLevelCounts: indentLevelCounts,
         count: count,
-        style: defaultStyles!.leading!.style,
+        style: defaultStyles.leading!.style,
         attrs: attrs,
-        width: 32,
-        padding: 8,
+        width: fontSize * 2,
+        padding: fontSize / 2,
       );
     }
 
     if (attrs[Attribute.list.key] == Attribute.ul) {
       return QuillBulletPoint(
         style:
-            defaultStyles!.leading!.style.copyWith(fontWeight: FontWeight.bold),
-        width: 32,
+            defaultStyles.leading!.style.copyWith(fontWeight: FontWeight.bold),
+        width: fontSize * 2,
+        padding: fontSize / 2,
       );
     }
 
     if (attrs[Attribute.list.key] == Attribute.checked) {
       return CheckboxPoint(
-        size: 14,
+        size: fontSize,
         value: true,
         enabled: !readOnly,
         onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles?.lists?.checkboxUIBuilder,
+        uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
       );
     }
 
     if (attrs[Attribute.list.key] == Attribute.unchecked) {
       return CheckboxPoint(
-        size: 14,
+        size: fontSize,
         value: false,
         enabled: !readOnly,
         onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles?.lists?.checkboxUIBuilder,
+        uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
       );
     }
 
@@ -217,35 +220,37 @@ class EditableTextBlock extends StatelessWidget {
         index: index,
         indentLevelCounts: indentLevelCounts,
         count: count,
-        style: defaultStyles!.code!.style
+        style: defaultStyles.code!.style
             .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: 32,
+        width: fontSize * 2,
         attrs: attrs,
-        padding: 16,
+        padding: fontSize,
         withDot: false,
       );
     }
     return null;
   }
 
-  double _getIndentWidth() {
+  double _getIndentWidth(BuildContext context) {
+    final defaultStyles = QuillStyles.getStyles(context, false)!;
+    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = block.style.attributes;
 
     final indent = attrs[Attribute.indent.key];
     var extraIndent = 0.0;
     if (indent != null && indent.value != null) {
-      extraIndent = 16.0 * indent.value;
+      extraIndent = fontSize * indent.value;
     }
 
     if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return 16.0 + extraIndent;
+      return fontSize + extraIndent;
     }
 
     var baseIndent = 0.0;
 
     if (attrs.containsKey(Attribute.list.key) ||
         attrs.containsKey(Attribute.codeBlock.key)) {
-      baseIndent = 32.0;
+      baseIndent = fontSize * 2;
     }
 
     return baseIndent + extraIndent;
@@ -596,7 +601,7 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
 }
 
 class _EditableBlock extends MultiChildRenderObjectWidget {
-  _EditableBlock(
+  const _EditableBlock(
       {required this.block,
       required this.textDirection,
       required this.padding,

@@ -84,6 +84,7 @@ class RawEditor extends StatefulWidget {
     this.onImagePaste,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
+    this.contentInsertionConfiguration,
   })  : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
@@ -270,6 +271,12 @@ class RawEditor extends StatefulWidget {
   /// Configures the dialog theme.
   final QuillDialogTheme? dialogTheme;
 
+  /// Configuration of handler for media content inserted via the system input
+  /// method.
+  ///
+  /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
+  final ContentInsertionConfiguration? contentInsertionConfiguration;
+
   @override
   State<StatefulWidget> createState() => RawEditorState();
 }
@@ -324,6 +331,18 @@ class RawEditorState extends EditorState
   final LayerLink _endHandleLayerLink = LayerLink();
 
   TextDirection get _textDirection => Directionality.of(context);
+
+  @override
+  bool get dirty => _dirty;
+  bool _dirty = false;
+
+  @override
+  void insertContent(KeyboardInsertedContent content) {
+    assert(widget.contentInsertionConfiguration?.allowedMimeTypes
+            .contains(content.mimeType) ??
+        false);
+    widget.contentInsertionConfiguration?.onContentInserted.call(content);
+  }
 
   /// Returns the [ContextMenuButtonItem]s representing the buttons in this
   /// platform's default selection menu for [RawEditor].
@@ -442,23 +461,26 @@ class RawEditorState extends EditorState
     Widget child = CompositedTransformTarget(
       link: _toolbarLayerLink,
       child: Semantics(
-        child: _Editor(
-          key: _editorKey,
-          document: _doc,
-          selection: controller.selection,
-          hasFocus: _hasFocus,
-          scrollable: widget.scrollable,
-          cursorController: _cursorCont,
-          textDirection: _textDirection,
-          startHandleLayerLink: _startHandleLayerLink,
-          endHandleLayerLink: _endHandleLayerLink,
-          onSelectionChanged: _handleSelectionChanged,
-          onSelectionCompleted: _handleSelectionCompleted,
-          scrollBottomInset: widget.scrollBottomInset,
-          padding: widget.padding,
-          maxContentWidth: widget.maxContentWidth,
-          floatingCursorDisabled: widget.floatingCursorDisabled,
-          children: _buildChildren(_doc, context),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.text,
+          child: _Editor(
+            key: _editorKey,
+            document: _doc,
+            selection: controller.selection,
+            hasFocus: _hasFocus,
+            scrollable: widget.scrollable,
+            cursorController: _cursorCont,
+            textDirection: _textDirection,
+            startHandleLayerLink: _startHandleLayerLink,
+            endHandleLayerLink: _endHandleLayerLink,
+            onSelectionChanged: _handleSelectionChanged,
+            onSelectionCompleted: _handleSelectionCompleted,
+            scrollBottomInset: widget.scrollBottomInset,
+            padding: widget.padding,
+            maxContentWidth: widget.maxContentWidth,
+            floatingCursorDisabled: widget.floatingCursorDisabled,
+            children: _buildChildren(_doc, context),
+          ),
         ),
       ),
     );
@@ -480,24 +502,27 @@ class RawEditorState extends EditorState
           physics: widget.scrollPhysics,
           viewportBuilder: (_, offset) => CompositedTransformTarget(
             link: _toolbarLayerLink,
-            child: _Editor(
-              key: _editorKey,
-              offset: offset,
-              document: _doc,
-              selection: controller.selection,
-              hasFocus: _hasFocus,
-              scrollable: widget.scrollable,
-              textDirection: _textDirection,
-              startHandleLayerLink: _startHandleLayerLink,
-              endHandleLayerLink: _endHandleLayerLink,
-              onSelectionChanged: _handleSelectionChanged,
-              onSelectionCompleted: _handleSelectionCompleted,
-              scrollBottomInset: widget.scrollBottomInset,
-              padding: widget.padding,
-              maxContentWidth: widget.maxContentWidth,
-              cursorController: _cursorCont,
-              floatingCursorDisabled: widget.floatingCursorDisabled,
-              children: _buildChildren(_doc, context),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.text,
+              child: _Editor(
+                key: _editorKey,
+                offset: offset,
+                document: _doc,
+                selection: controller.selection,
+                hasFocus: _hasFocus,
+                scrollable: widget.scrollable,
+                textDirection: _textDirection,
+                startHandleLayerLink: _startHandleLayerLink,
+                endHandleLayerLink: _endHandleLayerLink,
+                onSelectionChanged: _handleSelectionChanged,
+                onSelectionCompleted: _handleSelectionCompleted,
+                scrollBottomInset: widget.scrollBottomInset,
+                padding: widget.padding,
+                maxContentWidth: widget.maxContentWidth,
+                cursorController: _cursorCont,
+                floatingCursorDisabled: widget.floatingCursorDisabled,
+                children: _buildChildren(_doc, context),
+              ),
             ),
           ),
         ),
@@ -840,6 +865,7 @@ class RawEditorState extends EditorState
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
+      _markNeedsBuild();
       controller
         ..ignoreFocusOnTextChange = true
         ..formatText(offset, 0, attribute)
@@ -888,7 +914,7 @@ class RawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
             block: node,
             controller: controller,
-            textDirection: _textDirection,
+            textDirection: getDirectionOfNode(node),
             scrollBottomInset: widget.scrollBottomInset,
             verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
             textSelection: controller.selection,
@@ -914,9 +940,11 @@ class RawEditorState extends EditorState
 
         clearIndents = false;
       } else {
+        _dirty = false;
         throw StateError('Unreachable.');
       }
     }
+    _dirty = false;
     return result;
   }
 
@@ -946,7 +974,7 @@ class RawEditorState extends EditorState
         widget.selectionColor,
         widget.enableInteractiveSelection,
         _hasFocus,
-        MediaQuery.of(context).devicePixelRatio,
+        View.of(context).devicePixelRatio,
         _cursorCont);
     return editableTextLine;
   }
@@ -1155,6 +1183,17 @@ class RawEditorState extends EditorState
     _selectionOverlay?.updateForScroll();
   }
 
+  /// Marks the editor as dirty and trigger a rebuild.
+  ///
+  /// When the editor is dirty methods that depend on the editor
+  /// state being in sync with the controller know they may be
+  /// operating on stale data.
+  void _markNeedsBuild() {
+    setState(() {
+      _dirty = true;
+    });
+  }
+
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {
     if (kIsWeb) {
       _onChangeTextEditingValue(ignoreFocus);
@@ -1169,10 +1208,9 @@ class RawEditorState extends EditorState
     } else {
       requestKeyboard();
       if (mounted) {
-        setState(() {
-          // Use controller.value in build()
-          // Trigger build and updateChildren
-        });
+        // Use controller.value in build()
+        // Mark widget as dirty and trigger build and updateChildren
+        _markNeedsBuild();
       }
     }
 
@@ -1207,10 +1245,9 @@ class RawEditorState extends EditorState
       _updateOrDisposeSelectionOverlayIfNeeded();
     });
     if (mounted) {
-      setState(() {
-        // Use controller.value in build()
-        // Trigger build and updateChildren
-      });
+      // Use controller.value in build()
+      // Mark widget as dirty and trigger build and updateChildren
+      _markNeedsBuild();
     }
   }
 
@@ -1243,6 +1280,11 @@ class RawEditorState extends EditorState
   }
 
   void _handleFocusChanged() {
+    if (dirty) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => _handleFocusChanged());
+      return;
+    }
     openOrCloseConnection();
     _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, controller.selection);
     _updateOrDisposeSelectionOverlayIfNeeded();
@@ -1257,10 +1299,9 @@ class RawEditorState extends EditorState
 
   void _onChangedClipboardStatus() {
     if (!mounted) return;
-    setState(() {
-      // Inform the widget that the value of clipboardStatus has changed.
-      // Trigger build and updateChildren
-    });
+    // Inform the widget that the value of clipboardStatus has changed.
+    // Trigger build and updateChildren
+    _markNeedsBuild();
   }
 
   Future<LinkMenuAction> _linkActionPicker(Node linkNode) async {
@@ -1709,7 +1750,7 @@ class RawEditorState extends EditorState
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
-  _Editor({
+  const _Editor({
     required Key key,
     required List<Widget> children,
     required this.document,

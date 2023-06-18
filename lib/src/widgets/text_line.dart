@@ -148,15 +148,10 @@ class _TextLineState extends State<TextLine> {
       final embedBuilder = widget.embedBuilder(embed);
       if (embedBuilder.expanded) {
         // Creates correct node for custom embed
-
+        final lineStyle = _getLineStyle(widget.styles);
         return EmbedProxy(
-          embedBuilder.build(
-            context,
-            widget.controller,
-            embed,
-            widget.readOnly,
-            false,
-          ),
+          embedBuilder.build(context, widget.controller, embed, widget.readOnly,
+              false, lineStyle),
         );
       }
     }
@@ -198,7 +193,8 @@ class _TextLineState extends State<TextLine> {
         }
         // Creates correct node for custom embed
         if (child.value.type == BlockEmbed.customType) {
-          child = Embed(CustomBlockEmbed.fromJsonString(child.value.data));
+          child = Embed(CustomBlockEmbed.fromJsonString(child.value.data))
+            ..applyStyle(child.style);
         }
         final embedBuilder = widget.embedBuilder(child);
         final embedWidget = EmbedProxy(
@@ -208,6 +204,7 @@ class _TextLineState extends State<TextLine> {
             child,
             widget.readOnly,
             true,
+            lineStyle,
           ),
         );
         final embed = embedBuilder.buildWidgetSpan(embedWidget);
@@ -1082,9 +1079,16 @@ class RenderEditableTextLine extends RenderEditableBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     if (_leading != null) {
-      final parentData = _leading!.parentData as BoxParentData;
-      final effectiveOffset = offset + parentData.offset;
-      context.paintChild(_leading!, effectiveOffset);
+      if (textDirection == TextDirection.ltr) {
+        final parentData = _leading!.parentData as BoxParentData;
+        final effectiveOffset = offset + parentData.offset;
+        context.paintChild(_leading!, effectiveOffset);
+      } else {
+        final parentData = _leading!.parentData as BoxParentData;
+        final effectiveOffset = offset + parentData.offset;
+        context.paintChild(_leading!,
+            Offset(size.width - _leading!.size.width, effectiveOffset.dy));
+      }
     }
 
     if (_body != null) {

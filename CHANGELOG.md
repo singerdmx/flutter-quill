@@ -1,4 +1,35 @@
-# [7.1.17]
+# [7.2.6]
+- Style custom toolbar buttons like builtins.
+
+# [7.2.5]
+- Always use text cursor for editor on desktop.
+
+# [7.2.4]
+- Fixed keepStyleOnNewLine.
+
+# [7.2.3]
+- Get pixel ratio from view.
+
+# [7.2.2]
+- Prevent operations on stale editor state.
+
+# [7.2.1]
+- Add support for android keyboard content insertion.
+- Enhance color picker, enter hex color and color palette option.
+
+# [7.2.0]
+- Checkboxes, bullet points, and number points are now scaled based on the default paragraph font size.
+
+# [7.1.20]
+- Pass linestyle to embedded block.
+
+# [7.1.19]
+- Fix Rtl leading alignment problem.
+
+# [7.1.18]
+- Support flutter latest version.
+
+# [7.1.17+1]
 - Updates `device_info_plus` to version 9.0.0 to benefit from AGP 8 (see [changelog#900](https://pub.dev/packages/device_info_plus/changelog#900)).
 
 # [7.1.16]

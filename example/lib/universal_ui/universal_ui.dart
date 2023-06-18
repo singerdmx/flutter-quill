@@ -38,6 +38,7 @@ class ImageEmbedBuilderWeb extends EmbedBuilder {
     Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     final imageUrl = node.value.data;
     if (isImageBase64(imageUrl)) {
@@ -80,6 +81,7 @@ class VideoEmbedBuilderWeb extends EmbedBuilder {
     Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     var videoUrl = node.value.data;
     if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {

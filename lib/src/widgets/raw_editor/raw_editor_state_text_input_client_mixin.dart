@@ -59,6 +59,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           enableSuggestions: !widget.readOnly,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
+          allowedMimeTypes: widget.contentInsertionConfiguration == null
+              ? const <String>[]
+              : widget.contentInsertionConfiguration!.allowedMimeTypes,
         ),
       );
 
@@ -88,7 +91,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   void _updateCaretRectIfNeeded() {
     if (hasConnection) {
-      if (renderEditor.selection.isValid &&
+      if (!dirty &&
+          renderEditor.selection.isValid &&
           renderEditor.selection.isCollapsed) {
         final currentTextPosition =
             TextPosition(offset: renderEditor.selection.baseOffset);

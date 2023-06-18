@@ -46,6 +46,9 @@ abstract class EditorState extends State<RawEditor>
   /// The floating cursor is animated to merge with the regular cursor.
   AnimationController get floatingCursorResetController;
 
+  /// Returns true if the editor has been marked as needing to be rebuilt.
+  bool get dirty;
+
   bool showToolbar();
 
   void requestKeyboard();
@@ -187,6 +190,7 @@ class QuillEditor extends StatefulWidget {
     this.enableUnfocusOnTapOutside = true,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
+    this.contentInsertionConfiguration,
     Key? key,
   }) : super(key: key);
 
@@ -427,6 +431,12 @@ class QuillEditor extends StatefulWidget {
   /// Configures the dialog theme.
   final QuillDialogTheme? dialogTheme;
 
+  /// Configuration of handler for media content inserted via the system input
+  /// method.
+  ///
+  /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
+  final ContentInsertionConfiguration? contentInsertionConfiguration;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -467,8 +477,8 @@ class QuillEditorState extends State<QuillEditor>
       selectionColor = selectionTheme.selectionColor ??
           cupertinoTheme.primaryColor.withOpacity(0.40);
       cursorRadius ??= const Radius.circular(2);
-      cursorOffset = Offset(
-          iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
+      cursorOffset =
+          Offset(iOSHorizontalOffset / View.of(context).devicePixelRatio, 0);
     } else {
       textSelectionControls = materialTextSelectionControls;
       paintCursorAboveText = false;
@@ -528,6 +538,7 @@ class QuillEditorState extends State<QuillEditor>
       customLinkPrefixes: widget.customLinkPrefixes,
       enableUnfocusOnTapOutside: widget.enableUnfocusOnTapOutside,
       dialogTheme: widget.dialogTheme,
+      contentInsertionConfiguration: widget.contentInsertionConfiguration,
     );
 
     final editor = I18n(

@@ -158,76 +158,70 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildWelcomeEditor(BuildContext context) {
-    Widget quillEditor = MouseRegion(
-      cursor: SystemMouseCursors.text,
-      child: QuillEditor(
-        controller: _controller!,
-        scrollController: ScrollController(),
-        scrollable: true,
-        focusNode: _focusNode,
-        autoFocus: false,
-        readOnly: false,
-        placeholder: 'Add content',
-        enableSelectionToolbar: isMobile(),
-        expands: false,
-        padding: EdgeInsets.zero,
-        onImagePaste: _onImagePaste,
-        onTapUp: (details, p1) {
-          return _onTripleClickSelection();
-        },
-        customStyles: DefaultStyles(
-          h1: DefaultTextBlockStyle(
-              const TextStyle(
-                fontSize: 32,
-                color: Colors.black,
-                height: 1.15,
-                fontWeight: FontWeight.w300,
-              ),
-              const VerticalSpacing(16, 0),
-              const VerticalSpacing(0, 0),
-              null),
-          sizeSmall: const TextStyle(fontSize: 9),
-        ),
-        embedBuilders: [
-          ...FlutterQuillEmbeds.builders(),
-          NotesEmbedBuilder(addEditNote: _addEditNote)
-        ],
+    Widget quillEditor = QuillEditor(
+      controller: _controller!,
+      scrollController: ScrollController(),
+      scrollable: true,
+      focusNode: _focusNode,
+      autoFocus: false,
+      readOnly: false,
+      placeholder: 'Add content',
+      enableSelectionToolbar: isMobile(),
+      expands: false,
+      padding: EdgeInsets.zero,
+      onImagePaste: _onImagePaste,
+      onTapUp: (details, p1) {
+        return _onTripleClickSelection();
+      },
+      customStyles: DefaultStyles(
+        h1: DefaultTextBlockStyle(
+            const TextStyle(
+              fontSize: 32,
+              color: Colors.black,
+              height: 1.15,
+              fontWeight: FontWeight.w300,
+            ),
+            const VerticalSpacing(16, 0),
+            const VerticalSpacing(0, 0),
+            null),
+        sizeSmall: const TextStyle(fontSize: 9),
       ),
+      embedBuilders: [
+        ...FlutterQuillEmbeds.builders(),
+        NotesEmbedBuilder(addEditNote: _addEditNote)
+      ],
     );
     if (kIsWeb) {
-      quillEditor = MouseRegion(
-        cursor: SystemMouseCursors.text,
-        child: QuillEditor(
-            controller: _controller!,
-            scrollController: ScrollController(),
-            scrollable: true,
-            focusNode: _focusNode,
-            autoFocus: false,
-            readOnly: false,
-            placeholder: 'Add content',
-            expands: false,
-            padding: EdgeInsets.zero,
-            onTapUp: (details, p1) {
-              return _onTripleClickSelection();
-            },
-            customStyles: DefaultStyles(
-              h1: DefaultTextBlockStyle(
-                  const TextStyle(
-                    fontSize: 32,
-                    color: Colors.black,
-                    height: 1.15,
-                    fontWeight: FontWeight.w300,
-                  ),
-                  const VerticalSpacing(16, 0),
-                  const VerticalSpacing(0, 0),
-                  null),
-              sizeSmall: const TextStyle(fontSize: 9),
-            ),
-            embedBuilders: [
-              ...defaultEmbedBuildersWeb,
-              NotesEmbedBuilder(addEditNote: _addEditNote),
-            ]),
-      );
+      quillEditor = QuillEditor(
+          controller: _controller!,
+          scrollController: ScrollController(),
+          scrollable: true,
+          focusNode: _focusNode,
+          autoFocus: false,
+          readOnly: false,
+          placeholder: 'Add content',
+          expands: false,
+          padding: EdgeInsets.zero,
+          onTapUp: (details, p1) {
+            return _onTripleClickSelection();
+          },
+          customStyles: DefaultStyles(
+            h1: DefaultTextBlockStyle(
+                const TextStyle(
+                  fontSize: 32,
+                  color: Colors.black,
+                  height: 1.15,
+                  fontWeight: FontWeight.w300,
+                ),
+                const VerticalSpacing(16, 0),
+                const VerticalSpacing(0, 0),
+                null),
+            sizeSmall: const TextStyle(fontSize: 9),
+          ),
+          embedBuilders: [
+            ...defaultEmbedBuildersWeb,
+            NotesEmbedBuilder(addEditNote: _addEditNote),
+          ]);
     }
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
@@ -502,6 +496,7 @@ class NotesEmbedBuilder extends EmbedBuilder {
     Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     final notes = NotesBlockEmbed(node.value.data).document;
 
