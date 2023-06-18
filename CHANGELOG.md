@@ -1,3 +1,6 @@
+# [7.2.7]
+- Fix language code of Japan.
+
 # [7.2.6]
 - Style custom toolbar buttons like builtins.
 
