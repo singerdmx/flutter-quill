@@ -404,6 +404,22 @@ QuillEditor(locale: Locale('fr'), ...)
 
 其是流行且成熟的 [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html) `Typescript/Javascript` 包的 `Dart` 部分
 
+## 测试
+
+为了能在测试文件里测试编辑器，我们给 flutter `WidgetTester` 提供了一个扩展，其中包括在测试文件中简化与编辑器交互的方法。
+
+在测试文件内导入测试工具：
+
+```dart
+import 'package:flutter_quill/flutter_quill_test.dart';
+```
+
+然后使用 `quillEnterText` 输入文字：
+
+```dart
+await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
+```
+
 ---
 
 ## 赞助
