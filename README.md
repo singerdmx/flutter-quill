@@ -375,7 +375,7 @@ Currently, translations are available for these 27 locales:
 * `Locale('fa')`
 * `Locale('hi')`
 * `Locale('sr')`
-* `Locale('jp')`
+* `Locale('ja')`
 
 #### Contributing to translations
 

@@ -543,7 +543,7 @@ extension Localization on String {
           'Edit': '編輯',
           'Apply': '應用',
         },
-        'jp': {
+        'ja': {
           'Paste a link': 'リンクをペースト',
           'Ok': '完了',
           'Select Color': '色を選択',
