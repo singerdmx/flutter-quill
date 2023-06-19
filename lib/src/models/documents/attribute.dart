@@ -19,6 +19,8 @@ class Attribute<T> {
 
   static final Map<String, Attribute> _registry = LinkedHashMap.of({
     Attribute.bold.key: Attribute.bold,
+    Attribute.subscript.key: Attribute.subscript,
+    Attribute.superscript.key: Attribute.superscript,
     Attribute.italic.key: Attribute.italic,
     Attribute.small.key: Attribute.small,
     Attribute.underline.key: Attribute.underline,
@@ -42,9 +44,17 @@ class Attribute<T> {
     Attribute.style.key: Attribute.style,
     Attribute.token.key: Attribute.token,
     Attribute.script.key: Attribute.script,
+    Attribute.image.key: Attribute.image,
+    Attribute.video.key: Attribute.video,
   });
 
   static const BoldAttribute bold = BoldAttribute();
+
+  static final ScriptAttribute subscript =
+      ScriptAttribute(ScriptAttributes.sub);
+
+  static final ScriptAttribute superscript =
+      ScriptAttribute(ScriptAttributes.sup);
 
   static const ItalicAttribute italic = ItalicAttribute();
 
@@ -90,7 +100,7 @@ class Attribute<T> {
 
   static const TokenAttribute token = TokenAttribute('');
 
-  static const ScriptAttribute script = ScriptAttribute('');
+  static final ScriptAttribute script = ScriptAttribute(null);
 
   static const String mobileWidth = 'mobileWidth';
 
@@ -100,8 +110,14 @@ class Attribute<T> {
 
   static const String mobileAlignment = 'mobileAlignment';
 
+  static const ImageAttribute image = ImageAttribute(null);
+
+  static const VideoAttribute video = VideoAttribute(null);
+
   static final Set<String> inlineKeys = {
     Attribute.bold.key,
+    Attribute.subscript.key,
+    Attribute.superscript.key,
     Attribute.italic.key,
     Attribute.small.key,
     Attribute.underline.key,
@@ -137,6 +153,11 @@ class Attribute<T> {
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
   });
+
+  static final Set<String> embedKeys = {
+    Attribute.image.key,
+    Attribute.video.key,
+  };
 
   static const Attribute<int?> h1 = HeaderAttribute(level: 1);
 
@@ -345,8 +366,26 @@ class TokenAttribute extends Attribute<String> {
   const TokenAttribute(String val) : super('token', AttributeScope.IGNORE, val);
 }
 
-// `script` is supposed to be inline attribute but it is not supported yet
-class ScriptAttribute extends Attribute<String> {
-  const ScriptAttribute(String val)
-      : super('script', AttributeScope.IGNORE, val);
+class ScriptAttribute extends Attribute<String?> {
+  ScriptAttribute(ScriptAttributes? val)
+      : super('script', AttributeScope.INLINE, val?.value);
+}
+
+enum ScriptAttributes {
+  sup('super'),
+  sub('sub');
+
+  const ScriptAttributes(this.value);
+
+  final String value;
+}
+
+class ImageAttribute extends Attribute<String?> {
+  const ImageAttribute(String? url)
+      : super('image', AttributeScope.EMBEDS, url);
+}
+
+class VideoAttribute extends Attribute<String?> {
+  const VideoAttribute(String? url)
+      : super('video', AttributeScope.EMBEDS, url);
 }

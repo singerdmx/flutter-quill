@@ -6,13 +6,22 @@ import '../models/themes/quill_icon_theme.dart';
 import 'controller.dart';
 
 abstract class EmbedBuilder {
+  const EmbedBuilder();
+
   String get key;
+  bool get expanded => true;
+
+  WidgetSpan buildWidgetSpan(Widget widget) {
+    return WidgetSpan(child: widget);
+  }
 
   Widget build(
     BuildContext context,
     QuillController controller,
     leaf.Embed node,
     bool readOnly,
+    bool inline,
+    TextStyle textStyle,
   );
 }
 

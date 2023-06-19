@@ -12,10 +12,15 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tuple/tuple.dart';
 
 import '../universal_ui/universal_ui.dart';
 import 'read_only_page.dart';
+
+enum _SelectionType {
+  none,
+  word,
+  // line,
+}
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,6 +30,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   QuillController? _controller;
   final FocusNode _focusNode = FocusNode();
+  Timer? _selectAllTimer;
+  _SelectionType _selectionType = _SelectionType.none;
+
+  @override
+  void dispose() {
+    _selectAllTimer?.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -78,29 +91,74 @@ class _HomePageState extends State<HomePage> {
         color: Colors.grey.shade800,
         child: _buildMenuBar(context),
       ),
-      body: RawKeyboardListener(
-        focusNode: FocusNode(),
-        onKey: (event) {
-          if (event.data.isControlPressed && event.character == 'b') {
-            if (_controller!
-                .getSelectionStyle()
-                .attributes
-                .keys
-                .contains('bold')) {
-              _controller!
-                  .formatSelection(Attribute.clone(Attribute.bold, null));
-            } else {
-              _controller!.formatSelection(Attribute.bold);
-            }
-          }
-        },
-        child: _buildWelcomeEditor(context),
-      ),
+      body: _buildWelcomeEditor(context),
     );
   }
 
+  bool _onTripleClickSelection() {
+    final controller = _controller!;
+
+    _selectAllTimer?.cancel();
+    _selectAllTimer = null;
+
+    // If you want to select all text after paragraph, uncomment this line
+    // if (_selectionType == _SelectionType.line) {
+    //   final selection = TextSelection(
+    //     baseOffset: 0,
+    //     extentOffset: controller.document.length,
+    //   );
+
+    //   controller.updateSelection(selection, ChangeSource.REMOTE);
+
+    //   _selectionType = _SelectionType.none;
+
+    //   return true;
+    // }
+
+    if (controller.selection.isCollapsed) {
+      _selectionType = _SelectionType.none;
+    }
+
+    if (_selectionType == _SelectionType.none) {
+      _selectionType = _SelectionType.word;
+      _startTripleClickTimer();
+      return false;
+    }
+
+    if (_selectionType == _SelectionType.word) {
+      final child = controller.document.queryChild(
+        controller.selection.baseOffset,
+      );
+      final offset = child.node?.documentOffset ?? 0;
+      final length = child.node?.length ?? 0;
+
+      final selection = TextSelection(
+        baseOffset: offset,
+        extentOffset: offset + length,
+      );
+
+      controller.updateSelection(selection, ChangeSource.REMOTE);
+
+      // _selectionType = _SelectionType.line;
+
+      _selectionType = _SelectionType.none;
+
+      _startTripleClickTimer();
+
+      return true;
+    }
+
+    return false;
+  }
+
+  void _startTripleClickTimer() {
+    _selectAllTimer = Timer(const Duration(milliseconds: 900), () {
+      _selectionType = _SelectionType.none;
+    });
+  }
+
   Widget _buildWelcomeEditor(BuildContext context) {
-    var quillEditor = QuillEditor(
+    Widget quillEditor = QuillEditor(
       controller: _controller!,
       scrollController: ScrollController(),
       scrollable: true,
@@ -108,9 +166,13 @@ class _HomePageState extends State<HomePage> {
       autoFocus: false,
       readOnly: false,
       placeholder: 'Add content',
+      enableSelectionToolbar: isMobile(),
       expands: false,
       padding: EdgeInsets.zero,
       onImagePaste: _onImagePaste,
+      onTapUp: (details, p1) {
+        return _onTripleClickSelection();
+      },
       customStyles: DefaultStyles(
         h1: DefaultTextBlockStyle(
             const TextStyle(
@@ -119,8 +181,8 @@ class _HomePageState extends State<HomePage> {
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
-            const Tuple2(16, 0),
-            const Tuple2(0, 0),
+            const VerticalSpacing(16, 0),
+            const VerticalSpacing(0, 0),
             null),
         sizeSmall: const TextStyle(fontSize: 9),
       ),
@@ -140,6 +202,9 @@ class _HomePageState extends State<HomePage> {
           placeholder: 'Add content',
           expands: false,
           padding: EdgeInsets.zero,
+          onTapUp: (details, p1) {
+            return _onTripleClickSelection();
+          },
           customStyles: DefaultStyles(
             h1: DefaultTextBlockStyle(
                 const TextStyle(
@@ -148,12 +213,15 @@ class _HomePageState extends State<HomePage> {
                   height: 1.15,
                   fontWeight: FontWeight.w300,
                 ),
-                const Tuple2(16, 0),
-                const Tuple2(0, 0),
+                const VerticalSpacing(16, 0),
+                const VerticalSpacing(0, 0),
                 null),
             sizeSmall: const TextStyle(fontSize: 9),
           ),
-          embedBuilders: defaultEmbedBuildersWeb);
+          embedBuilders: [
+            ...defaultEmbedBuildersWeb,
+            NotesEmbedBuilder(addEditNote: _addEditNote),
+          ]);
     }
     var toolbar = QuillToolbar.basic(
       controller: _controller!,
@@ -347,6 +415,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _readOnly() {
+    Navigator.pop(super.context);
     Navigator.push(
       super.context,
       MaterialPageRoute(
@@ -402,7 +471,8 @@ class _HomePageState extends State<HomePage> {
     final length = controller.selection.extentOffset - index;
 
     if (isEditing) {
-      final offset = getEmbedNode(controller, controller.selection.start).item1;
+      final offset =
+          getEmbedNode(controller, controller.selection.start).offset;
       controller.replaceText(
           offset, 1, block, TextSelection.collapsed(offset: offset));
     } else {
@@ -411,7 +481,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class NotesEmbedBuilder implements EmbedBuilder {
+class NotesEmbedBuilder extends EmbedBuilder {
   NotesEmbedBuilder({required this.addEditNote});
 
   Future<void> Function(BuildContext context, {Document? document}) addEditNote;
@@ -425,6 +495,8 @@ class NotesEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     Embed node,
     bool readOnly,
+    bool inline,
+    TextStyle textStyle,
   ) {
     final notes = NotesBlockEmbed(node.value.data).document;
 

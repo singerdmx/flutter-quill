@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../utils/widgets.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
@@ -16,6 +17,7 @@ class ToggleCheckListButton extends StatefulWidget {
     this.childBuilder = defaultToggleStyleButtonBuilder,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -32,6 +34,7 @@ class ToggleCheckListButton extends StatefulWidget {
 
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _ToggleCheckListButtonState createState() => _ToggleCheckListButtonState();
@@ -91,16 +94,19 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.childBuilder(
-      context,
-      Attribute.unchecked,
-      widget.icon,
-      widget.fillColor,
-      _isToggled,
-      _toggleAttribute,
-      widget.afterButtonPressed,
-      widget.iconSize,
-      widget.iconTheme,
+    return UtilityWidgets.maybeTooltip(
+      message: widget.tooltip,
+      child: widget.childBuilder(
+        context,
+        Attribute.unchecked,
+        widget.icon,
+        widget.fillColor,
+        _isToggled,
+        _toggleAttribute,
+        widget.afterButtonPressed,
+        widget.iconSize,
+        widget.iconTheme,
+      ),
     );
   }
 

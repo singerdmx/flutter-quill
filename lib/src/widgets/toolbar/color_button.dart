@@ -21,6 +21,7 @@ class ColorButton extends StatefulWidget {
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -30,6 +31,7 @@ class ColorButton extends StatefulWidget {
   final QuillController controller;
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -119,6 +121,7 @@ class _ColorButtonState extends State<ColorButton> {
             : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor);
 
     return QuillIconButton(
+      tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
       size: widget.iconSize * kIconButtonFactor,
@@ -133,29 +136,148 @@ class _ColorButtonState extends State<ColorButton> {
   }
 
   void _changeColor(BuildContext context, Color color) {
-    var hex = color.value.toRadixString(16);
-    if (hex.startsWith('ff')) {
-      hex = hex.substring(2);
-    }
+    var hex = colorToHex(color);
     hex = '#$hex';
     widget.controller.formatSelection(
         widget.background ? BackgroundAttribute(hex) : ColorAttribute(hex));
-    Navigator.of(context).pop();
   }
 
   void _showColorPicker() {
-    showDialog(
+    var pickerType = 'material';
+
+    var selectedColor = Colors.black;
+
+    if (_isToggledColor) {
+      selectedColor = widget.background
+          ? hexToColor(_selectionStyle.attributes['background']?.value)
+          : hexToColor(_selectionStyle.attributes['color']?.value);
+    }
+
+    final hexController =
+        TextEditingController(text: colorToHex(selectedColor));
+    late void Function(void Function()) colorBoxSetState;
+
+    showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Select Color'.i18n),
-        backgroundColor: Theme.of(context).canvasColor,
-        content: SingleChildScrollView(
-          child: MaterialPicker(
-            pickerColor: const Color(0x00000000),
-            onColorChanged: (color) => _changeColor(context, color),
-          ),
-        ),
-      ),
+      builder: (context) => StatefulBuilder(builder: (context, dlgSetState) {
+        return AlertDialog(
+            title: Text('Select Color'.i18n),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'.i18n)),
+            ],
+            backgroundColor: Theme.of(context).canvasColor,
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            dlgSetState(() {
+                              pickerType = 'material';
+                            });
+                          },
+                          child: Text('Material'.i18n)),
+                      TextButton(
+                          onPressed: () {
+                            dlgSetState(() {
+                              pickerType = 'color';
+                            });
+                          },
+                          child: Text('Color'.i18n)),
+                    ],
+                  ),
+                  Column(children: [
+                    if (pickerType == 'material')
+                      MaterialPicker(
+                        pickerColor: selectedColor,
+                        onColorChanged: (color) {
+                          _changeColor(context, color);
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    if (pickerType == 'color')
+                      ColorPicker(
+                        pickerColor: selectedColor,
+                        onColorChanged: (color) {
+                          _changeColor(context, color);
+                          hexController.text = colorToHex(color);
+                          selectedColor = color;
+                          colorBoxSetState(() {});
+                        },
+                      ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          height: 60,
+                          child: TextFormField(
+                            controller: hexController,
+                            onChanged: (value) {
+                              selectedColor = hexToColor(value);
+                              _changeColor(context, selectedColor);
+
+                              colorBoxSetState(() {});
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Hex'.i18n,
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        StatefulBuilder(builder: (context, mcolorBoxSetState) {
+                          colorBoxSetState = mcolorBoxSetState;
+                          return Container(
+                            width: 25,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black45,
+                              ),
+                              color: selectedColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ])
+                ],
+              ),
+            ));
+      }),
     );
+  }
+
+  Color hexToColor(String? hexString) {
+    if (hexString == null) {
+      return Colors.black;
+    }
+    final hexRegex = RegExp(r'([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$');
+
+    hexString = hexString.replaceAll('#', '');
+    if (!hexRegex.hasMatch(hexString)) {
+      return Colors.black;
+    }
+
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString);
+    return Color(int.tryParse(buffer.toString(), radix: 16) ?? 0xFF000000);
+  }
+
+  String colorToHex(Color color) {
+    return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();
   }
 }

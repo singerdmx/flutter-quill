@@ -7,9 +7,13 @@ import 'package:flutter/material.dart';
 /// The arrow indicators are automatically hidden if the list is not
 /// scrollable in the direction of the respective arrow.
 class ArrowIndicatedButtonList extends StatefulWidget {
-  const ArrowIndicatedButtonList({required this.buttons, Key? key})
-      : super(key: key);
+  const ArrowIndicatedButtonList({
+    required this.axis,
+    required this.buttons,
+    Key? key,
+  }) : super(key: key);
 
+  final Axis axis;
   final List<Widget> buttons;
 
   @override
@@ -20,8 +24,8 @@ class ArrowIndicatedButtonList extends StatefulWidget {
 class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
     with WidgetsBindingObserver {
   final ScrollController _controller = ScrollController();
-  bool _showLeftArrow = false;
-  bool _showRightArrow = false;
+  bool _showBackwardArrow = false;
+  bool _showForwardArrow = false;
 
   @override
   void initState() {
@@ -40,13 +44,19 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        _buildLeftArrow(),
-        _buildScrollableList(),
-        _buildRightColor(),
-      ],
-    );
+    final children = <Widget>[
+      _buildBackwardArrow(),
+      _buildScrollableList(),
+      _buildForwardArrow(),
+    ];
+
+    return widget.axis == Axis.horizontal
+        ? Row(
+            children: children,
+          )
+        : Column(
+            children: children,
+          );
   }
 
   @override
@@ -63,20 +73,29 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
     if (!mounted) return;
 
     setState(() {
-      _showLeftArrow =
+      _showBackwardArrow =
           _controller.position.minScrollExtent != _controller.position.pixels;
-      _showRightArrow =
+      _showForwardArrow =
           _controller.position.maxScrollExtent != _controller.position.pixels;
     });
   }
 
-  Widget _buildLeftArrow() {
+  Widget _buildBackwardArrow() {
+    IconData? icon;
+    if (_showBackwardArrow) {
+      if (widget.axis == Axis.horizontal) {
+        icon = Icons.arrow_left;
+      } else {
+        icon = Icons.arrow_drop_up;
+      }
+    }
+
     return SizedBox(
       width: 8,
       child: Transform.translate(
         // Move the icon a few pixels to center it
         offset: const Offset(-5, 0),
-        child: _showLeftArrow ? const Icon(Icons.arrow_left, size: 18) : null,
+        child: icon != null ? Icon(icon, size: 18) : null,
       ),
     );
   }
@@ -87,18 +106,24 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
         // Remove the glowing effect, as we already have the arrow indicators
         behavior: _NoGlowBehavior(),
         // The CustomScrollView is necessary so that the children are not
-        // stretched to the height of the toolbar, https://bit.ly/3uC3bjI
+        // stretched to the height of the toolbar:
+        // https://stackoverflow.com/a/65998731/7091839
         child: CustomScrollView(
-          scrollDirection: Axis.horizontal,
+          scrollDirection: widget.axis,
           controller: _controller,
           physics: const ClampingScrollPhysics(),
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: widget.buttons,
-              ),
+              child: widget.axis == Axis.horizontal
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: widget.buttons,
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: widget.buttons,
+                    ),
             )
           ],
         ),
@@ -106,13 +131,22 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
     );
   }
 
-  Widget _buildRightColor() {
+  Widget _buildForwardArrow() {
+    IconData? icon;
+    if (_showForwardArrow) {
+      if (widget.axis == Axis.horizontal) {
+        icon = Icons.arrow_right;
+      } else {
+        icon = Icons.arrow_drop_down;
+      }
+    }
+
     return SizedBox(
       width: 8,
       child: Transform.translate(
         // Move the icon a few pixels to center it
         offset: const Offset(-5, 0),
-        child: _showRightArrow ? const Icon(Icons.arrow_right, size: 18) : null,
+        child: icon != null ? Icon(icon, size: 18) : null,
       ),
     );
   }
@@ -120,7 +154,6 @@ class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
 
 /// ScrollBehavior without the Material glow effect.
 class _NoGlowBehavior extends ScrollBehavior {
-  @override
   Widget buildViewportChrome(BuildContext _, Widget child, AxisDirection __) {
     return child;
   }

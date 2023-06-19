@@ -7,15 +7,17 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:math_keyboard/math_keyboard.dart';
-import 'package:tuple/tuple.dart';
+import 'package:universal_html/html.dart' as html;
 
+import '../shims/dart_ui_fake.dart'
+    if (dart.library.html) '../shims/dart_ui_real.dart' as ui;
 import 'utils.dart';
 import 'widgets/image.dart';
 import 'widgets/image_resizer.dart';
 import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
 
-class ImageEmbedBuilder implements EmbedBuilder {
+class ImageEmbedBuilder extends EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
@@ -25,12 +27,14 @@ class ImageEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
+    bool inline,
+    TextStyle textStyle,
   ) {
     assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
     var image;
     final imageUrl = standardizeImageUrl(node.value.data);
-    Tuple2<double?, double?>? _widthHeight;
+    OptionalSize? _imageSize;
     final style = node.style.attributes['style'];
     if (base.isMobile() && style != null) {
       final _attrs = base.parseKeyValuePairs(style.value.toString(), {
@@ -46,7 +50,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
             'mobileWidth and mobileHeight must be specified');
         final w = double.parse(_attrs[Attribute.mobileWidth]!);
         final h = double.parse(_attrs[Attribute.mobileHeight]!);
-        _widthHeight = Tuple2(w, h);
+        _imageSize = OptionalSize(w, h);
         final m = _attrs[Attribute.mobileMargin] == null
             ? 0.0
             : double.parse(_attrs[Attribute.mobileMargin]!);
@@ -57,9 +61,9 @@ class ImageEmbedBuilder implements EmbedBuilder {
       }
     }
 
-    if (_widthHeight == null) {
+    if (_imageSize == null) {
       image = imageByUrl(imageUrl);
-      _widthHeight = Tuple2((image as Image).width, image.height);
+      _imageSize = OptionalSize((image as Image).width, image.height);
     }
 
     if (!readOnly && base.isMobile()) {
@@ -87,10 +91,10 @@ class ImageEmbedBuilder implements EmbedBuilder {
                                   controller
                                     ..skipRequestKeyboard = true
                                     ..formatText(
-                                        res.item1, 1, StyleAttribute(attr));
+                                        res.offset, 1, StyleAttribute(attr));
                                 },
-                                imageWidth: _widthHeight?.item1,
-                                imageHeight: _widthHeight?.item2,
+                                imageWidth: _imageSize?.width,
+                                imageHeight: _imageSize?.height,
                                 maxWidth: _screenSize.width,
                                 maxHeight: _screenSize.height);
                           });
@@ -103,10 +107,10 @@ class ImageEmbedBuilder implements EmbedBuilder {
                     onPressed: () {
                       final imageNode =
                           getEmbedNode(controller, controller.selection.start)
-                              .item2;
+                              .value;
                       final imageUrl = imageNode.value.data;
                       controller.copiedImageUrl =
-                          Tuple2(imageUrl, getImageStyleString(controller));
+                          ImageUrl(imageUrl, getImageStyleString(controller));
                       Navigator.pop(context);
                     },
                   );
@@ -117,7 +121,7 @@ class ImageEmbedBuilder implements EmbedBuilder {
                     onPressed: () {
                       final offset =
                           getEmbedNode(controller, controller.selection.start)
-                              .item1;
+                              .offset;
                       controller.replaceText(offset, 1, '',
                           TextSelection.collapsed(offset: offset));
                       Navigator.pop(context);
@@ -145,7 +149,43 @@ class ImageEmbedBuilder implements EmbedBuilder {
   }
 }
 
-class VideoEmbedBuilder implements EmbedBuilder {
+class ImageEmbedBuilderWeb extends EmbedBuilder {
+  ImageEmbedBuilderWeb({this.constraints})
+      : assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
+
+  final BoxConstraints? constraints;
+
+  @override
+  String get key => BlockEmbed.imageType;
+
+  @override
+  Widget build(
+    BuildContext context,
+    QuillController controller,
+    Embed node,
+    bool readOnly,
+    bool inline,
+    TextStyle textStyle,
+  ) {
+    final imageUrl = node.value.data;
+
+    ui.platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
+      return html.ImageElement()
+        ..src = imageUrl
+        ..style.height = 'auto'
+        ..style.width = 'auto';
+    });
+
+    return ConstrainedBox(
+      constraints: constraints ?? BoxConstraints.loose(const Size(200, 200)),
+      child: HtmlElementView(
+        viewType: imageUrl,
+      ),
+    );
+  }
+}
+
+class VideoEmbedBuilder extends EmbedBuilder {
   VideoEmbedBuilder({this.onVideoInit});
 
   final void Function(GlobalKey videoContainerKey)? onVideoInit;
@@ -159,6 +199,8 @@ class VideoEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
+    bool inline,
+    TextStyle textStyle,
   ) {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
@@ -176,7 +218,7 @@ class VideoEmbedBuilder implements EmbedBuilder {
   }
 }
 
-class FormulaEmbedBuilder implements EmbedBuilder {
+class FormulaEmbedBuilder extends EmbedBuilder {
   @override
   String get key => BlockEmbed.formulaType;
 
@@ -186,6 +228,8 @@ class FormulaEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     base.Embed node,
     bool readOnly,
+    bool inline,
+    TextStyle textStyle,
   ) {
     assert(!kIsWeb, 'Please provide formula EmbedBuilder for Web');
 

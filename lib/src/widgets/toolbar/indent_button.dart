@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../flutter_quill.dart';
+import '../../models/themes/quill_icon_theme.dart';
+import '../controller.dart';
+import '../toolbar.dart';
 
 class IndentButton extends StatefulWidget {
   const IndentButton({
@@ -10,6 +12,7 @@ class IndentButton extends StatefulWidget {
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -20,6 +23,7 @@ class IndentButton extends StatefulWidget {
   final VoidCallback? afterButtonPressed;
 
   final QuillIconTheme? iconTheme;
+  final String? tooltip;
 
   @override
   _IndentButtonState createState() => _IndentButtonState();
@@ -35,34 +39,15 @@ class _IndentButtonState extends State<IndentButton> {
     final iconFillColor =
         widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     return QuillIconButton(
+      tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * 1.77,
+      size: widget.iconSize * kIconButtonFactor,
       icon: Icon(widget.icon, size: widget.iconSize, color: iconColor),
       fillColor: iconFillColor,
       borderRadius: widget.iconTheme?.borderRadius ?? 2,
       onPressed: () {
-        final indent = widget.controller
-            .getSelectionStyle()
-            .attributes[Attribute.indent.key];
-        if (indent == null) {
-          if (widget.isIncrease) {
-            widget.controller.formatSelection(Attribute.indentL1);
-          }
-          return;
-        }
-        if (indent.value == 1 && !widget.isIncrease) {
-          widget.controller
-              .formatSelection(Attribute.clone(Attribute.indentL1, null));
-          return;
-        }
-        if (widget.isIncrease) {
-          widget.controller
-              .formatSelection(Attribute.getIndentLevel(indent.value + 1));
-          return;
-        }
-        widget.controller
-            .formatSelection(Attribute.getIndentLevel(indent.value - 1));
+        widget.controller.indentSelection(widget.isIncrease);
       },
       afterPressed: widget.afterButtonPressed,
     );

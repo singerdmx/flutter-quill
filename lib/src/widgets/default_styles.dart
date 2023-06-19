@@ -1,8 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 import '../models/documents/attribute.dart';
 import '../models/documents/style.dart';
+import '../models/structs/vertical_spacing.dart';
 import '../utils/platform.dart';
 import 'style_widgets/checkbox_point.dart';
 
@@ -44,11 +46,11 @@ class DefaultTextBlockStyle {
   final TextStyle style;
 
   /// Vertical spacing around a text block.
-  final Tuple2<double, double> verticalSpacing;
+  final VerticalSpacing verticalSpacing;
 
   /// Vertical spacing for individual lines within a text block.
   ///
-  final Tuple2<double, double> lineSpacing;
+  final VerticalSpacing lineSpacing;
 
   /// Decoration of a text block.
   ///
@@ -125,8 +127,8 @@ class InlineCodeStyle {
 class DefaultListBlockStyle extends DefaultTextBlockStyle {
   DefaultListBlockStyle(
     TextStyle style,
-    Tuple2<double, double> verticalSpacing,
-    Tuple2<double, double> lineSpacing,
+    VerticalSpacing verticalSpacing,
+    VerticalSpacing lineSpacing,
     BoxDecoration? decoration,
     this.checkboxUIBuilder,
   ) : super(style, verticalSpacing, lineSpacing, decoration);
@@ -141,6 +143,8 @@ class DefaultStyles {
     this.h3,
     this.paragraph,
     this.bold,
+    this.subscript,
+    this.superscript,
     this.italic,
     this.small,
     this.underline,
@@ -165,6 +169,8 @@ class DefaultStyles {
   final DefaultTextBlockStyle? h3;
   final DefaultTextBlockStyle? paragraph;
   final TextStyle? bold;
+  final TextStyle? subscript;
+  final TextStyle? superscript;
   final TextStyle? italic;
   final TextStyle? small;
   final TextStyle? underline;
@@ -193,7 +199,7 @@ class DefaultStyles {
       height: 1.3,
       decoration: TextDecoration.none,
     );
-    const baseSpacing = Tuple2<double, double>(6, 0);
+    const baseSpacing = VerticalSpacing(6, 0);
     String fontFamily;
     if (isAppleOS(themeData.platform)) {
       fontFamily = 'Menlo';
@@ -216,8 +222,8 @@ class DefaultStyles {
               fontWeight: FontWeight.w300,
               decoration: TextDecoration.none,
             ),
-            const Tuple2(16, 0),
-            const Tuple2(0, 0),
+            const VerticalSpacing(16, 0),
+            const VerticalSpacing(0, 0),
             null),
         h2: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
@@ -227,8 +233,8 @@ class DefaultStyles {
               fontWeight: FontWeight.normal,
               decoration: TextDecoration.none,
             ),
-            const Tuple2(8, 0),
-            const Tuple2(0, 0),
+            const VerticalSpacing(8, 0),
+            const VerticalSpacing(0, 0),
             null),
         h3: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
@@ -238,12 +244,15 @@ class DefaultStyles {
               fontWeight: FontWeight.w500,
               decoration: TextDecoration.none,
             ),
-            const Tuple2(8, 0),
-            const Tuple2(0, 0),
+            const VerticalSpacing(8, 0),
+            const VerticalSpacing(0, 0),
             null),
-        paragraph: DefaultTextBlockStyle(
-            baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
+        paragraph: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0), null),
         bold: const TextStyle(fontWeight: FontWeight.bold),
+        subscript: const TextStyle(fontFeatures: [FontFeature.subscripts()]),
+        superscript:
+            const TextStyle(fontFeatures: [FontFeature.superscripts()]),
         italic: const TextStyle(fontStyle: FontStyle.italic),
         small: const TextStyle(fontSize: 12),
         underline: const TextStyle(decoration: TextDecoration.underline),
@@ -272,15 +281,15 @@ class DefaultStyles {
               height: 1.5,
               color: Colors.grey.withOpacity(0.6),
             ),
-            const Tuple2(0, 0),
-            const Tuple2(0, 0),
+            const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0),
             null),
         lists: DefaultListBlockStyle(
-            baseStyle, baseSpacing, const Tuple2(0, 6), null, null),
+            baseStyle, baseSpacing, const VerticalSpacing(0, 6), null, null),
         quote: DefaultTextBlockStyle(
             TextStyle(color: baseStyle.color!.withOpacity(0.6)),
             baseSpacing,
-            const Tuple2(6, 2),
+            const VerticalSpacing(6, 2),
             BoxDecoration(
               border: Border(
                 left: BorderSide(width: 4, color: Colors.grey.shade300),
@@ -294,17 +303,17 @@ class DefaultStyles {
               height: 1.15,
             ),
             baseSpacing,
-            const Tuple2(0, 0),
+            const VerticalSpacing(0, 0),
             BoxDecoration(
               color: Colors.grey.shade50,
               borderRadius: BorderRadius.circular(2),
             )),
         indent: DefaultTextBlockStyle(
-            baseStyle, baseSpacing, const Tuple2(0, 6), null),
-        align: DefaultTextBlockStyle(
-            baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
-        leading: DefaultTextBlockStyle(
-            baseStyle, const Tuple2(0, 0), const Tuple2(0, 0), null),
+            baseStyle, baseSpacing, const VerticalSpacing(0, 6), null),
+        align: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0), null),
+        leading: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
+            const VerticalSpacing(0, 0), null),
         sizeSmall: const TextStyle(fontSize: 10),
         sizeLarge: const TextStyle(fontSize: 18),
         sizeHuge: const TextStyle(fontSize: 22));
@@ -317,6 +326,8 @@ class DefaultStyles {
         h3: other.h3 ?? h3,
         paragraph: other.paragraph ?? paragraph,
         bold: other.bold ?? bold,
+        subscript: other.subscript ?? subscript,
+        superscript: other.superscript ?? superscript,
         italic: other.italic ?? italic,
         small: other.small ?? small,
         underline: other.underline ?? underline,

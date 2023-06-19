@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:universal_html/html.dart' as html;
-import 'package:youtube_player_flutter_quill/youtube_player_flutter_quill.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../widgets/responsive_widget.dart';
 import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui_instance;
@@ -27,7 +27,7 @@ class UniversalUI {
 
 var ui = UniversalUI();
 
-class ImageEmbedBuilderWeb implements EmbedBuilder {
+class ImageEmbedBuilderWeb extends EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
@@ -37,6 +37,8 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
     QuillController controller,
     Embed node,
     bool readOnly,
+    bool inline,
+    TextStyle textStyle,
   ) {
     final imageUrl = node.value.data;
     if (isImageBase64(imageUrl)) {
@@ -44,8 +46,12 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
       return const SizedBox();
     }
     final size = MediaQuery.of(context).size;
-    UniversalUI().platformViewRegistry.registerViewFactory(
-        imageUrl, (viewId) => html.ImageElement()..src = imageUrl);
+    UniversalUI().platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
+      return html.ImageElement()
+        ..src = imageUrl
+        ..style.height = 'auto'
+        ..style.width = 'auto';
+    });
     return Padding(
       padding: EdgeInsets.only(
         right: ResponsiveWidget.isMediumScreen(context)
@@ -64,13 +70,19 @@ class ImageEmbedBuilderWeb implements EmbedBuilder {
   }
 }
 
-class VideoEmbedBuilderWeb implements EmbedBuilder {
+class VideoEmbedBuilderWeb extends EmbedBuilder {
   @override
   String get key => BlockEmbed.videoType;
 
   @override
-  Widget build(BuildContext context, QuillController controller, Embed node,
-      bool readOnly) {
+  Widget build(
+    BuildContext context,
+    QuillController controller,
+    Embed node,
+    bool readOnly,
+    bool inline,
+    TextStyle textStyle,
+  ) {
     var videoUrl = node.value.data;
     if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
       final youtubeID = YoutubePlayer.convertUrlToId(videoUrl);

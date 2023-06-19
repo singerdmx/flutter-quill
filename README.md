@@ -1,4 +1,4 @@
-<p align="center">
+<p align="center" style="background-color:#282C34">
   <img src="https://user-images.githubusercontent.com/10923085/119221946-2de89000-baf2-11eb-8285-68168a78c658.png" width="600px">
 </p>
 <h1 align="center">A rich text editor for Flutter</h1>
@@ -20,20 +20,35 @@
 [github-forks-badge]: https://img.shields.io/github/forks/singerdmx/flutter-quill.svg?style=for-the-badge&logo=github&logoColor=ffffff
 [github-forks-link]: https://github.com/singerdmx/flutter-quill/network/members
 
+---
 
 FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
 
 This library is a WYSIWYG editor built for the modern mobile platform, with web compatibility under development. Check out our [Youtube Playlist] or [Code Introduction] to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
 
-Demo App: https://bulletjournal.us/home/index.html
+Demo App: [BULLET JOURNAL](https://bulletjournal.us/home/index.html)
 
-Pub: https://pub.dev/packages/flutter_quill
+Pub: [FlutterQuill]
+
+## Demo
+
+<p float="left">
+  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
+  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142455-0531ab00-46b8-11eb-89f8-26a77de9227f.png">
+</p>
+
+<p float="left">
+  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
+  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
+</p>
+
+---
 
 ## Usage
 
 See the `example` directory for a minimal example of how to use FlutterQuill.  You typically just need to instantiate a controller:
 
-```
+```dart
 QuillController _controller = QuillController.basic();
 ```
 
@@ -54,6 +69,7 @@ Column(
   ],
 )
 ```
+
 Check out [Sample Page] for advanced usage.
 
 ## Input / Output
@@ -63,9 +79,9 @@ This library uses [Quill] as an internal data format.
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
 
-FlutterQuill provides some JSON serialisation support, so that you can save and open documents.  To save a document as JSON, do something like the following:
+FlutterQuill provides some JSON serialization support, so that you can save and open documents.  To save a document as JSON, do something like the following:
 
-```
+```dart
 var json = jsonEncode(_controller.document.toDelta().toJson());
 ```
 
@@ -73,11 +89,12 @@ You can then write this to storage.
 
 To open a FlutterQuill editor with an existing JSON representation that you've previously stored, you can do something like this:
 
-```
-var myJSON = jsonDecode(incomingJSONText);
+```dart
+var myJSON = jsonDecode(r'{"insert":"hello\n"}');
 _controller = QuillController(
           document: Document.fromJson(myJSON),
-          selection: TextSelection.collapsed(offset: 0));
+          selection: TextSelection.collapsed(offset: 0),
+        );
 ```
 
 ## Web
@@ -85,38 +102,44 @@ _controller = QuillController(
 For web development, use `flutter config --enable-web` for flutter or use [ReactQuill] for React.
 
 It is required to provide `EmbedBuilder`, e.g. [defaultEmbedBuildersWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L99).
-Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L241).
+Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L317).
 
 ## Desktop
 
-It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L221).
+It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L297).
 
 ## Configuration
 
-The `QuillToolbar` class lets you customise which formatting options are available.
+The `QuillToolbar` class lets you customize which formatting options are available.
 [Sample Page] provides sample code for advanced usage and configuration.
 
 ### Font Size
-Within the editor toolbar, a drop-down with font-sizing capabilities is available. This can be enabled or disabled with `showFontSize`.  
+
+Within the editor toolbar, a drop-down with font-sizing capabilities is available. This can be enabled or disabled with `showFontSize`.
 
 When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, String>` consisting of a `String` title for the font size and a `String` value for the font size.  Example:
-```
+
+```dart
 fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46'}
 ```
 
-Font size can be cleared with a value of `0`, for example: 
-```
+Font size can be cleared with a value of `0`, for example:
+
+```dart
 fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'}
 ```
 
 ### Font Family
+
 To use your own fonts, update your [assets folder](https://github.com/singerdmx/flutter-quill/tree/master/example/assets/fonts) and pass in `fontFamilyValues`. More details at [this change](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) and [this](https://www.flutterbeads.com/change-font-family-flutter/).
 
 ### Custom Buttons
+
 You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List` of `QuillCustomButton`.
 
 To add an Icon, we should use a new QuillCustomButton class
-```
+
+```dart
     QuillCustomButton(
         icon:Icons.ac_unit,
         onTap: () {
@@ -126,7 +149,8 @@ To add an Icon, we should use a new QuillCustomButton class
 ```
 
 Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
-```
+
+```dart
 QuillToolbar.basic(
    (...),
     customButtons: [
@@ -153,16 +177,15 @@ QuillToolbar.basic(
     ]
 ```
 
-
 ## Embed Blocks
 
 As of version 6.0, embed blocks are not provided by default as part of this package. Instead, this package provides an interface to all the user to provide there own implementations for embed blocks. Implementations for image, video and formula embed blocks is proved in a separate package [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions).
 
-Provide a list of embed 
+Provide a list of embed
 
 ### Using the embed blocks from `flutter_quill_extensions`
 
-```
+```dart
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 QuillEditor.basic(
@@ -176,12 +199,11 @@ QuillToolbar.basic(
 );
 ```
 
-
-
 ### Custom Size Image for Mobile
 
 Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
-```
+
+```dart
 {
       "insert": {
          "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
@@ -219,7 +241,7 @@ After that, we need to map this "notes" type into a widget. In that case, I used
 Don't forget to add this method to the `QuillEditor` after that!
 
 ```dart
-class NotesEmbedBuilder implements EmbedBuilder {
+class NotesEmbedBuilder extends EmbedBuilder {
   NotesEmbedBuilder({required this.addEditNote});
 
   Future<void> Function(BuildContext context, {Document? document}) addEditNote;
@@ -233,6 +255,7 @@ class NotesEmbedBuilder implements EmbedBuilder {
     QuillController controller,
     Embed node,
     bool readOnly,
+    bool inline,
   ) {
     final notes = NotesBlockEmbed(node.value.data).document;
 
@@ -297,7 +320,7 @@ Future<void> _addEditNote(BuildContext context, {Document? document}) async {
   final length = controller.selection.extentOffset - index;
 
   if (isEditing) {
-    final offset = getEmbedNode(controller, controller.selection.start).item1;
+    final offset = getEmbedNode(controller, controller.selection.start).offset;
     controller.replaceText(
         offset, 1, block, TextSelection.collapsed(offset: offset));
   } else {
@@ -312,9 +335,8 @@ And voila, we have a custom widget inside of the rich text editor!
   <img width="400" alt="1" src="https://i.imgur.com/yBTPYeS.png">
 </p>
 
-> For more info and a video example, see the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
-
-> For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
+> 1. For more info and a video example, see the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
+> 2. For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
 
 ### Translation
 
@@ -325,13 +347,15 @@ QuillToolbar(locale: Locale('fr'), ...)
 QuillEditor(locale: Locale('fr'), ...)
 ```
 
-Currently, translations are available for these 22 locales:
+Currently, translations are available for these 27 locales:
 
 * `Locale('en')`
 * `Locale('ar')`
+* `Locale('cs')`
 * `Locale('de')`
 * `Locale('da')`
 * `Locale('fr')`
+* `Locale('he')`
 * `Locale('zh', 'cn')`
 * `Locale('zh', 'hk')`
 * `Locale('ko')`
@@ -344,29 +368,44 @@ Currently, translations are available for these 22 locales:
 * `Locale('pl')`
 * `Locale('vi')`
 * `Locale('id')`
+* `Locale('it')`
+* `Locale('ms')`
 * `Locale('nl')`
 * `Locale('no')`
 * `Locale('fa')`
 * `Locale('hi')`
 * `Locale('sr')`
+* `Locale('ja')`
 
 #### Contributing to translations
+
 The translation file is located at [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
 
----
+## Conversion to HTML
 
-<p float="left">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142455-0531ab00-46b8-11eb-89f8-26a77de9227f.png">
-</p>
+Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
+it to other formats such as HTML in order to publish it, or send an email. One option is to use
+[vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
+to HTML. This package has full support for all Quill operations - including images, videos, formulas,
+tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.
+It is a complete Dart part of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
+Typescript/Javascript package.
 
+## Testing
 
-<p float="left">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
-</p>
+To aid in testing applications using the editor an extension to the flutter `WidgetTester` is provided which includes methods to simplify interacting with the editor in test cases.
 
+Import the test utilities in your test file:
 
+```dart
+import 'package:flutter_quill/flutter_quill_test.dart';
+```
+
+and then enter text using `quillEnterText`:
+
+```dart
+await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
+```
 
 ## Sponsors
 
@@ -374,10 +413,6 @@ The translation file is located at [toolbar.i18n.dart](lib/src/translations/tool
 <img src=
 "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
  width="150px" height="150px"></a>
-
----
-
-[Chinese Documentation](./doc_cn.md)
 
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter
@@ -387,3 +422,7 @@ The translation file is located at [toolbar.i18n.dart](lib/src/translations/tool
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
 [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/CodeIntroduction.md
+
+<hr/>
+
+[中文文档](./doc_cn.md)

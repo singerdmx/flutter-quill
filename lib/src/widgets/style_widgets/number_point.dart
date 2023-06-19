@@ -29,9 +29,9 @@ class QuillNumberPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     var s = index.toString();
     int? level = 0;
-    if (!attrs.containsKey(Attribute.indent.key) &&
-        !indentLevelCounts.containsKey(1)) {
+    if (!attrs.containsKey(Attribute.indent.key) && indentLevelCounts.isEmpty) {
       indentLevelCounts.clear();
+      indentLevelCounts[0] = 1;
       return Container(
         alignment: AlignmentDirectional.topEnd,
         width: width,
@@ -41,7 +41,7 @@ class QuillNumberPoint extends StatelessWidget {
     }
     if (attrs.containsKey(Attribute.indent.key)) {
       level = attrs[Attribute.indent.key]!.value;
-    } else {
+    } else if (!indentLevelCounts.containsKey(0)) {
       // first level but is back from previous indent level
       // supposed to be "2."
       indentLevelCounts[0] = 1;

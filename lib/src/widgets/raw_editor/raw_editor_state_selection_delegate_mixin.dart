@@ -38,13 +38,13 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     if (insertedText == pastePlainText && pastePlainText != '') {
       final pos = start;
       for (var i = 0; i < pasteStyle.length; i++) {
-        final offset = pasteStyle[i].item1;
-        final style = pasteStyle[i].item2;
+        final offset = pasteStyle[i].offset;
+        final style = pasteStyle[i].value;
         widget.controller.formatTextStyle(
             pos + offset,
             i == pasteStyle.length - 1
                 ? pastePlainText.length - offset
-                : pasteStyle[i + 1].item1,
+                : pasteStyle[i + 1].offset,
             style);
       }
     }
@@ -150,14 +150,15 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   }
 
   @override
-  bool get cutEnabled => widget.toolbarOptions.cut && !widget.readOnly;
+  bool get cutEnabled => widget.contextMenuBuilder != null && !widget.readOnly;
 
   @override
-  bool get copyEnabled => widget.toolbarOptions.copy;
+  bool get copyEnabled => widget.contextMenuBuilder != null;
 
   @override
-  bool get pasteEnabled => widget.toolbarOptions.paste && !widget.readOnly;
+  bool get pasteEnabled =>
+      widget.contextMenuBuilder != null && !widget.readOnly;
 
   @override
-  bool get selectAllEnabled => widget.toolbarOptions.selectAll;
+  bool get selectAllEnabled => widget.contextMenuBuilder != null;
 }

@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
-import 'package:tuple/tuple.dart';
 
 import '../../quill_delta.dart';
+import '../../structs/offset_value.dart';
 import '../attribute.dart';
 import '../style.dart';
 import 'block.dart';
@@ -381,7 +381,7 @@ class Line extends Container<Leaf?> {
     }
 
     final remaining = len - local;
-    if (remaining > 0) {
+    if (remaining > 0 && nextLine != null) {
       final rest = nextLine!.collectStyle(0, remaining);
       _handle(rest);
     }
@@ -391,10 +391,10 @@ class Line extends Container<Leaf?> {
 
   /// Returns each node segment's offset in selection
   /// with its corresponding style as a list
-  List<Tuple2<int, Style>> collectAllIndividualStyles(int offset, int len,
+  List<OffsetValue<Style>> collectAllIndividualStyles(int offset, int len,
       {int beg = 0}) {
     final local = math.min(length - offset, len);
-    final result = <Tuple2<int, Style>>[];
+    final result = <OffsetValue<Style>>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
@@ -402,12 +402,12 @@ class Line extends Container<Leaf?> {
       var pos = 0;
       if (node is Text) {
         pos = node.length - data.offset;
-        result.add(Tuple2(beg, node.style));
+        result.add(OffsetValue(beg, node.style));
       }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
         if (node is Text) {
-          result.add(Tuple2(pos + beg, node.style));
+          result.add(OffsetValue(pos + beg, node.style));
           pos += node.length;
         }
       }
@@ -416,7 +416,7 @@ class Line extends Container<Leaf?> {
     // TODO: add line style and parent's block style
 
     final remaining = len - local;
-    if (remaining > 0) {
+    if (remaining > 0 && nextLine != null) {
       final rest =
           nextLine!.collectAllIndividualStyles(0, remaining, beg: local);
       result.addAll(rest);
@@ -450,8 +450,46 @@ class Line extends Container<Leaf?> {
     }
 
     final remaining = len - local;
-    if (remaining > 0) {
+    if (remaining > 0 && nextLine != null) {
       final rest = nextLine!.collectAllStyles(0, remaining);
+      result.addAll(rest);
+    }
+
+    return result;
+  }
+
+  /// Returns all styles for any character within the specified text range.
+  List<OffsetValue<Style>> collectAllStylesWithOffsets(
+    int offset,
+    int len, {
+    int beg = 0,
+  }) {
+    final local = math.min(length - offset, len);
+    final result = <OffsetValue<Style>>[];
+
+    final data = queryChild(offset, true);
+    var node = data.node as Leaf?;
+    if (node != null) {
+      var pos = 0;
+      pos = node.length - data.offset;
+      result.add(OffsetValue(node.documentOffset, node.style, node.length));
+      while (!node!.isLast && pos < local) {
+        node = node.next as Leaf;
+        result.add(OffsetValue(node.documentOffset, node.style, node.length));
+        pos += node.length;
+      }
+    }
+
+    result.add(OffsetValue(documentOffset, style, length));
+    if (parent is Block) {
+      final block = parent as Block;
+      result.add(OffsetValue(block.documentOffset, block.style, block.length));
+    }
+
+    final remaining = len - local;
+    if (remaining > 0 && nextLine != null) {
+      final rest =
+          nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
       result.addAll(rest);
     }
 
@@ -501,7 +539,7 @@ class Line extends Container<Leaf?> {
         }
       }
 
-      if (_len > 0) {
+      if (_len > 0 && nextLine != null) {
         _len = nextLine!._getPlainText(0, _len, plainText);
       }
     }

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../utils/widgets.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
 class SelectHeaderStyleButton extends StatefulWidget {
   const SelectHeaderStyleButton({
     required this.controller,
+    this.axis = Axis.horizontal,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.attributes = const [
@@ -19,14 +21,17 @@ class SelectHeaderStyleButton extends StatefulWidget {
       Attribute.h3,
     ],
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
   final QuillController controller;
+  final Axis axis;
   final double iconSize;
   final QuillIconTheme? iconTheme;
   final List<Attribute> attributes;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _SelectHeaderStyleButtonState createState() =>
@@ -67,18 +72,18 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
       fontSize: widget.iconSize * 0.7,
     );
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: widget.attributes.map((attribute) {
-        final isSelected = _selectedAttribute == attribute;
-        return Padding(
-          // ignore: prefer_const_constructors
-          padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints.tightFor(
-              width: widget.iconSize * kIconButtonFactor,
-              height: widget.iconSize * kIconButtonFactor,
-            ),
+    final children = widget.attributes.map((attribute) {
+      final isSelected = _selectedAttribute == attribute;
+      return Padding(
+        // ignore: prefer_const_constructors
+        padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(
+            width: widget.iconSize * kIconButtonFactor,
+            height: widget.iconSize * kIconButtonFactor,
+          ),
+          child: UtilityWidgets.maybeTooltip(
+            message: widget.tooltip,
             child: RawMaterialButton(
               hoverElevation: 0,
               highlightElevation: 0,
@@ -89,7 +94,7 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
                       widget.iconTheme?.borderRadius ?? 2)),
               fillColor: isSelected
                   ? (widget.iconTheme?.iconSelectedFillColor ??
-                      theme.toggleableActiveColor)
+                      Theme.of(context).primaryColor)
                   : (widget.iconTheme?.iconUnselectedFillColor ??
                       theme.canvasColor),
               onPressed: () {
@@ -111,9 +116,19 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
               ),
             ),
           ),
-        );
-      }).toList(),
-    );
+        ),
+      );
+    }).toList();
+
+    return widget.axis == Axis.horizontal
+        ? Row(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          )
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          );
   }
 
   void _didChangeEditingValue() {

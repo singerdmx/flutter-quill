@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
 import '../../models/themes/quill_icon_theme.dart';
+import '../../utils/widgets.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
@@ -28,6 +29,7 @@ class ToggleStyleButton extends StatefulWidget {
     this.childBuilder = defaultToggleStyleButtonBuilder,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -46,6 +48,7 @@ class ToggleStyleButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
 
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _ToggleStyleButtonState createState() => _ToggleStyleButtonState();
@@ -65,16 +68,19 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.childBuilder(
-      context,
-      widget.attribute,
-      widget.icon,
-      widget.fillColor,
-      _isToggled,
-      _toggleAttribute,
-      widget.afterButtonPressed,
-      widget.iconSize,
-      widget.iconTheme,
+    return UtilityWidgets.maybeTooltip(
+      message: widget.tooltip,
+      child: widget.childBuilder(
+        context,
+        widget.attribute,
+        widget.icon,
+        widget.fillColor,
+        _isToggled,
+        _toggleAttribute,
+        widget.afterButtonPressed,
+        widget.iconSize,
+        widget.iconTheme,
+      ),
     );
   }
 
@@ -99,7 +105,8 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    if (widget.attribute.key == Attribute.list.key) {
+    if (widget.attribute.key == Attribute.list.key ||
+        widget.attribute.key == Attribute.script.key) {
       final attribute = attrs[widget.attribute.key];
       if (attribute == null) {
         return false;
@@ -139,7 +146,7 @@ Widget defaultToggleStyleButtonBuilder(
   final fill = isEnabled
       ? isToggled == true
           ? (iconTheme?.iconSelectedFillColor ??
-              theme.toggleableActiveColor) //Selected icon fill color
+              Theme.of(context).primaryColor) //Selected icon fill color
           : (iconTheme?.iconUnselectedFillColor ??
               theme.canvasColor) //Unselected icon fill color :
       : (iconTheme?.disabledIconFillColor ??

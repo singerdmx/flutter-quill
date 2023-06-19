@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../flutter_quill.dart';
+import '../../models/themes/quill_icon_theme.dart';
+import '../controller.dart';
+import '../toolbar.dart';
 
 class HistoryButton extends StatefulWidget {
   const HistoryButton({
@@ -10,6 +12,7 @@ class HistoryButton extends StatefulWidget {
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
     this.afterButtonPressed,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -19,6 +22,7 @@ class HistoryButton extends StatefulWidget {
   final QuillController controller;
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
+  final String? tooltip;
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -39,9 +43,10 @@ class _HistoryButtonState extends State<HistoryButton> {
       _setIconColor();
     });
     return QuillIconButton(
+      tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * 1.77,
+      size: widget.iconSize * kIconButtonFactor,
       icon: Icon(widget.icon, size: widget.iconSize, color: _iconColor),
       fillColor: fillColor,
       borderRadius: widget.iconTheme?.borderRadius ?? 2,

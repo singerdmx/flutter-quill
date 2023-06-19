@@ -59,14 +59,50 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           enableSuggestions: !widget.readOnly,
           keyboardAppearance: widget.keyboardAppearance,
           textCapitalization: widget.textCapitalization,
+          allowedMimeTypes: widget.contentInsertionConfiguration == null
+              ? const <String>[]
+              : widget.contentInsertionConfiguration!.allowedMimeTypes,
         ),
       );
 
       _updateSizeAndTransform();
+      //update IME position for Windows
+      _updateComposingRectIfNeeded();
+      //update IME position for Macos
+      _updateCaretRectIfNeeded();
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
     }
-
     _textInputConnection!.show();
+  }
+
+  void _updateComposingRectIfNeeded() {
+    final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
+        textEditingValue.composing;
+    if (hasConnection) {
+      assert(mounted);
+      final offset = composingRange.isValid ? composingRange.start : 0;
+      final composingRect =
+          renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
+      _textInputConnection!.setComposingRect(composingRect);
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => _updateComposingRectIfNeeded());
+    }
+  }
+
+  void _updateCaretRectIfNeeded() {
+    if (hasConnection) {
+      if (!dirty &&
+          renderEditor.selection.isValid &&
+          renderEditor.selection.isCollapsed) {
+        final currentTextPosition =
+            TextPosition(offset: renderEditor.selection.baseOffset);
+        final caretRect =
+            renderEditor.getLocalRectForCaret(currentTextPosition);
+        _textInputConnection!.setCaretRect(caretRect);
+      }
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => _updateCaretRectIfNeeded());
+    }
   }
 
   /// Closes input connection if it's currently open. Otherwise does nothing.
@@ -283,7 +319,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   @override
   void showAutocorrectionPromptRect(int start, int end) {
-    throw UnimplementedError();
+    // this is called VERY OFTEN when editing a document, no longer throw
+    // an exception
   }
 
   @override
@@ -300,14 +337,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (hasConnection) {
       // Asking for renderEditor.size here can cause errors if layout hasn't
       // occurred yet. So we schedule a post frame callback instead.
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) {
-          return;
-        }
-        final size = renderEditor.size;
-        final transform = renderEditor.getTransformTo(null);
-        _textInputConnection?.setEditableSizeAndTransform(size, transform);
-      });
+      final size = renderEditor.size;
+      final transform = renderEditor.getTransformTo(null);
+      _textInputConnection?.setEditableSizeAndTransform(size, transform);
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => _updateSizeAndTransform());
     }
   }
 }

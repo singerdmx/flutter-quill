@@ -290,7 +290,7 @@ class RenderParagraphProxy extends RenderProxyBox
 
   @override
   List<TextBox> getBoxesForSelection(TextSelection selection) => child!
-      .getBoxesForSelection(selection, boxHeightStyle: BoxHeightStyle.strut);
+      .getBoxesForSelection(selection, boxHeightStyle: BoxHeightStyle.max);
 
   @override
   void performLayout() {
