@@ -485,16 +485,24 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               endIndent: 12,
               color: Colors.grey.shade400,
             ),
-        for (var customButton in customButtons)
-          QuillIconButton(
-            highlightElevation: 0,
-            hoverElevation: 0,
-            size: toolbarIconSize * kIconButtonFactor,
-            icon: Icon(customButton.icon, size: toolbarIconSize),
-            borderRadius: iconTheme?.borderRadius ?? 2,
-            onPressed: customButton.onTap,
-            afterPressed: afterButtonPressed,
-          ),
+        for (var customButton in customButtons) ...[
+          if (customButton.child != null) ...[
+            InkWell(
+              onTap: customButton.onTap,
+              child: customButton.child,
+            ),
+          ] else ...[
+            QuillIconButton(
+              highlightElevation: 0,
+              hoverElevation: 0,
+              size: toolbarIconSize * kIconButtonFactor,
+              icon: Icon(customButton.icon, size: toolbarIconSize),
+              borderRadius: iconTheme?.borderRadius ?? 2,
+              onPressed: customButton.onTap,
+              afterPressed: afterButtonPressed,
+            ),
+          ],
+        ],
       ],
     );
   }
