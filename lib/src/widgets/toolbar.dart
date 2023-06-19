@@ -567,15 +567,22 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             QuillDivider(axis,
                 color: sectionDividerColor, space: sectionDividerSpace),
         for (var customButton in customButtons)
-          CustomButton(
-            onPressed: customButton.onTap,
-            icon: customButton.icon,
-            iconColor: customButton.iconColor,
-            iconSize: toolbarIconSize,
-            iconTheme: iconTheme,
-            afterButtonPressed: afterButtonPressed,
-            tooltip: customButton.tooltip,
-          ),
+          if (customButton.child != null) ...[
+            InkWell(
+              onTap: customButton.onTap,
+              child: customButton.child,
+            ),
+          ] else ...[
+            CustomButton(
+              onPressed: customButton.onTap,
+              icon: customButton.icon,
+              iconColor: customButton.iconColor,
+              iconSize: toolbarIconSize,
+              iconTheme: iconTheme,
+              afterButtonPressed: afterButtonPressed,
+              tooltip: customButton.tooltip,
+            ),
+          ],
       ],
     );
   }
