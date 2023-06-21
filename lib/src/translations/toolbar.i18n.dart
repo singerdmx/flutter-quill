@@ -1943,7 +1943,8 @@ extension Localization on String {
           'Gallery': 'গ্যালারি',
           'Link': 'লিঙ্ক',
           'Please first select some text to transform into a link.':
-              'অনুগ্রহ করে প্রথমে একটি লিঙ্কে রূপান্তরিত করার জন্য কিছু পাঠ্য নির্বাচন করুন।',
+              'অনুগ্রহ করে প্রথমে একটি লিঙ্কে রূপান্তরিত করার '
+                  'জন্য কিছু পাঠ্য নির্বাচন করুন।',
           'Open': 'ওপেন',
           'Copy': 'কপি',
           'Remove': 'রিমুভ',
