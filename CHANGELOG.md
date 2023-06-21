@@ -1,3 +1,9 @@
+# [7.2.8]
+- Add custom button widget in toolbar.
+
+# [7.2.7]
+- Fix language code of Japan.
+
 # [7.2.6]
 - Style custom toolbar buttons like builtins.
 
