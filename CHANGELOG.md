@@ -1,3 +1,6 @@
+# [7.2.9]
+- Add toPlainText method to `EmbedBuilder`.
+
 # [7.2.8]
 - Add custom button widget in toolbar.
 
