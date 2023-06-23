@@ -268,11 +268,8 @@ class Embed extends Leaf {
   ]) {
     final builders = embedBuilders;
 
-    print('这里是 ${toString()}');
-
     if (builders != null) {
       for (final builder in builders) {
-        print('${builder.key} ${value.type}');
         if (builder.key == value.type) {
           return builder.toPlainText(this);
         }
