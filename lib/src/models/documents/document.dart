@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../widgets/embeds.dart';
 import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';
@@ -349,7 +350,13 @@ class Document {
   }
 
   /// Returns plain text representation of this document.
-  String toPlainText() => _root.children.map((e) => e.toPlainText()).join();
+  String toPlainText([
+    Iterable<EmbedBuilder>? embedBuilders,
+    EmbedBuilder? unknownEmbedBuilder,
+  ]) =>
+      _root.children
+          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
+          .join();
 
   void _loadDocument(Delta doc) {
     if (doc.isEmpty) {

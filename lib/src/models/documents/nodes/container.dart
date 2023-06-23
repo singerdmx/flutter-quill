@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import '../../../widgets/embeds.dart';
 import '../style.dart';
 import 'leaf.dart';
 import 'line.dart';
@@ -103,7 +104,13 @@ abstract class Container<T extends Node?> extends Node {
   }
 
   @override
-  String toPlainText() => children.map((child) => child.toPlainText()).join();
+  String toPlainText([
+    Iterable<EmbedBuilder>? embedBuilders,
+    EmbedBuilder? unknownEmbedBuilder,
+  ]) =>
+      children
+          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
+          .join();
 
   /// Content length of this node's children.
   ///
