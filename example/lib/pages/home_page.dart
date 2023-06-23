@@ -14,6 +14,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../universal_ui/universal_ui.dart';
+import '../widgets/time_stamp_embed_widget.dart';
 import 'read_only_page.dart';
 
 enum _SelectionType {
@@ -80,9 +81,24 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () => _addEditNote(context),
-            icon: const Icon(Icons.note_add),
+            onPressed: () => _insertTimeStamp(
+              _controller!,
+              DateTime.now().toString(),
+            ),
+            icon: const Icon(Icons.add_alarm_rounded),
           ),
+          IconButton(
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                content: Text(_controller!.document.toPlainText([
+                  ...FlutterQuillEmbeds.builders(),
+                  TimeStampEmbedBuilderWidget()
+                ])),
+              ),
+            ),
+            icon: const Icon(Icons.text_fields_rounded),
+          )
         ],
       ),
       drawer: Container(
@@ -188,7 +204,7 @@ class _HomePageState extends State<HomePage> {
       ),
       embedBuilders: [
         ...FlutterQuillEmbeds.builders(),
-        NotesEmbedBuilder(addEditNote: _addEditNote)
+        TimeStampEmbedBuilderWidget()
       ],
     );
     if (kIsWeb) {
@@ -220,7 +236,7 @@ class _HomePageState extends State<HomePage> {
           ),
           embedBuilders: [
             ...defaultEmbedBuildersWeb,
-            NotesEmbedBuilder(addEditNote: _addEditNote),
+            TimeStampEmbedBuilderWidget()
           ]);
     }
     var toolbar = QuillToolbar.basic(
@@ -433,99 +449,41 @@ class _HomePageState extends State<HomePage> {
     return file.path.toString();
   }
 
-  Future<void> _addEditNote(BuildContext context, {Document? document}) async {
-    final isEditing = document != null;
-    final quillEditorController = QuillController(
-      document: document ?? Document(),
-      selection: const TextSelection.collapsed(offset: 0),
-    );
-
-    await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        titlePadding: const EdgeInsets.only(left: 16, top: 8),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('${isEditing ? 'Edit' : 'Add'} note'),
-            IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.close),
-            )
-          ],
-        ),
-        content: QuillEditor.basic(
-          controller: quillEditorController,
-          readOnly: false,
-        ),
+  static void _insertTimeStamp(QuillController controller, String string) {
+    controller.document.insert(controller.selection.extentOffset, '\n');
+    controller.updateSelection(
+      TextSelection.collapsed(
+        offset: controller.selection.extentOffset + 1,
       ),
+      ChangeSource.LOCAL,
     );
 
-    if (quillEditorController.document.isEmpty()) return;
-
-    final block = BlockEmbed.custom(
-      NotesBlockEmbed.fromDocument(quillEditorController.document),
+    controller.document.insert(
+      controller.selection.extentOffset,
+      TimeStampEmbed(string),
     );
-    final controller = _controller!;
-    final index = controller.selection.baseOffset;
-    final length = controller.selection.extentOffset - index;
 
-    if (isEditing) {
-      final offset =
-          getEmbedNode(controller, controller.selection.start).offset;
-      controller.replaceText(
-          offset, 1, block, TextSelection.collapsed(offset: offset));
-    } else {
-      controller.replaceText(index, length, block, null);
-    }
-  }
-}
-
-class NotesEmbedBuilder extends EmbedBuilder {
-  NotesEmbedBuilder({required this.addEditNote});
-
-  Future<void> Function(BuildContext context, {Document? document}) addEditNote;
-
-  @override
-  String get key => 'notes';
-
-  @override
-  Widget build(
-    BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
-  ) {
-    final notes = NotesBlockEmbed(node.value.data).document;
-
-    return Material(
-      color: Colors.transparent,
-      child: ListTile(
-        title: Text(
-          notes.toPlainText().replaceAll('\n', ' '),
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
-        leading: const Icon(Icons.notes),
-        onTap: () => addEditNote(context, document: notes),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.grey),
-        ),
+    controller.updateSelection(
+      TextSelection.collapsed(
+        offset: controller.selection.extentOffset + 1,
       ),
+      ChangeSource.LOCAL,
+    );
+
+    controller.document.insert(controller.selection.extentOffset, ' ');
+    controller.updateSelection(
+      TextSelection.collapsed(
+        offset: controller.selection.extentOffset + 1,
+      ),
+      ChangeSource.LOCAL,
+    );
+
+    controller.document.insert(controller.selection.extentOffset, '\n');
+    controller.updateSelection(
+      TextSelection.collapsed(
+        offset: controller.selection.extentOffset + 1,
+      ),
+      ChangeSource.LOCAL,
     );
   }
-}
-
-class NotesBlockEmbed extends CustomBlockEmbed {
-  const NotesBlockEmbed(String value) : super(noteType, value);
-
-  static const String noteType = 'notes';
-
-  static NotesBlockEmbed fromDocument(Document document) =>
-      NotesBlockEmbed(jsonEncode(document.toDelta().toJson()));
-
-  Document get document => Document.fromJson(jsonDecode(data));
 }
