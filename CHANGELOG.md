@@ -1,3 +1,6 @@
+# [7.2.10]
+- LINE._getPlainText queryChild inclusive=false.
+
 # [7.2.9]
 - Add toPlainText method to `EmbedBuilder`.
 
