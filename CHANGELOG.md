@@ -1,3 +1,6 @@
+# [7.2.11]
+- Add affinity for localPosition.
+
 # [7.2.10]
 - LINE._getPlainText queryChild inclusive=false.
 
