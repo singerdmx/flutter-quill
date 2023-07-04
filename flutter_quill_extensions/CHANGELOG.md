@@ -1,3 +1,6 @@
+## 0.3.4
+* Resolve deprecated method use in the `video_player` package
+
 ## 0.3.3
 * Fix a prototype bug which was bring by [PR #1230](https://github.com/singerdmx/flutter-quill/pull/1230#issuecomment-1560597099)
 
