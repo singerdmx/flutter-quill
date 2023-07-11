@@ -26,7 +26,7 @@
 
 `FlutterQuill` 是一个富文本编辑器，也是 [Quill](https://quilljs.com/docs/formats) 在 [Flutter](https://github.com/flutter/flutter) 的版本
 
-该库是为移动平台构建的『所见即所得』的富文本编辑器，同时我们还正在对 `Web` 平台进行兼容。查看我们的 [Youtube 播放列表](https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2) 或 [代码介绍](https://github.com/singerdmx/flutter-quill/blob/master/CodeIntroduction.md) 以了解代码的详细内容。你可以加入我们的 [Slack Group](https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g) 来进行讨论
+该库是为 Android、iOS、Web、Desktop 多平台构建的『所见即所得』的富文本编辑器。查看我们的 [Youtube 播放列表](https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2) 或 [代码介绍](https://github.com/singerdmx/flutter-quill/blob/master/CodeIntroduction.md) 以了解代码的详细内容。你可以加入我们的 [Slack Group](https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g) 来进行讨论
 
 示例 `App` : [BULLET JOURNAL](https://bulletjournal.us/home/index.html)
 
