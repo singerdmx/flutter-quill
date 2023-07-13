@@ -112,6 +112,10 @@ class Attribute<T> {
 
   static const ImageAttribute image = ImageAttribute(null);
 
+  static const FileAttribute file = FileAttribute(null);
+
+  static const MentionAttribute mention = MentionAttribute(null);
+
   static const VideoAttribute video = VideoAttribute(null);
 
   static final Set<String> inlineKeys = {
@@ -157,6 +161,8 @@ class Attribute<T> {
   static final Set<String> embedKeys = {
     Attribute.image.key,
     Attribute.video.key,
+    Attribute.file.key,
+    Attribute.mention.key,
   };
 
   static const Attribute<int?> h1 = HeaderAttribute(level: 1);
