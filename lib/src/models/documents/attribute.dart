@@ -382,10 +382,20 @@ enum ScriptAttributes {
 
 class ImageAttribute extends Attribute<String?> {
   const ImageAttribute(String? url)
-      : super('image', AttributeScope.EMBEDS, url);
+      : super('img', AttributeScope.EMBEDS, url);
 }
 
 class VideoAttribute extends Attribute<String?> {
   const VideoAttribute(String? url)
       : super('video', AttributeScope.EMBEDS, url);
+}
+
+class FileAttribute extends Attribute<String?> {
+  const FileAttribute(String? url)
+      : super('file', AttributeScope.EMBEDS, url);
+}
+
+class MentionAttribute extends Attribute<String?> {
+  const MentionAttribute(String? url)
+      : super('mention', AttributeScope.EMBEDS, url);
 }

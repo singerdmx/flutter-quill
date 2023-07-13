@@ -28,6 +28,7 @@ class ImageEmbedBuilder extends EmbedBuilder {
     base.Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
@@ -164,6 +165,7 @@ class ImageEmbedBuilderWeb extends EmbedBuilder {
     Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     final imageUrl = node.value.data;
 
@@ -198,6 +200,7 @@ class VideoEmbedBuilder extends EmbedBuilder {
     base.Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
@@ -226,6 +229,7 @@ class FormulaEmbedBuilder extends EmbedBuilder {
     base.Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     assert(!kIsWeb, 'Please provide formula EmbedBuilder for Web');
 
