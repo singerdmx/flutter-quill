@@ -166,6 +166,12 @@ class QuillController extends ChangeNotifier {
     return styles;
   }
 
+  List<OffsetValue> getAllIndividualSelectionStylesAndEmbed() {
+    final stylesAndEmbed = document.collectAllIndividualStyleAndEmbed(
+        selection.start, selection.end - selection.start);
+    return stylesAndEmbed;
+  }
+
   /// Returns plain text for each node within selection
   String getPlainText() {
     final text =

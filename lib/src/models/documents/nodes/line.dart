@@ -430,6 +430,44 @@ class Line extends Container<Leaf?> {
     return result;
   }
 
+  List<OffsetValue> collectAllIndividualStylesAndEmbed(int offset, int len,
+      {int beg = 0}) {
+    final local = math.min(length - offset, len);
+    final result = <OffsetValue>[];
+
+    final data = queryChild(offset, true);
+    var node = data.node as Leaf?;
+    if (node != null) {
+      var pos = 0;
+      if (node is Text) {
+        pos = node.length - data.offset;
+        result.add(OffsetValue(beg, node.style));
+      } else if (node.value is Embeddable) {
+        pos = node.length - data.offset;
+        result.add(OffsetValue(beg, node.value as Embeddable));
+      }
+      while (!node!.isLast && pos < local) {
+        node = node.next as Leaf;
+        if (node is Text) {
+          result.add(OffsetValue(pos + beg, node.style));
+          pos += node.length;
+        } else if (node.value is Embeddable) {
+          result.add(OffsetValue(pos + beg, node.value as Embeddable));
+          pos += node.length;
+        }
+      }
+    }
+
+    final remaining = len - local;
+    if (remaining > 0 && nextLine != null) {
+      final rest =
+      nextLine!.collectAllIndividualStylesAndEmbed(0, remaining, beg: local);
+      result.addAll(rest);
+    }
+
+    return result;
+  }
+
   /// Returns all styles for any character within the specified text range.
   /// In essence, it is UNION of each individual segment's styles
   List<Style> collectAllStyles(int offset, int len) {

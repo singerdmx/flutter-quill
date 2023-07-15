@@ -165,6 +165,12 @@ class Document {
     return (res.node as Line).collectAllIndividualStyles(res.offset, len);
   }
 
+  List<OffsetValue> collectAllIndividualStyleAndEmbed(int index, int len) {
+    final res = queryChild(index);
+    return (res.node as Line)
+        .collectAllIndividualStylesAndEmbed(res.offset, len);
+  }
+
   /// Returns all styles for any character within the specified text range.
   List<Style> collectAllStyles(int index, int len) {
     final res = queryChild(index);

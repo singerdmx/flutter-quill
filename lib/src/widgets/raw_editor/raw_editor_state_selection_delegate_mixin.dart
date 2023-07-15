@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../flutter_quill.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../utils/delta.dart';
@@ -10,6 +11,9 @@ import '../editor.dart';
 
 mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {
+
+  bool isContainEmbed = false;
+
   @override
   TextEditingValue get textEditingValue {
     return widget.controller.plainTextEditingValue;
@@ -26,6 +30,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       return;
     }
 
+    isContainEmbed = false;
     final insertedText = _adjustInsertedText(diff.inserted);
 
     widget.controller.replaceText(
@@ -37,15 +42,29 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   void _applyPasteStyle(String insertedText, int start) {
     if (insertedText == pastePlainText && pastePlainText != '') {
       final pos = start;
-      for (var i = 0; i < pasteStyle.length; i++) {
-        final offset = pasteStyle[i].offset;
-        final style = pasteStyle[i].value;
-        widget.controller.formatTextStyle(
-            pos + offset,
-            i == pasteStyle.length - 1
-                ? pastePlainText.length - offset
-                : pasteStyle[i + 1].offset,
-            style);
+      for (var i = 0; i < pasteStyleAndEmbed.length; i++) {
+        final offset = pasteStyleAndEmbed[i].offset;
+        final styleAndEmbed = pasteStyleAndEmbed[i].value;
+
+        if (styleAndEmbed is Embeddable) {
+          widget.controller.replaceText(pos + offset, 0, styleAndEmbed, null);
+        } else {
+          widget.controller.formatTextStyle(
+              pos + offset,
+              i == pasteStyleAndEmbed.length - 1
+                  ? pastePlainText.length - offset
+                  : pasteStyleAndEmbed[i + 1].offset,
+              styleAndEmbed);
+        }
+      }
+    }else if(isContainEmbed){
+      final pos = start;
+      for (var i = 0; i < pasteStyleAndEmbed.length; i++) {
+        final offset = pasteStyleAndEmbed[i].offset;
+        final style = pasteStyleAndEmbed[i].value;
+        if (style is Embeddable) {
+          widget.controller.replaceText(pos + offset, 0, style, null);
+        }
       }
     }
   }
@@ -61,6 +80,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final sb = StringBuffer();
     for (var i = 0; i < text.length; i++) {
       if (text.codeUnitAt(i) == Embed.kObjectReplacementInt) {
+        isContainEmbed = true;
         continue;
       }
       sb.write(text[i]);

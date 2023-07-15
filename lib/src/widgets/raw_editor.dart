@@ -318,8 +318,8 @@ class RawEditorState extends EditorState
 
   // for pasting style
   @override
-  List<OffsetValue<Style>> get pasteStyle => _pasteStyle;
-  List<OffsetValue<Style>> _pasteStyle = <OffsetValue<Style>>[];
+  List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
+  List<OffsetValue> _pasteStyleAndEmbed = <OffsetValue>[];
 
   @override
   String get pastePlainText => _pastePlainText;
@@ -1435,7 +1435,7 @@ class RawEditorState extends EditorState
   void copySelection(SelectionChangedCause cause) {
     controller.copiedImageUrl = null;
     _pastePlainText = controller.getPlainText();
-    _pasteStyle = controller.getAllIndividualSelectionStyles();
+    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
 
     final selection = textEditingValue.selection;
     final text = textEditingValue.text;
@@ -1464,7 +1464,7 @@ class RawEditorState extends EditorState
   void cutSelection(SelectionChangedCause cause) {
     controller.copiedImageUrl = null;
     _pastePlainText = controller.getPlainText();
-    _pasteStyle = controller.getAllIndividualSelectionStyles();
+    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
 
     if (widget.readOnly) {
       return;
