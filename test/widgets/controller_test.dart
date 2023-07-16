@@ -101,12 +101,17 @@ void main() {
       expect(controller.getAllSelectionStyles(), everyElement(Style()));
     });
 
-    test('getAllIndividualSelectionStyles', () {
-      controller.formatText(0, 2, Attribute.bold);
-      final result = controller.getAllIndividualSelectionStyles();
-      expect(result.length, 1);
+    test('getAllIndividualSelectionStylesAndEmbed', () {
+      controller
+        ..formatText(0, 2, Attribute.bold)
+        ..replaceText(2, 2, BlockEmbed.image('/test'),null)
+        ..updateSelection(const TextSelection(baseOffset: 0, extentOffset: 4),
+            ChangeSource.REMOTE);
+      final result = controller.getAllIndividualSelectionStylesAndEmbed();
+      expect(result.length, 2);
       expect(result[0].offset, 0);
       expect(result[0].value, Style().put(Attribute.bold));
+      expect((result[1].value as Embeddable).type, BlockEmbed.imageType);
     });
 
     test('getPlainText', () {

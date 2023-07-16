@@ -39,7 +39,9 @@ class QuillController extends ChangeNotifier {
 
   /// Document managed by this controller.
   Document _document;
+
   Document get document => _document;
+
   set document(doc) {
     _document = doc;
 
@@ -159,11 +161,11 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Returns all styles for each node within selection
-  List<OffsetValue<Style>> getAllIndividualSelectionStyles() {
-    final styles = document.collectAllIndividualStyles(
+  /// Returns all styles and Embed for each node within selection
+  List<OffsetValue> getAllIndividualSelectionStylesAndEmbed() {
+    final stylesAndEmbed = document.collectAllIndividualStyleAndEmbed(
         selection.start, selection.end - selection.start);
-    return styles;
+    return stylesAndEmbed;
   }
 
   /// Returns plain text for each node within selection

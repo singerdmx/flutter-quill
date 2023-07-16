@@ -395,35 +395,35 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns each node segment's offset in selection
-  /// with its corresponding style as a list
-  List<OffsetValue<Style>> collectAllIndividualStyles(int offset, int len,
+  /// with its corresponding style or embed as a list
+  List<OffsetValue> collectAllIndividualStylesAndEmbed(int offset, int len,
       {int beg = 0}) {
     final local = math.min(length - offset, len);
-    final result = <OffsetValue<Style>>[];
+    final result = <OffsetValue>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
       var pos = 0;
-      if (node is Text) {
+      if (node is Text || node.value is Embeddable) {
         pos = node.length - data.offset;
-        result.add(OffsetValue(beg, node.style));
+        result.add(OffsetValue(
+            beg, node is Text ? node.style : node.value as Embeddable));
       }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        if (node is Text) {
-          result.add(OffsetValue(pos + beg, node.style));
+        if (node is Text || node.value is Embeddable) {
+          result.add(OffsetValue(
+              pos + beg, node is Text ? node.style : node.value as Embeddable));
           pos += node.length;
         }
       }
     }
 
-    // TODO: add line style and parent's block style
-
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
-      final rest =
-          nextLine!.collectAllIndividualStyles(0, remaining, beg: local);
+      final rest = nextLine!
+          .collectAllIndividualStylesAndEmbed(0, remaining, beg: local);
       result.addAll(rest);
     }
 
