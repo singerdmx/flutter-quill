@@ -1,4 +1,5 @@
 import '../documents/attribute.dart';
+import '../documents/nodes/embeddable.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
@@ -118,6 +119,12 @@ class EnsureEmbedLineRule extends DeleteRule {
     final itr = DeltaIterator(document);
 
     var op = itr.skip(index);
+    final opAfter = itr.skip(index + 1);
+
+    if (!_isVideo(op) || !_isVideo(opAfter)) {
+      return null;
+    }
+
     int? indexDelta = 0, lengthDelta = 0, remain = len;
     var embedFound = op != null && op.data is! String;
     final hasLineBreakBefore =
@@ -156,5 +163,11 @@ class EnsureEmbedLineRule extends DeleteRule {
     return Delta()
       ..retain(index + indexDelta)
       ..delete(len! + lengthDelta);
+  }
+
+  bool _isVideo(op) {
+    return op != null &&
+        op.data is! String &&
+        !(op.data as Map).containsKey(BlockEmbed.videoType);
   }
 }
