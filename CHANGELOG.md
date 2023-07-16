@@ -4,9 +4,6 @@
 # [7.2.12]
 - Add support for copy/cut select image and text together.
 
-# [7.2.12]
-- Add support for copy/cut select image and text together.
-
 # [7.2.11]
 - Add affinity for localPosition.
 

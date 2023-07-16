@@ -109,10 +109,9 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   }
 }
 
-/// This rule applies to video, not image
-///
-/// Prevents user from merging a line containing an video embed with other
-/// lines, Corresponds [InsertEmbedsRule].
+/// Prevents user from merging a line containing an embed with other lines.
+/// This rule applies to video, not image.
+/// The rule relates to [InsertEmbedsRule].
 class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 
@@ -124,7 +123,7 @@ class EnsureEmbedLineRule extends DeleteRule {
     var op = itr.skip(index);
     final opAfter = itr.skip(index + 1);
 
-    //Only video embed need can't merging a line.
+    // Only video embed occupies a whole line.
     if (!_isVideo(op) || !_isVideo(opAfter)) {
       return null;
     }
