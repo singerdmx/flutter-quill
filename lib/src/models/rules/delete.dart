@@ -1,4 +1,5 @@
 import '../documents/attribute.dart';
+import '../documents/nodes/embeddable.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
@@ -108,7 +109,10 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   }
 }
 
-/// Prevents user from merging a line containing an embed with other lines.
+/// This rule applies to video, not image
+///
+/// Prevents user from merging a line containing an video embed with other
+/// lines, Corresponds [InsertEmbedsRule].
 class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 
@@ -118,6 +122,13 @@ class EnsureEmbedLineRule extends DeleteRule {
     final itr = DeltaIterator(document);
 
     var op = itr.skip(index);
+    final opAfter = itr.skip(index + 1);
+
+    //Only video embed need can't merging a line.
+    if (!_isVideo(op) || !_isVideo(opAfter)) {
+      return null;
+    }
+
     int? indexDelta = 0, lengthDelta = 0, remain = len;
     var embedFound = op != null && op.data is! String;
     final hasLineBreakBefore =
@@ -156,5 +167,11 @@ class EnsureEmbedLineRule extends DeleteRule {
     return Delta()
       ..retain(index + indexDelta)
       ..delete(len! + lengthDelta);
+  }
+
+  bool _isVideo(op) {
+    return op != null &&
+        op.data is! String &&
+        !(op.data as Map).containsKey(BlockEmbed.videoType);
   }
 }
