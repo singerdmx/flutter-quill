@@ -159,12 +159,7 @@ class Document {
     return (res.node as Line).collectStyle(res.offset, len);
   }
 
-  /// Returns all styles for each node within selection
-  List<OffsetValue<Style>> collectAllIndividualStyles(int index, int len) {
-    final res = queryChild(index);
-    return (res.node as Line).collectAllIndividualStyles(res.offset, len);
-  }
-
+  /// Returns all styles and Embed for each node within selection
   List<OffsetValue> collectAllIndividualStyleAndEmbed(int index, int len) {
     final res = queryChild(index);
     return (res.node as Line)

@@ -3,17 +3,14 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../flutter_quill.dart';
 import '../../models/documents/document.dart';
+import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../utils/delta.dart';
 import '../editor.dart';
 
 mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {
-
-  bool isContainEmbed = false;
-
   @override
   TextEditingValue get textEditingValue {
     return widget.controller.plainTextEditingValue;
@@ -30,17 +27,22 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       return;
     }
 
-    isContainEmbed = false;
-    final insertedText = _adjustInsertedText(diff.inserted);
+    var insertedText = diff.inserted;
+    final containsEmbed =
+        insertedText.codeUnits.contains(Embed.kObjectReplacementInt);
+    insertedText =
+        containsEmbed ? _adjustInsertedText(diff.inserted) : diff.inserted;
 
     widget.controller.replaceText(
         diff.start, diff.deleted.length, insertedText, value.selection);
 
-    _applyPasteStyle(insertedText, diff.start);
+    _applyPasteStyleAndEmbed(insertedText, diff.start, containsEmbed);
   }
 
-  void _applyPasteStyle(String insertedText, int start) {
-    if (insertedText == pastePlainText && pastePlainText != '') {
+  void _applyPasteStyleAndEmbed(
+      String insertedText, int start, bool containsEmbed) {
+    if (insertedText == pastePlainText && pastePlainText != '' ||
+        containsEmbed) {
       final pos = start;
       for (var i = 0; i < pasteStyleAndEmbed.length; i++) {
         final offset = pasteStyleAndEmbed[i].offset;
@@ -57,30 +59,13 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
               styleAndEmbed);
         }
       }
-    }else if(isContainEmbed){
-      final pos = start;
-      for (var i = 0; i < pasteStyleAndEmbed.length; i++) {
-        final offset = pasteStyleAndEmbed[i].offset;
-        final style = pasteStyleAndEmbed[i].value;
-        if (style is Embeddable) {
-          widget.controller.replaceText(pos + offset, 0, style, null);
-        }
-      }
     }
   }
 
   String _adjustInsertedText(String text) {
-    // For clip from editor, it may contain image, a.k.a 65532 or '\uFFFC'.
-    // For clip from browser, image is directly ignore.
-    // Here we skip image when pasting.
-    if (!text.codeUnits.contains(Embed.kObjectReplacementInt)) {
-      return text;
-    }
-
     final sb = StringBuffer();
     for (var i = 0; i < text.length; i++) {
       if (text.codeUnitAt(i) == Embed.kObjectReplacementInt) {
-        isContainEmbed = true;
         continue;
       }
       sb.write(text[i]);
