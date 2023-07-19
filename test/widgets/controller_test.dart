@@ -104,7 +104,7 @@ void main() {
     test('getAllIndividualSelectionStylesAndEmbed', () {
       controller
         ..formatText(0, 2, Attribute.bold)
-        ..replaceText(2, 2, BlockEmbed.image('/test'),null)
+        ..replaceText(2, 2, BlockEmbed.image('/test'), null)
         ..updateSelection(const TextSelection(baseOffset: 0, extentOffset: 4),
             ChangeSource.REMOTE);
       final result = controller.getAllIndividualSelectionStylesAndEmbed();
