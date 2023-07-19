@@ -1,3 +1,6 @@
+# [7.2.14]
+- Fix errors when the editor is used in the `screenshot` package
+
 # [7.2.13]
 - Fix around image can't delete line break.
 
