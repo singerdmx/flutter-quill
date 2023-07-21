@@ -1,8 +1,11 @@
+# [7.2.16]
+- Allow for custom context menu.
+
 # [7.2.15]
 - Add flutter_quill.delta library which only exposes Delta datatype.
 
 # [7.2.14]
-- Fix errors when the editor is used in the `screenshot` package
+- Fix errors when the editor is used in the `screenshot` package.
 
 # [7.2.13]
 - Fix around image can't delete line break.
