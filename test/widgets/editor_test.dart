@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   late QuillController controller;
+  var didCopy = false;
 
   setUp(() {
     controller = QuillController.basic();
@@ -81,7 +82,26 @@ void main() {
     });
 
     Widget customBuilder(BuildContext context, RawEditorState state) {
-      return Container(key: const Key('customMenu'));
+      return AdaptiveTextSelectionToolbar(
+        anchors: state.contextMenuAnchors,
+        children: [
+          Container(
+            height: 50,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    didCopy = true;
+                  },
+                  icon: const Icon(Icons.copy),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
     }
 
     testWidgets('custom context menu builder', (tester) async {
@@ -104,7 +124,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify custom widget shows
-      expect(find.byKey(const Key('customMenu')), findsOneWidget);
+      expect(find.byIcon(Icons.copy), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.copy));
+      expect(didCopy, isTrue);
     });
   });
 }
