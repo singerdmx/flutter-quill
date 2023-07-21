@@ -1,3 +1,6 @@
+# [7.2.15]
+- Add flutter_quill.delta library which only exposes Delta datatype.
+
 # [7.2.14]
 - Fix errors when the editor is used in the `screenshot` package
 
