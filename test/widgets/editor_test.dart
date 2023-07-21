@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/flutter_quill_test.dart';
+import 'package:flutter_quill/src/widgets/raw_editor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -77,6 +78,33 @@ void main() {
       }
       expect(error, isNull);
       expect(latestUri, equals(uri));
+    });
+
+    Widget customBuilder(BuildContext context, RawEditorState state) {
+      return Container(key: const Key('customMenu'));
+    }
+
+    testWidgets('custom context menu builder', (tester) async {
+      await tester.pumpWidget(MaterialApp(
+        home: QuillEditor(
+          controller: controller,
+          focusNode: FocusNode(),
+          scrollController: ScrollController(),
+          scrollable: true,
+          padding: EdgeInsets.zero,
+          autoFocus: true,
+          readOnly: false,
+          expands: true,
+          contextMenuBuilder: customBuilder,
+        ),
+      ));
+
+      // Long press to show menu
+      await tester.longPress(find.byType(QuillEditor));
+      await tester.pumpAndSettle();
+
+      // Verify custom widget shows
+      expect(find.byKey(const Key('customMenu')), findsOneWidget);
     });
   });
 }
