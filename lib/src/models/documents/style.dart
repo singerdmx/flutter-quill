@@ -42,6 +42,9 @@ class Style {
 
   bool get isInline => isNotEmpty && values.every((item) => item.isInline);
 
+  bool get isBlock =>
+      isNotEmpty && values.every((item) => item.scope == AttributeScope.BLOCK);
+
   bool get isIgnored =>
       isNotEmpty && values.every((item) => item.scope == AttributeScope.IGNORE);
 

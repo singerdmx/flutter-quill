@@ -405,25 +405,32 @@ class Line extends Container<Leaf?> {
     var node = data.node as Leaf?;
     if (node != null) {
       var pos = 0;
-      if (node is Text || node.value is Embeddable) {
-        pos = node.length - data.offset;
-        result.add(OffsetValue(
-            beg, node is Text ? node.style : node.value as Embeddable));
+      pos = node.length - data.offset;
+      if (node is Text && node.style.isNotEmpty) {
+        result.add(OffsetValue(beg, node.style, node.length));
+      } else if (node.value is Embeddable) {
+        result.add(OffsetValue(beg, node.value as Embeddable, node.length));
       }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        if (node is Text || node.value is Embeddable) {
-          result.add(OffsetValue(
-              pos + beg, node is Text ? node.style : node.value as Embeddable));
-          pos += node.length;
+        if (node is Text && node.style.isNotEmpty) {
+          result.add(OffsetValue(pos + beg, node.style, node.length));
+        } else if (node.value is Embeddable) {
+          result.add(
+              OffsetValue(pos + beg, node.value as Embeddable, node.length));
         }
+        pos += node.length;
       }
+    }
+
+    if (style.isNotEmpty) {
+      result.add(OffsetValue(beg, style));
     }
 
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
       final rest = nextLine!
-          .collectAllIndividualStylesAndEmbed(0, remaining, beg: local);
+          .collectAllIndividualStylesAndEmbed(0, remaining, beg: local + beg);
       result.addAll(rest);
     }
 
