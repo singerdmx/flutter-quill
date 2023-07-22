@@ -338,6 +338,28 @@ And voila, we have a custom widget inside of the rich text editor!
 > 1. For more info and a video example, see the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
 > 2. For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
 
+### Custom Context Menu
+You can customize the context menu by providing a `contextMenuBuilder` to the `QuillEditor` widget. If you want to keep the default ContextMenueItems, you can use `state.defaultContextMenuItems` and add your own items to it.
+
+```dart
+contextMenuBuilder: (BuildContext context, RawEditorState state) {
+        return TextFieldTapRegion(
+          child: AdaptiveTextSelectionToolbar.buttonItems(
+            buttonItems: [
+              ...state.contextMenuButtonItems,
+              ContextMenuButtonItem(
+                label: 'Custom Context Menu Action',
+                onPressed: () {
+                  print(_controller?.getPlainText()); // Print the selected text, by accessing the QuillController
+                },
+              ),
+            ],
+            anchors: state.contextMenuAnchors,
+          ),
+        );
+}
+```
+
 ### Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:

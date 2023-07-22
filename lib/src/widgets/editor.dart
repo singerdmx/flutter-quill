@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 // ignore: unnecessary_import
 import 'dart:typed_data';
 
@@ -191,6 +190,7 @@ class QuillEditor extends StatefulWidget {
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
     this.contentInsertionConfiguration,
+    this.contextMenuBuilder,
     Key? key,
   }) : super(key: key);
 
@@ -438,6 +438,9 @@ class QuillEditor extends StatefulWidget {
   /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
   final ContentInsertionConfiguration? contentInsertionConfiguration;
 
+  /// Builds the text selection toolbar when requested by the user.
+  final Widget Function(BuildContext, RawEditorState)? contextMenuBuilder;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -503,8 +506,9 @@ class QuillEditorState extends State<QuillEditor>
       readOnly: widget.readOnly,
       placeholder: widget.placeholder,
       onLaunchUrl: widget.onLaunchUrl,
-      contextMenuBuilder:
-          showSelectionToolbar ? RawEditor.defaultContextMenuBuilder : null,
+      contextMenuBuilder: showSelectionToolbar
+          ? widget.contextMenuBuilder ?? RawEditor.defaultContextMenuBuilder
+          : null,
       showSelectionHandles: isMobile(theme.platform),
       showCursor: widget.showCursor,
       cursorStyle: CursorStyle(
