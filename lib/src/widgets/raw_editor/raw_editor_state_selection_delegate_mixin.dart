@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../flutter_quill.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart';
+import '../../models/documents/style.dart';
 import '../../utils/delta.dart';
 import '../editor.dart';
 
