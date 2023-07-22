@@ -1,3 +1,7 @@
+# [7.2.17]
+- Fix paste text mess up style.
+- Add support copy/cut block text.
+
 # [7.2.16]
 - Allow for custom context menu.
 
