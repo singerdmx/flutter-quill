@@ -1,4 +1,7 @@
 # [7.2.17]
+- Fix paste block text in words apply same style.
+
+# [7.2.17]
 - Fix paste text mess up style.
 - Add support copy/cut block text.
 
