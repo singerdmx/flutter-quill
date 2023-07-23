@@ -421,10 +421,10 @@ class Line extends Container<Leaf?> {
         }
         pos += node.length;
       }
-    }
 
-    if (style.isNotEmpty) {
-      result.add(OffsetValue(beg, style));
+      if (style.isNotEmpty) {
+        result.add(OffsetValue(beg, style, pos));
+      }
     }
 
     final remaining = len - local;

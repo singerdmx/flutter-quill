@@ -49,17 +49,22 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
         final offset = pasteStyleAndEmbed[i].offset;
         final styleAndEmbed = pasteStyleAndEmbed[i].value;
 
+        final local = pos + offset;
         if (styleAndEmbed is Embeddable) {
-          widget.controller.replaceText(pos + offset, 0, styleAndEmbed, null);
+          widget.controller.replaceText(local, 0, styleAndEmbed, null);
         } else {
           final style = styleAndEmbed as Style;
           if (style.isInline) {
-            widget.controller.formatTextStyle(
-                pos + offset, pasteStyleAndEmbed[i].length!, style);
+            widget.controller
+                .formatTextStyle(local, pasteStyleAndEmbed[i].length!, style);
           } else if (style.isBlock) {
-            style.values.forEach((attribute) {
-              widget.controller.document.format(pos + offset, 0, attribute);
-            });
+            final node = widget.controller.document.queryChild(local).node;
+            if (node != null &&
+                pasteStyleAndEmbed[i].length == node.length - 1) {
+              style.values.forEach((attribute) {
+                widget.controller.document.format(local, 0, attribute);
+              });
+            }
           }
         }
       }
