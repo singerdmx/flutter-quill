@@ -1,4 +1,4 @@
-# [7.2.17]
+# [7.2.18]
 - Fix paste block text in words apply same style.
 
 # [7.2.17]
