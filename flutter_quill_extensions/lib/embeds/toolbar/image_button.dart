@@ -18,6 +18,7 @@ class ImageButton extends StatelessWidget {
     this.iconTheme,
     this.dialogTheme,
     this.tooltip,
+    this.linkRegExp,
     Key? key,
   }) : super(key: key);
 
@@ -40,6 +41,7 @@ class ImageButton extends StatelessWidget {
 
   final QuillDialogTheme? dialogTheme;
   final String? tooltip;
+  final RegExp? linkRegExp;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,10 @@ class ImageButton extends StatelessWidget {
   void _typeLink(BuildContext context) {
     showDialog<String>(
       context: context,
-      builder: (_) => LinkDialog(dialogTheme: dialogTheme),
+      builder: (_) => LinkDialog(
+        dialogTheme: dialogTheme,
+        linkRegExp: linkRegExp,
+      ),
     ).then(_linkSubmitted);
   }
 
