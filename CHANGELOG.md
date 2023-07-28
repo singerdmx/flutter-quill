@@ -1,3 +1,6 @@
+# [7.2.19]
+- Feat/link regexp.
+
 # [7.2.18]
 - Fix paste block text in words apply same style.
 

@@ -157,7 +157,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// Validate the legitimacy of hyperlinks
     RegExp? linkRegExp,
-
     Key? key,
   }) {
     final isButtonGroupShown = [
