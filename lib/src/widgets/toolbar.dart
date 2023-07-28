@@ -154,6 +154,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// The space occupied by toolbar divider
     double? sectionDividerSpace,
+
+    /// Validate the legitimacy of hyperlinks
+    RegExp? linkRegExp,
+
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -551,6 +555,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
             afterButtonPressed: afterButtonPressed,
+            linkRegExp: linkRegExp,
           ),
         if (showSearchButton)
           SearchButton(
