@@ -204,6 +204,7 @@ class QuillEditor extends StatefulWidget {
     bool autoFocus = true,
     bool expands = false,
     FocusNode? focusNode,
+    String? placeholder,
 
     /// The locale to use for the editor toolbar, defaults to system locale
     /// More at https://github.com/singerdmx/flutter-quill#translation
@@ -221,6 +222,7 @@ class QuillEditor extends StatefulWidget {
       keyboardAppearance: keyboardAppearance ?? Brightness.light,
       locale: locale,
       embedBuilders: embedBuilders,
+      placeholder: placeholder,
     );
   }
 
