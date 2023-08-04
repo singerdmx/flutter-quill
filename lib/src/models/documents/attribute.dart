@@ -265,7 +265,6 @@ class Attribute<T> {
   }
 }
 
-
 class DataAttribute extends Attribute<dynamic> {
   const DataAttribute(dynamic data) : super('data', AttributeScope.INLINE, data);
 }

@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+ import 'dart:math' as math;
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +11,7 @@ import '../../utils/delta.dart';
 import '../editor.dart';
 
 mixin RawEditorStateSelectionDelegateMixin on EditorState
-    implements TextSelectionDelegate {
+implements TextSelectionDelegate {
   @override
   TextEditingValue get textEditingValue {
     return widget.controller.plainTextEditingValue;
@@ -40,8 +40,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     _applyPasteStyleAndEmbed(insertedText, diff.start, containsEmbed);
   }
 
-  void _applyPasteStyleAndEmbed(
-      String insertedText, int start, bool containsEmbed) {
+  void _applyPasteStyleAndEmbed(String insertedText, int start, bool containsEmbed) {
     if (insertedText == pastePlainText && pastePlainText != '' ||
         containsEmbed) {
       final pos = start;
@@ -51,7 +50,12 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
         final local = pos + offset;
         if (styleAndEmbed is Embeddable) {
-          widget.controller.replaceText(local, 0, styleAndEmbed, null);
+          final hasBox =  styleAndEmbed.type.contains('box');
+          final hasImage = styleAndEmbed.type.contains('image');
+          final hasTable = styleAndEmbed.type.contains('table');
+          if (!(hasBox || hasImage || hasTable)){
+            widget.controller.replaceText(local, 0, styleAndEmbed, null);
+          }
         } else {
           final style = styleAndEmbed as Style;
           if (style.isInline) {
