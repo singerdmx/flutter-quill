@@ -48,7 +48,9 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
       onPressed: () {
         final attrs = <Attribute>{};
         for (final style in widget.controller.getAllSelectionStyles()) {
-          for (final attr in style.attributes.values) {
+          for (final attr in style.attributes.values.skipWhile(
+            (value) => value.key.contains(Attribute.data.key),
+          )) {
             attrs.add(attr);
           }
         }
