@@ -18,6 +18,7 @@ class Attribute<T> {
   final T value;
 
   static final Map<String, Attribute> _registry = LinkedHashMap.of({
+    Attribute.data.key: Attribute.data,
     Attribute.bold.key: Attribute.bold,
     Attribute.subscript.key: Attribute.subscript,
     Attribute.superscript.key: Attribute.superscript,
@@ -48,13 +49,13 @@ class Attribute<T> {
     Attribute.video.key: Attribute.video,
   });
 
+  static const DataAttribute data = DataAttribute(null);
+
   static const BoldAttribute bold = BoldAttribute();
 
-  static final ScriptAttribute subscript =
-      ScriptAttribute(ScriptAttributes.sub);
+  static final ScriptAttribute subscript = ScriptAttribute(ScriptAttributes.sub);
 
-  static final ScriptAttribute superscript =
-      ScriptAttribute(ScriptAttributes.sup);
+  static final ScriptAttribute superscript = ScriptAttribute(ScriptAttributes.sup);
 
   static const ItalicAttribute italic = ItalicAttribute();
 
@@ -262,6 +263,11 @@ class Attribute<T> {
   String toString() {
     return 'Attribute{key: $key, scope: $scope, value: $value}';
   }
+}
+
+
+class DataAttribute extends Attribute<dynamic> {
+  const DataAttribute(dynamic data) : super('data', AttributeScope.INLINE, data);
 }
 
 class BoldAttribute extends Attribute<bool> {
