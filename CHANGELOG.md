@@ -1,3 +1,6 @@
+# [7.3.0]
+- Add default attributes to basic factory.
+
 # [7.2.19]
 - Feat/link regexp.
 
