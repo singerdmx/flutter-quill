@@ -23,8 +23,8 @@ class _SearchDialogState extends State<SearchDialog> {
   late TextEditingController _controller;
   late List<int>? _offsets;
   late int _index;
-  bool _case_sensitive = false;
-  bool _whole_word = false;
+  bool _caseSensitive = false;
+  bool _wholeWord = false;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _SearchDialogState extends State<SearchDialog> {
                   }
                 },
                 borderRadius: const BorderRadius.all(Radius.circular(2)),
-                isSelected: [_case_sensitive, _whole_word],
+                isSelected: [_caseSensitive, _wholeWord],
                 children: const [
                   Text(
                     '\u0391\u03b1',
@@ -136,8 +136,8 @@ class _SearchDialogState extends State<SearchDialog> {
     setState(() {
       _offsets = widget.controller.document.search(
         _text,
-        caseSensitive: _case_sensitive,
-        wholeWord: _whole_word,
+        caseSensitive: _caseSensitive,
+        wholeWord: _wholeWord,
       );
       _index = 0;
     });
@@ -192,7 +192,7 @@ class _SearchDialogState extends State<SearchDialog> {
 
   void _changeCaseSensitivity() {
     setState(() {
-      _case_sensitive = !_case_sensitive;
+      _caseSensitive = !_caseSensitive;
       _offsets = null;
       _index = 0;
     });
@@ -200,7 +200,7 @@ class _SearchDialogState extends State<SearchDialog> {
 
   void _changeWholeWord() {
     setState(() {
-      _whole_word = !_whole_word;
+      _wholeWord = !_wholeWord;
       _offsets = null;
       _index = 0;
     });
