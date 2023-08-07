@@ -226,7 +226,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     );
   }
 
-    Widget _okButton() {
+  Widget _okButton() {
     if (widget.action != null) {
       return widget.action!.builder(_canPress(), _applyLink);
     }

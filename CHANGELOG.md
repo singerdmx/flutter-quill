@@ -1,3 +1,6 @@
+# [7.3.2]
+- Added builder for custom button in _LinkDialog.
+
 # [7.3.1]
 - Added case sensitive and whole word search parameters.
 - Added wrap around.
