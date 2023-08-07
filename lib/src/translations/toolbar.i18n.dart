@@ -71,6 +71,9 @@ extension Localization on String {
           'Hex': 'Hex',
           'Material': 'Material',
           'Color': 'Color',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -140,6 +143,9 @@ extension Localization on String {
           'Hex': 'Hex',
           'Material': 'Material',
           'Color': 'Color',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -211,6 +217,9 @@ extension Localization on String {
           'Hex': 'Hex',
           'Material': 'Material',
           'Color': 'اللون',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -277,6 +286,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -344,6 +356,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -410,6 +425,9 @@ extension Localization on String {
           'Enter media': 'Entrer un média',
           'Edit': 'Modifier',
           'Apply': 'Appliquer',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'zh_cn': {
           'Paste a link': '粘贴链接',
@@ -476,6 +494,9 @@ extension Localization on String {
           'Enter media': '输入媒体',
           'Edit': '编辑',
           'Apply': '应用',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'zh_hk': {
           'Paste a link': '貼上連結',
@@ -542,6 +563,9 @@ extension Localization on String {
           'Enter media': '輸入媒體',
           'Edit': '編輯',
           'Apply': '應用',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'ja': {
           'Paste a link': 'リンクをペースト',
@@ -608,6 +632,9 @@ extension Localization on String {
           'Enter media': 'ミディアムを輸入',
           'Edit': '編集',
           'Apply': '応用',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -674,6 +701,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -740,6 +770,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -807,6 +840,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -873,6 +909,9 @@ extension Localization on String {
           'Enter media': 'Medya Giriniz',
           'Edit': 'Düzenle',
           'Apply': 'Uygula',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -939,6 +978,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -1006,6 +1048,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'pt_br': {
           'Paste a link': 'Colar um link',
@@ -1073,6 +1118,9 @@ extension Localization on String {
           'Enter media': 'Inserir mídia',
           'Edit': 'Editar',
           'Apply': 'Aplicar',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -1140,6 +1188,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -1207,6 +1258,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
@@ -1273,6 +1327,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'id': {
           'Paste a link': 'Tempel tautan',
@@ -1339,6 +1396,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'no': {
           'Paste a link': 'Lim inn lenke',
@@ -1405,6 +1465,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
@@ -1471,6 +1534,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'hi': {
           'Paste a link': 'लिंक पेस्ट करें',
@@ -1537,6 +1603,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'nl': {
           'Paste a link': 'Plak een link',
@@ -1603,6 +1672,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'sr': {
           'Paste a link': 'Nalepi vezu',
@@ -1669,6 +1741,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'cs': {
           'Paste a link': 'Vložte odkaz',
@@ -1735,6 +1810,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'he': {
           'Paste a link': 'הדבק את הלינק',
@@ -1801,6 +1879,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'ms': {
           'Paste a link': 'Tampal Pautan',
@@ -1868,6 +1949,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'it': {
           'Paste a link': 'Incolla un collegamento',
@@ -1935,6 +2019,9 @@ extension Localization on String {
           'Enter media': 'Enter media',
           'Edit': 'Edit',
           'Apply': 'Apply',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
         'bn': {
           'Paste a link': 'লিঙ্ক পেস্ট করুন',
@@ -2005,6 +2092,9 @@ extension Localization on String {
           'Hex': 'হেক্স',
           'Material': 'ম্যাটারিয়াল',
           'Color': 'কালার',
+          'Find text': 'Find text',
+          'Move to previous occurrence': 'Move to previous occurrence',
+          'Move to next occurrence': 'Move to next occurrence',
         },
       };
 
