@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/rules/insert.dart';
+import '../../models/structs/link_dialog_action.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
@@ -19,6 +20,7 @@ class LinkStyleButton extends StatefulWidget {
     this.afterButtonPressed,
     this.tooltip,
     this.linkRegExp,
+    this.linkDialogAction,
     Key? key,
   }) : super(key: key);
 
@@ -30,6 +32,7 @@ class LinkStyleButton extends StatefulWidget {
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
   final RegExp? linkRegExp;
+  final LinkDialogAction? linkDialogAction;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -114,6 +117,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
           link: link,
           text: text,
           linkRegExp: widget.linkRegExp,
+          action: widget.linkDialogAction,
         );
       },
     ).then(
@@ -154,6 +158,7 @@ class _LinkDialog extends StatefulWidget {
     this.link,
     this.text,
     this.linkRegExp,
+    this.action,
     Key? key,
   }) : super(key: key);
 
@@ -161,6 +166,7 @@ class _LinkDialog extends StatefulWidget {
   final String? link;
   final String? text;
   final RegExp? linkRegExp;
+  final LinkDialogAction? action;
 
   @override
   _LinkDialogState createState() => _LinkDialogState();
@@ -216,15 +222,21 @@ class _LinkDialogState extends State<_LinkDialog> {
           ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: _canPress() ? _applyLink : null,
-          child: Text(
-            'Ok'.i18n,
-            style: widget.dialogTheme?.labelTextStyle,
-          ),
-        ),
-      ],
+      actions: [_okButton()],
+    );
+  }
+
+    Widget _okButton() {
+    if (widget.action != null) {
+      return widget.action!.builder(_canPress(), _applyLink);
+    }
+
+    return TextButton(
+      onPressed: _canPress() ? _applyLink : null,
+      child: Text(
+        'Ok'.i18n,
+        style: widget.dialogTheme?.buttonTextStyle,
+      ),
     );
   }
 
