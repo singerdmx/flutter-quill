@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
 import '../models/documents/attribute.dart';
+import '../models/structs/link_dialog_action.dart';
 import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
@@ -64,6 +65,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     VoidCallback? afterButtonPressed,
     this.sectionDividerColor,
     this.sectionDividerSpace,
+    this.linkDialogAction,
     Key? key,
   }) : super(key: key);
 
@@ -157,6 +159,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// Validate the legitimacy of hyperlinks
     RegExp? linkRegExp,
+
+    LinkDialogAction? linkDialogAction,
+
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -555,6 +560,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             dialogTheme: dialogTheme,
             afterButtonPressed: afterButtonPressed,
             linkRegExp: linkRegExp,
+            linkDialogAction: linkDialogAction,
           ),
         if (showSearchButton)
           SearchButton(
@@ -598,6 +604,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final WrapAlignment toolbarIconAlignment;
   final WrapCrossAlignment toolbarIconCrossAlignment;
   final bool multiRowsDisplay;
+
+  // Overrides the action in the _LinkDialog widget
+  final LinkDialogAction? linkDialogAction;
 
   /// The color of the toolbar.
   ///
