@@ -232,7 +232,7 @@ class Document {
       pattern = r'\b' + pattern + r'\b';
     }
     final searchExpression = RegExp(pattern, caseSensitive: caseSensitive);
-    while (true) {      
+    while (true) {
       index = lineText.indexOf(searchExpression, index + 1);
       if (index < 0) {
         break;

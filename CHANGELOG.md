@@ -1,3 +1,9 @@
+# [7.3.1]
+- Added case sensitive and whole word search parameters.
+- Added wrap around.
+- Moved search dialog to the bottom in order not to override the editor and the text found.
+- Other minor search dialog enhancements.
+
 # [7.3.0]
 - Add default attributes to basic factory.
 

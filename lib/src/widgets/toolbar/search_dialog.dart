@@ -58,9 +58,9 @@ class _SearchDialogState extends State<SearchDialog> {
         child: Row(
           children: [
             Tooltip(
-              message: 'Case sensitivity and whole word search',
+              message: 'Case sensitivity and whole word search'.i18n,
               child: ToggleButtons(
-                onPressed: (int index) {
+                onPressed: (index) {
                   if (index == 0) {
                     _changeCaseSensitivity();
                   } else if (index == 1) {
@@ -108,19 +108,19 @@ class _SearchDialogState extends State<SearchDialog> {
             if (_offsets == null)
               IconButton(
                 icon: const Icon(Icons.search),
-                tooltip: 'Find text',
+                tooltip: 'Find text'.i18n,
                 onPressed: _findText,
               ),
             if (_offsets != null)
               IconButton(
                 icon: const Icon(Icons.keyboard_arrow_up),
-                tooltip: 'Move to previous occurrence',
+                tooltip: 'Move to previous occurrence'.i18n,
                 onPressed: (_offsets!.isNotEmpty) ? _moveToPrevious : null,
               ),
             if (_offsets != null)
               IconButton(
                 icon: const Icon(Icons.keyboard_arrow_down),
-                tooltip: 'Move to next occurrence',
+                tooltip: 'Move to next occurrence'.i18n,
                 onPressed: (_offsets!.isNotEmpty) ? _moveToNext : null,
               ),
           ],
