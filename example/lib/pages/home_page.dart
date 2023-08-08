@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
@@ -201,6 +202,14 @@ class _HomePageState extends State<HomePage> {
             const VerticalSpacing(0, 0),
             null),
         sizeSmall: const TextStyle(fontSize: 9),
+        subscript: const TextStyle(
+          fontFamily: 'SF-UI-Display',
+          fontFeatures: [FontFeature.subscripts()],
+        ),
+        superscript: const TextStyle(
+          fontFamily: 'SF-UI-Display',
+          fontFeatures: [FontFeature.superscripts()],
+        ),
       ),
       embedBuilders: [
         ...FlutterQuillEmbeds.builders(),
