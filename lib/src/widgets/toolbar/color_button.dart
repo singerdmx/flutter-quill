@@ -161,7 +161,7 @@ class _ColorButtonState extends State<ColorButton> {
       context: context,
       builder: (context) => StatefulBuilder(builder: (context, dlgSetState) {
         return AlertDialog(
-            title: Text('Select Color'.i18n),
+            title: Text('색상 선택'.i18n),
             actions: [
               TextButton(
                   onPressed: () {
