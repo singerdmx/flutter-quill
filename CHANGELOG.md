@@ -1,3 +1,70 @@
+# [7.3.2]
+- Added builder for custom button in _LinkDialog.
+
+# [7.3.1]
+- Added case sensitive and whole word search parameters.
+- Added wrap around.
+- Moved search dialog to the bottom in order not to override the editor and the text found.
+- Other minor search dialog enhancements.
+
+# [7.3.0]
+- Add default attributes to basic factory.
+
+# [7.2.19]
+- Feat/link regexp.
+
+# [7.2.18]
+- Fix paste block text in words apply same style.
+
+# [7.2.17]
+- Fix paste text mess up style.
+- Add support copy/cut block text.
+
+# [7.2.16]
+- Allow for custom context menu.
+
+# [7.2.15]
+- Add flutter_quill.delta library which only exposes Delta datatype.
+
+# [7.2.14]
+- Fix errors when the editor is used in the `screenshot` package.
+
+# [7.2.13]
+- Fix around image can't delete line break.
+
+# [7.2.12]
+- Add support for copy/cut select image and text together.
+
+# [7.2.11]
+- Add affinity for localPosition.
+
+# [7.2.10]
+- LINE._getPlainText queryChild inclusive=false.
+
+# [7.2.9]
+- Add toPlainText method to `EmbedBuilder`.
+
+# [7.2.8]
+- Add custom button widget in toolbar.
+
+# [7.2.7]
+- Fix language code of Japan.
+
+# [7.2.6]
+- Style custom toolbar buttons like builtins.
+
+# [7.2.5]
+- Always use text cursor for editor on desktop.
+
+# [7.2.4]
+- Fixed keepStyleOnNewLine.
+
+# [7.2.3]
+- Get pixel ratio from view.
+
+# [7.2.2]
+- Prevent operations on stale editor state.
+
 # [7.2.1]
 - Add support for android keyboard content insertion.
 - Enhance color picker, enter hex color and color palette option.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
 import '../models/documents/attribute.dart';
+import '../models/structs/link_dialog_action.dart';
 import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
@@ -11,13 +12,13 @@ import 'embeds.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 import 'toolbar/clear_format_button.dart';
 import 'toolbar/color_button.dart';
+import 'toolbar/custom_button.dart';
 import 'toolbar/enum.dart';
 import 'toolbar/history_button.dart';
 import 'toolbar/indent_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/quill_font_family_button.dart';
 import 'toolbar/quill_font_size_button.dart';
-import 'toolbar/quill_icon_button.dart';
 import 'toolbar/search_button.dart';
 import 'toolbar/select_alignment_button.dart';
 import 'toolbar/select_header_style_button.dart';
@@ -26,6 +27,7 @@ import 'toolbar/toggle_style_button.dart';
 
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
+export 'toolbar/custom_button.dart';
 export 'toolbar/history_button.dart';
 export 'toolbar/indent_button.dart';
 export 'toolbar/link_style_button.dart';
@@ -63,6 +65,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     VoidCallback? afterButtonPressed,
     this.sectionDividerColor,
     this.sectionDividerSpace,
+    this.linkDialogAction,
     Key? key,
   }) : super(key: key);
 
@@ -153,6 +156,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// The space occupied by toolbar divider
     double? sectionDividerSpace,
+
+    /// Validate the legitimacy of hyperlinks
+    RegExp? linkRegExp,
+    LinkDialogAction? linkDialogAction,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -550,6 +557,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
             afterButtonPressed: afterButtonPressed,
+            linkRegExp: linkRegExp,
+            linkDialogAction: linkDialogAction,
           ),
         if (showSearchButton)
           SearchButton(
@@ -566,20 +575,22 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             QuillDivider(axis,
                 color: sectionDividerColor, space: sectionDividerSpace),
         for (var customButton in customButtons)
-          QuillIconButton(
-            highlightElevation: 0,
-            hoverElevation: 0,
-            size: toolbarIconSize * kIconButtonFactor,
-            icon: Icon(
-              customButton.icon, 
-              size: toolbarIconSize,
-              color: customButton.iconColor,
+          if (customButton.child != null) ...[
+            InkWell(
+              onTap: customButton.onTap,
+              child: customButton.child,
             ),
-            tooltip: customButton.tooltip,
-            borderRadius: iconTheme?.borderRadius ?? 2,
-            onPressed: customButton.onTap,
-            afterPressed: afterButtonPressed,
-          ),
+          ] else ...[
+            CustomButton(
+              onPressed: customButton.onTap,
+              icon: customButton.icon,
+              iconColor: customButton.iconColor,
+              iconSize: toolbarIconSize,
+              iconTheme: iconTheme,
+              afterButtonPressed: afterButtonPressed,
+              tooltip: customButton.tooltip,
+            ),
+          ],
       ],
     );
   }
@@ -591,6 +602,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final WrapAlignment toolbarIconAlignment;
   final WrapCrossAlignment toolbarIconCrossAlignment;
   final bool multiRowsDisplay;
+
+  // Overrides the action in the _LinkDialog widget
+  final LinkDialogAction? linkDialogAction;
 
   /// The color of the toolbar.
   ///
@@ -650,7 +664,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 /// The divider which is used for separation of buttons in the toolbar.
 ///
 /// It can be used outside of this package, for example when user does not use
-/// [QuillToolbar.basic] and compose toolbat's children on its own.
+/// [QuillToolbar.basic] and compose toolbar's children on its own.
 class QuillDivider extends StatelessWidget {
   const QuillDivider(
     this.axis, {
@@ -659,11 +673,11 @@ class QuillDivider extends StatelessWidget {
     this.space,
   }) : super(key: key);
 
-  /// Provides a horizonal divider for vertical toolbar.
+  /// Provides a horizontal divider for vertical toolbar.
   const QuillDivider.horizontal({Color? color, double? space})
       : this(Axis.horizontal, color: color, space: space);
 
-  /// Provides a horizonal divider for horizontal toolbar.
+  /// Provides a horizontal divider for horizontal toolbar.
   const QuillDivider.vertical({Color? color, double? space})
       : this(Axis.vertical, color: color, space: space);
 

@@ -6,6 +6,7 @@ class QuillCustomButton {
     this.iconColor,
     this.onTap,
     this.tooltip,
+    this.child,
   });
 
   ///The icon widget
@@ -13,9 +14,12 @@ class QuillCustomButton {
 
   ///The icon color;
   final Color? iconColor;
-  
+
   ///The function when the icon is tapped
   final VoidCallback? onTap;
+
+  ///The customButton placeholder
+  final Widget? child;
 
   /// The button tooltip.
   final String? tooltip;

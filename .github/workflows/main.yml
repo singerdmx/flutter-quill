@@ -1,0 +1,23 @@
+name: flutter-quill CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter pub get -C flutter_quill_extensions
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter pub publish --dry-run

@@ -87,6 +87,9 @@ flutter:
     - family: roboto-mono
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
+    - family: SF-UI-Display
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.otf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

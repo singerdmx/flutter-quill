@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/rules/insert.dart';
+import '../../models/structs/link_dialog_action.dart';
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
@@ -18,6 +19,8 @@ class LinkStyleButton extends StatefulWidget {
     this.dialogTheme,
     this.afterButtonPressed,
     this.tooltip,
+    this.linkRegExp,
+    this.linkDialogAction,
     Key? key,
   }) : super(key: key);
 
@@ -28,6 +31,8 @@ class LinkStyleButton extends StatefulWidget {
   final QuillDialogTheme? dialogTheme;
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
+  final RegExp? linkRegExp;
+  final LinkDialogAction? linkDialogAction;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -108,7 +113,12 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
         text ??=
             len == 0 ? '' : widget.controller.document.getPlainText(index, len);
         return _LinkDialog(
-            dialogTheme: widget.dialogTheme, link: link, text: text);
+          dialogTheme: widget.dialogTheme,
+          link: link,
+          text: text,
+          linkRegExp: widget.linkRegExp,
+          action: widget.linkDialogAction,
+        );
       },
     ).then(
       (value) {
@@ -143,12 +153,20 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
 }
 
 class _LinkDialog extends StatefulWidget {
-  const _LinkDialog({this.dialogTheme, this.link, this.text, Key? key})
-      : super(key: key);
+  const _LinkDialog({
+    this.dialogTheme,
+    this.link,
+    this.text,
+    this.linkRegExp,
+    this.action,
+    Key? key,
+  }) : super(key: key);
 
   final QuillDialogTheme? dialogTheme;
   final String? link;
   final String? text;
+  final RegExp? linkRegExp;
+  final LinkDialogAction? action;
 
   @override
   _LinkDialogState createState() => _LinkDialogState();
@@ -157,6 +175,7 @@ class _LinkDialog extends StatefulWidget {
 class _LinkDialogState extends State<_LinkDialog> {
   late String _link;
   late String _text;
+  late RegExp linkRegExp;
   late TextEditingController _linkController;
   late TextEditingController _textController;
 
@@ -165,6 +184,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     super.initState();
     _link = widget.link ?? '';
     _text = widget.text ?? '';
+    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.linkRegExp;
     _linkController = TextEditingController(text: _link);
     _textController = TextEditingController(text: _text);
   }
@@ -202,15 +222,21 @@ class _LinkDialogState extends State<_LinkDialog> {
           ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: _canPress() ? _applyLink : null,
-          child: Text(
-            'Ok'.i18n,
-            style: widget.dialogTheme?.labelTextStyle,
-          ),
-        ),
-      ],
+      actions: [_okButton()],
+    );
+  }
+
+  Widget _okButton() {
+    if (widget.action != null) {
+      return widget.action!.builder(_canPress(), _applyLink);
+    }
+
+    return TextButton(
+      onPressed: _canPress() ? _applyLink : null,
+      child: Text(
+        'Ok'.i18n,
+        style: widget.dialogTheme?.buttonTextStyle,
+      ),
     );
   }
 
@@ -218,8 +244,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     if (_text.isEmpty || _link.isEmpty) {
       return false;
     }
-
-    if (!AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)) {
+    if (!linkRegExp.hasMatch(_link)) {
       return false;
     }
 

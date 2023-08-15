@@ -22,6 +22,9 @@ class ImageEmbedBuilder extends EmbedBuilder {
   String get key => BlockEmbed.imageType;
 
   @override
+  bool get expanded => false;
+
+  @override
   Widget build(
     BuildContext context,
     QuillController controller,

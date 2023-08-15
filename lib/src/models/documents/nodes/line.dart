@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
 
+import '../../../widgets/embeds.dart';
 import '../../quill_delta.dart';
 import '../../structs/offset_value.dart';
 import '../attribute.dart';
@@ -65,7 +66,11 @@ class Line extends Container<Leaf?> {
   }
 
   @override
-  String toPlainText() => '${super.toPlainText()}\n';
+  String toPlainText([
+    Iterable<EmbedBuilder>? embedBuilders,
+    EmbedBuilder? unknownEmbedBuilder,
+  ]) =>
+      '${super.toPlainText(embedBuilders, unknownEmbedBuilder)}\n';
 
   @override
   String toString() {
@@ -390,35 +395,42 @@ class Line extends Container<Leaf?> {
   }
 
   /// Returns each node segment's offset in selection
-  /// with its corresponding style as a list
-  List<OffsetValue<Style>> collectAllIndividualStyles(int offset, int len,
+  /// with its corresponding style or embed as a list
+  List<OffsetValue> collectAllIndividualStylesAndEmbed(int offset, int len,
       {int beg = 0}) {
     final local = math.min(length - offset, len);
-    final result = <OffsetValue<Style>>[];
+    final result = <OffsetValue>[];
 
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
       var pos = 0;
-      if (node is Text) {
-        pos = node.length - data.offset;
-        result.add(OffsetValue(beg, node.style));
+      pos = node.length - data.offset;
+      if (node is Text && node.style.isNotEmpty) {
+        result.add(OffsetValue(beg, node.style, node.length));
+      } else if (node.value is Embeddable) {
+        result.add(OffsetValue(beg, node.value as Embeddable, node.length));
       }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        if (node is Text) {
-          result.add(OffsetValue(pos + beg, node.style));
-          pos += node.length;
+        if (node is Text && node.style.isNotEmpty) {
+          result.add(OffsetValue(pos + beg, node.style, node.length));
+        } else if (node.value is Embeddable) {
+          result.add(
+              OffsetValue(pos + beg, node.value as Embeddable, node.length));
         }
+        pos += node.length;
+      }
+
+      if (style.isNotEmpty) {
+        result.add(OffsetValue(beg, style, pos));
       }
     }
 
-    // TODO: add line style and parent's block style
-
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
-      final rest =
-          nextLine!.collectAllIndividualStyles(0, remaining, beg: local);
+      final rest = nextLine!
+          .collectAllIndividualStylesAndEmbed(0, remaining, beg: local + beg);
       result.addAll(rest);
     }
 
@@ -516,7 +528,7 @@ class Line extends Container<Leaf?> {
 
   int _getPlainText(int offset, int len, StringBuffer plainText) {
     var _len = len;
-    final data = queryChild(offset, true);
+    final data = queryChild(offset, false);
     var node = data.node as Leaf?;
 
     while (_len > 0) {

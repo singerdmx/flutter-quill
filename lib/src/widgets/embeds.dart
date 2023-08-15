@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../extensions.dart';
 import '../models/documents/nodes/leaf.dart' as leaf;
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
@@ -14,6 +15,8 @@ abstract class EmbedBuilder {
   WidgetSpan buildWidgetSpan(Widget widget) {
     return WidgetSpan(child: widget);
   }
+
+  String toPlainText(Embed node) => Embed.kObjectReplacementCharacter;
 
   Widget build(
     BuildContext context,
