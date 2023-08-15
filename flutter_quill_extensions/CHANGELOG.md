@@ -1,3 +1,6 @@
+## 0.4.1
+- Updated Dependencies conflicting.
+
 ## 0.4.0
 - Fix backspace around images [PR #1309](https://github.com/singerdmx/flutter-quill/pull/1309)
 - Feat/link regexp [PR #1329](https://github.com/singerdmx/flutter-quill/pull/1329)
