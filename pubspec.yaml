@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.18.0
+  collection: ^1.17.0
   flutter_colorpicker: ^1.0.3
   flutter_keyboard_visibility: ^5.4.1
   quiver: ^3.2.1
