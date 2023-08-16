@@ -1,3 +1,6 @@
+# [7.4.0]
+- Support Flutter version 3.13.0.
+
 # [7.3.3]
 - Updated Dependencies conflicting.
 
