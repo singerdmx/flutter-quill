@@ -1,5 +1,5 @@
 ## 0.4.1
-- Updated Dependencies conflicting.
+- Updated dependencies to support image_picker 1.0
 
 ## 0.4.0
 - Fix backspace around images [PR #1309](https://github.com/singerdmx/flutter-quill/pull/1309)
