@@ -67,6 +67,7 @@ class QuillFontFamilyButton extends StatefulWidget {
 class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
   late String _defaultDisplayText;
   late String _currentValue;
+
   Style get _selectionStyle => widget.controller.getSelectionStyle();
 
   @override
@@ -164,7 +165,8 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
       context: context,
       elevation: 4,
       items: [
-        for (MapEntry<String, String> fontFamily in widget.rawItemsMap.entries)
+        for (final MapEntry<String, String> fontFamily
+            in widget.rawItemsMap.entries)
           PopupMenuItem<String>(
             key: ValueKey(fontFamily.key),
             value: fontFamily.value,

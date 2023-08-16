@@ -151,7 +151,8 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       context: context,
       elevation: 4,
       items: [
-        for (MapEntry<String, String> fontSize in widget.rawItemsMap.entries)
+        for (final MapEntry<String, String> fontSize
+            in widget.rawItemsMap.entries)
           PopupMenuItem<String>(
             key: ValueKey(fontSize.key),
             value: fontSize.value,

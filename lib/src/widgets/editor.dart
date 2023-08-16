@@ -42,8 +42,6 @@ abstract class EditorState extends State<RawEditor>
 
   String get pastePlainText;
 
-  bool get liveTextInputEnabled => false;
-
   /// Controls the floating cursor animation when it is released.
   /// The floating cursor is animated to merge with the regular cursor.
   AnimationController get floatingCursorResetController;

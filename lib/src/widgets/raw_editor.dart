@@ -1747,6 +1747,10 @@ class RawEditorState extends EditorState
       }
     }
   }
+
+  @override
+  // TODO: implement liveTextInputEnabled
+  bool get liveTextInputEnabled => false;
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
