@@ -175,11 +175,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           showBackgroundColorButton ||
           showClearFormat ||
           embedButtons?.isNotEmpty == true,
-      showAlignmentButtons || showDirection,
-      showLeftAlignment,
-      showCenterAlignment,
-      showRightAlignment,
-      showJustifyAlignment,
+      (showAlignmentButtons && (showLeftAlignment || showCenterAlignment || showRightAlignment || showJustifyAlignment)) || showDirection,
       showHeaderStyle,
       showListNumbers || showListBullets || showListCheck || showCodeBlock,
       showQuote || showIndent,
