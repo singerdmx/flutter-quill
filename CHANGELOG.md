@@ -1,3 +1,6 @@
+# [7.4.1]
+- Fix toolbar dividers condition.
+
 # [7.4.0]
 - Support Flutter version 3.13.0.
 
