@@ -1,31 +1,14 @@
 library universal_ui;
 
+import 'dart:ui_web' as ui_web;
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../widgets/responsive_widget.dart';
-import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui_instance;
-
-class PlatformViewRegistryFix {
-  void registerViewFactory(dynamic x, dynamic y) {
-    if (kIsWeb) {
-      ui_instance.PlatformViewRegistry.registerViewFactory(
-        x,
-        y,
-      );
-    }
-  }
-}
-
-class UniversalUI {
-  PlatformViewRegistryFix platformViewRegistry = PlatformViewRegistryFix();
-}
-
-var ui = UniversalUI();
+import '../widgets/responsive_widget.dart'; 
 
 class ImageEmbedBuilderWeb extends EmbedBuilder {
   @override
@@ -46,10 +29,10 @@ class ImageEmbedBuilderWeb extends EmbedBuilder {
       return const SizedBox();
     }
     final size = MediaQuery.of(context).size;
-    UniversalUI().platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
+    ui_web.platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
       return html.ImageElement()
         ..src = imageUrl
-        ..style.height = 'auto'
+        ..style.height = '300px'
         ..style.width = 'auto';
     });
     return Padding(
@@ -91,7 +74,7 @@ class VideoEmbedBuilderWeb extends EmbedBuilder {
       }
     }
 
-    UniversalUI().platformViewRegistry.registerViewFactory(
+    ui_web.platformViewRegistry.registerViewFactory(
         videoUrl,
         (id) => html.IFrameElement()
           ..width = MediaQuery.of(context).size.width.toString()
