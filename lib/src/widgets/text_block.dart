@@ -169,15 +169,16 @@ class EditableTextBlock extends StatelessWidget {
   }
 
   double _numberPointWidth(double fontSize, int count) {
-    switch ('$count'.length) {
+    final length = '$count'.length;
+    switch (length) {
+      case 1:
       case 2:
         return fontSize * 2;
-      case 3:
-        return fontSize * 2.5;
-      case 4:
-        return fontSize * 3;
       default:
-        return fontSize;
+        // 3 -> 2.5
+        // 4 -> 3
+        // 5 -> 3.5
+        return fontSize * (length - (length - 2) / 2);
     }
   }
 
