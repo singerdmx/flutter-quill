@@ -1,3 +1,6 @@
+# [7.4.2]
+- Fix bug with keepStyleOnNewLine for link.
+
 # [7.4.1]
 - Fix toolbar dividers condition.
 
