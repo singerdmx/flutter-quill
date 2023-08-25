@@ -192,6 +192,7 @@ class QuillEditor extends StatefulWidget {
     this.dialogTheme,
     this.contentInsertionConfiguration,
     this.contextMenuBuilder,
+    this.editorKey,
     Key? key,
   }) : super(key: key);
 
@@ -205,6 +206,7 @@ class QuillEditor extends StatefulWidget {
     bool expands = false,
     FocusNode? focusNode,
     String? placeholder,
+    GlobalKey<EditorState>? editorKey,
 
     /// The locale to use for the editor toolbar, defaults to system locale
     /// More at https://github.com/singerdmx/flutter-quill#translation
@@ -223,6 +225,7 @@ class QuillEditor extends StatefulWidget {
       locale: locale,
       embedBuilders: embedBuilders,
       placeholder: placeholder,
+      editorKey: editorKey,
     );
   }
 
@@ -448,19 +451,24 @@ class QuillEditor extends StatefulWidget {
   /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
   final ContentInsertionConfiguration? contentInsertionConfiguration;
 
+  /// Using the editorKey for get getLocalRectForCaret
+  /// editorKey.currentState?.renderEditor.getLocalRectForCaret
+  final GlobalKey<EditorState>? editorKey;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
 
 class QuillEditorState extends State<QuillEditor>
     implements EditorTextSelectionGestureDetectorBuilderDelegate {
-  final GlobalKey<EditorState> _editorKey = GlobalKey<EditorState>();
+  late GlobalKey<EditorState> _editorKey;
   late EditorTextSelectionGestureDetectorBuilder
       _selectionGestureDetectorBuilder;
 
   @override
   void initState() {
     super.initState();
+    _editorKey = widget.editorKey ?? GlobalKey<EditorState>();
     _selectionGestureDetectorBuilder =
         _QuillEditorSelectionGestureDetectorBuilder(
             this, widget.detectWordBoundary);
