@@ -123,7 +123,9 @@ class QuillController extends ChangeNotifier {
       return;
     }
     if (isIncrease) {
-      formatSelection(Attribute.getIndentLevel(indent.value + 1));
+      if (indent.value < 5) {
+        formatSelection(Attribute.getIndentLevel(indent.value + 1));
+      }
       return;
     }
     formatSelection(Attribute.getIndentLevel(indent.value - 1));
@@ -150,7 +152,9 @@ class QuillController extends ChangeNotifier {
       } else if (indent.value == 1 && !isIncrease) {
         formatAttribute = Attribute.clone(Attribute.indentL1, null);
       } else if (isIncrease) {
-        formatAttribute = Attribute.getIndentLevel(indent.value + 1);
+        if (indent.value < 5) {
+          formatAttribute = Attribute.getIndentLevel(indent.value + 1);
+        }
       } else {
         formatAttribute = Attribute.getIndentLevel(indent.value - 1);
       }
