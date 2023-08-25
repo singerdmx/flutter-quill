@@ -152,7 +152,7 @@ class EditableTextBlock extends StatelessWidget {
             onLaunchUrl: onLaunchUrl,
             customLinkPrefixes: customLinkPrefixes,
           ),
-          _getIndentWidth(context),
+          _getIndentWidth(context, count),
           _getSpacingForLine(line, index, count, defaultStyles),
           textDirection,
           textSelection,
@@ -168,6 +168,19 @@ class EditableTextBlock extends StatelessWidget {
     return children.toList(growable: false);
   }
 
+  double _numberPointWidth(double fontSize, int count) {
+    switch ('$count'.length) {
+      case 2:
+        return fontSize * 2;
+      case 3:
+        return fontSize * 2.5;
+      case 4:
+        return fontSize * 3;
+      default:
+        return fontSize;
+    }
+  }
+
   Widget? _buildLeading(BuildContext context, Line line, int index,
       Map<int, int> indentLevelCounts, int count) {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
@@ -181,7 +194,7 @@ class EditableTextBlock extends StatelessWidget {
         count: count,
         style: defaultStyles.leading!.style,
         attrs: attrs,
-        width: fontSize * 2,
+        width: _numberPointWidth(fontSize, count),
         padding: fontSize / 2,
       );
     }
@@ -222,7 +235,7 @@ class EditableTextBlock extends StatelessWidget {
         count: count,
         style: defaultStyles.code!.style
             .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: fontSize * 2,
+        width: _numberPointWidth(fontSize, count),
         attrs: attrs,
         padding: fontSize,
         withDot: false,
@@ -231,7 +244,7 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  double _getIndentWidth(BuildContext context) {
+  double _getIndentWidth(BuildContext context, int count) {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = block.style.attributes;
@@ -248,9 +261,13 @@ class EditableTextBlock extends StatelessWidget {
 
     var baseIndent = 0.0;
 
-    if (attrs.containsKey(Attribute.list.key) ||
-        attrs.containsKey(Attribute.codeBlock.key)) {
+    if (attrs.containsKey(Attribute.list.key)) {
       baseIndent = fontSize * 2;
+      if (attrs[Attribute.list.key] == Attribute.ol) {
+        baseIndent = _numberPointWidth(fontSize, count);
+      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+        baseIndent = _numberPointWidth(fontSize, count);
+      }
     }
 
     return baseIndent + extraIndent;
