@@ -157,15 +157,15 @@ class Document {
   Style collectStyle(int index, int len) {
     final res = queryChild(index);
     // -1 because the cursor is at the part of the line that is not visible
-    // Bug: When the caret is in the middle of the paragraph 
-    // and at the end of the format string, it will display the wrong state 
+    // Bug: When the caret is in the middle of the paragraph
+    // and at the end of the format string, it will display the wrong state
     // of the format button
-    final isNotLinkStyle =
-        res.node?.style.attributes[Attribute.link.key]?.value == false;
+    final isLinkStyle =
+        res.node?.style.attributes[Attribute.link.key]?.value == true;
     // In this case, we have an exception, this is a link.
     // When node is a link we will not -1
     return (res.node as Line).collectStyle(
-        len == 0 && res.node != null && isNotLinkStyle
+        len == 0 && res.node != null && !isLinkStyle
             ? res.offset - 1
             : res.offset,
         len);
