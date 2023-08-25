@@ -400,10 +400,10 @@ class QuillController extends ChangeNotifier {
         extentOffset: math.min(selection.extentOffset, end));
     if (_keepStyleOnNewLine) {
       final style = getSelectionStyle();
-      final notInlineStyle = style.attributes.values.where(
+      final ignoredStyles = style.attributes.values.where(
         (s) => !s.isInline || s.key == Attribute.link.key,
       );
-      toggledStyle = style.removeAll(notInlineStyle.toSet());
+      toggledStyle = style.removeAll(ignoredStyles.toSet());
     } else {
       toggledStyle = Style();
     }
