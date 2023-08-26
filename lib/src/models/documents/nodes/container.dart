@@ -25,7 +25,7 @@ abstract class Container<T extends Node?> extends Node {
   int get childCount => _children.length;
 
   /// Returns the first child [Node].
-  Node get first => _children.first;
+  Node? get first => isEmpty ? null : _children.first;
 
   /// Returns the last child [Node].
   Node get last => _children.last;
