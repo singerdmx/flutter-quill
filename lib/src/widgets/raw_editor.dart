@@ -721,35 +721,43 @@ class RawEditorState extends EditorState
     return KeyEventResult.ignored;
   }
 
-  KeyEventResult _handleSpaceKey(RawKeyEvent event) {
-    final child =
-        controller.document.queryChild(controller.selection.baseOffset);
-    if (child.node == null) {
-      return KeyEventResult.ignored;
+KeyEventResult _handleSpaceKey(RawKeyEvent event) {
+    try {
+      final child =
+          controller.document.queryChild(controller.selection.baseOffset);
+      if (child.node == null) {
+        return KeyEventResult.ignored;
+      }
+
+      final line = child.node as Line?;
+      if (line == null) {
+        return KeyEventResult.ignored;
+      }
+
+      if (line.first == null) {
+        return KeyEventResult.ignored;
+      }
+
+      final text = castOrNull<leaf.Text>(line.first);
+      if (text == null) {
+        return KeyEventResult.ignored;
+      }
+
+      const olKeyPhrase = '1.';
+      const ulKeyPhrase = '-';
+
+      if (text.value == olKeyPhrase) {
+        _updateSelectionForKeyPhrase(olKeyPhrase, Attribute.ol);
+      } else if (text.value == ulKeyPhrase) {
+        _updateSelectionForKeyPhrase(ulKeyPhrase, Attribute.ul);
+      } else {
+        return KeyEventResult.ignored;
+      }
+    } catch (e) {
+      print("Caught exception: $e");
     }
 
-    final line = child.node as Line?;
-    if (line == null) {
-      return KeyEventResult.ignored;
-    }
-
-    final text = castOrNull<leaf.Text>(line.first);
-    if (text == null) {
-      return KeyEventResult.ignored;
-    }
-
-    const olKeyPhrase = '1.';
-    const ulKeyPhrase = '-';
-
-    if (text.value == olKeyPhrase) {
-      _updateSelectionForKeyPhrase(olKeyPhrase, Attribute.ol);
-    } else if (text.value == ulKeyPhrase) {
-      _updateSelectionForKeyPhrase(ulKeyPhrase, Attribute.ul);
-    } else {
-      return KeyEventResult.ignored;
-    }
-
-    return KeyEventResult.handled;
+    return KeyEventResult.ignored;
   }
 
   KeyEventResult _handleTabKey(RawKeyEvent event) {
