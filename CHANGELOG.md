@@ -1,3 +1,6 @@
+# [7.4.4]
+- Fix #1311.
+
 # [7.4.3]
 - Fixed a space input error on iPad.
 
