@@ -43,7 +43,9 @@ class _CheckboxPointState extends State<CheckboxPoint> {
         : (widget.enabled
             ? theme.colorScheme.onSurface.withOpacity(0.5)
             : theme.colorScheme.onSurface.withOpacity(0.3));
-    return Center(
+    return Container(
+      alignment: AlignmentDirectional.centerEnd,
+      padding: EdgeInsetsDirectional.only(end: widget.size / 2),
       child: SizedBox(
         width: widget.size,
         height: widget.size,
