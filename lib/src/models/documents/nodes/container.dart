@@ -124,15 +124,15 @@ abstract class Container<T extends Node?> extends Node {
 
     if (isNotEmpty) {
       final child = queryChild(index, false);
-      child.node!.insert(child.offset, data, style);
-      return;
+      if (child.isNotEmpty) {
+        child.node!.insert(child.offset, data, style);
+      }
+    } else {
+      assert(index == 0);
+      final node = defaultChild;
+      add(node);
+      node?.insert(index, data, style);
     }
-
-    // empty
-    assert(index == 0);
-    final node = defaultChild;
-    add(node);
-    node?.insert(index, data, style);
   }
 
   @override
