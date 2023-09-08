@@ -109,8 +109,8 @@ abstract class Container<T extends Node?> extends Node {
     EmbedBuilder? unknownEmbedBuilder,
   ]) =>
       children
-      .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
-      .join();
+          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
+          .join();
 
   /// Content length of this node's children.
   ///
