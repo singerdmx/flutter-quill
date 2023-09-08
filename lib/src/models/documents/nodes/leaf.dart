@@ -74,9 +74,8 @@ abstract class Leaf extends Node {
     final remain = len - local;
     final node = _isolate(index, local);
 
-    if (remain > 0) {
-      assert(node.next != null);
-      node.next!.retain(0, remain, style);
+    if (remain > 0 && node.next != null) {
+      node.next?.retain(0, remain, style);
     }
     node.format(style);
   }
@@ -92,9 +91,8 @@ abstract class Leaf extends Node {
     target.unlink();
 
     final remain = len - local;
-    if (remain > 0) {
-      assert(next != null);
-      next!.delete(0, remain);
+    if (remain > 0 && next != null) {
+      next.delete(0, remain);
     }
 
     if (prev != null) {
