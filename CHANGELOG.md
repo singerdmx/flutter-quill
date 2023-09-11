@@ -1,12 +1,11 @@
 # [7.4.6]
-- Fix #1394.
-- Fix #1395.
+- Fix more null errors in Leaf.retain [#1394](https://github.com/singerdmx/flutter-quill/issues/1394) and Line.delete [#1395](https://github.com/singerdmx/flutter-quill/issues/1395).
 
 # [7.4.5]
-- Fix #1392.
+- Fix null error in Container.insert [#1392](https://github.com/singerdmx/flutter-quill/issues/1392).
 
 # [7.4.4]
-- Fix #1311.
+- Fix extra padding on checklists [#1131](https://github.com/singerdmx/flutter-quill/issues/1131).
 
 # [7.4.3]
 - Fixed a space input error on iPad.
