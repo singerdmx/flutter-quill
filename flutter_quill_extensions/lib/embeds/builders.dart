@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+import 'package:gal/gal.dart';
+import 'package:http/http.dart' as http;
 import 'package:math_keyboard/math_keyboard.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -266,13 +269,31 @@ Widget _menuOptionsForReadonlyImage(
                 icon: Icons.save,
                 color: Colors.greenAccent,
                 text: 'Save'.i18n,
-                onPressed: () {
+                onPressed: () async {
                   imageUrl = appendFileExtensionToImageUrl(imageUrl);
-                  GallerySaver.saveImage(imageUrl).then((_) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Saved'.i18n)));
-                    Navigator.pop(context);
-                  });
+
+                  // Download image
+                  final uri = Uri.parse(imageUrl);
+                  final response = await http.get(uri);
+                  if (response.statusCode != 200) {
+                    throw Exception(
+                      'failed to download image: ${response.statusCode}',
+                    );
+                  }
+
+                  // Save image to a temporary path
+                  final fileName = uri.pathSegments.isEmpty ? 'image.jpg'
+                      : uri.pathSegments.last;
+                  final imagePath = '${Directory.systemTemp.path}/menu-opt-$fileName';
+                  final imageFile = File(imagePath);
+                  await imageFile.writeAsBytes(response.bodyBytes);
+
+                  // Save image to gallery
+                  await Gal.putImage(imagePath);
+
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Saved'.i18n)));
+                  Navigator.pop(context);
                 },
               );
               final zoomOption = _SimpleDialogItem(
