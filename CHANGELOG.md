@@ -1,3 +1,6 @@
+# [7.4.7]
+- Add Vietnamese and German translations.
+
 # [7.4.6]
 - Fix more null errors in Leaf.retain [#1394](https://github.com/singerdmx/flutter-quill/issues/1394) and Line.delete [#1395](https://github.com/singerdmx/flutter-quill/issues/1395).
 
