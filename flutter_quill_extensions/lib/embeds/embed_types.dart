@@ -52,3 +52,4 @@ typedef ImageEmbedBuilderAfterRemoveImageFromEditor = Future<void> Function(
 typedef ImageEmbedBuilderShouldRemoveImageFromEditor = Future<bool> Function(
   File imageFile,
 );
+
