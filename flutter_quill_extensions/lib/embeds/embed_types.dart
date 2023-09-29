@@ -46,4 +46,9 @@ class QuillFile {
 }
 
 typedef ImageEmbedBuilderAfterRemoveImageFromEditor = Future<void> Function(
-    File imageFile);
+  File imageFile,
+);
+
+typedef ImageEmbedBuilderShouldRemoveImageFromEditor = Future<bool> Function(
+  File imageFile,
+);

@@ -20,44 +20,132 @@ export 'embeds/toolbar/video_button.dart';
 export 'embeds/utils.dart';
 
 class FlutterQuillEmbeds {
-  /// Returns a list of embed builders for Quill editors.
+  /// Returns a list of embed builders for QuillEditor.
+  ///
+  /// **Note:** This method is not intended for web usage.
+  /// For web-specific embeds, use [webBuilders].
   ///
   /// [onVideoInit] is called when a video is initialized.
-  /// [onRemoveImage] is called when an image is removed from the editor.
-  /// By default, [onRemoveImage] deletes the cached image if it still exists.
-  /// If you want to customize
-  /// the behavior, pass your own function that handles the removal.
   ///
-  /// Example of [onRemoveImage] customization:
+  /// [afterRemoveImageFromEditor] is called when an image
+  ///  is removed from the editor.
+  /// By default, [afterRemoveImageFromEditor] deletes the cached
+  ///  image if it still exists.
+  /// If you want to customize the behavior, pass your own function
+  ///  that handles the removal.
+  ///
+  /// Example of [afterRemoveImageFromEditor] customization:
   /// ```dart
-  /// onRemoveImage: (imageFile) async {
+  /// afterRemoveImageFromEditor: (imageFile) async {
   ///   // Your custom logic here
   ///   // or leave it empty to do nothing
+  /// }
+  /// ```
+  ///
+  /// [shouldRemoveImageFromEditor] is called when the user
+  /// attempts to remove an image
+  /// from the editor. It allows you to control whether the image
+  /// should be removed
+  /// based on your custom logic.
+  ///
+  /// Example of [shouldRemoveImageFromEditor] customization:
+  /// ```dart
+  /// shouldRemoveImageFromEditor: (imageFile) async {
+  ///   // Show a confirmation dialog before removing the image
+  ///   final isShouldRemove = await showYesCancelDialog(
+  ///     context: context,
+  ///     options: const YesOrCancelDialogOptions(
+  ///       title: 'Deleting an image',
+  ///       message: 'Are you sure you want to delete this image
+  ///       from the editor?',
+  ///     ),
+  ///   );
+  ///
+  ///   // Return `true` to allow image removal if the user confirms, otherwise `false`
+  ///   return isShouldRemove;
   /// }
   /// ```
   static List<EmbedBuilder> builders({
     void Function(GlobalKey videoContainerKey)? onVideoInit,
     ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor,
+    ImageEmbedBuilderShouldRemoveImageFromEditor? shouldRemoveImageFromEditor,
   }) =>
       [
         ImageEmbedBuilder(
           afterRemoveImageFromEditor: afterRemoveImageFromEditor ??
               (imageFile) async {
-                // TODO: Please change this default code
+                // TODO: Change the default event if you want to
                 final fileExists = await imageFile.exists();
                 if (fileExists) {
                   await imageFile.delete();
                 }
+              },
+          shouldRemoveImageFromEditor: shouldRemoveImageFromEditor ??
+              (imageFile) {
+                // TODO: Before pubish the changes, please consider change the name
+                // of the events if you want to
+                return Future.value(true);
               },
         ),
         VideoEmbedBuilder(onVideoInit: onVideoInit),
         FormulaEmbedBuilder(),
       ];
 
+  /// Returns a list of embed builders specifically designed for web support.
+  ///
+  /// [ImageEmbedBuilderWeb] is the embed builder for handling
+  ///  images on the web.
+  ///
   static List<EmbedBuilder> webBuilders() => [
         ImageEmbedBuilderWeb(),
       ];
 
+  /// Returns a list of embed button builders to customize the toolbar buttons.
+  ///
+  /// [showImageButton] determines whether the image button should be displayed.
+  /// [showVideoButton] determines whether the video button should be displayed.
+  /// [showCameraButton] determines whether the camera button should
+  ///  be displayed.
+  /// [showFormulaButton] determines whether the formula button
+  ///  should be displayed.
+  ///
+  /// [imageButtonTooltip] specifies the tooltip text for the image button.
+  /// [videoButtonTooltip] specifies the tooltip text for the video button.
+  /// [cameraButtonTooltip] specifies the tooltip text for the camera button.
+  /// [formulaButtonTooltip] specifies the tooltip text for the formula button.
+  ///
+  /// [onImagePickCallback] is a callback function called when an
+  ///  image is picked.
+  /// [onVideoPickCallback] is a callback function called when a
+  /// video is picked.
+  ///
+  /// [mediaPickSettingSelector] allows customizing media pick settings.
+  /// [cameraPickSettingSelector] allows customizing camera pick settings.
+  ///
+  /// Example of customizing media pick settings for the image button:
+  /// ```dart
+  /// mediaPickSettingSelector: (context) async {
+  ///   final mediaPickSetting = await showModalBottomSheet<MediaPickSetting>(
+  ///     showDragHandle: true,
+  ///     context: context,
+  ///     constraints: const BoxConstraints(maxWidth: 640),
+  ///     builder: (context) => const SelectImageSourceDialog(),
+  ///   );
+  ///   if (mediaPickSetting == null) {
+  ///     return null;
+  ///   }
+  ///   return mediaPickSetting;
+  /// }
+  /// ```
+  ///
+  /// [filePickImpl] is an implementation for picking files.
+  /// [webImagePickImpl] is an implementation for picking web images.
+  /// [webVideoPickImpl] is an implementation for picking web videos.
+  ///
+  /// [imageLinkRegExp] is a regular expression to identify image links.
+  /// [videoLinkRegExp] is a regular expression to identify video links.
+  ///
+  /// The returned list contains embed button builders for the Quill toolbar.
   static List<EmbedButtonBuilder> buttons({
     bool showImageButton = true,
     bool showVideoButton = true,

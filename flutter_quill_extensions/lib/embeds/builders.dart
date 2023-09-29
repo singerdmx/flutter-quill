@@ -21,8 +21,13 @@ import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
-  ImageEmbedBuilder({required this.afterRemoveImageFromEditor});
+  ImageEmbedBuilder({
+    required this.afterRemoveImageFromEditor,
+    required this.shouldRemoveImageFromEditor,
+  });
   final ImageEmbedBuilderAfterRemoveImageFromEditor afterRemoveImageFromEditor;
+  final ImageEmbedBuilderShouldRemoveImageFromEditor
+      shouldRemoveImageFromEditor;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -128,18 +133,26 @@ class ImageEmbedBuilder extends EmbedBuilder {
                   color: Colors.red.shade200,
                   text: 'Remove'.i18n,
                   onPressed: () async {
-                    final navigator = Navigator.of(context);
-                    final offset =
-                        getEmbedNode(controller, controller.selection.start)
-                            .offset;
+                    Navigator.of(context).pop();
+
+                    final imageFile = File(imageUrl);
+                    final shouldRemoveImage =
+                        await shouldRemoveImageFromEditor(imageFile);
+
+                    if (!shouldRemoveImage) {
+                      return;
+                    }
+                    final offset = getEmbedNode(
+                      controller,
+                      controller.selection.start,
+                    ).offset;
                     controller.replaceText(
                       offset,
                       1,
                       '',
                       TextSelection.collapsed(offset: offset),
                     );
-                    navigator.pop();
-                    await afterRemoveImageFromEditor(File(imageUrl));
+                    await afterRemoveImageFromEditor(imageFile);
                   },
                 );
                 return Padding(

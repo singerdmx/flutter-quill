@@ -198,7 +198,7 @@ extension Localization on String {
           'Align right': 'محاذاة اليمين',
           // i think it should be 'Justify with width'
           // it is wrong in all properties
-          'Justify win width': 'Justify win width',
+          'Justify win width': 'تبرير مع العرض',
           'Text direction': 'اتجاه النص',
           'Header style': 'ستايل العنوان',
           'Numbered list': 'قائمة مرقمة',
@@ -217,9 +217,9 @@ extension Localization on String {
           'Hex': 'Hex',
           'Material': 'Material',
           'Color': 'اللون',
-          'Find text': 'Find text',
-          'Move to previous occurrence': 'Move to previous occurrence',
-          'Move to next occurrence': 'Move to next occurrence',
+          'Find text': 'بحث عن نص',
+          'Move to previous occurrence': 'الانتقال إلى الحدث السابق',
+          'Move to next occurrence': 'الانتقال إلى الحدث التالي',
         },
         'da': {
           'Paste a link': 'Indsæt link',
