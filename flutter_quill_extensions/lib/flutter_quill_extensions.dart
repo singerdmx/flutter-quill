@@ -82,7 +82,8 @@ class FlutterQuillEmbeds {
               },
           shouldRemoveImageFromEditor: shouldRemoveImageFromEditor ??
               (imageFile) {
-                // TODO: Before pubish the changes, please consider change the name
+                // TODO: Before pubish the changes
+                // please consider change the name
                 // of the events if you want to
                 return Future.value(true);
               },
