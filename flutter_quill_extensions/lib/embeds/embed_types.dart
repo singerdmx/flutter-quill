@@ -44,3 +44,6 @@ class QuillFile {
   final String path;
   final Uint8List bytes;
 }
+
+typedef ImageEmbedBuilderAfterRemoveImageFromEditor = Future<void> Function(
+    File imageFile);
