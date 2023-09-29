@@ -35,6 +35,12 @@ class LinkDialogState extends State<LinkDialog> {
     super.initState();
     _link = widget.link ?? '';
     _controller = TextEditingController(text: _link);
+    // TODO: Consider replace the default Regex with this one
+    // Since that is not the reason I sent the changes then I will not edit it
+
+    // final defaultLinkNonSecureRegExp = RegExp(r'https?://.*?\.(?:png|jpe?g|gif|bmp|webp|tiff?)'); // Not secure
+    // final defaultLinkRegExp = RegExp(r'https://.*?\.(?:png|jpe?g|gif|bmp|webp|tiff?)'); // Secure
+    // _linkRegExp = widget.linkRegExp ?? defaultLinkRegExp;
     _linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.linkRegExp;
   }
 

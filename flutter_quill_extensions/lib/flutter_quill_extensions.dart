@@ -20,11 +20,36 @@ export 'embeds/toolbar/video_button.dart';
 export 'embeds/utils.dart';
 
 class FlutterQuillEmbeds {
+  /// Returns a list of embed builders for Quill editors.
+  ///
+  /// [onVideoInit] is called when a video is initialized.
+  /// [onRemoveImage] is called when an image is removed from the editor.
+  /// By default, [onRemoveImage] deletes the cached image if it still exists.
+  /// If you want to customize
+  /// the behavior, pass your own function that handles the removal.
+  ///
+  /// Example of [onRemoveImage] customization:
+  /// ```dart
+  /// onRemoveImage: (imageFile) async {
+  ///   // Your custom logic here
+  ///   // or leave it empty to do nothing
+  /// }
+  /// ```
   static List<EmbedBuilder> builders({
     void Function(GlobalKey videoContainerKey)? onVideoInit,
+    ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor,
   }) =>
       [
-        ImageEmbedBuilder(),
+        ImageEmbedBuilder(
+          afterRemoveImageFromEditor: afterRemoveImageFromEditor ??
+              (imageFile) async {
+                // TODO: Please change this default code
+                final fileExists = await imageFile.exists();
+                if (fileExists) {
+                  await imageFile.delete();
+                }
+              },
+        ),
         VideoEmbedBuilder(onVideoInit: onVideoInit),
         FormulaEmbedBuilder(),
       ];
@@ -80,7 +105,7 @@ class FlutterQuillEmbeds {
                 iconTheme: iconTheme,
                 dialogTheme: dialogTheme,
                 linkRegExp: videoLinkRegExp,
-          ),
+              ),
         if ((onImagePickCallback != null || onVideoPickCallback != null) &&
             showCameraButton)
           (controller, toolbarIconSize, iconTheme, dialogTheme) => CameraButton(
