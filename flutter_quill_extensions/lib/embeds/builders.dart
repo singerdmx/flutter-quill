@@ -21,8 +21,8 @@ import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
   ImageEmbedBuilder({
-    required this.afterRemoveImageFromEditor,
-    required this.shouldRemoveImageFromEditor,
+    this.afterRemoveImageFromEditor,
+    this.shouldRemoveImageFromEditor,
   });
   final ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor;
   final ImageEmbedBuilderShouldRemoveImageFromEditor?
