@@ -1,3 +1,9 @@
+# [7.4.9]
+- Style recognition fixes.
+
+# [7.4.8]
+- Upgrade dependencies.
+
 # [7.4.7]
 - Add Vietnamese and German translations.
 
