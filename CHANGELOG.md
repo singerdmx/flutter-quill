@@ -1,3 +1,6 @@
+# [7.4.9]
+- Style recognition fixes.
+
 # [7.4.8]
 - Upgrade dependencies.
 
