@@ -45,11 +45,10 @@ class QuillFile {
   final Uint8List bytes;
 }
 
-typedef ImageEmbedBuilderAfterRemoveImageFromEditor = Future<void> Function(
+typedef ImageEmbedBuilderWillRemoveCallback = Future<bool> Function(
   File imageFile,
 );
 
-typedef ImageEmbedBuilderShouldRemoveImageFromEditor = Future<bool> Function(
+typedef ImageEmbedBuilderOnRemovedCallback = Future<void> Function(
   File imageFile,
 );
-

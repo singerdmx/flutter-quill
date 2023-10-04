@@ -27,28 +27,26 @@ class FlutterQuillEmbeds {
   ///
   /// [onVideoInit] is called when a video is initialized.
   ///
-  /// [afterRemoveImageFromEditor] is called when an image
-  ///  is removed from the editor.
-  /// By default, [afterRemoveImageFromEditor] deletes the cached
-  ///  image if it still exists.
-  /// If you want to customize the behavior, pass your own function
-  ///  that handles the removal.
+  /// [onImageRemovedCallback] is called when an image
+  ///  is removed from the editor. This can be used to
+  /// delete the image from storage, for example:
   ///
-  /// Example of [afterRemoveImageFromEditor] customization:
   /// ```dart
-  /// afterRemoveImageFromEditor: (imageFile) async {
-  ///   // Your custom logic here
-  ///   // or leave it empty to do nothing
-  /// }
+  /// (imageFile) async {
+  ///   final fileExists = await imageFile.exists();
+  ///   if (fileExists) {
+  ///     await imageFile.delete();
+  ///   }
+  /// },
   /// ```
   ///
-  /// [shouldRemoveImageFromEditor] is called when the user
+  /// [shouldRemoveImageCallback] is called when the user
   /// attempts to remove an image
   /// from the editor. It allows you to control whether the image
   /// should be removed
   /// based on your custom logic.
   ///
-  /// Example of [shouldRemoveImageFromEditor] customization:
+  /// Example of [shouldRemoveImageCallback] customization:
   /// ```dart
   /// shouldRemoveImageFromEditor: (imageFile) async {
   ///   // Show a confirmation dialog before removing the image
@@ -67,13 +65,13 @@ class FlutterQuillEmbeds {
   /// ```
   static List<EmbedBuilder> builders({
     void Function(GlobalKey videoContainerKey)? onVideoInit,
-    ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor,
-    ImageEmbedBuilderShouldRemoveImageFromEditor? shouldRemoveImageFromEditor,
+    ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
+    ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
   }) =>
       [
         ImageEmbedBuilder(
-          afterRemoveImageFromEditor: afterRemoveImageFromEditor,
-          shouldRemoveImageFromEditor: shouldRemoveImageFromEditor,
+          onImageRemovedCallback: onImageRemovedCallback,
+          shouldRemoveImageCallback: shouldRemoveImageCallback,
         ),
         VideoEmbedBuilder(onVideoInit: onVideoInit),
         FormulaEmbedBuilder(),

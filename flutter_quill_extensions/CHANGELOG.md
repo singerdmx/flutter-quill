@@ -1,3 +1,7 @@
+## 0.5.0
+- Migrated from `gallery_saver` to `gal` for saving images
+- Added callbacks for greater control of editing images
+
 ## 0.4.1
 - Updated dependencies to support image_picker 1.0
 

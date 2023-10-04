@@ -20,13 +20,13 @@ import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
-  ImageEmbedBuilder({
-    this.afterRemoveImageFromEditor,
-    this.shouldRemoveImageFromEditor,
+  const ImageEmbedBuilder({
+    this.onImageRemovedCallback,
+    this.shouldRemoveImageCallback,
   });
-  final ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor;
-  final ImageEmbedBuilderShouldRemoveImageFromEditor?
-      shouldRemoveImageFromEditor;
+
+  final ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback;
+  final ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -136,18 +136,12 @@ class ImageEmbedBuilder extends EmbedBuilder {
 
                     final imageFile = File(imageUrl);
 
-                    final shouldRemoveImageEvent = shouldRemoveImageFromEditor;
-
-                    var shouldRemoveImage = true;
-                    if (shouldRemoveImageEvent != null) {
-                      shouldRemoveImage = await shouldRemoveImageEvent(
-                        imageFile,
-                      );
-                    }
-
-                    if (!shouldRemoveImage) {
+                    // Call the remove check callback if set
+                    if (await shouldRemoveImageCallback?.call(imageFile) ==
+                        false) {
                       return;
                     }
+
                     final offset = getEmbedNode(
                       controller,
                       controller.selection.start,
@@ -158,10 +152,9 @@ class ImageEmbedBuilder extends EmbedBuilder {
                       '',
                       TextSelection.collapsed(offset: offset),
                     );
-                    final afterRemoveImageEvent = afterRemoveImageFromEditor;
-                    if (afterRemoveImageEvent != null) {
-                      await afterRemoveImageEvent(imageFile);
-                    }
+
+                    // Call the post remove callback if set
+                    await onImageRemovedCallback?.call(imageFile);
                   },
                 );
                 return Padding(
