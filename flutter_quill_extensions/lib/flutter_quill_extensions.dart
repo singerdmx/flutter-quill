@@ -72,21 +72,8 @@ class FlutterQuillEmbeds {
   }) =>
       [
         ImageEmbedBuilder(
-          afterRemoveImageFromEditor: afterRemoveImageFromEditor ??
-              (imageFile) async {
-                // TODO: Change the default event if you want to
-                final fileExists = await imageFile.exists();
-                if (fileExists) {
-                  await imageFile.delete();
-                }
-              },
-          shouldRemoveImageFromEditor: shouldRemoveImageFromEditor ??
-              (imageFile) {
-                // TODO: Before pubish the changes
-                // please consider change the name
-                // of the events if you want to
-                return Future.value(true);
-              },
+          afterRemoveImageFromEditor: afterRemoveImageFromEditor,
+          shouldRemoveImageFromEditor: shouldRemoveImageFromEditor,
         ),
         VideoEmbedBuilder(onVideoInit: onVideoInit),
         FormulaEmbedBuilder(),

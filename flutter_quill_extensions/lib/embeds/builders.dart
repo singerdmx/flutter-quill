@@ -11,8 +11,7 @@ import 'package:math_keyboard/math_keyboard.dart';
 import 'package:universal_html/html.dart' as html;
 
 import '../shims/dart_ui_fake.dart'
-    if (dart.library.html) 'package:flutter_quill_extensions/shims/dart_ui_real.dart'
-    as ui;
+    if (dart.library.html) '../shims/dart_ui_real.dart' as ui;
 import 'embed_types.dart';
 import 'utils.dart';
 import 'widgets/image.dart';
@@ -22,11 +21,11 @@ import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
   ImageEmbedBuilder({
-    required this.afterRemoveImageFromEditor,
-    required this.shouldRemoveImageFromEditor,
+    this.afterRemoveImageFromEditor,
+    this.shouldRemoveImageFromEditor,
   });
-  final ImageEmbedBuilderAfterRemoveImageFromEditor afterRemoveImageFromEditor;
-  final ImageEmbedBuilderShouldRemoveImageFromEditor
+  final ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor;
+  final ImageEmbedBuilderShouldRemoveImageFromEditor?
       shouldRemoveImageFromEditor;
 
   @override
@@ -136,8 +135,15 @@ class ImageEmbedBuilder extends EmbedBuilder {
                     Navigator.of(context).pop();
 
                     final imageFile = File(imageUrl);
-                    final shouldRemoveImage =
-                        await shouldRemoveImageFromEditor(imageFile);
+
+                    final shouldRemoveImageEvent = shouldRemoveImageFromEditor;
+
+                    var shouldRemoveImage = true;
+                    if (shouldRemoveImageEvent != null) {
+                      shouldRemoveImage = await shouldRemoveImageEvent(
+                        imageFile,
+                      );
+                    }
 
                     if (!shouldRemoveImage) {
                       return;
@@ -152,7 +158,10 @@ class ImageEmbedBuilder extends EmbedBuilder {
                       '',
                       TextSelection.collapsed(offset: offset),
                     );
-                    await afterRemoveImageFromEditor(imageFile);
+                    final afterRemoveImageEvent = afterRemoveImageFromEditor;
+                    if (afterRemoveImageEvent != null) {
+                      await afterRemoveImageEvent(imageFile);
+                    }
                   },
                 );
                 return Padding(

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart' show Uint8List;
+import 'package:gal/gal.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 // I would like to orgnize the project structure and the code more
 // but here I don't want to change too much since that is a community project
@@ -30,7 +30,11 @@ class _SaveImageResult {
 
 Future<_SaveImageResult> saveImage(String imageUrl) async {
   final imageFile = File(imageUrl);
+  final hasPermission = await Gal.hasAccess();
   final imageExistsLocally = await imageFile.exists();
+  if (!hasPermission) {
+    await Gal.requestAccess();
+  }
   if (!imageExistsLocally) {
     final success = await _saveNetworkImageToLocal(imageUrl);
     return _SaveImageResult(
@@ -54,10 +58,8 @@ Future<bool> _saveNetworkImageToLocal(String imageUrl) async {
       return false;
     }
     final imageBytes = response.bodyBytes;
-    final result = await ImageGallerySaver.saveImage(
-      Uint8List.fromList(imageBytes),
-    );
-    return result['isSuccess'];
+    await Gal.putImageBytes(imageBytes);
+    return true;
   } catch (e) {
     return false;
   }
@@ -75,9 +77,8 @@ Future<Uint8List> _convertFileToUint8List(File file) async {
 Future<bool> _saveImageLocally(File imageFile) async {
   try {
     final imageBytes = await _convertFileToUint8List(imageFile);
-    final result = await ImageGallerySaver.saveImage(imageBytes);
-
-    return result['isSuccess'];
+    await Gal.putImageBytes(imageBytes);
+    return true;
   } catch (e) {
     return false;
   }
