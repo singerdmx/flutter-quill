@@ -21,13 +21,12 @@ import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
   ImageEmbedBuilder({
-    this.afterRemoveImageFromEditor,
-    this.shouldRemoveImageFromEditor,
+    this.onImageRemovedCallback,
+    this.shouldRemoveImageCallback,
     this.forceUseMobileOptionMenu = false,
   });
-  final ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor;
-  final ImageEmbedBuilderShouldRemoveImageFromEditor?
-      shouldRemoveImageFromEditor;
+  final ImageEmbedBuilderWillRemoveCallback? onImageRemovedCallback;
+  final ImageEmbedBuilderOnRemovedCallback? shouldRemoveImageCallback;
   final bool forceUseMobileOptionMenu;
 
   @override
@@ -138,7 +137,7 @@ class ImageEmbedBuilder extends EmbedBuilder {
 
                     final imageFile = File(imageUrl);
 
-                    final shouldRemoveImageEvent = shouldRemoveImageFromEditor;
+                    final shouldRemoveImageEvent = shouldRemoveImageCallback;
 
                     var shouldRemoveImage = true;
                     if (shouldRemoveImageEvent != null) {
@@ -160,7 +159,7 @@ class ImageEmbedBuilder extends EmbedBuilder {
                       '',
                       TextSelection.collapsed(offset: offset),
                     );
-                    final afterRemoveImageEvent = afterRemoveImageFromEditor;
+                    final afterRemoveImageEvent = onImageRemovedCallback;
                     if (afterRemoveImageEvent != null) {
                       await afterRemoveImageEvent(imageFile);
                     }

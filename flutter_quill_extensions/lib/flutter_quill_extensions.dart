@@ -38,15 +38,15 @@ class FlutterQuillEmbeds {
   /// You can use this to perform actions or setup configurations related
   ///  to video embedding.
   ///
-  /// [afterRemoveImageFromEditor] is called when an image is
+  /// [onImageRemovedCallback] is called when an image is
   ///  removed from the editor.
-  /// By default, [afterRemoveImageFromEditor] deletes the
+  /// By default, [onImageRemovedCallback] deletes the
   ///  temporary image file if
   /// the platform is mobile and if it still exists. You
   ///  can customize this behavior
   /// by passing your own function that handles the removal process.
   ///
-  /// Example of [afterRemoveImageFromEditor] customization:
+  /// Example of [onImageRemovedCallback] customization:
   /// ```dart
   /// afterRemoveImageFromEditor: (imageFile) async {
   ///   // Your custom logic here
@@ -54,12 +54,12 @@ class FlutterQuillEmbeds {
   /// }
   /// ```
   ///
-  /// [shouldRemoveImageFromEditor] is a callback
+  /// [shouldRemoveImageCallback] is a callback
   ///  function that is invoked when the
   /// user attempts to remove an image from the editor. It allows you to control
   /// whether the image should be removed based on your custom logic.
   ///
-  /// Example of [shouldRemoveImageFromEditor] customization:
+  /// Example of [shouldRemoveImageCallback] customization:
   /// ```dart
   /// shouldRemoveImageFromEditor: (imageFile) async {
   ///   // Show a confirmation dialog before removing the image
@@ -104,14 +104,14 @@ class FlutterQuillEmbeds {
   /// ```
   static List<EmbedBuilder> builders({
     void Function(GlobalKey videoContainerKey)? onVideoInit,
-    ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor,
-    ImageEmbedBuilderShouldRemoveImageFromEditor? shouldRemoveImageFromEditor,
+    ImageEmbedBuilderWillRemoveCallback? onImageRemovedCallback,
+    ImageEmbedBuilderOnRemovedCallback? shouldRemoveImageCallback,
     bool forceUseMobileOptionMenuForImageClick = false,
   }) =>
       [
         ImageEmbedBuilder(
           forceUseMobileOptionMenu: forceUseMobileOptionMenuForImageClick,
-          afterRemoveImageFromEditor: afterRemoveImageFromEditor ??
+          onImageRemovedCallback: onImageRemovedCallback ??
               (imageFile) async {
                 final mobile = isMobile();
                 // If the platform is not mobile, return void;
@@ -139,7 +139,7 @@ class FlutterQuillEmbeds {
                   await imageFile.delete();
                 }
               },
-          shouldRemoveImageFromEditor: shouldRemoveImageFromEditor,
+          shouldRemoveImageCallback: shouldRemoveImageCallback,
         ),
         VideoEmbedBuilder(onVideoInit: onVideoInit),
         FormulaEmbedBuilder(),
