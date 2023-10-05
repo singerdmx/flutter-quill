@@ -1,6 +1,7 @@
 library flutter_quill_extensions;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 import 'embeds/builders.dart';
@@ -22,17 +23,28 @@ export 'embeds/utils.dart';
 class FlutterQuillEmbeds {
   /// Returns a list of embed builders for QuillEditor.
   ///
+  /// This method provides a collection of embed builders to enhance the
+  /// functionality
+  /// of a QuillEditor. It offers customization options for
+  /// handling various types of
+  /// embedded content, such as images, videos, and formulas.
+  ///
   /// **Note:** This method is not intended for web usage.
-  /// For web-specific embeds, use [webBuilders].
+  /// For web-specific embeds,
+  /// use [webBuilders].
   ///
-  /// [onVideoInit] is called when a video is initialized.
+  /// [onVideoInit] is a callback function that gets triggered when
+  ///  a video is initialized.
+  /// You can use this to perform actions or setup configurations related
+  ///  to video embedding.
   ///
-  /// [afterRemoveImageFromEditor] is called when an image
-  ///  is removed from the editor.
-  /// By default, [afterRemoveImageFromEditor] deletes the cached
-  ///  image if it still exists.
-  /// If you want to customize the behavior, pass your own function
-  ///  that handles the removal.
+  /// [afterRemoveImageFromEditor] is called when an image is
+  ///  removed from the editor.
+  /// By default, [afterRemoveImageFromEditor] deletes the
+  ///  temporary image file if
+  /// the platform is mobile and if it still exists. You
+  ///  can customize this behavior
+  /// by passing your own function that handles the removal process.
   ///
   /// Example of [afterRemoveImageFromEditor] customization:
   /// ```dart
@@ -42,11 +54,10 @@ class FlutterQuillEmbeds {
   /// }
   /// ```
   ///
-  /// [shouldRemoveImageFromEditor] is called when the user
-  /// attempts to remove an image
-  /// from the editor. It allows you to control whether the image
-  /// should be removed
-  /// based on your custom logic.
+  /// [shouldRemoveImageFromEditor] is a callback
+  ///  function that is invoked when the
+  /// user attempts to remove an image from the editor. It allows you to control
+  /// whether the image should be removed based on your custom logic.
   ///
   /// Example of [shouldRemoveImageFromEditor] customization:
   /// ```dart
@@ -56,8 +67,8 @@ class FlutterQuillEmbeds {
   ///     context: context,
   ///     options: const YesOrCancelDialogOptions(
   ///       title: 'Deleting an image',
-  ///       message: 'Are you sure you want to delete this image
-  ///       from the editor?',
+  ///       message: 'Are you sure you want' ' to delete this
+  ///      image from the editor?',
   ///     ),
   ///   );
   ///
@@ -65,14 +76,69 @@ class FlutterQuillEmbeds {
   ///   return isShouldRemove;
   /// }
   /// ```
+  ///
+  /// [forceUseMobileOptionMenuForImageClick] is a boolean
+  /// flag that, when set to `true`,
+  /// enforces the use of the mobile-specific option menu for image clicks in
+  /// other platforms like web and desktop, this option doesn't affect mobile.
+  ///  This option
+  /// can be used to override the default behavior based on the platform.
+  ///
+  /// The method returns a list of [EmbedBuilder] objects that can be used with
+  ///  QuillEditor
+  /// to enable embedded content features like images, videos, and formulas.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final embedBuilders = QuillEmbedBuilders.builders(
+  ///   onVideoInit: (videoContainerKey) {
+  ///     // Custom video initialization logic
+  ///   },
+  ///   // Customize other callback functions as needed
+  /// );
+  ///
+  /// final quillEditor = QuillEditor(
+  ///   // Other editor configurations
+  ///   embedBuilders: embedBuilders,
+  /// );
+  /// ```
   static List<EmbedBuilder> builders({
     void Function(GlobalKey videoContainerKey)? onVideoInit,
     ImageEmbedBuilderAfterRemoveImageFromEditor? afterRemoveImageFromEditor,
     ImageEmbedBuilderShouldRemoveImageFromEditor? shouldRemoveImageFromEditor,
+    bool forceUseMobileOptionMenuForImageClick = false,
   }) =>
       [
         ImageEmbedBuilder(
-          afterRemoveImageFromEditor: afterRemoveImageFromEditor,
+          forceUseMobileOptionMenu: forceUseMobileOptionMenuForImageClick,
+          afterRemoveImageFromEditor: afterRemoveImageFromEditor ??
+              (imageFile) async {
+                final mobile = isMobile();
+                // If the platform is not mobile, return void;
+                // Since the mobile OS gives us a copy of the image
+
+                // Note: We should remove the image on Flutter web
+                // since the behavior is similar to how it is on mobile,
+                // but since this builder is not for web, we will ignore it
+                if (!mobile) {
+                  return;
+                }
+
+                // On mobile OS (Android, iOS), the system will not give us
+                // direct access to the image; instead,
+                // it will give us the image
+                // in the temp directory of the application. So, we want to
+                // remove it when we no longer need it.
+
+                // but on desktop we don't want to touch user files
+                // especially on macOS, where we can't even delete it without
+                // permission
+
+                final isFileExists = await imageFile.exists();
+                if (isFileExists) {
+                  await imageFile.delete();
+                }
+              },
           shouldRemoveImageFromEditor: shouldRemoveImageFromEditor,
         ),
         VideoEmbedBuilder(onVideoInit: onVideoInit),

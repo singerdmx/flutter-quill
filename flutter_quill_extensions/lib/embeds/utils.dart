@@ -15,8 +15,28 @@ bool isBase64(String str) {
   return _base64.hasMatch(str);
 }
 
+bool isHttpBasedUrl(String url) {
+  try {
+    final uri = Uri.parse(url.trim());
+    return uri.isScheme('HTTP') || uri.isScheme('HTTPS');
+  } catch (_) {
+    return false;
+  }
+}
+
+bool isYouTubeUrl(String videoUrl) {
+  try {
+    final uri = Uri.parse(videoUrl);
+    return uri.host == 'www.youtube.com' ||
+        uri.host == 'youtube.com' ||
+        uri.host == 'youtu.be';
+  } catch (_) {
+    return false;
+  }
+}
+
 bool isImageBase64(String imageUrl) {
-  return !imageUrl.startsWith('http') && isBase64(imageUrl);
+  return !isHttpBasedUrl(imageUrl) && isBase64(imageUrl);
 }
 
 enum SaveImageResultMethod { network, localStorage }
