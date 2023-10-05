@@ -6,8 +6,8 @@ import 'package:path/path.dart' as path;
 
 import '../flutter_quill_extensions.dart';
 
-class QuillUtilities {
-  const QuillUtilities._();
+class QuillImageUtilities {
+  const QuillImageUtilities._();
 
   /// Saves a list of images to a specified directory.
   ///

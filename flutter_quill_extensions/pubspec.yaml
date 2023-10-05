@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.4.7
+  flutter_quill: ^7.4.9
 
   http: ^1.1.0
   image_picker: ">=1.0.4"
