@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show File;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

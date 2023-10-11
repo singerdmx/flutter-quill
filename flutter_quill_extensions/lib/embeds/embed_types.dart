@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show File;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -45,10 +45,10 @@ class QuillFile {
   final Uint8List bytes;
 }
 
-typedef ImageEmbedBuilderWillRemoveCallback = Future<void> Function(
+typedef ImageEmbedBuilderWillRemoveCallback = Future<bool> Function(
   File imageFile,
 );
 
-typedef ImageEmbedBuilderOnRemovedCallback = Future<bool> Function(
+typedef ImageEmbedBuilderOnRemovedCallback = Future<void> Function(
   File imageFile,
 );

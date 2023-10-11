@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io' as io;
+import 'dart:io' show File;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -40,7 +40,7 @@ Image imageByUrl(String imageUrl,
     return Image.network(imageUrl,
         width: width, height: height, alignment: alignment);
   }
-  return Image.file(io.File(imageUrl),
+  return Image.file(File(imageUrl),
       width: width, height: height, alignment: alignment);
 }
 
@@ -82,7 +82,7 @@ class ImageTapWrapper extends StatelessWidget {
       return NetworkImage(imageUrl);
     }
 
-    return FileImage(io.File(imageUrl));
+    return FileImage(File(imageUrl));
   }
 
   @override

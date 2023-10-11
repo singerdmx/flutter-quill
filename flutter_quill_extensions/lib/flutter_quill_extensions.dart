@@ -80,7 +80,8 @@ class FlutterQuillEmbeds {
   /// [forceUseMobileOptionMenuForImageClick] is a boolean
   /// flag that, when set to `true`,
   /// enforces the use of the mobile-specific option menu for image clicks in
-  /// other platforms like web and desktop, this option doesn't affect mobile.
+  /// other platforms like desktop, this option doesn't affect mobile. it will
+  /// not affect web
   ///  This option
   /// can be used to override the default behavior based on the platform.
   ///
@@ -104,8 +105,8 @@ class FlutterQuillEmbeds {
   /// ```
   static List<EmbedBuilder> builders({
     void Function(GlobalKey videoContainerKey)? onVideoInit,
-    ImageEmbedBuilderWillRemoveCallback? onImageRemovedCallback,
-    ImageEmbedBuilderOnRemovedCallback? shouldRemoveImageCallback,
+    ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
+    ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
     bool forceUseMobileOptionMenuForImageClick = false,
   }) =>
       [

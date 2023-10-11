@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:gal/gal.dart';

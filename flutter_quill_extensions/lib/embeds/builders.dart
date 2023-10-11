@@ -25,8 +25,8 @@ class ImageEmbedBuilder extends EmbedBuilder {
     this.shouldRemoveImageCallback,
     this.forceUseMobileOptionMenu = false,
   });
-  final ImageEmbedBuilderWillRemoveCallback? onImageRemovedCallback;
-  final ImageEmbedBuilderOnRemovedCallback? shouldRemoveImageCallback;
+  final ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback;
+  final ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback;
   final bool forceUseMobileOptionMenu;
 
   @override

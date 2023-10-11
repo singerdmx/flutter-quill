@@ -9,10 +9,20 @@ import '../flutter_quill_extensions.dart';
 class QuillImageUtilities {
   const QuillImageUtilities._();
 
+  static void _webIsNotSupported(String functionName) {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        'The static function $functionName()'
+        ' on QuillImageUtilities is not supported in Web',
+      );
+    }
+  }
+
   /// Saves a list of images to a specified directory.
   ///
   /// This function is designed to work efficiently on
   /// mobile platforms, but it can also be used on other platforms.
+  /// But it's not supported on web for now
   ///
   /// When you have a list of cached image paths
   ///  from a Quill document and you want to save them,
@@ -29,6 +39,9 @@ class QuillImageUtilities {
   /// [deleteThePreviousImages]: Indicates whether to delete the
   ///  original cached images after copying.
   /// [saveDirectory]: The directory where the images will be saved.
+  /// [startOfEachFile]: Each file will have a name and it need to be unique
+  /// but to make the file name is clear we will need a string represent
+  /// the start of each file
   ///
   /// Returns a list of paths to the newly saved images.
   /// For images that do not exist, their paths are returned as empty strings.
@@ -40,13 +53,16 @@ class QuillImageUtilities {
   ///   images: cachedImagePaths,
   ///   deleteThePreviousImages: true,
   ///   saveDirectory: documentsDir,
+  ///   startOfEachFile: 'quill-image-', // default
   /// );
   /// ```
   static Future<List<String>> saveImagesToDirectory({
     required Iterable<String> images,
     required deleteThePreviousImages,
     required Directory saveDirectory,
+    String startOfEachFile = 'quill-image-',
   }) async {
+    _webIsNotSupported('saveImagesToDirectory');
     final newImagesFutures = images.map((cachedImagePath) async {
       final previousImageFile = File(cachedImagePath);
       final isPreviousImageFileExists = await previousImageFile.exists();
@@ -61,7 +77,7 @@ class QuillImageUtilities {
       // TODO: You might want to make it easier for the developer to change
       // the newImageFileName, but he can rename it anyway
       final newImageFileName =
-          'quill-image-$dateTimeAsString$newImageFileExtensionWithDot';
+          '$startOfEachFile$dateTimeAsString$newImageFileExtensionWithDot';
       final newImagePath = path.join(saveDirectory.path, newImageFileName);
       final newImageFile = await previousImageFile.copy(newImagePath);
       if (deleteThePreviousImages) {
@@ -75,6 +91,7 @@ class QuillImageUtilities {
   }
 
   /// Deletes all local images referenced in a Quill document.
+  /// it's not supported on web for now
   ///
   /// This function removes local images from the
   /// file system that are referenced in the provided [document].
@@ -94,6 +111,7 @@ class QuillImageUtilities {
   static Future<void> deleteAllLocalImagesOfDocument(
     quill.Document document,
   ) async {
+    _webIsNotSupported('deleteAllLocalImagesOfDocument');
     final imagesPaths = getImagesPathsFromDocument(
       document,
       onlyLocalImages: true,
@@ -116,11 +134,12 @@ class QuillImageUtilities {
 
   /// Retrieves paths to images embedded in a Quill document.
   ///
+  /// it's not supported on web for now.
   /// This function parses the [document] and returns a list of image paths.
   ///
   /// [document]: The Quill document from which image paths will be retrieved.
   /// [onlyLocalImages]: If `true`,
-  /// only local (non-web) image paths will be included.
+  /// only local (non-web-url) image paths will be included.
   ///
   /// Returns an iterable of image paths.
   ///
@@ -138,6 +157,7 @@ class QuillImageUtilities {
     quill.Document document, {
     required bool onlyLocalImages,
   }) {
+    _webIsNotSupported('getImagesPathsFromDocument');
     final images = document.root.children
         .whereType<quill.Line>()
         .where((node) {
@@ -167,6 +187,7 @@ class QuillImageUtilities {
   }
 
   /// Determines if an image file is cached based on the platform.
+  /// it's not supported on web for now
   ///
   /// On mobile platforms (Android and iOS), images are typically
   ///  cached in temporary directories.
@@ -178,6 +199,7 @@ class QuillImageUtilities {
   /// Returns `true` if the image is cached, `false` otherwise.
   /// On other platforms it will always return false
   static bool isImageCached(String imagePath) {
+    _webIsNotSupported('isImageCached');
     // Determine if the image path is a cached path based on platform
     if (kIsWeb) {
       // For now this will not work for web
@@ -199,6 +221,8 @@ class QuillImageUtilities {
   /// Retrieves cached image paths from a Quill document,
   ///  primarily for mobile platforms.
   ///
+  /// it's not supported on web for now
+  ///
   /// This function scans a Quill document to identify
   ///  and return paths to locally cached images.
   /// It is specifically designed for mobile
@@ -217,6 +241,7 @@ class QuillImageUtilities {
     quill.Document document, {
     String? replaceUnexistentImagesWith,
   }) async {
+    _webIsNotSupported('getCachedImagePathsFromDocument');
     final imagePaths = getImagesPathsFromDocument(
       document,
       onlyLocalImages: true,
