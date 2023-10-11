@@ -137,18 +137,12 @@ class ImageEmbedBuilder extends EmbedBuilder {
 
                     final imageFile = File(imageUrl);
 
-                    final shouldRemoveImageEvent = shouldRemoveImageCallback;
-
-                    var shouldRemoveImage = true;
-                    if (shouldRemoveImageEvent != null) {
-                      shouldRemoveImage = await shouldRemoveImageEvent(
-                        imageFile,
-                      );
-                    }
-
-                    if (!shouldRemoveImage) {
+                    // Call the remove check callback if set
+                    if (await shouldRemoveImageCallback?.call(imageFile) ==
+                        false) {
                       return;
                     }
+
                     final offset = getEmbedNode(
                       controller,
                       controller.selection.start,
@@ -159,10 +153,8 @@ class ImageEmbedBuilder extends EmbedBuilder {
                       '',
                       TextSelection.collapsed(offset: offset),
                     );
-                    final afterRemoveImageEvent = onImageRemovedCallback;
-                    if (afterRemoveImageEvent != null) {
-                      await afterRemoveImageEvent(imageFile);
-                    }
+                    // Call the post remove callback if set
+                    await onImageRemovedCallback?.call(imageFile);
                   },
                 );
                 return Padding(

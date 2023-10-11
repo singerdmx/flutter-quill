@@ -1,6 +1,6 @@
 import 'dart:io' show Directory, File, Platform;
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:path/path.dart' as path;
 
@@ -12,8 +12,8 @@ class QuillImageUtilities {
   static void _webIsNotSupported(String functionName) {
     if (kIsWeb) {
       throw UnsupportedError(
-        'The static function $functionName()'
-        ' on QuillImageUtilities is not supported in Web',
+        'The static function "$functionName()"'
+        ' on class "QuillImageUtilities" is not supported in Web',
       );
     }
   }

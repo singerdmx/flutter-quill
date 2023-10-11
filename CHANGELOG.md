@@ -1,3 +1,5 @@
+# [7.4.10]
+- Update the minimum version of device_info_plus to 10.0.0
 # [7.4.9]
 - Style recognition fixes.
 
