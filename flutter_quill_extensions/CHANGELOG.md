@@ -1,5 +1,5 @@
 ## 0.5.1
-- Fix "The platformViewRegistry getter is deprecated and will be removed in a future release. Please import it from dart:ui_web instead."
+- Fix warrning "The platformViewRegistry getter is deprecated and will be removed in a future release. Please import it from dart:ui_web instead."
 - Add QuillImageUtilities class
 - Small improvemenets
 - Allow to use the mobile context menu on desktop by force using it
