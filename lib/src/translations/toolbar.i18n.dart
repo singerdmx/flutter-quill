@@ -2160,7 +2160,7 @@ extension Localization on String {
           'Insert URL': 'Ingiza Kiungo',
           'Visit link': 'Tembelea Kiungo',
           'Enter link': 'Ingiza Kiungo',
-          'Enter media': 'Ingiza Picha'
+          'Enter media': 'Ingiza Picha',
           'Edit': 'Harir',
           'Apply': 'Weka',
           'Hex': 'Hexi',
@@ -2170,7 +2170,7 @@ extension Localization on String {
           'Move to previous occurrence': 'Nenda Kwenye Tukio la Awali',
           'Move to next occurrence': 'Nenda kwa Tukio linalofuata',
           'Saved using the network': 'Imehifadhiwa kwa Kutumia Mtandao',
-          'Saved using the local storage': 'Imehifadhiwa kwa Kutumia Hifadhi ya Ndani',
+          'Saved using the local storage': 'Imehifadhiwa kwa Hifadhi ya Ndani',
           'Error while saving image': 'Hitilafu Wakati wa Kuhifadhi Picha',
         },
       };
