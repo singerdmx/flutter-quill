@@ -67,6 +67,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -132,6 +135,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -200,6 +206,9 @@ extension Localization on String {
           'Find text': 'بحث عن نص',
           'Move to previous occurrence': 'الانتقال إلى الحدث السابق',
           'Move to next occurrence': 'الانتقال إلى الحدث التالي',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -262,6 +271,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -324,6 +336,9 @@ extension Localization on String {
           'Find text': 'Text suchen',
           'Move to previous occurrence': 'Zum vorherigen Auftreten springen',
           'Move to next occurrence': 'Zum nächsten Auftreten springen',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -386,6 +401,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'zh_cn': {
           'Paste a link': '粘贴链接',
@@ -448,6 +466,9 @@ extension Localization on String {
           'Find text': '搜索文本',
           'Move to previous occurrence': '上一个匹配项',
           'Move to next occurrence': '下一个匹配项',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'zh_hk': {
           'Paste a link': '貼上連結',
@@ -510,6 +531,9 @@ extension Localization on String {
           'Find text': '搜尋文本',
           'Move to previous occurrence': '上一個匹配項',
           'Move to next occurrence': '下一個匹配項',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'ja': {
           'Paste a link': 'リンクをペースト',
@@ -572,6 +596,9 @@ extension Localization on String {
           'Find text': '検索テキスト',
           'Move to previous occurrence': '前のマッチ',
           'Move to next occurrence': '次のマッチ',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -634,6 +661,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -696,6 +726,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -758,6 +791,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -820,6 +856,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -882,6 +921,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -944,6 +986,10 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Guardado através da network',
+          'Saved using the local storage': 
+              'Guardado através do armazenamento local',
+          'Error while saving image': 'Erro a gravar imagem',
         },
         'pt_br': {
           'Paste a link': 'Colar um link',
@@ -1006,6 +1052,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -1068,6 +1117,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -1130,6 +1182,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
@@ -1192,6 +1247,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'id': {
           'Paste a link': 'Tempel tautan',
@@ -1254,6 +1312,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'no': {
           'Paste a link': 'Lim inn lenke',
@@ -1316,6 +1377,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
@@ -1378,6 +1442,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'hi': {
           'Paste a link': 'लिंक पेस्ट करें',
@@ -1440,6 +1507,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'nl': {
           'Paste a link': 'Plak een link',
@@ -1502,6 +1572,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'sr': {
           'Paste a link': 'Nalepi vezu',
@@ -1564,6 +1637,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'cs': {
           'Paste a link': 'Vložte odkaz',
@@ -1626,6 +1702,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'he': {
           'Paste a link': 'הדבק את הלינק',
@@ -1688,6 +1767,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'ms': {
           'Paste a link': 'Tampal Pautan',
@@ -1750,6 +1832,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'it': {
           'Paste a link': 'Incolla un collegamento',
@@ -1812,6 +1897,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'bn': {
           'Paste a link': 'লিঙ্ক পেস্ট করুন',
@@ -1877,6 +1965,9 @@ extension Localization on String {
           'Find text': 'Find text',
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'tk': {
           'Paste a link': 'Baglanyşygy goýuň',
@@ -1942,6 +2033,9 @@ extension Localization on String {
           'Find text': 'Tekst tapyň',
           'Move to previous occurrence': 'Öňki hadysa geçiň',
           'Move to next occurrence': 'Indiki hadysa geçiň',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
         'bg': {
           'Paste a link': 'Поставете връзка',
@@ -2007,6 +2101,9 @@ extension Localization on String {
           'Find text': 'Намери текст',
           'Move to previous occurrence': 'Премести към предишното съвпадение',
           'Move to next occurrence': 'Премести към следващото съвпадение',
+          'Saved using the network': 'Saved using the network',
+          'Saved using the local storage': 'Saved using the local storage',
+          'Error while saving image': 'Error while saving image',
         },
       };
 
