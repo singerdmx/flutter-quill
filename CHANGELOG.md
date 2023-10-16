@@ -1,3 +1,6 @@
+# [7.4.11]
+- Add sw locale.
+
 # [7.4.10]
 - Update translations.
 

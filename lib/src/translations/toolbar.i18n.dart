@@ -2105,7 +2105,7 @@ extension Localization on String {
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
         },
-          'sw': {
+        'sw': {
           'Paste a link': 'Bandika Kiungo',
           'Ok': 'Sawa',
           'Select Color': 'Chagua Rangi',
