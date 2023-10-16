@@ -1,3 +1,6 @@
+# [7.4.10]
+- Update translations.
+
 # [7.4.9]
 - Style recognition fixes.
 

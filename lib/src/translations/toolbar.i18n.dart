@@ -987,7 +987,7 @@ extension Localization on String {
           'Move to previous occurrence': 'Move to previous occurrence',
           'Move to next occurrence': 'Move to next occurrence',
           'Saved using the network': 'Guardado através da network',
-          'Saved using the local storage': 
+          'Saved using the local storage':
               'Guardado através do armazenamento local',
           'Error while saving image': 'Erro a gravar imagem',
         },
