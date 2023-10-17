@@ -90,9 +90,16 @@ class FlutterQuillEmbeds {
   /// ```dart
   /// imageProviderBuilder: (imageUrl) async {
   /// // Example of using cached_network_image package
+  /// // Don't forgot to check if that image is local or network one
   /// return CachedNetworkImageProvider(imageUrl);
   /// }
   /// ```
+  ///
+  /// [imageErrorWidgetBuilder] if you want to show a custom widget based on the
+  /// exception that happen while loading the image, if it network image or
+  /// local one, and it will get called on all the images even in the photo
+  /// preview widget and not just in the quill editor
+  /// by default the default error from flutter framework will thrown
   ///
   /// [forceUseMobileOptionMenuForImageClick] is a boolean
   /// flag that, when set to `true`,
