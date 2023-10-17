@@ -1,5 +1,5 @@
 # [7.4.12]
-- Update the minimum version of device_info_plus to 9.1.0
+- Update the minimum version of device_info_plus to 9.1.0.
 - 
 # [7.4.11]
 - Add sw locale.
