@@ -321,22 +321,20 @@ Widget _menuOptionsForReadonlyImage(
                   messenger.clearSnackBars();
 
                   if (!imageSavedSuccessfully) {
-                    // TODO: Please translate this
-                    messenger.showSnackBar(const SnackBar(
+                    messenger.showSnackBar(SnackBar(
                         content: Text(
-                      'Error while saveing the image',
+                      'Error while saving image'.i18n,
                     )));
                     return;
                   }
 
-                  var message = 'Saved'.i18n;
+                  var message;
                   switch (saveImageResult.method) {
-                    // TODO: Please translate this too
                     case SaveImageResultMethod.network:
-                      message += ' using the network.';
+                      message = 'Saved using the network'.i18n;
                       break;
                     case SaveImageResultMethod.localStorage:
-                      message += ' using the local storage.';
+                      message = 'Saved using the local storage'.i18n;
                       break;
                   }
 
