@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show File, Platform;
 import 'dart:ui';
 
 import 'package:file_picker/file_picker.dart';

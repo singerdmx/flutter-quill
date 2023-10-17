@@ -20,13 +20,14 @@ import 'widgets/video_app.dart';
 import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
-  const ImageEmbedBuilder({
+  ImageEmbedBuilder({
     this.onImageRemovedCallback,
     this.shouldRemoveImageCallback,
+    this.forceUseMobileOptionMenu = false,
   });
-
   final ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback;
   final ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback;
+  final bool forceUseMobileOptionMenu;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -79,7 +80,7 @@ class ImageEmbedBuilder extends EmbedBuilder {
       imageSize = OptionalSize((image as Image).width, image.height);
     }
 
-    if (!readOnly && base.isMobile()) {
+    if (!readOnly && (base.isMobile() || forceUseMobileOptionMenu)) {
       return GestureDetector(
         onTap: () {
           showDialog(
@@ -152,7 +153,6 @@ class ImageEmbedBuilder extends EmbedBuilder {
                       '',
                       TextSelection.collapsed(offset: offset),
                     );
-
                     // Call the post remove callback if set
                     await onImageRemovedCallback?.call(imageFile);
                   },
@@ -162,7 +162,11 @@ class ImageEmbedBuilder extends EmbedBuilder {
                   child: SimpleDialog(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
-                      children: [resizeOption, copyOption, removeOption]),
+                      children: [
+                        if (base.isMobile()) resizeOption,
+                        copyOption,
+                        removeOption,
+                      ]),
                 );
               });
         },
@@ -170,7 +174,16 @@ class ImageEmbedBuilder extends EmbedBuilder {
       );
     }
 
-    if (!readOnly || !base.isMobile() || isImageBase64(imageUrl)) {
+    if (!readOnly || isImageBase64(imageUrl)) {
+      // To enforce using it on the web, desktop and other platforms
+      // and that is up to the developer
+      if (!base.isMobile() && forceUseMobileOptionMenu) {
+        return _menuOptionsForReadonlyImage(
+          context,
+          imageUrl,
+          image,
+        );
+      }
       return image;
     }
 
@@ -239,7 +252,7 @@ class VideoEmbedBuilder extends EmbedBuilder {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
     final videoUrl = node.value.data;
-    if (videoUrl.contains('youtube.com') || videoUrl.contains('youtu.be')) {
+    if (isYouTubeUrl(videoUrl)) {
       return YoutubeVideoApp(
           videoUrl: videoUrl, context: context, readOnly: readOnly);
     }
