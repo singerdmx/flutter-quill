@@ -72,8 +72,25 @@ class FlutterQuillEmbeds {
   ///     ),
   ///   );
   ///
-  ///   // Return `true` to allow image removal if the user confirms, otherwise `false`
+  ///   // Return `true` to allow image removal if the user confirms, otherwise
+  ///  `false`
   ///   return isShouldRemove;
+  /// }
+  /// ```
+  ///
+  /// [imageProviderBuilder] if you want to use custom image provider, please
+  /// pass a value to this property
+  /// By default we will use [NetworkImage] provider if the image url/path
+  /// is using http/https, if not then we will use [FileImage] provider
+  /// If you ovveride this make sure to handle the case where if the [imageUrl]
+  /// is in the local storage or it does exists in the system file
+  /// or use the same way we did it
+  ///
+  /// Example of [imageProviderBuilder] customization:
+  /// ```dart
+  /// imageProviderBuilder: (imageUrl) async {
+  /// // Example of using cached_network_image package
+  /// return CachedNetworkImageProvider(imageUrl);
   /// }
   /// ```
   ///
@@ -107,10 +124,14 @@ class FlutterQuillEmbeds {
     void Function(GlobalKey videoContainerKey)? onVideoInit,
     ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
+    ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
+    ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder,
     bool forceUseMobileOptionMenuForImageClick = false,
   }) =>
       [
         ImageEmbedBuilder(
+          imageErrorWidgetBuilder: imageErrorWidgetBuilder,
+          imageProviderBuilder: imageProviderBuilder,
           forceUseMobileOptionMenu: forceUseMobileOptionMenuForImageClick,
           onImageRemovedCallback: onImageRemovedCallback ??
               (imageFile) async {

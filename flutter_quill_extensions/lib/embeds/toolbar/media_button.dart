@@ -118,7 +118,8 @@ class MediaButton extends StatelessWidget {
   Future<void> _pickImage() async {
     if (!(kIsWeb || isMobile() || isDesktop())) {
       throw UnsupportedError(
-          'Unsupported target platform: ${defaultTargetPlatform.name}');
+        'Unsupported target platform: ${defaultTargetPlatform.name}',
+      );
     }
 
     final mediaFileUrl = await _pickMediaFileUrl();
@@ -127,7 +128,11 @@ class MediaButton extends StatelessWidget {
       final index = controller.selection.baseOffset;
       final length = controller.selection.extentOffset - index;
       controller.replaceText(
-          index, length, BlockEmbed.image(mediaFileUrl), null);
+        index,
+        length,
+        BlockEmbed.image(mediaFileUrl),
+        null,
+      );
     }
   }
 

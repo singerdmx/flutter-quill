@@ -61,30 +61,49 @@ class CameraButton extends StatelessWidget {
       size: iconSize * 1.77,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: () => _handleCameraButtonTap(context, controller,
-          onImagePickCallback: onImagePickCallback,
-          onVideoPickCallback: onVideoPickCallback,
-          filePickImpl: filePickImpl,
-          webImagePickImpl: webImagePickImpl),
+      onPressed: () => _handleCameraButtonTap(
+        context,
+        controller,
+        onImagePickCallback: onImagePickCallback,
+        onVideoPickCallback: onVideoPickCallback,
+        filePickImpl: filePickImpl,
+        webImagePickImpl: webImagePickImpl,
+      ),
     );
   }
 
   Future<void> _handleCameraButtonTap(
-      BuildContext context, QuillController controller,
-      {OnImagePickCallback? onImagePickCallback,
-      OnVideoPickCallback? onVideoPickCallback,
-      FilePickImpl? filePickImpl,
-      WebImagePickImpl? webImagePickImpl}) async {
-    if (onImagePickCallback != null && onVideoPickCallback != null) {
-      final selector = cameraPickSettingSelector ??
-          (context) => showDialog<MediaPickSetting>(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  contentPadding: EdgeInsets.zero,
-                  backgroundColor: Colors.transparent,
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+    BuildContext context,
+    QuillController controller, {
+    OnImagePickCallback? onImagePickCallback,
+    OnVideoPickCallback? onVideoPickCallback,
+    FilePickImpl? filePickImpl,
+    WebImagePickImpl? webImagePickImpl,
+  }) async {
+    if (onVideoPickCallback == null && onImagePickCallback == null) {
+      throw ArgumentError(
+        'onImagePickCallback and onVideoPickCallback are both null',
+      );
+    }
+
+    var shouldShowPickPhotoByCamera = false;
+    var shouldShowRecordVideoByCamera = false;
+    if (onImagePickCallback != null) {
+      shouldShowPickPhotoByCamera = true;
+    }
+    if (onVideoPickCallback != null) {
+      shouldShowRecordVideoByCamera = true;
+    }
+    final selector = cameraPickSettingSelector ??
+        (context) => showDialog<MediaPickSetting>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                contentPadding: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (shouldShowPickPhotoByCamera)
                       TextButton.icon(
                         icon: const Icon(
                           Icons.camera,
@@ -94,6 +113,7 @@ class CameraButton extends StatelessWidget {
                         onPressed: () =>
                             Navigator.pop(ctx, MediaPickSetting.Camera),
                       ),
+                    if (shouldShowRecordVideoByCamera)
                       TextButton.icon(
                         icon: const Icon(
                           Icons.video_call,
@@ -103,28 +123,44 @@ class CameraButton extends StatelessWidget {
                         onPressed: () =>
                             Navigator.pop(ctx, MediaPickSetting.Video),
                       )
-                    ],
-                  ),
+                  ],
                 ),
-              );
+              ),
+            );
 
-      final source = await selector(context);
-      if (source != null) {
-        switch (source) {
-          case MediaPickSetting.Camera:
-            await ImageVideoUtils.handleImageButtonTap(
-                context, controller, ImageSource.camera, onImagePickCallback,
-                filePickImpl: filePickImpl, webImagePickImpl: webImagePickImpl);
-            break;
-          case MediaPickSetting.Video:
-            await ImageVideoUtils.handleVideoButtonTap(
-                context, controller, ImageSource.camera, onVideoPickCallback,
-                filePickImpl: filePickImpl, webVideoPickImpl: webVideoPickImpl);
-            break;
-          default:
-            throw ArgumentError('Invalid MediaSetting');
-        }
-      }
+    final source = await selector(context);
+    if (source == null) {
+      return;
+    }
+    switch (source) {
+      case MediaPickSetting.Camera:
+        await ImageVideoUtils.handleImageButtonTap(
+          context,
+          controller,
+          ImageSource.camera,
+          onImagePickCallback!,
+          filePickImpl: filePickImpl,
+          webImagePickImpl: webImagePickImpl,
+        );
+        break;
+      case MediaPickSetting.Video:
+        await ImageVideoUtils.handleVideoButtonTap(
+          context,
+          controller,
+          ImageSource.camera,
+          onVideoPickCallback!,
+          filePickImpl: filePickImpl,
+          webVideoPickImpl: webVideoPickImpl,
+        );
+        break;
+      case MediaPickSetting.Gallery:
+        throw ArgumentError(
+          'Invalid MediaSetting for the camera button',
+        );
+      case MediaPickSetting.Link:
+        throw ArgumentError(
+          'Invalid MediaSetting for the camera button',
+        );
     }
   }
 }

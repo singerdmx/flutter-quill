@@ -38,6 +38,10 @@ class LinkDialogState extends State<LinkDialog> {
     // TODO: Consider replace the default Regex with this one
     // Since that is not the reason I sent the changes then I will not edit it
 
+    // TODO: Consider use one of those as default or provide a
+    // way to custmize the check, that are not based on RegExp,
+    // I already implemented one so tell me if you are interested
+
     // final defaultLinkNonSecureRegExp = RegExp(r'https?://.*?\.(?:png|jpe?g|gif|bmp|webp|tiff?)'); // Not secure
     // final defaultLinkRegExp = RegExp(r'https://.*?\.(?:png|jpe?g|gif|bmp|webp|tiff?)'); // Secure
     // _linkRegExp = widget.linkRegExp ?? defaultLinkRegExp;
@@ -53,9 +57,10 @@ class LinkDialogState extends State<LinkDialog> {
         maxLines: null,
         style: widget.dialogTheme?.inputTextStyle,
         decoration: InputDecoration(
-            labelText: 'Paste a link'.i18n,
-            labelStyle: widget.dialogTheme?.labelTextStyle,
-            floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
+          labelText: 'Paste a link'.i18n,
+          labelStyle: widget.dialogTheme?.labelTextStyle,
+          floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
+        ),
         autofocus: true,
         onChanged: _linkChanged,
         controller: _controller,
@@ -119,12 +124,13 @@ class ImageVideoUtils {
 
   /// For image picking logic
   static Future<void> handleImageButtonTap(
-      BuildContext context,
-      QuillController controller,
-      ImageSource imageSource,
-      OnImagePickCallback onImagePickCallback,
-      {FilePickImpl? filePickImpl,
-      WebImagePickImpl? webImagePickImpl}) async {
+    BuildContext context,
+    QuillController controller,
+    ImageSource imageSource,
+    OnImagePickCallback onImagePickCallback, {
+    FilePickImpl? filePickImpl,
+    WebImagePickImpl? webImagePickImpl,
+  }) async {
     final index = controller.selection.baseOffset;
     final length = controller.selection.extentOffset - index;
 
@@ -149,7 +155,9 @@ class ImageVideoUtils {
   }
 
   static Future<String?> _pickImage(
-      ImageSource source, OnImagePickCallback onImagePickCallback) async {
+    ImageSource source,
+    OnImagePickCallback onImagePickCallback,
+  ) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile == null) {
       return null;

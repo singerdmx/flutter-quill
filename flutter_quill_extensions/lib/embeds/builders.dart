@@ -21,13 +21,17 @@ import 'widgets/youtube_video_app.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
   ImageEmbedBuilder({
-    this.onImageRemovedCallback,
-    this.shouldRemoveImageCallback,
+    required this.imageProviderBuilder,
+    required this.imageErrorWidgetBuilder,
+    required this.onImageRemovedCallback,
+    required this.shouldRemoveImageCallback,
     this.forceUseMobileOptionMenu = false,
   });
   final ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback;
   final ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback;
   final bool forceUseMobileOptionMenu;
+  final ImageEmbedBuilderProviderBuilder? imageProviderBuilder;
+  final ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -71,12 +75,23 @@ class ImageEmbedBuilder extends EmbedBuilder {
         final a = base.getAlignment(attrs[Attribute.mobileAlignment]);
         image = Padding(
             padding: EdgeInsets.all(m),
-            child: imageByUrl(imageUrl, width: w, height: h, alignment: a));
+            child: imageByUrl(
+              imageUrl,
+              width: w,
+              height: h,
+              alignment: a,
+              imageProviderBuilder: imageProviderBuilder,
+              imageErrorWidgetBuilder: imageErrorWidgetBuilder,
+            ));
       }
     }
 
     if (imageSize == null) {
-      image = imageByUrl(imageUrl);
+      image = imageByUrl(
+        imageUrl,
+        imageProviderBuilder: imageProviderBuilder,
+        imageErrorWidgetBuilder: imageErrorWidgetBuilder,
+      );
       imageSize = OptionalSize((image as Image).width, image.height);
     }
 
@@ -97,20 +112,21 @@ class ImageEmbedBuilder extends EmbedBuilder {
                         builder: (context) {
                           final screenSize = MediaQuery.of(context).size;
                           return ImageResizer(
-                              onImageResize: (w, h) {
-                                final res = getEmbedNode(
-                                    controller, controller.selection.start);
-                                final attr = base.replaceStyleString(
-                                    getImageStyleString(controller), w, h);
-                                controller
-                                  ..skipRequestKeyboard = true
-                                  ..formatText(
-                                      res.offset, 1, StyleAttribute(attr));
-                              },
-                              imageWidth: imageSize?.width,
-                              imageHeight: imageSize?.height,
-                              maxWidth: screenSize.width,
-                              maxHeight: screenSize.height);
+                            onImageResize: (w, h) {
+                              final res = getEmbedNode(
+                                  controller, controller.selection.start);
+                              final attr = base.replaceStyleString(
+                                  getImageStyleString(controller), w, h);
+                              controller
+                                ..skipRequestKeyboard = true
+                                ..formatText(
+                                    res.offset, 1, StyleAttribute(attr));
+                            },
+                            imageWidth: imageSize?.width,
+                            imageHeight: imageSize?.height,
+                            maxWidth: screenSize.width,
+                            maxHeight: screenSize.height,
+                          );
                         });
                   },
                 );
@@ -161,7 +177,10 @@ class ImageEmbedBuilder extends EmbedBuilder {
                   padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                   child: SimpleDialog(
                       shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
                       children: [
                         if (base.isMobile()) resizeOption,
                         copyOption,
@@ -179,9 +198,11 @@ class ImageEmbedBuilder extends EmbedBuilder {
       // and that is up to the developer
       if (!base.isMobile() && forceUseMobileOptionMenu) {
         return _menuOptionsForReadonlyImage(
-          context,
-          imageUrl,
-          image,
+          context: context,
+          imageUrl: imageUrl,
+          image: image,
+          imageProviderBuilder: imageProviderBuilder,
+          imageErrorWidgetBuilder: imageErrorWidgetBuilder,
         );
       }
       return image;
@@ -189,9 +210,11 @@ class ImageEmbedBuilder extends EmbedBuilder {
 
     // We provide option menu for mobile platform excluding base64 image
     return _menuOptionsForReadonlyImage(
-      context,
-      imageUrl,
-      image,
+      context: context,
+      imageUrl: imageUrl,
+      image: image,
+      imageProviderBuilder: imageProviderBuilder,
+      imageErrorWidgetBuilder: imageErrorWidgetBuilder,
     );
   }
 }
@@ -299,8 +322,13 @@ class FormulaEmbedBuilder extends EmbedBuilder {
   }
 }
 
-Widget _menuOptionsForReadonlyImage(
-    BuildContext context, String imageUrl, Widget image) {
+Widget _menuOptionsForReadonlyImage({
+  required BuildContext context,
+  required String imageUrl,
+  required Widget image,
+  required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
+  required ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder,
+}) {
   return GestureDetector(
       onTap: () {
         showDialog(
@@ -351,10 +379,19 @@ Widget _menuOptionsForReadonlyImage(
                 text: 'Zoom'.i18n,
                 onPressed: () {
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ImageTapWrapper(imageUrl: imageUrl)));
+                    context,
+                    // TODO: Consider add support for other theme system
+                    // like Cupertino or at least add the option to by
+                    // by using PageRoute as option so dev can ovveride this
+                    // this change should be done in all places if you want to
+                    MaterialPageRoute(
+                      builder: (context) => ImageTapWrapper(
+                        imageUrl: imageUrl,
+                        imageProviderBuilder: imageProviderBuilder,
+                        imageErrorWidgetBuilder: imageErrorWidgetBuilder,
+                      ),
+                    ),
+                  );
                 },
               );
               return Padding(
