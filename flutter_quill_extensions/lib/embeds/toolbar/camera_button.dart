@@ -85,15 +85,6 @@ class CameraButton extends StatelessWidget {
         'onImagePickCallback and onVideoPickCallback are both null',
       );
     }
-
-    var shouldShowPickPhotoByCamera = false;
-    var shouldShowRecordVideoByCamera = false;
-    if (onImagePickCallback != null) {
-      shouldShowPickPhotoByCamera = true;
-    }
-    if (onVideoPickCallback != null) {
-      shouldShowRecordVideoByCamera = true;
-    }
     final selector = cameraPickSettingSelector ??
         (context) => showDialog<MediaPickSetting>(
               context: context,
@@ -103,7 +94,7 @@ class CameraButton extends StatelessWidget {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (shouldShowPickPhotoByCamera)
+                    if (onImagePickCallback != null)
                       TextButton.icon(
                         icon: const Icon(
                           Icons.camera,
@@ -113,7 +104,7 @@ class CameraButton extends StatelessWidget {
                         onPressed: () =>
                             Navigator.pop(ctx, MediaPickSetting.Camera),
                       ),
-                    if (shouldShowRecordVideoByCamera)
+                    if (onVideoPickCallback != null)
                       TextButton.icon(
                         icon: const Icon(
                           Icons.video_call,
