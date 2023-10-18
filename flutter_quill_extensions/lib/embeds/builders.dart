@@ -130,91 +130,6 @@ class ImageEmbedBuilder extends EmbedBuilder {
           showDialog(
               context: context,
               builder: (context) {
-                final resizeOption = _SimpleDialogItem(
-                  icon: Icons.settings_outlined,
-                  color: Colors.lightBlueAccent,
-                  text: 'Resize'.i18n,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (context) {
-                        // This now will rebuilt only when there are changes
-                        // to the size only and not other properties
-                        // to reduce the builts and improve peformance
-                        final screenSize = MediaQuery.sizeOf(context);
-                        return ImageResizer(
-                          onImageResize: (w, h) {
-                            final res = getEmbedNode(
-                              controller,
-                              controller.selection.start,
-                            );
-                            // For desktop
-                            String _replaceStyleStringWithSize(
-                              String s,
-                              double width,
-                              double height,
-                            ) {
-                              final result = <String, String>{};
-                              final pairs = s.split(';');
-                              for (final pair in pairs) {
-                                final _index = pair.indexOf(':');
-                                if (_index < 0) {
-                                  continue;
-                                }
-                                final _key = pair.substring(0, _index).trim();
-                                result[_key] =
-                                    pair.substring(_index + 1).trim();
-                              }
-
-                              result[Attribute.width.key] = width.toString();
-                              result[Attribute.height.key] = height.toString();
-                              final sb = StringBuffer();
-                              for (final pair in result.entries) {
-                                sb
-                                  ..write(pair.key)
-                                  ..write(': ')
-                                  ..write(pair.value)
-                                  ..write('; ');
-                              }
-                              return sb.toString();
-                            }
-
-                            // TODO: Please consider add bool property in
-                            // replaceStyleString that will use either
-                            // mobileWidth or width based on that property
-                            // but that require changes to the flutter_quill
-                            // and it should be published and then we can
-                            // change it from flutter_quill_extensions
-
-                            final attr = base.isMobile()
-                                ? base.replaceStyleString(
-                                    getImageStyleString(controller),
-                                    w,
-                                    h,
-                                  )
-                                : _replaceStyleStringWithSize(
-                                    getImageStyleString(controller),
-                                    w,
-                                    h,
-                                  );
-                            controller
-                              ..skipRequestKeyboard = true
-                              ..formatText(
-                                res.offset,
-                                1,
-                                StyleAttribute(attr),
-                              );
-                          },
-                          imageWidth: imageSize?.width,
-                          imageHeight: imageSize?.height,
-                          maxWidth: screenSize.width,
-                          maxHeight: screenSize.height,
-                        );
-                      },
-                    );
-                  },
-                );
                 final copyOption = _SimpleDialogItem(
                   icon: Icons.copy_all_outlined,
                   color: Colors.cyanAccent,
@@ -267,7 +182,95 @@ class ImageEmbedBuilder extends EmbedBuilder {
                         ),
                       ),
                       children: [
-                        resizeOption,
+                        _SimpleDialogItem(
+                          icon: Icons.settings_outlined,
+                          color: Colors.lightBlueAccent,
+                          text: 'Resize'.i18n,
+                          onPressed: () {
+                            Navigator.pop(context);
+                            showCupertinoModalPopup<void>(
+                              context: context,
+                              builder: (context) {
+                                final screenSize = MediaQuery.sizeOf(context);
+                                return ImageResizer(
+                                  onImageResize: (w, h) {
+                                    final res = getEmbedNode(
+                                      controller,
+                                      controller.selection.start,
+                                    );
+                                    // For desktop
+                                    String _replaceStyleStringWithSize(
+                                      String s,
+                                      double width,
+                                      double height,
+                                    ) {
+                                      final result = <String, String>{};
+                                      final pairs = s.split(';');
+                                      for (final pair in pairs) {
+                                        final _index = pair.indexOf(':');
+                                        if (_index < 0) {
+                                          continue;
+                                        }
+                                        final _key =
+                                            pair.substring(0, _index).trim();
+                                        result[_key] =
+                                            pair.substring(_index + 1).trim();
+                                      }
+
+                                      result[Attribute.width.key] =
+                                          width.toString();
+                                      result[Attribute.height.key] =
+                                          height.toString();
+                                      final sb = StringBuffer();
+                                      for (final pair in result.entries) {
+                                        sb
+                                          ..write(pair.key)
+                                          ..write(': ')
+                                          ..write(pair.value)
+                                          ..write('; ');
+                                      }
+                                      return sb.toString();
+                                    }
+
+                                    // TODO: Please consider add bool
+                                    // property in
+                                    // replaceStyleString that will use either
+                                    // mobileWidth or width based on that
+                                    // property
+                                    // but that require changes to the
+                                    // flutter_quill
+                                    // and it should be
+                                    // published and then we can
+                                    // change it from flutter_quill_extensions
+
+                                    final attr = base.isMobile()
+                                        ? base.replaceStyleString(
+                                            getImageStyleString(controller),
+                                            w,
+                                            h,
+                                          )
+                                        : _replaceStyleStringWithSize(
+                                            getImageStyleString(controller),
+                                            w,
+                                            h,
+                                          );
+                                    controller
+                                      ..skipRequestKeyboard = true
+                                      ..formatText(
+                                        res.offset,
+                                        1,
+                                        StyleAttribute(attr),
+                                      );
+                                  },
+                                  imageWidth: imageSize?.width,
+                                  imageHeight: imageSize?.height,
+                                  maxWidth: screenSize.width,
+                                  maxHeight: screenSize.height,
+                                );
+                              },
+                            );
+                          },
+                        ),
                         copyOption,
                         removeOption,
                       ]),
