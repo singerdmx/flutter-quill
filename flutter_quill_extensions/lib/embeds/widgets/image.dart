@@ -28,7 +28,7 @@ String getImageStyleString(QuillController controller) {
   return s ?? '';
 }
 
-Image imageByUrl(
+Image getQuillImageByUrl(
   String imageUrl, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required ImageErrorWidgetBuilder? imageErrorWidgetBuilder,
@@ -124,7 +124,7 @@ class ImageTapWrapper extends StatelessWidget {
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.sizeOf(context).height,
         ),
         child: Stack(
           children: [
@@ -145,7 +145,7 @@ class ImageTapWrapper extends StatelessWidget {
             ),
             Positioned(
               right: 10,
-              top: MediaQuery.of(context).padding.top + 10.0,
+              top: MediaQuery.paddingOf(context).top + 10.0,
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);

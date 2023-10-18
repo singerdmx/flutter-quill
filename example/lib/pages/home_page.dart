@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Container(
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+            BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.7),
         color: Colors.grey.shade800,
         child: _buildMenuBar(context),
       ),
@@ -408,7 +408,7 @@ class _HomePageState extends State<HomePage> {
       );
 
   Widget _buildMenuBar(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     const itemStyle = TextStyle(
       color: Colors.white,
       fontSize: 18,

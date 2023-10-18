@@ -497,7 +497,7 @@ class QuillEditorState extends State<QuillEditor>
           cupertinoTheme.primaryColor.withOpacity(0.40);
       cursorRadius ??= const Radius.circular(2);
       cursorOffset = Offset(
-          iOSHorizontalOffset / MediaQuery.of(context).devicePixelRatio, 0);
+          iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context), 0);
     } else {
       textSelectionControls = materialTextSelectionControls;
       paintCursorAboveText = false;

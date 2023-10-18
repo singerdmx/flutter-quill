@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io' show File;
 
 import 'package:flutter/cupertino.dart';
@@ -54,40 +55,68 @@ class ImageEmbedBuilder extends EmbedBuilder {
     final imageUrl = standardizeImageUrl(node.value.data);
     OptionalSize? imageSize;
     final style = node.style.attributes['style'];
-    if (base.isMobile() && style != null) {
-      final attrs = base.parseKeyValuePairs(style.value.toString(), {
-        Attribute.mobileWidth,
-        Attribute.mobileHeight,
-        Attribute.mobileMargin,
-        Attribute.mobileAlignment
-      });
+
+    // TODO: Please use the one from [Attribute]
+    const marginKey = 'margin';
+    const alignmentKey = 'alignment';
+    if (style != null) {
+      final attrs = base.isMobile()
+          ? base.parseKeyValuePairs(style.value.toString(), {
+              Attribute.mobileWidth,
+              Attribute.mobileHeight,
+              Attribute.mobileMargin,
+              Attribute.mobileAlignment,
+            })
+          : base.parseKeyValuePairs(style.value.toString(), {
+              Attribute.width.key,
+              Attribute.height.key,
+              marginKey,
+              alignmentKey,
+            });
       if (attrs.isNotEmpty) {
+        final width = double.tryParse(
+          (base.isMobile()
+                  ? attrs[Attribute.mobileWidth]
+                  : attrs[Attribute.width.key]) ??
+              '',
+        );
+        final height = double.tryParse(
+          (base.isMobile()
+                  ? attrs[Attribute.mobileHeight]
+                  : attrs[Attribute.height.key]) ??
+              '',
+        );
+        final alignment = base.getAlignment(base.isMobile()
+            ? attrs[Attribute.mobileAlignment]
+            : attrs[alignmentKey]);
+        final margin = (base.isMobile()
+                ? double.tryParse(Attribute.mobileMargin)
+                : double.tryParse(marginKey)) ??
+            0.0;
+
         assert(
-            attrs[Attribute.mobileWidth] != null &&
-                attrs[Attribute.mobileHeight] != null,
-            'mobileWidth and mobileHeight must be specified');
-        final w = double.parse(attrs[Attribute.mobileWidth]!);
-        final h = double.parse(attrs[Attribute.mobileHeight]!);
-        imageSize = OptionalSize(w, h);
-        final m = attrs[Attribute.mobileMargin] == null
-            ? 0.0
-            : double.parse(attrs[Attribute.mobileMargin]!);
-        final a = base.getAlignment(attrs[Attribute.mobileAlignment]);
+          width != null && height != null,
+          base.isMobile()
+              ? 'mobileWidth and mobileHeight must be specified'
+              : 'width and height must be specified',
+        );
+        imageSize = OptionalSize(width, height);
         image = Padding(
-            padding: EdgeInsets.all(m),
-            child: imageByUrl(
-              imageUrl,
-              width: w,
-              height: h,
-              alignment: a,
-              imageProviderBuilder: imageProviderBuilder,
-              imageErrorWidgetBuilder: imageErrorWidgetBuilder,
-            ));
+          padding: EdgeInsets.all(margin),
+          child: getQuillImageByUrl(
+            imageUrl,
+            width: width,
+            height: height,
+            alignment: alignment,
+            imageProviderBuilder: imageProviderBuilder,
+            imageErrorWidgetBuilder: imageErrorWidgetBuilder,
+          ),
+        );
       }
     }
 
     if (imageSize == null) {
-      image = imageByUrl(
+      image = getQuillImageByUrl(
         imageUrl,
         imageProviderBuilder: imageProviderBuilder,
         imageErrorWidgetBuilder: imageErrorWidgetBuilder,
@@ -108,26 +137,89 @@ class ImageEmbedBuilder extends EmbedBuilder {
                   onPressed: () {
                     Navigator.pop(context);
                     showCupertinoModalPopup<void>(
-                        context: context,
-                        builder: (context) {
-                          final screenSize = MediaQuery.of(context).size;
-                          return ImageResizer(
-                            onImageResize: (w, h) {
-                              final res = getEmbedNode(
-                                  controller, controller.selection.start);
-                              final attr = base.replaceStyleString(
-                                  getImageStyleString(controller), w, h);
-                              controller
-                                ..skipRequestKeyboard = true
-                                ..formatText(
-                                    res.offset, 1, StyleAttribute(attr));
-                            },
-                            imageWidth: imageSize?.width,
-                            imageHeight: imageSize?.height,
-                            maxWidth: screenSize.width,
-                            maxHeight: screenSize.height,
-                          );
-                        });
+                      context: context,
+                      builder: (context) {
+                        // This now will rebuilt only when there are changes
+                        // to the size only and not other properties
+                        // to reduce the builts and improve peformance
+                        final screenSize = MediaQuery.sizeOf(context);
+                        return ImageResizer(
+                          onImageResize: (w, h) {
+                            print('Width = $w, Height = $h');
+                            final res = getEmbedNode(
+                              controller,
+                              controller.selection.start,
+                            );
+                            // For desktop
+                            String _replaceStyleStringWithSize(
+                              String s,
+                              double width,
+                              double height,
+                            ) {
+                              final result = <String, String>{};
+                              final pairs = s.split(';');
+                              for (final pair in pairs) {
+                                final _index = pair.indexOf(':');
+                                if (_index < 0) {
+                                  continue;
+                                }
+                                final _key = pair.substring(0, _index).trim();
+                                result[_key] =
+                                    pair.substring(_index + 1).trim();
+                              }
+
+                              result[Attribute.width.key] = width.toString();
+                              result[Attribute.height.key] = height.toString();
+                              final sb = StringBuffer();
+                              for (final pair in result.entries) {
+                                sb
+                                  ..write(pair.key)
+                                  ..write(': ')
+                                  ..write(pair.value)
+                                  ..write('; ');
+                              }
+                              return sb.toString();
+                            }
+
+                            // TODO: Please consider add bool property in
+                            // replaceStyleString that will use either
+                            // mobileWidth or width based on that property
+                            // but that require changes to the flutter_quill
+                            // and it should be published and then we can
+                            // change it from flutter_quill_extensions
+
+                            final attr = base.isMobile()
+                                ? base.replaceStyleString(
+                                    getImageStyleString(controller),
+                                    w,
+                                    h,
+                                  )
+                                : _replaceStyleStringWithSize(
+                                    getImageStyleString(controller),
+                                    w,
+                                    h,
+                                  );
+                            controller
+                              ..skipRequestKeyboard = true
+                              ..formatText(
+                                res.offset,
+                                1,
+                                StyleAttribute(attr),
+                              );
+
+                            print(
+                              jsonEncode(
+                                controller.document.toDelta().toJson(),
+                              ),
+                            );
+                          },
+                          imageWidth: imageSize?.width,
+                          imageHeight: imageSize?.height,
+                          maxWidth: screenSize.width,
+                          maxHeight: screenSize.height,
+                        );
+                      },
+                    );
                   },
                 );
                 final copyOption = _SimpleDialogItem(
@@ -182,7 +274,7 @@ class ImageEmbedBuilder extends EmbedBuilder {
                         ),
                       ),
                       children: [
-                        if (base.isMobile()) resizeOption,
+                        resizeOption,
                         copyOption,
                         removeOption,
                       ]),
@@ -332,76 +424,81 @@ Widget _menuOptionsForReadonlyImage({
   return GestureDetector(
       onTap: () {
         showDialog(
-            context: context,
-            builder: (context) {
-              final saveOption = _SimpleDialogItem(
-                icon: Icons.save,
-                color: Colors.greenAccent,
-                text: 'Save'.i18n,
-                onPressed: () async {
-                  imageUrl = appendFileExtensionToImageUrl(imageUrl);
-                  final messenger = ScaffoldMessenger.of(context);
-                  Navigator.of(context).pop();
+          context: context,
+          builder: (context) {
+            final saveOption = _SimpleDialogItem(
+              icon: Icons.save,
+              color: Colors.greenAccent,
+              text: 'Save'.i18n,
+              onPressed: () async {
+                imageUrl = appendFileExtensionToImageUrl(imageUrl);
+                final messenger = ScaffoldMessenger.of(context);
+                Navigator.of(context).pop();
 
-                  final saveImageResult = await saveImage(imageUrl);
-                  final imageSavedSuccessfully = saveImageResult.isSuccess;
+                final saveImageResult = await saveImage(imageUrl);
+                final imageSavedSuccessfully = saveImageResult.isSuccess;
 
-                  messenger.clearSnackBars();
+                messenger.clearSnackBars();
 
-                  if (!imageSavedSuccessfully) {
-                    messenger.showSnackBar(SnackBar(
-                        content: Text(
-                      'Error while saving image'.i18n,
-                    )));
-                    return;
-                  }
+                if (!imageSavedSuccessfully) {
+                  messenger.showSnackBar(SnackBar(
+                      content: Text(
+                    'Error while saving image'.i18n,
+                  )));
+                  return;
+                }
 
-                  var message;
-                  switch (saveImageResult.method) {
-                    case SaveImageResultMethod.network:
-                      message = 'Saved using the network'.i18n;
-                      break;
-                    case SaveImageResultMethod.localStorage:
-                      message = 'Saved using the local storage'.i18n;
-                      break;
-                  }
+                var message;
+                switch (saveImageResult.method) {
+                  case SaveImageResultMethod.network:
+                    message = 'Saved using the network'.i18n;
+                    break;
+                  case SaveImageResultMethod.localStorage:
+                    message = 'Saved using the local storage'.i18n;
+                    break;
+                }
 
-                  messenger.showSnackBar(
-                    SnackBar(
-                      content: Text(message),
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text(message),
+                  ),
+                );
+              },
+            );
+            final zoomOption = _SimpleDialogItem(
+              icon: Icons.zoom_in,
+              color: Colors.cyanAccent,
+              text: 'Zoom'.i18n,
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  // TODO: Consider add support for other theme system
+                  // like Cupertino or at least add the option to by
+                  // by using PageRoute as option so dev can ovveride this
+                  // this change should be done in all places if you want to
+                  MaterialPageRoute(
+                    builder: (context) => ImageTapWrapper(
+                      imageUrl: imageUrl,
+                      imageProviderBuilder: imageProviderBuilder,
+                      imageErrorWidgetBuilder: imageErrorWidgetBuilder,
                     ),
-                  );
-                },
-              );
-              final zoomOption = _SimpleDialogItem(
-                icon: Icons.zoom_in,
-                color: Colors.cyanAccent,
-                text: 'Zoom'.i18n,
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    // TODO: Consider add support for other theme system
-                    // like Cupertino or at least add the option to by
-                    // by using PageRoute as option so dev can ovveride this
-                    // this change should be done in all places if you want to
-                    MaterialPageRoute(
-                      builder: (context) => ImageTapWrapper(
-                        imageUrl: imageUrl,
-                        imageProviderBuilder: imageProviderBuilder,
-                        imageErrorWidgetBuilder: imageErrorWidgetBuilder,
-                      ),
-                    ),
-                  );
-                },
-              );
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                child: SimpleDialog(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    children: [saveOption, zoomOption]),
-              );
-            });
+                  ),
+                );
+              },
+            );
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+              child: SimpleDialog(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                children: [saveOption, zoomOption],
+              ),
+            );
+          },
+        );
       },
       child: image);
 }

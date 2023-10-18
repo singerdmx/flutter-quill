@@ -42,6 +42,11 @@ class _ImageResizerState extends State<ImageResizer> {
         return _showCupertinoMenu();
       case TargetPlatform.android:
         return _showMaterialMenu();
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+      case TargetPlatform.linux:
+      case TargetPlatform.fuchsia:
+        return _showMaterialMenu();
       default:
         throw 'Not supposed to be invoked for $defaultTargetPlatform';
     }
@@ -68,7 +73,11 @@ class _ImageResizerState extends State<ImageResizer> {
   }
 
   Widget _slider(
-      double value, double max, String label, ValueChanged<double> onChanged) {
+    double value,
+    double max,
+    String label,
+    ValueChanged<double> onChanged,
+  ) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Card(

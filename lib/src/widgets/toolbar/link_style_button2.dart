@@ -245,9 +245,8 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
     final constraints = widget.constraints ??
         widget.dialogTheme?.linkDialogConstraints ??
         () {
-          final mediaQuery = MediaQuery.of(context);
-          final maxWidth =
-              kIsWeb ? mediaQuery.size.width / 4 : mediaQuery.size.width - 80;
+          final size = MediaQuery.sizeOf(context);
+          final maxWidth = kIsWeb ? size.width / 4 : size.width - 80;
           return BoxConstraints(maxWidth: maxWidth, maxHeight: 80);
         }();
 

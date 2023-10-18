@@ -110,6 +110,12 @@ class Attribute<T> {
 
   static const String mobileAlignment = 'mobileAlignment';
 
+  /// For other platforms, for mobile use [mobileAlignment]
+  static const String alignment = 'alignment';
+
+  /// For other platforms, for mobile use [mobileMargin]
+  static const String margin = 'margin';
+
   static const ImageAttribute image = ImageAttribute(null);
 
   static const VideoAttribute video = VideoAttribute(null);

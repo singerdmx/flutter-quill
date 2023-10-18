@@ -45,7 +45,7 @@ class ImageEmbedBuilderWeb extends EmbedBuilder {
       // TODO: handle imageUrl of base64
       return const SizedBox();
     }
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     UniversalUI().platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
       return html.ImageElement()
         ..src = imageUrl
@@ -61,7 +61,7 @@ class ImageEmbedBuilderWeb extends EmbedBuilder {
                 : size.width * 0.2,
       ),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.45,
+        height: MediaQuery.sizeOf(context).height * 0.45,
         child: HtmlElementView(
           viewType: imageUrl,
         ),
@@ -94,8 +94,8 @@ class VideoEmbedBuilderWeb extends EmbedBuilder {
     UniversalUI().platformViewRegistry.registerViewFactory(
         videoUrl,
         (id) => html.IFrameElement()
-          ..width = MediaQuery.of(context).size.width.toString()
-          ..height = MediaQuery.of(context).size.height.toString()
+          ..width = MediaQuery.sizeOf(context).width.toString()
+          ..height = MediaQuery.sizeOf(context).height.toString()
           ..src = videoUrl
           ..style.border = 'none');
 
