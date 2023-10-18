@@ -56,8 +56,9 @@ class ImageEmbedBuilder extends EmbedBuilder {
     OptionalSize? imageSize;
     final style = node.style.attributes['style'];
 
-    // TODO: Please use the one from [Attribute]
+    // TODO: Please use the one from [Attribute.margin]
     const marginKey = 'margin';
+    // TODO: Please use the one from [Attribute.alignment]
     const alignmentKey = 'alignment';
     if (style != null) {
       final attrs = base.isMobile()
@@ -145,7 +146,6 @@ class ImageEmbedBuilder extends EmbedBuilder {
                         final screenSize = MediaQuery.sizeOf(context);
                         return ImageResizer(
                           onImageResize: (w, h) {
-                            print('Width = $w, Height = $h');
                             final res = getEmbedNode(
                               controller,
                               controller.selection.start,
@@ -206,12 +206,6 @@ class ImageEmbedBuilder extends EmbedBuilder {
                                 1,
                                 StyleAttribute(attr),
                               );
-
-                            print(
-                              jsonEncode(
-                                controller.document.toDelta().toJson(),
-                              ),
-                            );
                           },
                           imageWidth: imageSize?.width,
                           imageHeight: imageSize?.height,

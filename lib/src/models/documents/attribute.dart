@@ -102,6 +102,8 @@ class Attribute<T> {
 
   static final ScriptAttribute script = ScriptAttribute(null);
 
+  // TODO: You might want to mark those as key (mobileWidthKey)
+  // because it was not very clear to a developer that is new to this project
   static const String mobileWidth = 'mobileWidth';
 
   static const String mobileHeight = 'mobileHeight';
