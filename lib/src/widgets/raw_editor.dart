@@ -757,6 +757,9 @@ class RawEditorState extends EditorState
         controller.document.queryChild(controller.selection.baseOffset);
 
     KeyEventResult insertTabCharacter() {
+      if (widget.readOnly) {
+        return KeyEventResult.ignored;
+      }
       controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
       _moveCursor(1);
       return KeyEventResult.handled;
