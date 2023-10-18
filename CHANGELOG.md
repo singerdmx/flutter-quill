@@ -1,7 +1,7 @@
 # [7.4.12]
 - Update the minimum version of device_info_plus to 9.1.0.
 - Custom style attrbuites for platforms other than mobile (alignment, margin, width, height)
-- Improve performance by reduce numbers of widget rebuilt by listen to media query for only the needed things
+- Improve performance by reducing the number of widgets rebuilt by listening to media query for only the needed things, for example instead of using `MediaQuery.of(context).size`, now we are using `MediaQuery.sizeOf(context)`
 - 
 # [7.4.11]
 - Add sw locale.
