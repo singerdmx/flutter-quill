@@ -206,9 +206,10 @@ extension Localization on String {
           'Find text': 'بحث عن نص',
           'Move to previous occurrence': 'الانتقال إلى الحدث السابق',
           'Move to next occurrence': 'الانتقال إلى الحدث التالي',
-          'Saved using the network': 'Saved using the network',
-          'Saved using the local storage': 'Saved using the local storage',
-          'Error while saving image': 'Error while saving image',
+          'Saved using the network': 'تم الحفظ باستخدام الشبكة',
+          'Saved using the local storage':
+              'تم الحفظ باستخدام وحدة التخزين المحلية',
+          'Error while saving image': 'حدث خطأ أثناء حفظ الصورة',
         },
         'da': {
           'Paste a link': 'Indsæt link',
