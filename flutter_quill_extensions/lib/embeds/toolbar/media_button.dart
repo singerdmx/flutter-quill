@@ -344,10 +344,8 @@ class _MediaLinkDialogState extends State<MediaLinkDialog> {
   void _submitLink() => Navigator.pop(context, _linkController.text);
 
   String? _validateLink(String? value) {
-    // TODO: Use [AutoFormatMultipleLinksRule.oneLineRegExp]
-    // in the next update
     if ((value?.isEmpty ?? false) ||
-        !AutoFormatMultipleLinksRule.linkRegExp.hasMatch(value!)) {
+        !AutoFormatMultipleLinksRule.oneLineRegExp.hasMatch(value!)) {
       return widget.validationMessage ?? 'That is not a valid URL';
     }
 
