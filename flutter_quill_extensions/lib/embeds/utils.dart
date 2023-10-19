@@ -1,6 +1,6 @@
 import 'dart:io' show File;
 
-import 'package:flutter/foundation.dart' show Uint8List;
+import 'package:flutter/foundation.dart' show Uint8List, immutable;
 import 'package:gal/gal.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,6 +41,7 @@ bool isImageBase64(String imageUrl) {
 
 enum SaveImageResultMethod { network, localStorage }
 
+@immutable
 class _SaveImageResult {
   const _SaveImageResult({required this.isSuccess, required this.method});
 

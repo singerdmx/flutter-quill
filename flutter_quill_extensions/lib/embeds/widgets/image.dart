@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
 
+import '../embed_types.dart';
 import '../utils.dart';
 
 const List<String> imageFileExtensions = [
@@ -27,21 +28,44 @@ String getImageStyleString(QuillController controller) {
   return s ?? '';
 }
 
-Image imageByUrl(String imageUrl,
-    {double? width,
-    double? height,
-    AlignmentGeometry alignment = Alignment.center}) {
+Image getQuillImageByUrl(
+  String imageUrl, {
+  required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
+  required ImageErrorWidgetBuilder? imageErrorWidgetBuilder,
+  double? width,
+  double? height,
+  AlignmentGeometry alignment = Alignment.center,
+}) {
   if (isImageBase64(imageUrl)) {
     return Image.memory(base64.decode(imageUrl),
         width: width, height: height, alignment: alignment);
   }
 
-  if (imageUrl.startsWith('http')) {
-    return Image.network(imageUrl,
-        width: width, height: height, alignment: alignment);
+  if (imageProviderBuilder != null) {
+    return Image(
+      image: imageProviderBuilder(imageUrl),
+      width: width,
+      height: height,
+      alignment: alignment,
+      errorBuilder: imageErrorWidgetBuilder,
+    );
   }
-  return Image.file(File(imageUrl),
-      width: width, height: height, alignment: alignment);
+  if (isHttpBasedUrl(imageUrl)) {
+    return Image.network(
+      imageUrl,
+      width: width,
+      height: height,
+      alignment: alignment,
+      errorBuilder: imageErrorWidgetBuilder,
+    );
+  }
+  return Image.file(
+    File(imageUrl),
+    width: width,
+    height: height,
+    alignment: alignment,
+    errorBuilder: imageErrorWidgetBuilder,
+  );
 }
 
 String standardizeImageUrl(String url) {
@@ -73,12 +97,22 @@ String appendFileExtensionToImageUrl(String url) {
 class ImageTapWrapper extends StatelessWidget {
   const ImageTapWrapper({
     required this.imageUrl,
+    required this.imageProviderBuilder,
+    required this.imageErrorWidgetBuilder,
   });
 
   final String imageUrl;
+  final ImageEmbedBuilderProviderBuilder? imageProviderBuilder;
+  final ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder;
 
-  ImageProvider _imageProviderByUrl(String imageUrl) {
-    if (imageUrl.startsWith('http')) {
+  ImageProvider _imageProviderByUrl(
+    String imageUrl, {
+    required ImageEmbedBuilderProviderBuilder? customImageProviderBuilder,
+  }) {
+    if (customImageProviderBuilder != null) {
+      return customImageProviderBuilder(imageUrl);
+    }
+    if (isHttpBasedUrl(imageUrl)) {
       return NetworkImage(imageUrl);
     }
 
@@ -90,12 +124,16 @@ class ImageTapWrapper extends StatelessWidget {
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.sizeOf(context).height,
         ),
         child: Stack(
           children: [
             PhotoView(
-              imageProvider: _imageProviderByUrl(imageUrl),
+              imageProvider: _imageProviderByUrl(
+                imageUrl,
+                customImageProviderBuilder: imageProviderBuilder,
+              ),
+              errorBuilder: imageErrorWidgetBuilder,
               loadingBuilder: (context, event) {
                 return Container(
                   color: Colors.black,
@@ -107,7 +145,7 @@ class ImageTapWrapper extends StatelessWidget {
             ),
             Positioned(
               right: 10,
-              top: MediaQuery.of(context).padding.top + 10.0,
+              top: MediaQuery.paddingOf(context).top + 10.0,
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);

@@ -118,7 +118,8 @@ class MediaButton extends StatelessWidget {
   Future<void> _pickImage() async {
     if (!(kIsWeb || isMobile() || isDesktop())) {
       throw UnsupportedError(
-          'Unsupported target platform: ${defaultTargetPlatform.name}');
+        'Unsupported target platform: ${defaultTargetPlatform.name}',
+      );
     }
 
     final mediaFileUrl = await _pickMediaFileUrl();
@@ -127,7 +128,11 @@ class MediaButton extends StatelessWidget {
       final index = controller.selection.baseOffset;
       final length = controller.selection.extentOffset - index;
       controller.replaceText(
-          index, length, BlockEmbed.image(mediaFileUrl), null);
+        index,
+        length,
+        BlockEmbed.image(mediaFileUrl),
+        null,
+      );
     }
   }
 
@@ -219,9 +224,8 @@ class _MediaLinkDialogState extends State<MediaLinkDialog> {
   Widget build(BuildContext context) {
     final constraints = widget.dialogTheme?.linkDialogConstraints ??
         () {
-          final mediaQuery = MediaQuery.of(context);
-          final maxWidth =
-              kIsWeb ? mediaQuery.size.width / 4 : mediaQuery.size.width - 80;
+          final size = MediaQuery.sizeOf(context);
+          final maxWidth = kIsWeb ? size.width / 4 : size.width - 80;
           return BoxConstraints(maxWidth: maxWidth, maxHeight: 80);
         }();
 
@@ -333,13 +337,13 @@ class MediaSourceSelectorDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final constraints = dialogTheme?.mediaSelectorDialogConstraints ??
         () {
-          final mediaQuery = MediaQuery.of(context);
+          final size = MediaQuery.sizeOf(context);
           double maxWidth, maxHeight;
           if (kIsWeb) {
-            maxWidth = mediaQuery.size.width / 7;
-            maxHeight = mediaQuery.size.height / 7;
+            maxWidth = size.width / 7;
+            maxHeight = size.height / 7;
           } else {
-            maxWidth = mediaQuery.size.width - 80;
+            maxWidth = size.width - 80;
             maxHeight = maxWidth / 2;
           }
           return BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight);

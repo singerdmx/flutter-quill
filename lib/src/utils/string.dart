@@ -19,7 +19,26 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   return result;
 }
 
-String replaceStyleString(String s, double width, double height) {
+@Deprecated('Use replaceStyleStringWithSize instead')
+String replaceStyleString(
+  String s,
+  double width,
+  double height,
+) {
+  return replaceStyleStringWithSize(
+    s,
+    width: width,
+    height: height,
+    isMobile: true,
+  );
+}
+
+String replaceStyleStringWithSize(
+  String s, {
+  required double width,
+  required double height,
+  required bool isMobile,
+}) {
   final result = <String, String>{};
   final pairs = s.split(';');
   for (final pair in pairs) {
@@ -31,8 +50,13 @@ String replaceStyleString(String s, double width, double height) {
     result[_key] = pair.substring(_index + 1).trim();
   }
 
-  result[Attribute.mobileWidth] = width.toString();
-  result[Attribute.mobileHeight] = height.toString();
+  if (isMobile) {
+    result[Attribute.mobileWidth] = width.toString();
+    result[Attribute.mobileHeight] = height.toString();
+  } else {
+    result[Attribute.width.key] = width.toString();
+    result[Attribute.height.key] = height.toString();
+  }
   final sb = StringBuffer();
   for (final pair in result.entries) {
     sb

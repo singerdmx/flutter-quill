@@ -59,8 +59,14 @@ class Rules {
     _customRules = customRules;
   }
 
-  Delta apply(RuleType ruleType, Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta apply(
+    RuleType ruleType,
+    Document document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     final delta = document.toDelta();
     for (final rule in _customRules + _rules) {
       if (rule.type != ruleType) {
@@ -76,6 +82,8 @@ class Rules {
         rethrow;
       }
     }
-    throw 'Apply rules failed';
+    throw FormatException(
+      'Apply delta rules failed. No matching rule found for type: $ruleType',
+    );
   }
 }

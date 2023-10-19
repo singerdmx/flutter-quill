@@ -64,20 +64,47 @@ class ImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    if (onImagePickCallback != null) {
-      final selector =
-          mediaPickSettingSelector ?? ImageVideoUtils.selectMediaPickSetting;
-      final source = await selector(context);
-      if (source != null) {
-        if (source == MediaPickSetting.Gallery) {
-          _pickImage(context);
-        } else {
-          _typeLink(context);
-        }
-      }
-    } else {
+    final onImagePickCallbackRef = onImagePickCallback;
+    if (onImagePickCallbackRef == null) {
       _typeLink(context);
+      return;
     }
+    final selector =
+        mediaPickSettingSelector ?? ImageVideoUtils.selectMediaPickSetting;
+    final source = await selector(context);
+    if (source == null) {
+      return;
+    }
+    switch (source) {
+      case MediaPickSetting.Gallery:
+        _pickImage(context);
+        break;
+      case MediaPickSetting.Link:
+        _typeLink(context);
+        break;
+      case MediaPickSetting.Camera:
+        await ImageVideoUtils.handleImageButtonTap(
+          context,
+          controller,
+          ImageSource.camera,
+          onImagePickCallbackRef,
+          filePickImpl: filePickImpl,
+          webImagePickImpl: webImagePickImpl,
+        );
+        break;
+      case MediaPickSetting.Video:
+        throw ArgumentError(
+          'Sorry but this is the Image button and not the video one',
+        );
+    }
+
+    // This will not work for the pick image using camera (bug fix)
+    // if (source != null) {
+    //   if (source == MediaPickSetting.Gallery) {
+
+    //   } else {
+    //     _typeLink(context);
+    //   }
   }
 
   void _pickImage(BuildContext context) => ImageVideoUtils.handleImageButtonTap(

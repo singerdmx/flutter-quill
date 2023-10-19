@@ -72,10 +72,34 @@ class FlutterQuillEmbeds {
   ///     ),
   ///   );
   ///
-  ///   // Return `true` to allow image removal if the user confirms, otherwise `false`
+  ///   // Return `true` to allow image removal if the user confirms, otherwise
+  ///  `false`
   ///   return isShouldRemove;
   /// }
   /// ```
+  ///
+  /// [imageProviderBuilder] if you want to use custom image provider, please
+  /// pass a value to this property
+  /// By default we will use [NetworkImage] provider if the image url/path
+  /// is using http/https, if not then we will use [FileImage] provider
+  /// If you ovveride this make sure to handle the case where if the [imageUrl]
+  /// is in the local storage or it does exists in the system file
+  /// or use the same way we did it
+  ///
+  /// Example of [imageProviderBuilder] customization:
+  /// ```dart
+  /// imageProviderBuilder: (imageUrl) async {
+  /// // Example of using cached_network_image package
+  /// // Don't forgot to check if that image is local or network one
+  /// return CachedNetworkImageProvider(imageUrl);
+  /// }
+  /// ```
+  ///
+  /// [imageErrorWidgetBuilder] if you want to show a custom widget based on the
+  /// exception that happen while loading the image, if it network image or
+  /// local one, and it will get called on all the images even in the photo
+  /// preview widget and not just in the quill editor
+  /// by default the default error from flutter framework will thrown
   ///
   /// [forceUseMobileOptionMenuForImageClick] is a boolean
   /// flag that, when set to `true`,
@@ -107,10 +131,14 @@ class FlutterQuillEmbeds {
     void Function(GlobalKey videoContainerKey)? onVideoInit,
     ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
+    ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
+    ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder,
     bool forceUseMobileOptionMenuForImageClick = false,
   }) =>
       [
         ImageEmbedBuilder(
+          imageErrorWidgetBuilder: imageErrorWidgetBuilder,
+          imageProviderBuilder: imageProviderBuilder,
           forceUseMobileOptionMenu: forceUseMobileOptionMenuForImageClick,
           onImageRemovedCallback: onImageRemovedCallback ??
               (imageFile) async {
