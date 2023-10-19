@@ -42,7 +42,6 @@ android {
     }
 
     defaultConfig {
-        // I removed the todo because it's not required for this example
         applicationId "com.example.app"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
@@ -53,7 +52,6 @@ android {
 
     buildTypes {
         release {
-            // I removed the todo because it's not required for this example
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
