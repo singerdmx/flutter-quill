@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 // ignore: unnecessary_import
 import 'dart:typed_data';
 
@@ -193,6 +192,7 @@ class QuillEditor extends StatefulWidget {
     this.contentInsertionConfiguration,
     this.contextMenuBuilder,
     this.editorKey,
+    this.textSelectionColor,
     Key? key,
   }) : super(key: key);
 
@@ -455,6 +455,11 @@ class QuillEditor extends StatefulWidget {
   /// editorKey.currentState?.renderEditor.getLocalRectForCaret
   final GlobalKey<EditorState>? editorKey;
 
+  /// Allows for providing a custom text selection color.
+  ///
+  /// Defaults to Material selectionTheme or primary color.
+  final Color? textSelectionColor;
+
   @override
   QuillEditorState createState() => QuillEditorState();
 }
@@ -493,7 +498,8 @@ class QuillEditorState extends State<QuillEditor>
       paintCursorAboveText = true;
       cursorOpacityAnimates = true;
       cursorColor ??= selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
-      selectionColor = selectionTheme.selectionColor ??
+      selectionColor = widget.textSelectionColor ??
+          selectionTheme.selectionColor ??
           cupertinoTheme.primaryColor.withOpacity(0.40);
       cursorRadius ??= const Radius.circular(2);
       cursorOffset = Offset(
@@ -503,7 +509,8 @@ class QuillEditorState extends State<QuillEditor>
       paintCursorAboveText = false;
       cursorOpacityAnimates = false;
       cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
-      selectionColor = selectionTheme.selectionColor ??
+      selectionColor = widget.textSelectionColor ??
+          selectionTheme.selectionColor ??
           theme.colorScheme.primary.withOpacity(0.40);
     }
 
