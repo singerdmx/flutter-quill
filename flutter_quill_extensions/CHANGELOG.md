@@ -1,11 +1,9 @@
-## 0.5.2
+## 0.5.1
 - Provide a way to use custom image provider for the image widgets
 - Provide a way to handle different errors in image widgets
 - Two bug fixes related to pick the image and capture it using the camera
 - Add support for image resizing on desktop platforms when forced using the mobile context menu
 - Improve performance by reducing the number of widgets rebuilt by listening to media query for only the needed things, for example instead of using `MediaQuery.of(context).size`, now we are using `MediaQuery.sizeOf(context)`
-
-## 0.5.1
 - Fix warrning "The platformViewRegistry getter is deprecated and will be removed in a future release. Please import it from dart:ui_web instead."
 - Add QuillImageUtilities class
 - Small improvemenets
