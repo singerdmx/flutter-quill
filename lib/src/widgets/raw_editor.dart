@@ -539,7 +539,7 @@ class RawEditorState extends EditorState
     // so if we ovveride the platform in material app theme data
     // it will not depend on it and doesn't change here but I don't think
     // we need to
-    final isMacOS = isAppleOS();
+    final isDesktopMacOS = isMacOS();
 
     return TextFieldTapRegion(
       enabled: widget.enableUnfocusOnTapOutside,
@@ -554,125 +554,125 @@ class RawEditorState extends EditorState
             ): const HideSelectionToolbarIntent(),
             SingleActivator(
               LogicalKeyboardKey.keyZ,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const UndoTextIntent(SelectionChangedCause.keyboard),
             SingleActivator(
               LogicalKeyboardKey.keyY,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const RedoTextIntent(SelectionChangedCause.keyboard),
 
             // Selection formatting.
             SingleActivator(
               LogicalKeyboardKey.keyB,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.bold),
             SingleActivator(
               LogicalKeyboardKey.keyU,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.underline),
             SingleActivator(
               LogicalKeyboardKey.keyI,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.italic),
             SingleActivator(
               LogicalKeyboardKey.keyS,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.strikeThrough),
             SingleActivator(
               LogicalKeyboardKey.backquote,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.inlineCode),
             SingleActivator(
               LogicalKeyboardKey.tilde,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.codeBlock),
             SingleActivator(
               LogicalKeyboardKey.keyB,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.blockQuote),
             SingleActivator(
               LogicalKeyboardKey.keyK,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyLinkIntent(),
 
             // Lists
             SingleActivator(
               LogicalKeyboardKey.keyL,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.ul),
             SingleActivator(
               LogicalKeyboardKey.keyO,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.ol),
             SingleActivator(
               LogicalKeyboardKey.keyC,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ApplyCheckListIntent(),
 
             // Indents
             SingleActivator(
               LogicalKeyboardKey.keyM,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const IndentSelectionIntent(true),
             SingleActivator(
               LogicalKeyboardKey.keyM,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const IndentSelectionIntent(false),
 
             // Headers
             SingleActivator(
               LogicalKeyboardKey.digit1,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.h1),
             SingleActivator(
               LogicalKeyboardKey.digit2,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.h2),
             SingleActivator(
               LogicalKeyboardKey.digit3,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.h3),
             SingleActivator(
               LogicalKeyboardKey.digit0,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.header),
 
             SingleActivator(
               LogicalKeyboardKey.keyG,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const InsertEmbedIntent(Attribute.image),
 
             SingleActivator(
               LogicalKeyboardKey.keyF,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const OpenSearchIntent(),
           }, {
             ...?widget.customShortcuts
