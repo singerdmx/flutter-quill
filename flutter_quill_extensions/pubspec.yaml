@@ -12,9 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # flutter_quill: ^7.4.14
-  flutter_quill:
-    path: /Users/ahmedhnewa/development/playground/framework_based/flutter/flutter-quill
+  flutter_quill: ^7.4.14
 
   http: ^1.1.0
   image_picker: ">=1.0.4"
