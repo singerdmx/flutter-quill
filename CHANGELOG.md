@@ -1,3 +1,6 @@
+# [7.4.13]
+- Fixed tab editing when in readOnly mode.
+
 # [7.4.12]
 - Update the minimum version of device_info_plus to 9.1.0.
 - Custom style attrbuites for platforms other than mobile (alignment, margin, width, height)
