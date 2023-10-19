@@ -27,8 +27,13 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
   const PreserveLineStyleOnSplitRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is! String || data != '\n') {
       return null;
     }
@@ -72,8 +77,13 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
   const PreserveBlockStyleOnInsertRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is! String || !data.contains('\n')) {
       // Only interested in text containing at least one newline character.
       return null;
@@ -153,8 +163,13 @@ class AutoExitBlockRule extends InsertRule {
   }
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is! String || data != '\n') {
       return null;
     }
@@ -217,8 +232,13 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
   const ResetLineFormatOnNewLineRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is! String || data != '\n') {
       return null;
     }
@@ -248,8 +268,13 @@ class InsertEmbedsRule extends InsertRule {
   const InsertEmbedsRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is String) {
       return null;
     }
@@ -329,8 +354,31 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   // http://www.example.com/?action=birds&brass=apparatus
   // https://example.net/
   // URL generator tool (https://www.randomlists.com/urls) is used.
-  static const _linkPattern = r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/.*)?$';
-  static final linkRegExp = RegExp(_linkPattern, caseSensitive: false);
+
+  // TODO: You might want to rename those but everywhere even in
+  // flutter_quill_extensions
+
+  static const _oneLinePattern =
+      r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/.*)?$';
+  static const _detectLinkPattern =
+      r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/[^\s]*)?';
+
+  /// It requires a valid link in one link
+  static final oneLineRegExp = RegExp(
+    _oneLinePattern,
+    caseSensitive: false,
+  );
+
+  /// It detect if there is a link in the text whatever if it in the middle etc
+  // Used to solve bug https://github.com/singerdmx/flutter-quill/issues/1432
+  static final detectLinkRegExp = RegExp(
+    _detectLinkPattern,
+    caseSensitive: false,
+  );
+  @Deprecated(
+    'Please use [linkRegExp1] or [linkRegExp2]',
+  )
+  static final linkRegExp = oneLineRegExp;
 
   @override
   Delta? applyRule(
@@ -339,6 +387,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
+    Object? extraData,
   }) {
     // Only format when inserting text.
     if (data is! String) return null;
@@ -373,8 +422,27 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     // Build the segment of affected words.
     final affectedWords = '$leftWordPart$data$rightWordPart';
 
+    var usedRegExp = detectLinkRegExp;
+    final alternativeLinkRegExp = extraData;
+    if (alternativeLinkRegExp != null) {
+      try {
+        if (alternativeLinkRegExp is! String) {
+          throw ArgumentError.value(
+            alternativeLinkRegExp,
+            'alternativeLinkRegExp',
+            '`alternativeLinkRegExp` should be of type String',
+          );
+        }
+        final regPattern = alternativeLinkRegExp;
+        usedRegExp = RegExp(
+          regPattern,
+          caseSensitive: false,
+        );
+      } catch (_) {}
+    }
+
     // Check for URL pattern.
-    final matches = linkRegExp.allMatches(affectedWords);
+    final matches = usedRegExp.allMatches(affectedWords);
 
     // If there are no matches, do not apply any format.
     if (matches.isEmpty) return null;
@@ -428,8 +496,13 @@ class AutoFormatLinksRule extends InsertRule {
   const AutoFormatLinksRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is! String || data != ' ') {
       return null;
     }
@@ -468,8 +541,13 @@ class PreserveInlineStylesRule extends InsertRule {
   const PreserveInlineStylesRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     if (data is! String || data.contains('\n')) {
       return null;
     }
@@ -514,8 +592,13 @@ class CatchAllInsertRule extends InsertRule {
   const CatchAllInsertRule();
 
   @override
-  Delta applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     return Delta()
       ..retain(index + (len ?? 0))
       ..insert(data);

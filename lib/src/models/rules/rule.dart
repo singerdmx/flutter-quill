@@ -10,19 +10,34 @@ enum RuleType { INSERT, DELETE, FORMAT }
 abstract class Rule {
   const Rule();
 
-  Delta? apply(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? apply(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     validateArgs(len, data, attribute);
-    return applyRule(document, index,
-        len: len, data: data, attribute: attribute);
+    return applyRule(
+      document,
+      index,
+      len: len,
+      data: data,
+      attribute: attribute,
+    );
   }
 
   void validateArgs(int? len, Object? data, Attribute? attribute);
 
   /// Applies heuristic rule to an operation on a [document] and returns
   /// resulting [Delta].
-  Delta? applyRule(Delta document, int index,
-      {int? len, Object? data, Attribute? attribute});
+  Delta? applyRule(
+    Delta document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  });
 
   RuleType get type;
 }

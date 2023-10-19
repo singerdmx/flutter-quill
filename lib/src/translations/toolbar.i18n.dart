@@ -1,5 +1,7 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
+// TODO: The translation need to be changed and re-reviewd
+
 extension Localization on String {
   static final _t = Translations.byLocale('en') +
       {
@@ -70,6 +72,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'en_us': {
           'Paste a link': 'Paste a link',
@@ -138,6 +143,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'ar': {
           'Paste a link': 'نسخ الرابط',
@@ -210,6 +218,9 @@ extension Localization on String {
           'Saved using the local storage':
               'تم الحفظ باستخدام وحدة التخزين المحلية',
           'Error while saving image': 'حدث خطأ أثناء حفظ الصورة',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'da': {
           'Paste a link': 'Indsæt link',
@@ -275,6 +286,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'de': {
           'Paste a link': 'Link hinzufügen',
@@ -340,6 +354,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'fr': {
           'Paste a link': 'Coller un lien',
@@ -405,6 +422,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'zh_cn': {
           'Paste a link': '粘贴链接',
@@ -470,6 +490,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'zh_hk': {
           'Paste a link': '貼上連結',
@@ -535,6 +558,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'ja': {
           'Paste a link': 'リンクをペースト',
@@ -600,6 +626,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'ko': {
           'Paste a link': '링크를 붙여넣어 주세요.',
@@ -665,6 +694,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'ru': {
           'Paste a link': 'Вставить ссылку',
@@ -730,6 +762,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'es': {
           'Paste a link': 'Pega un enlace',
@@ -795,6 +830,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'tr': {
           'Paste a link': 'Bağlantıyı Yapıştır',
@@ -860,6 +898,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'uk': {
           'Paste a link': 'Вставити посилання',
@@ -925,6 +966,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'pt': {
           'Paste a link': 'Colar um link',
@@ -991,6 +1035,9 @@ extension Localization on String {
           'Saved using the local storage':
               'Guardado através do armazenamento local',
           'Error while saving image': 'Erro a gravar imagem',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'pt_br': {
           'Paste a link': 'Colar um link',
@@ -1056,6 +1103,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'pl': {
           'Paste a link': 'Wklej link',
@@ -1121,6 +1171,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'vi': {
           'Paste a link': 'Chèn liên kết',
@@ -1186,6 +1239,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'ur': {
           'Paste a link': 'لنک پیسٹ کریں',
@@ -1251,6 +1307,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'id': {
           'Paste a link': 'Tempel tautan',
@@ -1316,6 +1375,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'no': {
           'Paste a link': 'Lim inn lenke',
@@ -1381,6 +1443,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'fa': {
           'Paste a link': 'جایگذاری لینک',
@@ -1446,6 +1511,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'hi': {
           'Paste a link': 'लिंक पेस्ट करें',
@@ -1511,6 +1579,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'nl': {
           'Paste a link': 'Plak een link',
@@ -1576,6 +1647,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'sr': {
           'Paste a link': 'Nalepi vezu',
@@ -1641,6 +1715,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'cs': {
           'Paste a link': 'Vložit odkaz',
@@ -1709,6 +1786,9 @@ extension Localization on String {
           'Saved using the network': 'Uloženo pomocí sítě',
           'Saved using local storage': 'Uloženo lokálně',
           'Error while saving image': 'Chyba při ukládání obrázku',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'he': {
           'Paste a link': 'הדבק את הלינק',
@@ -1774,6 +1854,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'ms': {
           'Paste a link': 'Tampal Pautan',
@@ -1839,6 +1922,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'it': {
           'Paste a link': 'Incolla un collegamento',
@@ -1904,6 +1990,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'bn': {
           'Paste a link': 'লিঙ্ক পেস্ট করুন',
@@ -1972,6 +2061,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'tk': {
           'Paste a link': 'Baglanyşygy goýuň',
@@ -2040,6 +2132,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'bg': {
           'Paste a link': 'Поставете връзка',
@@ -2108,6 +2203,9 @@ extension Localization on String {
           'Saved using the network': 'Saved using the network',
           'Saved using the local storage': 'Saved using the local storage',
           'Error while saving image': 'Error while saving image',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
         'sw': {
           'Paste a link': 'Bandika Kiungo',
@@ -2176,6 +2274,9 @@ extension Localization on String {
           'Saved using the network': 'Imehifadhiwa kwa Kutumia Mtandao',
           'Saved using the local storage': 'Imehifadhiwa kwa Hifadhi ya Ndani',
           'Error while saving image': 'Hitilafu Wakati wa Kuhifadhi Picha',
+          'Please enter a text for your link': "e.g., 'Learn more)",
+          'Please enter the link url': "e.g., 'https://example.com'",
+          'Please enter a valid image url': 'Please enter a valid image url'
         },
       };
 

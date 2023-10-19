@@ -29,6 +29,12 @@ bool isAppleOS([TargetPlatform? targetPlatform]) {
   }.contains(targetPlatform);
 }
 
+bool isMacOS([TargetPlatform? targetPlatform]) {
+  if (kIsWeb) return false;
+  targetPlatform ??= defaultTargetPlatform;
+  return TargetPlatform.macOS == targetPlatform;
+}
+
 Future<bool> isIOSSimulator() async {
   if (!isAppleOS()) {
     return false;

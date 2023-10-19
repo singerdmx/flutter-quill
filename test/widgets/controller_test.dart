@@ -89,8 +89,12 @@ void main() {
         ..indentSelection(true);
 
       // Should have both L1 and L2 indent attributes in selection.
-      expect(controller.getAllSelectionStyles(),
-          contains(Style().put(Attribute.indentL1).put(Attribute.indentL2)));
+      expect(
+        controller.getAllSelectionStyles(),
+        contains(
+          const Style().put(Attribute.indentL1).put(Attribute.indentL2),
+        ),
+      );
 
       // Remaining lines should have no attributes.
       controller.updateSelection(
@@ -98,7 +102,7 @@ void main() {
               baseOffset: 12,
               extentOffset: controller.document.toPlainText().length - 1),
           ChangeSource.LOCAL);
-      expect(controller.getAllSelectionStyles(), everyElement(Style()));
+      expect(controller.getAllSelectionStyles(), everyElement(const Style()));
     });
 
     test('getAllIndividualSelectionStylesAndEmbed', () {
@@ -110,7 +114,7 @@ void main() {
       final result = controller.getAllIndividualSelectionStylesAndEmbed();
       expect(result.length, 2);
       expect(result[0].offset, 0);
-      expect(result[0].value, Style().put(Attribute.bold));
+      expect(result[0].value, const Style().put(Attribute.bold));
       expect((result[1].value as Embeddable).type, BlockEmbed.imageType);
     });
 
@@ -125,7 +129,7 @@ void main() {
     test('getAllSelectionStyles', () {
       controller.formatText(0, 2, Attribute.bold);
       expect(controller.getAllSelectionStyles(),
-          contains(Style().put(Attribute.bold)));
+          contains(const Style().put(Attribute.bold)));
     });
 
     test('undo', () {
@@ -133,7 +137,10 @@ void main() {
       controller.updateSelection(
           const TextSelection.collapsed(offset: 4), ChangeSource.LOCAL);
 
-      expect(controller.document.toDelta(), Delta()..insert('data\n'));
+      expect(
+        controller.document.toDelta(),
+        Delta()..insert('data\n'),
+      );
       controller
         ..addListener(() {
           listenerCalled = true;
@@ -185,7 +192,7 @@ void main() {
 
     test('formatTextStyle', () {
       var listenerCalled = false;
-      final style = Style().put(Attribute.bold).put(Attribute.italic);
+      final style = const Style().put(Attribute.bold).put(Attribute.italic);
       controller
         ..addListener(() {
           listenerCalled = true;
@@ -193,7 +200,8 @@ void main() {
         ..formatTextStyle(0, 2, style);
       expect(listenerCalled, isTrue);
       expect(controller.document.collectAllStyles(0, 2), contains(style));
-      expect(controller.document.collectAllStyles(2, 4), everyElement(Style()));
+      expect(controller.document.collectAllStyles(2, 4),
+          everyElement(const Style()));
     });
 
     test('formatText', () {
@@ -205,8 +213,9 @@ void main() {
         ..formatText(0, 2, Attribute.bold);
       expect(listenerCalled, isTrue);
       expect(controller.document.collectAllStyles(0, 2),
-          contains(Style().put(Attribute.bold)));
-      expect(controller.document.collectAllStyles(2, 4), everyElement(Style()));
+          contains(const Style().put(Attribute.bold)));
+      expect(controller.document.collectAllStyles(2, 4),
+          everyElement(const Style()));
     });
 
     test('formatSelection', () {
@@ -220,8 +229,9 @@ void main() {
         ..formatSelection(Attribute.bold);
       expect(listenerCalled, isTrue);
       expect(controller.document.collectAllStyles(0, 2),
-          contains(Style().put(Attribute.bold)));
-      expect(controller.document.collectAllStyles(2, 4), everyElement(Style()));
+          contains(const Style().put(Attribute.bold)));
+      expect(controller.document.collectAllStyles(2, 4),
+          everyElement(const Style()));
     });
 
     test('moveCursorToStart', () {

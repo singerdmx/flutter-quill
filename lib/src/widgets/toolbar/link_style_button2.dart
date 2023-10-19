@@ -379,7 +379,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
   String? _validateLink(String? value) {
     if ((value?.isEmpty ?? false) ||
-        !AutoFormatMultipleLinksRule.linkRegExp.hasMatch(value!)) {
+        !AutoFormatMultipleLinksRule.oneLineRegExp.hasMatch(value!)) {
       return widget.validationMessage ?? 'That is not a valid URL';
     }
 

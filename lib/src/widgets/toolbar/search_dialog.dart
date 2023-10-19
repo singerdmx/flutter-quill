@@ -6,9 +6,12 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../controller.dart';
 
 class SearchDialog extends StatefulWidget {
-  const SearchDialog(
-      {required this.controller, this.dialogTheme, this.text, Key? key})
-      : super(key: key);
+  const SearchDialog({
+    required this.controller,
+    this.dialogTheme,
+    this.text,
+    Key? key,
+  }) : super(key: key);
 
   final QuillController controller;
   final QuillDialogTheme? dialogTheme;
@@ -33,6 +36,12 @@ class _SearchDialogState extends State<SearchDialog> {
     _offsets = null;
     _index = 0;
     _controller = TextEditingController(text: _text);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -100,6 +109,7 @@ class _SearchDialogState extends State<SearchDialog> {
                   autofocus: true,
                   onChanged: _textChanged,
                   textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.text,
                   onEditingComplete: _findText,
                   controller: _controller,
                 ),

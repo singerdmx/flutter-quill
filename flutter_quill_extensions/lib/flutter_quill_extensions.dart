@@ -9,6 +9,7 @@ import 'embeds/embed_types.dart';
 import 'embeds/toolbar/camera_button.dart';
 import 'embeds/toolbar/formula_button.dart';
 import 'embeds/toolbar/image_button.dart';
+import 'embeds/toolbar/media_button.dart';
 import 'embeds/toolbar/video_button.dart';
 
 export 'embeds/embed_types.dart';
@@ -233,6 +234,7 @@ class FlutterQuillEmbeds {
     bool showImageButton = true,
     bool showVideoButton = true,
     bool showCameraButton = true,
+    bool showImageMediaButton = false,
     bool showFormulaButton = false,
     String? imageButtonTooltip,
     String? videoButtonTooltip,
@@ -242,6 +244,7 @@ class FlutterQuillEmbeds {
     OnVideoPickCallback? onVideoPickCallback,
     MediaPickSettingSelector? mediaPickSettingSelector,
     MediaPickSettingSelector? cameraPickSettingSelector,
+    MediaPickedCallback? onImageMediaPickedCallback,
     FilePickImpl? filePickImpl,
     WebImagePickImpl? webImagePickImpl,
     WebVideoPickImpl? webVideoPickImpl,
@@ -292,6 +295,28 @@ class FlutterQuillEmbeds {
                 cameraPickSettingSelector: cameraPickSettingSelector,
                 iconTheme: iconTheme,
               ),
+        if (showImageMediaButton)
+          (controller, toolbarIconSize, iconTheme, dialogTheme) => MediaButton(
+                controller: controller,
+                dialogTheme: dialogTheme,
+                iconTheme: iconTheme,
+                iconSize: toolbarIconSize,
+                onMediaPickedCallback: onImageMediaPickedCallback,
+                onImagePickCallback: onImagePickCallback ??
+                    (throw ArgumentError.notNull(
+                      'onImagePickCallback is required when showCameraButton is'
+                      ' true',
+                    )),
+                onVideoPickCallback: onVideoPickCallback ??
+                    (throw ArgumentError.notNull(
+                      'onVideoPickCallback is required when showCameraButton is'
+                      ' true',
+                    )),
+                filePickImpl: filePickImpl,
+                webImagePickImpl: webImagePickImpl,
+                webVideoPickImpl: webVideoPickImpl,
+                icon: Icons.perm_media,
+              ),
         if (showFormulaButton)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
               FormulaButton(
@@ -301,6 +326,6 @@ class FlutterQuillEmbeds {
                 controller: controller,
                 iconTheme: iconTheme,
                 dialogTheme: dialogTheme,
-              )
+              ),
       ];
 }

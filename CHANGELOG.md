@@ -1,157 +1,210 @@
 # [7.4.14]
+
 - Custom style attrbuites for platforms other than mobile (alignment, margin, width, height)
 - Improve performance by reducing the number of widgets rebuilt by listening to media query for only the needed things, for example instead of using `MediaQuery.of(context).size`, now we are using `MediaQuery.sizeOf(context)`
+- Bug fixes and other improvemenets
+- Add MediaButton for picking the images only since the video one is not ready
+- A  new feature which allows customizing the text selection in quill editor which is useful for custom theme design system for custom app widget
 
 # [7.4.13]
+
 - Fixed tab editing when in readOnly mode.
 
 # [7.4.12]
+
 - Update the minimum version of device_info_plus to 9.1.0.
 
 # [7.4.11]
+
 - Add sw locale.
 
 # [7.4.10]
+
 - Update translations.
 
 # [7.4.9]
+
 - Style recognition fixes.
 
 # [7.4.8]
+
 - Upgrade dependencies.
 
 # [7.4.7]
+
 - Add Vietnamese and German translations.
 
 # [7.4.6]
+
 - Fix more null errors in Leaf.retain [#1394](https://github.com/singerdmx/flutter-quill/issues/1394) and Line.delete [#1395](https://github.com/singerdmx/flutter-quill/issues/1395).
 
 # [7.4.5]
+
 - Fix null error in Container.insert [#1392](https://github.com/singerdmx/flutter-quill/issues/1392).
 
 # [7.4.4]
+
 - Fix extra padding on checklists [#1131](https://github.com/singerdmx/flutter-quill/issues/1131).
 
 # [7.4.3]
+
 - Fixed a space input error on iPad.
 
 # [7.4.2]
+
 - Fix bug with keepStyleOnNewLine for link.
 
 # [7.4.1]
+
 - Fix toolbar dividers condition.
 
 # [7.4.0]
+
 - Support Flutter version 3.13.0.
 
 # [7.3.3]
+
 - Updated Dependencies conflicting.
 
 # [7.3.2]
+
 - Added builder for custom button in _LinkDialog.
 
 # [7.3.1]
+
 - Added case sensitive and whole word search parameters.
 - Added wrap around.
 - Moved search dialog to the bottom in order not to override the editor and the text found.
 - Other minor search dialog enhancements.
 
 # [7.3.0]
+
 - Add default attributes to basic factory.
 
 # [7.2.19]
+
 - Feat/link regexp.
 
 # [7.2.18]
+
 - Fix paste block text in words apply same style.
 
 # [7.2.17]
+
 - Fix paste text mess up style.
 - Add support copy/cut block text.
 
 # [7.2.16]
+
 - Allow for custom context menu.
 
 # [7.2.15]
+
 - Add flutter_quill.delta library which only exposes Delta datatype.
 
 # [7.2.14]
+
 - Fix errors when the editor is used in the `screenshot` package.
 
 # [7.2.13]
+
 - Fix around image can't delete line break.
 
 # [7.2.12]
+
 - Add support for copy/cut select image and text together.
 
 # [7.2.11]
+
 - Add affinity for localPosition.
 
 # [7.2.10]
+
 - LINE._getPlainText queryChild inclusive=false.
 
 # [7.2.9]
+
 - Add toPlainText method to `EmbedBuilder`.
 
 # [7.2.8]
+
 - Add custom button widget in toolbar.
 
 # [7.2.7]
+
 - Fix language code of Japan.
 
 # [7.2.6]
+
 - Style custom toolbar buttons like builtins.
 
 # [7.2.5]
+
 - Always use text cursor for editor on desktop.
 
 # [7.2.4]
+
 - Fixed keepStyleOnNewLine.
 
 # [7.2.3]
+
 - Get pixel ratio from view.
 
 # [7.2.2]
+
 - Prevent operations on stale editor state.
 
 # [7.2.1]
+
 - Add support for android keyboard content insertion.
 - Enhance color picker, enter hex color and color palette option.
 
 # [7.2.0]
+
 - Checkboxes, bullet points, and number points are now scaled based on the default paragraph font size.
 
 # [7.1.20]
+
 - Pass linestyle to embedded block.
 
 # [7.1.19]
+
 - Fix Rtl leading alignment problem.
 
 # [7.1.18]
+
 - Support flutter latest version.
 
 # [7.1.17+1]
+
 - Updates `device_info_plus` to version 9.0.0 to benefit from AGP 8 (see [changelog#900](https://pub.dev/packages/device_info_plus/changelog#900)).
 
 # [7.1.16]
+
 - Fixed subscript key from 'sup' to 'sub'.
 
 # [7.1.15]
+
 - Fixed a bug introduced in 7.1.7 where each section in `QuillToolbar` was displayed on its own line.
 
 # [7.1.14]
+
 - Add indents change for multiline selection.
 
 # [7.1.13]
+
 - Add custom recognizer.
 
 # [7.1.12]
+
 - Add superscript and subscript styles.
 
 # [7.1.11]
+
 - Add inserting indents for lines of list if text is selected.
 
 # [7.1.10]
+
 - Image embedding tweaks
   - Add MediaButton which is intened to superseed the ImageButton and VideoButton. Only image selection is working.
   - Implement image insert for web (image as base64)
@@ -167,6 +220,7 @@
   - Use merging shortcuts and actions correclty (if the key combination is the same)
 
 # [7.1.8]
+
 - Dropdown tweaks
   - Add itemHeight, itemPadding, defaultItemColor for customization of dropdown items.
   - Remove alignment property as useless.

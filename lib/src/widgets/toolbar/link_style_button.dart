@@ -184,51 +184,82 @@ class _LinkDialogState extends State<_LinkDialog> {
     super.initState();
     _link = widget.link ?? '';
     _text = widget.text ?? '';
-    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.linkRegExp;
+    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineRegExp;
     _linkController = TextEditingController(text: _link);
     _textController = TextEditingController(text: _text);
+  }
+
+  @override
+  void dispose() {
+    _linkController.dispose();
+    _textController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 8),
-          TextField(
-            keyboardType: TextInputType.multiline,
-            style: widget.dialogTheme?.inputTextStyle,
-            decoration: InputDecoration(
+      content: Form(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              style: widget.dialogTheme?.inputTextStyle,
+              decoration: InputDecoration(
                 labelText: 'Text'.i18n,
+                hintText: 'Please enter a text for your link'.i18n,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
-                floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
-            autofocus: true,
-            onChanged: _textChanged,
-            controller: _textController,
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            keyboardType: TextInputType.multiline,
-            style: widget.dialogTheme?.inputTextStyle,
-            decoration: InputDecoration(
+                floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
+              ),
+              autofocus: true,
+              onChanged: _textChanged,
+              controller: _textController,
+              textInputAction: TextInputAction.next,
+              autofillHints: [
+                AutofillHints.name,
+                AutofillHints.url,
+              ],
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              keyboardType: TextInputType.url,
+              style: widget.dialogTheme?.inputTextStyle,
+              decoration: InputDecoration(
                 labelText: 'Link'.i18n,
+                hintText: 'Please enter the link url'.i18n,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
-                floatingLabelStyle: widget.dialogTheme?.labelTextStyle),
-            autofocus: true,
-            onChanged: _linkChanged,
-            controller: _linkController,
-          ),
-        ],
+                floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
+              ),
+              onChanged: _linkChanged,
+              controller: _linkController,
+              textInputAction: TextInputAction.done,
+              autofillHints: [AutofillHints.url],
+              autocorrect: false,
+              onEditingComplete: () {
+                if (!_canPress()) {
+                  return;
+                }
+                _applyLink();
+              },
+            ),
+          ],
+        ),
       ),
-      actions: [_okButton()],
+      actions: [
+        _okButton(),
+      ],
     );
   }
 
   Widget _okButton() {
     if (widget.action != null) {
-      return widget.action!.builder(_canPress(), _applyLink);
+      return widget.action!.builder(
+        _canPress(),
+        _applyLink,
+      );
     }
 
     return TextButton(

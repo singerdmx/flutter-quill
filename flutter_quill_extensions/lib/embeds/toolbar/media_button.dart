@@ -9,6 +9,7 @@ import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../embed_types.dart';
+import 'image_video_utils.dart';
 
 /// Widget which combines [ImageButton] and [VideButton] widgets. This widget
 /// has more customization and uses dialog similar to one which is used
@@ -16,6 +17,11 @@ import '../embed_types.dart';
 class MediaButton extends StatelessWidget {
   const MediaButton({
     required this.controller,
+    required this.onImagePickCallback,
+    required this.onVideoPickCallback,
+    required this.filePickImpl,
+    required this.webImagePickImpl,
+    required this.webVideoPickImpl,
     required this.icon,
     this.type = QuillMediaType.image,
     this.iconSize = kDefaultIconSize,
@@ -73,6 +79,11 @@ class MediaButton extends StatelessWidget {
 
   final AutovalidateMode autovalidateMode;
   final String? validationMessage;
+  final OnImagePickCallback onImagePickCallback;
+  final FilePickImpl? filePickImpl;
+  final WebImagePickImpl? webImagePickImpl;
+  final OnVideoPickCallback onVideoPickCallback;
+  final WebVideoPickImpl? webVideoPickImpl;
 
   @override
   Widget build(BuildContext context) {
@@ -94,24 +105,48 @@ class MediaButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    if (onMediaPickedCallback != null) {
-      final mediaSource = await showDialog<MediaPickSetting>(
-        context: context,
-        builder: (_) => MediaSourceSelectorDialog(
-          dialogTheme: dialogTheme,
-          galleryButtonText: galleryButtonText,
-          linkButtonText: linkButtonText,
-        ),
-      );
-      if (mediaSource != null) {
-        if (mediaSource == MediaPickSetting.Gallery) {
-          await _pickImage();
-        } else {
-          _inputLink(context);
-        }
-      }
-    } else {
+    if (onMediaPickedCallback == null) {
       _inputLink(context);
+      return;
+    }
+    final mediaSource = await showDialog<MediaPickSetting>(
+      context: context,
+      builder: (_) => MediaSourceSelectorDialog(
+        dialogTheme: dialogTheme,
+        galleryButtonText: galleryButtonText,
+        linkButtonText: linkButtonText,
+      ),
+    );
+    if (mediaSource == null) {
+      return;
+    }
+    switch (mediaSource) {
+      case MediaPickSetting.Gallery:
+        await _pickImage();
+        break;
+      case MediaPickSetting.Link:
+        _inputLink(context);
+        break;
+      case MediaPickSetting.Camera:
+        await ImageVideoUtils.handleImageButtonTap(
+          context,
+          controller,
+          ImageSource.camera,
+          onImagePickCallback,
+          filePickImpl: filePickImpl,
+          webImagePickImpl: webImagePickImpl,
+        );
+        break;
+      case MediaPickSetting.Video:
+        await ImageVideoUtils.handleVideoButtonTap(
+          context,
+          controller,
+          ImageSource.camera,
+          onVideoPickCallback,
+          filePickImpl: filePickImpl,
+          webVideoPickImpl: webVideoPickImpl,
+        );
+        break;
     }
   }
 
@@ -281,16 +316,18 @@ class _MediaLinkDialogState extends State<MediaLinkDialog> {
         child: Padding(
           padding:
               widget.dialogTheme?.linkDialogPadding ?? const EdgeInsets.all(16),
-          child: isWrappable
-              ? Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  runSpacing: widget.dialogTheme?.runSpacing ?? 0.0,
-                  children: children,
-                )
-              : Row(
-                  children: children,
-                ),
+          child: Form(
+            child: isWrappable
+                ? Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    runSpacing: widget.dialogTheme?.runSpacing ?? 0.0,
+                    children: children,
+                  )
+                : Row(
+                    children: children,
+                  ),
+          ),
         ),
       ),
     );
@@ -307,6 +344,8 @@ class _MediaLinkDialogState extends State<MediaLinkDialog> {
   void _submitLink() => Navigator.pop(context, _linkController.text);
 
   String? _validateLink(String? value) {
+    // TODO: Use [AutoFormatMultipleLinksRule.oneLineRegExp]
+    // in the next update
     if ((value?.isEmpty ?? false) ||
         !AutoFormatMultipleLinksRule.linkRegExp.hasMatch(value!)) {
       return widget.validationMessage ?? 'That is not a valid URL';

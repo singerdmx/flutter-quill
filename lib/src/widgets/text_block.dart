@@ -104,14 +104,19 @@ class EditableTextBlock extends StatelessWidget {
 
     final defaultStyles = QuillStyles.getStyles(context, false);
     return _EditableBlock(
-        block: block,
-        textDirection: textDirection,
-        padding: verticalSpacing,
-        scrollBottomInset: scrollBottomInset,
-        decoration: _getDecorationForBlock(block, defaultStyles) ??
-            const BoxDecoration(),
-        contentPadding: contentPadding,
-        children: _buildChildren(context, indentLevelCounts, clearIndents));
+      block: block,
+      textDirection: textDirection,
+      padding: verticalSpacing,
+      scrollBottomInset: scrollBottomInset,
+      decoration:
+          _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
+      contentPadding: contentPadding,
+      children: _buildChildren(
+        context,
+        indentLevelCounts,
+        clearIndents,
+      ),
+    );
   }
 
   BoxDecoration? _getDecorationForBlock(
@@ -138,32 +143,37 @@ class EditableTextBlock extends StatelessWidget {
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
       final editableTextLine = EditableTextLine(
-          line,
-          _buildLeading(context, line, index, indentLevelCounts, count),
-          TextLine(
-            line: line,
-            textDirection: textDirection,
-            embedBuilder: embedBuilder,
-            customStyleBuilder: customStyleBuilder,
-            styles: styles!,
-            readOnly: readOnly,
-            controller: controller,
-            linkActionPicker: linkActionPicker,
-            onLaunchUrl: onLaunchUrl,
-            customLinkPrefixes: customLinkPrefixes,
-          ),
-          _getIndentWidth(context, count),
-          _getSpacingForLine(line, index, count, defaultStyles),
-          textDirection,
-          textSelection,
-          color,
-          enableInteractiveSelection,
-          hasFocus,
-          MediaQuery.devicePixelRatioOf(context),
-          cursorCont);
+        line,
+        _buildLeading(context, line, index, indentLevelCounts, count),
+        TextLine(
+          line: line,
+          textDirection: textDirection,
+          embedBuilder: embedBuilder,
+          customStyleBuilder: customStyleBuilder,
+          styles: styles!,
+          readOnly: readOnly,
+          controller: controller,
+          linkActionPicker: linkActionPicker,
+          onLaunchUrl: onLaunchUrl,
+          customLinkPrefixes: customLinkPrefixes,
+        ),
+        _getIndentWidth(context, count),
+        _getSpacingForLine(line, index, count, defaultStyles),
+        textDirection,
+        textSelection,
+        color,
+        enableInteractiveSelection,
+        hasFocus,
+        MediaQuery.devicePixelRatioOf(context),
+        cursorCont,
+      );
       final nodeTextDirection = getDirectionOfNode(line);
-      children.add(Directionality(
-          textDirection: nodeTextDirection, child: editableTextLine));
+      children.add(
+        Directionality(
+          textDirection: nodeTextDirection,
+          child: editableTextLine,
+        ),
+      );
     }
     return children.toList(growable: false);
   }

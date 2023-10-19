@@ -533,9 +533,14 @@ class RawEditorState extends EditorState
         ? const BoxConstraints.expand()
         : BoxConstraints(
             minHeight: widget.minHeight ?? 0.0,
-            maxHeight: widget.maxHeight ?? double.infinity);
+            maxHeight: widget.maxHeight ?? double.infinity,
+          );
 
-    final isMacOS = Theme.of(context).platform == TargetPlatform.macOS;
+    // Please notice that this change will make the check fixed
+    // so if we ovveride the platform in material app theme data
+    // it will not depend on it and doesn't change here but I don't think
+    // we need to
+    final isDesktopMacOS = isMacOS();
 
     return TextFieldTapRegion(
       enabled: widget.enableUnfocusOnTapOutside,
@@ -550,125 +555,125 @@ class RawEditorState extends EditorState
             ): const HideSelectionToolbarIntent(),
             SingleActivator(
               LogicalKeyboardKey.keyZ,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const UndoTextIntent(SelectionChangedCause.keyboard),
             SingleActivator(
               LogicalKeyboardKey.keyY,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const RedoTextIntent(SelectionChangedCause.keyboard),
 
             // Selection formatting.
             SingleActivator(
               LogicalKeyboardKey.keyB,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.bold),
             SingleActivator(
               LogicalKeyboardKey.keyU,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.underline),
             SingleActivator(
               LogicalKeyboardKey.keyI,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.italic),
             SingleActivator(
               LogicalKeyboardKey.keyS,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.strikeThrough),
             SingleActivator(
               LogicalKeyboardKey.backquote,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ToggleTextStyleIntent(Attribute.inlineCode),
             SingleActivator(
               LogicalKeyboardKey.tilde,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.codeBlock),
             SingleActivator(
               LogicalKeyboardKey.keyB,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.blockQuote),
             SingleActivator(
               LogicalKeyboardKey.keyK,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyLinkIntent(),
 
             // Lists
             SingleActivator(
               LogicalKeyboardKey.keyL,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.ul),
             SingleActivator(
               LogicalKeyboardKey.keyO,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ToggleTextStyleIntent(Attribute.ol),
             SingleActivator(
               LogicalKeyboardKey.keyC,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const ApplyCheckListIntent(),
 
             // Indents
             SingleActivator(
               LogicalKeyboardKey.keyM,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const IndentSelectionIntent(true),
             SingleActivator(
               LogicalKeyboardKey.keyM,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
               shift: true,
             ): const IndentSelectionIntent(false),
 
             // Headers
             SingleActivator(
               LogicalKeyboardKey.digit1,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.h1),
             SingleActivator(
               LogicalKeyboardKey.digit2,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.h2),
             SingleActivator(
               LogicalKeyboardKey.digit3,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.h3),
             SingleActivator(
               LogicalKeyboardKey.digit0,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const ApplyHeaderIntent(Attribute.header),
 
             SingleActivator(
               LogicalKeyboardKey.keyG,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const InsertEmbedIntent(Attribute.image),
 
             SingleActivator(
               LogicalKeyboardKey.keyF,
-              control: !isMacOS,
-              meta: isMacOS,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
             ): const OpenSearchIntent(),
           }, {
             ...?widget.customShortcuts
@@ -915,31 +920,36 @@ class RawEditorState extends EditorState
             textDirection: getDirectionOfNode(node), child: editableTextLine));
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
-            block: node,
-            controller: controller,
+          block: node,
+          controller: controller,
+          textDirection: getDirectionOfNode(node),
+          scrollBottomInset: widget.scrollBottomInset,
+          verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
+          textSelection: controller.selection,
+          color: widget.selectionColor,
+          styles: _styles,
+          enableInteractiveSelection: widget.enableInteractiveSelection,
+          hasFocus: _hasFocus,
+          contentPadding: attrs.containsKey(Attribute.codeBlock.key)
+              ? const EdgeInsets.all(16)
+              : null,
+          embedBuilder: widget.embedBuilder,
+          linkActionPicker: _linkActionPicker,
+          onLaunchUrl: widget.onLaunchUrl,
+          cursorCont: _cursorCont,
+          indentLevelCounts: indentLevelCounts,
+          clearIndents: clearIndents,
+          onCheckboxTap: _handleCheckboxTap,
+          readOnly: widget.readOnly,
+          customStyleBuilder: widget.customStyleBuilder,
+          customLinkPrefixes: widget.customLinkPrefixes,
+        );
+        result.add(
+          Directionality(
             textDirection: getDirectionOfNode(node),
-            scrollBottomInset: widget.scrollBottomInset,
-            verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
-            textSelection: controller.selection,
-            color: widget.selectionColor,
-            styles: _styles,
-            enableInteractiveSelection: widget.enableInteractiveSelection,
-            hasFocus: _hasFocus,
-            contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-                ? const EdgeInsets.all(16)
-                : null,
-            embedBuilder: widget.embedBuilder,
-            linkActionPicker: _linkActionPicker,
-            onLaunchUrl: widget.onLaunchUrl,
-            cursorCont: _cursorCont,
-            indentLevelCounts: indentLevelCounts,
-            clearIndents: clearIndents,
-            onCheckboxTap: _handleCheckboxTap,
-            readOnly: widget.readOnly,
-            customStyleBuilder: widget.customStyleBuilder,
-            customLinkPrefixes: widget.customLinkPrefixes);
-        result.add(Directionality(
-            textDirection: getDirectionOfNode(node), child: editableTextBlock));
+            child: editableTextBlock,
+          ),
+        );
 
         clearIndents = false;
       } else {
@@ -1111,9 +1121,15 @@ class RawEditorState extends EditorState
       _styles = _styles!.merge(widget.customStyles!);
     }
 
+    // TODO: this might need some attention
+    _requestFocusIfShould();
+  }
+
+  Future<void> _requestFocusIfShould() async {
     if (!_didAutoFocus && widget.autoFocus) {
-      FocusScope.of(context).autofocus(widget.focusNode);
       _didAutoFocus = true;
+      await Future.delayed(Duration.zero);
+      FocusScope.of(context).autofocus(widget.focusNode);
     }
   }
 
@@ -1497,13 +1513,23 @@ class RawEditorState extends EditorState
       final index = textEditingValue.selection.baseOffset;
       final length = textEditingValue.selection.extentOffset - index;
       final copied = controller.copiedImageUrl!;
-      controller.replaceText(index, length, BlockEmbed.image(copied.url), null);
+      controller.replaceText(
+        index,
+        length,
+        BlockEmbed.image(copied.url),
+        null,
+      );
       if (copied.styleString.isNotEmpty) {
-        controller.formatText(getEmbedNode(controller, index + 1).offset, 1,
-            StyleAttribute(copied.styleString));
+        controller.formatText(
+          getEmbedNode(controller, index + 1).offset,
+          1,
+          StyleAttribute(copied.styleString),
+        );
       }
       controller.copiedImageUrl = null;
-      await Clipboard.setData(const ClipboardData(text: ''));
+      await Clipboard.setData(
+        const ClipboardData(text: ''),
+      );
       return;
     }
 
@@ -1516,7 +1542,13 @@ class RawEditorState extends EditorState
     final text = await Clipboard.getData(Clipboard.kTextPlain);
     if (text != null) {
       _replaceText(
-          ReplaceTextIntent(textEditingValue, text.text!, selection, cause));
+        ReplaceTextIntent(
+          textEditingValue,
+          text.text!,
+          selection,
+          cause,
+        ),
+      );
 
       bringIntoView(textEditingValue.selection.extent);
 
@@ -1524,8 +1556,9 @@ class RawEditorState extends EditorState
       userUpdateTextEditingValue(
         TextEditingValue(
           text: textEditingValue.text,
-          selection:
-              TextSelection.collapsed(offset: textEditingValue.selection.end),
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
         ),
         cause,
       );
@@ -1533,14 +1566,15 @@ class RawEditorState extends EditorState
       return;
     }
 
-    if (widget.onImagePaste != null) {
+    final onImagePaste = widget.onImagePaste;
+    if (onImagePaste != null) {
       final image = await Pasteboard.image;
 
       if (image == null) {
         return;
       }
 
-      final imageUrl = await widget.onImagePaste!(image);
+      final imageUrl = await onImagePaste(image);
       if (imageUrl == null) {
         return;
       }
@@ -2559,8 +2593,13 @@ class _OpenSearchAction extends ContextAction<OpenSearchIntent> {
 
   @override
   Future invoke(OpenSearchIntent intent, [BuildContext? context]) async {
+    if (context == null) {
+      throw ArgumentError(
+        'The context should not be null to use invoke() method',
+      );
+    }
     await showDialog<String>(
-      context: context!,
+      context: context,
       builder: (_) => SearchDialog(controller: state.controller, text: ''),
     );
   }

@@ -146,11 +146,13 @@ class CameraButton extends StatelessWidget {
         break;
       case MediaPickSetting.Gallery:
         throw ArgumentError(
-          'Invalid MediaSetting for the camera button',
+          'Invalid MediaSetting for the camera button.\n'
+          'gallery is not related to camera button',
         );
       case MediaPickSetting.Link:
         throw ArgumentError(
-          'Invalid MediaSetting for the camera button',
+          'Invalid MediaSetting for the camera button.\n'
+          'link is not related to camera button',
         );
     }
   }
