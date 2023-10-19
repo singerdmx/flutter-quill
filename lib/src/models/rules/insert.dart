@@ -370,6 +370,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   );
 
   /// It detect if there is a link in the text whatever if it in the middle etc
+  // Used to solve bug https://github.com/singerdmx/flutter-quill/issues/1432
   static final detectLinkRegExp = RegExp(
     _detectLinkPattern,
     caseSensitive: false,
