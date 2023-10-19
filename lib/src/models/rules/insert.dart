@@ -33,9 +33,6 @@ class PreserveLineStyleOnSplitRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    // TODO: If the maintainer are not okay with this change then tell me
-    // so I can change it back
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is! String || data != '\n') {
       return null;
@@ -86,7 +83,6 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is! String || !data.contains('\n')) {
       // Only interested in text containing at least one newline character.
@@ -173,7 +169,6 @@ class AutoExitBlockRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is! String || data != '\n') {
       return null;
@@ -243,7 +238,6 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is! String || data != '\n') {
       return null;
@@ -280,7 +274,6 @@ class InsertEmbedsRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is String) {
       return null;
@@ -393,7 +386,7 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
+    Object? extraData,
   }) {
     // Only format when inserting text.
     if (data is! String) return null;
@@ -428,8 +421,27 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     // Build the segment of affected words.
     final affectedWords = '$leftWordPart$data$rightWordPart';
 
+    var usedRegExp = detectLinkRegExp;
+    final alternativeLinkRegExp = extraData;
+    if (alternativeLinkRegExp != null) {
+      try {
+        if (alternativeLinkRegExp is! String) {
+          throw ArgumentError.value(
+            alternativeLinkRegExp,
+            'alternativeLinkRegExp',
+            '`alternativeLinkRegExp` should be of type String',
+          );
+        }
+        final regPattern = alternativeLinkRegExp;
+        usedRegExp = RegExp(
+          regPattern,
+          caseSensitive: false,
+        );
+      } catch (_) {}
+    }
+
     // Check for URL pattern.
-    final matches = detectLinkRegExp.allMatches(affectedWords);
+    final matches = usedRegExp.allMatches(affectedWords);
 
     // If there are no matches, do not apply any format.
     if (matches.isEmpty) return null;
@@ -489,7 +501,6 @@ class AutoFormatLinksRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is! String || data != ' ') {
       return null;
@@ -535,7 +546,6 @@ class PreserveInlineStylesRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (data is! String || data.contains('\n')) {
       return null;
@@ -587,7 +597,6 @@ class CatchAllInsertRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     return Delta()
       ..retain(index + (len ?? 0))

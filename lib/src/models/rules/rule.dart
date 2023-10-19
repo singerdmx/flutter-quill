@@ -37,7 +37,6 @@ abstract class Rule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   });
 
   RuleType get type;

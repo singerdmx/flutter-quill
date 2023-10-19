@@ -22,14 +22,8 @@ class EnsureLastLineBreakDeleteRule extends DeleteRule {
   const EnsureLastLineBreakDeleteRule();
 
   @override
-  Delta? applyRule(
-    Delta document,
-    int index, {
-    int? len,
-    Object? data,
-    Attribute? attribute,
-    Map<String, Object?> extraData = const {},
-  }) {
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document)..skip(index + len!);
 
     return Delta()
@@ -44,14 +38,8 @@ class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
   @override
-  Delta applyRule(
-    Delta document,
-    int index, {
-    int? len,
-    Object? data,
-    Attribute? attribute,
-    Map<String, Object?> extraData = const {},
-  }) {
+  Delta applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document)..skip(index + len!);
 
     return Delta()
@@ -70,14 +58,8 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
   @override
-  Delta? applyRule(
-    Delta document,
-    int index, {
-    int? len,
-    Object? data,
-    Attribute? attribute,
-    Map<String, Object?> extraData = const {},
-  }) {
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document)..skip(index);
     var op = itr.next(1);
     if (op.data != '\n') {
@@ -134,14 +116,8 @@ class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 
   @override
-  Delta? applyRule(
-    Delta document,
-    int index, {
-    int? len,
-    Object? data,
-    Attribute? attribute,
-    Map<String, Object?> extraData = const {},
-  }) {
+  Delta? applyRule(Delta document, int index,
+      {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document);
 
     var op = itr.skip(index);

@@ -29,7 +29,6 @@ class ResolveLineFormatRule extends FormatRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (attribute!.scope != AttributeScope.BLOCK) {
       return null;
@@ -120,7 +119,6 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (attribute!.key != Attribute.link.key || len! > 0) {
       return null;
@@ -160,7 +158,6 @@ class ResolveInlineFormatRule extends FormatRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (attribute!.scope != AttributeScope.INLINE) {
       return null;
@@ -206,7 +203,6 @@ class ResolveImageFormatRule extends FormatRule {
     int? len,
     Object? data,
     Attribute? attribute,
-    Map<String, Object?> extraData = const {},
   }) {
     if (attribute == null || attribute.key != Attribute.style.key) {
       return null;
