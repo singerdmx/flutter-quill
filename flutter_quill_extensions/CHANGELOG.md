@@ -8,6 +8,8 @@
 - Add QuillImageUtilities class
 - Small improvemenets
 - Allow to use the mobile context menu on desktop by force using it
+- Add the resizing option to the forced mobile context menu
+- Add new custom style attrbuite for desktop and other platforms
 
 ## 0.5.0
 - Migrated from `gallery_saver` to `gal` for saving images
