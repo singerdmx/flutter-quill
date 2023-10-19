@@ -227,8 +227,12 @@ class QuillController extends ChangeNotifier {
   }
 
   void replaceText(
-      int index, int len, Object? data, TextSelection? textSelection,
-      {bool ignoreFocus = false}) {
+    int index,
+    int len,
+    Object? data,
+    TextSelection? textSelection, {
+    bool ignoreFocus = false,
+  }) {
     assert(data is String || data is Embeddable);
 
     if (onReplaceText != null && !onReplaceText!(index, len, data)) {

@@ -533,7 +533,8 @@ class RawEditorState extends EditorState
         ? const BoxConstraints.expand()
         : BoxConstraints(
             minHeight: widget.minHeight ?? 0.0,
-            maxHeight: widget.maxHeight ?? double.infinity);
+            maxHeight: widget.maxHeight ?? double.infinity,
+          );
 
     // Please notice that this change will make the check fixed
     // so if we ovveride the platform in material app theme data
@@ -1512,13 +1513,23 @@ class RawEditorState extends EditorState
       final index = textEditingValue.selection.baseOffset;
       final length = textEditingValue.selection.extentOffset - index;
       final copied = controller.copiedImageUrl!;
-      controller.replaceText(index, length, BlockEmbed.image(copied.url), null);
+      controller.replaceText(
+        index,
+        length,
+        BlockEmbed.image(copied.url),
+        null,
+      );
       if (copied.styleString.isNotEmpty) {
-        controller.formatText(getEmbedNode(controller, index + 1).offset, 1,
-            StyleAttribute(copied.styleString));
+        controller.formatText(
+          getEmbedNode(controller, index + 1).offset,
+          1,
+          StyleAttribute(copied.styleString),
+        );
       }
       controller.copiedImageUrl = null;
-      await Clipboard.setData(const ClipboardData(text: ''));
+      await Clipboard.setData(
+        const ClipboardData(text: ''),
+      );
       return;
     }
 
@@ -1531,7 +1542,13 @@ class RawEditorState extends EditorState
     final text = await Clipboard.getData(Clipboard.kTextPlain);
     if (text != null) {
       _replaceText(
-          ReplaceTextIntent(textEditingValue, text.text!, selection, cause));
+        ReplaceTextIntent(
+          textEditingValue,
+          text.text!,
+          selection,
+          cause,
+        ),
+      );
 
       bringIntoView(textEditingValue.selection.extent);
 
@@ -1539,8 +1556,9 @@ class RawEditorState extends EditorState
       userUpdateTextEditingValue(
         TextEditingValue(
           text: textEditingValue.text,
-          selection:
-              TextSelection.collapsed(offset: textEditingValue.selection.end),
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
         ),
         cause,
       );
@@ -1548,14 +1566,15 @@ class RawEditorState extends EditorState
       return;
     }
 
-    if (widget.onImagePaste != null) {
+    final onImagePaste = widget.onImagePaste;
+    if (onImagePaste != null) {
       final image = await Pasteboard.image;
 
       if (image == null) {
         return;
       }
 
-      final imageUrl = await widget.onImagePaste!(image);
+      final imageUrl = await onImagePaste(image);
       if (imageUrl == null) {
         return;
       }

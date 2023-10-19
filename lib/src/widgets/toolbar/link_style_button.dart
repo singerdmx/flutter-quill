@@ -184,7 +184,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     super.initState();
     _link = widget.link ?? '';
     _text = widget.text ?? '';
-    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.linkRegExp;
+    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineRegExp;
     _linkController = TextEditingController(text: _link);
     _textController = TextEditingController(text: _text);
   }
