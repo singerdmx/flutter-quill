@@ -55,10 +55,6 @@ class ImageEmbedBuilder extends EmbedBuilder {
     OptionalSize? imageSize;
     final style = node.style.attributes['style'];
 
-    // TODO: Please use the one from [Attribute.margin]
-    const marginKey = 'margin';
-    // TODO: Please use the one from [Attribute.alignment]
-    const alignmentKey = 'alignment';
     if (style != null) {
       final attrs = base.isMobile()
           ? base.parseKeyValuePairs(style.value.toString(), {
@@ -70,8 +66,8 @@ class ImageEmbedBuilder extends EmbedBuilder {
           : base.parseKeyValuePairs(style.value.toString(), {
               Attribute.width.key,
               Attribute.height.key,
-              marginKey,
-              alignmentKey,
+              Attribute.margin,
+              Attribute.alignment,
             });
       if (attrs.isNotEmpty) {
         final width = double.tryParse(
@@ -88,10 +84,10 @@ class ImageEmbedBuilder extends EmbedBuilder {
         );
         final alignment = base.getAlignment(base.isMobile()
             ? attrs[Attribute.mobileAlignment]
-            : attrs[alignmentKey]);
+            : attrs[Attribute.alignment]);
         final margin = (base.isMobile()
                 ? double.tryParse(Attribute.mobileMargin)
-                : double.tryParse(marginKey)) ??
+                : double.tryParse(Attribute.margin)) ??
             0.0;
 
         assert(
@@ -198,57 +194,14 @@ class ImageEmbedBuilder extends EmbedBuilder {
                                       controller,
                                       controller.selection.start,
                                     );
-                                    // For desktop
-                                    String _replaceStyleStringWithSize(
-                                      String s,
-                                      double width,
-                                      double height,
-                                    ) {
-                                      final result = <String, String>{};
-                                      final pairs = s.split(';');
-                                      for (final pair in pairs) {
-                                        final _index = pair.indexOf(':');
-                                        if (_index < 0) {
-                                          continue;
-                                        }
-                                        final _key =
-                                            pair.substring(0, _index).trim();
-                                        result[_key] =
-                                            pair.substring(_index + 1).trim();
-                                      }
 
-                                      result[Attribute.width.key] =
-                                          width.toString();
-                                      result[Attribute.height.key] =
-                                          height.toString();
-                                      final sb = StringBuffer();
-                                      for (final pair in result.entries) {
-                                        sb
-                                          ..write(pair.key)
-                                          ..write(': ')
-                                          ..write(pair.value)
-                                          ..write('; ');
-                                      }
-                                      return sb.toString();
-                                    }
-
-                                    // TODO: When update flutter_quill
-                                    // we should update flutter_quill_extensions
-                                    // to use the latest version and use
-                                    // base.replaceStyleStringWithSize()
-                                    // instead of replaceStyleString
-
-                                    final attr = base.isMobile()
-                                        ? base.replaceStyleString(
-                                            getImageStyleString(controller),
-                                            w,
-                                            h,
-                                          )
-                                        : _replaceStyleStringWithSize(
-                                            getImageStyleString(controller),
-                                            w,
-                                            h,
-                                          );
+                                    final attr =
+                                        base.replaceStyleStringWithSize(
+                                      getImageStyleString(controller),
+                                      width: w,
+                                      height: h,
+                                      isMobile: base.isMobile(),
+                                    );
                                     controller
                                       ..skipRequestKeyboard = true
                                       ..formatText(

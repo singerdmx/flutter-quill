@@ -190,23 +190,23 @@ class _HomePageState extends State<HomePage> {
       onTapUp: (details, p1) {
         return _onTripleClickSelection();
       },
-      customStyles: DefaultStyles(
+      customStyles: const DefaultStyles(
         h1: DefaultTextBlockStyle(
-            const TextStyle(
+            TextStyle(
               fontSize: 32,
               color: Colors.black,
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
-            const VerticalSpacing(16, 0),
-            const VerticalSpacing(0, 0),
+            VerticalSpacing(16, 0),
+            VerticalSpacing(0, 0),
             null),
-        sizeSmall: const TextStyle(fontSize: 9),
-        subscript: const TextStyle(
+        sizeSmall: TextStyle(fontSize: 9),
+        subscript: TextStyle(
           fontFamily: 'SF-UI-Display',
           fontFeatures: [FontFeature.subscripts()],
         ),
-        superscript: const TextStyle(
+        superscript: TextStyle(
           fontFamily: 'SF-UI-Display',
           fontFeatures: [FontFeature.superscripts()],
         ),
@@ -230,18 +230,18 @@ class _HomePageState extends State<HomePage> {
           onTapUp: (details, p1) {
             return _onTripleClickSelection();
           },
-          customStyles: DefaultStyles(
+          customStyles: const DefaultStyles(
             h1: DefaultTextBlockStyle(
-                const TextStyle(
+                TextStyle(
                   fontSize: 32,
                   color: Colors.black,
                   height: 1.15,
                   fontWeight: FontWeight.w300,
                 ),
-                const VerticalSpacing(16, 0),
-                const VerticalSpacing(0, 0),
+                VerticalSpacing(16, 0),
+                VerticalSpacing(0, 0),
                 null),
-            sizeSmall: const TextStyle(fontSize: 9),
+            sizeSmall: TextStyle(fontSize: 9),
           ),
           embedBuilders: [
             ...defaultEmbedBuildersWeb,

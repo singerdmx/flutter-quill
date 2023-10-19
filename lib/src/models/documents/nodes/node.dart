@@ -22,7 +22,7 @@ abstract class Node extends LinkedListEntry<Node> {
   Container? parent;
 
   Style get style => _style;
-  Style _style = Style();
+  Style _style = const Style();
 
   /// Returns `true` if this node is the first node in the [parent] list.
   bool get isFirst => list!.first == this;
@@ -78,7 +78,7 @@ abstract class Node extends LinkedListEntry<Node> {
   }
 
   void clearStyle() {
-    _style = Style();
+    _style = const Style();
   }
 
   @override

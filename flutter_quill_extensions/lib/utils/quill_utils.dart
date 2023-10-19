@@ -74,8 +74,6 @@ class QuillImageUtilities {
       final newImageFileExtensionWithDot = path.extension(cachedImagePath);
 
       final dateTimeAsString = DateTime.now().toIso8601String();
-      // TODO: You might want to make it easier for the developer to change
-      // the newImageFileName, but he can rename it anyway
       final newImageFileName =
           '$startOfEachFile$dateTimeAsString$newImageFileExtensionWithDot';
       final newImagePath = path.join(saveDirectory.path, newImageFileName);

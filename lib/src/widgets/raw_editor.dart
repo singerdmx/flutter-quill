@@ -535,7 +535,11 @@ class RawEditorState extends EditorState
             minHeight: widget.minHeight ?? 0.0,
             maxHeight: widget.maxHeight ?? double.infinity);
 
-    final isMacOS = Theme.of(context).platform == TargetPlatform.macOS;
+    // Please notice that this change will make the check fixed
+    // so if we ovveride the platform in material app theme data
+    // it will not depend on it and doesn't change here but I don't think
+    // we need to
+    final isMacOS = isAppleOS();
 
     return TextFieldTapRegion(
       enabled: widget.enableUnfocusOnTapOutside,
@@ -915,31 +919,36 @@ class RawEditorState extends EditorState
             textDirection: getDirectionOfNode(node), child: editableTextLine));
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
-            block: node,
-            controller: controller,
+          block: node,
+          controller: controller,
+          textDirection: getDirectionOfNode(node),
+          scrollBottomInset: widget.scrollBottomInset,
+          verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
+          textSelection: controller.selection,
+          color: widget.selectionColor,
+          styles: _styles,
+          enableInteractiveSelection: widget.enableInteractiveSelection,
+          hasFocus: _hasFocus,
+          contentPadding: attrs.containsKey(Attribute.codeBlock.key)
+              ? const EdgeInsets.all(16)
+              : null,
+          embedBuilder: widget.embedBuilder,
+          linkActionPicker: _linkActionPicker,
+          onLaunchUrl: widget.onLaunchUrl,
+          cursorCont: _cursorCont,
+          indentLevelCounts: indentLevelCounts,
+          clearIndents: clearIndents,
+          onCheckboxTap: _handleCheckboxTap,
+          readOnly: widget.readOnly,
+          customStyleBuilder: widget.customStyleBuilder,
+          customLinkPrefixes: widget.customLinkPrefixes,
+        );
+        result.add(
+          Directionality(
             textDirection: getDirectionOfNode(node),
-            scrollBottomInset: widget.scrollBottomInset,
-            verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
-            textSelection: controller.selection,
-            color: widget.selectionColor,
-            styles: _styles,
-            enableInteractiveSelection: widget.enableInteractiveSelection,
-            hasFocus: _hasFocus,
-            contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-                ? const EdgeInsets.all(16)
-                : null,
-            embedBuilder: widget.embedBuilder,
-            linkActionPicker: _linkActionPicker,
-            onLaunchUrl: widget.onLaunchUrl,
-            cursorCont: _cursorCont,
-            indentLevelCounts: indentLevelCounts,
-            clearIndents: clearIndents,
-            onCheckboxTap: _handleCheckboxTap,
-            readOnly: widget.readOnly,
-            customStyleBuilder: widget.customStyleBuilder,
-            customLinkPrefixes: widget.customLinkPrefixes);
-        result.add(Directionality(
-            textDirection: getDirectionOfNode(node), child: editableTextBlock));
+            child: editableTextBlock,
+          ),
+        );
 
         clearIndents = false;
       } else {
@@ -1111,9 +1120,15 @@ class RawEditorState extends EditorState
       _styles = _styles!.merge(widget.customStyles!);
     }
 
+    // TODO: this might need some attention
+    _requestFocusIfShould();
+  }
+
+  Future<void> _requestFocusIfShould() async {
     if (!_didAutoFocus && widget.autoFocus) {
-      FocusScope.of(context).autofocus(widget.focusNode);
       _didAutoFocus = true;
+      await Future.delayed(Duration.zero);
+      FocusScope.of(context).autofocus(widget.focusNode);
     }
   }
 
@@ -2559,8 +2574,13 @@ class _OpenSearchAction extends ContextAction<OpenSearchIntent> {
 
   @override
   Future invoke(OpenSearchIntent intent, [BuildContext? context]) async {
+    if (context == null) {
+      throw ArgumentError(
+        'The context should not be null to use invoke() method',
+      );
+    }
     await showDialog<String>(
-      context: context!,
+      context: context,
       builder: (_) => SearchDialog(controller: state.controller, text: ''),
     );
   }

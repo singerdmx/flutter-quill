@@ -348,7 +348,7 @@ class Line extends Container<Leaf?> {
   /// In essence, it is INTERSECTION of each individual segment's styles
   Style collectStyle(int offset, int len) {
     final local = math.min(length - offset, len);
-    var result = Style();
+    var result = const Style();
     final excluded = <Attribute>{};
 
     void _handle(Style style) {

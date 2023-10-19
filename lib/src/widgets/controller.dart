@@ -72,7 +72,7 @@ class QuillController extends ChangeNotifier {
   /// Store any styles attribute that got toggled by the tap of a button
   /// and that has not been applied yet.
   /// It gets reset after each format action within the [document].
-  Style toggledStyle = Style();
+  Style toggledStyle = const Style();
 
   bool ignoreFocusOnTextChange = false;
 
@@ -405,7 +405,7 @@ class QuillController extends ChangeNotifier {
       );
       toggledStyle = style.removeAll(ignoredStyles.toSet());
     } else {
-      toggledStyle = Style();
+      toggledStyle = const Style();
     }
     onSelectionChanged?.call(textSelection);
   }
@@ -426,5 +426,5 @@ class QuillController extends ChangeNotifier {
   }
 
   // Notify toolbar buttons directly with attributes
-  Map<String, Attribute> toolbarButtonToggler = {};
+  Map<String, Attribute> toolbarButtonToggler = const {};
 }

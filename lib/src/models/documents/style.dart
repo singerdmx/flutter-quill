@@ -1,19 +1,21 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:quiver/core.dart';
 
 import 'attribute.dart';
 
 /* Collection of style attributes */
+@immutable
 class Style {
-  Style() : _attributes = <String, Attribute>{};
+  const Style() : _attributes = const <String, Attribute>{};
 
-  Style.attr(this._attributes);
+  const Style.attr(this._attributes);
 
   final Map<String, Attribute> _attributes;
 
   static Style fromJson(Map<String, dynamic>? attributes) {
     if (attributes == null) {
-      return Style();
+      return const Style();
     }
 
     final result = attributes.map((key, dynamic value) {

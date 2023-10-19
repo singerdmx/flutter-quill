@@ -34,8 +34,9 @@ class QuillStyles extends InheritedWidget {
 
 /// Style theme applied to a block of rich text, including single-line
 /// paragraphs.
+@immutable
 class DefaultTextBlockStyle {
-  DefaultTextBlockStyle(
+  const DefaultTextBlockStyle(
     this.style,
     this.verticalSpacing,
     this.lineSpacing,
@@ -124,8 +125,9 @@ class InlineCodeStyle {
       Object.hash(style, header1, header2, header3, backgroundColor, radius);
 }
 
+@immutable
 class DefaultListBlockStyle extends DefaultTextBlockStyle {
-  DefaultListBlockStyle(
+  const DefaultListBlockStyle(
     TextStyle style,
     VerticalSpacing verticalSpacing,
     VerticalSpacing lineSpacing,
@@ -136,8 +138,9 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
   final QuillCheckboxBuilder? checkboxUIBuilder;
 }
 
+@immutable
 class DefaultStyles {
-  DefaultStyles({
+  const DefaultStyles({
     this.h1,
     this.h2,
     this.h3,
