@@ -232,16 +232,11 @@ class ImageEmbedBuilder extends EmbedBuilder {
                                       return sb.toString();
                                     }
 
-                                    // TODO: Please consider add bool
-                                    // property in
-                                    // replaceStyleString that will use either
-                                    // mobileWidth or width based on that
-                                    // property
-                                    // but that require changes to the
-                                    // flutter_quill
-                                    // and it should be
-                                    // published and then we can
-                                    // change it from flutter_quill_extensions
+                                    // TODO: When update flutter_quill
+                                    // we should update flutter_quill_extensions
+                                    // to use the latest version and use
+                                    // base.replaceStyleStringWithSize()
+                                    // instead of replaceStyleString
 
                                     final attr = base.isMobile()
                                         ? base.replaceStyleString(
