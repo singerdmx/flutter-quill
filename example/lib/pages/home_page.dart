@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  QuillController? _controller;
+  late final QuillController _controller;
   final FocusNode _focusNode = FocusNode();
   Timer? _selectAllTimer;
   _SelectionType _selectionType = _SelectionType.none;
@@ -38,6 +38,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _selectAllTimer?.cancel();
+    // Dispose the controller to free resources
+    _controller.dispose();
     super.dispose();
   }
 
@@ -55,7 +57,9 @@ class _HomePageState extends State<HomePage> {
       final doc = Document.fromJson(jsonDecode(result));
       setState(() {
         _controller = QuillController(
-            document: doc, selection: const TextSelection.collapsed(offset: 0));
+          document: doc,
+          selection: const TextSelection.collapsed(offset: 0),
+        );
       });
     } catch (error) {
       final doc = Document()..insert(0, 'Empty asset');
@@ -85,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () => _insertTimeStamp(
-              _controller!,
+              _controller,
               DateTime.now().toString(),
             ),
             icon: const Icon(Icons.add_alarm_rounded),
@@ -94,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () => showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                content: Text(_controller!.document.toPlainText([
+                content: Text(_controller.document.toPlainText([
                   ...FlutterQuillEmbeds.builders(),
                   TimeStampEmbedBuilderWidget()
                 ])),
@@ -115,7 +119,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   bool _onTripleClickSelection() {
-    final controller = _controller!;
+    final controller = _controller;
 
     _selectAllTimer?.cancel();
     _selectAllTimer = null;
@@ -317,11 +321,11 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: QuillProvider(
         configurations: QuillConfigurations(
-          controller: _controller ??
-              (throw ArgumentError.checkNotNull(
-                _controller,
-                'Quill controller',
-              )),
+          // (throw ArgumentError.checkNotNull(
+          // _controller,
+          // 'Quill controller',
+          // ))
+          controller: _controller,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
