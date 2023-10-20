@@ -1412,7 +1412,6 @@ class RawEditorState extends EditorState
   /// keyboard become visible.
   @override
   void requestKeyboard() {
-    print('Time:');
     if (controller.skipRequestKeyboard) {
       // TODO: There is a bug, requestKeyboard is being called 2-4 times!
       // and that just by one simple change
