@@ -9,9 +9,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart';
-import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/flutter_quill.dart' hide QuillText;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 import '../universal_ui/universal_ui.dart';
@@ -61,7 +61,9 @@ class _HomePageState extends State<HomePage> {
       final doc = Document()..insert(0, 'Empty asset');
       setState(() {
         _controller = QuillController(
-            document: doc, selection: const TextSelection.collapsed(offset: 0));
+          document: doc,
+          selection: const TextSelection.collapsed(offset: 0),
+        );
       });
     }
   }
@@ -174,9 +176,40 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _buildWelcomeEditor(BuildContext context) {
-    Widget quillEditor = QuillEditor(
-      controller: _controller!,
+  QuillEditor get quillEditor {
+    if (kIsWeb) {
+      return QuillEditor(
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: _focusNode,
+        autoFocus: false,
+        readOnly: false,
+        placeholder: 'Add content',
+        expands: false,
+        padding: EdgeInsets.zero,
+        onTapUp: (details, p1) {
+          return _onTripleClickSelection();
+        },
+        customStyles: const DefaultStyles(
+          h1: DefaultTextBlockStyle(
+              TextStyle(
+                fontSize: 32,
+                color: Colors.black,
+                height: 1.15,
+                fontWeight: FontWeight.w300,
+              ),
+              VerticalSpacing(16, 0),
+              VerticalSpacing(0, 0),
+              null),
+          sizeSmall: TextStyle(fontSize: 9),
+        ),
+        embedBuilders: [
+          ...defaultEmbedBuildersWeb,
+          TimeStampEmbedBuilderWidget()
+        ],
+      );
+    }
+    return QuillEditor(
       scrollController: ScrollController(),
       scrollable: true,
       focusNode: _focusNode,
@@ -216,40 +249,30 @@ class _HomePageState extends State<HomePage> {
         TimeStampEmbedBuilderWidget()
       ],
     );
+  }
+
+  QuillToolbar get quillToolbar {
     if (kIsWeb) {
-      quillEditor = QuillEditor(
-          controller: _controller!,
-          scrollController: ScrollController(),
-          scrollable: true,
-          focusNode: _focusNode,
-          autoFocus: false,
-          readOnly: false,
-          placeholder: 'Add content',
-          expands: false,
-          padding: EdgeInsets.zero,
-          onTapUp: (details, p1) {
-            return _onTripleClickSelection();
-          },
-          customStyles: const DefaultStyles(
-            h1: DefaultTextBlockStyle(
-                TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  height: 1.15,
-                  fontWeight: FontWeight.w300,
-                ),
-                VerticalSpacing(16, 0),
-                VerticalSpacing(0, 0),
-                null),
-            sizeSmall: TextStyle(fontSize: 9),
-          ),
-          embedBuilders: [
-            ...defaultEmbedBuildersWeb,
-            TimeStampEmbedBuilderWidget()
-          ]);
+      return QuillToolbar.basic(
+        embedButtons: FlutterQuillEmbeds.buttons(
+          onImagePickCallback: _onImagePickCallback,
+          webImagePickImpl: _webImagePickImpl,
+        ),
+        showAlignmentButtons: true,
+        afterButtonPressed: _focusNode.requestFocus,
+      );
     }
-    var toolbar = QuillToolbar.basic(
-      context: context,
+    if (_isDesktop()) {
+      return QuillToolbar.basic(
+        embedButtons: FlutterQuillEmbeds.buttons(
+          onImagePickCallback: _onImagePickCallback,
+          filePickImpl: openFileSystemPickerForDesktop,
+        ),
+        showAlignmentButtons: true,
+        afterButtonPressed: _focusNode.requestFocus,
+      );
+    }
+    return QuillToolbar.basic(
       embedButtons: FlutterQuillEmbeds.buttons(
         // provide a callback to enable picking images from device.
         // if omit, "image" button only allows adding images from url.
@@ -264,29 +287,33 @@ class _HomePageState extends State<HomePage> {
       showAlignmentButtons: true,
       afterButtonPressed: _focusNode.requestFocus,
     );
-    if (kIsWeb) {
-      toolbar = QuillToolbar.basic(
-        context: context,
-        embedButtons: FlutterQuillEmbeds.buttons(
-          onImagePickCallback: _onImagePickCallback,
-          webImagePickImpl: _webImagePickImpl,
-        ),
-        showAlignmentButtons: true,
-        afterButtonPressed: _focusNode.requestFocus,
-      );
-    }
-    if (_isDesktop()) {
-      toolbar = QuillToolbar.basic(
-        context: context,
-        embedButtons: FlutterQuillEmbeds.buttons(
-          onImagePickCallback: _onImagePickCallback,
-          filePickImpl: openFileSystemPickerForDesktop,
-        ),
-        showAlignmentButtons: true,
-        afterButtonPressed: _focusNode.requestFocus,
-      );
-    }
+  }
 
+  Widget _buildWelcomeEditor(BuildContext context) {
+    // BUG in web!! should not releated to this pull request
+    ///
+    ///══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═════════════════════
+    ///══════════════════════════════════════
+    // The following bool object was thrown building MediaQuery
+    //(MediaQueryData(size: Size(769.0, 1205.0),
+    // devicePixelRatio: 1.0, textScaleFactor: 1.0, platformBrightness:
+    //Brightness.dark, padding:
+    // EdgeInsets.zero, viewPadding: EdgeInsets.zero, viewInsets:
+    // EdgeInsets.zero,
+    // systemGestureInsets:
+    // EdgeInsets.zero, alwaysUse24HourFormat: false, accessibleNavigation:
+    // false,
+    // highContrast: false,
+    // disableAnimations: false, invertColors: false, boldText: false,
+    //navigationMode: traditional,
+    // gestureSettings: DeviceGestureSettings(touchSlop: null), displayFeatures:
+    // []
+    // )):
+    //   false
+    // The relevant error-causing widget was:
+    //   SafeArea
+    ///
+    ///
     return SafeArea(
       child: QuillProvider(
         configurations: QuillConfigurations(
@@ -312,9 +339,9 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                     padding:
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    child: toolbar,
+                    child: quillToolbar,
                   ))
-                : Container(child: toolbar)
+                : Container(child: quillToolbar)
           ],
         ),
       ),
@@ -339,7 +366,7 @@ class _HomePageState extends State<HomePage> {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final copiedFile =
-        await file.copy('${appDocDir.path}/${basename(file.path)}');
+        await file.copy('${appDocDir.path}/${path.basename(file.path)}');
     return copiedFile.path.toString();
   }
 
@@ -364,7 +391,7 @@ class _HomePageState extends State<HomePage> {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final copiedFile =
-        await file.copy('${appDocDir.path}/${basename(file.path)}');
+        await file.copy('${appDocDir.path}/${path.basename(file.path)}');
     return copiedFile.path.toString();
   }
 
@@ -462,8 +489,8 @@ class _HomePageState extends State<HomePage> {
     // Saves the image to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final file = await File(
-            '${appDocDir.path}/${basename('${DateTime.now().millisecondsSinceEpoch}.png')}')
-        .writeAsBytes(imageBytes, flush: true);
+      '${appDocDir.path}/${path.basename('${DateTime.now().millisecondsSinceEpoch}.png')}',
+    ).writeAsBytes(imageBytes, flush: true);
     return file.path.toString();
   }
 

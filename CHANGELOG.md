@@ -1,3 +1,7 @@
+# [7.4.17]
+
+- **Breaking change**: The widgets `QuillEditor` and `QuillToolbar` are no longer have controller parameter, instead you need to make sure in the widget tree you have wrapped them with `QuillProvider` widget and provide the controller and the require configurations
+
 # [7.4.16]
 
 - Update documentation and README.md

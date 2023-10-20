@@ -240,7 +240,7 @@ class _TextLineState extends State<TextLine> {
   TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
       TextStyle lineStyle) {
     if (nodes.isEmpty && kIsWeb) {
-      nodes = LinkedList<Node>()..add(leaf.Text('\u{200B}'));
+      nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
     final children = nodes
         .map((node) =>
@@ -307,7 +307,7 @@ class _TextLineState extends State<TextLine> {
 
   TextSpan _getTextSpanFromNode(
       DefaultStyles defaultStyles, Node node, Style lineStyle) {
-    final textNode = node as leaf.Text;
+    final textNode = node as leaf.QuillText;
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
@@ -323,8 +323,12 @@ class _TextLineState extends State<TextLine> {
     );
   }
 
-  TextStyle _getInlineTextStyle(leaf.Text textNode, DefaultStyles defaultStyles,
-      Style nodeStyle, Style lineStyle, bool isLink) {
+  TextStyle _getInlineTextStyle(
+      leaf.QuillText textNode,
+      DefaultStyles defaultStyles,
+      Style nodeStyle,
+      Style lineStyle,
+      bool isLink) {
     var res = const TextStyle(); // This is inline text style
     final color = textNode.style.attributes[Attribute.color.key];
 
@@ -413,7 +417,7 @@ class _TextLineState extends State<TextLine> {
     }
 
     if (widget.customRecognizerBuilder != null) {
-      final textNode = segment as leaf.Text;
+      final textNode = segment as leaf.QuillText;
       final nodeStyle = textNode.style;
 
       nodeStyle.attributes.forEach((key, value) {
@@ -1097,7 +1101,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 
       if (inlineCodeStyle.backgroundColor != null) {
         for (final item in line.children) {
-          if (item is! leaf.Text ||
+          if (item is! leaf.QuillText ||
               !item.style.containsKey(Attribute.inlineCode.key)) {
             continue;
           }

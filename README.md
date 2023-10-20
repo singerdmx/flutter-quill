@@ -476,6 +476,22 @@ and then enter text using `quillEnterText`:
 await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 ```
 
+## License
+
+[MIT](LICENSE)
+
+## Contributors
+
+Special thanks for everyone that have contributed to this project...
+
+<a href="https://github.com/singerdmx/flutter-quill/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=singerdmx/flutter-quill" />
+</a>
+
+<br>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Sponsors
 
 <a href="https://bulletjournal.us/home/index.html">

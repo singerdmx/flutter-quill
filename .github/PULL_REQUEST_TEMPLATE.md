@@ -40,5 +40,6 @@ Closes #IssueNumber
 - [ ] I have tested these changes locally. <!-- REQUIRED -->
 - [ ] I have followed the code style and guidelines. <!-- REQUIRED -->
 - [ ] I have updated `CHANGELOG.md` with my changes in the next section <!-- REQUIRED -->
-- [ ] I have run "dart format ." on the project <!-- REQUIRED -->
+- [ ] I have run `dart format .`` on the project <!-- REQUIRED -->
+- [ ] I have run `dart fix --apply` on the project <!-- REQUIRED -->
 - [ ] I have run `flutter test` and `flutter analyze` and it passed successfully <!-- REQUIRED -->

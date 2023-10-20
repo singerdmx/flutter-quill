@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
-import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/flutter_quill.dart' hide QuillText;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 import '../universal_ui/universal_ui.dart';
@@ -35,7 +35,6 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
 
   Widget _buildContent(BuildContext context, QuillController? controller) {
     var quillEditor = QuillEditor(
-      controller: controller!,
       scrollController: ScrollController(),
       scrollable: true,
       focusNode: _focusNode,
@@ -47,7 +46,6 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
-          controller: controller,
           scrollController: ScrollController(),
           scrollable: true,
           focusNode: _focusNode,

@@ -18,4 +18,20 @@ extension BuildContextExt on BuildContext {
   QuillController get requireQuillController {
     return requireQuillProvider.configurations.controller;
   }
+
+  QuillConfigurations get requireQuillConfigurations {
+    return requireQuillProvider.configurations;
+  }
+
+  QuillConfigurations? get quillConfigurations {
+    return quillProvider?.configurations;
+  }
+
+  QuillSharedConfigurations? get sharedQuillConfigurations {
+    return quillConfigurations?.sharedConfigurations;
+  }
+
+  QuillSharedConfigurations get requireSharedQuillConfigurations {
+    return requireQuillConfigurations.sharedConfigurations;
+  }
 }

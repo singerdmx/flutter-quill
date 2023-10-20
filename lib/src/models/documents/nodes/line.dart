@@ -15,13 +15,13 @@ import 'node.dart';
 
 /// A line of rich text in a Quill document.
 ///
-/// Line serves as a container for [Leaf]s, like [Text] and [Embed].
+/// Line serves as a container for [Leaf]s, like [QuillText] and [Embed].
 ///
 /// When a line contains an embed, it fully occupies the line, no other embeds
 /// or text nodes are allowed.
 class Line extends Container<Leaf?> {
   @override
-  Leaf get defaultChild => Text();
+  Leaf get defaultChild => QuillText();
 
   @override
   int get length => super.length + 1;
@@ -400,14 +400,14 @@ class Line extends Container<Leaf?> {
     if (node != null) {
       var pos = 0;
       pos = node.length - data.offset;
-      if (node is Text && node.style.isNotEmpty) {
+      if (node is QuillText && node.style.isNotEmpty) {
         result.add(OffsetValue(beg, node.style, node.length));
       } else if (node.value is Embeddable) {
         result.add(OffsetValue(beg, node.value as Embeddable, node.length));
       }
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        if (node is Text && node.style.isNotEmpty) {
+        if (node is QuillText && node.style.isNotEmpty) {
           result.add(OffsetValue(pos + beg, node.style, node.length));
         } else if (node.value is Embeddable) {
           result.add(
