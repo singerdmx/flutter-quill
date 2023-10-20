@@ -11,18 +11,18 @@ Closes #IssueNumber
 (Replace "IssueNumber" with the actual issue number you are addressing.)
 
 ## Improvements
-<!-- Please tell us the improvemenets you made in a list -->
+<!-- Please tell us the improvements you made in a list -->
 
 <!-- Example: -->
 - Improve code readability
-- Improve peformance
+- Improve performance
 
 ## Features
 <!-- Please tell us the features you added in a list if you add any -->
 
 <!-- Example: -->
 - Add a new feature
-- Allow to custmize the widgets
+- Allow to customize the widgets
 
 <!-- Remove this if your pull request about other changes -->
 
