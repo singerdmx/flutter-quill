@@ -15,15 +15,6 @@ I have tried running `example` directory successfully before creating an issue h
 
 Please note that we are using <b>latest</b> flutter version in stable channel on branch master. If you are using beta or master channel, or you are not using <b>latest</b> flutter version in stable channel, you may experience error.
 
-## Pre-launch Checklist
-
-<!-- Mark all that applies with `x` -->
-
-- [] I have updated `CHANGELOG.md` with my changes in the next section <!-- REQUIRED -->
-- [] I have run "dart format ." on the project <!-- REQUIRED -->
-- [] I have added/updated relevant documentation <!-- REQUIRED -->
-- [] I have run `flutter test` and `flutter analyze` and it passed successfully <!-- REQUIRED -->
-
 <!-- Please explain how to encounter the issue in details if possible -->
 
 <!-- Don't forgot to mention the platform you are testing in -->
