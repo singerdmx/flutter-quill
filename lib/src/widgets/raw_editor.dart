@@ -1,17 +1,28 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
+import 'dart:async' show StreamSubscription;
+import 'dart:convert' show jsonDecode;
+import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:pasteboard/pasteboard.dart';
+import 'package:flutter/rendering.dart'
+    show RenderAbstractViewport, ViewportOffset;
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
+import 'package:flutter/services.dart'
+    show
+        LogicalKeyboardKey,
+        Uint8List,
+        RawKeyDownEvent,
+        HardwareKeyboard,
+        Clipboard,
+        ClipboardData,
+        TextLayoutMetrics,
+        TextInputControl;
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
+    show KeyboardVisibilityController;
+import 'package:pasteboard/pasteboard.dart' show Pasteboard;
 
 import '../models/documents/attribute.dart';
 import '../models/documents/document.dart';
@@ -423,7 +434,7 @@ class RawEditorState extends EditorState
         // in the web browser, but we do unfocus for all other kinds of events.
         switch (event.kind) {
           case ui.PointerDeviceKind.touch:
-            if (kIsWeb) {
+            if (isWeb()) {
               widget.focusNode.unfocus();
             }
             break;
@@ -838,7 +849,9 @@ class RawEditorState extends EditorState
   }
 
   void _handleSelectionChanged(
-      TextSelection selection, SelectionChangedCause cause) {
+    TextSelection selection,
+    SelectionChangedCause cause,
+  ) {
     final oldSelection = controller.selection;
     controller.updateSelection(selection, ChangeSource.LOCAL);
 
@@ -1034,15 +1047,17 @@ class RawEditorState extends EditorState
     return const VerticalSpacing(0, 0);
   }
 
+  void _didChangeTextEditingValueListener() {
+    _didChangeTextEditingValue(controller.ignoreFocusOnTextChange);
+  }
+
   @override
   void initState() {
     super.initState();
 
     _clipboardStatus.addListener(_onChangedClipboardStatus);
 
-    controller.addListener(() {
-      _didChangeTextEditingValue(controller.ignoreFocusOnTextChange);
-    });
+    controller.addListener(_didChangeTextEditingValueListener);
 
     _scrollController = widget.scrollController;
     _scrollController.addListener(_updateSelectionOverlayForScroll);
@@ -1059,7 +1074,7 @@ class RawEditorState extends EditorState
 
     if (isKeyboardOS()) {
       _keyboardVisible = true;
-    } else if (!kIsWeb && Platform.environment.containsKey('FLUTTER_TEST')) {
+    } else if (!isWeb() && Platform.environment.containsKey('FLUTTER_TEST')) {
       // treat tests like a keyboard OS
       _keyboardVisible = true;
     } else {
@@ -1189,7 +1204,7 @@ class RawEditorState extends EditorState
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
-    controller.removeListener(_didChangeTextEditingValue);
+    controller.removeListener(_didChangeTextEditingValueListener);
     widget.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
     _clipboardStatus
@@ -1208,13 +1223,17 @@ class RawEditorState extends EditorState
   /// state being in sync with the controller know they may be
   /// operating on stale data.
   void _markNeedsBuild() {
+    if (_dirty) {
+      // No need to rebuilt if it already darty
+      return;
+    }
     setState(() {
       _dirty = true;
     });
   }
 
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {
-    if (kIsWeb) {
+    if (isWeb()) {
       _onChangeTextEditingValue(ignoreFocus);
       if (!ignoreFocus) {
         requestKeyboard();
@@ -1393,7 +1412,10 @@ class RawEditorState extends EditorState
   /// keyboard become visible.
   @override
   void requestKeyboard() {
+    print('Time:');
     if (controller.skipRequestKeyboard) {
+      // TODO: There is a bug, requestKeyboard is being called 2-4 times!
+      // and that just by one simple change
       controller.skipRequestKeyboard = false;
       return;
     }
@@ -1402,7 +1424,10 @@ class RawEditorState extends EditorState
       openConnectionIfNeeded();
       if (!keyboardAlreadyShown) {
         /// delay 500 milliseconds for waiting keyboard show up
-        Future.delayed(const Duration(milliseconds: 500), _showCaretOnScreen);
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          _showCaretOnScreen,
+        );
       } else {
         _showCaretOnScreen();
       }
@@ -1421,7 +1446,7 @@ class RawEditorState extends EditorState
     // toolbar: copy, paste, select, cut. It might also provide additional
     // functionality depending on the browser (such as translate). Due to this
     // we should not show a Flutter toolbar for the editable text elements.
-    if (kIsWeb) {
+    if (isWeb()) {
       return false;
     }
 
@@ -1769,7 +1794,9 @@ class RawEditorState extends EditorState
 
   @override
   void didChangeInputControl(
-      TextInputControl? oldControl, TextInputControl? newControl) {
+    TextInputControl? oldControl,
+    TextInputControl? newControl,
+  ) {
     // TODO: implement didChangeInputControl
   }
 
@@ -1850,7 +1877,9 @@ class _Editor extends MultiChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, covariant RenderEditor renderObject) {
+    BuildContext context,
+    covariant RenderEditor renderObject,
+  ) {
     renderObject
       ..offset = offset
       ..document = document

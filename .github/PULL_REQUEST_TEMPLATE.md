@@ -1,0 +1,36 @@
+# Pull Request
+
+## Description
+
+Provide a brief description of your changes.
+
+## Issues
+
+Closes #IssueNumber
+(Replace "IssueNumber" with the actual issue number you are addressing.)
+
+## Improvements
+<!-- Please tell us the improvemenets you made in a list -->
+
+<!-- Example: -->
+- Improve code readability
+- Improve peformance
+
+## Features
+<!-- Please tell us the features you added in a list -->
+
+<!-- Example: -->
+- Add a new feature
+- Allow to custmize the widgets
+
+## Checklist
+
+<!-- Mark all that applies with `[x]` -->
+
+- [ ] I have added/updated relevant documentation <!-- REQUIRED -->
+- [ ] I have tested these changes locally. <!-- REQUIRED -->
+- [ ] I have added tests for these changes. <!--  Not required but will be helpful-->
+- [ ] I have followed the code style and guidelines. <!-- REQUIRED -->
+- [ ] I have updated `CHANGELOG.md` with my changes in the next section <!-- REQUIRED -->
+- [ ] I have run "dart format ." on the project <!-- REQUIRED -->
+- [ ] I have run `flutter test` and `flutter analyze` and it passed successfully <!-- REQUIRED -->

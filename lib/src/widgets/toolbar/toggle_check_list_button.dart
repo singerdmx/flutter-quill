@@ -111,8 +111,15 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
   }
 
   void _toggleAttribute() {
-    widget.controller.formatSelection(_isToggled!
-        ? Attribute.clone(Attribute.unchecked, null)
-        : Attribute.unchecked);
+    // By default don't show the keybaord request as it's quite annoying
+    // We will provide the option to control this in the next major update
+    // See https://github.com/singerdmx/flutter-quill/issues/1440
+    widget.controller
+      ..skipRequestKeyboard = true
+      ..formatSelection(
+        _isToggled!
+            ? Attribute.clone(Attribute.unchecked, null)
+            : Attribute.unchecked,
+      );
   }
 }

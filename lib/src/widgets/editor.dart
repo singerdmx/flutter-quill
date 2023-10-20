@@ -583,7 +583,7 @@ class QuillEditorState extends State<QuillEditor>
           : child,
     );
 
-    if (kIsWeb) {
+    if (isWeb()) {
       // Intercept RawKeyEvent on Web to prevent it from propagating to parents
       // that might interfere with the editor key behavior, such as
       // SingleChildScrollView. Thanks to @wliumelb for the workaround.
@@ -633,7 +633,13 @@ class QuillEditorState extends State<QuillEditor>
   bool get selectionEnabled => widget.enableInteractiveSelection;
 
   void _requestKeyboard() {
-    _editorKey.currentState!.requestKeyboard();
+    final editorCurrentState = _editorKey.currentState;
+    if (editorCurrentState == null) {
+      throw ArgumentError.notNull(
+        'To request keyboard the editor key must not be null',
+      );
+    }
+    editorCurrentState.requestKeyboard();
   }
 }
 
