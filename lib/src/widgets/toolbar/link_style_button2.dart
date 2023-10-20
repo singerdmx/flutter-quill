@@ -30,6 +30,7 @@ class LinkStyleButton2 extends StatefulWidget {
     this.autovalidateMode = AutovalidateMode.disabled,
     this.validationMessage,
     this.buttonSize,
+    this.dialogBarrierColor = Colors.black54,
     Key? key,
   })  : assert(addLinkLabel == null || addLinkLabel.length > 0),
         assert(editLinkLabel == null || editLinkLabel.length > 0),
@@ -65,6 +66,8 @@ class LinkStyleButton2 extends StatefulWidget {
 
   /// The size of dialog buttons.
   final Size? buttonSize;
+
+  final Color dialogBarrierColor;
 
   @override
   State<LinkStyleButton2> createState() => _LinkStyleButton2State();
@@ -124,6 +127,7 @@ class _LinkStyleButton2State extends State<LinkStyleButton2> {
 
     final textLink = await showDialog<QuillTextLink>(
       context: context,
+      barrierColor: widget.dialogBarrierColor,
       builder: (_) => LinkStyleDialog(
         dialogTheme: widget.dialogTheme,
         text: initialTextLink.text,

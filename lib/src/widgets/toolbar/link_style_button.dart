@@ -21,6 +21,7 @@ class LinkStyleButton extends StatefulWidget {
     this.tooltip,
     this.linkRegExp,
     this.linkDialogAction,
+    this.dialogBarrierColor = Colors.black54,
     Key? key,
   }) : super(key: key);
 
@@ -33,6 +34,7 @@ class LinkStyleButton extends StatefulWidget {
   final String? tooltip;
   final RegExp? linkRegExp;
   final LinkDialogAction? linkDialogAction;
+  final Color dialogBarrierColor;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -95,6 +97,7 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
   void _openLinkDialog(BuildContext context) {
     showDialog<_TextLink>(
       context: context,
+      barrierColor: widget.dialogBarrierColor,
       builder: (ctx) {
         final link = _getLinkAttributeValue();
         final index = widget.controller.selection.start;

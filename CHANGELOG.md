@@ -1,8 +1,15 @@
-# [7.4.14]
+# [7.4.16]
+
+- Update documentation and README.md
+
+# [7.4.15]
 
 - Custom style attrbuites for platforms other than mobile (alignment, margin, width, height)
-- Improve performance by reducing the number of widgets rebuilt by listening to media query for only the needed things, for example instead of using `MediaQuery.of(context).size`, now we are using `MediaQuery.sizeOf(context)`
 - Bug fixes and other improvemenets
+
+# [7.4.14]
+
+- Improve performance by reducing the number of widgets rebuilt by listening to media query for only the needed things, for example instead of using `MediaQuery.of(context).size`, now we are using `MediaQuery.sizeOf(context)`
 - Add MediaButton for picking the images only since the video one is not ready
 - A  new feature which allows customizing the text selection in quill editor which is useful for custom theme design system for custom app widget
 

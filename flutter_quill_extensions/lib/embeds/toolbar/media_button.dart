@@ -39,6 +39,7 @@ class MediaButton extends StatelessWidget {
     this.galleryButtonText,
     this.linkButtonText,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.dialogBarrierColor = Colors.black54,
     Key? key,
     this.validationMessage,
   })  : assert(type == QuillMediaType.image,
@@ -55,6 +56,7 @@ class MediaButton extends StatelessWidget {
   final String? tooltip;
   final MediaFilePicker mediaFilePicker;
   final MediaPickedCallback? onMediaPickedCallback;
+  final Color dialogBarrierColor;
 
   /// The margin between child widgets in the dialog.
   final double childrenSpacing;
@@ -344,10 +346,8 @@ class _MediaLinkDialogState extends State<MediaLinkDialog> {
   void _submitLink() => Navigator.pop(context, _linkController.text);
 
   String? _validateLink(String? value) {
-    // TODO: Use [AutoFormatMultipleLinksRule.oneLineRegExp]
-    // in the next update
     if ((value?.isEmpty ?? false) ||
-        !AutoFormatMultipleLinksRule.linkRegExp.hasMatch(value!)) {
+        !AutoFormatMultipleLinksRule.oneLineRegExp.hasMatch(value!)) {
       return widget.validationMessage ?? 'That is not a valid URL';
     }
 

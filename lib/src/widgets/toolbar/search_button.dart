@@ -13,6 +13,7 @@ class SearchButton extends StatelessWidget {
     this.iconSize = kDefaultIconSize,
     this.fillColor,
     this.iconTheme,
+    this.dialogBarrierColor = Colors.black54,
     this.dialogTheme,
     this.afterButtonPressed,
     this.tooltip,
@@ -24,6 +25,7 @@ class SearchButton extends StatelessWidget {
 
   final QuillController controller;
   final Color? fillColor;
+  final Color dialogBarrierColor;
   final QuillIconTheme? iconTheme;
 
   final QuillDialogTheme? dialogTheme;
@@ -52,12 +54,19 @@ class SearchButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    await showDialog<String>(
+    final value = await showDialog<String>(
+      barrierColor: dialogBarrierColor,
       context: context,
       builder: (_) => SearchDialog(
-          controller: controller, dialogTheme: dialogTheme, text: ''),
-    ).then(_searchSubmitted);
+        controller: controller,
+        dialogTheme: dialogTheme,
+        text: '',
+      ),
+    );
+    _searchSubmitted(value);
   }
 
-  void _searchSubmitted(String? value) {}
+  void _searchSubmitted(String? value) {
+    // If we are doing nothing here then why we care about the result??
+  }
 }
