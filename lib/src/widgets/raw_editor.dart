@@ -1830,21 +1830,22 @@ class _Editor extends MultiChildRenderObjectWidget {
   @override
   RenderEditor createRenderObject(BuildContext context) {
     return RenderEditor(
-        offset: offset,
-        document: document,
-        textDirection: textDirection,
-        hasFocus: hasFocus,
-        scrollable: scrollable,
-        selection: selection,
-        startHandleLayerLink: startHandleLayerLink,
-        endHandleLayerLink: endHandleLayerLink,
-        onSelectionChanged: onSelectionChanged,
-        onSelectionCompleted: onSelectionCompleted,
-        cursorController: cursorController,
-        padding: padding,
-        maxContentWidth: maxContentWidth,
-        scrollBottomInset: scrollBottomInset,
-        floatingCursorDisabled: floatingCursorDisabled);
+      offset: offset,
+      document: document,
+      textDirection: textDirection,
+      hasFocus: hasFocus,
+      scrollable: scrollable,
+      selection: selection,
+      startHandleLayerLink: startHandleLayerLink,
+      endHandleLayerLink: endHandleLayerLink,
+      onSelectionChanged: onSelectionChanged,
+      onSelectionCompleted: onSelectionCompleted,
+      cursorController: cursorController,
+      padding: padding,
+      maxContentWidth: maxContentWidth,
+      scrollBottomInset: scrollBottomInset,
+      floatingCursorDisabled: floatingCursorDisabled,
+    );
   }
 
   @override

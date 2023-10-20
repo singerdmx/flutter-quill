@@ -74,11 +74,11 @@ class VideoButton extends StatelessWidget {
         if (source == MediaPickSetting.Gallery) {
           _pickVideo(context);
         } else {
-          _typeLink(context);
+          await _typeLink(context);
         }
       }
     } else {
-      _typeLink(context);
+      await _typeLink(context);
     }
   }
 
@@ -91,11 +91,12 @@ class VideoButton extends StatelessWidget {
         webVideoPickImpl: webVideoPickImpl,
       );
 
-  void _typeLink(BuildContext context) {
-    showDialog<String>(
+  Future<void> _typeLink(BuildContext context) async {
+    final value = await showDialog<String>(
       context: context,
       builder: (_) => LinkDialog(dialogTheme: dialogTheme),
-    ).then(_linkSubmitted);
+    );
+    _linkSubmitted(value);
   }
 
   void _linkSubmitted(String? value) {

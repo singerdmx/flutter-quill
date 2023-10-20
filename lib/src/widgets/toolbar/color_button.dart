@@ -22,6 +22,7 @@ class ColorButton extends StatefulWidget {
     this.iconTheme,
     this.afterButtonPressed,
     this.tooltip,
+    this.dialogBarrierColor = Colors.black54,
     Key? key,
   }) : super(key: key);
 
@@ -32,6 +33,7 @@ class ColorButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
+  final Color dialogBarrierColor;
 
   @override
   _ColorButtonState createState() => _ColorButtonState();
@@ -159,6 +161,7 @@ class _ColorButtonState extends State<ColorButton> {
 
     showDialog<String>(
       context: context,
+      barrierColor: widget.dialogBarrierColor,
       builder: (context) => StatefulBuilder(builder: (context, dlgSetState) {
         return AlertDialog(
             title: Text('Select Color'.i18n),

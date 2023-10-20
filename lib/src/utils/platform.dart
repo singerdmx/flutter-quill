@@ -2,14 +2,18 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, TargetPlatform, defaultTargetPlatform;
 
+bool isWeb() {
+  return kIsWeb;
+}
+
 bool isMobile([TargetPlatform? targetPlatform]) {
-  if (kIsWeb) return false;
+  if (isWeb()) return false;
   targetPlatform ??= defaultTargetPlatform;
   return {TargetPlatform.iOS, TargetPlatform.android}.contains(targetPlatform);
 }
 
 bool isDesktop([TargetPlatform? targetPlatform]) {
-  if (kIsWeb) return false;
+  if (isWeb()) return false;
   targetPlatform ??= defaultTargetPlatform;
   return {TargetPlatform.macOS, TargetPlatform.linux, TargetPlatform.windows}
       .contains(targetPlatform);
@@ -21,7 +25,7 @@ bool isKeyboardOS([TargetPlatform? targetPlatform]) {
 }
 
 bool isAppleOS([TargetPlatform? targetPlatform]) {
-  if (kIsWeb) return false;
+  if (isWeb()) return false;
   targetPlatform ??= defaultTargetPlatform;
   return {
     TargetPlatform.macOS,
@@ -30,7 +34,7 @@ bool isAppleOS([TargetPlatform? targetPlatform]) {
 }
 
 bool isMacOS([TargetPlatform? targetPlatform]) {
-  if (kIsWeb) return false;
+  if (isWeb()) return false;
   targetPlatform ??= defaultTargetPlatform;
   return TargetPlatform.macOS == targetPlatform;
 }

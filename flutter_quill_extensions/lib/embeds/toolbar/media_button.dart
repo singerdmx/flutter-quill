@@ -39,6 +39,7 @@ class MediaButton extends StatelessWidget {
     this.galleryButtonText,
     this.linkButtonText,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.dialogBarrierColor = Colors.black54,
     Key? key,
     this.validationMessage,
   })  : assert(type == QuillMediaType.image,
@@ -55,6 +56,7 @@ class MediaButton extends StatelessWidget {
   final String? tooltip;
   final MediaFilePicker mediaFilePicker;
   final MediaPickedCallback? onMediaPickedCallback;
+  final Color dialogBarrierColor;
 
   /// The margin between child widgets in the dialog.
   final double childrenSpacing;

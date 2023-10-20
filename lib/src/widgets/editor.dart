@@ -1068,7 +1068,9 @@ class RenderEditor extends RenderEditableContainerBox
         localSelection(baseChild.container, textSelection, true);
     var basePoint = baseChild.getBaseEndpointForSelection(baseSelection);
     basePoint = TextSelectionPoint(
-        basePoint.point + baseParentData.offset, basePoint.direction);
+      basePoint.point + baseParentData.offset,
+      basePoint.direction,
+    );
 
     final extentNode = _container.queryChild(textSelection.end, false).node;
     RenderEditableBox? extentChild = baseChild;
@@ -1086,7 +1088,9 @@ class RenderEditor extends RenderEditableContainerBox
     var extentPoint =
         extentChild.getExtentEndpointForSelection(extentSelection);
     extentPoint = TextSelectionPoint(
-        extentPoint.point + extentParentData.offset, extentPoint.direction);
+      extentPoint.point + extentParentData.offset,
+      extentPoint.direction,
+    );
 
     return <TextSelectionPoint>[basePoint, extentPoint];
   }
@@ -1757,13 +1761,13 @@ class RenderEditableContainerBox extends RenderBox
             EditableContainerParentData>,
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
-  RenderEditableContainerBox(
-      {required container_node.Container container,
-      required this.textDirection,
-      required this.scrollBottomInset,
-      required EdgeInsetsGeometry padding,
-      List<RenderEditableBox>? children})
-      : assert(padding.isNonNegative),
+  RenderEditableContainerBox({
+    required container_node.Container container,
+    required this.textDirection,
+    required this.scrollBottomInset,
+    required EdgeInsetsGeometry padding,
+    List<RenderEditableBox>? children,
+  })  : assert(padding.isNonNegative),
         _container = container,
         _padding = padding {
     addAll(children);

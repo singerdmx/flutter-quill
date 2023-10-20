@@ -66,7 +66,7 @@ class ImageButton extends StatelessWidget {
   Future<void> _onPressedHandler(BuildContext context) async {
     final onImagePickCallbackRef = onImagePickCallback;
     if (onImagePickCallbackRef == null) {
-      _typeLink(context);
+      await _typeLink(context);
       return;
     }
     final selector =
@@ -80,7 +80,7 @@ class ImageButton extends StatelessWidget {
         _pickImage(context);
         break;
       case MediaPickSetting.Link:
-        _typeLink(context);
+        await _typeLink(context);
         break;
       case MediaPickSetting.Camera:
         await ImageVideoUtils.handleImageButtonTap(
@@ -116,14 +116,15 @@ class ImageButton extends StatelessWidget {
         webImagePickImpl: webImagePickImpl,
       );
 
-  void _typeLink(BuildContext context) {
-    showDialog<String>(
+  Future<void> _typeLink(BuildContext context) async {
+    final value = await showDialog<String>(
       context: context,
       builder: (_) => LinkDialog(
         dialogTheme: dialogTheme,
         linkRegExp: linkRegExp,
       ),
-    ).then(_linkSubmitted);
+    );
+    _linkSubmitted(value);
   }
 
   void _linkSubmitted(String? value) {

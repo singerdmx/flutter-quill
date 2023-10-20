@@ -577,8 +577,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         if (customButtons.isNotEmpty)
           if (showDividers)
-            QuillDivider(axis,
-                color: sectionDividerColor, space: sectionDividerSpace),
+            QuillDivider(
+              axis,
+              color: sectionDividerColor,
+              space: sectionDividerSpace,
+            ),
         for (final customButton in customButtons)
           if (customButton.child != null) ...[
             InkWell(
@@ -616,6 +619,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// Defaults to [ThemeData.canvasColor] of the current [Theme] if no color
   /// is given.
   final Color? color;
+
+  // We will add this in the next major release and not now
+  /// The barrier color of the shown dialogs
+  // final Color dialogbarrierColor;
 
   /// The locale to use for the editor toolbar, defaults to system locale
   /// More https://github.com/singerdmx/flutter-quill#translation
