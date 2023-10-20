@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart' as base;
-import 'package:flutter_quill/flutter_quill.dart' hide QuillText;
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:math_keyboard/math_keyboard.dart';
 import 'package:universal_html/html.dart' as html;

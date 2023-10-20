@@ -200,6 +200,9 @@ abstract class Leaf extends Node {
   }
 }
 
+@Deprecated('Please use [QuillText] instead')
+class Text extends QuillText {}
+
 /// A span of formatted text within a line in a Quill document.
 ///
 /// Text is a leaf node of a document tree.
@@ -213,8 +216,9 @@ abstract class Leaf extends Node {
 ///   * [Line], a node representing a line of text.
 ///
 /// Update:
-/// The reason we are renamed quill [Text] to [QuillText] so it doesn't
+/// The reason we are renamed quill Text to [QuillText] so it doesn't
 /// conflict with the one from the widgets, material or cupertino library
+///
 class QuillText extends Leaf {
   QuillText([String text = ''])
       : assert(!text.contains('\n')),

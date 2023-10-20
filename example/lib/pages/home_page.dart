@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart';
-import 'package:flutter_quill/flutter_quill.dart' hide QuillText;
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -31,6 +31,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final QuillController _controller;
+  late final Future<void> _loadDocumentFromAssetsFuture;
   final FocusNode _focusNode = FocusNode();
   Timer? _selectAllTimer;
   _SelectionType _selectionType = _SelectionType.none;
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadFromAssets();
+    _loadDocumentFromAssetsFuture = _loadFromAssets();
   }
 
   Future<void> _loadFromAssets() async {
@@ -55,66 +56,68 @@ class _HomePageState extends State<HomePage> {
           ? 'assets/sample_data_nomedia.json'
           : 'assets/sample_data.json');
       final doc = Document.fromJson(jsonDecode(result));
-      setState(() {
-        _controller = QuillController(
-          document: doc,
-          selection: const TextSelection.collapsed(offset: 0),
-        );
-      });
+      _controller = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      );
     } catch (error) {
       final doc = Document()..insert(0, 'Empty asset');
-      setState(() {
-        _controller = QuillController(
-          document: doc,
-          selection: const TextSelection.collapsed(offset: 0),
-        );
-      });
+      _controller = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_controller == null) {
-      return const Scaffold(body: Center(child: Text('Loading...')));
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey.shade800,
-        elevation: 0,
-        centerTitle: false,
-        title: const Text(
-          'Flutter Quill',
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => _insertTimeStamp(
-              _controller,
-              DateTime.now().toString(),
+    return FutureBuilder(
+      future: _loadDocumentFromAssetsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator.adaptive()),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.grey.shade800,
+            elevation: 0,
+            centerTitle: false,
+            title: const Text(
+              'Flutter Quill',
             ),
-            icon: const Icon(Icons.add_alarm_rounded),
-          ),
-          IconButton(
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: Text(_controller.document.toPlainText([
-                  ...FlutterQuillEmbeds.builders(),
-                  TimeStampEmbedBuilderWidget()
-                ])),
+            actions: [
+              IconButton(
+                onPressed: () => _insertTimeStamp(
+                  _controller,
+                  DateTime.now().toString(),
+                ),
+                icon: const Icon(Icons.add_alarm_rounded),
               ),
-            ),
-            icon: const Icon(Icons.text_fields_rounded),
-          )
-        ],
-      ),
-      drawer: Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.7),
-        color: Colors.grey.shade800,
-        child: _buildMenuBar(context),
-      ),
-      body: _buildWelcomeEditor(context),
+              IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Text(_controller.document.toPlainText([
+                      ...FlutterQuillEmbeds.builders(),
+                      TimeStampEmbedBuilderWidget()
+                    ])),
+                  ),
+                ),
+                icon: const Icon(Icons.text_fields_rounded),
+              )
+            ],
+          ),
+          drawer: Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.sizeOf(context).width * 0.7),
+            color: Colors.grey.shade800,
+            child: _buildMenuBar(context),
+          ),
+          body: _buildWelcomeEditor(context),
+        );
+      },
     );
   }
 
