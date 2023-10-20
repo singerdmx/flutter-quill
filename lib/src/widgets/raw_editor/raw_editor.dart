@@ -24,36 +24,36 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
 import 'package:pasteboard/pasteboard.dart' show Pasteboard;
 
-import '../models/documents/attribute.dart';
-import '../models/documents/document.dart';
-import '../models/documents/nodes/block.dart';
-import '../models/documents/nodes/embeddable.dart';
-import '../models/documents/nodes/leaf.dart' as leaf;
-import '../models/documents/nodes/line.dart';
-import '../models/documents/nodes/node.dart';
-import '../models/structs/offset_value.dart';
-import '../models/structs/vertical_spacing.dart';
-import '../models/themes/quill_dialog_theme.dart';
-import '../utils/cast.dart';
-import '../utils/delta.dart';
-import '../utils/embeds.dart';
-import '../utils/platform.dart';
-import 'controller.dart';
-import 'cursor.dart';
-import 'default_styles.dart';
-import 'delegate.dart';
-import 'editor.dart';
-import 'keyboard_listener.dart';
-import 'link.dart';
-import 'proxy.dart';
-import 'quill_single_child_scroll_view.dart';
-import 'raw_editor/raw_editor_state_selection_delegate_mixin.dart';
-import 'raw_editor/raw_editor_state_text_input_client_mixin.dart';
-import 'text_block.dart';
-import 'text_line.dart';
-import 'text_selection.dart';
-import 'toolbar/link_style_button2.dart';
-import 'toolbar/search_dialog.dart';
+import '../../models/documents/attribute.dart';
+import '../../models/documents/document.dart';
+import '../../models/documents/nodes/block.dart';
+import '../../models/documents/nodes/embeddable.dart';
+import '../../models/documents/nodes/leaf.dart' as leaf;
+import '../../models/documents/nodes/line.dart';
+import '../../models/documents/nodes/node.dart';
+import '../../models/structs/offset_value.dart';
+import '../../models/structs/vertical_spacing.dart';
+import '../../models/themes/quill_dialog_theme.dart';
+import '../../utils/cast.dart';
+import '../../utils/delta.dart';
+import '../../utils/embeds.dart';
+import '../../utils/platform.dart';
+import '../controller.dart';
+import '../cursor.dart';
+import '../default_styles.dart';
+import '../delegate.dart';
+import '../editor.dart';
+import '../keyboard_listener.dart';
+import '../link.dart';
+import '../proxy.dart';
+import '../quill_single_child_scroll_view.dart';
+import '../text_block.dart';
+import '../text_line.dart';
+import '../text_selection.dart';
+import '../toolbar/link_style_button2.dart';
+import '../toolbar/search_dialog.dart';
+import 'raw_editor_state_selection_delegate_mixin.dart';
+import 'raw_editor_state_text_input_client_mixin.dart';
 
 class RawEditor extends StatefulWidget {
   const RawEditor({
@@ -749,7 +749,7 @@ class RawEditorState extends EditorState
       return KeyEventResult.ignored;
     }
 
-    final text = castOrNull<leaf.Text>(line.first);
+    final text = castOrNull<leaf.QuillText>(line.first);
     if (text == null) {
       return KeyEventResult.ignored;
     }
@@ -805,7 +805,7 @@ class RawEditorState extends EditorState
       return insertTabCharacter();
     }
 
-    if (node is! Line || (node.isNotEmpty && node.first is! leaf.Text)) {
+    if (node is! Line || (node.isNotEmpty && node.first is! leaf.QuillText)) {
       return insertTabCharacter();
     }
 
@@ -814,7 +814,7 @@ class RawEditorState extends EditorState
         parentBlock.style.containsKey(Attribute.ul.key) ||
         parentBlock.style.containsKey(Attribute.checked.key)) {
       if (node.isNotEmpty &&
-          (node.first as leaf.Text).value.isNotEmpty &&
+          (node.first as leaf.QuillText).value.isNotEmpty &&
           controller.selection.base.offset > node.documentOffset) {
         return insertTabCharacter();
       }
@@ -822,7 +822,7 @@ class RawEditorState extends EditorState
       return KeyEventResult.handled;
     }
 
-    if (node.isNotEmpty && (node.first as leaf.Text).value.isNotEmpty) {
+    if (node.isNotEmpty && (node.first as leaf.QuillText).value.isNotEmpty) {
       return insertTabCharacter();
     }
 

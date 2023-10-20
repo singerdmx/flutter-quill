@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-import '../../../extensions.dart';
+import '../../../extensions.dart'
+    show UtilityWidgets, AutoFormatMultipleLinksRule;
 import '../../../translations.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/themes/quill_dialog_theme.dart';

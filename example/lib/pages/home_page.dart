@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 import '../universal_ui/universal_ui.dart';
@@ -30,7 +30,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  QuillController? _controller;
+  late final QuillController _controller;
+  late final Future<void> _loadDocumentFromAssetsFuture;
   final FocusNode _focusNode = FocusNode();
   Timer? _selectAllTimer;
   _SelectionType _selectionType = _SelectionType.none;
@@ -38,13 +39,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _selectAllTimer?.cancel();
+    // Dispose the controller to free resources
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _loadFromAssets();
+    _loadDocumentFromAssetsFuture = _loadFromAssets();
   }
 
   Future<void> _loadFromAssets() async {
@@ -53,67 +56,73 @@ class _HomePageState extends State<HomePage> {
           ? 'assets/sample_data_nomedia.json'
           : 'assets/sample_data.json');
       final doc = Document.fromJson(jsonDecode(result));
-      setState(() {
-        _controller = QuillController(
-            document: doc, selection: const TextSelection.collapsed(offset: 0));
-      });
+      _controller = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      );
     } catch (error) {
       final doc = Document()..insert(0, 'Empty asset');
-      setState(() {
-        _controller = QuillController(
-            document: doc, selection: const TextSelection.collapsed(offset: 0));
-      });
+      _controller = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_controller == null) {
-      return const Scaffold(body: Center(child: Text('Loading...')));
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey.shade800,
-        elevation: 0,
-        centerTitle: false,
-        title: const Text(
-          'Flutter Quill',
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => _insertTimeStamp(
-              _controller!,
-              DateTime.now().toString(),
+    return FutureBuilder(
+      future: _loadDocumentFromAssetsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator.adaptive()),
+          );
+        }
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.grey.shade800,
+            elevation: 0,
+            centerTitle: false,
+            title: const Text(
+              'Flutter Quill',
             ),
-            icon: const Icon(Icons.add_alarm_rounded),
-          ),
-          IconButton(
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: Text(_controller!.document.toPlainText([
-                  ...FlutterQuillEmbeds.builders(),
-                  TimeStampEmbedBuilderWidget()
-                ])),
+            actions: [
+              IconButton(
+                onPressed: () => _insertTimeStamp(
+                  _controller,
+                  DateTime.now().toString(),
+                ),
+                icon: const Icon(Icons.add_alarm_rounded),
               ),
-            ),
-            icon: const Icon(Icons.text_fields_rounded),
-          )
-        ],
-      ),
-      drawer: Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.7),
-        color: Colors.grey.shade800,
-        child: _buildMenuBar(context),
-      ),
-      body: _buildWelcomeEditor(context),
+              IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Text(_controller.document.toPlainText([
+                      ...FlutterQuillEmbeds.builders(),
+                      TimeStampEmbedBuilderWidget()
+                    ])),
+                  ),
+                ),
+                icon: const Icon(Icons.text_fields_rounded),
+              )
+            ],
+          ),
+          drawer: Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.sizeOf(context).width * 0.7),
+            color: Colors.grey.shade800,
+            child: _buildMenuBar(context),
+          ),
+          body: _buildWelcomeEditor(context),
+        );
+      },
     );
   }
 
   bool _onTripleClickSelection() {
-    final controller = _controller!;
+    final controller = _controller;
 
     _selectAllTimer?.cancel();
     _selectAllTimer = null;
@@ -174,9 +183,40 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _buildWelcomeEditor(BuildContext context) {
-    Widget quillEditor = QuillEditor(
-      controller: _controller!,
+  QuillEditor get quillEditor {
+    if (kIsWeb) {
+      return QuillEditor(
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: _focusNode,
+        autoFocus: false,
+        readOnly: false,
+        placeholder: 'Add content',
+        expands: false,
+        padding: EdgeInsets.zero,
+        onTapUp: (details, p1) {
+          return _onTripleClickSelection();
+        },
+        customStyles: const DefaultStyles(
+          h1: DefaultTextBlockStyle(
+              TextStyle(
+                fontSize: 32,
+                color: Colors.black,
+                height: 1.15,
+                fontWeight: FontWeight.w300,
+              ),
+              VerticalSpacing(16, 0),
+              VerticalSpacing(0, 0),
+              null),
+          sizeSmall: TextStyle(fontSize: 9),
+        ),
+        embedBuilders: [
+          ...defaultEmbedBuildersWeb,
+          TimeStampEmbedBuilderWidget()
+        ],
+      );
+    }
+    return QuillEditor(
       scrollController: ScrollController(),
       scrollable: true,
       focusNode: _focusNode,
@@ -216,40 +256,30 @@ class _HomePageState extends State<HomePage> {
         TimeStampEmbedBuilderWidget()
       ],
     );
+  }
+
+  QuillToolbar get quillToolbar {
     if (kIsWeb) {
-      quillEditor = QuillEditor(
-          controller: _controller!,
-          scrollController: ScrollController(),
-          scrollable: true,
-          focusNode: _focusNode,
-          autoFocus: false,
-          readOnly: false,
-          placeholder: 'Add content',
-          expands: false,
-          padding: EdgeInsets.zero,
-          onTapUp: (details, p1) {
-            return _onTripleClickSelection();
-          },
-          customStyles: const DefaultStyles(
-            h1: DefaultTextBlockStyle(
-                TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  height: 1.15,
-                  fontWeight: FontWeight.w300,
-                ),
-                VerticalSpacing(16, 0),
-                VerticalSpacing(0, 0),
-                null),
-            sizeSmall: TextStyle(fontSize: 9),
-          ),
-          embedBuilders: [
-            ...defaultEmbedBuildersWeb,
-            TimeStampEmbedBuilderWidget()
-          ]);
+      return QuillToolbar.basic(
+        embedButtons: FlutterQuillEmbeds.buttons(
+          onImagePickCallback: _onImagePickCallback,
+          webImagePickImpl: _webImagePickImpl,
+        ),
+        showAlignmentButtons: true,
+        afterButtonPressed: _focusNode.requestFocus,
+      );
     }
-    var toolbar = QuillToolbar.basic(
-      controller: _controller!,
+    if (_isDesktop()) {
+      return QuillToolbar.basic(
+        embedButtons: FlutterQuillEmbeds.buttons(
+          onImagePickCallback: _onImagePickCallback,
+          filePickImpl: openFileSystemPickerForDesktop,
+        ),
+        showAlignmentButtons: true,
+        afterButtonPressed: _focusNode.requestFocus,
+      );
+    }
+    return QuillToolbar.basic(
       embedButtons: FlutterQuillEmbeds.buttons(
         // provide a callback to enable picking images from device.
         // if omit, "image" button only allows adding images from url.
@@ -264,50 +294,63 @@ class _HomePageState extends State<HomePage> {
       showAlignmentButtons: true,
       afterButtonPressed: _focusNode.requestFocus,
     );
-    if (kIsWeb) {
-      toolbar = QuillToolbar.basic(
-        controller: _controller!,
-        embedButtons: FlutterQuillEmbeds.buttons(
-          onImagePickCallback: _onImagePickCallback,
-          webImagePickImpl: _webImagePickImpl,
-        ),
-        showAlignmentButtons: true,
-        afterButtonPressed: _focusNode.requestFocus,
-      );
-    }
-    if (_isDesktop()) {
-      toolbar = QuillToolbar.basic(
-        controller: _controller!,
-        embedButtons: FlutterQuillEmbeds.buttons(
-          onImagePickCallback: _onImagePickCallback,
-          filePickImpl: openFileSystemPickerForDesktop,
-        ),
-        showAlignmentButtons: true,
-        afterButtonPressed: _focusNode.requestFocus,
-      );
-    }
+  }
 
+  Widget _buildWelcomeEditor(BuildContext context) {
+    // BUG in web!! should not releated to this pull request
+    ///
+    ///══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═════════════════════
+    ///══════════════════════════════════════
+    // The following bool object was thrown building MediaQuery
+    //(MediaQueryData(size: Size(769.0, 1205.0),
+    // devicePixelRatio: 1.0, textScaleFactor: 1.0, platformBrightness:
+    //Brightness.dark, padding:
+    // EdgeInsets.zero, viewPadding: EdgeInsets.zero, viewInsets:
+    // EdgeInsets.zero,
+    // systemGestureInsets:
+    // EdgeInsets.zero, alwaysUse24HourFormat: false, accessibleNavigation:
+    // false,
+    // highContrast: false,
+    // disableAnimations: false, invertColors: false, boldText: false,
+    //navigationMode: traditional,
+    // gestureSettings: DeviceGestureSettings(touchSlop: null), displayFeatures:
+    // []
+    // )):
+    //   false
+    // The relevant error-causing widget was:
+    //   SafeArea
+    ///
+    ///
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            flex: 15,
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: quillEditor,
+      child: QuillProvider(
+        configurations: QuillConfigurations(
+          // (throw ArgumentError.checkNotNull(
+          // _controller,
+          // 'Quill controller',
+          // ))
+          controller: _controller,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              flex: 15,
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: quillEditor,
+              ),
             ),
-          ),
-          kIsWeb
-              ? Expanded(
-                  child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: toolbar,
-                ))
-              : Container(child: toolbar)
-        ],
+            kIsWeb
+                ? Expanded(
+                    child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: quillToolbar,
+                  ))
+                : Container(child: quillToolbar)
+          ],
+        ),
       ),
     );
   }
@@ -330,7 +373,7 @@ class _HomePageState extends State<HomePage> {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final copiedFile =
-        await file.copy('${appDocDir.path}/${basename(file.path)}');
+        await file.copy('${appDocDir.path}/${path.basename(file.path)}');
     return copiedFile.path.toString();
   }
 
@@ -355,7 +398,7 @@ class _HomePageState extends State<HomePage> {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final copiedFile =
-        await file.copy('${appDocDir.path}/${basename(file.path)}');
+        await file.copy('${appDocDir.path}/${path.basename(file.path)}');
     return copiedFile.path.toString();
   }
 
@@ -453,8 +496,8 @@ class _HomePageState extends State<HomePage> {
     // Saves the image to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
     final file = await File(
-            '${appDocDir.path}/${basename('${DateTime.now().millisecondsSinceEpoch}.png')}')
-        .writeAsBytes(imageBytes, flush: true);
+      '${appDocDir.path}/${path.basename('${DateTime.now().millisecondsSinceEpoch}.png')}',
+    ).writeAsBytes(imageBytes, flush: true);
     return file.path.toString();
   }
 

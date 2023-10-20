@@ -11,21 +11,16 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import '../models/documents/document.dart';
+import '../../flutter_quill.dart';
 import '../models/documents/nodes/container.dart' as container_node;
-import '../models/documents/nodes/leaf.dart';
-import '../models/structs/offset_value.dart';
-import '../models/themes/quill_dialog_theme.dart';
+import '../utils/extensions/build_context.dart';
 import '../utils/platform.dart';
 import 'box.dart';
-import 'controller.dart';
 import 'cursor.dart';
-import 'default_styles.dart';
 import 'delegate.dart';
-import 'embeds.dart';
 import 'float_cursor.dart';
 import 'link.dart';
-import 'raw_editor.dart';
+import 'raw_editor/raw_editor.dart';
 import 'text_selection.dart';
 
 /// Base interface for the editor state which defines contract used by
@@ -148,7 +143,6 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
 
 class QuillEditor extends StatefulWidget {
   const QuillEditor({
-    required this.controller,
     required this.focusNode,
     required this.scrollController,
     required this.scrollable,
@@ -198,7 +192,6 @@ class QuillEditor extends StatefulWidget {
   }) : super(key: key);
 
   factory QuillEditor.basic({
-    required QuillController controller,
     required bool readOnly,
     TextSelectionThemeData? textSelectionThemeData,
     Brightness? keyboardAppearance,
@@ -215,7 +208,6 @@ class QuillEditor extends StatefulWidget {
     Locale? locale,
   }) {
     return QuillEditor(
-      controller: controller,
       scrollController: ScrollController(),
       scrollable: true,
       focusNode: focusNode ?? FocusNode(),
@@ -232,11 +224,7 @@ class QuillEditor extends StatefulWidget {
     );
   }
 
-  /// Controller object which establishes a link between a rich text document
-  /// and this editor.
-  ///
-  /// Must not be null.
-  final QuillController controller;
+  // final QuillController controller;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
@@ -523,7 +511,7 @@ class QuillEditorState extends State<QuillEditor>
 
     final child = RawEditor(
       key: _editorKey,
-      controller: widget.controller,
+      controller: context.requireQuillController,
       focusNode: widget.focusNode,
       scrollController: widget.scrollController,
       scrollable: widget.scrollable,
@@ -692,7 +680,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool _isPositionSelected(TapUpDetails details) {
-    if (_state.widget.controller.document.isEmpty()) {
+    if (_state.context.requireQuillController.document.isEmpty()) {
       return false;
     }
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);
@@ -705,7 +693,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
     final segmentLeaf = result.leaf;
     if (segmentLeaf == null && line.length == 1) {
       editor!.widget.controller.updateSelection(
-          TextSelection.collapsed(offset: pos.offset), ChangeSource.LOCAL);
+        TextSelection.collapsed(offset: pos.offset),
+        ChangeSource.LOCAL,
+      );
       return true;
     }
     return false;

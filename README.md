@@ -53,20 +53,24 @@ QuillController _controller = QuillController.basic();
 and then embed the toolbar and the editor, within your app.  For example:
 
 ```dart
-Column(
+QuillProvider(
+  configurations: QuillConfigurations(controller: _controller),
+  child: Column(
   children: [
     QuillToolbar.basic(controller: _controller),
     Expanded(
       child: Container(
         child: QuillEditor.basic(
-          controller: _controller,
           readOnly: false, // true for view only mode
         ),
       ),
     )
   ],
+),
 )
 ```
+
+And depending on your use case, you might want to dispose the `_controller` in dispose mehtod
 
 Check out [Sample Page] for advanced usage.
 
@@ -475,6 +479,22 @@ and then enter text using `quillEnterText`:
 ```dart
 await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 ```
+
+## License
+
+[MIT](LICENSE)
+
+## Contributors
+
+Special thanks for everyone that have contributed to this project...
+
+<a href="https://github.com/singerdmx/flutter-quill/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=singerdmx/flutter-quill" />
+</a>
+
+<br>
+
+Made with [contrib.rocks](https://contrib.rocks).
 
 ## Sponsors
 

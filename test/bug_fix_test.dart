@@ -12,17 +12,27 @@ void main() {
           (tester) async {
         const tooltip = 'custom button';
 
-        await tester.pumpWidget(MaterialApp(
-            home: QuillToolbar.basic(
-          showRedo: false,
-          controller: QuillController.basic(),
-          customButtons: [const QuillCustomButton(tooltip: tooltip)],
-        )));
+        await tester.pumpWidget(
+          MaterialApp(
+            home: QuillProvider(
+              configurations: QuillConfigurations(
+                controller: QuillController.basic(),
+              ),
+              child: QuillToolbar.basic(
+                showRedo: false,
+                customButtons: [
+                  const QuillCustomButton(tooltip: tooltip),
+                ],
+              ),
+            ),
+          ),
+        );
 
         final builtinFinder = find.descendant(
-            of: find.byType(HistoryButton),
-            matching: find.byType(QuillIconButton),
-            matchRoot: true);
+          of: find.byType(HistoryButton),
+          matching: find.byType(QuillIconButton),
+          matchRoot: true,
+        );
         expect(builtinFinder, findsOneWidget);
         final builtinButton =
             builtinFinder.evaluate().first.widget as QuillIconButton;
@@ -46,7 +56,9 @@ void main() {
 
       setUp(() {
         controller = QuillController.basic();
-        editor = QuillEditor.basic(controller: controller, readOnly: false);
+        editor = QuillEditor.basic(
+          readOnly: false,
+        );
       });
 
       tearDown(() {
@@ -55,7 +67,16 @@ void main() {
 
       testWidgets('Refocus editor after controller clears document',
           (tester) async {
-        await tester.pumpWidget(MaterialApp(home: Column(children: [editor])));
+        await tester.pumpWidget(
+          QuillProvider(
+            configurations: QuillConfigurations(controller: controller),
+            child: MaterialApp(
+              home: Column(
+                children: [editor],
+              ),
+            ),
+          ),
+        );
         await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
         editor.focusNode.unfocus();
@@ -68,7 +89,14 @@ void main() {
 
       testWidgets('Refocus editor after removing block attribute',
           (tester) async {
-        await tester.pumpWidget(MaterialApp(home: Column(children: [editor])));
+        await tester.pumpWidget(QuillProvider(
+          configurations: QuillConfigurations(controller: controller),
+          child: MaterialApp(
+            home: Column(
+              children: [editor],
+            ),
+          ),
+        ));
         await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
         controller.formatSelection(Attribute.ul);
@@ -81,7 +109,16 @@ void main() {
       });
 
       testWidgets('Tap checkbox in unfocused editor', (tester) async {
-        await tester.pumpWidget(MaterialApp(home: Column(children: [editor])));
+        await tester.pumpWidget(
+          QuillProvider(
+            configurations: QuillConfigurations(controller: controller),
+            child: MaterialApp(
+              home: Column(
+                children: [editor],
+              ),
+            ),
+          ),
+        );
         await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
         controller.formatSelection(Attribute.unchecked);
