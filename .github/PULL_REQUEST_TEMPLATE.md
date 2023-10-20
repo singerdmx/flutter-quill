@@ -18,11 +18,13 @@ Closes #IssueNumber
 - Improve peformance
 
 ## Features
-<!-- Please tell us the features you added in a list -->
+<!-- Please tell us the features you added in a list if you add any -->
 
 <!-- Example: -->
 - Add a new feature
 - Allow to custmize the widgets
+
+<!-- Remove this if your pull request about other changes -->
 
 ## Additional notes
 <!-- Optional -->
