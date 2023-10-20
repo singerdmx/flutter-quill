@@ -26,9 +26,10 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
       builder: _buildContent,
       showToolbar: _edit == true,
       floatingActionButton: FloatingActionButton.extended(
-          label: Text(_edit == true ? 'Done' : 'Edit'),
-          onPressed: _toggleEdit,
-          icon: Icon(_edit == true ? Icons.check : Icons.edit)),
+        label: Text(_edit == true ? 'Done' : 'Edit'),
+        onPressed: _toggleEdit,
+        icon: Icon(_edit == true ? Icons.check : Icons.edit),
+      ),
     );
   }
 

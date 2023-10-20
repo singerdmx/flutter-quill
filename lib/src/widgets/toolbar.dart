@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
+import '../../flutter_quill.dart';
 import '../models/documents/attribute.dart';
 import '../models/structs/link_dialog_action.dart';
 import '../models/themes/quill_custom_button.dart';
 import '../models/themes/quill_dialog_theme.dart';
 import '../models/themes/quill_icon_theme.dart';
 import '../translations/toolbar.i18n.dart';
+import '../utils/extensions/build_context.dart';
 import 'controller.dart';
 import 'embeds.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
@@ -71,7 +73,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   factory QuillToolbar.basic({
-    required QuillController controller,
+    required BuildContext context,
     Axis axis = Axis.horizontal,
     double toolbarIconSize = kDefaultIconSize,
     double toolbarSectionSpacing = kToolbarSectionSpacing,
@@ -247,6 +249,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ToolbarButtons.link: 'Insert URL'.i18n,
           ToolbarButtons.search: 'Search'.i18n,
         };
+
+    final controller = context.requireQuillController;
 
     return QuillToolbar(
       key: key,

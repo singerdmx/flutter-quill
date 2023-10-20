@@ -1,5 +1,6 @@
 library flutter_quill;
 
+export 'src/core/quill_configurations.dart';
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
 export 'src/models/documents/nodes/block.dart';
@@ -27,3 +28,4 @@ export 'src/widgets/link.dart' show LinkActionPickerDelegate, LinkMenuAction;
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar.dart';
 export 'src/widgets/toolbar/enum.dart';
+export 'src/widgets/utils/quill_provider.dart';

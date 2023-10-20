@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
           ]);
     }
     var toolbar = QuillToolbar.basic(
-      controller: _controller!,
+      context: context,
       embedButtons: FlutterQuillEmbeds.buttons(
         // provide a callback to enable picking images from device.
         // if omit, "image" button only allows adding images from url.
@@ -266,7 +266,7 @@ class _HomePageState extends State<HomePage> {
     );
     if (kIsWeb) {
       toolbar = QuillToolbar.basic(
-        controller: _controller!,
+        context: context,
         embedButtons: FlutterQuillEmbeds.buttons(
           onImagePickCallback: _onImagePickCallback,
           webImagePickImpl: _webImagePickImpl,
@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage> {
     }
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
-        controller: _controller!,
+        context: context,
         embedButtons: FlutterQuillEmbeds.buttons(
           onImagePickCallback: _onImagePickCallback,
           filePickImpl: openFileSystemPickerForDesktop,
@@ -288,26 +288,35 @@ class _HomePageState extends State<HomePage> {
     }
 
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            flex: 15,
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: quillEditor,
+      child: QuillProvider(
+        configurations: QuillConfigurations(
+          controller: _controller ??
+              (throw ArgumentError.checkNotNull(
+                _controller,
+                'Quill controller',
+              )),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              flex: 15,
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: quillEditor,
+              ),
             ),
-          ),
-          kIsWeb
-              ? Expanded(
-                  child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: toolbar,
-                ))
-              : Container(child: toolbar)
-        ],
+            kIsWeb
+                ? Expanded(
+                    child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: toolbar,
+                  ))
+                : Container(child: toolbar)
+          ],
+        ),
       ),
     );
   }

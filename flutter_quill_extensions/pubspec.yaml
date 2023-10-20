@@ -12,10 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.4.15
+  # flutter_quill: ^7.4.16
   # In case you are working on changes for both libraries,
-  # flutter_quill:
-  #   path: ~/development/playground/framework_based/flutter/flutter-quill
+  flutter_quill:
+    path: /Users/ahmedhnewa/development/playground/framework_based/flutter/flutter-quill
 
   http: ^1.1.0
   image_picker: ">=1.0.4"

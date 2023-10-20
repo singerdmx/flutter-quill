@@ -91,14 +91,15 @@ class _DemoScaffoldState extends State<DemoScaffold> {
     }
     final actions = widget.actions ?? <Widget>[];
     var toolbar = QuillToolbar.basic(
-      controller: _controller!,
+      context: context,
       embedButtons: FlutterQuillEmbeds.buttons(),
     );
     if (_isDesktop()) {
       toolbar = QuillToolbar.basic(
-        controller: _controller!,
+        context: context,
         embedButtons: FlutterQuillEmbeds.buttons(
-            filePickImpl: openFileSystemPickerForDesktop),
+          filePickImpl: openFileSystemPickerForDesktop,
+        ),
       );
     }
     return Scaffold(

@@ -12,12 +12,24 @@ void main() {
           (tester) async {
         const tooltip = 'custom button';
 
-        await tester.pumpWidget(MaterialApp(
-            home: QuillToolbar.basic(
-          showRedo: false,
-          controller: QuillController.basic(),
-          customButtons: [const QuillCustomButton(tooltip: tooltip)],
-        )));
+        await tester.pumpWidget(
+          MaterialApp(
+            home: QuillProvider(
+              configurations: QuillConfigurations(
+                controller: QuillController.basic(),
+              ),
+              child: Builder(
+                builder: (context) {
+                  return QuillToolbar.basic(
+                    context: context,
+                    showRedo: false,
+                    customButtons: [const QuillCustomButton(tooltip: tooltip)],
+                  );
+                },
+              ),
+            ),
+          ),
+        );
 
         final builtinFinder = find.descendant(
             of: find.byType(HistoryButton),
