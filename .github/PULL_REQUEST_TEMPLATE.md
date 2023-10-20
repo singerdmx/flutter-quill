@@ -6,6 +6,7 @@ Provide a brief description of your changes.
 
 ## Issues
 
+<!-- Remove this if your pull request address changes other than existing issues -->
 Closes #IssueNumber
 (Replace "IssueNumber" with the actual issue number you are addressing.)
 
@@ -22,6 +23,12 @@ Closes #IssueNumber
 <!-- Example: -->
 - Add a new feature
 - Allow to custmize the widgets
+
+## Additional notes
+<!-- Optional -->
+
+## Suggestions
+<!-- Optional -->
 
 ## Checklist
 
