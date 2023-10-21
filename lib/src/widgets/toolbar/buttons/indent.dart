@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../models/themes/quill_icon_theme.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../../models/themes/quill_icon_theme.dart';
+import '../../controller.dart';
+import '../../toolbar.dart';
 
 class IndentButton extends StatefulWidget {
   const IndentButton({

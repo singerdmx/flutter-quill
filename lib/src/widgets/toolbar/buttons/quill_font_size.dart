@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../models/documents/attribute.dart';
-import '../../models/documents/style.dart';
-import '../../models/themes/quill_icon_theme.dart';
-import '../../translations/toolbar.i18n.dart';
-import '../../utils/font.dart';
-import '../../utils/widgets.dart';
-import '../controller.dart';
+import '../../../models/documents/attribute.dart';
+import '../../../models/documents/style.dart';
+import '../../../models/themes/quill_icon_theme.dart';
+import '../../../translations/toolbar.i18n.dart';
+import '../../../utils/font.dart';
+import '../../../utils/widgets.dart';
+import '../../controller.dart';
 
 class QuillFontSizeButton extends StatefulWidget {
   const QuillFontSizeButton({

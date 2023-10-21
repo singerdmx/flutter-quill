@@ -4,25 +4,25 @@ import 'package:i18n_extension/i18n_widget.dart';
 import '../../flutter_quill.dart';
 import '../translations/toolbar.i18n.dart';
 import '../utils/extensions/build_context.dart';
-import 'toolbar/arrow_indicated_button_list.dart';
+import 'toolbar/buttons/arrow_indicated_list.dart';
 
 export '../models/config/toolbar/buttons/base.dart';
 export '../models/config/toolbar/configurations.dart';
-export 'toolbar/clear_format_button.dart';
-export 'toolbar/color_button.dart';
-export 'toolbar/custom_button.dart';
-export 'toolbar/history_button.dart';
-export 'toolbar/indent_button.dart';
-export 'toolbar/link_style_button.dart';
-export 'toolbar/link_style_button2.dart';
-export 'toolbar/quill_font_family_button.dart';
-export 'toolbar/quill_font_size_button.dart';
-export 'toolbar/quill_icon_button.dart';
-export 'toolbar/search_button.dart';
-export 'toolbar/select_alignment_button.dart';
-export 'toolbar/select_header_style_button.dart';
-export 'toolbar/toggle_check_list_button.dart';
-export 'toolbar/toggle_style_button.dart';
+export 'toolbar/buttons/clear_format.dart';
+export 'toolbar/buttons/color.dart';
+export 'toolbar/buttons/custom_button.dart';
+export 'toolbar/buttons/history.dart';
+export 'toolbar/buttons/indent.dart';
+export 'toolbar/buttons/link_style.dart';
+export 'toolbar/buttons/link_style2.dart';
+export 'toolbar/buttons/font_family.dart';
+export 'toolbar/buttons/quill_font_size.dart';
+export 'toolbar/buttons/quill_icon.dart';
+export 'toolbar/buttons/search.dart';
+export 'toolbar/buttons/select_alignment.dart';
+export 'toolbar/buttons/select_header_style.dart';
+export 'toolbar/buttons/toggle_check_list.dart';
+export 'toolbar/buttons/toggle_style.dart';
 
 typedef QuillToolbarChildrenBuilder = List<Widget> Function(
   BuildContext context,

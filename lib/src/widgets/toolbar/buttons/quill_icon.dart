@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/widgets.dart';
+import '../../../utils/widgets.dart';
 
 class QuillIconButton extends StatelessWidget {
   const QuillIconButton({

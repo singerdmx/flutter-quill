@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../translations.dart';
-import '../../utils/extensions/build_context.dart';
-import '../../utils/extensions/quill_controller.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../../../translations.dart';
+import '../../../utils/extensions/build_context.dart';
+import '../../../utils/extensions/quill_controller.dart';
+import '../../controller.dart';
+import '../../toolbar.dart';
 
 class QuillToolbarHistoryButton extends StatefulWidget {
   const QuillToolbarHistoryButton({

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../models/config/toolbar/buttons/font_family.dart';
-import '../../models/documents/attribute.dart';
-import '../../models/documents/style.dart';
-import '../../translations/toolbar.i18n.dart';
-import '../../utils/extensions/build_context.dart';
-import '../../utils/extensions/quill_controller.dart';
-import '../../utils/widgets.dart';
-import '../controller.dart';
+import '../../../models/config/toolbar/buttons/font_family.dart';
+import '../../../models/documents/attribute.dart';
+import '../../../models/documents/style.dart';
+import '../../../translations/toolbar.i18n.dart';
+import '../../../utils/extensions/build_context.dart';
+import '../../../utils/extensions/quill_controller.dart';
+import '../../../utils/widgets.dart';
+import '../../controller.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({

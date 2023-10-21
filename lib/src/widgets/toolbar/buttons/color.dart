@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../models/documents/attribute.dart';
-import '../../models/documents/style.dart';
-import '../../models/themes/quill_icon_theme.dart';
-import '../../translations/toolbar.i18n.dart';
-import '../../utils/color.dart';
-import '../controller.dart';
-import '../toolbar.dart';
+import '../../../models/documents/attribute.dart';
+import '../../../models/documents/style.dart';
+import '../../../models/themes/quill_icon_theme.dart';
+import '../../../translations/toolbar.i18n.dart';
+import '../../../utils/color.dart';
+import '../../controller.dart';
+import '../../toolbar.dart';
 
 /// Controls color styles.
 ///

@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/documents/attribute.dart';
-import '../../models/documents/style.dart';
-import '../../models/themes/quill_icon_theme.dart';
-import '../../utils/widgets.dart';
-import '../controller.dart';
-import '../toolbar.dart';
-import 'enum.dart';
+import '../../../models/documents/attribute.dart';
+import '../../../models/documents/style.dart';
+import '../../../models/themes/quill_icon_theme.dart';
+import '../../../utils/widgets.dart';
+import '../../controller.dart';
+import '../../toolbar.dart';
+import '../enum.dart';
 
 class SelectAlignmentButton extends StatefulWidget {
   const SelectAlignmentButton({

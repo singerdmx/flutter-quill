@@ -50,7 +50,7 @@ import '../quill_single_child_scroll_view.dart';
 import '../text_block.dart';
 import '../text_line.dart';
 import '../text_selection.dart';
-import '../toolbar/link_style_button2.dart';
+import '../toolbar/buttons/link_style2.dart';
 import '../toolbar/search_dialog.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
