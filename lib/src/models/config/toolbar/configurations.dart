@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 
 import 'buttons/base.dart';
 import 'buttons/font_family.dart';
-import 'buttons/font_size.dart';
+// import 'buttons/font_size.dart';
 import 'buttons/history.dart';
 
 export './buttons/base.dart';
@@ -92,7 +92,7 @@ class QuillToolbarButtonOptions extends Equatable {
       isUndo: false,
     ),
     this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
-    this.fontSize = const QuillToolbarFontSizeButtonOptions(),
+    // this.fontSize = const QuillToolbarFontSizeButtonOptions(),
   });
 
   /// The base configurations for all the buttons which will apply to all
@@ -102,7 +102,7 @@ class QuillToolbarButtonOptions extends Equatable {
   final QuillToolbarHistoryButtonOptions undoHistory;
   final QuillToolbarHistoryButtonOptions redoHistory;
   final QuillToolbarFontFamilyButtonOptions fontFamily;
-  final QuillToolbarFontSizeButtonOptions fontSize;
+  // final QuillToolbarFontSizeButtonOptions fontSize;
 
   @override
   List<Object?> get props => [
