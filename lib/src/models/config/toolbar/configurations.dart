@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 import '../../documents/attribute.dart';
@@ -6,6 +7,7 @@ import 'buttons/font_family.dart';
 import 'buttons/history.dart';
 
 export './buttons/base.dart';
+export './buttons/font_family.dart';
 export './buttons/history.dart';
 export './buttons/toggle_style.dart';
 
@@ -23,7 +25,7 @@ const double kToolbarSectionSpacing = 4;
 
 /// The configurations for the toolbar widget of flutter quill
 @immutable
-class QuillToolbarConfigurations {
+class QuillToolbarConfigurations extends Equatable {
   const QuillToolbarConfigurations({
     this.buttonOptions = const QuillToolbarButtonOptions(),
     this.multiRowsDisplay = true,
@@ -67,6 +69,14 @@ class QuillToolbarConfigurations {
   /// };
   /// ```
   final Map<String, String>? fontFamilyValues;
+
+  @override
+  List<Object?> get props => [
+        buttonOptions,
+        multiRowsDisplay,
+        fontFamilyValues,
+        toolbarSize,
+      ];
 }
 
 /// The configurations for the buttons of the toolbar widget of flutter quill
@@ -80,9 +90,7 @@ class QuillToolbarButtonOptions {
     this.redoHistoryButtonOptions = const QuillToolbarHistoryButtonOptions(
       isUndo: false,
     ),
-    this.fontFamilyButtonOptions = const QuillToolbarFontFamilyButtonOptions(
-      attribute: Attribute.font,
-    ),
+    this.fontFamilyButtonOptions = const QuillToolbarFontFamilyButtonOptions(),
   });
 
   /// The base configurations for all the buttons

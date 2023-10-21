@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 /// The configurations for the quill editor widget of flutter quill
 @immutable
-class QuillEditorConfigurations {
+class QuillEditorConfigurations extends Equatable {
   const QuillEditorConfigurations({
     this.placeholder,
     this.readOnly = false,
@@ -18,4 +19,10 @@ class QuillEditorConfigurations {
   ///
   /// Defaults to `false`. Must not be `null`.
   final bool readOnly;
+
+  @override
+  List<Object?> get props => [
+        placeholder,
+        readOnly,
+      ];
 }
