@@ -11,17 +11,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import '../../flutter_quill.dart';
-import '../models/documents/nodes/container.dart' as container_node;
-import '../utils/extensions/build_context.dart';
-import '../utils/platform.dart';
-import 'box.dart';
-import 'cursor.dart';
-import 'delegate.dart';
-import 'float_cursor.dart';
-import 'link.dart';
-import 'raw_editor/raw_editor.dart';
-import 'text_selection.dart';
+import '../../../flutter_quill.dart';
+import '../../models/documents/nodes/container.dart' as container_node;
+import '../../utils/extensions/build_context.dart';
+import '../../utils/platform.dart';
+import '../box.dart';
+import '../cursor.dart';
+import '../delegate.dart';
+import '../float_cursor.dart';
+import '../link.dart';
+import '../raw_editor/raw_editor.dart';
+import '../text_selection.dart';
 
 /// Base interface for the editor state which defines contract used by
 /// various mixins.

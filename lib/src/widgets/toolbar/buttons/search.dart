@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../controller.dart';
-import '../../toolbar.dart';
 import '../search_dialog.dart';
+import '../toolbar.dart';
 
 class SearchButton extends StatelessWidget {
   const SearchButton({

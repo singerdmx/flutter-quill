@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 import '../../../flutter_quill.dart';
@@ -7,7 +8,7 @@ export './shared_configurations.dart';
 export './toolbar/configurations.dart';
 
 @immutable
-class QuillConfigurations {
+class QuillConfigurations extends Equatable {
   const QuillConfigurations({
     required this.controller,
     this.editorConfigurations = const QuillEditorConfigurations(),
@@ -32,4 +33,11 @@ class QuillConfigurations {
   /// The shared configurations between [QuillEditorConfigurations] and
   /// [QuillToolbarConfigurations] so we don't duplicate things
   final QuillSharedConfigurations sharedConfigurations;
+
+  @override
+  List<Object?> get props => [
+        editorConfigurations,
+        toolbarConfigurations,
+        sharedConfigurations,
+      ];
 }

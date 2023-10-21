@@ -15,9 +15,24 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter --version
-      - run: flutter pub get
-      - run: flutter pub get -C flutter_quill_extensions
-      - run: flutter analyze
-      - run: flutter test
-      - run: flutter pub publish --dry-run
+
+      - name: Check flutter version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Install flutter_quill_extensions dependencies
+        run: flutter pub get -C flutter_quill_extensions
+
+      - name: Run flutter analysis
+        run: flutter analyze
+
+      - name: Check dart code formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: Check if package is ready for publishing
+        run: flutter pub publish --dry-run
+
+      - name: Run flutter tests
+        run: flutter test

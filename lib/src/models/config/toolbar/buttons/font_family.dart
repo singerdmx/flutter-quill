@@ -25,7 +25,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarFontFamilyButtonOptions,
     QuillToolbarFontFamilyButtonExtraOptions> {
   const QuillToolbarFontFamilyButtonOptions({
-    required this.attribute,
+    this.attribute = Attribute.font,
     this.rawItemsMap,
     super.controller,
     super.iconData,

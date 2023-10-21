@@ -8,7 +8,7 @@ import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../models/documents/style.dart';
 import '../../utils/delta.dart';
-import '../editor.dart';
+import '../editor/editor.dart';
 
 mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {

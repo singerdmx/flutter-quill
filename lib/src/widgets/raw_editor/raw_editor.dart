@@ -41,7 +41,7 @@ import '../controller.dart';
 import '../cursor.dart';
 import '../default_styles.dart';
 import '../delegate.dart';
-import '../editor.dart';
+import '../editor/editor.dart';
 import '../keyboard_listener.dart';
 import '../link.dart';
 import '../proxy.dart';

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show VoidCallback, immutable;
 import 'package:flutter/widgets.dart' show IconData, Widget;
 
@@ -9,7 +10,7 @@ import '../../quill_configurations.dart' show kDefaultIconSize;
 /// it's used in [childBuilder] so the developer can custmize this when using it
 /// The [I] is extra options for the button, usually for it's state
 @immutable
-class QuillToolbarBaseButtonOptions<T, I> {
+class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   const QuillToolbarBaseButtonOptions({
     this.iconData,
     this.globalIconSize = kDefaultIconSize,
@@ -45,4 +46,15 @@ class QuillToolbarBaseButtonOptions<T, I> {
   /// By default it will be from the one in [QuillProvider]
   /// To override it you must pass not null controller
   final QuillController? controller;
+
+  @override
+  List<Object?> get props => [
+        iconData,
+        globalIconSize,
+        afterButtonPressed,
+        tooltip,
+        iconTheme,
+        childBuilder,
+        controller,
+      ];
 }

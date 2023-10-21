@@ -7,7 +7,7 @@ import '../../../models/themes/quill_icon_theme.dart';
 import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/color.dart';
 import '../../controller.dart';
-import '../../toolbar.dart';
+import '../toolbar.dart';
 
 /// Controls color styles.
 ///
