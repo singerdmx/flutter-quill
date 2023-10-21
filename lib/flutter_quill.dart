@@ -1,6 +1,6 @@
 library flutter_quill;
 
-export 'src/core/quill_configurations.dart';
+export 'src/models/config/quill_configurations.dart';
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
 export 'src/models/documents/nodes/block.dart';

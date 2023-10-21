@@ -46,7 +46,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.multiRowsDisplay = true,
     this.color,
     this.customButtons = const [],
-    this.locale,
     VoidCallback? afterButtonPressed,
     this.sectionDividerColor,
     this.sectionDividerSpace,
@@ -243,7 +242,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       toolbarIconCrossAlignment: toolbarIconCrossAlignment,
       multiRowsDisplay: multiRowsDisplay,
       customButtons: customButtons,
-      locale: locale,
       afterButtonPressed: afterButtonPressed,
       childrenBuilder: (context) {
         final controller = context.requireQuillController;
@@ -625,10 +623,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// is given.
   final Color? color;
 
-  /// The locale to use for the editor toolbar, defaults to system locale
-  /// More https://github.com/singerdmx/flutter-quill#translation
-  final Locale? locale;
-
   /// List of custom buttons
   final List<QuillCustomButton> customButtons;
 
@@ -652,7 +646,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return I18n(
-      initialLocale: locale,
+      initialLocale: context.sharedQuillConfigurations?.locale,
       child: multiRowsDisplay
           ? Wrap(
               direction: axis,

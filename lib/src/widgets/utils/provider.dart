@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 import 'package:flutter/widgets.dart' show InheritedWidget, BuildContext;
 
-import '../../core/quill_configurations.dart';
+import '../../models/config/quill_configurations.dart';
 
 class QuillProvider extends InheritedWidget {
   const QuillProvider({

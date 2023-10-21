@@ -200,9 +200,6 @@ abstract class Leaf extends Node {
   }
 }
 
-@Deprecated('Please use [QuillText] instead')
-class Text extends QuillText {}
-
 /// A span of formatted text within a line in a Quill document.
 ///
 /// Text is a leaf node of a document tree.

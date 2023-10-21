@@ -175,7 +175,6 @@ class QuillEditor extends StatefulWidget {
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
-    this.locale,
     this.floatingCursorDisabled = false,
     this.textSelectionControls,
     this.onImagePaste,
@@ -217,7 +216,6 @@ class QuillEditor extends StatefulWidget {
       expands: expands,
       padding: padding,
       keyboardAppearance: keyboardAppearance ?? Brightness.light,
-      locale: locale,
       embedBuilders: embedBuilders,
       placeholder: placeholder,
       editorKey: editorKey,
@@ -380,10 +378,6 @@ class QuillEditor extends StatefulWidget {
   final EmbedBuilder? unknownEmbedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
   final CustomRecognizerBuilder? customRecognizerBuilder;
-
-  /// The locale to use for the editor toolbar, defaults to system locale
-  /// More https://github.com/singerdmx/flutter-quill#translation
-  final Locale? locale;
 
   /// Delegate function responsible for showing menu with link actions on
   /// mobile platforms (iOS, Android).
@@ -561,7 +555,7 @@ class QuillEditorState extends State<QuillEditor>
     );
 
     final editor = I18n(
-      initialLocale: widget.locale,
+      initialLocale: context.sharedQuillConfigurations?.locale,
       child: selectionEnabled
           ? _selectionGestureDetectorBuilder.build(
               behavior: HitTestBehavior.translucent,

@@ -1,16 +1,15 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/material.dart' show Color, Colors;
+import 'package:flutter/material.dart' show Color, Colors, Locale;
 
-import '../../flutter_quill.dart';
+import '../../../flutter_quill.dart';
 
-// I will start on this in the major-update-2
-
+/// The configurations for the toolbar widget of flutter quill
 @immutable
 class QuillToolbarConfigurations {
   const QuillToolbarConfigurations();
 }
 
-///
+/// The configurations for the quill editor widget of flutter quill
 @immutable
 class QuillEditorConfigurations {
   const QuillEditorConfigurations();
@@ -21,12 +20,17 @@ class QuillEditorConfigurations {
 class QuillSharedConfigurations {
   const QuillSharedConfigurations({
     this.dialogBarrierColor = Colors.black54,
+    this.locale,
   });
 
   // This is just example or showcase of this major update to make the library
   // more maintanable, flexible, and customizable
   /// The barrier color of the shown dialogs
   final Color dialogBarrierColor;
+
+  /// The locale to use for the editor and toolbar, defaults to system locale
+  /// More https://github.com/singerdmx/flutter-quill#translation
+  final Locale? locale;
 }
 
 @immutable
