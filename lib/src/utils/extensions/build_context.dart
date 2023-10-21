@@ -102,7 +102,7 @@ extension BuildContextExt on BuildContext {
   /// get the provider widget first and then we will return base button
   /// don't throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarBaseButtonOptions? get quillToolbarBaseButtonOptions {
-    return quillToolbarConfigurations?.buttonOptions.baseButtonOptions;
+    return quillToolbarConfigurations?.buttonOptions.base;
   }
 
   /// return [QuillToolbarBaseButtonOptions] as not null. Since the quill
@@ -110,6 +110,6 @@ extension BuildContextExt on BuildContext {
   /// get the provider widget first and then we will return base button
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarBaseButtonOptions get requireQuillToolbarBaseButtonOptions {
-    return requireQuillToolbarConfigurations.buttonOptions.baseButtonOptions;
+    return requireQuillToolbarConfigurations.buttonOptions.base;
   }
 }

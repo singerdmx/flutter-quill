@@ -11,7 +11,7 @@ import 'controller.dart';
 import 'cursor.dart';
 import 'default_styles.dart';
 import 'delegate.dart';
-import 'editor.dart';
+import 'editor/editor.dart';
 import 'link.dart';
 import 'style_widgets/bullet_point.dart';
 import 'style_widgets/checkbox_point.dart';

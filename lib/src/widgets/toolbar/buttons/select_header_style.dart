@@ -6,7 +6,7 @@ import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
-import '../../toolbar.dart';
+import '../toolbar.dart';
 
 class SelectHeaderStyleButton extends StatefulWidget {
   const SelectHeaderStyleButton({

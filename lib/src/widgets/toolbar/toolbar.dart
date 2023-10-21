@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import '../../flutter_quill.dart';
-import '../translations/toolbar.i18n.dart';
-import '../utils/extensions/build_context.dart';
-import 'toolbar/buttons/arrow_indicated_list.dart';
+import '../../../flutter_quill.dart';
+import '../../translations/toolbar.i18n.dart';
+import '../../utils/extensions/build_context.dart';
+import 'buttons/arrow_indicated_list.dart';
 
-export '../models/config/toolbar/buttons/base.dart';
-export '../models/config/toolbar/configurations.dart';
-export 'toolbar/buttons/clear_format.dart';
-export 'toolbar/buttons/color.dart';
-export 'toolbar/buttons/custom_button.dart';
-export 'toolbar/buttons/font_family.dart';
-export 'toolbar/buttons/history.dart';
-export 'toolbar/buttons/indent.dart';
-export 'toolbar/buttons/link_style.dart';
-export 'toolbar/buttons/link_style2.dart';
-export 'toolbar/buttons/quill_font_size.dart';
-export 'toolbar/buttons/quill_icon.dart';
-export 'toolbar/buttons/search.dart';
-export 'toolbar/buttons/select_alignment.dart';
-export 'toolbar/buttons/select_header_style.dart';
-export 'toolbar/buttons/toggle_check_list.dart';
-export 'toolbar/buttons/toggle_style.dart';
+export '../../models/config/toolbar/buttons/base.dart';
+export '../../models/config/toolbar/configurations.dart';
+export 'buttons/clear_format.dart';
+export 'buttons/color.dart';
+export 'buttons/custom_button.dart';
+export 'buttons/font_family.dart';
+export 'buttons/history.dart';
+export 'buttons/indent.dart';
+export 'buttons/link_style.dart';
+export 'buttons/link_style2.dart';
+export 'buttons/quill_font_size.dart';
+export 'buttons/quill_icon.dart';
+export 'buttons/search.dart';
+export 'buttons/select_alignment.dart';
+export 'buttons/select_header_style.dart';
+export 'buttons/toggle_check_list.dart';
+export 'buttons/toggle_style.dart';
 
 typedef QuillToolbarChildrenBuilder = List<Widget> Function(
   BuildContext context,
@@ -220,54 +220,24 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
         final toolbarConfigurations = context.requireQuillToolbarConfigurations;
 
-        final toolbarIconSize = toolbarConfigurations
-            .buttonOptions.baseButtonOptions.globalIconSize;
+        final toolbarIconSize =
+            toolbarConfigurations.buttonOptions.base.globalIconSize;
 
         return [
           if (showUndo)
             QuillToolbarHistoryButton(
-              options:
-                  toolbarConfigurations.buttonOptions.undoHistoryButtonOptions,
+              options: toolbarConfigurations.buttonOptions.undoHistory,
             ),
-          // QuillToolbarHistoryButton(
-          //   icon: Icons.undo_outlined,
-          //   iconSize: toolbarIconSize,
-          //   tooltip: buttonTooltips[ToolbarButtons.undo],
-          //   controller: controller,
-          //   undo: true,
-          //   iconTheme: iconTheme,
-          //   afterButtonPressed: afterButtonPressed,
-          // ),
           if (showRedo)
             QuillToolbarHistoryButton(
-              options:
-                  toolbarConfigurations.buttonOptions.redoHistoryButtonOptions,
+              options: toolbarConfigurations.buttonOptions.redoHistory,
             ),
-          // QuillToolbarHistoryButton(
-          //   icon: Icons.redo_outlined,
-          //   iconSize: toolbarIconSize,
-          //   tooltip: buttonTooltips[ToolbarButtons.redo],
-          //   controller: controller,
-          //   undo: false,
-          //   iconTheme: iconTheme,
-          //   afterButtonPressed: afterButtonPressed,
-          // ),
           if (showFontFamily)
             QuillToolbarFontFamilyButton(
-              options:
-                  toolbarConfigurations.buttonOptions.fontFamilyButtonOptions,
+              options: toolbarConfigurations.buttonOptions.fontFamily,
             ),
-          // QuillFontFamilyButton(
-          //   iconTheme: iconTheme,
-          //   iconSize: toolbarIconSize,
-          //   tooltip: buttonTooltips[ToolbarButtons.fontFamily],
-          //   attribute: Attribute.font,
-          //   controller: controller,
-          //   rawItemsMap: {},
-          //   afterButtonPressed: afterButtonPressed,
-          // ),
           if (showFontSize)
-            QuillFontSizeButton(
+            QuillToolbarFontSizeButton(
               iconTheme: iconTheme,
               iconSize: toolbarIconSize,
               tooltip: buttonTooltips[ToolbarButtons.fontSize],

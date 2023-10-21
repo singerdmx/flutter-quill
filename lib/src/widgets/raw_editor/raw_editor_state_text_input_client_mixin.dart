@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 import '../../models/documents/document.dart';
 import '../../utils/delta.dart';
-import '../editor.dart';
+import '../editor/editor.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
     implements TextInputClient {

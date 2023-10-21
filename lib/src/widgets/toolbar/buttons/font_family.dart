@@ -27,8 +27,7 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
 
 class _QuillToolbarFontFamilyButtonState
     extends State<QuillToolbarFontFamilyButton> {
-  late String _defaultDisplayText;
-  String _currentValue = '';
+  var _currentValue = '';
 
   QuillToolbarFontFamilyButtonOptions get options {
     return widget.options;
@@ -59,7 +58,7 @@ class _QuillToolbarFontFamilyButtonState
     }
     await Future.delayed(Duration.zero);
     setState(() {
-      _currentValue = _defaultDisplayText = options.initialValue ?? 'Font'.i18n;
+      _currentValue = _defaultDisplayText;
     });
     controller.addListener(_didChangeEditingValue);
   }
@@ -76,14 +75,19 @@ class _QuillToolbarFontFamilyButtonState
     super.dispose();
   }
 
+  String get _defaultDisplayText {
+    return options.initialValue ?? 'Font'.i18n;
+  }
+
   @override
   void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (controller != controller) {
-      controller
-        ..removeListener(_didChangeEditingValue)
-        ..addListener(_didChangeEditingValue);
+    if (controller == controller) {
+      return;
     }
+    controller
+      ..removeListener(_didChangeEditingValue)
+      ..addListener(_didChangeEditingValue);
   }
 
   void _didChangeEditingValue() {
@@ -222,7 +226,9 @@ class _QuillToolbarFontFamilyButtonState
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
     );
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     if (newValue == null) {
       return;
     }
@@ -231,7 +237,10 @@ class _QuillToolbarFontFamilyButtonState
       _currentValue = keyName ?? _defaultDisplayText;
       if (keyName != null) {
         controller.formatSelection(
-          Attribute.fromKeyValue('font', newValue == 'Clear' ? null : newValue),
+          Attribute.fromKeyValue(
+            'font',
+            newValue == 'Clear' ? null : newValue,
+          ),
         );
         options.onSelected?.call(newValue);
       }

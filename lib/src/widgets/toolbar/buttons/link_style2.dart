@@ -10,7 +10,7 @@ import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../controller.dart';
 import '../../link.dart';
-import '../../toolbar.dart';
+import '../toolbar.dart';
 
 /// Alternative version of [LinkStyleButton]. This widget has more customization
 /// and uses dialog similar to one which is used on [http://quilljs.com].

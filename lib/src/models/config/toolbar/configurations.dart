@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
-import '../../documents/attribute.dart';
 import 'buttons/base.dart';
 import 'buttons/font_family.dart';
+import 'buttons/font_size.dart';
 import 'buttons/history.dart';
 
 export './buttons/base.dart';
 export './buttons/font_family.dart';
+export './buttons/font_size.dart';
 export './buttons/history.dart';
 export './buttons/toggle_style.dart';
 
@@ -46,7 +47,7 @@ class QuillToolbarConfigurations extends Equatable {
     if (alternativeToolbarSize != null) {
       return alternativeToolbarSize;
     }
-    return buttonOptions.baseButtonOptions.globalIconSize * 2;
+    return buttonOptions.base.globalIconSize * 2;
   }
 
   /// If you want change spesefic buttons or all of them
@@ -81,21 +82,30 @@ class QuillToolbarConfigurations extends Equatable {
 
 /// The configurations for the buttons of the toolbar widget of flutter quill
 @immutable
-class QuillToolbarButtonOptions {
+class QuillToolbarButtonOptions extends Equatable {
   const QuillToolbarButtonOptions({
-    this.baseButtonOptions = const QuillToolbarBaseButtonOptions(),
-    this.undoHistoryButtonOptions = const QuillToolbarHistoryButtonOptions(
+    this.base = const QuillToolbarBaseButtonOptions(),
+    this.undoHistory = const QuillToolbarHistoryButtonOptions(
       isUndo: true,
     ),
-    this.redoHistoryButtonOptions = const QuillToolbarHistoryButtonOptions(
+    this.redoHistory = const QuillToolbarHistoryButtonOptions(
       isUndo: false,
     ),
-    this.fontFamilyButtonOptions = const QuillToolbarFontFamilyButtonOptions(),
+    this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
+    this.fontSize = const QuillToolbarFontSizeButtonOptions(),
   });
 
-  /// The base configurations for all the buttons
-  final QuillToolbarBaseButtonOptions baseButtonOptions;
-  final QuillToolbarHistoryButtonOptions undoHistoryButtonOptions;
-  final QuillToolbarHistoryButtonOptions redoHistoryButtonOptions;
-  final QuillToolbarFontFamilyButtonOptions fontFamilyButtonOptions;
+  /// The base configurations for all the buttons which will apply to all
+  /// but if the options overrided in the spesefic button options
+  /// then it will use that instead
+  final QuillToolbarBaseButtonOptions base;
+  final QuillToolbarHistoryButtonOptions undoHistory;
+  final QuillToolbarHistoryButtonOptions redoHistory;
+  final QuillToolbarFontFamilyButtonOptions fontFamily;
+  final QuillToolbarFontSizeButtonOptions fontSize;
+
+  @override
+  List<Object?> get props => [
+        base,
+      ];
 }

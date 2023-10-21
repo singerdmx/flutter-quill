@@ -8,8 +8,8 @@ import '../../../utils/font.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
 
-class QuillFontSizeButton extends StatefulWidget {
-  const QuillFontSizeButton({
+class QuillToolbarFontSizeButton extends StatefulWidget {
+  const QuillToolbarFontSizeButton({
     required this.rawItemsMap,
     required this.attribute,
     required this.controller,
@@ -58,10 +58,12 @@ class QuillFontSizeButton extends StatefulWidget {
   final Color? defaultItemColor;
 
   @override
-  _QuillFontSizeButtonState createState() => _QuillFontSizeButtonState();
+  _QuillToolbarFontSizeButtonState createState() =>
+      _QuillToolbarFontSizeButtonState();
 }
 
-class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
+class _QuillToolbarFontSizeButtonState
+    extends State<QuillToolbarFontSizeButton> {
   late String _defaultDisplayText;
   late String _currentValue;
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -80,7 +82,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
   }
 
   @override
-  void didUpdateWidget(covariant QuillFontSizeButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarFontSizeButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
@@ -119,8 +121,9 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
         child: RawMaterialButton(
           visualDensity: VisualDensity.compact,
           shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
+            borderRadius:
+                BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2),
+          ),
           fillColor: widget.fillColor,
           elevation: 0,
           hoverElevation: widget.hoverElevation,
@@ -135,7 +138,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
     );
   }
 
-  void _showMenu() {
+  Future<void> _showMenu() async {
     final popupMenuTheme = PopupMenuTheme.of(context);
     final button = context.findRenderObject() as RenderBox;
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -147,7 +150,7 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       ),
       Offset.zero & overlay.size,
     );
-    showMenu<String>(
+    final newValue = await showMenu<String>(
       context: context,
       elevation: 4,
       items: [
@@ -169,20 +172,19 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
       position: position,
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
-    ).then((newValue) {
-      if (!mounted) return;
-      if (newValue == null) {
-        return;
+    );
+    if (!mounted) return;
+    if (newValue == null) {
+      return;
+    }
+    final keyName = _getKeyName(newValue);
+    setState(() {
+      _currentValue = keyName ?? _defaultDisplayText;
+      if (keyName != null) {
+        widget.controller.formatSelection(Attribute.fromKeyValue(
+            'size', newValue == '0' ? null : getFontSize(newValue)));
+        widget.onSelected?.call(newValue);
       }
-      final keyName = _getKeyName(newValue);
-      setState(() {
-        _currentValue = keyName ?? _defaultDisplayText;
-        if (keyName != null) {
-          widget.controller.formatSelection(Attribute.fromKeyValue(
-              'size', newValue == '0' ? null : getFontSize(newValue)));
-          widget.onSelected?.call(newValue);
-        }
-      });
     });
   }
 
@@ -198,19 +200,24 @@ class _QuillFontSizeButtonState extends State<QuillFontSizeButton> {
           UtilityWidgets.maybeWidget(
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
-            child: Text(_currentValue,
-                overflow: widget.labelOverflow,
-                style: widget.style ??
-                    TextStyle(
-                        fontSize: widget.iconSize / 1.15,
-                        color: widget.iconTheme?.iconUnselectedColor ??
-                            theme.iconTheme.color)),
+            child: Text(
+              _currentValue,
+              overflow: widget.labelOverflow,
+              style: widget.style ??
+                  TextStyle(
+                    fontSize: widget.iconSize / 1.15,
+                    color: widget.iconTheme?.iconUnselectedColor ??
+                        theme.iconTheme.color,
+                  ),
+            ),
           ),
           const SizedBox(width: 3),
-          Icon(Icons.arrow_drop_down,
-              size: widget.iconSize / 1.15,
-              color: widget.iconTheme?.iconUnselectedColor ??
-                  theme.iconTheme.color)
+          Icon(
+            Icons.arrow_drop_down,
+            size: widget.iconSize / 1.15,
+            color:
+                widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+          )
         ],
       ),
     );

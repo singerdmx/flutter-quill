@@ -1,3 +1,7 @@
+## [7.6.1]
+
+- Bug fixes
+
 ## [7.6.0]
 
 - **Breaking change**: To customize the buttons in the toolbar, you can do that in the `QuillProvider`
