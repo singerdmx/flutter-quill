@@ -91,8 +91,12 @@ class QuillToolbarButtonOptions extends Equatable {
     this.redoHistory = const QuillToolbarHistoryButtonOptions(
       isUndo: false,
     ),
+<<<<<<< HEAD
     this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
     // this.fontSize = const QuillToolbarFontSizeButtonOptions(),
+=======
+    this.fontFamilyButtonOptions = const QuillToolbarFontFamilyButtonOptions(),
+>>>>>>> 61b38f4 (Fix conflicts)
   });
 
   /// The base configurations for all the buttons which will apply to all
