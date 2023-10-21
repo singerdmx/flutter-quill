@@ -1,33 +1,10 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/material.dart' show Color, Colors;
 
-import '../../flutter_quill.dart';
+import '../../../flutter_quill.dart';
 
-// I will start on this in the major-update-2
-
-@immutable
-class QuillToolbarConfigurations {
-  const QuillToolbarConfigurations();
-}
-
-///
-@immutable
-class QuillEditorConfigurations {
-  const QuillEditorConfigurations();
-}
-
-/// The shared configurations between [QuillEditorConfigurations] and
-/// [QuillToolbarConfigurations] so we don't duplicate things
-class QuillSharedConfigurations {
-  const QuillSharedConfigurations({
-    this.dialogBarrierColor = Colors.black54,
-  });
-
-  // This is just example or showcase of this major update to make the library
-  // more maintanable, flexible, and customizable
-  /// The barrier color of the shown dialogs
-  final Color dialogBarrierColor;
-}
+export './editor/configurations.dart';
+export './shared_configurations.dart';
+export './toolbar/configurations.dart';
 
 @immutable
 class QuillConfigurations {
@@ -46,9 +23,13 @@ class QuillConfigurations {
   /// here, it should not be null
   final QuillController controller;
 
+  /// The configurations for the quill editor widget of flutter quill
   final QuillEditorConfigurations editorConfigurations;
 
+  /// The configurations for the toolbar widget of flutter quill
   final QuillToolbarConfigurations toolbarConfigurations;
 
+  /// The shared configurations between [QuillEditorConfigurations] and
+  /// [QuillToolbarConfigurations] so we don't duplicate things
   final QuillSharedConfigurations sharedConfigurations;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
-import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 import '../universal_ui/universal_ui.dart';
@@ -39,21 +39,21 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
       scrollable: true,
       focusNode: _focusNode,
       autoFocus: true,
-      readOnly: !_edit,
+      // readOnly: !_edit,
       expands: false,
       padding: EdgeInsets.zero,
       embedBuilders: FlutterQuillEmbeds.builders(),
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
-          scrollController: ScrollController(),
-          scrollable: true,
-          focusNode: _focusNode,
-          autoFocus: true,
-          readOnly: !_edit,
-          expands: false,
-          padding: EdgeInsets.zero,
-          embedBuilders: defaultEmbedBuildersWeb);
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: _focusNode,
+        autoFocus: true,
+        expands: false,
+        padding: EdgeInsets.zero,
+        embedBuilders: defaultEmbedBuildersWeb,
+      );
     }
     return Padding(
       padding: const EdgeInsets.all(8),

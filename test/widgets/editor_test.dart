@@ -39,14 +39,20 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: QuillProvider(
-            configurations: QuillConfigurations(controller: controller),
+            configurations: QuillConfigurations(
+              controller: controller,
+              // ignore: avoid_redundant_argument_values
+              editorConfigurations: const QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+              ),
+            ),
             child: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
               scrollable: true,
               padding: const EdgeInsets.all(0),
               autoFocus: true,
-              readOnly: false,
               expands: true,
               contentInsertionConfiguration: ContentInsertionConfiguration(
                 onContentInserted: (content) {
@@ -113,14 +119,20 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: QuillProvider(
-            configurations: QuillConfigurations(controller: controller),
+            configurations: QuillConfigurations(
+              controller: controller,
+              // ignore: avoid_redundant_argument_values
+              editorConfigurations: const QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+              ),
+            ),
             child: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
               scrollable: true,
               padding: EdgeInsets.zero,
               autoFocus: true,
-              readOnly: false,
               expands: true,
               contextMenuBuilder: customBuilder,
             ),

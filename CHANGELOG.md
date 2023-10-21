@@ -1,3 +1,7 @@
+## [7.6.0]
+
+- **Breaking change**: To customize the buttons in the toolbar, you can do that in the `QuillProvider`
+
 # [7.5.0]
 
 - **Breaking change**: The widgets `QuillEditor` and `QuillToolbar` are no longer have controller parameter, instead you need to make sure in the widget tree you have wrapped them with `QuillProvider` widget and provide the controller and the require configurations

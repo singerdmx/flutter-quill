@@ -19,7 +19,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.4.16
+  flutter_quill: ^7.5.0
   # In case you are working on changes for both libraries,
   # flutter_quill:
   #   path: ~/development/playground/framework_based/flutter/flutter-quill

@@ -1,6 +1,5 @@
 import 'dart:async' show StreamSubscription;
 import 'dart:convert' show jsonDecode;
-import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
@@ -50,7 +49,7 @@ import '../quill_single_child_scroll_view.dart';
 import '../text_block.dart';
 import '../text_line.dart';
 import '../text_selection.dart';
-import '../toolbar/link_style_button2.dart';
+import '../toolbar/buttons/link_style2.dart';
 import '../toolbar/search_dialog.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
@@ -1074,7 +1073,7 @@ class RawEditorState extends EditorState
 
     if (isKeyboardOS()) {
       _keyboardVisible = true;
-    } else if (!isWeb() && Platform.environment.containsKey('FLUTTER_TEST')) {
+    } else if (!isWeb() && isFlutterTest()) {
       // treat tests like a keyboard OS
       _keyboardVisible = true;
     } else {

@@ -148,12 +148,10 @@ class QuillEditor extends StatefulWidget {
     required this.scrollable,
     required this.padding,
     required this.autoFocus,
-    required this.readOnly,
     required this.expands,
     this.textSelectionThemeData,
     this.showCursor,
     this.paintCursorAboveText,
-    this.placeholder,
     this.enableInteractiveSelection = true,
     this.enableSelectionToolbar = true,
     this.scrollBottomInset = 0,
@@ -175,7 +173,6 @@ class QuillEditor extends StatefulWidget {
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
-    this.locale,
     this.floatingCursorDisabled = false,
     this.textSelectionControls,
     this.onImagePaste,
@@ -202,10 +199,6 @@ class QuillEditor extends StatefulWidget {
     FocusNode? focusNode,
     String? placeholder,
     GlobalKey<EditorState>? editorKey,
-
-    /// The locale to use for the editor toolbar, defaults to system locale
-    /// More at https://github.com/singerdmx/flutter-quill#translation
-    Locale? locale,
   }) {
     return QuillEditor(
       scrollController: ScrollController(),
@@ -213,13 +206,10 @@ class QuillEditor extends StatefulWidget {
       focusNode: focusNode ?? FocusNode(),
       textSelectionThemeData: textSelectionThemeData,
       autoFocus: autoFocus,
-      readOnly: readOnly,
       expands: expands,
       padding: padding,
       keyboardAppearance: keyboardAppearance ?? Brightness.light,
-      locale: locale,
       embedBuilders: embedBuilders,
-      placeholder: placeholder,
       editorKey: editorKey,
     );
   }
@@ -263,15 +253,6 @@ class QuillEditor extends StatefulWidget {
   /// The cursor refers to the blinking caret when the editor is focused.
   final bool? showCursor;
   final bool? paintCursorAboveText;
-
-  /// Whether the text can be changed.
-  ///
-  /// When this is set to `true`, the text cannot be modified
-  /// by any shortcut or keyboard operation. The text is still selectable.
-  ///
-  /// Defaults to `false`. Must not be `null`.
-  final bool readOnly;
-  final String? placeholder;
 
   /// Whether to enable user interface affordances for changing the
   /// text selection.
@@ -380,10 +361,6 @@ class QuillEditor extends StatefulWidget {
   final EmbedBuilder? unknownEmbedBuilder;
   final CustomStyleBuilder? customStyleBuilder;
   final CustomRecognizerBuilder? customRecognizerBuilder;
-
-  /// The locale to use for the editor toolbar, defaults to system locale
-  /// More https://github.com/singerdmx/flutter-quill#translation
-  final Locale? locale;
 
   /// Delegate function responsible for showing menu with link actions on
   /// mobile platforms (iOS, Android).
@@ -509,6 +486,9 @@ class QuillEditorState extends State<QuillEditor>
     final showSelectionToolbar =
         widget.enableInteractiveSelection && widget.enableSelectionToolbar;
 
+    final editorConfigurations =
+        context.requireQuillConfigurations.editorConfigurations;
+
     final child = RawEditor(
       key: _editorKey,
       controller: context.requireQuillController,
@@ -517,8 +497,8 @@ class QuillEditorState extends State<QuillEditor>
       scrollable: widget.scrollable,
       scrollBottomInset: widget.scrollBottomInset,
       padding: widget.padding,
-      readOnly: widget.readOnly,
-      placeholder: widget.placeholder,
+      readOnly: editorConfigurations.readOnly,
+      placeholder: editorConfigurations.placeholder,
       onLaunchUrl: widget.onLaunchUrl,
       contextMenuBuilder: showSelectionToolbar
           ? (widget.contextMenuBuilder ?? RawEditor.defaultContextMenuBuilder)
@@ -561,7 +541,7 @@ class QuillEditorState extends State<QuillEditor>
     );
 
     final editor = I18n(
-      initialLocale: widget.locale,
+      initialLocale: context.quillSharedConfigurations?.locale,
       child: selectionEnabled
           ? _selectionGestureDetectorBuilder.build(
               behavior: HitTestBehavior.translucent,

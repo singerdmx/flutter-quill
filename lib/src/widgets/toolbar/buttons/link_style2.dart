@@ -2,15 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-import '../../../extensions.dart'
+import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
-import '../../../translations.dart';
-import '../../models/documents/attribute.dart';
-import '../../models/themes/quill_dialog_theme.dart';
-import '../../models/themes/quill_icon_theme.dart';
-import '../controller.dart';
-import '../link.dart';
-import '../toolbar.dart';
+import '../../../../translations.dart';
+import '../../../models/documents/attribute.dart';
+import '../../../models/themes/quill_dialog_theme.dart';
+import '../../../models/themes/quill_icon_theme.dart';
+import '../../controller.dart';
+import '../../link.dart';
+import '../../toolbar.dart';
 
 /// Alternative version of [LinkStyleButton]. This widget has more customization
 /// and uses dialog similar to one which is used on [http://quilljs.com].
