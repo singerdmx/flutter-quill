@@ -18,7 +18,7 @@ class QuillProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    throw false;
+    return true;
   }
 
   static QuillProvider? of(BuildContext context) {
