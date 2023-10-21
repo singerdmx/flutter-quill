@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../extensions.dart';
 import '../../../../translations.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../../utils/extensions/quill_controller.dart';
@@ -38,6 +39,10 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   }
 
   Future<void> _listenForChanges() async {
+    if (isFlutterTest()) {
+      // We don't need to listen for changes in the tests
+      return;
+    }
     await Future.delayed(Duration.zero); // Wait for the widget to built
     _updateCanPressed(); // Set the init state
 

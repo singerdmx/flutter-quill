@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../../extensions.dart';
 import '../../../models/config/toolbar/buttons/font_family.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../../utils/extensions/quill_controller.dart';
-import '../../../utils/widgets.dart';
 import '../../controller.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
@@ -34,6 +34,12 @@ class _QuillToolbarFontFamilyButtonState
     return widget.options;
   }
 
+  /// Since t's not safe to call anything related to the context in dispose
+  /// then we will save a reference to the [controller]
+  /// and update it in [didChangeDependencies]
+  /// and use it in dispose method
+  late QuillController _controller;
+
   QuillController get controller {
     return options.controller.notNull(context);
   }
@@ -47,6 +53,10 @@ class _QuillToolbarFontFamilyButtonState
   }
 
   Future<void> _initState() async {
+    if (isFlutterTest()) {
+      // We don't need to listen for changes in the tests
+      return;
+    }
     await Future.delayed(Duration.zero);
     setState(() {
       _currentValue = _defaultDisplayText = options.initialValue ?? 'Font'.i18n;
@@ -55,8 +65,14 @@ class _QuillToolbarFontFamilyButtonState
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller = controller;
+  }
+
+  @override
   void dispose() {
-    controller.removeListener(_didChangeEditingValue);
+    _controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 

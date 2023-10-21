@@ -11,11 +11,11 @@ export '../models/config/toolbar/configurations.dart';
 export 'toolbar/buttons/clear_format.dart';
 export 'toolbar/buttons/color.dart';
 export 'toolbar/buttons/custom_button.dart';
+export 'toolbar/buttons/font_family.dart';
 export 'toolbar/buttons/history.dart';
 export 'toolbar/buttons/indent.dart';
 export 'toolbar/buttons/link_style.dart';
 export 'toolbar/buttons/link_style2.dart';
-export 'toolbar/buttons/font_family.dart';
 export 'toolbar/buttons/quill_font_size.dart';
 export 'toolbar/buttons/quill_icon.dart';
 export 'toolbar/buttons/search.dart';
@@ -173,6 +173,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     //default button tooltips
     final buttonTooltips = tooltips ??
         <ToolbarButtons, String>{
+          // ToolbarButtons.undo: 'Undo'.i18n,
+          // ToolbarButtons.redo: 'Redo'.i18n,
           ToolbarButtons.fontFamily: 'Font family'.i18n,
           ToolbarButtons.fontSize: 'Font size'.i18n,
           ToolbarButtons.bold: 'Bold'.i18n,
@@ -227,16 +229,43 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               options:
                   toolbarConfigurations.buttonOptions.undoHistoryButtonOptions,
             ),
+          // QuillToolbarHistoryButton(
+          //   icon: Icons.undo_outlined,
+          //   iconSize: toolbarIconSize,
+          //   tooltip: buttonTooltips[ToolbarButtons.undo],
+          //   controller: controller,
+          //   undo: true,
+          //   iconTheme: iconTheme,
+          //   afterButtonPressed: afterButtonPressed,
+          // ),
           if (showRedo)
             QuillToolbarHistoryButton(
               options:
                   toolbarConfigurations.buttonOptions.redoHistoryButtonOptions,
             ),
+          // QuillToolbarHistoryButton(
+          //   icon: Icons.redo_outlined,
+          //   iconSize: toolbarIconSize,
+          //   tooltip: buttonTooltips[ToolbarButtons.redo],
+          //   controller: controller,
+          //   undo: false,
+          //   iconTheme: iconTheme,
+          //   afterButtonPressed: afterButtonPressed,
+          // ),
           if (showFontFamily)
             QuillToolbarFontFamilyButton(
               options:
                   toolbarConfigurations.buttonOptions.fontFamilyButtonOptions,
             ),
+          // QuillFontFamilyButton(
+          //   iconTheme: iconTheme,
+          //   iconSize: toolbarIconSize,
+          //   tooltip: buttonTooltips[ToolbarButtons.fontFamily],
+          //   attribute: Attribute.font,
+          //   controller: controller,
+          //   rawItemsMap: {},
+          //   afterButtonPressed: afterButtonPressed,
+          // ),
           if (showFontSize)
             QuillFontSizeButton(
               iconTheme: iconTheme,
@@ -596,16 +625,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   /// The decoration to use for the toolbar.
   final Decoration? decoration;
 
+  // We can't get the modified [toolbarSize] by the developer
+  // but I tested the [QuillToolbar] on the [appBar] and I didn't notice
+  // a difference no matter what the value is so I will leave it to the
+  // default
   @override
-  Size get preferredSize {
-    // We can't get the modified [toolbarSize] by the developer
-    // but I tested the [QuillToolbar] on the [appBar] and I didn't notice
-    // a difference no matter what the value is so I will leave it to the
-    // default
-    return axis == Axis.horizontal
-        ? const Size.fromHeight(defaultToolbarSize)
-        : const Size.fromWidth(defaultToolbarSize);
-  }
+  Size get preferredSize => axis == Axis.horizontal
+      ? const Size.fromHeight(defaultToolbarSize)
+      : const Size.fromWidth(defaultToolbarSize);
 
   @override
   Widget build(BuildContext context) {

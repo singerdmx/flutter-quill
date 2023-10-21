@@ -43,3 +43,4 @@ Closes #IssueNumber
 - [ ] I have run `dart format .`` on the project <!-- REQUIRED -->
 - [ ] I have run `dart fix --apply` on the project <!-- REQUIRED -->
 - [ ] I have run `flutter test` and `flutter analyze` and it passed successfully <!-- REQUIRED -->
+- [ ] I have run `./before-push.sh` and everything is fine <!-- Optional >

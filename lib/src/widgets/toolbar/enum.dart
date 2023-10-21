@@ -1,8 +1,8 @@
 enum ToolbarButtons {
   // Not needed anymore, the dev can customize this much easier now
   // in the toolbarConfigurations of the QuillProvider
-  // undo,
-  // redo,
+  undo,
+  redo,
   fontFamily,
   fontSize,
   bold,

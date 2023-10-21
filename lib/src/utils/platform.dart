@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, TargetPlatform, defaultTargetPlatform;
@@ -37,6 +39,11 @@ bool isMacOS([TargetPlatform? targetPlatform]) {
   if (isWeb()) return false;
   targetPlatform ??= defaultTargetPlatform;
   return TargetPlatform.macOS == targetPlatform;
+}
+
+bool isFlutterTest() {
+  if (isWeb()) return false;
+  return Platform.environment.containsKey('FLUTTER_TEST');
 }
 
 Future<bool> isIOSSimulator() async {

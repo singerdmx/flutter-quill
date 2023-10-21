@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/material.dart' show Icons;
 
 import '../../documents/attribute.dart';
 import 'buttons/base.dart';

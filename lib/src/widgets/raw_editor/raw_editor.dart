@@ -1,6 +1,5 @@
 import 'dart:async' show StreamSubscription;
 import 'dart:convert' show jsonDecode;
-import 'dart:io' show Platform;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
@@ -1074,7 +1073,7 @@ class RawEditorState extends EditorState
 
     if (isKeyboardOS()) {
       _keyboardVisible = true;
-    } else if (!isWeb() && Platform.environment.containsKey('FLUTTER_TEST')) {
+    } else if (!isWeb() && isFlutterTest()) {
       // treat tests like a keyboard OS
       _keyboardVisible = true;
     } else {
