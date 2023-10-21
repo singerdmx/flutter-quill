@@ -20,4 +20,8 @@ dart fix --apply
 echo "Running 'dart format .'"
 dart format .
 
+# Check dart code formatting
+echo "Running `dart format --set-exit-if-changed .`"
+dart format --set-exit-if-changed .
+
 echo "Script completed."
