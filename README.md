@@ -57,7 +57,7 @@ QuillProvider(
   configurations: QuillConfigurations(controller: _controller),
   child: Column(
   children: [
-    QuillToolbar.basic(controller: _controller),
+    QuillToolbar.basic(),
     Expanded(
       child: Container(
         child: QuillEditor.basic(
