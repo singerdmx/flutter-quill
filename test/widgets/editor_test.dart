@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/flutter_quill_test.dart';
+import 'package:flutter_quill/src/models/config/editor/configurations.dart';
 import 'package:flutter_quill/src/widgets/raw_editor/raw_editor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -39,14 +40,20 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: QuillProvider(
-            configurations: QuillConfigurations(controller: controller),
+            configurations: QuillConfigurations(
+              controller: controller,
+              // ignore: avoid_redundant_argument_values
+              editorConfigurations: const QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+              ),
+            ),
             child: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
               scrollable: true,
               padding: const EdgeInsets.all(0),
               autoFocus: true,
-              readOnly: false,
               expands: true,
               contentInsertionConfiguration: ContentInsertionConfiguration(
                 onContentInserted: (content) {
@@ -113,14 +120,20 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: QuillProvider(
-            configurations: QuillConfigurations(controller: controller),
+            configurations: QuillConfigurations(
+              controller: controller,
+              // ignore: avoid_redundant_argument_values
+              editorConfigurations: const QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+              ),
+            ),
             child: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
               scrollable: true,
               padding: EdgeInsets.zero,
               autoFocus: true,
-              readOnly: false,
               expands: true,
               contextMenuBuilder: customBuilder,
             ),

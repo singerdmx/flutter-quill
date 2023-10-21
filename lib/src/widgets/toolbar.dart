@@ -6,6 +6,8 @@ import '../translations/toolbar.i18n.dart';
 import '../utils/extensions/build_context.dart';
 import 'toolbar/arrow_indicated_button_list.dart';
 
+export '../models/config/toolbar/buttons/base.dart';
+export '../models/config/toolbar/configurations.dart';
 export 'toolbar/clear_format_button.dart';
 export 'toolbar/color_button.dart';
 export 'toolbar/custom_button.dart';
@@ -22,15 +24,6 @@ export 'toolbar/select_header_style_button.dart';
 export 'toolbar/toggle_check_list_button.dart';
 export 'toolbar/toggle_style_button.dart';
 
-/// The default size of the icon of a button.
-const double kDefaultIconSize = 18;
-
-/// The factor of how much larger the button is in relation to the icon.
-const double kIconButtonFactor = 1.77;
-
-/// The horizontal margin between the contents of each toolbar section.
-const double kToolbarSectionSpacing = 4;
-
 typedef QuillToolbarChildrenBuilder = List<Widget> Function(
   BuildContext context,
 );
@@ -39,11 +32,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.childrenBuilder,
     this.axis = Axis.horizontal,
-    this.toolbarSize = kDefaultIconSize * 2,
+    // this.toolbarSize = kDefaultIconSize * 2,
     this.toolbarSectionSpacing = kToolbarSectionSpacing,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
-    this.multiRowsDisplay = true,
     this.color,
     this.customButtons = const [],
     VoidCallback? afterButtonPressed,
@@ -56,11 +48,10 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   factory QuillToolbar.basic({
     Axis axis = Axis.horizontal,
-    double toolbarIconSize = kDefaultIconSize,
+    // double toolbarIconSize = kDefaultIconSize,
     double toolbarSectionSpacing = kToolbarSectionSpacing,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     WrapCrossAlignment toolbarIconCrossAlignment = WrapCrossAlignment.center,
-    bool multiRowsDisplay = true,
     bool showDividers = true,
     bool showFontFamily = true,
     bool showFontSize = true,
@@ -99,9 +90,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     ///Map of font sizes in string
     Map<String, String>? fontSizeValues,
-
-    ///Map of font families in string
-    Map<String, String>? fontFamilyValues,
 
     /// Toolbar items to display for controls of embed blocks
     List<EmbedButtonBuilder>? embedButtons,
@@ -182,25 +170,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           'Clear'.i18n: '0'
         };
 
-    //default font family values
-    final fontFamilies = fontFamilyValues ??
-        {
-          'Sans Serif': 'sans-serif',
-          'Serif': 'serif',
-          'Monospace': 'monospace',
-          'Ibarra Real Nova': 'ibarra-real-nova',
-          'SquarePeg': 'square-peg',
-          'Nunito': 'nunito',
-          'Pacifico': 'pacifico',
-          'Roboto Mono': 'roboto-mono',
-          'Clear'.i18n: 'Clear'
-        };
-
     //default button tooltips
     final buttonTooltips = tooltips ??
         <ToolbarButtons, String>{
-          ToolbarButtons.undo: 'Undo'.i18n,
-          ToolbarButtons.redo: 'Redo'.i18n,
           ToolbarButtons.fontFamily: 'Font family'.i18n,
           ToolbarButtons.fontSize: 'Font size'.i18n,
           ToolbarButtons.bold: 'Bold'.i18n,
@@ -236,46 +208,34 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       axis: axis,
       color: color,
       decoration: decoration,
-      toolbarSize: toolbarIconSize * 2,
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
       toolbarIconCrossAlignment: toolbarIconCrossAlignment,
-      multiRowsDisplay: multiRowsDisplay,
       customButtons: customButtons,
       afterButtonPressed: afterButtonPressed,
       childrenBuilder: (context) {
         final controller = context.requireQuillController;
 
+        final toolbarConfigurations = context.requireQuillToolbarConfigurations;
+
+        final toolbarIconSize = toolbarConfigurations
+            .buttonOptions.baseButtonOptions.globalIconSize;
+
         return [
           if (showUndo)
-            HistoryButton(
-              icon: Icons.undo_outlined,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.undo],
-              controller: controller,
-              undo: true,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+            QuillToolbarHistoryButton(
+              options:
+                  toolbarConfigurations.buttonOptions.undoHistoryButtonOptions,
             ),
           if (showRedo)
-            HistoryButton(
-              icon: Icons.redo_outlined,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.redo],
-              controller: controller,
-              undo: false,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+            QuillToolbarHistoryButton(
+              options:
+                  toolbarConfigurations.buttonOptions.redoHistoryButtonOptions,
             ),
           if (showFontFamily)
-            QuillFontFamilyButton(
-              iconTheme: iconTheme,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.fontFamily],
-              attribute: Attribute.font,
-              controller: controller,
-              rawItemsMap: fontFamilies,
-              afterButtonPressed: afterButtonPressed,
+            QuillToolbarFontFamilyButton(
+              options:
+                  toolbarConfigurations.buttonOptions.fontFamilyButtonOptions,
             ),
           if (showFontSize)
             QuillFontSizeButton(
@@ -377,7 +337,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               iconTheme: iconTheme,
               afterButtonPressed: afterButtonPressed,
               dialogBarrierColor:
-                  context.requireSharedQuillConfigurations.dialogBarrierColor,
+                  context.requireQuillSharedConfigurations.dialogBarrierColor,
             ),
           if (showBackgroundColorButton)
             ColorButton(
@@ -389,7 +349,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               iconTheme: iconTheme,
               afterButtonPressed: afterButtonPressed,
               dialogBarrierColor:
-                  context.requireSharedQuillConfigurations.dialogBarrierColor,
+                  context.requireQuillSharedConfigurations.dialogBarrierColor,
             ),
           if (showClearFormat)
             ClearFormatButton(
@@ -563,14 +523,14 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               linkRegExp: linkRegExp,
               linkDialogAction: linkDialogAction,
               dialogBarrierColor:
-                  context.requireSharedQuillConfigurations.dialogBarrierColor,
+                  context.requireQuillSharedConfigurations.dialogBarrierColor,
             ),
           if (showSearchButton)
             SearchButton(
               icon: Icons.search,
               iconSize: toolbarIconSize,
               dialogBarrierColor:
-                  context.requireSharedQuillConfigurations.dialogBarrierColor,
+                  context.requireQuillSharedConfigurations.dialogBarrierColor,
               tooltip: buttonTooltips[ToolbarButtons.search],
               controller: controller,
               iconTheme: iconTheme,
@@ -608,11 +568,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   final QuillToolbarChildrenBuilder childrenBuilder;
   final Axis axis;
-  final double toolbarSize;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
   final WrapCrossAlignment toolbarIconCrossAlignment;
-  final bool multiRowsDisplay;
 
   // Overrides the action in the _LinkDialog widget
   final LinkDialogAction? linkDialogAction;
@@ -639,15 +597,23 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   final Decoration? decoration;
 
   @override
-  Size get preferredSize => axis == Axis.horizontal
-      ? Size.fromHeight(toolbarSize)
-      : Size.fromWidth(toolbarSize);
+  Size get preferredSize {
+    // We can't get the modified [toolbarSize] by the developer
+    // but I tested the [QuillToolbar] on the [appBar] and I didn't notice
+    // a difference no matter what the value is so I will leave it to the
+    // default
+    return axis == Axis.horizontal
+        ? const Size.fromHeight(defaultToolbarSize)
+        : const Size.fromWidth(defaultToolbarSize);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final toolbarConfigurations = context.requireQuillToolbarConfigurations;
+    final toolbarSize = toolbarConfigurations.toolbarSize;
     return I18n(
-      initialLocale: context.sharedQuillConfigurations?.locale,
-      child: multiRowsDisplay
+      initialLocale: context.quillSharedConfigurations?.locale,
+      child: (toolbarConfigurations.multiRowsDisplay)
           ? Wrap(
               direction: axis,
               alignment: toolbarIconAlignment,

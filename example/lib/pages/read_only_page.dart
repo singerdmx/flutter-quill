@@ -39,21 +39,21 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
       scrollable: true,
       focusNode: _focusNode,
       autoFocus: true,
-      readOnly: !_edit,
+      // readOnly: !_edit,
       expands: false,
       padding: EdgeInsets.zero,
       embedBuilders: FlutterQuillEmbeds.builders(),
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
-          scrollController: ScrollController(),
-          scrollable: true,
-          focusNode: _focusNode,
-          autoFocus: true,
-          readOnly: !_edit,
-          expands: false,
-          padding: EdgeInsets.zero,
-          embedBuilders: defaultEmbedBuildersWeb);
+        scrollController: ScrollController(),
+        scrollable: true,
+        focusNode: _focusNode,
+        autoFocus: true,
+        expands: false,
+        padding: EdgeInsets.zero,
+        embedBuilders: defaultEmbedBuildersWeb,
+      );
     }
     return Padding(
       padding: const EdgeInsets.all(8),

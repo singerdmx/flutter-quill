@@ -190,8 +190,6 @@ class _HomePageState extends State<HomePage> {
         scrollable: true,
         focusNode: _focusNode,
         autoFocus: false,
-        readOnly: false,
-        placeholder: 'Add content',
         expands: false,
         padding: EdgeInsets.zero,
         onTapUp: (details, p1) {
@@ -221,8 +219,6 @@ class _HomePageState extends State<HomePage> {
       scrollable: true,
       focusNode: _focusNode,
       autoFocus: false,
-      readOnly: false,
-      placeholder: 'Add content',
       enableSelectionToolbar: isMobile(),
       expands: false,
       padding: EdgeInsets.zero,
@@ -324,10 +320,11 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: QuillProvider(
         configurations: QuillConfigurations(
-          // (throw ArgumentError.checkNotNull(
-          // _controller,
-          // 'Quill controller',
-          // ))
+          editorConfigurations: const QuillEditorConfigurations(
+            placeholder: 'Add content',
+            // ignore: avoid_redundant_argument_values
+            readOnly: false,
+          ),
           controller: _controller,
         ),
         child: Column(
@@ -348,7 +345,9 @@ class _HomePageState extends State<HomePage> {
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     child: quillToolbar,
                   ))
-                : Container(child: quillToolbar)
+                : Container(
+                    child: quillToolbar,
+                  )
           ],
         ),
       ),

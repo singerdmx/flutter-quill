@@ -55,15 +55,22 @@ class _VideoAppState extends State<VideoApp> {
       if (widget.readOnly) {
         return RichText(
           text: TextSpan(
-              text: widget.videoUrl,
-              style: defaultStyles.link,
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => launchUrl(Uri.parse(widget.videoUrl))),
+            text: widget.videoUrl,
+            style: defaultStyles.link,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => launchUrl(
+                    Uri.parse(widget.videoUrl),
+                  ),
+          ),
         );
       }
 
       return RichText(
-          text: TextSpan(text: widget.videoUrl, style: defaultStyles.link));
+        text: TextSpan(
+          text: widget.videoUrl,
+          style: defaultStyles.link,
+        ),
+      );
     } else if (!_controller.value.isInitialized) {
       return VideoProgressIndicator(
         _controller,

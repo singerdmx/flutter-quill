@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
-import 'package:flutter/widgets.dart' show InheritedWidget, BuildContext;
+import 'package:flutter/widgets.dart'
+    show BuildContext, InheritedWidget, Widget;
 
 import '../../models/config/quill_configurations.dart';
 
@@ -46,5 +47,17 @@ class QuillProvider extends InheritedWidget {
       );
     }
     return provider;
+  }
+
+  /// To pass the [QuillProvider] instance as value instead of creating new
+  /// widget
+  static QuillProvider value({
+    required QuillProvider value,
+    required Widget child,
+  }) {
+    return QuillProvider(
+      configurations: value.configurations,
+      child: child,
+    );
   }
 }

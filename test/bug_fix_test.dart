@@ -29,7 +29,7 @@ void main() {
         );
 
         final builtinFinder = find.descendant(
-          of: find.byType(HistoryButton),
+          of: find.byType(QuillToolbarHistoryButton),
           matching: find.byType(QuillIconButton),
           matchRoot: true,
         );

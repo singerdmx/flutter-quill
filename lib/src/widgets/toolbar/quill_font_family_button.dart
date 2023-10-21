@@ -1,99 +1,77 @@
 import 'package:flutter/material.dart';
 
+import '../../models/config/toolbar/buttons/font_family.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/style.dart';
-import '../../models/themes/quill_icon_theme.dart';
 import '../../translations/toolbar.i18n.dart';
+import '../../utils/extensions/build_context.dart';
+import '../../utils/extensions/quill_controller.dart';
 import '../../utils/widgets.dart';
 import '../controller.dart';
 
-class QuillFontFamilyButton extends StatefulWidget {
-  const QuillFontFamilyButton({
-    required this.rawItemsMap,
-    required this.attribute,
-    required this.controller,
-    @Deprecated('It is not required because of `rawItemsMap`') this.items,
-    this.onSelected,
-    this.iconSize = 40,
-    this.fillColor,
-    this.hoverElevation = 1,
-    this.highlightElevation = 1,
-    this.iconTheme,
-    this.afterButtonPressed,
-    this.tooltip,
-    this.padding,
-    this.style,
-    this.width,
-    this.renderFontFamilies = true,
-    this.initialValue,
-    this.labelOverflow = TextOverflow.visible,
-    this.overrideTooltipByFontFamily = false,
-    this.itemHeight,
-    this.itemPadding,
-    this.defaultItemColor = Colors.red,
-    Key? key,
-  })  : assert(rawItemsMap.length > 0),
-        assert(initialValue == null || initialValue.length > 0),
-        super(key: key);
+class QuillToolbarFontFamilyButton extends StatefulWidget {
+  QuillToolbarFontFamilyButton({
+    required this.options,
+    super.key,
+  })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
+        assert(
+          options.initialValue == null || options.initialValue!.isNotEmpty,
+        );
 
-  final double iconSize;
-  final Color? fillColor;
-  final double hoverElevation;
-  final double highlightElevation;
-  @Deprecated('It is not required because of `rawItemsMap`')
-  final List<PopupMenuEntry<String>>? items;
-  final Map<String, String> rawItemsMap;
-  final ValueChanged<String>? onSelected;
-  final QuillIconTheme? iconTheme;
-  final Attribute attribute;
-  final QuillController controller;
-  final VoidCallback? afterButtonPressed;
-  final String? tooltip;
-  final EdgeInsetsGeometry? padding;
-  final TextStyle? style;
-  final double? width;
-  final bool renderFontFamilies;
-  final String? initialValue;
-  final TextOverflow labelOverflow;
-  final bool overrideTooltipByFontFamily;
-  final double? itemHeight;
-  final EdgeInsets? itemPadding;
-  final Color? defaultItemColor;
+  final QuillToolbarFontFamilyButtonOptions options;
 
   @override
-  _QuillFontFamilyButtonState createState() => _QuillFontFamilyButtonState();
+  _QuillToolbarFontFamilyButtonState createState() =>
+      _QuillToolbarFontFamilyButtonState();
 }
 
-class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
+class _QuillToolbarFontFamilyButtonState
+    extends State<QuillToolbarFontFamilyButton> {
   late String _defaultDisplayText;
-  late String _currentValue;
+  String _currentValue = '';
 
-  Style get _selectionStyle => widget.controller.getSelectionStyle();
+  QuillToolbarFontFamilyButtonOptions get options {
+    return widget.options;
+  }
+
+  QuillController get controller {
+    return options.controller.notNull(context);
+  }
+
+  Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
   void initState() {
     super.initState();
-    _currentValue = _defaultDisplayText = widget.initialValue ?? 'Font'.i18n;
-    widget.controller.addListener(_didChangeEditingValue);
+    _initState();
+  }
+
+  Future<void> _initState() async {
+    await Future.delayed(Duration.zero);
+    setState(() {
+      _currentValue = _defaultDisplayText = options.initialValue ?? 'Font'.i18n;
+    });
+    controller.addListener(_didChangeEditingValue);
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_didChangeEditingValue);
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 
   @override
-  void didUpdateWidget(covariant QuillFontFamilyButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
-      oldWidget.controller.removeListener(_didChangeEditingValue);
-      widget.controller.addListener(_didChangeEditingValue);
+    if (controller != controller) {
+      controller
+        ..removeListener(_didChangeEditingValue)
+        ..addListener(_didChangeEditingValue);
     }
   }
 
   void _didChangeEditingValue() {
-    final attribute = _selectionStyle.attributes[widget.attribute.key];
+    final attribute = _selectionStyle.attributes[options.attribute.key];
     if (attribute == null) {
       setState(() => _currentValue = _defaultDisplayText);
       return;
@@ -102,8 +80,24 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
     setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
+  Map<String, String> get rawItemsMap {
+    final rawItemsMap = options.rawItemsMap ??
+        {
+          'Sans Serif': 'sans-serif',
+          'Serif': 'serif',
+          'Monospace': 'monospace',
+          'Ibarra Real Nova': 'ibarra-real-nova',
+          'SquarePeg': 'square-peg',
+          'Nunito': 'nunito',
+          'Pacifico': 'pacifico',
+          'Roboto Mono': 'roboto-mono',
+          'Clear'.i18n: 'Clear'
+        };
+    return rawItemsMap;
+  }
+
   String? _getKeyName(String value) {
-    for (final entry in widget.rawItemsMap.entries) {
+    for (final entry in rawItemsMap.entries) {
       if (entry.value == value) {
         return entry.key;
       }
@@ -111,19 +105,43 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
     return null;
   }
 
+  double get iconSize {
+    final iconSize = options.iconSize;
+    return iconSize ?? 40;
+    // final baseFontSize =
+    //     context.requireQuillToolbarBaseButtonOptions.globalIconSize;
+    // if (baseFontSize != iconSize) {
+    //   return 40;
+    // }
+    // return iconSize ?? baseFontSize;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final baseButtonConfigurations =
+        context.requireQuillToolbarBaseButtonOptions;
+    final childBuilder =
+        options.childBuilder ?? baseButtonConfigurations.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        options,
+        QuillToolbarFontFamilyButtonExtraOptions(
+          currentValue: _currentValue,
+          defaultDisplayText: _defaultDisplayText,
+        ),
+      );
+    }
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
-        height: widget.iconSize * 1.81,
-        width: widget.width,
+        height: iconSize * 1.81,
+        width: options.width,
       ),
       child: UtilityWidgets.maybeWidget(
-        enabled: (widget.tooltip ?? '').isNotEmpty ||
-            widget.overrideTooltipByFontFamily,
+        enabled: (options.tooltip ?? '').isNotEmpty ||
+            options.overrideTooltipByFontFamily,
         wrapper: (child) {
-          var effectiveTooltip = widget.tooltip ?? '';
-          if (widget.overrideTooltipByFontFamily) {
+          var effectiveTooltip = options.tooltip ?? '';
+          if (options.overrideTooltipByFontFamily) {
             effectiveTooltip = effectiveTooltip.isNotEmpty
                 ? '$effectiveTooltip: $_currentValue'
                 : '${'Font'.i18n}: $_currentValue';
@@ -133,15 +151,16 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
         child: RawMaterialButton(
           visualDensity: VisualDensity.compact,
           shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(widget.iconTheme?.borderRadius ?? 2)),
-          fillColor: widget.fillColor,
+            borderRadius:
+                BorderRadius.circular(options.iconTheme?.borderRadius ?? 2),
+          ),
+          fillColor: options.fillColor,
           elevation: 0,
-          hoverElevation: widget.hoverElevation,
-          highlightElevation: widget.hoverElevation,
+          hoverElevation: options.hoverElevation,
+          highlightElevation: options.hoverElevation,
           onPressed: () {
             _showMenu();
-            widget.afterButtonPressed?.call();
+            options.afterButtonPressed?.call();
           },
           child: _buildContent(context),
         ),
@@ -149,7 +168,7 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
     );
   }
 
-  void _showMenu() {
+  Future<void> _showMenu() async {
     final popupMenuTheme = PopupMenuTheme.of(context);
     final button = context.findRenderObject() as RenderBox;
     final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -161,23 +180,23 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
       ),
       Offset.zero & overlay.size,
     );
-    showMenu<String>(
+    final newValue = await showMenu<String>(
       context: context,
       elevation: 4,
       items: [
-        for (final MapEntry<String, String> fontFamily
-            in widget.rawItemsMap.entries)
+        for (final MapEntry<String, String> fontFamily in rawItemsMap.entries)
           PopupMenuItem<String>(
             key: ValueKey(fontFamily.key),
             value: fontFamily.value,
-            height: widget.itemHeight ?? kMinInteractiveDimension,
-            padding: widget.itemPadding,
+            height: options.itemHeight ?? kMinInteractiveDimension,
+            padding: options.itemPadding,
             child: Text(
               fontFamily.key.toString(),
               style: TextStyle(
-                fontFamily: widget.renderFontFamilies ? fontFamily.value : null,
+                fontFamily:
+                    options.renderFontFamilies ? fontFamily.value : null,
                 color: fontFamily.value == 'Clear'
-                    ? widget.defaultItemColor
+                    ? options.defaultItemColor
                     : null,
               ),
             ),
@@ -186,28 +205,28 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
       position: position,
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
-    ).then((newValue) {
-      if (!mounted) return;
-      if (newValue == null) {
-        return;
+    );
+    if (!mounted) return;
+    if (newValue == null) {
+      return;
+    }
+    final keyName = _getKeyName(newValue);
+    setState(() {
+      _currentValue = keyName ?? _defaultDisplayText;
+      if (keyName != null) {
+        controller.formatSelection(
+          Attribute.fromKeyValue('font', newValue == 'Clear' ? null : newValue),
+        );
+        options.onSelected?.call(newValue);
       }
-      final keyName = _getKeyName(newValue);
-      setState(() {
-        _currentValue = keyName ?? _defaultDisplayText;
-        if (keyName != null) {
-          widget.controller.formatSelection(Attribute.fromKeyValue(
-              'font', newValue == 'Clear' ? null : newValue));
-          widget.onSelected?.call(newValue);
-        }
-      });
     });
   }
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    final hasFinalWidth = widget.width != null;
+    final hasFinalWidth = options.width != null;
     return Padding(
-      padding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Row(
         mainAxisSize: !hasFinalWidth ? MainAxisSize.min : MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,19 +237,22 @@ class _QuillFontFamilyButtonState extends State<QuillFontFamilyButton> {
             child: Text(
               _currentValue,
               maxLines: 1,
-              overflow: widget.labelOverflow,
-              style: widget.style ??
+              overflow: options.labelOverflow,
+              style: options.style ??
                   TextStyle(
-                      fontSize: widget.iconSize / 1.15,
-                      color: widget.iconTheme?.iconUnselectedColor ??
-                          theme.iconTheme.color),
+                    fontSize: iconSize / 1.15,
+                    color: options.iconTheme?.iconUnselectedColor ??
+                        theme.iconTheme.color,
+                  ),
             ),
           ),
           const SizedBox(width: 3),
-          Icon(Icons.arrow_drop_down,
-              size: widget.iconSize / 1.15,
-              color: widget.iconTheme?.iconUnselectedColor ??
-                  theme.iconTheme.color)
+          Icon(
+            Icons.arrow_drop_down,
+            size: iconSize / 1.15,
+            color:
+                options.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+          )
         ],
       ),
     );

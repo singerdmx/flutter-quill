@@ -1,89 +1,138 @@
 import 'package:flutter/material.dart';
 
-import '../../models/themes/quill_icon_theme.dart';
+import '../../../translations.dart';
+import '../../utils/extensions/build_context.dart';
+import '../../utils/extensions/quill_controller.dart';
 import '../controller.dart';
 import '../toolbar.dart';
 
-class HistoryButton extends StatefulWidget {
-  const HistoryButton({
-    required this.icon,
-    required this.controller,
-    required this.undo,
-    this.iconSize = kDefaultIconSize,
-    this.iconTheme,
-    this.afterButtonPressed,
-    this.tooltip,
-    Key? key,
-  }) : super(key: key);
+class QuillToolbarHistoryButton extends StatefulWidget {
+  const QuillToolbarHistoryButton({
+    required this.options,
+    super.key,
+  });
 
-  final IconData icon;
-  final double iconSize;
-  final bool undo;
-  final QuillController controller;
-  final QuillIconTheme? iconTheme;
-  final VoidCallback? afterButtonPressed;
-  final String? tooltip;
+  final QuillToolbarHistoryButtonOptions options;
 
   @override
-  _HistoryButtonState createState() => _HistoryButtonState();
+  _QuillToolbarHistoryButtonState createState() =>
+      _QuillToolbarHistoryButtonState();
 }
 
-class _HistoryButtonState extends State<HistoryButton> {
-  Color? _iconColor;
+class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   late ThemeData theme;
+  var _canPressed = false;
+
+  QuillToolbarHistoryButtonOptions get options {
+    return widget.options;
+  }
+
+  QuillController get controller {
+    return options.controller.notNull(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _listenForChanges(); // Listen for changes and change it
+  }
+
+  Future<void> _listenForChanges() async {
+    await Future.delayed(Duration.zero); // Wait for the widget to built
+    _updateCanPressed(); // Set the init state
+
+    // Listen for changes and change it
+    controller.changes.listen((event) async {
+      _updateCanPressed();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     theme = Theme.of(context);
-    _setIconColor();
 
-    final fillColor =
-        widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
-    widget.controller.changes.listen((event) async {
-      _setIconColor();
-    });
+    final baseButtonConfigurations =
+        context.requireQuillToolbarBaseButtonOptions;
+    final tooltip = options.tooltip ??
+        baseButtonConfigurations.tooltip ??
+        (options.isUndo ? 'Undo'.i18n : 'Redo'.i18n);
+    final iconData = options.iconData ??
+        baseButtonConfigurations.iconData ??
+        (options.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
+    final childBuilder =
+        options.childBuilder ?? baseButtonConfigurations.childBuilder;
+    final iconSize = options.iconSize ??
+        context.requireQuillToolbarBaseButtonOptions.globalIconSize;
+    final iconTheme = options.iconTheme ?? baseButtonConfigurations.iconTheme;
+
+    final fillColor = iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
+
+    final afterButtonPressed = options.afterButtonPressed ??
+        baseButtonConfigurations.afterButtonPressed;
+
+    if (childBuilder != null) {
+      return childBuilder(
+        QuillToolbarHistoryButtonOptions(
+          isUndo: options.isUndo,
+          afterButtonPressed: afterButtonPressed,
+          controller: controller,
+          iconData: iconData,
+          iconSize: iconSize,
+          iconTheme: iconTheme,
+          tooltip: tooltip,
+        ),
+        HistoryButtonExtraOptions(
+          onPressed: () {
+            _updateHistory();
+            afterButtonPressed?.call();
+          },
+          canPressed: _canPressed,
+        ),
+      );
+    }
     return QuillIconButton(
-      tooltip: widget.tooltip,
+      tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * kIconButtonFactor,
-      icon: Icon(widget.icon, size: widget.iconSize, color: _iconColor),
+      size: iconSize * kIconButtonFactor,
+      icon: Icon(
+        iconData,
+        size: iconSize,
+        color: _canPressed
+            ? iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
+            : iconTheme?.disabledIconColor ?? theme.disabledColor,
+      ),
       fillColor: fillColor,
-      borderRadius: widget.iconTheme?.borderRadius ?? 2,
-      onPressed: _changeHistory,
-      afterPressed: widget.afterButtonPressed,
+      borderRadius: iconTheme?.borderRadius ?? 2,
+      onPressed: _updateHistory,
+      afterPressed: afterButtonPressed,
     );
   }
 
-  void _setIconColor() {
+  void _updateCanPressed() {
     if (!mounted) return;
 
-    if (widget.undo) {
-      setState(() {
-        _iconColor = widget.controller.hasUndo
-            ? widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
-            : widget.iconTheme?.disabledIconColor ?? theme.disabledColor;
-      });
-    } else {
-      setState(() {
-        _iconColor = widget.controller.hasRedo
-            ? widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
-            : widget.iconTheme?.disabledIconColor ?? theme.disabledColor;
-      });
-    }
+    setState(() {
+      if (options.isUndo) {
+        _canPressed = controller.hasUndo;
+        return;
+      }
+      _canPressed = controller.hasRedo;
+    });
   }
 
-  void _changeHistory() {
-    if (widget.undo) {
-      if (widget.controller.hasUndo) {
-        widget.controller.undo();
+  void _updateHistory() {
+    if (options.isUndo) {
+      if (controller.hasUndo) {
+        controller.undo();
       }
-    } else {
-      if (widget.controller.hasRedo) {
-        widget.controller.redo();
-      }
+      // _updateCanPressed(); // We are already listeneting for the changes
+      return;
     }
 
-    _setIconColor();
+    if (controller.hasRedo) {
+      controller.redo();
+      // _updateCanPressed(); // We are already listeneting for the changes
+    }
   }
 }
