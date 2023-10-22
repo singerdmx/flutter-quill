@@ -385,7 +385,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                   isButtonGroupShown[3] ||
                   isButtonGroupShown[4] ||
                   isButtonGroupShown[5]))
-            QuillDivider(
+            QuillToolbarDivider(
               axis,
               color: sectionDividerColor,
               space: sectionDividerSpace,
@@ -428,7 +428,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                   isButtonGroupShown[3] ||
                   isButtonGroupShown[4] ||
                   isButtonGroupShown[5]))
-            QuillDivider(
+            QuillToolbarDivider(
               axis,
               color: sectionDividerColor,
               space: sectionDividerSpace,
@@ -448,7 +448,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               (isButtonGroupShown[3] ||
                   isButtonGroupShown[4] ||
                   isButtonGroupShown[5]))
-            QuillDivider(
+            QuillToolbarDivider(
               axis,
               color: sectionDividerColor,
               space: sectionDividerSpace,
@@ -508,7 +508,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           if (showDividers &&
               isButtonGroupShown[3] &&
               (isButtonGroupShown[4] || isButtonGroupShown[5]))
-            QuillDivider(axis,
+            QuillToolbarDivider(axis,
                 color: sectionDividerColor, space: sectionDividerSpace),
           if (showQuote)
             QuillToolbarToggleStyleButton(
@@ -545,7 +545,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               afterButtonPressed: afterButtonPressed,
             ),
           if (showDividers && isButtonGroupShown[4] && isButtonGroupShown[5])
-            QuillDivider(axis,
+            QuillToolbarDivider(axis,
                 color: sectionDividerColor, space: sectionDividerSpace),
           if (showLink)
             QuillToolbarLinkStyleButton(
@@ -574,7 +574,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           if (customButtons.isNotEmpty)
             if (showDividers)
-              QuillDivider(
+              QuillToolbarDivider(
                 axis,
                 color: sectionDividerColor,
                 space: sectionDividerSpace,
@@ -677,8 +677,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 ///
 /// It can be used outside of this package, for example when user does not use
 /// [QuillToolbar.basic] and compose toolbar's children on its own.
-class QuillDivider extends StatelessWidget {
-  const QuillDivider(
+class QuillToolbarDivider extends StatelessWidget {
+  const QuillToolbarDivider(
     this.axis, {
     Key? key,
     this.color,
@@ -686,11 +686,11 @@ class QuillDivider extends StatelessWidget {
   }) : super(key: key);
 
   /// Provides a horizontal divider for vertical toolbar.
-  const QuillDivider.horizontal({Color? color, double? space})
+  const QuillToolbarDivider.horizontal({Color? color, double? space})
       : this(Axis.horizontal, color: color, space: space);
 
   /// Provides a horizontal divider for horizontal toolbar.
-  const QuillDivider.vertical({Color? color, double? space})
+  const QuillToolbarDivider.vertical({Color? color, double? space})
       : this(Axis.vertical, color: color, space: space);
 
   /// The axis along which the toolbar is.
