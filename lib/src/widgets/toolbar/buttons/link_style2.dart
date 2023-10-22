@@ -12,10 +12,11 @@ import '../../controller.dart';
 import '../../link.dart';
 import '../toolbar.dart';
 
-/// Alternative version of [LinkStyleButton]. This widget has more customization
+/// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more
+/// customization
 /// and uses dialog similar to one which is used on [http://quilljs.com].
-class LinkStyleButton2 extends StatefulWidget {
-  const LinkStyleButton2({
+class QuillToolbarLinkStyleButton2 extends StatefulWidget {
+  const QuillToolbarLinkStyleButton2({
     required this.controller,
     this.icon,
     this.iconSize = kDefaultIconSize,
@@ -71,10 +72,12 @@ class LinkStyleButton2 extends StatefulWidget {
   final Color dialogBarrierColor;
 
   @override
-  State<LinkStyleButton2> createState() => _LinkStyleButton2State();
+  State<QuillToolbarLinkStyleButton2> createState() =>
+      _QuillToolbarLinkStyleButton2State();
 }
 
-class _LinkStyleButton2State extends State<LinkStyleButton2> {
+class _QuillToolbarLinkStyleButton2State
+    extends State<QuillToolbarLinkStyleButton2> {
   @override
   void dispose() {
     super.dispose();
@@ -88,7 +91,7 @@ class _LinkStyleButton2State extends State<LinkStyleButton2> {
   }
 
   @override
-  void didUpdateWidget(covariant LinkStyleButton2 oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarLinkStyleButton2 oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeSelection);
@@ -100,7 +103,7 @@ class _LinkStyleButton2State extends State<LinkStyleButton2> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isToggled = _getLinkAttributeValue() != null;
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,

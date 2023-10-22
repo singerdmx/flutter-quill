@@ -9,8 +9,8 @@ import '../../controller.dart';
 import '../enum.dart';
 import '../toolbar.dart';
 
-class SelectAlignmentButton extends StatefulWidget {
-  const SelectAlignmentButton({
+class QuillToolbarSelectAlignmentButton extends StatefulWidget {
+  const QuillToolbarSelectAlignmentButton({
     required this.controller,
     this.iconSize = kDefaultIconSize,
     this.iconTheme,
@@ -37,10 +37,12 @@ class SelectAlignmentButton extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  _SelectAlignmentButtonState createState() => _SelectAlignmentButtonState();
+  _QuillToolbarSelectAlignmentButtonState createState() =>
+      _QuillToolbarSelectAlignmentButtonState();
 }
 
-class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
+class _QuillToolbarSelectAlignmentButtonState
+    extends State<QuillToolbarSelectAlignmentButton> {
   Attribute? _value;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -164,7 +166,7 @@ class _SelectAlignmentButtonState extends State<SelectAlignmentButton> {
   }
 
   @override
-  void didUpdateWidget(covariant SelectAlignmentButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarSelectAlignmentButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);

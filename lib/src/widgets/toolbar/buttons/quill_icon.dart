@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/widgets.dart';
 
-class QuillIconButton extends StatelessWidget {
-  const QuillIconButton({
+class QuillToolbarIconButton extends StatelessWidget {
+  const QuillToolbarIconButton({
     required this.onPressed,
     this.afterPressed,
     this.icon,

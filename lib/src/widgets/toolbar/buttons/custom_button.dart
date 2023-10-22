@@ -28,7 +28,7 @@ class CustomButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
       size: iconSize * kIconButtonFactor,

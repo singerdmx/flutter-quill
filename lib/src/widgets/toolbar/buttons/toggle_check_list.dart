@@ -7,8 +7,8 @@ import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import '../toolbar.dart';
 
-class ToggleCheckListButton extends StatefulWidget {
-  const ToggleCheckListButton({
+class QuillToolbarToggleCheckListButton extends StatefulWidget {
+  const QuillToolbarToggleCheckListButton({
     required this.icon,
     required this.controller,
     required this.attribute,
@@ -37,10 +37,12 @@ class ToggleCheckListButton extends StatefulWidget {
   final String? tooltip;
 
   @override
-  _ToggleCheckListButtonState createState() => _ToggleCheckListButtonState();
+  _QuillToolbarToggleCheckListButtonState createState() =>
+      _QuillToolbarToggleCheckListButtonState();
 }
 
-class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
+class _QuillToolbarToggleCheckListButtonState
+    extends State<QuillToolbarToggleCheckListButton> {
   bool? _isToggled;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -77,7 +79,7 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
   }
 
   @override
-  void didUpdateWidget(covariant ToggleCheckListButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarToggleCheckListButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);

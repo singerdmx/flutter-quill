@@ -1,40 +1,36 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../models/config/toolbar/buttons/font_family.dart';
-import '../../../models/documents/attribute.dart';
-import '../../../models/documents/style.dart';
-import '../../../models/themes/quill_icon_theme.dart';
+import '../../../../flutter_quill.dart';
 import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/extensions/build_context.dart';
-import '../../controller.dart';
+import '../../../utils/font.dart';
 
-class QuillToolbarFontFamilyButton extends StatefulWidget {
-  QuillToolbarFontFamilyButton({
+class QuillToolbarFontSizeButton extends StatefulWidget {
+  QuillToolbarFontSizeButton({
     required this.options,
     required this.controller,
     super.key,
-  })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
-        assert(
-          options.initialValue == null || options.initialValue!.isNotEmpty,
-        );
+  })  : assert(options.rawItemsMap?.isNotEmpty ?? true),
+        assert(options.initialValue == null ||
+            (options.initialValue?.isNotEmpty ?? true));
 
-  final QuillToolbarFontFamilyButtonOptions options;
+  final QuillToolbarFontSizeButtonOptions options;
 
   /// Since we can't get the state from the instace of the widget for comparing
   /// in [didUpdateWidget] then we will have to store reference here
   final QuillController controller;
 
   @override
-  _QuillToolbarFontFamilyButtonState createState() =>
-      _QuillToolbarFontFamilyButtonState();
+  _QuillToolbarFontSizeButtonState createState() =>
+      _QuillToolbarFontSizeButtonState();
 }
 
-class _QuillToolbarFontFamilyButtonState
-    extends State<QuillToolbarFontFamilyButton> {
-  var _currentValue = '';
+class _QuillToolbarFontSizeButtonState
+    extends State<QuillToolbarFontSizeButton> {
+  String _currentValue = '';
 
-  QuillToolbarFontFamilyButtonOptions get options {
+  QuillToolbarFontSizeButtonOptions get options {
     return widget.options;
   }
 
@@ -44,17 +40,33 @@ class _QuillToolbarFontFamilyButtonState
   /// and use it in dispose method
   late QuillController _controller;
 
+  Map<String, String> get rawItemsMap {
+    final fontSizes = options.rawItemsMap ??
+        context.requireQuillToolbarConfigurations.fontSizesValues ??
+        {
+          'Small'.i18n: 'small',
+          'Large'.i18n: 'large',
+          'Huge'.i18n: 'huge',
+          'Clear'.i18n: '0'
+        };
+    return fontSizes;
+  }
+
+  String get _defaultDisplayText {
+    return options.initialValue ?? 'Size'.i18n;
+  }
+
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
   void initState() {
     super.initState();
+
     _initState();
   }
 
   Future<void> _initState() async {
     if (isFlutterTest()) {
-      // We don't need to listen for changes in the tests
       return;
     }
     await Future.delayed(Duration.zero);
@@ -76,14 +88,10 @@ class _QuillToolbarFontFamilyButtonState
     super.dispose();
   }
 
-  String get _defaultDisplayText {
-    return options.initialValue ?? 'Font'.i18n;
-  }
-
   @override
-  void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarFontSizeButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller == controller) {
+    if (widget.controller == controller) {
       return;
     }
     controller
@@ -101,26 +109,9 @@ class _QuillToolbarFontFamilyButtonState
     setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
-  Map<String, String> get rawItemsMap {
-    final rawItemsMap = options.rawItemsMap ??
-        context.requireQuillToolbarConfigurations.fontFamilyValues ??
-        {
-          'Sans Serif': 'sans-serif',
-          'Serif': 'serif',
-          'Monospace': 'monospace',
-          'Ibarra Real Nova': 'ibarra-real-nova',
-          'SquarePeg': 'square-peg',
-          'Nunito': 'nunito',
-          'Pacifico': 'pacifico',
-          'Roboto Mono': 'roboto-mono',
-          'Clear'.i18n: 'Clear'
-        };
-    return rawItemsMap;
-  }
-
-  String? _getKeyName(String value) {
+  String? _getKeyName(dynamic value) {
     for (final entry in rawItemsMap.entries) {
-      if (entry.value == value) {
+      if (getFontSize(entry.value) == getFontSize(value)) {
         return entry.key;
       }
     }
@@ -151,12 +142,12 @@ class _QuillToolbarFontFamilyButtonState
   String get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        'Font family'.i18n;
+        'Font size'.i18n;
   }
 
   void _onPressed() {
     _showMenu();
-    options.afterButtonPressed?.call();
+    afterButtonPressed?.call();
   }
 
   @override
@@ -168,16 +159,16 @@ class _QuillToolbarFontFamilyButtonState
     if (childBuilder != null) {
       return childBuilder(
         options.copyWith(
-          iconSize: iconSize,
-          rawItemsMap: rawItemsMap,
-          iconTheme: iconTheme,
           tooltip: tooltip,
+          iconSize: iconSize,
+          iconTheme: iconTheme,
           afterButtonPressed: afterButtonPressed,
+          controller: controller,
         ),
-        QuillToolbarFontFamilyButtonExtraOptions(
+        QuillToolbarFontSizeButtonExtraOptions(
+          controller: controller,
           currentValue: _currentValue,
           defaultDisplayText: _defaultDisplayText,
-          controller: controller,
           context: context,
           onPressed: _onPressed,
         ),
@@ -188,17 +179,8 @@ class _QuillToolbarFontFamilyButtonState
         height: iconSize * 1.81,
         width: options.width,
       ),
-      child: UtilityWidgets.maybeWidget(
-        enabled: tooltip.isNotEmpty || options.overrideTooltipByFontFamily,
-        wrapper: (child) {
-          var effectiveTooltip = tooltip;
-          if (options.overrideTooltipByFontFamily) {
-            effectiveTooltip = effectiveTooltip.isNotEmpty
-                ? '$effectiveTooltip: $_currentValue'
-                : '${'Font'.i18n}: $_currentValue';
-          }
-          return Tooltip(message: effectiveTooltip, child: child);
-        },
+      child: UtilityWidgets.maybeTooltip(
+        message: tooltip,
         child: RawMaterialButton(
           visualDensity: VisualDensity.compact,
           shape: RoundedRectangleBorder(
@@ -231,20 +213,16 @@ class _QuillToolbarFontFamilyButtonState
       context: context,
       elevation: 4,
       items: [
-        for (final MapEntry<String, String> fontFamily in rawItemsMap.entries)
+        for (final MapEntry<String, String> fontSize in rawItemsMap.entries)
           PopupMenuItem<String>(
-            key: ValueKey(fontFamily.key),
-            value: fontFamily.value,
+            key: ValueKey(fontSize.key),
+            value: fontSize.value,
             height: options.itemHeight ?? kMinInteractiveDimension,
             padding: options.itemPadding,
             child: Text(
-              fontFamily.key.toString(),
+              fontSize.key.toString(),
               style: TextStyle(
-                fontFamily:
-                    options.renderFontFamilies ? fontFamily.value : null,
-                color: fontFamily.value == 'Clear'
-                    ? options.defaultItemColor
-                    : null,
+                color: fontSize.value == '0' ? options.defaultItemColor : null,
               ),
             ),
           ),
@@ -253,9 +231,7 @@ class _QuillToolbarFontFamilyButtonState
       shape: popupMenuTheme.shape,
       color: popupMenuTheme.color,
     );
-    if (!mounted) {
-      return;
-    }
+    if (!mounted) return;
     if (newValue == null) {
       return;
     }
@@ -263,12 +239,8 @@ class _QuillToolbarFontFamilyButtonState
     setState(() {
       _currentValue = keyName ?? _defaultDisplayText;
       if (keyName != null) {
-        controller.formatSelection(
-          Attribute.fromKeyValue(
-            'font',
-            newValue == 'Clear' ? null : newValue,
-          ),
-        );
+        controller.formatSelection(Attribute.fromKeyValue(
+            'size', newValue == '0' ? null : getFontSize(newValue)));
         options.onSelected?.call(newValue);
       }
     });
@@ -288,7 +260,6 @@ class _QuillToolbarFontFamilyButtonState
             wrapper: (child) => Expanded(child: child),
             child: Text(
               _currentValue,
-              maxLines: 1,
               overflow: options.labelOverflow,
               style: options.style ??
                   TextStyle(

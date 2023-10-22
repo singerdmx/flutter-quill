@@ -4,8 +4,8 @@ import '../../../models/themes/quill_icon_theme.dart';
 import '../../controller.dart';
 import '../toolbar.dart';
 
-class IndentButton extends StatefulWidget {
-  const IndentButton({
+class QuillToolbarIndentButton extends StatefulWidget {
+  const QuillToolbarIndentButton({
     required this.icon,
     required this.controller,
     required this.isIncrease,
@@ -26,10 +26,11 @@ class IndentButton extends StatefulWidget {
   final String? tooltip;
 
   @override
-  _IndentButtonState createState() => _IndentButtonState();
+  _QuillToolbarIndentButtonState createState() =>
+      _QuillToolbarIndentButtonState();
 }
 
-class _IndentButtonState extends State<IndentButton> {
+class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -38,7 +39,7 @@ class _IndentButtonState extends State<IndentButton> {
         widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
     final iconFillColor =
         widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,

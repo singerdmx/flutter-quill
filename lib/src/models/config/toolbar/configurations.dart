@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart' show immutable;
 
 import 'buttons/base.dart';
 import 'buttons/font_family.dart';
-// import 'buttons/font_size.dart';
+import 'buttons/font_size.dart';
 import 'buttons/history.dart';
+import 'buttons/toggle_style.dart';
 
 export './buttons/base.dart';
 export './buttons/font_family.dart';
@@ -31,6 +32,7 @@ class QuillToolbarConfigurations extends Equatable {
     this.buttonOptions = const QuillToolbarButtonOptions(),
     this.multiRowsDisplay = true,
     this.fontFamilyValues,
+    this.fontSizesValues,
 
     /// By default it will calculated based on the [baseOptions] iconSize
     /// You can change it but the the change only apply if
@@ -55,7 +57,7 @@ class QuillToolbarConfigurations extends Equatable {
   final QuillToolbarButtonOptions buttonOptions;
   final bool multiRowsDisplay;
 
-  /// By default will be final
+  /// By default it will be
   /// ```
   /// {
   ///   'Sans Serif': 'sans-serif',
@@ -71,11 +73,23 @@ class QuillToolbarConfigurations extends Equatable {
   /// ```
   final Map<String, String>? fontFamilyValues;
 
+  /// By default it will be
+  /// ```
+  /// {
+  ///   'Small'.i18n: 'small',
+  ///   'Large'.i18n: 'large',
+  ///   'Huge'.i18n: 'huge',
+  ///   'Clear'.i18n: '0'
+  /// }
+  /// ```
+  final Map<String, String>? fontSizesValues;
+
   @override
   List<Object?> get props => [
         buttonOptions,
         multiRowsDisplay,
         fontFamilyValues,
+        fontSizesValues,
         toolbarSize,
       ];
 }
@@ -92,7 +106,20 @@ class QuillToolbarButtonOptions extends Equatable {
       isUndo: false,
     ),
     this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
-    // this.fontSize = const QuillToolbarFontSizeButtonOptions(),
+    this.fontSize = const QuillToolbarFontSizeButtonOptions(),
+    this.bold = const QuillToolbarToggleStyleButtonOptions(),
+    this.subscript = const QuillToolbarToggleStyleButtonOptions(),
+    this.superscript = const QuillToolbarToggleStyleButtonOptions(),
+    this.italic = const QuillToolbarToggleStyleButtonOptions(),
+    this.small = const QuillToolbarToggleStyleButtonOptions(),
+    this.underLine = const QuillToolbarToggleStyleButtonOptions(),
+    this.strikeThrough = const QuillToolbarToggleStyleButtonOptions(),
+    this.inlineCode = const QuillToolbarToggleStyleButtonOptions(),
+    this.direction = const QuillToolbarToggleStyleButtonOptions(),
+    this.listNumbers = const QuillToolbarToggleStyleButtonOptions(),
+    this.listBullets = const QuillToolbarToggleStyleButtonOptions(),
+    this.codeBlock = const QuillToolbarToggleStyleButtonOptions(),
+    this.quote = const QuillToolbarToggleStyleButtonOptions(),
   });
 
   /// The base configurations for all the buttons which will apply to all
@@ -102,7 +129,20 @@ class QuillToolbarButtonOptions extends Equatable {
   final QuillToolbarHistoryButtonOptions undoHistory;
   final QuillToolbarHistoryButtonOptions redoHistory;
   final QuillToolbarFontFamilyButtonOptions fontFamily;
-  // final QuillToolbarFontSizeButtonOptions fontSize;
+  final QuillToolbarFontSizeButtonOptions fontSize;
+  final QuillToolbarToggleStyleButtonOptions bold;
+  final QuillToolbarToggleStyleButtonOptions subscript;
+  final QuillToolbarToggleStyleButtonOptions superscript;
+  final QuillToolbarToggleStyleButtonOptions italic;
+  final QuillToolbarToggleStyleButtonOptions small;
+  final QuillToolbarToggleStyleButtonOptions underLine;
+  final QuillToolbarToggleStyleButtonOptions strikeThrough;
+  final QuillToolbarToggleStyleButtonOptions inlineCode;
+  final QuillToolbarToggleStyleButtonOptions direction;
+  final QuillToolbarToggleStyleButtonOptions listNumbers;
+  final QuillToolbarToggleStyleButtonOptions listBullets;
+  final QuillToolbarToggleStyleButtonOptions codeBlock;
+  final QuillToolbarToggleStyleButtonOptions quote;
 
   @override
   List<Object?> get props => [

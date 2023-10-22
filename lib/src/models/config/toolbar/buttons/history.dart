@@ -1,16 +1,16 @@
-import 'package:flutter/foundation.dart' show VoidCallback, immutable;
+import 'package:flutter/foundation.dart' show immutable;
 
 import '../../../../../flutter_quill.dart';
 
 @immutable
-class HistoryButtonExtraOptions {
-  const HistoryButtonExtraOptions({
-    required this.onPressed,
+class QuillToolbarHistoryButtonExtraOptions
+    extends QuillToolbarBaseButtonExtraOptions {
+  const QuillToolbarHistoryButtonExtraOptions({
     required this.canPressed,
+    required super.controller,
+    required super.context,
+    required super.onPressed,
   });
-
-  /// When the button pressed
-  final VoidCallback onPressed;
 
   /// If it can redo or undo
   final bool canPressed;
@@ -18,7 +18,7 @@ class HistoryButtonExtraOptions {
 
 @immutable
 class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarHistoryButtonOptions, HistoryButtonExtraOptions> {
+    QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions> {
   const QuillToolbarHistoryButtonOptions({
     required this.isUndo,
     super.iconData,
