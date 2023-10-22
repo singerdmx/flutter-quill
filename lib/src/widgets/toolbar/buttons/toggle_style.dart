@@ -211,6 +211,7 @@ class _QuillToolbarToggleStyleButtonState
           context: context,
           controller: controller,
           onPressed: _onPressed,
+          isToggled: _isToggled ?? false,
         ),
       );
     }
