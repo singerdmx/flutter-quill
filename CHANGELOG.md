@@ -1,3 +1,8 @@
+## [7.8.0]
+- **Important note**: this is not test release yet, it works but need more test and changes and breaking changes, we don't have development version and it will help us if you try the latest version and report the issues in Github but if you want a stable version please use `7.4.16`. this refactoring process will not take long and should be done less than three weeks with the testing.
+- We managed to refactor most of the buttons configurations and customizations in the `QuillProvider`, only three lefts then will start on refactoring the toolbar configurations
+- Code improvemenets
+
 ## [7.7.0]
 
 - **Breaking change**: We have mirgrated more buttons in the toolbar configurations, you can do change them in the `QuillProvider`

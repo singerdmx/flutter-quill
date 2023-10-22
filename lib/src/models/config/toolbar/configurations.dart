@@ -2,15 +2,24 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 import 'buttons/base.dart';
+import 'buttons/clear_format.dart';
+import 'buttons/color.dart';
 import 'buttons/font_family.dart';
 import 'buttons/font_size.dart';
 import 'buttons/history.dart';
+import 'buttons/indent.dart';
+import 'buttons/select_alignment.dart';
+import 'buttons/toggle_check_list.dart';
 import 'buttons/toggle_style.dart';
 
 export './buttons/base.dart';
+export './buttons/clear_format.dart';
+export './buttons/color.dart';
 export './buttons/font_family.dart';
 export './buttons/font_size.dart';
 export './buttons/history.dart';
+export './buttons/select_alignment.dart';
+export './buttons/toggle_check_list.dart';
 export './buttons/toggle_style.dart';
 
 /// The default size of the icon of a button.
@@ -120,6 +129,14 @@ class QuillToolbarButtonOptions extends Equatable {
     this.listBullets = const QuillToolbarToggleStyleButtonOptions(),
     this.codeBlock = const QuillToolbarToggleStyleButtonOptions(),
     this.quote = const QuillToolbarToggleStyleButtonOptions(),
+    this.toggleCheckList = const QuillToolbarToggleCheckListButtonOptions(),
+    this.indentIncrease = const QuillToolbarIndentButtonOptions(),
+    this.indentDecrease = const QuillToolbarIndentButtonOptions(),
+    this.color = const QuillToolbarColorButtonOptions(),
+    this.backgroundColor = const QuillToolbarColorButtonOptions(),
+    this.clearFormat = const QuillToolbarClearFormatButtonOptions(),
+    this.selectAlignmentButtons =
+        const QuillToolbarSelectAlignmentButtonOptions(),
   });
 
   /// The base configurations for all the buttons which will apply to all
@@ -143,6 +160,18 @@ class QuillToolbarButtonOptions extends Equatable {
   final QuillToolbarToggleStyleButtonOptions listBullets;
   final QuillToolbarToggleStyleButtonOptions codeBlock;
   final QuillToolbarToggleStyleButtonOptions quote;
+  final QuillToolbarToggleCheckListButtonOptions toggleCheckList;
+  final QuillToolbarIndentButtonOptions indentIncrease;
+  final QuillToolbarIndentButtonOptions indentDecrease;
+  final QuillToolbarColorButtonOptions color;
+  final QuillToolbarColorButtonOptions backgroundColor;
+  final QuillToolbarClearFormatButtonOptions clearFormat;
+
+  /// The reason we call this buttons in the end because this is responsible
+  /// for all the alignment buttons and not just one, you still
+  /// can customize the icons and tooltips
+  /// and you have child builder
+  final QuillToolbarSelectAlignmentButtonOptions selectAlignmentButtons;
 
   @override
   List<Object?> get props => [

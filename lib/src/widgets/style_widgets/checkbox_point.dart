@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+
+import '../../utils/extensions/build_context.dart';
 
 class CheckboxPoint extends StatefulWidget {
   const CheckboxPoint({
@@ -43,7 +46,7 @@ class _CheckboxPointState extends State<CheckboxPoint> {
         : (widget.enabled
             ? theme.colorScheme.onSurface.withOpacity(0.5)
             : theme.colorScheme.onSurface.withOpacity(0.3));
-    return Container(
+    final child = Container(
       alignment: AlignmentDirectional.centerEnd,
       padding: EdgeInsetsDirectional.only(end: widget.size / 2),
       child: SizedBox(
@@ -61,13 +64,31 @@ class _CheckboxPointState extends State<CheckboxPoint> {
             onTap:
                 widget.enabled ? () => widget.onChanged(!widget.value) : null,
             child: widget.value
-                ? Icon(Icons.check,
-                    size: widget.size, color: theme.colorScheme.onPrimary)
+                ? Icon(
+                    Icons.check,
+                    size: widget.size,
+                    color: theme.colorScheme.onPrimary,
+                  )
                 : null,
           ),
         ),
       ),
     );
+    if (context.requireQuillSharedConfigurations.animationConfigurations
+        .checkBoxPointItem) {
+      return Animate(
+        effects: [
+          const SlideEffect(
+            duration: Duration(milliseconds: 70),
+          ),
+          const ScaleEffect(
+            duration: Duration(milliseconds: 70),
+          )
+        ],
+        child: child,
+      );
+    }
+    return child;
   }
 }
 
