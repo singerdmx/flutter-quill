@@ -9,7 +9,10 @@ class QuillToolbarToggleStyleButtonExtraOptions
     required super.controller,
     required super.context,
     required super.onPressed,
+    required this.isToggled,
   });
+
+  final bool isToggled;
 }
 
 @immutable
