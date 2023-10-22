@@ -48,7 +48,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   factory QuillToolbar.basic({
     Axis axis = Axis.horizontal,
-    // double toolbarIconSize = kDefaultIconSize,
     double toolbarSectionSpacing = kToolbarSectionSpacing,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     WrapCrossAlignment toolbarIconCrossAlignment = WrapCrossAlignment.center,
@@ -87,9 +86,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// The decoration to use for the toolbar.
     Decoration? decoration,
-
-    ///Map of font sizes in string
-    Map<String, String>? fontSizeValues,
 
     /// Toolbar items to display for controls of embed blocks
     List<EmbedButtonBuilder>? embedButtons,
@@ -161,20 +157,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       showLink || showSearchButton
     ];
 
-    //default font size values
-    final fontSizes = fontSizeValues ??
-        {
-          'Small'.i18n: 'small',
-          'Large'.i18n: 'large',
-          'Huge'.i18n: 'huge',
-          'Clear'.i18n: '0'
-        };
-
     //default button tooltips
     final buttonTooltips = tooltips ??
         <ToolbarButtons, String>{
-          // ToolbarButtons.undo: 'Undo'.i18n,
-          // ToolbarButtons.redo: 'Redo'.i18n,
           ToolbarButtons.fontFamily: 'Font family'.i18n,
           ToolbarButtons.fontSize: 'Font size'.i18n,
           ToolbarButtons.bold: 'Bold'.i18n,
@@ -235,96 +220,127 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           if (showFontFamily)
             QuillToolbarFontFamilyButton(
               options: toolbarConfigurations.buttonOptions.fontFamily,
+              controller:
+                  toolbarConfigurations.buttonOptions.fontFamily.controller ??
+                      context.requireQuillController,
             ),
           if (showFontSize)
             QuillToolbarFontSizeButton(
-              iconTheme: iconTheme,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.fontSize],
-              attribute: Attribute.size,
-              controller: controller,
-              rawItemsMap: fontSizes,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.fontSize,
+              controller:
+                  toolbarConfigurations.buttonOptions.fontFamily.controller ??
+                      context.requireQuillController,
             ),
           if (showBoldButton)
             ToggleStyleButton(
               attribute: Attribute.bold,
-              icon: Icons.format_bold,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.bold],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.bold,
+              controller: toolbarConfigurations.buttonOptions.bold.controller ??
+                  context.requireQuillController,
+              // icon: Icons.format_bold,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.bold],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showSubscript)
             ToggleStyleButton(
               attribute: Attribute.subscript,
-              icon: Icons.subscript,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.subscript],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.subscript,
+              controller:
+                  toolbarConfigurations.buttonOptions.subscript.controller ??
+                      context.requireQuillController,
+              // icon: Icons.subscript,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.subscript],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showSuperscript)
             ToggleStyleButton(
               attribute: Attribute.superscript,
-              icon: Icons.superscript,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.superscript],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.superscript,
+              controller:
+                  toolbarConfigurations.buttonOptions.superscript.controller ??
+                      context.requireQuillController,
+              // icon: Icons.superscript,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.superscript],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showItalicButton)
             ToggleStyleButton(
               attribute: Attribute.italic,
-              icon: Icons.format_italic,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.italic],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.italic,
+              controller:
+                  toolbarConfigurations.buttonOptions.italic.controller ??
+                      context.requireQuillController,
+              // icon: Icons.format_italic,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.italic],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showSmallButton)
             ToggleStyleButton(
               attribute: Attribute.small,
-              icon: Icons.format_size,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.small],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.small,
+              controller:
+                  toolbarConfigurations.buttonOptions.small.controller ??
+                      context.requireQuillController,
+              // icon: Icons.format_size,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.small],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showUnderLineButton)
             ToggleStyleButton(
               attribute: Attribute.underline,
-              icon: Icons.format_underline,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.underline],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.underLine,
+              controller:
+                  toolbarConfigurations.buttonOptions.underLine.controller ??
+                      context.requireQuillController,
+              // icon: Icons.format_underline,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.underline],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showStrikeThrough)
             ToggleStyleButton(
               attribute: Attribute.strikeThrough,
-              icon: Icons.format_strikethrough,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.strikeThrough],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.strikeThrough,
+              controller: toolbarConfigurations
+                      .buttonOptions.strikeThrough.controller ??
+                  context.requireQuillController,
+              // icon: Icons.format_strikethrough,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.strikeThrough],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showInlineCode)
             ToggleStyleButton(
               attribute: Attribute.inlineCode,
-              icon: Icons.code,
-              iconSize: toolbarIconSize,
-              tooltip: buttonTooltips[ToolbarButtons.inlineCode],
-              controller: controller,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.inlineCode,
+              controller:
+                  toolbarConfigurations.buttonOptions.inlineCode.controller ??
+                      context.requireQuillController,
+              // icon: Icons.code,
+              // iconSize: toolbarIconSize,
+              // tooltip: buttonTooltips[ToolbarButtons.inlineCode],
+              // controller: controller,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showColorButton)
             ColorButton(
@@ -395,12 +411,16 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           if (showDirection)
             ToggleStyleButton(
               attribute: Attribute.rtl,
-              tooltip: buttonTooltips[ToolbarButtons.direction],
-              controller: controller,
-              icon: Icons.format_textdirection_r_to_l,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.direction,
+              controller:
+                  toolbarConfigurations.buttonOptions.direction.controller ??
+                      context.requireQuillController,
+              // tooltip: buttonTooltips[ToolbarButtons.direction],
+              // controller: controller,
+              // icon: Icons.format_textdirection_r_to_l,
+              // iconSize: toolbarIconSize,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showDividers &&
               isButtonGroupShown[1] &&
@@ -436,22 +456,30 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           if (showListNumbers)
             ToggleStyleButton(
               attribute: Attribute.ol,
-              tooltip: buttonTooltips[ToolbarButtons.listNumbers],
-              controller: controller,
-              icon: Icons.format_list_numbered,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.listNumbers,
+              controller:
+                  toolbarConfigurations.buttonOptions.listNumbers.controller ??
+                      context.requireQuillController,
+              // tooltip: buttonTooltips[ToolbarButtons.listNumbers],
+              // controller: controller,
+              // icon: Icons.format_list_numbered,
+              // iconSize: toolbarIconSize,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showListBullets)
             ToggleStyleButton(
               attribute: Attribute.ul,
-              tooltip: buttonTooltips[ToolbarButtons.listBullets],
-              controller: controller,
-              icon: Icons.format_list_bulleted,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.listBullets,
+              controller:
+                  toolbarConfigurations.buttonOptions.listBullets.controller ??
+                      context.requireQuillController,
+              // tooltip: buttonTooltips[ToolbarButtons.listBullets],
+              // controller: controller,
+              // icon: Icons.format_list_bulleted,
+              // iconSize: toolbarIconSize,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showListCheck)
             ToggleCheckListButton(
@@ -466,12 +494,16 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           if (showCodeBlock)
             ToggleStyleButton(
               attribute: Attribute.codeBlock,
-              tooltip: buttonTooltips[ToolbarButtons.codeBlock],
-              controller: controller,
-              icon: Icons.code,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.codeBlock,
+              controller:
+                  toolbarConfigurations.buttonOptions.codeBlock.controller ??
+                      context.requireQuillController,
+              // tooltip: buttonTooltips[ToolbarButtons.codeBlock],
+              // controller: controller,
+              // icon: Icons.code,
+              // iconSize: toolbarIconSize,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showDividers &&
               isButtonGroupShown[3] &&
@@ -480,13 +512,17 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 color: sectionDividerColor, space: sectionDividerSpace),
           if (showQuote)
             ToggleStyleButton(
+              options: toolbarConfigurations.buttonOptions.quote,
+              controller:
+                  toolbarConfigurations.buttonOptions.quote.controller ??
+                      context.requireQuillController,
               attribute: Attribute.blockQuote,
-              tooltip: buttonTooltips[ToolbarButtons.quote],
-              controller: controller,
-              icon: Icons.format_quote,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              // tooltip: buttonTooltips[ToolbarButtons.quote],
+              // controller: controller,
+              // icon: Icons.format_quote,
+              // iconSize: toolbarIconSize,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showIndent)
             IndentButton(

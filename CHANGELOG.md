@@ -1,3 +1,8 @@
+## [7.7.0]
+
+- **Breaking change**: We have mirgrated more buttons in the toolbar configurations, you can do change them in the `QuillProvider`
+- Important bug fixes
+
 ## [7.6.1]
 
 - Bug fixes

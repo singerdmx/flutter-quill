@@ -1,22 +1,33 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/material.dart'
     show Colors, PopupMenuEntry, ValueChanged;
 import 'package:flutter/widgets.dart'
-    show
-        Color,
-        EdgeInsetsGeometry,
-        TextStyle,
-        VoidCallback,
-        TextOverflow,
-        EdgeInsets;
+    show Color, EdgeInsets, EdgeInsetsGeometry, TextOverflow, TextStyle;
 
 import '../../../../widgets/controller.dart';
 import '../../../documents/attribute.dart';
 import '../../../themes/quill_icon_theme.dart';
 import '../../quill_configurations.dart';
 
+class QuillToolbarFontSizeButtonExtraOptions
+    extends QuillToolbarBaseButtonExtraOptions {
+  const QuillToolbarFontSizeButtonExtraOptions({
+    required super.controller,
+    required this.currentValue,
+    required this.defaultDisplayText,
+    required super.context,
+    required super.onPressed,
+  });
+
+  final String currentValue;
+  final String defaultDisplayText;
+}
+
 @immutable
-class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions {
+class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
+    QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   const QuillToolbarFontSizeButtonOptions({
     this.iconSize,
     this.fillColor,
@@ -25,11 +36,11 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions {
     this.items,
     this.rawItemsMap,
     this.onSelected,
-    this.iconTheme,
+    super.iconTheme,
     this.attribute = Attribute.size,
-    this.controller,
-    this.afterButtonPressed,
-    this.tooltip,
+    super.controller,
+    super.afterButtonPressed,
+    super.tooltip,
     this.padding,
     this.style,
     this.width,
@@ -38,6 +49,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions {
     this.itemHeight,
     this.itemPadding,
     this.defaultItemColor = Colors.red,
+    super.childBuilder,
   });
 
   final double? iconSize;
@@ -46,17 +58,12 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions {
   final double highlightElevation;
   @Deprecated('It is not required because of `rawItemsMap`')
   final List<PopupMenuEntry<String>>? items;
+
+  /// By default it will be [fontSizesValues] from [QuillToolbarConfigurations]
+  /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;
-  @override
-  final QuillIconTheme? iconTheme;
   final Attribute attribute;
-  @override
-  final QuillController? controller;
-  @override
-  final VoidCallback? afterButtonPressed;
-  @override
-  final String? tooltip;
   final EdgeInsetsGeometry? padding;
   final TextStyle? style;
   final double? width;
@@ -65,4 +72,51 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions {
   final double? itemHeight;
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
+
+  QuillToolbarFontSizeButtonOptions copyWith({
+    double? iconSize,
+    Color? fillColor,
+    double? hoverElevation,
+    double? highlightElevation,
+    List<PopupMenuEntry<String>>? items,
+    Map<String, String>? rawItemsMap,
+    ValueChanged<String>? onSelected,
+    Attribute? attribute,
+    EdgeInsetsGeometry? padding,
+    TextStyle? style,
+    double? width,
+    String? initialValue,
+    TextOverflow? labelOverflow,
+    double? itemHeight,
+    EdgeInsets? itemPadding,
+    Color? defaultItemColor,
+    VoidCallback? afterButtonPressed,
+    String? tooltip,
+    QuillIconTheme? iconTheme,
+    QuillController? controller,
+  }) {
+    return QuillToolbarFontSizeButtonOptions(
+      iconSize: iconSize ?? this.iconSize,
+      fillColor: fillColor ?? this.fillColor,
+      hoverElevation: hoverElevation ?? this.hoverElevation,
+      highlightElevation: highlightElevation ?? this.highlightElevation,
+      // ignore: deprecated_member_use_from_same_package
+      items: items ?? this.items,
+      rawItemsMap: rawItemsMap ?? this.rawItemsMap,
+      onSelected: onSelected ?? this.onSelected,
+      attribute: attribute ?? this.attribute,
+      padding: padding ?? this.padding,
+      style: style ?? this.style,
+      width: width ?? this.width,
+      initialValue: initialValue ?? this.initialValue,
+      labelOverflow: labelOverflow ?? this.labelOverflow,
+      itemHeight: itemHeight ?? this.itemHeight,
+      itemPadding: itemPadding ?? this.itemPadding,
+      defaultItemColor: defaultItemColor ?? this.defaultItemColor,
+      tooltip: tooltip ?? super.tooltip,
+      iconTheme: iconTheme ?? super.iconTheme,
+      afterButtonPressed: afterButtonPressed ?? super.afterButtonPressed,
+      controller: controller ?? super.controller,
+    );
+  }
 }

@@ -1,10 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show VoidCallback, immutable;
-import 'package:flutter/widgets.dart' show IconData, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
 import '../../../../../flutter_quill.dart' show QuillController, QuillProvider;
 import '../../../themes/quill_icon_theme.dart' show QuillIconTheme;
 import '../../quill_configurations.dart' show kDefaultIconSize;
+
+@immutable
+class QuillToolbarBaseButtonExtraOptions extends Equatable {
+  const QuillToolbarBaseButtonExtraOptions({
+    required this.controller,
+    required this.context,
+    required this.onPressed,
+  });
+
+  /// if you need the not null controller for some usage in the [childBuilder]
+  /// then please use this instead of the one in the [options]
+  final QuillController controller;
+
+  /// if the child builder you must use this when the widget tapped or pressed
+  /// in order to do what it expected to do
+  final VoidCallback? onPressed;
+
+  final BuildContext context;
+  @override
+  List<Object?> get props => [
+        controller,
+      ];
+}
 
 /// The [T] is the options for the button, usually should refresnce itself
 /// it's used in [childBuilder] so the developer can custmize this when using it
@@ -41,10 +65,13 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   final QuillIconTheme? iconTheme;
 
   /// If you want to dispaly a differnet widget based using a builder
-  final Widget Function(T options, I extraOptions)? childBuilder;
+  final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 
   /// By default it will be from the one in [QuillProvider]
   /// To override it you must pass not null controller
+  /// if you wish to use the controller in the [childBuilder], please use the
+  /// one from the extraOptions since it will be not null and will be the one
+  /// which will be used from the quill toolbar
   final QuillController? controller;
 
   @override
@@ -57,4 +84,29 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
         childBuilder,
         controller,
       ];
+
+  // QuillToolbarBaseButtonOptions<T, I> copyWith({
+  //   IconData? iconData,
+  //   double? globalIconSize,
+  //   VoidCallback? afterButtonPressed,
+  //   String? tooltip,
+  //   QuillIconTheme? iconTheme,
+  //   Widget Function(T options, I extraOptions)? childBuilder,
+  //   QuillController? controller,
+  // }) {
+  //   return QuillToolbarBaseButtonOptions<T, I>(
+  //     iconData: iconData ?? this.iconData,
+  //     globalIconSize: globalIconSize ?? this.globalIconSize,
+  //     afterButtonPressed: afterButtonPressed ?? this.afterButtonPressed,
+  //     tooltip: tooltip ?? this.tooltip,
+  //     iconTheme: iconTheme ?? this.iconTheme,
+  //     childBuilder: childBuilder ?? this.childBuilder,
+  //     controller: controller ?? this.controller,
+  //   );
+  // }
 }
+
+typedef QuillToolbarButtonOptionsChildBuilder<T, I> = Widget Function(
+  T options,
+  I extraOptions,
+)?;

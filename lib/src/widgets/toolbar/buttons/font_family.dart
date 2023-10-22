@@ -4,14 +4,15 @@ import '../../../../extensions.dart';
 import '../../../models/config/toolbar/buttons/font_family.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
+import '../../../models/themes/quill_icon_theme.dart';
 import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/extensions/build_context.dart';
-import '../../../utils/extensions/quill_controller.dart';
 import '../../controller.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
     required this.options,
+    required this.controller,
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
         assert(
@@ -19,6 +20,10 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
         );
 
   final QuillToolbarFontFamilyButtonOptions options;
+
+  /// Since we can't get the state from the instace of the widget for comparing
+  /// in [didUpdateWidget] then we will have to store reference here
+  final QuillController controller;
 
   @override
   _QuillToolbarFontFamilyButtonState createState() =>
@@ -33,15 +38,11 @@ class _QuillToolbarFontFamilyButtonState
     return widget.options;
   }
 
-  /// Since t's not safe to call anything related to the context in dispose
+  /// Since it's not safe to call anything related to the context in dispose
   /// then we will save a reference to the [controller]
   /// and update it in [didChangeDependencies]
   /// and use it in dispose method
   late QuillController _controller;
-
-  QuillController get controller {
-    return options.controller.notNull(context);
-  }
 
   Style get _selectionStyle => controller.getSelectionStyle();
 
@@ -82,7 +83,7 @@ class _QuillToolbarFontFamilyButtonState
   @override
   void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (controller == controller) {
+    if (oldWidget.controller == controller) {
       return;
     }
     controller
@@ -102,6 +103,7 @@ class _QuillToolbarFontFamilyButtonState
 
   Map<String, String> get rawItemsMap {
     final rawItemsMap = options.rawItemsMap ??
+        context.requireQuillToolbarConfigurations.fontFamilyValues ??
         {
           'Sans Serif': 'sans-serif',
           'Serif': 'serif',
@@ -125,15 +127,36 @@ class _QuillToolbarFontFamilyButtonState
     return null;
   }
 
+  QuillController get controller {
+    return options.controller ?? widget.controller;
+  }
+
   double get iconSize {
+    final baseFontSize =
+        context.requireQuillToolbarBaseButtonOptions.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? 40;
-    // final baseFontSize =
-    //     context.requireQuillToolbarBaseButtonOptions.globalIconSize;
-    // if (baseFontSize != iconSize) {
-    //   return 40;
-    // }
-    // return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return options.afterButtonPressed ??
+        context.requireQuillToolbarBaseButtonOptions.afterButtonPressed;
+  }
+
+  QuillIconTheme? get iconTheme {
+    return options.iconTheme ??
+        context.requireQuillToolbarBaseButtonOptions.iconTheme;
+  }
+
+  String get tooltip {
+    return options.tooltip ??
+        context.requireQuillToolbarBaseButtonOptions.tooltip ??
+        'Font family'.i18n;
+  }
+
+  void _onPressed() {
+    _showMenu();
+    options.afterButtonPressed?.call();
   }
 
   @override
@@ -144,10 +167,19 @@ class _QuillToolbarFontFamilyButtonState
         options.childBuilder ?? baseButtonConfigurations.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        options,
+        options.copyWith(
+          iconSize: iconSize,
+          rawItemsMap: rawItemsMap,
+          iconTheme: iconTheme,
+          tooltip: tooltip,
+          afterButtonPressed: afterButtonPressed,
+        ),
         QuillToolbarFontFamilyButtonExtraOptions(
           currentValue: _currentValue,
           defaultDisplayText: _defaultDisplayText,
+          controller: controller,
+          context: context,
+          onPressed: _onPressed,
         ),
       );
     }
@@ -157,10 +189,9 @@ class _QuillToolbarFontFamilyButtonState
         width: options.width,
       ),
       child: UtilityWidgets.maybeWidget(
-        enabled: (options.tooltip ?? '').isNotEmpty ||
-            options.overrideTooltipByFontFamily,
+        enabled: tooltip.isNotEmpty || options.overrideTooltipByFontFamily,
         wrapper: (child) {
-          var effectiveTooltip = options.tooltip ?? '';
+          var effectiveTooltip = tooltip;
           if (options.overrideTooltipByFontFamily) {
             effectiveTooltip = effectiveTooltip.isNotEmpty
                 ? '$effectiveTooltip: $_currentValue'
@@ -171,17 +202,13 @@ class _QuillToolbarFontFamilyButtonState
         child: RawMaterialButton(
           visualDensity: VisualDensity.compact,
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(options.iconTheme?.borderRadius ?? 2),
+            borderRadius: BorderRadius.circular(iconTheme?.borderRadius ?? 2),
           ),
           fillColor: options.fillColor,
           elevation: 0,
           hoverElevation: options.hoverElevation,
           highlightElevation: options.hoverElevation,
-          onPressed: () {
-            _showMenu();
-            options.afterButtonPressed?.call();
-          },
+          onPressed: _onPressed,
           child: _buildContent(context),
         ),
       ),
@@ -266,8 +293,8 @@ class _QuillToolbarFontFamilyButtonState
               style: options.style ??
                   TextStyle(
                     fontSize: iconSize / 1.15,
-                    color: options.iconTheme?.iconUnselectedColor ??
-                        theme.iconTheme.color,
+                    color:
+                        iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
                   ),
             ),
           ),
@@ -275,8 +302,7 @@ class _QuillToolbarFontFamilyButtonState
           Icon(
             Icons.arrow_drop_down,
             size: iconSize / 1.15,
-            color:
-                options.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+            color: iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
           )
         ],
       ),

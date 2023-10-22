@@ -86,12 +86,14 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
           iconTheme: iconTheme,
           tooltip: tooltip,
         ),
-        HistoryButtonExtraOptions(
+        QuillToolbarHistoryButtonExtraOptions(
           onPressed: () {
             _updateHistory();
             afterButtonPressed?.call();
           },
           canPressed: _canPressed,
+          controller: controller,
+          context: context,
         ),
       );
     }
