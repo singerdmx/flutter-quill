@@ -42,6 +42,37 @@ Pub: [FlutterQuill]
 
 ---
 
+## Installation
+
+```yaml
+dependencies:
+  flutter_quill: ^<latest-version-here>
+```
+
+<p align="center">OR</p>
+
+```yaml
+dependencies:
+  flutter_quill:
+    git: https://github.com/singerdmx/flutter-quill.git
+```
+
+> **Important note**
+>
+> Currently, we're in the process of refactoring the library's configurations. We're actively working on this, and while we don't have a development version available at the moment, your feedback is essential to us.
+>
+> Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
+>
+> if you want to use a more stable release, please use the followings:
+>
+> ```yaml
+> flutter_quill: ^7.4.16
+> flutter_quill_extensions: ^0.5.0
+> ```
+>
+> instead of the latest version
+>
+
 ## Usage
 
 See the `example` directory for a minimal example of how to use FlutterQuill.  You typically just need to instantiate a controller:

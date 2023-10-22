@@ -1,40 +1,26 @@
 import 'package:flutter/material.dart';
 
+import '../../../../translations.dart';
+import '../../../models/config/toolbar/buttons/base.dart';
+import '../../../models/config/toolbar/buttons/toggle_check_list.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
+import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
-import '../toolbar.dart';
+import 'toggle_style.dart';
 
 class QuillToolbarToggleCheckListButton extends StatefulWidget {
   const QuillToolbarToggleCheckListButton({
-    required this.icon,
+    required this.options,
     required this.controller,
-    required this.attribute,
-    this.iconSize = kDefaultIconSize,
-    this.fillColor,
-    this.childBuilder = defaultToggleStyleButtonBuilder,
-    this.iconTheme,
-    this.afterButtonPressed,
-    this.tooltip,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
-  final IconData icon;
-  final double iconSize;
-
-  final Color? fillColor;
+  final QuillToolbarToggleCheckListButtonOptions options;
 
   final QuillController controller;
-
-  final ToggleStyleButtonBuilder childBuilder;
-
-  final Attribute attribute;
-
-  final QuillIconTheme? iconTheme;
-  final VoidCallback? afterButtonPressed;
-  final String? tooltip;
 
   @override
   _QuillToolbarToggleCheckListButtonState createState() =>
@@ -44,6 +30,12 @@ class QuillToolbarToggleCheckListButton extends StatefulWidget {
 class _QuillToolbarToggleCheckListButtonState
     extends State<QuillToolbarToggleCheckListButton> {
   bool? _isToggled;
+
+  /// Since it's not safe to call anything related to the context in dispose
+  /// then we will save a reference to the [controller]
+  /// and update it in [didChangeDependencies]
+  /// and use it in dispose method
+  late QuillController _controller;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
 
@@ -81,7 +73,7 @@ class _QuillToolbarToggleCheckListButtonState
   @override
   void didUpdateWidget(covariant QuillToolbarToggleCheckListButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
+    if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
       widget.controller.addListener(_didChangeEditingValue);
       _isToggled = _getIsToggled(_selectionStyle.attributes);
@@ -89,35 +81,100 @@ class _QuillToolbarToggleCheckListButtonState
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller = controller;
+  }
+
+  @override
   void dispose() {
-    widget.controller.removeListener(_didChangeEditingValue);
+    _controller.removeListener(_didChangeEditingValue);
     super.dispose();
+  }
+
+  QuillToolbarToggleCheckListButtonOptions get options {
+    return widget.options;
+  }
+
+  QuillController get controller {
+    return options.controller ?? widget.controller;
+  }
+
+  double get iconSize {
+    final baseFontSize = baseButtonExtraOptions.globalIconSize;
+    final iconSize = options.iconSize;
+    return iconSize ?? baseFontSize;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return options.afterButtonPressed ??
+        baseButtonExtraOptions.afterButtonPressed;
+  }
+
+  QuillIconTheme? get iconTheme {
+    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
+  }
+
+  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
+    return context.requireQuillToolbarBaseButtonOptions;
+  }
+
+  IconData get iconData {
+    return options.iconData ??
+        baseButtonExtraOptions.iconData ??
+        Icons.check_box;
+  }
+
+  String get tooltip {
+    return options.tooltip ??
+        baseButtonExtraOptions.tooltip ??
+        'Checked list'.i18n;
   }
 
   @override
   Widget build(BuildContext context) {
+    final childBuilder =
+        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        QuillToolbarToggleCheckListButtonOptions(
+          afterButtonPressed: afterButtonPressed,
+          iconTheme: iconTheme,
+          controller: controller,
+          iconSize: iconSize,
+          tooltip: tooltip,
+          iconData: iconData,
+        ),
+        QuillToolbarToggleCheckListButtonExtraOptions(
+          context: context,
+          controller: controller,
+          onPressed: () {
+            _toggleAttribute();
+            afterButtonPressed?.call();
+          },
+          isToggled: _isToggled ?? false,
+        ),
+      );
+    }
     return UtilityWidgets.maybeTooltip(
-      message: widget.tooltip,
-      child: widget.childBuilder(
+      message: tooltip,
+      child: defaultToggleStyleButtonBuilder(
         context,
         Attribute.unchecked,
-        widget.icon,
-        widget.fillColor,
+        iconData,
+        options.fillColor,
         _isToggled,
         _toggleAttribute,
-        widget.afterButtonPressed,
-        widget.iconSize,
-        widget.iconTheme,
+        afterButtonPressed,
+        iconSize,
+        iconTheme,
       ),
     );
   }
 
   void _toggleAttribute() {
-    // By default don't show the keybaord request as it's quite annoying
-    // We will provide the option to control this in the next major update
-    // See https://github.com/singerdmx/flutter-quill/issues/1440
-    widget.controller
-      ..skipRequestKeyboard = true
+    controller
+      ..skipRequestKeyboard = !options.isShouldRequestKeyboard
       ..formatSelection(
         _isToggled!
             ? Attribute.clone(Attribute.unchecked, null)

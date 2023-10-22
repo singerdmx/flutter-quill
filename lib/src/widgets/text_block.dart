@@ -219,20 +219,11 @@ class EditableTextBlock extends StatelessWidget {
       );
     }
 
-    if (attrs[Attribute.list.key] == Attribute.checked) {
+    if (attrs[Attribute.list.key] == Attribute.checked ||
+        attrs[Attribute.list.key] == Attribute.unchecked) {
       return CheckboxPoint(
         size: fontSize,
-        value: true,
-        enabled: !readOnly,
-        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
-      );
-    }
-
-    if (attrs[Attribute.list.key] == Attribute.unchecked) {
-      return CheckboxPoint(
-        size: fontSize,
-        value: false,
+        value: attrs[Attribute.list.key] == Attribute.checked,
         enabled: !readOnly,
         onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
         uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
