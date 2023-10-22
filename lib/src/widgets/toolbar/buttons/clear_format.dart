@@ -5,8 +5,8 @@ import '../../../models/themes/quill_icon_theme.dart';
 import '../../controller.dart';
 import '../toolbar.dart';
 
-class ClearFormatButton extends StatefulWidget {
-  const ClearFormatButton({
+class QuillToolbarClearFormatButton extends StatefulWidget {
+  const QuillToolbarClearFormatButton({
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
@@ -26,10 +26,12 @@ class ClearFormatButton extends StatefulWidget {
   final String? tooltip;
 
   @override
-  _ClearFormatButtonState createState() => _ClearFormatButtonState();
+  _QuillToolbarClearFormatButtonState createState() =>
+      _QuillToolbarClearFormatButtonState();
 }
 
-class _ClearFormatButtonState extends State<ClearFormatButton> {
+class _QuillToolbarClearFormatButtonState
+    extends State<QuillToolbarClearFormatButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -37,7 +39,7 @@ class _ClearFormatButtonState extends State<ClearFormatButton> {
         widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
     final fillColor =
         widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,

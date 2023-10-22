@@ -8,8 +8,8 @@ import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import '../toolbar.dart';
 
-class SelectHeaderStyleButton extends StatefulWidget {
-  const SelectHeaderStyleButton({
+class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
+  const QuillToolbarSelectHeaderStyleButton({
     required this.controller,
     this.axis = Axis.horizontal,
     this.iconSize = kDefaultIconSize,
@@ -34,11 +34,12 @@ class SelectHeaderStyleButton extends StatefulWidget {
   final String? tooltip;
 
   @override
-  _SelectHeaderStyleButtonState createState() =>
-      _SelectHeaderStyleButtonState();
+  _QuillToolbarSelectHeaderStyleButtonState createState() =>
+      _QuillToolbarSelectHeaderStyleButtonState();
 }
 
-class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
+class _QuillToolbarSelectHeaderStyleButtonState
+    extends State<QuillToolbarSelectHeaderStyleButton> {
   Attribute? _selectedAttribute;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
@@ -148,7 +149,8 @@ class _SelectHeaderStyleButtonState extends State<SelectHeaderStyleButton> {
   }
 
   @override
-  void didUpdateWidget(covariant SelectHeaderStyleButton oldWidget) {
+  void didUpdateWidget(
+      covariant QuillToolbarSelectHeaderStyleButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);

@@ -21,8 +21,8 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   QuillIconTheme? iconTheme,
 ]);
 
-class ToggleStyleButton extends StatefulWidget {
-  const ToggleStyleButton({
+class QuillToolbarToggleStyleButton extends StatefulWidget {
+  const QuillToolbarToggleStyleButton({
     required this.options,
     required this.controller,
     required this.attribute,
@@ -60,10 +60,12 @@ class ToggleStyleButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _ToggleStyleButtonState createState() => _ToggleStyleButtonState();
+  _QuillToolbarToggleStyleButtonState createState() =>
+      _QuillToolbarToggleStyleButtonState();
 }
 
-class _ToggleStyleButtonState extends State<ToggleStyleButton> {
+class _QuillToolbarToggleStyleButtonState
+    extends State<QuillToolbarToggleStyleButton> {
   /// Since it's not safe to call anything related to the context in dispose
   /// then we will save a reference to the [controller]
   /// and update it in [didChangeDependencies]
@@ -229,7 +231,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
   }
 
   @override
-  void didUpdateWidget(covariant ToggleStyleButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarToggleStyleButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
@@ -301,7 +303,7 @@ Widget defaultToggleStyleButtonBuilder(
               theme.canvasColor) //Unselected icon fill color :
       : (iconTheme?.disabledIconFillColor ??
           (fillColor ?? theme.canvasColor)); //Disabled icon fill color
-  return QuillIconButton(
+  return QuillToolbarIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
     size: iconSize * kIconButtonFactor,

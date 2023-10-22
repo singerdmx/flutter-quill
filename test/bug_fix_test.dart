@@ -30,21 +30,21 @@ void main() {
 
         final builtinFinder = find.descendant(
           of: find.byType(QuillToolbarHistoryButton),
-          matching: find.byType(QuillIconButton),
+          matching: find.byType(QuillToolbarIconButton),
           matchRoot: true,
         );
         expect(builtinFinder, findsOneWidget);
         final builtinButton =
-            builtinFinder.evaluate().first.widget as QuillIconButton;
+            builtinFinder.evaluate().first.widget as QuillToolbarIconButton;
 
         final customFinder = find.descendant(
             of: find.byType(QuillToolbar),
             matching: find.byWidgetPredicate((widget) =>
-                widget is QuillIconButton && widget.tooltip == tooltip),
+                widget is QuillToolbarIconButton && widget.tooltip == tooltip),
             matchRoot: true);
         expect(customFinder, findsOneWidget);
         final customButton =
-            customFinder.evaluate().first.widget as QuillIconButton;
+            customFinder.evaluate().first.widget as QuillToolbarIconButton;
 
         expect(customButton.fillColor, equals(builtinButton.fillColor));
       });

@@ -6,8 +6,8 @@ import '../../controller.dart';
 import '../search_dialog.dart';
 import '../toolbar.dart';
 
-class SearchButton extends StatelessWidget {
-  const SearchButton({
+class QuillToolbarSearchButton extends StatelessWidget {
+  const QuillToolbarSearchButton({
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
@@ -40,7 +40,7 @@ class SearchButton extends StatelessWidget {
     final iconFillColor =
         iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(icon, size: iconSize, color: iconColor),
       highlightElevation: 0,

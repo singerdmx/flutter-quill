@@ -34,7 +34,7 @@ class FormulaButton extends StatelessWidget {
     final iconFillColor =
         iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
       tooltip: tooltip,
       highlightElevation: 0,

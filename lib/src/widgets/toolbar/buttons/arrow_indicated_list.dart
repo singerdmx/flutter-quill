@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 ///
 /// The arrow indicators are automatically hidden if the list is not
 /// scrollable in the direction of the respective arrow.
-class ArrowIndicatedButtonList extends StatefulWidget {
-  const ArrowIndicatedButtonList({
+class QuillToolbarArrowIndicatedButtonList extends StatefulWidget {
+  const QuillToolbarArrowIndicatedButtonList({
     required this.axis,
     required this.buttons,
     Key? key,
@@ -17,11 +17,12 @@ class ArrowIndicatedButtonList extends StatefulWidget {
   final List<Widget> buttons;
 
   @override
-  _ArrowIndicatedButtonListState createState() =>
-      _ArrowIndicatedButtonListState();
+  _QuillToolbarArrowIndicatedButtonListState createState() =>
+      _QuillToolbarArrowIndicatedButtonListState();
 }
 
-class _ArrowIndicatedButtonListState extends State<ArrowIndicatedButtonList>
+class _QuillToolbarArrowIndicatedButtonListState
+    extends State<QuillToolbarArrowIndicatedButtonList>
     with WidgetsBindingObserver {
   final ScrollController _controller = ScrollController();
   bool _showBackwardArrow = false;

@@ -97,7 +97,7 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         ),
       );
     }
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,

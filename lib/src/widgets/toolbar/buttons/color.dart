@@ -13,8 +13,8 @@ import '../toolbar.dart';
 ///
 /// When pressed, this button displays overlay toolbar with
 /// buttons for each color.
-class ColorButton extends StatefulWidget {
-  const ColorButton({
+class QuillToolbarColorButton extends StatefulWidget {
+  const QuillToolbarColorButton({
     required this.icon,
     required this.controller,
     required this.background,
@@ -36,10 +36,11 @@ class ColorButton extends StatefulWidget {
   final Color dialogBarrierColor;
 
   @override
-  _ColorButtonState createState() => _ColorButtonState();
+  _QuillToolbarColorButtonState createState() =>
+      _QuillToolbarColorButtonState();
 }
 
-class _ColorButtonState extends State<ColorButton> {
+class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   late bool _isToggledColor;
   late bool _isToggledBackground;
   late bool _isWhite;
@@ -81,7 +82,7 @@ class _ColorButtonState extends State<ColorButton> {
   }
 
   @override
-  void didUpdateWidget(covariant ColorButton oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarColorButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
@@ -122,7 +123,7 @@ class _ColorButtonState extends State<ColorButton> {
             ? stringToColor('#ffffff')
             : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor);
 
-    return QuillIconButton(
+    return QuillToolbarIconButton(
       tooltip: widget.tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
