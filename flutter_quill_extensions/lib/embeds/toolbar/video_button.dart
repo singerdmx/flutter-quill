@@ -53,7 +53,7 @@ class VideoButton extends StatelessWidget {
     final iconFillColor =
         iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
-    return QuillToolbarIconButton(
+    return QuillIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
       tooltip: tooltip,
       highlightElevation: 0,
