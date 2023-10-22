@@ -12,7 +12,8 @@ import '../../controller.dart';
 import '../../link.dart';
 import '../toolbar.dart';
 
-/// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more customization
+/// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more
+/// customization
 /// and uses dialog similar to one which is used on [http://quilljs.com].
 class QuillToolbarLinkStyleButton2 extends StatefulWidget {
   const QuillToolbarLinkStyleButton2({
