@@ -22,7 +22,7 @@ dependencies:
   flutter_quill: ^7.8.0
   # In case you are working on changes for both libraries,
   # flutter_quill:
-  #   path: ~/development/playground/framework_based/flutter/flutter-quill
+  #   path: ../
 
   http: ^1.1.0
   image_picker: ">=1.0.4"
