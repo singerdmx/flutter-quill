@@ -18,11 +18,13 @@ void main() {
               configurations: QuillConfigurations(
                 controller: QuillController.basic(),
               ),
-              child: QuillToolbar.basic(
-                showRedo: false,
-                customButtons: [
-                  const QuillCustomButton(tooltip: tooltip),
-                ],
+              child: const QuillToolbar(
+                configurations: QuillToolbarConfigurations(
+                  showRedo: false,
+                  customButtons: [
+                    QuillCustomButton(tooltip: tooltip),
+                  ],
+                ),
               ),
             ),
           ),
@@ -38,7 +40,7 @@ void main() {
             builtinFinder.evaluate().first.widget as QuillToolbarIconButton;
 
         final customFinder = find.descendant(
-            of: find.byType(QuillToolbar),
+            of: find.byType(QuillBaseToolbar),
             matching: find.byWidgetPredicate((widget) =>
                 widget is QuillToolbarIconButton && widget.tooltip == tooltip),
             matchRoot: true);
@@ -57,7 +59,11 @@ void main() {
       setUp(() {
         controller = QuillController.basic();
         editor = QuillEditor.basic(
-          readOnly: false,
+          // ignore: avoid_redundant_argument_values
+          configurations: const QuillEditorConfigurations(
+            // ignore: avoid_redundant_argument_values
+            readOnly: false,
+          ),
         );
       });
 

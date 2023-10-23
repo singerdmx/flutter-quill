@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' show Color;
 
-import '../../../../widgets/toolbar/toolbar.dart';
+import '../../../../widgets/toolbar/base_toolbar.dart';
 import '../../../structs/link_dialog_action.dart';
 import '../../../themes/quill_dialog_theme.dart';
 

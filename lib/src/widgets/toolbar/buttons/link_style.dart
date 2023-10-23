@@ -9,7 +9,7 @@ import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../../link.dart';
-import '../toolbar.dart';
+import '../base_toolbar.dart';
 
 class QuillToolbarLinkStyleButton extends StatefulWidget {
   const QuillToolbarLinkStyleButton({

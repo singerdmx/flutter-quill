@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show File, Platform;
@@ -186,12 +188,47 @@ class _HomePageState extends State<HomePage> {
   QuillEditor get quillEditor {
     if (kIsWeb) {
       return QuillEditor(
-        scrollController: ScrollController(),
-        scrollable: true,
         focusNode: _focusNode,
+        scrollController: ScrollController(),
+        configurations: QuillEditorConfigurations(
+          placeholder: 'Add content',
+          readOnly: false,
+          scrollable: true,
+          autoFocus: false,
+          expands: false,
+          padding: EdgeInsets.zero,
+          onTapUp: (details, p1) {
+            return _onTripleClickSelection();
+          },
+          customStyles: const DefaultStyles(
+            h1: DefaultTextBlockStyle(
+                TextStyle(
+                  fontSize: 32,
+                  color: Colors.black,
+                  height: 1.15,
+                  fontWeight: FontWeight.w300,
+                ),
+                VerticalSpacing(16, 0),
+                VerticalSpacing(0, 0),
+                null),
+            sizeSmall: TextStyle(fontSize: 9),
+          ),
+          embedBuilders: [
+            ...defaultEmbedBuildersWeb,
+            TimeStampEmbedBuilderWidget()
+          ],
+        ),
+      );
+    }
+    return QuillEditor(
+      configurations: QuillEditorConfigurations(
+        placeholder: 'Add content',
+        readOnly: false,
         autoFocus: false,
+        enableSelectionToolbar: isMobile(),
         expands: false,
         padding: EdgeInsets.zero,
+        onImagePaste: _onImagePaste,
         onTapUp: (details, p1) {
           return _onTripleClickSelection();
         },
@@ -207,87 +244,79 @@ class _HomePageState extends State<HomePage> {
               VerticalSpacing(0, 0),
               null),
           sizeSmall: TextStyle(fontSize: 9),
+          subscript: TextStyle(
+            fontFamily: 'SF-UI-Display',
+            fontFeatures: [FontFeature.subscripts()],
+          ),
+          superscript: TextStyle(
+            fontFamily: 'SF-UI-Display',
+            fontFeatures: [FontFeature.superscripts()],
+          ),
         ),
         embedBuilders: [
-          ...defaultEmbedBuildersWeb,
+          ...FlutterQuillEmbeds.builders(),
           TimeStampEmbedBuilderWidget()
         ],
-      );
-    }
-    return QuillEditor(
-      scrollController: ScrollController(),
-      scrollable: true,
-      focusNode: _focusNode,
-      autoFocus: false,
-      enableSelectionToolbar: isMobile(),
-      expands: false,
-      padding: EdgeInsets.zero,
-      onImagePaste: _onImagePaste,
-      onTapUp: (details, p1) {
-        return _onTripleClickSelection();
-      },
-      customStyles: const DefaultStyles(
-        h1: DefaultTextBlockStyle(
-            TextStyle(
-              fontSize: 32,
-              color: Colors.black,
-              height: 1.15,
-              fontWeight: FontWeight.w300,
-            ),
-            VerticalSpacing(16, 0),
-            VerticalSpacing(0, 0),
-            null),
-        sizeSmall: TextStyle(fontSize: 9),
-        subscript: TextStyle(
-          fontFamily: 'SF-UI-Display',
-          fontFeatures: [FontFeature.subscripts()],
-        ),
-        superscript: TextStyle(
-          fontFamily: 'SF-UI-Display',
-          fontFeatures: [FontFeature.superscripts()],
-        ),
       ),
-      embedBuilders: [
-        ...FlutterQuillEmbeds.builders(),
-        TimeStampEmbedBuilderWidget()
-      ],
+      scrollController: ScrollController(),
+      focusNode: _focusNode,
     );
   }
 
   QuillToolbar get quillToolbar {
     if (kIsWeb) {
-      return QuillToolbar.basic(
-        embedButtons: FlutterQuillEmbeds.buttons(
-          onImagePickCallback: _onImagePickCallback,
-          webImagePickImpl: _webImagePickImpl,
+      return QuillToolbar(
+        configurations: QuillToolbarConfigurations(
+          embedButtons: FlutterQuillEmbeds.buttons(
+            onImagePickCallback: _onImagePickCallback,
+            webImagePickImpl: _webImagePickImpl,
+          ),
+          buttonOptions: QuillToolbarButtonOptions(
+            base: QuillToolbarBaseButtonOptions(
+              afterButtonPressed: _focusNode.requestFocus,
+            ),
+          ),
         ),
-        showAlignmentButtons: true,
         // afterButtonPressed: _focusNode.requestFocus,
       );
     }
     if (_isDesktop()) {
-      return QuillToolbar.basic(
-        embedButtons: FlutterQuillEmbeds.buttons(
-          onImagePickCallback: _onImagePickCallback,
-          filePickImpl: openFileSystemPickerForDesktop,
+      return QuillToolbar(
+        configurations: QuillToolbarConfigurations(
+          embedButtons: FlutterQuillEmbeds.buttons(
+            onImagePickCallback: _onImagePickCallback,
+            filePickImpl: openFileSystemPickerForDesktop,
+          ),
+          showAlignmentButtons: true,
+          buttonOptions: QuillToolbarButtonOptions(
+            base: QuillToolbarBaseButtonOptions(
+              afterButtonPressed: _focusNode.requestFocus,
+            ),
+          ),
         ),
-        showAlignmentButtons: true,
         // afterButtonPressed: _focusNode.requestFocus,
       );
     }
-    return QuillToolbar.basic(
-      embedButtons: FlutterQuillEmbeds.buttons(
-        // provide a callback to enable picking images from device.
-        // if omit, "image" button only allows adding images from url.
-        // same goes for videos.
-        onImagePickCallback: _onImagePickCallback,
-        onVideoPickCallback: _onVideoPickCallback,
-        // uncomment to provide a custom "pick from" dialog.
-        // mediaPickSettingSelector: _selectMediaPickSetting,
-        // uncomment to provide a custom "pick from" dialog.
-        // cameraPickSettingSelector: _selectCameraPickSetting,
+    return QuillToolbar(
+      configurations: QuillToolbarConfigurations(
+        embedButtons: FlutterQuillEmbeds.buttons(
+          // provide a callback to enable picking images from device.
+          // if omit, "image" button only allows adding images from url.
+          // same goes for videos.
+          onImagePickCallback: _onImagePickCallback,
+          onVideoPickCallback: _onVideoPickCallback,
+          // uncomment to provide a custom "pick from" dialog.
+          // mediaPickSettingSelector: _selectMediaPickSetting,
+          // uncomment to provide a custom "pick from" dialog.
+          // cameraPickSettingSelector: _selectCameraPickSetting,
+        ),
+        showAlignmentButtons: true,
+        buttonOptions: QuillToolbarButtonOptions(
+          base: QuillToolbarBaseButtonOptions(
+            afterButtonPressed: _focusNode.requestFocus,
+          ),
+        ),
       ),
-      showAlignmentButtons: true,
       // afterButtonPressed: _focusNode.requestFocus,
     );
   }
@@ -320,17 +349,6 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: QuillProvider(
         configurations: QuillConfigurations(
-          toolbarConfigurations: QuillToolbarConfigurations(
-              buttonOptions: QuillToolbarButtonOptions(
-            base: QuillToolbarBaseButtonOptions(
-              afterButtonPressed: _focusNode.requestFocus,
-            ),
-          )),
-          editorConfigurations: const QuillEditorConfigurations(
-            placeholder: 'Add content',
-            // ignore: avoid_redundant_argument_values
-            readOnly: false,
-          ),
           controller: _controller,
         ),
         child: Column(

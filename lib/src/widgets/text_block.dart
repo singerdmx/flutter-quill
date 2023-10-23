@@ -52,29 +52,30 @@ const List<String> romanNumbers = [
 ];
 
 class EditableTextBlock extends StatelessWidget {
-  const EditableTextBlock(
-      {required this.block,
-      required this.controller,
-      required this.textDirection,
-      required this.scrollBottomInset,
-      required this.verticalSpacing,
-      required this.textSelection,
-      required this.color,
-      required this.styles,
-      required this.enableInteractiveSelection,
-      required this.hasFocus,
-      required this.contentPadding,
-      required this.embedBuilder,
-      required this.linkActionPicker,
-      required this.cursorCont,
-      required this.indentLevelCounts,
-      required this.clearIndents,
-      required this.onCheckboxTap,
-      required this.readOnly,
-      this.onLaunchUrl,
-      this.customStyleBuilder,
-      this.customLinkPrefixes = const <String>[],
-      Key? key});
+  const EditableTextBlock({
+    required this.block,
+    required this.controller,
+    required this.textDirection,
+    required this.scrollBottomInset,
+    required this.verticalSpacing,
+    required this.textSelection,
+    required this.color,
+    required this.styles,
+    required this.enableInteractiveSelection,
+    required this.hasFocus,
+    required this.contentPadding,
+    required this.embedBuilder,
+    required this.linkActionPicker,
+    required this.cursorCont,
+    required this.indentLevelCounts,
+    required this.clearIndents,
+    required this.onCheckboxTap,
+    required this.readOnly,
+    this.onLaunchUrl,
+    this.customStyleBuilder,
+    this.customLinkPrefixes = const <String>[],
+    super.key,
+  });
 
   final Block block;
   final QuillController controller;

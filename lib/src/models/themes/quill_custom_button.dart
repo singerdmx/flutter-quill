@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/toolbar/toolbar.dart';
+import '../../widgets/toolbar/base_toolbar.dart';
 
 class QuillCustomButton extends QuillToolbarBaseButtonOptions {
   const QuillCustomButton({

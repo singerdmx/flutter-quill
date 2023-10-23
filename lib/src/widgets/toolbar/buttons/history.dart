@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../translations.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
-import '../toolbar.dart';
+import '../base_toolbar.dart';
 
 class QuillToolbarHistoryButton extends StatefulWidget {
   const QuillToolbarHistoryButton({

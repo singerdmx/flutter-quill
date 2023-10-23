@@ -8,7 +8,7 @@ import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/color.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
-import '../toolbar.dart';
+import '../base_toolbar.dart';
 
 /// Controls color styles.
 ///

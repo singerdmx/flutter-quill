@@ -7,7 +7,7 @@ import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
-import '../toolbar.dart';
+import '../base_toolbar.dart';
 
 typedef ToggleStyleButtonBuilder = Widget Function(
   BuildContext context,

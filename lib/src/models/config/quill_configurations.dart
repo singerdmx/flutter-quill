@@ -11,8 +11,6 @@ export './toolbar/configurations.dart';
 class QuillConfigurations extends Equatable {
   const QuillConfigurations({
     required this.controller,
-    this.editorConfigurations = const QuillEditorConfigurations(),
-    this.toolbarConfigurations = const QuillToolbarConfigurations(),
     this.sharedConfigurations = const QuillSharedConfigurations(),
   });
 
@@ -24,20 +22,12 @@ class QuillConfigurations extends Equatable {
   /// here, it should not be null
   final QuillController controller;
 
-  /// The configurations for the quill editor widget of flutter quill
-  final QuillEditorConfigurations editorConfigurations;
-
-  /// The configurations for the toolbar widget of flutter quill
-  final QuillToolbarConfigurations toolbarConfigurations;
-
   /// The shared configurations between [QuillEditorConfigurations] and
   /// [QuillToolbarConfigurations] so we don't duplicate things
   final QuillSharedConfigurations sharedConfigurations;
 
   @override
   List<Object?> get props => [
-        editorConfigurations,
-        toolbarConfigurations,
         sharedConfigurations,
       ];
 }

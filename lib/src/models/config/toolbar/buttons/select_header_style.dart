@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' show Axis;
 
-import '../../../../widgets/toolbar/toolbar.dart';
+import '../../../../widgets/toolbar/base_toolbar.dart';
 import '../../../documents/attribute.dart';
 
 class QuillToolbarSelectHeaderStyleButtonExtraOptions

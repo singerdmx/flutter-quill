@@ -70,7 +70,7 @@ extension BuildContextExt on BuildContext {
   /// provider widget first and then we will return editor configurations
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillEditorConfigurations get requireQuillEditorConfigurations {
-    return requireQuillConfigurations.editorConfigurations;
+    return QuillEditorProvider.ofNotNull(this).editorConfigurations;
   }
 
   /// return nullable [QuillEditorConfigurations]. Since the quill
@@ -78,7 +78,7 @@ extension BuildContextExt on BuildContext {
   /// provider widget first and then we will return editor configurations
   /// don't throw exception if [QuillProvider] is not in the widget tree
   QuillEditorConfigurations? get quillEditorConfigurations {
-    return quillConfigurations?.editorConfigurations;
+    return QuillEditorProvider.of(this)?.editorConfigurations;
   }
 
   /// return [QuillToolbarConfigurations] as not null . Since the quill
@@ -86,7 +86,7 @@ extension BuildContextExt on BuildContext {
   /// provider widget first and then we will return toolbar configurations
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarConfigurations get requireQuillToolbarConfigurations {
-    return requireQuillConfigurations.toolbarConfigurations;
+    return QuillToolbarProvider.ofNotNull(this).toolbarConfigurations;
   }
 
   /// return nullable [QuillToolbarConfigurations]. Since the quill
@@ -94,7 +94,7 @@ extension BuildContextExt on BuildContext {
   /// provider widget first and then we will return toolbar configurations
   /// don't throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarConfigurations? get quillToolbarConfigurations {
-    return quillConfigurations?.toolbarConfigurations;
+    return QuillToolbarProvider.of(this)?.toolbarConfigurations;
   }
 
   /// return nullable [QuillToolbarBaseButtonOptions]. Since the quill

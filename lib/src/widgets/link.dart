@@ -53,9 +53,11 @@ Future<LinkMenuAction> defaultLinkActionPickerDelegate(
       return _showMaterialMenu(context, link);
     default:
       assert(
-          false,
-          'defaultShowLinkActionsMenu not supposed to '
-          'be invoked for $defaultTargetPlatform');
+        false,
+        'defaultShowLinkActionsMenu not supposed to '
+        'be invoked for $defaultTargetPlatform. '
+        "it's only supported for iOS and Android.",
+      );
       return LinkMenuAction.none;
   }
 }
