@@ -31,18 +31,11 @@ class _QuillToolbarToggleCheckListButtonState
     extends State<QuillToolbarToggleCheckListButton> {
   bool? _isToggled;
 
-  /// Since it's not safe to call anything related to the context in dispose
-  /// then we will save a reference to the [controller]
-  /// and update it in [didChangeDependencies]
-  /// and use it in dispose method
-  late QuillController _controller;
-
-  Style get _selectionStyle => widget.controller.getSelectionStyle();
+  Style get _selectionStyle => controller.getSelectionStyle();
 
   void _didChangeEditingValue() {
     setState(() {
-      _isToggled =
-          _getIsToggled(widget.controller.getSelectionStyle().attributes);
+      _isToggled = _getIsToggled(controller.getSelectionStyle().attributes);
     });
   }
 
@@ -50,17 +43,17 @@ class _QuillToolbarToggleCheckListButtonState
   void initState() {
     super.initState();
     _isToggled = _getIsToggled(_selectionStyle.attributes);
-    widget.controller.addListener(_didChangeEditingValue);
+    controller.addListener(_didChangeEditingValue);
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    var attribute = widget.controller.toolbarButtonToggler[Attribute.list.key];
+    var attribute = controller.toolbarButtonToggler[Attribute.list.key];
 
     if (attribute == null) {
       attribute = attrs[Attribute.list.key];
     } else {
       // checkbox tapping causes controller.selection to go to offset 0
-      widget.controller.toolbarButtonToggler.remove(Attribute.list.key);
+      controller.toolbarButtonToggler.remove(Attribute.list.key);
     }
 
     if (attribute == null) {
@@ -75,20 +68,14 @@ class _QuillToolbarToggleCheckListButtonState
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
-      widget.controller.addListener(_didChangeEditingValue);
+      controller.addListener(_didChangeEditingValue);
       _isToggled = _getIsToggled(_selectionStyle.attributes);
     }
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _controller = controller;
-  }
-
-  @override
   void dispose() {
-    _controller.removeListener(_didChangeEditingValue);
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 
@@ -97,7 +84,7 @@ class _QuillToolbarToggleCheckListButtonState
   }
 
   QuillController get controller {
-    return options.controller ?? widget.controller;
+    return widget.controller;
   }
 
   double get iconSize {

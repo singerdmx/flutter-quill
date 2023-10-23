@@ -50,7 +50,7 @@ import '../text_block.dart';
 import '../text_line.dart';
 import '../text_selection.dart';
 import '../toolbar/buttons/link_style2.dart';
-import '../toolbar/search_dialog.dart';
+import '../toolbar/buttons/search/search_dialog.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
 
@@ -2628,7 +2628,10 @@ class _OpenSearchAction extends ContextAction<OpenSearchIntent> {
     }
     await showDialog<String>(
       context: context,
-      builder: (_) => SearchDialog(controller: state.controller, text: ''),
+      builder: (_) => QuillToolbarSearchDialog(
+        controller: state.controller,
+        text: '',
+      ),
     );
   }
 

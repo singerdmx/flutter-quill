@@ -262,7 +262,7 @@ class _HomePageState extends State<HomePage> {
           webImagePickImpl: _webImagePickImpl,
         ),
         showAlignmentButtons: true,
-        afterButtonPressed: _focusNode.requestFocus,
+        // afterButtonPressed: _focusNode.requestFocus,
       );
     }
     if (_isDesktop()) {
@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage> {
           filePickImpl: openFileSystemPickerForDesktop,
         ),
         showAlignmentButtons: true,
-        afterButtonPressed: _focusNode.requestFocus,
+        // afterButtonPressed: _focusNode.requestFocus,
       );
     }
     return QuillToolbar.basic(
@@ -288,7 +288,7 @@ class _HomePageState extends State<HomePage> {
         // cameraPickSettingSelector: _selectCameraPickSetting,
       ),
       showAlignmentButtons: true,
-      afterButtonPressed: _focusNode.requestFocus,
+      // afterButtonPressed: _focusNode.requestFocus,
     );
   }
 
@@ -320,6 +320,12 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: QuillProvider(
         configurations: QuillConfigurations(
+          toolbarConfigurations: QuillToolbarConfigurations(
+              buttonOptions: QuillToolbarButtonOptions(
+            base: QuillToolbarBaseButtonOptions(
+              afterButtonPressed: _focusNode.requestFocus,
+            ),
+          )),
           editorConfigurations: const QuillEditorConfigurations(
             placeholder: 'Add content',
             // ignore: avoid_redundant_argument_values

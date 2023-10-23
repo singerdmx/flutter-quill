@@ -6,6 +6,7 @@ import '../../../models/structs/link_dialog_action.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../translations/toolbar.i18n.dart';
+import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../../link.dart';
 import '../toolbar.dart';
@@ -13,28 +14,21 @@ import '../toolbar.dart';
 class QuillToolbarLinkStyleButton extends StatefulWidget {
   const QuillToolbarLinkStyleButton({
     required this.controller,
-    this.iconSize = kDefaultIconSize,
-    this.icon,
-    this.iconTheme,
-    this.dialogTheme,
-    this.afterButtonPressed,
-    this.tooltip,
-    this.linkRegExp,
-    this.linkDialogAction,
-    this.dialogBarrierColor = Colors.black54,
-    Key? key,
-  }) : super(key: key);
+    required this.options,
+    super.key,
+  });
 
   final QuillController controller;
-  final IconData? icon;
-  final double iconSize;
-  final QuillIconTheme? iconTheme;
-  final QuillDialogTheme? dialogTheme;
-  final VoidCallback? afterButtonPressed;
-  final String? tooltip;
-  final RegExp? linkRegExp;
-  final LinkDialogAction? linkDialogAction;
-  final Color dialogBarrierColor;
+  // final IconData? icon;
+  // final double iconSize;
+  // final QuillIconTheme? iconTheme;
+  // final QuillDialogTheme? dialogTheme;
+  // final VoidCallback? afterButtonPressed;
+  // final String? tooltip;
+  // final RegExp? linkRegExp;
+  // final LinkDialogAction? linkDialogAction;
+  // final Color dialogBarrierColor;
+  final QuillToolbarLinkStyleButtonOptions options;
 
   @override
   _QuillToolbarLinkStyleButtonState createState() =>
@@ -50,22 +44,68 @@ class _QuillToolbarLinkStyleButtonState
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(_didChangeSelection);
+    controller.addListener(_didChangeSelection);
   }
 
   @override
   void didUpdateWidget(covariant QuillToolbarLinkStyleButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
+    if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeSelection);
-      widget.controller.addListener(_didChangeSelection);
+      controller.addListener(_didChangeSelection);
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    widget.controller.removeListener(_didChangeSelection);
+    controller.removeListener(_didChangeSelection);
+  }
+
+  QuillController get controller {
+    return widget.controller;
+  }
+
+  QuillToolbarLinkStyleButtonOptions get options {
+    return widget.options;
+  }
+
+  double get iconSize {
+    final baseFontSize = baseButtonExtraOptions.globalIconSize;
+    final iconSize = options.iconSize;
+    return iconSize ?? baseFontSize;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return options.afterButtonPressed ??
+        baseButtonExtraOptions.afterButtonPressed;
+  }
+
+  QuillIconTheme? get iconTheme {
+    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
+  }
+
+  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
+    return context.requireQuillToolbarBaseButtonOptions;
+  }
+
+  String get tooltip {
+    return options.tooltip ??
+        baseButtonExtraOptions.tooltip ??
+        'Insert URL'.i18n;
+  }
+
+  IconData get iconData {
+    return options.iconData ?? baseButtonExtraOptions.iconData ?? Icons.link;
+  }
+
+  Color get dialogBarrierColor {
+    return options.dialogBarrierColor ??
+        context.requireQuillSharedConfigurations.dialogBarrierColor;
+  }
+
+  RegExp get linkRegExp {
+    return options.linkRegExp ?? RegExp(r'https?://\S+');
   }
 
   @override
@@ -73,87 +113,113 @@ class _QuillToolbarLinkStyleButtonState
     final theme = Theme.of(context);
     final isToggled = _getLinkAttributeValue() != null;
     final pressedHandler = () => _openLinkDialog(context);
+
+    final childBuilder =
+        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        QuillToolbarLinkStyleButtonOptions(
+          afterButtonPressed: afterButtonPressed,
+          controller: controller,
+          dialogBarrierColor: dialogBarrierColor,
+          dialogTheme: options.dialogTheme,
+          iconData: iconData,
+          iconSize: iconSize,
+          tooltip: tooltip,
+          linkDialogAction: options.linkDialogAction,
+          linkRegExp: linkRegExp,
+          iconTheme: iconTheme,
+        ),
+        QuillToolbarLinkStyleButtonExtraOptions(
+          context: context,
+          controller: controller,
+          onPressed: () {
+            pressedHandler();
+            afterButtonPressed?.call();
+          },
+        ),
+      );
+    }
     return QuillToolbarIconButton(
-      tooltip: widget.tooltip,
+      tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * kIconButtonFactor,
+      size: iconSize * kIconButtonFactor,
       icon: Icon(
-        widget.icon ?? Icons.link,
-        size: widget.iconSize,
+        iconData,
+        size: iconSize,
         color: isToggled
-            ? (widget.iconTheme?.iconSelectedColor ??
-                theme.primaryIconTheme.color)
-            : (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
+            ? (iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
+            : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
       fillColor: isToggled
-          ? (widget.iconTheme?.iconSelectedFillColor ??
-              Theme.of(context).primaryColor)
-          : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
-      borderRadius: widget.iconTheme?.borderRadius ?? 2,
+          ? (iconTheme?.iconSelectedFillColor ?? Theme.of(context).primaryColor)
+          : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
+      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: pressedHandler,
-      afterPressed: widget.afterButtonPressed,
+      afterPressed: afterButtonPressed,
     );
   }
 
-  void _openLinkDialog(BuildContext context) {
-    showDialog<_TextLink>(
+  Future<void> _openLinkDialog(BuildContext context) async {
+    // TODO: Add a custom call back to customize this just like in the search
+    // button
+    final value = await showDialog<_TextLink>(
       context: context,
-      barrierColor: widget.dialogBarrierColor,
+      barrierColor: dialogBarrierColor,
       builder: (ctx) {
         final link = _getLinkAttributeValue();
-        final index = widget.controller.selection.start;
+        final index = controller.selection.start;
 
         var text;
         if (link != null) {
           // text should be the link's corresponding text, not selection
-          final leaf =
-              widget.controller.document.querySegmentLeafNode(index).leaf;
+          final leaf = controller.document.querySegmentLeafNode(index).leaf;
           if (leaf != null) {
             text = leaf.toPlainText();
           }
         }
 
-        final len = widget.controller.selection.end - index;
-        text ??=
-            len == 0 ? '' : widget.controller.document.getPlainText(index, len);
+        final len = controller.selection.end - index;
+        text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
         return _LinkDialog(
-          dialogTheme: widget.dialogTheme,
+          dialogTheme: options.dialogTheme,
           link: link,
           text: text,
-          linkRegExp: widget.linkRegExp,
-          action: widget.linkDialogAction,
+          linkRegExp: linkRegExp,
+          action: options.linkDialogAction,
         );
       },
-    ).then(
-      (value) {
-        if (value != null) _linkSubmitted(value);
-      },
     );
+    if (value == null) {
+      return;
+    }
+    _linkSubmitted(value);
   }
 
   String? _getLinkAttributeValue() {
-    return widget.controller
-        .getSelectionStyle()
-        .attributes[Attribute.link.key]
-        ?.value;
+    return controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
   }
 
   void _linkSubmitted(_TextLink value) {
-    var index = widget.controller.selection.start;
-    var length = widget.controller.selection.end - index;
+    var index = controller.selection.start;
+    var length = controller.selection.end - index;
     if (_getLinkAttributeValue() != null) {
       // text should be the link's corresponding text, not selection
-      final leaf = widget.controller.document.querySegmentLeafNode(index).leaf;
+      final leaf = controller.document.querySegmentLeafNode(index).leaf;
       if (leaf != null) {
         final range = getLinkRange(leaf);
         index = range.start;
         length = range.end - range.start;
       }
     }
-    widget.controller.replaceText(index, length, value.text, null);
-    widget.controller
-        .formatText(index, value.text.length, LinkAttribute(value.link));
+    controller
+      ..replaceText(index, length, value.text, null)
+      ..formatText(
+        index,
+        value.text.length,
+        LinkAttribute(value.link),
+      );
   }
 }
 
@@ -164,8 +230,7 @@ class _LinkDialog extends StatefulWidget {
     this.text,
     this.linkRegExp,
     this.action,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final QuillDialogTheme? dialogTheme;
   final String? link;

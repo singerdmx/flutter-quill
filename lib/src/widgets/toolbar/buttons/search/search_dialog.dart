@@ -1,27 +1,62 @@
 import 'package:flutter/material.dart';
 
-import '../../../translations.dart';
-import '../../models/documents/document.dart';
-import '../../models/themes/quill_dialog_theme.dart';
-import '../controller.dart';
+import '../../../../../translations.dart';
+import '../../../../models/documents/document.dart';
+import '../../../../models/themes/quill_dialog_theme.dart';
+import '../../../controller.dart';
 
-class SearchDialog extends StatefulWidget {
-  const SearchDialog({
+@immutable
+class QuillToolbarSearchDialogChildBuilderExtraOptions {
+  const QuillToolbarSearchDialogChildBuilderExtraOptions({
+    required this.onFindTextPressed,
+    required this.moveToNext,
+    required this.moveToPrevious,
+    required this.onTextChanged,
+    required this.onEditingComplete,
+    required this.text,
+    required this.textEditingController,
+    required this.offsets,
+    required this.index,
+    required this.caseSensitive,
+    required this.wholeWord,
+  });
+  final VoidCallback? onFindTextPressed;
+  final VoidCallback moveToNext;
+  final VoidCallback moveToPrevious;
+  final ValueChanged<String>? onTextChanged;
+  final VoidCallback? onEditingComplete;
+  final String text;
+  final TextEditingController textEditingController;
+  final List<int>? offsets;
+  final int index;
+  final bool caseSensitive;
+  final bool wholeWord;
+}
+
+typedef QuillToolbarSearchDialogChildBuilder = Widget Function(
+  QuillToolbarSearchDialogChildBuilderExtraOptions extraOptions,
+);
+
+class QuillToolbarSearchDialog extends StatefulWidget {
+  const QuillToolbarSearchDialog({
     required this.controller,
     this.dialogTheme,
     this.text,
-    Key? key,
-  }) : super(key: key);
+    this.childBuilder,
+    super.key,
+  });
 
   final QuillController controller;
   final QuillDialogTheme? dialogTheme;
   final String? text;
+  final QuillToolbarSearchDialogChildBuilder? childBuilder;
 
   @override
-  _SearchDialogState createState() => _SearchDialogState();
+  _QuillToolbarSearchDialogState createState() =>
+      _QuillToolbarSearchDialogState();
 }
 
-class _SearchDialogState extends State<SearchDialog> {
+class _QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
   late String _text;
   late TextEditingController _controller;
   late List<int>? _offsets;
@@ -53,6 +88,25 @@ class _SearchDialogState extends State<SearchDialog> {
       } else {
         matchShown = '${_index + 1}/${_offsets!.length}';
       }
+    }
+
+    final childBuilder = widget.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        QuillToolbarSearchDialogChildBuilderExtraOptions(
+          onFindTextPressed: _findText,
+          onEditingComplete: _findText,
+          onTextChanged: _textChanged,
+          caseSensitive: _caseSensitive,
+          textEditingController: _controller,
+          index: _index,
+          offsets: _offsets,
+          text: _text,
+          wholeWord: _wholeWord,
+          moveToNext: _moveToNext,
+          moveToPrevious: _moveToPosition,
+        ),
+      );
     }
 
     return Dialog(
@@ -140,6 +194,7 @@ class _SearchDialogState extends State<SearchDialog> {
   }
 
   void _findText() {
+    _text = _controller.text;
     if (_text.isEmpty) {
       return;
     }
@@ -158,10 +213,12 @@ class _SearchDialogState extends State<SearchDialog> {
 
   void _moveToPosition() {
     widget.controller.updateSelection(
-        TextSelection(
-            baseOffset: _offsets![_index],
-            extentOffset: _offsets![_index] + _text.length),
-        ChangeSource.LOCAL);
+      TextSelection(
+        baseOffset: _offsets![_index],
+        extentOffset: _offsets![_index] + _text.length,
+      ),
+      ChangeSource.LOCAL,
+    );
   }
 
   void _moveToPrevious() {
