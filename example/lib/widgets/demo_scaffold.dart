@@ -86,14 +86,18 @@ class _DemoScaffoldState extends State<DemoScaffold> {
 
   QuillToolbar get quillToolbar {
     if (_isDesktop()) {
-      return QuillToolbar.basic(
-        embedButtons: FlutterQuillEmbeds.buttons(
-          filePickImpl: openFileSystemPickerForDesktop,
+      return QuillToolbar(
+        configurations: QuillToolbarConfigurations(
+          embedButtons: FlutterQuillEmbeds.buttons(
+            filePickImpl: openFileSystemPickerForDesktop,
+          ),
         ),
       );
     }
-    return QuillToolbar.basic(
-      embedButtons: FlutterQuillEmbeds.buttons(),
+    return QuillToolbar(
+      configurations: QuillToolbarConfigurations(
+        embedButtons: FlutterQuillEmbeds.buttons(),
+      ),
     );
   }
 

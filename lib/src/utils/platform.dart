@@ -41,6 +41,18 @@ bool isMacOS([TargetPlatform? targetPlatform]) {
   return TargetPlatform.macOS == targetPlatform;
 }
 
+bool isIOS([TargetPlatform? targetPlatform]) {
+  if (isWeb()) return false;
+  targetPlatform ??= defaultTargetPlatform;
+  return TargetPlatform.iOS == targetPlatform;
+}
+
+bool isAndroid([TargetPlatform? targetPlatform]) {
+  if (isWeb()) return false;
+  targetPlatform ??= defaultTargetPlatform;
+  return TargetPlatform.android == targetPlatform;
+}
+
 bool isFlutterTest() {
   if (isWeb()) return false;
   return Platform.environment.containsKey('FLUTTER_TEST');

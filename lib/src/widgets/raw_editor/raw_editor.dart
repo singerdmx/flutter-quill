@@ -36,6 +36,7 @@ import '../../models/themes/quill_dialog_theme.dart';
 import '../../utils/cast.dart';
 import '../../utils/delta.dart';
 import '../../utils/embeds.dart';
+import '../../utils/extensions/build_context.dart';
 import '../../utils/platform.dart';
 import '../controller.dart';
 import '../cursor.dart';
@@ -880,6 +881,9 @@ class RawEditorState extends EditorState
   /// Updates the checkbox positioned at [offset] in document
   /// by changing its attribute according to [value].
   void _handleCheckboxTap(int offset, bool value) {
+    final requestKeyboardFocusOnCheckListChanged = context
+        .requireQuillEditorConfigurations
+        .requestKeyboardFocusOnCheckListChanged;
     if (!widget.readOnly) {
       _disableScrollControllerAnimateOnce = true;
       final currentSelection = controller.selection.copyWith();
@@ -888,6 +892,7 @@ class RawEditorState extends EditorState
       _markNeedsBuild();
       controller
         ..ignoreFocusOnTextChange = true
+        ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
         ..formatText(offset, 0, attribute)
 
         // Checkbox tapping causes controller.selection to go to offset 0
@@ -901,6 +906,7 @@ class RawEditorState extends EditorState
       SchedulerBinding.instance.addPostFrameCallback((_) {
         controller
           ..ignoreFocusOnTextChange = false
+          ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
           ..updateSelection(currentSelection, ChangeSource.LOCAL);
       });
     }

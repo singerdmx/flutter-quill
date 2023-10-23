@@ -10,8 +10,8 @@ class CheckboxPoint extends StatefulWidget {
     required this.enabled,
     required this.onChanged,
     this.uiBuilder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final double size;
   final bool value;
@@ -26,8 +26,9 @@ class CheckboxPoint extends StatefulWidget {
 class _CheckboxPointState extends State<CheckboxPoint> {
   @override
   Widget build(BuildContext context) {
-    if (widget.uiBuilder != null) {
-      return widget.uiBuilder!.build(
+    final uiBuilder = widget.uiBuilder;
+    if (uiBuilder != null) {
+      return uiBuilder.build(
         context: context,
         isChecked: widget.value,
         onChanged: widget.onChanged,

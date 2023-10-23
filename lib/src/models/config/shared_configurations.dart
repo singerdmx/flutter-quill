@@ -39,6 +39,7 @@ class QuillSharedConfigurations extends Equatable {
   @override
   List<Object?> get props => [
         dialogBarrierColor,
+        dialogTheme,
         locale,
         animationConfigurations,
       ];

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
@@ -35,24 +37,28 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
 
   Widget _buildContent(BuildContext context, QuillController? controller) {
     var quillEditor = QuillEditor(
+      configurations: QuillEditorConfigurations(
+        expands: false,
+        padding: EdgeInsets.zero,
+        embedBuilders: FlutterQuillEmbeds.builders(),
+        scrollable: true,
+        autoFocus: true,
+      ),
       scrollController: ScrollController(),
-      scrollable: true,
       focusNode: _focusNode,
-      autoFocus: true,
       // readOnly: !_edit,
-      expands: false,
-      padding: EdgeInsets.zero,
-      embedBuilders: FlutterQuillEmbeds.builders(),
     );
     if (kIsWeb) {
       quillEditor = QuillEditor(
+        configurations: QuillEditorConfigurations(
+          autoFocus: true,
+          expands: false,
+          padding: EdgeInsets.zero,
+          embedBuilders: defaultEmbedBuildersWeb,
+          scrollable: true,
+        ),
         scrollController: ScrollController(),
-        scrollable: true,
         focusNode: _focusNode,
-        autoFocus: true,
-        expands: false,
-        padding: EdgeInsets.zero,
-        embedBuilders: defaultEmbedBuildersWeb,
       );
     }
     return Padding(

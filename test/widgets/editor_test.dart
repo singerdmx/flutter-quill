@@ -25,7 +25,13 @@ void main() {
         QuillProvider(
           configurations: QuillConfigurations(controller: controller),
           child: MaterialApp(
-            home: QuillEditor.basic(readOnly: false),
+            home: QuillEditor.basic(
+              // ignore: avoid_redundant_argument_values
+              configurations: const QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+              ),
+            ),
           ),
         ),
       );
@@ -41,24 +47,21 @@ void main() {
           home: QuillProvider(
             configurations: QuillConfigurations(
               controller: controller,
-              // ignore: avoid_redundant_argument_values
-              editorConfigurations: const QuillEditorConfigurations(
-                // ignore: avoid_redundant_argument_values
-                readOnly: false,
-              ),
             ),
             child: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
-              scrollable: true,
-              padding: const EdgeInsets.all(0),
-              autoFocus: true,
-              expands: true,
-              contentInsertionConfiguration: ContentInsertionConfiguration(
-                onContentInserted: (content) {
-                  latestUri = content.uri;
-                },
-                allowedMimeTypes: const <String>['image/gif'],
+              configurations: QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+                autoFocus: true,
+                expands: true,
+                contentInsertionConfiguration: ContentInsertionConfiguration(
+                  onContentInserted: (content) {
+                    latestUri = content.uri;
+                  },
+                  allowedMimeTypes: <String>['image/gif'],
+                ),
               ),
             ),
           ),
@@ -121,20 +124,18 @@ void main() {
           home: QuillProvider(
             configurations: QuillConfigurations(
               controller: controller,
-              // ignore: avoid_redundant_argument_values
-              editorConfigurations: const QuillEditorConfigurations(
-                // ignore: avoid_redundant_argument_values
-                readOnly: false,
-              ),
             ),
             child: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
-              scrollable: true,
-              padding: EdgeInsets.zero,
-              autoFocus: true,
-              expands: true,
-              contextMenuBuilder: customBuilder,
+              // ignore: avoid_redundant_argument_values
+              configurations: QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                readOnly: false,
+                autoFocus: true,
+                expands: true,
+                contextMenuBuilder: customBuilder,
+              ),
             ),
           ),
         ),

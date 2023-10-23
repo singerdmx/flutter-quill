@@ -5,7 +5,11 @@ import '../../../models/themes/quill_icon_theme.dart';
 import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
-import '../toolbar.dart';
+import '../base_toolbar.dart'
+    show
+        QuillToolbarBaseButtonOptions,
+        QuillToolbarIconButton,
+        kIconButtonFactor;
 
 class QuillToolbarIndentButton extends StatefulWidget {
   const QuillToolbarIndentButton({
