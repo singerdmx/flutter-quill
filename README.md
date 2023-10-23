@@ -85,15 +85,18 @@ and then embed the toolbar and the editor, within your app.  For example:
 
 ```dart
 QuillProvider(
-  configurations: QuillConfigurations(controller: _controller),
+  configurations: QuillConfigurations(
+    controller: _controller,
+    editorConfigurations: QuillEditorConfigurations(
+      readOnly: _isReadonly,
+    ),
+),
   child: Column(
   children: [
     QuillToolbar.basic(),
     Expanded(
       child: Container(
-        child: QuillEditor.basic(
-          readOnly: false, // true for view only mode
-        ),
+        child: QuillEditor.basic(),
       ),
     )
   ],
