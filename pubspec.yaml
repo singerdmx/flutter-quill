@@ -8,7 +8,7 @@ topics:
  - effects
  - widgets
  - widget
- - rich text editor
+ - rich-text-editor
 platforms:
   android:
   ios:
