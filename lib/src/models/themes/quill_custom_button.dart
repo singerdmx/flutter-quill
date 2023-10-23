@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-class QuillCustomButton {
+import '../../widgets/toolbar/toolbar.dart';
+
+class QuillCustomButton extends QuillToolbarBaseButtonOptions {
   const QuillCustomButton({
-    this.icon,
+    super.iconData,
     this.iconColor,
     this.onTap,
-    this.tooltip,
+    super.tooltip,
+    this.iconSize,
     this.child,
+    super.iconTheme,
   });
-
-  ///The icon widget
-  final IconData? icon;
 
   ///The icon color;
   final Color? iconColor;
@@ -21,6 +22,5 @@ class QuillCustomButton {
   ///The customButton placeholder
   final Widget? child;
 
-  /// The button tooltip.
-  final String? tooltip;
+  final double? iconSize;
 }

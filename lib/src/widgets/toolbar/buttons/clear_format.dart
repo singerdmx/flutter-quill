@@ -18,7 +18,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
   final QuillToolbarClearFormatButtonOptions options;
 
   QuillController get controller {
-    return options.controller ?? _controller;
+    return _controller;
   }
 
   double _iconSize(BuildContext context) {

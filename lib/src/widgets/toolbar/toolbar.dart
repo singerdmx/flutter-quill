@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart';
-import '../../translations/toolbar.i18n.dart';
 import '../../utils/extensions/build_context.dart';
 import 'buttons/arrow_indicated_list.dart';
 
@@ -18,7 +17,7 @@ export 'buttons/indent.dart';
 export 'buttons/link_style.dart';
 export 'buttons/link_style2.dart';
 export 'buttons/quill_icon.dart';
-export 'buttons/search.dart';
+export 'buttons/search/search.dart';
 export 'buttons/select_alignment.dart';
 export 'buttons/select_header_style.dart';
 export 'buttons/toggle_check_list.dart';
@@ -38,7 +37,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     this.color,
     this.customButtons = const [],
-    VoidCallback? afterButtonPressed,
     this.sectionDividerColor,
     this.sectionDividerSpace,
     this.linkDialogAction,
@@ -47,7 +45,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   factory QuillToolbar.basic({
-    Axis axis = Axis.horizontal,
     double toolbarSectionSpacing = kToolbarSectionSpacing,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
     WrapCrossAlignment toolbarIconCrossAlignment = WrapCrossAlignment.center,
@@ -97,10 +94,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///shown when embedding an image, for example
     QuillDialogTheme? dialogTheme,
 
-    /// Callback to be called after any button on the toolbar is pressed.
-    /// Is called after whatever logic the button performs has run.
-    VoidCallback? afterButtonPressed,
-
     ///Map of tooltips for toolbar  buttons
     ///
     ///The example is:
@@ -113,6 +106,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     ///```
     ///
     /// To disable tooltips just pass empty map as well.
+    @Deprecated('This is deprecated and will no longer used. '
+        'to change the tooltips please pass them in the Quill toolbar button'
+        ' configurations which exists in in the QuillProvider')
     Map<ToolbarButtons, String>? tooltips,
 
     /// The locale to use for the editor toolbar, defaults to system locale
@@ -127,10 +123,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     /// The space occupied by toolbar divider
     double? sectionDividerSpace,
-
-    /// Validate the legitimacy of hyperlinks
-    RegExp? linkRegExp,
-    LinkDialogAction? linkDialogAction,
     Key? key,
   }) {
     final isButtonGroupShown = [
@@ -157,40 +149,46 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       showLink || showSearchButton
     ];
 
-    //default button tooltips
-    final buttonTooltips = tooltips ??
-        <ToolbarButtons, String>{
-          ToolbarButtons.headerStyle: 'Header style'.i18n,
-          ToolbarButtons.link: 'Insert URL'.i18n,
-          ToolbarButtons.search: 'Search'.i18n,
-        };
-
     return QuillToolbar(
       key: key,
-      axis: axis,
       color: color,
       decoration: decoration,
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
       toolbarIconCrossAlignment: toolbarIconCrossAlignment,
       customButtons: customButtons,
-      afterButtonPressed: afterButtonPressed,
       childrenBuilder: (context) {
         final controller = context.requireQuillController;
 
         final toolbarConfigurations = context.requireQuillToolbarConfigurations;
 
-        final toolbarIconSize =
+        final globalIconSize =
             toolbarConfigurations.buttonOptions.base.globalIconSize;
+
+        final axis = toolbarConfigurations.axis;
+
+        if (tooltips != null) {
+          throw UnsupportedError(
+            'This is deprecated and will no longer used. to change '
+            'the tooltips please pass them in the Quill toolbar button'
+            'configurations which exists in in the QuillProvider',
+          );
+        }
 
         return [
           if (showUndo)
             QuillToolbarHistoryButton(
               options: toolbarConfigurations.buttonOptions.undoHistory,
+              controller:
+                  toolbarConfigurations.buttonOptions.undoHistory.controller ??
+                      context.requireQuillController,
             ),
           if (showRedo)
             QuillToolbarHistoryButton(
               options: toolbarConfigurations.buttonOptions.redoHistory,
+              controller:
+                  toolbarConfigurations.buttonOptions.redoHistory.controller ??
+                      context.requireQuillController,
             ),
           if (showFontFamily)
             QuillToolbarFontFamilyButton(
@@ -288,7 +286,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           if (embedButtons != null)
             for (final builder in embedButtons)
-              builder(controller, toolbarIconSize, iconTheme, dialogTheme),
+              builder(controller, globalIconSize, iconTheme, dialogTheme),
           if (showDividers &&
               isButtonGroupShown[0] &&
               (isButtonGroupShown[1] ||
@@ -338,13 +336,15 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               space: sectionDividerSpace,
             ),
           if (showHeaderStyle)
-            QuillToolbarSelectHeaderStyleButton(
-              tooltip: buttonTooltips[ToolbarButtons.headerStyle],
+            QuillToolbarSelectHeaderStyleButtons(
               controller: controller,
-              axis: axis,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              afterButtonPressed: afterButtonPressed,
+              options:
+                  toolbarConfigurations.buttonOptions.selectHeaderStyleButtons,
+              // tooltip: buttonTooltips[ToolbarButtons.headerStyle],
+              // axis: axis,
+              // iconSize: toolbarIconSize,
+              // iconTheme: iconTheme,
+              // afterButtonPressed: afterButtonPressed,
             ),
           if (showDividers &&
               showHeaderStyle &&
@@ -422,28 +422,13 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 color: sectionDividerColor, space: sectionDividerSpace),
           if (showLink)
             QuillToolbarLinkStyleButton(
-              tooltip: buttonTooltips[ToolbarButtons.link],
               controller: controller,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-              dialogTheme: dialogTheme,
-              afterButtonPressed: afterButtonPressed,
-              linkRegExp: linkRegExp,
-              linkDialogAction: linkDialogAction,
-              dialogBarrierColor:
-                  context.requireQuillSharedConfigurations.dialogBarrierColor,
+              options: toolbarConfigurations.buttonOptions.linkStyle,
             ),
           if (showSearchButton)
             QuillToolbarSearchButton(
-              icon: Icons.search,
-              iconSize: toolbarIconSize,
-              dialogBarrierColor:
-                  context.requireQuillSharedConfigurations.dialogBarrierColor,
-              tooltip: buttonTooltips[ToolbarButtons.search],
               controller: controller,
-              iconTheme: iconTheme,
-              dialogTheme: dialogTheme,
-              afterButtonPressed: afterButtonPressed,
+              options: toolbarConfigurations.buttonOptions.search,
             ),
           if (customButtons.isNotEmpty)
             if (showDividers)
@@ -461,12 +446,16 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             ] else ...[
               CustomButton(
                 onPressed: customButton.onTap,
-                icon: customButton.icon,
+                icon: customButton.iconData ??
+                    context.quillToolbarBaseButtonOptions?.iconData,
                 iconColor: customButton.iconColor,
-                iconSize: toolbarIconSize,
-                iconTheme: iconTheme,
-                afterButtonPressed: afterButtonPressed,
-                tooltip: customButton.tooltip,
+                iconSize: customButton.iconSize ?? globalIconSize,
+                iconTheme: iconTheme ??
+                    context.quillToolbarBaseButtonOptions?.iconTheme,
+                afterButtonPressed: customButton.afterButtonPressed ??
+                    context.quillToolbarBaseButtonOptions?.afterButtonPressed,
+                tooltip: customButton.tooltip ??
+                    context.quillToolbarBaseButtonOptions?.tooltip,
               ),
             ],
         ];

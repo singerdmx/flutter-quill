@@ -38,12 +38,6 @@ class _QuillToolbarFontFamilyButtonState
     return widget.options;
   }
 
-  /// Since it's not safe to call anything related to the context in dispose
-  /// then we will save a reference to the [controller]
-  /// and update it in [didChangeDependencies]
-  /// and use it in dispose method
-  late QuillController _controller;
-
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
@@ -52,27 +46,14 @@ class _QuillToolbarFontFamilyButtonState
     _initState();
   }
 
-  Future<void> _initState() async {
-    if (isFlutterTest()) {
-      // We don't need to listen for changes in the tests
-      return;
-    }
-    await Future.delayed(Duration.zero);
-    setState(() {
-      _currentValue = _defaultDisplayText;
-    });
+  void _initState() {
+    _currentValue = _defaultDisplayText;
     controller.addListener(_didChangeEditingValue);
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _controller = controller;
-  }
-
-  @override
   void dispose() {
-    _controller.removeListener(_didChangeEditingValue);
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 
@@ -128,7 +109,7 @@ class _QuillToolbarFontFamilyButtonState
   }
 
   QuillController get controller {
-    return options.controller ?? widget.controller;
+    return widget.controller;
   }
 
   double get iconSize {

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../../../extensions.dart';
 import '../../../../translations.dart';
 import '../../../utils/extensions/build_context.dart';
-import '../../../utils/extensions/quill_controller.dart';
 import '../../controller.dart';
 import '../toolbar.dart';
 
 class QuillToolbarHistoryButton extends StatefulWidget {
   const QuillToolbarHistoryButton({
     required this.options,
+    required this.controller,
     super.key,
   });
 
   final QuillToolbarHistoryButtonOptions options;
+  final QuillController controller;
 
   @override
   _QuillToolbarHistoryButtonState createState() =>
@@ -29,7 +29,7 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   }
 
   QuillController get controller {
-    return options.controller.notNull(context);
+    return widget.controller;
   }
 
   @override
@@ -38,17 +38,12 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     _listenForChanges(); // Listen for changes and change it
   }
 
-  Future<void> _listenForChanges() async {
-    if (isFlutterTest()) {
-      // We don't need to listen for changes in the tests
-      return;
-    }
-    await Future.delayed(Duration.zero); // Wait for the widget to built
+  void _listenForChanges() {
     _updateCanPressed(); // Set the init state
 
     // Listen for changes and change it
     controller.changes.listen((event) async {
-      _updateCanPressed();
+      _updateCanPressedWithSetState();
     });
   }
 
@@ -116,16 +111,18 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     );
   }
 
-  void _updateCanPressed() {
+  void _updateCanPressedWithSetState() {
     if (!mounted) return;
 
-    setState(() {
-      if (options.isUndo) {
-        _canPressed = controller.hasUndo;
-        return;
-      }
-      _canPressed = controller.hasRedo;
-    });
+    setState(_updateCanPressed);
+  }
+
+  void _updateCanPressed() {
+    if (options.isUndo) {
+      _canPressed = controller.hasUndo;
+      return;
+    }
+    _canPressed = controller.hasRedo;
   }
 
   void _updateHistory() {

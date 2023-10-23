@@ -30,7 +30,7 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   }
 
   QuillController get controller {
-    return options.controller ?? widget.controller;
+    return widget.controller;
   }
 
   double get iconSize {

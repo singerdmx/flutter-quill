@@ -40,7 +40,7 @@ class _QuillToolbarSelectAlignmentButtonState
     extends State<QuillToolbarSelectAlignmentButton> {
   Attribute? _value;
 
-  Style get _selectionStyle => widget.controller.getSelectionStyle();
+  Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _QuillToolbarSelectAlignmentButtonState
       _value = _selectionStyle.attributes[Attribute.align.key] ??
           Attribute.leftAlignment;
     });
-    widget.controller.addListener(_didChangeEditingValue);
+    controller.addListener(_didChangeEditingValue);
   }
 
   QuillToolbarSelectAlignmentButtonOptions get options {
@@ -57,7 +57,7 @@ class _QuillToolbarSelectAlignmentButtonState
   }
 
   QuillController get controller {
-    return options.controller ?? widget.controller;
+    return widget.controller;
   }
 
   double get iconSize {
@@ -123,12 +123,6 @@ class _QuillToolbarSelectAlignmentButtonState
     );
   }
 
-  /// Since it's not safe to call anything related to the context in dispose
-  /// then we will save a reference to the [controller]
-  /// and update it in [didChangeDependencies]
-  /// and use it in dispose method
-  late QuillController _controller;
-
   void _didChangeEditingValue() {
     setState(() {
       _value = _selectionStyle.attributes[Attribute.align.key] ??
@@ -139,23 +133,17 @@ class _QuillToolbarSelectAlignmentButtonState
   @override
   void didUpdateWidget(covariant QuillToolbarSelectAlignmentButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
+    if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
-      widget.controller.addListener(_didChangeEditingValue);
+      controller.addListener(_didChangeEditingValue);
       _value = _selectionStyle.attributes[Attribute.align.key] ??
           Attribute.leftAlignment;
     }
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _controller = controller;
-  }
-
-  @override
   void dispose() {
-    _controller.removeListener(_didChangeEditingValue);
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 
@@ -207,7 +195,7 @@ class _QuillToolbarSelectAlignmentButtonState
 
     if (childBuilder != null) {
       throw UnsupportedError(
-        'Sorry but the `childBuilder` for the Select alignment button'
+        'Sorry but the `childBuilder` for the Select alignment buttons'
         ' is not supported. Yet but we will work on that soon.',
       );
     }
@@ -245,11 +233,10 @@ class _QuillToolbarSelectAlignmentButtonState
                     : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
                 onPressed: () {
                   _valueAttribute[index] == Attribute.leftAlignment
-                      ? widget.controller.formatSelection(
+                      ? controller.formatSelection(
                           Attribute.clone(Attribute.align, null),
                         )
-                      : widget.controller
-                          .formatSelection(_valueAttribute[index]);
+                      : controller.formatSelection(_valueAttribute[index]);
                   afterButtonPressed?.call();
                 },
                 child: Icon(

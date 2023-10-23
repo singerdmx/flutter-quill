@@ -100,7 +100,7 @@ class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   }
 
   QuillController get controller {
-    return options.controller ?? widget.controller;
+    return widget.controller;
   }
 
   double get iconSize {

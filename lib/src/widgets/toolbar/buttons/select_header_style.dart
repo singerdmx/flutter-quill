@@ -1,48 +1,34 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../extensions.dart';
+import '../../../../translations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/widgets.dart';
+import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../toolbar.dart';
 
-class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
-  const QuillToolbarSelectHeaderStyleButton({
+class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {
+  const QuillToolbarSelectHeaderStyleButtons({
     required this.controller,
-    this.axis = Axis.horizontal,
-    this.iconSize = kDefaultIconSize,
-    this.iconTheme,
-    this.attributes = const [
-      Attribute.header,
-      Attribute.h1,
-      Attribute.h2,
-      Attribute.h3,
-    ],
-    this.afterButtonPressed,
-    this.tooltip,
-    Key? key,
-  }) : super(key: key);
+    required this.options,
+    super.key,
+  });
 
   final QuillController controller;
-  final Axis axis;
-  final double iconSize;
-  final QuillIconTheme? iconTheme;
-  final List<Attribute> attributes;
-  final VoidCallback? afterButtonPressed;
-  final String? tooltip;
+  final QuillToolbarSelectHeaderStyleButtonsOptions options;
 
   @override
-  _QuillToolbarSelectHeaderStyleButtonState createState() =>
-      _QuillToolbarSelectHeaderStyleButtonState();
+  _QuillToolbarSelectHeaderStyleButtonsState createState() =>
+      _QuillToolbarSelectHeaderStyleButtonsState();
 }
 
-class _QuillToolbarSelectHeaderStyleButtonState
-    extends State<QuillToolbarSelectHeaderStyleButton> {
+class _QuillToolbarSelectHeaderStyleButtonsState
+    extends State<QuillToolbarSelectHeaderStyleButtons> {
   Attribute? _selectedAttribute;
 
-  Style get _selectionStyle => widget.controller.getSelectionStyle();
+  Style get _selectionStyle => controller.getSelectionStyle();
 
   final _valueToText = <Attribute, String>{
     Attribute.header: 'N',
@@ -57,61 +43,110 @@ class _QuillToolbarSelectHeaderStyleButtonState
     setState(() {
       _selectedAttribute = _getHeaderValue();
     });
-    widget.controller.addListener(_didChangeEditingValue);
+    controller.addListener(_didChangeEditingValue);
+  }
+
+  QuillToolbarSelectHeaderStyleButtonsOptions get options {
+    return widget.options;
+  }
+
+  QuillController get controller {
+    return widget.controller;
+  }
+
+  double get iconSize {
+    final baseFontSize = baseButtonExtraOptions.globalIconSize;
+    final iconSize = options.iconSize;
+    return iconSize ?? baseFontSize;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return options.afterButtonPressed ??
+        baseButtonExtraOptions.afterButtonPressed;
+  }
+
+  QuillIconTheme? get iconTheme {
+    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
+  }
+
+  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
+    return context.requireQuillToolbarBaseButtonOptions;
+  }
+
+  String get tooltip {
+    return options.tooltip ??
+        baseButtonExtraOptions.tooltip ??
+        'Header style'.i18n;
+  }
+
+  Axis get axis {
+    return options.axis ?? context.requireQuillToolbarConfigurations.axis;
+  }
+
+  void _sharedOnPressed(Attribute attribute) {
+    final _attribute =
+        _selectedAttribute == attribute ? Attribute.header : attribute;
+    controller.formatSelection(_attribute);
+    afterButtonPressed?.call();
   }
 
   @override
   Widget build(BuildContext context) {
     assert(
-      widget.attributes.every((element) => _valueToText.keys.contains(element)),
+      options.attributes.every(
+        (element) => _valueToText.keys.contains(element),
+      ),
       'All attributes must be one of them: header, h1, h2 or h3',
     );
 
     final theme = Theme.of(context);
     final style = TextStyle(
       fontWeight: FontWeight.w600,
-      fontSize: widget.iconSize * 0.7,
+      fontSize: iconSize * 0.7,
     );
 
-    final children = widget.attributes.map((attribute) {
+    final childBuilder =
+        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+
+    if (childBuilder != null) {
+      throw UnsupportedError(
+        'Sorry but the `childBuilder` for the Select header button'
+        ' is not supported. Yet but we will work on that soon.',
+      );
+    }
+
+    final children = options.attributes.map((attribute) {
       final isSelected = _selectedAttribute == attribute;
       return Padding(
-        // ignore: prefer_const_constructors
-        padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+        // Do we really need to ignore (prefer_const_constructors)??
+        padding: EdgeInsets.symmetric(horizontal: !isWeb() ? 1.0 : 5.0),
         child: ConstrainedBox(
           constraints: BoxConstraints.tightFor(
-            width: widget.iconSize * kIconButtonFactor,
-            height: widget.iconSize * kIconButtonFactor,
+            width: iconSize * kIconButtonFactor,
+            height: iconSize * kIconButtonFactor,
           ),
           child: UtilityWidgets.maybeTooltip(
-            message: widget.tooltip,
+            message: tooltip,
             child: RawMaterialButton(
               hoverElevation: 0,
               highlightElevation: 0,
               elevation: 0,
               visualDensity: VisualDensity.compact,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      widget.iconTheme?.borderRadius ?? 2)),
+                  borderRadius:
+                      BorderRadius.circular(iconTheme?.borderRadius ?? 2)),
               fillColor: isSelected
-                  ? (widget.iconTheme?.iconSelectedFillColor ??
+                  ? (iconTheme?.iconSelectedFillColor ??
                       Theme.of(context).primaryColor)
-                  : (widget.iconTheme?.iconUnselectedFillColor ??
-                      theme.canvasColor),
-              onPressed: () {
-                final _attribute = _selectedAttribute == attribute
-                    ? Attribute.header
-                    : attribute;
-                widget.controller.formatSelection(_attribute);
-                widget.afterButtonPressed?.call();
-              },
+                  : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
+              onPressed: () => _sharedOnPressed(attribute),
               child: Text(
                 _valueToText[attribute] ?? '',
                 style: style.copyWith(
                   color: isSelected
-                      ? (widget.iconTheme?.iconSelectedColor ??
+                      ? (iconTheme?.iconSelectedColor ??
                           theme.primaryIconTheme.color)
-                      : (widget.iconTheme?.iconUnselectedColor ??
+                      : (iconTheme?.iconUnselectedColor ??
                           theme.iconTheme.color),
                 ),
               ),
@@ -121,7 +156,7 @@ class _QuillToolbarSelectHeaderStyleButtonState
       );
     }).toList();
 
-    return widget.axis == Axis.horizontal
+    return axis == Axis.horizontal
         ? Row(
             mainAxisSize: MainAxisSize.min,
             children: children,
@@ -139,10 +174,10 @@ class _QuillToolbarSelectHeaderStyleButtonState
   }
 
   Attribute<dynamic> _getHeaderValue() {
-    final attr = widget.controller.toolbarButtonToggler[Attribute.header.key];
+    final attr = controller.toolbarButtonToggler[Attribute.header.key];
     if (attr != null) {
       // checkbox tapping causes controller.selection to go to offset 0
-      widget.controller.toolbarButtonToggler.remove(Attribute.header.key);
+      controller.toolbarButtonToggler.remove(Attribute.header.key);
       return attr;
     }
     return _selectionStyle.attributes[Attribute.header.key] ?? Attribute.header;
@@ -150,18 +185,18 @@ class _QuillToolbarSelectHeaderStyleButtonState
 
   @override
   void didUpdateWidget(
-      covariant QuillToolbarSelectHeaderStyleButton oldWidget) {
+      covariant QuillToolbarSelectHeaderStyleButtons oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
+    if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);
-      widget.controller.addListener(_didChangeEditingValue);
+      controller.addListener(_didChangeEditingValue);
       _selectedAttribute = _getHeaderValue();
     }
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_didChangeEditingValue);
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 }

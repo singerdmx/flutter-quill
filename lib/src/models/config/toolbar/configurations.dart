@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/widgets.dart' show Axis;
 
 import 'buttons/base.dart';
 import 'buttons/clear_format.dart';
@@ -8,17 +9,24 @@ import 'buttons/font_family.dart';
 import 'buttons/font_size.dart';
 import 'buttons/history.dart';
 import 'buttons/indent.dart';
+import 'buttons/link_style.dart';
+import 'buttons/search.dart';
 import 'buttons/select_alignment.dart';
+import 'buttons/select_header_style.dart';
 import 'buttons/toggle_check_list.dart';
 import 'buttons/toggle_style.dart';
 
+export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
 export './buttons/base.dart';
 export './buttons/clear_format.dart';
 export './buttons/color.dart';
 export './buttons/font_family.dart';
 export './buttons/font_size.dart';
 export './buttons/history.dart';
+export './buttons/link_style.dart';
+export './buttons/search.dart';
 export './buttons/select_alignment.dart';
+export './buttons/select_header_style.dart';
 export './buttons/toggle_check_list.dart';
 export './buttons/toggle_style.dart';
 
@@ -42,8 +50,10 @@ class QuillToolbarConfigurations extends Equatable {
     this.multiRowsDisplay = true,
     this.fontFamilyValues,
     this.fontSizesValues,
+    this.axis = Axis.horizontal,
 
-    /// By default it will calculated based on the [baseOptions] iconSize
+    /// By default it will calculated based on the [globalIconSize] from
+    /// [base] in [QuillToolbarButtonOptions]
     /// You can change it but the the change only apply if
     /// the [multiRowsDisplay] is false, if [multiRowsDisplay] then the value
     /// will be [kDefaultIconSize] * 2
@@ -93,6 +103,11 @@ class QuillToolbarConfigurations extends Equatable {
   /// ```
   final Map<String, String>? fontSizesValues;
 
+  /// Toolbar axis
+  /// it will apply only for [QuillToolbar.basic]
+  /// we will update that logic soon
+  final Axis axis;
+
   @override
   List<Object?> get props => [
         buttonOptions,
@@ -100,6 +115,7 @@ class QuillToolbarConfigurations extends Equatable {
         fontFamilyValues,
         fontSizesValues,
         toolbarSize,
+        axis,
       ];
 }
 
@@ -137,6 +153,10 @@ class QuillToolbarButtonOptions extends Equatable {
     this.clearFormat = const QuillToolbarClearFormatButtonOptions(),
     this.selectAlignmentButtons =
         const QuillToolbarSelectAlignmentButtonOptions(),
+    this.search = const QuillToolbarSearchButtonOptions(),
+    this.selectHeaderStyleButtons =
+        const QuillToolbarSelectHeaderStyleButtonsOptions(),
+    this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
   });
 
   /// The base configurations for all the buttons which will apply to all
@@ -172,6 +192,15 @@ class QuillToolbarButtonOptions extends Equatable {
   /// can customize the icons and tooltips
   /// and you have child builder
   final QuillToolbarSelectAlignmentButtonOptions selectAlignmentButtons;
+
+  final QuillToolbarSearchButtonOptions search;
+
+  /// The reason we call this buttons in the end because this is responsible
+  /// for all the header style buttons and not just one, you still
+  /// can customize it and you also have child builder
+  final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
+
+  final QuillToolbarLinkStyleButtonOptions linkStyle;
 
   @override
   List<Object?> get props => [

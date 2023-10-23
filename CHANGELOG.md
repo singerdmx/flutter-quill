@@ -1,3 +1,10 @@
+## [7.9.0]
+- Buttons Improvemenets
+- Refactor all the button configurations that used in `QuillToolbar.basic()` but there are still few lefts
+- **Breaking change**: Remove some configurations from the QuillToolbar and move them to the new `QuillProvider`, please notice this is a development version and this might be changed in the next few days, the stable release will be ready in less than 3 weeks
+- Update `flutter_quill_extensions` and it will be published into pub.dev soon.
+- Allow you to customize the search dialog by custom callback with child builder
+
 ## [7.8.0]
 - **Important note**: this is not test release yet, it works but need more test and changes and breaking changes, we don't have development version and it will help us if you try the latest version and report the issues in Github but if you want a stable version please use `7.4.16`. this refactoring process will not take long and should be done less than three weeks with the testing.
 - We managed to refactor most of the buttons configurations and customizations in the `QuillProvider`, only three lefts then will start on refactoring the toolbar configurations

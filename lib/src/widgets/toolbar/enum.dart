@@ -79,6 +79,9 @@ enum ToolbarButtons {
       'You will find toolbarConfigurations and then buttons and pass a value'
       ' and change what you want, the tooltip for spesefic button for example')
   direction,
+  @Deprecated('Please customize the button in the QuillProvider. '
+      'You will find toolbarConfigurations and then buttons and pass a value'
+      ' and change what you want, the tooltip for spesefic button for example')
   headerStyle,
   @Deprecated('Please customize the button in the QuillProvider. '
       'You will find toolbarConfigurations and then buttons and pass a value'
@@ -108,6 +111,12 @@ enum ToolbarButtons {
       'You will find toolbarConfigurations and then buttons and pass a value'
       ' and change what you want, the tooltip for spesefic button for example')
   indentDecrease,
+  @Deprecated('Please customize the button in the QuillProvider. '
+      'You will find toolbarConfigurations and then buttons and pass a value'
+      ' and change what you want, the tooltip for spesefic button for example')
   link,
+  @Deprecated('Please customize the button in the QuillProvider. '
+      'You will find toolbarConfigurations and then buttons and pass a value'
+      ' and change what you want, the tooltip for spesefic button for example')
   search,
 }
