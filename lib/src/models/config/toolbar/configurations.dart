@@ -23,6 +23,7 @@ export './buttons/color.dart';
 export './buttons/font_family.dart';
 export './buttons/font_size.dart';
 export './buttons/history.dart';
+export './buttons/indent.dart';
 export './buttons/link_style.dart';
 export './buttons/search.dart';
 export './buttons/select_alignment.dart';
