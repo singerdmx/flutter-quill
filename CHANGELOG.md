@@ -1,8 +1,8 @@
 ## [7.10.0]
 - **Breaking change**: `QuillToolbar.basic()` can be accessed from `QuillToolbar()` directly and the old `QuillToolbar` can be accessed from `QuillBaseToolbar`
-- The Quill editor and toolbar configurations is now refactord in one single single class for each one
-- After changing one of the check box list values the controller will not request the keyboard focus by default
-- We have moved the the configurations of the toolbar and the editor directly into the widget but we still using inheritied widgets internally
+- The Quill editor and toolbar configurations are now refactored in one single class for each one
+- After changing one of the checkbox list values the controller will not request the keyboard focus by default
+- We have moved the configurations of the toolbar and the editor directly into the widget but we are still using inherited widgets internally
 - Fixes to some of the code after the refactoring
 
 ## [7.9.0]
