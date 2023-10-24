@@ -454,10 +454,10 @@ And voila, we have a custom widget inside of the rich text editor!
 
 
 ### Custom Toolbar
-if you want to use custom toolbar but still want the support of this libray
+If you want to use custom toolbar but still want the support of this libray
 You can use the `QuillBaseToolbar` which is the base for the `QuillToolbar`
 
-> If you are using the offical buttons in the toolbar then you must provide them with `QuillToolbarProvider` inherited widget, you don't have to do this if you are using the `QuillToolbar` since it will be done for you
+> If you are using the offical buttons in the somewhere like the the custom toolbar then you must provide them with `QuillToolbarProvider` inherited widget, you don't have to do this if you are using the `QuillToolbar` since it will be done for you
 
 Example:
 
