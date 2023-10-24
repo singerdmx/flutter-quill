@@ -1,6 +1,7 @@
 library flutter_quill;
 
 export 'src/models/config/quill_configurations.dart';
+export 'src/models/config/toolbar/base_configurations.dart';
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
 export 'src/models/documents/nodes/block.dart';
@@ -27,6 +28,5 @@ export 'src/widgets/embeds.dart';
 export 'src/widgets/link.dart' show LinkActionPickerDelegate, LinkMenuAction;
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar/base_toolbar.dart';
-export 'src/widgets/toolbar/enum.dart';
 export 'src/widgets/toolbar/toolbar.dart';
 export 'src/widgets/utils/provider.dart';

@@ -1,3 +1,6 @@
+## [7.10.1]
+- Fixes and use the new parameters
+
 ## [7.10.0]
 - **Breaking change**: `QuillToolbar.basic()` can be accessed from `QuillToolbar()` directly and the old `QuillToolbar` can be accessed from `QuillBaseToolbar`
 - The Quill editor and toolbar configurations are now refactored in one single class for each one
