@@ -183,8 +183,6 @@ class _QuillToolbarSelectAlignmentButtonState
     //     Attribute.justifyAlignment: ToolbarButtons.justifyAlignment,
     // };
 
-    final theme = Theme.of(context);
-
     final buttonCount = ((widget.showLeftAlignment!) ? 1 : 0) +
         ((widget.showCenterAlignment!) ? 1 : 0) +
         ((widget.showRightAlignment!) ? 1 : 0) +
@@ -199,6 +197,8 @@ class _QuillToolbarSelectAlignmentButtonState
         ' is not supported. Yet but we will work on that soon.',
       );
     }
+
+    final theme = Theme.of(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,

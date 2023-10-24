@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../flutter_quill.dart';
-import '../../utils/extensions/build_context.dart';
 
 class QuillToolbar extends StatelessWidget {
   const QuillToolbar({

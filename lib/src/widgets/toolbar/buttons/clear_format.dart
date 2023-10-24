@@ -66,10 +66,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final iconTheme = _iconTheme(context);
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final fillColor = iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
     final iconData = _iconData(context);
@@ -98,6 +95,11 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
         ),
       );
     }
+
+    final theme = Theme.of(context);
+
+    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
+    final fillColor = iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
 
     return QuillToolbarIconButton(
       tooltip: tooltip,

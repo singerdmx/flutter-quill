@@ -15,7 +15,6 @@ import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
-import '../../utils/extensions/build_context.dart';
 import '../../utils/platform.dart';
 import '../box.dart';
 import '../cursor.dart';

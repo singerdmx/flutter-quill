@@ -26,37 +26,13 @@ class QuillToolbarToggleStyleButton extends StatefulWidget {
     required this.options,
     required this.controller,
     required this.attribute,
-    // required this.icon,
-    // required this.controller,
-    // this.iconSize = kDefaultIconSize,
-    // this.fillColor,
-    // this.childBuilder = defaultToggleStyleButtonBuilder,
-    // this.iconTheme,
-    // this.afterButtonPressed,
-    // this.tooltip,
     super.key,
   });
 
   final Attribute attribute;
 
-  // final IconData icon;
-  // final double iconSize;
-
-  // final Color? fillColor;
-
-  // final QuillController controller;
-
-  // final ToggleStyleButtonBuilder childBuilder;
-
-  // ///Specify an icon theme for the icons in the toolbar
-  // final QuillIconTheme? iconTheme;
-
-  // final VoidCallback? afterButtonPressed;
-  // final String? tooltip;
   final QuillToolbarToggleStyleButtonOptions options;
 
-  /// Since we can't get the state from the instace of the widget for comparing
-  /// in [didUpdateWidget] then we will have to store reference here
   final QuillController controller;
 
   @override

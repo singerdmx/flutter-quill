@@ -99,7 +99,6 @@ class _QuillToolbarSelectHeaderStyleButtonsState
       'All attributes must be one of them: header, h1, h2 or h3',
     );
 
-    final theme = Theme.of(context);
     final style = TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: iconSize * 0.7,
@@ -114,6 +113,7 @@ class _QuillToolbarSelectHeaderStyleButtonsState
         ' is not supported. Yet but we will work on that soon.',
       );
     }
+    final theme = Theme.of(context);
 
     final children = options.attributes.map((attribute) {
       final isSelected = _selectedAttribute == attribute;

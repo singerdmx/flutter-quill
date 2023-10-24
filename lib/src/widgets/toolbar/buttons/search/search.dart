@@ -64,17 +64,11 @@ class QuillToolbarSearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     final iconTheme = _iconTheme(context);
     final tooltip = _tooltip(context);
     final iconData = _iconData(context);
     final iconSize = _iconSize(context);
     final afterButtonPressed = _afterButtonPressed(context);
-
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-        (options.fillColor ?? theme.canvasColor);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
@@ -102,6 +96,12 @@ class QuillToolbarSearchButton extends StatelessWidget {
         ),
       );
     }
+
+    final theme = Theme.of(context);
+
+    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
+    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
+        (options.fillColor ?? theme.canvasColor);
 
     return QuillToolbarIconButton(
       tooltip: tooltip,

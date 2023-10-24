@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../extensions.dart';
 import '../../../../flutter_quill.dart';
 import '../../../translations/toolbar.i18n.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../../utils/font.dart';
 
 class QuillToolbarFontSizeButton extends StatefulWidget {

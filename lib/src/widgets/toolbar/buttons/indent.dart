@@ -70,8 +70,34 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
         (widget.isIncrease ? 'Increase indent'.i18n : 'Decrease indent'.i18n);
   }
 
+  void _sharedOnPressed() {
+    widget.controller.indentSelection(widget.isIncrease);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final childBuilder =
+        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+
+    if (childBuilder != null) {
+      return childBuilder(
+        QuillToolbarIndentButtonOptions(
+          afterButtonPressed: afterButtonPressed,
+          iconData: iconData,
+          iconSize: iconSize,
+          iconTheme: iconTheme,
+          tooltip: tooltip,
+        ),
+        QuillToolbarIndentButtonExtraOptions(
+          controller: controller,
+          context: context,
+          onPressed: () {
+            _sharedOnPressed();
+            afterButtonPressed?.call();
+          },
+        ),
+      );
+    }
     final theme = Theme.of(context);
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
@@ -85,9 +111,7 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
       icon: Icon(iconData, size: iconSize, color: iconColor),
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: () {
-        widget.controller.indentSelection(widget.isIncrease);
-      },
+      onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
     );
   }

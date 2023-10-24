@@ -49,8 +49,6 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
 
   @override
   Widget build(BuildContext context) {
-    theme = Theme.of(context);
-
     final baseButtonConfigurations =
         context.requireQuillToolbarBaseButtonOptions;
     final tooltip = options.tooltip ??
@@ -64,8 +62,6 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     final iconSize = options.iconSize ??
         context.requireQuillToolbarBaseButtonOptions.globalIconSize;
     final iconTheme = options.iconTheme ?? baseButtonConfigurations.iconTheme;
-
-    final fillColor = iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
 
     final afterButtonPressed = options.afterButtonPressed ??
         baseButtonConfigurations.afterButtonPressed;
@@ -92,6 +88,10 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         ),
       );
     }
+
+    theme = Theme.of(context);
+
+    final fillColor = iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     return QuillToolbarIconButton(
       tooltip: tooltip,
       highlightElevation: 0,
