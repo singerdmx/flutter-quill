@@ -231,19 +231,6 @@ class EditableTextBlock extends StatelessWidget {
       );
     }
 
-    if (attrs.containsKey(Attribute.codeBlock.key)) {
-      return QuillNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles.code!.style
-            .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: _numberPointWidth(fontSize, count),
-        attrs: attrs,
-        padding: fontSize,
-        withDot: false,
-      );
-    }
     return null;
   }
 
