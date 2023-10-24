@@ -416,10 +416,6 @@ Widget _menuOptionsForReadonlyImage({
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  // TODO: Consider add support for other theme system
-                  // like Cupertino or at least add the option to by
-                  // by using PageRoute as option so dev can ovveride this
-                  // this change should be done in all places if you want to
                   MaterialPageRoute(
                     builder: (context) => ImageTapWrapper(
                       imageUrl: imageUrl,

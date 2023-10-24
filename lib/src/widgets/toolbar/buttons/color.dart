@@ -157,6 +157,8 @@ class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
     if (childBuilder != null) {
+      // if the caller using Cupertino app he might need to wrap the builder
+      // with Material() widget
       return childBuilder(
         options,
         QuillToolbarColorButtonExtraOptions(
@@ -166,7 +168,7 @@ class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
             _showColorPicker();
             afterButtonPressed?.call();
           },
-          iconColor: iconColor,
+          iconColor: null,
           iconColorBackground: iconColorBackground,
           fillColor: fillColor,
           fillColorBackground: fillColorBackground,

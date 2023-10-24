@@ -1,3 +1,9 @@
+## [7.10.1]
+- Fixes and use the new parameters
+- You don't need to use MaterialApp anymore to use most of the toolbar buttons childBuilder anymore
+- Compatibility with [fresh_quill_extensions](https://pub.dev/packages/fresh_quill_extensions) which is temporary alternative to [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions)
+- Finally update most of the documentation in `README.md`
+
 ## [7.10.0]
 - **Breaking change**: `QuillToolbar.basic()` can be accessed from `QuillToolbar()` directly and the old `QuillToolbar` can be accessed from `QuillBaseToolbar`
 - The Quill editor and toolbar configurations are now refactored in one single class for each one

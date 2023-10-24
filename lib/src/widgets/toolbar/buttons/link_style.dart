@@ -19,15 +19,6 @@ class QuillToolbarLinkStyleButton extends StatefulWidget {
   });
 
   final QuillController controller;
-  // final IconData? icon;
-  // final double iconSize;
-  // final QuillIconTheme? iconTheme;
-  // final QuillDialogTheme? dialogTheme;
-  // final VoidCallback? afterButtonPressed;
-  // final String? tooltip;
-  // final RegExp? linkRegExp;
-  // final LinkDialogAction? linkDialogAction;
-  // final Color dialogBarrierColor;
   final QuillToolbarLinkStyleButtonOptions options;
 
   @override
@@ -110,7 +101,6 @@ class _QuillToolbarLinkStyleButtonState
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isToggled = _getLinkAttributeValue() != null;
     final pressedHandler = () => _openLinkDialog(context);
 
@@ -140,6 +130,7 @@ class _QuillToolbarLinkStyleButtonState
         ),
       );
     }
+    final theme = Theme.of(context);
     return QuillToolbarIconButton(
       tooltip: tooltip,
       highlightElevation: 0,

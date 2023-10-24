@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart'
     show BuildContext, InheritedWidget, Widget;
 
 import '../../models/config/quill_configurations.dart';
+import '../../models/config/toolbar/base_configurations.dart';
 
 class QuillProvider extends InheritedWidget {
   const QuillProvider({
@@ -113,6 +114,64 @@ class QuillToolbarProvider extends InheritedWidget {
   }) {
     return QuillToolbarProvider(
       toolbarConfigurations: value.toolbarConfigurations,
+      child: child,
+    );
+  }
+}
+
+// Not really needed
+class QuillBaseToolbarProvider extends InheritedWidget {
+  const QuillBaseToolbarProvider({
+    required super.child,
+    required this.toolbarConfigurations,
+  });
+
+  /// The configurations for the toolbar widget of flutter quill
+  final QuillBaseToolbarConfigurations toolbarConfigurations;
+
+  @override
+  bool updateShouldNotify(covariant QuillBaseToolbarProvider oldWidget) {
+    return oldWidget.toolbarConfigurations != toolbarConfigurations;
+  }
+
+  static QuillBaseToolbarProvider? of(BuildContext context) {
+    /// The configurations for the quill editor widget of flutter quill
+    return context
+        .dependOnInheritedWidgetOfExactType<QuillBaseToolbarProvider>();
+  }
+
+  static QuillBaseToolbarProvider ofNotNull(BuildContext context) {
+    final provider = of(context);
+    if (provider == null) {
+      if (kDebugMode) {
+        debugPrint(
+          'The quill toolbar provider must be provided in the widget tree.',
+        );
+      }
+      throw ArgumentError.checkNotNull(
+        'You are using a widget in the Flutter quill library that require '
+            'The Quill toolbar provider widget to be in the parent widget tree '
+            'because '
+            'The provider is $provider. Please make sure to wrap this widget'
+            ' with'
+            ' QuillProvider widget. '
+            'You might using QuillToolbar so make sure to'
+            ' wrap them with the quill provider widget and setup the required '
+            'configurations',
+        'QuillProvider',
+      );
+    }
+    return provider;
+  }
+
+  /// To pass the [QuillBaseToolbarConfigurations] instance as value
+  /// instead of creating new widget
+  static QuillBaseToolbarProvider value({
+    required QuillBaseToolbarConfigurations value,
+    required Widget child,
+  }) {
+    return QuillBaseToolbarProvider(
+      toolbarConfigurations: value,
       child: child,
     );
   }

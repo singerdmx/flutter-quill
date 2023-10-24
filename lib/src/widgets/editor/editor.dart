@@ -15,7 +15,6 @@ import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
-import '../../utils/extensions/build_context.dart';
 import '../../utils/platform.dart';
 import '../box.dart';
 import '../cursor.dart';
@@ -154,26 +153,20 @@ class QuillEditor extends StatefulWidget {
     /// The configurations for the quill editor widget of flutter quill
     QuillEditorConfigurations configurations =
         const QuillEditorConfigurations(),
-    TextSelectionThemeData? textSelectionThemeData,
-    Brightness? keyboardAppearance,
-    Iterable<EmbedBuilder>? embedBuilders,
-    EdgeInsetsGeometry padding = EdgeInsets.zero,
-    bool autoFocus = true,
-    bool expands = false,
     FocusNode? focusNode,
-    GlobalKey<EditorState>? editorKey,
+    ScrollController? scrollController,
   }) {
     return QuillEditor(
-      scrollController: ScrollController(),
+      scrollController: scrollController ?? ScrollController(),
       focusNode: focusNode ?? FocusNode(),
       configurations: configurations.copyWith(
-        textSelectionThemeData: textSelectionThemeData,
-        autoFocus: autoFocus,
-        expands: expands,
-        padding: padding,
-        keyboardAppearance: keyboardAppearance ?? Brightness.light,
-        embedBuilders: embedBuilders,
-        editorKey: editorKey,
+        textSelectionThemeData: configurations.textSelectionThemeData,
+        autoFocus: configurations.autoFocus,
+        expands: configurations.expands,
+        padding: configurations.padding,
+        keyboardAppearance: configurations.keyboardAppearance,
+        embedBuilders: configurations.embedBuilders,
+        editorKey: configurations.editorKey,
       ),
     );
   }

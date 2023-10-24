@@ -63,14 +63,7 @@ dependencies:
 >
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
-> if you want to use a more stable release, please use the followings:
->
-> ```yaml
-> flutter_quill: ^7.4.16
-> flutter_quill_extensions: ^0.5.0
-> ```
->
-> instead of the latest version
+> also [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) will not work with the latest versions, please use [fresh_quill_extensions](https://pub.dev/packages/fresh_quill_extensions) as temporary alternative
 >
 
 ## Usage
@@ -87,26 +80,28 @@ and then embed the toolbar and the editor, within your app.  For example:
 QuillProvider(
   configurations: QuillConfigurations(
     controller: _controller,
-    editorConfigurations: QuillEditorConfigurations(
-      readOnly: _isReadonly,
+    sharedConfigurations: const QuillSharedConfigurations(
+      locale: Locale('de'),
     ),
-),
+  ),
   child: Column(
-  children: [
-    QuillToolbar.basic(),
-    Expanded(
-      child: Container(
-        child: QuillEditor.basic(),
-      ),
-    )
-  ],
-),
+    children: [
+      const QuillToolbar(),
+      Expanded(
+        child: QuillEditor.basic(
+          configurations: const QuillEditorConfigurations(
+            readOnly: false,
+          ),
+        ),
+      )
+    ],
+  ),
 )
 ```
 
 And depending on your use case, you might want to dispose the `_controller` in dispose mehtod
 
-Check out [Sample Page] for advanced usage.
+Check out [Sample Page] for more advanced usage.
 
 ## Input / Output
 
@@ -210,7 +205,7 @@ To add an Icon, we should use a new QuillCustomButton class
 
 ```dart
     QuillCustomButton(
-        icon:Icons.ac_unit,
+        iconData: Icons.ac_unit,
         onTap: () {
           debugPrint('snowflake');
         }
@@ -220,30 +215,30 @@ To add an Icon, we should use a new QuillCustomButton class
 Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
 
 ```dart
-QuillToolbar.basic(
-   (...),
+QuillToolbar(
+  configurations: QuillToolbarConfigurations(
     customButtons: [
-        QuillCustomButton(
-            icon:Icons.ac_unit,
-            onTap: () {
-              debugPrint('snowflake1');
-            }
-        ),
-
-        QuillCustomButton(
-            icon:Icons.ac_unit,
-            onTap: () {
-              debugPrint('snowflake2');
-            }
-        ),
-
-        QuillCustomButton(
-            icon:Icons.ac_unit,
-            onTap: () {
-              debugPrint('snowflake3');
-            }
-        ),
-    ]
+      QuillCustomButton(
+        iconData: Icons.ac_unit,
+        onTap: () {
+          debugPrint('snowflake1');
+        },
+      ),
+      QuillCustomButton(
+        iconData: Icons.ac_unit,
+        onTap: () {
+          debugPrint('snowflake2');
+        },
+      ),
+      QuillCustomButton(
+        iconData: Icons.ac_unit,
+        onTap: () {
+          debugPrint('snowflake3');
+        },
+      ),
+    ],
+  ),
+),
 ```
 
 ## Embed Blocks
@@ -255,17 +250,33 @@ Provide a list of embed
 ### Using the embed blocks from `flutter_quill_extensions`
 
 ```dart
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+QuillToolbar(
+  configurations: QuillToolbarConfigurations(
+    embedButtons: FlutterQuillEmbeds.toolbarButtons(
+      imageButtonOptions: QuillToolbarImageButtonOptions(
+        onImagePickCallback: (file) async {
+          return file.path;
+        },
+      ),
+    ),
+  ),
+),
+```
 
-QuillEditor.basic(
-  controller: controller,
-  embedBuilders: FlutterQuillEmbeds.builders(),
-);
-
-QuillToolbar.basic(
-  controller: controller,
-  embedButtons: FlutterQuillEmbeds.buttons(),
-);
+```dart
+Expanded(
+  child: QuillEditor.basic(
+    configurations: QuillEditorConfigurations(
+      readOnly: true,
+      embedBuilders: FlutterQuillEmbeds.editorBuilders(
+        imageEmbedConfigurations:
+            const QuillEditorImageEmbedConfigurations(
+          forceUseMobileOptionMenuForImageClick: true,
+        ),
+      ),
+    ),
+  ),
+)
 ```
 
 > [!WARNING]
@@ -441,14 +452,178 @@ And voila, we have a custom widget inside of the rich text editor!
 > 1. For more info and a video example, see the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
 > 2. For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
 
+
+### Custom Toolbar
+If you want to use custom toolbar but still want the support of this libray
+You can use the `QuillBaseToolbar` which is the base for the `QuillToolbar`
+
+> If you are using the toolbar buttons like `QuillToolbarHistoryButton`, `QuillToolbarToggleStyleButton` in the somewhere like the the custom toolbar then you must provide them with `QuillToolbarProvider` inherited widget, you don't have to do this if you are using the `QuillToolbar` since it will be done for you
+
+Example:
+
+```dart
+QuillProvider(
+  configurations: QuillConfigurations(
+    controller: _controller,
+    sharedConfigurations: const QuillSharedConfigurations(),
+  ),
+  child: Column(
+    children: [
+      QuillToolbarProvider(
+        toolbarConfigurations: const QuillToolbarConfigurations(),
+        child: QuillBaseToolbar(
+          configurations: QuillBaseToolbarConfigurations(
+            toolbarSize: 15 * 2,
+            multiRowsDisplay: false,
+            childrenBuilder: (context) {
+              final controller = context.requireQuillController;
+              return [
+                QuillToolbarHistoryButton(
+                  controller: controller,
+                  options: const QuillToolbarHistoryButtonOptions(
+                      isUndo: true),
+                ),
+                QuillToolbarHistoryButton(
+                  controller: controller,
+                  options: const QuillToolbarHistoryButtonOptions(
+                      isUndo: false),
+                ),
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.bold,
+                  controller: controller,
+                  options: const QuillToolbarToggleStyleButtonOptions(
+                    iconData: Icons.format_bold,
+                    iconSize: 20,
+                  ),
+                ),
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.italic,
+                  controller: controller,
+                  options: const QuillToolbarToggleStyleButtonOptions(
+                    iconData: Icons.format_italic,
+                    iconSize: 20,
+                  ),
+                ),
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.underline,
+                  controller: controller,
+                  options: const QuillToolbarToggleStyleButtonOptions(
+                    iconData: Icons.format_underline,
+                    iconSize: 20,
+                  ),
+                ),
+                QuillToolbarClearFormatButton(
+                  controller: controller,
+                  options: const QuillToolbarClearFormatButtonOptions(
+                    iconData: Icons.format_clear,
+                    iconSize: 20,
+                  ),
+                ),
+                VerticalDivider(
+                  indent: 12,
+                  endIndent: 12,
+                  color: Colors.grey.shade400,
+                ),
+                QuillToolbarSelectHeaderStyleButtons(
+                  controller: controller,
+                  options:
+                      const QuillToolbarSelectHeaderStyleButtonsOptions(
+                    iconSize: 20,
+                  ),
+                ),
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.ol,
+                  controller: controller,
+                  options: const QuillToolbarToggleStyleButtonOptions(
+                    iconData: Icons.format_list_numbered,
+                    iconSize: 20,
+                  ),
+                ),
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.ul,
+                  controller: controller,
+                  options: const QuillToolbarToggleStyleButtonOptions(
+                    iconData: Icons.format_list_bulleted,
+                    iconSize: 20,
+                  ),
+                ),
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.blockQuote,
+                  controller: controller,
+                  options: const QuillToolbarToggleStyleButtonOptions(
+                    iconData: Icons.format_quote,
+                    iconSize: 20,
+                  ),
+                ),
+                VerticalDivider(
+                  indent: 12,
+                  endIndent: 12,
+                  color: Colors.grey.shade400,
+                ),
+                QuillToolbarIndentButton(
+                    controller: controller,
+                    isIncrease: true,
+                    options: const QuillToolbarIndentButtonOptions(
+                      iconData: Icons.format_indent_increase,
+                      iconSize: 20,
+                    )),
+                QuillToolbarIndentButton(
+                  controller: controller,
+                  isIncrease: false,
+                  options: const QuillToolbarIndentButtonOptions(
+                    iconData: Icons.format_indent_decrease,
+                    iconSize: 20,
+                  ),
+                ),
+              ];
+            },
+          ),
+        ),
+      ),
+      Expanded(
+        child: QuillEditor.basic(
+          configurations: const QuillEditorConfigurations(
+            readOnly: false,
+            placeholder: 'Write your notes',
+            padding: EdgeInsets.all(16),
+          ),
+        ),
+      )
+    ],
+  ),
+)
+```
+
+if you want more customized toolbar feel free to create your own and use the `controller` to interact with the editor. checkout the `QuillToolbar` and the buttons inside it to see an example of how that will works
+
 ### Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:
 
 ```dart
-QuillToolbar(locale: Locale('fr'), ...)
-QuillEditor(locale: Locale('fr'), ...)
+ QuillProvider(
+  configurations: QuillConfigurations(
+    controller: _controller,
+    sharedConfigurations: const QuillSharedConfigurations(
+      locale: Locale('fr'),
+    ),
+  ),
+  child: Column(
+    children: [
+      const QuillToolbar(
+        configurations: QuillToolbarConfigurations(),
+      ),
+      Expanded(
+        child: QuillEditor.basic(
+          configurations: const QuillEditorConfigurations(),
+        ),
+      )
+    ],
+  ),
+)
 ```
+
+###
 
 Currently, translations are available for these 31 locales:
 

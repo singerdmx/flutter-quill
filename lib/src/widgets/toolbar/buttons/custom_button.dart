@@ -12,8 +12,8 @@ class CustomButton extends StatelessWidget {
     this.iconTheme,
     this.afterButtonPressed,
     this.tooltip,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback? onPressed;
   final IconData? icon;

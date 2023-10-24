@@ -59,5 +59,5 @@ class QuillBaseToolbarConfigurations extends Equatable {
   final Decoration? decoration;
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
