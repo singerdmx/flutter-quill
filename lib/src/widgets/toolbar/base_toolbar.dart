@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart';
-import '../../models/config/toolbar/base_configurations.dart';
+// import '../../models/config/toolbar/base_configurations.dart';
 import '../../utils/extensions/build_context.dart';
 import 'buttons/arrow_indicated_list.dart';
 
