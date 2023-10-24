@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart' show BuildContext;
 
 import '../../../flutter_quill.dart';
 
+/// Public shared extension
 extension BuildContextExt on BuildContext {
   /// return [QuillProvider] as not null
   /// throw exception if it's not in the widget tree
