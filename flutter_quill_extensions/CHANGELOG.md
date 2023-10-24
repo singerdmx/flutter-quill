@@ -1,4 +1,4 @@
-## 0.6.0
+## 0.6.0-dev
 
 - Provide a way to use custom image provider for the image widgets
 - Provide a way to handle different errors in image widgets
