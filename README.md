@@ -63,14 +63,7 @@ dependencies:
 >
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
-> if you want to use a more stable release, please use the followings:
->
-> ```yaml
-> flutter_quill: ^7.4.16
-> flutter_quill_extensions: ^0.5.0
-> ```
->
-> instead of the latest version
+> also [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) will not work with the latest versions, please use [fresh_quill_extensions](https://pub.dev/packages/fresh_quill_extensions) as temporary alternative
 >
 
 ## Usage
@@ -87,20 +80,22 @@ and then embed the toolbar and the editor, within your app.  For example:
 QuillProvider(
   configurations: QuillConfigurations(
     controller: _controller,
-    editorConfigurations: QuillEditorConfigurations(
-      readOnly: _isReadonly,
+    sharedConfigurations: const QuillSharedConfigurations(
+      locale: Locale('de'),
     ),
-),
+  ),
   child: Column(
-  children: [
-    QuillToolbar.basic(),
-    Expanded(
-      child: Container(
-        child: QuillEditor.basic(),
-      ),
-    )
-  ],
-),
+    children: [
+      const QuillToolbar(),
+      Expanded(
+        child: QuillEditor.basic(
+          configurations: const QuillEditorConfigurations(
+            readOnly: false,
+          ),
+        ),
+      )
+    ],
+  ),
 )
 ```
 
@@ -210,7 +205,7 @@ To add an Icon, we should use a new QuillCustomButton class
 
 ```dart
     QuillCustomButton(
-        icon:Icons.ac_unit,
+        iconData: Icons.ac_unit,
         onTap: () {
           debugPrint('snowflake');
         }
@@ -220,30 +215,30 @@ To add an Icon, we should use a new QuillCustomButton class
 Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
 
 ```dart
-QuillToolbar.basic(
-   (...),
+QuillToolbar(
+  configurations: QuillToolbarConfigurations(
     customButtons: [
-        QuillCustomButton(
-            icon:Icons.ac_unit,
-            onTap: () {
-              debugPrint('snowflake1');
-            }
-        ),
-
-        QuillCustomButton(
-            icon:Icons.ac_unit,
-            onTap: () {
-              debugPrint('snowflake2');
-            }
-        ),
-
-        QuillCustomButton(
-            icon:Icons.ac_unit,
-            onTap: () {
-              debugPrint('snowflake3');
-            }
-        ),
-    ]
+      QuillCustomButton(
+        iconData: Icons.ac_unit,
+        onTap: () {
+          debugPrint('snowflake1');
+        },
+      ),
+      QuillCustomButton(
+        iconData: Icons.ac_unit,
+        onTap: () {
+          debugPrint('snowflake2');
+        },
+      ),
+      QuillCustomButton(
+        iconData: Icons.ac_unit,
+        onTap: () {
+          debugPrint('snowflake3');
+        },
+      ),
+    ],
+  ),
+),
 ```
 
 ## Embed Blocks
@@ -258,14 +253,16 @@ Provide a list of embed
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 QuillEditor.basic(
-  controller: controller,
-  embedBuilders: FlutterQuillEmbeds.builders(),
-);
+  configurations: const QuillEditorConfigurations(
+    embedBuilders: FlutterQuillEmbeds.builders(),
+  ),
+)
 
-QuillToolbar.basic(
-  controller: controller,
-  embedButtons: FlutterQuillEmbeds.buttons(),
-);
+QuillToolbar(
+  configurations: QuillToolbarConfigurations(
+    embedButtons: FlutterQuillEmbeds.buttons(),
+  ),
+),
 ```
 
 > [!WARNING]
