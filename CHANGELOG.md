@@ -1,5 +1,5 @@
 ## [7.10.2]
-- Removing line numbers from code block by default, you still can enable this thanks to the new configurations in the `QuillEditor` you will find a `blockOptions` property, in it you will find the code which mean code block options. just pass true to `enableLineNumbers`
+- Removing line numbers from code block by default, you still can enable this thanks to the new configurations in the `QuillEditor` you will find a `elementOptions` property, in it you will find the code which mean code block options. just pass true to `enableLineNumbers`
 
 ## [7.10.1]
 - Fixes and use the new parameters
