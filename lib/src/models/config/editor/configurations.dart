@@ -344,7 +344,7 @@ class QuillEditorConfigurations extends Equatable {
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
     bool? requestKeyboardFocusOnCheckListChanged,
-    QuillEditorBlockOptions? blocksOptions,
+    QuillEditorBlockOptions? blockOptions,
   }) {
     return QuillEditorConfigurations(
       placeholder: placeholder ?? this.placeholder,
@@ -396,7 +396,7 @@ class QuillEditorConfigurations extends Equatable {
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
-      blockOptions: blocksOptions ?? this.blockOptions,
+      blockOptions: blockOptions ?? this.blockOptions,
     );
   }
 }

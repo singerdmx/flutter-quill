@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart' show BuildContext;
 
 import '../../../flutter_quill.dart';
 
-// TODO: The documentation of this file needs to be updated as it's quite oudated.
+// TODO: The documentation of this file needs to
+//be updated as it's quite oudated.
 
 /// Public shared extension
 extension BuildContextExt on BuildContext {
