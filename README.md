@@ -134,7 +134,7 @@ And depending on your use case, you might want to dispose the `_controller` in d
 Check out [Sample Page] for more advanced usage.
 
 ## Mirgration
-We have recently add [mirgration guide](/docs/migration.md) for mirgration from different versions
+We have recently add [mirgration guide](/doc/migration.md) for mirgration from different versions
 
 ## Input / Output
 
