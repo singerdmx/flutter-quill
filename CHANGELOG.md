@@ -1,3 +1,8 @@
+## [8.0.0]
+- If you have mirgrated recently, don't get scared from this update, it just add a documentation, mirgration guide and mark the version as more stable release, since we did break a lot of breaking changes (at least that what most developers says) we should have change the major version but when we were in the development of this new version, our time was very tight and now we are fixing the version number
+- It also rename one single property from `code` to `codeBlock` in the `elements` of the new `QuillEditor` Configurations class
+- Updating the README to be more readable
+
 ## [7.10.2]
 - Removing line numbers from code block by default, you still can enable this thanks to the new configurations in the `QuillEditor` you will find a `elementOptions` property, in it you will find the code which mean code block options. just pass true to `enableLineNumbers`
 
