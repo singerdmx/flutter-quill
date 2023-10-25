@@ -1,6 +1,6 @@
 # Mirgration guide
 
-Here you can find the mirgration guide between different versions, you can contribute to this page to make it better for everyone!!
+Here you can find the migration guide between different versions, you can contribute to this page to make it better for everyone!!
 
 
 - [Mirgration guide](#mirgration-guide)
@@ -8,7 +8,7 @@ Here you can find the mirgration guide between different versions, you can contr
 
 ## from 7.0.0 to 8.0.0
 
-We have refactored a lot of the base code to allow you to customize everything you want, and it allow us to add new configurations very easily using inherited widgets without passing configurations all over the constructors everywhere which will be very hard to test, fix bugs, and maintain
+We have refactored a lot of the base code to allow you to customize everything you want, and it allows us to add new configurations very easily using inherited widgets without passing configurations all over the constructors everywhere which will be very hard to test, fix bugs, and maintain
 
 1. Passing the controller
 
@@ -57,30 +57,30 @@ QuillProvider(
 )
 ```
 
-The `QuillProvider` is inherited widget which allow you pass configurations once and use them in the children of it. here we are passing the `_controller` once in the configurations of `QuillProvider` and the `QuillToolbar` and `QuillEditor` will get the `QuillConfigurations` internally, if it doesn't exists you will get an exception.
+The `QuillProvider` is an inherited widget that allow you to pass configurations once and use them in the children of it. here we are passing the `_controller` once in the configurations of `QuillProvider` and the `QuillToolbar` and `QuillEditor` will get the `QuillConfigurations` internally, if it doesn't exist you will get an exception.
 
 we also added the `sharedConfigurations` which allow you to configure shared things like the `Local` so you don't have to define them twice, we have removed those from the `QuillToolbar` and `QuillEditor`
 
-2. The QuillToolbar buttons, we have renamed almost all the buttons, examples:
+2. Regarding The QuillToolbar buttons, we have renamed almost all the buttons, examples:
    - `QuillHistory` to `QuillToolbarHistoryButton`
    - `IndentButton` to `QuillToolbarIndentButton`
 
-and they usually have two parameters, `controller` and `options`, example of the type for the buttons
+and they usually have two parameters, `controller` and `options`, for example of the type for the buttons
    - `QuillToolbarHistoryButton` have `QuillToolbarHistoryButtonOptions`
    - `QuillToolbarIndentButton` have `QuillToolbarIndentButtonOptions`
    - `QuillToolbarClearFormatButton` have `QuillToolbarClearFormatButtonOptions`
 
-All the options have parent `QuillToolbarBaseButtonOptions` which have commons things like
+All the options have parent `QuillToolbarBaseButtonOptions` which have common things like
 
 ```dart
-  /// By default it will use a Icon data from Icons which comes from material
+  /// By default it will use Icon data from Icons that come from material
   /// library for each button, to change this, please pass a different value
   /// If there is no Icon in this button then pass null in the child class
   final IconData? iconData;
 
-  /// To change the the icon size pass a different value, by default will be
+  /// To change the icon size pass a different value, by default will be
   /// [kDefaultIconSize]
-  /// this will be used for all the buttons but you can override this
+  /// This will be used for all the buttons but you can override this
   final double globalIconSize;
 
   /// To do extra logic after pressing the button
@@ -104,10 +104,10 @@ All the options have parent `QuillToolbarBaseButtonOptions` which have commons t
 ```
 
 The `QuillToolbarBaseButtonOptions is`:
-/// The [T] is the options for the button, usually should refresnce itself
-/// it's used in [childBuilder] so the developer can custmize this when using it
-/// The [I] is extra options for the button, usually for it's state
 ```dart
+/// The [T] is the option for the button, usually should reference itself
+/// it's used in [childBuilder] so the developer can customize this when using it
+/// The [I] is an extra option for the button, usually for its state
 @immutable
 class QuillToolbarBaseButtonOptions<T, I> extends Equatable
 ```
@@ -168,7 +168,7 @@ class QuillToolbarBaseButtonExtraOptions extends Equatable {
 }
 ```
 
-which usually share common things, it also add extra property which was not exsisting, which is `childBuilder` which allow to render custom widget based on the state of the button and the options of it
+which usually share common things, it also add an extra property which was not exist, which is `childBuilder` which allow to rendering custom widget based on the state of the button and the options it
 
 ```dart
 QuillToolbar(
@@ -189,22 +189,22 @@ QuillToolbar(
 ),
 ```
 
-the `extraOptions` usually contains the state variables and the evenets that you need to trigger like the `onPressed`, it also has the end context and the controller that will be used
+the `extraOptions` usually contains the state variables and the events that you need to trigger like the `onPressed`, it also has the end context and the controller that will be used
 while the `options` has the custom controller for each button and it's nullable because there could be no custom controller so we will just use the global one
 
 3. The `QuillToolbar` and `QuillToolbar.basic()` factory constructor
 
 since the basic factory constructor has more options than the original `QuillToolbar` which doesn't make much sense, at least to some developers, we have refactored the `QuillToolbar.basic()` to a different widget called the `QuillToolbar` and the `QuillToolbar` has been renamed to `QuillBaseToolbar` which is the base for `QuillToolbar` or any custom toolbar, sure you can create custom toolbar from scratch by just using the `controller` but if you want more support from the library use the `QuillBaseToolbar`
 
-the children widgets of the new `QuillToolbar` and `QuillEditor` access to thier configurations by another two inherited widgets
+the children widgets of the new `QuillToolbar` and `QuillEditor` access to their configurations by another two inherited widgets
 since `QuillToolbar` and `QuillEditor` take the configuration class and provide them internally using `QuillToolbarProvider` and `QuillEditorProvider`
 however the `QuillBaseToolbar` has a little bit different configurations so it has a different provider called `QuillBaseToolbarProvider` and it also already provided by default
 
 But there is one **note**: 
-> If you are using the toolbar buttons like `QuillToolbarHistoryButton`, `QuillToolbarToggleStyleButton` in the somewhere like the the custom toolbar (using `QuillBaseToolbar` or any custom widget) then you must provide them with `QuillToolbarProvider` inherited widget, you don't have to do this if you are using the `QuillToolbar` since it will be done for you
+> If you are using the toolbar buttons like `QuillToolbarHistoryButton`, `QuillToolbarToggleStyleButton` somewhere like the the custom toolbar (using `QuillBaseToolbar` or any custom widget) then you must provide them with `QuillToolbarProvider` inherited widget, you don't have to do this if you are using the `QuillToolbar` since it will be done for you
 >
 
-Example of custom toolbar:
+Example of a custom toolbar:
 
 ```dart
 QuillProvider(
@@ -343,9 +343,9 @@ QuillProvider(
 
 4. The `QuillEditor` and `QuillEditor.basic()`
 
-since the `QuillEditor.basic()` is a lighter version than the original `QuillEditor` since it has less required configurations so we didn't change much, other than configuration class, but we most inform you if you are plan on sending pull request or you are a maintainer and when you add new property or change anything in `QuillEditorConfigurations` please regenerate the `copyWith` otherwise the `QuilEditor.basic()` will not apply some configurations
+since the `QuillEditor.basic()` is a lighter version than the original `QuillEditor` since it has fewer required configurations we didn't change much, other than the configuration class, but we must inform you if you plan on sending pull request or you are a maintainer and when you add new property or change anything in `QuillEditorConfigurations` please regenerate the `copyWith` (using IDE extension or plugin) otherwise the `QuilEditor.basic()` will not apply some configurations
 
-we have disabled the line numbers in the code block by default, you can enable them again using the followings:
+we have disabled the line numbers in the code block by default, you can enable them again using the following:
 
 ```dart
 QuillEditor.basic(
@@ -361,7 +361,7 @@ QuillEditor.basic(
 
 5. `QuillCustomButton`:
 
-We have renamed the property `icon` to `iconData` for indicate it a icon data and not icon widget
+We have renamed the property `icon` to `iconData` to indicate it an icon data and not an icon widget
 ```dart
     QuillCustomButton(
         iconData: Icons.ac_unit,
@@ -397,7 +397,7 @@ We have added sharedConfigurations property for shared things
 )
 ```
 
-7. Custom Size Image for other platforms (excluding web)
+7. Custom Images for other platforms (excluding the web)
 
 We have added new properties `width`, `height`, `margin`, `alignment` for all platforms other than mobile and web for the images for example
 
@@ -412,9 +412,9 @@ We have added new properties `width`, `height`, `margin`, `alignment` for all pl
 }
 ```
 
-8. Other Improvemenets
+8. Other Improvements
 
-You don't need anything to get this done, we have used const more when possible, removed unused evenets, flutter best practices, convert to stateless widgets when possible, use better ways to listen for changes example:
+You don't need anything to get this done, we have used const more when possible, removed unused events, flutter best practices, converted to stateless widgets when possible, used better ways to listen for changes example:
  
  instead of 
 
@@ -426,10 +426,10 @@ we will use
 ```dart
 MediaQuery.sizeOf(context);
 ```
-We also minimized the amount of rebuilds using more efficent logic and there is more.
+We also minimized the number of rebuilds using more efficient logic and there is more.
 
 9. More options
 
-We have add more options in the extension package, for all the buttons, configurations, animations, enable and disable things
+We have added more options in the extension package, for all the buttons, configurations, animations, enable and disable things
 
-If you have facing any issues or questions feel free to ask us on Github issues
+If you are facing any issues or questions feel free to ask us on GitHub issues
