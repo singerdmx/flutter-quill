@@ -2,6 +2,9 @@ import 'package:flutter/widgets.dart' show BuildContext;
 
 import '../../../flutter_quill.dart';
 
+// TODO: The documentation of this file needs to
+//be updated as it's quite oudated.
+
 /// Public shared extension
 extension BuildContextExt on BuildContext {
   /// return [QuillProvider] as not null
@@ -67,7 +70,8 @@ extension BuildContextExt on BuildContext {
   }
 
   /// return [QuillEditorConfigurations] as not null . Since the quill
-  /// editor configurations is in the [QuillProvider] then we need to get the
+  /// editor configurations is in the [QuillEditorProvider]
+  ///  then we need to get the
   /// provider widget first and then we will return editor configurations
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillEditorConfigurations get requireQuillEditorConfigurations {
@@ -75,7 +79,8 @@ extension BuildContextExt on BuildContext {
   }
 
   /// return nullable [QuillEditorConfigurations]. Since the quill
-  /// editor configurations is in the [QuillProvider] then we need to get the
+  /// editor configurations is in the [QuillEditorProvider]
+  ///  then we need to get the
   /// provider widget first and then we will return editor configurations
   /// don't throw exception if [QuillProvider] is not in the widget tree
   QuillEditorConfigurations? get quillEditorConfigurations {
@@ -83,7 +88,8 @@ extension BuildContextExt on BuildContext {
   }
 
   /// return [QuillToolbarConfigurations] as not null . Since the quill
-  /// toolbar configurations is in the [QuillProvider] then we need to get the
+  /// toolbar configurations is in the [QuillToolbarProvider]
+  /// then we need to get the
   /// provider widget first and then we will return toolbar configurations
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarConfigurations get requireQuillToolbarConfigurations {
@@ -91,7 +97,8 @@ extension BuildContextExt on BuildContext {
   }
 
   /// return nullable [QuillToolbarConfigurations]. Since the quill
-  /// toolbar configurations is in the [QuillProvider] then we need to get the
+  /// toolbar configurations is in the [QuillToolbarProvider]
+  ///  then we need to get the
   /// provider widget first and then we will return toolbar configurations
   /// don't throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarConfigurations? get quillToolbarConfigurations {
@@ -112,5 +119,21 @@ extension BuildContextExt on BuildContext {
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarBaseButtonOptions get requireQuillToolbarBaseButtonOptions {
     return requireQuillToolbarConfigurations.buttonOptions.base;
+  }
+
+  /// return nullable [QuillToolbarBaseButtonOptions]. Since the quill
+  /// quill editor block options is in the [QuillEditorProvider] then we need to
+  /// get the provider widget first and then we will return block options
+  /// throw exception if [QuillEditorProvider] is not in the widget tree
+  QuillEditorElementOptions? get quillEditorElementOptions {
+    return quillEditorConfigurations?.elementOptions;
+  }
+
+  /// return [QuillToolbarBaseButtonOptions] as not null. Since the quill
+  /// quill editor block options is in the [QuillEditorProvider] then we need to
+  /// get the provider widget first and then we will return block options
+  /// don't throw exception if [QuillEditorProvider] is not in the widget tree
+  QuillEditorElementOptions get requireQuillEditorElementOptions {
+    return requireQuillEditorConfigurations.elementOptions;
   }
 }
