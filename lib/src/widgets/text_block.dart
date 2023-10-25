@@ -6,6 +6,7 @@ import '../models/documents/nodes/block.dart';
 import '../models/documents/nodes/line.dart';
 import '../models/structs/vertical_spacing.dart';
 import '../utils/delta.dart';
+import '../utils/extensions/build_context.dart';
 import 'box.dart';
 import 'controller.dart';
 import 'cursor.dart';
@@ -230,8 +231,8 @@ class EditableTextBlock extends StatelessWidget {
         uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
       );
     }
-
-    if (attrs.containsKey(Attribute.codeBlock.key)) {
+    if (attrs.containsKey(Attribute.codeBlock.key) &&
+        context.requireQuillEditorBlockOptions.code.enableLineNumbers) {
       return QuillNumberPoint(
         index: index,
         indentLevelCounts: indentLevelCounts,

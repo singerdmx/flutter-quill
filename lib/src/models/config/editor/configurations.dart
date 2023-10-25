@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart'
@@ -12,6 +11,9 @@ import '../../../widgets/embeds.dart';
 import '../../../widgets/link.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';
 import '../../themes/quill_dialog_theme.dart';
+import 'block_options.dart';
+
+export 'block_options.dart';
 
 /// The configurations for the quill editor widget of flutter quill
 @immutable
@@ -62,6 +64,7 @@ class QuillEditorConfigurations extends Equatable {
     this.contextMenuBuilder,
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
+    this.blockOptions = const QuillEditorBlockOptions(),
   });
 
   /// The text placeholder in the quill editor
@@ -289,6 +292,9 @@ class QuillEditorConfigurations extends Equatable {
   /// should we request keyboard focus??
   final bool requestKeyboardFocusOnCheckListChanged;
 
+  /// This is not complete yet and might changed
+  final QuillEditorBlockOptions blockOptions;
+
   @override
   List<Object?> get props => [
         placeholder,
@@ -298,6 +304,7 @@ class QuillEditorConfigurations extends Equatable {
   // We might use code generator like freezed but sometimes it can be limitied
   // instead whatever there is a change to the parameters in this class please
   // regenerate this function using extension in vs code or plugin in intellij
+
   QuillEditorConfigurations copyWith({
     String? placeholder,
     bool? readOnly,
@@ -336,6 +343,8 @@ class QuillEditorConfigurations extends Equatable {
     ContentInsertionConfiguration? contentInsertionConfiguration,
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
+    bool? requestKeyboardFocusOnCheckListChanged,
+    QuillEditorBlockOptions? blocksOptions,
   }) {
     return QuillEditorConfigurations(
       placeholder: placeholder ?? this.placeholder,
@@ -384,6 +393,10 @@ class QuillEditorConfigurations extends Equatable {
       editorKey: editorKey ?? this.editorKey,
       textSelectionThemeData:
           textSelectionThemeData ?? this.textSelectionThemeData,
+      requestKeyboardFocusOnCheckListChanged:
+          requestKeyboardFocusOnCheckListChanged ??
+              this.requestKeyboardFocusOnCheckListChanged,
+      blockOptions: blocksOptions ?? this.blockOptions,
     );
   }
 }
