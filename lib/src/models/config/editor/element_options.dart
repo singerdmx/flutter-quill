@@ -8,12 +8,12 @@ export 'elements/code_block.dart';
 @immutable
 class QuillEditorElementOptions extends Equatable {
   const QuillEditorElementOptions({
-    this.code = const QuillEditorCodeBlockElementOptions(),
+    this.codeBlock = const QuillEditorCodeBlockElementOptions(),
   });
 
-  final QuillEditorCodeBlockElementOptions code;
+  final QuillEditorCodeBlockElementOptions codeBlock;
   @override
   List<Object?> get props => [
-        code,
+        codeBlock,
       ];
 }
