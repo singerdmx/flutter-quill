@@ -1,3 +1,6 @@
+## [7.10.2]
+- Removing line numbers from code block by default, you still can enable this thanks to the new configurations in the `QuillEditor` you will find a `elementOptions` property, in it you will find the code which mean code block options. just pass true to `enableLineNumbers`
+
 ## [7.10.1]
 - Fixes and use the new parameters
 - You don't need to use MaterialApp anymore to use most of the toolbar buttons childBuilder anymore
