@@ -125,15 +125,15 @@ extension BuildContextExt on BuildContext {
   /// quill editor block options is in the [QuillEditorProvider] then we need to
   /// get the provider widget first and then we will return block options
   /// throw exception if [QuillEditorProvider] is not in the widget tree
-  QuillEditorBlockOptions? get quillEditorBlockOptions {
-    return quillEditorConfigurations?.blockOptions;
+  QuillEditorElementOptions? get quillEditorElementOptions {
+    return quillEditorConfigurations?.elementOptions;
   }
 
   /// return [QuillToolbarBaseButtonOptions] as not null. Since the quill
   /// quill editor block options is in the [QuillEditorProvider] then we need to
   /// get the provider widget first and then we will return block options
   /// don't throw exception if [QuillEditorProvider] is not in the widget tree
-  QuillEditorBlockOptions get requireQuillEditorBlockOptions {
-    return requireQuillEditorConfigurations.blockOptions;
+  QuillEditorElementOptions get requireQuillEditorElementOptions {
+    return requireQuillEditorConfigurations.elementOptions;
   }
 }

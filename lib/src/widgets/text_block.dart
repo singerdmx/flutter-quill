@@ -232,7 +232,7 @@ class EditableTextBlock extends StatelessWidget {
       );
     }
     if (attrs.containsKey(Attribute.codeBlock.key) &&
-        context.requireQuillEditorBlockOptions.code.enableLineNumbers) {
+        context.requireQuillEditorElementOptions.code.enableLineNumbers) {
       return QuillNumberPoint(
         index: index,
         indentLevelCounts: indentLevelCounts,

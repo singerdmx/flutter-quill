@@ -11,9 +11,9 @@ import '../../../widgets/embeds.dart';
 import '../../../widgets/link.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';
 import '../../themes/quill_dialog_theme.dart';
-import 'block_options.dart';
+import 'element_options.dart';
 
-export 'block_options.dart';
+export 'element_options.dart';
 
 /// The configurations for the quill editor widget of flutter quill
 @immutable
@@ -64,7 +64,7 @@ class QuillEditorConfigurations extends Equatable {
     this.contextMenuBuilder,
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
-    this.blockOptions = const QuillEditorBlockOptions(),
+    this.elementOptions = const QuillEditorElementOptions(),
   });
 
   /// The text placeholder in the quill editor
@@ -293,7 +293,7 @@ class QuillEditorConfigurations extends Equatable {
   final bool requestKeyboardFocusOnCheckListChanged;
 
   /// This is not complete yet and might changed
-  final QuillEditorBlockOptions blockOptions;
+  final QuillEditorElementOptions elementOptions;
 
   @override
   List<Object?> get props => [
@@ -344,7 +344,7 @@ class QuillEditorConfigurations extends Equatable {
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
     bool? requestKeyboardFocusOnCheckListChanged,
-    QuillEditorBlockOptions? blockOptions,
+    QuillEditorElementOptions? elementOptions,
   }) {
     return QuillEditorConfigurations(
       placeholder: placeholder ?? this.placeholder,
@@ -396,7 +396,7 @@ class QuillEditorConfigurations extends Equatable {
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
-      blockOptions: blockOptions ?? this.blockOptions,
+      elementOptions: elementOptions ?? this.elementOptions,
     );
   }
 }

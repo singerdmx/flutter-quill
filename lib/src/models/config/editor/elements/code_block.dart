@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
-class QuillEditorCodeBlockOptions extends Equatable {
-  const QuillEditorCodeBlockOptions({
+class QuillEditorCodeBlockElementOptions extends Equatable {
+  const QuillEditorCodeBlockElementOptions({
     this.enableLineNumbers = false,
   });
 
