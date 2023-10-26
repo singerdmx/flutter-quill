@@ -4,6 +4,7 @@
 - Remove property `enableUnfocusOnTapOutside` in QuillEditor Configurations and add `isOnTapOutsideEnabled` instead
 - Add a new callback which is called `onTapOutside` in the `QuillEditorConfigurations` which allow you to do something when tap outside of the edtior
 - Fix a bug which cause the web platform to not unfocus the editor when tap outside of it (the default logic) to override this pleae pass a value to the callback ``onTapOutside``
+- Remove the old proerty of `iconTheme`, instead pass `iconTheme` in the button options, you will find `base` property there, inside it there is `iconTheme`
 
 ## [8.0.0]
 - If you have mirgrated recently, don't get scared from this update, it just add a documentation, mirgration guide and mark the version as more stable release, since we did break a lot of breaking changes (at least that what most developers says) we should have change the major version but when we were in the development of this new version, our time was very tight and now we are fixing the version number
