@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart'
@@ -57,7 +58,8 @@ class QuillEditorConfigurations extends Equatable {
     this.customShortcuts,
     this.customActions,
     this.detectWordBoundary = true,
-    this.enableUnfocusOnTapOutside = true,
+    this.isOnTapOutsideEnabled = true,
+    this.onTapOutside,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
     this.contentInsertionConfiguration,
@@ -103,8 +105,17 @@ class QuillEditorConfigurations extends Equatable {
   /// Defaults to `false`. Cannot be `null`.
   final bool autoFocus;
 
-  /// Whether focus should be revoked on tap outside the editor.
-  final bool enableUnfocusOnTapOutside;
+  /// Whether the [onTapOutside] should be triggered or not
+  /// by Defaults to `true`
+  /// it have default implementation, check [onTapOuside] for more
+  final bool isOnTapOutsideEnabled;
+
+  /// This will run only when [isOnTapOutsideEnabled] is true
+  /// by default on desktop and web it will unfocus
+  /// on mobile it will only unFocus if the kind property of
+  /// event [PointerDownEvent] is [PointerDeviceKind.unknown]
+  /// you can override this to fit your needs
+  final Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside;
 
   /// Whether to show cursor.
   ///
@@ -313,6 +324,7 @@ class QuillEditorConfigurations extends Equatable {
     EdgeInsetsGeometry? padding,
     bool? autoFocus,
     bool? enableUnfocusOnTapOutside,
+    Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
     bool? showCursor,
     bool? paintCursorAboveText,
     bool? enableInteractiveSelection,
@@ -353,8 +365,8 @@ class QuillEditorConfigurations extends Equatable {
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
       padding: padding ?? this.padding,
       autoFocus: autoFocus ?? this.autoFocus,
-      enableUnfocusOnTapOutside:
-          enableUnfocusOnTapOutside ?? this.enableUnfocusOnTapOutside,
+      isOnTapOutsideEnabled: enableUnfocusOnTapOutside ?? isOnTapOutsideEnabled,
+      onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
       enableInteractiveSelection:

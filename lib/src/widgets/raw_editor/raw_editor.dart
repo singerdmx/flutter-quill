@@ -424,6 +424,10 @@ class RawEditorState extends EditorState
   }
 
   void _defaultOnTapOutside(PointerDownEvent event) {
+    if (isWeb()) {
+      widget.focusNode.unfocus();
+    }
+
     /// The focus dropping behavior is only present on desktop platforms
     /// and mobile browsers.
     switch (defaultTargetPlatform) {
@@ -434,9 +438,9 @@ class RawEditorState extends EditorState
         // in the web browser, but we do unfocus for all other kinds of events.
         switch (event.kind) {
           case ui.PointerDeviceKind.touch:
-            if (isWeb()) {
-              widget.focusNode.unfocus();
-            }
+            // if (isWeb()) {
+            //   widget.focusNode.unfocus();
+            // }
             break;
           case ui.PointerDeviceKind.mouse:
           case ui.PointerDeviceKind.stylus:
@@ -446,7 +450,8 @@ class RawEditorState extends EditorState
             break;
           case ui.PointerDeviceKind.trackpad:
             throw UnimplementedError(
-                'Unexpected pointer down event for trackpad');
+              'Unexpected pointer down event for trackpad',
+            );
         }
         break;
       case TargetPlatform.linux:
@@ -454,6 +459,11 @@ class RawEditorState extends EditorState
       case TargetPlatform.windows:
         widget.focusNode.unfocus();
         break;
+      default:
+        throw UnsupportedError(
+          'The platform ${defaultTargetPlatform.name} is not supported in the'
+          ' _defaultOnTapOutside',
+        );
     }
   }
 
@@ -555,7 +565,16 @@ class RawEditorState extends EditorState
 
     return TextFieldTapRegion(
       enabled: widget.enableUnfocusOnTapOutside,
-      onTapOutside: _defaultOnTapOutside,
+      onTapOutside: (event) {
+        final onTapOutside =
+            context.requireQuillEditorConfigurations.onTapOutside;
+        if (onTapOutside != null) {
+          context.requireQuillEditorConfigurations.onTapOutside
+              ?.call(event, widget.focusNode);
+          return;
+        }
+        _defaultOnTapOutside(event);
+      },
       child: QuillStyles(
         data: _styles!,
         child: Shortcuts(

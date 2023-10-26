@@ -293,7 +293,7 @@ class QuillEditorState extends State<QuillEditor>
         customShortcuts: configurations.customShortcuts,
         customActions: configurations.customActions,
         customLinkPrefixes: configurations.customLinkPrefixes,
-        enableUnfocusOnTapOutside: configurations.enableUnfocusOnTapOutside,
+        enableUnfocusOnTapOutside: configurations.isOnTapOutsideEnabled,
         dialogTheme: configurations.dialogTheme,
         contentInsertionConfiguration:
             configurations.contentInsertionConfiguration,
