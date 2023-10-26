@@ -736,13 +736,6 @@ Special thanks for everyone that have contributed to this project...
 
 Made with [contrib.rocks](https://contrib.rocks).
 
-## Sponsors
-
-<a href="https://bulletjournal.us/home/index.html">
-<img src=
-"https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
- width="150px" height="150px"></a>
-
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
