@@ -65,6 +65,7 @@ class RawEditor extends StatefulWidget {
     required this.selectionColor,
     required this.selectionCtrls,
     required this.embedBuilder,
+    required this.autoFocus,
     Key? key,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -82,7 +83,6 @@ class RawEditor extends StatefulWidget {
     this.customShortcuts,
     this.customActions,
     this.expands = false,
-    this.autoFocus = false,
     this.enableUnfocusOnTapOutside = true,
     this.keyboardAppearance = Brightness.light,
     this.enableInteractiveSelection = true,
@@ -1141,15 +1141,14 @@ class RawEditorState extends EditorState
       _styles = _styles!.merge(widget.customStyles!);
     }
 
-    // TODO: this might need some attention
-    _requestFocusIfShould();
+    _requestAutoFocusIfShould();
   }
 
-  Future<void> _requestFocusIfShould() async {
+  Future<void> _requestAutoFocusIfShould() async {
     if (!_didAutoFocus && widget.autoFocus) {
-      _didAutoFocus = true;
-      await Future.delayed(Duration.zero);
+      await Future.delayed(Duration.zero); // To avoid exceptions
       FocusScope.of(context).autofocus(widget.focusNode);
+      _didAutoFocus = true;
     }
   }
 
