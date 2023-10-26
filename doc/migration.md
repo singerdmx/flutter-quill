@@ -1,9 +1,9 @@
-# Mirgration guide
+# Migration guide
 
 Here you can find the migration guide between different versions, you can contribute to this page to make it better for everyone!!
 
 
-- [Mirgration guide](#mirgration-guide)
+- [Migration guide](#migration-guide)
   - [from 7.0.0 to 8.0.0](#from-700-to-800)
 
 ## from 7.0.0 to 8.0.0
