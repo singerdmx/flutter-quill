@@ -106,7 +106,7 @@ class QuillEditorConfigurations extends Equatable {
   final bool autoFocus;
 
   /// Whether the [onTapOutside] should be triggered or not
-  /// by Defaults to `true`
+  /// Defaults to `true`
   /// it have default implementation, check [onTapOuside] for more
   final bool isOnTapOutsideEnabled;
 
