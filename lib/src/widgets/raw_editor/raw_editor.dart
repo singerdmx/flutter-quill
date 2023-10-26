@@ -65,7 +65,8 @@ class RawEditor extends StatefulWidget {
     required this.selectionColor,
     required this.selectionCtrls,
     required this.embedBuilder,
-    Key? key,
+    required this.autoFocus,
+    super.key,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.readOnly = false,
@@ -82,7 +83,6 @@ class RawEditor extends StatefulWidget {
     this.customShortcuts,
     this.customActions,
     this.expands = false,
-    this.autoFocus = false,
     this.enableUnfocusOnTapOutside = true,
     this.keyboardAppearance = Brightness.light,
     this.enableInteractiveSelection = true,
@@ -99,8 +99,7 @@ class RawEditor extends StatefulWidget {
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
             'maxHeight cannot be null'),
-        showCursor = showCursor ?? true,
-        super(key: key);
+        showCursor = showCursor ?? true;
 
   /// Controls the document being edited.
   final QuillController controller;
@@ -424,6 +423,10 @@ class RawEditorState extends EditorState
   }
 
   void _defaultOnTapOutside(PointerDownEvent event) {
+    if (isWeb()) {
+      widget.focusNode.unfocus();
+    }
+
     /// The focus dropping behavior is only present on desktop platforms
     /// and mobile browsers.
     switch (defaultTargetPlatform) {
@@ -434,9 +437,9 @@ class RawEditorState extends EditorState
         // in the web browser, but we do unfocus for all other kinds of events.
         switch (event.kind) {
           case ui.PointerDeviceKind.touch:
-            if (isWeb()) {
-              widget.focusNode.unfocus();
-            }
+            // if (isWeb()) {
+            //   widget.focusNode.unfocus();
+            // }
             break;
           case ui.PointerDeviceKind.mouse:
           case ui.PointerDeviceKind.stylus:
@@ -446,7 +449,8 @@ class RawEditorState extends EditorState
             break;
           case ui.PointerDeviceKind.trackpad:
             throw UnimplementedError(
-                'Unexpected pointer down event for trackpad');
+              'Unexpected pointer down event for trackpad',
+            );
         }
         break;
       case TargetPlatform.linux:
@@ -454,6 +458,11 @@ class RawEditorState extends EditorState
       case TargetPlatform.windows:
         widget.focusNode.unfocus();
         break;
+      default:
+        throw UnsupportedError(
+          'The platform ${defaultTargetPlatform.name} is not supported in the'
+          ' _defaultOnTapOutside',
+        );
     }
   }
 
@@ -555,7 +564,16 @@ class RawEditorState extends EditorState
 
     return TextFieldTapRegion(
       enabled: widget.enableUnfocusOnTapOutside,
-      onTapOutside: _defaultOnTapOutside,
+      onTapOutside: (event) {
+        final onTapOutside =
+            context.requireQuillEditorConfigurations.onTapOutside;
+        if (onTapOutside != null) {
+          context.requireQuillEditorConfigurations.onTapOutside
+              ?.call(event, widget.focusNode);
+          return;
+        }
+        _defaultOnTapOutside(event);
+      },
       child: QuillStyles(
         data: _styles!,
         child: Shortcuts(
@@ -1141,15 +1159,14 @@ class RawEditorState extends EditorState
       _styles = _styles!.merge(widget.customStyles!);
     }
 
-    // TODO: this might need some attention
-    _requestFocusIfShould();
+    _requestAutoFocusIfShould();
   }
 
-  Future<void> _requestFocusIfShould() async {
+  Future<void> _requestAutoFocusIfShould() async {
     if (!_didAutoFocus && widget.autoFocus) {
-      _didAutoFocus = true;
-      await Future.delayed(Duration.zero);
+      await Future.delayed(Duration.zero); // To avoid exceptions
       FocusScope.of(context).autofocus(widget.focusNode);
+      _didAutoFocus = true;
     }
   }
 

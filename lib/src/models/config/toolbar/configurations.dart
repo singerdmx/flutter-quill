@@ -101,7 +101,7 @@ class QuillToolbarConfigurations extends Equatable {
     this.linkDialogAction,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
-    this.iconTheme,
+    // this.iconTheme,
     this.dialogTheme,
     this.axis = Axis.horizontal,
     this.color,
@@ -209,8 +209,8 @@ class QuillToolbarConfigurations extends Equatable {
   /// Toolbar items to display for controls of embed blocks
   final List<EmbedButtonBuilder>? embedButtons;
 
-  ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
-  final QuillIconTheme? iconTheme;
+  // ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
+  // final QuillIconTheme? iconTheme;
 
   ///The theme to use for the theming of the [LinkDialog()],
   ///shown when embedding an image, for example

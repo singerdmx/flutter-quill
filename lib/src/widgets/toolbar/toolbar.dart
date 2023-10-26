@@ -182,7 +182,10 @@ class QuillToolbar extends StatelessWidget {
                 ),
               if (theEmbedButtons != null)
                 for (final builder in theEmbedButtons)
-                  builder(controller, globalIconSize, configurations.iconTheme,
+                  builder(
+                      controller,
+                      globalIconSize,
+                      context.requireQuillToolbarBaseButtonOptions.iconTheme,
                       configurations.dialogTheme),
               if (configurations.showDividers &&
                   isButtonGroupShown[0] &&
@@ -350,8 +353,8 @@ class QuillToolbar extends StatelessWidget {
                         context.quillToolbarBaseButtonOptions?.iconData,
                     iconColor: customButton.iconColor,
                     iconSize: customButton.iconSize ?? globalIconSize,
-                    iconTheme: configurations.iconTheme ??
-                        context.quillToolbarBaseButtonOptions?.iconTheme,
+                    iconTheme:
+                        context.requireQuillToolbarBaseButtonOptions.iconTheme,
                     afterButtonPressed: customButton.afterButtonPressed ??
                         context
                             .quillToolbarBaseButtonOptions?.afterButtonPressed,
