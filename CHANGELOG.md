@@ -1,3 +1,7 @@
+## [next]
+
+- Fixes a word typo of `mirgration` to `migration` in readme
+
 ## [8.0.0]
 - If you have mirgrated recently, don't get scared from this update, it just add a documentation, mirgration guide and mark the version as more stable release, since we did break a lot of breaking changes (at least that what most developers says) we should have change the major version but when we were in the development of this new version, our time was very tight and now we are fixing the version number
 - It also rename one single property from `code` to `codeBlock` in the `elements` of the new `QuillEditor` Configurations class
