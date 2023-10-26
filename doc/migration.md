@@ -57,7 +57,7 @@ QuillProvider(
 )
 ```
 
-The `QuillProvider` is an inherited widget that allow you to pass configurations once and use them in the children of it. here we are passing the `_controller` once in the configurations of `QuillProvider` and the `QuillToolbar` and `QuillEditor` will get the `QuillConfigurations` internally, if it doesn't exist you will get an exception.
+The `QuillProvider` is an inherited widget that allows you to pass configurations once and use them in the children of it. here we are passing the `_controller` once in the configurations of `QuillProvider` and the `QuillToolbar` and `QuillEditor` will get the `QuillConfigurations` internally, if it doesn't exist you will get an exception.
 
 we also added the `sharedConfigurations` which allow you to configure shared things like the `Local` so you don't have to define them twice, we have removed those from the `QuillToolbar` and `QuillEditor`
 
@@ -65,7 +65,7 @@ we also added the `sharedConfigurations` which allow you to configure shared thi
    - `QuillHistory` to `QuillToolbarHistoryButton`
    - `IndentButton` to `QuillToolbarIndentButton`
 
-and they usually have two parameters, `controller` and `options`, for example of the type for the buttons
+and they usually have two parameters, `controller` and `options`, for example the type for the buttons
    - `QuillToolbarHistoryButton` have `QuillToolbarHistoryButtonOptions`
    - `QuillToolbarIndentButton` have `QuillToolbarIndentButtonOptions`
    - `QuillToolbarClearFormatButton` have `QuillToolbarClearFormatButtonOptions`
@@ -152,11 +152,11 @@ class QuillToolbarBaseButtonExtraOptions extends Equatable {
     required this.onPressed,
   });
 
-  /// if you need the not null controller for some usage in the [childBuilder]
-  /// then please use this instead of the one in the [options]
+  /// If you need the not null controller for some usage in the [childBuilder]
+  /// Then please use this instead of the one in the [options]
   final QuillController controller;
 
-  /// if the child builder you must use this when the widget tapped or pressed
+  /// If the child builder you must use this when the widget is tapped or pressed
   /// in order to do what it expected to do
   final VoidCallback? onPressed;
 
@@ -168,7 +168,7 @@ class QuillToolbarBaseButtonExtraOptions extends Equatable {
 }
 ```
 
-which usually share common things, it also add an extra property which was not exist, which is `childBuilder` which allow to rendering custom widget based on the state of the button and the options it
+which usually share common things, it also add an extra property which was not exist, which is `childBuilder` which allow to rendering of custom widget based on the state of the button and the options it
 
 ```dart
 QuillToolbar(
@@ -373,7 +373,7 @@ We have renamed the property `icon` to `iconData` to indicate it an icon data an
 
 6. Using custom local for both `QuillEditor` and `QuillToolbar`
 
-We have added sharedConfigurations property for shared things
+We have added shared configurations property for shared things
 ```dart
  QuillProvider(
   configurations: QuillConfigurations(
@@ -414,7 +414,7 @@ We have added new properties `width`, `height`, `margin`, `alignment` for all pl
 
 8. Other Improvements
 
-You don't need anything to get this done, we have used const more when possible, removed unused events, flutter best practices, converted to stateless widgets when possible, used better ways to listen for changes example:
+You don't need anything to get this done, we have used const more when possible, removed unused events, flutter best practices, converted to stateless widgets when possible, and used better ways to listen for changes example:
  
  instead of 
 
