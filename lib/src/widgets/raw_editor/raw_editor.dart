@@ -66,7 +66,7 @@ class RawEditor extends StatefulWidget {
     required this.selectionCtrls,
     required this.embedBuilder,
     required this.autoFocus,
-    Key? key,
+    super.key,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.readOnly = false,
@@ -99,8 +99,7 @@ class RawEditor extends StatefulWidget {
         assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
         assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
             'maxHeight cannot be null'),
-        showCursor = showCursor ?? true,
-        super(key: key);
+        showCursor = showCursor ?? true;
 
   /// Controls the document being edited.
   final QuillController controller;
