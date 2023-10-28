@@ -358,14 +358,14 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   // TODO: You might want to rename those but everywhere even in
   // flutter_quill_extensions
 
-  static const _oneLinePattern =
+  static const _oneLineLinkPattern =
       r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/.*)?$';
   static const _detectLinkPattern =
       r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/[^\s]*)?';
 
   /// It requires a valid link in one link
-  static final oneLineRegExp = RegExp(
-    _oneLinePattern,
+  static final oneLineLinkRegExp = RegExp(
+    _oneLineLinkPattern,
     caseSensitive: false,
   );
 
@@ -375,10 +375,10 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     _detectLinkPattern,
     caseSensitive: false,
   );
-  @Deprecated(
-    'Please use [linkRegExp1] or [linkRegExp2]',
-  )
-  static final linkRegExp = oneLineRegExp;
+  // @Deprecated(
+  //   'Please use [linkRegExp1] or [linkRegExp2]',
+  // )
+  static final linkRegExp = oneLineLinkRegExp;
 
   @override
   Delta? applyRule(

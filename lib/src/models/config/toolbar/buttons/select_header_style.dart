@@ -20,20 +20,21 @@ class QuillToolbarSelectHeaderStyleButtonsOptions
     super.afterButtonPressed,
     super.childBuilder,
     super.controller,
-    super.iconData,
     super.iconTheme,
     super.tooltip,
     this.axis,
-    this.attributes = const [
-      Attribute.header,
-      Attribute.h1,
-      Attribute.h2,
-      Attribute.h3,
-    ],
+    this.attributes,
     this.iconSize,
   });
 
-  final List<Attribute> attributes;
+  /// Default value:
+  /// const [
+  ///   Attribute.header,
+  ///   Attribute.h1,
+  ///   Attribute.h2,
+  ///   Attribute.h3,
+  /// ]
+  final List<Attribute>? attributes;
 
   /// By default we will the toolbar axis from [QuillToolbarConfigurations]
   final Axis? axis;

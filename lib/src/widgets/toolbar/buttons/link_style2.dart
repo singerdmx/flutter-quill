@@ -5,9 +5,11 @@ import 'package:url_launcher/link.dart';
 import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
 import '../../../../translations.dart';
+import '../../../models/config/toolbar/buttons/link_style2.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
+import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../../link.dart';
 import '../base_toolbar.dart';
@@ -16,60 +18,20 @@ import '../base_toolbar.dart';
 /// customization
 /// and uses dialog similar to one which is used on [http://quilljs.com].
 class QuillToolbarLinkStyleButton2 extends StatefulWidget {
-  const QuillToolbarLinkStyleButton2({
+  QuillToolbarLinkStyleButton2({
     required this.controller,
-    this.icon,
-    this.iconSize = kDefaultIconSize,
-    this.iconTheme,
-    this.dialogTheme,
-    this.afterButtonPressed,
-    this.tooltip,
-    this.constraints,
-    this.addLinkLabel,
-    this.editLinkLabel,
-    this.linkColor,
-    this.childrenSpacing = 16.0,
-    this.autovalidateMode = AutovalidateMode.disabled,
-    this.validationMessage,
-    this.buttonSize,
-    this.dialogBarrierColor = Colors.black54,
-    Key? key,
-  })  : assert(addLinkLabel == null || addLinkLabel.length > 0),
-        assert(editLinkLabel == null || editLinkLabel.length > 0),
-        assert(childrenSpacing > 0),
-        assert(validationMessage == null || validationMessage.length > 0),
-        super(key: key);
+    required this.options,
+    super.key,
+  })  : assert(options.addLinkLabel == null ||
+            (options.addLinkLabel?.isNotEmpty ?? true)),
+        assert(options.editLinkLabel == null ||
+            (options.editLinkLabel?.isNotEmpty ?? true)),
+        assert(options.childrenSpacing > 0),
+        assert(options.validationMessage == null ||
+            (options.validationMessage?.isNotEmpty ?? true));
 
   final QuillController controller;
-  final IconData? icon;
-  final double iconSize;
-  final QuillIconTheme? iconTheme;
-  final QuillDialogTheme? dialogTheme;
-  final VoidCallback? afterButtonPressed;
-  final String? tooltip;
-
-  /// The constrains for dialog.
-  final BoxConstraints? constraints;
-
-  /// The text of label in link add mode.
-  final String? addLinkLabel;
-
-  /// The text of label in link edit mode.
-  final String? editLinkLabel;
-
-  /// The color of URL.
-  final Color? linkColor;
-
-  /// The margin between child widgets in the dialog.
-  final double childrenSpacing;
-
-  final AutovalidateMode autovalidateMode;
-  final String? validationMessage;
-
-  /// The size of dialog buttons.
-  final Size? buttonSize;
-
-  final Color dialogBarrierColor;
+  final QuillToolbarLinkStyleButton2Options options;
 
   @override
   State<QuillToolbarLinkStyleButton2> createState() =>
@@ -99,30 +61,101 @@ class _QuillToolbarLinkStyleButton2State
     }
   }
 
+  QuillController get controller {
+    return widget.controller;
+  }
+
+  QuillToolbarLinkStyleButton2Options get options {
+    return widget.options;
+  }
+
+  double get iconSize {
+    final baseFontSize = baseButtonExtraOptions.globalIconSize;
+    final iconSize = options.iconSize;
+    return iconSize ?? baseFontSize;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return options.afterButtonPressed ??
+        baseButtonExtraOptions.afterButtonPressed;
+  }
+
+  QuillIconTheme? get iconTheme {
+    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
+  }
+
+  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
+    return context.requireQuillToolbarBaseButtonOptions;
+  }
+
+  String get tooltip {
+    return options.tooltip ??
+        baseButtonExtraOptions.tooltip ??
+        'Insert URL'.i18n;
+  }
+
+  IconData get iconData {
+    return options.iconData ?? baseButtonExtraOptions.iconData ?? Icons.link;
+  }
+
+  Color get dialogBarrierColor {
+    return options.dialogBarrierColor ??
+        context.requireQuillSharedConfigurations.dialogBarrierColor;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final childBuilder =
+        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        QuillToolbarLinkStyleButton2Options(
+          iconData: iconData,
+          addLinkLabel: options.addLinkLabel,
+          afterButtonPressed: options.afterButtonPressed,
+          autovalidateMode: options.autovalidateMode,
+          buttonSize: options.buttonSize,
+          childrenSpacing: options.childrenSpacing,
+          dialogBarrierColor: dialogBarrierColor,
+          dialogTheme: options.dialogTheme,
+          iconSize: iconSize,
+          constraints: options.constraints,
+          tooltip: tooltip,
+          iconTheme: iconTheme,
+          editLinkLabel: options.editLinkLabel,
+          validationMessage: options.validationMessage,
+          linkColor: options.linkColor,
+        ),
+        QuillToolbarLinkStyleButton2ExtraOptions(
+          controller: controller,
+          context: context,
+          onPressed: () {
+            _openLinkDialog();
+            afterButtonPressed?.call();
+          },
+        ),
+      );
+    }
     final theme = Theme.of(context);
     final isToggled = _getLinkAttributeValue() != null;
     return QuillToolbarIconButton(
-      tooltip: widget.tooltip,
+      tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: widget.iconSize * kIconButtonFactor,
+      size: iconSize * kIconButtonFactor,
       icon: Icon(
-        widget.icon ?? Icons.link,
-        size: widget.iconSize,
+        iconData,
+        size: iconSize,
         color: isToggled
-            ? (widget.iconTheme?.iconSelectedColor ??
-                theme.primaryIconTheme.color)
-            : (widget.iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
+            ? (iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
+            : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
       fillColor: isToggled
-          ? (widget.iconTheme?.iconSelectedFillColor ??
-              Theme.of(context).primaryColor)
-          : (widget.iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
-      borderRadius: widget.iconTheme?.borderRadius ?? 2,
+          ? (iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
+          : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
+      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: _openLinkDialog,
-      afterPressed: widget.afterButtonPressed,
+      afterPressed: afterButtonPressed,
     );
   }
 
@@ -131,19 +164,19 @@ class _QuillToolbarLinkStyleButton2State
 
     final textLink = await showDialog<QuillTextLink>(
       context: context,
-      barrierColor: widget.dialogBarrierColor,
+      barrierColor: dialogBarrierColor,
       builder: (_) => LinkStyleDialog(
-        dialogTheme: widget.dialogTheme,
+        dialogTheme: options.dialogTheme,
         text: initialTextLink.text,
         link: initialTextLink.link,
-        constraints: widget.constraints,
-        addLinkLabel: widget.addLinkLabel,
-        editLinkLabel: widget.editLinkLabel,
-        linkColor: widget.linkColor,
-        childrenSpacing: widget.childrenSpacing,
-        autovalidateMode: widget.autovalidateMode,
-        validationMessage: widget.validationMessage,
-        buttonSize: widget.buttonSize,
+        constraints: options.constraints,
+        addLinkLabel: options.addLinkLabel,
+        editLinkLabel: options.editLinkLabel,
+        linkColor: options.linkColor,
+        childrenSpacing: options.childrenSpacing,
+        autovalidateMode: options.autovalidateMode,
+        validationMessage: options.validationMessage,
+        buttonSize: options.buttonSize,
       ),
     );
 
@@ -166,7 +199,7 @@ class _QuillToolbarLinkStyleButton2State
 
 class LinkStyleDialog extends StatefulWidget {
   const LinkStyleDialog({
-    Key? key,
+    super.key,
     this.text,
     this.link,
     this.dialogTheme,
@@ -183,8 +216,7 @@ class LinkStyleDialog extends StatefulWidget {
   })  : assert(addLinkLabel == null || addLinkLabel.length > 0),
         assert(editLinkLabel == null || editLinkLabel.length > 0),
         assert(childrenSpacing > 0),
-        assert(validationMessage == null || validationMessage.length > 0),
-        super(key: key);
+        assert(validationMessage == null || validationMessage.length > 0);
 
   final String? text;
   final String? link;
@@ -387,7 +419,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
   String? _validateLink(String? value) {
     if ((value?.isEmpty ?? false) ||
-        !AutoFormatMultipleLinksRule.oneLineRegExp.hasMatch(value!)) {
+        !AutoFormatMultipleLinksRule.oneLineLinkRegExp.hasMatch(value!)) {
       return widget.validationMessage ?? 'That is not a valid URL';
     }
 

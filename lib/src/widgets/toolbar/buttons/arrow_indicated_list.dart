@@ -10,8 +10,8 @@ class QuillToolbarArrowIndicatedButtonList extends StatefulWidget {
   const QuillToolbarArrowIndicatedButtonList({
     required this.axis,
     required this.buttons,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Axis axis;
   final List<Widget> buttons;
