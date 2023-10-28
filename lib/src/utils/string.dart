@@ -19,20 +19,6 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   return result;
 }
 
-@Deprecated('Use replaceStyleStringWithSize instead')
-String replaceStyleString(
-  String s,
-  double width,
-  double height,
-) {
-  return replaceStyleStringWithSize(
-    s,
-    width: width,
-    height: height,
-    isMobile: true,
-  );
-}
-
 String replaceStyleStringWithSize(
   String s, {
   required double width,

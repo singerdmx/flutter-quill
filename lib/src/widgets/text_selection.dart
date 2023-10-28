@@ -842,8 +842,10 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleDragUpdate(DragUpdateDetails details) {
     _lastDragUpdateDetails = details;
-    _dragUpdateThrottleTimer ??=
-        Timer(const Duration(milliseconds: 50), _handleDragUpdateThrottled);
+    _dragUpdateThrottleTimer ??= Timer(
+      const Duration(milliseconds: 50),
+      _handleDragUpdateThrottled,
+    );
   }
 
   /// Drag updates are being throttled to avoid excessive text layouts in text

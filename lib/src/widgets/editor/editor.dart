@@ -1,10 +1,5 @@
 import 'dart:math' as math;
 
-// ignore: unnecessary_import
-// import 'dart:typed_data';
-// The project maanged to compiled successfully without the import
-// do we still need this import (dart:typed_data)??
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -1495,7 +1490,7 @@ class RenderEditor extends RenderEditableContainerBox
   }
 }
 
-class QuillVerticalCaretMovementRun extends Iterator<TextPosition> {
+class QuillVerticalCaretMovementRun implements Iterator<TextPosition> {
   QuillVerticalCaretMovementRun._(
     this._editor,
     this._currentTextPosition,

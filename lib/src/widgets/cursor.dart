@@ -257,7 +257,11 @@ class CursorPainter {
   /// [offset] is global top left (x, y) of text line
   /// [position] is relative (x) in text line
   void paint(
-      Canvas canvas, Offset offset, TextPosition position, bool lineHasEmbed) {
+    Canvas canvas,
+    Offset offset,
+    TextPosition position,
+    bool lineHasEmbed,
+  ) {
     // relative (x, y) to global offset
     var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
     if (lineHasEmbed && relativeCaretOffset == Offset.zero) {

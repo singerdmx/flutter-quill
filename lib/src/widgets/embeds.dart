@@ -29,7 +29,8 @@ abstract class EmbedBuilder {
 }
 
 typedef EmbedButtonBuilder = Widget Function(
-    QuillController controller,
-    double toolbarIconSize,
-    QuillIconTheme? iconTheme,
-    QuillDialogTheme? dialogTheme);
+  QuillController controller,
+  double toolbarIconSize,
+  QuillIconTheme? iconTheme,
+  QuillDialogTheme? dialogTheme,
+);

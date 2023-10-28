@@ -19,7 +19,7 @@ import 'node.dart';
 ///
 /// When a line contains an embed, it fully occupies the line, no other embeds
 /// or text nodes are allowed.
-class Line extends Container<Leaf?> {
+base class Line extends Container<Leaf?> {
   @override
   Leaf get defaultChild => QuillText();
 
