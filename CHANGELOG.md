@@ -1,3 +1,6 @@
+## [8.1.1]
+- Fix null error in line.dart [#1487](https://github.com/singerdmx/flutter-quill/issues/1487)
+
 ## [8.1.0]
 - Fixes a word typo of `mirgration` to `migration` in readme & migration document.
 - Updated migration guide
