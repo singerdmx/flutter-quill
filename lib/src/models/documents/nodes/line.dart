@@ -182,7 +182,7 @@ class Line extends Container<Leaf?> {
 
       // nextLine might have been unmounted since last assert so we need to
       // check again we still have a line after us.
-      if(nextLine != null) {
+      if (nextLine != null) {
         // Move remaining children in this line to the next line so that all
         // attributes of nextLine are preserved.
         nextLine?.moveChildToNewParent(this);
