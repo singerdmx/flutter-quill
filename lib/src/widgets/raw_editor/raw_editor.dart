@@ -361,6 +361,9 @@ class RawEditorState extends EditorState
     return EditableText.getEditableButtonItems(
       clipboardStatus: _clipboardStatus.value,
       onLiveTextInput: null,
+      onLookUp: null,
+      onSearchWeb: null,
+      onShare: null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
@@ -1834,8 +1837,16 @@ class RawEditorState extends EditorState
   }
 
   @override
-  // TODO: implement liveTextInputEnabled
   bool get liveTextInputEnabled => false;
+
+  @override
+  bool get lookUpEnabled => false;
+
+  @override
+  bool get searchWebEnabled => false;
+
+  @override
+  bool get shareEnabled => false;
 }
 
 class _Editor extends MultiChildRenderObjectWidget {
