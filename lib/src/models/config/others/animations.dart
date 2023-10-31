@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart' show immutable;
-
-import '../../../utils/experimental.dart';
+import 'package:meta/meta.dart' show experimental, immutable;
 
 @immutable
-@Experimental('This class might removed')
+@experimental
 class QuillAnimationConfigurations extends Equatable {
   const QuillAnimationConfigurations({
     required this.checkBoxPointItem,

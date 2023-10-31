@@ -6,8 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'box.dart';
 
 class BaselineProxy extends SingleChildRenderObjectWidget {
-  const BaselineProxy({Key? key, Widget? child, this.textStyle, this.padding})
-      : super(key: key, child: child);
+  const BaselineProxy({
+    Key? key,
+    Widget? child,
+    this.textStyle,
+    this.padding,
+  }) : super(key: key, child: child);
 
   final TextStyle? textStyle;
   final EdgeInsets? padding;

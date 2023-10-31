@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class QuillBulletPoint extends StatelessWidget {
-  const QuillBulletPoint({
+class QuillEditorBulletPoint extends StatelessWidget {
+  const QuillEditorBulletPoint({
     required this.style,
     required this.width,
     this.padding = 0,

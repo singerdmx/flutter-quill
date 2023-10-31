@@ -95,14 +95,13 @@ class _QuillToolbarLinkStyleButtonState
         context.requireQuillSharedConfigurations.dialogBarrierColor;
   }
 
-  RegExp get linkRegExp {
-    return options.linkRegExp ?? RegExp(r'https?://\S+');
+  RegExp? get linkRegExp {
+    return options.linkRegExp;
   }
 
   @override
   Widget build(BuildContext context) {
     final isToggled = _getLinkAttributeValue() != null;
-    final pressedHandler = () => _openLinkDialog(context);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
@@ -124,7 +123,7 @@ class _QuillToolbarLinkStyleButtonState
           context: context,
           controller: controller,
           onPressed: () {
-            pressedHandler();
+            _openLinkDialog(context);
             afterButtonPressed?.call();
           },
         ),
@@ -144,10 +143,10 @@ class _QuillToolbarLinkStyleButtonState
             : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
       fillColor: isToggled
-          ? (iconTheme?.iconSelectedFillColor ?? Theme.of(context).primaryColor)
+          ? (iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
           : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: pressedHandler,
+      onPressed: () => _openLinkDialog(context),
       afterPressed: afterButtonPressed,
     );
   }
@@ -236,7 +235,11 @@ class _LinkDialog extends StatefulWidget {
 class _LinkDialogState extends State<_LinkDialog> {
   late String _link;
   late String _text;
-  late RegExp linkRegExp;
+
+  RegExp get linkRegExp {
+    return widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineLinkRegExp;
+  }
+
   late TextEditingController _linkController;
   late TextEditingController _textController;
 
@@ -245,7 +248,6 @@ class _LinkDialogState extends State<_LinkDialog> {
     super.initState();
     _link = widget.link ?? '';
     _text = widget.text ?? '';
-    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineRegExp;
     _linkController = TextEditingController(text: _link);
     _textController = TextEditingController(text: _text);
   }

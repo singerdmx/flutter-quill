@@ -14,10 +14,10 @@ class QuillSingleChildScrollView extends StatelessWidget {
   const QuillSingleChildScrollView({
     required this.controller,
     required this.viewportBuilder,
-    Key? key,
+    super.key,
     this.physics,
     this.restorationId,
-  }) : super(key: key);
+  });
 
   /// An object that can be used to control the position to which this scroll
   /// view is scrolled.
@@ -48,7 +48,10 @@ class QuillSingleChildScrollView extends StatelessWidget {
 
   AxisDirection _getDirection(BuildContext context) {
     return getAxisDirectionFromAxisReverseAndDirectionality(
-        context, Axis.vertical, false);
+      context,
+      Axis.vertical,
+      false,
+    );
   }
 
   @override

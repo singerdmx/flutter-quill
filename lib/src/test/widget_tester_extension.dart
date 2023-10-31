@@ -11,10 +11,10 @@ extension QuillEnterText on WidgetTester {
     return TestAsyncUtils.guard(() async {
       final editor = state<QuillEditorState>(
         find.descendant(
-            of: finder,
-            matching:
-                find.byType(QuillEditor, skipOffstage: finder.skipOffstage),
-            matchRoot: true),
+          of: finder,
+          matching: find.byType(QuillEditor, skipOffstage: finder.skipOffstage),
+          matchRoot: true,
+        ),
       );
       editor.widget.focusNode.requestFocus();
       await pump();

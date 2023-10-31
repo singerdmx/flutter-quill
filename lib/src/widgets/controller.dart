@@ -333,18 +333,23 @@ class QuillController extends ChangeNotifier {
 
   void moveCursorToStart() {
     updateSelection(
-        const TextSelection.collapsed(offset: 0), ChangeSource.LOCAL);
+      const TextSelection.collapsed(offset: 0),
+      ChangeSource.LOCAL,
+    );
   }
 
   void moveCursorToPosition(int position) {
     updateSelection(
-        TextSelection.collapsed(offset: position), ChangeSource.LOCAL);
+      TextSelection.collapsed(offset: position),
+      ChangeSource.LOCAL,
+    );
   }
 
   void moveCursorToEnd() {
     updateSelection(
-        TextSelection.collapsed(offset: plainTextEditingValue.text.length),
-        ChangeSource.LOCAL);
+      TextSelection.collapsed(offset: plainTextEditingValue.text.length),
+      ChangeSource.LOCAL,
+    );
   }
 
   void updateSelection(TextSelection textSelection, ChangeSource source) {
@@ -358,9 +363,12 @@ class QuillController extends ChangeNotifier {
     }
 
     textSelection = selection.copyWith(
-        baseOffset: delta.transformPosition(selection.baseOffset, force: false),
-        extentOffset:
-            delta.transformPosition(selection.extentOffset, force: false));
+      baseOffset: delta.transformPosition(selection.baseOffset, force: false),
+      extentOffset: delta.transformPosition(
+        selection.extentOffset,
+        force: false,
+      ),
+    );
     if (selection != textSelection) {
       _updateSelection(textSelection, source);
     }

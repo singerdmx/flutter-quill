@@ -1,3 +1,9 @@
+## [8.1.2]
+- Fix bug that is related to the regexp of the insert link dialog
+- Require dart 3 as minimum
+- Code cleanup
+- Add spacer widget between each button in the `QuillToolbar`
+
 ## [8.1.1]
 - Fix null error in line.dart [#1487](https://github.com/singerdmx/flutter-quill/issues/1487)
 

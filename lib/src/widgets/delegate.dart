@@ -314,8 +314,10 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onDragSelectionUpdate(
       //DragStartDetails startDetails,
       DragUpdateDetails updateDetails) {
-    renderEditor!.extendSelection(updateDetails.globalPosition,
-        cause: SelectionChangedCause.drag);
+    renderEditor!.extendSelection(
+      updateDetails.globalPosition,
+      cause: SelectionChangedCause.drag,
+    );
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onDragSelectionEnd].
@@ -341,29 +343,30 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// the handlers provided by this builder.
   ///
   /// The [child] or its subtree should contain [EditableText].
-  Widget build(
-      {required HitTestBehavior behavior,
-      required Widget child,
-      Key? key,
-      bool detectWordBoundary = true}) {
+  Widget build({
+    required HitTestBehavior behavior,
+    required Widget child,
+    Key? key,
+    bool detectWordBoundary = true,
+  }) {
     return EditorTextSelectionGestureDetector(
-        key: key,
-        onTapDown: onTapDown,
-        onForcePressStart:
-            delegate.forcePressEnabled ? onForcePressStart : null,
-        onForcePressEnd: delegate.forcePressEnabled ? onForcePressEnd : null,
-        onSingleTapUp: onSingleTapUp,
-        onSingleTapCancel: onSingleTapCancel,
-        onSingleLongTapStart: onSingleLongTapStart,
-        onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
-        onSingleLongTapEnd: onSingleLongTapEnd,
-        onDoubleTapDown: onDoubleTapDown,
-        onSecondarySingleTapUp: onSecondarySingleTapUp,
-        onDragSelectionStart: onDragSelectionStart,
-        onDragSelectionUpdate: onDragSelectionUpdate,
-        onDragSelectionEnd: onDragSelectionEnd,
-        behavior: behavior,
-        detectWordBoundary: detectWordBoundary,
-        child: child);
+      key: key,
+      onTapDown: onTapDown,
+      onForcePressStart: delegate.forcePressEnabled ? onForcePressStart : null,
+      onForcePressEnd: delegate.forcePressEnabled ? onForcePressEnd : null,
+      onSingleTapUp: onSingleTapUp,
+      onSingleTapCancel: onSingleTapCancel,
+      onSingleLongTapStart: onSingleLongTapStart,
+      onSingleLongTapMoveUpdate: onSingleLongTapMoveUpdate,
+      onSingleLongTapEnd: onSingleLongTapEnd,
+      onDoubleTapDown: onDoubleTapDown,
+      onSecondarySingleTapUp: onSecondarySingleTapUp,
+      onDragSelectionStart: onDragSelectionStart,
+      onDragSelectionUpdate: onDragSelectionUpdate,
+      onDragSelectionEnd: onDragSelectionEnd,
+      behavior: behavior,
+      detectWordBoundary: detectWordBoundary,
+      child: child,
+    );
   }
 }

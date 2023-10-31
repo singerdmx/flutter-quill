@@ -60,18 +60,18 @@ class _QuillToolbarSelectAlignmentButtonState
     return widget.controller;
   }
 
-  double get iconSize {
+  double get _iconSize {
     final baseFontSize = baseButtonExtraOptions.globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
   }
 
-  VoidCallback? get afterButtonPressed {
+  VoidCallback? get _afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
   }
 
-  QuillIconTheme? get iconTheme {
+  QuillIconTheme? get _iconTheme {
     return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
   }
 
@@ -191,25 +191,42 @@ class _QuillToolbarSelectAlignmentButtonState
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
 
-    if (childBuilder != null) {
-      throw UnsupportedError(
-        'Sorry but the `childBuilder` for the Select alignment buttons'
-        ' is not supported. Yet but we will work on that soon.',
-      );
+    void _sharedOnPressed(int index) {
+      _valueAttribute[index] == Attribute.leftAlignment
+          ? controller.formatSelection(
+              Attribute.clone(Attribute.align, null),
+            )
+          : controller.formatSelection(_valueAttribute[index]);
+      _afterButtonPressed?.call();
     }
-
-    final theme = Theme.of(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(buttonCount, (index) {
+        if (childBuilder != null) {
+          return childBuilder(
+            QuillToolbarSelectAlignmentButtonOptions(
+              afterButtonPressed: _afterButtonPressed,
+              iconSize: _iconSize,
+              iconTheme: _iconTheme,
+              tooltips: _tooltips,
+              iconsData: _iconsData,
+            ),
+            QuillToolbarSelectAlignmentButtonExtraOptions(
+              context: context,
+              controller: controller,
+              onPressed: () => _sharedOnPressed(index),
+            ),
+          );
+        }
+        final theme = Theme.of(context);
         return Padding(
           padding: widget.padding ??
               const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(
-              width: iconSize * kIconButtonFactor,
-              height: iconSize * kIconButtonFactor,
+              width: _iconSize * kIconButtonFactor,
+              height: _iconSize * kIconButtonFactor,
             ),
             child: UtilityWidgets.maybeTooltip(
               message: _valueString[index] == Attribute.leftAlignment.value
@@ -226,19 +243,12 @@ class _QuillToolbarSelectAlignmentButtonState
                 visualDensity: VisualDensity.compact,
                 shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(iconTheme?.borderRadius ?? 2)),
+                        BorderRadius.circular(_iconTheme?.borderRadius ?? 2)),
                 fillColor: _valueToText[_value] == _valueString[index]
-                    ? (iconTheme?.iconSelectedFillColor ??
-                        Theme.of(context).primaryColor)
-                    : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
-                onPressed: () {
-                  _valueAttribute[index] == Attribute.leftAlignment
-                      ? controller.formatSelection(
-                          Attribute.clone(Attribute.align, null),
-                        )
-                      : controller.formatSelection(_valueAttribute[index]);
-                  afterButtonPressed?.call();
-                },
+                    ? (_iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
+                    : (_iconTheme?.iconUnselectedFillColor ??
+                        theme.canvasColor),
+                onPressed: () => _sharedOnPressed(index),
                 child: Icon(
                   _valueString[index] == Attribute.leftAlignment.value
                       ? _iconsData.leftAlignment
@@ -248,11 +258,11 @@ class _QuillToolbarSelectAlignmentButtonState
                                   Attribute.rightAlignment.value
                               ? _iconsData.rightAlignment
                               : _iconsData.justifyAlignment,
-                  size: iconSize,
+                  size: _iconSize,
                   color: _valueToText[_value] == _valueString[index]
-                      ? (iconTheme?.iconSelectedColor ??
+                      ? (_iconTheme?.iconSelectedColor ??
                           theme.primaryIconTheme.color)
-                      : (iconTheme?.iconUnselectedColor ??
+                      : (_iconTheme?.iconUnselectedColor ??
                           theme.iconTheme.color),
                 ),
               ),

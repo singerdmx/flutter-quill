@@ -3,8 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../utils/extensions/build_context.dart';
 
-class CheckboxPoint extends StatefulWidget {
-  const CheckboxPoint({
+class QuillEditorCheckboxPoint extends StatefulWidget {
+  const QuillEditorCheckboxPoint({
     required this.size,
     required this.value,
     required this.enabled,
@@ -20,10 +20,11 @@ class CheckboxPoint extends StatefulWidget {
   final QuillCheckboxBuilder? uiBuilder;
 
   @override
-  _CheckboxPointState createState() => _CheckboxPointState();
+  _QuillEditorCheckboxPointState createState() =>
+      _QuillEditorCheckboxPointState();
 }
 
-class _CheckboxPointState extends State<CheckboxPoint> {
+class _QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
   @override
   Widget build(BuildContext context) {
     final uiBuilder = widget.uiBuilder;

@@ -437,9 +437,6 @@ class RawEditorState extends EditorState
         // in the web browser, but we do unfocus for all other kinds of events.
         switch (event.kind) {
           case ui.PointerDeviceKind.touch:
-            // if (isWeb()) {
-            //   widget.focusNode.unfocus();
-            // }
             break;
           case ui.PointerDeviceKind.mouse:
           case ui.PointerDeviceKind.stylus:
@@ -449,7 +446,7 @@ class RawEditorState extends EditorState
             break;
           case ui.PointerDeviceKind.trackpad:
             throw UnimplementedError(
-              'Unexpected pointer down event for trackpad',
+              'Unexpected pointer down event for trackpad.',
             );
         }
         break;
@@ -461,7 +458,7 @@ class RawEditorState extends EditorState
       default:
         throw UnsupportedError(
           'The platform ${defaultTargetPlatform.name} is not supported in the'
-          ' _defaultOnTapOutside',
+          ' _defaultOnTapOutside()',
         );
     }
   }
@@ -474,8 +471,11 @@ class RawEditorState extends EditorState
     var _doc = controller.document;
     if (_doc.isEmpty() && widget.placeholder != null) {
       final raw = widget.placeholder?.replaceAll(r'"', '\\"');
-      _doc = Document.fromJson(jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]'));
+      _doc = Document.fromJson(
+        jsonDecode(
+          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]',
+        ),
+      );
     }
 
     Widget child = CompositedTransformTarget(
@@ -1435,7 +1435,6 @@ class RawEditorState extends EditorState
   @override
   void requestKeyboard() {
     if (controller.skipRequestKeyboard) {
-      // TODO: There is a bug, requestKeyboard is being called 2-4 times!
       // and that just by one simple change
       controller.skipRequestKeyboard = false;
       return;

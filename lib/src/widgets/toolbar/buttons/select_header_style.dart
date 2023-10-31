@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
@@ -90,10 +91,20 @@ class _QuillToolbarSelectHeaderStyleButtonsState
     afterButtonPressed?.call();
   }
 
+  List<Attribute> get _attrbuites {
+    return options.attributes ??
+        const [
+          Attribute.header,
+          Attribute.h1,
+          Attribute.h2,
+          Attribute.h3,
+        ];
+  }
+
   @override
   Widget build(BuildContext context) {
     assert(
-      options.attributes.every(
+      _attrbuites.every(
         (element) => _valueToText.keys.contains(element),
       ),
       'All attributes must be one of them: header, h1, h2 or h3',
@@ -107,19 +118,28 @@ class _QuillToolbarSelectHeaderStyleButtonsState
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
 
-    if (childBuilder != null) {
-      throw UnsupportedError(
-        'Sorry but the `childBuilder` for the Select header button'
-        ' is not supported. Yet but we will work on that soon.',
-      );
-    }
-    final theme = Theme.of(context);
-
-    final children = options.attributes.map((attribute) {
+    final children = _attrbuites.map((attribute) {
+      if (childBuilder != null) {
+        return childBuilder(
+          QuillToolbarSelectHeaderStyleButtonsOptions(
+            afterButtonPressed: afterButtonPressed,
+            attributes: _attrbuites,
+            axis: axis,
+            iconSize: iconSize,
+            iconTheme: iconTheme,
+            tooltip: tooltip,
+          ),
+          QuillToolbarSelectHeaderStyleButtonExtraOptions(
+            controller: controller,
+            context: context,
+            onPressed: () => _sharedOnPressed(attribute),
+          ),
+        );
+      }
+      final theme = Theme.of(context);
       final isSelected = _selectedAttribute == attribute;
       return Padding(
-        // Do we really need to ignore (prefer_const_constructors)??
-        padding: EdgeInsets.symmetric(horizontal: !isWeb() ? 1.0 : 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
         child: ConstrainedBox(
           constraints: BoxConstraints.tightFor(
             width: iconSize * kIconButtonFactor,
@@ -136,12 +156,14 @@ class _QuillToolbarSelectHeaderStyleButtonsState
                   borderRadius:
                       BorderRadius.circular(iconTheme?.borderRadius ?? 2)),
               fillColor: isSelected
-                  ? (iconTheme?.iconSelectedFillColor ??
-                      Theme.of(context).primaryColor)
+                  ? (iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
                   : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
               onPressed: () => _sharedOnPressed(attribute),
               child: Text(
-                _valueToText[attribute] ?? '',
+                _valueToText[attribute] ??
+                    (throw ArgumentError.notNull(
+                      'attrbuite',
+                    )),
                 style: style.copyWith(
                   color: isSelected
                       ? (iconTheme?.iconSelectedColor ??

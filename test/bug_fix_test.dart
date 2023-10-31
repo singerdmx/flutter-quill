@@ -130,7 +130,7 @@ void main() {
         controller.formatSelection(Attribute.unchecked);
         editor.focusNode.unfocus();
         await tester.pump();
-        await tester.tap(find.byType(CheckboxPoint));
+        await tester.tap(find.byType(QuillEditorCheckboxPoint));
         expect(tester.takeException(), isNull);
       });
     });

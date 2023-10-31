@@ -19,6 +19,8 @@ class QuillToolbarSelectAlignmentButtonOptions
     this.tooltips,
     this.iconSize,
     super.afterButtonPressed,
+
+    /// This will called on every select alignment button
     super.childBuilder,
     super.controller,
     super.iconTheme,

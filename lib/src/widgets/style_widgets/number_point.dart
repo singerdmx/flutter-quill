@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../models/documents/attribute.dart';
 import '../text_block.dart';
 
-class QuillNumberPoint extends StatelessWidget {
-  const QuillNumberPoint({
+class QuillEditorNumberPoint extends StatelessWidget {
+  const QuillEditorNumberPoint({
     required this.index,
     required this.indentLevelCounts,
     required this.count,
@@ -13,8 +13,8 @@ class QuillNumberPoint extends StatelessWidget {
     required this.attrs,
     this.withDot = true,
     this.padding = 0.0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int index;
   final Map<int?, int> indentLevelCounts;
