@@ -1,3 +1,6 @@
+## 1.0.0-dev
+- This version is not yet ready for publishing
+
 ## 0.5.1
 
 - Provide a way to use custom image provider for the image widgets
