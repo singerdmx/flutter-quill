@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
-    show Axis, Color, Decoration, WrapAlignment, WrapCrossAlignment;
+    show Axis, Color, Decoration, Widget, WrapAlignment, WrapCrossAlignment;
 import '../../../widgets/embeds.dart';
 
 import '../../structs/link_dialog_action.dart';
@@ -107,6 +107,7 @@ class QuillToolbarConfigurations extends Equatable {
     this.color,
     this.sectionDividerColor,
     this.sectionDividerSpace,
+    this.spacerWidget,
 
     /// By default it will calculated based on the [globalIconSize] from
     /// [base] in [QuillToolbarButtonOptions]
@@ -130,6 +131,15 @@ class QuillToolbarConfigurations extends Equatable {
   /// If you want change spesefic buttons or all of them
   /// then you came to the right place
   final QuillToolbarButtonOptions buttonOptions;
+
+  /// A widget that will placed between each button in the toolbar
+  /// can be used as a spacer
+  /// it will not used before the first button
+  /// it will not used after the last button
+  /// it will also not used in the toolbar dividers
+  /// Default value will be [SizedBox.shrink()]
+  /// some widgets like the header styles will be considered as one widget
+  final Widget? spacerWidget;
   final bool multiRowsDisplay;
 
   /// By default it will be
