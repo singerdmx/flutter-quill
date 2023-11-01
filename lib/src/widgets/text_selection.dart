@@ -793,7 +793,6 @@ class _EditorTextSelectionGestureDetectorState
     }
     if (_doubleTapTimer != null &&
         _isWithinDoubleTapTolerance(details.globalPosition)) {
-
       widget.onSecondaryDoubleTapDown?.call(details);
 
       _doubleTapTimer!.cancel();
