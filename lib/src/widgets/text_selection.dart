@@ -498,9 +498,7 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleTap() {
-    if (widget.onSelectionHandleTapped != null) {
-      widget.onSelectionHandleTapped!();
-    }
+    widget.onSelectionHandleTapped?.call();
   }
 
   @override
@@ -756,9 +754,8 @@ class _EditorTextSelectionGestureDetectorState
   // The down handler is force-run on success of a single tap and optimistically
   // run before a long press success.
   void _handleTapDown(TapDownDetails details) {
-    if (widget.onTapDown != null) {
-      widget.onTapDown!(details);
-    }
+    widget.onTapDown?.call(details);
+
     // This isn't detected as a double tap gesture in the gesture recognizer
     // because it's 2 single taps, each of which may do different things
     // depending on whether it's a single tap, the first tap of a double tap,
@@ -767,9 +764,8 @@ class _EditorTextSelectionGestureDetectorState
         _isWithinDoubleTapTolerance(details.globalPosition)) {
       // If there was already a previous tap, the second down hold/tap is a
       // double tap down.
-      if (widget.onDoubleTapDown != null) {
-        widget.onDoubleTapDown!(details);
-      }
+
+      widget.onDoubleTapDown?.call(details);
 
       _doubleTapTimer!.cancel();
       _doubleTapTimeout();
@@ -779,9 +775,7 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleTapUp(TapUpDetails details) {
     if (!_isDoubleTap) {
-      if (widget.onSingleTapUp != null) {
-        widget.onSingleTapUp!(details);
-      }
+      widget.onSingleTapUp?.call(details);
       _lastTapOffset = details.globalPosition;
       _doubleTapTimer = Timer(kDoubleTapTimeout, _doubleTapTimeout);
     }
@@ -789,21 +783,17 @@ class _EditorTextSelectionGestureDetectorState
   }
 
   void _handleTapCancel() {
-    if (widget.onSingleTapCancel != null) {
-      widget.onSingleTapCancel!();
-    }
+    widget.onSingleTapCancel?.call();
   }
 
   // added secondary tap function for mouse right click to show toolbar
   void _handleSecondaryTapDown(TapDownDetails details) {
     if (widget.onSecondaryTapDown != null) {
-      widget.onSecondaryTapDown!(details);
+      widget.onSecondaryTapDown?.call(details);
     }
     if (_doubleTapTimer != null &&
         _isWithinDoubleTapTolerance(details.globalPosition)) {
-      if (widget.onSecondaryDoubleTapDown != null) {
-        widget.onSecondaryDoubleTapDown!(details);
-      }
+      widget.onSecondaryDoubleTapDown?.call(details);
 
       _doubleTapTimer!.cancel();
       _doubleTapTimeout();
@@ -813,9 +803,7 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleSecondaryTapUp(TapUpDetails details) {
     if (!_isSecondaryDoubleTap) {
-      if (widget.onSecondarySingleTapUp != null) {
-        widget.onSecondarySingleTapUp!(details);
-      }
+      widget.onSecondarySingleTapUp?.call(details);
       _lastTapOffset = details.globalPosition;
       _doubleTapTimer = Timer(kDoubleTapTimeout, _doubleTapTimeout);
     }
@@ -823,9 +811,7 @@ class _EditorTextSelectionGestureDetectorState
   }
 
   void _handleSecondaryTapCancel() {
-    if (widget.onSecondarySingleTapCancel != null) {
-      widget.onSecondarySingleTapCancel!();
-    }
+    widget.onSecondarySingleTapCancel?.call();
   }
 
   DragStartDetails? _lastDragStartDetails;
@@ -835,9 +821,7 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragStart(DragStartDetails details) {
     assert(_lastDragStartDetails == null);
     _lastDragStartDetails = details;
-    if (widget.onDragSelectionStart != null) {
-      widget.onDragSelectionStart!(details);
-    }
+    widget.onDragSelectionStart?.call(details);
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
@@ -874,9 +858,9 @@ class _EditorTextSelectionGestureDetectorState
       _dragUpdateThrottleTimer!.cancel();
       _handleDragUpdateThrottled();
     }
-    if (widget.onDragSelectionEnd != null) {
-      widget.onDragSelectionEnd!(details);
-    }
+
+    widget.onDragSelectionEnd?.call(details);
+
     _dragUpdateThrottleTimer = null;
     _lastDragStartDetails = null;
     _lastDragUpdateDetails = null;
@@ -885,32 +869,30 @@ class _EditorTextSelectionGestureDetectorState
   void _forcePressStarted(ForcePressDetails details) {
     _doubleTapTimer?.cancel();
     _doubleTapTimer = null;
-    if (widget.onForcePressStart != null) {
-      widget.onForcePressStart!(details);
-    }
+    widget.onForcePressStart?.call(details);
   }
 
   void _forcePressEnded(ForcePressDetails details) {
     if (widget.onForcePressEnd != null) {
-      widget.onForcePressEnd!(details);
+      widget.onForcePressEnd?.call(details);
     }
   }
 
   void _handleLongPressStart(LongPressStartDetails details) {
-    if (!_isDoubleTap && widget.onSingleLongTapStart != null) {
-      widget.onSingleLongTapStart!(details);
+    if (!_isDoubleTap) {
+      widget.onSingleLongTapStart?.call(details);
     }
   }
 
   void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (!_isDoubleTap && widget.onSingleLongTapMoveUpdate != null) {
-      widget.onSingleLongTapMoveUpdate!(details);
+    if (!_isDoubleTap) {
+      widget.onSingleLongTapMoveUpdate?.call(details);
     }
   }
 
   void _handleLongPressEnd(LongPressEndDetails details) {
-    if (!_isDoubleTap && widget.onSingleLongTapEnd != null) {
-      widget.onSingleLongTapEnd!(details);
+    if (!_isDoubleTap) {
+      widget.onSingleLongTapEnd?.call(details);
     }
     _isDoubleTap = false;
   }
