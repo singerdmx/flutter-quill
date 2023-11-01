@@ -33,7 +33,6 @@ Pub: [FlutterQuill]
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
   - [Table of contents](#table-of-contents)
-  - [Demo](#demo)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Migration](#migration)
@@ -56,21 +55,20 @@ Pub: [FlutterQuill]
   - [Testing](#testing)
   - [License](#license)
   - [Contributors](#contributors)
-  - [Sponsors](#sponsors)
 
-## Demo
+<!-- ## Demo
 
 <p float="left">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/103142455-0531ab00-46b8-11eb-89f8-26a77de9227f.png">
+  <img width="400" alt="Screenshot 1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
+  <img width="400" alt="Screenshot 2" src="https://user-images.githubusercontent.com/122956/103142455-0531ab00-46b8-11eb-89f8-26a77de9227f.png">
 </p>
 
 <p float="left">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
-  <img width="400" alt="1" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
+  <img width="400" alt="Screenshot 3" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
+  <img width="400" alt="Screenshot 4" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
 </p>
 
----
+--- -->
 
 ## Installation
 
