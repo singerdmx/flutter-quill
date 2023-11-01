@@ -1,3 +1,6 @@
+## [8.1.3]
+- Move the images to screenshot instead of `README.md`
+
 ## [8.1.2]
 - Fix bug that is related to the regexp of the insert link dialog
 - Require dart 3 as minimum
