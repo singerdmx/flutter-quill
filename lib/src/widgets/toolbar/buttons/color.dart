@@ -131,7 +131,7 @@ class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        (widget.isBackground ? 'Font color'.i18n : 'Background color'.i18n);
+        (widget.isBackground ? 'Background color'.i18n : 'Font color'.i18n);
   }
 
   @override
