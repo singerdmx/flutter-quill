@@ -27,9 +27,6 @@ dependencies:
     sdk: flutter
 
   flutter_quill: ^8.1.6
-  # In case you are working on changes for both libraries,
-  # flutter_quill:
-  #   path: ../
 
   http: ^1.1.0
   photo_view: ^0.14.0
@@ -43,6 +40,11 @@ dependencies:
   math_keyboard: ^0.2.1
   url_launcher: ^6.2.1
   meta: ^1.9.1
+
+# In case you are working on changes for both libraries, please uncomment this section
+# dependency_overrides:
+#   flutter_quill:
+#     path: ../
 
 dev_dependencies:
   flutter_test:

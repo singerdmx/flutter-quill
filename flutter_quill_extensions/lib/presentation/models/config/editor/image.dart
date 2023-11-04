@@ -1,7 +1,7 @@
 import 'package:flutter_quill/extensions.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import '../../../../flutter_quill_extensions.dart';
+import '../../../embeds/embed_types.dart';
 
 /// [QuillEditorImageEmbedConfigurations] for desktop, mobile and
 ///  other platforms

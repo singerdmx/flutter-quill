@@ -23,6 +23,7 @@ import 'presentation/models/config/toolbar/buttons/media_button.dart';
 import 'presentation/models/config/toolbar/buttons/video.dart';
 
 export '/presentation/models/config/editor/webview.dart';
+export './logic/extensions/controller.dart';
 export 'presentation/embeds/editor/unknown.dart';
 export 'presentation/embeds/embed_types.dart';
 export 'presentation/embeds/toolbar/camera_button.dart';
