@@ -16,7 +16,8 @@ jobs:
         with:
           flutter-version: '3.13.9'
 
+      - name: Disable Flutter analytics
+        run: flutter config --no-analytics
+
       - name: Publish to pub.dev
-        run: |
-          echo "Before you publish, make sure you've handled authentication properly"
-          flutter pub publish
+        run: echo 'y' | flutter pub publish --force
