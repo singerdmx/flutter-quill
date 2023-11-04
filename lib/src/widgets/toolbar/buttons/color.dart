@@ -125,7 +125,7 @@ class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   IconData get iconData {
     return options.iconData ??
         baseButtonExtraOptions.iconData ??
-        (widget.isBackground ? Icons.color_lens : Icons.format_color_fill);
+        (widget.isBackground ? Icons.format_color_fill : Icons.color_lens);
   }
 
   String get tooltip {

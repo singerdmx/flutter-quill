@@ -1,3 +1,6 @@
+## [8.1.5]
+- Background/Font Color toolbar button icons reversed.
+
 ## [8.1.4]
 - Background/Font Color toolbar button tooltips reversed.
 
