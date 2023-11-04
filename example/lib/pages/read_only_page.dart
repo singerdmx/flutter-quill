@@ -40,7 +40,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
       configurations: QuillEditorConfigurations(
         expands: false,
         padding: EdgeInsets.zero,
-        embedBuilders: FlutterQuillEmbeds.builders(),
+        embedBuilders: FlutterQuillEmbeds.editorBuilders(),
         scrollable: true,
         autoFocus: true,
       ),

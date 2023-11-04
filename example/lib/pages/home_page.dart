@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:flutter_quill_extensions/presentation/models/config/toolbar/buttons/video.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                   context: context,
                   builder: (context) => AlertDialog(
                     content: Text(_controller.document.toPlainText([
-                      ...FlutterQuillEmbeds.builders(),
+                      ...FlutterQuillEmbeds.editorBuilders(),
                       TimeStampEmbedBuilderWidget()
                     ])),
                   ),
@@ -254,7 +255,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         embedBuilders: [
-          ...FlutterQuillEmbeds.builders(),
+          ...FlutterQuillEmbeds.editorBuilders(),
           TimeStampEmbedBuilderWidget()
         ],
       ),
@@ -267,9 +268,11 @@ class _HomePageState extends State<HomePage> {
     if (kIsWeb) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
-          embedButtons: FlutterQuillEmbeds.buttons(
-            onImagePickCallback: _onImagePickCallback,
-            webImagePickImpl: _webImagePickImpl,
+          embedButtons: FlutterQuillEmbeds.toolbarButtons(
+            imageButtonOptions: QuillToolbarImageButtonOptions(
+              onImagePickCallback: _onImagePickCallback,
+              webImagePickImpl: _webImagePickImpl,
+            ),
           ),
           buttonOptions: QuillToolbarButtonOptions(
             base: QuillToolbarBaseButtonOptions(
@@ -283,9 +286,11 @@ class _HomePageState extends State<HomePage> {
     if (_isDesktop()) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
-          embedButtons: FlutterQuillEmbeds.buttons(
-            onImagePickCallback: _onImagePickCallback,
-            filePickImpl: openFileSystemPickerForDesktop,
+          embedButtons: FlutterQuillEmbeds.toolbarButtons(
+            imageButtonOptions: QuillToolbarImageButtonOptions(
+              onImagePickCallback: _onImagePickCallback,
+              filePickImpl: openFileSystemPickerForDesktop,
+            ),
           ),
           showAlignmentButtons: true,
           buttonOptions: QuillToolbarButtonOptions(
@@ -299,16 +304,20 @@ class _HomePageState extends State<HomePage> {
     }
     return QuillToolbar(
       configurations: QuillToolbarConfigurations(
-        embedButtons: FlutterQuillEmbeds.buttons(
-          // provide a callback to enable picking images from device.
-          // if omit, "image" button only allows adding images from url.
-          // same goes for videos.
-          onImagePickCallback: _onImagePickCallback,
-          onVideoPickCallback: _onVideoPickCallback,
-          // uncomment to provide a custom "pick from" dialog.
-          // mediaPickSettingSelector: _selectMediaPickSetting,
-          // uncomment to provide a custom "pick from" dialog.
-          // cameraPickSettingSelector: _selectCameraPickSetting,
+        embedButtons: FlutterQuillEmbeds.toolbarButtons(
+          imageButtonOptions: QuillToolbarImageButtonOptions(
+            // provide a callback to enable picking images from device.
+            // if omit, "image" button only allows adding images from url.
+            // same goes for videos.
+            onImagePickCallback: _onImagePickCallback,
+            // uncomment to provide a custom "pick from" dialog.
+            // mediaPickSettingSelector: _selectMediaPickSetting,
+            // uncomment to provide a custom "pick from" dialog.
+            // cameraPickSettingSelector: _selectCameraPickSetting,
+          ),
+          videoButtonOptions: QuillToolbarVideoButtonOptions(
+            onVideoPickCallback: _onVideoPickCallback,
+          ),
         ),
         showAlignmentButtons: true,
         buttonOptions: QuillToolbarButtonOptions(
@@ -437,12 +446,12 @@ class _HomePageState extends State<HomePage> {
               TextButton.icon(
                 icon: const Icon(Icons.collections),
                 label: const Text('Gallery'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Gallery),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
               ),
               TextButton.icon(
                 icon: const Icon(Icons.link),
                 label: const Text('Link'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Link),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.link),
               )
             ],
           ),
@@ -461,12 +470,12 @@ class _HomePageState extends State<HomePage> {
               TextButton.icon(
                 icon: const Icon(Icons.camera),
                 label: const Text('Capture a photo'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Camera),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.camera),
               ),
               TextButton.icon(
                 icon: const Icon(Icons.video_call),
                 label: const Text('Capture a video'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.Video),
+                onPressed: () => Navigator.pop(ctx, MediaPickSetting.video),
               )
             ],
           ),

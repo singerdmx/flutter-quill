@@ -1,3 +1,6 @@
+## 0.6.0-dev.1
+- Breaking Changes, we have refactored most of the functions and it got renamed
+
 ## 0.5.1
 
 - Provide a way to use custom image provider for the image widgets
