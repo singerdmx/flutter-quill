@@ -1,3 +1,6 @@
+## [8.1.4]
+- Background/Font Color toolbar button tooltips reversed.
+
 ## [8.1.3]
 - Move the images to screenshot instead of `README.md`
 
