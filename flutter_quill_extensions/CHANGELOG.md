@@ -1,5 +1,5 @@
-## 1.0.0-dev
-- This version is not yet ready for publishing
+## 0.6.0-dev.1
+- Breaking Changes, we have refactored most of the functions and it got renamed
 
 ## 0.5.1
 
