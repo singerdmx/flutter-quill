@@ -1,3 +1,6 @@
+## [8.1.7]
+- Automated publishing to pub.dev.
+
 ## [8.1.6]
 - Fix compatibility with `integration_test` by downgrade the minimum version of platform package to 3.1.0
 

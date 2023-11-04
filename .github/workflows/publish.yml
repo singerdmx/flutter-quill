@@ -3,12 +3,21 @@ name: Publish to pub.dev
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'  # Trigger this action when a version tag is pushed
 
 jobs:
   publish:
-    permissions:
-      id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    # with:
-    #   working-directory: path/to/package/within/repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Dart environment
+        uses: dart-lang/setup-dart@v1
+
+      # If the package is not in the root, include a step to navigate to the package directory
+      # - name: Change to package directory
+      #   run: cd path/to/your/package
+
+      - name: Publish to pub.dev
+        run: dart pub publish --force
+        # This will fail without an access token for authentication unless you have a custom setup.
