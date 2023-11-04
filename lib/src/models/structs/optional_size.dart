@@ -1,5 +1,8 @@
+import 'package:meta/meta.dart' show immutable;
+
+@immutable
 class OptionalSize {
-  OptionalSize(
+  const OptionalSize(
     this.width,
     this.height,
   );

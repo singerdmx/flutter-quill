@@ -77,12 +77,12 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
                 : double.tryParse(Attribute.margin)) ??
             0.0;
 
-        assert(
-          width != null && height != null,
-          base.isMobile()
-              ? 'mobileWidth and mobileHeight must be specified'
-              : 'width and height must be specified',
-        );
+        // assert(
+        //   width != null && height != null,
+        //   base.isMobile()
+        //       ? 'mobileWidth and mobileHeight must be specified'
+        //       : 'width and height must be specified',
+        // );
         imageSize = OptionalSize(width, height);
         image = Padding(
           padding: EdgeInsets.all(margin),
