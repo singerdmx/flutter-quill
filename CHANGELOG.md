@@ -1,3 +1,6 @@
+## [8.1.8]
+- Fix automated publishing to pub.dev.
+
 ## [8.1.7]
 - Automated publishing to pub.dev.
 

@@ -11,13 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Dart environment
-        uses: dart-lang/setup-dart@v1
-
-      # If the package is not in the root, include a step to navigate to the package directory
-      # - name: Change to package directory
-      #   run: cd path/to/your/package
+      - name: Setup Flutter environment
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.13.9'
 
       - name: Publish to pub.dev
-        run: dart pub publish --force
-        # This will fail without an access token for authentication unless you have a custom setup.
+        run: |
+          echo "Before you publish, make sure you've handled authentication properly"
+          flutter pub publish
