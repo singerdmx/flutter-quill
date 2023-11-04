@@ -16,8 +16,10 @@ jobs:
         with:
           flutter-version: '3.13.9'
 
-      - name: Disable Flutter analytics
-        run: flutter config --no-analytics
+      - name: Disable Flutter telemetry
+        run: flutter --disable-telemetry
 
       - name: Publish to pub.dev
-        run: echo 'y' | flutter pub publish --force
+        run: flutter pub publish --force
+        env:
+          PUB_ACCESS_TOKEN: ${{ secrets.PUB_ACCESS_TOKEN }}
