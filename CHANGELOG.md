@@ -1,4 +1,4 @@
-## [8.1.12]
+## [8.2.0]
 - Add the option to add configurations for `flutter_quill_extensions` using `extraConfigurations`
 
 ## [8.1.11]
