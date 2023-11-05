@@ -78,36 +78,36 @@ class QuillToolbarToggleStyleButtonState
         context.requireQuillToolbarBaseButtonOptions.iconTheme;
   }
 
-  String? get _defaultTooltip {
+  (String?, IconData) get _defaultTooltipAndIconData {
     switch (widget.attribute.key) {
       case 'bold':
-        return 'Bold'.i18n;
+        return ('Bold'.i18n, Icons.format_bold);
       case 'script':
         if (widget.attribute.value == ScriptAttributes.sub.value) {
-          return 'Subscript'.i18n;
+          return ('Subscript'.i18n, Icons.subscript);
         }
-        return 'Superscript'.i18n;
+        return ('Superscript'.i18n, Icons.superscript);
       case 'italic':
-        return 'Italic'.i18n;
+        return ('Italic'.i18n, Icons.format_italic);
       case 'small':
-        return 'Small'.i18n;
+        return ('Small'.i18n, Icons.format_size);
       case 'underline':
-        return 'Underline'.i18n;
+        return ('Underline'.i18n, Icons.format_underline);
       case 'strike':
-        return 'Strike through'.i18n;
+        return ('Strike through'.i18n, Icons.format_strikethrough);
       case 'code':
-        return 'Inline code'.i18n;
-      case 'rtl':
-        return 'Text direction'.i18n;
+        return ('Inline code'.i18n, Icons.code);
+      case 'direction':
+        return ('Text direction'.i18n, Icons.format_textdirection_r_to_l);
       case 'list':
         if (widget.attribute.value == 'bullet') {
-          return 'Bullet list'.i18n;
+          return ('Bullet list'.i18n, Icons.format_list_bulleted);
         }
-        return 'Numbered list'.i18n;
+        return ('Numbered list'.i18n, Icons.format_list_numbered);
       case 'code-block':
-        return 'Code block'.i18n;
+        return ('Code block'.i18n, Icons.code);
       case 'blockquote':
-        return 'Quote'.i18n;
+        return ('Quote'.i18n, Icons.format_quote);
       default:
         throw ArgumentError(
           'Could not find the default tooltip for '
@@ -116,53 +116,53 @@ class QuillToolbarToggleStyleButtonState
     }
   }
 
+  // IconData get _defaultIconData {
+  //   switch (widget.attribute.key) {
+  //     case 'bold':
+  //       return Icons.format_bold;
+  //     case 'script':
+  //       if (widget.attribute.value == ScriptAttributes.sub.value) {
+  //         return Icons.subscript;
+  //       }
+  //       return Icons.superscript;
+  //     case 'italic':
+  //       return Icons.format_italic;
+  //     case 'small':
+  //       return Icons.format_size;
+  //     case 'underline':
+  //       return Icons.format_underline;
+  //     case 'strike':
+  //       return Icons.format_strikethrough;
+  //     case 'code':
+  //       return Icons.code;
+  //     case 'rtl':
+  //       return Icons.format_textdirection_r_to_l;
+  //     case 'list':
+  //       if (widget.attribute.value == 'bullet') {
+  //         return Icons.format_list_bulleted;
+  //       }
+  //       return Icons.format_list_numbered;
+  //     case 'code-block':
+  //       return Icons.code;
+  //     case 'blockquote':
+  //       return Icons.format_quote;
+  //     default:
+  //       throw ArgumentError(
+  //         'Could not find the icon for ${widget.attribute.toString()}',
+  //       );
+  //   }
+  // }
+
   String? get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        _defaultTooltip;
-  }
-
-  IconData get _defaultIconData {
-    switch (widget.attribute.key) {
-      case 'bold':
-        return Icons.format_bold;
-      case 'script':
-        if (widget.attribute.value == ScriptAttributes.sub.value) {
-          return Icons.subscript;
-        }
-        return Icons.superscript;
-      case 'italic':
-        return Icons.format_italic;
-      case 'small':
-        return Icons.format_size;
-      case 'underline':
-        return Icons.format_underline;
-      case 'strike':
-        return Icons.format_strikethrough;
-      case 'code':
-        return Icons.code;
-      case 'rtl':
-        return Icons.format_textdirection_r_to_l;
-      case 'list':
-        if (widget.attribute.value == 'bullet') {
-          return Icons.format_list_bulleted;
-        }
-        return Icons.format_list_numbered;
-      case 'code-block':
-        return Icons.code;
-      case 'blockquote':
-        return Icons.format_quote;
-      default:
-        throw ArgumentError(
-          'Could not find the icon for ${widget.attribute.toString()}',
-        );
-    }
+        _defaultTooltipAndIconData.$1;
   }
 
   IconData get iconData {
     return options.iconData ??
         context.requireQuillToolbarBaseButtonOptions.iconData ??
-        _defaultIconData;
+        _defaultTooltipAndIconData.$2;
   }
 
   void _onPressed() {

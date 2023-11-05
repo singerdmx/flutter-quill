@@ -102,10 +102,14 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    content: Text(_controller.document.toPlainText([
-                      ...FlutterQuillEmbeds.editorBuilders(),
-                      TimeStampEmbedBuilderWidget()
-                    ])),
+                    content: Text(
+                      _controller.document.toPlainText(
+                        [
+                          ...FlutterQuillEmbeds.editorBuilders(),
+                          TimeStampEmbedBuilderWidget()
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 icon: const Icon(Icons.text_fields_rounded),
@@ -286,6 +290,7 @@ class _HomePageState extends State<HomePage> {
     if (_isDesktop()) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
+          showDirection: true,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
               onImagePickCallback: _onImagePickCallback,
