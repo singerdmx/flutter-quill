@@ -61,15 +61,12 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
         focusNode: _focusNode,
       );
     }
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: quillEditor,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade200),
       ),
+      padding: const EdgeInsets.all(8),
+      child: quillEditor,
     );
   }
 
