@@ -42,7 +42,9 @@ dependencies:
   meta: ^1.9.1
   cross_file: ^0.3.3+6
 
-# In case you are working on changes for both libraries, please uncomment this section
+# In case you are working on changes for both libraries
+# Comment the dependency_overrides section when publishing the package,
+# then uncooment it back, this will be automated later
 dependency_overrides:
   flutter_quill:
     path: ../
