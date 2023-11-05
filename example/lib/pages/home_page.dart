@@ -85,9 +85,6 @@ class _HomePageState extends State<HomePage> {
         }
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.grey.shade800,
-            elevation: 0,
-            centerTitle: false,
             title: const Text(
               'Flutter Quill',
             ),
@@ -117,10 +114,7 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-          drawer: Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.sizeOf(context).width * 0.7),
-            color: Colors.grey.shade800,
+          drawer: Drawer(
             child: _buildMenuBar(context),
           ),
           body: _buildWelcomeEditor(context),
@@ -510,29 +504,25 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildMenuBar(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    const itemStyle = TextStyle(
-      color: Colors.white,
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-    );
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Divider(
           thickness: 2,
-          color: Colors.white,
           indent: size.width * 0.1,
           endIndent: size.width * 0.1,
         ),
         ListTile(
-          title: const Center(child: Text('Read only demo', style: itemStyle)),
+          title: const Center(
+              child: Text(
+            'Read only demo',
+          )),
           dense: true,
           visualDensity: VisualDensity.compact,
           onTap: _readOnly,
         ),
         Divider(
           thickness: 2,
-          color: Colors.white,
           indent: size.width * 0.1,
           endIndent: size.width * 0.1,
         ),
