@@ -13,6 +13,8 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/embed_types/image.dart';
+import 'package:flutter_quill_extensions/presentation/embeds/embed_types/video.dart';
+import 'package:flutter_quill_extensions/presentation/models/config/toolbar/buttons/video.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -317,6 +319,12 @@ class _HomePageState extends State<HomePage> {
     return QuillToolbar(
       configurations: QuillToolbarConfigurations(
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
+          videoButtonOptions: QuillToolbarVideoButtonOptions(
+            videoConfigurations: QuillToolbarVideoConfigurations(
+              onVideoInsertedCallback: (video) =>
+                  _onVideoPickCallback(File(video)),
+            ),
+          ),
           imageButtonOptions: QuillToolbarImageButtonOptions(
             imageButtonConfigurations: QuillToolbarImageConfigurations(
               onImageInsertedCallback: (image) async {
@@ -463,7 +471,8 @@ class _HomePageState extends State<HomePage> {
   //             TextButton.icon(
   //               icon: const Icon(Icons.collections),
   //               label: const Text('Gallery'),
-  //               onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
+  //               onPressed: () => Navigator.pop(ctx,
+  // MediaPickSetting.gallery),
   //             ),
   //             TextButton.icon(
   //               icon: const Icon(Icons.link),
