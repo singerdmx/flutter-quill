@@ -1,5 +1,8 @@
 ## 0.6.0-dev.4
 - Add more exports
+- Update `README.md``
+- Fix save image bug
+- Quick fixes
 
 ## 0.6.0-dev.3
 - Disable the camera option by default on desktop

@@ -85,7 +85,6 @@ class QuillToolbarVideoButton extends StatelessWidget {
           linkRegExp: options.linkRegExp,
           tooltip: options.tooltip,
           iconTheme: options.iconTheme,
-          webVideoPickImpl: options.webVideoPickImpl,
           videoConfigurations: options.videoConfigurations,
         ),
         QuillToolbarVideoButtonExtraOptions(

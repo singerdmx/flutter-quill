@@ -1,6 +1,9 @@
+import 'package:flutter/widgets.dart'
+    show ImageErrorWidgetBuilder, ImageProvider;
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
+
 import '../../../logic/extensions/controller.dart';
 import '../../../logic/services/image_picker/s_image_picker.dart';
 
@@ -63,3 +66,17 @@ class QuillToolbarImageConfigurations {
     return _onImageInsertCallback ?? defaultOnImageInsertCallback();
   }
 }
+
+typedef ImageEmbedBuilderWillRemoveCallback = Future<bool> Function(
+  String imageUrl,
+);
+
+typedef ImageEmbedBuilderOnRemovedCallback = Future<void> Function(
+  String imageUrl,
+);
+
+typedef ImageEmbedBuilderProviderBuilder = ImageProvider Function(
+  String imageUrl,
+);
+
+typedef ImageEmbedBuilderErrorWidgetBuilder = ImageErrorWidgetBuilder;

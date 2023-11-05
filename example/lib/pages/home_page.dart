@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show File, Platform;
+import 'dart:io' show File;
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   final FocusNode _focusNode = FocusNode();
   Timer? _selectAllTimer;
   _SelectionType _selectionType = _SelectionType.none;
+  var _isReadOnly = false;
 
   @override
   void dispose() {
@@ -85,6 +86,13 @@ class _HomePageState extends State<HomePage> {
               'Flutter Quill',
             ),
             actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() => _isReadOnly = !_isReadOnly);
+                  },
+                  icon: Icon(
+                    _isReadOnly ? Icons.lock : Icons.edit,
+                  )),
               IconButton(
                 onPressed: () => _insertTimeStamp(
                   _controller,
@@ -219,7 +227,7 @@ class _HomePageState extends State<HomePage> {
     return QuillEditor(
       configurations: QuillEditorConfigurations(
         placeholder: 'Add content',
-        readOnly: false,
+        readOnly: _isReadOnly,
         autoFocus: false,
         enableSelectionToolbar: isMobile(),
         expands: false,
@@ -250,7 +258,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         embedBuilders: [
-          ...FlutterQuillEmbeds.editorBuilders(),
+          ...FlutterQuillEmbeds.editorBuilders(
+            imageEmbedConfigurations: const QuillEditorImageEmbedConfigurations(
+              forceUseMobileOptionMenuForImageClick: true,
+            ),
+          ),
           TimeStampEmbedBuilderWidget()
         ],
       ),
@@ -282,7 +294,7 @@ class _HomePageState extends State<HomePage> {
         // afterButtonPressed: _focusNode.requestFocus,
       );
     }
-    if (_isDesktop()) {
+    if (isDesktop()) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
@@ -292,8 +304,6 @@ class _HomePageState extends State<HomePage> {
                   _onImagePickCallback(File(image));
                 },
               ),
-              // onImagePickCallback: _onImagePickCallback,
-              // filePickImpl: openFileSystemPickerForDesktop,
             ),
           ),
           showAlignmentButtons: true,
@@ -303,7 +313,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        // afterButtonPressed: _focusNode.requestFocus,
       );
     }
     return QuillToolbar(
@@ -385,23 +394,22 @@ class _HomePageState extends State<HomePage> {
                 child: quillEditor,
               ),
             ),
-            kIsWeb
-                ? Expanded(
-                    child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    child: quillToolbar,
-                  ))
-                : Container(
-                    child: quillToolbar,
-                  )
+            if (!_isReadOnly)
+              kIsWeb
+                  ? Expanded(
+                      child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 8),
+                      child: quillToolbar,
+                    ))
+                  : Container(
+                      child: quillToolbar,
+                    )
           ],
         ),
       ),
     );
   }
-
-  bool _isDesktop() => !kIsWeb && !Platform.isAndroid && !Platform.isIOS;
 
   // Future<String?> _openFileSystemPickerForDesktop(BuildContext context)
   // async {
@@ -515,7 +523,7 @@ class _HomePageState extends State<HomePage> {
           )),
           dense: true,
           visualDensity: VisualDensity.compact,
-          onTap: _readOnly,
+          onTap: _openReadOnlyPage,
         ),
         Divider(
           thickness: 2,
@@ -526,7 +534,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _readOnly() {
+  void _openReadOnlyPage() {
     Navigator.pop(super.context);
     Navigator.push(
       super.context,

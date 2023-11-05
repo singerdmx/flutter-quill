@@ -1,25 +1,8 @@
-import 'dart:io' show File;
-import 'dart:typed_data';
-
-import 'package:flutter/material.dart'
-    show ImageErrorWidgetBuilder, BuildContext, ImageProvider;
-
-typedef OnVideoPickCallback = Future<String?> Function(File file);
-
-/// [FilePickImpl] is an implementation for picking files.
-typedef FilePickImpl = Future<String?> Function(BuildContext context);
-
-/// [WebImagePickImpl] is an implementation for picking web images.
-// typedef WebImagePickImpl = Future<String?> Function(
-//   OnImagePickCallback onImagePickCallback,
-// );
-typedef WebVideoPickImpl = Future<String?> Function(
-  OnVideoPickCallback onImagePickCallback,
-);
+import 'package:cross_file/cross_file.dart' show XFile;
 
 typedef MediaFileUrl = String;
-typedef MediaFilePicker = Future<QuillFile?> Function(QuillMediaType mediaType);
-typedef MediaPickedCallback = Future<MediaFileUrl> Function(QuillFile file);
+typedef MediaFilePicker = Future<XFile?> Function(QuillMediaType mediaType);
+typedef MediaPickedCallback = Future<MediaFileUrl> Function(XFile file);
 
 enum QuillMediaType { image, video }
 
@@ -27,32 +10,3 @@ extension QuillMediaTypeX on QuillMediaType {
   bool get isImage => this == QuillMediaType.image;
   bool get isVideo => this == QuillMediaType.video;
 }
-
-/// Represents a file data which returned by file picker.
-class QuillFile {
-  QuillFile({
-    required this.name,
-    this.path = '',
-    Uint8List? bytes,
-  })  : assert(name.isNotEmpty),
-        bytes = bytes ?? Uint8List(0);
-
-  final String name;
-  final String path;
-  final Uint8List bytes;
-}
-
-typedef ImageEmbedBuilderWillRemoveCallback = Future<bool> Function(
-  File imageFile,
-);
-
-typedef ImageEmbedBuilderOnRemovedCallback = Future<void> Function(
-  File imageFile,
-);
-
-typedef ImageEmbedBuilderProviderBuilder = ImageProvider Function(
-  String imageUrl,
-  // {required bool isLocalImage}
-);
-
-typedef ImageEmbedBuilderErrorWidgetBuilder = ImageErrorWidgetBuilder;

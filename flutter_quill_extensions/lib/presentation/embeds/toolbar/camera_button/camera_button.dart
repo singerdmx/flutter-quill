@@ -73,7 +73,6 @@ class QuillToolbarCameraButton extends StatelessWidget {
     if (childBuilder != null) {
       childBuilder(
         QuillToolbarCameraButtonOptions(
-          onVideoPickCallback: options.onVideoPickCallback,
           afterButtonPressed: _afterButtonPressed(context),
           iconData: options.iconData,
           fillColor: options.fillColor,
@@ -81,7 +80,6 @@ class QuillToolbarCameraButton extends StatelessWidget {
           iconTheme: options.iconTheme,
           tooltip: options.tooltip,
           cameraConfigurations: options.cameraConfigurations,
-          webVideoPickImpl: options.webVideoPickImpl,
         ),
         QuillToolbarCameraButtonExtraOptions(
           controller: controller,

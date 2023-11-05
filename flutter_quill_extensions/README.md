@@ -59,17 +59,11 @@ Before starting using this package you must follow the setup
 Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
 values provided by this repository.
 
-**Quill toolbar**:
+**Quill Toolbar**:
 ```dart
 QuillToolbar(
   configurations: QuillToolbarConfigurations(
-    embedButtons: FlutterQuillEmbeds.toolbarButtons(
-      imageButtonOptions: QuillToolbarImageButtonOptions(
-        onImagePickCallback: (file) async {
-          return file.path;
-        },
-      ),
-    ),
+    embedButtons: FlutterQuillEmbeds.toolbarButtons(),
   ),
 ),
 ```
@@ -79,13 +73,7 @@ QuillToolbar(
 Expanded(
   child: QuillEditor.basic(
     configurations: QuillEditorConfigurations(
-      readOnly: true,
-      embedBuilders: FlutterQuillEmbeds.editorBuilders(
-        imageEmbedConfigurations:
-            const QuillEditorImageEmbedConfigurations(
-          forceUseMobileOptionMenuForImageClick: true,
-        ),
-      ),
+      embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorsWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
     ),
   ),
 )
@@ -113,18 +101,13 @@ QuillProvider(
         child: QuillEditor.basic(
           configurations: QuillEditorConfigurations(
             padding: const EdgeInsets.all(16),
-            embedBuilders: FlutterQuillEmbeds.editorBuilders(),
+            embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorsWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
           ),
         ),
       )
     ],
   ),
 )
-```
-
-For web, use:
-```dart
-FlutterQuillEmbeds.editorsWebBuilders()
 ```
 
 ## Features
@@ -142,7 +125,7 @@ FlutterQuillEmbeds.editorsWebBuilders()
 
 We welcome contributions!
 
-Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](./../CONTRIBUTING.md) for more details.
 
 ## License
 

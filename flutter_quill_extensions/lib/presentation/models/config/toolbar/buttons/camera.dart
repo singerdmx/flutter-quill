@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart' show Color;
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../../../embeds/embed_types.dart';
 import '../../../../embeds/embed_types/camera.dart';
 
 class QuillToolbarCameraButtonExtraOptions
@@ -16,9 +15,7 @@ class QuillToolbarCameraButtonExtraOptions
 class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarCameraButtonOptions, QuillToolbarCameraButtonExtraOptions> {
   const QuillToolbarCameraButtonOptions({
-    required this.onVideoPickCallback,
     this.cameraConfigurations = const QuillToolbarCameraConfigurations(),
-    this.webVideoPickImpl,
     this.iconSize,
     this.fillColor,
     super.iconData,
@@ -32,10 +29,6 @@ class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
   final double? iconSize;
 
   final Color? fillColor;
-
-  final OnVideoPickCallback onVideoPickCallback;
-
-  final WebVideoPickImpl? webVideoPickImpl;
 
   final QuillToolbarCameraConfigurations cameraConfigurations;
 }

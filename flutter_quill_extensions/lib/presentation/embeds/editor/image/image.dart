@@ -1,5 +1,3 @@
-import 'dart:io' show File;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
 import '../../../models/config/editor/image.dart';
-import '../../embed_types.dart';
+import '../../embed_types/image.dart';
 import '../../utils.dart';
 import '../../widgets/image.dart';
 import '../../widgets/image_resizer.dart';
@@ -138,11 +136,9 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
                   onPressed: () async {
                     Navigator.of(context).pop();
 
-                    final imageFile = File(imageUrl);
-
                     // Call the remove check callback if set
                     if (await configurations.shouldRemoveImageCallback
-                            ?.call(imageFile) ==
+                            ?.call(imageUrl) ==
                         false) {
                       return;
                     }
@@ -158,7 +154,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
                       TextSelection.collapsed(offset: offset),
                     );
                     // Call the post remove callback if set
-                    await configurations.onImageRemovedCallback.call(imageFile);
+                    await configurations.onImageRemovedCallback.call(imageUrl);
                   },
                 );
                 return Padding(
@@ -259,7 +255,7 @@ Widget _menuOptionsForReadonlyImage({
     onTap: () {
       showDialog(
         context: context,
-        builder: (context) {
+        builder: (_) {
           final saveOption = SimpleDialogItem(
             icon: Icons.save,
             color: Colors.greenAccent,

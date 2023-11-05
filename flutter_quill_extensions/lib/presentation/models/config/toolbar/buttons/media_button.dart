@@ -18,7 +18,7 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarMediaButtonOptions({
     required this.type,
     required this.onMediaPickedCallback,
-    required this.onVideoPickCallback,
+    // required this.onVideoPickCallback,
     this.dialogBarrierColor,
     this.mediaFilePicker,
     this.childrenSpacing = 16.0,
@@ -33,8 +33,6 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
     this.galleryButtonText,
     this.linkButtonText,
     this.validationMessage,
-    this.filePickImpl,
-    this.webVideoPickImpl,
     super.iconData,
     super.afterButtonPressed,
     super.tooltip,
@@ -74,7 +72,4 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
 
   final AutovalidateMode autovalidateMode;
   final String? validationMessage;
-  final FilePickImpl? filePickImpl;
-  final OnVideoPickCallback onVideoPickCallback;
-  final WebVideoPickImpl? webVideoPickImpl;
 }

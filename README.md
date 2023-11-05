@@ -668,6 +668,10 @@ Special thanks for everyone that have contributed to this project...
 
 Made with [contrib.rocks](https://contrib.rocks).
 
+We welcome contributions!
+
+Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](./../CONTRIBUTING.md) for more details.
+
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill

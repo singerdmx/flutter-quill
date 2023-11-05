@@ -1,7 +1,9 @@
+import 'dart:io' show File;
+
 import 'package:flutter_quill/extensions.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import '../../../embeds/embed_types.dart';
+import '../../../embeds/embed_types/image.dart';
 
 /// [QuillEditorImageEmbedConfigurations] for desktop, mobile and
 ///  other platforms
@@ -109,7 +111,7 @@ class QuillEditorImageEmbedConfigurations {
   final bool forceUseMobileOptionMenuForImageClick;
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
-    return (imageFile) async {
+    return (imageUrl) async {
       final mobile = isMobile();
       // If the platform is not mobile, return void;
       // Since the mobile OS gives us a copy of the image
@@ -132,9 +134,15 @@ class QuillEditorImageEmbedConfigurations {
       // it without
       // permission
 
-      final isFileExists = await imageFile.exists();
+      if (isWeb()) {
+        return;
+      }
+
+      final dartIoImageFile = File(imageUrl);
+
+      final isFileExists = await dartIoImageFile.exists();
       if (isFileExists) {
-        await imageFile.delete();
+        await dartIoImageFile.delete();
       }
     };
   }
