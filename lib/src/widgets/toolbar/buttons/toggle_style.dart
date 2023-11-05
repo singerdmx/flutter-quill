@@ -116,43 +116,6 @@ class QuillToolbarToggleStyleButtonState
     }
   }
 
-  // IconData get _defaultIconData {
-  //   switch (widget.attribute.key) {
-  //     case 'bold':
-  //       return Icons.format_bold;
-  //     case 'script':
-  //       if (widget.attribute.value == ScriptAttributes.sub.value) {
-  //         return Icons.subscript;
-  //       }
-  //       return Icons.superscript;
-  //     case 'italic':
-  //       return Icons.format_italic;
-  //     case 'small':
-  //       return Icons.format_size;
-  //     case 'underline':
-  //       return Icons.format_underline;
-  //     case 'strike':
-  //       return Icons.format_strikethrough;
-  //     case 'code':
-  //       return Icons.code;
-  //     case 'rtl':
-  //       return Icons.format_textdirection_r_to_l;
-  //     case 'list':
-  //       if (widget.attribute.value == 'bullet') {
-  //         return Icons.format_list_bulleted;
-  //       }
-  //       return Icons.format_list_numbered;
-  //     case 'code-block':
-  //       return Icons.code;
-  //     case 'blockquote':
-  //       return Icons.format_quote;
-  //     default:
-  //       throw ArgumentError(
-  //         'Could not find the icon for ${widget.attribute.toString()}',
-  //       );
-  //   }
-  // }
-
   String? get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
