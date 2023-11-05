@@ -21,11 +21,11 @@ class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {
   final QuillToolbarSelectHeaderStyleButtonsOptions options;
 
   @override
-  _QuillToolbarSelectHeaderStyleButtonsState createState() =>
-      _QuillToolbarSelectHeaderStyleButtonsState();
+  QuillToolbarSelectHeaderStyleButtonsState createState() =>
+      QuillToolbarSelectHeaderStyleButtonsState();
 }
 
-class _QuillToolbarSelectHeaderStyleButtonsState
+class QuillToolbarSelectHeaderStyleButtonsState
     extends State<QuillToolbarSelectHeaderStyleButtons> {
   Attribute? _selectedAttribute;
 
@@ -85,9 +85,9 @@ class _QuillToolbarSelectHeaderStyleButtonsState
   }
 
   void _sharedOnPressed(Attribute attribute) {
-    final _attribute =
+    final attribute0 =
         _selectedAttribute == attribute ? Attribute.header : attribute;
-    controller.formatSelection(_attribute);
+    controller.formatSelection(attribute0);
     afterButtonPressed?.call();
   }
 

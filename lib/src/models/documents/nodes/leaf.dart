@@ -217,9 +217,9 @@ abstract base class Leaf extends Node {
 /// conflict with the one from the widgets, material or cupertino library
 ///
 base class QuillText extends Leaf {
-  QuillText([String text = ''])
+  QuillText([String super.text = ''])
       : assert(!text.contains('\n')),
-        super.val(text);
+        super.val();
 
   @override
   Node newInstance() => QuillText(value);
@@ -250,7 +250,7 @@ base class QuillText extends Leaf {
 /// applying "bold" style to an image gives no effect, while adding a "link" to
 /// an image actually makes the image react to user's action.
 base class Embed extends Leaf {
-  Embed(Embeddable data) : super.val(data);
+  Embed(Embeddable super.data) : super.val();
 
   // Refer to https://www.fileformat.info/info/unicode/char/fffc/index.htm
   static const kObjectReplacementCharacter = '\uFFFC';

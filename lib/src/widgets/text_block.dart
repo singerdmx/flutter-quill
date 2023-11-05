@@ -351,21 +351,18 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     implements RenderEditableBox {
   RenderEditableTextBlock({
     required Block block,
-    required TextDirection textDirection,
+    required super.textDirection,
     required EdgeInsetsGeometry padding,
-    required double scrollBottomInset,
+    required super.scrollBottomInset,
     required Decoration decoration,
-    List<RenderEditableBox>? children,
+    super.children,
     EdgeInsets contentPadding = EdgeInsets.zero,
   })  : _decoration = decoration,
         _configuration = ImageConfiguration(textDirection: textDirection),
         _savedPadding = padding,
         _contentPadding = contentPadding,
         super(
-          children: children,
           container: block,
-          textDirection: textDirection,
-          scrollBottomInset: scrollBottomInset,
           padding: padding.add(contentPadding),
         );
 
@@ -665,9 +662,7 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
       required this.scrollBottomInset,
       required this.decoration,
       required this.contentPadding,
-      required List<Widget> children,
-      Key? key})
-      : super(key: key, children: children);
+      required super.children});
 
   final Block block;
   final TextDirection textDirection;

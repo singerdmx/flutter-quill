@@ -28,11 +28,10 @@ class QuillToolbarColorButton extends StatefulWidget {
   final QuillToolbarColorButtonOptions options;
 
   @override
-  _QuillToolbarColorButtonState createState() =>
-      _QuillToolbarColorButtonState();
+  QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
 }
 
-class _QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
+class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   late bool _isToggledColor;
   late bool _isToggledBackground;
   late bool _isWhite;

@@ -16,11 +16,11 @@ class QuillToolbarHistoryButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarHistoryButtonState createState() =>
-      _QuillToolbarHistoryButtonState();
+  QuillToolbarHistoryButtonState createState() =>
+      QuillToolbarHistoryButtonState();
 }
 
-class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
+class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   late ThemeData theme;
   var _canPressed = false;
 

@@ -468,10 +468,10 @@ class RawEditorState extends EditorState
     assert(debugCheckHasMediaQuery(context));
     super.build(context);
 
-    var _doc = controller.document;
-    if (_doc.isEmpty() && widget.placeholder != null) {
+    var doc = controller.document;
+    if (doc.isEmpty() && widget.placeholder != null) {
       final raw = widget.placeholder?.replaceAll(r'"', '\\"');
-      _doc = Document.fromJson(
+      doc = Document.fromJson(
         jsonDecode(
           '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]',
         ),
@@ -485,7 +485,7 @@ class RawEditorState extends EditorState
           cursor: SystemMouseCursors.text,
           child: _Editor(
             key: _editorKey,
-            document: _doc,
+            document: doc,
             selection: controller.selection,
             hasFocus: _hasFocus,
             scrollable: widget.scrollable,
@@ -499,7 +499,7 @@ class RawEditorState extends EditorState
             padding: widget.padding,
             maxContentWidth: widget.maxContentWidth,
             floatingCursorDisabled: widget.floatingCursorDisabled,
-            children: _buildChildren(_doc, context),
+            children: _buildChildren(doc, context),
           ),
         ),
       ),
@@ -527,7 +527,7 @@ class RawEditorState extends EditorState
               child: _Editor(
                 key: _editorKey,
                 offset: offset,
-                document: _doc,
+                document: doc,
                 selection: controller.selection,
                 hasFocus: _hasFocus,
                 scrollable: widget.scrollable,
@@ -541,7 +541,7 @@ class RawEditorState extends EditorState
                 maxContentWidth: widget.maxContentWidth,
                 cursorController: _cursorCont,
                 floatingCursorDisabled: widget.floatingCursorDisabled,
-                children: _buildChildren(_doc, context),
+                children: _buildChildren(doc, context),
               ),
             ),
           ),
@@ -853,7 +853,7 @@ class RawEditorState extends EditorState
         controller.selection.copyWith(
             baseOffset: selection.baseOffset + chars,
             extentOffset: selection.baseOffset + chars),
-        ChangeSource.LOCAL);
+        ChangeSource.local);
   }
 
   void _updateSelectionForKeyPhrase(String phrase, Attribute attribute) {
@@ -871,7 +871,7 @@ class RawEditorState extends EditorState
     SelectionChangedCause cause,
   ) {
     final oldSelection = controller.selection;
-    controller.updateSelection(selection, ChangeSource.LOCAL);
+    controller.updateSelection(selection, ChangeSource.local);
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
@@ -925,7 +925,7 @@ class RawEditorState extends EditorState
         controller
           ..ignoreFocusOnTextChange = false
           ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
-          ..updateSelection(currentSelection, ChangeSource.LOCAL);
+          ..updateSelection(currentSelection, ChangeSource.local);
       });
     }
   }
@@ -1839,8 +1839,8 @@ class RawEditorState extends EditorState
 
 class _Editor extends MultiChildRenderObjectWidget {
   const _Editor({
-    required Key key,
-    required List<Widget> children,
+    required Key super.key,
+    required super.children,
     required this.document,
     required this.textDirection,
     required this.hasFocus,
@@ -1856,7 +1856,7 @@ class _Editor extends MultiChildRenderObjectWidget {
     this.padding = EdgeInsets.zero,
     this.maxContentWidth,
     this.offset,
-  }) : super(key: key, children: children);
+  });
 
   final ViewportOffset? offset;
   final Document document;
@@ -2292,7 +2292,7 @@ class _UpdateTextSelectionAction<T extends DirectionalCaretMovementIntent>
     final collapseSelection =
         intent.collapseSelection || !state.widget.selectionEnabled;
     // Collapse to the logical start/end.
-    TextSelection _collapse(TextSelection selection) {
+    TextSelection collapse(TextSelection selection) {
       assert(selection.isValid);
       assert(!selection.isCollapsed);
       return selection.copyWith(
@@ -2306,7 +2306,7 @@ class _UpdateTextSelectionAction<T extends DirectionalCaretMovementIntent>
         collapseSelection) {
       return Actions.invoke(
         context!,
-        UpdateSelectionIntent(state.textEditingValue, _collapse(selection),
+        UpdateSelectionIntent(state.textEditingValue, collapse(selection),
             SelectionChangedCause.keyboard),
       );
     }
@@ -2322,7 +2322,7 @@ class _UpdateTextSelectionAction<T extends DirectionalCaretMovementIntent>
       return Actions.invoke(
         context!,
         UpdateSelectionIntent(state.textEditingValue,
-            _collapse(textBoundarySelection), SelectionChangedCause.keyboard),
+            collapse(textBoundarySelection), SelectionChangedCause.keyboard),
       );
     }
 
@@ -2682,9 +2682,9 @@ class _ApplyHeaderAction extends Action<ApplyHeaderIntent> {
 
   @override
   void invoke(ApplyHeaderIntent intent, [BuildContext? context]) {
-    final _attribute =
+    final attribute =
         _getHeaderValue() == intent.header ? Attribute.header : intent.header;
-    state.controller.formatSelection(_attribute);
+    state.controller.formatSelection(attribute);
   }
 
   @override

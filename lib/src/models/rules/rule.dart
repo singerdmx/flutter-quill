@@ -5,7 +5,7 @@ import 'delete.dart';
 import 'format.dart';
 import 'insert.dart';
 
-enum RuleType { INSERT, DELETE, FORMAT }
+enum RuleType { insert, delete, format }
 
 abstract class Rule {
   const Rule();

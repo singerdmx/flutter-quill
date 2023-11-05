@@ -11,9 +11,9 @@ import 'style_widgets/checkbox_point.dart';
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
     required this.data,
-    required Widget child,
-    Key? key,
-  }) : super(key: key, child: child);
+    required super.child,
+    super.key,
+  });
 
   final DefaultStyles data;
 
@@ -128,12 +128,12 @@ class InlineCodeStyle {
 @immutable
 class DefaultListBlockStyle extends DefaultTextBlockStyle {
   const DefaultListBlockStyle(
-    TextStyle style,
-    VerticalSpacing verticalSpacing,
-    VerticalSpacing lineSpacing,
-    BoxDecoration? decoration,
+    super.style,
+    super.verticalSpacing,
+    super.lineSpacing,
+    super.decoration,
     this.checkboxUIBuilder,
-  ) : super(style, verticalSpacing, lineSpacing, decoration);
+  );
 
   final QuillCheckboxBuilder? checkboxUIBuilder;
 }

@@ -402,8 +402,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return;
     }
 
-    final _platform = Theme.of(_state.context).platform;
-    if (isAppleOS(_platform)) {
+    final platform = Theme.of(_state.context).platform;
+    if (isAppleOS(platform)) {
       renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
@@ -432,7 +432,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     if (segmentLeaf == null && line.length == 1) {
       editor!.widget.controller.updateSelection(
         TextSelection.collapsed(offset: pos.offset),
-        ChangeSource.LOCAL,
+        ChangeSource.local,
       );
       return true;
     }
@@ -475,8 +475,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     try {
       if (delegate.selectionEnabled && !_isPositionSelected(details)) {
-        final _platform = Theme.of(_state.context).platform;
-        if (isAppleOS(_platform) || isDesktop()) {
+        final platform = Theme.of(_state.context).platform;
+        if (isAppleOS(platform) || isDesktop()) {
           // added isDesktop() to enable extend selection in Windows platform
           switch (details.kind) {
             case PointerDeviceKind.mouse:
@@ -539,8 +539,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
 
     if (delegate.selectionEnabled) {
-      final _platform = Theme.of(_state.context).platform;
-      if (isAppleOS(_platform)) {
+      final platform = Theme.of(_state.context).platform;
+      if (isAppleOS(platform)) {
         renderEditor!.selectPositionAt(
           from: details.globalPosition,
           cause: SelectionChangedCause.longPress,
@@ -608,20 +608,20 @@ class RenderEditor extends RenderEditableContainerBox
     implements RenderAbstractEditor {
   RenderEditor({
     required this.document,
-    required TextDirection textDirection,
+    required super.textDirection,
     required bool hasFocus,
     required this.selection,
     required this.scrollable,
     required LayerLink startHandleLayerLink,
     required LayerLink endHandleLayerLink,
-    required EdgeInsetsGeometry padding,
+    required super.padding,
     required CursorCont cursorController,
     required this.onSelectionChanged,
     required this.onSelectionCompleted,
-    required double scrollBottomInset,
+    required super.scrollBottomInset,
     required this.floatingCursorDisabled,
     ViewportOffset? offset,
-    List<RenderEditableBox>? children,
+    super.children,
     EdgeInsets floatingCursorAddedMargin =
         const EdgeInsets.fromLTRB(4, 4, 4, 5),
     double? maxContentWidth,
@@ -632,11 +632,7 @@ class RenderEditor extends RenderEditableContainerBox
         _cursorController = cursorController,
         _maxContentWidth = maxContentWidth,
         super(
-          children: children,
           container: document.root,
-          textDirection: textDirection,
-          scrollBottomInset: scrollBottomInset,
-          padding: padding,
         );
 
   final CursorCont _cursorController;

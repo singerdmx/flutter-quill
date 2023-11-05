@@ -24,7 +24,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     final diff = getDiff(oldText, newText, cursorPosition);
     if (diff.deleted == '' && diff.inserted == '') {
       // Only changing selection range
-      widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+      widget.controller.updateSelection(value.selection, ChangeSource.local);
       return;
     }
 
@@ -61,9 +61,9 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
             final node = widget.controller.document.queryChild(local).node;
             if (node != null &&
                 pasteStyleAndEmbed[i].length == node.length - 1) {
-              style.values.forEach((attribute) {
+              for (final attribute in style.values) {
                 widget.controller.document.format(local, 0, attribute);
-              });
+              }
             }
           }
         }

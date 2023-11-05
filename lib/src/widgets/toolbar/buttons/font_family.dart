@@ -26,11 +26,11 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarFontFamilyButtonState createState() =>
-      _QuillToolbarFontFamilyButtonState();
+  QuillToolbarFontFamilyButtonState createState() =>
+      QuillToolbarFontFamilyButtonState();
 }
 
-class _QuillToolbarFontFamilyButtonState
+class QuillToolbarFontFamilyButtonState
     extends State<QuillToolbarFontFamilyButton> {
   var _currentValue = '';
 

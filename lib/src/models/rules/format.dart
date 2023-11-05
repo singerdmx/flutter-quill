@@ -7,7 +7,7 @@ abstract class FormatRule extends Rule {
   const FormatRule();
 
   @override
-  RuleType get type => RuleType.FORMAT;
+  RuleType get type => RuleType.format;
 
   @override
   void validateArgs(int? len, Object? data, Attribute? attribute) {
@@ -30,7 +30,7 @@ class ResolveLineFormatRule extends FormatRule {
     Object? data,
     Attribute? attribute,
   }) {
-    if (attribute!.scope != AttributeScope.BLOCK) {
+    if (attribute!.scope != AttributeScope.block) {
       return null;
     }
 
@@ -159,7 +159,7 @@ class ResolveInlineFormatRule extends FormatRule {
     Object? data,
     Attribute? attribute,
   }) {
-    if (attribute!.scope != AttributeScope.INLINE) {
+    if (attribute!.scope != AttributeScope.inline) {
       return null;
     }
 

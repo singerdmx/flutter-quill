@@ -448,7 +448,7 @@ class QuillTextLink {
         controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
     final index = controller.selection.start;
 
-    var text;
+    String? text;
     if (link != null) {
       // text should be the link's corresponding text, not selection
       final leaf = controller.document.querySegmentLeafNode(index).leaf;

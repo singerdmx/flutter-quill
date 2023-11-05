@@ -124,8 +124,7 @@ class _CupertinoAction extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData icon;
@@ -195,8 +194,7 @@ class _MaterialAction extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData icon;

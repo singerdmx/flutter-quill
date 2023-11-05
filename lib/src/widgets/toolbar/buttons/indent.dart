@@ -24,11 +24,11 @@ class QuillToolbarIndentButton extends StatefulWidget {
   final QuillToolbarIndentButtonOptions options;
 
   @override
-  _QuillToolbarIndentButtonState createState() =>
-      _QuillToolbarIndentButtonState();
+  QuillToolbarIndentButtonState createState() =>
+      QuillToolbarIndentButtonState();
 }
 
-class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
+class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   QuillToolbarIndentButtonOptions get options {
     return widget.options;
   }

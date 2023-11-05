@@ -21,11 +21,11 @@ class QuillToolbarFontSizeButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarFontSizeButtonState createState() =>
-      _QuillToolbarFontSizeButtonState();
+  QuillToolbarFontSizeButtonState createState() =>
+      QuillToolbarFontSizeButtonState();
 }
 
-class _QuillToolbarFontSizeButtonState
+class QuillToolbarFontSizeButtonState
     extends State<QuillToolbarFontSizeButton> {
   String _currentValue = '';
 

@@ -21,22 +21,17 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
 
 /// The text position that a give selection handle manipulates. Dragging the
 /// [start] handle always moves the [start]/[baseOffset] of the selection.
-enum _TextSelectionHandlePosition { START, END }
+enum _TextSelectionHandlePosition { start, end }
 
 /// internal use, used to get drag direction information
 class DragTextSelection extends TextSelection {
   const DragTextSelection({
-    TextAffinity affinity = TextAffinity.downstream,
-    int baseOffset = 0,
-    int extentOffset = 0,
-    bool isDirectional = false,
+    super.affinity,
+    super.baseOffset = 0,
+    super.extentOffset = 0,
+    super.isDirectional,
     this.first = true,
-  }) : super(
-          baseOffset: baseOffset,
-          extentOffset: extentOffset,
-          affinity: affinity,
-          isDirectional: isDirectional,
-        );
+  });
 
   final bool first;
 
@@ -236,7 +231,7 @@ class EditorTextSelectionOverlay {
   Widget _buildHandle(
       BuildContext context, _TextSelectionHandlePosition position) {
     if (_selection.isCollapsed &&
-        position == _TextSelectionHandlePosition.END) {
+        position == _TextSelectionHandlePosition.end) {
       return Container();
     }
     return Visibility(
@@ -282,12 +277,12 @@ class EditorTextSelectionOverlay {
       TextSelection? newSelection, _TextSelectionHandlePosition position) {
     TextPosition textPosition;
     switch (position) {
-      case _TextSelectionHandlePosition.START:
+      case _TextSelectionHandlePosition.start:
         textPosition = newSelection != null
             ? newSelection.base
             : const TextPosition(offset: 0);
         break;
-      case _TextSelectionHandlePosition.END:
+      case _TextSelectionHandlePosition.end:
         textPosition = newSelection != null
             ? newSelection.extent
             : const TextPosition(offset: 0);
@@ -302,7 +297,7 @@ class EditorTextSelectionOverlay {
             extentOffset: newSelection.extentOffset,
             affinity: newSelection.affinity,
             isDirectional: newSelection.isDirectional,
-            first: position == _TextSelectionHandlePosition.START,
+            first: position == _TextSelectionHandlePosition.start,
           )
         : null;
 
@@ -344,10 +339,10 @@ class EditorTextSelectionOverlay {
     _handles = <OverlayEntry>[
       OverlayEntry(
           builder: (context) =>
-              _buildHandle(context, _TextSelectionHandlePosition.START)),
+              _buildHandle(context, _TextSelectionHandlePosition.start)),
       OverlayEntry(
           builder: (context) =>
-              _buildHandle(context, _TextSelectionHandlePosition.END)),
+              _buildHandle(context, _TextSelectionHandlePosition.end)),
     ];
 
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
@@ -375,8 +370,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
     required this.onSelectionHandleTapped,
     required this.selectionControls,
     this.dragStartBehavior = DragStartBehavior.start,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final TextSelection selection;
   final _TextSelectionHandlePosition position;
@@ -394,9 +388,9 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
 
   ValueListenable<bool> get _visibility {
     switch (position) {
-      case _TextSelectionHandlePosition.START:
+      case _TextSelectionHandlePosition.start:
         return renderObject.selectionStartInViewport;
-      case _TextSelectionHandlePosition.END:
+      case _TextSelectionHandlePosition.end:
         return renderObject.selectionEndInViewport;
       default:
         throw 'Invalid position';
@@ -449,7 +443,7 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleDragStart(DragStartDetails details) {
-    final textPosition = widget.position == _TextSelectionHandlePosition.START
+    final textPosition = widget.position == _TextSelectionHandlePosition.start
         ? widget.selection.base
         : widget.selection.extent;
     final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
@@ -470,7 +464,7 @@ class _TextSelectionHandleOverlayState
         widget.selection.extentOffset >= widget.selection.baseOffset;
     TextSelection newSelection;
     switch (widget.position) {
-      case _TextSelectionHandlePosition.START:
+      case _TextSelectionHandlePosition.start:
         newSelection = TextSelection(
           baseOffset:
               isNormalized ? position.offset : widget.selection.baseOffset,
@@ -478,7 +472,7 @@ class _TextSelectionHandleOverlayState
               isNormalized ? widget.selection.extentOffset : position.offset,
         );
         break;
-      case _TextSelectionHandlePosition.END:
+      case _TextSelectionHandlePosition.end:
         newSelection = TextSelection(
           baseOffset:
               isNormalized ? widget.selection.baseOffset : position.offset,
@@ -507,7 +501,7 @@ class _TextSelectionHandleOverlayState
     TextSelectionHandleType? type;
 
     switch (widget.position) {
-      case _TextSelectionHandlePosition.START:
+      case _TextSelectionHandlePosition.start:
         layerLink = widget.startHandleLayerLink;
         type = _chooseType(
           widget.renderObject.textDirection,
@@ -515,7 +509,7 @@ class _TextSelectionHandleOverlayState
           TextSelectionHandleType.right,
         );
         break;
-      case _TextSelectionHandlePosition.END:
+      case _TextSelectionHandlePosition.end:
         // For collapsed selections, we shouldn't be building the [end] handle.
         assert(!widget.selection.isCollapsed);
         layerLink = widget.endHandleLayerLink;
@@ -533,7 +527,7 @@ class _TextSelectionHandleOverlayState
     // May have to use getSelectionBoxes instead of preferredLineHeight.
     // or expose TextStyle on the render object and calculate
     // preferredLineHeight / style.height
-    final textPosition = widget.position == _TextSelectionHandlePosition.START
+    final textPosition = widget.position == _TextSelectionHandlePosition.start
         ? widget.selection.base
         : widget.selection.extent;
     final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
@@ -649,8 +643,8 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionEnd,
     this.behavior,
     this.detectWordBoundary = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Called for every tap down including every tap down that's part of a
   /// double click or a long press, except touches that include enough movement
@@ -1001,8 +995,8 @@ class _EditorTextSelectionGestureDetectorState
 // underlying input.
 class _TransparentTapGestureRecognizer extends TapGestureRecognizer {
   _TransparentTapGestureRecognizer({
-    Object? debugOwner,
-  }) : super(debugOwner: debugOwner);
+    super.debugOwner,
+  });
 
   @override
   void rejectGesture(int pointer) {

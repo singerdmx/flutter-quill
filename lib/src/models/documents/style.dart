@@ -21,7 +21,7 @@ class Style {
     final result = attributes.map((key, dynamic value) {
       final attr = Attribute.fromKeyValue(key, value);
       return MapEntry<String, Attribute>(
-          key, attr ?? Attribute(key, AttributeScope.IGNORE, value));
+          key, attr ?? Attribute(key, AttributeScope.ignore, value));
     });
     return Style.attr(result);
   }
@@ -45,10 +45,10 @@ class Style {
   bool get isInline => isNotEmpty && values.every((item) => item.isInline);
 
   bool get isBlock =>
-      isNotEmpty && values.every((item) => item.scope == AttributeScope.BLOCK);
+      isNotEmpty && values.every((item) => item.scope == AttributeScope.block);
 
   bool get isIgnored =>
-      isNotEmpty && values.every((item) => item.scope == AttributeScope.IGNORE);
+      isNotEmpty && values.every((item) => item.scope == AttributeScope.ignore);
 
   Attribute get single => _attributes.values.single;
 

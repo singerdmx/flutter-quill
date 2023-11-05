@@ -6,13 +6,13 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   final result = <String, String>{};
   final pairs = s.split(';');
   for (final pair in pairs) {
-    final _index = pair.indexOf(':');
-    if (_index < 0) {
+    final index = pair.indexOf(':');
+    if (index < 0) {
       continue;
     }
-    final _key = pair.substring(0, _index).trim();
-    if (targetKeys.contains(_key)) {
-      result[_key] = pair.substring(_index + 1).trim();
+    final key = pair.substring(0, index).trim();
+    if (targetKeys.contains(key)) {
+      result[key] = pair.substring(index + 1).trim();
     }
   }
 
@@ -28,12 +28,12 @@ String replaceStyleStringWithSize(
   final result = <String, String>{};
   final pairs = s.split(';');
   for (final pair in pairs) {
-    final _index = pair.indexOf(':');
-    if (_index < 0) {
+    final index = pair.indexOf(':');
+    if (index < 0) {
       continue;
     }
-    final _key = pair.substring(0, _index).trim();
-    result[_key] = pair.substring(_index + 1).trim();
+    final key = pair.substring(0, index).trim();
+    result[key] = pair.substring(index + 1).trim();
   }
 
   if (isMobile) {
@@ -55,12 +55,12 @@ String replaceStyleStringWithSize(
 }
 
 Alignment getAlignment(String? s) {
-  const _defaultAlignment = Alignment.center;
+  const defaultAlignment = Alignment.center;
   if (s == null) {
-    return _defaultAlignment;
+    return defaultAlignment;
   }
 
-  final _index = [
+  final index = [
     'topLeft',
     'topCenter',
     'topRight',
@@ -71,8 +71,8 @@ Alignment getAlignment(String? s) {
     'bottomCenter',
     'bottomRight'
   ].indexOf(s);
-  if (_index < 0) {
-    return _defaultAlignment;
+  if (index < 0) {
+    return defaultAlignment;
   }
 
   return [
@@ -85,5 +85,5 @@ Alignment getAlignment(String? s) {
     Alignment.bottomLeft,
     Alignment.bottomCenter,
     Alignment.bottomRight
-  ][_index];
+  ][index];
 }

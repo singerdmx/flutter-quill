@@ -294,14 +294,14 @@ class _TextLineState extends State<TextLine> {
     if (widget.customStyleBuilder == null) {
       return textStyle;
     }
-    attributes.keys.forEach((key) {
+    for (final key in attributes.keys) {
       final attr = attributes[key];
       if (attr != null) {
         /// Custom Attribute
         final customAttr = widget.customStyleBuilder!.call(attr);
         textStyle = textStyle.merge(customAttr);
       }
-    });
+    }
     return textStyle;
   }
 
@@ -1292,7 +1292,7 @@ class RenderEditableTextLine extends RenderEditableBox {
 }
 
 class _TextLineElement extends RenderObjectElement {
-  _TextLineElement(EditableTextLine line) : super(line);
+  _TextLineElement(EditableTextLine super.line);
 
   final Map<TextLineSlot, Element> _slotToChildren = <TextLineSlot, Element>{};
 

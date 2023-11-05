@@ -5,8 +5,8 @@ class QuillEditorBulletPoint extends StatelessWidget {
     required this.style,
     required this.width,
     this.padding = 0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final TextStyle style;
   final double width;

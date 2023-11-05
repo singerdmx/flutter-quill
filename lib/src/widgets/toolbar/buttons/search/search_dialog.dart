@@ -52,11 +52,11 @@ class QuillToolbarSearchDialog extends StatefulWidget {
   final QuillToolbarSearchDialogChildBuilder? childBuilder;
 
   @override
-  _QuillToolbarSearchDialogState createState() =>
-      _QuillToolbarSearchDialogState();
+  QuillToolbarSearchDialogState createState() =>
+      QuillToolbarSearchDialogState();
 }
 
-class _QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
+class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
   late String _text;
   late TextEditingController _controller;
   late List<int>? _offsets;
@@ -217,7 +217,7 @@ class _QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
         baseOffset: _offsets![_index],
         extentOffset: _offsets![_index] + _text.length,
       ),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
   }
 

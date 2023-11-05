@@ -32,11 +32,11 @@ class QuillToolbarSelectAlignmentButton extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  _QuillToolbarSelectAlignmentButtonState createState() =>
-      _QuillToolbarSelectAlignmentButtonState();
+  QuillToolbarSelectAlignmentButtonState createState() =>
+      QuillToolbarSelectAlignmentButtonState();
 }
 
-class _QuillToolbarSelectAlignmentButtonState
+class QuillToolbarSelectAlignmentButtonState
     extends State<QuillToolbarSelectAlignmentButton> {
   Attribute? _value;
 
@@ -149,7 +149,7 @@ class _QuillToolbarSelectAlignmentButtonState
 
   @override
   Widget build(BuildContext context) {
-    final _valueToText = <Attribute, String>{
+    final valueToText = <Attribute, String>{
       if (widget.showLeftAlignment!)
         Attribute.leftAlignment: Attribute.leftAlignment.value!,
       if (widget.showCenterAlignment!)
@@ -160,13 +160,13 @@ class _QuillToolbarSelectAlignmentButtonState
         Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
-    final _valueAttribute = <Attribute>[
+    final valueAttribute = <Attribute>[
       if (widget.showLeftAlignment!) Attribute.leftAlignment,
       if (widget.showCenterAlignment!) Attribute.centerAlignment,
       if (widget.showRightAlignment!) Attribute.rightAlignment,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment
     ];
-    final _valueString = <String>[
+    final valueString = <String>[
       if (widget.showLeftAlignment!) Attribute.leftAlignment.value!,
       if (widget.showCenterAlignment!) Attribute.centerAlignment.value!,
       if (widget.showRightAlignment!) Attribute.rightAlignment.value!,
@@ -191,12 +191,12 @@ class _QuillToolbarSelectAlignmentButtonState
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
 
-    void _sharedOnPressed(int index) {
-      _valueAttribute[index] == Attribute.leftAlignment
+    void sharedOnPressed(int index) {
+      valueAttribute[index] == Attribute.leftAlignment
           ? controller.formatSelection(
               Attribute.clone(Attribute.align, null),
             )
-          : controller.formatSelection(_valueAttribute[index]);
+          : controller.formatSelection(valueAttribute[index]);
       _afterButtonPressed?.call();
     }
 
@@ -215,7 +215,7 @@ class _QuillToolbarSelectAlignmentButtonState
             QuillToolbarSelectAlignmentButtonExtraOptions(
               context: context,
               controller: controller,
-              onPressed: () => _sharedOnPressed(index),
+              onPressed: () => sharedOnPressed(index),
             ),
           );
         }
@@ -229,11 +229,11 @@ class _QuillToolbarSelectAlignmentButtonState
               height: _iconSize * kIconButtonFactor,
             ),
             child: UtilityWidgets.maybeTooltip(
-              message: _valueString[index] == Attribute.leftAlignment.value
+              message: valueString[index] == Attribute.leftAlignment.value
                   ? _tooltips.leftAlignment
-                  : _valueString[index] == Attribute.centerAlignment.value
+                  : valueString[index] == Attribute.centerAlignment.value
                       ? _tooltips.centerAlignment
-                      : _valueString[index] == Attribute.rightAlignment.value
+                      : valueString[index] == Attribute.rightAlignment.value
                           ? _tooltips.rightAlignment
                           : _tooltips.justifyAlignment,
               child: RawMaterialButton(
@@ -244,22 +244,21 @@ class _QuillToolbarSelectAlignmentButtonState
                 shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(_iconTheme?.borderRadius ?? 2)),
-                fillColor: _valueToText[_value] == _valueString[index]
+                fillColor: valueToText[_value] == valueString[index]
                     ? (_iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
                     : (_iconTheme?.iconUnselectedFillColor ??
                         theme.canvasColor),
-                onPressed: () => _sharedOnPressed(index),
+                onPressed: () => sharedOnPressed(index),
                 child: Icon(
-                  _valueString[index] == Attribute.leftAlignment.value
+                  valueString[index] == Attribute.leftAlignment.value
                       ? _iconsData.leftAlignment
-                      : _valueString[index] == Attribute.centerAlignment.value
+                      : valueString[index] == Attribute.centerAlignment.value
                           ? _iconsData.centerAlignment
-                          : _valueString[index] ==
-                                  Attribute.rightAlignment.value
+                          : valueString[index] == Attribute.rightAlignment.value
                               ? _iconsData.rightAlignment
                               : _iconsData.justifyAlignment,
                   size: _iconSize,
-                  color: _valueToText[_value] == _valueString[index]
+                  color: valueToText[_value] == valueString[index]
                       ? (_iconTheme?.iconSelectedColor ??
                           theme.primaryIconTheme.color)
                       : (_iconTheme?.iconUnselectedColor ??

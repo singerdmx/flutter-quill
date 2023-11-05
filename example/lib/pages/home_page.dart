@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
         extentOffset: offset + length,
       );
 
-      controller.updateSelection(selection, ChangeSource.REMOTE);
+      controller.updateSelection(selection, ChangeSource.remote);
 
       // _selectionType = _SelectionType.line;
 
@@ -539,7 +539,7 @@ class _HomePageState extends State<HomePage> {
       TextSelection.collapsed(
         offset: controller.selection.extentOffset + 1,
       ),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
 
     controller.document.insert(
@@ -551,7 +551,7 @@ class _HomePageState extends State<HomePage> {
       TextSelection.collapsed(
         offset: controller.selection.extentOffset + 1,
       ),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
 
     controller.document.insert(controller.selection.extentOffset, ' ');
@@ -559,7 +559,7 @@ class _HomePageState extends State<HomePage> {
       TextSelection.collapsed(
         offset: controller.selection.extentOffset + 1,
       ),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
 
     controller.document.insert(controller.selection.extentOffset, '\n');
@@ -567,7 +567,7 @@ class _HomePageState extends State<HomePage> {
       TextSelection.collapsed(
         offset: controller.selection.extentOffset + 1,
       ),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
   }
 }

@@ -17,11 +17,11 @@ class QuillToolbarArrowIndicatedButtonList extends StatefulWidget {
   final List<Widget> buttons;
 
   @override
-  _QuillToolbarArrowIndicatedButtonListState createState() =>
-      _QuillToolbarArrowIndicatedButtonListState();
+  QuillToolbarArrowIndicatedButtonListState createState() =>
+      QuillToolbarArrowIndicatedButtonListState();
 }
 
-class _QuillToolbarArrowIndicatedButtonListState
+class QuillToolbarArrowIndicatedButtonListState
     extends State<QuillToolbarArrowIndicatedButtonList>
     with WidgetsBindingObserver {
   final ScrollController _controller = ScrollController();

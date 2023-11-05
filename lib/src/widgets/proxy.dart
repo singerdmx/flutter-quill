@@ -7,11 +7,11 @@ import 'box.dart';
 
 class BaselineProxy extends SingleChildRenderObjectWidget {
   const BaselineProxy({
-    Key? key,
-    Widget? child,
+    super.key,
+    super.child,
     this.textStyle,
     this.padding,
-  }) : super(key: key, child: child);
+  });
 
   final TextStyle? textStyle;
   final EdgeInsets? padding;
@@ -36,15 +36,14 @@ class BaselineProxy extends SingleChildRenderObjectWidget {
 
 class RenderBaselineProxy extends RenderProxyBox {
   RenderBaselineProxy(
-    RenderParagraph? child,
+    RenderParagraph? super.child,
     TextStyle textStyle,
     EdgeInsets? padding,
-  )   : _prototypePainter = TextPainter(
+  ) : _prototypePainter = TextPainter(
             text: TextSpan(text: ' ', style: textStyle),
             textDirection: TextDirection.ltr,
             strutStyle:
-                StrutStyle.fromTextStyle(textStyle, forceStrutHeight: true)),
-        super(child);
+                StrutStyle.fromTextStyle(textStyle, forceStrutHeight: true));
 
   final TextPainter _prototypePainter;
 
@@ -87,7 +86,7 @@ class EmbedProxy extends SingleChildRenderObjectWidget {
 }
 
 class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
-  RenderEmbedProxy(RenderBox? child) : super(child);
+  RenderEmbedProxy(super.child);
 
   @override
   List<TextBox> getBoxesForSelection(TextSelection selection) {
@@ -131,7 +130,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 class RichTextProxy extends SingleChildRenderObjectWidget {
   /// Child argument should be an instance of RichText widget.
   const RichTextProxy(
-      {required RichText child,
+      {required RichText super.child,
       required this.textStyle,
       required this.textAlign,
       required this.textDirection,
@@ -140,8 +139,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
       this.textScaleFactor = 1.0,
       this.textWidthBasis = TextWidthBasis.parent,
       this.textHeightBehavior,
-      Key? key})
-      : super(key: key, child: child);
+      super.key});
 
   final TextStyle textStyle;
   final TextAlign textAlign;
@@ -184,7 +182,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
 class RenderParagraphProxy extends RenderProxyBox
     implements RenderContentProxyBox {
   RenderParagraphProxy(
-    RenderParagraph? child,
+    RenderParagraph? super.child,
     TextStyle textStyle,
     TextAlign textAlign,
     TextDirection textDirection,
@@ -193,7 +191,7 @@ class RenderParagraphProxy extends RenderProxyBox
     Locale locale,
     TextWidthBasis textWidthBasis,
     TextHeightBehavior? textHeightBehavior,
-  )   : _prototypePainter = TextPainter(
+  ) : _prototypePainter = TextPainter(
             text: TextSpan(text: ' ', style: textStyle),
             textAlign: textAlign,
             textDirection: textDirection,
@@ -201,8 +199,7 @@ class RenderParagraphProxy extends RenderProxyBox
             strutStyle: strutStyle,
             locale: locale,
             textWidthBasis: textWidthBasis,
-            textHeightBehavior: textHeightBehavior),
-        super(child);
+            textHeightBehavior: textHeightBehavior);
 
   final TextPainter _prototypePainter;
 

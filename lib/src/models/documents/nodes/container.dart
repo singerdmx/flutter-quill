@@ -137,17 +137,17 @@ abstract base class Container<T extends Node?> extends Node {
   }
 
   @override
-  void retain(int index, int? length, Style? attributes) {
+  void retain(int index, int? len, Style? style) {
     assert(isNotEmpty);
     final child = queryChild(index, false);
-    child.node!.retain(child.offset, length, attributes);
+    child.node!.retain(child.offset, len, style);
   }
 
   @override
-  void delete(int index, int? length) {
+  void delete(int index, int? len) {
     assert(isNotEmpty);
     final child = queryChild(index, false);
-    child.node!.delete(child.offset, length);
+    child.node!.delete(child.offset, len);
   }
 
   @override

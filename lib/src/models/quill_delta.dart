@@ -1,4 +1,6 @@
 /// Implementation of Quill Delta format in Dart.
+library;
+
 import 'dart:math' as math;
 
 import 'package:collection/collection.dart';
@@ -262,11 +264,11 @@ class Delta {
     b ??= const {};
 
     final attributes = <String, dynamic>{};
-    (a.keys.toList()..addAll(b.keys)).forEach((key) {
-      if (a![key] != b![key]) {
+    for (final key in (a.keys.toList()..addAll(b.keys))) {
+      if (a[key] != b[key]) {
         attributes[key] = b.containsKey(key) ? b[key] : null;
       }
-    });
+    }
 
     return attributes.keys.isNotEmpty ? attributes : null;
   }
@@ -514,7 +516,7 @@ class Delta {
     final thisIter = DeltaIterator(this);
     final otherIter = DeltaIterator(other);
 
-    diffResult.forEach((component) {
+    for (final component in diffResult) {
       var length = component.text.length;
       while (length > 0) {
         var opLength = 0;
@@ -549,7 +551,7 @@ class Delta {
         }
         length -= opLength;
       }
-    });
+    }
     return retDelta..trim();
   }
 
@@ -787,9 +789,9 @@ class DeltaIterator {
       final op = delta.elementAt(_index);
       final opKey = op.key;
       final opAttributes = op.attributes;
-      final _currentOffset = _offset;
-      final actualLength = math.min(op.length! - _currentOffset, length);
-      if (actualLength == op.length! - _currentOffset) {
+      final currentOffset = _offset;
+      final actualLength = math.min(op.length! - currentOffset, length);
+      if (actualLength == op.length! - currentOffset) {
         _index++;
         _offset = 0;
       } else {
@@ -797,7 +799,7 @@ class DeltaIterator {
       }
       final opData = op.isInsert && op.data is String
           ? (op.data as String)
-              .substring(_currentOffset, _currentOffset + actualLength)
+              .substring(currentOffset, currentOffset + actualLength)
           : op.data;
       final opIsNotEmpty =
           opData is String ? opData.isNotEmpty : true; // embeds are never empty

@@ -20,11 +20,11 @@ class QuillEditorCheckboxPoint extends StatefulWidget {
   final QuillCheckboxBuilder? uiBuilder;
 
   @override
-  _QuillEditorCheckboxPointState createState() =>
-      _QuillEditorCheckboxPointState();
+  QuillEditorCheckboxPointState createState() =>
+      QuillEditorCheckboxPointState();
 }
 
-class _QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
+class QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
   @override
   Widget build(BuildContext context) {
     final uiBuilder = widget.uiBuilder;

@@ -187,7 +187,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     final cursorPosition = value.selection.extentOffset;
     final diff = getDiff(oldText, text, cursorPosition);
     if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-      widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+      widget.controller.updateSelection(value.selection, ChangeSource.local);
     } else {
       widget.controller.replaceText(
           diff.start, diff.deleted.length, diff.inserted, value.selection);

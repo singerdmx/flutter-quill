@@ -10,7 +10,7 @@ abstract class InsertRule extends Rule {
   const InsertRule();
 
   @override
-  RuleType get type => RuleType.INSERT;
+  RuleType get type => RuleType.insert;
 
   @override
   void validateArgs(int? len, Object? data, Attribute? attribute) {

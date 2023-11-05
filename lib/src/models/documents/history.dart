@@ -34,7 +34,7 @@ class History {
 
   void handleDocChange(DocChange docChange) {
     if (ignoreChange) return;
-    if (!userOnly || docChange.source == ChangeSource.LOCAL) {
+    if (!userOnly || docChange.source == ChangeSource.local) {
       record(docChange.change, docChange.before);
     } else {
       transform(docChange.change);
@@ -105,7 +105,7 @@ class History {
     dest.add(inverseDelta);
     lastRecorded = 0;
     ignoreChange = true;
-    doc.compose(delta, ChangeSource.LOCAL);
+    doc.compose(delta, ChangeSource.local);
     ignoreChange = false;
     return HistoryChanged(true, len);
   }

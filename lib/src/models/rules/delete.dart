@@ -8,7 +8,7 @@ abstract class DeleteRule extends Rule {
   const DeleteRule();
 
   @override
-  RuleType get type => RuleType.DELETE;
+  RuleType get type => RuleType.delete;
 
   @override
   void validateArgs(int? len, Object? data, Attribute? attribute) {

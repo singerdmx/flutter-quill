@@ -22,11 +22,11 @@ class QuillToolbarLinkStyleButton extends StatefulWidget {
   final QuillToolbarLinkStyleButtonOptions options;
 
   @override
-  _QuillToolbarLinkStyleButtonState createState() =>
-      _QuillToolbarLinkStyleButtonState();
+  QuillToolbarLinkStyleButtonState createState() =>
+      QuillToolbarLinkStyleButtonState();
 }
 
-class _QuillToolbarLinkStyleButtonState
+class QuillToolbarLinkStyleButtonState
     extends State<QuillToolbarLinkStyleButton> {
   void _didChangeSelection() {
     setState(() {});
@@ -161,7 +161,7 @@ class _QuillToolbarLinkStyleButtonState
         final link = _getLinkAttributeValue();
         final index = controller.selection.start;
 
-        var text;
+        String? text;
         if (link != null) {
           // text should be the link's corresponding text, not selection
           final leaf = controller.document.querySegmentLeafNode(index).leaf;

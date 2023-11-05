@@ -23,11 +23,11 @@ class QuillToolbarToggleCheckListButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarToggleCheckListButtonState createState() =>
-      _QuillToolbarToggleCheckListButtonState();
+  QuillToolbarToggleCheckListButtonState createState() =>
+      QuillToolbarToggleCheckListButtonState();
 }
 
-class _QuillToolbarToggleCheckListButtonState
+class QuillToolbarToggleCheckListButtonState
     extends State<QuillToolbarToggleCheckListButton> {
   bool? _isToggled;
 

@@ -202,7 +202,7 @@ class QuillController extends ChangeNotifier {
       // TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
       updateSelection(
           TextSelection.collapsed(offset: selection.baseOffset + len),
-          ChangeSource.LOCAL);
+          ChangeSource.local);
     } else {
       // no need to move cursor
       notifyListeners();
@@ -261,13 +261,13 @@ class QuillController extends ChangeNotifier {
         final retainDelta = Delta()
           ..retain(index)
           ..retain(data is String ? data.length : 1, toggledStyle.toJson());
-        document.compose(retainDelta, ChangeSource.LOCAL);
+        document.compose(retainDelta, ChangeSource.local);
       }
     }
 
     if (textSelection != null) {
       if (delta == null || delta.isEmpty) {
-        _updateSelection(textSelection, ChangeSource.LOCAL);
+        _updateSelection(textSelection, ChangeSource.local);
       } else {
         final user = Delta()
           ..retain(index)
@@ -279,7 +279,7 @@ class QuillController extends ChangeNotifier {
             baseOffset: textSelection.baseOffset + positionDelta,
             extentOffset: textSelection.extentOffset + positionDelta,
           ),
-          ChangeSource.LOCAL,
+          ChangeSource.local,
         );
       }
     }
@@ -322,7 +322,7 @@ class QuillController extends ChangeNotifier {
         baseOffset: change.transformPosition(selection.baseOffset),
         extentOffset: change.transformPosition(selection.extentOffset));
     if (selection != adjustedSelection) {
-      _updateSelection(adjustedSelection, ChangeSource.LOCAL);
+      _updateSelection(adjustedSelection, ChangeSource.local);
     }
     notifyListeners();
   }
@@ -334,21 +334,21 @@ class QuillController extends ChangeNotifier {
   void moveCursorToStart() {
     updateSelection(
       const TextSelection.collapsed(offset: 0),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
   }
 
   void moveCursorToPosition(int position) {
     updateSelection(
       TextSelection.collapsed(offset: position),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
   }
 
   void moveCursorToEnd() {
     updateSelection(
       TextSelection.collapsed(offset: plainTextEditingValue.text.length),
-      ChangeSource.LOCAL,
+      ChangeSource.local,
     );
   }
 
