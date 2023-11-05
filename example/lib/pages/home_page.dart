@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:io' show File, Platform;
 import 'dart:ui';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/embed_types/image.dart';
-import 'package:flutter_quill_extensions/presentation/models/config/toolbar/buttons/video.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 

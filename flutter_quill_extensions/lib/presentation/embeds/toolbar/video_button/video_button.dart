@@ -6,7 +6,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import '../../../../logic/models/config/configurations.dart';
 import '../../../../logic/services/image_picker/image_options.dart';
 import '../../../models/config/toolbar/buttons/video.dart';
-import '../../embed_types.dart';
 import '../../embed_types/video.dart';
 import '../utils/image_video_utils.dart';
 import 'select_video_source.dart';
@@ -173,12 +172,12 @@ class QuillToolbarVideoButton extends StatelessWidget {
     return value;
   }
 
-  void _linkSubmitted(String? value) {
-    if (value != null && value.isNotEmpty) {
-      final index = controller.selection.baseOffset;
-      final length = controller.selection.extentOffset - index;
+  // void _linkSubmitted(String? value) {
+  //   if (value != null && value.isNotEmpty) {
+  //     final index = controller.selection.baseOffset;
+  //     final length = controller.selection.extentOffset - index;
 
-      controller.replaceText(index, length, BlockEmbed.video(value), null);
-    }
-  }
+  //     controller.replaceText(index, length, BlockEmbed.video(value), null);
+  //   }
+  // }
 }

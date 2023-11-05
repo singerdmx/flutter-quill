@@ -126,7 +126,8 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
 //                   color: Colors.orangeAccent,
 //                 ),
 //                 label: Text('Gallery'.i18n),
-//                 onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
+//                 onPressed: () => Navigator.pop(ctx,
+// MediaPickSetting.gallery),
 //               ),
 //               TextButton.icon(
 //                 icon: const Icon(
@@ -156,7 +157,8 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
 //         imageUrl = await webImagePickImpl(onImagePickCallback);
 //         return;
 //       }
-//       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+//       final file = await ImagePicker()
+//.pickImage(source: ImageSource.gallery);
 //       imageUrl = file?.path;
 //       if (imageUrl == null) {
 //         return;
@@ -166,7 +168,8 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
 //     } else {
 //       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
 //       imageUrl =
-//           await _pickImageDesktop(context, filePickImpl!, onImagePickCallback);
+//           await _pickImageDesktop
+//(context, filePickImpl!, onImagePickCallback);
 //     }
 
 //     if (imageUrl == null) {
@@ -227,11 +230,13 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
 //     } else {
 //       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
 //       videoUrl =
-//           await _pickVideoDesktop(context, filePickImpl!, onVideoPickCallback);
+//           await _pickVideoDesktop(context, filePickImpl!,
+// onVideoPickCallback);
 //     }
 
 //     if (videoUrl != null) {
-//       controller.replaceText(index, length, BlockEmbed.video(videoUrl), null);
+//       controller.replaceText(index, length, BlockEmbed.video(videoUrl),
+// null);
 //     }
 //   }
 
