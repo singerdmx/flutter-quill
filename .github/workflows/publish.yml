@@ -3,29 +3,19 @@ name: Publish to pub.dev
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'  # Trigger this action when a version tag is pushed
+    - 'v[0-9]+.[0-9]+.[0-9]+*' # tag pattern on pub.dev: 'v'
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write
-      packages: write
+      id-token: write # Required for authentication using OIDC
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Flutter environment
-        uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.13.9'
-
-      - name: Disable Flutter telemetry
-        run: flutter --disable-telemetry
-
-      - name: Publish to pub.dev
-        env:
-          PUB_ACCESS_TOKEN: ${{ secrets.PUB_ACCESS_TOKEN }}
-        run: |
-          echo 'PUB_ACCESS_TOKEN=$PUB_ACCESS_TOKEN' > $HOME/.pub-cache/credentials.json
-          flutter pub publish --force
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - name: Install dependencies
+        run: dart pub get
+      # Here you can insert custom steps you need
+      # - run: dart tool/generate-code.dart
+      - name: Publish
+        run: dart pub publish --force
