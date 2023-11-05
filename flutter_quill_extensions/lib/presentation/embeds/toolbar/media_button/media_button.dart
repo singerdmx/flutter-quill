@@ -43,7 +43,8 @@
 //     return options.iconTheme ?? baseButtonExtraOptions(context).iconTheme;
 //   }
 
-//   QuillToolbarBaseButtonOptions baseButtonExtraOptions(BuildContext context) {
+//   QuillToolbarBaseButtonOptions baseButtonExtraOptions(
+//BuildContext context) {
 //     return context.requireQuillToolbarBaseButtonOptions;
 //   }
 
@@ -306,7 +307,8 @@
 //         ? Theme.of(context)
 //             .elevatedButtonTheme
 //             .style
-//             ?.copyWith(fixedSize: MaterialStatePropertyAll(widget.buttonSize))
+//             ?.copyWith(
+//fixedSize: MaterialStatePropertyAll(widget.buttonSize))
 //         : widget.dialogTheme?.buttonStyle;
 
 //     final isWrappable = widget.dialogTheme?.isWrappable ?? false;
@@ -353,7 +355,8 @@
 //         constraints: constraints,
 //         child: Padding(
 //           padding:
-//               widget.dialogTheme?.linkDialogPadding ?? const EdgeInsets.all(16),
+//               widget.dialogTheme?.linkDialogPadding ?? const
+// EdgeInsets.all(16),
 //           child: Form(
 //             child: isWrappable
 //                 ? Wrap(
