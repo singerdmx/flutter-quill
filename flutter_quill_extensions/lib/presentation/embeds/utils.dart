@@ -4,9 +4,6 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show BuildContext;
 import '../../logic/models/config/shared_configurations.dart';
 
-// I would like to orgnize the project structure and the code more
-// but here I don't want to change too much since that is a community project
-
 RegExp _base64 = RegExp(
   r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$',
 );
