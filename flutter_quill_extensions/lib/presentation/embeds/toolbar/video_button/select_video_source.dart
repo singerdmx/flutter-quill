@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart' show isDesktop;
 
 import '../../embed_types/video.dart';
 
@@ -27,6 +28,7 @@ class SelectVideoSourceDialog extends StatelessWidget {
                 'Record a video using your phone camera',
               ),
               leading: const Icon(Icons.camera),
+              enabled: !isDesktop(),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
             ),
             ListTile(
