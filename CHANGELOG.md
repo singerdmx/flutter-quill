@@ -1,3 +1,6 @@
+## [8.2.1]
+- Update `README.md`
+
 ## [8.2.0]
 - Add the option to add configurations for `flutter_quill_extensions` using `extraConfigurations`
 

@@ -150,10 +150,6 @@ The `QuillToolbar` class lets you customize which formatting options are availab
 For **web development**, use `flutter config --enable-web` for flutter or use [ReactQuill] for React.
 
 It is required to provide `EmbedBuilder`, e.g. [defaultEmbedBuildersWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L99).
-Also it is required to provide `webImagePickImpl`, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L317).
-
-For **desktop platforms** It is required to provide `filePickImpl` for toolbar image button, e.g. [Sample Page](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart#L297).
-
 
 ### Using Custom App Widget
 
@@ -262,35 +258,7 @@ Provide a list of embed
 
 ### Using the embed blocks from `flutter_quill_extensions`
 
-```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
-    embedButtons: FlutterQuillEmbeds.toolbarButtons(
-      imageButtonOptions: QuillToolbarImageButtonOptions(
-        onImagePickCallback: (file) async {
-          return file.path;
-        },
-      ),
-    ),
-  ),
-),
-```
-
-```dart
-Expanded(
-  child: QuillEditor.basic(
-    configurations: QuillEditorConfigurations(
-      readOnly: true,
-      embedBuilders: FlutterQuillEmbeds.editorBuilders(
-        imageEmbedConfigurations:
-            const QuillEditorImageEmbedConfigurations(
-          forceUseMobileOptionMenuForImageClick: true,
-        ),
-      ),
-    ),
-  ),
-)
-```
+Too see how to use the extensions package, please take a look at the [README](./flutter_quill_extensions/README.md) of [FlutterQuill Extensions]
 
 ### Custom Size Image for Mobile
 

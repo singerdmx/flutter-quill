@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
 
-import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-import 'package:path_provider/path_provider.dart';
 
 typedef DemoContentBuilder = Widget Function(
     BuildContext context, QuillController? controller);
@@ -75,14 +73,15 @@ class _DemoScaffoldState extends State<DemoScaffold> {
     }
   }
 
-  Future<String?> openFileSystemPickerForDesktop(BuildContext context) async {
-    return await FilesystemPicker.open(
-      context: context,
-      rootDirectory: await getApplicationDocumentsDirectory(),
-      fsType: FilesystemType.file,
-      fileTileSelectMode: FileTileSelectMode.wholeTile,
-    );
-  }
+  // Future<String?> _openFileSystemPickerForDesktop(BuildContext context)
+  //async {
+  //   return await FilesystemPicker.open(
+  //     context: context,
+  //     rootDirectory: await getApplicationDocumentsDirectory(),
+  //     fsType: FilesystemType.file,
+  //     fileTileSelectMode: FileTileSelectMode.wholeTile,
+  //   );
+  // }
 
   QuillToolbar get quillToolbar {
     if (_isDesktop()) {

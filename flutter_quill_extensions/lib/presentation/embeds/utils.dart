@@ -2,7 +2,7 @@ import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show BuildContext;
-import '../../logic/models/config/configurations.dart';
+import '../../logic/models/config/shared_configurations.dart';
 
 // I would like to orgnize the project structure and the code more
 // but here I don't want to change too much since that is a community project

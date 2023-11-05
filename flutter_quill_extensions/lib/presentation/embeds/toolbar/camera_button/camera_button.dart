@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../../../../logic/models/config/configurations.dart';
+import '../../../../logic/models/config/shared_configurations.dart';
 import '../../../../logic/services/image_picker/image_options.dart';
 import '../../../models/config/toolbar/buttons/camera.dart';
 import '../../embed_types/camera.dart';
@@ -151,7 +151,6 @@ class QuillToolbarCameraButton extends StatelessWidget {
         if (videoFile == null) {
           return;
         }
-      // TODO: Implement this
       case CameraAction.image:
         final imageFile = await imagePickerService.pickImage(
           source: ImageSource.camera,

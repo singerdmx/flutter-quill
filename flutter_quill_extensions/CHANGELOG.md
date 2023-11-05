@@ -1,3 +1,6 @@
+## 0.6.0-dev.4
+- Add more exports
+
 ## 0.6.0-dev.3
 - Disable the camera option by default on desktop
 

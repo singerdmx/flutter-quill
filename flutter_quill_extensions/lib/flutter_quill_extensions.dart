@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import 'logic/models/config/configurations.dart';
+import 'logic/models/config/shared_configurations.dart';
 import 'presentation/embeds/editor/image/image.dart';
 import 'presentation/embeds/editor/image/image_web.dart';
 import 'presentation/embeds/editor/video.dart';
@@ -29,6 +29,8 @@ export '/presentation/models/config/editor/webview.dart';
 export './logic/extensions/controller.dart';
 export 'presentation/embeds/editor/unknown.dart';
 export 'presentation/embeds/embed_types.dart';
+export 'presentation/embeds/embed_types/image.dart';
+export 'presentation/embeds/embed_types/video.dart';
 export 'presentation/embeds/toolbar/camera_button/camera_button.dart';
 export 'presentation/embeds/toolbar/formula_button.dart';
 export 'presentation/embeds/toolbar/image_button/image_button.dart';
@@ -38,6 +40,7 @@ export 'presentation/embeds/toolbar/video_button/video_button.dart';
 export 'presentation/embeds/utils.dart';
 export 'presentation/models/config/editor/image.dart';
 export 'presentation/models/config/toolbar/buttons/image.dart';
+export 'presentation/models/config/toolbar/buttons/video.dart';
 
 @immutable
 class FlutterQuillEmbeds {
