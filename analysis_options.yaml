@@ -1,5 +1,4 @@
 include: package:lints/recommended.yaml
-# include: package:pedantic/analysis_options.yaml
 
 analyzer:
   errors:
