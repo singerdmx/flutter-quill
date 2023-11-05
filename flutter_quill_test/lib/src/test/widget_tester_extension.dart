@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../widgets/editor/editor.dart';
-import '../widgets/raw_editor/raw_editor.dart';
 
 /// Extends
 extension QuillEnterText on WidgetTester {
@@ -44,10 +42,11 @@ extension QuillEnterText on WidgetTester {
   /// `find.byType(QuillEditor)`.
   Future<void> quillUpdateEditingValue(Finder finder, String text) async {
     return TestAsyncUtils.guard(() async {
-      final editor = state<RawEditorState>(
+      final editor = state<QuillRawEditorState>(
         find.descendant(
             of: finder,
-            matching: find.byType(RawEditor, skipOffstage: finder.skipOffstage),
+            matching:
+                find.byType(QuillRawEditor, skipOffstage: finder.skipOffstage),
             matchRoot: true),
       );
       testTextInput.updateEditingValue(TextEditingValue(

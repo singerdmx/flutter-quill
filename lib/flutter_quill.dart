@@ -27,6 +27,7 @@ export 'src/widgets/default_styles.dart';
 export 'src/widgets/editor/editor.dart';
 export 'src/widgets/embeds.dart';
 export 'src/widgets/link.dart' show LinkActionPickerDelegate, LinkMenuAction;
+export 'src/widgets/raw_editor/raw_editor.dart';
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar/base_toolbar.dart';
 export 'src/widgets/toolbar/toolbar.dart';

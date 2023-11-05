@@ -15,12 +15,11 @@ import '../box.dart';
 import '../cursor.dart';
 import '../delegate.dart';
 import '../float_cursor.dart';
-import '../raw_editor/raw_editor.dart';
 import '../text_selection.dart';
 
 /// Base interface for the editor state which defines contract used by
 /// various mixins.
-abstract class EditorState extends State<RawEditor>
+abstract class EditorState extends State<QuillRawEditor>
     implements TextSelectionDelegate {
   ScrollController get scrollController;
 
@@ -239,7 +238,7 @@ class QuillEditorState extends State<QuillEditor>
 
     final child = QuillEditorProvider(
       editorConfigurations: configurations,
-      child: RawEditor(
+      child: QuillRawEditor(
         key: _editorKey,
         controller: context.requireQuillController,
         focusNode: widget.focusNode,
@@ -252,7 +251,7 @@ class QuillEditorState extends State<QuillEditor>
         onLaunchUrl: configurations.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
             ? (configurations.contextMenuBuilder ??
-                RawEditor.defaultContextMenuBuilder)
+                QuillRawEditor.defaultContextMenuBuilder)
             : null,
         showSelectionHandles: isMobile(theme.platform),
         showCursor: configurations.showCursor,

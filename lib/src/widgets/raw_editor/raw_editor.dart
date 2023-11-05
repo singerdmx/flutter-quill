@@ -55,8 +55,8 @@ import '../toolbar/buttons/search/search_dialog.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
 
-class RawEditor extends StatefulWidget {
-  const RawEditor({
+class QuillRawEditor extends StatefulWidget {
+  const QuillRawEditor({
     required this.controller,
     required this.focusNode,
     required this.scrollController,
@@ -139,7 +139,7 @@ class RawEditor extends StatefulWidget {
 
   static Widget defaultContextMenuBuilder(
     BuildContext context,
-    RawEditorState state,
+    QuillRawEditorState state,
   ) {
     return TextFieldTapRegion(
       child: AdaptiveTextSelectionToolbar.buttonItems(
@@ -227,9 +227,10 @@ class RawEditor extends StatefulWidget {
 
   /// Delegate for building the text selection handles and toolbar.
   ///
-  /// The [RawEditor] widget used on its own will not trigger the display
+  /// The [QuillRawEditor] widget used on its own will not trigger the display
   /// of the selection toolbar by itself. The toolbar is shown by calling
-  /// [RawEditorState.showToolbar] in response to an appropriate user event.
+  /// [QuillRawEditorState.showToolbar] in response to
+  /// an appropriate user event.
   final TextSelectionControls selectionCtrls;
 
   /// The appearance of the keyboard.
@@ -287,14 +288,14 @@ class RawEditor extends StatefulWidget {
   final ContentInsertionConfiguration? contentInsertionConfiguration;
 
   @override
-  State<StatefulWidget> createState() => RawEditorState();
+  State<StatefulWidget> createState() => QuillRawEditorState();
 }
 
-class RawEditorState extends EditorState
+class QuillRawEditorState extends EditorState
     with
-        AutomaticKeepAliveClientMixin<RawEditor>,
+        AutomaticKeepAliveClientMixin<QuillRawEditor>,
         WidgetsBindingObserver,
-        TickerProviderStateMixin<RawEditor>,
+        TickerProviderStateMixin<QuillRawEditor>,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
   final GlobalKey _editorKey = GlobalKey();
@@ -354,7 +355,7 @@ class RawEditorState extends EditorState
   }
 
   /// Returns the [ContextMenuButtonItem]s representing the buttons in this
-  /// platform's default selection menu for [RawEditor].
+  /// platform's default selection menu for [QuillRawEditor].
   ///
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
@@ -390,7 +391,7 @@ class RawEditorState extends EditorState
   }
 
   /// Gets the line heights at the start and end of the selection for the given
-  /// [RawEditorState].
+  /// [QuillRawEditorState].
   ///
   /// Copied from [EditableTextState].
   _GlyphHeights _getGlyphHeights() {
@@ -1171,7 +1172,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  void didUpdateWidget(RawEditor oldWidget) {
+  void didUpdateWidget(QuillRawEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     _cursorCont.show.value = widget.showCursor;
@@ -2208,7 +2209,7 @@ class _DeleteTextAction<T extends DirectionalTextEditingIntent>
     extends ContextAction<T> {
   _DeleteTextAction(this.state, this.getTextBoundariesForIntent);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
   final _TextBoundary Function(T intent) getTextBoundariesForIntent;
 
   TextRange _expandNonCollapsedRange(TextEditingValue value) {
@@ -2280,7 +2281,7 @@ class _UpdateTextSelectionAction<T extends DirectionalCaretMovementIntent>
   _UpdateTextSelectionAction(this.state, this.ignoreNonCollapsedSelection,
       this.getTextBoundariesForIntent);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
   final bool ignoreNonCollapsedSelection;
   final _TextBoundary Function(T intent) getTextBoundariesForIntent;
 
@@ -2366,7 +2367,7 @@ class _ExtendSelectionOrCaretPositionAction extends ContextAction<
   _ExtendSelectionOrCaretPositionAction(
       this.state, this.getTextBoundariesForIntent);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
   final _TextBoundary Function(
           ExtendSelectionToNextWordBoundaryOrCaretLocationIntent intent)
       getTextBoundariesForIntent;
@@ -2417,7 +2418,7 @@ class _UpdateTextSelectionToAdjacentLineAction<
     T extends DirectionalCaretMovementIntent> extends ContextAction<T> {
   _UpdateTextSelectionToAdjacentLineAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   QuillVerticalCaretMovementRun? _verticalMovementRun;
   TextSelection? _runSelection;
@@ -2484,7 +2485,7 @@ class _UpdateTextSelectionToAdjacentLineAction<
 class _SelectAllAction extends ContextAction<SelectAllTextIntent> {
   _SelectAllAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   Object? invoke(SelectAllTextIntent intent, [BuildContext? context]) {
@@ -2506,7 +2507,7 @@ class _SelectAllAction extends ContextAction<SelectAllTextIntent> {
 class _CopySelectionAction extends ContextAction<CopySelectionTextIntent> {
   _CopySelectionAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   void invoke(CopySelectionTextIntent intent, [BuildContext? context]) {
@@ -2532,7 +2533,7 @@ class _HideSelectionToolbarAction
     extends ContextAction<HideSelectionToolbarIntent> {
   _HideSelectionToolbarAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   void invoke(HideSelectionToolbarIntent intent, [BuildContext? context]) {
@@ -2546,7 +2547,7 @@ class _HideSelectionToolbarAction
 class _UndoKeyboardAction extends ContextAction<UndoTextIntent> {
   _UndoKeyboardAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   void invoke(UndoTextIntent intent, [BuildContext? context]) {
@@ -2562,7 +2563,7 @@ class _UndoKeyboardAction extends ContextAction<UndoTextIntent> {
 class _RedoKeyboardAction extends ContextAction<RedoTextIntent> {
   _RedoKeyboardAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   void invoke(RedoTextIntent intent, [BuildContext? context]) {
@@ -2585,7 +2586,7 @@ class ToggleTextStyleIntent extends Intent {
 class _ToggleTextStyleAction extends Action<ToggleTextStyleIntent> {
   _ToggleTextStyleAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   bool _isStyleActive(Attribute styleAttr, Map<String, Attribute> attrs) {
     if (styleAttr.key == Attribute.list.key) {
@@ -2620,7 +2621,7 @@ class IndentSelectionIntent extends Intent {
 class _IndentSelectionAction extends Action<IndentSelectionIntent> {
   _IndentSelectionAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   void invoke(IndentSelectionIntent intent, [BuildContext? context]) {
@@ -2639,7 +2640,7 @@ class OpenSearchIntent extends Intent {
 class _OpenSearchAction extends ContextAction<OpenSearchIntent> {
   _OpenSearchAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   Future invoke(OpenSearchIntent intent, [BuildContext? context]) async {
@@ -2671,7 +2672,7 @@ class ApplyHeaderIntent extends Intent {
 class _ApplyHeaderAction extends Action<ApplyHeaderIntent> {
   _ApplyHeaderAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   Attribute<dynamic> _getHeaderValue() {
     return state.controller
@@ -2699,7 +2700,7 @@ class ApplyCheckListIntent extends Intent {
 class _ApplyCheckListAction extends Action<ApplyCheckListIntent> {
   _ApplyCheckListAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   bool _getIsToggled() {
     final attrs = state.controller.getSelectionStyle().attributes;
@@ -2737,7 +2738,7 @@ class ApplyLinkIntent extends Intent {
 class ApplyLinkAction extends Action<ApplyLinkIntent> {
   ApplyLinkAction(this.state);
 
-  final RawEditorState state;
+  final QuillRawEditorState state;
 
   @override
   Object? invoke(ApplyLinkIntent intent) async {
@@ -2768,7 +2769,7 @@ class InsertEmbedIntent extends Intent {
 }
 
 /// Signature for a widget builder that builds a context menu for the given
-/// [RawEditorState].
+/// [QuillRawEditorState].
 ///
 /// See also:
 ///
@@ -2776,7 +2777,7 @@ class InsertEmbedIntent extends Intent {
 ///    [EditableText]
 typedef QuillEditorContextMenuBuilder = Widget Function(
   BuildContext context,
-  RawEditorState rawEditorState,
+  QuillRawEditorState rawEditorState,
 );
 
 class _GlyphHeights {

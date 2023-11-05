@@ -1,6 +1,6 @@
 name: flutter_quill
 description: A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
-version: 8.2.1
+version: 8.2.2
 homepage: https://1o24bbs.com/c/bulletjournal/108
 repository: https://github.com/singerdmx/flutter-quill
 
@@ -49,12 +49,13 @@ dependencies:
   pasteboard: ^0.2.0
   equatable: ^2.0.5
   flutter_animate: ^4.2.0+1
-
-  flutter_test:
-    sdk: flutter
   meta: ^1.9.1
 
 flutter:
   uses-material-design: true
 dev_dependencies:
   lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+  flutter_quill_test:
+    path: ./flutter_quill_test
