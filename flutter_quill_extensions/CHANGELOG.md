@@ -1,3 +1,6 @@
+## 0.6.0-dev.3
+- Disable the camera option by default on desktop
+
 ## 0.6.0-dev.2
 - Another breaking changes, we will add mirgrate guide soon.
 
