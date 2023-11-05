@@ -44,7 +44,7 @@ dependencies:
 
 # In case you are working on changes for both libraries
 # Comment the dependency_overrides section when publishing the package,
-# then uncooment it back, this will be automated later
+# then uncomment it back, this will be automated later
 dependency_overrides:
   flutter_quill:
     path: ../
