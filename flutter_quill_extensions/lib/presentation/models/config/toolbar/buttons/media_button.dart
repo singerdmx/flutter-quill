@@ -76,9 +76,7 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
 
   final AutovalidateMode autovalidateMode;
   final String? validationMessage;
-  final OnImagePickCallback onImagePickCallback;
   final FilePickImpl? filePickImpl;
-  final WebImagePickImpl? webImagePickImpl;
   final OnVideoPickCallback onVideoPickCallback;
   final WebVideoPickImpl? webVideoPickImpl;
 }

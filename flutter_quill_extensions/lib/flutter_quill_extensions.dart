@@ -4,13 +4,14 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
+import 'logic/models/config/configurations.dart';
 import 'presentation/embeds/editor/image/image.dart';
 import 'presentation/embeds/editor/image/image_web.dart';
 import 'presentation/embeds/editor/video.dart';
 import 'presentation/embeds/editor/webview.dart';
 import 'presentation/embeds/toolbar/camera_button.dart';
 import 'presentation/embeds/toolbar/formula_button.dart';
-import 'presentation/embeds/toolbar/image_button.dart';
+import 'presentation/embeds/toolbar/image_button/image_button.dart';
 import 'presentation/embeds/toolbar/media_button.dart';
 import 'presentation/embeds/toolbar/video_button.dart';
 import 'presentation/models/config/editor/image.dart';
@@ -28,7 +29,7 @@ export 'presentation/embeds/editor/unknown.dart';
 export 'presentation/embeds/embed_types.dart';
 export 'presentation/embeds/toolbar/camera_button.dart';
 export 'presentation/embeds/toolbar/formula_button.dart';
-export 'presentation/embeds/toolbar/image_button.dart';
+export 'presentation/embeds/toolbar/image_button/image_button.dart';
 export 'presentation/embeds/toolbar/media_button.dart';
 export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button.dart';
@@ -83,19 +84,7 @@ class FlutterQuillEmbeds {
     return [
       if (imageEmbedConfigurations != null)
         QuillEditorImageEmbedBuilder(
-          configurations: QuillEditorImageEmbedConfigurations(
-            imageErrorWidgetBuilder:
-                imageEmbedConfigurations.imageErrorWidgetBuilder,
-            imageProviderBuilder: imageEmbedConfigurations.imageProviderBuilder,
-            forceUseMobileOptionMenuForImageClick:
-                imageEmbedConfigurations.forceUseMobileOptionMenuForImageClick,
-            onImageRemovedCallback:
-                imageEmbedConfigurations.onImageRemovedCallback ??
-                    QuillEditorImageEmbedConfigurations
-                        .defaultOnImageRemovedCallback,
-            shouldRemoveImageCallback:
-                imageEmbedConfigurations.shouldRemoveImageCallback,
-          ),
+          configurations: imageEmbedConfigurations,
         ),
       if (videoEmbedConfigurations != null)
         QuillEditorVideoEmbedBuilder(
@@ -115,6 +104,8 @@ class FlutterQuillEmbeds {
   ///  images on the web.
   ///
   static List<EmbedBuilder> editorsWebBuilders({
+    QuillSharedExtensionsConfigurations sharedExtensionsConfigurations =
+        const QuillSharedExtensionsConfigurations(),
     QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
         const QuillEditorWebImageEmbedConfigurations(),
   }) {

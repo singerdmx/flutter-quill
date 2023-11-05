@@ -4,28 +4,18 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart'
     show ImageErrorWidgetBuilder, BuildContext, ImageProvider;
 
-typedef OnImagePickCallback = Future<String?> Function(File file);
 typedef OnVideoPickCallback = Future<String?> Function(File file);
 
 /// [FilePickImpl] is an implementation for picking files.
 typedef FilePickImpl = Future<String?> Function(BuildContext context);
 
 /// [WebImagePickImpl] is an implementation for picking web images.
-typedef WebImagePickImpl = Future<String?> Function(
-  OnImagePickCallback onImagePickCallback,
-);
+// typedef WebImagePickImpl = Future<String?> Function(
+//   OnImagePickCallback onImagePickCallback,
+// );
 typedef WebVideoPickImpl = Future<String?> Function(
   OnVideoPickCallback onImagePickCallback,
 );
-typedef MediaPickSettingSelector = Future<MediaPickSetting?> Function(
-    BuildContext context);
-
-enum MediaPickSetting {
-  gallery,
-  link,
-  camera,
-  video,
-}
 
 typedef MediaFileUrl = String;
 typedef MediaFilePicker = Future<QuillFile?> Function(QuillMediaType mediaType);

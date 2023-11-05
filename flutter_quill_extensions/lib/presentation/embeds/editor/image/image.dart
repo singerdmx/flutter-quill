@@ -158,8 +158,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
                       TextSelection.collapsed(offset: offset),
                     );
                     // Call the post remove callback if set
-                    await configurations.onImageRemovedCallback
-                        ?.call(imageFile);
+                    await configurations.onImageRemovedCallback.call(imageFile);
                   },
                 );
                 return Padding(
@@ -270,7 +269,10 @@ Widget _menuOptionsForReadonlyImage({
               final messenger = ScaffoldMessenger.of(context);
               Navigator.of(context).pop();
 
-              final saveImageResult = await saveImage(imageUrl);
+              final saveImageResult = await saveImage(
+                imageUrl: imageUrl,
+                context: context,
+              );
               final imageSavedSuccessfully = saveImageResult.isSuccess;
 
               messenger.clearSnackBars();
