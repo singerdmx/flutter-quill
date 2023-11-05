@@ -294,7 +294,7 @@ Define `width`, `height`, `margin`, `alignment` as follows:
 
 Sometimes you want to add some custom content inside your text, custom widgets inside of them. An example is adding notes to the text, or anything custom that you want to add in your text editor.
 
-Open this [page](./doc/custom_embed_blocks.dart) for more info
+Open this [page](./doc/custom_embed_blocks.md) for more info
 
 
 ### Custom Toolbar
