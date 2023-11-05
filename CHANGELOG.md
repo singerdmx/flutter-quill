@@ -1,3 +1,6 @@
+## [8.1.12]
+- Add the option to add configurations for `fresh_quill_extensions` using `extraConfigurations`
+
 ## [8.1.11]
 - Follow dart best practices by using `lints` and remove `pedantic` as well `platform` since they are not used
 - Fix text direction bug

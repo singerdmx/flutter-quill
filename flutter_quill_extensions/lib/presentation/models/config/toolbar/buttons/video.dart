@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart' show Color;
 import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../../../embeds/embed_types.dart';
+import '../../../../embeds/embed_types/video.dart';
 
 class QuillToolbarVideoButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {
@@ -17,10 +18,7 @@ class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarVideoButtonOptions({
     this.linkRegExp,
     this.dialogTheme,
-    this.onVideoPickCallback,
     this.webVideoPickImpl,
-    this.filePickImpl,
-    this.mediaPickSettingSelector,
     this.fillColor,
     this.iconSize,
     super.iconData,
@@ -29,15 +27,14 @@ class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
     super.iconTheme,
     super.childBuilder,
     super.controller,
+    this.videoConfigurations = const QuillToolbarVideoConfigurations(),
   });
 
   final RegExp? linkRegExp;
   final QuillDialogTheme? dialogTheme;
-  final OnVideoPickCallback? onVideoPickCallback;
+  final QuillToolbarVideoConfigurations videoConfigurations;
 
   final WebVideoPickImpl? webVideoPickImpl;
-
-  final FilePickImpl? filePickImpl;
 
   final Color? fillColor;
 

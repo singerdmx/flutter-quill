@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../embed_types/image.dart';
+import '../../embed_types/video.dart';
 
-class SelectImageSourceDialog extends StatelessWidget {
-  const SelectImageSourceDialog({super.key});
+class SelectVideoSourceDialog extends StatelessWidget {
+  const SelectVideoSourceDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,26 +16,26 @@ class SelectImageSourceDialog extends StatelessWidget {
             ListTile(
               title: const Text('Gallery'),
               subtitle: const Text(
-                'Pick a photo from your gallery',
+                'Pick a video from your gallery',
               ),
               leading: const Icon(Icons.photo_sharp),
-              onTap: () => Navigator.of(context).pop(InsertImageSource.gallery),
+              onTap: () => Navigator.of(context).pop(InsertVideoSource.gallery),
             ),
             ListTile(
               title: const Text('Camera'),
               subtitle: const Text(
-                'Take a photo using your phone camera',
+                'Record a video using your phone camera',
               ),
               leading: const Icon(Icons.camera),
-              onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
+              onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
             ),
             ListTile(
               title: const Text('Link'),
               subtitle: const Text(
-                'Paste a photo using a link',
+                'Paste a video using a link',
               ),
               leading: const Icon(Icons.link),
-              onTap: () => Navigator.of(context).pop(InsertImageSource.link),
+              onTap: () => Navigator.of(context).pop(InsertVideoSource.link),
             ),
           ],
         ),
@@ -44,14 +44,14 @@ class SelectImageSourceDialog extends StatelessWidget {
   }
 }
 
-Future<InsertImageSource?> showSelectImageSourceDialog({
+Future<InsertVideoSource?> showSelectVideoSourceDialog({
   required BuildContext context,
 }) async {
-  final imageSource = await showModalBottomSheet<InsertImageSource>(
+  final imageSource = await showModalBottomSheet<InsertVideoSource>(
     showDragHandle: true,
     context: context,
     constraints: const BoxConstraints(maxWidth: 640),
-    builder: (context) => const SelectImageSourceDialog(),
+    builder: (context) => const SelectVideoSourceDialog(),
   );
   return imageSource;
 }
