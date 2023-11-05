@@ -49,12 +49,13 @@ dependencies:
   pasteboard: ^0.2.0
   equatable: ^2.0.5
   flutter_animate: ^4.2.0+1
-
-  flutter_test:
-    sdk: flutter
   meta: ^1.9.1
 
 flutter:
   uses-material-design: true
 dev_dependencies:
   lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+  flutter_quill_test:
+    path: ./flutter_quill_test

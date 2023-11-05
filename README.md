@@ -623,19 +623,7 @@ Typescript/Javascript package.
 
 ## Testing
 
-To aid in testing applications using the editor an extension to the flutter `WidgetTester` is provided which includes methods to simplify interacting with the editor in test cases.
-
-Import the test utilities in your test file:
-
-```dart
-import 'package:flutter_quill/flutter_quill_test.dart';
-```
-
-and then enter text using `quillEnterText`:
-
-```dart
-await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
-```
+Please use [flutter_quill_test](https://pub.dev/packages/flutter_quill_test) for testing
 
 ## License
 
