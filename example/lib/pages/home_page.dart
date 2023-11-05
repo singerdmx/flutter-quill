@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:flutter_quill_extensions/presentation/embeds/embed_types/image.dart';
 import 'package:flutter_quill_extensions/presentation/models/config/toolbar/buttons/video.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -274,8 +275,12 @@ class _HomePageState extends State<HomePage> {
         configurations: QuillToolbarConfigurations(
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
-              onImagePickCallback: _onImagePickCallback,
-              webImagePickImpl: _webImagePickImpl,
+              imageButtonConfigurations: QuillToolbarImageConfigurations(
+                onImageInsertedCallback: (image) async {
+                  _onImagePickCallback(File(image));
+                },
+              ),
+              // webImagePickImpl: _webImagePickImpl,
             ),
           ),
           buttonOptions: QuillToolbarButtonOptions(
@@ -290,11 +295,15 @@ class _HomePageState extends State<HomePage> {
     if (_isDesktop()) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
-          showDirection: true,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
-              onImagePickCallback: _onImagePickCallback,
-              filePickImpl: openFileSystemPickerForDesktop,
+              imageButtonConfigurations: QuillToolbarImageConfigurations(
+                onImageInsertedCallback: (image) async {
+                  _onImagePickCallback(File(image));
+                },
+              ),
+              // onImagePickCallback: _onImagePickCallback,
+              // filePickImpl: openFileSystemPickerForDesktop,
             ),
           ),
           showAlignmentButtons: true,
@@ -311,18 +320,23 @@ class _HomePageState extends State<HomePage> {
       configurations: QuillToolbarConfigurations(
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
           imageButtonOptions: QuillToolbarImageButtonOptions(
+            imageButtonConfigurations: QuillToolbarImageConfigurations(
+              onImageInsertedCallback: (image) async {
+                _onImagePickCallback(File(image));
+              },
+            ),
             // provide a callback to enable picking images from device.
             // if omit, "image" button only allows adding images from url.
             // same goes for videos.
-            onImagePickCallback: _onImagePickCallback,
+            // onImagePickCallback: _onImagePickCallback,
             // uncomment to provide a custom "pick from" dialog.
             // mediaPickSettingSelector: _selectMediaPickSetting,
             // uncomment to provide a custom "pick from" dialog.
             // cameraPickSettingSelector: _selectCameraPickSetting,
           ),
-          videoButtonOptions: QuillToolbarVideoButtonOptions(
-            onVideoPickCallback: _onVideoPickCallback,
-          ),
+          // videoButtonOptions: QuillToolbarVideoButtonOptions(
+          //   onVideoPickCallback: _onVideoPickCallback,
+          // ),
         ),
         showAlignmentButtons: true,
         buttonOptions: QuillToolbarButtonOptions(
@@ -414,19 +428,19 @@ class _HomePageState extends State<HomePage> {
     return copiedFile.path.toString();
   }
 
-  Future<String?> _webImagePickImpl(
-      OnImagePickCallback onImagePickCallback) async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null) {
-      return null;
-    }
+  // Future<String?> _webImagePickImpl(
+  //     OnImagePickCallback onImagePickCallback) async {
+  //   final result = await FilePicker.platform.pickFiles();
+  //   if (result == null) {
+  //     return null;
+  //   }
 
-    // Take first, because we don't allow picking multiple files.
-    final fileName = result.files.first.name;
-    final file = File(fileName);
+  //   // Take first, because we don't allow picking multiple files.
+  //   final fileName = result.files.first.name;
+  //   final file = File(fileName);
 
-    return onImagePickCallback(file);
-  }
+  //   return onImagePickCallback(file);
+  // }
 
   // Renders the video picked by imagePicker from local file storage
   // You can also upload the picked video to any server (eg : AWS s3
@@ -439,53 +453,53 @@ class _HomePageState extends State<HomePage> {
     return copiedFile.path.toString();
   }
 
-  // ignore: unused_element
-  Future<MediaPickSetting?> _selectMediaPickSetting(BuildContext context) =>
-      showDialog<MediaPickSetting>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton.icon(
-                icon: const Icon(Icons.collections),
-                label: const Text('Gallery'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
-              ),
-              TextButton.icon(
-                icon: const Icon(Icons.link),
-                label: const Text('Link'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.link),
-              )
-            ],
-          ),
-        ),
-      );
+  // // ignore: unused_element
+  // Future<MediaPickSetting?> _selectMediaPickSetting(BuildContext context) =>
+  //     showDialog<MediaPickSetting>(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         contentPadding: EdgeInsets.zero,
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextButton.icon(
+  //               icon: const Icon(Icons.collections),
+  //               label: const Text('Gallery'),
+  //               onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
+  //             ),
+  //             TextButton.icon(
+  //               icon: const Icon(Icons.link),
+  //               label: const Text('Link'),
+  //               onPressed: () => Navigator.pop(ctx, MediaPickSetting.link),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     );
 
-  // ignore: unused_element
-  Future<MediaPickSetting?> _selectCameraPickSetting(BuildContext context) =>
-      showDialog<MediaPickSetting>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton.icon(
-                icon: const Icon(Icons.camera),
-                label: const Text('Capture a photo'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.camera),
-              ),
-              TextButton.icon(
-                icon: const Icon(Icons.video_call),
-                label: const Text('Capture a video'),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.video),
-              )
-            ],
-          ),
-        ),
-      );
+  // // ignore: unused_element
+  // Future<MediaPickSetting?> _selectCameraPickSetting(BuildContext context) =>
+  //     showDialog<MediaPickSetting>(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         contentPadding: EdgeInsets.zero,
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextButton.icon(
+  //               icon: const Icon(Icons.camera),
+  //               label: const Text('Capture a photo'),
+  //               onPressed: () => Navigator.pop(ctx, MediaPickSetting.camera),
+  //             ),
+  //             TextButton.icon(
+  //               icon: const Icon(Icons.video_call),
+  //               label: const Text('Capture a video'),
+  //               onPressed: () => Navigator.pop(ctx, MediaPickSetting.video),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     );
 
   Widget _buildMenuBar(BuildContext context) {
     final size = MediaQuery.sizeOf(context);

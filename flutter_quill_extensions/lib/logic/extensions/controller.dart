@@ -28,12 +28,20 @@ extension QuillControllerExt on QuillController {
     required String imageUrl,
   }) {
     this
-      ..skipRequestKeyboard = skipRequestKeyboard
+      ..skipRequestKeyboard = true
       ..replaceText(
         index,
         length,
         BlockEmbed.image(imageUrl),
         null,
       );
+  }
+
+  void insertVideoBlock({
+    required String videoUrl,
+  }) {
+    this
+      ..skipRequestKeyboard = true
+      ..replaceText(index, length, BlockEmbed.video(videoUrl), null);
   }
 }

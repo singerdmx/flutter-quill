@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../../models/config/toolbar/buttons/video.dart';
-import '../embed_types.dart';
-import 'utils/image_video_utils.dart';
+import '../../../../logic/models/config/configurations.dart';
+import '../../../../logic/services/image_picker/image_options.dart';
+import '../../../models/config/toolbar/buttons/video.dart';
+import '../../embed_types.dart';
+import '../../embed_types/video.dart';
+import '../utils/image_video_utils.dart';
+import 'select_video_source.dart';
 
 class QuillToolbarVideoButton extends StatelessWidget {
   const QuillToolbarVideoButton({
@@ -78,15 +81,13 @@ class QuillToolbarVideoButton extends StatelessWidget {
           afterButtonPressed: _afterButtonPressed(context),
           iconData: iconData,
           dialogTheme: options.dialogTheme,
-          filePickImpl: options.filePickImpl,
           fillColor: iconFillColor,
           iconSize: options.iconSize,
           linkRegExp: options.linkRegExp,
           tooltip: options.tooltip,
-          mediaPickSettingSelector: options.mediaPickSettingSelector,
           iconTheme: options.iconTheme,
-          onVideoPickCallback: options.onVideoPickCallback,
           webVideoPickImpl: options.webVideoPickImpl,
+          videoConfigurations: options.videoConfigurations,
         ),
         QuillToolbarVideoButtonExtraOptions(
           context: context,
@@ -109,39 +110,67 @@ class QuillToolbarVideoButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    if (options.onVideoPickCallback != null) {
-      final selector = options.mediaPickSettingSelector ??
-          ImageVideoUtils.selectMediaPickSetting;
-      final source = await selector(context);
-      if (source != null) {
-        if (source == MediaPickSetting.gallery) {
-          _pickVideo(context);
-        } else {
-          await _typeLink(context);
-        }
+    final imagePickerService =
+        QuillSharedExtensionsConfigurations.get(context: context)
+            .imagePickerService;
+
+    final onRequestPickVideo = options.videoConfigurations.onRequestPickVideo;
+    if (onRequestPickVideo != null) {
+      final videoUrl = await onRequestPickVideo(context, imagePickerService);
+      if (videoUrl != null) {
+        await options.videoConfigurations
+            .onVideoInsertCallback(videoUrl, controller);
+        await options.videoConfigurations.onVideoInsertedCallback
+            ?.call(videoUrl);
       }
-    } else {
-      await _typeLink(context);
+      return;
     }
+
+    final imageSource = await showSelectVideoSourceDialog(context: context);
+
+    if (imageSource == null) {
+      return;
+    }
+
+    final videoUrl = switch (imageSource) {
+      InsertVideoSource.gallery =>
+        (await imagePickerService.pickVideo(source: ImageSource.gallery))?.path,
+      InsertVideoSource.camera =>
+        (await imagePickerService.pickVideo(source: ImageSource.camera))?.path,
+      InsertVideoSource.link => await _typeLink(context),
+    };
+    if (videoUrl == null) {
+      return;
+    }
+
+    if (videoUrl.trim().isNotEmpty) {
+      await options.videoConfigurations
+          .onVideoInsertCallback(videoUrl, controller);
+      await options.videoConfigurations.onVideoInsertedCallback?.call(videoUrl);
+    }
+
+    // if (options.onVideoPickCallback != null) {
+    //   final selector = options.mediaPickSettingSelector ??
+    //       ImageVideoUtils.selectMediaPickSetting;
+    //   final source = await selector(context);
+    //   if (source != null) {
+    //     if (source == MediaPickSetting.gallery) {
+    //     } else {
+    //       await _typeLink(context);
+    //     }
+    //   }
+    // } else {}
   }
 
-  void _pickVideo(BuildContext context) => ImageVideoUtils.handleVideoButtonTap(
-        context,
-        controller,
-        ImageSource.gallery,
-        options.onVideoPickCallback!,
-        filePickImpl: options.filePickImpl,
-        webVideoPickImpl: options.webVideoPickImpl,
-      );
-
-  Future<void> _typeLink(BuildContext context) async {
+  Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
       builder: (_) => TypeLinkDialog(
         dialogTheme: options.dialogTheme,
+        linkType: LinkType.video,
       ),
     );
-    _linkSubmitted(value);
+    return value;
   }
 
   void _linkSubmitted(String? value) {

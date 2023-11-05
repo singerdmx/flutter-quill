@@ -89,9 +89,10 @@ class _DemoScaffoldState extends State<DemoScaffold> {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
-            imageButtonOptions: QuillToolbarImageButtonOptions(
-              filePickImpl: openFileSystemPickerForDesktop,
-            ),
+            // ignore: avoid_redundant_argument_values
+            imageButtonOptions: const QuillToolbarImageButtonOptions(
+                // filePickImpl: openFileSystemPickerForDesktop,
+                ),
           ),
         ),
       );

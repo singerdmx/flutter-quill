@@ -18,7 +18,6 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarMediaButtonOptions({
     required this.type,
     required this.onMediaPickedCallback,
-    required this.onImagePickCallback,
     required this.onVideoPickCallback,
     this.dialogBarrierColor,
     this.mediaFilePicker,
@@ -35,7 +34,6 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
     this.linkButtonText,
     this.validationMessage,
     this.filePickImpl,
-    this.webImagePickImpl,
     this.webVideoPickImpl,
     super.iconData,
     super.afterButtonPressed,

@@ -115,6 +115,7 @@ class QuillToolbarImageButton extends StatelessWidget {
     final imagePickerService =
         QuillSharedExtensionsConfigurations.get(context: context)
             .imagePickerService;
+
     final onRequestPickImage =
         options.imageButtonConfigurations.onRequestPickImage;
     if (onRequestPickImage != null) {
@@ -125,6 +126,8 @@ class QuillToolbarImageButton extends StatelessWidget {
       if (imageUrl != null) {
         await options.imageButtonConfigurations
             .onImageInsertCallback(imageUrl, controller);
+        await options.imageButtonConfigurations.onImageInsertedCallback
+            ?.call(imageUrl);
       }
       return;
     }
@@ -134,27 +137,26 @@ class QuillToolbarImageButton extends StatelessWidget {
     if (source == null) {
       return;
     }
-    final String? imageUrl;
-    switch (source) {
-      case InsertImageSource.gallery:
-        imageUrl = (await imagePickerService.pickImage(
+
+    final imageUrl = switch (source) {
+      InsertImageSource.gallery => (await imagePickerService.pickImage(
           source: ImageSource.gallery,
         ))
-            ?.path;
-        break;
-      case InsertImageSource.link:
-        imageUrl = await _typeLink(context);
-        break;
-      case InsertImageSource.camera:
-        imageUrl = (await imagePickerService.pickImage(
+            ?.path,
+      InsertImageSource.link => await _typeLink(context),
+      InsertImageSource.camera => (await imagePickerService.pickImage(
           source: ImageSource.camera,
         ))
-            ?.path;
-        break;
+            ?.path,
+    };
+    if (imageUrl == null) {
+      return;
     }
-    if (imageUrl != null && imageUrl.trim().isNotEmpty) {
+    if (imageUrl.trim().isNotEmpty) {
       await options.imageButtonConfigurations
           .onImageInsertCallback(imageUrl, controller);
+      await options.imageButtonConfigurations.onImageInsertedCallback
+          ?.call(imageUrl);
     }
   }
 
@@ -164,6 +166,7 @@ class QuillToolbarImageButton extends StatelessWidget {
       builder: (_) => TypeLinkDialog(
         dialogTheme: options.dialogTheme,
         linkRegExp: options.linkRegExp,
+        linkType: LinkType.image,
       ),
     );
     return value;

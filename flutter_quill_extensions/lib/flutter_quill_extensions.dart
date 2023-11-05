@@ -9,11 +9,13 @@ import 'presentation/embeds/editor/image/image.dart';
 import 'presentation/embeds/editor/image/image_web.dart';
 import 'presentation/embeds/editor/video.dart';
 import 'presentation/embeds/editor/webview.dart';
-import 'presentation/embeds/toolbar/camera_button.dart';
+import 'presentation/embeds/toolbar/camera_button/camera_button.dart';
 import 'presentation/embeds/toolbar/formula_button.dart';
 import 'presentation/embeds/toolbar/image_button/image_button.dart';
-import 'presentation/embeds/toolbar/media_button.dart';
-import 'presentation/embeds/toolbar/video_button.dart';
+// TODO: Temporary
+// ignore: unused_import
+import 'presentation/embeds/toolbar/media_button/media_button.dart';
+import 'presentation/embeds/toolbar/video_button/video_button.dart';
 import 'presentation/models/config/editor/image.dart';
 import 'presentation/models/config/editor/video.dart';
 import 'presentation/models/config/editor/webview.dart';
@@ -27,12 +29,12 @@ export '/presentation/models/config/editor/webview.dart';
 export './logic/extensions/controller.dart';
 export 'presentation/embeds/editor/unknown.dart';
 export 'presentation/embeds/embed_types.dart';
-export 'presentation/embeds/toolbar/camera_button.dart';
+export 'presentation/embeds/toolbar/camera_button/camera_button.dart';
 export 'presentation/embeds/toolbar/formula_button.dart';
 export 'presentation/embeds/toolbar/image_button/image_button.dart';
-export 'presentation/embeds/toolbar/media_button.dart';
+export 'presentation/embeds/toolbar/media_button/media_button.dart';
 export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
-export 'presentation/embeds/toolbar/video_button.dart';
+export 'presentation/embeds/toolbar/video_button/video_button.dart';
 export 'presentation/embeds/utils.dart';
 export 'presentation/models/config/editor/image.dart';
 export 'presentation/models/config/toolbar/buttons/image.dart';
@@ -173,12 +175,12 @@ class FlutterQuillEmbeds {
                 controller: cameraButtonOptions.controller ?? controller,
                 options: cameraButtonOptions,
               ),
-        if (mediaButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarMediaButton(
-                controller: mediaButtonOptions.controller ?? controller,
-                options: mediaButtonOptions,
-              ),
+        // if (mediaButtonOptions != null)
+        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+        //       QuillToolbarMediaButton(
+        //         controller: mediaButtonOptions.controller ?? controller,
+        //         options: mediaButtonOptions,
+        //       ),
         if (formulaButtonOptions != null && !kIsWeb)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
               QuillToolbarFormulaButton(
