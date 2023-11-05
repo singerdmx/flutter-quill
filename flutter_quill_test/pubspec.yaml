@@ -1,6 +1,6 @@
 name: flutter_quill_test
 description: Testing for flutter_quill
-version: 0.0.1
+version: 0.0.2
 homepage: https://1o24bbs.com/c/bulletjournal/108
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_test
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_quill: ^8.2.1
+  flutter_quill: ^8.2.2
   flutter_test:
     sdk: flutter
 
@@ -21,9 +21,9 @@ dev_dependencies:
 # In case you are working on changes for both libraries
 # Comment the dependency_overrides section when publishing the package,
 # then uncomment it back, this will be automated later
-dependency_overrides:
-  flutter_quill:
-    path: ../
+# dependency_overrides:
+#   flutter_quill:
+#     path: ../
 
 
 flutter:
