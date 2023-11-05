@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../../models/config/toolbar/buttons/image.dart';
-import '../embed_types.dart';
-import 'utils/image_video_utils.dart';
+import '../../../../logic/models/config/configurations.dart';
+import '../../../../logic/services/image_picker/image_picker.dart';
+import '../../../models/config/toolbar/buttons/image.dart';
+import '../../embed_types/image.dart';
+import '../utils/image_video_utils.dart';
+import 'select_image_source.dart';
 
 class QuillToolbarImageButton extends StatelessWidget {
   const QuillToolbarImageButton({
@@ -71,14 +73,11 @@ class QuillToolbarImageButton extends StatelessWidget {
           iconData: iconData,
           iconSize: iconSize,
           dialogTheme: options.dialogTheme,
-          filePickImpl: options.filePickImpl,
-          webImagePickImpl: options.webImagePickImpl,
           fillColor: options.fillColor,
           iconTheme: options.iconTheme,
           linkRegExp: options.linkRegExp,
-          mediaPickSettingSelector: options.mediaPickSettingSelector,
-          onImagePickCallback: options.onImagePickCallback,
           tooltip: options.tooltip,
+          imageButtonConfigurations: options.imageButtonConfigurations,
         ),
         QuillToolbarImageButtonExtraOptions(
           context: context,
@@ -113,70 +112,60 @@ class QuillToolbarImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final onImagePickCallbackRef = options.onImagePickCallback;
-    if (onImagePickCallbackRef == null) {
-      await _typeLink(context);
+    final imagePickerService =
+        QuillSharedExtensionsConfigurations.get(context: context)
+            .imagePickerService;
+    final onRequestPickImage =
+        options.imageButtonConfigurations.onRequestPickImage;
+    if (onRequestPickImage != null) {
+      final imageUrl = await onRequestPickImage(
+        context,
+        imagePickerService,
+      );
+      if (imageUrl != null) {
+        await options.imageButtonConfigurations
+            .onImageInsertCallback(imageUrl, controller);
+      }
       return;
     }
-    final selector = options.mediaPickSettingSelector ??
-        ImageVideoUtils.selectMediaPickSetting;
-    final source = await selector(context);
+    final source = await showSelectImageSourceDialog(
+      context: context,
+    );
     if (source == null) {
       return;
     }
+    final String? imageUrl;
     switch (source) {
-      case MediaPickSetting.gallery:
-        _pickImage(context);
+      case InsertImageSource.gallery:
+        imageUrl = (await imagePickerService.pickImage(
+          source: ImageSource.gallery,
+        ))
+            ?.path;
         break;
-      case MediaPickSetting.link:
-        await _typeLink(context);
+      case InsertImageSource.link:
+        imageUrl = await _typeLink(context);
         break;
-      case MediaPickSetting.camera:
-        await ImageVideoUtils.handleImageButtonTap(
-          context,
-          controller,
-          ImageSource.camera,
-          onImagePickCallbackRef,
-          filePickImpl: options.filePickImpl,
-          webImagePickImpl: options.webImagePickImpl,
-        );
+      case InsertImageSource.camera:
+        imageUrl = (await imagePickerService.pickImage(
+          source: ImageSource.camera,
+        ))
+            ?.path;
         break;
-      case MediaPickSetting.video:
-        throw ArgumentError(
-          'Sorry but this is the Image button and not the video one',
-        );
+    }
+    if (imageUrl != null && imageUrl.trim().isNotEmpty) {
+      await options.imageButtonConfigurations
+          .onImageInsertCallback(imageUrl, controller);
     }
   }
 
-  void _pickImage(BuildContext context) => ImageVideoUtils.handleImageButtonTap(
-        context,
-        controller,
-        ImageSource.gallery,
-        options.onImagePickCallback ??
-            (throw ArgumentError(
-              'onImagePickCallback should not be null',
-            )),
-        filePickImpl: options.filePickImpl,
-        webImagePickImpl: options.webImagePickImpl,
-      );
-
-  Future<void> _typeLink(BuildContext context) async {
+  Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => LinkDialog(
+      builder: (_) => TypeLinkDialog(
         dialogTheme: options.dialogTheme,
         linkRegExp: options.linkRegExp,
       ),
     );
-    _linkSubmitted(value);
-  }
-
-  void _linkSubmitted(String? value) {
-    if (value != null && value.isNotEmpty) {
-      final index = controller.selection.baseOffset;
-      final length = controller.selection.extentOffset - index;
-
-      controller.replaceText(index, length, BlockEmbed.image(value), null);
-    }
+    return value;
   }
 }

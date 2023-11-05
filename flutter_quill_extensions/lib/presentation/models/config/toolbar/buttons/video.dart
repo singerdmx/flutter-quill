@@ -39,8 +39,6 @@ class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
 
   final FilePickImpl? filePickImpl;
 
-  final MediaPickSettingSelector? mediaPickSettingSelector;
-
   final Color? fillColor;
 
   final double? iconSize;

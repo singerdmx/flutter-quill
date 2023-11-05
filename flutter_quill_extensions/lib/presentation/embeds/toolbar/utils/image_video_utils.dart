@@ -1,17 +1,15 @@
-import 'dart:io' show File;
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../../../../logic/extensions/controller.dart';
-import '../../embed_types.dart';
+enum LinkType {
+  video,
+  image,
+}
 
-class LinkDialog extends StatefulWidget {
-  const LinkDialog({
+class TypeLinkDialog extends StatefulWidget {
+  const TypeLinkDialog({
+    required this.linkType,
     this.dialogTheme,
     this.link,
     this.linkRegExp,
@@ -21,12 +19,13 @@ class LinkDialog extends StatefulWidget {
   final QuillDialogTheme? dialogTheme;
   final String? link;
   final RegExp? linkRegExp;
+  final LinkType linkType;
 
   @override
-  LinkDialogState createState() => LinkDialogState();
+  TypeLinkDialogState createState() => TypeLinkDialogState();
 }
 
-class LinkDialogState extends State<LinkDialog> {
+class TypeLinkDialogState extends State<TypeLinkDialog> {
   late String _link;
   late TextEditingController _controller;
   late RegExp _linkRegExp;
@@ -65,7 +64,9 @@ class LinkDialogState extends State<LinkDialog> {
         style: widget.dialogTheme?.inputTextStyle,
         decoration: InputDecoration(
           labelText: 'Paste a link'.i18n,
-          hintText: 'Please enter a valid image url'.i18n,
+          hintText: widget.linkType == LinkType.image
+              ? 'Please enter a valid image url'.i18n
+              : 'Please enter a valid video url'.i18n,
           labelStyle: widget.dialogTheme?.labelTextStyle,
           floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
         ),
@@ -106,150 +107,152 @@ class LinkDialogState extends State<LinkDialog> {
   }
 }
 
-class ImageVideoUtils {
-  static Future<MediaPickSetting?> selectMediaPickSetting(
-    BuildContext context,
-  ) =>
-      showDialog<MediaPickSetting>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton.icon(
-                icon: const Icon(
-                  Icons.collections,
-                  color: Colors.orangeAccent,
-                ),
-                label: Text('Gallery'.i18n),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
-              ),
-              TextButton.icon(
-                icon: const Icon(
-                  Icons.link,
-                  color: Colors.cyanAccent,
-                ),
-                label: Text('Link'.i18n),
-                onPressed: () => Navigator.pop(ctx, MediaPickSetting.link),
-              )
-            ],
-          ),
-        ),
-      );
+// @immutable
+// class ImageVideoUtils {
+//   const ImageVideoUtils._();
+//   static Future<MediaPickSetting?> selectMediaPickSetting(
+//     BuildContext context,
+//   ) =>
+//       showDialog<MediaPickSetting>(
+//         context: context,
+//         builder: (ctx) => AlertDialog(
+//           contentPadding: EdgeInsets.zero,
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               TextButton.icon(
+//                 icon: const Icon(
+//                   Icons.collections,
+//                   color: Colors.orangeAccent,
+//                 ),
+//                 label: Text('Gallery'.i18n),
+//                 onPressed: () => Navigator.pop(ctx, MediaPickSetting.gallery),
+//               ),
+//               TextButton.icon(
+//                 icon: const Icon(
+//                   Icons.link,
+//                   color: Colors.cyanAccent,
+//                 ),
+//                 label: Text('Link'.i18n),
+//                 onPressed: () => Navigator.pop(ctx, MediaPickSetting.link),
+//               )
+//             ],
+//           ),
+//         ),
+//       );
 
-  /// For image picking logic
-  static Future<void> handleImageButtonTap(
-    BuildContext context,
-    QuillController controller,
-    ImageSource imageSource,
-    OnImagePickCallback onImagePickCallback, {
-    FilePickImpl? filePickImpl,
-    WebImagePickImpl? webImagePickImpl,
-  }) async {
-    String? imageUrl;
-    if (kIsWeb) {
-      if (webImagePickImpl != null) {
-        imageUrl = await webImagePickImpl(onImagePickCallback);
-        return;
-      }
-      final file = await ImagePicker().pickImage(source: ImageSource.gallery);
-      imageUrl = file?.path;
-      if (imageUrl == null) {
-        return;
-      }
-    } else if (isMobile()) {
-      imageUrl = await _pickImage(imageSource, onImagePickCallback);
-    } else {
-      assert(filePickImpl != null, 'Desktop must provide filePickImpl');
-      imageUrl =
-          await _pickImageDesktop(context, filePickImpl!, onImagePickCallback);
-    }
+//   /// For image picking logic
+//   static Future<void> handleImageButtonTap(
+//     BuildContext context,
+//     QuillController controller,
+//     ImageSource imageSource,
+//     OnImagePickCallback onImagePickCallback, {
+//     FilePickImpl? filePickImpl,
+//     WebImagePickImpl? webImagePickImpl,
+//   }) async {
+//     String? imageUrl;
+//     if (kIsWeb) {
+//       if (webImagePickImpl != null) {
+//         imageUrl = await webImagePickImpl(onImagePickCallback);
+//         return;
+//       }
+//       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+//       imageUrl = file?.path;
+//       if (imageUrl == null) {
+//         return;
+//       }
+//     } else if (isMobile()) {
+//       imageUrl = await _pickImage(imageSource, onImagePickCallback);
+//     } else {
+//       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
+//       imageUrl =
+//           await _pickImageDesktop(context, filePickImpl!, onImagePickCallback);
+//     }
 
-    if (imageUrl == null) {
-      return;
-    }
+//     if (imageUrl == null) {
+//       return;
+//     }
 
-    controller.insertImageBlock(
-      imageUrl: imageUrl,
-    );
-  }
+//     controller.insertImageBlock(
+//       imageUrl: imageUrl,
+//     );
+//   }
 
-  static Future<String?> _pickImage(
-    ImageSource source,
-    OnImagePickCallback onImagePickCallback,
-  ) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
-    if (pickedFile == null) {
-      return null;
-    }
+//   static Future<String?> _pickImage(
+//     ImageSource source,
+//     OnImagePickCallback onImagePickCallback,
+//   ) async {
+//     final pickedFile = await ImagePicker().pickImage(source: source);
+//     if (pickedFile == null) {
+//       return null;
+//     }
 
-    return onImagePickCallback(File(pickedFile.path));
-  }
+//     return onImagePickCallback(File(pickedFile.path));
+//   }
 
-  static Future<String?> _pickImageDesktop(
-    BuildContext context,
-    FilePickImpl filePickImpl,
-    OnImagePickCallback onImagePickCallback,
-  ) async {
-    final filePath = await filePickImpl(context);
-    if (filePath == null || filePath.isEmpty) return null;
+//   static Future<String?> _pickImageDesktop(
+//     BuildContext context,
+//     FilePickImpl filePickImpl,
+//     OnImagePickCallback onImagePickCallback,
+//   ) async {
+//     final filePath = await filePickImpl(context);
+//     if (filePath == null || filePath.isEmpty) return null;
 
-    final file = File(filePath);
-    return onImagePickCallback(file);
-  }
+//     final file = File(filePath);
+//     return onImagePickCallback(file);
+//   }
 
-  /// For video picking logic
-  static Future<void> handleVideoButtonTap(
-    BuildContext context,
-    QuillController controller,
-    ImageSource videoSource,
-    OnVideoPickCallback onVideoPickCallback, {
-    FilePickImpl? filePickImpl,
-    WebVideoPickImpl? webVideoPickImpl,
-  }) async {
-    final index = controller.selection.baseOffset;
-    final length = controller.selection.extentOffset - index;
+//   /// For video picking logic
+//   static Future<void> handleVideoButtonTap(
+//     BuildContext context,
+//     QuillController controller,
+//     ImageSource videoSource,
+//     OnVideoPickCallback onVideoPickCallback, {
+//     FilePickImpl? filePickImpl,
+//     WebVideoPickImpl? webVideoPickImpl,
+//   }) async {
+//     final index = controller.selection.baseOffset;
+//     final length = controller.selection.extentOffset - index;
 
-    String? videoUrl;
-    if (kIsWeb) {
-      assert(
-        webVideoPickImpl != null,
-        'Please provide webVideoPickImpl for Web '
-        'in the options of this button',
-      );
-      videoUrl = await webVideoPickImpl!(onVideoPickCallback);
-    } else if (isMobile()) {
-      videoUrl = await _pickVideo(videoSource, onVideoPickCallback);
-    } else {
-      assert(filePickImpl != null, 'Desktop must provide filePickImpl');
-      videoUrl =
-          await _pickVideoDesktop(context, filePickImpl!, onVideoPickCallback);
-    }
+//     String? videoUrl;
+//     if (kIsWeb) {
+//       assert(
+//         webVideoPickImpl != null,
+//         'Please provide webVideoPickImpl for Web '
+//         'in the options of this button',
+//       );
+//       videoUrl = await webVideoPickImpl!(onVideoPickCallback);
+//     } else if (isMobile()) {
+//       videoUrl = await _pickVideo(videoSource, onVideoPickCallback);
+//     } else {
+//       assert(filePickImpl != null, 'Desktop must provide filePickImpl');
+//       videoUrl =
+//           await _pickVideoDesktop(context, filePickImpl!, onVideoPickCallback);
+//     }
 
-    if (videoUrl != null) {
-      controller.replaceText(index, length, BlockEmbed.video(videoUrl), null);
-    }
-  }
+//     if (videoUrl != null) {
+//       controller.replaceText(index, length, BlockEmbed.video(videoUrl), null);
+//     }
+//   }
 
-  static Future<String?> _pickVideo(
-      ImageSource source, OnVideoPickCallback onVideoPickCallback) async {
-    final pickedFile = await ImagePicker().pickVideo(source: source);
-    if (pickedFile == null) {
-      return null;
-    }
+//   static Future<String?> _pickVideo(
+//       ImageSource source, OnVideoPickCallback onVideoPickCallback) async {
+//     final pickedFile = await ImagePicker().pickVideo(source: source);
+//     if (pickedFile == null) {
+//       return null;
+//     }
 
-    return onVideoPickCallback(File(pickedFile.path));
-  }
+//     return onVideoPickCallback(File(pickedFile.path));
+//   }
 
-  static Future<String?> _pickVideoDesktop(
-      BuildContext context,
-      FilePickImpl filePickImpl,
-      OnVideoPickCallback onVideoPickCallback) async {
-    final filePath = await filePickImpl(context);
-    if (filePath == null || filePath.isEmpty) return null;
+//   static Future<String?> _pickVideoDesktop(
+//       BuildContext context,
+//       FilePickImpl filePickImpl,
+//       OnVideoPickCallback onVideoPickCallback) async {
+//     final filePath = await filePickImpl(context);
+//     if (filePath == null || filePath.isEmpty) return null;
 
-    final file = File(filePath);
-    return onVideoPickCallback(file);
-  }
-}
+//     final file = File(filePath);
+//     return onVideoPickCallback(file);
+//   }
+// }

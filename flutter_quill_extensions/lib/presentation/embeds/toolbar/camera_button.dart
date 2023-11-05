@@ -6,8 +6,6 @@ import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/config/toolbar/buttons/camera.dart';
-import '../embed_types.dart';
-import 'utils/image_video_utils.dart';
 
 class QuillToolbarCameraButton extends StatelessWidget {
   const QuillToolbarCameraButton({
@@ -55,10 +53,6 @@ class QuillToolbarCameraButton extends StatelessWidget {
     _onPressedHandler(
       context,
       controller,
-      onImagePickCallback: options.onImagePickCallback,
-      onVideoPickCallback: options.onVideoPickCallback,
-      filePickImpl: options.filePickImpl,
-      webImagePickImpl: options.webImagePickImpl,
     );
     _afterButtonPressed(context);
   }
@@ -117,12 +111,8 @@ class QuillToolbarCameraButton extends StatelessWidget {
 
   Future<void> _onPressedHandler(
     BuildContext context,
-    QuillController controller, {
-    OnImagePickCallback? onImagePickCallback,
-    OnVideoPickCallback? onVideoPickCallback,
-    FilePickImpl? filePickImpl,
-    WebImagePickImpl? webImagePickImpl,
-  }) async {
+    QuillController controller,
+  ) async {
     if (onVideoPickCallback == null && onImagePickCallback == null) {
       throw ArgumentError(
         'onImagePickCallback and onVideoPickCallback are both null',

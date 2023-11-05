@@ -28,7 +28,7 @@ extension QuillControllerExt on QuillController {
     required String imageUrl,
   }) {
     this
-      ..skipRequestKeyboard = true
+      ..skipRequestKeyboard = skipRequestKeyboard
       ..replaceText(
         index,
         length,

@@ -11,11 +11,11 @@ import '../../../embeds/embed_types.dart';
 class QuillEditorImageEmbedConfigurations {
   const QuillEditorImageEmbedConfigurations({
     this.forceUseMobileOptionMenuForImageClick = false,
-    this.onImageRemovedCallback,
+    ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     this.shouldRemoveImageCallback,
     this.imageProviderBuilder,
     this.imageErrorWidgetBuilder,
-  });
+  }) : _onImageRemovedCallback = onImageRemovedCallback;
 
   /// [onImageRemovedCallback] is called when an image is
   ///  removed from the editor.
@@ -33,7 +33,17 @@ class QuillEditorImageEmbedConfigurations {
   /// }
   /// ```
   ///
-  final ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback;
+  /// Default value if the passed value is null:
+  /// [QuillEditorImageEmbedConfigurations.defaultOnImageRemovedCallback]
+  ///
+  /// so if you want to do nothing make sure to pass a empty callback
+  /// instead of passing null as value
+  final ImageEmbedBuilderOnRemovedCallback? _onImageRemovedCallback;
+
+  ImageEmbedBuilderOnRemovedCallback get onImageRemovedCallback {
+    return _onImageRemovedCallback ??
+        QuillEditorImageEmbedConfigurations.defaultOnImageRemovedCallback;
+  }
 
   /// [shouldRemoveImageCallback] is a callback
   ///  function that is invoked when the
@@ -127,6 +137,26 @@ class QuillEditorImageEmbedConfigurations {
         await imageFile.delete();
       }
     };
+  }
+
+  QuillEditorImageEmbedConfigurations copyWith({
+    ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
+    ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
+    ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
+    ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder,
+    bool? forceUseMobileOptionMenuForImageClick,
+  }) {
+    return QuillEditorImageEmbedConfigurations(
+      onImageRemovedCallback: onImageRemovedCallback ?? _onImageRemovedCallback,
+      shouldRemoveImageCallback:
+          shouldRemoveImageCallback ?? this.shouldRemoveImageCallback,
+      imageProviderBuilder: imageProviderBuilder ?? this.imageProviderBuilder,
+      imageErrorWidgetBuilder:
+          imageErrorWidgetBuilder ?? this.imageErrorWidgetBuilder,
+      forceUseMobileOptionMenuForImageClick:
+          forceUseMobileOptionMenuForImageClick ??
+              this.forceUseMobileOptionMenuForImageClick,
+    );
   }
 }
 

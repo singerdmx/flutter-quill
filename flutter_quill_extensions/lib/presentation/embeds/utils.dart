@@ -1,7 +1,10 @@
 import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show immutable;
-import '../../logic/services/s_image_saver.dart';
+import 'package:flutter/widgets.dart' show BuildContext;
+import 'package:flutter_quill/flutter_quill.dart';
+import '../../logic/models/config/configurations.dart';
+import '../../logic/services/image_saver/s_image_saver.dart';
 
 // I would like to orgnize the project structure and the code more
 // but here I don't want to change too much since that is a community project
@@ -48,14 +51,19 @@ class SaveImageResult {
   final SaveImageResultMethod method;
 }
 
-Future<SaveImageResult> saveImage(String imageUrl) async {
-  final imageSaverService = ImageSaverService.getInstance();
+Future<SaveImageResult> saveImage({
+  required String imageUrl,
+  required BuildContext context,
+}) async {
+  final imageSaverService =
+      QuillSharedExtensionsConfigurations.get(context: context)
+          .imageSaverService;
   final imageFile = File(imageUrl);
   final hasPermission = await imageSaverService.hasAccess();
-  final imageExistsLocally = await imageFile.exists();
   if (!hasPermission) {
     await imageSaverService.requestAccess();
   }
+  final imageExistsLocally = await imageFile.exists();
   if (!imageExistsLocally) {
     try {
       await imageSaverService.saveImageFromNetwork(

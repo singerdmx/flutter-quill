@@ -40,11 +40,12 @@ dependencies:
   math_keyboard: ^0.2.1
   url_launcher: ^6.2.1
   meta: ^1.9.1
+  cross_file: ^0.3.3+6
 
 # In case you are working on changes for both libraries, please uncomment this section
-# dependency_overrides:
-#   flutter_quill:
-#     path: ../
+dependency_overrides:
+  flutter_quill:
+    path: ../
 
 dev_dependencies:
   flutter_test:
