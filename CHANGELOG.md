@@ -1,5 +1,6 @@
 ## [8.1.11]
 - Follow dart best practices by using `lints` and remove `pedantic` as well `platform` since they are not used
+- Fix text direction bug
 
 ## [8.1.10]
 - Secret for automated publishing to pub.dev.
