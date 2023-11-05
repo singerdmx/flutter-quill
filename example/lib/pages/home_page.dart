@@ -202,15 +202,15 @@ class _HomePageState extends State<HomePage> {
           },
           customStyles: const DefaultStyles(
             h1: DefaultTextBlockStyle(
-                TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  height: 1.15,
-                  fontWeight: FontWeight.w300,
-                ),
-                VerticalSpacing(16, 0),
-                VerticalSpacing(0, 0),
-                null),
+              TextStyle(
+                fontSize: 32,
+                height: 1.15,
+                fontWeight: FontWeight.w300,
+              ),
+              VerticalSpacing(16, 0),
+              VerticalSpacing(0, 0),
+              null,
+            ),
             sizeSmall: TextStyle(fontSize: 9),
           ),
           embedBuilders: [
@@ -234,15 +234,15 @@ class _HomePageState extends State<HomePage> {
         },
         customStyles: const DefaultStyles(
           h1: DefaultTextBlockStyle(
-              TextStyle(
-                fontSize: 32,
-                color: Colors.black,
-                height: 1.15,
-                fontWeight: FontWeight.w300,
-              ),
-              VerticalSpacing(16, 0),
-              VerticalSpacing(0, 0),
-              null),
+            TextStyle(
+              fontSize: 32,
+              height: 1.15,
+              fontWeight: FontWeight.w300,
+            ),
+            VerticalSpacing(16, 0),
+            VerticalSpacing(0, 0),
+            null,
+          ),
           sizeSmall: TextStyle(fontSize: 9),
           subscript: TextStyle(
             fontFamily: 'SF-UI-Display',
@@ -385,7 +385,6 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               flex: 15,
               child: Container(
-                color: Colors.white,
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: quillEditor,
               ),
