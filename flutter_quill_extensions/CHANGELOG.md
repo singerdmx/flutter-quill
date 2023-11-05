@@ -1,3 +1,6 @@
+## 0.6.0-dev.2
+- Another breaking changes, we will add mirgrate guide soon.
+
 ## 0.6.0-dev.1
 - Breaking Changes, we have refactored most of the functions and it got renamed
 
