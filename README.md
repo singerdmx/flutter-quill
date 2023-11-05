@@ -56,20 +56,6 @@ Pub: [FlutterQuill]
   - [License](#license)
   - [Contributors](#contributors)
 
-<!-- ## Demo
-
-<p float="left">
-  <img width="400" alt="Screenshot 1" src="https://user-images.githubusercontent.com/122956/103142422-9bb19c80-46b7-11eb-83e4-dd0538a9236e.png">
-  <img width="400" alt="Screenshot 2" src="https://user-images.githubusercontent.com/122956/103142455-0531ab00-46b8-11eb-89f8-26a77de9227f.png">
-</p>
-
-<p float="left">
-  <img width="400" alt="Screenshot 3" src="https://user-images.githubusercontent.com/122956/102963021-f28f5a00-449c-11eb-8f5f-6e9dd60844c4.png">
-  <img width="400" alt="Screenshot 4" src="https://user-images.githubusercontent.com/122956/102977404-c9c88e00-44b7-11eb-9423-b68f3b30b0e0.png">
-</p>
-
---- -->
-
 ## Installation
 
 ```yaml
@@ -85,13 +71,10 @@ dependencies:
     git: https://github.com/singerdmx/flutter-quill.git
 ```
 
-> **Important note**
->
-> Currently, we're in the process of refactoring the library's configurations. We're actively working on this, and while we don't have a development version available at the moment, your feedback is essential to us.
 >
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
-> also [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) will not work with the latest versions, please use [fresh_quill_extensions](https://pub.dev/packages/fresh_quill_extensions) as temporary alternative
+> Please use the latest pre-release of [FlutterQuill Extensions] in order to work with the latest stable version of [FlutterQuill]
 >
 
 ## Usage
@@ -192,7 +175,7 @@ localizationsDelegates: const [
 ],
 ```
 
-And you might need more depending on your use case, for example if you are using custom localizations for your app, using custom app widget like [FluentApp](https://pub.dev/packages/fluent_ui)
+And you might need more depending on your use case, for example if you are using custom localizations for your app, using custom app widget like `FluentApp` from [FluentUI]
 which will also need
 
 ```dart
@@ -204,6 +187,8 @@ localizationsDelegates: const [
 ```
 
 in addition to the required delegates by this library
+
+Note: In the latest versions of `FluentApp` you no longer need to add the `localizationsDelegates` but this is just an example, for more [info](https://github.com/bdlukaa/fluent_ui/pull/946)
 
 ### Font Size
 
@@ -306,25 +291,6 @@ Expanded(
   ),
 )
 ```
-
-<!-- This should be added in the extensions package for better organization -->
-<!-- > [!WARNING]
->
-> If you are using [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) package to add support for images, videos and more
-> The extensions package require additional configurations:
->
-> 1. We are using [`gal`](https://github.com/natsuk4ze/) plugin to save images.
-> For this to work, you need to add the appropriate permissions
-> to your `Info.plist` and `AndroidManifest.xml` files.
-> See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
->
-> 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure follow the instructions
->
-> 3. For loading the image from the internet we need internet permission
->    1. For Android, you need to add some permissions in `AndroidManifest.xml`, Please follow this [link](https://developer.android.com/training/basics/network-ops/connecting) for more info, the internet permission included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your android application to accept `http` in the release mode, follow this [link](https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted) for more info.
->    2. for macOS you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
->
-> The extensions package also use [image_picker](https://pub.dev/packages/image_picker) which also require some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, macOS, we must inform you that you can't pick photo using camera in desktop so make sure to handle that if you plan on add support for desktop, this might changed in the future and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) -->
 
 ### Custom Size Image for Mobile
 
@@ -737,11 +703,13 @@ Made with [contrib.rocks](https://contrib.rocks).
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter
 [FlutterQuill]: https://pub.dev/packages/flutter_quill
+[FlutterQuill Extensions]: https://pub.dev/packages/flutter_quill_extensions
 [ReactQuill]: https://github.com/zenoamaro/react-quill
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
 [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/CodeIntroduction.md
+[FluentUI]: https://pub.dev/packages/fluent_ui
 
 <hr/>
 
