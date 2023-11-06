@@ -1,3 +1,6 @@
+## 0.6.0-dev.5
+- Update the camera button
+
 ## 0.6.0-dev.4
 - Add more exports
 - Update `README.md``

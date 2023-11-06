@@ -149,6 +149,12 @@ class QuillToolbarCameraButton extends StatelessWidget {
         if (videoFile == null) {
           return;
         }
+        await options.cameraConfigurations.onVideoInsertCallback(
+          videoFile.path,
+          controller,
+        );
+        await options.cameraConfigurations.onVideoInsertedCallback
+            ?.call(videoFile.path);
       case CameraAction.image:
         final imageFile = await imagePickerService.pickImage(
           source: ImageSource.camera,
@@ -156,7 +162,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
         if (imageFile == null) {
           return;
         }
-        options.cameraConfigurations.onImageInsertCallback(
+        await options.cameraConfigurations.onImageInsertCallback(
           imageFile.path,
           controller,
         );
@@ -170,28 +176,5 @@ class QuillToolbarCameraButton extends StatelessWidget {
     //   CameraAction.video =>
     //     imagePickerService.pickVideo(source: ImageSource.camera),
     // };
-
-    // switch (source) {
-    //   case MediaPickSetting.camera:
-    //     await ImageVideoUtils.handleImageButtonTap(
-    //       context,
-    //       controller,
-    //       ImageSource.camera,
-    //       onImagePickCallback!,
-    //       filePickImpl: filePickImpl,
-    //       webImagePickImpl: webImagePickImpl,
-    //     );
-    //     break;
-    //   case MediaPickSetting.video:
-    //     await ImageVideoUtils.handleVideoButtonTap(
-    //       context,
-    //       controller,
-    //       ImageSource.camera,
-    //       onVideoPickCallback!,
-    //       filePickImpl: filePickImpl,
-    //       webVideoPickImpl: options.webVideoPickImpl,
-    //     );
-    //     break;
-    // }
   }
 }
