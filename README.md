@@ -391,4 +391,3 @@ Please follow these guidelines when contributing to our project. See [CONTRIBUTI
 [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/CodeIntroduction.md
 [FluentUI]: https://pub.dev/packages/fluent_ui
 
-<hr/>
