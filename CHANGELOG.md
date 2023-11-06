@@ -1,5 +1,5 @@
 ## [8.2.2]
-- Move the `flutter_quill_test` to seperated package [flutter_quill_test](https://pub.dev/packages/fresh_quill_extensions)
+- Move the `flutter_quill_test` to seperated package [flutter_quill_test](https://pub.dev/packages/flutter_quill_test)
 
 ## [8.2.1]
 - Update `README.md`
