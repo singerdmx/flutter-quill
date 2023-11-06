@@ -27,6 +27,7 @@ import 'presentation/models/config/toolbar/buttons/video.dart';
 
 export '/presentation/models/config/editor/webview.dart';
 export './logic/extensions/controller.dart';
+export 'presentation/embeds/editor/image/image_web.dart';
 export 'presentation/embeds/editor/unknown.dart';
 export 'presentation/embeds/embed_types.dart';
 export 'presentation/embeds/embed_types/image.dart';
@@ -108,7 +109,7 @@ class FlutterQuillEmbeds {
 
   /// Returns a list of embed builders specifically designed for web support.
   ///
-  /// [ImageEmbedBuilderWeb] is the embed builder for handling
+  /// [QuillEditorImageEmbedBuilderWeb] is the embed builder for handling
   ///  images on the web.
   ///
   static List<EmbedBuilder> editorsWebBuilders({
@@ -124,7 +125,8 @@ class FlutterQuillEmbeds {
       );
     }
     return [
-      if (imageEmbedConfigurations != null) const ImageEmbedBuilderWeb(),
+      if (imageEmbedConfigurations != null)
+        const QuillEditorWebImageEmbedBuilder(),
     ];
   }
 

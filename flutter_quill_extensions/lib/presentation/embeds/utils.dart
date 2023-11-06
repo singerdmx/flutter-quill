@@ -21,6 +21,10 @@ bool isHttpBasedUrl(String url) {
   }
 }
 
+bool isImageBase64(String imageUrl) {
+  return !isHttpBasedUrl(imageUrl) && isBase64(imageUrl);
+}
+
 bool isYouTubeUrl(String videoUrl) {
   try {
     final uri = Uri.parse(videoUrl);
@@ -30,10 +34,6 @@ bool isYouTubeUrl(String videoUrl) {
   } catch (_) {
     return false;
   }
-}
-
-bool isImageBase64(String imageUrl) {
-  return !isHttpBasedUrl(imageUrl) && isBase64(imageUrl);
 }
 
 enum SaveImageResultMethod { network, localStorage }

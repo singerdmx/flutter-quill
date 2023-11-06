@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:flutter_quill_extensions/presentation/embeds/editor/image/image.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -61,7 +62,7 @@ class ImageEmbedBuilderWeb extends EmbedBuilder {
                 : size.width * 0.2,
       ),
       child: SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.45,
+        height: size.height * 0.45,
         child: HtmlElementView(
           viewType: imageUrl,
         ),
@@ -91,13 +92,16 @@ class VideoEmbedBuilderWeb extends EmbedBuilder {
       }
     }
 
+    final size = MediaQuery.sizeOf(context);
+
     UniversalUI().platformViewRegistry.registerViewFactory(
-        videoUrl,
-        (id) => html.IFrameElement()
-          ..width = MediaQuery.sizeOf(context).width.toString()
-          ..height = MediaQuery.sizeOf(context).height.toString()
-          ..src = videoUrl
-          ..style.border = 'none');
+          videoUrl,
+          (id) => html.IFrameElement()
+            ..width = size.width.toString()
+            ..height = size.height.toString()
+            ..src = videoUrl
+            ..style.border = 'none',
+        );
 
     return SizedBox(
       height: 500,
@@ -109,6 +113,7 @@ class VideoEmbedBuilderWeb extends EmbedBuilder {
 }
 
 List<EmbedBuilder> get defaultEmbedBuildersWeb => [
-      ImageEmbedBuilderWeb(),
+      // ImageEmbedBuilderWeb(),
+      const QuillEditorWebImageEmbedBuilder(),
       VideoEmbedBuilderWeb(),
     ];
