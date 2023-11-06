@@ -1,5 +1,7 @@
 # Flutter Quill Test
 
+Test utilities for [flutter_quill](https://pub.dev/packages/flutter_quill) which includes methods to simplify interacting with the editor in test cases.
+
 ## Testing
 To aid in testing applications using the editor an extension to the flutter `WidgetTester` is provided which includes methods to simplify interacting with the editor in test cases.
 
