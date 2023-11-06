@@ -1,3 +1,7 @@
+## 0.6.0-dev.6
+- Better support for web
+- Smal fixes and updates
+
 ## 0.6.0-dev.5
 - Update the camera button
 

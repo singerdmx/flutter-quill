@@ -4,16 +4,17 @@ import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
 
+import '../../../models/config/editor/image/image_web.dart';
 import '../../utils.dart';
-import 'shims/dart_ui_fake.dart'
+import '../shims/dart_ui_fake.dart'
     if (dart.library.html) 'shims/dart_ui_real.dart' as ui;
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebImageEmbedBuilder({
-    this.constraints,
+    required this.configurations,
   });
 
-  final BoxConstraints? constraints;
+  final QuillEditorWebImageEmbedConfigurations configurations;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -28,46 +29,94 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
     TextStyle textStyle,
   ) {
     assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
-    final imageUrl = node.value.data;
 
-    if (isImageBase64(imageUrl)) {
-      // TODO: handle imageUrl of base64
-      return const Text('Image base 64 is not supported yet.');
-    }
+    final (height, width, margin, alignment) = _getImageSizeForWeb(node);
 
-    var height = 'auto';
-    var width = 'auto';
+    var imageSource = node.value.data.toString();
 
-    final style = node.style.attributes['style'];
-    if (style != null) {
-      final attrs = base.parseKeyValuePairs(style.value.toString(), {
-        Attribute.width.key,
-        Attribute.height.key,
-        Attribute.margin,
-        Attribute.alignment,
-      });
-      final heightValue = attrs[Attribute.height.key];
-      if (heightValue != null) {
-        height = heightValue;
-      }
-      final widthValue = attrs[Attribute.width.key];
-      if (widthValue != null) {
-        width = widthValue;
+    // This logic make sure if the image is imageBase64 then
+    // it make sure if the pattern is like
+    // data:image/png;base64, [base64 encoded image string here]
+    // if not then it will add the data:image/png;base64, at the first
+    if (isImageBase64(imageSource)) {
+      // Sometimes the image base 64 for some reasons
+      // doesn't displayed with the
+      if (!(imageSource.startsWith('data:image/') &&
+          imageSource.contains('base64'))) {
+        imageSource = 'data:image/png;base64, $imageSource';
       }
     }
 
-    ui.PlatformViewRegistry().registerViewFactory(imageUrl, (viewId) {
+    ui.PlatformViewRegistry().registerViewFactory(imageSource, (viewId) {
       return html.ImageElement()
-        ..src = imageUrl
+        ..src = imageSource
         ..style.height = height
-        ..style.width = width;
+        ..style.width = width
+        ..style.margin = margin
+        ..style.alignSelf = alignment;
     });
 
     return ConstrainedBox(
-      constraints: constraints ?? BoxConstraints.loose(const Size(200, 200)),
+      constraints: configurations.constraints ??
+          BoxConstraints.loose(const Size(200, 200)),
       child: HtmlElementView(
-        viewType: imageUrl,
+        viewType: imageSource,
       ),
     );
   }
+}
+
+/// Prefer the width, and height from the css style attribute if exits
+/// it can be `auto` or `100px` so it's specific to HTML && CSS
+/// if not, we will use the one from attributes which is usually just an double
+(
+  String height,
+  String width,
+  String margin,
+  String alignment,
+) _getImageSizeForWeb(
+  Node node,
+) {
+  var height = 'auto';
+  var width = 'auto';
+  const margin = 'auto';
+  const alignment = 'center';
+
+  final cssStyle = node.style.attributes['style'];
+
+  // Usually double value
+  final heightValue = node.style.attributes[Attribute.height.key]?.value;
+  final widthValue = node.style.attributes[Attribute.width.key]?.value;
+
+  if (cssStyle != null) {
+    final attrs = base.parseKeyValuePairs(cssStyle.value.toString(), {
+      Attribute.width.key,
+      Attribute.height.key,
+      Attribute.margin,
+      Attribute.alignment,
+    });
+    final cssHeightValue = attrs[Attribute.height.key];
+    if (cssHeightValue != null) {
+      height = cssHeightValue;
+    } else {
+      height = '${heightValue}px';
+    }
+    final cssWidthValue = attrs[Attribute.width.key];
+    if (cssWidthValue != null) {
+      width = cssWidthValue;
+    } else if (widthValue != null) {
+      width = '${widthValue}px';
+    }
+
+    return (height, width, margin, alignment);
+  }
+
+  if (heightValue != null) {
+    height = '${heightValue}px';
+  }
+  if (widthValue != null) {
+    width = '${widthValue}px';
+  }
+
+  return (height, width, margin, alignment);
 }

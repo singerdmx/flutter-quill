@@ -28,31 +28,35 @@ String getImageStyleString(QuillController controller) {
   return s ?? '';
 }
 
-Image getQuillImageByUrl(
-  String imageUrl, {
+Image getQuillImageByImageSource(
+  String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required ImageErrorWidgetBuilder? imageErrorWidgetBuilder,
   double? width,
   double? height,
   AlignmentGeometry alignment = Alignment.center,
 }) {
-  if (isImageBase64(imageUrl)) {
-    return Image.memory(base64.decode(imageUrl),
-        width: width, height: height, alignment: alignment);
+  if (isImageBase64(imageSource)) {
+    return Image.memory(
+      base64.decode(imageSource),
+      width: width,
+      height: height,
+      alignment: alignment,
+    );
   }
 
   if (imageProviderBuilder != null) {
     return Image(
-      image: imageProviderBuilder(imageUrl),
+      image: imageProviderBuilder(imageSource),
       width: width,
       height: height,
       alignment: alignment,
       errorBuilder: imageErrorWidgetBuilder,
     );
   }
-  if (isHttpBasedUrl(imageUrl)) {
+  if (isHttpBasedUrl(imageSource)) {
     return Image.network(
-      imageUrl,
+      imageSource,
       width: width,
       height: height,
       alignment: alignment,
@@ -60,7 +64,7 @@ Image getQuillImageByUrl(
     );
   }
   return Image.file(
-    File(imageUrl),
+    File(imageSource),
     width: width,
     height: height,
     alignment: alignment,

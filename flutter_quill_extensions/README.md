@@ -15,6 +15,9 @@ Currently the support for **Web** is limitied.
   - [Installation](#installation)
   - [Platform Spesefic Configurations](#platform-spesefic-configurations)
   - [Usage](#usage)
+  - [Embed Blocks](#embed-blocks)
+    - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
+    - [Custom Size Image for other platforms (excluding web)](#custom-size-image-for-other-platforms-excluding-web)
   - [Features](#features)
   - [Contributing](#contributing)
   - [License](#license)
@@ -108,6 +111,40 @@ QuillProvider(
     ],
   ),
 )
+```
+
+## Embed Blocks
+
+As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface to all the user to provide there own implementations for embed blocks. Implementations for image, video and formula embed blocks is proved in this package
+
+### Custom Size Image for Mobile
+
+Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
+
+```json
+{
+      "insert": {
+         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
+      },
+      "attributes":{
+         "style":"mobileWidth: 50; mobileHeight: 50; mobileMargin: 10; mobileAlignment: topLeft"
+      }
+}
+```
+
+### Custom Size Image for other platforms (excluding web)
+
+Define `width`, `height`, `margin`, `alignment` as follows:
+
+```json
+{
+      "insert": {
+         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
+      },
+      "attributes": {
+         "style":"width: 50; height: 50; margin: 10; alignment: topLeft"
+      }
+}
 ```
 
 ## Features

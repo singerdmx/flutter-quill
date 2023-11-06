@@ -5,10 +5,10 @@ import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:math_keyboard/math_keyboard.dart';
 
-import '../../models/config/editor/video.dart';
-import '../utils.dart';
-import '../widgets/video_app.dart';
-import '../widgets/youtube_video_app.dart';
+import '../../../models/config/editor/video/video.dart';
+import '../../utils.dart';
+import '../../widgets/video_app.dart';
+import '../../widgets/youtube_video_app.dart';
 
 class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
   const QuillEditorVideoEmbedBuilder({

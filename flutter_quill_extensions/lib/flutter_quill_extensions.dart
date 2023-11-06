@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import 'logic/models/config/shared_configurations.dart';
 import 'presentation/embeds/editor/image/image.dart';
 import 'presentation/embeds/editor/image/image_web.dart';
-import 'presentation/embeds/editor/video.dart';
+import 'presentation/embeds/editor/video/video.dart';
+import 'presentation/embeds/editor/video/video_web.dart';
 import 'presentation/embeds/editor/webview.dart';
 import 'presentation/embeds/toolbar/camera_button/camera_button.dart';
 import 'presentation/embeds/toolbar/formula_button.dart';
@@ -16,8 +16,10 @@ import 'presentation/embeds/toolbar/image_button/image_button.dart';
 // ignore: unused_import
 import 'presentation/embeds/toolbar/media_button/media_button.dart';
 import 'presentation/embeds/toolbar/video_button/video_button.dart';
-import 'presentation/models/config/editor/image.dart';
-import 'presentation/models/config/editor/video.dart';
+import 'presentation/models/config/editor/image/image.dart';
+import 'presentation/models/config/editor/image/image_web.dart';
+import 'presentation/models/config/editor/video/video.dart';
+import 'presentation/models/config/editor/video/video_web.dart';
 import 'presentation/models/config/editor/webview.dart';
 import 'presentation/models/config/toolbar/buttons/camera.dart';
 import 'presentation/models/config/toolbar/buttons/formula.dart';
@@ -39,7 +41,7 @@ export 'presentation/embeds/toolbar/media_button/media_button.dart';
 export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button/video_button.dart';
 export 'presentation/embeds/utils.dart';
-export 'presentation/models/config/editor/image.dart';
+export 'presentation/models/config/editor/image/image.dart';
 export 'presentation/models/config/toolbar/buttons/camera.dart';
 export 'presentation/models/config/toolbar/buttons/formula.dart';
 export 'presentation/models/config/toolbar/buttons/image.dart';
@@ -112,12 +114,11 @@ class FlutterQuillEmbeds {
   /// [QuillEditorImageEmbedBuilderWeb] is the embed builder for handling
   ///  images on the web.
   ///
-  static List<EmbedBuilder> editorsWebBuilders({
-    QuillSharedExtensionsConfigurations sharedExtensionsConfigurations =
-        const QuillSharedExtensionsConfigurations(),
-    QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
-        const QuillEditorWebImageEmbedConfigurations(),
-  }) {
+  static List<EmbedBuilder> editorsWebBuilders(
+      {QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
+          const QuillEditorWebImageEmbedConfigurations(),
+      QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
+          const QuillEditorWebVideoEmbedConfigurations()}) {
     if (!kIsWeb) {
       throw UnsupportedError(
         'The editorsWebBuilders() is only for web, please use editorBuilders() '
@@ -126,7 +127,13 @@ class FlutterQuillEmbeds {
     }
     return [
       if (imageEmbedConfigurations != null)
-        const QuillEditorWebImageEmbedBuilder(),
+        QuillEditorWebImageEmbedBuilder(
+          configurations: imageEmbedConfigurations,
+        ),
+      if (videoEmbedConfigurations != null)
+        QuillEditorWebVideoEmbedBuilder(
+          configurations: videoEmbedConfigurations,
+        ),
     ];
   }
 
@@ -183,6 +190,7 @@ class FlutterQuillEmbeds {
                 controller: cameraButtonOptions.controller ?? controller,
                 options: cameraButtonOptions,
               ),
+        // TODO: We will return the support for this later
         // if (mediaButtonOptions != null)
         //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
         //       QuillToolbarMediaButton(

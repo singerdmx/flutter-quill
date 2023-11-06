@@ -30,7 +30,8 @@ bool isYouTubeUrl(String videoUrl) {
     final uri = Uri.parse(videoUrl);
     return uri.host == 'www.youtube.com' ||
         uri.host == 'youtube.com' ||
-        uri.host == 'youtu.be';
+        uri.host == 'youtu.be' ||
+        uri.host == 'www.youtu.be';
   } catch (_) {
     return false;
   }

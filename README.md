@@ -44,8 +44,6 @@ Pub: [FlutterQuill]
     - [Custom Buttons](#custom-buttons)
   - [Embed Blocks](#embed-blocks)
     - [Using the embed blocks from `flutter_quill_extensions`](#using-the-embed-blocks-from-flutter_quill_extensions)
-    - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
-    - [Custom Size Image for other platforms (excluding web)](#custom-size-image-for-other-platforms-excluding-web)
     - [Custom Embed Blocks](#custom-embed-blocks)
     - [Custom Toolbar](#custom-toolbar)
     - [Translation](#translation)
@@ -252,36 +250,6 @@ Provide a list of embed
 ### Using the embed blocks from `flutter_quill_extensions`
 
 To see how to use the extensions package, please take a look at the [README](./flutter_quill_extensions/README.md) of [FlutterQuill Extensions]
-
-### Custom Size Image for Mobile
-
-Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
-
-```json
-{
-      "insert": {
-         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
-      },
-      "attributes":{
-         "style":"mobileWidth: 50; mobileHeight: 50; mobileMargin: 10; mobileAlignment: topLeft"
-      }
-}
-```
-
-### Custom Size Image for other platforms (excluding web)
-
-Define `width`, `height`, `margin`, `alignment` as follows:
-
-```json
-{
-      "insert": {
-         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
-      },
-      "attributes":{
-         "style":"width: 50; height: 50; margin: 10; alignment: topLeft"
-      }
-}
-```
 
 ### Custom Embed Blocks
 

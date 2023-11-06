@@ -3,7 +3,7 @@ import 'dart:io' show File;
 import 'package:flutter_quill/extensions.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import '../../../embeds/embed_types/image.dart';
+import '../../../../embeds/embed_types/image.dart';
 
 /// [QuillEditorImageEmbedConfigurations] for desktop, mobile and
 ///  other platforms
@@ -166,9 +166,4 @@ class QuillEditorImageEmbedConfigurations {
               this.forceUseMobileOptionMenuForImageClick,
     );
   }
-}
-
-@immutable
-class QuillEditorWebImageEmbedConfigurations {
-  const QuillEditorWebImageEmbedConfigurations();
 }

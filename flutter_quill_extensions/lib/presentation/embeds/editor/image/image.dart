@@ -5,7 +5,7 @@ import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../../../models/config/editor/image.dart';
+import '../../../models/config/editor/image/image.dart';
 import '../../embed_types/image.dart';
 import '../../utils.dart';
 import '../../widgets/image.dart';
@@ -84,7 +84,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         imageSize = OptionalSize(width, height);
         image = Padding(
           padding: EdgeInsets.all(margin),
-          child: getQuillImageByUrl(
+          child: getQuillImageByImageSource(
             imageUrl,
             width: width,
             height: height,
@@ -97,7 +97,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     }
 
     if (imageSize == null) {
-      image = getQuillImageByUrl(
+      image = getQuillImageByImageSource(
         imageUrl,
         imageProviderBuilder: configurations.imageProviderBuilder,
         imageErrorWidgetBuilder: configurations.imageErrorWidgetBuilder,

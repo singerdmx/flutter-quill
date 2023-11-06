@@ -531,7 +531,7 @@
     },
     "attributes": {
       "width": "230",
-      "style": "display: block; margin: auto;"
+      "style": "display: block; margin: auto; width: 500px;"
     }
   },
   {

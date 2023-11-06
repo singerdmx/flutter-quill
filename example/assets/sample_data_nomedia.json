@@ -65,16 +65,6 @@
   },
   {
     "attributes": {
-      "strike": true,
-      "color": "black"
-    },
-    "insert": "web"
-  },
-  {
-    "insert": " is not supported.\nYou are welcome to use "
-  },
-  {
-    "attributes": {
       "link": "https://bulletjournal.us/home/index.html"
     },
     "insert": "Bullet Journal"
