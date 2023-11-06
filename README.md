@@ -264,7 +264,7 @@ To see how to use the extensions package, please take a look at the [README](./f
 
 Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
 
-```dart
+```json
 {
       "insert": {
          "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
@@ -279,7 +279,7 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 
 Define `width`, `height`, `margin`, `alignment` as follows:
 
-```dart
+```json
 {
       "insert": {
          "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
@@ -392,5 +392,3 @@ Please follow these guidelines when contributing to our project. See [CONTRIBUTI
 [FluentUI]: https://pub.dev/packages/fluent_ui
 
 <hr/>
-
-[中文文档](./doc/readme/cn.md)
