@@ -313,11 +313,11 @@ class Document {
     try {
       _delta = _delta.compose(delta);
     } catch (e) {
-      throw '_delta compose failed';
+      throw StateError('_delta compose failed');
     }
 
     if (_delta != _root.toDelta()) {
-      throw 'Compose failed';
+      throw StateError('Compose failed');
     }
     final change = DocChange(originalDelta, delta, changeSource);
     _observer.add(change);

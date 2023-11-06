@@ -274,7 +274,9 @@ class EditorTextSelectionOverlay {
   }
 
   void _handleSelectionHandleChanged(
-      TextSelection? newSelection, _TextSelectionHandlePosition position) {
+    TextSelection? newSelection,
+    _TextSelectionHandlePosition position,
+  ) {
     TextPosition textPosition;
     switch (position) {
       case _TextSelectionHandlePosition.start:
@@ -288,7 +290,7 @@ class EditorTextSelectionOverlay {
             : const TextPosition(offset: 0);
         break;
       default:
-        throw 'Invalid position';
+        throw ArgumentError('Invalid position');
     }
 
     final currSelection = newSelection != null
@@ -393,7 +395,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
       case _TextSelectionHandlePosition.end:
         return renderObject.selectionEndInViewport;
       default:
-        throw 'Invalid position';
+        throw ArgumentError('Invalid position');
     }
   }
 }
@@ -481,7 +483,7 @@ class _TextSelectionHandleOverlayState
         );
         break;
       default:
-        throw 'Invalid widget.position';
+        throw ArgumentError('Invalid widget.position');
     }
 
     if (newSelection.baseOffset >= newSelection.extentOffset) {

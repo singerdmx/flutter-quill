@@ -15,5 +15,5 @@ OffsetValue<Embed> getEmbedNode(QuillController controller, int offset) {
     return OffsetValue(offset, embedNode);
   }
 
-  return throw 'Embed node not found by offset $offset';
+  return throw ArgumentError('Embed node not found by offset $offset');
 }

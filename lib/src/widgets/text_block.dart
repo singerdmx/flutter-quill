@@ -313,7 +313,7 @@ class EditableTextBlock extends StatelessWidget {
           bottom = defaultStyles.h3!.verticalSpacing.bottom;
           break;
         default:
-          throw 'Invalid level $level';
+          throw ArgumentError('Invalid level $level');
       }
     } else {
       final VerticalSpacing lineSpacing;

@@ -1030,7 +1030,9 @@ class QuillRawEditorState extends EditorState
   }
 
   VerticalSpacing _getVerticalSpacingForLine(
-      Line line, DefaultStyles? defaultStyles) {
+    Line line,
+    DefaultStyles? defaultStyles,
+  ) {
     final attrs = line.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
       int level;
@@ -1047,7 +1049,7 @@ class QuillRawEditorState extends EditorState
         case 3:
           return defaultStyles!.h3!.verticalSpacing;
         default:
-          throw 'Invalid level $level';
+          throw ArgumentError('Invalid level $level');
       }
     }
 

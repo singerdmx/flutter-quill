@@ -149,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                     tooltip: 'Open document by json delta',
                     onPressed: () async {
                       final scaffoldMessenger = ScaffoldMessenger.of(context);
+                      final navigator = Navigator.of(context);
                       try {
                         final result = await FilePicker.platform.pickFiles(
                           dialogTitle: 'Pick json delta',
@@ -175,6 +176,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         );
+                      } finally {
+                        navigator.pop();
                       }
                     },
                     icon: const Icon(Icons.file_copy),
@@ -184,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text('Load sample data'),
                   onTap: () async {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    final navigator = Navigator.of(context);
                     try {
                       final jsonString = await rootBundle.loadString(
                         'assets/sample_data.json',
@@ -200,6 +204,8 @@ class _HomePageState extends State<HomePage> {
                           'Error while loading json delta file: ${e.toString()}',
                         ),
                       ));
+                    } finally {
+                      navigator.pop();
                     }
                   },
                 ),
@@ -207,6 +213,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text('Load sample data with no media'),
                   onTap: () async {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    final navigator = Navigator.of(context);
                     try {
                       final jsonString = await rootBundle.loadString(
                         'assets/sample_data_nomedia.json',
@@ -223,6 +230,8 @@ class _HomePageState extends State<HomePage> {
                           'Error while loading json delta file: ${e.toString()}',
                         ),
                       ));
+                    } finally {
+                      navigator.pop();
                     }
                   },
                 ),
@@ -230,6 +239,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text('Load testing sample data '),
                   onTap: () async {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    final navigator = Navigator.of(context);
                     try {
                       final jsonString = await rootBundle.loadString(
                         'assets/sample_data_testing.json',
@@ -246,6 +256,8 @@ class _HomePageState extends State<HomePage> {
                           'Error while loading json delta file: ${e.toString()}',
                         ),
                       ));
+                    } finally {
+                      navigator.pop();
                     }
                   },
                 ),
