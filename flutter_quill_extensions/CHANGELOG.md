@@ -1,3 +1,6 @@
+## 0.6.0
+- This version is not stable yet as it doesn't have mirgration guide and missing some things and we might introduce more breaking changes very soon but we decided to publish it because the latest stable version is not compatible with latest stable version of `flutter_quill``
+
 ## 0.6.0-dev.6
 - Better support for web
 - Smal fixes and updates
