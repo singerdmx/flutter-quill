@@ -28,7 +28,7 @@ String getImageStyleString(QuillController controller) {
   return s ?? '';
 }
 
-Image getQuillImageByImageSource(
+Image getImageWidgetByImageSource(
   String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required ImageErrorWidgetBuilder? imageErrorWidgetBuilder,

@@ -6,7 +6,6 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
-import '../universal_ui/universal_ui.dart';
 import '../widgets/demo_scaffold.dart';
 
 class ReadOnlyPage extends StatefulWidget {
@@ -56,7 +55,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           autoFocus: true,
           expands: false,
           padding: EdgeInsets.zero,
-          embedBuilders: defaultEmbedBuildersWeb,
+          embedBuilders: FlutterQuillEmbeds.editorsWebBuilders(),
           scrollable: true,
         ),
         scrollController: ScrollController(),

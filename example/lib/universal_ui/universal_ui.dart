@@ -1,7 +1,7 @@
 library universal_ui;
 
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+// import 'package:flutter_quill/flutter_quill.dart';
+// import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 // import '../widgets/responsive_widget.dart';
 // import 'fake_ui.dart' if (dart.library.html) 'real_ui.dart' as ui_instance;
@@ -108,8 +108,8 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 //   }
 // }
 
-List<EmbedBuilder> get defaultEmbedBuildersWeb => [
-      ...FlutterQuillEmbeds.editorsWebBuilders(),
-      // ImageEmbedBuilderWeb(),
-      // VideoEmbedBuilderWeb(),
-    ];
+// List<EmbedBuilder> get defaultEmbedBuildersWeb => [
+//       ...FlutterQuillEmbeds.editorsWebBuilders(),
+//       // ImageEmbedBuilderWeb(),
+//       // VideoEmbedBuilderWeb(),
+//     ];

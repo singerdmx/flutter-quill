@@ -14,7 +14,6 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
-import '../universal_ui/universal_ui.dart';
 import '../widgets/time_stamp_embed_widget.dart';
 import 'read_only_page.dart';
 
@@ -221,7 +220,7 @@ class _HomePageState extends State<HomePage> {
             sizeSmall: TextStyle(fontSize: 9),
           ),
           embedBuilders: [
-            ...defaultEmbedBuildersWeb,
+            ...FlutterQuillEmbeds.editorsWebBuilders(),
             TimeStampEmbedBuilderWidget()
           ],
         ),

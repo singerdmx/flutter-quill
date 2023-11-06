@@ -84,7 +84,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         imageSize = OptionalSize(width, height);
         image = Padding(
           padding: EdgeInsets.all(margin),
-          child: getQuillImageByImageSource(
+          child: getImageWidgetByImageSource(
             imageUrl,
             width: width,
             height: height,
@@ -97,7 +97,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     }
 
     if (imageSize == null) {
-      image = getQuillImageByImageSource(
+      image = getImageWidgetByImageSource(
         imageUrl,
         imageProviderBuilder: configurations.imageProviderBuilder,
         imageErrorWidgetBuilder: configurations.imageErrorWidgetBuilder,
