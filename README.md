@@ -378,7 +378,7 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 We welcome contributions!
 
-Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](./../CONTRIBUTING.md) for more details.
+Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
 
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter
