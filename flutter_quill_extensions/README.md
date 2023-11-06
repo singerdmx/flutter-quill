@@ -117,6 +117,8 @@ QuillProvider(
 
 As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface to all the user to provide there own implementations for embed blocks. Implementations for image, video and formula embed blocks is proved in this package
 
+The instructions for using the embed blocks is in the [Usage](#usage) section
+
 ### Custom Size Image for Mobile
 
 Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
@@ -146,6 +148,10 @@ Define `width`, `height`, `margin`, `alignment` as follows:
       }
 }
 ```
+
+On mobile we will use `mobileWidth`, `mobileHeight`, on desktop will use `width`, `heigth`
+on Web we will use the `width` and the `height` but the ones in the `attributes`
+This may not clear but don't worry we will update it soon.
 
 ## Features
 

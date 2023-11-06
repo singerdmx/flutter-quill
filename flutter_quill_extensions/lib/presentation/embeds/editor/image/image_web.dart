@@ -7,7 +7,7 @@ import 'package:universal_html/html.dart' as html;
 import '../../../models/config/editor/image/image_web.dart';
 import '../../utils.dart';
 import '../shims/dart_ui_fake.dart'
-    if (dart.library.html) 'shims/dart_ui_real.dart' as ui;
+    if (dart.library.html) '../shims/dart_ui_real.dart' as ui;
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebImageEmbedBuilder({
@@ -18,6 +18,9 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
 
   @override
   String get key => BlockEmbed.imageType;
+
+  @override
+  bool get expanded => false;
 
   @override
   Widget build(
