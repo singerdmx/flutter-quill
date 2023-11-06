@@ -39,7 +39,10 @@ export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button/video_button.dart';
 export 'presentation/embeds/utils.dart';
 export 'presentation/models/config/editor/image.dart';
+export 'presentation/models/config/toolbar/buttons/camera.dart';
+export 'presentation/models/config/toolbar/buttons/formula.dart';
 export 'presentation/models/config/toolbar/buttons/image.dart';
+export 'presentation/models/config/toolbar/buttons/media_button.dart';
 export 'presentation/models/config/toolbar/buttons/video.dart';
 
 @immutable

@@ -10,14 +10,12 @@ class SelectCameraActionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextButton.icon(
             icon: const Icon(
               Icons.camera,
-              color: Colors.orangeAccent,
             ),
             label: Text('Photo'.i18n),
             onPressed: () => Navigator.pop(context, CameraAction.image),
@@ -25,7 +23,6 @@ class SelectCameraActionDialog extends StatelessWidget {
           TextButton.icon(
             icon: const Icon(
               Icons.video_call,
-              color: Colors.cyanAccent,
             ),
             label: Text('Video'.i18n),
             onPressed: () => Navigator.pop(context, CameraAction.video),
