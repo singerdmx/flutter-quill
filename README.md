@@ -141,12 +141,8 @@ _controller = QuillController(
 
 ## Configurations
 
-The `QuillToolbar` class lets you customize which formatting options are available.
+The `QuillToolbar` and `QuillEditor` widgets lets you customize a lot of things
 [Sample Page] provides sample code for advanced usage and configuration.
-
-For **web development**, use `flutter config --enable-web` for flutter or use [ReactQuill] for React.
-
-It is required to provide `EmbedBuilder`, e.g. [defaultEmbedBuildersWeb](https://github.com/singerdmx/flutter-quill/blob/master/example/lib/universal_ui/universal_ui.dart#L99).
 
 ### Using Custom App Widget
 
