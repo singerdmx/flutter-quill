@@ -78,7 +78,7 @@ class RenderBaselineProxy extends RenderProxyBox {
 }
 
 class EmbedProxy extends SingleChildRenderObjectWidget {
-  const EmbedProxy(Widget child) : super(child: child);
+  const EmbedProxy(Widget child, {super.key}) : super(child: child);
 
   @override
   RenderEmbedProxy createRenderObject(BuildContext context) =>

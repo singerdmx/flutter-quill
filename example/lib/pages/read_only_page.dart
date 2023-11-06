@@ -9,6 +9,8 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import '../widgets/demo_scaffold.dart';
 
 class ReadOnlyPage extends StatefulWidget {
+  const ReadOnlyPage({super.key});
+
   @override
   _ReadOnlyPageState createState() => _ReadOnlyPageState();
 }

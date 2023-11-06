@@ -281,7 +281,7 @@ class _LinkDialogState extends State<_LinkDialog> {
               onChanged: _textChanged,
               controller: _textController,
               textInputAction: TextInputAction.next,
-              autofillHints: [
+              autofillHints: const [
                 AutofillHints.name,
                 AutofillHints.url,
               ],
@@ -299,7 +299,7 @@ class _LinkDialogState extends State<_LinkDialog> {
               onChanged: _linkChanged,
               controller: _linkController,
               textInputAction: TextInputAction.done,
-              autofillHints: [AutofillHints.url],
+              autofillHints: const [AutofillHints.url],
               autocorrect: false,
               onEditingComplete: () {
                 if (!_canPress()) {

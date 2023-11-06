@@ -21,8 +21,8 @@ class TimeStampEmbedBuilderWidget extends EmbedBuilder {
   String get key => 'timeStamp';
 
   @override
-  String toPlainText(Embed embed) {
-    return embed.value.data;
+  String toPlainText(Embed node) {
+    return node.value.data;
   }
 
   @override

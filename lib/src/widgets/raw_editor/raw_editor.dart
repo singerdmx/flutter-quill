@@ -1164,9 +1164,10 @@ class QuillRawEditorState extends EditorState
   }
 
   Future<void> _requestAutoFocusIfShould() async {
+    final focusManager = FocusScope.of(context);
     if (!_didAutoFocus && widget.autoFocus) {
       await Future.delayed(Duration.zero); // To avoid exceptions
-      FocusScope.of(context).autofocus(widget.focusNode);
+      focusManager.autofocus(widget.focusNode);
       _didAutoFocus = true;
     }
   }

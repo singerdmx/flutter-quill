@@ -5,10 +5,12 @@ import 'pages/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,18 +28,16 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      // ignore: avoid_redundant_argument_values
-      themeMode: ThemeMode.system,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('en', 'US'),
-        const Locale('zh', 'HK'),
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('zh', 'HK'),
       ],
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

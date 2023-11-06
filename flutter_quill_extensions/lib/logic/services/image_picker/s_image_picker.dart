@@ -1,6 +1,7 @@
 import 'image_picker.dart';
 import 'packages/image_picker.dart';
 
+/// A service used for packing images in the extensions package
 class ImagePickerService extends ImagePickerInterface {
   const ImagePickerService(
     this._impl,

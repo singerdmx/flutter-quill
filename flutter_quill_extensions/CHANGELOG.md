@@ -1,3 +1,6 @@
+## 0.6.2
+- Add more default exports
+
 ## 0.6.1
 - Fix bug on web that causing the project to not build
 

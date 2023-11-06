@@ -30,7 +30,7 @@ OnImageInsertCallback defaultOnImageInsertCallback() {
   return (imageUrl, controller) async {
     controller
       ..skipRequestKeyboard = true
-      ..insertImageBlock(imageUrl: imageUrl);
+      ..insertImageBlock(imageSource: imageUrl);
   };
 }
 

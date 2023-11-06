@@ -9,6 +9,7 @@ class QuillProvider extends InheritedWidget {
   const QuillProvider({
     required this.configurations,
     required super.child,
+    super.key,
   });
 
   /// Controller object which establishes a link between a rich text document
@@ -67,6 +68,7 @@ class QuillToolbarProvider extends InheritedWidget {
   const QuillToolbarProvider({
     required super.child,
     required this.toolbarConfigurations,
+    super.key,
   });
 
   /// The configurations for the toolbar widget of flutter quill
@@ -124,6 +126,7 @@ class QuillBaseToolbarProvider extends InheritedWidget {
   const QuillBaseToolbarProvider({
     required super.child,
     required this.toolbarConfigurations,
+    super.key,
   });
 
   /// The configurations for the toolbar widget of flutter quill
@@ -181,6 +184,7 @@ class QuillEditorProvider extends InheritedWidget {
   const QuillEditorProvider({
     required super.child,
     required this.editorConfigurations,
+    super.key,
   });
 
   /// The configurations for the quill editor widget of flutter quill

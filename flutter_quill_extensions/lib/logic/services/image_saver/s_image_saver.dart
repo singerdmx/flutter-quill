@@ -2,6 +2,7 @@
 import 'image_saver.dart';
 import 'packages/gal.dart' show ImageSaverGalImpl;
 
+/// A service used for saving images in the extensions package
 class ImageSaverService extends ImageSaverInterface {
   final ImageSaverInterface _impl;
   const ImageSaverService(this._impl);

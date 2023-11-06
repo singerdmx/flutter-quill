@@ -27,10 +27,15 @@ import 'presentation/models/config/toolbar/buttons/image.dart';
 import 'presentation/models/config/toolbar/buttons/media_button.dart';
 import 'presentation/models/config/toolbar/buttons/video.dart';
 
+export '/logic/extensions/controller.dart';
 export '/presentation/models/config/editor/webview.dart';
-export './logic/extensions/controller.dart';
+export 'logic/models/config/shared_configurations.dart';
+export 'presentation/embeds/editor/image/image.dart';
 export 'presentation/embeds/editor/image/image_web.dart';
 export 'presentation/embeds/editor/unknown.dart';
+export 'presentation/embeds/editor/video/video.dart';
+export 'presentation/embeds/editor/video/video_web.dart';
+export 'presentation/embeds/editor/webview.dart';
 export 'presentation/embeds/embed_types.dart';
 export 'presentation/embeds/embed_types/image.dart';
 export 'presentation/embeds/embed_types/video.dart';
@@ -42,6 +47,11 @@ export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button/video_button.dart';
 export 'presentation/embeds/utils.dart';
 export 'presentation/models/config/editor/image/image.dart';
+// TODO: Temporary
+// ignore: unused_import
+export 'presentation/models/config/editor/image/image_web.dart';
+export 'presentation/models/config/editor/video/video.dart';
+export 'presentation/models/config/editor/video/video_web.dart';
 export 'presentation/models/config/toolbar/buttons/camera.dart';
 export 'presentation/models/config/toolbar/buttons/formula.dart';
 export 'presentation/models/config/toolbar/buttons/image.dart';
@@ -111,8 +121,11 @@ class FlutterQuillEmbeds {
 
   /// Returns a list of embed builders specifically designed for web support.
   ///
-  /// [QuillEditorImageEmbedBuilderWeb] is the embed builder for handling
+  /// [QuillEditorWebImageEmbedBuilder] is the embed builder for handling
   ///  images on the web.
+  ///
+  /// [QuillEditorWebVideoEmbedBuilder] is the embed builder for handling
+  ///  videos iframe on the web.
   ///
   static List<EmbedBuilder> editorsWebBuilders(
       {QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
@@ -122,7 +135,7 @@ class FlutterQuillEmbeds {
     if (!kIsWeb) {
       throw UnsupportedError(
         'The editorsWebBuilders() is only for web, please use editorBuilders() '
-        'instead',
+        'instead for other platforms',
       );
     }
     return [

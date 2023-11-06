@@ -57,7 +57,7 @@ dependencies:
 
 ## Usage
 
-Before starting using this package you must follow the setup
+Before starting using this package you must follow the [setup](#installation)
 
 Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
 values provided by this repository.

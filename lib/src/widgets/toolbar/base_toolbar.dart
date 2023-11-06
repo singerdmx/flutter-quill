@@ -102,12 +102,12 @@ class QuillToolbarDivider extends StatelessWidget {
   });
 
   /// Provides a horizontal divider for vertical toolbar.
-  const QuillToolbarDivider.horizontal({Color? color, double? space})
-      : this(Axis.horizontal, color: color, space: space);
+  const QuillToolbarDivider.horizontal({Key? key, Color? color, double? space})
+      : this(Axis.horizontal, color: color, space: space, key: key);
 
   /// Provides a horizontal divider for horizontal toolbar.
-  const QuillToolbarDivider.vertical({Color? color, double? space})
-      : this(Axis.vertical, color: color, space: space);
+  const QuillToolbarDivider.vertical({Key? key, Color? color, double? space})
+      : this(Axis.vertical, color: color, space: space, key: key);
 
   /// The axis along which the toolbar is.
   final Axis axis;

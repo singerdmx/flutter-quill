@@ -5,6 +5,33 @@ import 'package:meta/meta.dart' show immutable;
 import '../../services/image_picker/s_image_picker.dart';
 import '../../services/image_saver/s_image_saver.dart';
 
+/// Configurations for Flutter Quill Extensions
+/// that is shared between the toolbar and editor for the extensions package
+///
+/// Example on how to setup it:
+///
+/// ```dart
+/// QuillProvider(
+///   configurations: QuillConfigurations(
+///     sharedConfigurations: const QuillSharedConfigurations(
+///       extraConfigurations: {
+///         QuillSharedExtensionsConfigurations.key:
+///             QuillSharedExtensionsConfigurations(
+///  // Feel free to explore it
+///         ),
+///       },
+///     ),
+///     controller: _controller,
+///   ),
+///   child: const Column(
+///     children: [
+///       // QuillToolbar
+///       // QuillEditor
+///       // ...
+///     ],
+//   ),
+/// )
+/// ```
 @immutable
 class QuillSharedExtensionsConfigurations {
   const QuillSharedExtensionsConfigurations({
@@ -33,11 +60,18 @@ class QuillSharedExtensionsConfigurations {
     return const QuillSharedExtensionsConfigurations();
   }
 
+  /// The key to be used in the `extraConfigurations` property
+  /// which can be found in the [QuillSharedConfigurations]
+  /// which lives in the [QuillConfigurations]
+  ///
+  /// which exists in the [QuillProvider]
   static const String key = 'quillSharedExtensionsConfigurations';
 
-  /// Default to [ImagePickerService.defaultImpl]
+  /// Defaults to [ImagePickerService.defaultImpl]
   final ImagePickerService? _imagePickerService;
 
+  /// A getter method which returns the [ImagePickerService] that is provided
+  /// by the developer, if it can't be found then we will use default impl
   ImagePickerService get imagePickerService {
     return _imagePickerService ?? ImagePickerService.defaultImpl();
   }
@@ -45,6 +79,8 @@ class QuillSharedExtensionsConfigurations {
   /// Default to [ImageSaverService.defaultImpl]
   final ImageSaverService? _imageSaverService;
 
+  /// A getter method which returns the [ImageSaverService] that is provided
+  /// by the developer, if it can't be found then we will use default impl
   ImageSaverService get imageSaverService {
     return _imageSaverService ?? ImageSaverService.defaultImpl();
   }

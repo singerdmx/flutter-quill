@@ -1,3 +1,7 @@
+## [8.2.4]
+- Follow flutter best practices
+- Auto focus bug fix
+
 ## [8.2.3]
 - Update `README.md`
 

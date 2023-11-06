@@ -508,19 +508,19 @@ class _TextLineState extends State<TextLine> {
 
 class EditableTextLine extends RenderObjectWidget {
   const EditableTextLine(
-    this.line,
-    this.leading,
-    this.body,
-    this.indentWidth,
-    this.verticalSpacing,
-    this.textDirection,
-    this.textSelection,
-    this.color,
-    this.enableInteractiveSelection,
-    this.hasFocus,
-    this.devicePixelRatio,
-    this.cursorCont,
-  );
+      this.line,
+      this.leading,
+      this.body,
+      this.indentWidth,
+      this.verticalSpacing,
+      this.textDirection,
+      this.textSelection,
+      this.color,
+      this.enableInteractiveSelection,
+      this.hasFocus,
+      this.devicePixelRatio,
+      this.cursorCont,
+      {super.key});
 
   final Line line;
   final Widget? leading;

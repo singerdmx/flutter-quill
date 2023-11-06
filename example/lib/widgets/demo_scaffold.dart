@@ -18,8 +18,8 @@ class DemoScaffold extends StatefulWidget {
     this.actions,
     this.showToolbar = true,
     this.floatingActionButton,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Filename of the document to load into the editor.
   final String documentFilename;

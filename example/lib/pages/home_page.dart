@@ -1,16 +1,18 @@
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_print
 
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show File;
 import 'dart:ui';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:flutter_quill_extensions/logic/services/image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -24,6 +26,8 @@ enum _SelectionType {
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -54,9 +58,6 @@ class _HomePageState extends State<HomePage> {
     try {
       final result =
           await rootBundle.loadString('assets/sample_data_testing.json');
-      // final result = await rootBundle.loadString(isDesktop()
-      //     ? 'assets/sample_data_nomedia.json'
-      //     : 'assets/sample_data.json');
       final doc = Document.fromJson(jsonDecode(result));
       _controller = QuillController(
         document: doc,
@@ -89,12 +90,32 @@ class _HomePageState extends State<HomePage> {
             ),
             actions: [
               IconButton(
-                  onPressed: () {
-                    setState(() => _isReadOnly = !_isReadOnly);
-                  },
-                  icon: Icon(
-                    _isReadOnly ? Icons.lock : Icons.edit,
-                  )),
+                tooltip: 'Print to log',
+                onPressed: () {
+                  print(
+                    jsonEncode(_controller.document.toDelta().toJson()),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'The quill delta json has been printed to the log.',
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.print,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Toggle read only',
+                onPressed: () {
+                  setState(() => _isReadOnly = !_isReadOnly);
+                },
+                icon: Icon(
+                  _isReadOnly ? Icons.lock : Icons.edit,
+                ),
+              ),
               IconButton(
                 onPressed: () => _insertTimeStamp(
                   _controller,
@@ -121,7 +142,116 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           drawer: Drawer(
-            child: _buildMenuBar(context),
+            child: ListView(
+              children: [
+                DrawerHeader(
+                  child: IconButton(
+                    tooltip: 'Open document by json delta',
+                    onPressed: () async {
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                      try {
+                        final result = await FilePicker.platform.pickFiles(
+                          dialogTitle: 'Pick json delta',
+                          type: FileType.custom,
+                          allowedExtensions: ['json'],
+                          allowMultiple: false,
+                        );
+                        final file = result?.files.firstOrNull;
+                        final filePath = file?.path;
+                        if (file == null || filePath == null) {
+                          return;
+                        }
+                        final jsonString = await XFile(filePath).readAsString();
+                        _controller.document =
+                            Document.fromJson(jsonDecode(jsonString));
+                      } catch (e) {
+                        print(
+                          'Error while loading json delta file: ${e.toString()}',
+                        );
+                        scaffoldMessenger.showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Error while loading json delta file: ${e.toString()}',
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons.file_copy),
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Load sample data'),
+                  onTap: () async {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    try {
+                      final jsonString = await rootBundle.loadString(
+                        'assets/sample_data.json',
+                      );
+                      _controller.document = Document.fromJson(
+                        jsonDecode(jsonString),
+                      );
+                    } catch (e) {
+                      print(
+                        'Error while loading json delta file: ${e.toString()}',
+                      );
+                      scaffoldMessenger.showSnackBar(SnackBar(
+                        content: Text(
+                          'Error while loading json delta file: ${e.toString()}',
+                        ),
+                      ));
+                    }
+                  },
+                ),
+                ListTile(
+                  title: const Text('Load sample data with no media'),
+                  onTap: () async {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    try {
+                      final jsonString = await rootBundle.loadString(
+                        'assets/sample_data_nomedia.json',
+                      );
+                      _controller.document = Document.fromJson(
+                        jsonDecode(jsonString),
+                      );
+                    } catch (e) {
+                      print(
+                        'Error while loading json delta file: ${e.toString()}',
+                      );
+                      scaffoldMessenger.showSnackBar(SnackBar(
+                        content: Text(
+                          'Error while loading json delta file: ${e.toString()}',
+                        ),
+                      ));
+                    }
+                  },
+                ),
+                ListTile(
+                  title: const Text('Load testing sample data '),
+                  onTap: () async {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    try {
+                      final jsonString = await rootBundle.loadString(
+                        'assets/sample_data_testing.json',
+                      );
+                      _controller.document = Document.fromJson(
+                        jsonDecode(jsonString),
+                      );
+                    } catch (e) {
+                      print(
+                        'Error while loading json delta file: ${e.toString()}',
+                      );
+                      scaffoldMessenger.showSnackBar(SnackBar(
+                        content: Text(
+                          'Error while loading json delta file: ${e.toString()}',
+                        ),
+                      ));
+                    }
+                  },
+                ),
+                _buildMenuBar(context),
+              ],
+            ),
           ),
           body: _buildWelcomeEditor(context),
         );
@@ -541,7 +671,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       super.context,
       MaterialPageRoute(
-        builder: (context) => ReadOnlyPage(),
+        builder: (context) => const ReadOnlyPage(),
       ),
     );
   }

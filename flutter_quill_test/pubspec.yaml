@@ -26,12 +26,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_quill: ^8.2.2
+  flutter_quill: ^8.2.3
   flutter_test:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 # In case you are working on changes for both libraries
 # Comment the dependency_overrides section when publishing the package,

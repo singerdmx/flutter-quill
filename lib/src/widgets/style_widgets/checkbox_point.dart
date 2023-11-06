@@ -79,11 +79,11 @@ class QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
     if (context.requireQuillSharedConfigurations.animationConfigurations
         .checkBoxPointItem) {
       return Animate(
-        effects: [
-          const SlideEffect(
+        effects: const [
+          SlideEffect(
             duration: Duration(milliseconds: 70),
           ),
-          const ScaleEffect(
+          ScaleEffect(
             duration: Duration(milliseconds: 70),
           )
         ],
