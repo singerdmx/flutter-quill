@@ -360,10 +360,6 @@ Typescript/Javascript package.
 
 Please use [flutter_quill_test](https://pub.dev/packages/flutter_quill_test) for testing
 
-## License
-
-[MIT](LICENSE)
-
 ## Contributors
 
 Special thanks for everyone that have contributed to this project...
