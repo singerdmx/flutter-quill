@@ -49,11 +49,9 @@ Pub: [FlutterQuill]
     - [Custom Embed Blocks](#custom-embed-blocks)
     - [Custom Toolbar](#custom-toolbar)
     - [Translation](#translation)
-    - [](#)
       - [Contributing to translations](#contributing-to-translations)
   - [Conversion to HTML](#conversion-to-html)
   - [Testing](#testing)
-  - [License](#license)
   - [Contributors](#contributors)
 
 ## Installation
@@ -328,8 +326,6 @@ The package offers translations for the quill toolbar and editor, it will follow
   ),
 )
 ```
-
-###
 
 Currently, translations are available for these 31 locales:
 
