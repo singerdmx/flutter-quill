@@ -258,7 +258,7 @@ Provide a list of embed
 
 ### Using the embed blocks from `flutter_quill_extensions`
 
-Too see how to use the extensions package, please take a look at the [README](./flutter_quill_extensions/README.md) of [FlutterQuill Extensions]
+To see how to use the extensions package, please take a look at the [README](./flutter_quill_extensions/README.md) of [FlutterQuill Extensions]
 
 ### Custom Size Image for Mobile
 
