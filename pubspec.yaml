@@ -51,12 +51,15 @@ dependencies:
   flutter_animate: ^4.2.0+1
   meta: ^1.9.1
 
-flutter:
-  uses-material-design: true
+dependency_overrides:
+  flutter_quill_test:
+    path: ./flutter_quill_test
+
 dev_dependencies:
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
-  flutter_quill_test: ^0.0.2
-  # flutter_quill_test:
-  #   path: ./flutter_quill_test
+  flutter_quill_test: ^0.0.4
+
+flutter:
+  uses-material-design: true
