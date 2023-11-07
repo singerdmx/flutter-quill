@@ -6,9 +6,19 @@ import 'package:path/path.dart' as path;
 
 import '../../presentation/embeds/utils.dart';
 
-class QuillImageUtilities {
-  const QuillImageUtilities._();
+typedef OnGenerateNewFileNameCallback = String Function(
+  String currentFileName,
+  String fileExt,
+);
 
+class QuillImageUtilities {
+  const QuillImageUtilities({
+    required this.controller,
+  });
+
+  final quill.QuillController controller;
+
+  /// Private function that is throw an error if the platform is web
   static void _webIsNotSupported(String functionName) {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -60,7 +70,7 @@ class QuillImageUtilities {
     required Iterable<String> images,
     required deleteThePreviousImages,
     required Directory saveDirectory,
-    String startOfEachFile = 'quill-image-',
+    OnGenerateNewFileNameCallback? onGenerateNewFileName,
   }) async {
     _webIsNotSupported('saveImagesToDirectory');
     final newImagesFutures = images.map((cachedImagePath) async {
@@ -71,11 +81,14 @@ class QuillImageUtilities {
         return '';
       }
 
-      final newImageFileExtensionWithDot = path.extension(cachedImagePath);
+      final newImageFileExtension = path.extension(cachedImagePath); // with dot
 
-      final dateTimeAsString = DateTime.now().toIso8601String();
-      final newImageFileName =
-          '$startOfEachFile$dateTimeAsString$newImageFileExtensionWithDot';
+      final dateTimeString = DateTime.now().toIso8601String();
+      final newImageFileName = onGenerateNewFileName?.call(
+            cachedImagePath,
+            newImageFileExtension,
+          ) ??
+          'quill-image-$dateTimeString$newImageFileExtension';
       final newImagePath = path.join(saveDirectory.path, newImageFileName);
       final newImageFile = await previousImageFile.copy(newImagePath);
       if (deleteThePreviousImages) {
@@ -90,6 +103,13 @@ class QuillImageUtilities {
 
   /// Deletes all local images referenced in a Quill document.
   /// it's not supported on web for now
+  ///
+  /// Be **careful**, on desktop you should never delete user images. only if you
+  /// are sure the image is saved in applicaton documents directory
+  ///
+  /// on mobile the app is sandboxed so you can't delete user images
+  /// because it will be a copy of the image for the app
+  /// so you should be safe
   ///
   /// This function removes local images from the
   /// file system that are referenced in the provided [document].
@@ -106,12 +126,9 @@ class QuillImageUtilities {
   ///   print('Error deleting local images: $e');
   /// }
   /// ```
-  static Future<void> deleteAllLocalImagesOfDocument(
-    quill.Document document,
-  ) async {
+  Future<void> deleteAllLocalImagesOfDocument() async {
     _webIsNotSupported('deleteAllLocalImagesOfDocument');
     final imagesPaths = getImagesPathsFromDocument(
-      document,
       onlyLocalImages: true,
     );
     for (final image in imagesPaths) {
@@ -133,7 +150,7 @@ class QuillImageUtilities {
   /// Retrieves paths to images embedded in a Quill document.
   ///
   /// it's not supported on web for now.
-  /// This function parses the [document] and returns a list of image paths.
+  /// This function parses the Document and returns a list of image paths.
   ///
   /// [document]: The Quill document from which image paths will be retrieved.
   /// [onlyLocalImages]: If `true`,
@@ -151,12 +168,11 @@ class QuillImageUtilities {
   ///
   /// Note: This function assumes that images are
   ///  embedded as block embeds in the Quill document.
-  static Iterable<String> getImagesPathsFromDocument(
-    quill.Document document, {
+  Iterable<String> getImagesPathsFromDocument({
     required bool onlyLocalImages,
   }) {
     _webIsNotSupported('getImagesPathsFromDocument');
-    final images = document.root.children
+    final images = controller.document.root.children
         .whereType<quill.Line>()
         .where((node) {
           if (node.isEmpty) {
@@ -226,7 +242,6 @@ class QuillImageUtilities {
   /// It is specifically designed for mobile
   ///  operating systems (Android and iOS).
   ///
-  /// [document] is the Quill document from which to extract image paths.
   ///
   /// [replaceUnexistentImagesWith] is an optional parameter.
   ///  If provided, it replaces non-existent image paths
@@ -235,13 +250,11 @@ class QuillImageUtilities {
   ///
   /// Returns a list of cached image paths found in the document.
   /// On non-mobile platforms, this function returns an empty list.
-  static Future<Iterable<String>> getCachedImagePathsFromDocument(
-    quill.Document document, {
+  Future<Iterable<String>> getCachedImagePathsFromDocument({
     String? replaceUnexistentImagesWith,
   }) async {
     _webIsNotSupported('getCachedImagePathsFromDocument');
     final imagePaths = getImagesPathsFromDocument(
-      document,
       onlyLocalImages: true,
     );
 
