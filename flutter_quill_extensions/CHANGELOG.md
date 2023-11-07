@@ -1,3 +1,6 @@
+## 0.6.3
+- Update `README.md`
+
 ## 0.6.2
 - Add more default exports
 
