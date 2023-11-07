@@ -6,18 +6,15 @@ import 'dart:ui' as ui hide TextStyle;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart'
-    show RenderAbstractViewport, ViewportOffset;
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
     show
         LogicalKeyboardKey,
-        Uint8List,
         RawKeyDownEvent,
         HardwareKeyboard,
         Clipboard,
         ClipboardData,
-        TextLayoutMetrics,
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
