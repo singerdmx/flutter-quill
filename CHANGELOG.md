@@ -1,3 +1,6 @@
+## [8.2.6]
+- Organize `QuillRawEditor` code
+
 ## [8.2.5]
 - Add `builder` property in the `QuillEditorConfigurations`
 

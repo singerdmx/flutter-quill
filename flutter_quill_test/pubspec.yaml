@@ -26,20 +26,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_quill: ^8.2.4
+  flutter_quill: ^8.2.5
   flutter_test:
     sdk: flutter
 
 dev_dependencies:
   flutter_lints: ^3.0.1
-
-# In case you are working on changes for both libraries
-# Comment the dependency_overrides section when publishing the package,
-# then uncomment it back, this will be automated later
-# dependency_overrides:
-#   flutter_quill:
-#     path: ../
-
 
 flutter:
   uses-material-design: true
