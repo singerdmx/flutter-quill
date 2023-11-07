@@ -36,14 +36,18 @@ to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and it will be
     ```
 10. Test them in the [example](../example) and add changes in there if necessary
 11. Mention the new changes in the [CHANGELOG.md](../CHANGELOG.md) in the next block
-12. When you are done to send your pull request, run:
+12. Run the following script if possible
+    ```
+    ./scripts/before-push.sh
+    ```
+13. When you are done to send your pull request, run:
     ```
     git add .
     git commit -m "Your commit message"
     git push origin your-branch-name
     ```
     this will push the new branch to your forked repository
-13. Now you can send your pull request either by following the link that you will get in the command line or open your
+14. Now you can send your pull request either by following the link that you will get in the command line or open your
 forked repository, and you will find an option to send the pull request, you can also
 open the [Pull Requests](https://github.com/singerdmx/flutter-quill) tab and send new pull request
 1.  Please wait for the review, and we might ask you to make more changes, then run:
