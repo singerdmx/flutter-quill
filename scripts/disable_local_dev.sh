@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo ""
+
+echo "Disable local development for flutter_quill:"
+rm pubspec_overrides.yaml
+
+echo ""
+
+echo "Enable local development for flutter_quill_extensions:"
+rm flutter_quill_extensions/pubspec_overrides.yaml
+
+echo ""
+
+echo "Enable local development for flutter_quill_test:"
+rm flutter_quill_test/pubspec_overrides.yaml
+
+echo ""
+
+echo "Local development for all libraries has been disabled, please 'flutter pub get' for each one of them"
