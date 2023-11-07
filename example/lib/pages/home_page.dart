@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io' show File;
 import 'dart:ui';
 
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/logic/services/image_picker/image_picker.dart';
+import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -333,12 +335,45 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  OnDragDoneCallback get _onDragDone {
+    return (details) {
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+      final file = details.files.first;
+      final isSupported =
+          imageFileExtensions.any((ext) => file.name.endsWith(ext));
+      if (!isSupported) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              'Only images are supported right now: ${file.mimeType}, ${file.name}, ${file.path}, $imageFileExtensions',
+            ),
+          ),
+        );
+        return;
+      }
+      _controller.insertImageBlock(
+        imageSource: file.path,
+      );
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Image is inserted.'),
+        ),
+      );
+    };
+  }
+
   QuillEditor get quillEditor {
     if (kIsWeb) {
       return QuillEditor(
         focusNode: _focusNode,
         scrollController: ScrollController(),
         configurations: QuillEditorConfigurations(
+          builder: (context, rawEditor) {
+            return DropTarget(
+              onDragDone: _onDragDone,
+              child: rawEditor,
+            );
+          },
           placeholder: 'Add content',
           readOnly: false,
           scrollable: true,
@@ -370,6 +405,12 @@ class _HomePageState extends State<HomePage> {
     }
     return QuillEditor(
       configurations: QuillEditorConfigurations(
+        builder: (context, rawEditor) {
+          return DropTarget(
+            onDragDone: _onDragDone,
+            child: rawEditor,
+          );
+        },
         placeholder: 'Add content',
         readOnly: _isReadOnly,
         autoFocus: false,

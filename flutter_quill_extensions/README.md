@@ -18,6 +18,7 @@ Currently the support for **Web** is limitied.
   - [Embed Blocks](#embed-blocks)
     - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
     - [Custom Size Image for other platforms (excluding web)](#custom-size-image-for-other-platforms-excluding-web)
+    - [Drag and drop feature](#drag-and-drop-feature)
   - [Features](#features)
   - [Contributing](#contributing)
   - [License](#license)
@@ -152,6 +153,75 @@ Define `width`, `height`, `margin`, `alignment` as follows:
 On mobile we will use `mobileWidth`, `mobileHeight`, on desktop will use `width`, `heigth`
 on Web we will use the `width` and the `height` but the ones in the `attributes`
 This may not clear but don't worry we will update it soon.
+
+### Drag and drop feature
+Currently the drag and drop feature is not offically supported but you can achieve this very easily in the following steps:
+
+1. Drag and drop require native code, you can use any flutter plugin you like, if you want a suggestion we recommend [desktop_drop](https://pub.dev/packages/desktop_drop), it was origanlly developed for desktop but it has support for web as well mobile platforms
+2. Add the dependency in your `pubspec.yaml` using the following command:
+```yaml
+flutter pub add desktop_drop
+```
+and import it with
+```dart
+import 'package:desktop_drop/desktop_drop.dart';
+```
+3. in the configurations of `QuillEditor`, use the `builder` to wrap the editor with `DropTarget` which comes from `desktop_drop`
+
+```dart
+QuillEditor.basic(
+      configurations: QuillEditorConfigurations(
+        padding: const EdgeInsets.all(16),
+         builder: (context, rawEditor) {
+            return DropTarget(
+              onDragDone: _onDragDone,
+              child: rawEditor,
+            );
+          },
+        embedBuilders: kIsWeb
+            ? FlutterQuillEmbeds.editorsWebBuilders()
+            : FlutterQuillEmbeds.editorBuilders(),
+      ),
+)
+```
+4. Implement the `_onDragDone`, it depend on your use case but this just a simple example
+```dart
+const List<String> imageFileExtensions = [
+  '.jpeg',
+  '.png',
+  '.jpg',
+  '.gif',
+  '.webp',
+  '.tif',
+  '.heic'
+];
+OnDragDoneCallback get _onDragDone {
+    return (details) {
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+      final file = details.files.first;
+      final isSupported =
+          imageFileExtensions.any((ext) => file.name.endsWith(ext));
+      if (!isSupported) {
+        scaffoldMessenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              'Only images are supported right now: ${file.mimeType}, ${file.name}, ${file.path}, $imageFileExtensions',
+            ),
+          ),
+        );
+        return;
+      }
+      _controller.insertImageBlock(
+        imageSource: file.path,
+      );
+      scaffoldMessenger.showSnackBar(
+        const SnackBar(
+          content: Text('Image is inserted.'),
+        ),
+      );
+    };
+  }
+```
 
 ## Features
 

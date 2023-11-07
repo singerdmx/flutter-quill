@@ -1,3 +1,6 @@
+## [8.2.5]
+- Add `builder` property in the `QuillEditorConfigurations`
+
 ## [8.2.4]
 - Follow flutter best practices
 - Auto focus bug fix

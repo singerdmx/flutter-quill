@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../../../widgets/default_styles.dart';
 import '../../../widgets/delegate.dart';
 import '../../../widgets/editor/editor.dart';
+import '../../../widgets/editor/editor_builder.dart';
 import '../../../widgets/embeds.dart';
 import '../../../widgets/link.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';
@@ -67,6 +68,7 @@ class QuillEditorConfigurations extends Equatable {
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
     this.elementOptions = const QuillEditorElementOptions(),
+    this.builder,
   });
 
   /// The text placeholder in the quill editor
@@ -306,6 +308,8 @@ class QuillEditorConfigurations extends Equatable {
   /// This is not complete yet and might changed
   final QuillEditorElementOptions elementOptions;
 
+  final QuillEditorBuilder? builder;
+
   @override
   List<Object?> get props => [
         placeholder,
@@ -323,7 +327,7 @@ class QuillEditorConfigurations extends Equatable {
     double? scrollBottomInset,
     EdgeInsetsGeometry? padding,
     bool? autoFocus,
-    bool? enableUnfocusOnTapOutside,
+    bool? isOnTapOutsideEnabled,
     Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
     bool? showCursor,
     bool? paintCursorAboveText,
@@ -357,6 +361,7 @@ class QuillEditorConfigurations extends Equatable {
     TextSelectionThemeData? textSelectionThemeData,
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
+    QuillEditorBuilder? builder,
   }) {
     return QuillEditorConfigurations(
       placeholder: placeholder ?? this.placeholder,
@@ -365,7 +370,8 @@ class QuillEditorConfigurations extends Equatable {
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
       padding: padding ?? this.padding,
       autoFocus: autoFocus ?? this.autoFocus,
-      isOnTapOutsideEnabled: enableUnfocusOnTapOutside ?? isOnTapOutsideEnabled,
+      isOnTapOutsideEnabled:
+          isOnTapOutsideEnabled ?? this.isOnTapOutsideEnabled,
       onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
@@ -409,6 +415,7 @@ class QuillEditorConfigurations extends Equatable {
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
       elementOptions: elementOptions ?? this.elementOptions,
+      builder: builder ?? this.builder,
     );
   }
 }
