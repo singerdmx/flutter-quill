@@ -568,6 +568,9 @@ class _HomePageState extends State<HomePage> {
       child: QuillProvider(
         configurations: QuillConfigurations(
           controller: _controller,
+          sharedConfigurations: QuillSharedConfigurations(
+            animationConfigurations: QuillAnimationConfigurations.enableAll(),
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
