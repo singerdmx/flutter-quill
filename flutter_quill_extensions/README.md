@@ -169,6 +169,8 @@ import 'package:desktop_drop/desktop_drop.dart';
 3. in the configurations of `QuillEditor`, use the `builder` to wrap the editor with `DropTarget` which comes from `desktop_drop`
 
 ```dart
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+
 QuillEditor.basic(
       configurations: QuillEditorConfigurations(
         padding: const EdgeInsets.all(16),
@@ -211,6 +213,7 @@ OnDragDoneCallback get _onDragDone {
         );
         return;
       }
+      // To get this extension function please import flutter_quill_extensions
       _controller.insertImageBlock(
         imageSource: file.path,
       );
