@@ -760,7 +760,9 @@ class QuillRawEditorState extends EditorState
   }
 
   EditableTextLine _getEditableTextLineFromNode(
-      Line node, BuildContext context) {
+    Line node,
+    BuildContext context,
+  ) {
     final textLine = TextLine(
       line: node,
       textDirection: _textDirection,
@@ -775,18 +777,19 @@ class QuillRawEditorState extends EditorState
       customLinkPrefixes: widget.customLinkPrefixes,
     );
     final editableTextLine = EditableTextLine(
-        node,
-        null,
-        textLine,
-        0,
-        _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
-        controller.selection,
-        widget.selectionColor,
-        widget.enableInteractiveSelection,
-        _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        _cursorCont);
+      node,
+      null,
+      textLine,
+      0,
+      _getVerticalSpacingForLine(node, _styles),
+      _textDirection,
+      controller.selection,
+      widget.selectionColor,
+      widget.enableInteractiveSelection,
+      _hasFocus,
+      MediaQuery.devicePixelRatioOf(context),
+      _cursorCont,
+    );
     return editableTextLine;
   }
 
@@ -1188,7 +1191,10 @@ class QuillRawEditorState extends EditorState
   /// This property is typically used to notify the renderer of input gestures.
   @override
   RenderEditor get renderEditor =>
-      _editorKey.currentContext!.findRenderObject() as RenderEditor;
+      (_editorKey.currentContext?.findRenderObject() as RenderEditor?) ??
+      (throw StateError(
+        "The _editorKey current context can't be null",
+      ));
 
   /// Express interest in interacting with the keyboard.
   ///

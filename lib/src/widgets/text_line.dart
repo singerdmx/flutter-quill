@@ -150,8 +150,14 @@ class _TextLineState extends State<TextLine> {
         // Creates correct node for custom embed
         final lineStyle = _getLineStyle(widget.styles);
         return EmbedProxy(
-          embedBuilder.build(context, widget.controller, embed, widget.readOnly,
-              false, lineStyle),
+          embedBuilder.build(
+            context,
+            widget.controller,
+            embed,
+            widget.readOnly,
+            false,
+            lineStyle,
+          ),
         );
       }
     }
@@ -167,12 +173,13 @@ class _TextLineState extends State<TextLine> {
       textScaleFactor: MediaQuery.textScaleFactorOf(context),
     );
     return RichTextProxy(
-        textStyle: textSpan.style!,
-        textAlign: textAlign,
-        textDirection: widget.textDirection!,
-        strutStyle: strutStyle,
-        locale: Localizations.localeOf(context),
-        child: child);
+      textStyle: textSpan.style!,
+      textAlign: textAlign,
+      textDirection: widget.textDirection!,
+      strutStyle: strutStyle,
+      locale: Localizations.localeOf(context),
+      child: child,
+    );
   }
 
   InlineSpan _getTextSpanForWholeLine(BuildContext context) {

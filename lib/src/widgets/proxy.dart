@@ -129,17 +129,18 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 
 class RichTextProxy extends SingleChildRenderObjectWidget {
   /// Child argument should be an instance of RichText widget.
-  const RichTextProxy(
-      {required RichText super.child,
-      required this.textStyle,
-      required this.textAlign,
-      required this.textDirection,
-      required this.locale,
-      required this.strutStyle,
-      this.textScaleFactor = 1.0,
-      this.textWidthBasis = TextWidthBasis.parent,
-      this.textHeightBehavior,
-      super.key});
+  const RichTextProxy({
+    required RichText super.child,
+    required this.textStyle,
+    required this.textAlign,
+    required this.textDirection,
+    required this.locale,
+    required this.strutStyle,
+    this.textScaleFactor = 1.0,
+    this.textWidthBasis = TextWidthBasis.parent,
+    this.textHeightBehavior,
+    super.key,
+  });
 
   final TextStyle textStyle;
   final TextAlign textAlign;
@@ -153,15 +154,16 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
   @override
   RenderParagraphProxy createRenderObject(BuildContext context) {
     return RenderParagraphProxy(
-        null,
-        textStyle,
-        textAlign,
-        textDirection,
-        textScaleFactor,
-        strutStyle,
-        locale,
-        textWidthBasis,
-        textHeightBehavior);
+      null,
+      textStyle,
+      textAlign,
+      textDirection,
+      textScaleFactor,
+      strutStyle,
+      locale,
+      textWidthBasis,
+      textHeightBehavior,
+    );
   }
 
   @override

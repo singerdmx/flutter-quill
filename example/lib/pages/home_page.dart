@@ -18,6 +18,7 @@ import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart'
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
+import '../widgets/custom_magnifer.dart';
 import '../widgets/time_stamp_embed_widget.dart';
 import 'read_only_page.dart';
 
@@ -405,6 +406,11 @@ class _HomePageState extends State<HomePage> {
     }
     return QuillEditor(
       configurations: QuillEditorConfigurations(
+        magnifierConfiguration: TextMagnifierConfiguration(
+          magnifierBuilder: (_, __, magnifierInfo) => CustomMagnifier(
+            magnifierInfo: magnifierInfo,
+          ),
+        ),
         builder: (context, rawEditor) {
           return DropTarget(
             onDragDone: _onDragDone,
