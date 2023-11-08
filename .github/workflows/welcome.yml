@@ -13,6 +13,6 @@ jobs:
       - name: 'Greet the contributor'
         uses: garg3133/welcome-new-contributors@v1.2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.BOT_ACCESS_TOKEN }}
           issue-message: 'Hello there, on behalf the Flutter Quill Team I would like to thank you for opening your first issue. Your inputs and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!'
           pr-message: 'Hi there, thanks for opening your first Pull Request to this project!!'
