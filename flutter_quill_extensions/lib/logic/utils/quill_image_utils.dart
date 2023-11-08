@@ -126,7 +126,7 @@ class QuillImageUtilities {
   ///   print('Error deleting local images: $e');
   /// }
   /// ```
-  Future<void> deleteAllLocalImagesOfDocument() async {
+  Future<void> deleteAllLocalImages() async {
     _webIsNotSupported('deleteAllLocalImagesOfDocument');
     final imagesPaths = getImagesPathsFromDocument(
       onlyLocalImages: true,
@@ -213,7 +213,6 @@ class QuillImageUtilities {
   /// Returns `true` if the image is cached, `false` otherwise.
   /// On other platforms it will always return false
   static bool isImageCached(String imagePath) {
-    _webIsNotSupported('isImageCached');
     // Determine if the image path is a cached path based on platform
     if (kIsWeb) {
       // For now this will not work for web

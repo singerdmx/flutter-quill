@@ -218,7 +218,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     }
 
     if (!readOnly || isImageBase64(imageUrl)) {
-      // To enforce using it on the web, desktop and other platforms
+      // To enforce using it on the desktop and other platforms
       // and that is up to the developer
       if (!base.isMobile() &&
           configurations.forceUseMobileOptionMenuForImageClick) {

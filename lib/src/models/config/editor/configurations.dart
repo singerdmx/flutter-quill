@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart'
     show TextCapitalization, TextSelectionThemeData;
 import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart' show experimental;
 
 import '../../../widgets/default_styles.dart';
 import '../../../widgets/delegate.dart';
@@ -69,6 +70,7 @@ class QuillEditorConfigurations extends Equatable {
     this.requestKeyboardFocusOnCheckListChanged = false,
     this.elementOptions = const QuillEditorElementOptions(),
     this.builder,
+    this.magnifierConfiguration,
   });
 
   /// The text placeholder in the quill editor
@@ -310,6 +312,10 @@ class QuillEditorConfigurations extends Equatable {
 
   final QuillEditorBuilder? builder;
 
+  /// Currently this feature is experimental
+  @experimental
+  final TextMagnifierConfiguration? magnifierConfiguration;
+
   @override
   List<Object?> get props => [
         placeholder,
@@ -362,6 +368,7 @@ class QuillEditorConfigurations extends Equatable {
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
     QuillEditorBuilder? builder,
+    TextMagnifierConfiguration? magnifierConfiguration,
   }) {
     return QuillEditorConfigurations(
       placeholder: placeholder ?? this.placeholder,
@@ -416,6 +423,8 @@ class QuillEditorConfigurations extends Equatable {
               this.requestKeyboardFocusOnCheckListChanged,
       elementOptions: elementOptions ?? this.elementOptions,
       builder: builder ?? this.builder,
+      magnifierConfiguration:
+          magnifierConfiguration ?? this.magnifierConfiguration,
     );
   }
 }

@@ -47,10 +47,10 @@ import '../text_line.dart';
 import '../text_selection.dart';
 import 'raw_editor.dart';
 import 'raw_editor_actions.dart';
+import 'raw_editor_render_object.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
 import 'raw_editor_text_boundaries.dart';
-import 'raw_editor_widget.dart';
 
 class QuillRawEditorState extends EditorState
     with
@@ -245,7 +245,7 @@ class QuillRawEditorState extends EditorState
       child: Semantics(
         child: MouseRegion(
           cursor: SystemMouseCursors.text,
-          child: QuilRawEditorMultiChildRenderObjectWidget(
+          child: QuilRawEditorMultiChildRenderObject(
             key: _editorKey,
             document: doc,
             selection: controller.selection,
@@ -286,7 +286,7 @@ class QuillRawEditorState extends EditorState
             link: _toolbarLayerLink,
             child: MouseRegion(
               cursor: SystemMouseCursors.text,
-              child: QuilRawEditorMultiChildRenderObjectWidget(
+              child: QuilRawEditorMultiChildRenderObject(
                 key: _editorKey,
                 offset: offset,
                 document: doc,
