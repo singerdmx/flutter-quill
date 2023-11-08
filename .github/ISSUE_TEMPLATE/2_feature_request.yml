@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a new idea for Flutter Quill.
+labels: 'enhancement'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for using Flutter Quill!
+
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for this feature request or proposal.
+      options:
+        - label: I have searched the [existing issues](https://github.com/singerdmx/flutter-quill/issues)
+          required: true
+  - type: textarea
+    attributes:
+      label: Use case
+      description: |
+        Please tell us the problem you are running into that led to you wanting
+        a new feature.
+
+        Is your feature request related to a problem? Please give a clear and
+        concise description of what the problem is.
+
+        Describe the alternative solutions you've considered. Is there already a solution that solves this?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposal
+      description: |
+        Briefly but precisely describe what you would like Flutter Quill to be able to do.
+
+        Consider attaching something showing what you are imagining:
+         * images
+         * videos
+         * code samples
+    validations:
+      required: true
