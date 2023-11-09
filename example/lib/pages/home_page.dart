@@ -457,9 +457,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   QuillToolbar get quillToolbar {
+    final customButtons = [
+      QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        onPressed: () {
+          debugPrint('snowflake1');
+        },
+      ),
+      QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        onPressed: () {
+          debugPrint('snowflake2');
+        },
+      ),
+      QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        onPressed: () {
+          debugPrint('snowflake3');
+        },
+      ),
+    ];
     if (kIsWeb) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
+          customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
@@ -482,6 +503,7 @@ class _HomePageState extends State<HomePage> {
     if (isDesktop()) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
+          customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
@@ -502,6 +524,7 @@ class _HomePageState extends State<HomePage> {
     }
     return QuillToolbar(
       configurations: QuillToolbarConfigurations(
+        customButtons: customButtons,
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
           videoButtonOptions: QuillToolbarVideoButtonOptions(
             videoConfigurations: QuillToolbarVideoConfigurations(

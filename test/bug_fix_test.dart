@@ -12,17 +12,21 @@ void main() {
           (tester) async {
         const tooltip = 'custom button';
 
+        final controller = QuillController.basic();
+
         await tester.pumpWidget(
           MaterialApp(
             home: QuillProvider(
               configurations: QuillConfigurations(
-                controller: QuillController.basic(),
+                controller: controller,
               ),
               child: const QuillToolbar(
                 configurations: QuillToolbarConfigurations(
                   showRedo: false,
                   customButtons: [
-                    QuillCustomButton(tooltip: tooltip),
+                    QuillToolbarCustomButtonOptions(
+                      tooltip: tooltip,
+                    )
                   ],
                 ),
               ),

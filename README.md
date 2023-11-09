@@ -199,17 +199,17 @@ To use your own fonts, update your [assets folder](https://github.com/singerdmx/
 
 ### Custom Buttons
 
-You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List` of `QuillCustomButton`.
+You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List` of `QuillToolbarCustomButtonOptions`.
 
-To add an Icon, we should use a new QuillCustomButton class
+To add an Icon, we should use a new `QuillToolbarCustomButtonOptions` class
 
 ```dart
-    QuillCustomButton(
-        iconData: Icons.ac_unit,
-        onTap: () {
-          debugPrint('snowflake');
-        }
-    ),
+    QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        tooltip: '',
+        onPressed: () {},
+        afterButtonPressed: () {},
+      ),
 ```
 
 Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
@@ -218,21 +218,21 @@ Each `QuillCustomButton` is used as part of the `customButtons` option as follow
 QuillToolbar(
   configurations: QuillToolbarConfigurations(
     customButtons: [
-      QuillCustomButton(
-        iconData: Icons.ac_unit,
-        onTap: () {
+      QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        onPressed: () {
           debugPrint('snowflake1');
         },
       ),
-      QuillCustomButton(
-        iconData: Icons.ac_unit,
-        onTap: () {
+      QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        onPressed: () {
           debugPrint('snowflake2');
         },
       ),
-      QuillCustomButton(
-        iconData: Icons.ac_unit,
-        onTap: () {
+      QuillToolbarCustomButtonOptions(
+        icon: const Icon(Icons.ac_unit),
+        onPressed: () {
           debugPrint('snowflake3');
         },
       ),

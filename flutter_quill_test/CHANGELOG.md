@@ -1,3 +1,6 @@
+## 0.0.4+1
+* Update `README.md`
+
 ## 0.0.4
 * Update `README.md`
 * Documentation comments.

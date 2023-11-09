@@ -59,8 +59,6 @@ class QuillToolbar extends StatelessWidget {
           sectionDividerSpace: configurations.sectionDividerSpace,
           toolbarSize: configurations.toolbarSize,
           childrenBuilder: (context) {
-            final controller = context.requireQuillController;
-
             final toolbarConfigurations =
                 context.requireQuillToolbarConfigurations;
 
@@ -192,7 +190,9 @@ class QuillToolbar extends StatelessWidget {
               ],
               if (configurations.showColorButton) ...[
                 QuillToolbarColorButton(
-                  controller: controller,
+                  controller:
+                      toolbarConfigurations.buttonOptions.color.controller ??
+                          globalController,
                   isBackground: false,
                   options: toolbarConfigurations.buttonOptions.color,
                 ),
@@ -201,14 +201,18 @@ class QuillToolbar extends StatelessWidget {
               if (configurations.showBackgroundColorButton) ...[
                 QuillToolbarColorButton(
                   options: toolbarConfigurations.buttonOptions.backgroundColor,
-                  controller: controller,
+                  controller:
+                      toolbarConfigurations.buttonOptions.color.controller ??
+                          globalController,
                   isBackground: true,
                 ),
                 spacerWidget,
               ],
               if (configurations.showClearFormat) ...[
                 QuillToolbarClearFormatButton(
-                  controller: controller,
+                  controller: toolbarConfigurations
+                          .buttonOptions.clearFormat.controller ??
+                      globalController,
                   options: toolbarConfigurations.buttonOptions.clearFormat,
                 ),
                 spacerWidget,
@@ -216,7 +220,7 @@ class QuillToolbar extends StatelessWidget {
               if (theEmbedButtons != null)
                 for (final builder in theEmbedButtons)
                   builder(
-                      controller,
+                      globalController,
                       globalIconSize,
                       context.requireQuillToolbarBaseButtonOptions.iconTheme,
                       configurations.dialogTheme),
@@ -234,7 +238,9 @@ class QuillToolbar extends StatelessWidget {
                 ),
               if (configurations.showAlignmentButtons) ...[
                 QuillToolbarSelectAlignmentButton(
-                  controller: controller,
+                  controller: toolbarConfigurations
+                          .buttonOptions.selectAlignmentButtons.controller ??
+                      globalController,
                   options: toolbarConfigurations
                       .buttonOptions.selectAlignmentButtons,
                   // tooltips: Map.of(buttonTooltips)
@@ -274,7 +280,9 @@ class QuillToolbar extends StatelessWidget {
                 ),
               if (configurations.showHeaderStyle) ...[
                 QuillToolbarSelectHeaderStyleButtons(
-                  controller: controller,
+                  controller: toolbarConfigurations
+                          .buttonOptions.selectHeaderStyleButtons.controller ??
+                      globalController,
                   options: toolbarConfigurations
                       .buttonOptions.selectHeaderStyleButtons,
                 ),
@@ -379,14 +387,18 @@ class QuillToolbar extends StatelessWidget {
                 ),
               if (configurations.showLink) ...[
                 QuillToolbarLinkStyleButton(
-                  controller: controller,
+                  controller: toolbarConfigurations
+                          .buttonOptions.linkStyle.controller ??
+                      globalController,
                   options: toolbarConfigurations.buttonOptions.linkStyle,
                 ),
                 spacerWidget,
               ],
               if (configurations.showSearchButton) ...[
                 QuillToolbarSearchButton(
-                  controller: controller,
+                  controller:
+                      toolbarConfigurations.buttonOptions.search.controller ??
+                          globalController,
                   options: toolbarConfigurations.buttonOptions.search,
                 ),
                 spacerWidget,
@@ -399,27 +411,24 @@ class QuillToolbar extends StatelessWidget {
                     space: configurations.sectionDividerSpace,
                   ),
                 for (final customButton in configurations.customButtons)
-                  if (customButton.child != null) ...[
-                    InkWell(
-                      onTap: customButton.onTap,
-                      child: customButton.child,
-                    ),
-                  ] else ...[
-                    CustomButton(
-                      onPressed: customButton.onTap,
-                      icon: customButton.iconData ??
-                          context.quillToolbarBaseButtonOptions?.iconData,
-                      iconColor: customButton.iconColor,
-                      iconSize: customButton.iconSize ?? globalIconSize,
-                      iconTheme: context
-                          .requireQuillToolbarBaseButtonOptions.iconTheme,
-                      afterButtonPressed: customButton.afterButtonPressed ??
-                          context.quillToolbarBaseButtonOptions
-                              ?.afterButtonPressed,
-                      tooltip: customButton.tooltip ??
-                          context.quillToolbarBaseButtonOptions?.tooltip,
-                    ),
-                  ],
+                  QuillToolbarCustomButton(
+                    options: customButton,
+                    controller: customButton.controller ?? globalController,
+                  ),
+                // if (customButton.child != null) ...[
+                //   InkWell(
+                //     onTap: customButton.onTap,
+                //     child: customButton.child,
+                //   ),
+                // ] else ...[
+                //   QuillToolbarCustomButton(
+                //     options:
+                //         toolbarConfigurations.buttonOptions.customButtons,
+                //     controller: toolbarConfigurations
+                //             .buttonOptions.customButtons.controller ??
+                //         globalController,
+                //   ),
+                // ],
                 spacerWidget,
               ],
             ];
