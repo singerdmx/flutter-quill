@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
 import '../../../../../flutter_quill.dart' show QuillController, QuillProvider;
 import '../../../themes/quill_icon_theme.dart' show QuillIconTheme;
-import '../../quill_configurations.dart' show kDefaultIconSize, kIconButtonFactor;
+import '../../quill_configurations.dart'
+    show kDefaultIconSize, kIconButtonFactor;
 
 @immutable
 class QuillToolbarBaseButtonExtraOptions extends Equatable {
