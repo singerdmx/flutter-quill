@@ -1,6 +1,8 @@
 ## [8.4.0]
 - **Breaking change**: Update the `QuillCustomButton` to have `QuillCustomButtonOptions`. We moved everything that is in the `QuillCustomButton` to `QuillCustomButtonOptions` but replaced the `iconData` with `icon` widget for more customizations
+- **Breaking change**: the `customButtons` in the `QuillToolbarConfigurations` is now of type `List<QuillToolbarCustomButtonOptions>`
 - Bug fixes with the new `8.0.0` update
+- Update `README.md`
 
 ## [8.3.0]
 - Added a `iconButtonFactor` property to `QuillToolbarBaseButtonOptions` to customise how big the button is compared to its icon size (defaults to `kIconButtonFactor` which is the same as previous releases)

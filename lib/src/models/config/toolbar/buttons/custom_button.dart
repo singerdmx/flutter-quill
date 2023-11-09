@@ -17,7 +17,6 @@ class QuillToolbarCustomButtonOptions extends QuillToolbarBaseButtonOptions<
     this.icon,
     this.iconButtonFactor,
     this.iconSize,
-    super.iconData,
     super.afterButtonPressed,
     super.tooltip,
     super.iconTheme,
