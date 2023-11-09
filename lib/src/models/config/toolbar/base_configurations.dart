@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart'
 
 import '../../../widgets/toolbar/base_toolbar.dart';
 import '../../structs/link_dialog_action.dart';
-import '../../themes/quill_custom_button.dart';
 
 @immutable
 class QuillBaseToolbarConfigurations extends Equatable {
