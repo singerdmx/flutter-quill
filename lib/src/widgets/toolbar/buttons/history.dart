@@ -59,8 +59,8 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         (options.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
     final childBuilder =
         options.childBuilder ?? baseButtonConfigurations.childBuilder;
-    final iconSize = options.iconSize ??
-        baseButtonConfigurations.globalIconSize;
+    final iconSize =
+        options.iconSize ?? baseButtonConfigurations.globalIconSize;
     final iconButtonFactor = options.iconButtonFactor ??
         baseButtonConfigurations.globalIconButtonFactor;
     final iconTheme = options.iconTheme ?? baseButtonConfigurations.iconTheme;

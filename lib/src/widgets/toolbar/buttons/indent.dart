@@ -6,9 +6,7 @@ import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart'
-    show
-        QuillToolbarBaseButtonOptions,
-        QuillToolbarIconButton;
+    show QuillToolbarBaseButtonOptions, QuillToolbarIconButton;
 
 class QuillToolbarIndentButton extends StatefulWidget {
   const QuillToolbarIndentButton({
