@@ -55,6 +55,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.hoverElevation = 1,
     this.fillColor,
     this.iconSize,
+    this.iconButtonFactor,
   });
 
   final Color? fillColor;
@@ -82,6 +83,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
 
   /// By default will use [globalIconSize]
   final double? iconSize;
+  final double? iconButtonFactor;
 
   QuillToolbarFontFamilyButtonOptions copyWith({
     Color? fillColor,
@@ -102,6 +104,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     EdgeInsets? itemPadding,
     Color? defaultItemColor,
     double? iconSize,
+    double? iconButtonFactor,
     // Add properties to override inherited properties
     QuillController? controller,
     IconData? iconData,
@@ -130,6 +133,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
       itemPadding: itemPadding ?? this.itemPadding,
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       iconSize: iconSize ?? this.iconSize,
+      iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
       fillColor: fillColor ?? this.fillColor,
       hoverElevation: hoverElevation ?? this.hoverElevation,
       highlightElevation: highlightElevation ?? this.highlightElevation,

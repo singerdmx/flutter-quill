@@ -125,6 +125,7 @@ class _QuillToolbarLinkStyleButton2State
           dialogBarrierColor: dialogBarrierColor,
           dialogTheme: options.dialogTheme,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           constraints: options.constraints,
           tooltip: tooltip,
           iconTheme: iconTheme,

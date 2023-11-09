@@ -30,6 +30,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   const QuillToolbarFontSizeButtonOptions({
     this.iconSize,
+    this.iconButtonFactor,
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
@@ -53,6 +54,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
@@ -75,6 +77,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
 
   QuillToolbarFontSizeButtonOptions copyWith({
     double? iconSize,
+    double? iconButtonFactor,
     Color? fillColor,
     double? hoverElevation,
     double? highlightElevation,
@@ -97,6 +100,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   }) {
     return QuillToolbarFontSizeButtonOptions(
       iconSize: iconSize ?? this.iconSize,
+      iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
       fillColor: fillColor ?? this.fillColor,
       hoverElevation: hoverElevation ?? this.hoverElevation,
       highlightElevation: highlightElevation ?? this.highlightElevation,

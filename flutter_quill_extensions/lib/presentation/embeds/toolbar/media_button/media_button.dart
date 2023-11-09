@@ -102,6 +102,7 @@
 //           galleryButtonText: options.galleryButtonText,
 //           iconTheme: iconTheme,
 //           iconSize: iconSize,
+//           iconButtonFactor: iconButtonFactor,
 //           hintText: options.hintText,
 //           labelText: options.labelText,
 //           submitButtonSize: options.submitButtonSize,

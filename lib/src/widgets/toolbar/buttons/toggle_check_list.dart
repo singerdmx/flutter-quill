@@ -135,6 +135,7 @@ class QuillToolbarToggleCheckListButtonState
           iconTheme: iconTheme,
           controller: controller,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           tooltip: tooltip,
           iconData: iconData,
         ),

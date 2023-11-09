@@ -132,6 +132,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
             attributes: _attrbuites,
             axis: axis,
             iconSize: iconSize,
+            iconButtonFactor: iconButtonFactor,
             iconTheme: iconTheme,
             tooltip: tooltip,
           ),

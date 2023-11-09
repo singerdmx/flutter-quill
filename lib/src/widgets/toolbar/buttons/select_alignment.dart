@@ -214,6 +214,7 @@ class QuillToolbarSelectAlignmentButtonState
             QuillToolbarSelectAlignmentButtonOptions(
               afterButtonPressed: _afterButtonPressed,
               iconSize: _iconSize,
+              iconButtonFactor: _iconButtonFactor,
               iconTheme: _iconTheme,
               tooltips: _tooltips,
               iconsData: _iconsData,

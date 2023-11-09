@@ -17,6 +17,7 @@ class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarCameraButtonOptions({
     this.cameraConfigurations = const QuillToolbarCameraConfigurations(),
     this.iconSize,
+    this.iconButtonFactor,
     this.fillColor,
     super.iconData,
     super.afterButtonPressed,
@@ -27,6 +28,7 @@ class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
 
   final Color? fillColor;
 

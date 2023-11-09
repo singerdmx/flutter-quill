@@ -19,6 +19,13 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     return iconSize ?? baseFontSize;
   }
 
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor =
+        baseButtonExtraOptions(context).globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? _afterButtonPressed(BuildContext context) {
     return options.afterButtonPressed ??
         baseButtonExtraOptions(context).afterButtonPressed;
@@ -58,6 +65,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
 
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
+    final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
@@ -73,6 +81,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
           fillColor: iconFillColor,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: iconTheme,
           tooltip: tooltip,
         ),

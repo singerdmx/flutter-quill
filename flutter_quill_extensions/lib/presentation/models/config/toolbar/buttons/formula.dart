@@ -20,9 +20,11 @@ class QuillToolbarFormulaButtonOptions extends QuillToolbarBaseButtonOptions<
     super.childBuilder,
     this.fillColor,
     this.iconSize,
+    this.iconButtonFactor,
   });
 
   final Color? fillColor;
 
   final double? iconSize;
+  final double? iconButtonFactor;
 }

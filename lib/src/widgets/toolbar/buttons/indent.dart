@@ -88,6 +88,7 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
           afterButtonPressed: afterButtonPressed,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: iconTheme,
           tooltip: tooltip,
         ),
