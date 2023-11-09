@@ -4,23 +4,19 @@ import '../../widgets/toolbar/base_toolbar.dart';
 
 class QuillCustomButton extends QuillToolbarBaseButtonOptions {
   const QuillCustomButton({
-    super.iconData,
-    this.iconColor,
+    this.icon,
     this.onTap,
     super.tooltip,
-    this.iconSize,
     this.child,
     super.iconTheme,
   });
 
-  ///The icon color;
-  final Color? iconColor;
+  /// The icon widget
+  final Widget? icon;
 
-  ///The function when the icon is tapped
+  /// The function when the icon is tapped
   final VoidCallback? onTap;
 
-  ///The customButton placeholder
+  /// The customButton placeholder
   final Widget? child;
-
-  final double? iconSize;
 }

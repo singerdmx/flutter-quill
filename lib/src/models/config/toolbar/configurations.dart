@@ -11,6 +11,7 @@ import '../../themes/quill_icon_theme.dart';
 import 'buttons/base.dart';
 import 'buttons/clear_format.dart';
 import 'buttons/color.dart';
+import 'buttons/custom_button.dart';
 import 'buttons/font_family.dart';
 import 'buttons/font_size.dart';
 import 'buttons/history.dart';
@@ -284,6 +285,7 @@ class QuillToolbarButtonOptions extends Equatable {
     this.selectHeaderStyleButtons =
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
+    this.customButtons = const QuillToolbarCustomButtonOptions(),
   });
 
   /// The base configurations for all the buttons which will apply to all
@@ -328,6 +330,8 @@ class QuillToolbarButtonOptions extends Equatable {
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
+
+  final QuillToolbarCustomButtonOptions customButtons;
 
   @override
   List<Object?> get props => [
