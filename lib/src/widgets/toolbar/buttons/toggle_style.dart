@@ -212,6 +212,7 @@ Widget defaultToggleStyleButtonBuilder(
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [
   double iconSize = kDefaultIconSize,
+  double iconButtonFactor = kIconButtonFactor,
   QuillIconTheme? iconTheme,
 ]) {
   final theme = Theme.of(context);
@@ -234,7 +235,7 @@ Widget defaultToggleStyleButtonBuilder(
   return QuillToolbarIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
-    size: iconSize * kIconButtonFactor,
+    size: iconSize * iconButtonFactor,
     icon: Icon(icon, size: iconSize, color: iconColor),
     fillColor: fill,
     onPressed: onPressed,

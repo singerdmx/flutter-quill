@@ -67,6 +67,12 @@ class QuillToolbarLinkStyleButtonState
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
@@ -134,7 +140,7 @@ class QuillToolbarLinkStyleButtonState
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
         size: iconSize,

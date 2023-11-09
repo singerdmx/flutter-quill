@@ -8,8 +8,7 @@ import '../../controller.dart';
 import '../base_toolbar.dart'
     show
         QuillToolbarBaseButtonOptions,
-        QuillToolbarIconButton,
-        kIconButtonFactor;
+        QuillToolbarIconButton;
 
 class QuillToolbarIndentButton extends StatefulWidget {
   const QuillToolbarIndentButton({
@@ -41,6 +40,12 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
     final baseFontSize = baseButtonExtraOptions.globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
+  }
+
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
   }
 
   VoidCallback? get afterButtonPressed {
@@ -107,7 +112,7 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(iconData, size: iconSize, color: iconColor),
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,

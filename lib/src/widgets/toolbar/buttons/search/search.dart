@@ -27,6 +27,12 @@ class QuillToolbarSearchButton extends StatelessWidget {
     return iconSize ?? baseFontSize;
   }
 
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor = baseButtonExtraOptions(context).iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? _afterButtonPressed(BuildContext context) {
     return options.afterButtonPressed ??
         baseButtonExtraOptions(context).afterButtonPressed;
@@ -68,6 +74,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
     final tooltip = _tooltip(context);
     final iconData = _iconData(context);
     final iconSize = _iconSize(context);
+    final iconButtonFactor = _iconButtonFactor(context);
     final afterButtonPressed = _afterButtonPressed(context);
 
     final childBuilder =
@@ -112,7 +119,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
       ),
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _sharedOnPressed(context),
