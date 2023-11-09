@@ -47,9 +47,9 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.1
 
-dependency_overrides:
-  flutter_quill:
-    path: ../
-  
+# dependency_overrides:
+#   flutter_quill:
+#     path: ../
+
 flutter:
   uses-material-design: true
