@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/config/toolbar/configurations.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../base_toolbar.dart';
 
