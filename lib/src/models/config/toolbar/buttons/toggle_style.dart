@@ -22,6 +22,7 @@ class QuillToolbarToggleStyleButtonOptions
   const QuillToolbarToggleStyleButtonOptions({
     super.iconData,
     this.iconSize,
+    this.iconButtonFactor,
     this.fillColor,
     super.tooltip,
     super.afterButtonPressed,
@@ -31,5 +32,6 @@ class QuillToolbarToggleStyleButtonOptions
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
   final Color? fillColor;
 }

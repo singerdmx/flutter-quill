@@ -17,6 +17,7 @@ class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
     QuillToolbarLinkStyleButton2ExtraOptions> {
   const QuillToolbarLinkStyleButton2Options({
     this.iconSize,
+    this.iconButtonFactor,
     this.dialogTheme,
     this.constraints,
     this.addLinkLabel,
@@ -36,6 +37,7 @@ class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
   final QuillDialogTheme? dialogTheme;
 
   /// The constrains for dialog.

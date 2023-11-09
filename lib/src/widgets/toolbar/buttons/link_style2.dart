@@ -76,7 +76,7 @@ class _QuillToolbarLinkStyleButton2State
   }
 
   double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
     return iconButtonFactor ?? baseIconFactor;
   }

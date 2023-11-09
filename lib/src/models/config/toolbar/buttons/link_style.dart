@@ -22,6 +22,7 @@ class QuillToolbarLinkStyleButtonOptions extends QuillToolbarBaseButtonOptions<
     this.linkDialogAction,
     this.dialogBarrierColor,
     this.iconSize,
+    this.iconButtonFactor,
     super.iconData,
     super.globalIconSize,
     super.afterButtonPressed,
@@ -32,6 +33,7 @@ class QuillToolbarLinkStyleButtonOptions extends QuillToolbarBaseButtonOptions<
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
   final QuillDialogTheme? dialogTheme;
   final RegExp? linkRegExp;
   final LinkDialogAction? linkDialogAction;
