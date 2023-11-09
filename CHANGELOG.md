@@ -1,3 +1,6 @@
+## [8.3.0]
+- Added a `iconButtonFactor` property to `QuillToolbarBaseButtonOptions` to customise how big the button is compared to its icon size (defaults to `kIconButtonFactor` which is the same as previous releases)
+
 ## [8.2.6]
 - Organize `QuillRawEditor` code
 
