@@ -28,7 +28,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
   }
 
   double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context).iconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions(context).globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
     return iconButtonFactor ?? baseIconFactor;
   }

@@ -21,6 +21,7 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions {
     super.iconTheme,
     this.dialogTheme,
     this.iconSize,
+    this.iconButtonFactor,
     this.dialogBarrierColor,
     this.fillColor,
     this.customOnPressedCallback,
@@ -28,6 +29,7 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions {
 
   final QuillDialogTheme? dialogTheme;
   final double? iconSize;
+  final double? iconButtonFactor;
 
   /// By default will be [dialogBarrierColor] from [QuillSharedConfigurations]
   final Color? dialogBarrierColor;

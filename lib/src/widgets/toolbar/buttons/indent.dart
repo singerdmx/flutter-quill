@@ -43,7 +43,7 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   }
 
   double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
     return iconButtonFactor ?? baseIconFactor;
   }

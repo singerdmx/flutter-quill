@@ -25,6 +25,7 @@ class QuillToolbarSelectHeaderStyleButtonsOptions
     this.axis,
     this.attributes,
     this.iconSize,
+    this.iconButtonFactor,
   });
 
   /// Default value:
@@ -39,4 +40,5 @@ class QuillToolbarSelectHeaderStyleButtonsOptions
   /// By default we will the toolbar axis from [QuillToolbarConfigurations]
   final Axis? axis;
   final double? iconSize;
+  final double? iconButtonFactor;
 }

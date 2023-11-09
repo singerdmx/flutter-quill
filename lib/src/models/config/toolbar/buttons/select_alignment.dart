@@ -18,6 +18,7 @@ class QuillToolbarSelectAlignmentButtonOptions
     this.iconsData,
     this.tooltips,
     this.iconSize,
+    this.iconButtonFactor,
     super.afterButtonPressed,
 
     /// This will called on every select alignment button
@@ -26,6 +27,7 @@ class QuillToolbarSelectAlignmentButtonOptions
     super.iconTheme,
   });
   final double? iconSize;
+  final double? iconButtonFactor;
 
   /// Default to
   /// const QuillToolbarSelectAlignmentValues(
