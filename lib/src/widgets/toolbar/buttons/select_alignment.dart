@@ -66,6 +66,12 @@ class QuillToolbarSelectAlignmentButtonState
     return iconSize ?? baseFontSize;
   }
 
+  double get _iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get _afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
@@ -225,8 +231,8 @@ class QuillToolbarSelectAlignmentButtonState
               const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(
-              width: _iconSize * kIconButtonFactor,
-              height: _iconSize * kIconButtonFactor,
+              width: _iconSize * _iconButtonFactor,
+              height: _iconSize * _iconButtonFactor,
             ),
             child: UtilityWidgets.maybeTooltip(
               message: valueString[index] == Attribute.leftAlignment.value

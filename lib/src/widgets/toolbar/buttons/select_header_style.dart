@@ -61,6 +61,12 @@ class QuillToolbarSelectHeaderStyleButtonsState
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
@@ -142,8 +148,8 @@ class QuillToolbarSelectHeaderStyleButtonsState
         padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
         child: ConstrainedBox(
           constraints: BoxConstraints.tightFor(
-            width: iconSize * kIconButtonFactor,
-            height: iconSize * kIconButtonFactor,
+            width: iconSize * iconButtonFactor,
+            height: iconSize * iconButtonFactor,
           ),
           child: UtilityWidgets.maybeTooltip(
             message: tooltip,

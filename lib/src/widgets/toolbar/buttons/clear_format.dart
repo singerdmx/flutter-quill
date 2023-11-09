@@ -27,6 +27,12 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
     return iconSize ?? baseFontSize;
   }
 
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor = baseButtonExtraOptions(context).iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? _afterButtonPressed(BuildContext context) {
     return options.afterButtonPressed ??
         baseButtonExtraOptions(context).afterButtonPressed;
@@ -69,6 +75,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
     final iconTheme = _iconTheme(context);
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
+    final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
 
     final childBuilder =
@@ -105,7 +112,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(iconData, size: iconSize, color: iconColor),
       fillColor: fillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,

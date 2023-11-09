@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/config/toolbar/configurations.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../base_toolbar.dart';
 
@@ -9,6 +10,7 @@ class CustomButton extends StatelessWidget {
     required this.icon,
     this.iconColor,
     this.iconSize = kDefaultIconSize,
+    this.iconButtonFactor = kIconButtonFactor,
     this.iconTheme,
     this.afterButtonPressed,
     this.tooltip,
@@ -19,6 +21,7 @@ class CustomButton extends StatelessWidget {
   final IconData? icon;
   final Color? iconColor;
   final double iconSize;
+  final double iconButtonFactor;
   final QuillIconTheme? iconTheme;
   final VoidCallback? afterButtonPressed;
   final String? tooltip;
@@ -31,7 +34,7 @@ class CustomButton extends StatelessWidget {
     return QuillToolbarIconButton(
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(icon, size: iconSize, color: iconColor),
       tooltip: tooltip,
       borderRadius: iconTheme?.borderRadius ?? 2,

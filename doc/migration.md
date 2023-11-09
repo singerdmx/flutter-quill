@@ -79,9 +79,13 @@ All the options have parent `QuillToolbarBaseButtonOptions` which have common th
   final IconData? iconData;
 
   /// To change the icon size pass a different value, by default will be
-  /// [kDefaultIconSize]
+  /// [kDefaultIconSize].
   /// This will be used for all the buttons but you can override this
   final double globalIconSize;
+
+  /// The factor of how much larger the button is in relation to the icon,
+  /// by default it will be [kIconButtonFactor].
+  final double globalIconButtonFactor;
 
   /// To do extra logic after pressing the button
   final VoidCallback? afterButtonPressed;

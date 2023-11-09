@@ -108,6 +108,12 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.iconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
@@ -179,7 +185,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(iconData,
           size: iconSize,
           color: widget.isBackground ? iconColorBackground : iconColor),
