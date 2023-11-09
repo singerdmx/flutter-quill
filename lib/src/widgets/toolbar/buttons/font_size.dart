@@ -110,6 +110,13 @@ class QuillToolbarFontSizeButtonState
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor =
+        context.requireQuillToolbarBaseButtonOptions.globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         context.requireQuillToolbarBaseButtonOptions.afterButtonPressed;
@@ -142,6 +149,7 @@ class QuillToolbarFontSizeButtonState
         options.copyWith(
           tooltip: tooltip,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: iconTheme,
           afterButtonPressed: afterButtonPressed,
           controller: controller,

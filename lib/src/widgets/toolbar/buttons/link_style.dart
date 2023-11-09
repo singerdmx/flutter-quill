@@ -120,6 +120,7 @@ class QuillToolbarLinkStyleButtonState
           dialogTheme: options.dialogTheme,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           tooltip: tooltip,
           linkDialogAction: options.linkDialogAction,
           linkRegExp: linkRegExp,

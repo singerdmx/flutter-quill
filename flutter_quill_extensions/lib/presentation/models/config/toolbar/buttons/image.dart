@@ -20,6 +20,7 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
     super.iconData,
     super.controller,
     this.iconSize,
+    this.iconButtonFactor,
 
     /// specifies the tooltip text for the image button.
     super.tooltip,
@@ -33,6 +34,7 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
   final Color? fillColor;
 
   final QuillDialogTheme? dialogTheme;

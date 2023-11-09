@@ -19,6 +19,7 @@ class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
     this.dialogTheme,
     this.fillColor,
     this.iconSize,
+    this.iconButtonFactor,
     super.iconData,
     super.afterButtonPressed,
     super.tooltip,
@@ -35,4 +36,5 @@ class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
   final Color? fillColor;
 
   final double? iconSize;
+  final double? iconButtonFactor;
 }

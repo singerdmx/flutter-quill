@@ -77,6 +77,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
           iconData: options.iconData,
           fillColor: options.fillColor,
           iconSize: options.iconSize,
+          iconButtonFactor: options.iconButtonFactor,
           iconTheme: options.iconTheme,
           tooltip: options.tooltip,
           cameraConfigurations: options.cameraConfigurations,
