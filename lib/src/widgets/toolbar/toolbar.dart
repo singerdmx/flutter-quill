@@ -411,7 +411,6 @@ class QuillToolbar extends StatelessWidget {
                     space: configurations.sectionDividerSpace,
                   ),
                 for (final customButton in configurations.customButtons)
-<<<<<<< HEAD
                   QuillToolbarCustomButton(
                     options: customButton,
                     controller: customButton.controller ?? globalController,
@@ -430,22 +429,6 @@ class QuillToolbar extends StatelessWidget {
                 //         globalController,
                 //   ),
                 // ],
-=======
-                  if (customButton.child != null) ...[
-                    InkWell(
-                      onTap: customButton.onTap,
-                      child: customButton.child,
-                    ),
-                  ] else ...[
-                    QuillToolbarCustomButton(
-                      options:
-                          toolbarConfigurations.buttonOptions.customButtons,
-                      controller: toolbarConfigurations
-                              .buttonOptions.customButtons.controller ??
-                          globalController,
-                    ),
-                  ],
->>>>>>> ad642da (Update QuillCustomButton)
                 spacerWidget,
               ],
             ];
