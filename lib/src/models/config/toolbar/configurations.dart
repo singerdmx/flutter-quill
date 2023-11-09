@@ -2,9 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
     show Axis, Color, Decoration, Widget, WrapAlignment, WrapCrossAlignment;
-import '../../../widgets/embeds.dart';
 
-import '../../../widgets/toolbar/buttons/custom_button.dart';
+import '../../../widgets/embeds.dart';
 import '../../structs/link_dialog_action.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
@@ -27,6 +26,7 @@ export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
 export './buttons/base.dart';
 export './buttons/clear_format.dart';
 export './buttons/color.dart';
+export './buttons/custom_button.dart';
 export './buttons/font_family.dart';
 export './buttons/font_size.dart';
 export './buttons/history.dart';
@@ -212,7 +212,7 @@ class QuillToolbarConfigurations extends Equatable {
   final bool showSearchButton;
   final bool showSubscript;
   final bool showSuperscript;
-  final List<QuillToolbarCustomButton> customButtons;
+  final List<QuillToolbarCustomButtonOptions> customButtons;
 
   /// The decoration to use for the toolbar.
   final Decoration? decoration;

@@ -457,9 +457,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   QuillToolbar get quillToolbar {
+    final customButtons = [
+      const QuillToolbarCustomButtonOptions(
+        icon: Icon(Icons.add),
+      ),
+    ];
     if (kIsWeb) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
+          customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
@@ -482,6 +488,7 @@ class _HomePageState extends State<HomePage> {
     if (isDesktop()) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
+          customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
@@ -502,6 +509,7 @@ class _HomePageState extends State<HomePage> {
     }
     return QuillToolbar(
       configurations: QuillToolbarConfigurations(
+        customButtons: customButtons,
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
           videoButtonOptions: QuillToolbarVideoButtonOptions(
             videoConfigurations: QuillToolbarVideoConfigurations(

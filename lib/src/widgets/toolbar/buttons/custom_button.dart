@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/config/toolbar/buttons/custom_button.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';

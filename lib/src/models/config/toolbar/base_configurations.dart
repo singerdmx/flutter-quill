@@ -40,7 +40,7 @@ class QuillBaseToolbarConfigurations extends Equatable {
   final Color? color;
 
   /// List of custom buttons
-  final List<QuillToolbarCustomButton> customButtons;
+  final List<QuillToolbarCustomButtonOptions> customButtons;
 
   /// The color to use when painting the toolbar section divider.
   ///
