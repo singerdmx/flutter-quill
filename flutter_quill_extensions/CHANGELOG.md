@@ -1,9 +1,7 @@
-## 0.6.5
-- Support the new `iconButtonFactor` property
-
 ## 0.6.4
 - Update `QuillImageUtilities`
 - Add new extension on `QuillController` to access `QuillImageUtilities` instance easier
+- Support the new `iconButtonFactor` property
 
 ## 0.6.3
 - Update `README.md`
