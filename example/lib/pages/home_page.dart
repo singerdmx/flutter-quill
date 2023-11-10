@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
             sizeSmall: TextStyle(fontSize: 9),
           ),
           embedBuilders: [
-            ...FlutterQuillEmbeds.editorsWebBuilders(),
+            ...FlutterQuillEmbeds.editorWebBuilders(),
             TimeStampEmbedBuilderWidget()
           ],
         ),

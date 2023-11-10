@@ -4,10 +4,12 @@
 - Fix Save image button exception
 - Feature: Image cropping for the image embed builder
 - Add support for copying the image to the cliboard
+- Add new static method in `FlutterQuillEmbeds` which is `defaultEditorBuilders` for minimal configurations
 - Fix the image size logic (it's still missing a lot of things but we will work on that soon)
 - Fix the zoom image functionality to support different image providers
-- Update `README.md`
+- Fix typo in the function name `editorsWebBuilders`, now it's called `editorWebBuilders`
 - Deprecated: The boolean property `forceUseMobileOptionMenuForImageClick` is now deprecated as we will not using it anymore and it will be removed in the next major release
+- Update `README.md`
 
 ## 0.6.4
 - Update `QuillImageUtilities`

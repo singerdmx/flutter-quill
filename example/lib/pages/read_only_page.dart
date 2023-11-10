@@ -42,7 +42,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
         expands: false,
         padding: EdgeInsets.zero,
         embedBuilders: kIsWeb
-            ? FlutterQuillEmbeds.editorsWebBuilders()
+            ? FlutterQuillEmbeds.editorWebBuilders()
             : FlutterQuillEmbeds.editorBuilders(),
         scrollable: true,
         autoFocus: true,
@@ -57,7 +57,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
           autoFocus: true,
           expands: false,
           padding: EdgeInsets.zero,
-          embedBuilders: FlutterQuillEmbeds.editorsWebBuilders(),
+          embedBuilders: FlutterQuillEmbeds.editorWebBuilders(),
           scrollable: true,
         ),
         scrollController: ScrollController(),

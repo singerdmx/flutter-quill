@@ -67,8 +67,6 @@ Future<SaveImageResult> saveImage({
         method: SaveImageResultMethod.network,
       );
     } catch (e) {
-      print(e);
-      print(StackTrace.current);
       return const SaveImageResult(
         isSuccess: false,
         method: SaveImageResultMethod.network,

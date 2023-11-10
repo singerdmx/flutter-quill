@@ -162,6 +162,7 @@ class QuillEditorImageEmbedConfigurations {
       imageProviderBuilder: imageProviderBuilder ?? this.imageProviderBuilder,
       imageErrorWidgetBuilder:
           imageErrorWidgetBuilder ?? this.imageErrorWidgetBuilder,
+      // ignore: deprecated_member_use_from_same_package
       forceUseMobileOptionMenuForImageClick:
           forceUseMobileOptionMenuForImageClick ??
               this.forceUseMobileOptionMenuForImageClick,

@@ -160,8 +160,11 @@ class ImageTapWrapper extends StatelessWidget {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      child:
-                          Icon(Icons.close, color: Colors.grey[400], size: 28),
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.grey[400],
+                        size: 28,
+                      ),
                     )
                   ],
                 ),

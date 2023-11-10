@@ -12,9 +12,7 @@ import 'presentation/embeds/editor/webview.dart';
 import 'presentation/embeds/toolbar/camera_button/camera_button.dart';
 import 'presentation/embeds/toolbar/formula_button.dart';
 import 'presentation/embeds/toolbar/image_button/image_button.dart';
-// TODO: Temporary
-// ignore: unused_import
-import 'presentation/embeds/toolbar/media_button/media_button.dart';
+
 import 'presentation/embeds/toolbar/video_button/video_button.dart';
 import 'presentation/models/config/editor/image/image.dart';
 import 'presentation/models/config/editor/image/image_web.dart';
@@ -47,8 +45,7 @@ export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button/video_button.dart';
 export 'presentation/embeds/utils.dart';
 export 'presentation/models/config/editor/image/image.dart';
-// TODO: Temporary
-// ignore: unused_import
+
 export 'presentation/models/config/editor/image/image_web.dart';
 export 'presentation/models/config/editor/video/video.dart';
 export 'presentation/models/config/editor/video/video_web.dart';
@@ -72,7 +69,7 @@ class FlutterQuillEmbeds {
   ///
   /// **Note:** This method is not intended for web usage.
   /// For web-specific embeds,
-  /// use [editorsWebBuilders].
+  /// use [editorWebBuilders].
   ///
   ///
   /// The method returns a list of [EmbedBuilder] objects that can be used with
@@ -127,7 +124,7 @@ class FlutterQuillEmbeds {
   /// [QuillEditorWebVideoEmbedBuilder] is the embed builder for handling
   ///  videos iframe on the web.
   ///
-  static List<EmbedBuilder> editorsWebBuilders(
+  static List<EmbedBuilder> editorWebBuilders(
       {QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
           const QuillEditorWebImageEmbedConfigurations(),
       QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
@@ -148,6 +145,15 @@ class FlutterQuillEmbeds {
           configurations: videoEmbedConfigurations,
         ),
     ];
+  }
+
+  /// Returns a list of default embed builders for QuillEditor.
+  ///
+  /// It will use [editorWebBuilders] for web and [editorBuilders] for others
+  ///
+  /// It's not customizable with minimal configurations
+  static List<EmbedBuilder> defaultEditorBuilders() {
+    return kIsWeb ? editorWebBuilders() : editorBuilders();
   }
 
   /// Returns a list of embed button builders to customize the toolbar buttons.
