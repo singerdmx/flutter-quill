@@ -14,6 +14,81 @@ void main() {
         ),
         false,
       );
+
+      for (final desktopPlatform in [
+        TargetPlatform.macOS,
+        TargetPlatform.linux,
+        TargetPlatform.windows
+      ]) {
+        expect(
+          isDesktop(
+            supportWeb: false,
+            platform: desktopPlatform,
+            overrideIsWeb: false,
+          ),
+          true,
+        );
+
+        expect(
+          isDesktop(
+            supportWeb: false,
+            overrideIsWeb: true,
+            platform: desktopPlatform,
+          ),
+          false,
+        );
+
+        expect(
+          isDesktop(
+            supportWeb: true,
+            overrideIsWeb: true,
+            platform: desktopPlatform,
+          ),
+          true,
+        );
+      }
+    });
+    test('Check isMobile()', () {
+      platform = TargetPlatform.macOS;
+      expect(
+        isMobile(
+          platform: platform,
+          supportWeb: true,
+        ),
+        false,
+      );
+
+      for (final mobilePlatform in [
+        TargetPlatform.android,
+        TargetPlatform.iOS,
+      ]) {
+        expect(
+          isMobile(
+            supportWeb: false,
+            platform: mobilePlatform,
+            overrideIsWeb: false,
+          ),
+          true,
+        );
+
+        expect(
+          isMobile(
+            supportWeb: false,
+            overrideIsWeb: true,
+            platform: mobilePlatform,
+          ),
+          false,
+        );
+
+        expect(
+          isMobile(
+            supportWeb: true,
+            overrideIsWeb: true,
+            platform: mobilePlatform,
+          ),
+          true,
+        );
+      }
     });
     test(
       'Check supportWeb parameter when using desktop platform on web',
