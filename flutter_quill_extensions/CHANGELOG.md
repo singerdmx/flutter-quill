@@ -1,3 +1,6 @@
+## 0.6.5
+- Support the new improved platform checking of `flutter_quill`
+
 ## 0.6.4
 - Update `QuillImageUtilities`
 - Add new extension on `QuillController` to access `QuillImageUtilities` instance easier

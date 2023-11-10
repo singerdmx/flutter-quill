@@ -204,7 +204,7 @@ class DefaultStyles {
     );
     const baseSpacing = VerticalSpacing(6, 0);
     String fontFamily;
-    if (isAppleOS(themeData.platform)) {
+    if (isAppleOS(platform: themeData.platform, supportWeb: true)) {
       fontFamily = 'Menlo';
     } else {
       fontFamily = 'Roboto Mono';

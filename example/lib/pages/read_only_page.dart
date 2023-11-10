@@ -23,7 +23,7 @@ class _ReadOnlyPageState extends State<ReadOnlyPage> {
   @override
   Widget build(BuildContext context) {
     return DemoScaffold(
-      documentFilename: isDesktop()
+      documentFilename: isDesktop(supportWeb: false)
           ? 'assets/sample_data_nomedia.json'
           : 'sample_data_nomedia.json',
       builder: _buildContent,

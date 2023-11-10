@@ -41,7 +41,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     final style = node.style.attributes['style'];
 
     if (style != null) {
-      final attrs = base.isMobile()
+      final attrs = base.isMobile(supportWeb: false)
           ? base.parseKeyValuePairs(style.value.toString(), {
               Attribute.mobileWidth,
               Attribute.mobileHeight,
@@ -56,21 +56,21 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
             });
       if (attrs.isNotEmpty) {
         final width = double.tryParse(
-          (base.isMobile()
+          (base.isMobile(supportWeb: false)
                   ? attrs[Attribute.mobileWidth]
                   : attrs[Attribute.width.key]) ??
               '',
         );
         final height = double.tryParse(
-          (base.isMobile()
+          (base.isMobile(supportWeb: false)
                   ? attrs[Attribute.mobileHeight]
                   : attrs[Attribute.height.key]) ??
               '',
         );
-        final alignment = base.getAlignment(base.isMobile()
+        final alignment = base.getAlignment(base.isMobile(supportWeb: false)
             ? attrs[Attribute.mobileAlignment]
             : attrs[Attribute.alignment]);
-        final margin = (base.isMobile()
+        final margin = (base.isMobile(supportWeb: false)
                 ? double.tryParse(Attribute.mobileMargin)
                 : double.tryParse(Attribute.margin)) ??
             0.0;
@@ -106,7 +106,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     }
 
     if (!readOnly &&
-        (base.isMobile() ||
+        (base.isMobile(supportWeb: false) ||
             configurations.forceUseMobileOptionMenuForImageClick)) {
       return GestureDetector(
         onTap: () {
@@ -188,7 +188,8 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
                                       getImageStyleString(controller),
                                       width: w,
                                       height: h,
-                                      isMobile: base.isMobile(),
+                                      isMobile:
+                                          base.isMobile(supportWeb: false),
                                     );
                                     controller
                                       ..skipRequestKeyboard = true
@@ -220,7 +221,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     if (!readOnly || isImageBase64(imageUrl)) {
       // To enforce using it on the desktop and other platforms
       // and that is up to the developer
-      if (!base.isMobile() &&
+      if (!base.isMobile(supportWeb: false) &&
           configurations.forceUseMobileOptionMenuForImageClick) {
         return _menuOptionsForReadonlyImage(
           context: context,
