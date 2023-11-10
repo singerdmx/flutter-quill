@@ -1,3 +1,6 @@
+## [8.4.1]
+- Add `copyWith` in `OptionalSize` class
+
 ## [8.4.0]
 - **Breaking change**: Update the `QuillCustomButton` to have `QuillCustomButtonOptions`. We moved everything that is in the `QuillCustomButton` to `QuillCustomButtonOptions` but replaced the `iconData` with `icon` widget for more customizations
 - **Breaking change**: the `customButtons` in the `QuillToolbarConfigurations` is now of type `List<QuillToolbarCustomButtonOptions>`

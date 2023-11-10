@@ -12,6 +12,7 @@ import '../../../../embeds/embed_types/image.dart';
 @immutable
 class QuillEditorImageEmbedConfigurations {
   const QuillEditorImageEmbedConfigurations({
+    @Deprecated('This will be deleted in 0.7.0 as we will have one menu')
     this.forceUseMobileOptionMenuForImageClick = false,
     ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     this.shouldRemoveImageCallback,

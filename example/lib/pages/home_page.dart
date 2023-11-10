@@ -444,9 +444,8 @@ class _HomePageState extends State<HomePage> {
         ),
         embedBuilders: [
           ...FlutterQuillEmbeds.editorBuilders(
-            imageEmbedConfigurations: const QuillEditorImageEmbedConfigurations(
-              forceUseMobileOptionMenuForImageClick: true,
-            ),
+            imageEmbedConfigurations:
+                const QuillEditorImageEmbedConfigurations(),
           ),
           TimeStampEmbedBuilderWidget()
         ],

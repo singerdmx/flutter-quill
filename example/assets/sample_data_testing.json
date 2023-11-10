@@ -1,6 +1,25 @@
 [
   {
-    "insert": "Here is an image: \n"
+    "insert": "Here is an local image: \n"
+  },
+  {
+    "insert": "\n"
+  },
+  {
+    "insert": {
+      "image": "assets/images/1.png"
+    },
+    "attributes": {
+      "width": "100",
+      "height": "100",
+      "style": "width:500px; height:350px;"
+    }
+  },
+  {
+    "insert": "\n"
+  },
+  {
+    "insert": "Here is an network image: \n"
   },
   {
     "insert": "\n"

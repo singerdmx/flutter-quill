@@ -66,10 +66,13 @@ dependencies:
     git: https://github.com/singerdmx/flutter-quill.git
 ```
 
+
+>
+> Note: At this time, we are making too many changes to the library and you might see new version almost every day
 >
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
-> Please use the latest pre-release of [FlutterQuill Extensions] in order to work with the latest stable version of [FlutterQuill]
+> If the latest version of [FlutterQuill Extensions] is pre-release, then please use it in order to work with the latest stable version of [FlutterQuill]
 >
 
 ## Usage
@@ -297,7 +300,9 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 We welcome contributions!
 
-Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for more details.
+Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for more details. <br>
+
+You can check the [Todo](./doc/todo.md) list if you want to
 
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter

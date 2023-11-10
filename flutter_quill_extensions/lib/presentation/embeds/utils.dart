@@ -3,6 +3,8 @@ import 'dart:io' show File;
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show BuildContext;
 import '../../logic/models/config/shared_configurations.dart';
+import '../../logic/services/image_saver/s_image_saver.dart';
+import 'widgets/image.dart';
 
 RegExp _base64 = RegExp(
   r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$',
@@ -49,11 +51,8 @@ class SaveImageResult {
 
 Future<SaveImageResult> saveImage({
   required String imageUrl,
-  required BuildContext context,
+  required ImageSaverService imageSaverService,
 }) async {
-  final imageSaverService =
-      QuillSharedExtensionsConfigurations.get(context: context)
-          .imageSaverService;
   final imageFile = File(imageUrl);
   final hasPermission = await imageSaverService.hasAccess();
   if (!hasPermission) {
@@ -63,13 +62,15 @@ Future<SaveImageResult> saveImage({
   if (!imageExistsLocally) {
     try {
       await imageSaverService.saveImageFromNetwork(
-        Uri.parse(imageUrl),
+        Uri.parse(appendFileExtensionToImageUrl(imageUrl)),
       );
       return const SaveImageResult(
         isSuccess: true,
         method: SaveImageResultMethod.network,
       );
     } catch (e) {
+      print(e);
+      print(StackTrace.current);
       return const SaveImageResult(
         isSuccess: false,
         method: SaveImageResultMethod.network,
