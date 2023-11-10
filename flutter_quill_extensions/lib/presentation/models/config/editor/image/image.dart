@@ -112,6 +112,10 @@ class QuillEditorImageEmbedConfigurations {
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
     return (imageUrl) async {
+      if (isWeb()) {
+        return;
+      }
+
       final mobile = isMobile(supportWeb: false);
       // If the platform is not mobile, return void;
       // Since the mobile OS gives us a copy of the image
@@ -133,10 +137,6 @@ class QuillEditorImageEmbedConfigurations {
       // especially on macOS, where we can't even delete
       // it without
       // permission
-
-      if (isWeb()) {
-        return;
-      }
 
       final dartIoImageFile = File(imageUrl);
 

@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart'
     show kIsWeb, TargetPlatform, defaultTargetPlatform;
 
+/// If you want to override the [kIsWeb] use [overrideIsWeb]
 bool isWeb({bool? overrideIsWeb}) {
   return overrideIsWeb ?? kIsWeb;
 }

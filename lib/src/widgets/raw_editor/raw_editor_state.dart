@@ -185,10 +185,6 @@ class QuillRawEditorState extends EditorState
   }
 
   void _defaultOnTapOutside(PointerDownEvent event) {
-    if (isWeb()) {
-      widget.focusNode.unfocus();
-    }
-
     /// The focus dropping behavior is only present on desktop platforms
     /// and mobile browsers.
     switch (defaultTargetPlatform) {
