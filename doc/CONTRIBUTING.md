@@ -3,6 +3,8 @@
 The contributions are more than welcome! <br>
 This project will be better with the open-source community help
 
+You can check the [Todo](./todo.md) list if you want to
+
 There are no guidelines for now.
 This page will be updated in the future.
 

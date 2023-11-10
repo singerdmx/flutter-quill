@@ -54,9 +54,10 @@ String replaceStyleStringWithSize(
   return sb.toString();
 }
 
-Alignment getAlignment(String? s) {
+/// Get flutter [Alignment] value by [cssAlignment]
+Alignment getAlignment(String? cssAlignment) {
   const defaultAlignment = Alignment.center;
-  if (s == null) {
+  if (cssAlignment == null) {
     return defaultAlignment;
   }
 
@@ -70,7 +71,7 @@ Alignment getAlignment(String? s) {
     'bottomLeft',
     'bottomCenter',
     'bottomRight'
-  ].indexOf(s);
+  ].indexOf(cssAlignment);
   if (index < 0) {
     return defaultAlignment;
   }

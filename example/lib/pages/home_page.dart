@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
             sizeSmall: TextStyle(fontSize: 9),
           ),
           embedBuilders: [
-            ...FlutterQuillEmbeds.editorsWebBuilders(),
+            ...FlutterQuillEmbeds.editorWebBuilders(),
             TimeStampEmbedBuilderWidget()
           ],
         ),
@@ -444,9 +444,8 @@ class _HomePageState extends State<HomePage> {
         ),
         embedBuilders: [
           ...FlutterQuillEmbeds.editorBuilders(
-            imageEmbedConfigurations: const QuillEditorImageEmbedConfigurations(
-              forceUseMobileOptionMenuForImageClick: true,
-            ),
+            imageEmbedConfigurations:
+                const QuillEditorImageEmbedConfigurations(),
           ),
           TimeStampEmbedBuilderWidget()
         ],

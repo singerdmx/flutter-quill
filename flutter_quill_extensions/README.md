@@ -17,7 +17,7 @@ Currently the support for **Web** is limitied.
   - [Usage](#usage)
   - [Embed Blocks](#embed-blocks)
     - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
-    - [Custom Size Image for other platforms (excluding web)](#custom-size-image-for-other-platforms-excluding-web)
+    - [Custom Size Image for other platforms](#custom-size-image-for-other-platforms)
     - [Drag and drop feature](#drag-and-drop-feature)
   - [Features](#features)
   - [Contributing](#contributing)
@@ -135,7 +135,7 @@ Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follo
 }
 ```
 
-### Custom Size Image for other platforms (excluding web)
+### Custom Size Image for other platforms
 
 Define `width`, `height`, `margin`, `alignment` as follows:
 
@@ -150,9 +150,7 @@ Define `width`, `height`, `margin`, `alignment` as follows:
 }
 ```
 
-On mobile we will use `mobileWidth`, `mobileHeight`, on desktop will use `width`, `heigth`
-on Web we will use the `width` and the `height` but the ones in the `attributes`
-This may not clear but don't worry we will update it soon.
+
 
 ### Drag and drop feature
 Currently the drag and drop feature is not offically supported but you can achieve this very easily in the following steps:

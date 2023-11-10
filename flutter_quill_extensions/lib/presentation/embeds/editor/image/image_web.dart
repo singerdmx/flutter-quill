@@ -33,7 +33,7 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   ) {
     assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
 
-    final (height, width, margin, alignment) = _getImageSizeForWeb(node);
+    final (height, width, margin, alignment) = _getImageWebAttributes(node);
 
     var imageSource = node.value.data.toString();
 
@@ -77,11 +77,12 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   String width,
   String margin,
   String alignment,
-) _getImageSizeForWeb(
+) _getImageWebAttributes(
   Node node,
 ) {
   var height = 'auto';
   var width = 'auto';
+  // TODO: Add support for margin and alignment
   const margin = 'auto';
   const alignment = 'center';
 
