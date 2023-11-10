@@ -322,7 +322,7 @@ class QuillRawEditorState extends EditorState
     // so if we ovveride the platform in material app theme data
     // it will not depend on it and doesn't change here but I don't think
     // we need to
-    final isDesktopMacOS = isMacOS();
+    final isDesktopMacOS = isMacOS(supportWeb: true);
 
     return TextFieldTapRegion(
       enabled: widget.enableUnfocusOnTapOutside,
@@ -859,7 +859,7 @@ class QuillRawEditorState extends EditorState
     _floatingCursorResetController = AnimationController(vsync: this);
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
 
-    if (isKeyboardOS()) {
+    if (isKeyboardOS(supportWeb: true)) {
       _keyboardVisible = true;
     } else if (!isWeb() && isFlutterTest()) {
       // treat tests like a keyboard OS

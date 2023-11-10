@@ -28,7 +28,7 @@ class SelectVideoSourceDialog extends StatelessWidget {
                 'Record a video using your phone camera',
               ),
               leading: const Icon(Icons.camera),
-              enabled: !isDesktop(),
+              enabled: !isDesktop(supportWeb: false),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
             ),
             ListTile(

@@ -414,7 +414,7 @@ class _HomePageState extends State<HomePage> {
         placeholder: 'Add content',
         readOnly: _isReadOnly,
         autoFocus: false,
-        enableSelectionToolbar: isMobile(),
+        enableSelectionToolbar: isMobile(supportWeb: false),
         expands: false,
         padding: EdgeInsets.zero,
         onImagePaste: _onImagePaste,
@@ -500,7 +500,7 @@ class _HomePageState extends State<HomePage> {
         // afterButtonPressed: _focusNode.requestFocus,
       );
     }
-    if (isDesktop()) {
+    if (isDesktop(supportWeb: false)) {
       return QuillToolbar(
         configurations: QuillToolbarConfigurations(
           customButtons: customButtons,

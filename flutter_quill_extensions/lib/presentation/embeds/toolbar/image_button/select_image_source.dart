@@ -28,7 +28,7 @@ class SelectImageSourceDialog extends StatelessWidget {
                 'Take a photo using your phone camera',
               ),
               leading: const Icon(Icons.camera),
-              enabled: !isDesktop(),
+              enabled: !isDesktop(supportWeb: false),
               onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
             ),
             ListTile(

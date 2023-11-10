@@ -215,7 +215,10 @@ class QuillEditorState extends State<QuillEditor>
     Color selectionColor;
     Radius? cursorRadius;
 
-    if (isAppleOS(theme.platform)) {
+    if (isAppleOS(
+      platform: theme.platform,
+      supportWeb: true,
+    )) {
       final cupertinoTheme = CupertinoTheme.of(context);
       textSelectionControls = cupertinoTextSelectionControls;
       paintCursorAboveText = true;
@@ -257,7 +260,10 @@ class QuillEditorState extends State<QuillEditor>
               ? (configurations.contextMenuBuilder ??
                   QuillRawEditor.defaultContextMenuBuilder)
               : null,
-          showSelectionHandles: isMobile(theme.platform),
+          showSelectionHandles: isMobile(
+            platform: theme.platform,
+            supportWeb: true,
+          ),
           showCursor: configurations.showCursor,
           cursorStyle: CursorStyle(
             color: cursorColor,
@@ -407,7 +413,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
 
     final platform = Theme.of(_state.context).platform;
-    if (isAppleOS(platform)) {
+    if (isAppleOS(
+      platform: platform,
+      supportWeb: true,
+    )) {
       renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
@@ -480,7 +489,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
     try {
       if (delegate.selectionEnabled && !_isPositionSelected(details)) {
         final platform = Theme.of(_state.context).platform;
-        if (isAppleOS(platform) || isDesktop()) {
+        if (isAppleOS(platform: platform, supportWeb: true) ||
+            isDesktop(platform: platform, supportWeb: true)) {
           // added isDesktop() to enable extend selection in Windows platform
           switch (details.kind) {
             case PointerDeviceKind.mouse:
@@ -544,7 +554,10 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     if (delegate.selectionEnabled) {
       final platform = Theme.of(_state.context).platform;
-      if (isAppleOS(platform)) {
+      if (isAppleOS(
+        platform: platform,
+        supportWeb: true,
+      )) {
         renderEditor!.selectPositionAt(
           from: details.globalPosition,
           cause: SelectionChangedCause.longPress,

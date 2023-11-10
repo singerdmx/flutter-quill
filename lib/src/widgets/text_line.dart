@@ -90,7 +90,7 @@ class _TextLineState extends State<TextLine> {
 
     // Desktop platforms (macOS, Linux, Windows):
     // only allow Meta (Control) + Click combinations
-    if (isDesktop()) {
+    if (isDesktop(supportWeb: false)) {
       return _metaOrControlPressed;
     }
     // Mobile platforms (ios, android): always allow but we install a
@@ -434,7 +434,7 @@ class _TextLineState extends State<TextLine> {
     }
 
     if (isLink && canLaunchLinks) {
-      if (isDesktop() || widget.readOnly) {
+      if (isDesktop(supportWeb: true) || widget.readOnly) {
         _linkRecognizers[segment] = TapGestureRecognizer()
           ..onTap = () => _tapNodeLink(segment);
       } else {
@@ -896,7 +896,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   void _computeCaretPrototype() {
     // If the cursor is taller only on iOS and not AppleOS then we should check
     // only for iOS instead of AppleOS (macOS for example)
-    if (isIOS()) {
+    if (isIOS(supportWeb: true)) {
       _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
     } else {
       _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);

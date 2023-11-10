@@ -112,7 +112,7 @@ class QuillEditorImageEmbedConfigurations {
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
     return (imageUrl) async {
-      final mobile = isMobile();
+      final mobile = isMobile(supportWeb: false);
       // If the platform is not mobile, return void;
       // Since the mobile OS gives us a copy of the image
 
