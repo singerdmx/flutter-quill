@@ -1,6 +1,6 @@
 [
   {
-    "insert": "Here is an local image: \n"
+    "insert": "This is an asset image: \n"
   },
   {
     "insert": "\n"
@@ -19,7 +19,7 @@
     "insert": "\n"
   },
   {
-    "insert": "Here is an network image: \n"
+    "insert": "Here is a network image: \n"
   },
   {
     "insert": "\n"
