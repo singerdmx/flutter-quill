@@ -21,6 +21,7 @@ This is a todo list page that added recently and will be updated soon.
   1. Add a method to set TextInputAction, fore more [info](https://github.com/singerdmx/flutter-quill/issues/1328)
   2. Add support for Text magnification feature, for more [info](https://github.com/singerdmx/flutter-quill/issues/1504)
   3. Provide a way to expose quills undo redo stacks, for more [info](https://github.com/singerdmx/flutter-quill/issues/1381)
+  4. Add callback to the `QuillToolbarColorButton` for custom color picking logic
 
 ### Improvemenets
 
