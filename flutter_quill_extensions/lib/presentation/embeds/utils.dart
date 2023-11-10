@@ -1,8 +1,6 @@
 import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart' show BuildContext;
-import '../../logic/models/config/shared_configurations.dart';
 import '../../logic/services/image_saver/s_image_saver.dart';
 import 'widgets/image.dart';
 
