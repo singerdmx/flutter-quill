@@ -29,7 +29,6 @@ class QuillToolbarIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: dead_code
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(width: size, height: size),
       child: UtilityWidgets.maybeTooltip(
