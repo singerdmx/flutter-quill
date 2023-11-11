@@ -13,7 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
@@ -21,6 +20,9 @@ jobs:
       - name: Check flutter version
         run: flutter --version
 
+      # This is needed in order for the authentication to success
+      # pub token add https://pub.dev --env-var PUB_TOKEN
+      # Requests to "https://pub.dev" will now be authenticated using the secret token stored in the environment variable "PUB_TOKEN".
       - uses: dart-lang/setup-dart@v1
 
       - name: Install dependencies
