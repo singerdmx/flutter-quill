@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_quill/extensions.dart'
     show isDesktop, isMobile, replaceStyleStringWithSize;
 import 'package:flutter_quill/flutter_quill.dart'
@@ -51,7 +50,7 @@ class ImageOptionsMenu extends StatelessWidget {
                   builder: (context) {
                     final screenSize = MediaQuery.sizeOf(context);
                     return ImageResizer(
-                      onImageResize: (w, h) {
+                      onImageResize: (width, height) {
                         final res = getEmbedNode(
                           controller,
                           controller.selection.start,
@@ -59,8 +58,8 @@ class ImageOptionsMenu extends StatelessWidget {
 
                         final attr = replaceStyleStringWithSize(
                           getImageStyleString(controller),
-                          width: w,
-                          height: h,
+                          width: width,
+                          height: height,
                           isMobile: isMobile(supportWeb: false),
                         );
                         controller
@@ -94,7 +93,7 @@ class ImageOptionsMenu extends StatelessWidget {
               );
               // TODO: Implement the copy image
               // await Clipboard.setData(
-              //   ClipboardData(text: '$imageUrl'),
+              //   ClipboardData(),
               // );
               navigator.pop();
             },

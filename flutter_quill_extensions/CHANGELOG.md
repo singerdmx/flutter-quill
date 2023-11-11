@@ -1,3 +1,7 @@
+## 0.6.6
+- Add `onImageClicked` in the `QuillEditorImageEmbedConfigurations`
+- Fix image resizing on mobile
+
 ## 0.6.5
 - Support the new improved platform checking of `flutter_quill`
 - Update the Image embed builder logic

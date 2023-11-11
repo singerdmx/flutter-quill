@@ -98,7 +98,7 @@ class QuillToolbarProvider extends InheritedWidget {
             'because '
             'The provider is $provider. Please make sure to wrap this widget'
             ' with'
-            ' QuillProvider widget. '
+            ' QuillToolbarProvider widget. '
             'You might using QuillToolbar so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
@@ -157,8 +157,8 @@ class QuillBaseToolbarProvider extends InheritedWidget {
             'because '
             'The provider is $provider. Please make sure to wrap this widget'
             ' with'
-            ' QuillProvider widget. '
-            'You might using QuillToolbar so make sure to'
+            ' QuillBaseToolbarProvider widget. '
+            'You might using QuillBaseToolbar so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
         'QuillProvider',
@@ -214,7 +214,7 @@ class QuillEditorProvider extends InheritedWidget {
             'because '
             'The provider is $provider. Please make sure to wrap this widget'
             ' with'
-            ' QuillProvider widget. '
+            ' QuillEditorProvider widget. '
             'You might using QuillEditor so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',

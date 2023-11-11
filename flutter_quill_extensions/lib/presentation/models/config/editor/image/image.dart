@@ -1,5 +1,6 @@
 import 'dart:io' show File;
 
+import 'package:flutter/foundation.dart' show VoidCallback;
 import 'package:flutter_quill/extensions.dart';
 import 'package:meta/meta.dart' show immutable;
 
@@ -12,12 +13,11 @@ import '../../../../embeds/embed_types/image.dart';
 @immutable
 class QuillEditorImageEmbedConfigurations {
   const QuillEditorImageEmbedConfigurations({
-    @Deprecated('This will be deleted in 0.7.0 as we will have one menu')
-    this.forceUseMobileOptionMenuForImageClick = false,
     ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     this.shouldRemoveImageCallback,
     this.imageProviderBuilder,
     this.imageErrorWidgetBuilder,
+    this.onImageClicked,
   }) : _onImageRemovedCallback = onImageRemovedCallback;
 
   /// [onImageRemovedCallback] is called when an image is
@@ -101,15 +101,7 @@ class QuillEditorImageEmbedConfigurations {
   ///
   final ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder;
 
-  /// [forceUseMobileOptionMenuForImageClick] is a boolean
-  /// flag that, when set to `true`,
-  /// enforces the use of the mobile-specific option menu for image clicks in
-  /// other platforms like desktop, this option doesn't affect mobile. it will
-  /// not affect web
-  ///  This option
-  /// can be used to override the default behavior based on the platform.
-  ///
-  final bool forceUseMobileOptionMenuForImageClick;
+  final VoidCallback? onImageClicked;
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
     return (imageUrl) async {
@@ -162,10 +154,6 @@ class QuillEditorImageEmbedConfigurations {
       imageProviderBuilder: imageProviderBuilder ?? this.imageProviderBuilder,
       imageErrorWidgetBuilder:
           imageErrorWidgetBuilder ?? this.imageErrorWidgetBuilder,
-      // ignore: deprecated_member_use_from_same_package
-      forceUseMobileOptionMenuForImageClick:
-          forceUseMobileOptionMenuForImageClick ??
-              this.forceUseMobileOptionMenuForImageClick,
     );
   }
 }

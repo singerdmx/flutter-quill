@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart'
-    show TextCapitalization, TextSelectionThemeData;
+    show TextCapitalization, TextInputAction, TextSelectionThemeData;
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
@@ -71,6 +71,7 @@ class QuillEditorConfigurations extends Equatable {
     this.elementOptions = const QuillEditorElementOptions(),
     this.builder,
     this.magnifierConfiguration,
+    this.textInputAction = TextInputAction.newline,
   });
 
   /// The text placeholder in the quill editor
@@ -316,6 +317,9 @@ class QuillEditorConfigurations extends Equatable {
   @experimental
   final TextMagnifierConfiguration? magnifierConfiguration;
 
+  /// Default to [TextInputAction.newline]
+  final TextInputAction textInputAction;
+
   @override
   List<Object?> get props => [
         placeholder,
@@ -369,6 +373,7 @@ class QuillEditorConfigurations extends Equatable {
     QuillEditorElementOptions? elementOptions,
     QuillEditorBuilder? builder,
     TextMagnifierConfiguration? magnifierConfiguration,
+    TextInputAction? textInputAction,
   }) {
     return QuillEditorConfigurations(
       placeholder: placeholder ?? this.placeholder,
@@ -425,6 +430,7 @@ class QuillEditorConfigurations extends Equatable {
       builder: builder ?? this.builder,
       magnifierConfiguration:
           magnifierConfiguration ?? this.magnifierConfiguration,
+      textInputAction: textInputAction ?? this.textInputAction,
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart' show BuildContext;
 
 import '../../../flutter_quill.dart';
 
-// TODO: The comments of this file might needs to be updated.
+// TODO: The comments of this file is outdated and needs to be updated
 
 /// Public shared extension
 extension BuildContextExt on BuildContext {

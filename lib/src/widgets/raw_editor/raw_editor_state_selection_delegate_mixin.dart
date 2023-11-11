@@ -14,17 +14,18 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {
   @override
   TextEditingValue get textEditingValue {
-    return widget.controller.plainTextEditingValue;
+    return widget.configurations.controller.plainTextEditingValue;
   }
 
   set textEditingValue(TextEditingValue value) {
     final cursorPosition = value.selection.extentOffset;
-    final oldText = widget.controller.document.toPlainText();
+    final oldText = widget.configurations.controller.document.toPlainText();
     final newText = value.text;
     final diff = getDiff(oldText, newText, cursorPosition);
     if (diff.deleted == '' && diff.inserted == '') {
       // Only changing selection range
-      widget.controller.updateSelection(value.selection, ChangeSource.local);
+      widget.configurations.controller
+          .updateSelection(value.selection, ChangeSource.local);
       return;
     }
 
@@ -34,7 +35,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     insertedText =
         containsEmbed ? _adjustInsertedText(diff.inserted) : diff.inserted;
 
-    widget.controller.replaceText(
+    widget.configurations.controller.replaceText(
         diff.start, diff.deleted.length, insertedText, value.selection);
 
     _applyPasteStyleAndEmbed(insertedText, diff.start, containsEmbed);
@@ -51,18 +52,22 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
         final local = pos + offset;
         if (styleAndEmbed is Embeddable) {
-          widget.controller.replaceText(local, 0, styleAndEmbed, null);
+          widget.configurations.controller
+              .replaceText(local, 0, styleAndEmbed, null);
         } else {
           final style = styleAndEmbed as Style;
           if (style.isInline) {
-            widget.controller
+            widget.configurations.controller
                 .formatTextStyle(local, pasteStyleAndEmbed[i].length!, style);
           } else if (style.isBlock) {
-            final node = widget.controller.document.queryChild(local).node;
+            final node = widget.configurations.controller.document
+                .queryChild(local)
+                .node;
             if (node != null &&
                 pasteStyleAndEmbed[i].length == node.length - 1) {
               for (final attribute in style.values) {
-                widget.controller.document.format(local, 0, attribute);
+                widget.configurations.controller.document
+                    .format(local, 0, attribute);
               }
             }
           }
@@ -164,15 +169,18 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   }
 
   @override
-  bool get cutEnabled => widget.contextMenuBuilder != null && !widget.readOnly;
+  bool get cutEnabled =>
+      widget.configurations.contextMenuBuilder != null &&
+      !widget.configurations.isReadOnly;
 
   @override
-  bool get copyEnabled => widget.contextMenuBuilder != null;
+  bool get copyEnabled => widget.configurations.contextMenuBuilder != null;
 
   @override
   bool get pasteEnabled =>
-      widget.contextMenuBuilder != null && !widget.readOnly;
+      widget.configurations.contextMenuBuilder != null &&
+      !widget.configurations.isReadOnly;
 
   @override
-  bool get selectAllEnabled => widget.contextMenuBuilder != null;
+  bool get selectAllEnabled => widget.configurations.contextMenuBuilder != null;
 }

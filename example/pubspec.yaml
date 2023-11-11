@@ -17,10 +17,11 @@ dependencies:
   path_provider: ^2.1.1
   # filesystem_picker: ^4.0.0
   file_picker: ^6.1.1
-  flutter_quill: ^8.2.5
-  flutter_quill_extensions: ^0.6.3
+  flutter_quill: ^8.4.1
+  flutter_quill_extensions: ^0.6.5
   path: ^1.8.3
   desktop_drop: ^0.4.4
+  image_cropper: ^5.0.0
 
 dependency_overrides:
   flutter_quill:
