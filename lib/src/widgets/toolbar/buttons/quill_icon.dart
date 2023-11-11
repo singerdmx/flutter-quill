@@ -19,6 +19,7 @@ class QuillToolbarIconButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final VoidCallback? afterPressed;
   final Widget? icon;
+
   final double size;
   final Color? fillColor;
   final double hoverElevation;
@@ -28,14 +29,7 @@ class QuillToolbarIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return IconButton(
-    //   onPressed: () {
-    //     onPressed?.call();
-    //     afterPressed?.call();
-    //   },
-    //   icon: icon ?? const SizedBox.shrink(),
-    //   tooltip: tooltip,
-    // );
+    // ignore: dead_code
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(width: size, height: size),
       child: UtilityWidgets.maybeTooltip(
