@@ -21,6 +21,8 @@ jobs:
       - name: Check flutter version
         run: flutter --version
 
+      - uses: dart-lang/setup-dart@v1
+
       - name: Install dependencies
         run: flutter pub get
 
