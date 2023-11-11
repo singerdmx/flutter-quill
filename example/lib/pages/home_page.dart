@@ -470,11 +470,12 @@ class _HomePageState extends State<HomePage> {
         ],
         uiSettings: [
           AndroidUiSettings(
-              toolbarTitle: 'Cropper',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
           IOSUiSettings(
             title: 'Cropper',
           ),
@@ -517,6 +518,7 @@ class _HomePageState extends State<HomePage> {
         configurations: QuillToolbarConfigurations(
           customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
+            cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
                 onImageInsertedCallback: (image) async {
@@ -539,6 +541,7 @@ class _HomePageState extends State<HomePage> {
         configurations: QuillToolbarConfigurations(
           customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
+            cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
                 onImageInsertedCallback: (image) async {
@@ -560,6 +563,7 @@ class _HomePageState extends State<HomePage> {
       configurations: QuillToolbarConfigurations(
         customButtons: customButtons,
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
+          cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
           videoButtonOptions: QuillToolbarVideoButtonOptions(
             videoConfigurations: QuillToolbarVideoConfigurations(
               onVideoInsertedCallback: (video) =>

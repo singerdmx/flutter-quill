@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
@@ -104,6 +102,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
       size: iconSize * 1.77,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
+      // isDesktop(supportWeb: false) ? null :
       onPressed: () => _sharedOnPressed(context),
     );
   }
@@ -126,21 +125,15 @@ class QuillToolbarCameraButton extends StatelessWidget {
     BuildContext context,
     QuillController controller,
   ) async {
-    // if (onVideoPickCallback == null && onImagePickCallback == null) {
-    //   throw ArgumentError(
-    //     'onImagePickCallback and onVideoPickCallback are both null',
-    //   );
-    // }
+    final imagePickerService =
+        QuillSharedExtensionsConfigurations.get(context: context)
+            .imagePickerService;
 
     final cameraAction = await _getCameraAction(context);
 
     if (cameraAction == null) {
       return;
     }
-
-    final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
 
     switch (cameraAction) {
       case CameraAction.video:

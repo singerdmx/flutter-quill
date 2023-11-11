@@ -28,6 +28,14 @@ class QuillToolbarIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return IconButton(
+    //   onPressed: () {
+    //     onPressed?.call();
+    //     afterPressed?.call();
+    //   },
+    //   icon: icon ?? const SizedBox.shrink(),
+    //   tooltip: tooltip,
+    // );
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(width: size, height: size),
       child: UtilityWidgets.maybeTooltip(
