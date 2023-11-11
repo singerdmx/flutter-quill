@@ -4,7 +4,7 @@
 - You can use now the `QuillRawEditor` without `QuillEditorProvider`
 - Bug fixes
 - Add implementation of image cropping in the `example`
-- Update the `QuillToolbarIconButton` to use the material 3 buttons
+<!-- - Update the `QuillToolbarIconButton` to use the material 3 buttons -->
 
 ## [8.4.1]
 - Add `copyWith` in `OptionalSize` class
