@@ -20,13 +20,13 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
 }
 
 String replaceStyleStringWithSize(
-  String s, {
+  String cssStyle, {
   required double width,
   required double height,
   required bool isMobile,
 }) {
   final result = <String, String>{};
-  final pairs = s.split(';');
+  final pairs = cssStyle.split(';');
   for (final pair in pairs) {
     final index = pair.indexOf(':');
     if (index < 0) {

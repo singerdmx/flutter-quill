@@ -13,7 +13,6 @@ import '../../../flutter_quill.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
 import '../../utils/platform.dart';
 import '../box.dart';
-import '../cursor.dart';
 import '../delegate.dart';
 import '../float_cursor.dart';
 import '../text_selection.dart';
@@ -247,60 +246,64 @@ class QuillEditorState extends State<QuillEditor>
         builder: configurations.builder,
         child: QuillRawEditor(
           key: _editorKey,
-          controller: context.requireQuillController,
-          focusNode: widget.focusNode,
-          scrollController: widget.scrollController,
-          scrollable: configurations.scrollable,
-          scrollBottomInset: configurations.scrollBottomInset,
-          padding: configurations.padding,
-          readOnly: configurations.readOnly,
-          placeholder: configurations.placeholder,
-          onLaunchUrl: configurations.onLaunchUrl,
-          contextMenuBuilder: showSelectionToolbar
-              ? (configurations.contextMenuBuilder ??
-                  QuillRawEditor.defaultContextMenuBuilder)
-              : null,
-          showSelectionHandles: isMobile(
-            platform: theme.platform,
-            supportWeb: true,
+          configurations: QuillRawEditorConfigurations(
+            controller: context.requireQuillController,
+            focusNode: widget.focusNode,
+            scrollController: widget.scrollController,
+            scrollable: configurations.scrollable,
+            scrollBottomInset: configurations.scrollBottomInset,
+            padding: configurations.padding,
+            isReadOnly: configurations.readOnly,
+            placeholder: configurations.placeholder,
+            onLaunchUrl: configurations.onLaunchUrl,
+            contextMenuBuilder: showSelectionToolbar
+                ? (configurations.contextMenuBuilder ??
+                    QuillRawEditorConfigurations.defaultContextMenuBuilder)
+                : null,
+            showSelectionHandles: isMobile(
+              platform: theme.platform,
+              supportWeb: true,
+            ),
+            showCursor: configurations.showCursor ?? true,
+            cursorStyle: CursorStyle(
+              color: cursorColor,
+              backgroundColor: Colors.grey,
+              width: 2,
+              radius: cursorRadius,
+              offset: cursorOffset,
+              paintAboveText:
+                  configurations.paintCursorAboveText ?? paintCursorAboveText,
+              opacityAnimates: cursorOpacityAnimates,
+            ),
+            textCapitalization: configurations.textCapitalization,
+            minHeight: configurations.minHeight,
+            maxHeight: configurations.maxHeight,
+            maxContentWidth: configurations.maxContentWidth,
+            customStyles: configurations.customStyles,
+            expands: configurations.expands,
+            autoFocus: configurations.autoFocus,
+            selectionColor: selectionColor,
+            selectionCtrls:
+                configurations.textSelectionControls ?? textSelectionControls,
+            keyboardAppearance: configurations.keyboardAppearance,
+            enableInteractiveSelection:
+                configurations.enableInteractiveSelection,
+            scrollPhysics: configurations.scrollPhysics,
+            embedBuilder: _getEmbedBuilder,
+            linkActionPickerDelegate: configurations.linkActionPickerDelegate,
+            customStyleBuilder: configurations.customStyleBuilder,
+            customRecognizerBuilder: configurations.customRecognizerBuilder,
+            floatingCursorDisabled: configurations.floatingCursorDisabled,
+            onImagePaste: configurations.onImagePaste,
+            customShortcuts: configurations.customShortcuts,
+            customActions: configurations.customActions,
+            customLinkPrefixes: configurations.customLinkPrefixes,
+            isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,
+            onTapOutside: configurations.onTapOutside,
+            dialogTheme: configurations.dialogTheme,
+            contentInsertionConfiguration:
+                configurations.contentInsertionConfiguration,
           ),
-          showCursor: configurations.showCursor,
-          cursorStyle: CursorStyle(
-            color: cursorColor,
-            backgroundColor: Colors.grey,
-            width: 2,
-            radius: cursorRadius,
-            offset: cursorOffset,
-            paintAboveText:
-                configurations.paintCursorAboveText ?? paintCursorAboveText,
-            opacityAnimates: cursorOpacityAnimates,
-          ),
-          textCapitalization: configurations.textCapitalization,
-          minHeight: configurations.minHeight,
-          maxHeight: configurations.maxHeight,
-          maxContentWidth: configurations.maxContentWidth,
-          customStyles: configurations.customStyles,
-          expands: configurations.expands,
-          autoFocus: configurations.autoFocus,
-          selectionColor: selectionColor,
-          selectionCtrls:
-              configurations.textSelectionControls ?? textSelectionControls,
-          keyboardAppearance: configurations.keyboardAppearance,
-          enableInteractiveSelection: configurations.enableInteractiveSelection,
-          scrollPhysics: configurations.scrollPhysics,
-          embedBuilder: _getEmbedBuilder,
-          linkActionPickerDelegate: configurations.linkActionPickerDelegate,
-          customStyleBuilder: configurations.customStyleBuilder,
-          customRecognizerBuilder: configurations.customRecognizerBuilder,
-          floatingCursorDisabled: configurations.floatingCursorDisabled,
-          onImagePaste: configurations.onImagePaste,
-          customShortcuts: configurations.customShortcuts,
-          customActions: configurations.customActions,
-          customLinkPrefixes: configurations.customLinkPrefixes,
-          enableUnfocusOnTapOutside: configurations.isOnTapOutsideEnabled,
-          dialogTheme: configurations.dialogTheme,
-          contentInsertionConfiguration:
-              configurations.contentInsertionConfiguration,
         ),
       ),
     );
@@ -435,15 +438,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return false;
     }
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);
-    final result =
-        editor!.widget.controller.document.querySegmentLeafNode(pos.offset);
+    final result = editor!.widget.configurations.controller.document
+        .querySegmentLeafNode(pos.offset);
     final line = result.line;
     if (line == null) {
       return false;
     }
     final segmentLeaf = result.leaf;
     if (segmentLeaf == null && line.length == 1) {
-      editor!.widget.controller.updateSelection(
+      editor!.widget.configurations.controller.updateSelection(
         TextSelection.collapsed(offset: pos.offset),
         ChangeSource.local,
       );

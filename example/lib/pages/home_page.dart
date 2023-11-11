@@ -15,6 +15,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/logic/services/image_picker/image_picker.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -455,6 +456,41 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// When inserting an image
+  OnImageInsertCallback get onImageInsert {
+    return (image, controller) async {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: image,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'Cropper',
+          ),
+          WebUiSettings(
+            context: context,
+          ),
+        ],
+      );
+      final newImage = croppedFile?.path;
+      if (newImage == null) {
+        return;
+      }
+      controller.insertImageBlock(imageSource: newImage);
+    };
+  }
+
   QuillToolbar get quillToolbar {
     final customButtons = [
       QuillToolbarCustomButtonOptions(
@@ -486,8 +522,8 @@ class _HomePageState extends State<HomePage> {
                 onImageInsertedCallback: (image) async {
                   _onImagePickCallback(File(image));
                 },
+                onImageInsertCallback: onImageInsert,
               ),
-              // webImagePickImpl: _webImagePickImpl,
             ),
           ),
           buttonOptions: QuillToolbarButtonOptions(
@@ -496,7 +532,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        // afterButtonPressed: _focusNode.requestFocus,
       );
     }
     if (isDesktop(supportWeb: false)) {
@@ -533,6 +568,7 @@ class _HomePageState extends State<HomePage> {
           ),
           imageButtonOptions: QuillToolbarImageButtonOptions(
             imageButtonConfigurations: QuillToolbarImageConfigurations(
+              onImageInsertCallback: onImageInsert,
               onImageInsertedCallback: (image) async {
                 _onImagePickCallback(File(image));
               },

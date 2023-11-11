@@ -27,6 +27,7 @@ This is a todo list page that added recently and will be updated soon.
 
  1. Improve the Raw Quill Editor, for more [info](https://github.com/singerdmx/flutter-quill/issues/1509)
  2. Provide more support to all the platforms
+ 3. Extract the shared properties between `QuillRawEditorConfigurations` and `QuillEditorConfigurations`
 
 ### Bugs
 

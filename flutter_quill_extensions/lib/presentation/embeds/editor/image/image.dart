@@ -112,6 +112,20 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         QuillSharedExtensionsConfigurations.get(context: context)
             .imageSaverService;
     return GestureDetector(
+      onTap: configurations.onImageClicked ??
+          () => showDialog(
+                context: context,
+                builder: (context) {
+                  return ImageOptionsMenu(
+                    controller: controller,
+                    configurations: configurations,
+                    imageSource: imageSource,
+                    imageSize: imageSize,
+                    isReadOnly: readOnly,
+                    imageSaverService: imageSaverService,
+                  );
+                },
+              ),
       child: Builder(
         builder: (context) {
           if (margin != null) {
@@ -121,19 +135,6 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
             );
           }
           return image;
-        },
-      ),
-      onTap: () => showDialog(
-        context: context,
-        builder: (context) {
-          return ImageOptionsMenu(
-            controller: controller,
-            configurations: configurations,
-            imageSource: imageSource,
-            imageSize: imageSize,
-            isReadOnly: readOnly,
-            imageSaverService: imageSaverService,
-          );
         },
       ),
     );
@@ -191,10 +192,16 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     // It css value as string but we will try to support it anyway
 
     // TODO: This could be improved much better
-    final cssHeightValue = double.tryParse(
-        (attrs[Attribute.height.key] ?? '').replaceFirst('px', ''));
-    final cssWidthValue = double.tryParse(
-        (attrs[Attribute.width.key] ?? '').replaceFirst('px', ''));
+    final cssHeightValue = double.tryParse(((base.isMobile(supportWeb: false)
+                ? attrs[Attribute.mobileHeight]
+                : attrs[Attribute.height.key]) ??
+            '')
+        .replaceFirst('px', ''));
+    final cssWidthValue = double.tryParse(((!base.isMobile(supportWeb: false)
+                ? attrs[Attribute.width.key]
+                : attrs[Attribute.mobileWidth]) ??
+            '')
+        .replaceFirst('px', ''));
 
     if (cssHeightValue != null) {
       imageSize = imageSize.copyWith(height: cssHeightValue);

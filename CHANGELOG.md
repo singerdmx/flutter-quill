@@ -1,3 +1,10 @@
+## [8.4.2]
+- **Breaking change**: The `QuillRawEditor` configurations has been moved to a seperated class, also the `readOnly` has been renamed to `isReadOnly`, if you are using the `QuillEditor` you don't have to change anything
+- Allow the developer to use override the `TextInputAction` in both `QuillRawEditor` and `QuillEditor`
+- You can use now the `QuillRawEditor` without `QuillEditorProvider`
+- Bug fixes
+- Add implementation of image cropping in the `example`
+
 ## [8.4.1]
 - Add `copyWith` in `OptionalSize` class
 

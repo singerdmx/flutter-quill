@@ -1,6 +1,7 @@
 library flutter_quill;
 
 export 'src/models/config/quill_configurations.dart';
+export 'src/models/config/raw_editor/configurations.dart';
 export 'src/models/config/toolbar/base_configurations.dart';
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
@@ -22,6 +23,7 @@ export 'src/models/themes/quill_icon_theme.dart';
 export 'src/utils/embeds.dart';
 export 'src/utils/extensions/build_context.dart';
 export 'src/widgets/controller.dart';
+export 'src/widgets/cursor.dart';
 export 'src/widgets/default_styles.dart';
 export 'src/widgets/editor/editor.dart';
 export 'src/widgets/embeds.dart';

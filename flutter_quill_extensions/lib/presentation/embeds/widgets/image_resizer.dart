@@ -48,7 +48,9 @@ class ImageResizerState extends State<ImageResizer> {
       case TargetPlatform.fuchsia:
         return _showMaterialMenu();
       default:
-        throw 'Not supposed to be invoked for $defaultTargetPlatform';
+        throw UnsupportedError(
+          'Not supposed to be invoked for $defaultTargetPlatform',
+        );
     }
   }
 
