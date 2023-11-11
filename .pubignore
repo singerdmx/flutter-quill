@@ -1,3 +1,11 @@
 # For local development
 pubspec_overrides.yaml
 pubspec_overrides.yaml.g
+
+# Github
+.github/
+
+# The example
+example/.fvm/
+example/build/
+example/.dart_tool/

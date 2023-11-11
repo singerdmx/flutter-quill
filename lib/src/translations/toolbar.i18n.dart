@@ -74,7 +74,9 @@ extension Localization on String {
           'Error while saving image': 'Error while saving image',
           'Please enter a text for your link': "e.g., 'Learn more)",
           'Please enter the link url': "e.g., 'https://example.com'",
-          'Please enter a valid image url': 'Please enter a valid image url'
+          'Please enter a valid image url': 'Please enter a valid image url',
+          'Photo': 'Photo',
+          'Image': 'Image',
         },
         'en_us': {
           'Paste a link': 'Paste a link',
