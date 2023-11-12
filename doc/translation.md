@@ -1,6 +1,6 @@
 # Translation
 
-The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your own locale with:
+The package offers translations for the quill toolbar and editor, it will follow the locale that is defined in your `WidgetsApp` for example `MaterialApp` which usually follow the system local and it  unless you set your own locale with:
 
 ```dart
  QuillProvider(

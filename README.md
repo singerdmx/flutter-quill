@@ -26,7 +26,7 @@
 
 FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
 
-This library is a WYSIWYG editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction] to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
+This library is a WYSIWYG editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.md) to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
 
 Pub: [FlutterQuill]
 
@@ -339,6 +339,6 @@ You can check the [Todo](./doc/todo.md) list if you want to
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
-[Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/CodeIntroduction.md
+<!-- [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/code_introduction.md -->
 [FluentUI]: https://pub.dev/packages/fluent_ui
 

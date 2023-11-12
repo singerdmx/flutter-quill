@@ -33,9 +33,8 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        FlutterQuillLocalizations.delegate,
+        // FlutterQuillLocalizations.delegate,
       ],
-      locale: const Locale('ar'),
       supportedLocales: FlutterQuillLocalizations.supportedLocales,
       home: const HomePage(),
     );

@@ -19,7 +19,7 @@ class FlutterQuillLocalizationsWidget extends StatelessWidget {
       return child;
     }
     return Localizations(
-      locale: context.quillSharedConfigurations?.locale ??
+      locale: context.requireQuillSharedConfigurations.locale ??
           Localizations.localeOf(context),
       delegates: FlutterQuillLocalizations.localizationsDelegates,
       child: child,
