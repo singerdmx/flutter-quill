@@ -33,8 +33,8 @@ Pub: [FlutterQuill]
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
   - [Table of contents](#table-of-contents)
-  - [Installation](#installation)
   - [Screenshots](#screenshots)
+  - [Installation](#installation)
   - [Usage](#usage)
   - [Migration](#migration)
   - [Input / Output](#input--output)
@@ -52,6 +52,20 @@ Pub: [FlutterQuill]
   - [Conversion to HTML](#conversion-to-html)
   - [Testing](#testing)
   - [Contributors](#contributors)
+
+## Screenshots
+
+<details>
+<summary>Tap to show/hide screenshots</summary>
+
+<br>
+
+<img src="./example/assets/images/1.png" width="150" alt="Screenshot 1">
+<img src="./example/assets/images/2.png" width="150" alt="Screenshot 2">
+<img src="./example/assets/images/3.png" width="150" alt="Screenshot 3">
+<img src="./example/assets/images/4.png" width="150" alt="Screenshot 4">
+
+</details>
 
 ## Installation
 
@@ -85,20 +99,6 @@ Compatible versions:
 | 8.5.0                   | 0.6.7                    | 0.0.5                   |
 
 Theses versions are tested and well supported, you shouldn't get a build failure
-
-## Screenshots
-
-<details>
-<summary>Tap to show/hide screenshots</summary>
-
-<br>
-
-<img src="./example/assets/images/1.png" width="150" alt="Screenshot 1">
-<img src="./example/assets/images/2.png" width="150" alt="Screenshot 2">
-<img src="./example/assets/images/3.png" width="150" alt="Screenshot 3">
-<img src="./example/assets/images/4.png" width="150" alt="Screenshot 4">
-
-</details>
 
 ## Usage
 
@@ -326,7 +326,12 @@ Open this [page](./doc/translation.md) for more info
 ## Conversion to HTML
 
 Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
-it to other formats such as HTML in order to publish it, or send an email. One option is to use
+it to other formats such as HTML in order to publish it, or send an email.
+
+You have two options:
+
+1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to/from HTML, the package is not ready yet
+2. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML. This package has full support for all Quill operations - including images, videos, formulas,
 tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.

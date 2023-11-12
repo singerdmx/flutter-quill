@@ -27,6 +27,9 @@ jobs:
 
       - name: Install flutter_quill_test dependencies
         run: flutter pub get -C flutter_quill_test
+      
+      - name: Install quill_html_converter dependencies
+        run: flutter pub get -C packages/quill_html_converter
 
       - name: Run flutter analysis
         run: flutter analyze
