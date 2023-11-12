@@ -21,8 +21,7 @@ dependencies:
   flutter_quill: ^8.5.1
   vsc_quill_delta_to_html: ^1.0.3
   html2md: ^1.3.1
-  delta_markdown:
-    path: ./delta_markdown
+  charcode: ^1.3.1
 
 dev_dependencies:
   flutter_test:

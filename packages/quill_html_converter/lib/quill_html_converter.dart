@@ -2,11 +2,12 @@ library quill_html_converter;
 
 import 'dart:convert' show jsonDecode;
 
-import 'package:delta_markdown/delta_markdown.dart' show markdownToDelta;
 import 'package:flutter_quill/flutter_quill.dart' show Delta;
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart'
     as conventer show ConverterOptions, QuillDeltaToHtmlConverter;
+
+import 'src/packages/delta_markdown/delta_markdown.dart' show markdownToDelta;
 
 typedef ConverterOptions = conventer.ConverterOptions;
 
