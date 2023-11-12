@@ -9,13 +9,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../../../flutter_quill.dart';
+import '../../l10n/widgets/localizations.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
 import '../../utils/platform.dart';
 import '../box.dart';
 import '../delegate.dart';
 import '../float_cursor.dart';
 import '../text_selection.dart';
-import '../../l10n/widgets/localizations.dart';
 import 'editor_builder.dart';
 
 /// Base interface for the editor state which defines contract used by

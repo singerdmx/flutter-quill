@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/quill_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';

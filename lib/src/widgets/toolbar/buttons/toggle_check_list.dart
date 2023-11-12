@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/base.dart';
 import '../../../models/config/toolbar/buttons/toggle_check_list.dart';
 import '../../../models/documents/attribute.dart';
