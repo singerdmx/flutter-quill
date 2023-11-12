@@ -20,7 +20,7 @@ cp flutter_quill_test/pubspec_overrides.yaml.g flutter_quill_test/pubspec_overri
 echo ""
 
 echo "Enable local development for all the other packages..."
-cp packages/flutter_quill_html/pubspec_overrides.yaml.g packages/flutter_quill_html/pubspec_overrides.yaml
+cp packages/quill_html_converter/pubspec_overrides.yaml.g packages/quill_html_converter/pubspec_overrides.yaml
 
 echo ""
 

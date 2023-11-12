@@ -1,4 +1,4 @@
-library flutter_quill_html;
+library quill_html_converter;
 
 import 'dart:convert' show jsonDecode;
 

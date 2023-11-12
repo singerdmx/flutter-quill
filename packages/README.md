@@ -9,4 +9,4 @@ that might be outside of the packages main purpose
   - [Packages](#packages)
 
 ## Packages
-- [flutter_quill_html](./flutter_quill_html/)
+- [quill_html_converter](./quill_html_converter/)

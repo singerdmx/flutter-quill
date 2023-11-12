@@ -15,10 +15,10 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/logic/services/image_picker/image_picker.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart';
-import 'package:flutter_quill_html/flutter_quill_html.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:quill_html_converter/quill_html_converter.dart';
 
 import '../widgets/time_stamp_embed_widget.dart';
 import 'read_only_page.dart';
