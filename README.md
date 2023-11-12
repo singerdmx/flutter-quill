@@ -26,7 +26,7 @@
 
 FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
 
-This library is a WYSIWYG editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.md) to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
+This library is a WYSIWYG (What You See Is What You Get) editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.md) to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
 
 Pub: [FlutterQuill]
 
