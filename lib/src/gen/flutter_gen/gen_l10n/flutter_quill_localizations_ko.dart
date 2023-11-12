@@ -221,5 +221,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }

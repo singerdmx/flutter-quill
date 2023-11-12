@@ -24,3 +24,7 @@ rm lib/src/gen/flutter_gen/pubspec.yaml
 echo ""
 echo "Apply dart fixes to the newly generated files"
 dart fix --apply
+
+echo ""
+echo "Formate the newly generated dart files"
+dart format .

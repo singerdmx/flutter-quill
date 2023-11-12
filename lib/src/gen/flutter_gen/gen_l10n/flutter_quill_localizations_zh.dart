@@ -221,12 +221,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get image => '图像';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
 class AppLocalizationsZhCn extends AppLocalizationsZh {
-  AppLocalizationsZhCn(): super('zh_CN');
+  AppLocalizationsZhCn() : super('zh_CN');
 
   @override
   String get pasteLink => '粘贴链接';
@@ -429,7 +430,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
 /// The translations for Chinese, as used in Hong Kong (`zh_HK`).
 class AppLocalizationsZhHk extends AppLocalizationsZh {
-  AppLocalizationsZhHk(): super('zh_HK');
+  AppLocalizationsZhHk() : super('zh_HK');
 
   @override
   String get pasteLink => '貼上連結';

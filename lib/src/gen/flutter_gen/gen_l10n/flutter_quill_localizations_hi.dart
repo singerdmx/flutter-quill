@@ -197,16 +197,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get savedUsingTheNetwork => 'Saved using the network';
 
   @override
-  String get savedUsingLocalStorage => 'स्थानीय संग्रहण का उपयोग करके सहेजा गया';
+  String get savedUsingLocalStorage =>
+      'स्थानीय संग्रहण का उपयोग करके सहेजा गया';
 
   @override
   String get errorWhileSavingImage => 'तस्वीर सहेजते समय त्रुटि';
 
   @override
-  String get pleaseEnterTextForYourLink => "Please enter a text for your link (e.g., 'Learn more')";
+  String get pleaseEnterTextForYourLink =>
+      "Please enter a text for your link (e.g., 'Learn more')";
 
   @override
-  String get pleaseEnterTheLinkURL => "Please enter the link URL (e.g., 'https://example.com')";
+  String get pleaseEnterTheLinkURL =>
+      "Please enter the link URL (e.g., 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -221,5 +224,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }

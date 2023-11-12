@@ -203,10 +203,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "Please enter a text for your link (e.g., 'Learn more')";
+  String get pleaseEnterTextForYourLink =>
+      "Please enter a text for your link (e.g., 'Learn more')";
 
   @override
-  String get pleaseEnterTheLinkURL => "Please enter the link URL (e.g., 'https://example.com')";
+  String get pleaseEnterTheLinkURL =>
+      "Please enter the link URL (e.g., 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -221,12 +223,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
 class AppLocalizationsEnUs extends AppLocalizationsEn {
-  AppLocalizationsEnUs(): super('en_US');
+  AppLocalizationsEnUs() : super('en_US');
 
   @override
   String get pasteLink => 'Paste a link';
@@ -427,10 +430,12 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "Please enter a text for your link (e.g., 'Learn more')";
+  String get pleaseEnterTextForYourLink =>
+      "Please enter a text for your link (e.g., 'Learn more')";
 
   @override
-  String get pleaseEnterTheLinkURL => "Please enter the link URL (e.g., 'https://example.com')";
+  String get pleaseEnterTheLinkURL =>
+      "Please enter the link URL (e.g., 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';

@@ -209,7 +209,8 @@ class AppLocalizationsSw extends AppLocalizations {
   String get pleaseEnterTheLinkURL => "Kwa mfano, 'https://example.com'";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Tafadhali ingiza URL halali ya picha';
+  String get pleaseEnterAValidImageURL =>
+      'Tafadhali ingiza URL halali ya picha';
 
   @override
   String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
@@ -221,5 +222,6 @@ class AppLocalizationsSw extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }

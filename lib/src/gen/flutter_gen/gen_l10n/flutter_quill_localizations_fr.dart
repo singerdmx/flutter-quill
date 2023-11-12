@@ -197,10 +197,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get savedUsingTheNetwork => 'Enregistré via le réseau';
 
   @override
-  String get savedUsingLocalStorage => 'Enregistré en utilisant le stockage local';
+  String get savedUsingLocalStorage =>
+      'Enregistré en utilisant le stockage local';
 
   @override
-  String get errorWhileSavingImage => "Erreur lors de l'enregistrement de l'image";
+  String get errorWhileSavingImage =>
+      "Erreur lors de l'enregistrement de l'image";
 
   @override
   String get pleaseEnterTextForYourLink => "par exemple, 'En savoir plus'";
@@ -209,7 +211,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pleaseEnterTheLinkURL => "par exemple, 'https://example.com'";
 
   @override
-  String get pleaseEnterAValidImageURL => "Veuillez saisir une URL d'image valide";
+  String get pleaseEnterAValidImageURL =>
+      "Veuillez saisir une URL d'image valide";
 
   @override
   String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
@@ -221,5 +224,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }

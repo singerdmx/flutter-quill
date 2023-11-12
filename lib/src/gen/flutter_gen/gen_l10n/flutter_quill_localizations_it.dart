@@ -197,16 +197,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get savedUsingTheNetwork => 'Saved using the network';
 
   @override
-  String get savedUsingLocalStorage => 'Salvato utilizzando la memorizzazione locale';
+  String get savedUsingLocalStorage =>
+      'Salvato utilizzando la memorizzazione locale';
 
   @override
-  String get errorWhileSavingImage => "Errore durante il salvataggio dell'immagine";
+  String get errorWhileSavingImage =>
+      "Errore durante il salvataggio dell'immagine";
 
   @override
-  String get pleaseEnterTextForYourLink => "Please enter a text for your link (e.g., 'Learn more')";
+  String get pleaseEnterTextForYourLink =>
+      "Please enter a text for your link (e.g., 'Learn more')";
 
   @override
-  String get pleaseEnterTheLinkURL => "Please enter the link URL (e.g., 'https://example.com')";
+  String get pleaseEnterTheLinkURL =>
+      "Please enter the link URL (e.g., 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -221,5 +225,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }

@@ -209,7 +209,8 @@ class AppLocalizationsBg extends AppLocalizations {
   String get pleaseEnterTheLinkURL => "Например, 'https://example.com'";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Моля, въведете валиден URL на изображението';
+  String get pleaseEnterAValidImageURL =>
+      'Моля, въведете валиден URL на изображението';
 
   @override
   String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
@@ -221,5 +222,6 @@ class AppLocalizationsBg extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }

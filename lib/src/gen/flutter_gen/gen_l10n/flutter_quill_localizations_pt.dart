@@ -197,7 +197,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get savedUsingTheNetwork => 'Guardado através da network';
 
   @override
-  String get savedUsingLocalStorage => 'Guardado através do armazenamento local';
+  String get savedUsingLocalStorage =>
+      'Guardado através do armazenamento local';
 
   @override
   String get errorWhileSavingImage => 'Erro a gravar imagem';
@@ -221,12 +222,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get image => 'Image';
 
   @override
-  String get caseSensitivityAndWholeWordSearch => 'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
 class AppLocalizationsPtBr extends AppLocalizationsPt {
-  AppLocalizationsPtBr(): super('pt_BR');
+  AppLocalizationsPtBr() : super('pt_BR');
 
   @override
   String get pasteLink => 'Colar um link';
