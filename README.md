@@ -12,7 +12,7 @@
 [![Watch on GitHub][github-forks-badge]][github-forks-link]
 
 [license-badge]: https://img.shields.io/github/license/singerdmx/flutter-quill.svg?style=for-the-badge
-[license-link]: https://github.com/singerdmx/flutter-quill/blob/master/LICENSE
+[license-link]: ./LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge
 [prs-link]: https://github.com/singerdmx/flutter-quill/issues
 [github-watch-badge]: https://img.shields.io/github/watchers/singerdmx/flutter-quill.svg?style=for-the-badge&logo=github&logoColor=ffffff
@@ -249,7 +249,7 @@ fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '
 
 ### Font Family
 
-To use your own fonts, update your [assets folder](https://github.com/singerdmx/flutter-quill/tree/master/example/assets/fonts) and pass in `fontFamilyValues`. More details at [this change](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) and [this](https://www.flutterbeads.com/change-font-family-flutter/).
+To use your own fonts, update your [assets folder](./example/assets/fonts) and pass in `fontFamilyValues`. More details at [this commit](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) and [this](https://www.flutterbeads.com/change-font-family-flutter/).
 
 ### Custom Buttons
 
@@ -364,7 +364,6 @@ You can check the [Todo](./doc/todo.md) list if you want to
 [ReactQuill]: https://github.com/zenoamaro/react-quill
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
-[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
-<!-- [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/code_introduction.md -->
+[Sample Page]: ./example/lib/pages/home_page.dart
 [FluentUI]: https://pub.dev/packages/fluent_ui
 
