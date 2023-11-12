@@ -39,6 +39,7 @@ Pub: [FlutterQuill]
   - [Input / Output](#input--output)
   - [Configurations](#configurations)
     - [Using Custom App Widget](#using-custom-app-widget)
+    - [Localizations setup](#localizations-setup)
     - [Font Size](#font-size)
     - [Font Family](#font-family)
     - [Custom Buttons](#custom-buttons)
@@ -176,9 +177,33 @@ localizationsDelegates: const [
 ],
 ```
 
-in addition to the required delegates by this library
-
 Note: In the latest versions of `FluentApp` you no longer need to add the `localizationsDelegates` but this is just an example, for more [info](https://github.com/bdlukaa/fluent_ui/pull/946)
+
+There are additonal notes in [Localizations](#localizations) section
+
+### Localizations setup
+in addition to the required delegatess which mentioned above in [Using custom app widget](#using-custom-app-widget)
+
+which are:
+```dart
+localizationsDelegates: const [
+    DefaultCupertinoLocalizations.delegate,
+    DefaultMaterialLocalizations.delegate,
+    DefaultWidgetsLocalizations.delegate,
+],
+```
+which are used by offical flutter widgets
+
+The library also needs the 
+```dart
+// Required localizations delegates ...
+FlutterQuillLocalizations.delegate
+```
+
+To offer the default localizations.
+
+But **you don't have to** since we have wraped the `QuillEditor` and `QuillToolbar` with `FlutterQuillLocalizationsWidget` which will check if it sets then it will go, if not, then it will be provided only for them, so it's not really required, but if you are overriding the `localizationsDelegates` you could also add the `FlutterQuillLocalizations.delegate`
+which won't hurt
 
 ### Font Size
 
@@ -301,6 +326,8 @@ Made with [contrib.rocks](https://contrib.rocks).
 We welcome contributions!
 
 Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for more details. <br>
+
+We must mention that the `CONTRIBUTING.md` have a development notes, so if you planning on contribtuing to the repo, please read it.
 
 You can check the [Todo](./doc/todo.md) list if you want to
 
