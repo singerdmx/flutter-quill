@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/models/config/shared_configurations.dart';
 import '../../../../logic/services/image_picker/image_picker.dart';
@@ -56,8 +57,7 @@ class QuillToolbarImageButton extends StatelessWidget {
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context).tooltip ??
-        'Insert image';
-    // ('Insert Image'.i18n);
+        context.localizations.insertImage;
   }
 
   void _sharedOnPressed(BuildContext context) {

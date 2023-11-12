@@ -6,20 +6,17 @@
 
 echo ""
 
+echo "Delete the current generated localizations..."
+rm -rf lib/src/l10n/generated
+echo ""
+
 echo "Run flutter pub get.."
 flutter pub get
 echo ""
 
-echo "Remove the folder: lib/src/gen/flutter_gen"
-rm -rf  lib/src/gen/flutter_gen
-
+echo "Run flutter gen-l10n"
+flutter gen-l10n
 echo ""
-echo "Copy the folder: ./.dart_tool/flutter_gen to lib/src/gen/"
-cp -r ./.dart_tool/flutter_gen lib/src/gen/
-
-echo ""
-echo "Delete unnecessary file: lib/src/gen/flutter_gen/pubspec.yaml"
-rm lib/src/gen/flutter_gen/pubspec.yaml
 
 echo ""
 echo "Apply dart fixes to the newly generated files"

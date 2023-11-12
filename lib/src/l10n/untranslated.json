@@ -1,0 +1,388 @@
+{
+  "ar": [
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "bg": [
+    "savedUsingTheNetwork",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "bn": [
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "cs": [
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "da": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "de": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "en_US": [
+    "pleaseEnterAValidVideoURL",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "es": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "fa": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "fr": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "he": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "hi": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "id": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "it": [
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "ja": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "ko": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "ms": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "nl": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "no": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "pl": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "pt": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "pt_BR": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "ru": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "sr": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "sw": [
+    "savedUsingTheNetwork",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "tk": [
+    "savedUsingTheNetwork",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "tr": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "uk": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "ur": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "vi": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "zh": [
+    "pleaseEnterAValidVideoURL",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "zh_CN": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ],
+
+  "zh_HK": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch",
+    "insertImage"
+  ]
+}

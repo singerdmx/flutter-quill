@@ -36,22 +36,26 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.17.0
-  flutter_colorpicker: ^1.0.3
-  flutter_keyboard_visibility: ^5.4.1
-  quiver: ^3.2.1
-  url_launcher: ^6.1.14
-  characters: ^1.3.0
-  diff_match_patch: ^0.4.1
-  i18n_extension: ^9.0.2
-  device_info_plus: ^9.1.0
-  pasteboard: ^0.2.0
-  equatable: ^2.0.5
-  flutter_animate: ^4.2.0+1
-  meta: ^1.9.1
+
   flutter_localizations:
     sdk: flutter
   intl: any
+
+  # Normal packages
+  collection: ^1.17.0
+  flutter_colorpicker: ^1.0.3
+  quiver: ^3.2.1
+  characters: ^1.3.0
+  diff_match_patch: ^0.4.1
+  equatable: ^2.0.5
+  flutter_animate: ^4.2.0+1
+  meta: ^1.9.1
+
+  # Plugins
+  url_launcher: ^6.1.14
+  flutter_keyboard_visibility: ^5.4.1
+  device_info_plus: ^9.1.0
+  pasteboard: ^0.2.0
 
 dev_dependencies:
   flutter_lints: ^3.0.1

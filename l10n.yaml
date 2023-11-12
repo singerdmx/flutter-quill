@@ -1,5 +1,9 @@
 arb-dir: lib/src/l10n
 template-arb-file: quill_en.arb
-output-localization-file: flutter_quill_localizations.dart
-untranslated-messages-file: untranslated.txt
+output-localization-file: quill_localizations.dart
+output-class: FlutterQuillLocalizations
+format: true
+untranslated-messages-file: lib/src/l10n/untranslated.json
+synthetic-package: false
+output-dir: lib/src/l10n/generated
 # nullable-getter: false

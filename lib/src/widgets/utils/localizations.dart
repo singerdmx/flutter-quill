@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../flutter_quill.dart';
 import '../../extensions/localizations.dart';
 
 class FlutterQuillLocalizationsWidget extends StatelessWidget {
@@ -18,7 +19,8 @@ class FlutterQuillLocalizationsWidget extends StatelessWidget {
       return child;
     }
     return Localizations(
-      locale: Localizations.localeOf(context),
+      locale: context.quillSharedConfigurations?.locale ??
+          Localizations.localeOf(context),
       delegates: FlutterQuillLocalizations.localizationsDelegates,
       child: child,
     );

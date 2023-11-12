@@ -7,7 +7,6 @@ import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
@@ -311,16 +310,13 @@ class QuillEditorState extends State<QuillEditor>
       ),
     );
 
-    final editor = I18n(
-      initialLocale: context.quillSharedConfigurations?.locale,
-      child: selectionEnabled
-          ? _selectionGestureDetectorBuilder.build(
-              behavior: HitTestBehavior.translucent,
-              detectWordBoundary: configurations.detectWordBoundary,
-              child: child,
-            )
-          : child,
-    );
+    final editor = selectionEnabled
+        ? _selectionGestureDetectorBuilder.build(
+            behavior: HitTestBehavior.translucent,
+            detectWordBoundary: configurations.detectWordBoundary,
+            child: child,
+          )
+        : child;
 
     if (isWeb()) {
       // Intercept RawKeyEvent on Web to prevent it from propagating to parents

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
-import '../../extensions/quill_provider.dart';
 import '../../models/config/toolbar/base_configurations.dart';
 import '../utils/localizations.dart';
 import 'buttons/arrow_indicated_list.dart';
@@ -51,42 +49,38 @@ class QuillBaseToolbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final toolbarSize = configurations.toolbarSize;
     return FlutterQuillLocalizationsWidget(
-      child: I18n(
-        initialLocale: context.quillSharedConfigurations?.locale,
-        child: QuillBaseToolbarProvider(
-          toolbarConfigurations: configurations,
-          child: Builder(
-            builder: (context) {
-              if (configurations.multiRowsDisplay) {
-                return Wrap(
-                  direction: configurations.axis,
-                  alignment: configurations.toolbarIconAlignment,
-                  crossAxisAlignment: configurations.toolbarIconCrossAlignment,
-                  runSpacing: 4,
-                  spacing: configurations.toolbarSectionSpacing,
-                  children: configurations.childrenBuilder(context),
-                );
-              }
-              return Container(
-                decoration: configurations.decoration ??
-                    BoxDecoration(
-                      color:
-                          configurations.color ?? Theme.of(context).canvasColor,
-                    ),
-                constraints: BoxConstraints.tightFor(
-                  height: configurations.axis == Axis.horizontal
-                      ? toolbarSize
-                      : null,
-                  width:
-                      configurations.axis == Axis.vertical ? toolbarSize : null,
-                ),
-                child: QuillToolbarArrowIndicatedButtonList(
-                  axis: configurations.axis,
-                  buttons: configurations.childrenBuilder(context),
-                ),
+      child: QuillBaseToolbarProvider(
+        toolbarConfigurations: configurations,
+        child: Builder(
+          builder: (context) {
+            if (configurations.multiRowsDisplay) {
+              return Wrap(
+                direction: configurations.axis,
+                alignment: configurations.toolbarIconAlignment,
+                crossAxisAlignment: configurations.toolbarIconCrossAlignment,
+                runSpacing: 4,
+                spacing: configurations.toolbarSectionSpacing,
+                children: configurations.childrenBuilder(context),
               );
-            },
-          ),
+            }
+            return Container(
+              decoration: configurations.decoration ??
+                  BoxDecoration(
+                    color:
+                        configurations.color ?? Theme.of(context).canvasColor,
+                  ),
+              constraints: BoxConstraints.tightFor(
+                height:
+                    configurations.axis == Axis.horizontal ? toolbarSize : null,
+                width:
+                    configurations.axis == Axis.vertical ? toolbarSize : null,
+              ),
+              child: QuillToolbarArrowIndicatedButtonList(
+                axis: configurations.axis,
+                buttons: configurations.childrenBuilder(context),
+              ),
+            );
+          },
         ),
       ),
     );
