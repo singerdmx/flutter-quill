@@ -77,6 +77,14 @@ dependencies:
 > If the latest version of [FlutterQuill Extensions] is pre-release, then please use it in order to work with the latest stable version of [FlutterQuill]
 >
 
+Compatible versions:
+
+| flutter_quill           | flutter_quill_extensions | flutter_quill_test      |
+|-------------------------|--------------------------|-------------------------|
+| 8.5.0                   | 0.6.7                    | 0.0.5                   |
+
+Theses versions are tested and well supported, you shouldn't get a build failure
+
 ## Screenshots
 
 <details>
