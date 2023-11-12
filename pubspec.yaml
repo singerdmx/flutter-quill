@@ -39,7 +39,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  intl: any
+  intl: ^0.18.1
 
   # Normal packages
   collection: ^1.17.0
