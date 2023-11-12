@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
+import '../../../extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/font_family.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../translations/toolbar.i18n.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
     required this.options,
     required this.controller,
+    required this.defaultDispalyText,
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
         assert(
@@ -20,6 +21,8 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
         );
 
   final QuillToolbarFontFamilyButtonOptions options;
+
+  final String defaultDispalyText;
 
   /// Since we can't get the state from the instace of the widget for comparing
   /// in [didUpdateWidget] then we will have to store reference here
@@ -58,7 +61,7 @@ class QuillToolbarFontFamilyButtonState
   }
 
   String get _defaultDisplayText {
-    return options.initialValue ?? 'Font'.i18n;
+    return options.initialValue ?? widget.defaultDispalyText;
   }
 
   @override
@@ -94,7 +97,7 @@ class QuillToolbarFontFamilyButtonState
           'Nunito': 'nunito',
           'Pacifico': 'pacifico',
           'Roboto Mono': 'roboto-mono',
-          'Clear'.i18n: 'Clear'
+          context.localizations.clear: 'Clear'
         };
     return rawItemsMap;
   }
@@ -132,7 +135,7 @@ class QuillToolbarFontFamilyButtonState
   String get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        'Font family'.i18n;
+        context.localizations.fontFamily;
   }
 
   void _onPressed() {
@@ -176,7 +179,7 @@ class QuillToolbarFontFamilyButtonState
           if (options.overrideTooltipByFontFamily) {
             effectiveTooltip = effectiveTooltip.isNotEmpty
                 ? '$effectiveTooltip: $_currentValue'
-                : '${'Font'.i18n}: $_currentValue';
+                : '${context.localizations.font}: $_currentValue';
           }
           return Tooltip(message: effectiveTooltip, child: child);
         },

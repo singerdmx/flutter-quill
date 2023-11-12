@@ -16,6 +16,7 @@ import '../box.dart';
 import '../delegate.dart';
 import '../float_cursor.dart';
 import '../text_selection.dart';
+import '../utils/localizations.dart';
 import 'editor_builder.dart';
 
 /// Base interface for the editor state which defines contract used by
@@ -240,69 +241,71 @@ class QuillEditorState extends State<QuillEditor>
     final showSelectionToolbar = configurations.enableInteractiveSelection &&
         configurations.enableSelectionToolbar;
 
-    final child = QuillEditorProvider(
-      editorConfigurations: configurations,
-      child: QuillEditorBuilderWidget(
-        builder: configurations.builder,
-        child: QuillRawEditor(
-          key: _editorKey,
-          configurations: QuillRawEditorConfigurations(
-            controller: context.requireQuillController,
-            focusNode: widget.focusNode,
-            scrollController: widget.scrollController,
-            scrollable: configurations.scrollable,
-            scrollBottomInset: configurations.scrollBottomInset,
-            padding: configurations.padding,
-            isReadOnly: configurations.readOnly,
-            placeholder: configurations.placeholder,
-            onLaunchUrl: configurations.onLaunchUrl,
-            contextMenuBuilder: showSelectionToolbar
-                ? (configurations.contextMenuBuilder ??
-                    QuillRawEditorConfigurations.defaultContextMenuBuilder)
-                : null,
-            showSelectionHandles: isMobile(
-              platform: theme.platform,
-              supportWeb: true,
+    final child = FlutterQuillLocalizationsWidget(
+      child: QuillEditorProvider(
+        editorConfigurations: configurations,
+        child: QuillEditorBuilderWidget(
+          builder: configurations.builder,
+          child: QuillRawEditor(
+            key: _editorKey,
+            configurations: QuillRawEditorConfigurations(
+              controller: context.requireQuillController,
+              focusNode: widget.focusNode,
+              scrollController: widget.scrollController,
+              scrollable: configurations.scrollable,
+              scrollBottomInset: configurations.scrollBottomInset,
+              padding: configurations.padding,
+              isReadOnly: configurations.readOnly,
+              placeholder: configurations.placeholder,
+              onLaunchUrl: configurations.onLaunchUrl,
+              contextMenuBuilder: showSelectionToolbar
+                  ? (configurations.contextMenuBuilder ??
+                      QuillRawEditorConfigurations.defaultContextMenuBuilder)
+                  : null,
+              showSelectionHandles: isMobile(
+                platform: theme.platform,
+                supportWeb: true,
+              ),
+              showCursor: configurations.showCursor ?? true,
+              cursorStyle: CursorStyle(
+                color: cursorColor,
+                backgroundColor: Colors.grey,
+                width: 2,
+                radius: cursorRadius,
+                offset: cursorOffset,
+                paintAboveText:
+                    configurations.paintCursorAboveText ?? paintCursorAboveText,
+                opacityAnimates: cursorOpacityAnimates,
+              ),
+              textCapitalization: configurations.textCapitalization,
+              minHeight: configurations.minHeight,
+              maxHeight: configurations.maxHeight,
+              maxContentWidth: configurations.maxContentWidth,
+              customStyles: configurations.customStyles,
+              expands: configurations.expands,
+              autoFocus: configurations.autoFocus,
+              selectionColor: selectionColor,
+              selectionCtrls:
+                  configurations.textSelectionControls ?? textSelectionControls,
+              keyboardAppearance: configurations.keyboardAppearance,
+              enableInteractiveSelection:
+                  configurations.enableInteractiveSelection,
+              scrollPhysics: configurations.scrollPhysics,
+              embedBuilder: _getEmbedBuilder,
+              linkActionPickerDelegate: configurations.linkActionPickerDelegate,
+              customStyleBuilder: configurations.customStyleBuilder,
+              customRecognizerBuilder: configurations.customRecognizerBuilder,
+              floatingCursorDisabled: configurations.floatingCursorDisabled,
+              onImagePaste: configurations.onImagePaste,
+              customShortcuts: configurations.customShortcuts,
+              customActions: configurations.customActions,
+              customLinkPrefixes: configurations.customLinkPrefixes,
+              isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,
+              onTapOutside: configurations.onTapOutside,
+              dialogTheme: configurations.dialogTheme,
+              contentInsertionConfiguration:
+                  configurations.contentInsertionConfiguration,
             ),
-            showCursor: configurations.showCursor ?? true,
-            cursorStyle: CursorStyle(
-              color: cursorColor,
-              backgroundColor: Colors.grey,
-              width: 2,
-              radius: cursorRadius,
-              offset: cursorOffset,
-              paintAboveText:
-                  configurations.paintCursorAboveText ?? paintCursorAboveText,
-              opacityAnimates: cursorOpacityAnimates,
-            ),
-            textCapitalization: configurations.textCapitalization,
-            minHeight: configurations.minHeight,
-            maxHeight: configurations.maxHeight,
-            maxContentWidth: configurations.maxContentWidth,
-            customStyles: configurations.customStyles,
-            expands: configurations.expands,
-            autoFocus: configurations.autoFocus,
-            selectionColor: selectionColor,
-            selectionCtrls:
-                configurations.textSelectionControls ?? textSelectionControls,
-            keyboardAppearance: configurations.keyboardAppearance,
-            enableInteractiveSelection:
-                configurations.enableInteractiveSelection,
-            scrollPhysics: configurations.scrollPhysics,
-            embedBuilder: _getEmbedBuilder,
-            linkActionPickerDelegate: configurations.linkActionPickerDelegate,
-            customStyleBuilder: configurations.customStyleBuilder,
-            customRecognizerBuilder: configurations.customRecognizerBuilder,
-            floatingCursorDisabled: configurations.floatingCursorDisabled,
-            onImagePaste: configurations.onImagePaste,
-            customShortcuts: configurations.customShortcuts,
-            customActions: configurations.customActions,
-            customLinkPrefixes: configurations.customLinkPrefixes,
-            isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,
-            onTapOutside: configurations.onTapOutside,
-            dialogTheme: configurations.dialogTheme,
-            contentInsertionConfiguration:
-                configurations.contentInsertionConfiguration,
           ),
         ),
       ),

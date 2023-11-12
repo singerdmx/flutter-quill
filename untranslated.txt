@@ -1,0 +1,355 @@
+{
+  "ar": [
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "bg": [
+    "savedUsingTheNetwork",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "bn": [
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "cs": [
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "da": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "de": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "en_US": [
+    "pleaseEnterAValidVideoURL",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "es": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "fa": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "fr": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "he": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "hi": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "id": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "it": [
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "ja": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "ko": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "ms": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "nl": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "no": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "pl": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "pt": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "pt_BR": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "ru": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "sr": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "sw": [
+    "savedUsingTheNetwork",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "tk": [
+    "savedUsingTheNetwork",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "tr": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "uk": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "ur": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "vi": [
+    "hex",
+    "material",
+    "color",
+    "savedUsingTheNetwork",
+    "pleaseEnterTextForYourLink",
+    "pleaseEnterTheLinkURL",
+    "pleaseEnterAValidImageURL",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "zh": [
+    "pleaseEnterAValidVideoURL",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "zh_CN": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ],
+
+  "zh_HK": [
+    "hex",
+    "material",
+    "color",
+    "pleaseEnterAValidVideoURL",
+    "photo",
+    "image",
+    "caseSensitivityAndWholeWordSearch"
+  ]
+}

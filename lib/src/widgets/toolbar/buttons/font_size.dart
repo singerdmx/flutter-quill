@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../../flutter_quill.dart';
-import '../../../translations/toolbar.i18n.dart';
+import '../../../extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
+import '../../../models/config/quill_configurations.dart';
+import '../../../models/documents/attribute.dart';
+import '../../../models/documents/style.dart';
+import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/font.dart';
+import '../../controller.dart';
 
 class QuillToolbarFontSizeButton extends StatefulWidget {
   QuillToolbarFontSizeButton({
     required this.options,
     required this.controller,
+    required this.defaultDisplayText,
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? true),
         assert(options.initialValue == null ||
             (options.initialValue?.isNotEmpty ?? true));
 
   final QuillToolbarFontSizeButtonOptions options;
+
+  final String defaultDisplayText;
 
   /// Since we can't get the state from the instace of the widget for comparing
   /// in [didUpdateWidget] then we will have to store reference here
@@ -37,16 +45,16 @@ class QuillToolbarFontSizeButtonState
     final fontSizes = options.rawItemsMap ??
         context.requireQuillToolbarConfigurations.fontSizesValues ??
         {
-          'Small'.i18n: 'small',
-          'Large'.i18n: 'large',
-          'Huge'.i18n: 'huge',
-          'Clear'.i18n: '0'
+          context.localizations.small: 'small',
+          context.localizations.large: 'large',
+          context.localizations.huge: 'huge',
+          context.localizations.clear: '0'
         };
     return fontSizes;
   }
 
   String get _defaultDisplayText {
-    return options.initialValue ?? 'Size'.i18n;
+    return options.initialValue ?? widget.defaultDisplayText;
   }
 
   Style get _selectionStyle => controller.getSelectionStyle();
@@ -130,7 +138,7 @@ class QuillToolbarFontSizeButtonState
   String get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        'Font size'.i18n;
+        context.localizations.fontSize;
   }
 
   void _onPressed() {

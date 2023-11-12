@@ -632,6 +632,9 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           sharedConfigurations: QuillSharedConfigurations(
             animationConfigurations: QuillAnimationConfigurations.enableAll(),
+            locale: const Locale(
+              'de',
+            ),
           ),
         ),
         child: Column(

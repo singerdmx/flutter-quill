@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart'
     show isDesktop, isMobile, replaceStyleStringWithSize;
 import 'package:flutter_quill/flutter_quill.dart'
-    show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
-import 'package:flutter_quill/translations.dart';
+    show
+        ImageUrl,
+        LocalizationsExt,
+        QuillController,
+        StyleAttribute,
+        getEmbedNode;
 
 import '../../../../logic/services/image_saver/s_image_saver.dart';
 import '../../../models/config/editor/image/image.dart';
@@ -37,11 +41,11 @@ class ImageOptionsMenu extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
       child: SimpleDialog(
-        title: Text('Image'.i18n),
+        title: Text(context.localizations.image),
         children: [
           if (!isReadOnly)
             ListTile(
-              title: Text('Resize'.i18n),
+              title: Text(context.localizations.resize),
               leading: const Icon(Icons.settings_outlined),
               onTap: () {
                 Navigator.pop(context);
@@ -81,7 +85,7 @@ class ImageOptionsMenu extends StatelessWidget {
             ),
           ListTile(
             leading: const Icon(Icons.copy_all_outlined),
-            title: Text('Copy'.i18n),
+            title: Text(context.localizations.copy),
             onTap: () async {
               final navigator = Navigator.of(context);
               final imageNode =
@@ -104,7 +108,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 Icons.delete_forever_outlined,
                 color: materialTheme.colorScheme.error,
               ),
-              title: Text('Remove'.i18n),
+              title: Text(context.localizations.remove),
               onTap: () async {
                 Navigator.of(context).pop();
 
@@ -132,10 +136,11 @@ class ImageOptionsMenu extends StatelessWidget {
           ...[
             ListTile(
               leading: const Icon(Icons.save),
-              title: Text('Save'.i18n),
+              title: Text(context.localizations.save),
               enabled: !isDesktop(supportWeb: false),
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);
+                final localizations = context.localizations;
                 Navigator.of(context).pop();
 
                 final saveImageResult = await saveImage(
@@ -149,7 +154,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 if (!imageSavedSuccessfully) {
                   messenger.showSnackBar(SnackBar(
                       content: Text(
-                    'Error while saving image'.i18n,
+                    localizations.errorWhileSavingImage,
                   )));
                   return;
                 }
@@ -157,10 +162,10 @@ class ImageOptionsMenu extends StatelessWidget {
                 String message;
                 switch (saveImageResult.method) {
                   case SaveImageResultMethod.network:
-                    message = 'Saved using the network'.i18n;
+                    message = localizations.savedUsingTheNetwork;
                     break;
                   case SaveImageResultMethod.localStorage:
-                    message = 'Saved using the local storage'.i18n;
+                    message = localizations.savedUsingLocalStorage;
                     break;
                 }
 
@@ -173,7 +178,7 @@ class ImageOptionsMenu extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.zoom_in),
-              title: Text('Zoom'.i18n),
+              title: Text(context.localizations.zoom),
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

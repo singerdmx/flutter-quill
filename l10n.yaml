@@ -1,0 +1,5 @@
+arb-dir: lib/src/l10n
+template-arb-file: quill_en.arb
+output-localization-file: flutter_quill_localizations.dart
+untranslated-messages-file: untranslated.txt
+# nullable-getter: false

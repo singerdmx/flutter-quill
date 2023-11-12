@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart' show LocalizationsExt;
 
 import '../../embed_types/camera.dart';
 
@@ -17,14 +17,14 @@ class SelectCameraActionDialog extends StatelessWidget {
             icon: const Icon(
               Icons.camera,
             ),
-            label: Text('Photo'.i18n),
+            label: Text(context.localizations.photo),
             onPressed: () => Navigator.pop(context, CameraAction.image),
           ),
           TextButton.icon(
             icon: const Icon(
               Icons.video_call,
             ),
-            label: Text('Video'.i18n),
+            label: Text(context.localizations.video),
             onPressed: () => Navigator.pop(context, CameraAction.video),
           )
         ],

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
+import '../../../extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
@@ -122,10 +122,10 @@ class QuillToolbarSelectAlignmentButtonState
       );
     }
     return QuillSelectAlignmentValues(
-      leftAlignment: 'Align left'.i18n,
-      centerAlignment: 'Align center'.i18n,
-      rightAlignment: 'Align right'.i18n,
-      justifyAlignment: 'Justify win width'.i18n,
+      leftAlignment: context.localizations.alignLeft,
+      centerAlignment: context.localizations.alignCenter,
+      rightAlignment: context.localizations.alignRight,
+      justifyAlignment: context.localizations.justifyWinWidth,
     );
   }
 

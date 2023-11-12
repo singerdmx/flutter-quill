@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart' show LocalizationsExt;
 
 class ImageResizer extends StatefulWidget {
   const ImageResizer({
@@ -74,12 +74,12 @@ class ImageResizerState extends State<ImageResizer> {
     ]);
   }
 
-  Widget _slider(
-    double value,
-    double max,
-    String label,
-    ValueChanged<double> onChanged,
-  ) {
+  Widget _slider({
+    required double value,
+    required double max,
+    required bool isHeight,
+    required ValueChanged<double> onChanged,
+  }) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Card(
@@ -88,7 +88,9 @@ class ImageResizerState extends State<ImageResizer> {
             max: max,
             divisions: 1000,
             // Might need to be changed
-            label: label.i18n,
+            label: isHeight
+                ? context.localizations.height
+                : context.localizations.width,
             onChanged: (val) {
               setState(() {
                 onChanged(val);
@@ -100,15 +102,25 @@ class ImageResizerState extends State<ImageResizer> {
   }
 
   Widget _heightSlider() {
-    return _slider(_height, widget.maxHeight, 'Height', (value) {
-      _height = value;
-    });
+    return _slider(
+      value: _height,
+      max: widget.maxHeight,
+      isHeight: true,
+      onChanged: (value) {
+        _height = value;
+      },
+    );
   }
 
   Widget _widthSlider() {
-    return _slider(_width, widget.maxWidth, 'Width', (value) {
-      _width = value;
-    });
+    return _slider(
+      value: _width,
+      max: widget.maxWidth,
+      isHeight: false,
+      onChanged: (value) {
+        _width = value;
+      },
+    );
   }
 
   bool _scheduled = false;

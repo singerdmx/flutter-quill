@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
+import '../../../extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/base.dart';
 import '../../../models/config/toolbar/buttons/toggle_check_list.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import 'toggle_style.dart';
@@ -121,7 +121,7 @@ class QuillToolbarToggleCheckListButtonState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        'Checked list'.i18n;
+        context.localizations.checkedList;
   }
 
   @override

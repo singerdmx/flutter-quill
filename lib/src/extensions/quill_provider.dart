@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 
-import '../../../flutter_quill.dart';
+import '../../flutter_quill.dart';
 
 // TODO: The comments of this file is outdated and needs to be updated
 
 /// Public shared extension
-extension BuildContextExt on BuildContext {
+extension QuillProviderExt on BuildContext {
   /// return [QuillProvider] as not null
   /// throw exception if it's not in the widget tree
   QuillProvider get requireQuillProvider {

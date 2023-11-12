@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../../translations.dart';
+import '../../../extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
 
@@ -83,7 +83,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        'Header style'.i18n;
+        context.localizations.headerStyle;
   }
 
   Axis get axis {

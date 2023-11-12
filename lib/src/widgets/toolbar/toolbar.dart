@@ -96,6 +96,7 @@ class QuillToolbar extends StatelessWidget {
                   controller: toolbarConfigurations
                           .buttonOptions.fontFamily.controller ??
                       globalController,
+                  defaultDispalyText: context.localizations.font,
                 ),
                 spacerWidget,
               ],
@@ -105,6 +106,7 @@ class QuillToolbar extends StatelessWidget {
                   controller: toolbarConfigurations
                           .buttonOptions.fontFamily.controller ??
                       globalController,
+                  defaultDisplayText: context.localizations.fontSize,
                 ),
                 spacerWidget,
               ],

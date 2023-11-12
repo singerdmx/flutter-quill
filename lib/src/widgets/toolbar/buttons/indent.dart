@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/indent.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../translations/toolbar.i18n.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart'
     show QuillToolbarBaseButtonOptions, QuillToolbarIconButton;
@@ -70,7 +70,9 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        (widget.isIncrease ? 'Increase indent'.i18n : 'Decrease indent'.i18n);
+        (widget.isIncrease
+            ? context.localizations.increaseIndent
+            : context.localizations.decreaseIndent);
   }
 
   void _sharedOnPressed() {

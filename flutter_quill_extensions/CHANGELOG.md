@@ -1,3 +1,6 @@
+## 0.6.7
+- Support the new localization system of `flutter_quill`
+
 ## 0.6.6
 - Add `onImageClicked` in the `QuillEditorImageEmbedConfigurations`
 - Fix image resizing on mobile
