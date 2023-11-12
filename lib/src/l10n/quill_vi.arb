@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "Lỗi khi lưu hình ảnh",
     "enterTextForYourLink": "e.g., 'Tìm hiểu thêm'",
     "enterLinkURL": "e.g., 'https://example.com'",
-    "enterValidImageURL": "Vui lòng nhập URL hình ảnh hợp lệ"
+    "enterValidImageURL": "Vui lòng nhập URL hình ảnh hợp lệ",
+    "hex": "Hex",
+    "material": "Chất liệu",
+    "color": "Màu",
+    "savedUsingTheNetwork": "Đã lưu bằng cách sử dụng mạng",
+    "pleaseEnterTextForYourLink": "Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: 'Tìm hiểu thêm')",
+    "pleaseEnterTheLinkURL": "Vui lòng nhập URL của liên kết (ví dụ: 'https://example.com')",
+    "pleaseEnterAValidImageURL": "Vui lòng nhập URL hình ảnh hợp lệ",
+    "pleaseEnterAValidVideoURL": "Vui lòng nhập URL video hợp lệ",
+    "photo": "Ảnh",
+    "image": "Hình ảnh",
+    "caseSensitivityAndWholeWordSearch": "Độ nhạy cảm chữ hoa/chữ thường và tìm kiếm toàn bộ từ",
+    "insertImage": "Chèn hình ảnh"
 }
   

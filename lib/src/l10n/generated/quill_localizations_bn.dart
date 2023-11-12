@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'পরবর্তী ঘটনায় চলুন';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'নেটওয়ার্ক ব্যবহার করে সংরক্ষিত';
 
   @override
   String get savedUsingLocalStorage => 'স্থানীয় সংরক্ষণ ব্যবহার করে সংরক্ষিত';
@@ -204,28 +204,28 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "আপনার লিঙ্কের জন্য একটি টেক্সট লিখুন (উদাঃ 'আরও জানুন')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "দয়া করে লিঙ্ক URL লিখুন (উদাঃ 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'দয়া করে একটি বৈধ চিত্র URL লিখুন';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'দয়া করে একটি বৈধ ভিডিও URL লিখুন';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'ফটো';
 
   @override
-  String get image => 'Image';
+  String get image => 'চিত্র';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'কেস সেন্সিটিভিটি এবং পূর্ণ শব্দ অনুসন্ধান';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'চিত্র সন্নিবেশ';
 }

@@ -68,6 +68,15 @@
     "errorWhileSavingImage": "চিত্র সংরক্ষণে সময়ে ত্রুটি",
     "enterTextForYourLink": "আপনার লিঙ্কের জন্য একটি টেক্সট লিখুন, উদাহরণস্বরূপ, 'আরও জানুন'",
     "enterLinkURL": "আপনার লিঙ্ক URL লিখুন, উদাহরণস্বরূপ, 'https://example.com'",
-    "enterValidImageURL": "একটি বৈধ চিত্র URL লিখুন"
+    "enterValidImageURL": "একটি বৈধ চিত্র URL লিখুন",
+    "savedUsingTheNetwork": "নেটওয়ার্ক ব্যবহার করে সংরক্ষিত",
+    "pleaseEnterTextForYourLink": "আপনার লিঙ্কের জন্য একটি টেক্সট লিখুন (উদাঃ 'আরও জানুন')",
+    "pleaseEnterTheLinkURL": "দয়া করে লিঙ্ক URL লিখুন (উদাঃ 'https://example.com')",
+    "pleaseEnterAValidImageURL": "দয়া করে একটি বৈধ চিত্র URL লিখুন",
+    "pleaseEnterAValidVideoURL": "দয়া করে একটি বৈধ ভিডিও URL লিখুন",
+    "photo": "ফটো",
+    "image": "চিত্র",
+    "caseSensitivityAndWholeWordSearch": "কেস সেন্সিটিভিটি এবং পূর্ণ শব্দ অনুসন্ধান",
+    "insertImage": "চিত্র সন্নিবেশ"
   }
   

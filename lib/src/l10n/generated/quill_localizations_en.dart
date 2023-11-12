@@ -444,8 +444,18 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
+  String get pleaseEnterAValidVideoURL => 'Please enter a valid video URL';
+
+  @override
   String get photo => 'Photo';
 
   @override
   String get image => 'Image';
+
+  @override
+  String get caseSensitivityAndWholeWordSearch =>
+      'Case sensitivity and whole word search';
+
+  @override
+  String get insertImage => 'Insert Image';
 }

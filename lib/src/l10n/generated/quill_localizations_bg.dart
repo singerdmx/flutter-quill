@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Премести към следващото съвпадение';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Запазено с помощта на мрежата';
 
   @override
   String get savedUsingLocalStorage => 'Saved using the local storage';
@@ -213,18 +213,19 @@ class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
       'Моля, въведете валиден URL на изображението';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'Моля, въведете валиден URL адрес за видео';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Снимка';
 
   @override
-  String get image => 'Image';
+  String get image => 'Изображение';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Чувствителност на кутията и търсене на цялата дума';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Вмъкване на изображение';
 }

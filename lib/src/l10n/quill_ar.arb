@@ -68,6 +68,11 @@
     "errorWhileSavingImage": "حدث خطأ أثناء حفظ الصورة",
     "pleaseEnterTextForYourLink": "مثال: 'تعلم المزيد'",
     "pleaseEnterTheLinkURL": "مثال: 'https://example.com'",
-    "pleaseEnterAValidImageURL": "الرجاء إدخال عنوان URL صحيح للصورة"
+    "pleaseEnterAValidImageURL": "الرجاء إدخال عنوان URL صحيح للصورة",
+    "pleaseEnterAValidVideoURL": "الرجاء إدخال عنوان URL صالح للفيديو",
+    "photo": "صورة",
+    "image": "صورة",
+    "caseSensitivityAndWholeWordSearch": "حالة الحساسية والبحث عن كلمة كاملة",
+    "insertImage": "إدراج صورة"
 }
   

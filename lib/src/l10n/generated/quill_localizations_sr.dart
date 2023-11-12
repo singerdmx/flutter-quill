@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Materijal';
 
   @override
-  String get color => 'Color';
+  String get color => 'Boja';
 
   @override
   String get findText => 'Nađi tekst';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Idi na sledeće pojavljivanje';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Sačuvano korišćenjem mreže';
 
   @override
   String get savedUsingLocalStorage =>
@@ -205,28 +205,28 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "Unesite tekst za svoj link (na primer, 'Saznajte više')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "Unesite URL linka (na primer, 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'Unesite važeći URL slike';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'Unesite važeći URL videa';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Foto';
 
   @override
-  String get image => 'Image';
+  String get image => 'Slika';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Osetljivost na velika i mala slova i potraga za celom rečju';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Umetni sliku';
 }

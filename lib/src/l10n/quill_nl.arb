@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "Error while saving image",
     "enterTextForYourLink": "Bijvoorbeeld, 'Lees meer'",
     "enterLinkURL": "Bijvoorbeeld, 'https://example.com'",
-    "enterValidImageURL": "Voer een geldige afbeeldings-URL in"
+    "enterValidImageURL": "Voer een geldige afbeeldings-URL in",
+    "hex": "Hex",
+    "material": "Materiaal",
+    "color": "Kleur",
+    "savedUsingTheNetwork": "Opgeslagen via het netwerk",
+    "pleaseEnterTextForYourLink": "Voer tekst in voor uw link (bijvoorbeeld 'Meer weten')",
+    "pleaseEnterTheLinkURL": "Voer de URL van de link in (bijvoorbeeld 'https://example.com')",
+    "pleaseEnterAValidImageURL": "Voer een geldige URL voor de afbeelding in",
+    "pleaseEnterAValidVideoURL": "Voer een geldige URL voor de video in",
+    "photo": "Foto",
+    "image": "Afbeelding",
+    "caseSensitivityAndWholeWordSearch": "Hoofdlettergevoeligheid en volledig woord zoeken",
+    "insertImage": "Afbeelding invoegen"
   }
   

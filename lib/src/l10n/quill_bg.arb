@@ -68,6 +68,12 @@
     "errorWhileSavingImage": "Error while saving image",
     "pleaseEnterTextForYourLink": "Например, 'Научете повече'",
     "pleaseEnterTheLinkURL": "Например, 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Моля, въведете валиден URL на изображението"
+    "pleaseEnterAValidImageURL": "Моля, въведете валиден URL на изображението",
+    "savedUsingTheNetwork": "Запазено с помощта на мрежата",
+    "pleaseEnterAValidVideoURL": "Моля, въведете валиден URL адрес за видео",
+    "photo": "Снимка",
+    "image": "Изображение",
+    "caseSensitivityAndWholeWordSearch": "Чувствителност на кутията и търсене на цялата дума",
+    "insertImage": "Вмъкване на изображение"
   }
   

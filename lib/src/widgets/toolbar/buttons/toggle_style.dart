@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
@@ -88,39 +88,33 @@ class QuillToolbarToggleStyleButtonState
   (String?, IconData) get _defaultTooltipAndIconData {
     switch (widget.attribute.key) {
       case 'bold':
-        return (context.localizations.bold, Icons.format_bold);
+        return (context.loc.bold, Icons.format_bold);
       case 'script':
         if (widget.attribute.value == ScriptAttributes.sub.value) {
-          return (context.localizations.subscript, Icons.subscript);
+          return (context.loc.subscript, Icons.subscript);
         }
-        return (context.localizations.superscript, Icons.superscript);
+        return (context.loc.superscript, Icons.superscript);
       case 'italic':
-        return (context.localizations.italic, Icons.format_italic);
+        return (context.loc.italic, Icons.format_italic);
       case 'small':
-        return (context.localizations.small, Icons.format_size);
+        return (context.loc.small, Icons.format_size);
       case 'underline':
-        return (context.localizations.underline, Icons.format_underline);
+        return (context.loc.underline, Icons.format_underline);
       case 'strike':
-        return (
-          context.localizations.strikeThrough,
-          Icons.format_strikethrough
-        );
+        return (context.loc.strikeThrough, Icons.format_strikethrough);
       case 'code':
-        return (context.localizations.inlineCode, Icons.code);
+        return (context.loc.inlineCode, Icons.code);
       case 'direction':
-        return (
-          context.localizations.textDirection,
-          Icons.format_textdirection_r_to_l
-        );
+        return (context.loc.textDirection, Icons.format_textdirection_r_to_l);
       case 'list':
         if (widget.attribute.value == 'bullet') {
-          return (context.localizations.bulletList, Icons.format_list_bulleted);
+          return (context.loc.bulletList, Icons.format_list_bulleted);
         }
-        return (context.localizations.numberedList, Icons.format_list_numbered);
+        return (context.loc.numberedList, Icons.format_list_numbered);
       case 'code-block':
-        return (context.localizations.codeBlock, Icons.code);
+        return (context.loc.codeBlock, Icons.code);
       case 'blockquote':
-        return (context.localizations.quote, Icons.format_quote);
+        return (context.loc.quote, Icons.format_quote);
       default:
         throw ArgumentError(
           'Could not find the default tooltip for '

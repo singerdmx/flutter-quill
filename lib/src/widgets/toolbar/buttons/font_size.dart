@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/config/quill_configurations.dart';
 import '../../../models/documents/attribute.dart';
@@ -45,10 +45,10 @@ class QuillToolbarFontSizeButtonState
     final fontSizes = options.rawItemsMap ??
         context.requireQuillToolbarConfigurations.fontSizesValues ??
         {
-          context.localizations.small: 'small',
-          context.localizations.large: 'large',
-          context.localizations.huge: 'huge',
-          context.localizations.clear: '0'
+          context.loc.small: 'small',
+          context.loc.large: 'large',
+          context.loc.huge: 'huge',
+          context.loc.clear: '0'
         };
     return fontSizes;
   }
@@ -138,7 +138,7 @@ class QuillToolbarFontSizeButtonState
   String get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        context.localizations.fontSize;
+        context.loc.fontSize;
   }
 
   void _onPressed() {

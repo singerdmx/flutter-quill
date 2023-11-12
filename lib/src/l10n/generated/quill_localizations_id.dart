@@ -182,7 +182,7 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
   String get material => 'Material';
 
   @override
-  String get color => 'Color';
+  String get color => 'Warna';
 
   @override
   String get findText => 'Temukan Teks';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Pindah ke Kejadian Berikutnya';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Tersimpan menggunakan jaringan';
 
   @override
   String get savedUsingLocalStorage =>
@@ -205,28 +205,29 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "Harap masukkan teks untuk tautan Anda (contoh: 'Pelajari lebih lanjut')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "Harap masukkan URL tautan (contoh: 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Harap masukkan URL gambar yang valid';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'Harap masukkan URL video yang valid';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Foto';
 
   @override
-  String get image => 'Image';
+  String get image => 'Gambar';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Sensitivitas huruf besar dan kecil dan pencarian kata utuh';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Sisipkan Gambar';
 }

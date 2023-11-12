@@ -212,18 +212,17 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => '유효한 비디오 URL을 입력하세요';
 
   @override
-  String get photo => 'Photo';
+  String get photo => '사진';
 
   @override
-  String get image => 'Image';
+  String get image => '이미지';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch => '대소문자 구분 및 전체 단어 검색';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => '이미지 삽입';
 }

@@ -176,13 +176,13 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get apply => 'لگائیں';
 
   @override
-  String get hex => 'Hex';
+  String get hex => 'ہیکس';
 
   @override
-  String get material => 'Material';
+  String get material => 'مواد';
 
   @override
-  String get color => 'Color';
+  String get color => 'رنگ';
 
   @override
   String get findText => 'متن تلاش کریں';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'اگلے واقعہ پر منتقل ہوں';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'نیٹ ورک کا استعمال کر کے محفوظ ہوا';
 
   @override
   String get savedUsingLocalStorage =>
@@ -205,28 +205,30 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "براہ کرم اپنے لنک کے لیے متن درج کریں (مثال کے طور پر، 'مزید جانیں')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "براہ کرم لنک کا URL درج کریں (مثال کے طور پر، 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'براہ کرم ایک درست تصویر URL درج کریں';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'براہ کرم ایک درست ویڈیو URL درج کریں';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'تصویر';
 
   @override
-  String get image => 'Image';
+  String get image => 'تصویر';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'معاملے کی حساسیت اور پورے الفاظ کی تلاش';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'تصویر داخل کریں';
 }

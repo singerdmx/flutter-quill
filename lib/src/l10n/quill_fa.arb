@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "خطا در هنگام ذخیره تصویر",
     "enterTextForYourLink": "برای مثال، 'بیشتر بیاموزید'",
     "enterLinkURL": "برای مثال، 'https://example.com'",
-    "enterValidImageURL": "لطفاً یک URL تصویر معتبر وارد کنید"
+    "enterValidImageURL": "لطفاً یک URL تصویر معتبر وارد کنید",
+    "hex": "Hex",
+    "material": "مواد",
+    "color": "رنگ",
+    "savedUsingTheNetwork": "با استفاده از شبکه ذخیره شده است",
+    "pleaseEnterTextForYourLink": "لطفاً متن لینک خود را وارد کنید (مثال: 'بیشتر بدانید')",
+    "pleaseEnterTheLinkURL": "لطفاً URL لینک را وارد کنید (مثال: 'https://example.com')",
+    "pleaseEnterAValidImageURL": "لطفاً یک URL تصویر معتبر وارد کنید",
+    "pleaseEnterAValidVideoURL": "لطفاً یک URL ویدیوی معتبر وارد کنید",
+    "photo": "عکس",
+    "image": "تصویر",
+    "caseSensitivityAndWholeWordSearch": "حساسیت به کوچکی و بزرگی حروف و جستجوی کلمه کامل",
+    "insertImage": "وارد کردن تصویر"
   }
   

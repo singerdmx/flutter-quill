@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Chất liệu';
 
   @override
-  String get color => 'Color';
+  String get color => 'Màu';
 
   @override
   String get findText => 'Tìm văn bản';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Di chuyển đến lần xuất hiện tiếp theo';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Đã lưu bằng cách sử dụng mạng';
 
   @override
   String get savedUsingLocalStorage => 'Đã lưu sử dụng lưu trữ địa phương';
@@ -204,28 +204,28 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: 'Tìm hiểu thêm')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "Vui lòng nhập URL của liên kết (ví dụ: 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'Vui lòng nhập URL hình ảnh hợp lệ';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'Vui lòng nhập URL video hợp lệ';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Ảnh';
 
   @override
-  String get image => 'Image';
+  String get image => 'Hình ảnh';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Độ nhạy cảm chữ hoa/chữ thường và tìm kiếm toàn bộ từ';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Chèn hình ảnh';
 }

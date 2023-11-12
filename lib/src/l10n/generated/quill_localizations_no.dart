@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Materiale';
 
   @override
-  String get color => 'Color';
+  String get color => 'Farge';
 
   @override
   String get findText => 'Finn tekst';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Gå til neste forekomst';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Lagret ved hjelp av nettverket';
 
   @override
   String get savedUsingLocalStorage => 'Lagret ved hjelp av lokal lagring';
@@ -204,28 +204,30 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "Vennligst skriv inn tekst for lenken din (for eksempel 'Lær mer')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "Vennligst skriv inn lenkens URL (for eksempel 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Vennligst skriv inn en gyldig bilde-URL';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'Vennligst skriv inn en gyldig video-URL';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Bilde';
 
   @override
-  String get image => 'Image';
+  String get image => 'Bilde';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Stor/liten bokstavfølsomhet og helordsøk';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Sett inn bilde';
 }

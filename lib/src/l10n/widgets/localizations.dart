@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../flutter_quill.dart';
-import '../../extensions/localizations.dart';
+import '../extensions/localizations.dart';
 
 class FlutterQuillLocalizationsWidget extends StatelessWidget {
   const FlutterQuillLocalizationsWidget({

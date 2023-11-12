@@ -41,189 +41,192 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get text => 'Текст';
 
   @override
-  String get resize => 'Resize';
+  String get resize => 'Змінити розмір';
 
   @override
-  String get width => 'Width';
+  String get width => 'Ширина';
 
   @override
-  String get height => 'Height';
+  String get height => 'Висота';
 
   @override
-  String get size => 'Size';
+  String get size => 'Розмір';
 
   @override
-  String get small => 'Small';
+  String get small => 'Малий';
 
   @override
-  String get large => 'Large';
+  String get large => 'Великий';
 
   @override
-  String get huge => 'Huge';
+  String get huge => 'Величезний';
 
   @override
-  String get clear => 'Clear';
+  String get clear => 'Очистити';
 
   @override
-  String get font => 'Font';
+  String get font => 'Шрифт';
 
   @override
-  String get search => 'Search';
+  String get search => 'Пошук';
 
   @override
-  String get camera => 'Camera';
+  String get camera => 'Камера';
 
   @override
-  String get video => 'Video';
+  String get video => 'Відео';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Скасувати';
 
   @override
-  String get redo => 'Redo';
+  String get redo => 'Повторити';
 
   @override
-  String get fontFamily => 'Font family';
+  String get fontFamily => 'Сімейство шрифтів';
 
   @override
-  String get fontSize => 'Font size';
+  String get fontSize => 'Розмір шрифту';
 
   @override
-  String get bold => 'Bold';
+  String get bold => 'Жирний';
 
   @override
-  String get subscript => 'Subscript';
+  String get subscript => 'Нижній індекс';
 
   @override
-  String get superscript => 'Superscript';
+  String get superscript => 'Верхній індекс';
 
   @override
-  String get italic => 'Italic';
+  String get italic => 'Курсив';
 
   @override
-  String get underline => 'Underline';
+  String get underline => 'Підкреслити';
 
   @override
-  String get strikeThrough => 'Strike through';
+  String get strikeThrough => 'Закреслений';
 
   @override
-  String get inlineCode => 'Inline code';
+  String get inlineCode => 'Вбудований код';
 
   @override
-  String get fontColor => 'Font color';
+  String get fontColor => 'Колір шрифту';
 
   @override
-  String get backgroundColor => 'Background color';
+  String get backgroundColor => 'Колір фону';
 
   @override
-  String get clearFormat => 'Clear format';
+  String get clearFormat => 'Очистити формат';
 
   @override
-  String get alignLeft => 'Align left';
+  String get alignLeft => 'Вирівняти ліворуч';
 
   @override
-  String get alignCenter => 'Align center';
+  String get alignCenter => 'Вирівняти по центру';
 
   @override
-  String get alignRight => 'Align right';
+  String get alignRight => 'Вирівняти праворуч';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Вирівняти за шириною вікна';
 
   @override
-  String get textDirection => 'Text direction';
+  String get textDirection => 'Напрямок тексту';
 
   @override
-  String get headerStyle => 'Header style';
+  String get headerStyle => 'Стиль заголовка';
 
   @override
-  String get numberedList => 'Numbered list';
+  String get numberedList => 'Нумерований список';
 
   @override
-  String get bulletList => 'Bullet list';
+  String get bulletList => 'Маркований список';
 
   @override
-  String get checkedList => 'Checked list';
+  String get checkedList => 'Список з позначками';
 
   @override
-  String get codeBlock => 'Code block';
+  String get codeBlock => 'Блок коду';
 
   @override
-  String get quote => 'Quote';
+  String get quote => 'Цитата';
 
   @override
-  String get increaseIndent => 'Increase indent';
+  String get increaseIndent => 'Збільшити відступ';
 
   @override
-  String get decreaseIndent => 'Decrease indent';
+  String get decreaseIndent => 'Зменшити відступ';
 
   @override
-  String get insertURL => 'Insert URL';
+  String get insertURL => 'Вставити URL';
 
   @override
-  String get visitLink => 'Visit link';
+  String get visitLink => 'Відвідати посилання';
 
   @override
-  String get enterLink => 'Enter link';
+  String get enterLink => 'Ввести посилання';
 
   @override
-  String get enterMedia => 'Enter media';
+  String get enterMedia => 'Ввести медіа';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Редагувати';
 
   @override
-  String get apply => 'Apply';
+  String get apply => 'Застосувати';
 
   @override
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Матеріал';
 
   @override
-  String get color => 'Color';
+  String get color => 'Колір';
 
   @override
-  String get findText => 'Find text';
+  String get findText => 'Знайти текст';
 
   @override
-  String get moveToPreviousOccurrence => 'Move to previous occurrence';
+  String get moveToPreviousOccurrence => 'Перейти до попереднього випадку';
 
   @override
-  String get moveToNextOccurrence => 'Move to next occurrence';
+  String get moveToNextOccurrence => 'Перейти до наступного випадку';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Збережено за допомогою мережі';
 
   @override
-  String get savedUsingLocalStorage => 'Saved using the local storage';
+  String get savedUsingLocalStorage =>
+      'Збережено за допомогою локального сховища';
 
   @override
-  String get errorWhileSavingImage => 'Error while saving image';
+  String get errorWhileSavingImage => 'Помилка при збереженні зображення';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => "Наприклад, 'Дізнатися більше'";
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => "Наприклад, 'https://example.com'";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Будь ласка, введіть правильний URL-адресу зображення';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'Будь ласка, введіть дійсну URL-адресу відео';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Фото';
 
   @override
-  String get image => 'Image';
+  String get image => 'Зображення';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Чутливість до регістру та пошук цілих слів';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Вставити зображення';
 }

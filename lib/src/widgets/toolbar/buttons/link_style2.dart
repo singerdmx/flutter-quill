@@ -4,7 +4,7 @@ import 'package:url_launcher/link.dart';
 
 import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/link_style2.dart';
 import '../../../models/documents/attribute.dart';
@@ -97,7 +97,7 @@ class _QuillToolbarLinkStyleButton2State
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        context.localizations.insertURL;
+        context.loc.insertURL;
   }
 
   IconData get iconData {
@@ -308,7 +308,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
     final children = _isEditMode
         ? [
-            Text(widget.editLinkLabel ?? context.localizations.visitLink),
+            Text(widget.editLinkLabel ?? context.loc.visitLink),
             UtilityWidgets.maybeWidget(
               enabled: !isWrappable,
               wrapper: (child) => Expanded(
@@ -349,19 +349,19 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
                 });
               },
               style: buttonStyle,
-              child: Text(context.localizations.edit),
+              child: Text(context.loc.edit),
             ),
             Padding(
               padding: EdgeInsets.only(left: widget.childrenSpacing),
               child: ElevatedButton(
                 onPressed: _removeLink,
                 style: buttonStyle,
-                child: Text(context.localizations.remove),
+                child: Text(context.loc.remove),
               ),
             ),
           ]
         : [
-            Text(widget.addLinkLabel ?? context.localizations.enterLink),
+            Text(widget.addLinkLabel ?? context.loc.enterLink),
             UtilityWidgets.maybeWidget(
               enabled: !isWrappable,
               wrapper: (child) => Expanded(
@@ -388,7 +388,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
             ElevatedButton(
               onPressed: _canPress() ? _applyLink : null,
               style: buttonStyle,
-              child: Text(context.localizations.apply),
+              child: Text(context.loc.apply),
             ),
           ];
 

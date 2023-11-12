@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "تصویر کو محفوظ کرتے وقت خطا",
     "enterTextForYourLink": "مثال: 'مزید جانیں'",
     "enterLinkURL": "مثال: 'https://example.com'",
-    "enterValidImageURL": "براہ کرم ایک درست تصویر URL درج کریں"
+    "enterValidImageURL": "براہ کرم ایک درست تصویر URL درج کریں",
+    "hex": "ہیکس",
+    "material": "مواد",
+    "color": "رنگ",
+    "savedUsingTheNetwork": "نیٹ ورک کا استعمال کر کے محفوظ ہوا",
+    "pleaseEnterTextForYourLink": "براہ کرم اپنے لنک کے لیے متن درج کریں (مثال کے طور پر، 'مزید جانیں')",
+    "pleaseEnterTheLinkURL": "براہ کرم لنک کا URL درج کریں (مثال کے طور پر، 'https://example.com')",
+    "pleaseEnterAValidImageURL": "براہ کرم ایک درست تصویر URL درج کریں",
+    "pleaseEnterAValidVideoURL": "براہ کرم ایک درست ویڈیو URL درج کریں",
+    "photo": "تصویر",
+    "image": "تصویر",
+    "caseSensitivityAndWholeWordSearch": "معاملے کی حساسیت اور پورے الفاظ کی تلاش",
+    "insertImage": "تصویر داخل کریں"
   }
   

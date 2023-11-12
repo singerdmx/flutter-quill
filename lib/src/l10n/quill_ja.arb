@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "画像の保存中にエラーが発生しました",
     "pleaseEnterTextForYourLink": "例: 'Learn more'",
     "pleaseEnterTheLinkURL": "例: 'https://example.com'",
-    "pleaseEnterAValidImageURL": "有効な画像URLを入力してください"
+    "pleaseEnterAValidImageURL": "有効な画像URLを入力してください",
+    "hex": "Hex",
+    "material": "Material",
+    "color": "Color",
+    "pleaseEnterAValidVideoURL": "有効なビデオURLを入力してください",
+    "photo": "写真",
+    "image": "画像",
+    "caseSensitivityAndWholeWordSearch": "大文字と小文字の区別と完全一致検索",
+    "insertImage": "画像を挿入"
   }
   

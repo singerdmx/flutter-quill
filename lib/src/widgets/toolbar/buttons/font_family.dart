@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/font_family.dart';
 import '../../../models/documents/attribute.dart';
@@ -97,7 +97,7 @@ class QuillToolbarFontFamilyButtonState
           'Nunito': 'nunito',
           'Pacifico': 'pacifico',
           'Roboto Mono': 'roboto-mono',
-          context.localizations.clear: 'Clear'
+          context.loc.clear: 'Clear'
         };
     return rawItemsMap;
   }
@@ -135,7 +135,7 @@ class QuillToolbarFontFamilyButtonState
   String get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        context.localizations.fontFamily;
+        context.loc.fontFamily;
   }
 
   void _onPressed() {
@@ -179,7 +179,7 @@ class QuillToolbarFontFamilyButtonState
           if (options.overrideTooltipByFontFamily) {
             effectiveTooltip = effectiveTooltip.isNotEmpty
                 ? '$effectiveTooltip: $_currentValue'
-                : '${context.localizations.font}: $_currentValue';
+                : '${context.loc.font}: $_currentValue';
           }
           return Tooltip(message: effectiveTooltip, child: child);
         },

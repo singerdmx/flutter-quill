@@ -68,6 +68,15 @@
     "errorWhileSavingImage": "Chyba při ukládání obrázku",
     "enterTextForYourLink": "Například 'Zjistit více'",
     "enterLinkURL": "Například 'https://example.com'",
-    "enterValidImageURL": "Vložte platný URL obrázku"
+    "enterValidImageURL": "Vložte platný URL obrázku",
+    "savedUsingTheNetwork": "Uloženo pomocí sítě",
+    "pleaseEnterTextForYourLink": "Zadejte text pro váš odkaz (např., 'Dozvědět se více')",
+    "pleaseEnterTheLinkURL": "Zadejte URL odkazu (např., 'https://example.com')",
+    "pleaseEnterAValidImageURL": "Zadejte platnou URL adresu obrázku",
+    "pleaseEnterAValidVideoURL": "Zadejte platnou URL adresu videa",
+    "photo": "Foto",
+    "image": "Obrázek",
+    "caseSensitivityAndWholeWordSearch": "Citlivost na velká a malá písmena a vyhledávání celého slova",
+    "insertImage": "Vložit obrázek"
   }
   

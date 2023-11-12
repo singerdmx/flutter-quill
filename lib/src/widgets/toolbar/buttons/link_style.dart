@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/rules/insert.dart';
@@ -89,7 +89,7 @@ class QuillToolbarLinkStyleButtonState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        context.localizations.insertURL;
+        context.loc.insertURL;
   }
 
   IconData get iconData {
@@ -279,8 +279,8 @@ class _LinkDialogState extends State<_LinkDialog> {
               keyboardType: TextInputType.text,
               style: widget.dialogTheme?.inputTextStyle,
               decoration: InputDecoration(
-                labelText: context.localizations.text,
-                hintText: context.localizations.pleaseEnterTextForYourLink,
+                labelText: context.loc.text,
+                hintText: context.loc.pleaseEnterTextForYourLink,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
@@ -298,8 +298,8 @@ class _LinkDialogState extends State<_LinkDialog> {
               keyboardType: TextInputType.url,
               style: widget.dialogTheme?.inputTextStyle,
               decoration: InputDecoration(
-                labelText: context.localizations.link,
-                hintText: context.localizations.pleaseEnterTheLinkURL,
+                labelText: context.loc.link,
+                hintText: context.loc.pleaseEnterTheLinkURL,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
@@ -335,7 +335,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     return TextButton(
       onPressed: _canPress() ? _applyLink : null,
       child: Text(
-        context.localizations.ok,
+        context.loc.ok,
         style: widget.dialogTheme?.buttonTextStyle,
       ),
     );

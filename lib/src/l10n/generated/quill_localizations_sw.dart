@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Nenda kwa Tukio linalofuata';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Imehifadhiwa kwa kutumia mtandao';
 
   @override
   String get savedUsingLocalStorage => 'Imehifadhiwa kwa Hifadhi ya Ndani';
@@ -213,18 +213,18 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
       'Tafadhali ingiza URL halali ya picha';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'Tafadhali ingiza URL ya video ili';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Picha';
 
   @override
-  String get image => 'Image';
+  String get image => 'Picha';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Uwiano wa herufi kubwa na ndogo na utafutaji wa neno zima';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Weka Picha';
 }

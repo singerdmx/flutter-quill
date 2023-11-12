@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "Error while saving image",
     "enterTextForYourLink": "e.g., 'Learn more'",
     "enterLinkURL": "e.g., 'https://example.com'",
-    "enterValidImageURL": "Please enter a valid image URL"
+    "enterValidImageURL": "Please enter a valid image URL",
+    "hex": "Hex",
+    "material": "Bahan",
+    "color": "Warna",
+    "savedUsingTheNetwork": "Disimpan menggunakan rangkaian",
+    "pleaseEnterTextForYourLink": "Sila masukkan teks untuk pautan anda (contoh, 'Ketahui lebih lanjut')",
+    "pleaseEnterTheLinkURL": "Sila masukkan URL pautan (contoh, 'https://example.com')",
+    "pleaseEnterAValidImageURL": "Sila masukkan URL imej yang sah",
+    "pleaseEnterAValidVideoURL": "Sila masukkan URL video yang sah",
+    "photo": "Foto",
+    "image": "Imej",
+    "caseSensitivityAndWholeWordSearch": "Sensitiviti huruf besar dan kecil dan carian penuh perkataan",
+    "insertImage": "Masukkan imej"
 }
   

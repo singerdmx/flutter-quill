@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
@@ -122,10 +122,10 @@ class QuillToolbarSelectAlignmentButtonState
       );
     }
     return QuillSelectAlignmentValues(
-      leftAlignment: context.localizations.alignLeft,
-      centerAlignment: context.localizations.alignCenter,
-      rightAlignment: context.localizations.alignRight,
-      justifyAlignment: context.localizations.justifyWinWidth,
+      leftAlignment: context.loc.alignLeft,
+      centerAlignment: context.loc.alignCenter,
+      rightAlignment: context.loc.alignRight,
+      justifyAlignment: context.loc.justifyWinWidth,
     );
   }
 

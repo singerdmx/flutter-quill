@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "Error while saving image",
     "pleaseEnterTextForYourLink": "e.g., 'Learn more'",
     "pleaseEnterTheLinkURL": "e.g., 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Please enter a valid image URL"
+    "pleaseEnterAValidImageURL": "Please enter a valid image URL",
+    "hex": "Hex",
+    "material": "Materiale",
+    "color": "Farve",
+    "pleaseEnterAValidVideoURL": "Angiv en gyldig video-URL",
+    "photo": "Foto",
+    "image": "Billede",
+    "caseSensitivityAndWholeWordSearch": "Stor- og småbogstavsfølsomhed samt helordsøgning",
+    "insertImage": "Indsæt billede"
   }
   

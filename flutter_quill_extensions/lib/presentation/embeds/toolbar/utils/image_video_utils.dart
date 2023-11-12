@@ -63,10 +63,10 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
         maxLines: null,
         style: widget.dialogTheme?.inputTextStyle,
         decoration: InputDecoration(
-          labelText: context.localizations.pasteLink,
+          labelText: context.loc.pasteLink,
           hintText: widget.linkType == LinkType.image
-              ? context.localizations.pleaseEnterAValidImageURL
-              : context.localizations.pleaseEnterAValidVideoURL,
+              ? context.loc.pleaseEnterAValidImageURL
+              : context.loc.pleaseEnterAValidVideoURL,
           labelStyle: widget.dialogTheme?.labelTextStyle,
           floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
         ),
@@ -84,7 +84,7 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
         TextButton(
           onPressed: _canPress() ? _applyLink : null,
           child: Text(
-            context.localizations.ok,
+            context.loc.ok,
             style: widget.dialogTheme?.labelTextStyle,
           ),
         ),

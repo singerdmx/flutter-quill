@@ -176,13 +176,13 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get apply => 'लागू करें';
 
   @override
-  String get hex => 'Hex';
+  String get hex => 'हेक्स';
 
   @override
-  String get material => 'Material';
+  String get material => 'सामग्री';
 
   @override
-  String get color => 'Color';
+  String get color => 'रंग';
 
   @override
   String get findText => 'मद को खोजें';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'आगामी घटनांतर पर जाएं';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'नेटवर्क का उपयोग करके सहेजा गया';
 
   @override
   String get savedUsingLocalStorage =>
@@ -205,28 +205,28 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "कृपया अपने लिंक के लिए एक पाठ दर्ज करें (उदाहरण: 'और अधिक जानें')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "कृपया लिंक URL दर्ज करें (उदाहरण: 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'कृपया एक वैध चित्र URL दर्ज करें';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'कृपया एक वैध वीडियो URL दर्ज करें';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'फोटो';
 
   @override
-  String get image => 'Image';
+  String get image => 'छवि';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'केस सेंसिटिविटी और पूरे शब्द की खोज';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'छवि डालें';
 }

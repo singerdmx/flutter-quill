@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "Erreur lors de l'enregistrement de l'image",
     "pleaseEnterTextForYourLink": "par exemple, 'En savoir plus'",
     "pleaseEnterTheLinkURL": "par exemple, 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Veuillez saisir une URL d'image valide"
+    "pleaseEnterAValidImageURL": "Veuillez saisir une URL d'image valide",
+    "hex": "Hex",
+    "material": "Matériel",
+    "color": "Couleur",
+    "pleaseEnterAValidVideoURL": "Veuillez entrer une URL vidéo valide",
+    "photo": "Photo",
+    "image": "Image",
+    "caseSensitivityAndWholeWordSearch": "Sensibilité à la casse et recherche de mots entiers",
+    "insertImage": "Insérer une image"
 }
   

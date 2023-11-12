@@ -182,7 +182,7 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get material => 'Material';
 
   @override
-  String get color => 'Color';
+  String get color => 'Cor';
 
   @override
   String get findText => 'Find text';
@@ -213,20 +213,21 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'Por favor, insira uma URL de vídeo válida';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Foto';
 
   @override
-  String get image => 'Image';
+  String get image => 'Imagem';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Sensibilidade a maiúsculas e minúsculas e pesquisa de palavras inteiras';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Inserir imagem';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -405,6 +406,15 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get apply => 'Aplicar';
 
   @override
+  String get hex => 'Hex';
+
+  @override
+  String get material => 'Material';
+
+  @override
+  String get color => 'Cor';
+
+  @override
   String get findText => 'Find text';
 
   @override
@@ -430,4 +440,21 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+
+  @override
+  String get pleaseEnterAValidVideoURL =>
+      'Por favor, insira uma URL de vídeo válida';
+
+  @override
+  String get photo => 'Foto';
+
+  @override
+  String get image => 'Imagem';
+
+  @override
+  String get caseSensitivityAndWholeWordSearch =>
+      'Sensibilidade a maiúsculas e minúsculas e pesquisa de palavras inteiras';
+
+  @override
+  String get insertImage => 'Inserir imagem';
 }

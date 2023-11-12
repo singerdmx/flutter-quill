@@ -70,5 +70,8 @@
   "pleaseEnterTheLinkURL": "请输入链接网址（例如，'https://example.com'）",
   "pleaseEnterAValidImageURL": "请输入有效的图像网址",
   "photo": "照片",
-  "image": "图像"
+  "image": "图像",
+  "pleaseEnterAValidVideoURL": "请输入有效的视频URL",
+  "caseSensitivityAndWholeWordSearch": "区分大小写和整词搜索",
+  "insertImage": "插入图像"
 }

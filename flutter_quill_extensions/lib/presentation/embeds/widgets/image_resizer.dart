@@ -88,9 +88,7 @@ class ImageResizerState extends State<ImageResizer> {
             max: max,
             divisions: 1000,
             // Might need to be changed
-            label: isHeight
-                ? context.localizations.height
-                : context.localizations.width,
+            label: isHeight ? context.loc.height : context.loc.width,
             onChanged: (val) {
               setState(() {
                 onChanged(val);

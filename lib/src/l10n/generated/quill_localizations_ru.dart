@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Материал';
 
   @override
-  String get color => 'Color';
+  String get color => 'Цвет';
 
   @override
   String get findText => 'Find text';
@@ -212,18 +212,19 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'Пожалуйста, введите действительный URL-адрес видео';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Фото';
 
   @override
-  String get image => 'Image';
+  String get image => 'Изображение';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Чувствительность к регистру и поиск целых слов';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Вставить изображение';
 }

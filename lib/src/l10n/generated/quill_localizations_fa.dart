@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'مواد';
 
   @override
-  String get color => 'Color';
+  String get color => 'رنگ';
 
   @override
   String get findText => 'جستجوی متن';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'انتقال به رخداد بعدی';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'با استفاده از شبکه ذخیره شده است';
 
   @override
   String get savedUsingLocalStorage =>
@@ -205,28 +205,28 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "لطفاً متن لینک خود را وارد کنید (مثال: 'بیشتر بدانید')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "لطفاً URL لینک را وارد کنید (مثال: 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'لطفاً یک URL تصویر معتبر وارد کنید';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'لطفاً یک URL ویدیوی معتبر وارد کنید';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'عکس';
 
   @override
-  String get image => 'Image';
+  String get image => 'تصویر';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'حساسیت به کوچکی و بزرگی حروف و جستجوی کلمه کامل';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'وارد کردن تصویر';
 }

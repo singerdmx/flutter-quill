@@ -68,6 +68,12 @@
     "errorWhileSavingImage": "Error while saving image",
     "pleaseEnterTextForYourLink": "Güýz öwrenmek)",
     "pleaseEnterTheLinkURL": "https://example.com",
-    "pleaseEnterAValidImageURL": "Please enter a valid image URL"
+    "pleaseEnterAValidImageURL": "Please enter a valid image URL",
+    "savedUsingTheNetwork": "Ulgama ulanyp saklanan",
+    "pleaseEnterAValidVideoURL": "Lütfen güýjük wideo URL giriziň",
+    "photo": "Surat",
+    "image": "Surat",
+    "caseSensitivityAndWholeWordSearch": "Iňkisar we iň oňg söz gözleýinç",
+    "insertImage": "Surat goş"
   }
   

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
@@ -137,8 +137,8 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
         (widget.isBackground
-            ? context.localizations.backgroundColor
-            : context.localizations.fontColor);
+            ? context.loc.backgroundColor
+            : context.loc.fontColor);
   }
 
   @override
@@ -232,13 +232,13 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
           context.requireQuillSharedConfigurations.dialogBarrierColor,
       builder: (context) => StatefulBuilder(builder: (context, dlgSetState) {
         return AlertDialog(
-            title: Text(context.localizations.selectColor),
+            title: Text(context.loc.selectColor),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(context.localizations.ok)),
+                  child: Text(context.loc.ok)),
             ],
             backgroundColor: Theme.of(context).canvasColor,
             content: SingleChildScrollView(
@@ -253,14 +253,14 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
                               pickerType = 'material';
                             });
                           },
-                          child: Text(context.localizations.material)),
+                          child: Text(context.loc.material)),
                       TextButton(
                           onPressed: () {
                             dlgSetState(() {
                               pickerType = 'color';
                             });
                           },
-                          child: Text(context.localizations.color)),
+                          child: Text(context.loc.color)),
                     ],
                   ),
                   Column(children: [
@@ -299,7 +299,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
                               colorBoxSetState(() {});
                             },
                             decoration: InputDecoration(
-                              labelText: context.localizations.hex,
+                              labelText: context.loc.hex,
                               border: const OutlineInputBorder(),
                             ),
                           ),

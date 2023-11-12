@@ -68,6 +68,12 @@
     "errorWhileSavingImage": "Hitilafu Wakati wa Kuhifadhi Picha",
     "pleaseEnterTextForYourLink": "Kwa mfano, 'Jifunze zaidi'",
     "pleaseEnterTheLinkURL": "Kwa mfano, 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Tafadhali ingiza URL halali ya picha"
+    "pleaseEnterAValidImageURL": "Tafadhali ingiza URL halali ya picha",
+    "savedUsingTheNetwork": "Imehifadhiwa kwa kutumia mtandao",
+    "pleaseEnterAValidVideoURL": "Tafadhali ingiza URL ya video ili",
+    "photo": "Picha",
+    "image": "Picha",
+    "caseSensitivityAndWholeWordSearch": "Uwiano wa herufi kubwa na ndogo na utafutaji wa neno zima",
+    "insertImage": "Weka Picha"
   }
   

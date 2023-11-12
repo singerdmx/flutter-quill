@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "Greška pri čuvanju slike",
     "enterTextForYourLink": "Na primer, 'Saznajte više'",
     "enterLinkURL": "Na primer, 'https://example.com'",
-    "enterValidImageURL": "Unesite validan URL slike"
+    "enterValidImageURL": "Unesite validan URL slike",
+    "hex": "Hex",
+    "material": "Materijal",
+    "color": "Boja",
+    "savedUsingTheNetwork": "Sačuvano korišćenjem mreže",
+    "pleaseEnterTextForYourLink": "Unesite tekst za svoj link (na primer, 'Saznajte više')",
+    "pleaseEnterTheLinkURL": "Unesite URL linka (na primer, 'https://example.com')",
+    "pleaseEnterAValidImageURL": "Unesite važeći URL slike",
+    "pleaseEnterAValidVideoURL": "Unesite važeći URL videa",
+    "photo": "Foto",
+    "image": "Slika",
+    "caseSensitivityAndWholeWordSearch": "Osetljivost na velika i mala slova i potraga za celom rečju",
+    "insertImage": "Umetni sliku"
 }
   

@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Materiaal';
 
   @override
-  String get color => 'Color';
+  String get color => 'Kleur';
 
   @override
   String get findText => 'Find text';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Move to next occurrence';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Opgeslagen via het netwerk';
 
   @override
   String get savedUsingLocalStorage => 'Saved using the local storage';
@@ -204,28 +204,30 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "Voer tekst in voor uw link (bijvoorbeeld 'Meer weten')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "Voer de URL van de link in (bijvoorbeeld 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Voer een geldige URL voor de afbeelding in';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL =>
+      'Voer een geldige URL voor de video in';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Foto';
 
   @override
-  String get image => 'Image';
+  String get image => 'Afbeelding';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Hoofdlettergevoeligheid en volledig woord zoeken';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Afbeelding invoegen';
 }

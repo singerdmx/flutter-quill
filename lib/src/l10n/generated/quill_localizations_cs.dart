@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Přesunout na následující výskyt';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Uloženo pomocí sítě';
 
   @override
   String get savedUsingLocalStorage => 'Uloženo lokálně';
@@ -204,28 +204,28 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "Zadejte text pro váš odkaz (např., 'Dozvědět se více')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "Zadejte URL odkazu (např., 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'Zadejte platnou URL adresu obrázku';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'Zadejte platnou URL adresu videa';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Foto';
 
   @override
-  String get image => 'Image';
+  String get image => 'Obrázek';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Citlivost na velká a malá písmena a vyhledávání celého slova';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Vložit obrázek';
 }

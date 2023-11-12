@@ -37,11 +37,11 @@ class ImageOptionsMenu extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
       child: SimpleDialog(
-        title: Text(context.localizations.image),
+        title: Text(context.loc.image),
         children: [
           if (!isReadOnly)
             ListTile(
-              title: Text(context.localizations.resize),
+              title: Text(context.loc.resize),
               leading: const Icon(Icons.settings_outlined),
               onTap: () {
                 Navigator.pop(context);
@@ -81,7 +81,7 @@ class ImageOptionsMenu extends StatelessWidget {
             ),
           ListTile(
             leading: const Icon(Icons.copy_all_outlined),
-            title: Text(context.localizations.copy),
+            title: Text(context.loc.copy),
             onTap: () async {
               final navigator = Navigator.of(context);
               final imageNode =
@@ -104,7 +104,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 Icons.delete_forever_outlined,
                 color: materialTheme.colorScheme.error,
               ),
-              title: Text(context.localizations.remove),
+              title: Text(context.loc.remove),
               onTap: () async {
                 Navigator.of(context).pop();
 
@@ -132,11 +132,11 @@ class ImageOptionsMenu extends StatelessWidget {
           ...[
             ListTile(
               leading: const Icon(Icons.save),
-              title: Text(context.localizations.save),
+              title: Text(context.loc.save),
               enabled: !isDesktop(supportWeb: false),
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);
-                final localizations = context.localizations;
+                final localizations = context.loc;
                 Navigator.of(context).pop();
 
                 final saveImageResult = await saveImage(
@@ -174,7 +174,7 @@ class ImageOptionsMenu extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.zoom_in),
-              title: Text(context.localizations.zoom),
+              title: Text(context.loc.zoom),
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

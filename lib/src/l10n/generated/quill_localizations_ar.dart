@@ -212,18 +212,18 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'الرجاء إدخال عنوان URL صحيح للصورة';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'الرجاء إدخال عنوان URL صالح للفيديو';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'صورة';
 
   @override
-  String get image => 'Image';
+  String get image => 'صورة';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'حالة الحساسية والبحث عن كلمة كاملة';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'إدراج صورة';
 }

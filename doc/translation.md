@@ -7,7 +7,7 @@ The package offers translations for the quill toolbar and editor, it will follow
   configurations: QuillConfigurations(
     controller: _controller,
     sharedConfigurations: const QuillSharedConfigurations(
-      locale: Locale('fr'),
+      locale: Locale('fr'), // will take affect only if FlutterQuillLocalizations.delegate is not defined in the Widget app
     ),
   ),
   child: Column(

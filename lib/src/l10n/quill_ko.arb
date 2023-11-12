@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "Error while saving image",
     "pleaseEnterTextForYourLink": "e.g., 'Learn more'",
     "pleaseEnterTheLinkURL": "e.g., 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Please enter a valid image URL"
+    "pleaseEnterAValidImageURL": "Please enter a valid image URL",
+    "hex": "Hex",
+    "material": "Material",
+    "color": "Color",
+    "pleaseEnterAValidVideoURL": "유효한 비디오 URL을 입력하세요",
+    "photo": "사진",
+    "image": "이미지",
+    "caseSensitivityAndWholeWordSearch": "대소문자 구분 및 전체 단어 검색",
+    "insertImage": "이미지 삽입"
   }
   

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
@@ -53,9 +53,7 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         context.requireQuillToolbarBaseButtonOptions;
     final tooltip = options.tooltip ??
         baseButtonConfigurations.tooltip ??
-        (options.isUndo
-            ? context.localizations.undo
-            : context.localizations.redo);
+        (options.isUndo ? context.loc.undo : context.loc.redo);
     final iconData = options.iconData ??
         baseButtonConfigurations.iconData ??
         (options.isUndo ? Icons.undo_outlined : Icons.redo_outlined);

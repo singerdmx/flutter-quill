@@ -212,7 +212,7 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => '请输入有效的图像网址';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => '请输入有效的视频URL';
 
   @override
   String get photo => '照片';
@@ -221,11 +221,10 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get image => '图像';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch => '区分大小写和整词搜索';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => '插入图像';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -404,6 +403,15 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
   String get apply => '应用';
 
   @override
+  String get hex => '十六进制';
+
+  @override
+  String get material => '材料';
+
+  @override
+  String get color => '颜色';
+
+  @override
   String get findText => '搜索文本';
 
   @override
@@ -429,6 +437,21 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
 
   @override
   String get pleaseEnterAValidImageURL => '请输入有效的图像URL';
+
+  @override
+  String get pleaseEnterAValidVideoURL => '请输入有效的视频URL';
+
+  @override
+  String get photo => '照片';
+
+  @override
+  String get image => '图像';
+
+  @override
+  String get caseSensitivityAndWholeWordSearch => '区分大小写和整词搜索';
+
+  @override
+  String get insertImage => '插入图像';
 }
 
 /// The translations for Chinese, as used in Hong Kong (`zh_HK`).
@@ -607,6 +630,15 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
   String get apply => '應用';
 
   @override
+  String get hex => '十六進制';
+
+  @override
+  String get material => '物料';
+
+  @override
+  String get color => '顏色';
+
+  @override
   String get findText => '搜尋文本';
 
   @override
@@ -632,4 +664,19 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
 
   @override
   String get pleaseEnterAValidImageURL => '請輸入有效的圖像URL';
+
+  @override
+  String get pleaseEnterAValidVideoURL => '請輸入有效的視頻URL';
+
+  @override
+  String get photo => '照片';
+
+  @override
+  String get image => '圖像';
+
+  @override
+  String get caseSensitivityAndWholeWordSearch => '區分大小寫和整詞搜索';
+
+  @override
+  String get insertImage => '插入圖像';
 }

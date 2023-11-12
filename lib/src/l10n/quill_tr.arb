@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "Error while saving image",
     "pleaseEnterTextForYourLink": "e.g., 'Learn more'",
     "pleaseEnterTheLinkURL": "e.g., 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Please enter a valid image URL"
+    "pleaseEnterAValidImageURL": "Please enter a valid image URL",
+    "hex": "Hex",
+    "material": "Malzeme",
+    "color": "Renk",
+    "pleaseEnterAValidVideoURL": "Lütfen geçerli bir video URL'si girin",
+    "photo": "Fotoğraf",
+    "image": "Görüntü",
+    "caseSensitivityAndWholeWordSearch": "Büyük/küçük harf hassasiyeti ve tam kelime arama",
+    "insertImage": "Görüntü ekle"
 }
   

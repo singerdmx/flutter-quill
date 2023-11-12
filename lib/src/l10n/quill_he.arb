@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "שגיאה בעת שמירת התמונה",
     "enterTextForYourLink": "לדוגמה, 'מידע נוסף'",
     "enterLinkURL": "לדוגמה, 'https://example.com'",
-    "enterValidImageURL": "אנא הכנס URL תמונה תקני"
+    "enterValidImageURL": "אנא הכנס URL תמונה תקני",
+    "hex": "Hex",
+    "material": "חומר",
+    "color": "צבע",
+    "savedUsingTheNetwork": "נשמר באמצעות הרשת",
+    "pleaseEnterTextForYourLink": "אנא הזן טקסט לקישור שלך (לדוגמה, 'מידע נוסף')",
+    "pleaseEnterTheLinkURL": "אנא הזן את כתובת ה-URL של הקישור (לדוגמה, 'https://example.com')",
+    "pleaseEnterAValidImageURL": "אנא הזן כתובת URL תקינה של תמונה",
+    "pleaseEnterAValidVideoURL": "אנא הזן כתובת URL תקינה של וידיאו",
+    "photo": "תמונה",
+    "image": "תמונה",
+    "caseSensitivityAndWholeWordSearch": "רגישות לאותות רישיות וחיפוש לפי מילה שלמה",
+    "insertImage": "הכנס תמונה"
   }
   

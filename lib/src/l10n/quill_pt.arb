@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "Erro a gravar imagem",
     "pleaseEnterTextForYourLink": "e.g., 'Learn more'",
     "pleaseEnterTheLinkURL": "e.g., 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Please enter a valid image URL"
+    "pleaseEnterAValidImageURL": "Please enter a valid image URL",
+    "hex": "Hex",
+    "material": "Material",
+    "color": "Cor",
+    "pleaseEnterAValidVideoURL": "Por favor, insira uma URL de vídeo válida",
+    "photo": "Foto",
+    "image": "Imagem",
+    "caseSensitivityAndWholeWordSearch": "Sensibilidade a maiúsculas e minúsculas e pesquisa de palavras inteiras",
+    "insertImage": "Inserir imagem"
 }
   

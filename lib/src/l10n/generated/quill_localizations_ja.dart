@@ -212,18 +212,17 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => '有効な画像URLを入力してください';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => '有効なビデオURLを入力してください';
 
   @override
-  String get photo => 'Photo';
+  String get photo => '写真';
 
   @override
-  String get image => 'Image';
+  String get image => '画像';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+  String get caseSensitivityAndWholeWordSearch => '大文字と小文字の区別と完全一致検索';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => '画像を挿入';
 }

@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'חומר';
 
   @override
-  String get color => 'Color';
+  String get color => 'צבע';
 
   @override
   String get findText => 'מצא טקסט';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'התקדם להופעה הבאה';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'נשמר באמצעות הרשת';
 
   @override
   String get savedUsingLocalStorage => 'נשמר באמצעות אחסון מקומי';
@@ -204,28 +204,28 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      "אנא הזן טקסט לקישור שלך (לדוגמה, 'מידע נוסף')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      "אנא הזן את כתובת ה-URL של הקישור (לדוגמה, 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'אנא הזן כתובת URL תקינה של תמונה';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'אנא הזן כתובת URL תקינה של וידיאו';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'תמונה';
 
   @override
-  String get image => 'Image';
+  String get image => 'תמונה';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'רגישות לאותות רישיות וחיפוש לפי מילה שלמה';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'הכנס תמונה';
 }

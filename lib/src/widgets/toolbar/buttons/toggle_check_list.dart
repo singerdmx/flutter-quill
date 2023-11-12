@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/localizations.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/base.dart';
 import '../../../models/config/toolbar/buttons/toggle_check_list.dart';
@@ -121,7 +121,7 @@ class QuillToolbarToggleCheckListButtonState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        context.localizations.checkedList;
+        context.loc.checkedList;
   }
 
   @override

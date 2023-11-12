@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Indiki hadysa geçiň';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Ulgama ulanyp saklanan';
 
   @override
   String get savedUsingLocalStorage => 'Saved using the local storage';
@@ -212,18 +212,18 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Please enter a valid video url';
+  String get pleaseEnterAValidVideoURL => 'Lütfen güýjük wideo URL giriziň';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Surat';
 
   @override
-  String get image => 'Image';
+  String get image => 'Surat';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Case sensitivity and whole word search';
+      'Iňkisar we iň oňg söz gözleýinç';
 
   @override
-  String get insertImage => 'Insert image';
+  String get insertImage => 'Surat goş';
 }

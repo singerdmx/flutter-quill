@@ -15,7 +15,7 @@ import '../box.dart';
 import '../delegate.dart';
 import '../float_cursor.dart';
 import '../text_selection.dart';
-import '../utils/localizations.dart';
+import '../../l10n/widgets/localizations.dart';
 import 'editor_builder.dart';
 
 /// Base interface for the editor state which defines contract used by

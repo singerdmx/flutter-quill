@@ -65,6 +65,14 @@
     "errorWhileSavingImage": "保存圖像時發生錯誤",
     "pleaseEnterTextForYourLink": "例如，'了解更多'",
     "pleaseEnterTheLinkURL": "例如，'https://example.com'",
-    "pleaseEnterAValidImageURL": "請輸入有效的圖像URL"
+    "pleaseEnterAValidImageURL": "請輸入有效的圖像URL",
+    "hex": "十六進制",
+    "material": "物料",
+    "color": "顏色",
+    "pleaseEnterAValidVideoURL": "請輸入有效的視頻URL",
+    "photo": "照片",
+    "image": "圖像",
+    "caseSensitivityAndWholeWordSearch": "區分大小寫和整詞搜索",
+    "insertImage": "插入圖像"
 }
   

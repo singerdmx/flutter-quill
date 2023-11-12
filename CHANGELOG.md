@@ -1,9 +1,10 @@
 ## [8.5.0]
 - Migrate to `flutter_localizations` for the translations
-- Translate some of the untranslated localizations
-- Add default Chinese fallback translation
-- Remove unused parameters `items` in `QuillToolbarFontFamilyButtonOptions` and `QuillToolbarFontSizeButtonOptions`
-- Update documentation
+- Fix: Translate all the untranslated localizations
+- Fix: Translate missing translations
+- Fix: Add default Chinese fallback translation
+- Remove: unused parameters `items` in `QuillToolbarFontFamilyButtonOptions` and `QuillToolbarFontSizeButtonOptions`
+- Update: documentation
 
 ## [8.4.4]
 - Update `.pubignore` to ignore unnecessary files and folders

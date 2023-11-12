@@ -57,7 +57,7 @@ class QuillToolbarImageButton extends StatelessWidget {
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context).tooltip ??
-        context.localizations.insertImage;
+        context.loc.insertImage;
   }
 
   void _sharedOnPressed(BuildContext context) {

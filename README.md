@@ -218,7 +218,9 @@ FlutterQuillLocalizations.delegate
 To offer the default localizations.
 
 But **you don't have to** since we have wraped the `QuillEditor` and `QuillToolbar` with `FlutterQuillLocalizationsWidget` which will check if it sets then it will go, if not, then it will be provided only for them, so it's not really required, but if you are overriding the `localizationsDelegates` you could also add the `FlutterQuillLocalizations.delegate`
-which won't hurt
+which won't change anything
+
+please read the [Translation](./doc/translation.md) section
 
 ### Font Size
 

@@ -65,6 +65,18 @@
     "errorWhileSavingImage": "Feil ved lagring av bilde",
     "enterTextForYourLink": "f.eks. 'Lær mer'",
     "enterLinkURL": "f.eks. 'https://example.com'",
-    "enterValidImageURL": "Vennligst skriv inn en gyldig bilde-URL"
+    "enterValidImageURL": "Vennligst skriv inn en gyldig bilde-URL",
+    "hex": "Hex",
+    "material": "Materiale",
+    "color": "Farge",
+    "savedUsingTheNetwork": "Lagret ved hjelp av nettverket",
+    "pleaseEnterTextForYourLink": "Vennligst skriv inn tekst for lenken din (for eksempel 'Lær mer')",
+    "pleaseEnterTheLinkURL": "Vennligst skriv inn lenkens URL (for eksempel 'https://example.com')",
+    "pleaseEnterAValidImageURL": "Vennligst skriv inn en gyldig bilde-URL",
+    "pleaseEnterAValidVideoURL": "Vennligst skriv inn en gyldig video-URL",
+    "photo": "Bilde",
+    "image": "Bilde",
+    "caseSensitivityAndWholeWordSearch": "Stor/liten bokstavfølsomhet og helordsøk",
+    "insertImage": "Sett inn bilde"
   }
   
