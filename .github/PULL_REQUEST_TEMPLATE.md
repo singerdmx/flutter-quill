@@ -1,30 +1,20 @@
-# Pull Request
-
 ## Description
 
-Provide a brief description of your changes.
+*Replace this paragraph with a description of what this PR is doing. If you're modifying existing behavior, describe the existing behavior, how this PR is changing it, and what motivated the change.*
 
-## Issues
+## Related Issues
 
-<!-- Remove this if your pull request address changes other than existing issues -->
-Closes #IssueNumber
-(Replace "IssueNumber" with the actual issue number you are addressing.)
+*Replace this paragraph with a list of issues related to this PR from the [issue database](https://github.com/fluttercommunity/plus_plugins/issues). Indicate, which of these issues are resolved or fixed by this PR.*
+
+*e.g.*
+- *Fix #123*
+- *Related #456*
 
 ## Improvements
-<!-- Please tell us the improvements you made in a list -->
-
-<!-- Example: -->
-- Improve code readability
-- Improve performance
+<!-- Optional -->
 
 ## Features
-<!-- Please tell us the features you added in a list if you add any -->
-
-<!-- Example: -->
-- Add a new feature
-- Allow to customize the widgets
-
-<!-- Remove this if your pull request about other changes -->
+<!-- Optional -->
 
 ## Additional notes
 <!-- Optional -->
@@ -34,13 +24,15 @@ Closes #IssueNumber
 
 ## Checklist
 
-<!-- Mark all that applies with `[x]` -->
+- [ ] I read the [Contributor Guide](../doc/CONTRIBUTING.md) and followed the process outlined there for submitting PRs.
+- [ ] I titled the PR using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0).
+- [ ] I did not modify the `CHANGELOG.md` nor the plugin version in `pubspec.yaml` files.
+- [ ] All existing and new tests are passing.
+- [ ] I have run the commands in `./scripts/before-push.sh` and it all passed successfully
 
-- [ ] I have added/updated relevant documentation <!-- REQUIRED -->
-- [ ] I have tested these changes locally. <!-- REQUIRED -->
-- [ ] I have followed the code style and guidelines. <!-- REQUIRED -->
-- [ ] I have updated `CHANGELOG.md` with my changes in the next section <!-- REQUIRED -->
-- [ ] I have run `dart format .` on the project <!-- REQUIRED -->
-- [ ] I have run `dart fix --apply` on the project <!-- REQUIRED -->
-- [ ] I have run `flutter test` and `flutter analyze` and it passed successfully <!-- REQUIRED -->
-- [ ] I have run `./scripts/before-push.sh` and everything is fine <!-- Optional -->
+## Breaking Change
+
+Does your PR require plugin users to manually update their apps to accommodate your change?
+
+- [ ] Yes, this is a breaking change (please indicate that with a `!` in the title as explained in [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0)).
+- [ ] No, this is *not* a breaking change.
