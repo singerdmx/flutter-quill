@@ -1,8 +1,8 @@
-import 'quill_localizations.g.dart';
+import 'quill_localizations.dart';
 
 /// The translations for German (`de`).
 class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsDe([String locale = 'de']) : super(locale);
+  FlutterQuillLocalizationsDe([super.locale = 'de']);
 
   @override
   String get pasteLink => 'Link hinzufügen';
@@ -203,10 +203,10 @@ class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';

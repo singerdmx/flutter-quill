@@ -1,80 +1,80 @@
-import 'quill_localizations.g.dart';
+import 'quill_localizations.dart';
 
-/// The translations for Spanish Castilian (`es`).
-class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEs([String locale = 'es']) : super(locale);
-
-  @override
-  String get pasteLink => 'Pega un enlace';
+/// The translations for Korean (`ko`).
+class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
+  FlutterQuillLocalizationsKo([super.locale = 'ko']);
 
   @override
-  String get ok => 'Ok';
+  String get pasteLink => '링크를 붙여넣어 주세요.';
 
   @override
-  String get selectColor => 'Selecciona un color';
+  String get ok => '확인';
 
   @override
-  String get gallery => 'Galería';
+  String get selectColor => '색상 선택';
 
   @override
-  String get link => 'Enlace';
+  String get gallery => '갤러리';
 
   @override
-  String get open => 'Abrir';
+  String get link => '링크';
 
   @override
-  String get copy => 'Copiar';
+  String get open => '열기';
 
   @override
-  String get remove => 'Eliminar';
+  String get copy => '복사하기';
 
   @override
-  String get save => 'Guardar';
+  String get remove => '제거하기';
 
   @override
-  String get zoom => 'Zoom';
+  String get save => '저장하기';
 
   @override
-  String get saved => 'Guardado';
+  String get zoom => '확대하기';
 
   @override
-  String get text => 'Texto';
+  String get saved => '저장되었습니다.';
 
   @override
-  String get resize => 'Redimensionar';
+  String get text => '텍스트';
 
   @override
-  String get width => 'Ancho';
+  String get resize => '크기조정';
 
   @override
-  String get height => 'Alto';
+  String get width => '넓이';
 
   @override
-  String get size => 'Tamaño';
+  String get height => '높이';
 
   @override
-  String get small => 'Pequeño';
+  String get size => '크기';
 
   @override
-  String get large => 'Grande';
+  String get small => '작게';
 
   @override
-  String get huge => 'Muy grande';
+  String get large => '크게';
 
   @override
-  String get clear => 'Borrar';
+  String get huge => '매우크게';
 
   @override
-  String get font => 'Fuente';
+  String get clear => '초기화';
 
   @override
-  String get search => 'Buscar';
+  String get font => '글꼴';
 
   @override
-  String get camera => 'Cámara';
+  String get search => '검색';
 
   @override
-  String get video => 'Vídeo';
+  String get camera => '카메라';
+
+  @override
+  String get video => '비디오';
 
   @override
   String get undo => 'Undo';
@@ -203,28 +203,26 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Por favor, ingrese una URL de video válida';
+  String get pleaseEnterAValidVideoURL => '유효한 비디오 URL을 입력하세요';
 
   @override
-  String get photo => 'Foto';
+  String get photo => '사진';
 
   @override
-  String get image => 'Imagen';
+  String get image => '이미지';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Sensibilidad a mayúsculas y minúsculas y búsqueda de palabras completas';
+  String get caseSensitivityAndWholeWordSearch => '대소문자 구분 및 전체 단어 검색';
 
   @override
-  String get insertImage => 'Insertar imagen';
+  String get insertImage => '이미지 삽입';
 }

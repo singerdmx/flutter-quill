@@ -1,8 +1,8 @@
-import 'quill_localizations.g.dart';
+import 'quill_localizations.dart';
 
 /// The translations for Hebrew (`he`).
 class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHe([String locale = 'he']) : super(locale);
+  FlutterQuillLocalizationsHe([super.locale = 'he']);
 
   @override
   String get pasteLink => 'הדבק את הלינק';
@@ -204,11 +204,11 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'אנא הזן טקסט לקישור שלך (לדוגמה, \'מידע נוסף\')';
+      "אנא הזן טקסט לקישור שלך (לדוגמה, 'מידע נוסף')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'אנא הזן את כתובת ה-URL של הקישור (לדוגמה, \'https://example.com\')';
+      "אנא הזן את כתובת ה-URL של הקישור (לדוגמה, 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'אנא הזן כתובת URL תקינה של תמונה';

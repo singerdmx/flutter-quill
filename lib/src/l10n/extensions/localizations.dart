@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 
-import '../generated/quill_localizations.g.dart' as generated;
+import '../generated/quill_localizations.dart' as generated;
 
 typedef FlutterQuillLocalizations = generated.FlutterQuillLocalizations;
 

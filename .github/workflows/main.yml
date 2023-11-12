@@ -33,6 +33,9 @@ jobs:
 
       - name: Check dart code formatting
         run: dart format --set-exit-if-changed .
+      
+      - name: Preview dart proposed changes
+        run: dart fix --dry-run
 
       - name: Check if package is ready for publishing
         run: flutter pub publish --dry-run

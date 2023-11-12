@@ -5,36 +5,36 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'quill_localizations_ar.g.dart';
-import 'quill_localizations_bg.g.dart';
-import 'quill_localizations_bn.g.dart';
-import 'quill_localizations_cs.g.dart';
-import 'quill_localizations_da.g.dart';
-import 'quill_localizations_de.g.dart';
-import 'quill_localizations_en.g.dart';
-import 'quill_localizations_es.g.dart';
-import 'quill_localizations_fa.g.dart';
-import 'quill_localizations_fr.g.dart';
-import 'quill_localizations_he.g.dart';
-import 'quill_localizations_hi.g.dart';
-import 'quill_localizations_id.g.dart';
-import 'quill_localizations_it.g.dart';
-import 'quill_localizations_ja.g.dart';
-import 'quill_localizations_ko.g.dart';
-import 'quill_localizations_ms.g.dart';
-import 'quill_localizations_nl.g.dart';
-import 'quill_localizations_no.g.dart';
-import 'quill_localizations_pl.g.dart';
-import 'quill_localizations_pt.g.dart';
-import 'quill_localizations_ru.g.dart';
-import 'quill_localizations_sr.g.dart';
-import 'quill_localizations_sw.g.dart';
-import 'quill_localizations_tk.g.dart';
-import 'quill_localizations_tr.g.dart';
-import 'quill_localizations_uk.g.dart';
-import 'quill_localizations_ur.g.dart';
-import 'quill_localizations_vi.g.dart';
-import 'quill_localizations_zh.g.dart';
+import 'quill_localizations_ar.dart';
+import 'quill_localizations_bg.dart';
+import 'quill_localizations_bn.dart';
+import 'quill_localizations_cs.dart';
+import 'quill_localizations_da.dart';
+import 'quill_localizations_de.dart';
+import 'quill_localizations_en.dart';
+import 'quill_localizations_es.dart';
+import 'quill_localizations_fa.dart';
+import 'quill_localizations_fr.dart';
+import 'quill_localizations_he.dart';
+import 'quill_localizations_hi.dart';
+import 'quill_localizations_id.dart';
+import 'quill_localizations_it.dart';
+import 'quill_localizations_ja.dart';
+import 'quill_localizations_ko.dart';
+import 'quill_localizations_ms.dart';
+import 'quill_localizations_nl.dart';
+import 'quill_localizations_no.dart';
+import 'quill_localizations_pl.dart';
+import 'quill_localizations_pt.dart';
+import 'quill_localizations_ru.dart';
+import 'quill_localizations_sr.dart';
+import 'quill_localizations_sw.dart';
+import 'quill_localizations_tk.dart';
+import 'quill_localizations_tr.dart';
+import 'quill_localizations_uk.dart';
+import 'quill_localizations_ur.dart';
+import 'quill_localizations_vi.dart';
+import 'quill_localizations_zh.dart';
 
 /// Callers can lookup localized strings with an instance of FlutterQuillLocalizations
 /// returned by `FlutterQuillLocalizations.of(context)`.
@@ -44,7 +44,7 @@ import 'quill_localizations_zh.g.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'generated/quill_localizations.g.dart';
+/// import 'generated/quill_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: FlutterQuillLocalizations.localizationsDelegates,

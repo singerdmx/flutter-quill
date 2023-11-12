@@ -1,56 +1,56 @@
-import 'quill_localizations.g.dart';
+import 'quill_localizations.dart';
 
-/// The translations for Russian (`ru`).
-class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsRu([String locale = 'ru']) : super(locale);
-
-  @override
-  String get pasteLink => 'Вставить ссылку';
+/// The translations for Dutch Flemish (`nl`).
+class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
+  FlutterQuillLocalizationsNl([super.locale = 'nl']);
 
   @override
-  String get ok => 'ОК';
+  String get pasteLink => 'Plak een link';
 
   @override
-  String get selectColor => 'Выбрать цвет';
+  String get ok => 'Ok';
 
   @override
-  String get gallery => 'Галерея';
+  String get selectColor => 'Selecteer kleur';
 
   @override
-  String get link => 'Ссылка';
+  String get gallery => 'Gallerij';
 
   @override
-  String get open => 'Открыть';
+  String get link => 'Link';
 
   @override
-  String get copy => 'Копировать';
+  String get open => 'Open';
 
   @override
-  String get remove => 'Удалить';
+  String get copy => 'Kopieer';
 
   @override
-  String get save => 'Сохранить';
+  String get remove => 'Verwijderd';
 
   @override
-  String get zoom => 'Увеличить';
+  String get save => 'Opslaan';
 
   @override
-  String get saved => 'Сохранено';
+  String get zoom => 'Zoom';
 
   @override
-  String get text => 'Текст';
+  String get saved => 'Opgeslagen';
 
   @override
-  String get resize => 'Resize';
+  String get text => 'Tekst';
 
   @override
-  String get width => 'Width';
+  String get resize => 'Formaat wijzigen';
 
   @override
-  String get height => 'Height';
+  String get width => 'Breedte';
 
   @override
-  String get size => 'Size';
+  String get height => 'Hoogte';
+
+  @override
+  String get size => 'Grootte';
 
   @override
   String get small => 'Small';
@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Материал';
+  String get material => 'Materiaal';
 
   @override
-  String get color => 'Цвет';
+  String get color => 'Kleur';
 
   @override
   String get findText => 'Find text';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Move to next occurrence';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Opgeslagen via het netwerk';
 
   @override
   String get savedUsingLocalStorage => 'Saved using the local storage';
@@ -203,28 +203,31 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink =>
+      "Voer tekst in voor uw link (bijvoorbeeld 'Meer weten')";
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL =>
+      "Voer de URL van de link in (bijvoorbeeld 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Voer een geldige URL voor de afbeelding in';
 
   @override
   String get pleaseEnterAValidVideoURL =>
-      'Пожалуйста, введите действительный URL-адрес видео';
+      'Voer een geldige URL voor de video in';
 
   @override
-  String get photo => 'Фото';
+  String get photo => 'Foto';
 
   @override
-  String get image => 'Изображение';
+  String get image => 'Afbeelding';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Чувствительность к регистру и поиск целых слов';
+      'Hoofdlettergevoeligheid en volledig woord zoeken';
 
   @override
-  String get insertImage => 'Вставить изображение';
+  String get insertImage => 'Afbeelding invoegen';
 }
