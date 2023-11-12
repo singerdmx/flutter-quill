@@ -1,5 +1,7 @@
 library flutter_quill;
 
+export 'src/extensions/localizations.dart';
+export 'src/extensions/quill_provider.dart';
 export 'src/models/config/quill_configurations.dart';
 export 'src/models/config/raw_editor/configurations.dart';
 export 'src/models/config/toolbar/base_configurations.dart';
@@ -21,8 +23,6 @@ export 'src/models/structs/vertical_spacing.dart';
 export 'src/models/themes/quill_dialog_theme.dart';
 export 'src/models/themes/quill_icon_theme.dart';
 export 'src/utils/embeds.dart';
-export 'src/extensions/localizations.dart';
-export 'src/extensions/quill_provider.dart';
 export 'src/widgets/controller.dart';
 export 'src/widgets/cursor.dart';
 export 'src/widgets/default_styles.dart';
