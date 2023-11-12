@@ -1,7 +1,7 @@
 ## [8.4.5]
-- Mirgrate to `flutter_localizations` for the translations
+- Migrate to `flutter_localizations` for the translations
 - Translate some of the untranslated localizations
-- Add default chinese fallback translation
+- Add default Chinese fallback translation
 
 ## [8.4.4]
 - Update `.pubignore` to ignore unnecessary files and folders
