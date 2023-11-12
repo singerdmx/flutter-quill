@@ -1,6 +1,5 @@
 library flutter_quill;
 
-export 'src/extensions/localizations.dart';
 export 'src/extensions/quill_provider.dart';
 export 'src/models/config/quill_configurations.dart';
 export 'src/models/config/raw_editor/configurations.dart';

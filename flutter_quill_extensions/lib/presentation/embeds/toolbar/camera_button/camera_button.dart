@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show
+        QuillController,
+        QuillIconTheme,
+        QuillProviderExt,
+        QuillToolbarBaseButtonOptions,
+        QuillToolbarIconButton;
+import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/models/config/shared_configurations.dart';
 import '../../../../logic/services/image_picker/image_options.dart';

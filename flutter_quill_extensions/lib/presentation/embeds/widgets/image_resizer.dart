@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_quill/flutter_quill.dart' show LocalizationsExt;
+import 'package:flutter_quill/translations.dart';
 
 class ImageResizer extends StatefulWidget {
   const ImageResizer({

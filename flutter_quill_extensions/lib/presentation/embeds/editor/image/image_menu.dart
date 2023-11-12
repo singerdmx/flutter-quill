@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart'
     show isDesktop, isMobile, replaceStyleStringWithSize;
 import 'package:flutter_quill/flutter_quill.dart'
-    show
-        ImageUrl,
-        LocalizationsExt,
-        QuillController,
-        StyleAttribute,
-        getEmbedNode;
+    show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
+import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/services/image_saver/s_image_saver.dart';
 import '../../../models/config/editor/image/image.dart';
