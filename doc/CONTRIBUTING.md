@@ -59,3 +59,6 @@ git push origin your-branch-name
 ```
 
 Thank you for your time and efforts in this open-source community project!!
+
+## Development Notes
+- When update the translations or localizations in the app, please take a look at the [translation](./translation.md) page as it have important notes in order to work

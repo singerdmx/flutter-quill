@@ -38,4 +38,13 @@ Currently, translations are available for these 31 locales:
 
 #### Contributing to translations
 
-The translation file is located at [toolbar.i18n.dart](lib/src/translations/toolbar.i18n.dart). Feel free to contribute your own translations, just copy the English translations map and replace the values with your translations. Then open a pull request so everyone can benefit from your translations!
+The translation files is located at [l10n folder](../lib/src/l10n/). Feel free to contribute your own translations, just copy the [English translations](../lib/src/l10n/quill_en.arb) map and replace the values with your translations.
+
+Run the following script in the root folder:
+```
+./scripts/renegerate-translations.sh
+```
+
+This will generate the new dart files from the arb files in order to take affect, otherwise you won't notice a difference
+
+ Then open a pull request so everyone can benefit from your translations!
