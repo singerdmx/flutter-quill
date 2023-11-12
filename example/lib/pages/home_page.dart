@@ -274,7 +274,6 @@ class _HomePageState extends State<HomePage> {
                     final navigator = Navigator.of(context);
                     try {
                       final html = _controller.document.toDelta().toHtml();
-                      print(html);
                       _controller.document =
                           Document.fromDelta(DeltaHtmlExt.fromHtml(html));
                     } catch (e) {

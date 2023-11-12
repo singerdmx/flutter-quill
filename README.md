@@ -33,8 +33,8 @@ Pub: [FlutterQuill]
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
   - [Table of contents](#table-of-contents)
-  - [Installation](#installation)
   - [Screenshots](#screenshots)
+  - [Installation](#installation)
   - [Usage](#usage)
   - [Migration](#migration)
   - [Input / Output](#input--output)
@@ -52,6 +52,20 @@ Pub: [FlutterQuill]
   - [Conversion to HTML](#conversion-to-html)
   - [Testing](#testing)
   - [Contributors](#contributors)
+
+## Screenshots
+
+<details>
+<summary>Tap to show/hide screenshots</summary>
+
+<br>
+
+<img src="./example/assets/images/1.png" width="150" alt="Screenshot 1">
+<img src="./example/assets/images/2.png" width="150" alt="Screenshot 2">
+<img src="./example/assets/images/3.png" width="150" alt="Screenshot 3">
+<img src="./example/assets/images/4.png" width="150" alt="Screenshot 4">
+
+</details>
 
 ## Installation
 
@@ -85,20 +99,6 @@ Compatible versions:
 | 8.5.0                   | 0.6.7                    | 0.0.5                   |
 
 Theses versions are tested and well supported, you shouldn't get a build failure
-
-## Screenshots
-
-<details>
-<summary>Tap to show/hide screenshots</summary>
-
-<br>
-
-<img src="./example/assets/images/1.png" width="150" alt="Screenshot 1">
-<img src="./example/assets/images/2.png" width="150" alt="Screenshot 2">
-<img src="./example/assets/images/3.png" width="150" alt="Screenshot 3">
-<img src="./example/assets/images/4.png" width="150" alt="Screenshot 4">
-
-</details>
 
 ## Usage
 
