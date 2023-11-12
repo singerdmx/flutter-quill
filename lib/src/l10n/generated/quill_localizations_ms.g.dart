@@ -1,77 +1,77 @@
-import 'quill_localizations.dart';
+import 'quill_localizations.g.dart';
 
-/// The translations for Danish (`da`).
-class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsDa([super.locale = 'da']);
+/// The translations for Malay (`ms`).
+class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
+  FlutterQuillLocalizationsMs([String locale = 'ms']) : super(locale);
 
   @override
-  String get pasteLink => 'Indsæt link';
+  String get pasteLink => 'Tampal Pautan';
 
   @override
   String get ok => 'Ok';
 
   @override
-  String get selectColor => 'Vælg farve';
+  String get selectColor => 'Pilih Warna';
 
   @override
-  String get gallery => 'Galleri';
+  String get gallery => 'Galeri';
 
   @override
-  String get link => 'Link';
+  String get link => 'Pautan';
 
   @override
-  String get open => 'Åben';
+  String get open => 'Buka';
 
   @override
-  String get copy => 'Kopi';
+  String get copy => 'Salin';
 
   @override
-  String get remove => 'Fjerne';
+  String get remove => 'Buang';
 
   @override
-  String get save => 'Gemme';
+  String get save => 'Simpan';
 
   @override
-  String get zoom => 'Zoom ind';
+  String get zoom => 'Zum';
 
   @override
-  String get saved => 'Gemt';
+  String get saved => 'Telah Disimpan';
 
   @override
-  String get text => 'Text';
+  String get text => 'Perkataan';
 
   @override
-  String get resize => 'Resize';
+  String get resize => 'Ubah saiz';
 
   @override
-  String get width => 'Width';
+  String get width => 'Lebar';
 
   @override
-  String get height => 'Height';
+  String get height => 'Tinggi';
 
   @override
-  String get size => 'Size';
+  String get size => 'Saiz';
 
   @override
-  String get small => 'Small';
+  String get small => 'Kecil';
 
   @override
-  String get large => 'Large';
+  String get large => 'Besar';
 
   @override
-  String get huge => 'Huge';
+  String get huge => 'Amat Besar';
 
   @override
-  String get clear => 'Clear';
+  String get clear => 'Padam';
 
   @override
-  String get font => 'Font';
+  String get font => 'Fon';
 
   @override
-  String get search => 'Search';
+  String get search => 'Carian';
 
   @override
-  String get camera => 'Camera';
+  String get camera => 'Kamera';
 
   @override
   String get video => 'Video';
@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Materiale';
+  String get material => 'Bahan';
 
   @override
-  String get color => 'Farve';
+  String get color => 'Warna';
 
   @override
   String get findText => 'Find text';
@@ -194,7 +194,7 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get moveToNextOccurrence => 'Move to next occurrence';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Disimpan menggunakan rangkaian';
 
   @override
   String get savedUsingLocalStorage => 'Saved using the local storage';
@@ -203,27 +203,29 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink =>
+      'Sila masukkan teks untuk pautan anda (contoh, \'Ketahui lebih lanjut\')';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL =>
+      'Sila masukkan URL pautan (contoh, \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => 'Sila masukkan URL imej yang sah';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Angiv en gyldig video-URL';
+  String get pleaseEnterAValidVideoURL => 'Sila masukkan URL video yang sah';
 
   @override
   String get photo => 'Foto';
 
   @override
-  String get image => 'Billede';
+  String get image => 'Imej';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Stor- og småbogstavsfølsomhed samt helordsøgning';
+      'Sensitiviti huruf besar dan kecil dan carian penuh perkataan';
 
   @override
-  String get insertImage => 'Indsæt billede';
+  String get insertImage => 'Masukkan imej';
 }

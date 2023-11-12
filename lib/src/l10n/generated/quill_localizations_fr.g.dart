@@ -1,8 +1,8 @@
-import 'quill_localizations.dart';
+import 'quill_localizations.g.dart';
 
 /// The translations for French (`fr`).
 class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsFr([super.locale = 'fr']);
+  FlutterQuillLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
   String get pasteLink => 'Coller un lien';
@@ -134,7 +134,7 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get textDirection => 'Direction du texte';
 
   @override
-  String get headerStyle => "Style d'en-tête";
+  String get headerStyle => 'Style d\'en-tête';
 
   @override
   String get numberedList => 'Liste numérotée';
@@ -188,10 +188,10 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get findText => 'Rechercher du texte';
 
   @override
-  String get moveToPreviousOccurrence => "Aller à l'occurrence précédente";
+  String get moveToPreviousOccurrence => 'Aller à l\'occurrence précédente';
 
   @override
-  String get moveToNextOccurrence => "Aller à l'occurrence suivante";
+  String get moveToNextOccurrence => 'Aller à l\'occurrence suivante';
 
   @override
   String get savedUsingTheNetwork => 'Enregistré via le réseau';
@@ -202,17 +202,17 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
 
   @override
   String get errorWhileSavingImage =>
-      "Erreur lors de l'enregistrement de l'image";
+      'Erreur lors de l\'enregistrement de l\'image';
 
   @override
-  String get pleaseEnterTextForYourLink => "par exemple, 'En savoir plus'";
+  String get pleaseEnterTextForYourLink => 'par exemple, \'En savoir plus\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "par exemple, 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'par exemple, \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL =>
-      "Veuillez saisir une URL d'image valide";
+      'Veuillez saisir une URL d\'image valide';
 
   @override
   String get pleaseEnterAValidVideoURL =>

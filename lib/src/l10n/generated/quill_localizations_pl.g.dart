@@ -1,80 +1,80 @@
-import 'quill_localizations.dart';
+import 'quill_localizations.g.dart';
 
-/// The translations for Spanish Castilian (`es`).
-class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEs([super.locale = 'es']);
-
-  @override
-  String get pasteLink => 'Pega un enlace';
+/// The translations for Polish (`pl`).
+class FlutterQuillLocalizationsPl extends FlutterQuillLocalizations {
+  FlutterQuillLocalizationsPl([String locale = 'pl']) : super(locale);
 
   @override
-  String get ok => 'Ok';
+  String get pasteLink => 'Wklej link';
 
   @override
-  String get selectColor => 'Selecciona un color';
+  String get ok => 'OK';
 
   @override
-  String get gallery => 'Galería';
+  String get selectColor => 'Wybierz kolor';
 
   @override
-  String get link => 'Enlace';
+  String get gallery => 'Galeria';
 
   @override
-  String get open => 'Abrir';
+  String get link => 'Link';
 
   @override
-  String get copy => 'Copiar';
+  String get open => 'Otwórz';
 
   @override
-  String get remove => 'Eliminar';
+  String get copy => 'Kopiuj';
 
   @override
-  String get save => 'Guardar';
+  String get remove => 'Usuń';
 
   @override
-  String get zoom => 'Zoom';
+  String get save => 'Zapisz';
 
   @override
-  String get saved => 'Guardado';
+  String get zoom => 'Powiększenie';
 
   @override
-  String get text => 'Texto';
+  String get saved => 'Zapisano';
 
   @override
-  String get resize => 'Redimensionar';
+  String get text => 'Tekst';
 
   @override
-  String get width => 'Ancho';
+  String get resize => 'Resize';
 
   @override
-  String get height => 'Alto';
+  String get width => 'Width';
 
   @override
-  String get size => 'Tamaño';
+  String get height => 'Height';
 
   @override
-  String get small => 'Pequeño';
+  String get size => 'Size';
 
   @override
-  String get large => 'Grande';
+  String get small => 'Small';
 
   @override
-  String get huge => 'Muy grande';
+  String get large => 'Large';
 
   @override
-  String get clear => 'Borrar';
+  String get huge => 'Huge';
 
   @override
-  String get font => 'Fuente';
+  String get clear => 'Clear';
 
   @override
-  String get search => 'Buscar';
+  String get font => 'Font';
 
   @override
-  String get camera => 'Cámara';
+  String get search => 'Search';
 
   @override
-  String get video => 'Vídeo';
+  String get camera => 'Camera';
+
+  @override
+  String get video => 'Video';
 
   @override
   String get undo => 'Undo';
@@ -179,10 +179,10 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get hex => 'Hex';
 
   @override
-  String get material => 'Material';
+  String get material => 'Materiał';
 
   @override
-  String get color => 'Color';
+  String get color => 'Kolor';
 
   @override
   String get findText => 'Find text';
@@ -203,28 +203,28 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
   String get pleaseEnterAValidVideoURL =>
-      'Por favor, ingrese una URL de video válida';
+      'Proszę wprowadzić poprawny adres URL wideo';
 
   @override
-  String get photo => 'Foto';
+  String get photo => 'Zdjęcie';
 
   @override
-  String get image => 'Imagen';
+  String get image => 'Obraz';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Sensibilidad a mayúsculas y minúsculas y búsqueda de palabras completas';
+      'Czułość na wielkość liter i wyszukiwanie całego słowa';
 
   @override
-  String get insertImage => 'Insertar imagen';
+  String get insertImage => 'Wstaw obraz';
 }

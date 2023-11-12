@@ -1,6 +1,6 @@
 arb-dir: lib/src/l10n
 template-arb-file: quill_en.arb
-output-localization-file: quill_localizations.dart
+output-localization-file: quill_localizations.g.dart
 output-class: FlutterQuillLocalizations
 output-dir: lib/src/l10n/generated
 synthetic-package: false

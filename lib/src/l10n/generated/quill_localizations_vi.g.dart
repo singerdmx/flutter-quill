@@ -1,8 +1,8 @@
-import 'quill_localizations.dart';
+import 'quill_localizations.g.dart';
 
 /// The translations for Vietnamese (`vi`).
 class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsVi([super.locale = 'vi']);
+  FlutterQuillLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
   String get pasteLink => 'Chèn liên kết';
@@ -204,11 +204,11 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: 'Tìm hiểu thêm')";
+      'Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: \'Tìm hiểu thêm\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Vui lòng nhập URL của liên kết (ví dụ: 'https://example.com')";
+      'Vui lòng nhập URL của liên kết (ví dụ: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Vui lòng nhập URL hình ảnh hợp lệ';

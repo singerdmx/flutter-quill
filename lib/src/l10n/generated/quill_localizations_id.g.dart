@@ -1,8 +1,8 @@
-import 'quill_localizations.dart';
+import 'quill_localizations.g.dart';
 
 /// The translations for Indonesian (`id`).
 class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsId([super.locale = 'id']);
+  FlutterQuillLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
   String get pasteLink => 'Tempel tautan';
@@ -205,11 +205,11 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Harap masukkan teks untuk tautan Anda (contoh: 'Pelajari lebih lanjut')";
+      'Harap masukkan teks untuk tautan Anda (contoh: \'Pelajari lebih lanjut\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Harap masukkan URL tautan (contoh: 'https://example.com')";
+      'Harap masukkan URL tautan (contoh: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>
