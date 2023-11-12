@@ -24,7 +24,7 @@
 
 ---
 
-> This documentation is outdated. Please check the English version.
+> This documentation is outdated. Please check the [English version](../../README.md).
 
 `FlutterQuill` 是一个富文本编辑器，也是 [Quill](https://quilljs.com/docs/formats) 在 [Flutter](https://github.com/flutter/flutter) 的版本
 

@@ -34,6 +34,7 @@ Pub: [FlutterQuill]
 - [Flutter Quill](#flutter-quill)
   - [Table of contents](#table-of-contents)
   - [Installation](#installation)
+  - [Screenshots](#screenshots)
   - [Usage](#usage)
   - [Migration](#migration)
   - [Input / Output](#input--output)
@@ -75,6 +76,20 @@ dependencies:
 >
 > If the latest version of [FlutterQuill Extensions] is pre-release, then please use it in order to work with the latest stable version of [FlutterQuill]
 >
+
+## Screenshots
+
+<details>
+<summary>Tap to show/hide screenshots</summary>
+
+<br>
+
+<img src="./example/assets/images/1.png" width="150" alt="Screenshot 1">
+<img src="./example/assets/images/2.png" width="150" alt="Screenshot 2">
+<img src="./example/assets/images/3.png" width="150" alt="Screenshot 3">
+<img src="./example/assets/images/4.png" width="150" alt="Screenshot 4">
+
+</details>
 
 ## Usage
 
