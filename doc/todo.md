@@ -18,10 +18,9 @@ This is a todo list page that added recently and will be updated soon.
 
 ### Features
 
-  1. Add a method to set TextInputAction, for more [info](https://github.com/singerdmx/flutter-quill/issues/1328)
-  2. Add support for Text magnification feature, for more [info](https://github.com/singerdmx/flutter-quill/issues/1504)
-  3. Provide a way to expose quills undo redo stacks, for more [info](https://github.com/singerdmx/flutter-quill/issues/1381)
-  4. Add callback to the `QuillToolbarColorButton` for custom color picking logic
+  1. Add support for Text magnification feature, for more [info](https://github.com/singerdmx/flutter-quill/issues/1504)
+  2. Provide a way to expose quills undo redo stacks, for more [info](https://github.com/singerdmx/flutter-quill/issues/1381)
+  3. Add callback to the `QuillToolbarColorButton` for custom color picking logic
 
 ### Improvemenets
 
@@ -38,8 +37,7 @@ Please go to the [issues](https://github.com/singerdmx/flutter-quill/issues)
 ## Flutter Quill Extensions
 
 ### Features
-1. Add support for cropping an image, fore more [info](https://github.com/singerdmx/flutter-quill/issues/1494)
-2. Add support for copying images to the Clipboard
+1. Add support for copying images to the Clipboard
 
 ### Improvemenets
 
