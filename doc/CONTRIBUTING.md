@@ -26,10 +26,10 @@ You will need a GitHub account as well as Git installed and configured with your
     ```
     The `your-branch-name` is your choice
 6. Make your changes
-7. If you are working on changes that depend on different libraries in the same repo, then in that directory copy `pubspec_overrides.yaml.g` which exists in all the libraries (`flutter_quill_test` and `flutter_quill_extensions` etc..)
+7. If you are working on changes that depend on different libraries in the same repo, then in that directory copy `pubspec_overrides.yaml.disabled` which exists in all the libraries (`flutter_quill_test` and `flutter_quill_extensions` etc..)
 to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and will be used by dart pub to override the libraries
     ```
-    cp pubspec_overrides.yaml.g pubspec_overrides.yaml
+    cp pubspec_overrides.yaml.disabled pubspec_overrides.yaml
     ```
     or save some time with the following script:
     ```

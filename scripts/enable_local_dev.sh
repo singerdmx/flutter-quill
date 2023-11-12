@@ -5,22 +5,22 @@
 echo ""
 
 echo "Enable local development for flutter_quill..."
-cp pubspec_overrides.yaml.g pubspec_overrides.yaml
+cp pubspec_overrides.yaml.disabled pubspec_overrides.yaml
 
 echo ""
 
 echo "Enable local development for flutter_quill_extensions..."
-cp flutter_quill_extensions/pubspec_overrides.yaml.g flutter_quill_extensions/pubspec_overrides.yaml
+cp flutter_quill_extensions/pubspec_overrides.yaml.disabled flutter_quill_extensions/pubspec_overrides.yaml
 
 echo ""
 
 echo "Enable local development for flutter_quill_test..."
-cp flutter_quill_test/pubspec_overrides.yaml.g flutter_quill_test/pubspec_overrides.yaml
+cp flutter_quill_test/pubspec_overrides.yaml.disabled flutter_quill_test/pubspec_overrides.yaml
 
 echo ""
 
 echo "Enable local development for all the other packages..."
-cp packages/quill_html_converter/pubspec_overrides.yaml.g packages/quill_html_converter/pubspec_overrides.yaml
+cp packages/quill_html_converter/pubspec_overrides.yaml.disabled packages/quill_html_converter/pubspec_overrides.yaml
 
 echo ""
 
