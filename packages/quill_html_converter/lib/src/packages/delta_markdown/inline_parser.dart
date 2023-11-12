@@ -397,8 +397,8 @@ class AutolinkExtensionSyntax extends InlineSyntax {
   }
 }
 
-class _DelimiterRun {
-  _DelimiterRun._(
+class DelimiterRun {
+  DelimiterRun._(
       {this.char,
       this.length,
       this.isLeftFlanking,
@@ -418,8 +418,7 @@ class _DelimiterRun {
   final bool? isFollowedByPunctuation;
 
   // ignore: prefer_constructors_over_static_methods
-  static _DelimiterRun? tryParse(
-      InlineParser parser, int runStart, int runEnd) {
+  static DelimiterRun? tryParse(InlineParser parser, int runStart, int runEnd) {
     bool leftFlanking,
         rightFlanking,
         precededByPunctuation,
@@ -464,7 +463,7 @@ class _DelimiterRun {
       return null;
     }
 
-    return _DelimiterRun._(
+    return DelimiterRun._(
         char: parser.charAt(runStart),
         length: runEnd - runStart + 1,
         isLeftFlanking: leftFlanking,
@@ -513,7 +512,7 @@ class TagSyntax extends InlineSyntax {
       return true;
     }
 
-    final delimiterRun = _DelimiterRun.tryParse(parser, matchStart, matchEnd);
+    final delimiterRun = DelimiterRun.tryParse(parser, matchStart, matchEnd);
     if (delimiterRun != null && delimiterRun.canOpen) {
       parser.openTag(TagState(parser.pos, matchEnd + 1, this, delimiterRun));
       return true;
@@ -528,7 +527,7 @@ class TagSyntax extends InlineSyntax {
     final matchStart = parser.pos;
     final matchEnd = parser.pos + runLength - 1;
     final openingRunLength = state.endPos - state.startPos;
-    final delimiterRun = _DelimiterRun.tryParse(parser, matchStart, matchEnd);
+    final delimiterRun = DelimiterRun.tryParse(parser, matchStart, matchEnd);
 
     if (openingRunLength == 1 && runLength == 1) {
       parser.addNode(Element('em', state.children));
@@ -576,7 +575,7 @@ class StrikethroughSyntax extends TagSyntax {
     final runLength = match.group(0)!.length;
     final matchStart = parser.pos;
     final matchEnd = parser.pos + runLength - 1;
-    final delimiterRun = _DelimiterRun.tryParse(parser, matchStart, matchEnd)!;
+    final delimiterRun = DelimiterRun.tryParse(parser, matchStart, matchEnd)!;
     if (!delimiterRun.isRightFlanking!) {
       return false;
     }
@@ -1166,7 +1165,7 @@ class TagState {
   /// The children of this node. Will be `null` for text nodes.
   final List<Node> children;
 
-  final _DelimiterRun? openingDelimiterRun;
+  final DelimiterRun? openingDelimiterRun;
 
   /// Attempts to close this tag by matching the current text against its end
   /// pattern.
@@ -1189,7 +1188,7 @@ class TagState {
     final closingMatchStart = parser.pos;
     final closingMatchEnd = parser.pos + runLength - 1;
     final closingDelimiterRun =
-        _DelimiterRun.tryParse(parser, closingMatchStart, closingMatchEnd);
+        DelimiterRun.tryParse(parser, closingMatchStart, closingMatchEnd);
     if (closingDelimiterRun != null && closingDelimiterRun.canClose) {
       // Emphasis rules #9 and #10:
       final oneRunOpensAndCloses =
