@@ -1060,8 +1060,7 @@ class ParagraphSyntax extends BlockSyntax {
         // Reference id in brackets, and URL.
         r'''\[((?:\\\]|[^\]])+)\]:\s*(?:<(\S+)>|(\S+))\s*'''
         // Title in double or single quotes, or parens.
-        r'''("[^"]+"|'[^']+'|\([^)]+\)|)\s*$''',
-        multiLine: true);
+        r'''("[^"]+"|'[^']+'|\([^)]+\)|)\s*$''', multiLine: true);
     final match = pattern.firstMatch(contents);
     if (match == null) {
       // Not a reference link definition.
