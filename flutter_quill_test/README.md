@@ -38,7 +38,7 @@ await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
 We welcome contributions!
 
-Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](./../doc/CONTRIBUTING.md) for more details.
+Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](../CONTRIBUTING.md) for more details.
 
 ## License
 

@@ -356,7 +356,7 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 We welcome contributions!
 
-Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for more details. <br>
+Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details. <br>
 
 We must mention that the `CONTRIBUTING.md` have a development notes, so if you planning on contribtuing to the repo, please read it.
 

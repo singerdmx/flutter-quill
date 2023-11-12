@@ -24,7 +24,7 @@
 
 ## Checklist
 
-- [ ] I read the [Contributor Guide](../doc/CONTRIBUTING.md) and followed the process outlined there for submitting PRs.
+- [ ] I read the [Contributor Guide](../CONTRIBUTING.md) and followed the process outlined there for submitting PRs.
 - [ ] I titled the PR using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0).
 - [ ] I did not modify the `CHANGELOG.md` nor the plugin version in `pubspec.yaml` files.
 - [ ] All existing and new tests are passing.
