@@ -19,4 +19,9 @@ rm flutter_quill_test/pubspec_overrides.yaml
 
 echo ""
 
+echo "Disable local development for all the other packages..."
+rm packages/flutter_quill_html/pubspec_overrides.yaml
+
+echo ""
+
 echo "Local development for all libraries has been disabled, please 'flutter pub get' for each one of them"

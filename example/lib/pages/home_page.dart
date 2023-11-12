@@ -15,6 +15,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/logic/services/image_picker/image_picker.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart';
+import 'package:flutter_quill_html/flutter_quill_html.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -120,10 +121,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               IconButton(
-                onPressed: () => _insertTimeStamp(
-                  _controller,
-                  DateTime.now().toString(),
-                ),
+                onPressed: () {
+                  _insertTimeStamp(
+                    _controller,
+                    DateTime.now().toString(),
+                  );
+                },
                 icon: const Icon(Icons.add_alarm_rounded),
               ),
               IconButton(
@@ -259,6 +262,29 @@ class _HomePageState extends State<HomePage> {
                           'Error while loading json delta file: ${e.toString()}',
                         ),
                       ));
+                    } finally {
+                      navigator.pop();
+                    }
+                  },
+                ),
+                ListTile(
+                  title: const Text('Convert to/from HTML'),
+                  onTap: () async {
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+                    final navigator = Navigator.of(context);
+                    try {
+                      final html = _controller.document.toDelta().toHtml();
+                      print(html);
+                      _controller.document =
+                          Document.fromDelta(DeltaHtmlExt.fromHtml(html));
+                    } catch (e) {
+                      scaffoldMessenger.showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Error while convert to/from HTML: ${e.toString()}',
+                          ),
+                        ),
+                      );
                     } finally {
                       navigator.pop();
                     }
