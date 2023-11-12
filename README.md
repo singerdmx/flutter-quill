@@ -326,7 +326,12 @@ Open this [page](./doc/translation.md) for more info
 ## Conversion to HTML
 
 Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
-it to other formats such as HTML in order to publish it, or send an email. One option is to use
+it to other formats such as HTML in order to publish it, or send an email.
+
+You have two options:
+
+1. Using [flutter_quill_html](./packages/flutter_quill_html/) to convert to/from HTML, the package is not ready yet
+2. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML. This package has full support for all Quill operations - including images, videos, formulas,
 tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.
