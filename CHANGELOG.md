@@ -1,3 +1,6 @@
+## [8.5.1]
+- Update `README.md`
+
 ## [8.5.0]
 - Migrate to `flutter_localizations` for the translations
 - Fix: Translate all the untranslated localizations
