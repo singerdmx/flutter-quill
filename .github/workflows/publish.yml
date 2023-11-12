@@ -32,7 +32,7 @@ jobs:
       # - run: dart tool/generate-code.dart
 
       - name: Re-generate the translations
-        run: ./scripts/renegerate-translations.sh
+        run: ./scripts/regenerate-translations.sh
 
       - name: Publish
         run: flutter pub publish --force

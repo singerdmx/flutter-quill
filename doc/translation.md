@@ -55,7 +55,7 @@ flutter gen-l10n
 or:
 
 ```
-./scripts/renegerate-translations.sh
+./scripts/regenerate-translations.sh
 ```
 
 
