@@ -6,7 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:math_keyboard/math_keyboard.dart';
 
 import '../../../models/config/editor/video/video.dart';
-import '../../utils.dart';
+import '../../../utils/utils.dart';
 import '../../widgets/video_app.dart';
 import '../../widgets/youtube_video_app.dart';
 

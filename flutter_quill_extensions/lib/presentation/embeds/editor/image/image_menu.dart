@@ -8,7 +8,7 @@ import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/services/image_saver/s_image_saver.dart';
 import '../../../models/config/editor/image/image.dart';
-import '../../utils.dart';
+import '../../../utils/utils.dart';
 import '../../widgets/image.dart' show ImageTapWrapper, getImageStyleString;
 import '../../widgets/image_resizer.dart' show ImageResizer;
 import 'image.dart' show OptionalSize;

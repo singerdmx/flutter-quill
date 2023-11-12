@@ -43,7 +43,7 @@ export 'presentation/embeds/toolbar/image_button/image_button.dart';
 export 'presentation/embeds/toolbar/media_button/media_button.dart';
 export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button/video_button.dart';
-export 'presentation/embeds/utils.dart';
+export 'presentation/utils/utils.dart';
 export 'presentation/models/config/editor/image/image.dart';
 
 export 'presentation/models/config/editor/image/image_web.dart';

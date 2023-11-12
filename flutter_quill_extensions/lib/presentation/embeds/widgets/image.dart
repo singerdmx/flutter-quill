@@ -6,7 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../embed_types/image.dart';
-import '../utils.dart';
+import '../../utils/utils.dart';
 
 const List<String> imageFileExtensions = [
   '.jpeg',

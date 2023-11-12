@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:path/path.dart' as path;
 
-import '../../presentation/embeds/utils.dart';
+import '../../presentation/utils/utils.dart';
 
 typedef OnGenerateNewFileNameCallback = String Function(
   String currentFileName,

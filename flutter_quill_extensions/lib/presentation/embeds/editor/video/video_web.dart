@@ -5,7 +5,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart'
     show YoutubePlayer;
 
 import '../../../models/config/editor/video/video_web.dart';
-import '../../utils.dart';
+import '../../../utils/utils.dart';
 import '../shims/dart_ui_fake.dart'
     if (dart.library.html) '../shims/dart_ui_real.dart' as ui;
 

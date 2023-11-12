@@ -2,7 +2,7 @@ import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show immutable;
 import '../../logic/services/image_saver/s_image_saver.dart';
-import 'widgets/image.dart';
+import '../embeds/widgets/image.dart';
 
 RegExp _base64 = RegExp(
   r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$',
