@@ -17,14 +17,14 @@ class SelectCameraActionDialog extends StatelessWidget {
             icon: const Icon(
               Icons.camera,
             ),
-            label: Text('Photo'.i18n),
+            label: Text(context.loc.photo),
             onPressed: () => Navigator.pop(context, CameraAction.image),
           ),
           TextButton.icon(
             icon: const Icon(
               Icons.video_call,
             ),
-            label: Text('Video'.i18n),
+            label: Text(context.loc.video),
             onPressed: () => Navigator.pop(context, CameraAction.video),
           )
         ],

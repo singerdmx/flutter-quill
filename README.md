@@ -26,7 +26,7 @@
 
 FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
 
-This library is a WYSIWYG editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction] to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
+This library is a WYSIWYG editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.md) to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
 
 Pub: [FlutterQuill]
 
@@ -34,11 +34,13 @@ Pub: [FlutterQuill]
 - [Flutter Quill](#flutter-quill)
   - [Table of contents](#table-of-contents)
   - [Installation](#installation)
+  - [Screenshots](#screenshots)
   - [Usage](#usage)
   - [Migration](#migration)
   - [Input / Output](#input--output)
   - [Configurations](#configurations)
     - [Using Custom App Widget](#using-custom-app-widget)
+    - [Localizations setup](#localizations-setup)
     - [Font Size](#font-size)
     - [Font Family](#font-family)
     - [Custom Buttons](#custom-buttons)
@@ -74,6 +76,20 @@ dependencies:
 >
 > If the latest version of [FlutterQuill Extensions] is pre-release, then please use it in order to work with the latest stable version of [FlutterQuill]
 >
+
+## Screenshots
+
+<details>
+<summary>Tap to show/hide screenshots</summary>
+
+<br>
+
+<img src="./example/assets/images/1.png" width="150" alt="Screenshot 1">
+<img src="./example/assets/images/2.png" width="150" alt="Screenshot 2">
+<img src="./example/assets/images/3.png" width="150" alt="Screenshot 3">
+<img src="./example/assets/images/4.png" width="150" alt="Screenshot 4">
+
+</details>
 
 ## Usage
 
@@ -176,9 +192,35 @@ localizationsDelegates: const [
 ],
 ```
 
-in addition to the required delegates by this library
-
 Note: In the latest versions of `FluentApp` you no longer need to add the `localizationsDelegates` but this is just an example, for more [info](https://github.com/bdlukaa/fluent_ui/pull/946)
+
+There are additonal notes in [Localizations](#localizations) section
+
+### Localizations setup
+in addition to the required delegatess which mentioned above in [Using custom app widget](#using-custom-app-widget)
+
+which are:
+```dart
+localizationsDelegates: const [
+    DefaultCupertinoLocalizations.delegate,
+    DefaultMaterialLocalizations.delegate,
+    DefaultWidgetsLocalizations.delegate,
+],
+```
+which are used by offical flutter widgets
+
+The library also needs the 
+```dart
+// Required localizations delegates ...
+FlutterQuillLocalizations.delegate
+```
+
+To offer the default localizations.
+
+But **you don't have to** since we have wraped the `QuillEditor` and `QuillToolbar` with `FlutterQuillLocalizationsWidget` which will check if it sets then it will go, if not, then it will be provided only for them, so it's not really required, but if you are overriding the `localizationsDelegates` you could also add the `FlutterQuillLocalizations.delegate`
+which won't change anything
+
+please read the [Translation](./doc/translation.md) section
 
 ### Font Size
 
@@ -302,6 +344,8 @@ We welcome contributions!
 
 Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for more details. <br>
 
+We must mention that the `CONTRIBUTING.md` have a development notes, so if you planning on contribtuing to the repo, please read it.
+
 You can check the [Todo](./doc/todo.md) list if you want to
 
 [Quill]: https://quilljs.com/docs/formats
@@ -312,6 +356,6 @@ You can check the [Todo](./doc/todo.md) list if you want to
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/pages/home_page.dart
-[Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/CodeIntroduction.md
+<!-- [Code Introduction]: https://github.com/singerdmx/flutter-quill/blob/master/doc/code_introduction.md -->
 [FluentUI]: https://pub.dev/packages/fluent_ui
 

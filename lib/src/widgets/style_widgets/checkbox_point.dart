@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../utils/extensions/build_context.dart';
+import '../../extensions/quill_provider.dart';
 
 class QuillEditorCheckboxPoint extends StatefulWidget {
   const QuillEditorCheckboxPoint({

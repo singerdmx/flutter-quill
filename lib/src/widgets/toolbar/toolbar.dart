@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../flutter_quill.dart';
+import '../../l10n/extensions/localizations.dart';
+import '../../extensions/quill_provider.dart';
+import '../../models/config/toolbar/base_configurations.dart';
+import '../../models/documents/attribute.dart';
+import '../utils/provider.dart';
+import 'base_toolbar.dart';
 
 class QuillToolbar extends StatelessWidget {
   const QuillToolbar({
@@ -96,6 +101,7 @@ class QuillToolbar extends StatelessWidget {
                   controller: toolbarConfigurations
                           .buttonOptions.fontFamily.controller ??
                       globalController,
+                  defaultDispalyText: context.loc.font,
                 ),
                 spacerWidget,
               ],
@@ -105,6 +111,7 @@ class QuillToolbar extends StatelessWidget {
                   controller: toolbarConfigurations
                           .buttonOptions.fontFamily.controller ??
                       globalController,
+                  defaultDisplayText: context.loc.fontSize,
                 ),
                 spacerWidget,
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/translations.dart';
 
 import 'pages/home_page.dart';
 
@@ -32,11 +33,10 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        FlutterQuillLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('zh', 'HK'),
-      ],
+      locale: const Locale('ar'),
+      supportedLocales: FlutterQuillLocalizations.supportedLocales,
       home: const HomePage(),
     );
   }

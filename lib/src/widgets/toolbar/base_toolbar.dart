@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
 import '../../models/config/toolbar/base_configurations.dart';
-import '../../utils/extensions/build_context.dart';
+import '../../l10n/widgets/localizations.dart';
 import 'buttons/arrow_indicated_list.dart';
 
 export '../../models/config/toolbar/buttons/base.dart';
@@ -49,8 +48,7 @@ class QuillBaseToolbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final toolbarSize = configurations.toolbarSize;
-    return I18n(
-      initialLocale: context.quillSharedConfigurations?.locale,
+    return FlutterQuillLocalizationsWidget(
       child: QuillBaseToolbarProvider(
         toolbarConfigurations: configurations,
         child: Builder(

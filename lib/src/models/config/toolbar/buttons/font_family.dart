@@ -50,7 +50,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.itemPadding,
     this.defaultItemColor = Colors.red,
     this.renderFontFamilies = true,
-    @Deprecated('It is not required because of `rawItemsMap`') this.items,
     this.highlightElevation = 1,
     this.hoverElevation = 1,
     this.fillColor,
@@ -61,8 +60,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  @Deprecated('It is not required because of `rawItemsMap`')
-  final List<PopupMenuEntry<String>>? items;
 
   /// By default it will be [fontFamilyValues] from [QuillToolbarConfigurations]
   /// You can override this if you want
@@ -137,8 +134,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
       fillColor: fillColor ?? this.fillColor,
       hoverElevation: hoverElevation ?? this.hoverElevation,
       highlightElevation: highlightElevation ?? this.highlightElevation,
-      // ignore: deprecated_member_use_from_same_package
-      items: items ?? this.items,
     );
   }
 }

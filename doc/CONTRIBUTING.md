@@ -59,3 +59,6 @@ git push origin your-branch-name
 ```
 
 Thank you for your time and efforts in this open-source community project!!
+
+## Development Notes
+Please read the [Development Notes](./development_notes.md) as they are important while development

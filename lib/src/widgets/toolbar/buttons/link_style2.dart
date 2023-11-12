@@ -4,12 +4,12 @@ import 'package:url_launcher/link.dart';
 
 import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
-import '../../../../translations.dart';
+import '../../../l10n/extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/config/toolbar/buttons/link_style2.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../../link.dart';
 import '../base_toolbar.dart';
@@ -97,7 +97,7 @@ class _QuillToolbarLinkStyleButton2State
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        'Insert URL'.i18n;
+        context.loc.insertURL;
   }
 
   IconData get iconData {
@@ -308,7 +308,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
     final children = _isEditMode
         ? [
-            Text(widget.editLinkLabel ?? 'Visit link'.i18n),
+            Text(widget.editLinkLabel ?? context.loc.visitLink),
             UtilityWidgets.maybeWidget(
               enabled: !isWrappable,
               wrapper: (child) => Expanded(
@@ -349,19 +349,19 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
                 });
               },
               style: buttonStyle,
-              child: Text('Edit'.i18n),
+              child: Text(context.loc.edit),
             ),
             Padding(
               padding: EdgeInsets.only(left: widget.childrenSpacing),
               child: ElevatedButton(
                 onPressed: _removeLink,
                 style: buttonStyle,
-                child: Text('Remove'.i18n),
+                child: Text(context.loc.remove),
               ),
             ),
           ]
         : [
-            Text(widget.addLinkLabel ?? 'Enter link'.i18n),
+            Text(widget.addLinkLabel ?? context.loc.enterLink),
             UtilityWidgets.maybeWidget(
               enabled: !isWrappable,
               wrapper: (child) => Expanded(
@@ -388,7 +388,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
             ElevatedButton(
               onPressed: _canPress() ? _applyLink : null,
               style: buttonStyle,
-              child: Text('Apply'.i18n),
+              child: Text(context.loc.apply),
             ),
           ];
 

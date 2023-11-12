@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/rules/insert.dart';
 import '../../../models/structs/link_dialog_action.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../translations/toolbar.i18n.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../../link.dart';
 import '../base_toolbar.dart';
@@ -89,7 +89,7 @@ class QuillToolbarLinkStyleButtonState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        'Insert URL'.i18n;
+        context.loc.insertURL;
   }
 
   IconData get iconData {
@@ -279,8 +279,8 @@ class _LinkDialogState extends State<_LinkDialog> {
               keyboardType: TextInputType.text,
               style: widget.dialogTheme?.inputTextStyle,
               decoration: InputDecoration(
-                labelText: 'Text'.i18n,
-                hintText: 'Please enter a text for your link'.i18n,
+                labelText: context.loc.text,
+                hintText: context.loc.pleaseEnterTextForYourLink,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
@@ -298,8 +298,8 @@ class _LinkDialogState extends State<_LinkDialog> {
               keyboardType: TextInputType.url,
               style: widget.dialogTheme?.inputTextStyle,
               decoration: InputDecoration(
-                labelText: 'Link'.i18n,
-                hintText: 'Please enter the link url'.i18n,
+                labelText: context.loc.link,
+                hintText: context.loc.pleaseEnterTheLinkURL,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
@@ -335,7 +335,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     return TextButton(
       onPressed: _canPress() ? _applyLink : null,
       child: Text(
-        'Ok'.i18n,
+        context.loc.ok,
         style: widget.dialogTheme?.buttonTextStyle,
       ),
     );

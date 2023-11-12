@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show
+        QuillController,
+        QuillIconTheme,
+        QuillProviderExt,
+        QuillToolbarBaseButtonOptions,
+        QuillToolbarIconButton;
 import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/models/config/shared_configurations.dart';
@@ -46,8 +52,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context).tooltip ??
-        'Camera'.i18n;
-    // ('Camera'.i18n);
+        context.loc.camera;
   }
 
   void _sharedOnPressed(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../translations.dart';
+import '../../../../l10n/extensions/localizations.dart';
 import '../../../../models/documents/document.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
 import '../../../controller.dart';
@@ -121,7 +121,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
         child: Row(
           children: [
             Tooltip(
-              message: 'Case sensitivity and whole word search'.i18n,
+              message: context.loc.caseSensitivityAndWholeWordSearch,
               child: ToggleButtons(
                 onPressed: (index) {
                   if (index == 0) {
@@ -172,19 +172,19 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
             if (_offsets == null)
               IconButton(
                 icon: const Icon(Icons.search),
-                tooltip: 'Find text'.i18n,
+                tooltip: context.loc.findText,
                 onPressed: _findText,
               ),
             if (_offsets != null)
               IconButton(
                 icon: const Icon(Icons.keyboard_arrow_up),
-                tooltip: 'Move to previous occurrence'.i18n,
+                tooltip: context.loc.moveToPreviousOccurrence,
                 onPressed: (_offsets!.isNotEmpty) ? _moveToPrevious : null,
               ),
             if (_offsets != null)
               IconButton(
                 icon: const Icon(Icons.keyboard_arrow_down),
-                tooltip: 'Move to next occurrence'.i18n,
+                tooltip: context.loc.moveToNextOccurrence,
                 onPressed: (_offsets!.isNotEmpty) ? _moveToNext : null,
               ),
           ],

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../../../l10n/extensions/localizations.dart';
+import '../../../extensions/quill_provider.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../translations/toolbar.i18n.dart';
 import '../../../utils/color.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
 
@@ -136,7 +136,9 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        (widget.isBackground ? 'Background color'.i18n : 'Font color'.i18n);
+        (widget.isBackground
+            ? context.loc.backgroundColor
+            : context.loc.fontColor);
   }
 
   @override
@@ -230,13 +232,13 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
           context.requireQuillSharedConfigurations.dialogBarrierColor,
       builder: (context) => StatefulBuilder(builder: (context, dlgSetState) {
         return AlertDialog(
-            title: Text('Select Color'.i18n),
+            title: Text(context.loc.selectColor),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'.i18n)),
+                  child: Text(context.loc.ok)),
             ],
             backgroundColor: Theme.of(context).canvasColor,
             content: SingleChildScrollView(
@@ -251,14 +253,14 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
                               pickerType = 'material';
                             });
                           },
-                          child: Text('Material'.i18n)),
+                          child: Text(context.loc.material)),
                       TextButton(
                           onPressed: () {
                             dlgSetState(() {
                               pickerType = 'color';
                             });
                           },
-                          child: Text('Color'.i18n)),
+                          child: Text(context.loc.color)),
                     ],
                   ),
                   Column(children: [
@@ -297,7 +299,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
                               colorBoxSetState(() {});
                             },
                             decoration: InputDecoration(
-                              labelText: 'Hex'.i18n,
+                              labelText: context.loc.hex,
                               border: const OutlineInputBorder(),
                             ),
                           ),

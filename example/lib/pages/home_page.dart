@@ -1,6 +1,6 @@
-// ignore_for_file: avoid_redundant_argument_values, avoid_print
+// ignore_for_file: avoid_redundant_argument_values
 
-import 'dart:async';
+import 'dart:async' show Timer;
 import 'dart:convert';
 import 'dart:io' show File;
 import 'dart:ui';
@@ -632,6 +632,9 @@ class _HomePageState extends State<HomePage> {
           controller: _controller,
           sharedConfigurations: QuillSharedConfigurations(
             animationConfigurations: QuillAnimationConfigurations.enableAll(),
+            locale: const Locale(
+              'de',
+            ), // won't take affect since we defined FlutterQuillLocalizations.delegate
           ),
         ),
         child: Column(

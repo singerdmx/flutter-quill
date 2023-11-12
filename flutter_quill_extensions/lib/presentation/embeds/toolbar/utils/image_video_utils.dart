@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart' show QuillDialogTheme;
 import 'package:flutter_quill/translations.dart';
 
 enum LinkType {
@@ -63,10 +63,10 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
         maxLines: null,
         style: widget.dialogTheme?.inputTextStyle,
         decoration: InputDecoration(
-          labelText: 'Paste a link'.i18n,
+          labelText: context.loc.pasteLink,
           hintText: widget.linkType == LinkType.image
-              ? 'Please enter a valid image url'.i18n
-              : 'Please enter a valid video url'.i18n,
+              ? context.loc.pleaseEnterAValidImageURL
+              : context.loc.pleaseEnterAValidVideoURL,
           labelStyle: widget.dialogTheme?.labelTextStyle,
           floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
         ),
@@ -84,7 +84,7 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
         TextButton(
           onPressed: _canPress() ? _applyLink : null,
           child: Text(
-            'Ok'.i18n,
+            context.loc.ok,
             style: widget.dialogTheme?.labelTextStyle,
           ),
         ),

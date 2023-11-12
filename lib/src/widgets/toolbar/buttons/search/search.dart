@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../translations.dart';
+import '../../../../l10n/extensions/localizations.dart';
+import '../../../../extensions/quill_provider.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../../utils/extensions/build_context.dart';
 import '../../../controller.dart';
 import '../../base_toolbar.dart';
 
@@ -56,7 +56,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context).tooltip ??
-        ('Search'.i18n);
+        (context.loc.search);
   }
 
   Color _dialogBarrierColor(BuildContext context) {

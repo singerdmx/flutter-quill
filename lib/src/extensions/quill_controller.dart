@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 
-import '../../../flutter_quill.dart' show QuillController, QuillProvider;
-import 'build_context.dart';
+import '../../flutter_quill.dart' show QuillController, QuillProvider;
+import 'quill_provider.dart';
 
 extension QuillControllerNullableExt on QuillController? {
   /// Simple logic to use the current passed controller if not null

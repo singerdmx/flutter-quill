@@ -375,9 +375,6 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     _detectLinkPattern,
     caseSensitive: false,
   );
-  // @Deprecated(
-  //   'Please use [linkRegExp1] or [linkRegExp2]',
-  // )
   static final linkRegExp = oneLineLinkRegExp;
 
   @override

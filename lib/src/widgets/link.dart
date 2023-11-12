@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../l10n/extensions/localizations.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/nodes/node.dart';
-import '../translations/toolbar.i18n.dart';
 
 const linkPrefixes = [
   'mailto:', // email
@@ -167,17 +167,17 @@ Future<LinkMenuAction> _showMaterialMenu(
         mainAxisSize: MainAxisSize.min,
         children: [
           _MaterialAction(
-            title: 'Open'.i18n,
+            title: context.loc.open,
             icon: Icons.language_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.launch),
           ),
           _MaterialAction(
-            title: 'Copy'.i18n,
+            title: context.loc.copy,
             icon: Icons.copy_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.copy),
           ),
           _MaterialAction(
-            title: 'Remove'.i18n,
+            title: context.loc.remove,
             icon: Icons.link_off_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.remove),
           ),
