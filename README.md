@@ -28,7 +28,8 @@ FlutterQuill is a rich text editor and a [Quill] component for [Flutter].
 
 This library is a WYSIWYG (What You See Is What You Get) editor built for the modern Android, iOS, web and desktop platforms. Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.md) to take a detailed walkthrough of the code base. You can join our [Slack Group] for discussion.
 
-Pub: [FlutterQuill]
+Pub: [FlutterQuill] <br>
+If you are viewing this page from pub.dev page then you might have some issues with opening some of the links, please open it in GitHub repo instead.
 
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
@@ -214,13 +215,13 @@ it to other formats such as HTML in order to publish it, or send an email.
 
 You have two options:
 
-1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to/from HTML, the package is not ready yet
+1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to/from HTML, the package can convert the Quill delta to HTML well (it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)) but the converting from HTML back to Quill delta is experimental
 2. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML. This package has full support for all Quill operations - including images, videos, formulas,
 tables, and mentions. Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.
 It is a complete Dart part of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
-Typescript/Javascript package.
+Typescript/Javascript package. this package doesn't convert the HTML back to Quill Delta as far as we know
 
 ## Testing
 
