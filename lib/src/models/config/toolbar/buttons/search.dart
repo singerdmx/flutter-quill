@@ -38,10 +38,10 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions {
 
   /// By default we will show simple search dialog ui
   /// you can pass value to this callback to change this
-  final QuillToolbarSearchButtomOnPressedCallback? customOnPressedCallback;
+  final QuillToolbarSearchButtonOnPressedCallback? customOnPressedCallback;
 }
 
-typedef QuillToolbarSearchButtomOnPressedCallback = Future<void> Function(
+typedef QuillToolbarSearchButtonOnPressedCallback = Future<void> Function(
   QuillController controller,
 );
 

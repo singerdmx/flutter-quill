@@ -145,8 +145,6 @@ class QuillToolbarSelectHeaderStyleButtonsState
       }
       final theme = Theme.of(context);
       final isSelected = _selectedAttribute == attribute;
-      // TODO: This needs to be updated to materail 3 as well just like in
-      // quill_icon.dart
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
         child: ConstrainedBox(

@@ -1,3 +1,7 @@
+## [8.5.2]
+- Update `README.md`
+- Feature: Allow you to add custom callback when the `QuillToolbarColorButton` pressed
+
 ## [8.5.1]
 - Update `README.md`
 

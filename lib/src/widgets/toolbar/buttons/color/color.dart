@@ -167,7 +167,16 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
       // if the caller using Cupertino app he might need to wrap the builder
       // with Material() widget
       return childBuilder(
-        options,
+        QuillToolbarColorButtonOptions(
+          afterButtonPressed: afterButtonPressed,
+          dialogBarrierColor: options.dialogBarrierColor,
+          tooltip: tooltip,
+          iconTheme: iconTheme,
+          iconSize: iconSize,
+          iconData: iconData,
+          iconButtonFactor: iconButtonFactor,
+          customOnPressedCallback: options.customOnPressedCallback,
+        ),
         QuillToolbarColorButtonExtraOptions(
           controller: controller,
           context: context,
@@ -206,7 +215,12 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     );
   }
 
-  void _showColorPicker() {
+  Future<void> _showColorPicker() async {
+    final customCallback = options.customOnPressedCallback;
+    if (customCallback != null) {
+      await customCallback(controller, widget.isBackground);
+      return;
+    }
     showDialog<String>(
       context: context,
       barrierColor: options.dialogBarrierColor ??
