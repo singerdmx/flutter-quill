@@ -7,8 +7,8 @@ import 'package:photo_view/photo_view.dart';
 
 import '../../../logic/models/config/shared_configurations.dart';
 import '../../models/config/editor/image/image.dart';
-import '../embed_types/image.dart';
 import '../../utils/utils.dart';
+import '../embed_types/image.dart';
 
 const List<String> imageFileExtensions = [
   '.jpeg',
