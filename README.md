@@ -142,6 +142,7 @@ QuillProvider(
 ```
 
 And depending on your use case, you might want to dispose the `_controller` in dispose method
+
 in most cases it's better to.
 
 Check out [Sample Page] for more advanced usage.
