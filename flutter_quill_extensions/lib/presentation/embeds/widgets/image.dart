@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
 
+import '../../../logic/models/config/shared_configurations.dart';
+import '../../models/config/editor/image/image.dart';
 import '../embed_types/image.dart';
 import '../../utils/utils.dart';
 
@@ -34,6 +36,7 @@ String getImageStyleString(QuillController controller) {
 ImageProvider getImageProviderByImageSource(
   String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
+  required String assetsPrefix,
 }) {
   if (imageProviderBuilder != null) {
     return imageProviderBuilder(imageSource);
@@ -46,7 +49,8 @@ ImageProvider getImageProviderByImageSource(
   if (isHttpBasedUrl(imageSource)) {
     return NetworkImage(imageSource);
   }
-  if (imageSource.startsWith('assets')) {
+
+  if (imageSource.startsWith(assetsPrefix)) {
     // TODO: This impl needs to be improved
     return AssetImage(imageSource);
   }
@@ -57,6 +61,7 @@ Image getImageWidgetByImageSource(
   String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required ImageErrorWidgetBuilder? imageErrorWidgetBuilder,
+  required String assetsPrefix,
   double? width,
   double? height,
   AlignmentGeometry alignment = Alignment.center,
@@ -65,6 +70,7 @@ Image getImageWidgetByImageSource(
     image: getImageProviderByImageSource(
       imageSource,
       imageProviderBuilder: imageProviderBuilder,
+      assetsPrefix: assetsPrefix,
     ),
     width: width,
     height: height,
@@ -102,14 +108,12 @@ String appendFileExtensionToImageUrl(String url) {
 class ImageTapWrapper extends StatelessWidget {
   const ImageTapWrapper({
     required this.imageUrl,
-    required this.imageProviderBuilder,
-    required this.imageErrorWidgetBuilder,
+    required this.configurations,
     super.key,
   });
 
   final String imageUrl;
-  final ImageEmbedBuilderProviderBuilder? imageProviderBuilder;
-  final ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder;
+  final QuillEditorImageEmbedConfigurations configurations;
 
   @override
   Widget build(BuildContext context) {
@@ -123,9 +127,12 @@ class ImageTapWrapper extends StatelessWidget {
             PhotoView(
               imageProvider: getImageProviderByImageSource(
                 imageUrl,
-                imageProviderBuilder: imageProviderBuilder,
+                imageProviderBuilder: configurations.imageProviderBuilder,
+                assetsPrefix:
+                    QuillSharedExtensionsConfigurations.get(context: context)
+                        .assetsPrefix,
               ),
-              errorBuilder: imageErrorWidgetBuilder,
+              errorBuilder: configurations.imageErrorWidgetBuilder,
               loadingBuilder: (context, event) {
                 return Container(
                   color: Colors.black,

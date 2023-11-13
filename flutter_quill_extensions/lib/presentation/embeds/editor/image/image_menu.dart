@@ -180,9 +180,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => ImageTapWrapper(
                     imageUrl: imageSource,
-                    imageProviderBuilder: configurations.imageProviderBuilder,
-                    imageErrorWidgetBuilder:
-                        configurations.imageErrorWidgetBuilder,
+                    configurations: configurations,
                   ),
                 ),
               ),

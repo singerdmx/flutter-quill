@@ -44,6 +44,8 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       alignment: alignment,
       height: height,
       width: width,
+      assetsPrefix: QuillSharedExtensionsConfigurations.get(context: context)
+          .assetsPrefix,
     );
 
     // OptionalSize? imageSize;

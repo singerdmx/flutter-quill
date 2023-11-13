@@ -32,11 +32,13 @@ import '../../services/image_saver/s_image_saver.dart';
 //   ),
 /// )
 /// ```
+///
 @immutable
 class QuillSharedExtensionsConfigurations {
   const QuillSharedExtensionsConfigurations({
     ImagePickerService? imagePickerService,
     ImageSaverService? imageSaverService,
+    this.assetsPrefix = 'assets',
   })  : _imagePickerService = imagePickerService,
         _imageSaverService = imageSaverService;
 
@@ -84,4 +86,22 @@ class QuillSharedExtensionsConfigurations {
   ImageSaverService get imageSaverService {
     return _imageSaverService ?? ImageSaverService.defaultImpl();
   }
+
+  /// The property [assetsPrefix] should be the start of your assets folder
+  /// by default it to `assets` and the reason why we need to know it
+  ///
+  /// Because in case when you don't define a value for [ImageProviderBuilder]
+  /// in the [QuillEditorImageEmbedConfigurations] which exists in
+  /// [FlutterQuillEmbeds.editorBuilders]
+  ///
+  /// then the only way of how to know if this is asset image that you added
+  /// in the `pubspec.yaml` is by asking you the assetsPrefix, how should the
+  /// start of your asset images usualy looks like?? in most projects it's
+  /// assets so we will go with that as a default
+  ///
+  /// but if you are using different name and you want to use assets images
+  /// in the [QuillEditor] then it's important to override this
+  ///
+  /// if you want a custom solution then please use [imageProviderBuilder]
+  final String assetsPrefix;
 }

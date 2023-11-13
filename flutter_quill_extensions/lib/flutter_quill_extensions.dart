@@ -12,7 +12,6 @@ import 'presentation/embeds/editor/webview.dart';
 import 'presentation/embeds/toolbar/camera_button/camera_button.dart';
 import 'presentation/embeds/toolbar/formula_button.dart';
 import 'presentation/embeds/toolbar/image_button/image_button.dart';
-
 import 'presentation/embeds/toolbar/video_button/video_button.dart';
 import 'presentation/models/config/editor/image/image.dart';
 import 'presentation/models/config/editor/image/image_web.dart';
@@ -43,9 +42,7 @@ export 'presentation/embeds/toolbar/image_button/image_button.dart';
 export 'presentation/embeds/toolbar/media_button/media_button.dart';
 export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
 export 'presentation/embeds/toolbar/video_button/video_button.dart';
-export 'presentation/utils/utils.dart';
 export 'presentation/models/config/editor/image/image.dart';
-
 export 'presentation/models/config/editor/image/image_web.dart';
 export 'presentation/models/config/editor/video/video.dart';
 export 'presentation/models/config/editor/video/video_web.dart';
@@ -54,6 +51,7 @@ export 'presentation/models/config/toolbar/buttons/formula.dart';
 export 'presentation/models/config/toolbar/buttons/image.dart';
 export 'presentation/models/config/toolbar/buttons/media_button.dart';
 export 'presentation/models/config/toolbar/buttons/video.dart';
+export 'presentation/utils/utils.dart';
 
 @immutable
 class FlutterQuillEmbeds {

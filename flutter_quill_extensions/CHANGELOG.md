@@ -1,3 +1,6 @@
+## 0.6.8
+- Feature: Allow the developer to override the `assetsPrefix` and default value is `assets`, you should define this correctly if you planning on using asset images in the `QuillEditor`, take a look at `QuillSharedExtensionsConfigurations` class for more info
+
 ## 0.6.7
 - Support the new localization system of `flutter_quill`
 
