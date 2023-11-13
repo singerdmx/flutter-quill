@@ -92,7 +92,6 @@ class ImageOptionsMenu extends StatelessWidget {
                 imageUrl,
                 getImageStyleString(controller),
               );
-
               // TODO: Implement the copy image
               // await Clipboard.setData(
               //   ClipboardData(),
