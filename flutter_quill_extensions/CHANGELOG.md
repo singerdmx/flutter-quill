@@ -1,7 +1,7 @@
 ## 0.6.9
-- Feature: Add supprot for formula for web
 - Remove duplicated class
 - Drop the support for `QuillEditorFormulaEmbedBuilder` for now as it's not usable, we are working on providing a fixes
+- Fix bug with the zoom button
 
 ## 0.6.8
 - Feature: Allow the developer to override the `assetsPrefix` and default value is `assets`, you should define this correctly if you planning on using asset images in the `QuillEditor`, take a look at `QuillSharedExtensionsConfigurations` class for more info
