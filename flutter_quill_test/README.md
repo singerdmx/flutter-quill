@@ -1,6 +1,7 @@
 # Flutter Quill Test
 
-Test utilities for [flutter_quill](https://pub.dev/packages/flutter_quill) which includes methods to simplify interacting with the editor in test cases.
+Test utilities for [flutter_quill](https://pub.dev/packages/flutter_quill)
+which include methods to simplify interacting with the editor in test cases.
 
 ## Installation
 
@@ -9,7 +10,7 @@ Run the command in your project root folder:
 dart pub add dev:flutter_quill_test
 ```
 
-Example of how it will looks like:
+Example of how it will look like:
 
 ```yaml
 dev_dependencies:

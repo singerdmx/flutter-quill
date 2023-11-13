@@ -1,9 +1,7 @@
 # Flutter Quill Extensions
 
-A extensions for [flutter_quill](https://pub.dev/packages/flutter_quill)
+An extensions for [flutter_quill](https://pub.dev/packages/flutter_quill)
 to support embed widgets like image, formula, video and more.
-
-Currently the support for **Web** is limitied.
 
  Check [Flutter Quill](https://github.com/singerdmx/flutter-quill) for details of use.
 
@@ -26,13 +24,16 @@ Currently the support for **Web** is limitied.
 
 
 ## About
-Flutter quill is a rich editor text and it's allow you to customize a lot of things, it has custom embed builders which allow you to render custom widgets in the editor <br>
-this is a extensions to extends it functionallities by adding more features like images, videos, and more
+
+Flutter quill is a rich editor text. It'd allow you to customize a lot of things, 
+it has custom embed builders which allow you to render custom widgets in the editor <br>
+this is an extension to extend its functionalities by adding more features like images, videos, and more
 
 ## Installation
 
-Before start using this package, please make sure to install
-[flutter_quill](https://github.com/singerdmx/flutter-quill) package first and follow it's usage instructions.
+Before starting using this package, please make sure to install
+[flutter_quill](https://github.com/singerdmx/flutter-quill) package first and follow 
+its usage instructions.
 
 ```yaml
 dependencies:
@@ -49,11 +50,12 @@ dependencies:
 >
 > 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure follow the instructions
 >
-> 3. For loading the image from the internet we need internet permission
+> 3. For loading the image from the internet, we need internet permission
 >    1. For Android, you need to add some permissions in `AndroidManifest.xml`, Please follow this [link](https://developer.android.com/training/basics/network-ops/connecting) for more info, the internet permission included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your android application to accept `http` in the release mode, follow this [link](https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted) for more info.
->    2. for macOS you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
+>    2. for macOS, you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
 >
-> The extensions package also use [image_picker](https://pub.dev/packages/image_picker) which also require some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, macOS, we must inform you that you can't pick photo using camera in desktop so make sure to handle that if you plan on add support for desktop, this may change in the future and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
+> The extension package also uses [image_picker](https://pub.dev/packages/image_picker) which also 
+> requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, macOS, we must inform you that you can't pick photo using camera in desktop so make sure to handle that if you plan on add support for desktop, this may change in the future and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
 > 
 
 ## Usage
@@ -153,38 +155,39 @@ Define `width`, `height`, `margin`, `alignment` as follows:
 
 
 ### Drag and drop feature
-Currently the drag and drop feature is not offically supported but you can achieve this very easily in the following steps:
+Currently, the drag and drop feature is not officially supported, but you can achieve this very easily in the following steps:
 
 1. Drag and drop require native code, you can use any flutter plugin you like, if you want a suggestion we recommend [desktop_drop](https://pub.dev/packages/desktop_drop), it was origanlly developed for desktop but it has support for web as well mobile platforms
 2. Add the dependency in your `pubspec.yaml` using the following command:
-```yaml
-flutter pub add desktop_drop
-```
-and import it with
-```dart
-import 'package:desktop_drop/desktop_drop.dart';
-```
+
+    ```yaml
+    flutter pub add desktop_drop
+    ```
+    and import it with
+    ```dart
+    import 'package:desktop_drop/desktop_drop.dart';
+    ```
 3. in the configurations of `QuillEditor`, use the `builder` to wrap the editor with `DropTarget` which comes from `desktop_drop`
 
-```dart
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-
-QuillEditor.basic(
-      configurations: QuillEditorConfigurations(
-        padding: const EdgeInsets.all(16),
-         builder: (context, rawEditor) {
-            return DropTarget(
-              onDragDone: _onDragDone,
-              child: rawEditor,
-            );
-          },
-        embedBuilders: kIsWeb
-            ? FlutterQuillEmbeds.editorsWebBuilders()
-            : FlutterQuillEmbeds.editorBuilders(),
-      ),
-)
-```
-4. Implement the `_onDragDone`, it depend on your use case but this just a simple example
+    ```dart
+    import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+    
+    QuillEditor.basic(
+          configurations: QuillEditorConfigurations(
+            padding: const EdgeInsets.all(16),
+             builder: (context, rawEditor) {
+                return DropTarget(
+                  onDragDone: _onDragDone,
+                  child: rawEditor,
+                );
+              },
+            embedBuilders: kIsWeb
+                ? FlutterQuillEmbeds.editorsWebBuilders()
+                : FlutterQuillEmbeds.editorBuilders(),
+          ),
+    )
+    ```
+4. Implement the `_onDragDone`, it depends on your use case but this is just a simple example
 ```dart
 const List<String> imageFileExtensions = [
   '.jpeg',
@@ -229,9 +232,9 @@ OnDragDoneCallback get _onDragDone {
 ```markdown
 ## Features
 
-- Easy to use and customizable
+— Easy to use and customizable
 - Has the option to use custom image provider for the images
-- Usefull utilities and widgets
+- Useful utilities and widgets
 - Handle different errors
 ```
 
