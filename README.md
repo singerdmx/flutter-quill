@@ -39,11 +39,8 @@ Pub: [FlutterQuill]
   - [Migration](#migration)
   - [Input / Output](#input--output)
   - [Configurations](#configurations)
-    - [Using Custom App Widget](#using-custom-app-widget)
-    - [Localizations setup](#localizations-setup)
-    - [Font Size](#font-size)
+    - [Links](#links)
     - [Font Family](#font-family)
-    - [Custom Buttons](#custom-buttons)
   - [Embed Blocks](#embed-blocks)
     - [Using the embed blocks from `flutter_quill_extensions`](#using-the-embed-blocks-from-flutter_quill_extensions)
     - [Custom Embed Blocks](#custom-embed-blocks)
@@ -171,130 +168,16 @@ _controller = QuillController(
 The `QuillToolbar` and `QuillEditor` widgets lets you customize a lot of things
 [Sample Page] provides sample code for advanced usage and configuration.
 
-### Using Custom App Widget
-
-This project use some adaptive widgets like `AdaptiveTextSelectionToolbar` which require the following delegates:
-
-1. Default Material Localizations delegate
-2. Default Cupertino Localizations delegate
-3. Defualt Widgets Localizations delegate
-
-You don't need to include those since there are defined by default
- but if you are using Custom app or you are overriding the `localizationsDelegates` in the App widget
-then please make sure it's including those:
-
-```dart
-localizationsDelegates: const [
-    DefaultCupertinoLocalizations.delegate,
-    DefaultMaterialLocalizations.delegate,
-    DefaultWidgetsLocalizations.delegate,
-],
-```
-
-And you might need more depending on your use case, for example if you are using custom localizations for your app, using custom app widget like `FluentApp` from [FluentUI]
-which will also need
-
-```dart
-localizationsDelegates: const [
-    // Required localizations delegates ...
-    FluentLocalizations.delegate,
-    AppLocalizations.delegate,
-],
-```
-
-Note: In the latest versions of `FluentApp` you no longer need to add the `localizationsDelegates` but this is just an example, for more [info](https://github.com/bdlukaa/fluent_ui/pull/946)
-
-There are additonal notes in [Localizations](#localizations) section
-
-### Localizations setup
-in addition to the required delegatess which mentioned above in [Using custom app widget](#using-custom-app-widget)
-
-which are:
-```dart
-localizationsDelegates: const [
-    DefaultCupertinoLocalizations.delegate,
-    DefaultMaterialLocalizations.delegate,
-    DefaultWidgetsLocalizations.delegate,
-],
-```
-which are used by offical flutter widgets
-
-The library also needs the 
-```dart
-// Required localizations delegates ...
-FlutterQuillLocalizations.delegate
-```
-
-To offer the default localizations.
-
-But **you don't have to** since we have wraped the `QuillEditor` and `QuillToolbar` with `FlutterQuillLocalizationsWidget` which will check if it sets then it will go, if not, then it will be provided only for them, so it's not really required, but if you are overriding the `localizationsDelegates` you could also add the `FlutterQuillLocalizations.delegate`
-which won't change anything
-
-please read the [Translation](./doc/translation.md) section
-
-### Font Size
-
-Within the editor toolbar, a drop-down with font-sizing capabilities is available. This can be enabled or disabled with `showFontSize`.
-
-When enabled, the default font-size values can be modified via _optional_ `fontSizeValues`.  `fontSizeValues` accepts a `Map<String, String>` consisting of a `String` title for the font size and a `String` value for the font size.  Example:
-
-```dart
-fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46'}
-```
-
-Font size can be cleared with a value of `0`, for example:
-
-```dart
-fontSizeValues: const {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'}
-```
+### Links
+- [Using Custom App Widget](./doc/configurations/using_custom_app_widget.md)
+- [Localizations Setup](./doc/configurations/localizations_setup.md)
+- [Font Size](./doc/configurations/font_size.md)
+- [Font Family](#font-family)
+- [Custom Toolbar buttons](./doc/configurations/custom_buttons.md)
 
 ### Font Family
 
 To use your own fonts, update your [assets folder](./example/assets/fonts) and pass in `fontFamilyValues`. More details at [this commit](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa), [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter) and [this](https://www.flutterbeads.com/change-font-family-flutter/).
-
-### Custom Buttons
-
-You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List` of `QuillToolbarCustomButtonOptions`.
-
-To add an Icon, we should use a new `QuillToolbarCustomButtonOptions` class
-
-```dart
-    QuillToolbarCustomButtonOptions(
-        icon: const Icon(Icons.ac_unit),
-        tooltip: '',
-        onPressed: () {},
-        afterButtonPressed: () {},
-      ),
-```
-
-Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
-
-```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
-    customButtons: [
-      QuillToolbarCustomButtonOptions(
-        icon: const Icon(Icons.ac_unit),
-        onPressed: () {
-          debugPrint('snowflake1');
-        },
-      ),
-      QuillToolbarCustomButtonOptions(
-        icon: const Icon(Icons.ac_unit),
-        onPressed: () {
-          debugPrint('snowflake2');
-        },
-      ),
-      QuillToolbarCustomButtonOptions(
-        icon: const Icon(Icons.ac_unit),
-        onPressed: () {
-          debugPrint('snowflake3');
-        },
-      ),
-    ],
-  ),
-),
-```
 
 ## Embed Blocks
 
