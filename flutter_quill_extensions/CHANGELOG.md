@@ -1,3 +1,8 @@
+## 0.6.9
+- Feature: Add supprot for formula for web
+- Remove duplicated class
+- Improve the image and video embed builder for both web and other platforms
+
 ## 0.6.8
 - Feature: Allow the developer to override the `assetsPrefix` and default value is `assets`, you should define this correctly if you planning on using asset images in the `QuillEditor`, take a look at `QuillSharedExtensionsConfigurations` class for more info
 

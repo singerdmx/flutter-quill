@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart'
