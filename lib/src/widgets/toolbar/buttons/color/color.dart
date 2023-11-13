@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../../extensions/quill_provider.dart';
-import '../../../l10n/extensions/localizations.dart';
-import '../../../models/documents/attribute.dart';
-import '../../../models/documents/style.dart';
-import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/color.dart';
-import '../../controller.dart';
-import '../base_toolbar.dart';
+import '../../../../extensions/quill_provider.dart';
+import '../../../../l10n/extensions/localizations.dart';
+import '../../../../models/documents/attribute.dart';
+import '../../../../models/documents/style.dart';
+import '../../../../models/themes/quill_icon_theme.dart';
+import '../../../../utils/color.dart';
+import '../../../controller.dart';
+import '../../base_toolbar.dart';
+import 'dialog.dart';
 
 /// Controls color styles.
 ///
@@ -202,153 +202,42 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     var hex = colorToHex(color);
     hex = '#$hex';
     widget.controller.formatSelection(
-        widget.isBackground ? BackgroundAttribute(hex) : ColorAttribute(hex));
+      widget.isBackground ? BackgroundAttribute(hex) : ColorAttribute(hex),
+    );
   }
 
   void _showColorPicker() {
-    var pickerType = 'material';
-
-    var selectedColor = Colors.black;
-
-    if (_isToggledColor) {
-      selectedColor = widget.isBackground
-          ? hexToColor(_selectionStyle.attributes['background']?.value)
-          : hexToColor(_selectionStyle.attributes['color']?.value);
-    }
-
-    final hexController =
-        TextEditingController(text: colorToHex(selectedColor));
-    late void Function(void Function()) colorBoxSetState;
-
-    // TODO: Please make this dialog only responsible for picking the color
-    // so in the future we will add an option for showing custom method
-    // defined by the developer for picking dialog, and it will return
-    // color hex
-
-    // I won't for now to save some time for the refactoring
     showDialog<String>(
       context: context,
       barrierColor: options.dialogBarrierColor ??
           context.requireQuillSharedConfigurations.dialogBarrierColor,
-      builder: (context) => StatefulBuilder(builder: (context, dlgSetState) {
-        return AlertDialog(
-            title: Text(context.loc.selectColor),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(context.loc.ok)),
-            ],
-            backgroundColor: Theme.of(context).canvasColor,
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            dlgSetState(() {
-                              pickerType = 'material';
-                            });
-                          },
-                          child: Text(context.loc.material)),
-                      TextButton(
-                          onPressed: () {
-                            dlgSetState(() {
-                              pickerType = 'color';
-                            });
-                          },
-                          child: Text(context.loc.color)),
-                    ],
-                  ),
-                  Column(children: [
-                    if (pickerType == 'material')
-                      MaterialPicker(
-                        pickerColor: selectedColor,
-                        onColorChanged: (color) {
-                          _changeColor(context, color);
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    if (pickerType == 'color')
-                      ColorPicker(
-                        pickerColor: selectedColor,
-                        onColorChanged: (color) {
-                          _changeColor(context, color);
-                          hexController.text = colorToHex(color);
-                          selectedColor = color;
-                          colorBoxSetState(() {});
-                        },
-                      ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          height: 60,
-                          child: TextFormField(
-                            controller: hexController,
-                            onChanged: (value) {
-                              selectedColor = hexToColor(value);
-                              _changeColor(context, selectedColor);
-
-                              colorBoxSetState(() {});
-                            },
-                            decoration: InputDecoration(
-                              labelText: context.loc.hex,
-                              border: const OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        StatefulBuilder(builder: (context, mcolorBoxSetState) {
-                          colorBoxSetState = mcolorBoxSetState;
-                          return Container(
-                            width: 25,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black45,
-                              ),
-                              color: selectedColor,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ])
-                ],
-              ),
-            ));
-      }),
+      builder: (context) => ColorPickerDialog(
+        isBackground: widget.isBackground,
+        onRequestChangeColor: _changeColor,
+        isToggledColor: _isToggledColor,
+        selectionStyle: _selectionStyle,
+      ),
     );
   }
+}
 
-  Color hexToColor(String? hexString) {
-    if (hexString == null) {
-      return Colors.black;
-    }
-    final hexRegex = RegExp(r'([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$');
+Color hexToColor(String? hexString) {
+  if (hexString == null) {
+    return Colors.black;
+  }
+  final hexRegex = RegExp(r'([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$');
 
-    hexString = hexString.replaceAll('#', '');
-    if (!hexRegex.hasMatch(hexString)) {
-      return Colors.black;
-    }
-
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString);
-    return Color(int.tryParse(buffer.toString(), radix: 16) ?? 0xFF000000);
+  hexString = hexString.replaceAll('#', '');
+  if (!hexRegex.hasMatch(hexString)) {
+    return Colors.black;
   }
 
-  String colorToHex(Color color) {
-    return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();
-  }
+  final buffer = StringBuffer();
+  if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+  buffer.write(hexString);
+  return Color(int.tryParse(buffer.toString(), radix: 16) ?? 0xFF000000);
+}
+
+String colorToHex(Color color) {
+  return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();
 }

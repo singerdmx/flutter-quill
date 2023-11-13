@@ -9,7 +9,7 @@ import 'buttons/arrow_indicated_list.dart';
 export '../../models/config/toolbar/buttons/base.dart';
 export '../../models/config/toolbar/configurations.dart';
 export 'buttons/clear_format.dart';
-export 'buttons/color.dart';
+export 'buttons/color/color.dart';
 export 'buttons/custom_button.dart';
 export 'buttons/font_family.dart';
 export 'buttons/font_size.dart';
