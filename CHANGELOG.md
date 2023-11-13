@@ -1,7 +1,7 @@
 ## [8.5.2]
 - Update `README.md`
 - Feature: Allow you to add custom callback when the `QuillToolbarColorButton` pressed
-- The `QuillToolbar` is no implements `PreferredSizeWidget` so you can use it in the AppBar just like `QuillBaseToolbar`
+- The `QuillToolbar` is now implements `PreferredSizeWidget` so you can use it in the AppBar just like `QuillBaseToolbar`
 
 ## [8.5.1]
 - Update `README.md`
