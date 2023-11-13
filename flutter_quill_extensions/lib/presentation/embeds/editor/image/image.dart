@@ -117,14 +117,17 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       onTap: configurations.onImageClicked ??
           () => showDialog(
                 context: context,
-                builder: (context) {
-                  return ImageOptionsMenu(
-                    controller: controller,
-                    configurations: configurations,
-                    imageSource: imageSource,
-                    imageSize: imageSize,
-                    isReadOnly: readOnly,
-                    imageSaverService: imageSaverService,
+                builder: (_) {
+                  return QuillProvider.value(
+                    value: context.requireQuillProvider,
+                    child: ImageOptionsMenu(
+                      controller: controller,
+                      configurations: configurations,
+                      imageSource: imageSource,
+                      imageSize: imageSize,
+                      isReadOnly: readOnly,
+                      imageSaverService: imageSaverService,
+                    ),
                   );
                 },
               ),

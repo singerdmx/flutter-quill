@@ -6,6 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
 
+import '../../../../logic/models/config/shared_configurations.dart';
 import '../../../../logic/services/image_saver/s_image_saver.dart';
 import '../../../models/config/editor/image/image.dart';
 import '../../../utils/utils.dart';
@@ -178,7 +179,10 @@ class ImageOptionsMenu extends StatelessWidget {
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ImageTapWrapper(
+                  builder: (_) => ImageTapWrapper(
+                    assetsPrefix: QuillSharedExtensionsConfigurations.get(
+                            context: context)
+                        .assetsPrefix,
                     imageUrl: imageSource,
                     configurations: configurations,
                   ),

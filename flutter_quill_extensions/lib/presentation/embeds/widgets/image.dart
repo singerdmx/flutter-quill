@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
 
-import '../../../logic/models/config/shared_configurations.dart';
 import '../../models/config/editor/image/image.dart';
 import '../../utils/utils.dart';
 import '../embed_types/image.dart';
@@ -109,11 +108,13 @@ class ImageTapWrapper extends StatelessWidget {
   const ImageTapWrapper({
     required this.imageUrl,
     required this.configurations,
+    required this.assetsPrefix,
     super.key,
   });
 
   final String imageUrl;
   final QuillEditorImageEmbedConfigurations configurations;
+  final String assetsPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +129,7 @@ class ImageTapWrapper extends StatelessWidget {
               imageProvider: getImageProviderByImageSource(
                 imageUrl,
                 imageProviderBuilder: configurations.imageProviderBuilder,
-                assetsPrefix:
-                    QuillSharedExtensionsConfigurations.get(context: context)
-                        .assetsPrefix,
+                assetsPrefix: assetsPrefix,
               ),
               errorBuilder: configurations.imageErrorWidgetBuilder,
               loadingBuilder: (context, event) {
