@@ -7,7 +7,7 @@ import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';
 import 'base_toolbar.dart';
 
-class QuillToolbar extends StatelessWidget {
+class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     super.key,
     this.configurations = const QuillToolbarConfigurations(),
@@ -444,4 +444,9 @@ class QuillToolbar extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => configurations.axis == Axis.horizontal
+      ? const Size.fromHeight(defaultToolbarSize)
+      : const Size.fromWidth(defaultToolbarSize);
 }
