@@ -33,7 +33,7 @@ dependencies:
   meta: ^1.9.1
   universal_html: ^2.2.4
   cross_file: ^0.3.3+6
-  math_keyboard: ^0.2.1
+  # math_keyboard: ^0.2.1
 
   photo_view: ^0.14.0
 

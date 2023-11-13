@@ -107,7 +107,6 @@ class FlutterQuillEmbeds {
         QuillEditorVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
-      const QuillEditorFormulaEmbedBuilder(),
       if (webViewEmbedConfigurations != null)
         QuillEditorWebViewEmbedBuilder(
           configurations: webViewEmbedConfigurations,
@@ -143,7 +142,6 @@ class FlutterQuillEmbeds {
         QuillEditorWebVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
-      const QuillEditorFormulaEmbedBuilder()
     ];
   }
 
@@ -185,8 +183,6 @@ class FlutterQuillEmbeds {
         const QuillToolbarImageButtonOptions(),
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
-    QuillToolbarFormulaButtonOptions? formulaButtonOptions =
-        const QuillToolbarFormulaButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
     QuillToolbarMediaButtonOptions? mediaButtonOptions,
   }) =>
@@ -216,11 +212,12 @@ class FlutterQuillEmbeds {
         //         controller: mediaButtonOptions.controller ?? controller,
         //         options: mediaButtonOptions,
         //       ),
-        if (formulaButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarFormulaButton(
-                controller: formulaButtonOptions.controller ?? controller,
-                options: formulaButtonOptions,
-              ),
+        // Drop the support for formula button for now
+        // if (formulaButtonOptions != null)
+        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+        //       QuillToolbarFormulaButton(
+        //         controller: formulaButtonOptions.controller ?? controller,
+        //         options: formulaButtonOptions,
+        //       ),
       ];
 }

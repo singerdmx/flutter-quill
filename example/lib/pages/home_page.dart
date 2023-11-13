@@ -536,7 +536,6 @@ class _HomePageState extends State<HomePage> {
         configurations: QuillToolbarConfigurations(
           customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
-            formulaButtonOptions: const QuillToolbarFormulaButtonOptions(),
             cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
@@ -582,7 +581,6 @@ class _HomePageState extends State<HomePage> {
       configurations: QuillToolbarConfigurations(
         customButtons: customButtons,
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
-          formulaButtonOptions: const QuillToolbarFormulaButtonOptions(),
           cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
           videoButtonOptions: QuillToolbarVideoButtonOptions(
             videoConfigurations: QuillToolbarVideoConfigurations(
