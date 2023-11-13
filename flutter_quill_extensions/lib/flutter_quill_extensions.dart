@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
+import 'presentation/embeds/editor/formula.dart';
 import 'presentation/embeds/editor/image/image.dart';
 import 'presentation/embeds/editor/image/image_web.dart';
 import 'presentation/embeds/editor/video/video.dart';
@@ -142,6 +143,7 @@ class FlutterQuillEmbeds {
         QuillEditorWebVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
+      const QuillEditorFormulaEmbedBuilder()
     ];
   }
 
@@ -214,7 +216,7 @@ class FlutterQuillEmbeds {
         //         controller: mediaButtonOptions.controller ?? controller,
         //         options: mediaButtonOptions,
         //       ),
-        if (formulaButtonOptions != null && !kIsWeb)
+        if (formulaButtonOptions != null)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
               QuillToolbarFormulaButton(
                 controller: formulaButtonOptions.controller ?? controller,

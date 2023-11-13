@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/extensions.dart' as base;
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart'
+    show BlockEmbed, EmbedBuilder, QuillController;
 import 'package:math_keyboard/math_keyboard.dart';
 
-class FormulaEmbedBuilder extends EmbedBuilder {
-  const FormulaEmbedBuilder();
+class QuillEditorFormulaEmbedBuilder extends EmbedBuilder {
+  const QuillEditorFormulaEmbedBuilder();
   @override
   String get key => BlockEmbed.formulaType;
 

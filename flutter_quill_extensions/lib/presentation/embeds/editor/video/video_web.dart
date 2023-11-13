@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart'
@@ -6,6 +7,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart'
 
 import '../../../models/config/editor/video/video_web.dart';
 import '../../../utils/utils.dart';
+import '../../../utils/web_utils.dart';
 import '../shims/dart_ui_fake.dart'
     if (dart.library.html) '../shims/dart_ui_real.dart' as ui;
 
@@ -39,15 +41,17 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
       }
     }
 
-    final size = MediaQuery.sizeOf(context);
+    final (height, width, margin, alignment) = getWebElementAttributes(node);
 
     ui.PlatformViewRegistry().registerViewFactory(
       videoUrl,
       (id) => html.IFrameElement()
-        ..width = size.width.toString()
-        ..height = size.height.toString()
+        ..style.width = width
+        ..style.height = height
         ..src = videoUrl
-        ..style.border = 'none',
+        ..style.border = 'none'
+        ..style.margin = margin
+        ..style.alignSelf = alignment,
     );
 
     return SizedBox(

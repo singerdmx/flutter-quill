@@ -20,6 +20,9 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:quill_html_converter/quill_html_converter.dart';
 
+import '../samples/sample_data.dart';
+import '../samples/sample_data_nomedia.dart';
+import '../samples/sample_data_testing.dart';
 import '../widgets/time_stamp_embed_widget.dart';
 import 'read_only_page.dart';
 
@@ -60,14 +63,13 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadFromAssets() async {
     try {
-      final result =
-          await rootBundle.loadString('assets/sample_data_testing.json');
-      final doc = Document.fromJson(jsonDecode(result));
+      final doc = Document.fromJson(sampleDataTesting);
       _controller = QuillController(
         document: doc,
         selection: const TextSelection.collapsed(offset: 0),
       );
     } catch (error) {
+      print(error.toString());
       final doc = Document()
         ..insert(0, 'Error while loading the document: ${error.toString()}');
       _controller = QuillController(
@@ -195,11 +197,8 @@ class _HomePageState extends State<HomePage> {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     final navigator = Navigator.of(context);
                     try {
-                      final jsonString = await rootBundle.loadString(
-                        'assets/sample_data.json',
-                      );
                       _controller.document = Document.fromJson(
-                        jsonDecode(jsonString),
+                        sampleData,
                       );
                     } catch (e) {
                       print(
@@ -221,11 +220,8 @@ class _HomePageState extends State<HomePage> {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     final navigator = Navigator.of(context);
                     try {
-                      final jsonString = await rootBundle.loadString(
-                        'assets/sample_data_nomedia.json',
-                      );
                       _controller.document = Document.fromJson(
-                        jsonDecode(jsonString),
+                        sampleDataNoMedia,
                       );
                     } catch (e) {
                       print(
@@ -247,11 +243,8 @@ class _HomePageState extends State<HomePage> {
                     final scaffoldMessenger = ScaffoldMessenger.of(context);
                     final navigator = Navigator.of(context);
                     try {
-                      final jsonString = await rootBundle.loadString(
-                        'assets/sample_data_testing.json',
-                      );
                       _controller.document = Document.fromJson(
-                        jsonDecode(jsonString),
+                        sampleDataTesting,
                       );
                     } catch (e) {
                       print(
@@ -543,6 +536,7 @@ class _HomePageState extends State<HomePage> {
         configurations: QuillToolbarConfigurations(
           customButtons: customButtons,
           embedButtons: FlutterQuillEmbeds.toolbarButtons(
+            formulaButtonOptions: const QuillToolbarFormulaButtonOptions(),
             cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
@@ -588,6 +582,7 @@ class _HomePageState extends State<HomePage> {
       configurations: QuillToolbarConfigurations(
         customButtons: customButtons,
         embedButtons: FlutterQuillEmbeds.toolbarButtons(
+          formulaButtonOptions: const QuillToolbarFormulaButtonOptions(),
           cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
           videoButtonOptions: QuillToolbarVideoButtonOptions(
             videoConfigurations: QuillToolbarVideoConfigurations(
