@@ -13,13 +13,13 @@ topics:
 
 screenshots:
  - description: 'Screenshot 1'
-   path: example/assets/images/1.png
+   path: example/assets/images/screenshot_1.png
  - description: 'Screenshot 2'
-   path: example/assets/images/2.png
+   path: example/assets/images/screenshot_2.png
  - description: 'Screenshot 3'
-   path: example/assets/images/3.png
+   path: example/assets/images/screenshot_3.png
  - description: 'Screenshot 4'
-   path: example/assets/images/4.png
+   path: example/assets/images/screenshot_4.png
  
 platforms:
   android:
