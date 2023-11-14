@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 8.5.3
+- Update doc
+- Update `README.md` and `CHANGELOG.md`
+- Fix typos
+- Use `immutable` when possible
+
 ## 8.5.2
 - Updated `README.md`.
 - Feature: Added the ability to include a custom callback when the `QuillToolbarColorButton` is pressed.

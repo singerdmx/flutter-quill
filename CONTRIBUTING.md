@@ -3,7 +3,7 @@
 The contributions are more than welcome! <br>
 This project will be better with the open-source community help
 
-You can check the [Todo](./todo.md) list if you want to
+You can check the [Todo](./doc/todo.md) list if you want to
 
 There are no guidelines for now.
 This page will be updated in the future.
@@ -26,7 +26,7 @@ You will need a GitHub account as well as Git installed and configured with your
     ```
     The `your-branch-name` is your choice
 6. Make your changes
-7. If you are working on changes that depend on different libraries in the same repo, then in that directory copy `pubspec_overrides.yaml.disabled` which exists in all the libraries (`flutter_quill_test` and `flutter_quill_extensions` etc..)
+7. If you are working on changes that depend on different libraries in the same repo, then in that directory copy `pubspec_overrides.yaml.disabled` which exists in all the libraries (`flutter_quill_test` and `flutter_quill_extensions` etc...)
 to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and will be used by dart pub to override the libraries
     ```
     cp pubspec_overrides.yaml.disabled pubspec_overrides.yaml
@@ -35,7 +35,7 @@ to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and will be us
     ```
     ./scripts/enable_local_dev.sh
     ```
-8. Test them in the [example](../example) and add changes in there if necessary
+8. Test them in the [example](./example) and add changes in there if necessary
 9. Mention the new changes in the [CHANGELOG.md](../CHANGELOG.md) in the next block
 10. Run the following script if possible
     ```
@@ -49,7 +49,7 @@ to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and will be us
     ```
     this will push the new branch to your forked repository
 12. Now you can send your pull request either by following the link that you will get in the command line or open your
-forked repository, and you will find an option to send the pull request, you can also
+forked repository. You will find an option to send the pull request, you can also
 open the [Pull Requests](https://github.com/singerdmx/flutter-quill) tab and send new pull request
 13.  Please wait for the review, and we might ask you to make more changes, then run:
 ```
@@ -61,4 +61,4 @@ git push origin your-branch-name
 Thank you for your time and efforts in this open-source community project!!
 
 ## Development Notes
-Please read the [Development Notes](./development_notes.md) as they are important while development
+Please read the [Development Notes](./doc/development_notes.md) as they are important while development
