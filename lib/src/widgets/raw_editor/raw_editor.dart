@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart'
+    show BuildContext, State, StatefulWidget, Widget;
+import 'package:meta/meta.dart' show immutable;
 
 import '../../models/config/raw_editor/configurations.dart';
 import 'raw_editor_state.dart';
@@ -37,8 +39,9 @@ typedef QuillEditorContextMenuBuilder = Widget Function(
   QuillRawEditorState rawEditorState,
 );
 
+@immutable
 class QuillEditorGlyphHeights {
-  QuillEditorGlyphHeights(
+  const QuillEditorGlyphHeights(
     this.startGlyphHeight,
     this.endGlyphHeight,
   );
