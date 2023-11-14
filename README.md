@@ -46,12 +46,13 @@ it in GitHub repo instead.
   - [Usage](#usage)
   - [Migration](#migration)
   - [Input / Output](#input--output)
-  - [Configurations](#configurations)
     - [Links](#links)
+  - [Configurations](#configurations)
+    - [Links](#links-1)
     - [Font Family](#font-family)
   - [Embed Blocks](#embed-blocks)
     - [Using the embed blocks from `flutter_quill_extensions`](#using-the-embed-blocks-from-flutter_quill_extensions)
-    - [Links](#links-1)
+    - [Links](#links-2)
   - [Conversion to HTML](#conversion-to-html)
   - [Translation](#translation)
   - [Testing](#testing)
@@ -143,7 +144,7 @@ QuillProvider(
 
 And depending on your use case, you might want to dispose the `_controller` in dispose method
 
-in most cases it's better to.
+in most cases, it's better to.
 
 Check out [Sample Page] for more advanced usage.
 
@@ -153,7 +154,15 @@ We have added [Migration Guide](/doc/migration.md) for migration from different 
 
 ## Input / Output
 
-This library uses [Quill] as an internal data format.
+This library uses [Quill Delta](https://quilljs.com/docs/delta/)
+to represent the document content.
+The Delta format is a compact and versatile way to describe document changes.
+It consists of a series of operations, each representing an insertion, deletion,
+or formatting change within the document.
+
+Don’t be confused by its name Delta—Deltas represents both documents and changes to documents.
+If you think of Deltas as the instructions from going from one document to another,
+the way Deltas represent a document is by expressing the instructions starting from an empty document.
 
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
@@ -162,7 +171,7 @@ FlutterQuill provides some JSON serialization support, so that you can save and 
 To save a document as JSON, do something like the following:
 
 ```dart
-var json = jsonEncode(_controller.document.toDelta().toJson());
+final json = jsonEncode(_controller.document.toDelta().toJson());
 ```
 
 You can then write this to storage.
@@ -171,12 +180,22 @@ To open a FlutterQuill editor with an existing JSON representation that you've p
 you can do something like this:
 
 ```dart
-var myJSON = jsonDecode(r'{"insert":"hello\n"}');
+final json = jsonDecode(r'{"insert":"hello\n"}');
+
 _controller = QuillController(
-          document: Document.fromJson(myJSON),
-          selection: TextSelection.collapsed(offset: 0),
-        );
+  document: Document.fromJson(json),
+  selection: TextSelection.collapsed(offset: 0),
+);
 ```
+
+### Links
+
+- [Quill Delta](https://quilljs.com/docs/delta/)
+- [Quill Delta Formats](https://quilljs.com/docs/formats)
+- [Why Quill](https://quilljs.com/guides/why-quill/)
+- [Quill JS Configurations](https://quilljs.com/docs/configuration/)
+- [Quill JS Interactive Playground](https://quilljs.com/playground/)
+- [Quill JS GitHub repo](https://github.com/quilljs/quill)
 
 ## Configurations
 

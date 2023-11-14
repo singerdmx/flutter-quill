@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 8.5.4
+- The `mobileWidth`, `mobileHeight`, `mobileMargin` and `mobileAlignment` is now deprecated in `flutter_quill`, they are are now defined in `flutter_quill_extensions`
+
 ## 8.5.3
 - Update doc
 - Update `README.md` and `CHANGELOG.md`
