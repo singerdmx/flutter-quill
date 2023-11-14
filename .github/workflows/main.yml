@@ -1,4 +1,4 @@
-name: flutter-quill CI
+name: Flutter Quill CI
 
 on:
   push:
@@ -15,6 +15,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
 
       - name: Check flutter version
         run: flutter --version
@@ -46,9 +47,13 @@ jobs:
       - name: Run flutter tests
         run: flutter test
       
-      - name: Flutter Build Web
+      - name: Flutter build Web
         run: flutter build web --release --verbose --dart-define=CI=true
         working-directory: ./example
-      - name: Flutter Build Linux
+
+      - name: Install flutter Linux prerequisites
+        run: sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
+
+      - name: Flutter build Linux
         run: flutter build linux --release --verbose --dart-define=CI=true
         working-directory: ./example
