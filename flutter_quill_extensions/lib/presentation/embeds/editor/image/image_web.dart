@@ -56,7 +56,8 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
         ..style.height = height
         ..style.width = width
         ..style.margin = margin
-        ..style.alignSelf = alignment;
+        ..style.alignSelf = alignment
+        ..attributes['loading'] = 'lazy';
     });
 
     return ConstrainedBox(

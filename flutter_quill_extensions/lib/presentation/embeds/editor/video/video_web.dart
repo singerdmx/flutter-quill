@@ -50,7 +50,8 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
         ..src = videoUrl
         ..style.border = 'none'
         ..style.margin = margin
-        ..style.alignSelf = alignment,
+        ..style.alignSelf = alignment
+        ..attributes['loading'] = 'lazy',
     );
 
     return SizedBox(
