@@ -19,7 +19,6 @@ to support embed widgets like image, formula, video and more.
     - [Drag and drop feature](#drag-and-drop-feature)
   - [Features](#features)
   - [Contributing](#contributing)
-  - [License](#license)
   - [Acknowledgments](#acknowledgments)
 
 
@@ -243,10 +242,6 @@ OnDragDoneCallback get _onDragDone {
 We welcome contributions!
 
 Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](../CONTRIBUTING.md) for more details.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 

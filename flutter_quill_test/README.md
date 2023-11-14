@@ -3,6 +3,13 @@
 Test utilities for [flutter_quill](https://pub.dev/packages/flutter_quill)
 which include methods to simplify interacting with the editor in test cases.
 
+## Table of Contents
+- [Flutter Quill Test](#flutter-quill-test)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Testing](#testing)
+  - [Contributing](#contributing)
+
 ## Installation
 
 Run the command in your project root folder:
@@ -40,7 +47,3 @@ await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 We welcome contributions!
 
 Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](../CONTRIBUTING.md) for more details.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
