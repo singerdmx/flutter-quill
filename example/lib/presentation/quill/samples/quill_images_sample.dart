@@ -1,8 +1,10 @@
-const sampleDataTesting = [
+import '../../../gen/assets.gen.dart';
+
+final quillImagesSample = [
   {'insert': 'This is an asset image: \n'},
   {'insert': '\n'},
   {
-    'insert': {'image': 'assets/images/1.png'},
+    'insert': {'image': Assets.images.screenshot1.path},
     'attributes': {
       'width': '100',
       'height': '100',
@@ -67,17 +69,4 @@ const sampleDataTesting = [
         'The source of the above image is also image base 64 but this time it start with `data:image/png;base64,`'
   },
   {'insert': '\n'},
-  {'insert': '\n'},
-  {
-    'insert': {'video': 'https://youtu.be/xz6_AlJkDPA'},
-    'attributes': {
-      'width': '300',
-      'height': '300',
-      'style': 'width:400px; height:500px;'
-    }
-  },
-  {'insert': '\n'},
-  {'insert': '\n'},
-  {'insert': 'And this is just a youtube video'},
-  {'insert': '\n'}
 ];

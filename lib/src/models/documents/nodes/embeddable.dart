@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode, jsonEncode;
 
 /// An object which can be embedded into a Quill document.
 ///

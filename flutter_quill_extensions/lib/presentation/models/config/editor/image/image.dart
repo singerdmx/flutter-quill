@@ -101,6 +101,9 @@ class QuillEditorImageEmbedConfigurations {
   ///
   final ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder;
 
+  /// What should happen when the image is pressed?
+  ///
+  /// By default will show `ImageOptionsMenu` dialog
   final VoidCallback? onImageClicked;
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {

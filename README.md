@@ -65,10 +65,10 @@ it in GitHub repo instead.
 
 <br>
 
-<img src="./example/assets/images/1.png" width="250" alt="Screenshot 1">
-<img src="./example/assets/images/2.png" width="200" alt="Screenshot 2">
-<img src="./example/assets/images/3.png" width="175" alt="Screenshot 3">
-<img src="./example/assets/images/4.png" width="135" alt="Screenshot 4">
+<img src="./example/assets/images/screenshot_1.png" width="250" alt="Screenshot 1">
+<img src="./example/assets/images/screenshot_2.png" width="200" alt="Screenshot 2">
+<img src="./example/assets/images/screenshot_3.png" width="175" alt="Screenshot 3">
+<img src="./example/assets/images/screenshot_4.png" width="135" alt="Screenshot 4">
 
 </details>
 

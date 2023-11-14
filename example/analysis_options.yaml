@@ -2,8 +2,8 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   errors:
-    undefined_prefixed_name: ignore
-    unsafe_html: ignore
+    invalid_annotation_target: ignore
+
 linter:
   rules:
     always_declare_return_types: true
@@ -12,7 +12,7 @@ linter:
     avoid_empty_else: true
     avoid_escaping_inner_quotes: true
     avoid_print: false
-    avoid_redundant_argument_values: true
+    avoid_redundant_argument_values: false
     avoid_types_on_closure_parameters: true
     avoid_void_async: true
     cascade_invocations: true

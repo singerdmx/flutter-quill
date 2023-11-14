@@ -27,15 +27,13 @@ android {
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
-    def javaVersion = JavaVersion.VERSION_17
-
     compileOptions {
-        sourceCompatibility javaVersion
-        targetCompatibility javaVersion
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = javaVersion.toString()
+        jvmTarget = '1.8'
     }
 
     sourceSets {
@@ -44,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.example"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

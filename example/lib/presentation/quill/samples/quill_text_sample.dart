@@ -1,4 +1,4 @@
-const sampleDataNoMedia = [
+const quillTextSample = [
   {'insert': 'Flutter Quill'},
   {
     'attributes': {'header': 1},

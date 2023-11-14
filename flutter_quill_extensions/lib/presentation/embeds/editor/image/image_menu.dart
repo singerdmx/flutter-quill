@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' show isDesktop, isMobile;
+import 'package:flutter_quill/extensions.dart' show isMobile;
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
@@ -133,7 +133,6 @@ class ImageOptionsMenu extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.save),
               title: Text(context.loc.save),
-              enabled: !isDesktop(supportWeb: false),
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);
                 final localizations = context.loc;
@@ -143,7 +142,7 @@ class ImageOptionsMenu extends StatelessWidget {
                   imageUrl: imageSource,
                   imageSaverService: imageSaverService,
                 );
-                final imageSavedSuccessfully = saveImageResult.isSuccess;
+                final imageSavedSuccessfully = saveImageResult.error == null;
 
                 messenger.clearSnackBars();
 

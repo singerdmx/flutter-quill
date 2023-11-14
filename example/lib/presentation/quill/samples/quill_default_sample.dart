@@ -1,6 +1,8 @@
-const sampleData = [
+import '../../../gen/assets.gen.dart';
+
+final quillDefaultSample = [
   {
-    'insert': {'image': 'assets/images/1.png'},
+    'insert': {'image': Assets.images.screenshot1.path},
     'attributes': {
       'width': '100',
       'height': '100',
