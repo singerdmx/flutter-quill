@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Update `README.md` and `CHANGELOG.md`
 - Fix typos
 - Use `immutable` when possible
+- Update `.pubignore`
 
 ## 8.5.2
 - Updated `README.md`.
