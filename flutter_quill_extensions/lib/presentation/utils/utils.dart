@@ -92,15 +92,15 @@ Future<SaveImageResult> saveImage({
 }
 
 (
-  OptionalSize imageSize,
+  OptionalSize elementSize,
   double? margin,
   Alignment alignment,
 ) getElementAttributes(
   Node node,
 ) {
-  var imageSize = const OptionalSize(null, null);
-  var imageAlignment = Alignment.center;
-  double? imageMargin;
+  var elementSize = const OptionalSize(null, null);
+  var elementAlignment = Alignment.center;
+  double? elementMargin;
 
   // Usually double value
   final heightValue = double.tryParse(
@@ -109,12 +109,12 @@ Future<SaveImageResult> saveImage({
       node.style.attributes[Attribute.width.key]?.value.toString() ?? '');
 
   if (heightValue != null) {
-    imageSize = imageSize.copyWith(
+    elementSize = elementSize.copyWith(
       height: heightValue,
     );
   }
   if (widthValue != null) {
-    imageSize = imageSize.copyWith(
+    elementSize = elementSize.copyWith(
       width: widthValue,
     );
   }
@@ -136,7 +136,7 @@ Future<SaveImageResult> saveImage({
             'alignment',
           });
     if (attrs.isEmpty) {
-      return (imageSize, imageMargin, imageAlignment);
+      return (elementSize, elementMargin, elementAlignment);
     }
 
     // It css value as string but we will try to support it anyway
@@ -154,24 +154,24 @@ Future<SaveImageResult> saveImage({
         .replaceFirst('px', ''));
 
     if (cssHeightValue != null) {
-      imageSize = imageSize.copyWith(height: cssHeightValue);
+      elementSize = elementSize.copyWith(height: cssHeightValue);
     }
     if (cssWidthValue != null) {
-      imageSize = imageSize.copyWith(width: cssWidthValue);
+      elementSize = elementSize.copyWith(width: cssWidthValue);
     }
 
-    imageAlignment = base.getAlignment(base.isMobile(supportWeb: false)
+    elementAlignment = base.getAlignment(base.isMobile(supportWeb: false)
         ? attrs[AttributeExt.mobileAlignment.key]
         : attrs['alignment']);
     final margin = (base.isMobile(supportWeb: false)
         ? double.tryParse(AttributeExt.mobileMargin.key)
         : double.tryParse('margin'));
     if (margin != null) {
-      imageMargin = margin;
+      elementMargin = margin;
     }
   }
 
-  return (imageSize, imageMargin, imageAlignment);
+  return (elementSize, elementMargin, elementAlignment);
 }
 
 @immutable

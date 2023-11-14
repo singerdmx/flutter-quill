@@ -20,7 +20,7 @@ class ImageResizer extends StatefulWidget {
   final double? imageHeight;
   final double maxWidth;
   final double maxHeight;
-  final Function(double, double) onImageResize;
+  final Function(double width, double height) onImageResize;
 
   @override
   ImageResizerState createState() => ImageResizerState();
