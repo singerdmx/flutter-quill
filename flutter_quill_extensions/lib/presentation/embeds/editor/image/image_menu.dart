@@ -12,7 +12,6 @@ import '../../../models/config/editor/image/image.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/image.dart' show ImageTapWrapper, getImageStyleString;
 import '../../widgets/image_resizer.dart' show ImageResizer;
-import 'image.dart' show OptionalSize;
 
 class ImageOptionsMenu extends StatelessWidget {
   const ImageOptionsMenu({
