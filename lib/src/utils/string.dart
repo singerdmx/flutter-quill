@@ -37,7 +37,10 @@ String replaceStyleStringWithSize(
   }
 
   if (isMobile) {
+    // TODO: Will be updated soon.
+    // ignore: deprecated_member_use_from_same_package
     result[Attribute.mobileWidth] = width.toString();
+    // ignore: deprecated_member_use_from_same_package
     result[Attribute.mobileHeight] = height.toString();
   } else {
     result[Attribute.width.key] = width.toString();

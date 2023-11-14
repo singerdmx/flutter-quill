@@ -182,10 +182,7 @@ you can do something like this:
 ```dart
 final json = jsonDecode(r'{"insert":"hello\n"}');
 
-_controller = QuillController(
-  document: Document.fromJson(json),
-  selection: TextSelection.collapsed(offset: 0),
-);
+_controller.document = Document.fromJson(json);
 ```
 
 ### Links
