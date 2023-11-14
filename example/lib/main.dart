@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalCupertinoLocalizations,
         GlobalMaterialLocalizations,
         GlobalWidgetsLocalizations;
+import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:flutter_quill/translations.dart' show FlutterQuillLocalizations;
 import 'package:hydrated_bloc/hydrated_bloc.dart'
     show HydratedBloc, HydratedStorage;
@@ -13,7 +14,10 @@ import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
 
 import 'presentation/home/widgets/home_screen.dart';
-import 'presentation/quill/quill_images_screen.dart';
+import 'presentation/quill/quill_screen.dart';
+import 'presentation/quill/samples/quill_default_sample.dart';
+import 'presentation/quill/samples/quill_images_sample.dart';
+import 'presentation/quill/samples/quill_text_sample.dart';
 import 'presentation/settings/cubit/settings_cubit.dart';
 import 'presentation/settings/widgets/settings_screen.dart';
 
@@ -55,17 +59,66 @@ class MyApp extends StatelessWidget {
             supportedLocales: FlutterQuillLocalizations.supportedLocales,
             routes: {
               SettingsScreen.routeName: (context) => const SettingsScreen(),
-              QuillImagesScreen.routeName: (context) =>
-                  const QuillImagesScreen(),
+            },
+            onGenerateRoute: (settings) {
+              final name = settings.name ?? '/';
+              if (name == HomeScreen.routeName) {
+                return MaterialPageRoute(
+                  builder: (context) {
+                    return const HomeScreen();
+                  },
+                );
+              }
+              if (name == QuillScreen.routeName) {
+                return MaterialPageRoute(
+                  builder: (context) {
+                    final args = settings.arguments as QuillScreenArgs;
+                    return QuillScreen(
+                      args: args,
+                    );
+                  },
+                );
+              }
+              return null;
+            },
+            onUnknownRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Not found'),
+                  ),
+                  body: const Text('404'),
+                ),
+              );
             },
             home: Builder(
               builder: (context) {
                 final screen = switch (state.defaultScreen) {
-                  DefaultScreen.home => const HomePage(),
+                  DefaultScreen.home => const HomeScreen(),
                   DefaultScreen.settings => const SettingsScreen(),
-                  DefaultScreen.images => const QuillImagesScreen(),
-                  DefaultScreen.videos => null,
-                  DefaultScreen.text => null,
+                  DefaultScreen.imagesSample => QuillScreen(
+                      args: QuillScreenArgs(
+                        document: Document.fromJson(quillImagesSample),
+                      ),
+                    ),
+                  DefaultScreen.videosSample => throw UnimplementedError(
+                      'Not implemented for now',
+                    ),
+                  DefaultScreen.textSample => QuillScreen(
+                      args: QuillScreenArgs(
+                        document: Document.fromJson(quillTextSample),
+                      ),
+                    ),
+                  DefaultScreen.emptySample => QuillScreen(
+                      args: QuillScreenArgs(
+                        document: Document(),
+                      ),
+                    ),
+                  DefaultScreen.defaultSample => QuillScreen(
+                      args: QuillScreenArgs(
+                        document: Document.fromJson(quillDefaultSample),
+                      ),
+                    ),
                 };
                 return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 330),

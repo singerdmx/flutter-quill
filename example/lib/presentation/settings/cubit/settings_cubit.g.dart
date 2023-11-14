@@ -30,7 +30,9 @@ const _$ThemeModeEnumMap = {
 const _$DefaultScreenEnumMap = {
   DefaultScreen.home: 'home',
   DefaultScreen.settings: 'settings',
-  DefaultScreen.images: 'images',
-  DefaultScreen.videos: 'videos',
-  DefaultScreen.text: 'text',
+  DefaultScreen.defaultSample: 'defaultSample',
+  DefaultScreen.imagesSample: 'imagesSample',
+  DefaultScreen.videosSample: 'videosSample',
+  DefaultScreen.textSample: 'textSample',
+  DefaultScreen.emptySample: 'emptySample',
 };

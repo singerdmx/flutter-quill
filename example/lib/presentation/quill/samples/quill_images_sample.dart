@@ -1,23 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' show Document;
+import '../../../gen/assets.gen.dart';
 
-import '../../gen/assets.gen.dart';
-import 'quill_screen.dart';
-
-class QuillImagesScreen extends StatelessWidget {
-  const QuillImagesScreen({super.key});
-
-  static const routeName = '/images';
-
-  @override
-  Widget build(BuildContext context) {
-    return QuillScreen(
-      document: Document.fromJson(_sample),
-    );
-  }
-}
-
-final _sample = [
+final quillImagesSample = [
   {'insert': 'This is an asset image: \n'},
   {'insert': '\n'},
   {

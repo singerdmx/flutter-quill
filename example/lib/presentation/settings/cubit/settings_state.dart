@@ -3,9 +3,11 @@ part of 'settings_cubit.dart';
 enum DefaultScreen {
   home,
   settings,
-  images,
-  videos,
-  text,
+  defaultSample,
+  imagesSample,
+  videosSample,
+  textSample,
+  emptySample,
 }
 
 @freezed

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../quill/quill_images_screen.dart';
 import '../../quill/quill_screen.dart';
+import '../../quill/samples/quill_default_sample.dart';
+import '../../quill/samples/quill_images_sample.dart';
+import '../../quill/samples/quill_text_sample.dart';
 import '../../settings/widgets/settings_screen.dart';
 import 'example_item.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  static const routeName = '/home';
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,23 @@ class HomePage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 children: [
                   HomeScreenExampleItem(
+                    title: 'Default',
+                    icon: const Icon(
+                      Icons.home,
+                      size: 50,
+                    ),
+                    text:
+                        'If you want to see how the editor work with default content, '
+                        'see any samples or you are working on it',
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      QuillScreen.routeName,
+                      arguments: QuillScreenArgs(
+                        document: Document.fromJson(quillDefaultSample),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  HomeScreenExampleItem(
                     title: 'Images',
                     icon: const Icon(
                       Icons.image,
@@ -58,10 +79,12 @@ class HomePage extends StatelessWidget {
                     ),
                     text: 'If you want to see how the editor work with images, '
                         'see any samples or you are working on it',
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(QuillImagesScreen.routeName);
-                    },
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      QuillScreen.routeName,
+                      arguments: QuillScreenArgs(
+                        document: Document.fromJson(quillImagesSample),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 4),
                   HomeScreenExampleItem(
@@ -82,7 +105,12 @@ class HomePage extends StatelessWidget {
                     ),
                     text: 'If you want to see how the editor work with text, '
                         'see any samples or you are working on it',
-                    onPressed: () {},
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      QuillScreen.routeName,
+                      arguments: QuillScreenArgs(
+                        document: Document.fromJson(quillTextSample),
+                      ),
+                    ),
                   ),
                   HomeScreenExampleItem(
                     title: 'Empty',
@@ -91,17 +119,12 @@ class HomePage extends StatelessWidget {
                       size: 50,
                     ),
                     text: 'Want start clean? be my guest',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return QuillScreen(
-                              document: Document(),
-                            );
-                          },
-                        ),
-                      );
-                    },
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      QuillScreen.routeName,
+                      arguments: QuillScreenArgs(
+                        document: Document(),
+                      ),
+                    ),
                   ),
                 ],
               ),
