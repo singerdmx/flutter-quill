@@ -4,7 +4,7 @@
 
 ## Related Issues
 
-*Replace this paragraph with a list of issues related to this PR from the [issue database](https://github.com/fluttercommunity/plus_plugins/issues). Indicate, which of these issues are resolved or fixed by this PR.*
+*Replace this paragraph with a list of issues related to this PR from the [issue database](https://github.com/singerdmx/flutter-quill/issues). Indicate, which of these issues are resolved or fixed by this PR.*
 
 *e.g.*
 - *Fix #123*
