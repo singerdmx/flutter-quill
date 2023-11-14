@@ -9,3 +9,5 @@ pubspec_overrides.yaml.disabled
 example/.fvm/
 example/build/
 example/.dart_tool/
+
+scripts/
