@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter/cupertino.dart'
+    show CupertinoActionSheet, CupertinoActionSheetAction;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'package:flutter/material.dart' show Slider, Card;
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/translations.dart';
 
 class ImageResizer extends StatefulWidget {
@@ -57,52 +59,56 @@ class ImageResizerState extends State<ImageResizer> {
   Widget _showMaterialMenu() {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [_widthSlider(), _heightSlider()],
+      children: [
+        _widthSlider(),
+        _heightSlider(),
+      ],
     );
   }
 
   Widget _showCupertinoMenu() {
-    return CupertinoActionSheet(actions: [
-      CupertinoActionSheetAction(
-        onPressed: () {},
-        child: _widthSlider(),
-      ),
-      CupertinoActionSheetAction(
-        onPressed: () {},
-        child: _heightSlider(),
-      )
-    ]);
+    return CupertinoActionSheet(
+      actions: [
+        CupertinoActionSheetAction(
+          onPressed: () {},
+          child: _widthSlider(),
+        ),
+        CupertinoActionSheetAction(
+          onPressed: () {},
+          child: _heightSlider(),
+        )
+      ],
+    );
   }
 
   Widget _slider({
     required double value,
-    required double max,
     required bool isHeight,
     required ValueChanged<double> onChanged,
   }) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Card(
-          child: Slider(
-            value: value,
-            max: max,
-            divisions: 1000,
-            // Might need to be changed
-            label: isHeight ? context.loc.height : context.loc.width,
-            onChanged: (val) {
-              setState(() {
-                onChanged(val);
-                _resizeImage();
-              });
-            },
-          ),
-        ));
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Card(
+        child: Slider(
+          value: value,
+          max: widget.maxWidth,
+          divisions: 1000,
+          // Might need to be changed
+          label: isHeight ? context.loc.height : context.loc.width,
+          onChanged: (val) {
+            setState(() {
+              onChanged(val);
+              _resizeImage();
+            });
+          },
+        ),
+      ),
+    );
   }
 
   Widget _heightSlider() {
     return _slider(
       value: _height,
-      max: widget.maxHeight,
       isHeight: true,
       onChanged: (value) {
         _height = value;
@@ -113,7 +119,6 @@ class ImageResizerState extends State<ImageResizer> {
   Widget _widthSlider() {
     return _slider(
       value: _width,
-      max: widget.maxWidth,
       isHeight: false,
       onChanged: (value) {
         _width = value;
