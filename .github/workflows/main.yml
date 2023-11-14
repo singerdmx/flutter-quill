@@ -45,3 +45,7 @@ jobs:
 
       - name: Run flutter tests
         run: flutter test
+      
+      - name: Flutter Build web
+        run: flutter build web --release --verbose --dart-define=CI=true
+        working-directory: ./example

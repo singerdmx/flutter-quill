@@ -1,4 +1,5 @@
 import 'dart:io' as io show Directory, File;
+import 'dart:ui' show FontFeature;
 
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
@@ -32,6 +33,27 @@ class MyQuillEditor extends StatelessWidget {
       scrollController: scrollController,
       focusNode: focusNode,
       configurations: configurations.copyWith(
+        customStyles: const DefaultStyles(
+          h1: DefaultTextBlockStyle(
+            TextStyle(
+              fontSize: 32,
+              height: 1.15,
+              fontWeight: FontWeight.w300,
+            ),
+            VerticalSpacing(16, 0),
+            VerticalSpacing(0, 0),
+            null,
+          ),
+          sizeSmall: TextStyle(fontSize: 9),
+          subscript: TextStyle(
+            fontFamily: 'SF-UI-Display',
+            fontFeatures: [FontFeature.subscripts()],
+          ),
+          superscript: TextStyle(
+            fontFamily: 'SF-UI-Display',
+            fontFeatures: [FontFeature.superscripts()],
+          ),
+        ),
         scrollable: true,
         placeholder: 'Start writting your notes...',
         padding: const EdgeInsets.all(16),
