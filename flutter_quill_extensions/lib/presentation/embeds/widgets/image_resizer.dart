@@ -82,19 +82,18 @@ class ImageResizerState extends State<ImageResizer> {
   }
 
   Widget _slider({
-    required double value,
-    required bool isHeight,
+    required bool isWidth,
     required ValueChanged<double> onChanged,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Card(
         child: Slider(
-          value: value,
-          max: widget.maxWidth,
+          value: isWidth ? _width : _height,
+          max: isWidth ? widget.maxWidth : widget.maxHeight,
           divisions: 1000,
           // Might need to be changed
-          label: isHeight ? context.loc.height : context.loc.width,
+          label: isWidth ? context.loc.width : context.loc.height,
           onChanged: (val) {
             setState(() {
               onChanged(val);
@@ -108,8 +107,7 @@ class ImageResizerState extends State<ImageResizer> {
 
   Widget _heightSlider() {
     return _slider(
-      value: _height,
-      isHeight: true,
+      isWidth: false,
       onChanged: (value) {
         _height = value;
       },
@@ -118,8 +116,7 @@ class ImageResizerState extends State<ImageResizer> {
 
   Widget _widthSlider() {
     return _slider(
-      value: _width,
-      isHeight: false,
+      isWidth: true,
       onChanged: (value) {
         _width = value;
       },

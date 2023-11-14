@@ -1,10 +1,19 @@
 part of 'settings_cubit.dart';
 
-sealed class SettingsState extends Equatable {
-  const SettingsState();
-
-  @override
-  List<Object> get props => [];
+enum DefaultScreen {
+  home,
+  settings,
+  images,
+  videos,
+  text,
 }
 
-final class SettingsInitial extends SettingsState {}
+@freezed
+class SettingsState with _$SettingsState {
+  const factory SettingsState({
+    @Default(ThemeMode.system) ThemeMode themeMode,
+    @Default(DefaultScreen.home) DefaultScreen defaultScreen,
+  }) = _SettingsState;
+  factory SettingsState.fromJson(Map<String, Object?> json) =>
+      _$SettingsStateFromJson(json);
+}
