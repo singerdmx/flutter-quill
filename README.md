@@ -256,7 +256,7 @@ We welcome contributions!
 
 Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details. <br>
 
-We must mention that the `CONTRIBUTING.md` have a development notes, so if you're planning on contributing to the repo, 
+We must mention that the [CONTRIBUTING.md](./CONTRIBUTING.md) have a development notes, so if you're planning on contributing to the repo, 
 please consider reading it.
 
 You can check the [Todo](./doc/todo.md) list if you want to
