@@ -506,7 +506,12 @@ class _HomePageState extends State<HomePage> {
       if (newImage == null) {
         return;
       }
-      controller.insertImageBlock(imageSource: newImage);
+      if (!isWeb()) {
+        controller.insertImageBlock(imageSource: newImage);
+        return;
+      }
+      final newSavedImage = await _onImagePickCallback(File(newImage));
+      controller.insertImageBlock(imageSource: newSavedImage);
     };
   }
 
@@ -539,9 +544,7 @@ class _HomePageState extends State<HomePage> {
             cameraButtonOptions: const QuillToolbarCameraButtonOptions(),
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
-                onImageInsertedCallback: (image) async {
-                  _onImagePickCallback(File(image));
-                },
+                onImageInsertedCallback: (image) async {},
                 onImageInsertCallback: onImageInsert,
               ),
             ),
@@ -563,7 +566,11 @@ class _HomePageState extends State<HomePage> {
             imageButtonOptions: QuillToolbarImageButtonOptions(
               imageButtonConfigurations: QuillToolbarImageConfigurations(
                 onImageInsertedCallback: (image) async {
-                  _onImagePickCallback(File(image));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Image inserted'),
+                    ),
+                  );
                 },
               ),
             ),
@@ -592,7 +599,11 @@ class _HomePageState extends State<HomePage> {
             imageButtonConfigurations: QuillToolbarImageConfigurations(
               onImageInsertCallback: onImageInsert,
               onImageInsertedCallback: (image) async {
-                _onImagePickCallback(File(image));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Image inserted'),
+                  ),
+                );
               },
             ),
             // provide a callback to enable picking images from device.
