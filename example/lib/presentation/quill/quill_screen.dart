@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart'
-    show imageFileExtensions;
+    show getImageProviderByImageSource, imageFileExtensions;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -47,7 +48,8 @@ class _QuillScreenState extends State<QuillScreen> {
     _controller.document = widget.args.document;
   }
 
-  Future<void> onImageInsert(String image, QuillController controller) async {
+  Future<void> onImageInsertWithCropping(
+      String image, QuillController controller) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: image,
       aspectRatioPresets: [
@@ -82,6 +84,15 @@ class _QuillScreenState extends State<QuillScreen> {
       return;
     }
     final newSavedImage = await saveImage(File(newImage));
+    controller.insertImageBlock(imageSource: newSavedImage);
+  }
+
+  Future<void> onImageInsert(String image, QuillController controller) async {
+    if (isWeb()) {
+      controller.insertImageBlock(imageSource: image);
+      return;
+    }
+    final newSavedImage = await saveImage(File(image));
     controller.insertImageBlock(imageSource: newSavedImage);
   }
 
@@ -147,44 +158,95 @@ class _QuillScreenState extends State<QuillScreen> {
             if (!_isReadOnly)
               QuillToolbar(
                 configurations: QuillToolbarConfigurations(
-                  embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+                  embedButtons: FlutterQuillEmbeds.toolbarButtons(
+                    imageButtonOptions: QuillToolbarImageButtonOptions(
+                      imageButtonConfigurations:
+                          QuillToolbarImageConfigurations(
+                        onImageInsertCallback: isAndroid(supportWeb: false) ||
+                                isIOS(supportWeb: false) ||
+                                isWeb()
+                            ? onImageInsertWithCropping
+                            : onImageInsert,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            Expanded(
-              child: QuillEditor.basic(
-                configurations: QuillEditorConfigurations(
-                  scrollable: true,
-                  readOnly: _isReadOnly,
-                  placeholder: 'Start writting your notes...',
-                  padding: const EdgeInsets.all(16),
-                  embedBuilders: FlutterQuillEmbeds.defaultEditorBuilders(),
-                  builder: (context, rawEditor) {
-                    // The `desktop_drop` plugin doesn't support iOS platform for now
-                    if (isIOS(supportWeb: false)) {
-                      return rawEditor;
-                    }
-                    return DropTarget(
-                      onDragDone: (details) {
-                        final scaffoldMessenger = ScaffoldMessenger.of(context);
-                        final file = details.files.first;
-                        final isSupported = imageFileExtensions
-                            .any((ext) => file.name.endsWith(ext));
-                        if (!isSupported) {
-                          scaffoldMessenger.showText(
-                            'Only images are supported right now: ${file.mimeType}, ${file.name}, ${file.path}, $imageFileExtensions',
-                          );
-                          return;
+            Builder(
+              builder: (context) {
+                return Expanded(
+                  child: QuillEditor.basic(
+                    configurations: QuillEditorConfigurations(
+                      scrollable: true,
+                      readOnly: _isReadOnly,
+                      placeholder: 'Start writting your notes...',
+                      padding: const EdgeInsets.all(16),
+                      embedBuilders: isWeb()
+                          ? FlutterQuillEmbeds.editorWebBuilders()
+                          : FlutterQuillEmbeds.editorBuilders(
+                              imageEmbedConfigurations:
+                                  QuillEditorImageEmbedConfigurations(
+                                imageErrorWidgetBuilder:
+                                    (context, error, stackTrace) {
+                                  return Text(
+                                    'Error while loading an image: ${error.toString()}',
+                                  );
+                                },
+                                imageProviderBuilder: (imageUrl) {
+                                  // cached_network_image is supported
+                                  // only for Android, iOS and web
+
+                                  // We will use it only if image from network
+                                  if (isAndroid(supportWeb: false) ||
+                                      isIOS(supportWeb: false) ||
+                                      isWeb()) {
+                                    if (isHttpBasedUrl(imageUrl)) {
+                                      return CachedNetworkImageProvider(
+                                        imageUrl,
+                                      );
+                                    }
+                                  }
+                                  return getImageProviderByImageSource(
+                                    imageUrl,
+                                    imageProviderBuilder: null,
+                                    assetsPrefix:
+                                        QuillSharedExtensionsConfigurations.get(
+                                                context: context)
+                                            .assetsPrefix,
+                                  );
+                                },
+                              ),
+                            ),
+                      builder: (context, rawEditor) {
+                        // The `desktop_drop` plugin doesn't support iOS platform for now
+                        if (isIOS(supportWeb: false)) {
+                          return rawEditor;
                         }
-                        _controller.insertImageBlock(
-                          imageSource: file.path,
+                        return DropTarget(
+                          onDragDone: (details) {
+                            final scaffoldMessenger =
+                                ScaffoldMessenger.of(context);
+                            final file = details.files.first;
+                            final isSupported = imageFileExtensions
+                                .any((ext) => file.name.endsWith(ext));
+                            if (!isSupported) {
+                              scaffoldMessenger.showText(
+                                'Only images are supported right now: ${file.mimeType}, ${file.name}, ${file.path}, $imageFileExtensions',
+                              );
+                              return;
+                            }
+                            _controller.insertImageBlock(
+                              imageSource: file.path,
+                            );
+                            scaffoldMessenger.showText('Image is inserted.');
+                          },
+                          child: rawEditor,
                         );
-                        scaffoldMessenger.showText('Image is inserted.');
                       },
-                      child: rawEditor,
-                    );
-                  },
-                ),
-              ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

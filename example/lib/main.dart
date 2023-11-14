@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               SettingsScreen.routeName: (context) => const SettingsScreen(),
             },
             onGenerateRoute: (settings) {
-              final name = settings.name ?? '/';
+              final name = settings.name;
               if (name == HomeScreen.routeName) {
                 return MaterialPageRoute(
                   builder: (context) {

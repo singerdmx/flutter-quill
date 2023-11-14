@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' show isDesktop, isMobile;
+import 'package:flutter_quill/extensions.dart' show isMobile;
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
