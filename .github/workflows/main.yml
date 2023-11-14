@@ -46,6 +46,9 @@ jobs:
       - name: Run flutter tests
         run: flutter test
       
-      - name: Flutter Build web
+      - name: Flutter Build Web
         run: flutter build web --release --verbose --dart-define=CI=true
+        working-directory: ./example
+      - name: Flutter Build Linux
+        run: flutter build linux --release --verbose --dart-define=CI=true
         working-directory: ./example
