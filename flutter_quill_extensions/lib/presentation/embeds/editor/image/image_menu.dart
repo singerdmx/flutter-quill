@@ -142,7 +142,7 @@ class ImageOptionsMenu extends StatelessWidget {
                   imageUrl: imageSource,
                   imageSaverService: imageSaverService,
                 );
-                final imageSavedSuccessfully = saveImageResult.isSuccess;
+                final imageSavedSuccessfully = saveImageResult.error == null;
 
                 messenger.clearSnackBars();
 

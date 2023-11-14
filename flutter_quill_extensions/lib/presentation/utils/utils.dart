@@ -45,9 +45,9 @@ enum SaveImageResultMethod { network, localStorage }
 
 @immutable
 class SaveImageResult {
-  const SaveImageResult({required this.isSuccess, required this.method});
+  const SaveImageResult({required this.error, required this.method});
 
-  final bool isSuccess;
+  final String? error;
   final SaveImageResultMethod method;
 }
 
@@ -67,12 +67,12 @@ Future<SaveImageResult> saveImage({
         Uri.parse(appendFileExtensionToImageUrl(imageUrl)),
       );
       return const SaveImageResult(
-        isSuccess: true,
+        error: null,
         method: SaveImageResultMethod.network,
       );
     } catch (e) {
-      return const SaveImageResult(
-        isSuccess: false,
+      return SaveImageResult(
+        error: e.toString(),
         method: SaveImageResultMethod.network,
       );
     }
@@ -80,12 +80,12 @@ Future<SaveImageResult> saveImage({
   try {
     await imageSaverService.saveLocalImage(imageUrl);
     return const SaveImageResult(
-      isSuccess: true,
+      error: null,
       method: SaveImageResultMethod.localStorage,
     );
   } catch (e) {
-    return const SaveImageResult(
-      isSuccess: false,
+    return SaveImageResult(
+      error: e.toString(),
       method: SaveImageResultMethod.localStorage,
     );
   }

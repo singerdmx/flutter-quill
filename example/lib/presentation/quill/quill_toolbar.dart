@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart'
 
 import '../extensions/scaffold_messenger.dart';
 import '../settings/cubit/settings_cubit.dart';
+import 'embeds/timestamp_embed.dart';
 
 class MyQuillToolbar extends StatelessWidget {
   const MyQuillToolbar({super.key});
@@ -67,13 +68,19 @@ class MyQuillToolbar extends StatelessWidget {
     controller.insertImageBlock(imageSource: newSavedImage);
   }
 
-  /// Copies the picked file from temporary cache to applications directory
+  /// For mobile platforms it will copies the picked file from temporary cache
+  /// to applications directory
+  ///
+  /// for desktop platforms, it will do the same but from user files this time
   Future<String> saveImage(io.File file) async {
     final appDocDir = await getApplicationDocumentsDirectory();
-    final copiedFile = await file.copy(path.join(
+    final fileExt = path.extension(file.path);
+    final newFileName = '${DateTime.now().toIso8601String()}$fileExt';
+    final newPath = path.join(
       appDocDir.path,
-      '${DateTime.now().toIso8601String()}${path.extension(file.path)}',
-    ));
+      newFileName,
+    );
+    final copiedFile = await file.copy(newPath);
     return copiedFile.path;
   }
 
@@ -205,6 +212,52 @@ class MyQuillToolbar extends StatelessWidget {
         return QuillToolbar(
           configurations: QuillToolbarConfigurations(
             customButtons: [
+              QuillToolbarCustomButtonOptions(
+                icon: const Icon(Icons.add_alarm_rounded),
+                onPressed: () {
+                  final controller = context.requireQuillController;
+                  controller.document
+                      .insert(controller.selection.extentOffset, '\n');
+                  controller.updateSelection(
+                    TextSelection.collapsed(
+                      offset: controller.selection.extentOffset + 1,
+                    ),
+                    ChangeSource.local,
+                  );
+
+                  controller.document.insert(
+                    controller.selection.extentOffset,
+                    TimeStampEmbed(
+                      DateTime.now().toString(),
+                    ),
+                  );
+
+                  controller.updateSelection(
+                    TextSelection.collapsed(
+                      offset: controller.selection.extentOffset + 1,
+                    ),
+                    ChangeSource.local,
+                  );
+
+                  controller.document
+                      .insert(controller.selection.extentOffset, ' ');
+                  controller.updateSelection(
+                    TextSelection.collapsed(
+                      offset: controller.selection.extentOffset + 1,
+                    ),
+                    ChangeSource.local,
+                  );
+
+                  controller.document
+                      .insert(controller.selection.extentOffset, '\n');
+                  controller.updateSelection(
+                    TextSelection.collapsed(
+                      offset: controller.selection.extentOffset + 1,
+                    ),
+                    ChangeSource.local,
+                  );
+                },
+              ),
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.ac_unit),
                 onPressed: () {

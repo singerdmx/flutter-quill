@@ -1,3 +1,5 @@
+import 'dart:io' as io show Directory, File;
+
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:desktop_drop/desktop_drop.dart' show DropTarget;
@@ -7,8 +9,10 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart'
     show getImageProviderByImageSource, imageFileExtensions;
+import 'package:path/path.dart' as path;
 
 import '../extensions/scaffold_messenger.dart';
+import 'embeds/timestamp_embed.dart';
 
 class MyQuillEditor extends StatelessWidget {
   const MyQuillEditor({
@@ -31,39 +35,57 @@ class MyQuillEditor extends StatelessWidget {
         scrollable: true,
         placeholder: 'Start writting your notes...',
         padding: const EdgeInsets.all(16),
-        embedBuilders: isWeb()
-            ? FlutterQuillEmbeds.editorWebBuilders()
-            : FlutterQuillEmbeds.editorBuilders(
-                imageEmbedConfigurations: QuillEditorImageEmbedConfigurations(
-                  imageErrorWidgetBuilder: (context, error, stackTrace) {
-                    return Text(
-                      'Error while loading an image: ${error.toString()}',
-                    );
-                  },
-                  imageProviderBuilder: (imageUrl) {
-                    // cached_network_image is supported
-                    // only for Android, iOS and web
+        onImagePaste: (imageBytes) async {
+          if (isWeb()) {
+            return null;
+          }
+          // We will save it to system temporary files
+          final newFileName = '${DateTime.now().toIso8601String()}.png';
+          final newPath = path.join(
+            io.Directory.systemTemp.path,
+            newFileName,
+          );
+          final file = await io.File(
+            newPath,
+          ).writeAsBytes(imageBytes, flush: true);
+          return file.path;
+        },
+        embedBuilders: [
+          ...(isWeb()
+              ? FlutterQuillEmbeds.editorWebBuilders()
+              : FlutterQuillEmbeds.editorBuilders(
+                  imageEmbedConfigurations: QuillEditorImageEmbedConfigurations(
+                    imageErrorWidgetBuilder: (context, error, stackTrace) {
+                      return Text(
+                        'Error while loading an image: ${error.toString()}',
+                      );
+                    },
+                    imageProviderBuilder: (imageUrl) {
+                      // cached_network_image is supported
+                      // only for Android, iOS and web
 
-                    // We will use it only if image from network
-                    if (isAndroid(supportWeb: false) ||
-                        isIOS(supportWeb: false) ||
-                        isWeb()) {
-                      if (isHttpBasedUrl(imageUrl)) {
-                        return CachedNetworkImageProvider(
-                          imageUrl,
-                        );
+                      // We will use it only if image from network
+                      if (isAndroid(supportWeb: false) ||
+                          isIOS(supportWeb: false) ||
+                          isWeb()) {
+                        if (isHttpBasedUrl(imageUrl)) {
+                          return CachedNetworkImageProvider(
+                            imageUrl,
+                          );
+                        }
                       }
-                    }
-                    return getImageProviderByImageSource(
-                      imageUrl,
-                      imageProviderBuilder: null,
-                      assetsPrefix: QuillSharedExtensionsConfigurations.get(
-                              context: context)
-                          .assetsPrefix,
-                    );
-                  },
-                ),
-              ),
+                      return getImageProviderByImageSource(
+                        imageUrl,
+                        imageProviderBuilder: null,
+                        assetsPrefix: QuillSharedExtensionsConfigurations.get(
+                                context: context)
+                            .assetsPrefix,
+                      );
+                    },
+                  ),
+                )),
+          TimeStampEmbedBuilderWidget(),
+        ],
         builder: (context, rawEditor) {
           // The `desktop_drop` plugin doesn't support iOS platform for now
           if (isIOS(supportWeb: false)) {
