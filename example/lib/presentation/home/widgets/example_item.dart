@@ -23,24 +23,26 @@ class HomeScreenExampleItem extends StatelessWidget {
           child: GestureDetector(
             onTap: onPressed,
             child: Card(
-              child: Column(
-                children: [
-                  const SizedBox(height: 2),
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  icon,
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      text,
-                      style: Theme.of(context).textTheme.bodyMedium,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 2),
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    icon,
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        text,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

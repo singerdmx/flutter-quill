@@ -1,10 +1,19 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:desktop_drop/desktop_drop.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:flutter_quill_extensions/presentation/embeds/widgets/image.dart'
+    show imageFileExtensions;
+import 'package:image_cropper/image_cropper.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
+import '../extensions/scaffold_messenger.dart';
 import '../shared/widgets/home_screen_button.dart';
 
 @immutable
@@ -38,6 +47,54 @@ class _QuillScreenState extends State<QuillScreen> {
     _controller.document = widget.args.document;
   }
 
+  Future<void> onImageInsert(String image, QuillController controller) async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: image,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.deepOrange,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+        WebUiSettings(
+          context: context,
+        ),
+      ],
+    );
+    final newImage = croppedFile?.path;
+    if (newImage == null) {
+      return;
+    }
+    if (isWeb()) {
+      controller.insertImageBlock(imageSource: newImage);
+      return;
+    }
+    final newSavedImage = await saveImage(File(newImage));
+    controller.insertImageBlock(imageSource: newSavedImage);
+  }
+
+  /// Copies the picked file from temporary cache to applications directory
+  Future<String> saveImage(File file) async {
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final copiedFile = await file.copy(path.join(
+      appDocDir.path,
+      '${DateTime.now().toIso8601String()}${path.extension(file.path)}',
+    ));
+    return copiedFile.path;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,12 +117,8 @@ class _QuillScreenState extends State<QuillScreen> {
                 FlutterQuillEmbeds.defaultEditorBuilders(),
               );
               if (plainText.trim().isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      "We can't share empty document, please enter some text first",
-                    ),
-                  ),
+                ScaffoldMessenger.of(context).showText(
+                  "We can't share empty document, please enter some text first",
                 );
                 return;
               }
@@ -105,6 +158,31 @@ class _QuillScreenState extends State<QuillScreen> {
                   placeholder: 'Start writting your notes...',
                   padding: const EdgeInsets.all(16),
                   embedBuilders: FlutterQuillEmbeds.defaultEditorBuilders(),
+                  builder: (context, rawEditor) {
+                    // The `desktop_drop` plugin doesn't support iOS platform for now
+                    if (isIOS(supportWeb: false)) {
+                      return rawEditor;
+                    }
+                    return DropTarget(
+                      onDragDone: (details) {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
+                        final file = details.files.first;
+                        final isSupported = imageFileExtensions
+                            .any((ext) => file.name.endsWith(ext));
+                        if (!isSupported) {
+                          scaffoldMessenger.showText(
+                            'Only images are supported right now: ${file.mimeType}, ${file.name}, ${file.path}, $imageFileExtensions',
+                          );
+                          return;
+                        }
+                        _controller.insertImageBlock(
+                          imageSource: file.path,
+                        );
+                        scaffoldMessenger.showText('Image is inserted.');
+                      },
+                      child: rawEditor,
+                    );
+                  },
                 ),
               ),
             ),
@@ -113,11 +191,7 @@ class _QuillScreenState extends State<QuillScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(_isReadOnly ? Icons.lock : Icons.edit),
-        onPressed: () {
-          setState(() {
-            _isReadOnly = !_isReadOnly;
-          });
-        },
+        onPressed: () => setState(() => _isReadOnly = !_isReadOnly),
       ),
     );
   }

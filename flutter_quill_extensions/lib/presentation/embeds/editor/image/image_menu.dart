@@ -133,7 +133,6 @@ class ImageOptionsMenu extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.save),
               title: Text(context.loc.save),
-              enabled: !isDesktop(supportWeb: false),
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);
                 final localizations = context.loc;

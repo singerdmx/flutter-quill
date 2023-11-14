@@ -60,13 +60,15 @@ class SettingsScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ...DefaultScreen.values.map(
-                              (e) => ListTile(
-                                onTap: () {
-                                  Navigator.of(context).pop(e);
-                                },
-                                title: Text(e.name),
-                                leading: CircleAvatar(
-                                  child: Text((e.index + 1).toString()),
+                              (e) => Material(
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.of(context).pop(e);
+                                  },
+                                  title: Text(e.name),
+                                  leading: CircleAvatar(
+                                    child: Text((e.index + 1).toString()),
+                                  ),
                                 ),
                               ),
                             ),

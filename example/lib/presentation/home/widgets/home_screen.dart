@@ -1,6 +1,11 @@
+import 'dart:convert' show jsonDecode;
+
+import 'package:cross_file/cross_file.dart';
+import 'package:file_picker/file_picker.dart' show FilePicker, FileType;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
+import '../../extensions/scaffold_messenger.dart';
 import '../../quill/quill_screen.dart';
 import '../../quill/samples/quill_default_sample.dart';
 import '../../quill/samples/quill_images_sample.dart';
@@ -111,6 +116,46 @@ class HomeScreen extends StatelessWidget {
                         document: Document.fromJson(quillTextSample),
                       ),
                     ),
+                  ),
+                  HomeScreenExampleItem(
+                    title: 'Open a document by delta json',
+                    icon: const Icon(
+                      Icons.file_copy,
+                      size: 50,
+                    ),
+                    text: 'If you want to load a document by delta json file',
+                    onPressed: () async {
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                      final navigator = Navigator.of(context);
+                      try {
+                        final result = await FilePicker.platform.pickFiles(
+                          dialogTitle: 'Pick json delta',
+                          type: FileType.custom,
+                          allowedExtensions: ['json'],
+                          allowMultiple: false,
+                        );
+                        final file = result?.files.firstOrNull;
+                        final filePath = file?.path;
+                        if (file == null || filePath == null) {
+                          return;
+                        }
+                        final jsonString = await XFile(filePath).readAsString();
+
+                        navigator.pushNamed(
+                          QuillScreen.routeName,
+                          arguments: QuillScreenArgs(
+                            document: Document.fromJson(jsonDecode(jsonString)),
+                          ),
+                        );
+                      } catch (e) {
+                        print(
+                          'Error while loading json delta file: ${e.toString()}',
+                        );
+                        scaffoldMessenger.showText(
+                          'Error while loading json delta file: ${e.toString()}',
+                        );
+                      }
+                    },
                   ),
                   HomeScreenExampleItem(
                     title: 'Empty',
