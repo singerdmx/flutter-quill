@@ -1,5 +1,8 @@
+import 'package:meta/meta.dart' show immutable;
+
+@immutable
 class OffsetValue<T> {
-  OffsetValue(this.offset, this.value, [this.length]);
+  const OffsetValue(this.offset, this.value, [this.length]);
   final int offset;
   final int? length;
   final T value;

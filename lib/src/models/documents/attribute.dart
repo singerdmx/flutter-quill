@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart' show immutable;
 import 'package:quiver/core.dart';
 
 enum AttributeScope {
@@ -10,6 +11,7 @@ enum AttributeScope {
   ignore, // attributes that can be ignored
 }
 
+@immutable
 class Attribute<T> extends Equatable {
   const Attribute(
     this.key,

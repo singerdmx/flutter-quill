@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart' show immutable;
+
+@immutable
 class ImageUrl {
   const ImageUrl(
     this.url,

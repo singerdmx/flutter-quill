@@ -1,6 +1,9 @@
+import 'package:meta/meta.dart' show immutable;
+
 import '../documents/nodes/leaf.dart';
 import '../documents/nodes/line.dart';
 
+@immutable
 class SegmentLeafNode {
   const SegmentLeafNode(this.line, this.leaf);
 

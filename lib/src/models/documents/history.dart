@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart' show immutable;
+
 import '../quill_delta.dart';
 import '../structs/doc_change.dart';
 import '../structs/history_changed.dart';
@@ -12,7 +14,7 @@ class History {
     this.lastRecorded = 0,
   });
 
-  final HistoryStack stack = HistoryStack.empty();
+  final HistoryStack stack = const HistoryStack.empty();
 
   bool get hasUndo => stack.undo.isNotEmpty;
 
@@ -119,10 +121,11 @@ class History {
   }
 }
 
+@immutable
 class HistoryStack {
-  HistoryStack.empty()
-      : undo = [],
-        redo = [];
+  const HistoryStack.empty()
+      : undo = const [],
+        redo = const [];
 
   final List<Delta> undo;
   final List<Delta> redo;
