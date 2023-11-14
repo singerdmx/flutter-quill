@@ -506,7 +506,7 @@ class _HomePageState extends State<HomePage> {
       if (newImage == null) {
         return;
       }
-      if (!isWeb()) {
+      if (isWeb()) {
         controller.insertImageBlock(imageSource: newImage);
         return;
       }
@@ -709,8 +709,12 @@ class _HomePageState extends State<HomePage> {
   Future<String> _onImagePickCallback(File file) async {
     // Copies the picked file from temporary cache to applications directory
     final appDocDir = await getApplicationDocumentsDirectory();
-    final copiedFile =
-        await file.copy('${appDocDir.path}/${path.basename(file.path)}');
+    // final copiedFile =
+    //     await file.copy('${appDocDir.path}/${path.basename(file.path)}');
+    final copiedFile = await file.copy(path.join(
+      appDocDir.path,
+      '${DateTime.now().toIso8601String()}${path.extension(file.path)}',
+    ));
     return copiedFile.path.toString();
   }
 
