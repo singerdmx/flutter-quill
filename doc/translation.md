@@ -42,9 +42,10 @@ The translation files is located at [l10n folder](../lib/src/l10n/). Feel free t
 
 Add new file in the l10n folder with the following name
 `quill_${localName}.arb` for example `quill_de.arb`
+
 paste the English version and replace the values
 
-Also you can take a look at the [untranslated](../lib/src/l10n/untranslated.json) json file, which is a generated file that tell you which keys hasn't with which locales hasn't translated so you can translate the missings
+Also you can take a look at the [untranslated.json](../lib/src/l10n/untranslated.json) json file, which is a generated file that tell you which keys with which locales hasn't translated so you can find the missings easily
 
 After you are done and want to test the changes, run the following in the root folder (preferred):
 
