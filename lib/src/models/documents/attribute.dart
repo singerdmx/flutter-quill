@@ -121,8 +121,10 @@ class Attribute<T> extends Equatable {
   @Deprecated('This property is no logner used in flutter_quill')
   static const String mobileAlignment = 'mobileAlignment';
 
+  @Deprecated("Will be removed as it doesn't confirm to Quill js")
   static const String alignment = 'alignment';
 
+  @Deprecated("Will be removed as it doesn't confirm to Quill js")
   static const String margin = 'margin';
 
   static const ImageAttribute image = ImageAttribute(null);

@@ -1,3 +1,11 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## 0.6.10
+- Update deprecated members from `flutter_quill`
+- Update doc and `README.md`
+
 ## 0.6.9
 - Remove duplicated class
 - Drop the support for `QuillEditorFormulaEmbedBuilder` for now as it's not usable, we are working on providing a fixes

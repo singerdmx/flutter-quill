@@ -6,6 +6,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../flutter_quill_extensions.dart';
+
 /// Widget for playing back video
 /// Refer to https://github.com/flutter/plugins/tree/master/packages/video_player/video_player
 class VideoApp extends StatefulWidget {
@@ -34,7 +36,7 @@ class VideoAppState extends State<VideoApp> {
   void initState() {
     super.initState();
 
-    _controller = widget.videoUrl.startsWith('http')
+    _controller = isHttpBasedUrl(widget.videoUrl)
         ? VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
         : VideoPlayerController.file(File(widget.videoUrl))
       ..initialize().then((_) {
@@ -82,7 +84,6 @@ class VideoAppState extends State<VideoApp> {
 
     return Container(
       key: videoContainerKey,
-      // height: 300,
       child: InkWell(
         onTap: () {
           setState(() {

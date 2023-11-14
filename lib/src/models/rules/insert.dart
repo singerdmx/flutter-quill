@@ -520,6 +520,7 @@ class AutoFormatLinksRule extends InsertRule {
     try {
       final cand = (prev.data as String).split('\n').last.split(' ').last;
       final link = Uri.parse(cand);
+      // TODO: Can be improved a little
       if (!['https', 'http'].contains(link.scheme)) {
         return null;
       }

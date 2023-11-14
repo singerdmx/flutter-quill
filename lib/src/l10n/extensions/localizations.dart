@@ -7,7 +7,7 @@ typedef FlutterQuillLocalizations = generated.FlutterQuillLocalizations;
 extension LocalizationsExt on BuildContext {
   /// Require the [FlutterQuillLocalizations] instance
   ///
-  /// `loc` is short for localizations
+  /// `loc` is short for `localizations`
   FlutterQuillLocalizations get loc {
     return FlutterQuillLocalizations.of(this) ??
         (throw UnimplementedError(

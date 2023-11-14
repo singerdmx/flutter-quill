@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart'
-    show isDesktop, isMobile, replaceStyleStringWithSize;
+import 'package:flutter_quill/extensions.dart' show isDesktop, isMobile;
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/models/config/shared_configurations.dart';
 import '../../../../logic/services/image_saver/s_image_saver.dart';
+import '../../../../logic/utils/string.dart';
 import '../../../models/config/editor/image/image.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/image.dart' show ImageTapWrapper, getImageStyleString;

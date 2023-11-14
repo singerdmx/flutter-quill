@@ -50,7 +50,7 @@ ImageProvider getImageProviderByImageSource(
   }
 
   if (imageSource.startsWith(assetsPrefix)) {
-    // TODO: This impl needs to be improved
+    // TODO: This impl could be improved
     return AssetImage(imageSource);
   }
   return FileImage(File(imageSource));

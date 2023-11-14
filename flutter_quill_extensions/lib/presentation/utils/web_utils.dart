@@ -28,8 +28,8 @@ import 'package:flutter_quill/flutter_quill.dart' show Attribute, Node;
     final attrs = base.parseKeyValuePairs(cssStyle.value.toString(), {
       Attribute.width.key,
       Attribute.height.key,
-      Attribute.margin,
-      Attribute.alignment,
+      'margin',
+      'alignment',
     });
     final cssHeightValue = attrs[Attribute.height.key];
     if (cssHeightValue != null) {

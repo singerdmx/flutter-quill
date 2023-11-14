@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart' as base;
@@ -7,6 +5,7 @@ import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
 
 import '../../../../logic/models/config/shared_configurations.dart';
 import '../../../models/config/editor/image/image.dart';
+import '../../../utils/utils.dart';
 import '../../widgets/image.dart';
 import 'image_menu.dart';
 
@@ -34,7 +33,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
     final imageSource = standardizeImageUrl(node.value.data);
-    final ((imageSize), margin, alignment) = _getImageAttributes(node);
+    final ((imageSize), margin, alignment) = getElementAttributes(node);
 
     final width = imageSize.width;
     final height = imageSize.height;
@@ -144,115 +143,6 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
           return image;
         },
       ),
-    );
-  }
-}
-
-(
-  OptionalSize imageSize,
-  double? margin,
-  Alignment alignment,
-) _getImageAttributes(
-  Node node,
-) {
-  var imageSize = const OptionalSize(null, null);
-  var imageAlignment = Alignment.center;
-  double? imageMargin;
-
-  // Usually double value
-  final heightValue = double.tryParse(
-      node.style.attributes[Attribute.height.key]?.value.toString() ?? '');
-  final widthValue = double.tryParse(
-      node.style.attributes[Attribute.width.key]?.value.toString() ?? '');
-
-  if (heightValue != null) {
-    imageSize = imageSize.copyWith(
-      height: heightValue,
-    );
-  }
-  if (widthValue != null) {
-    imageSize = imageSize.copyWith(
-      width: widthValue,
-    );
-  }
-
-  final cssStyle = node.style.attributes['style'];
-
-  if (cssStyle != null) {
-    final attrs = base.isMobile(supportWeb: false)
-        ? base.parseKeyValuePairs(cssStyle.value.toString(), {
-            Attribute.mobileWidth,
-            Attribute.mobileHeight,
-            Attribute.mobileMargin,
-            Attribute.mobileAlignment,
-          })
-        : base.parseKeyValuePairs(cssStyle.value.toString(), {
-            Attribute.width.key,
-            Attribute.height.key,
-            Attribute.margin,
-            Attribute.alignment,
-          });
-    if (attrs.isEmpty) {
-      return (imageSize, imageMargin, imageAlignment);
-    }
-
-    // It css value as string but we will try to support it anyway
-
-    // TODO: This could be improved much better
-    final cssHeightValue = double.tryParse(((base.isMobile(supportWeb: false)
-                ? attrs[Attribute.mobileHeight]
-                : attrs[Attribute.height.key]) ??
-            '')
-        .replaceFirst('px', ''));
-    final cssWidthValue = double.tryParse(((!base.isMobile(supportWeb: false)
-                ? attrs[Attribute.width.key]
-                : attrs[Attribute.mobileWidth]) ??
-            '')
-        .replaceFirst('px', ''));
-
-    if (cssHeightValue != null) {
-      imageSize = imageSize.copyWith(height: cssHeightValue);
-    }
-    if (cssWidthValue != null) {
-      imageSize = imageSize.copyWith(width: cssWidthValue);
-    }
-
-    imageAlignment = base.getAlignment(base.isMobile(supportWeb: false)
-        ? attrs[Attribute.mobileAlignment]
-        : attrs[Attribute.alignment]);
-    final margin = (base.isMobile(supportWeb: false)
-        ? double.tryParse(Attribute.mobileMargin)
-        : double.tryParse(Attribute.margin));
-    if (margin != null) {
-      imageMargin = margin;
-    }
-  }
-
-  return (imageSize, imageMargin, imageAlignment);
-}
-
-@immutable
-class OptionalSize {
-  const OptionalSize(
-    this.width,
-    this.height,
-  );
-
-  /// If non-null, requires the child to have exactly this width.
-  /// If null, the child is free to choose its own width.
-  final double? width;
-
-  /// If non-null, requires the child to have exactly this height.
-  /// If null, the child is free to choose its own height.
-  final double? height;
-
-  OptionalSize copyWith({
-    double? width,
-    double? height,
-  }) {
-    return OptionalSize(
-      width ?? this.width,
-      height ?? this.height,
     );
   }
 }

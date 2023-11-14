@@ -19,6 +19,7 @@ Map<String, String> parseKeyValuePairs(String s, Set<String> targetKeys) {
   return result;
 }
 
+@Deprecated('This function is no longer used in flutter_quill')
 String replaceStyleStringWithSize(
   String cssStyle, {
   required double width,
@@ -37,11 +38,8 @@ String replaceStyleStringWithSize(
   }
 
   if (isMobile) {
-    // TODO: Will be updated soon.
-    // ignore: deprecated_member_use_from_same_package
-    result[Attribute.mobileWidth] = width.toString();
-    // ignore: deprecated_member_use_from_same_package
-    result[Attribute.mobileHeight] = height.toString();
+    result['mobileWidth'] = width.toString();
+    result['mobileHeight'] = height.toString();
   } else {
     result[Attribute.width.key] = width.toString();
     result[Attribute.height.key] = height.toString();

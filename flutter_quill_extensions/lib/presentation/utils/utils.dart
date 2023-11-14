@@ -1,6 +1,10 @@
 import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/widgets.dart' show Alignment;
+import 'package:flutter_quill/extensions.dart' as base;
+import 'package:flutter_quill/flutter_quill.dart' show Attribute, Node;
+import '../../logic/extensions/attribute.dart';
 import '../../logic/services/image_saver/s_image_saver.dart';
 import '../embeds/widgets/image.dart';
 
@@ -83,6 +87,115 @@ Future<SaveImageResult> saveImage({
     return const SaveImageResult(
       isSuccess: false,
       method: SaveImageResultMethod.localStorage,
+    );
+  }
+}
+
+(
+  OptionalSize imageSize,
+  double? margin,
+  Alignment alignment,
+) getElementAttributes(
+  Node node,
+) {
+  var imageSize = const OptionalSize(null, null);
+  var imageAlignment = Alignment.center;
+  double? imageMargin;
+
+  // Usually double value
+  final heightValue = double.tryParse(
+      node.style.attributes[Attribute.height.key]?.value.toString() ?? '');
+  final widthValue = double.tryParse(
+      node.style.attributes[Attribute.width.key]?.value.toString() ?? '');
+
+  if (heightValue != null) {
+    imageSize = imageSize.copyWith(
+      height: heightValue,
+    );
+  }
+  if (widthValue != null) {
+    imageSize = imageSize.copyWith(
+      width: widthValue,
+    );
+  }
+
+  final cssStyle = node.style.attributes['style'];
+
+  if (cssStyle != null) {
+    final attrs = base.isMobile(supportWeb: false)
+        ? base.parseKeyValuePairs(cssStyle.value.toString(), {
+            AttributeExt.mobileWidth.key,
+            AttributeExt.mobileHeight.key,
+            AttributeExt.mobileMargin.key,
+            AttributeExt.mobileAlignment.key,
+          })
+        : base.parseKeyValuePairs(cssStyle.value.toString(), {
+            Attribute.width.key,
+            Attribute.height.key,
+            'margin',
+            'alignment',
+          });
+    if (attrs.isEmpty) {
+      return (imageSize, imageMargin, imageAlignment);
+    }
+
+    // It css value as string but we will try to support it anyway
+
+    // TODO: This could be improved much better
+    final cssHeightValue = double.tryParse(((base.isMobile(supportWeb: false)
+                ? attrs[AttributeExt.mobileHeight.key]
+                : attrs[Attribute.height.key]) ??
+            '')
+        .replaceFirst('px', ''));
+    final cssWidthValue = double.tryParse(((!base.isMobile(supportWeb: false)
+                ? attrs[Attribute.width.key]
+                : attrs[AttributeExt.mobileWidth.key]) ??
+            '')
+        .replaceFirst('px', ''));
+
+    if (cssHeightValue != null) {
+      imageSize = imageSize.copyWith(height: cssHeightValue);
+    }
+    if (cssWidthValue != null) {
+      imageSize = imageSize.copyWith(width: cssWidthValue);
+    }
+
+    imageAlignment = base.getAlignment(base.isMobile(supportWeb: false)
+        ? attrs[AttributeExt.mobileAlignment.key]
+        : attrs['alignment']);
+    final margin = (base.isMobile(supportWeb: false)
+        ? double.tryParse(AttributeExt.mobileMargin.key)
+        : double.tryParse('margin'));
+    if (margin != null) {
+      imageMargin = margin;
+    }
+  }
+
+  return (imageSize, imageMargin, imageAlignment);
+}
+
+@immutable
+class OptionalSize {
+  const OptionalSize(
+    this.width,
+    this.height,
+  );
+
+  /// If non-null, requires the child to have exactly this width.
+  /// If null, the child is free to choose its own width.
+  final double? width;
+
+  /// If non-null, requires the child to have exactly this height.
+  /// If null, the child is free to choose its own height.
+  final double? height;
+
+  OptionalSize copyWith({
+    double? width,
+    double? height,
+  }) {
+    return OptionalSize(
+      width ?? this.width,
+      height ?? this.height,
     );
   }
 }

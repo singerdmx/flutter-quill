@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## 8.5.4
 - The `mobileWidth`, `mobileHeight`, `mobileMargin` and `mobileAlignment` is now deprecated in `flutter_quill`, they are are now defined in `flutter_quill_extensions`
+- Deprecate `replaceStyleStringWithSize` function which is in `string.dart`
+- Deprecate `alignment`, and `margin` as they don't confirm to offical Quill JS
 
 ## 8.5.3
 - Update doc

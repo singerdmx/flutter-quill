@@ -32,13 +32,26 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
     final videoUrl = node.value.data;
     if (isYouTubeUrl(videoUrl)) {
       return YoutubeVideoApp(
-          videoUrl: videoUrl, context: context, readOnly: readOnly);
+        videoUrl: videoUrl,
+        context: context,
+        readOnly: readOnly,
+      );
     }
-    return VideoApp(
-      videoUrl: videoUrl,
-      context: context,
-      readOnly: readOnly,
-      onVideoInit: configurations.onVideoInit,
+    final ((imageSize), margin, alignment) = getElementAttributes(node);
+
+    final width = imageSize.width;
+    final height = imageSize.height;
+    return Container(
+      width: width,
+      height: height,
+      margin: EdgeInsets.all(margin ?? 0.0),
+      alignment: alignment,
+      child: VideoApp(
+        videoUrl: videoUrl,
+        context: context,
+        readOnly: readOnly,
+        onVideoInit: configurations.onVideoInit,
+      ),
     );
   }
 }
