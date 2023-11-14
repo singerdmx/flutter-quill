@@ -22,6 +22,7 @@ SettingsState _$SettingsStateFromJson(Map<String, dynamic> json) {
 mixin _$SettingsState {
   ThemeMode get themeMode => throw _privateConstructorUsedError;
   DefaultScreen get defaultScreen => throw _privateConstructorUsedError;
+  bool get useCustomQuillToolbar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,10 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({ThemeMode themeMode, DefaultScreen defaultScreen});
+  $Res call(
+      {ThemeMode themeMode,
+      DefaultScreen defaultScreen,
+      bool useCustomQuillToolbar});
 }
 
 /// @nodoc
@@ -53,6 +57,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   $Res call({
     Object? themeMode = null,
     Object? defaultScreen = null,
+    Object? useCustomQuillToolbar = null,
   }) {
     return _then(_value.copyWith(
       themeMode: null == themeMode
@@ -63,6 +68,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.defaultScreen
           : defaultScreen // ignore: cast_nullable_to_non_nullable
               as DefaultScreen,
+      useCustomQuillToolbar: null == useCustomQuillToolbar
+          ? _value.useCustomQuillToolbar
+          : useCustomQuillToolbar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -75,7 +84,10 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ThemeMode themeMode, DefaultScreen defaultScreen});
+  $Res call(
+      {ThemeMode themeMode,
+      DefaultScreen defaultScreen,
+      bool useCustomQuillToolbar});
 }
 
 /// @nodoc
@@ -91,6 +103,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
   $Res call({
     Object? themeMode = null,
     Object? defaultScreen = null,
+    Object? useCustomQuillToolbar = null,
   }) {
     return _then(_$SettingsStateImpl(
       themeMode: null == themeMode
@@ -101,6 +114,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.defaultScreen
           : defaultScreen // ignore: cast_nullable_to_non_nullable
               as DefaultScreen,
+      useCustomQuillToolbar: null == useCustomQuillToolbar
+          ? _value.useCustomQuillToolbar
+          : useCustomQuillToolbar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -110,7 +127,8 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 class _$SettingsStateImpl implements _SettingsState {
   const _$SettingsStateImpl(
       {this.themeMode = ThemeMode.system,
-      this.defaultScreen = DefaultScreen.home});
+      this.defaultScreen = DefaultScreen.home,
+      this.useCustomQuillToolbar = false});
 
   factory _$SettingsStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$SettingsStateImplFromJson(json);
@@ -121,10 +139,13 @@ class _$SettingsStateImpl implements _SettingsState {
   @override
   @JsonKey()
   final DefaultScreen defaultScreen;
+  @override
+  @JsonKey()
+  final bool useCustomQuillToolbar;
 
   @override
   String toString() {
-    return 'SettingsState(themeMode: $themeMode, defaultScreen: $defaultScreen)';
+    return 'SettingsState(themeMode: $themeMode, defaultScreen: $defaultScreen, useCustomQuillToolbar: $useCustomQuillToolbar)';
   }
 
   @override
@@ -135,12 +156,15 @@ class _$SettingsStateImpl implements _SettingsState {
             (identical(other.themeMode, themeMode) ||
                 other.themeMode == themeMode) &&
             (identical(other.defaultScreen, defaultScreen) ||
-                other.defaultScreen == defaultScreen));
+                other.defaultScreen == defaultScreen) &&
+            (identical(other.useCustomQuillToolbar, useCustomQuillToolbar) ||
+                other.useCustomQuillToolbar == useCustomQuillToolbar));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, themeMode, defaultScreen);
+  int get hashCode =>
+      Object.hash(runtimeType, themeMode, defaultScreen, useCustomQuillToolbar);
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +183,8 @@ class _$SettingsStateImpl implements _SettingsState {
 abstract class _SettingsState implements SettingsState {
   const factory _SettingsState(
       {final ThemeMode themeMode,
-      final DefaultScreen defaultScreen}) = _$SettingsStateImpl;
+      final DefaultScreen defaultScreen,
+      final bool useCustomQuillToolbar}) = _$SettingsStateImpl;
 
   factory _SettingsState.fromJson(Map<String, dynamic> json) =
       _$SettingsStateImpl.fromJson;
@@ -168,6 +193,8 @@ abstract class _SettingsState implements SettingsState {
   ThemeMode get themeMode;
   @override
   DefaultScreen get defaultScreen;
+  @override
+  bool get useCustomQuillToolbar;
   @override
   @JsonKey(ignore: true)
   _$$SettingsStateImplCopyWith<_$SettingsStateImpl> get copyWith =>

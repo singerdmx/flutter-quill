@@ -10,6 +10,7 @@ import '../../quill/quill_screen.dart';
 import '../../quill/samples/quill_default_sample.dart';
 import '../../quill/samples/quill_images_sample.dart';
 import '../../quill/samples/quill_text_sample.dart';
+import '../../quill/samples/quill_videos_sample.dart';
 import '../../settings/widgets/settings_screen.dart';
 import 'example_item.dart';
 
@@ -100,7 +101,12 @@ class HomeScreen extends StatelessWidget {
                     ),
                     text: 'If you want to see how the editor work with videos, '
                         'see any samples or you are working on it',
-                    onPressed: () {},
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      QuillScreen.routeName,
+                      arguments: QuillScreenArgs(
+                        document: Document.fromJson(quillVideosSample),
+                      ),
+                    ),
                   ),
                   HomeScreenExampleItem(
                     title: 'Text',

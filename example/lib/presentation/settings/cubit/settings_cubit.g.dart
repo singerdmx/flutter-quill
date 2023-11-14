@@ -13,12 +13,14 @@ _$SettingsStateImpl _$$SettingsStateImplFromJson(Map<String, dynamic> json) =>
       defaultScreen:
           $enumDecodeNullable(_$DefaultScreenEnumMap, json['defaultScreen']) ??
               DefaultScreen.home,
+      useCustomQuillToolbar: json['useCustomQuillToolbar'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$SettingsStateImplToJson(_$SettingsStateImpl instance) =>
     <String, dynamic>{
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'defaultScreen': _$DefaultScreenEnumMap[instance.defaultScreen]!,
+      'useCustomQuillToolbar': instance.useCustomQuillToolbar,
     };
 
 const _$ThemeModeEnumMap = {

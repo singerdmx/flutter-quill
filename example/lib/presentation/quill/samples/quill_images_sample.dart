@@ -69,17 +69,4 @@ final quillImagesSample = [
         'The source of the above image is also image base 64 but this time it start with `data:image/png;base64,`'
   },
   {'insert': '\n'},
-  {'insert': '\n'},
-  {
-    'insert': {'video': 'https://youtu.be/xz6_AlJkDPA'},
-    'attributes': {
-      'width': '300',
-      'height': '300',
-      'style': 'width:400px; height:500px;'
-    }
-  },
-  {'insert': '\n'},
-  {'insert': '\n'},
-  {'insert': 'And this is just a youtube video'},
-  {'insert': '\n'}
 ];

@@ -31,9 +31,6 @@ jobs:
       - name: Install quill_html_converter dependencies
         run: flutter pub get -C packages/quill_html_converter
 
-      - name: Install old_example dependencies
-        run: flutter pub get -C old_example
-
       - name: Run flutter analysis
         run: flutter analyze
 

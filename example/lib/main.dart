@@ -18,6 +18,7 @@ import 'presentation/quill/quill_screen.dart';
 import 'presentation/quill/samples/quill_default_sample.dart';
 import 'presentation/quill/samples/quill_images_sample.dart';
 import 'presentation/quill/samples/quill_text_sample.dart';
+import 'presentation/quill/samples/quill_videos_sample.dart';
 import 'presentation/settings/cubit/settings_cubit.dart';
 import 'presentation/settings/widgets/settings_screen.dart';
 
@@ -101,8 +102,10 @@ class MyApp extends StatelessWidget {
                         document: Document.fromJson(quillImagesSample),
                       ),
                     ),
-                  DefaultScreen.videosSample => throw UnimplementedError(
-                      'Not implemented for now',
+                  DefaultScreen.videosSample => QuillScreen(
+                      args: QuillScreenArgs(
+                        document: Document.fromJson(quillVideosSample),
+                      ),
                     ),
                   DefaultScreen.textSample => QuillScreen(
                       args: QuillScreenArgs(

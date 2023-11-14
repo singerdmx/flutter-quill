@@ -97,6 +97,22 @@ class SettingsScreen extends StatelessWidget {
                   }
                 },
               ),
+              CheckboxListTile.adaptive(
+                value: state.useCustomQuillToolbar,
+                onChanged: (value) {
+                  final useCustomToolbarNewValue = value ?? false;
+                  context.read<SettingsCubit>().updateSettings(
+                        state.copyWith(
+                          useCustomQuillToolbar: useCustomToolbarNewValue,
+                        ),
+                      );
+                },
+                title: const Text('Use custom Quill toolbar'),
+                subtitle: const Text(
+                  'By default we will default QuillToolbar, but you can decide if you the built-in or the custom one',
+                ),
+                secondary: const Icon(Icons.dashboard_customize),
+              ),
             ],
           );
         },
