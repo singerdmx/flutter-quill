@@ -1,0 +1,10 @@
+arb-dir: lib/src/l10n
+template-arb-file: quill_en.arb
+output-localization-file: quill_localizations.dart
+output-class: FlutterQuillLocalizations
+output-dir: lib/src/l10n/generated
+synthetic-package: false
+format: true
+untranslated-messages-file: lib/src/l10n/untranslated.json
+nullable-getter: true
+suppress-warnings: false

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../translations.dart';
+import '../../../../extensions/quill_provider.dart';
+import '../../../../l10n/extensions/localizations.dart';
+import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../../utils/extensions/build_context.dart';
 import '../../../controller.dart';
+import '../../../utils/provider.dart';
 import '../../base_toolbar.dart';
 
 class QuillToolbarSearchButton extends StatelessWidget {
@@ -25,6 +27,13 @@ class QuillToolbarSearchButton extends StatelessWidget {
     final baseFontSize = baseButtonExtraOptions(context).globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
+  }
+
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor =
+        baseButtonExtraOptions(context).globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
@@ -49,7 +58,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context).tooltip ??
-        ('Search'.i18n);
+        (context.loc.search);
   }
 
   Color _dialogBarrierColor(BuildContext context) {
@@ -68,6 +77,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
     final tooltip = _tooltip(context);
     final iconData = _iconData(context);
     final iconSize = _iconSize(context);
+    final iconButtonFactor = _iconButtonFactor(context);
     final afterButtonPressed = _afterButtonPressed(context);
 
     final childBuilder =
@@ -81,10 +91,11 @@ class QuillToolbarSearchButton extends StatelessWidget {
           dialogBarrierColor: _dialogBarrierColor(context),
           dialogTheme: _dialogTheme(context),
           fillColor: options.fillColor,
-          iconData: _iconData(context),
-          iconSize: _iconSize(context),
-          tooltip: _tooltip(context),
-          iconTheme: _iconTheme(context),
+          iconData: iconData,
+          iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
+          tooltip: tooltip,
+          iconTheme: iconTheme,
         ),
         QuillToolbarSearchButtonExtraOptions(
           controller: controller,
@@ -112,7 +123,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
       ),
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _sharedOnPressed(context),
@@ -131,57 +142,16 @@ class QuillToolbarSearchButton extends StatelessWidget {
     await showDialog<String>(
       barrierColor: _dialogBarrierColor(context),
       context: context,
-      builder: (_) => QuillToolbarSearchDialog(
-        controller: controller,
-        dialogTheme: _dialogTheme(context),
-        text: '',
+      builder: (_) => QuillProvider.value(
+        value: context.requireQuillProvider,
+        child: FlutterQuillLocalizationsWidget(
+          child: QuillToolbarSearchDialog(
+            controller: controller,
+            dialogTheme: _dialogTheme(context),
+            text: '',
+          ),
+        ),
       ),
     );
   }
-
-  // Those functions ((findText, moveToPosition)) are not ready yet.
-  // but consider moving them to a better place
-  // List<int> _findText({
-  //   required int index,
-  //   required String text,
-  //   required QuillController controller,
-  //   required List<int> offsets,
-  //   required bool wholeWord,
-  //   required bool caseSensitive,
-  //   bool moveToPosition = true,
-  // }) {
-  //   if (text.isEmpty) {
-  //     return List.empty();
-  //   }
-  //   final newOffsets = controller.document.search(
-  //     text,
-  //     caseSensitive: caseSensitive,
-  //     wholeWord: wholeWord,
-  //   );
-  //   index = 0; // TODO: This might need to be updated...
-  //   if (offsets.isNotEmpty && moveToPosition) {
-  //     _moveToPosition(
-  //       index: index,
-  //       text: text,
-  //       controller: controller,
-  //       offsets: offsets,
-  //     );
-  //   }
-  //   return newOffsets;
-  // }
-
-  // void _moveToPosition({
-  //   required int index,
-  //   required String text,
-  //   required QuillController controller,
-  //   required List<int> offsets,
-  // }) {
-  //   controller.updateSelection(
-  //     TextSelection(
-  //       baseOffset: offsets[index],
-  //       extentOffset: offsets[index] + text.length,
-  //     ),
-  //     ChangeSource.LOCAL,
-  //   );
-  // }
 }

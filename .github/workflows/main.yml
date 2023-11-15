@@ -1,4 +1,4 @@
-name: flutter-quill CI
+name: Flutter Quill CI
 
 on:
   push:
@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
 
       - name: Check flutter version
         run: flutter --version
@@ -25,14 +26,34 @@ jobs:
       - name: Install flutter_quill_extensions dependencies
         run: flutter pub get -C flutter_quill_extensions
 
+      - name: Install flutter_quill_test dependencies
+        run: flutter pub get -C flutter_quill_test
+      
+      - name: Install quill_html_converter dependencies
+        run: flutter pub get -C packages/quill_html_converter
+
       - name: Run flutter analysis
         run: flutter analyze
 
       - name: Check dart code formatting
         run: dart format --set-exit-if-changed .
+      
+      - name: Preview dart proposed changes
+        run: dart fix --dry-run
 
       - name: Check if package is ready for publishing
         run: flutter pub publish --dry-run
 
       - name: Run flutter tests
         run: flutter test
+      
+      - name: Flutter build Web
+        run: flutter build web --release --verbose --dart-define=CI=true
+        working-directory: ./example
+
+      # - name: Install flutter Linux prerequisites
+      #   run: sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
+
+      # - name: Flutter build Linux
+      #   run: flutter build linux --release --verbose --dart-define=CI=true
+      #   working-directory: ./example

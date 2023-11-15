@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
 
@@ -25,6 +25,13 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
     final baseFontSize = baseButtonExtraOptions(context).globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
+  }
+
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor =
+        baseButtonExtraOptions(context).globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
@@ -49,7 +56,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context).tooltip ??
-        ('Clear format'.i18n);
+        (context.loc.clearFormat);
   }
 
   void _sharedOnPressed() {
@@ -69,6 +76,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
     final iconTheme = _iconTheme(context);
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
+    final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
 
     final childBuilder =
@@ -82,6 +90,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
           controller: controller,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: iconTheme,
           tooltip: tooltip,
         ),
@@ -105,7 +114,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(iconData, size: iconSize, color: iconColor),
       fillColor: fillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,

@@ -1,4 +1,4 @@
-include: package:pedantic/analysis_options.yaml
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
   errors:
@@ -6,32 +6,31 @@ analyzer:
     unsafe_html: ignore
 linter:
   rules:
-    - always_declare_return_types
-    - always_put_required_named_parameters_first
-    - annotate_overrides
-    - avoid_empty_else
-    - avoid_escaping_inner_quotes
-    - avoid_print
-    - avoid_redundant_argument_values
-    - avoid_types_on_closure_parameters
-    - avoid_void_async
-    - cascade_invocations
-    - directives_ordering
-    - lines_longer_than_80_chars
-    - omit_local_variable_types
-    - prefer_const_constructors
-    - prefer_const_constructors_in_immutables
-    - prefer_const_declarations
-    - prefer_final_fields
-    - prefer_final_in_for_each
-    - prefer_final_locals
-    - prefer_initializing_formals
-    - prefer_int_literals
-    - prefer_interpolation_to_compose_strings
-    - prefer_relative_imports
-    - prefer_single_quotes
-    - sort_constructors_first
-    - sort_unnamed_constructors_first
-    - unnecessary_lambdas
-    - unnecessary_parenthesis
-    - unnecessary_string_interpolations
+    always_declare_return_types: true
+    always_put_required_named_parameters_first: true
+    annotate_overrides: true
+    avoid_empty_else: true
+    avoid_escaping_inner_quotes: true
+    avoid_print: true
+    avoid_redundant_argument_values: true
+    avoid_types_on_closure_parameters: true
+    avoid_void_async: true
+    cascade_invocations: true
+    directives_ordering: true
+    omit_local_variable_types: true
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    prefer_final_fields: true
+    prefer_final_in_for_each: true
+    prefer_final_locals: true
+    prefer_initializing_formals: true
+    prefer_int_literals: true
+    prefer_interpolation_to_compose_strings: true
+    prefer_relative_imports: true
+    prefer_single_quotes: true
+    sort_constructors_first: true
+    sort_unnamed_constructors_first: true
+    unnecessary_lambdas: true
+    unnecessary_parenthesis: true
+    unnecessary_string_interpolations: true

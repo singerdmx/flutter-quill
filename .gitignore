@@ -4,6 +4,7 @@
 *.pyc
 *.swp
 .DS_Store
+**/.DS_Store
 .atom/
 .buildlog/
 .history
@@ -75,3 +76,8 @@ example/ios/Podfile.lock
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 pubspec.lock
+
+# For local development
+pubspec_overrides.yaml
+
+old_example

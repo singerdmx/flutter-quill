@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
+import '../../../l10n/widgets/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/rules/insert.dart';
 import '../../../models/structs/link_dialog_action.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../translations/toolbar.i18n.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../../link.dart';
+import '../../utils/provider.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarLinkStyleButton extends StatefulWidget {
@@ -22,11 +24,11 @@ class QuillToolbarLinkStyleButton extends StatefulWidget {
   final QuillToolbarLinkStyleButtonOptions options;
 
   @override
-  _QuillToolbarLinkStyleButtonState createState() =>
-      _QuillToolbarLinkStyleButtonState();
+  QuillToolbarLinkStyleButtonState createState() =>
+      QuillToolbarLinkStyleButtonState();
 }
 
-class _QuillToolbarLinkStyleButtonState
+class QuillToolbarLinkStyleButtonState
     extends State<QuillToolbarLinkStyleButton> {
   void _didChangeSelection() {
     setState(() {});
@@ -67,6 +69,12 @@ class _QuillToolbarLinkStyleButtonState
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
@@ -83,7 +91,7 @@ class _QuillToolbarLinkStyleButtonState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        'Insert URL'.i18n;
+        context.loc.insertURL;
   }
 
   IconData get iconData {
@@ -95,14 +103,13 @@ class _QuillToolbarLinkStyleButtonState
         context.requireQuillSharedConfigurations.dialogBarrierColor;
   }
 
-  RegExp get linkRegExp {
-    return options.linkRegExp ?? RegExp(r'https?://\S+');
+  RegExp? get linkRegExp {
+    return options.linkRegExp;
   }
 
   @override
   Widget build(BuildContext context) {
     final isToggled = _getLinkAttributeValue() != null;
-    final pressedHandler = () => _openLinkDialog(context);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
@@ -115,6 +122,7 @@ class _QuillToolbarLinkStyleButtonState
           dialogTheme: options.dialogTheme,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           tooltip: tooltip,
           linkDialogAction: options.linkDialogAction,
           linkRegExp: linkRegExp,
@@ -124,7 +132,7 @@ class _QuillToolbarLinkStyleButtonState
           context: context,
           controller: controller,
           onPressed: () {
-            pressedHandler();
+            _openLinkDialog(context);
             afterButtonPressed?.call();
           },
         ),
@@ -135,7 +143,7 @@ class _QuillToolbarLinkStyleButtonState
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
         size: iconSize,
@@ -144,10 +152,10 @@ class _QuillToolbarLinkStyleButtonState
             : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
       fillColor: isToggled
-          ? (iconTheme?.iconSelectedFillColor ?? Theme.of(context).primaryColor)
+          ? (iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
           : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: pressedHandler,
+      onPressed: () => _openLinkDialog(context),
       afterPressed: afterButtonPressed,
     );
   }
@@ -158,11 +166,11 @@ class _QuillToolbarLinkStyleButtonState
     final value = await showDialog<_TextLink>(
       context: context,
       barrierColor: dialogBarrierColor,
-      builder: (ctx) {
+      builder: (_) {
         final link = _getLinkAttributeValue();
         final index = controller.selection.start;
 
-        var text;
+        String? text;
         if (link != null) {
           // text should be the link's corresponding text, not selection
           final leaf = controller.document.querySegmentLeafNode(index).leaf;
@@ -173,12 +181,17 @@ class _QuillToolbarLinkStyleButtonState
 
         final len = controller.selection.end - index;
         text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
-        return _LinkDialog(
-          dialogTheme: options.dialogTheme,
-          link: link,
-          text: text,
-          linkRegExp: linkRegExp,
-          action: options.linkDialogAction,
+        return QuillProvider.value(
+          value: context.requireQuillProvider,
+          child: FlutterQuillLocalizationsWidget(
+            child: _LinkDialog(
+              dialogTheme: options.dialogTheme,
+              link: link,
+              text: text,
+              linkRegExp: linkRegExp,
+              action: options.linkDialogAction,
+            ),
+          ),
         );
       },
     );
@@ -236,7 +249,11 @@ class _LinkDialog extends StatefulWidget {
 class _LinkDialogState extends State<_LinkDialog> {
   late String _link;
   late String _text;
-  late RegExp linkRegExp;
+
+  RegExp get linkRegExp {
+    return widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineLinkRegExp;
+  }
+
   late TextEditingController _linkController;
   late TextEditingController _textController;
 
@@ -245,7 +262,6 @@ class _LinkDialogState extends State<_LinkDialog> {
     super.initState();
     _link = widget.link ?? '';
     _text = widget.text ?? '';
-    linkRegExp = widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineRegExp;
     _linkController = TextEditingController(text: _link);
     _textController = TextEditingController(text: _text);
   }
@@ -270,8 +286,8 @@ class _LinkDialogState extends State<_LinkDialog> {
               keyboardType: TextInputType.text,
               style: widget.dialogTheme?.inputTextStyle,
               decoration: InputDecoration(
-                labelText: 'Text'.i18n,
-                hintText: 'Please enter a text for your link'.i18n,
+                labelText: context.loc.text,
+                hintText: context.loc.pleaseEnterTextForYourLink,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
@@ -279,7 +295,7 @@ class _LinkDialogState extends State<_LinkDialog> {
               onChanged: _textChanged,
               controller: _textController,
               textInputAction: TextInputAction.next,
-              autofillHints: [
+              autofillHints: const [
                 AutofillHints.name,
                 AutofillHints.url,
               ],
@@ -289,15 +305,15 @@ class _LinkDialogState extends State<_LinkDialog> {
               keyboardType: TextInputType.url,
               style: widget.dialogTheme?.inputTextStyle,
               decoration: InputDecoration(
-                labelText: 'Link'.i18n,
-                hintText: 'Please enter the link url'.i18n,
+                labelText: context.loc.link,
+                hintText: context.loc.pleaseEnterTheLinkURL,
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
               onChanged: _linkChanged,
               controller: _linkController,
               textInputAction: TextInputAction.done,
-              autofillHints: [AutofillHints.url],
+              autofillHints: const [AutofillHints.url],
               autocorrect: false,
               onEditingComplete: () {
                 if (!_canPress()) {
@@ -326,7 +342,7 @@ class _LinkDialogState extends State<_LinkDialog> {
     return TextButton(
       onPressed: _canPress() ? _applyLink : null,
       child: Text(
-        'Ok'.i18n,
+        context.loc.ok,
         style: widget.dialogTheme?.buttonTextStyle,
       ),
     );

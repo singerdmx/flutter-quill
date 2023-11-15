@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
-    show Axis, Color, Decoration, WrapAlignment, WrapCrossAlignment;
-import '../../../widgets/embeds.dart';
+    show Axis, Color, Decoration, Widget, WrapAlignment, WrapCrossAlignment;
 
+import '../../../widgets/embeds.dart';
 import '../../structs/link_dialog_action.dart';
-import '../../themes/quill_custom_button.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
 import 'buttons/base.dart';
 import 'buttons/clear_format.dart';
 import 'buttons/color.dart';
+import 'buttons/custom_button.dart';
 import 'buttons/font_family.dart';
 import 'buttons/font_size.dart';
 import 'buttons/history.dart';
@@ -26,6 +26,7 @@ export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
 export './buttons/base.dart';
 export './buttons/clear_format.dart';
 export './buttons/color.dart';
+export './buttons/custom_button.dart';
 export './buttons/font_family.dart';
 export './buttons/font_size.dart';
 export './buttons/history.dart';
@@ -107,6 +108,7 @@ class QuillToolbarConfigurations extends Equatable {
     this.color,
     this.sectionDividerColor,
     this.sectionDividerSpace,
+    this.spacerWidget,
 
     /// By default it will calculated based on the [globalIconSize] from
     /// [base] in [QuillToolbarButtonOptions]
@@ -130,6 +132,15 @@ class QuillToolbarConfigurations extends Equatable {
   /// If you want change spesefic buttons or all of them
   /// then you came to the right place
   final QuillToolbarButtonOptions buttonOptions;
+
+  /// A widget that will placed between each button in the toolbar
+  /// can be used as a spacer
+  /// it will not used before the first button
+  /// it will not used after the last button
+  /// it will also not used in the toolbar dividers
+  /// Default value will be [SizedBox.shrink()]
+  /// some widgets like the header styles will be considered as one widget
+  final Widget? spacerWidget;
   final bool multiRowsDisplay;
 
   /// By default it will be
@@ -143,7 +154,7 @@ class QuillToolbarConfigurations extends Equatable {
   ///   'Nunito': 'nunito',
   ///   'Pacifico': 'pacifico',
   ///   'Roboto Mono': 'roboto-mono',
-  ///   'Clear'.i18n: 'Clear'
+  ///   'Clear'.loc: 'Clear'
   /// };
   /// ```
   final Map<String, String>? fontFamilyValues;
@@ -154,7 +165,7 @@ class QuillToolbarConfigurations extends Equatable {
   ///   'Small'.i18n: 'small',
   ///   'Large'.i18n: 'large',
   ///   'Huge'.i18n: 'huge',
-  ///   'Clear'.i18n: '0'
+  ///   'Clear'.loc: '0'
   /// }
   /// ```
   final Map<String, String>? fontSizesValues;
@@ -201,7 +212,7 @@ class QuillToolbarConfigurations extends Equatable {
   final bool showSearchButton;
   final bool showSubscript;
   final bool showSuperscript;
-  final List<QuillCustomButton> customButtons;
+  final List<QuillToolbarCustomButtonOptions> customButtons;
 
   /// The decoration to use for the toolbar.
   final Decoration? decoration;
@@ -274,6 +285,7 @@ class QuillToolbarButtonOptions extends Equatable {
     this.selectHeaderStyleButtons =
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
+    this.customButtons = const QuillToolbarCustomButtonOptions(),
   });
 
   /// The base configurations for all the buttons which will apply to all
@@ -318,6 +330,8 @@ class QuillToolbarButtonOptions extends Equatable {
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
+
+  final QuillToolbarCustomButtonOptions customButtons;
 
   @override
   List<Object?> get props => [

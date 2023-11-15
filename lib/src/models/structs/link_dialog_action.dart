@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart' show Widget;
+import 'package:meta/meta.dart' show immutable;
 
+@immutable
 class LinkDialogAction {
-  LinkDialogAction({required this.builder});
+  const LinkDialogAction({required this.builder});
 
-  Widget Function(bool canPress, void Function() applyLink) builder;
+  final Widget Function(bool canPress, void Function() applyLink) builder;
 }

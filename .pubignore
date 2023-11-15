@@ -1,0 +1,13 @@
+# For local development
+pubspec_overrides.yaml
+pubspec_overrides.yaml.disabled
+
+# Github
+.github/
+
+# The example
+example/.fvm/
+example/build/
+example/.dart_tool/
+
+scripts/

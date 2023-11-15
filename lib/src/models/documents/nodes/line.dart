@@ -19,7 +19,7 @@ import 'node.dart';
 ///
 /// When a line contains an embed, it fully occupies the line, no other embeds
 /// or text nodes are allowed.
-class Line extends Container<Leaf?> {
+base class Line extends Container<Leaf?> {
   @override
   Leaf get defaultChild => QuillText();
 
@@ -136,15 +136,15 @@ class Line extends Container<Leaf?> {
     if (isLineFormat) {
       assert(
           style.values.every((attr) =>
-              attr.scope == AttributeScope.BLOCK ||
-              attr.scope == AttributeScope.IGNORE),
+              attr.scope == AttributeScope.block ||
+              attr.scope == AttributeScope.ignore),
           'It is not allowed to apply inline attributes to line itself.');
       _format(style);
     } else {
       // Otherwise forward to children as it's an inline format update.
       assert(style.values.every((attr) =>
-          attr.scope == AttributeScope.INLINE ||
-          attr.scope == AttributeScope.IGNORE));
+          attr.scope == AttributeScope.inline ||
+          attr.scope == AttributeScope.ignore));
       assert(index + local != thisLength);
       super.retain(index, local, style);
     }
@@ -351,7 +351,7 @@ class Line extends Container<Leaf?> {
     var result = const Style();
     final excluded = <Attribute>{};
 
-    void _handle(Style style) {
+    void handle(Style style) {
       for (final attr in result.values) {
         if (!style.containsKey(attr.key) ||
             (style.attributes[attr.key] != attr.value)) {
@@ -368,7 +368,7 @@ class Line extends Container<Leaf?> {
       var pos = node.length - data.offset;
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
-        _handle(node.style);
+        handle(node.style);
         pos += node.length;
       }
     }
@@ -382,7 +382,7 @@ class Line extends Container<Leaf?> {
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
       final rest = nextLine!.collectStyle(0, remaining);
-      _handle(rest);
+      handle(rest);
     }
 
     return result;
@@ -521,35 +521,35 @@ class Line extends Container<Leaf?> {
   }
 
   int _getPlainText(int offset, int len, StringBuffer plainText) {
-    var _len = len;
+    var len0 = len;
     final data = queryChild(offset, false);
     var node = data.node as Leaf?;
 
-    while (_len > 0) {
+    while (len0 > 0) {
       if (node == null) {
         // blank line
         plainText.write('\n');
-        _len -= 1;
+        len0 -= 1;
       } else {
-        _len = _getNodeText(node, plainText, offset - node.offset, _len);
+        len0 = _getNodeText(node, plainText, offset - node.offset, len0);
 
-        while (!node!.isLast && _len > 0) {
+        while (!node!.isLast && len0 > 0) {
           node = node.next as Leaf;
-          _len = _getNodeText(node, plainText, 0, _len);
+          len0 = _getNodeText(node, plainText, 0, len0);
         }
 
-        if (_len > 0) {
+        if (len0 > 0) {
           // end of this line
           plainText.write('\n');
-          _len -= 1;
+          len0 -= 1;
         }
       }
 
-      if (_len > 0 && nextLine != null) {
-        _len = nextLine!._getPlainText(0, _len, plainText);
+      if (len0 > 0 && nextLine != null) {
+        len0 = nextLine!._getPlainText(0, len0, plainText);
       }
     }
 
-    return _len;
+    return len0;
   }
 }

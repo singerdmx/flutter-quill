@@ -1,13 +1,16 @@
+import 'package:meta/meta.dart' show immutable;
+
 import '../documents/attribute.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
 /// A heuristic rule for format (retain) operations.
+@immutable
 abstract class FormatRule extends Rule {
   const FormatRule();
 
   @override
-  RuleType get type => RuleType.FORMAT;
+  RuleType get type => RuleType.format;
 
   @override
   void validateArgs(int? len, Object? data, Attribute? attribute) {
@@ -19,6 +22,7 @@ abstract class FormatRule extends Rule {
 
 /// Produces Delta with line-level attributes applied strictly to
 /// newline characters.
+@immutable
 class ResolveLineFormatRule extends FormatRule {
   const ResolveLineFormatRule();
 
@@ -30,7 +34,7 @@ class ResolveLineFormatRule extends FormatRule {
     Object? data,
     Attribute? attribute,
   }) {
-    if (attribute!.scope != AttributeScope.BLOCK) {
+    if (attribute!.scope != AttributeScope.block) {
       return null;
     }
 
@@ -109,6 +113,7 @@ class ResolveLineFormatRule extends FormatRule {
 }
 
 /// Allows updating link format with collapsed selection.
+@immutable
 class FormatLinkAtCaretPositionRule extends FormatRule {
   const FormatLinkAtCaretPositionRule();
 
@@ -148,6 +153,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
 
 /// Produces Delta with inline-level attributes applied to all characters
 /// except newlines.
+@immutable
 class ResolveInlineFormatRule extends FormatRule {
   const ResolveInlineFormatRule();
 
@@ -159,7 +165,7 @@ class ResolveInlineFormatRule extends FormatRule {
     Object? data,
     Attribute? attribute,
   }) {
-    if (attribute!.scope != AttributeScope.INLINE) {
+    if (attribute!.scope != AttributeScope.inline) {
       return null;
     }
 
@@ -193,6 +199,7 @@ class ResolveInlineFormatRule extends FormatRule {
 }
 
 /// Produces Delta with attributes applied to image leaf node
+@immutable
 class ResolveImageFormatRule extends FormatRule {
   const ResolveImageFormatRule();
 

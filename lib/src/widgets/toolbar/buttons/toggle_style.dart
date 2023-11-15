@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
@@ -36,11 +36,11 @@ class QuillToolbarToggleStyleButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarToggleStyleButtonState createState() =>
-      _QuillToolbarToggleStyleButtonState();
+  QuillToolbarToggleStyleButtonState createState() =>
+      QuillToolbarToggleStyleButtonState();
 }
 
-class _QuillToolbarToggleStyleButtonState
+class QuillToolbarToggleStyleButtonState
     extends State<QuillToolbarToggleStyleButton> {
   bool? _isToggled;
 
@@ -68,6 +68,13 @@ class _QuillToolbarToggleStyleButtonState
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor =
+        context.requireQuillToolbarBaseButtonOptions.globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         context.requireQuillToolbarBaseButtonOptions.afterButtonPressed;
@@ -78,36 +85,36 @@ class _QuillToolbarToggleStyleButtonState
         context.requireQuillToolbarBaseButtonOptions.iconTheme;
   }
 
-  String? get _defaultTooltip {
+  (String?, IconData) get _defaultTooltipAndIconData {
     switch (widget.attribute.key) {
       case 'bold':
-        return 'Bold'.i18n;
+        return (context.loc.bold, Icons.format_bold);
       case 'script':
         if (widget.attribute.value == ScriptAttributes.sub.value) {
-          return 'Subscript'.i18n;
+          return (context.loc.subscript, Icons.subscript);
         }
-        return 'Superscript'.i18n;
+        return (context.loc.superscript, Icons.superscript);
       case 'italic':
-        return 'Italic'.i18n;
+        return (context.loc.italic, Icons.format_italic);
       case 'small':
-        return 'Small'.i18n;
+        return (context.loc.small, Icons.format_size);
       case 'underline':
-        return 'Underline'.i18n;
+        return (context.loc.underline, Icons.format_underline);
       case 'strike':
-        return 'Strike through'.i18n;
+        return (context.loc.strikeThrough, Icons.format_strikethrough);
       case 'code':
-        return 'Inline code'.i18n;
-      case 'rtl':
-        return 'Text direction'.i18n;
+        return (context.loc.inlineCode, Icons.code);
+      case 'direction':
+        return (context.loc.textDirection, Icons.format_textdirection_r_to_l);
       case 'list':
         if (widget.attribute.value == 'bullet') {
-          return 'Bullet list'.i18n;
+          return (context.loc.bulletList, Icons.format_list_bulleted);
         }
-        return 'Numbered list'.i18n;
+        return (context.loc.numberedList, Icons.format_list_numbered);
       case 'code-block':
-        return 'Code block'.i18n;
+        return (context.loc.codeBlock, Icons.code);
       case 'blockquote':
-        return 'Quote'.i18n;
+        return (context.loc.quote, Icons.format_quote);
       default:
         throw ArgumentError(
           'Could not find the default tooltip for '
@@ -119,50 +126,13 @@ class _QuillToolbarToggleStyleButtonState
   String? get tooltip {
     return options.tooltip ??
         context.requireQuillToolbarBaseButtonOptions.tooltip ??
-        _defaultTooltip;
-  }
-
-  IconData get _defaultIconData {
-    switch (widget.attribute.key) {
-      case 'bold':
-        return Icons.format_bold;
-      case 'script':
-        if (widget.attribute.value == ScriptAttributes.sub.value) {
-          return Icons.subscript;
-        }
-        return Icons.superscript;
-      case 'italic':
-        return Icons.format_italic;
-      case 'small':
-        return Icons.format_size;
-      case 'underline':
-        return Icons.format_underline;
-      case 'strike':
-        return Icons.format_strikethrough;
-      case 'code':
-        return Icons.code;
-      case 'rtl':
-        return Icons.format_textdirection_r_to_l;
-      case 'list':
-        if (widget.attribute.value == 'bullet') {
-          return Icons.format_list_bulleted;
-        }
-        return Icons.format_list_numbered;
-      case 'code-block':
-        return Icons.code;
-      case 'blockquote':
-        return Icons.format_quote;
-      default:
-        throw ArgumentError(
-          'Could not find the icon for ${widget.attribute.toString()}',
-        );
-    }
+        _defaultTooltipAndIconData.$1;
   }
 
   IconData get iconData {
     return options.iconData ??
         context.requireQuillToolbarBaseButtonOptions.iconData ??
-        _defaultIconData;
+        _defaultTooltipAndIconData.$2;
   }
 
   void _onPressed() {
@@ -196,6 +166,7 @@ class _QuillToolbarToggleStyleButtonState
         _toggleAttribute,
         options.afterButtonPressed,
         iconSize,
+        iconButtonFactor,
         iconTheme,
       ),
     );
@@ -249,6 +220,7 @@ Widget defaultToggleStyleButtonBuilder(
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [
   double iconSize = kDefaultIconSize,
+  double iconButtonFactor = kIconButtonFactor,
   QuillIconTheme? iconTheme,
 ]) {
   final theme = Theme.of(context);
@@ -271,7 +243,7 @@ Widget defaultToggleStyleButtonBuilder(
   return QuillToolbarIconButton(
     highlightElevation: 0,
     hoverElevation: 0,
-    size: iconSize * kIconButtonFactor,
+    size: iconSize * iconButtonFactor,
     icon: Icon(icon, size: iconSize, color: iconColor),
     fillColor: fill,
     onPressed: onPressed,

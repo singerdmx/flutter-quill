@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart'
 
 import '../../../widgets/toolbar/base_toolbar.dart';
 import '../../structs/link_dialog_action.dart';
-import '../../themes/quill_custom_button.dart';
 
 @immutable
 class QuillBaseToolbarConfigurations extends Equatable {
@@ -41,7 +40,7 @@ class QuillBaseToolbarConfigurations extends Equatable {
   final Color? color;
 
   /// List of custom buttons
-  final List<QuillCustomButton> customButtons;
+  final List<QuillToolbarCustomButtonOptions> customButtons;
 
   /// The color to use when painting the toolbar section divider.
   ///

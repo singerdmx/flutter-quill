@@ -78,9 +78,9 @@ class Document {
       return Delta();
     }
 
-    final delta = _rules.apply(RuleType.INSERT, this, index,
+    final delta = _rules.apply(RuleType.insert, this, index,
         data: data, len: replaceLength);
-    compose(delta, ChangeSource.LOCAL);
+    compose(delta, ChangeSource.local);
     return delta;
   }
 
@@ -92,9 +92,9 @@ class Document {
   /// Returns an instance of [Delta] actually composed into this document.
   Delta delete(int index, int len) {
     assert(index >= 0 && len > 0);
-    final delta = _rules.apply(RuleType.DELETE, this, index, len: len);
+    final delta = _rules.apply(RuleType.delete, this, index, len: len);
     if (delta.isNotEmpty) {
-      compose(delta, ChangeSource.LOCAL);
+      compose(delta, ChangeSource.local);
     }
     return delta;
   }
@@ -142,10 +142,10 @@ class Document {
 
     var delta = Delta();
 
-    final formatDelta = _rules.apply(RuleType.FORMAT, this, index,
+    final formatDelta = _rules.apply(RuleType.format, this, index,
         len: len, attribute: attribute);
     if (formatDelta.isNotEmpty) {
-      compose(formatDelta, ChangeSource.LOCAL);
+      compose(formatDelta, ChangeSource.local);
       delta = delta.compose(formatDelta);
     }
 
@@ -313,11 +313,11 @@ class Document {
     try {
       _delta = _delta.compose(delta);
     } catch (e) {
-      throw '_delta compose failed';
+      throw StateError('_delta compose failed');
     }
 
     if (_delta != _root.toDelta()) {
-      throw 'Compose failed';
+      throw StateError('Compose failed');
     }
     final change = DocChange(originalDelta, delta, changeSource);
     _observer.add(change);
@@ -445,8 +445,8 @@ class Document {
 /// Source of a [Change].
 enum ChangeSource {
   /// Change originated from a local action. Typically triggered by user.
-  LOCAL,
+  local,
 
   /// Change originated from a remote action.
-  REMOTE,
+  remote,
 }

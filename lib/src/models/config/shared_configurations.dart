@@ -18,6 +18,7 @@ class QuillSharedConfigurations extends Equatable {
     this.animationConfigurations = const QuillAnimationConfigurations(
       checkBoxPointItem: false,
     ),
+    this.extraConfigurations = const {},
   });
 
   // This is just example or showcase of this major update to make the library
@@ -30,11 +31,17 @@ class QuillSharedConfigurations extends Equatable {
   final QuillDialogTheme? dialogTheme;
 
   /// The locale to use for the editor and toolbar, defaults to system locale
-  /// More https://github.com/singerdmx/flutter-quill#translation
+  /// More https://github.com/singerdmx/flutter-quill/blob/master/doc/translation.md
+  /// this won't used if you defined the [FlutterQuillLocalizations.delegate]
+  /// in the `localizationsDelegates` which exists in
+  /// `MaterialApp` or `WidgetsApp`
   final Locale? locale;
 
   /// To configure which animations you want to be enabled
   final QuillAnimationConfigurations animationConfigurations;
+
+  /// Store custom configurations in here and use it in the widget tree
+  final Map<String, Object?> extraConfigurations;
 
   @override
   List<Object?> get props => [

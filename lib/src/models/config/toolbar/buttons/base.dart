@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
 import '../../../../../flutter_quill.dart' show QuillController, QuillProvider;
 import '../../../themes/quill_icon_theme.dart' show QuillIconTheme;
-import '../../quill_configurations.dart' show kDefaultIconSize;
+import '../../quill_configurations.dart'
+    show kDefaultIconSize, kIconButtonFactor;
 
 @immutable
 class QuillToolbarBaseButtonExtraOptions extends Equatable {
@@ -38,6 +39,7 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   const QuillToolbarBaseButtonOptions({
     this.iconData,
     this.globalIconSize = kDefaultIconSize,
+    this.globalIconButtonFactor = kIconButtonFactor,
     this.afterButtonPressed,
     this.tooltip,
     this.iconTheme,
@@ -51,9 +53,13 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   final IconData? iconData;
 
   /// To change the the icon size pass a different value, by default will be
-  /// [kDefaultIconSize]
+  /// [kDefaultIconSize].
   /// this will be used for all the buttons but you can override this
   final double globalIconSize;
+
+  /// The factor of how much larger the button is in relation to the icon,
+  /// by default it will be [kIconButtonFactor].
+  final double globalIconButtonFactor;
 
   /// To do extra logic after pressing the button
   final VoidCallback? afterButtonPressed;

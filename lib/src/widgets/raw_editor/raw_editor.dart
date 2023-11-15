@@ -6,18 +6,15 @@ import 'dart:ui' as ui hide TextStyle;
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart'
-    show RenderAbstractViewport, ViewportOffset;
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
     show
         LogicalKeyboardKey,
-        Uint8List,
         RawKeyDownEvent,
         HardwareKeyboard,
         Clipboard,
         ClipboardData,
-        TextLayoutMetrics,
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
@@ -32,16 +29,13 @@ import '../../models/documents/nodes/line.dart';
 import '../../models/documents/nodes/node.dart';
 import '../../models/structs/offset_value.dart';
 import '../../models/structs/vertical_spacing.dart';
-import '../../models/themes/quill_dialog_theme.dart';
 import '../../utils/cast.dart';
 import '../../utils/delta.dart';
 import '../../utils/embeds.dart';
-import '../../utils/extensions/build_context.dart';
 import '../../utils/platform.dart';
 import '../controller.dart';
 import '../cursor.dart';
 import '../default_styles.dart';
-import '../delegate.dart';
 import '../editor/editor.dart';
 import '../keyboard_listener.dart';
 import '../link.dart';
@@ -50,251 +44,18 @@ import '../quill_single_child_scroll_view.dart';
 import '../text_block.dart';
 import '../text_line.dart';
 import '../text_selection.dart';
-import '../toolbar/buttons/link_style2.dart';
-import '../toolbar/buttons/search/search_dialog.dart';
+import 'raw_editor.dart';
+import 'raw_editor_actions.dart';
+import 'raw_editor_render_object.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
+import 'raw_editor_text_boundaries.dart';
 
-class RawEditor extends StatefulWidget {
-  const RawEditor({
-    required this.controller,
-    required this.focusNode,
-    required this.scrollController,
-    required this.scrollBottomInset,
-    required this.cursorStyle,
-    required this.selectionColor,
-    required this.selectionCtrls,
-    required this.embedBuilder,
-    required this.autoFocus,
-    super.key,
-    this.scrollable = true,
-    this.padding = EdgeInsets.zero,
-    this.readOnly = false,
-    this.placeholder,
-    this.onLaunchUrl,
-    this.contextMenuBuilder = defaultContextMenuBuilder,
-    this.showSelectionHandles = false,
-    bool? showCursor,
-    this.textCapitalization = TextCapitalization.none,
-    this.maxHeight,
-    this.minHeight,
-    this.maxContentWidth,
-    this.customStyles,
-    this.customShortcuts,
-    this.customActions,
-    this.expands = false,
-    this.enableUnfocusOnTapOutside = true,
-    this.keyboardAppearance = Brightness.light,
-    this.enableInteractiveSelection = true,
-    this.scrollPhysics,
-    this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
-    this.customStyleBuilder,
-    this.customRecognizerBuilder,
-    this.floatingCursorDisabled = false,
-    this.onImagePaste,
-    this.customLinkPrefixes = const <String>[],
-    this.dialogTheme,
-    this.contentInsertionConfiguration,
-  })  : assert(maxHeight == null || maxHeight > 0, 'maxHeight cannot be null'),
-        assert(minHeight == null || minHeight >= 0, 'minHeight cannot be null'),
-        assert(maxHeight == null || minHeight == null || maxHeight >= minHeight,
-            'maxHeight cannot be null'),
-        showCursor = showCursor ?? true;
-
-  /// Controls the document being edited.
-  final QuillController controller;
-
-  /// Controls whether this editor has keyboard focus.
-  final FocusNode focusNode;
-  final ScrollController scrollController;
-  final bool scrollable;
-  final double scrollBottomInset;
-  final bool enableUnfocusOnTapOutside;
-
-  /// Additional space around the editor contents.
-  final EdgeInsetsGeometry padding;
-
-  /// Whether the text can be changed.
-  ///
-  /// When this is set to true, the text cannot be modified
-  /// by any shortcut or keyboard operation. The text is still selectable.
-  ///
-  /// Defaults to false. Must not be null.
-  final bool readOnly;
-
-  final String? placeholder;
-
-  /// Callback which is triggered when the user wants to open a URL from
-  /// a link in the document.
-  final ValueChanged<String>? onLaunchUrl;
-
-  /// Builds the text selection toolbar when requested by the user.
-  ///
-  /// See also:
-  ///   * [EditableText.contextMenuBuilder], which builds the default
-  ///     text selection toolbar for [EditableText].
-  ///
-  /// If not provided, no context menu will be shown.
-  final QuillEditorContextMenuBuilder? contextMenuBuilder;
-
-  static Widget defaultContextMenuBuilder(
-    BuildContext context,
-    RawEditorState state,
-  ) {
-    return TextFieldTapRegion(
-      child: AdaptiveTextSelectionToolbar.buttonItems(
-        buttonItems: state.contextMenuButtonItems,
-        anchors: state.contextMenuAnchors,
-      ),
-    );
-  }
-
-  /// Whether to show selection handles.
-  ///
-  /// When a selection is active, there will be two handles at each side of
-  /// boundary, or one handle if the selection is collapsed. The handles can be
-  /// dragged to adjust the selection.
-  ///
-  /// See also:
-  ///
-  ///  * [showCursor], which controls the visibility of the cursor.
-  final bool showSelectionHandles;
-
-  /// Whether to show cursor.
-  ///
-  /// The cursor refers to the blinking caret when the editor is focused.
-  ///
-  /// See also:
-  ///
-  ///  * [cursorStyle], which controls the cursor visual representation.
-  ///  * [showSelectionHandles], which controls the visibility of the selection
-  ///    handles.
-  final bool showCursor;
-
-  /// The style to be used for the editing cursor.
-  final CursorStyle cursorStyle;
-
-  /// Configures how the platform keyboard will select an uppercase or
-  /// lowercase keyboard.
-  ///
-  /// Only supports text keyboards, other keyboard types will ignore this
-  /// configuration. Capitalization is locale-aware.
-  ///
-  /// Defaults to [TextCapitalization.none]. Must not be null.
-  ///
-  /// See also:
-  ///
-  ///  * [TextCapitalization], for a description of each capitalization behavior
-  final TextCapitalization textCapitalization;
-
-  /// The maximum height this editor can have.
-  ///
-  /// If this is null then there is no limit to the editor's height and it will
-  /// expand to fill its parent.
-  final double? maxHeight;
-
-  /// The minimum height this editor can have.
-  final double? minHeight;
-
-  /// The maximum width to be occupied by the content of this editor.
-  ///
-  /// If this is not null and and this editor's width is larger than this value
-  /// then the contents will be constrained to the provided maximum width and
-  /// horizontally centered. This is mostly useful on devices with wide screens.
-  final double? maxContentWidth;
-
-  /// Allows to override [DefaultStyles].
-  final DefaultStyles? customStyles;
-
-  /// Whether this widget's height will be sized to fill its parent.
-  ///
-  /// If set to true and wrapped in a parent widget like [Expanded] or
-  ///
-  /// Defaults to false.
-  final bool expands;
-
-  /// Whether this editor should focus itself if nothing else is already
-  /// focused.
-  ///
-  /// If true, the keyboard will open as soon as this text field obtains focus.
-  /// Otherwise, the keyboard is only shown after the user taps the text field.
-  ///
-  /// Defaults to false. Cannot be null.
-  final bool autoFocus;
-
-  /// The color to use when painting the selection.
-  final Color selectionColor;
-
-  /// Delegate for building the text selection handles and toolbar.
-  ///
-  /// The [RawEditor] widget used on its own will not trigger the display
-  /// of the selection toolbar by itself. The toolbar is shown by calling
-  /// [RawEditorState.showToolbar] in response to an appropriate user event.
-  final TextSelectionControls selectionCtrls;
-
-  /// The appearance of the keyboard.
-  ///
-  /// This setting is only honored on iOS devices.
-  ///
-  /// Defaults to [Brightness.light].
-  final Brightness keyboardAppearance;
-
-  /// If true, then long-pressing this TextField will select text and show the
-  /// cut/copy/paste menu, and tapping will move the text caret.
-  ///
-  /// True by default.
-  ///
-  /// If false, most of the accessibility support for selecting text, copy
-  /// and paste, and moving the caret will be disabled.
-  final bool enableInteractiveSelection;
-
-  bool get selectionEnabled => enableInteractiveSelection;
-
-  /// The [ScrollPhysics] to use when vertically scrolling the input.
-  ///
-  /// If not specified, it will behave according to the current platform.
-  ///
-  /// See [Scrollable.physics].
-  final ScrollPhysics? scrollPhysics;
-
-  final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
-
-  /// Contains user-defined shortcuts map.
-  ///
-  /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
-  final Map<ShortcutActivator, Intent>? customShortcuts;
-
-  /// Contains user-defined actions.
-  ///
-  /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#actions]
-  final Map<Type, Action<Intent>>? customActions;
-
-  /// Builder function for embeddable objects.
-  final EmbedsBuilder embedBuilder;
-  final LinkActionPickerDelegate linkActionPickerDelegate;
-  final CustomStyleBuilder? customStyleBuilder;
-  final CustomRecognizerBuilder? customRecognizerBuilder;
-  final bool floatingCursorDisabled;
-  final List<String> customLinkPrefixes;
-
-  /// Configures the dialog theme.
-  final QuillDialogTheme? dialogTheme;
-
-  /// Configuration of handler for media content inserted via the system input
-  /// method.
-  ///
-  /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
-  final ContentInsertionConfiguration? contentInsertionConfiguration;
-
-  @override
-  State<StatefulWidget> createState() => RawEditorState();
-}
-
-class RawEditorState extends EditorState
+class QuillRawEditorState extends EditorState
     with
-        AutomaticKeepAliveClientMixin<RawEditor>,
+        AutomaticKeepAliveClientMixin<QuillRawEditor>,
         WidgetsBindingObserver,
-        TickerProviderStateMixin<RawEditor>,
+        TickerProviderStateMixin<QuillRawEditor>,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
   final GlobalKey _editorKey = GlobalKey();
@@ -315,12 +76,12 @@ class RawEditorState extends EditorState
   // Cursors
   late CursorCont _cursorCont;
 
-  QuillController get controller => widget.controller;
+  QuillController get controller => widget.configurations.controller;
 
   // Focus
   bool _didAutoFocus = false;
 
-  bool get _hasFocus => widget.focusNode.hasFocus;
+  bool get _hasFocus => widget.configurations.focusNode.hasFocus;
 
   // Theme
   DefaultStyles? _styles;
@@ -347,23 +108,21 @@ class RawEditorState extends EditorState
 
   @override
   void insertContent(KeyboardInsertedContent content) {
-    assert(widget.contentInsertionConfiguration?.allowedMimeTypes
+    assert(widget.configurations.contentInsertionConfiguration?.allowedMimeTypes
             .contains(content.mimeType) ??
         false);
-    widget.contentInsertionConfiguration?.onContentInserted.call(content);
+    widget.configurations.contentInsertionConfiguration?.onContentInserted
+        .call(content);
   }
 
   /// Returns the [ContextMenuButtonItem]s representing the buttons in this
-  /// platform's default selection menu for [RawEditor].
+  /// platform's default selection menu for [QuillRawEditor].
   ///
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
       clipboardStatus: _clipboardStatus.value,
       onLiveTextInput: null,
-      onLookUp: null,
-      onSearchWeb: null,
-      onShare: null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
@@ -374,6 +133,9 @@ class RawEditorState extends EditorState
       onSelectAll: selectAllEnabled
           ? () => selectAll(SelectionChangedCause.toolbar)
           : null,
+      onLookUp: null,
+      onSearchWeb: null,
+      onShare: null,
     );
   }
 
@@ -393,10 +155,10 @@ class RawEditorState extends EditorState
   }
 
   /// Gets the line heights at the start and end of the selection for the given
-  /// [RawEditorState].
+  /// [QuillRawEditorState].
   ///
   /// Copied from [EditableTextState].
-  _GlyphHeights _getGlyphHeights() {
+  QuillEditorGlyphHeights _getGlyphHeights() {
     final selection = textEditingValue.selection;
 
     // Only calculate handle rects if the text in the previous frame
@@ -409,7 +171,7 @@ class RawEditorState extends EditorState
     final prevText = renderEditor.document.toPlainText();
     final currText = textEditingValue.text;
     if (prevText != currText || !selection.isValid || selection.isCollapsed) {
-      return _GlyphHeights(
+      return QuillEditorGlyphHeights(
         renderEditor.preferredLineHeight(selection.base),
         renderEditor.preferredLineHeight(selection.base),
       );
@@ -419,17 +181,13 @@ class RawEditorState extends EditorState
         renderEditor.getLocalRectForCaret(selection.base);
     final endCharacterRect =
         renderEditor.getLocalRectForCaret(selection.extent);
-    return _GlyphHeights(
+    return QuillEditorGlyphHeights(
       startCharacterRect.height,
       endCharacterRect.height,
     );
   }
 
   void _defaultOnTapOutside(PointerDownEvent event) {
-    if (isWeb()) {
-      widget.focusNode.unfocus();
-    }
-
     /// The focus dropping behavior is only present on desktop platforms
     /// and mobile browsers.
     switch (defaultTargetPlatform) {
@@ -440,31 +198,28 @@ class RawEditorState extends EditorState
         // in the web browser, but we do unfocus for all other kinds of events.
         switch (event.kind) {
           case ui.PointerDeviceKind.touch:
-            // if (isWeb()) {
-            //   widget.focusNode.unfocus();
-            // }
             break;
           case ui.PointerDeviceKind.mouse:
           case ui.PointerDeviceKind.stylus:
           case ui.PointerDeviceKind.invertedStylus:
           case ui.PointerDeviceKind.unknown:
-            widget.focusNode.unfocus();
+            widget.configurations.focusNode.unfocus();
             break;
           case ui.PointerDeviceKind.trackpad:
             throw UnimplementedError(
-              'Unexpected pointer down event for trackpad',
+              'Unexpected pointer down event for trackpad.',
             );
         }
         break;
       case TargetPlatform.linux:
       case TargetPlatform.macOS:
       case TargetPlatform.windows:
-        widget.focusNode.unfocus();
+        widget.configurations.focusNode.unfocus();
         break;
       default:
         throw UnsupportedError(
           'The platform ${defaultTargetPlatform.name} is not supported in the'
-          ' _defaultOnTapOutside',
+          ' _defaultOnTapOutside()',
         );
     }
   }
@@ -474,11 +229,14 @@ class RawEditorState extends EditorState
     assert(debugCheckHasMediaQuery(context));
     super.build(context);
 
-    var _doc = controller.document;
-    if (_doc.isEmpty() && widget.placeholder != null) {
-      final raw = widget.placeholder?.replaceAll(r'"', '\\"');
-      _doc = Document.fromJson(jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]'));
+    var doc = controller.document;
+    if (doc.isEmpty() && widget.configurations.placeholder != null) {
+      final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
+      doc = Document.fromJson(
+        jsonDecode(
+          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]',
+        ),
+      );
     }
 
     Widget child = CompositedTransformTarget(
@@ -486,29 +244,30 @@ class RawEditorState extends EditorState
       child: Semantics(
         child: MouseRegion(
           cursor: SystemMouseCursors.text,
-          child: _Editor(
+          child: QuilRawEditorMultiChildRenderObject(
             key: _editorKey,
-            document: _doc,
+            document: doc,
             selection: controller.selection,
             hasFocus: _hasFocus,
-            scrollable: widget.scrollable,
+            scrollable: widget.configurations.scrollable,
             cursorController: _cursorCont,
             textDirection: _textDirection,
             startHandleLayerLink: _startHandleLayerLink,
             endHandleLayerLink: _endHandleLayerLink,
             onSelectionChanged: _handleSelectionChanged,
             onSelectionCompleted: _handleSelectionCompleted,
-            scrollBottomInset: widget.scrollBottomInset,
-            padding: widget.padding,
-            maxContentWidth: widget.maxContentWidth,
-            floatingCursorDisabled: widget.floatingCursorDisabled,
-            children: _buildChildren(_doc, context),
+            scrollBottomInset: widget.configurations.scrollBottomInset,
+            padding: widget.configurations.padding,
+            maxContentWidth: widget.configurations.maxContentWidth,
+            floatingCursorDisabled:
+                widget.configurations.floatingCursorDisabled,
+            children: _buildChildren(doc, context),
           ),
         ),
       ),
     );
 
-    if (widget.scrollable) {
+    if (widget.configurations.scrollable) {
       /// Since [SingleChildScrollView] does not implement
       /// `computeDistanceToActualBaseline` it prevents the editor from
       /// providing its baseline metrics. To address this issue we wrap
@@ -522,29 +281,30 @@ class RawEditorState extends EditorState
         padding: baselinePadding,
         child: QuillSingleChildScrollView(
           controller: _scrollController,
-          physics: widget.scrollPhysics,
+          physics: widget.configurations.scrollPhysics,
           viewportBuilder: (_, offset) => CompositedTransformTarget(
             link: _toolbarLayerLink,
             child: MouseRegion(
               cursor: SystemMouseCursors.text,
-              child: _Editor(
+              child: QuilRawEditorMultiChildRenderObject(
                 key: _editorKey,
                 offset: offset,
-                document: _doc,
+                document: doc,
                 selection: controller.selection,
                 hasFocus: _hasFocus,
-                scrollable: widget.scrollable,
+                scrollable: widget.configurations.scrollable,
                 textDirection: _textDirection,
                 startHandleLayerLink: _startHandleLayerLink,
                 endHandleLayerLink: _endHandleLayerLink,
                 onSelectionChanged: _handleSelectionChanged,
                 onSelectionCompleted: _handleSelectionCompleted,
-                scrollBottomInset: widget.scrollBottomInset,
-                padding: widget.padding,
-                maxContentWidth: widget.maxContentWidth,
+                scrollBottomInset: widget.configurations.scrollBottomInset,
+                padding: widget.configurations.padding,
+                maxContentWidth: widget.configurations.maxContentWidth,
                 cursorController: _cursorCont,
-                floatingCursorDisabled: widget.floatingCursorDisabled,
-                children: _buildChildren(_doc, context),
+                floatingCursorDisabled:
+                    widget.configurations.floatingCursorDisabled,
+                children: _buildChildren(doc, context),
               ),
             ),
           ),
@@ -552,27 +312,25 @@ class RawEditorState extends EditorState
       );
     }
 
-    final constraints = widget.expands
+    final constraints = widget.configurations.expands
         ? const BoxConstraints.expand()
         : BoxConstraints(
-            minHeight: widget.minHeight ?? 0.0,
-            maxHeight: widget.maxHeight ?? double.infinity,
+            minHeight: widget.configurations.minHeight ?? 0.0,
+            maxHeight: widget.configurations.maxHeight ?? double.infinity,
           );
 
     // Please notice that this change will make the check fixed
     // so if we ovveride the platform in material app theme data
     // it will not depend on it and doesn't change here but I don't think
     // we need to
-    final isDesktopMacOS = isMacOS();
+    final isDesktopMacOS = isMacOS(supportWeb: true);
 
     return TextFieldTapRegion(
-      enabled: widget.enableUnfocusOnTapOutside,
+      enabled: widget.configurations.isOnTapOutsideEnabled,
       onTapOutside: (event) {
-        final onTapOutside =
-            context.requireQuillEditorConfigurations.onTapOutside;
+        final onTapOutside = widget.configurations.onTapOutside;
         if (onTapOutside != null) {
-          context.requireQuillEditorConfigurations.onTapOutside
-              ?.call(event, widget.focusNode);
+          onTapOutside.call(event, widget.configurations.focusNode);
           return;
         }
         _defaultOnTapOutside(event);
@@ -639,7 +397,7 @@ class RawEditorState extends EditorState
               LogicalKeyboardKey.keyK,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
-            ): const ApplyLinkIntent(),
+            ): const QuillEditorApplyLinkIntent(),
 
             // Lists
             SingleActivator(
@@ -659,7 +417,7 @@ class RawEditorState extends EditorState
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
               shift: true,
-            ): const ApplyCheckListIntent(),
+            ): const QuillEditorApplyCheckListIntent(),
 
             // Indents
             SingleActivator(
@@ -679,28 +437,28 @@ class RawEditorState extends EditorState
               LogicalKeyboardKey.digit1,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
-            ): const ApplyHeaderIntent(Attribute.h1),
+            ): const QuillEditorApplyHeaderIntent(Attribute.h1),
             SingleActivator(
               LogicalKeyboardKey.digit2,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
-            ): const ApplyHeaderIntent(Attribute.h2),
+            ): const QuillEditorApplyHeaderIntent(Attribute.h2),
             SingleActivator(
               LogicalKeyboardKey.digit3,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
-            ): const ApplyHeaderIntent(Attribute.h3),
+            ): const QuillEditorApplyHeaderIntent(Attribute.h3),
             SingleActivator(
               LogicalKeyboardKey.digit0,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
-            ): const ApplyHeaderIntent(Attribute.header),
+            ): const QuillEditorApplyHeaderIntent(Attribute.header),
 
             SingleActivator(
               LogicalKeyboardKey.keyG,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
-            ): const InsertEmbedIntent(Attribute.image),
+            ): const QuillEditorInsertEmbedIntent(Attribute.image),
 
             SingleActivator(
               LogicalKeyboardKey.keyF,
@@ -708,14 +466,14 @@ class RawEditorState extends EditorState
               meta: isDesktopMacOS,
             ): const OpenSearchIntent(),
           }, {
-            ...?widget.customShortcuts
+            ...?widget.configurations.customShortcuts
           }),
           child: Actions(
             actions: mergeMaps<Type, Action<Intent>>(_actions, {
-              ...?widget.customActions,
+              ...?widget.configurations.customActions,
             }),
             child: Focus(
-              focusNode: widget.focusNode,
+              focusNode: widget.configurations.focusNode,
               onKey: _onKey,
               child: QuillKeyboardListener(
                 child: Container(
@@ -794,7 +552,7 @@ class RawEditorState extends EditorState
         controller.document.queryChild(controller.selection.baseOffset);
 
     KeyEventResult insertTabCharacter() {
-      if (widget.readOnly) {
+      if (widget.configurations.isReadOnly) {
         return KeyEventResult.ignored;
       }
       controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
@@ -856,7 +614,7 @@ class RawEditorState extends EditorState
         controller.selection.copyWith(
             baseOffset: selection.baseOffset + chars,
             extentOffset: selection.baseOffset + chars),
-        ChangeSource.LOCAL);
+        ChangeSource.local);
   }
 
   void _updateSelectionForKeyPhrase(String phrase, Attribute attribute) {
@@ -874,7 +632,7 @@ class RawEditorState extends EditorState
     SelectionChangedCause cause,
   ) {
     final oldSelection = controller.selection;
-    controller.updateSelection(selection, ChangeSource.LOCAL);
+    controller.updateSelection(selection, ChangeSource.local);
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
@@ -902,10 +660,9 @@ class RawEditorState extends EditorState
   /// Updates the checkbox positioned at [offset] in document
   /// by changing its attribute according to [value].
   void _handleCheckboxTap(int offset, bool value) {
-    final requestKeyboardFocusOnCheckListChanged = context
-        .requireQuillEditorConfigurations
-        .requestKeyboardFocusOnCheckListChanged;
-    if (!widget.readOnly) {
+    final requestKeyboardFocusOnCheckListChanged =
+        widget.configurations.requestKeyboardFocusOnCheckListChanged;
+    if (!widget.configurations.isReadOnly) {
       _disableScrollControllerAnimateOnce = true;
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
@@ -928,7 +685,7 @@ class RawEditorState extends EditorState
         controller
           ..ignoreFocusOnTextChange = false
           ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
-          ..updateSelection(currentSelection, ChangeSource.LOCAL);
+          ..updateSelection(currentSelection, ChangeSource.local);
       });
     }
   }
@@ -962,26 +719,27 @@ class RawEditorState extends EditorState
           block: node,
           controller: controller,
           textDirection: getDirectionOfNode(node),
-          scrollBottomInset: widget.scrollBottomInset,
+          scrollBottomInset: widget.configurations.scrollBottomInset,
           verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
           textSelection: controller.selection,
-          color: widget.selectionColor,
+          color: widget.configurations.selectionColor,
           styles: _styles,
-          enableInteractiveSelection: widget.enableInteractiveSelection,
+          enableInteractiveSelection:
+              widget.configurations.enableInteractiveSelection,
           hasFocus: _hasFocus,
           contentPadding: attrs.containsKey(Attribute.codeBlock.key)
               ? const EdgeInsets.all(16)
               : null,
-          embedBuilder: widget.embedBuilder,
+          embedBuilder: widget.configurations.embedBuilder,
           linkActionPicker: _linkActionPicker,
-          onLaunchUrl: widget.onLaunchUrl,
+          onLaunchUrl: widget.configurations.onLaunchUrl,
           cursorCont: _cursorCont,
           indentLevelCounts: indentLevelCounts,
           clearIndents: clearIndents,
           onCheckboxTap: _handleCheckboxTap,
-          readOnly: widget.readOnly,
-          customStyleBuilder: widget.customStyleBuilder,
-          customLinkPrefixes: widget.customLinkPrefixes,
+          readOnly: widget.configurations.isReadOnly,
+          customStyleBuilder: widget.configurations.customStyleBuilder,
+          customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );
         result.add(
           Directionality(
@@ -1005,15 +763,15 @@ class RawEditorState extends EditorState
     final textLine = TextLine(
       line: node,
       textDirection: _textDirection,
-      embedBuilder: widget.embedBuilder,
-      customStyleBuilder: widget.customStyleBuilder,
-      customRecognizerBuilder: widget.customRecognizerBuilder,
+      embedBuilder: widget.configurations.embedBuilder,
+      customStyleBuilder: widget.configurations.customStyleBuilder,
+      customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
       styles: _styles!,
-      readOnly: widget.readOnly,
+      readOnly: widget.configurations.isReadOnly,
       controller: controller,
       linkActionPicker: _linkActionPicker,
-      onLaunchUrl: widget.onLaunchUrl,
-      customLinkPrefixes: widget.customLinkPrefixes,
+      onLaunchUrl: widget.configurations.onLaunchUrl,
+      customLinkPrefixes: widget.configurations.customLinkPrefixes,
     );
     final editableTextLine = EditableTextLine(
         node,
@@ -1023,8 +781,8 @@ class RawEditorState extends EditorState
         _getVerticalSpacingForLine(node, _styles),
         _textDirection,
         controller.selection,
-        widget.selectionColor,
-        widget.enableInteractiveSelection,
+        widget.configurations.selectionColor,
+        widget.configurations.enableInteractiveSelection,
         _hasFocus,
         MediaQuery.devicePixelRatioOf(context),
         _cursorCont);
@@ -1032,7 +790,9 @@ class RawEditorState extends EditorState
   }
 
   VerticalSpacing _getVerticalSpacingForLine(
-      Line line, DefaultStyles? defaultStyles) {
+    Line line,
+    DefaultStyles? defaultStyles,
+  ) {
     final attrs = line.style.attributes;
     if (attrs.containsKey(Attribute.header.key)) {
       int level;
@@ -1049,7 +809,7 @@ class RawEditorState extends EditorState
         case 3:
           return defaultStyles!.h3!.verticalSpacing;
         default:
-          throw 'Invalid level $level';
+          throw ArgumentError('Invalid level $level');
       }
     }
 
@@ -1085,12 +845,12 @@ class RawEditorState extends EditorState
 
     controller.addListener(_didChangeTextEditingValueListener);
 
-    _scrollController = widget.scrollController;
+    _scrollController = widget.configurations.scrollController;
     _scrollController.addListener(_updateSelectionOverlayForScroll);
 
     _cursorCont = CursorCont(
-      show: ValueNotifier<bool>(widget.showCursor),
-      style: widget.cursorStyle,
+      show: ValueNotifier<bool>(widget.configurations.showCursor),
+      style: widget.configurations.cursorStyle,
       tickerProvider: this,
     );
 
@@ -1098,7 +858,7 @@ class RawEditorState extends EditorState
     _floatingCursorResetController = AnimationController(vsync: this);
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
 
-    if (isKeyboardOS()) {
+    if (isKeyboardOS(supportWeb: true)) {
       _keyboardVisible = true;
     } else if (!isWeb() && isFlutterTest()) {
       // treat tests like a keyboard OS
@@ -1125,7 +885,7 @@ class RawEditorState extends EditorState
     }
 
     // Focus
-    widget.focusNode.addListener(_handleFocusChanged);
+    widget.configurations.focusNode.addListener(_handleFocusChanged);
   }
 
   // KeyboardVisibilityController only checks for keyboards that
@@ -1158,47 +918,49 @@ class RawEditorState extends EditorState
         ? defaultStyles.merge(parentStyles)
         : defaultStyles;
 
-    if (widget.customStyles != null) {
-      _styles = _styles!.merge(widget.customStyles!);
+    if (widget.configurations.customStyles != null) {
+      _styles = _styles!.merge(widget.configurations.customStyles!);
     }
 
     _requestAutoFocusIfShould();
   }
 
   Future<void> _requestAutoFocusIfShould() async {
-    if (!_didAutoFocus && widget.autoFocus) {
+    final focusManager = FocusScope.of(context);
+    if (!_didAutoFocus && widget.configurations.autoFocus) {
       await Future.delayed(Duration.zero); // To avoid exceptions
-      FocusScope.of(context).autofocus(widget.focusNode);
+      focusManager.autofocus(widget.configurations.focusNode);
       _didAutoFocus = true;
     }
   }
 
   @override
-  void didUpdateWidget(RawEditor oldWidget) {
+  void didUpdateWidget(QuillRawEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    _cursorCont.show.value = widget.showCursor;
-    _cursorCont.style = widget.cursorStyle;
+    _cursorCont.show.value = widget.configurations.showCursor;
+    _cursorCont.style = widget.configurations.cursorStyle;
 
-    if (controller != oldWidget.controller) {
-      oldWidget.controller.removeListener(_didChangeTextEditingValue);
+    if (controller != oldWidget.configurations.controller) {
+      oldWidget.configurations.controller
+          .removeListener(_didChangeTextEditingValue);
       controller.addListener(_didChangeTextEditingValue);
       updateRemoteValueIfNeeded();
     }
 
-    if (widget.scrollController != _scrollController) {
+    if (widget.configurations.scrollController != _scrollController) {
       _scrollController.removeListener(_updateSelectionOverlayForScroll);
-      _scrollController = widget.scrollController;
+      _scrollController = widget.configurations.scrollController;
       _scrollController.addListener(_updateSelectionOverlayForScroll);
     }
 
-    if (widget.focusNode != oldWidget.focusNode) {
-      oldWidget.focusNode.removeListener(_handleFocusChanged);
-      widget.focusNode.addListener(_handleFocusChanged);
+    if (widget.configurations.focusNode != oldWidget.configurations.focusNode) {
+      oldWidget.configurations.focusNode.removeListener(_handleFocusChanged);
+      widget.configurations.focusNode.addListener(_handleFocusChanged);
       updateKeepAlive();
     }
 
-    if (controller.selection != oldWidget.controller.selection) {
+    if (controller.selection != oldWidget.configurations.controller.selection) {
       _selectionOverlay?.update(textEditingValue);
     }
 
@@ -1206,19 +968,20 @@ class RawEditorState extends EditorState
     if (!shouldCreateInputConnection) {
       closeConnectionIfNeeded();
     } else {
-      if (oldWidget.readOnly && _hasFocus) {
+      if (oldWidget.configurations.isReadOnly && _hasFocus) {
         openConnectionIfNeeded();
       }
     }
 
     // in case customStyles changed in new widget
-    if (widget.customStyles != null) {
-      _styles = _styles!.merge(widget.customStyles!);
+    if (widget.configurations.customStyles != null) {
+      _styles = _styles!.merge(widget.configurations.customStyles!);
     }
   }
 
   bool _shouldShowSelectionHandles() {
-    return widget.showSelectionHandles && !controller.selection.isCollapsed;
+    return widget.configurations.showSelectionHandles &&
+        !controller.selection.isCollapsed;
   }
 
   @override
@@ -1230,7 +993,7 @@ class RawEditorState extends EditorState
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
     controller.removeListener(_didChangeTextEditingValueListener);
-    widget.focusNode.removeListener(_handleFocusChanged);
+    widget.configurations.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
     _clipboardStatus
       ..removeListener(_onChangedClipboardStatus)
@@ -1330,12 +1093,13 @@ class RawEditorState extends EditorState
         startHandleLayerLink: _startHandleLayerLink,
         endHandleLayerLink: _endHandleLayerLink,
         renderObject: renderEditor,
-        selectionCtrls: widget.selectionCtrls,
+        selectionCtrls: widget.configurations.selectionCtrls,
         selectionDelegate: this,
         clipboardStatus: _clipboardStatus,
-        contextMenuBuilder: widget.contextMenuBuilder == null
+        contextMenuBuilder: widget.configurations.contextMenuBuilder == null
             ? null
-            : (context) => widget.contextMenuBuilder!(context, this),
+            : (context) =>
+                widget.configurations.contextMenuBuilder!(context, this),
       );
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
@@ -1369,7 +1133,8 @@ class RawEditorState extends EditorState
 
   Future<LinkMenuAction> _linkActionPicker(Node linkNode) async {
     final link = linkNode.style.attributes[Attribute.link.key]!.value!;
-    return widget.linkActionPickerDelegate(context, link, linkNode);
+    return widget.configurations
+        .linkActionPickerDelegate(context, link, linkNode);
   }
 
   bool _showCaretOnScreenScheduled = false;
@@ -1382,13 +1147,13 @@ class RawEditorState extends EditorState
   bool _disableScrollControllerAnimateOnce = false;
 
   void _showCaretOnScreen() {
-    if (!widget.showCursor || _showCaretOnScreenScheduled) {
+    if (!widget.configurations.showCursor || _showCaretOnScreenScheduled) {
       return;
     }
 
     _showCaretOnScreenScheduled = true;
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.scrollable || _scrollController.hasClients) {
+      if (widget.configurations.scrollable || _scrollController.hasClients) {
         _showCaretOnScreenScheduled = false;
 
         if (!mounted) {
@@ -1438,7 +1203,6 @@ class RawEditorState extends EditorState
   @override
   void requestKeyboard() {
     if (controller.skipRequestKeyboard) {
-      // TODO: There is a bug, requestKeyboard is being called 2-4 times!
       // and that just by one simple change
       controller.skipRequestKeyboard = false;
       return;
@@ -1456,7 +1220,7 @@ class RawEditorState extends EditorState
         _showCaretOnScreen();
       }
     } else {
-      widget.focusNode.requestFocus();
+      widget.configurations.focusNode.requestFocus();
     }
   }
 
@@ -1534,7 +1298,7 @@ class RawEditorState extends EditorState
     _pastePlainText = controller.getPlainText();
     _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
 
-    if (widget.readOnly) {
+    if (widget.configurations.isReadOnly) {
       return;
     }
     final selection = textEditingValue.selection;
@@ -1554,7 +1318,7 @@ class RawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (widget.readOnly) {
+    if (widget.configurations.isReadOnly) {
       return;
     }
 
@@ -1615,7 +1379,7 @@ class RawEditorState extends EditorState
       return;
     }
 
-    final onImagePaste = widget.onImagePaste;
+    final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
       final image = await Pasteboard.image;
 
@@ -1654,7 +1418,7 @@ class RawEditorState extends EditorState
   }
 
   @override
-  bool get wantKeepAlive => widget.focusNode.hasFocus;
+  bool get wantKeepAlive => widget.configurations.focusNode.hasFocus;
 
   @override
   AnimationController get floatingCursorResetController =>
@@ -1664,39 +1428,42 @@ class RawEditorState extends EditorState
 
   // --------------------------- Text Editing Actions --------------------------
 
-  _TextBoundary _characterBoundary(DirectionalTextEditingIntent intent) {
-    final _TextBoundary atomicTextBoundary =
-        _CharacterBoundary(textEditingValue);
-    return _CollapsedSelectionBoundary(atomicTextBoundary, intent.forward);
+  QuillEditorTextBoundary _characterBoundary(
+      DirectionalTextEditingIntent intent) {
+    final atomicTextBoundary = QuillEditorCharacterBoundary(textEditingValue);
+    return QuillEditorCollapsedSelectionBoundary(
+        atomicTextBoundary, intent.forward);
   }
 
-  _TextBoundary _nextWordBoundary(DirectionalTextEditingIntent intent) {
-    final _TextBoundary atomicTextBoundary;
-    final _TextBoundary boundary;
+  QuillEditorTextBoundary _nextWordBoundary(
+      DirectionalTextEditingIntent intent) {
+    final QuillEditorTextBoundary atomicTextBoundary;
+    final QuillEditorTextBoundary boundary;
 
     // final TextEditingValue textEditingValue =
     //     _textEditingValueforTextLayoutMetrics;
-    atomicTextBoundary = _CharacterBoundary(textEditingValue);
+    atomicTextBoundary = QuillEditorCharacterBoundary(textEditingValue);
     // This isn't enough. Newline characters.
-    boundary = _ExpandedTextBoundary(_WhitespaceBoundary(textEditingValue),
-        _WordBoundary(renderEditor, textEditingValue));
+    boundary = QuillEditorExpandedTextBoundary(
+        QuillEditorWhitespaceBoundary(textEditingValue),
+        QuillEditorWordBoundary(renderEditor, textEditingValue));
 
     final mixedBoundary = intent.forward
-        ? _MixedBoundary(atomicTextBoundary, boundary)
-        : _MixedBoundary(boundary, atomicTextBoundary);
+        ? QuillEditorMixedBoundary(atomicTextBoundary, boundary)
+        : QuillEditorMixedBoundary(boundary, atomicTextBoundary);
     // Use a _MixedBoundary to make sure we don't leave invalid codepoints in
     // the field after deletion.
-    return _CollapsedSelectionBoundary(mixedBoundary, intent.forward);
+    return QuillEditorCollapsedSelectionBoundary(mixedBoundary, intent.forward);
   }
 
-  _TextBoundary _linebreak(DirectionalTextEditingIntent intent) {
-    final _TextBoundary atomicTextBoundary;
-    final _TextBoundary boundary;
+  QuillEditorTextBoundary _linebreak(DirectionalTextEditingIntent intent) {
+    final QuillEditorTextBoundary atomicTextBoundary;
+    final QuillEditorTextBoundary boundary;
 
     // final TextEditingValue textEditingValue =
     //     _textEditingValueforTextLayoutMetrics;
-    atomicTextBoundary = _CharacterBoundary(textEditingValue);
-    boundary = _LineBreak(renderEditor, textEditingValue);
+    atomicTextBoundary = QuillEditorCharacterBoundary(textEditingValue);
+    boundary = QuillEditorLineBreak(renderEditor, textEditingValue);
 
     // The _MixedBoundary is to make sure we don't leave invalid code units in
     // the field after deletion.
@@ -1704,14 +1471,18 @@ class RawEditorState extends EditorState
     // since the document boundary is unique and the linebreak boundary is
     // already caret-location based.
     return intent.forward
-        ? _MixedBoundary(
-            _CollapsedSelectionBoundary(atomicTextBoundary, true), boundary)
-        : _MixedBoundary(
-            boundary, _CollapsedSelectionBoundary(atomicTextBoundary, false));
+        ? QuillEditorMixedBoundary(
+            QuillEditorCollapsedSelectionBoundary(atomicTextBoundary, true),
+            boundary)
+        : QuillEditorMixedBoundary(
+            boundary,
+            QuillEditorCollapsedSelectionBoundary(atomicTextBoundary, false),
+          );
   }
 
-  _TextBoundary _documentBoundary(DirectionalTextEditingIntent intent) =>
-      _DocumentBoundary(textEditingValue);
+  QuillEditorTextBoundary _documentBoundary(
+          DirectionalTextEditingIntent intent) =>
+      QuillEditorDocumentBoundary(textEditingValue);
 
   Action<T> _makeOverridable<T extends Intent>(Action<T> defaultAction) {
     return Action<T>.overridable(
@@ -1731,21 +1502,23 @@ class RawEditorState extends EditorState
   late final Action<UpdateSelectionIntent> _updateSelectionAction =
       CallbackAction<UpdateSelectionIntent>(onInvoke: _updateSelection);
 
-  late final _UpdateTextSelectionToAdjacentLineAction<
+  late final QuillEditorUpdateTextSelectionToAdjacentLineAction<
           ExtendSelectionVerticallyToAdjacentLineIntent> _adjacentLineAction =
-      _UpdateTextSelectionToAdjacentLineAction<
+      QuillEditorUpdateTextSelectionToAdjacentLineAction<
           ExtendSelectionVerticallyToAdjacentLineIntent>(this);
 
-  late final _ToggleTextStyleAction _formatSelectionAction =
-      _ToggleTextStyleAction(this);
+  late final QuillEditorToggleTextStyleAction _formatSelectionAction =
+      QuillEditorToggleTextStyleAction(this);
 
-  late final _IndentSelectionAction _indentSelectionAction =
-      _IndentSelectionAction(this);
+  late final QuillEditorIndentSelectionAction _indentSelectionAction =
+      QuillEditorIndentSelectionAction(this);
 
-  late final _OpenSearchAction _openSearchAction = _OpenSearchAction(this);
-  late final _ApplyHeaderAction _applyHeaderAction = _ApplyHeaderAction(this);
-  late final _ApplyCheckListAction _applyCheckListAction =
-      _ApplyCheckListAction(this);
+  late final QuillEditorOpenSearchAction _openSearchAction =
+      QuillEditorOpenSearchAction(this);
+  late final QuillEditorApplyHeaderAction _applyHeaderAction =
+      QuillEditorApplyHeaderAction(this);
+  late final QuillEditorApplyCheckListAction _applyCheckListAction =
+      QuillEditorApplyCheckListAction(this);
 
   late final Map<Type, Action<Intent>> _actions = <Type, Action<Intent>>{
     DoNothingAndStopPropagationTextIntent: DoNothingAction(consumesKey: false),
@@ -1755,53 +1528,58 @@ class RawEditorState extends EditorState
 
     // Delete
     DeleteCharacterIntent: _makeOverridable(
-        _DeleteTextAction<DeleteCharacterIntent>(this, _characterBoundary)),
+        QuillEditorDeleteTextAction<DeleteCharacterIntent>(
+            this, _characterBoundary)),
     DeleteToNextWordBoundaryIntent: _makeOverridable(
-        _DeleteTextAction<DeleteToNextWordBoundaryIntent>(
+        QuillEditorDeleteTextAction<DeleteToNextWordBoundaryIntent>(
             this, _nextWordBoundary)),
     DeleteToLineBreakIntent: _makeOverridable(
-        _DeleteTextAction<DeleteToLineBreakIntent>(this, _linebreak)),
+        QuillEditorDeleteTextAction<DeleteToLineBreakIntent>(this, _linebreak)),
 
     // Extend/Move Selection
     ExtendSelectionByCharacterIntent: _makeOverridable(
-        _UpdateTextSelectionAction<ExtendSelectionByCharacterIntent>(
+        QuillEditorUpdateTextSelectionAction<ExtendSelectionByCharacterIntent>(
       this,
       false,
       _characterBoundary,
     )),
     ExtendSelectionToNextWordBoundaryIntent: _makeOverridable(
-        _UpdateTextSelectionAction<ExtendSelectionToNextWordBoundaryIntent>(
+        QuillEditorUpdateTextSelectionAction<
+                ExtendSelectionToNextWordBoundaryIntent>(
             this, true, _nextWordBoundary)),
     ExtendSelectionToLineBreakIntent: _makeOverridable(
-        _UpdateTextSelectionAction<ExtendSelectionToLineBreakIntent>(
+        QuillEditorUpdateTextSelectionAction<ExtendSelectionToLineBreakIntent>(
             this, true, _linebreak)),
     ExtendSelectionVerticallyToAdjacentLineIntent:
         _makeOverridable(_adjacentLineAction),
     ExtendSelectionToDocumentBoundaryIntent: _makeOverridable(
-        _UpdateTextSelectionAction<ExtendSelectionToDocumentBoundaryIntent>(
+        QuillEditorUpdateTextSelectionAction<
+                ExtendSelectionToDocumentBoundaryIntent>(
             this, true, _documentBoundary)),
     ExtendSelectionToNextWordBoundaryOrCaretLocationIntent: _makeOverridable(
-        _ExtendSelectionOrCaretPositionAction(this, _nextWordBoundary)),
+        QuillEditorExtendSelectionOrCaretPositionAction(
+            this, _nextWordBoundary)),
 
     // Copy Paste
-    SelectAllTextIntent: _makeOverridable(_SelectAllAction(this)),
-    CopySelectionTextIntent: _makeOverridable(_CopySelectionAction(this)),
+    SelectAllTextIntent: _makeOverridable(QuillEditorSelectAllAction(this)),
+    CopySelectionTextIntent:
+        _makeOverridable(QuillEditorCopySelectionAction(this)),
     PasteTextIntent: _makeOverridable(CallbackAction<PasteTextIntent>(
         onInvoke: (intent) => pasteText(intent.cause))),
 
     HideSelectionToolbarIntent:
-        _makeOverridable(_HideSelectionToolbarAction(this)),
-    UndoTextIntent: _makeOverridable(_UndoKeyboardAction(this)),
-    RedoTextIntent: _makeOverridable(_RedoKeyboardAction(this)),
+        _makeOverridable(QuillEditorHideSelectionToolbarAction(this)),
+    UndoTextIntent: _makeOverridable(QuillEditorUndoKeyboardAction(this)),
+    RedoTextIntent: _makeOverridable(QuillEditorRedoKeyboardAction(this)),
 
     OpenSearchIntent: _openSearchAction,
 
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
     IndentSelectionIntent: _indentSelectionAction,
-    ApplyHeaderIntent: _applyHeaderAction,
-    ApplyCheckListIntent: _applyCheckListAction,
-    ApplyLinkIntent: ApplyLinkAction(this)
+    QuillEditorApplyHeaderIntent: _applyHeaderAction,
+    QuillEditorApplyCheckListIntent: _applyCheckListAction,
+    QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this)
   };
 
   @override
@@ -1847,956 +1625,4 @@ class RawEditorState extends EditorState
 
   @override
   bool get shareEnabled => false;
-}
-
-class _Editor extends MultiChildRenderObjectWidget {
-  const _Editor({
-    required Key key,
-    required List<Widget> children,
-    required this.document,
-    required this.textDirection,
-    required this.hasFocus,
-    required this.scrollable,
-    required this.selection,
-    required this.startHandleLayerLink,
-    required this.endHandleLayerLink,
-    required this.onSelectionChanged,
-    required this.onSelectionCompleted,
-    required this.scrollBottomInset,
-    required this.cursorController,
-    required this.floatingCursorDisabled,
-    this.padding = EdgeInsets.zero,
-    this.maxContentWidth,
-    this.offset,
-  }) : super(key: key, children: children);
-
-  final ViewportOffset? offset;
-  final Document document;
-  final TextDirection textDirection;
-  final bool hasFocus;
-  final bool scrollable;
-  final TextSelection selection;
-  final LayerLink startHandleLayerLink;
-  final LayerLink endHandleLayerLink;
-  final TextSelectionChangedHandler onSelectionChanged;
-  final TextSelectionCompletedHandler onSelectionCompleted;
-  final double scrollBottomInset;
-  final EdgeInsetsGeometry padding;
-  final double? maxContentWidth;
-  final CursorCont cursorController;
-  final bool floatingCursorDisabled;
-
-  @override
-  RenderEditor createRenderObject(BuildContext context) {
-    return RenderEditor(
-      offset: offset,
-      document: document,
-      textDirection: textDirection,
-      hasFocus: hasFocus,
-      scrollable: scrollable,
-      selection: selection,
-      startHandleLayerLink: startHandleLayerLink,
-      endHandleLayerLink: endHandleLayerLink,
-      onSelectionChanged: onSelectionChanged,
-      onSelectionCompleted: onSelectionCompleted,
-      cursorController: cursorController,
-      padding: padding,
-      maxContentWidth: maxContentWidth,
-      scrollBottomInset: scrollBottomInset,
-      floatingCursorDisabled: floatingCursorDisabled,
-    );
-  }
-
-  @override
-  void updateRenderObject(
-    BuildContext context,
-    covariant RenderEditor renderObject,
-  ) {
-    renderObject
-      ..offset = offset
-      ..document = document
-      ..setContainer(document.root)
-      ..textDirection = textDirection
-      ..setHasFocus(hasFocus)
-      ..setSelection(selection)
-      ..setStartHandleLayerLink(startHandleLayerLink)
-      ..setEndHandleLayerLink(endHandleLayerLink)
-      ..onSelectionChanged = onSelectionChanged
-      ..setScrollBottomInset(scrollBottomInset)
-      ..setPadding(padding)
-      ..maxContentWidth = maxContentWidth;
-  }
-}
-
-/// An interface for retrieving the logical text boundary
-/// (left-closed-right-open)
-/// at a given location in a document.
-///
-/// Depending on the implementation of the [_TextBoundary], the input
-/// [TextPosition] can either point to a code unit, or a position between 2 code
-/// units (which can be visually represented by the caret if the selection were
-/// to collapse to that position).
-///
-/// For example, [_LineBreak] interprets the input [TextPosition] as a caret
-/// location, since in Flutter the caret is generally painted between the
-/// character the [TextPosition] points to and its previous character, and
-/// [_LineBreak] cares about the affinity of the input [TextPosition]. Most
-/// other text boundaries however, interpret the input [TextPosition] as the
-/// location of a code unit in the document, since it's easier to reason about
-/// the text boundary given a code unit in the text.
-///
-/// To convert a "code-unit-based" [_TextBoundary] to "caret-location-based",
-/// use the [_CollapsedSelectionBoundary] combinator.
-abstract class _TextBoundary {
-  const _TextBoundary();
-
-  TextEditingValue get textEditingValue;
-
-  /// Returns the leading text boundary at the given location, inclusive.
-  TextPosition getLeadingTextBoundaryAt(TextPosition position);
-
-  /// Returns the trailing text boundary at the given location, exclusive.
-  TextPosition getTrailingTextBoundaryAt(TextPosition position);
-
-  TextRange getTextBoundaryAt(TextPosition position) {
-    return TextRange(
-      start: getLeadingTextBoundaryAt(position).offset,
-      end: getTrailingTextBoundaryAt(position).offset,
-    );
-  }
-}
-
-// -----------------------------  Text Boundaries -----------------------------
-
-// The word modifier generally removes the word boundaries around white spaces
-// (and newlines), IOW white spaces and some other punctuations are considered
-// a part of the next word in the search direction.
-class _WhitespaceBoundary extends _TextBoundary {
-  const _WhitespaceBoundary(this.textEditingValue);
-
-  @override
-  final TextEditingValue textEditingValue;
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    for (var index = position.offset; index >= 0; index -= 1) {
-      if (!TextLayoutMetrics.isWhitespace(
-          textEditingValue.text.codeUnitAt(index))) {
-        return TextPosition(offset: index);
-      }
-    }
-    return const TextPosition(offset: 0);
-  }
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    for (var index = position.offset;
-        index < textEditingValue.text.length;
-        index += 1) {
-      if (!TextLayoutMetrics.isWhitespace(
-          textEditingValue.text.codeUnitAt(index))) {
-        return TextPosition(offset: index + 1);
-      }
-    }
-    return TextPosition(offset: textEditingValue.text.length);
-  }
-}
-
-// Most apps delete the entire grapheme when the backspace key is pressed.
-// Also always put the new caret location to character boundaries to avoid
-// sending malformed UTF-16 code units to the paragraph builder.
-class _CharacterBoundary extends _TextBoundary {
-  const _CharacterBoundary(this.textEditingValue);
-
-  @override
-  final TextEditingValue textEditingValue;
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    final int endOffset =
-        math.min(position.offset + 1, textEditingValue.text.length);
-    return TextPosition(
-      offset:
-          CharacterRange.at(textEditingValue.text, position.offset, endOffset)
-              .stringBeforeLength,
-    );
-  }
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    final int endOffset =
-        math.min(position.offset + 1, textEditingValue.text.length);
-    final range =
-        CharacterRange.at(textEditingValue.text, position.offset, endOffset);
-    return TextPosition(
-      offset: textEditingValue.text.length - range.stringAfterLength,
-    );
-  }
-
-  @override
-  TextRange getTextBoundaryAt(TextPosition position) {
-    final int endOffset =
-        math.min(position.offset + 1, textEditingValue.text.length);
-    final range =
-        CharacterRange.at(textEditingValue.text, position.offset, endOffset);
-    return TextRange(
-      start: range.stringBeforeLength,
-      end: textEditingValue.text.length - range.stringAfterLength,
-    );
-  }
-}
-
-// [UAX #29](https://unicode.org/reports/tr29/) defined word boundaries.
-class _WordBoundary extends _TextBoundary {
-  const _WordBoundary(this.textLayout, this.textEditingValue);
-
-  final TextLayoutMetrics textLayout;
-
-  @override
-  final TextEditingValue textEditingValue;
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    return TextPosition(
-      offset: textLayout.getWordBoundary(position).start,
-      // Word boundary seems to always report downstream on many platforms.
-      affinity:
-          TextAffinity.downstream, // ignore: avoid_redundant_argument_values
-    );
-  }
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    return TextPosition(
-      offset: textLayout.getWordBoundary(position).end,
-      // Word boundary seems to always report downstream on many platforms.
-      affinity:
-          TextAffinity.downstream, // ignore: avoid_redundant_argument_values
-    );
-  }
-}
-
-// The linebreaks of the current text layout. The input [TextPosition]s are
-// interpreted as caret locations because [TextPainter.getLineAtOffset] is
-// text-affinity-aware.
-class _LineBreak extends _TextBoundary {
-  const _LineBreak(this.textLayout, this.textEditingValue);
-
-  final TextLayoutMetrics textLayout;
-
-  @override
-  final TextEditingValue textEditingValue;
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    return TextPosition(
-      offset: textLayout.getLineAtOffset(position).start,
-    );
-  }
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    return TextPosition(
-      offset: textLayout.getLineAtOffset(position).end,
-      affinity: TextAffinity.upstream,
-    );
-  }
-}
-
-// The document boundary is unique and is a constant function of the input
-// position.
-class _DocumentBoundary extends _TextBoundary {
-  const _DocumentBoundary(this.textEditingValue);
-
-  @override
-  final TextEditingValue textEditingValue;
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) =>
-      const TextPosition(offset: 0);
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    return TextPosition(
-      offset: textEditingValue.text.length,
-      affinity: TextAffinity.upstream,
-    );
-  }
-}
-
-// ------------------------  Text Boundary Combinators ------------------------
-
-// Expands the innerTextBoundary with outerTextBoundary.
-class _ExpandedTextBoundary extends _TextBoundary {
-  _ExpandedTextBoundary(this.innerTextBoundary, this.outerTextBoundary);
-
-  final _TextBoundary innerTextBoundary;
-  final _TextBoundary outerTextBoundary;
-
-  @override
-  TextEditingValue get textEditingValue {
-    assert(innerTextBoundary.textEditingValue ==
-        outerTextBoundary.textEditingValue);
-    return innerTextBoundary.textEditingValue;
-  }
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    return outerTextBoundary.getLeadingTextBoundaryAt(
-      innerTextBoundary.getLeadingTextBoundaryAt(position),
-    );
-  }
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    return outerTextBoundary.getTrailingTextBoundaryAt(
-      innerTextBoundary.getTrailingTextBoundaryAt(position),
-    );
-  }
-}
-
-// Force the innerTextBoundary to interpret the input [TextPosition]s as caret
-// locations instead of code unit positions.
-//
-// The innerTextBoundary must be a [_TextBoundary] that interprets the input
-// [TextPosition]s as code unit positions.
-class _CollapsedSelectionBoundary extends _TextBoundary {
-  _CollapsedSelectionBoundary(this.innerTextBoundary, this.isForward);
-
-  final _TextBoundary innerTextBoundary;
-  final bool isForward;
-
-  @override
-  TextEditingValue get textEditingValue => innerTextBoundary.textEditingValue;
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    return isForward
-        ? innerTextBoundary.getLeadingTextBoundaryAt(position)
-        : position.offset <= 0
-            ? const TextPosition(offset: 0)
-            : innerTextBoundary.getLeadingTextBoundaryAt(
-                TextPosition(offset: position.offset - 1));
-  }
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    return isForward
-        ? innerTextBoundary.getTrailingTextBoundaryAt(position)
-        : position.offset <= 0
-            ? const TextPosition(offset: 0)
-            : innerTextBoundary.getTrailingTextBoundaryAt(
-                TextPosition(offset: position.offset - 1));
-  }
-}
-
-// A _TextBoundary that creates a [TextRange] where its start is from the
-// specified leading text boundary and its end is from the specified trailing
-// text boundary.
-class _MixedBoundary extends _TextBoundary {
-  _MixedBoundary(this.leadingTextBoundary, this.trailingTextBoundary);
-
-  final _TextBoundary leadingTextBoundary;
-  final _TextBoundary trailingTextBoundary;
-
-  @override
-  TextEditingValue get textEditingValue {
-    assert(leadingTextBoundary.textEditingValue ==
-        trailingTextBoundary.textEditingValue);
-    return leadingTextBoundary.textEditingValue;
-  }
-
-  @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) =>
-      leadingTextBoundary.getLeadingTextBoundaryAt(position);
-
-  @override
-  TextPosition getTrailingTextBoundaryAt(TextPosition position) =>
-      trailingTextBoundary.getTrailingTextBoundaryAt(position);
-}
-
-// -------------------------------  Text Actions -------------------------------
-class _DeleteTextAction<T extends DirectionalTextEditingIntent>
-    extends ContextAction<T> {
-  _DeleteTextAction(this.state, this.getTextBoundariesForIntent);
-
-  final RawEditorState state;
-  final _TextBoundary Function(T intent) getTextBoundariesForIntent;
-
-  TextRange _expandNonCollapsedRange(TextEditingValue value) {
-    final TextRange selection = value.selection;
-    assert(selection.isValid);
-    assert(!selection.isCollapsed);
-    final _TextBoundary atomicBoundary = _CharacterBoundary(value);
-
-    return TextRange(
-      start: atomicBoundary
-          .getLeadingTextBoundaryAt(TextPosition(offset: selection.start))
-          .offset,
-      end: atomicBoundary
-          .getTrailingTextBoundaryAt(TextPosition(offset: selection.end - 1))
-          .offset,
-    );
-  }
-
-  @override
-  Object? invoke(T intent, [BuildContext? context]) {
-    final selection = state.textEditingValue.selection;
-    assert(selection.isValid);
-
-    if (!selection.isCollapsed) {
-      return Actions.invoke(
-        context!,
-        ReplaceTextIntent(
-            state.textEditingValue,
-            '',
-            _expandNonCollapsedRange(state.textEditingValue),
-            SelectionChangedCause.keyboard),
-      );
-    }
-
-    final textBoundary = getTextBoundariesForIntent(intent);
-    if (!textBoundary.textEditingValue.selection.isValid) {
-      return null;
-    }
-    if (!textBoundary.textEditingValue.selection.isCollapsed) {
-      return Actions.invoke(
-        context!,
-        ReplaceTextIntent(
-            state.textEditingValue,
-            '',
-            _expandNonCollapsedRange(textBoundary.textEditingValue),
-            SelectionChangedCause.keyboard),
-      );
-    }
-
-    return Actions.invoke(
-      context!,
-      ReplaceTextIntent(
-        textBoundary.textEditingValue,
-        '',
-        textBoundary
-            .getTextBoundaryAt(textBoundary.textEditingValue.selection.base),
-        SelectionChangedCause.keyboard,
-      ),
-    );
-  }
-
-  @override
-  bool get isActionEnabled =>
-      !state.widget.readOnly && state.textEditingValue.selection.isValid;
-}
-
-class _UpdateTextSelectionAction<T extends DirectionalCaretMovementIntent>
-    extends ContextAction<T> {
-  _UpdateTextSelectionAction(this.state, this.ignoreNonCollapsedSelection,
-      this.getTextBoundariesForIntent);
-
-  final RawEditorState state;
-  final bool ignoreNonCollapsedSelection;
-  final _TextBoundary Function(T intent) getTextBoundariesForIntent;
-
-  @override
-  Object? invoke(T intent, [BuildContext? context]) {
-    final selection = state.textEditingValue.selection;
-    assert(selection.isValid);
-
-    final collapseSelection =
-        intent.collapseSelection || !state.widget.selectionEnabled;
-    // Collapse to the logical start/end.
-    TextSelection _collapse(TextSelection selection) {
-      assert(selection.isValid);
-      assert(!selection.isCollapsed);
-      return selection.copyWith(
-        baseOffset: intent.forward ? selection.end : selection.start,
-        extentOffset: intent.forward ? selection.end : selection.start,
-      );
-    }
-
-    if (!selection.isCollapsed &&
-        !ignoreNonCollapsedSelection &&
-        collapseSelection) {
-      return Actions.invoke(
-        context!,
-        UpdateSelectionIntent(state.textEditingValue, _collapse(selection),
-            SelectionChangedCause.keyboard),
-      );
-    }
-
-    final textBoundary = getTextBoundariesForIntent(intent);
-    final textBoundarySelection = textBoundary.textEditingValue.selection;
-    if (!textBoundarySelection.isValid) {
-      return null;
-    }
-    if (!textBoundarySelection.isCollapsed &&
-        !ignoreNonCollapsedSelection &&
-        collapseSelection) {
-      return Actions.invoke(
-        context!,
-        UpdateSelectionIntent(state.textEditingValue,
-            _collapse(textBoundarySelection), SelectionChangedCause.keyboard),
-      );
-    }
-
-    final extent = textBoundarySelection.extent;
-    final newExtent = intent.forward
-        ? textBoundary.getTrailingTextBoundaryAt(extent)
-        : textBoundary.getLeadingTextBoundaryAt(extent);
-
-    final newSelection = collapseSelection
-        ? TextSelection.fromPosition(newExtent)
-        : textBoundarySelection.extendTo(newExtent);
-
-    // If collapseAtReversal is true and would have an effect, collapse it.
-    if (!selection.isCollapsed &&
-        intent.collapseAtReversal &&
-        (selection.baseOffset < selection.extentOffset !=
-            newSelection.baseOffset < newSelection.extentOffset)) {
-      return Actions.invoke(
-        context!,
-        UpdateSelectionIntent(
-          state.textEditingValue,
-          TextSelection.fromPosition(selection.base),
-          SelectionChangedCause.keyboard,
-        ),
-      );
-    }
-
-    return Actions.invoke(
-      context!,
-      UpdateSelectionIntent(textBoundary.textEditingValue, newSelection,
-          SelectionChangedCause.keyboard),
-    );
-  }
-
-  @override
-  bool get isActionEnabled => state.textEditingValue.selection.isValid;
-}
-
-class _ExtendSelectionOrCaretPositionAction extends ContextAction<
-    ExtendSelectionToNextWordBoundaryOrCaretLocationIntent> {
-  _ExtendSelectionOrCaretPositionAction(
-      this.state, this.getTextBoundariesForIntent);
-
-  final RawEditorState state;
-  final _TextBoundary Function(
-          ExtendSelectionToNextWordBoundaryOrCaretLocationIntent intent)
-      getTextBoundariesForIntent;
-
-  @override
-  Object? invoke(ExtendSelectionToNextWordBoundaryOrCaretLocationIntent intent,
-      [BuildContext? context]) {
-    final selection = state.textEditingValue.selection;
-    assert(selection.isValid);
-
-    final textBoundary = getTextBoundariesForIntent(intent);
-    final textBoundarySelection = textBoundary.textEditingValue.selection;
-    if (!textBoundarySelection.isValid) {
-      return null;
-    }
-
-    final extent = textBoundarySelection.extent;
-    final newExtent = intent.forward
-        ? textBoundary.getTrailingTextBoundaryAt(extent)
-        : textBoundary.getLeadingTextBoundaryAt(extent);
-
-    final newSelection = (newExtent.offset - textBoundarySelection.baseOffset) *
-                (textBoundarySelection.extentOffset -
-                    textBoundarySelection.baseOffset) <
-            0
-        ? textBoundarySelection.copyWith(
-            extentOffset: textBoundarySelection.baseOffset,
-            affinity: textBoundarySelection.extentOffset >
-                    textBoundarySelection.baseOffset
-                ? TextAffinity.downstream
-                : TextAffinity.upstream,
-          )
-        : textBoundarySelection.extendTo(newExtent);
-
-    return Actions.invoke(
-      context!,
-      UpdateSelectionIntent(textBoundary.textEditingValue, newSelection,
-          SelectionChangedCause.keyboard),
-    );
-  }
-
-  @override
-  bool get isActionEnabled =>
-      state.widget.selectionEnabled && state.textEditingValue.selection.isValid;
-}
-
-class _UpdateTextSelectionToAdjacentLineAction<
-    T extends DirectionalCaretMovementIntent> extends ContextAction<T> {
-  _UpdateTextSelectionToAdjacentLineAction(this.state);
-
-  final RawEditorState state;
-
-  QuillVerticalCaretMovementRun? _verticalMovementRun;
-  TextSelection? _runSelection;
-
-  void stopCurrentVerticalRunIfSelectionChanges() {
-    final runSelection = _runSelection;
-    if (runSelection == null) {
-      assert(_verticalMovementRun == null);
-      return;
-    }
-    _runSelection = state.textEditingValue.selection;
-    final currentSelection = state.controller.selection;
-    final continueCurrentRun = currentSelection.isValid &&
-        currentSelection.isCollapsed &&
-        currentSelection.baseOffset == runSelection.baseOffset &&
-        currentSelection.extentOffset == runSelection.extentOffset;
-    if (!continueCurrentRun) {
-      _verticalMovementRun = null;
-      _runSelection = null;
-    }
-  }
-
-  @override
-  void invoke(T intent, [BuildContext? context]) {
-    assert(state.textEditingValue.selection.isValid);
-
-    final collapseSelection =
-        intent.collapseSelection || !state.widget.selectionEnabled;
-    final value = state.textEditingValue;
-    if (!value.selection.isValid) {
-      return;
-    }
-
-    final currentRun = _verticalMovementRun ??
-        state.renderEditor
-            .startVerticalCaretMovement(state.renderEditor.selection.extent);
-
-    final shouldMove =
-        intent.forward ? currentRun.moveNext() : currentRun.movePrevious();
-    final newExtent = shouldMove
-        ? currentRun.current
-        : (intent.forward
-            ? TextPosition(offset: state.textEditingValue.text.length)
-            : const TextPosition(offset: 0));
-    final newSelection = collapseSelection
-        ? TextSelection.fromPosition(newExtent)
-        : value.selection.extendTo(newExtent);
-
-    Actions.invoke(
-      context!,
-      UpdateSelectionIntent(
-          value, newSelection, SelectionChangedCause.keyboard),
-    );
-    if (state.textEditingValue.selection == newSelection) {
-      _verticalMovementRun = currentRun;
-      _runSelection = newSelection;
-    }
-  }
-
-  @override
-  bool get isActionEnabled => state.textEditingValue.selection.isValid;
-}
-
-class _SelectAllAction extends ContextAction<SelectAllTextIntent> {
-  _SelectAllAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  Object? invoke(SelectAllTextIntent intent, [BuildContext? context]) {
-    return Actions.invoke(
-      context!,
-      UpdateSelectionIntent(
-        state.textEditingValue,
-        TextSelection(
-            baseOffset: 0, extentOffset: state.textEditingValue.text.length),
-        intent.cause,
-      ),
-    );
-  }
-
-  @override
-  bool get isActionEnabled => state.widget.selectionEnabled;
-}
-
-class _CopySelectionAction extends ContextAction<CopySelectionTextIntent> {
-  _CopySelectionAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  void invoke(CopySelectionTextIntent intent, [BuildContext? context]) {
-    if (intent.collapseSelection) {
-      state.cutSelection(intent.cause);
-    } else {
-      state.copySelection(intent.cause);
-    }
-  }
-
-  @override
-  bool get isActionEnabled =>
-      state.textEditingValue.selection.isValid &&
-      !state.textEditingValue.selection.isCollapsed;
-}
-
-//Intent class for "escape" key to dismiss selection toolbar in Windows platform
-class HideSelectionToolbarIntent extends Intent {
-  const HideSelectionToolbarIntent();
-}
-
-class _HideSelectionToolbarAction
-    extends ContextAction<HideSelectionToolbarIntent> {
-  _HideSelectionToolbarAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  void invoke(HideSelectionToolbarIntent intent, [BuildContext? context]) {
-    state.hideToolbar();
-  }
-
-  @override
-  bool get isActionEnabled => state.textEditingValue.selection.isValid;
-}
-
-class _UndoKeyboardAction extends ContextAction<UndoTextIntent> {
-  _UndoKeyboardAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  void invoke(UndoTextIntent intent, [BuildContext? context]) {
-    if (state.controller.hasUndo) {
-      state.controller.undo();
-    }
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class _RedoKeyboardAction extends ContextAction<RedoTextIntent> {
-  _RedoKeyboardAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  void invoke(RedoTextIntent intent, [BuildContext? context]) {
-    if (state.controller.hasRedo) {
-      state.controller.redo();
-    }
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class ToggleTextStyleIntent extends Intent {
-  const ToggleTextStyleIntent(this.attribute);
-
-  final Attribute attribute;
-}
-
-// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
-class _ToggleTextStyleAction extends Action<ToggleTextStyleIntent> {
-  _ToggleTextStyleAction(this.state);
-
-  final RawEditorState state;
-
-  bool _isStyleActive(Attribute styleAttr, Map<String, Attribute> attrs) {
-    if (styleAttr.key == Attribute.list.key) {
-      final attribute = attrs[styleAttr.key];
-      if (attribute == null) {
-        return false;
-      }
-      return attribute.value == styleAttr.value;
-    }
-    return attrs.containsKey(styleAttr.key);
-  }
-
-  @override
-  void invoke(ToggleTextStyleIntent intent, [BuildContext? context]) {
-    final isActive = _isStyleActive(
-        intent.attribute, state.controller.getSelectionStyle().attributes);
-    state.controller.formatSelection(
-        isActive ? Attribute.clone(intent.attribute, null) : intent.attribute);
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class IndentSelectionIntent extends Intent {
-  const IndentSelectionIntent(this.isIncrease);
-
-  final bool isIncrease;
-}
-
-// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
-class _IndentSelectionAction extends Action<IndentSelectionIntent> {
-  _IndentSelectionAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  void invoke(IndentSelectionIntent intent, [BuildContext? context]) {
-    state.controller.indentSelection(intent.isIncrease);
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class OpenSearchIntent extends Intent {
-  const OpenSearchIntent();
-}
-
-// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
-class _OpenSearchAction extends ContextAction<OpenSearchIntent> {
-  _OpenSearchAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  Future invoke(OpenSearchIntent intent, [BuildContext? context]) async {
-    if (context == null) {
-      throw ArgumentError(
-        'The context should not be null to use invoke() method',
-      );
-    }
-    await showDialog<String>(
-      context: context,
-      builder: (_) => QuillToolbarSearchDialog(
-        controller: state.controller,
-        text: '',
-      ),
-    );
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class ApplyHeaderIntent extends Intent {
-  const ApplyHeaderIntent(this.header);
-
-  final Attribute header;
-}
-
-// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
-class _ApplyHeaderAction extends Action<ApplyHeaderIntent> {
-  _ApplyHeaderAction(this.state);
-
-  final RawEditorState state;
-
-  Attribute<dynamic> _getHeaderValue() {
-    return state.controller
-            .getSelectionStyle()
-            .attributes[Attribute.header.key] ??
-        Attribute.header;
-  }
-
-  @override
-  void invoke(ApplyHeaderIntent intent, [BuildContext? context]) {
-    final _attribute =
-        _getHeaderValue() == intent.header ? Attribute.header : intent.header;
-    state.controller.formatSelection(_attribute);
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class ApplyCheckListIntent extends Intent {
-  const ApplyCheckListIntent();
-}
-
-// Toggles a text style (underline, bold, italic, strikethrough) on, or off.
-class _ApplyCheckListAction extends Action<ApplyCheckListIntent> {
-  _ApplyCheckListAction(this.state);
-
-  final RawEditorState state;
-
-  bool _getIsToggled() {
-    final attrs = state.controller.getSelectionStyle().attributes;
-    var attribute = state.controller.toolbarButtonToggler[Attribute.list.key];
-
-    if (attribute == null) {
-      attribute = attrs[Attribute.list.key];
-    } else {
-      // checkbox tapping causes controller.selection to go to offset 0
-      state.controller.toolbarButtonToggler.remove(Attribute.list.key);
-    }
-
-    if (attribute == null) {
-      return false;
-    }
-    return attribute.value == Attribute.unchecked.value ||
-        attribute.value == Attribute.checked.value;
-  }
-
-  @override
-  void invoke(ApplyCheckListIntent intent, [BuildContext? context]) {
-    state.controller.formatSelection(_getIsToggled()
-        ? Attribute.clone(Attribute.unchecked, null)
-        : Attribute.unchecked);
-  }
-
-  @override
-  bool get isActionEnabled => true;
-}
-
-class ApplyLinkIntent extends Intent {
-  const ApplyLinkIntent();
-}
-
-class ApplyLinkAction extends Action<ApplyLinkIntent> {
-  ApplyLinkAction(this.state);
-
-  final RawEditorState state;
-
-  @override
-  Object? invoke(ApplyLinkIntent intent) async {
-    final initialTextLink = QuillTextLink.prepare(state.controller);
-
-    final textLink = await showDialog<QuillTextLink>(
-      context: state.context,
-      builder: (context) {
-        return LinkStyleDialog(
-          text: initialTextLink.text,
-          link: initialTextLink.link,
-          dialogTheme: state.widget.dialogTheme,
-        );
-      },
-    );
-
-    if (textLink != null) {
-      textLink.submit(state.controller);
-    }
-    return null;
-  }
-}
-
-class InsertEmbedIntent extends Intent {
-  const InsertEmbedIntent(this.type);
-
-  final Attribute type;
-}
-
-/// Signature for a widget builder that builds a context menu for the given
-/// [RawEditorState].
-///
-/// See also:
-///
-///  * [EditableTextContextMenuBuilder], which performs the same role for
-///    [EditableText]
-typedef QuillEditorContextMenuBuilder = Widget Function(
-  BuildContext context,
-  RawEditorState rawEditorState,
-);
-
-class _GlyphHeights {
-  _GlyphHeights(
-    this.startGlyphHeight,
-    this.endGlyphHeight,
-  );
-
-  final double startGlyphHeight;
-  final double endGlyphHeight;
 }

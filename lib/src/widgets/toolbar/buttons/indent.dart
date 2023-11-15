@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/indent.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../translations/toolbar.i18n.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart'
-    show
-        QuillToolbarBaseButtonOptions,
-        QuillToolbarIconButton,
-        kIconButtonFactor;
+    show QuillToolbarBaseButtonOptions, QuillToolbarIconButton;
 
 class QuillToolbarIndentButton extends StatefulWidget {
   const QuillToolbarIndentButton({
@@ -24,11 +21,11 @@ class QuillToolbarIndentButton extends StatefulWidget {
   final QuillToolbarIndentButtonOptions options;
 
   @override
-  _QuillToolbarIndentButtonState createState() =>
-      _QuillToolbarIndentButtonState();
+  QuillToolbarIndentButtonState createState() =>
+      QuillToolbarIndentButtonState();
 }
 
-class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
+class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   QuillToolbarIndentButtonOptions get options {
     return widget.options;
   }
@@ -41,6 +38,12 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
     final baseFontSize = baseButtonExtraOptions.globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
+  }
+
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
   }
 
   VoidCallback? get afterButtonPressed {
@@ -67,7 +70,9 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        (widget.isIncrease ? 'Increase indent'.i18n : 'Decrease indent'.i18n);
+        (widget.isIncrease
+            ? context.loc.increaseIndent
+            : context.loc.decreaseIndent);
   }
 
   void _sharedOnPressed() {
@@ -85,6 +90,7 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
           afterButtonPressed: afterButtonPressed,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: iconTheme,
           tooltip: tooltip,
         ),
@@ -107,7 +113,7 @@ class _QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(iconData, size: iconSize, color: iconColor),
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,

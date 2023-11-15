@@ -30,10 +30,10 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   const QuillToolbarFontSizeButtonOptions({
     this.iconSize,
+    this.iconButtonFactor,
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
-    this.items,
     this.rawItemsMap,
     this.onSelected,
     super.iconTheme,
@@ -53,11 +53,10 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   });
 
   final double? iconSize;
+  final double? iconButtonFactor;
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  @Deprecated('It is not required because of `rawItemsMap`')
-  final List<PopupMenuEntry<String>>? items;
 
   /// By default it will be [fontSizesValues] from [QuillToolbarConfigurations]
   /// You can override this if you want
@@ -75,6 +74,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
 
   QuillToolbarFontSizeButtonOptions copyWith({
     double? iconSize,
+    double? iconButtonFactor,
     Color? fillColor,
     double? hoverElevation,
     double? highlightElevation,
@@ -97,11 +97,10 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   }) {
     return QuillToolbarFontSizeButtonOptions(
       iconSize: iconSize ?? this.iconSize,
+      iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
       fillColor: fillColor ?? this.fillColor,
       hoverElevation: hoverElevation ?? this.hoverElevation,
       highlightElevation: highlightElevation ?? this.highlightElevation,
-      // ignore: deprecated_member_use_from_same_package
-      items: items ?? this.items,
       rawItemsMap: rawItemsMap ?? this.rawItemsMap,
       onSelected: onSelected ?? this.onSelected,
       attribute: attribute ?? this.attribute,

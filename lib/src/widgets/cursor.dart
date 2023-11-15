@@ -257,7 +257,11 @@ class CursorPainter {
   /// [offset] is global top left (x, y) of text line
   /// [position] is relative (x) in text line
   void paint(
-      Canvas canvas, Offset offset, TextPosition position, bool lineHasEmbed) {
+    Canvas canvas,
+    Offset offset,
+    TextPosition position,
+    bool lineHasEmbed,
+  ) {
     // relative (x, y) to global offset
     var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
     if (lineHasEmbed && relativeCaretOffset == Offset.zero) {
@@ -287,7 +291,7 @@ class CursorPainter {
 
     final caretHeight = editable!.getFullHeightForCaret(position);
     if (caretHeight != null) {
-      if (isAppleOS()) {
+      if (isAppleOS(supportWeb: true)) {
         // Center the caret vertically along the text.
         caretRect = Rect.fromLTWH(
           caretRect.left,

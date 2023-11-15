@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/base.dart';
 import '../../../models/config/toolbar/buttons/toggle_check_list.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import 'toggle_style.dart';
@@ -23,11 +23,11 @@ class QuillToolbarToggleCheckListButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarToggleCheckListButtonState createState() =>
-      _QuillToolbarToggleCheckListButtonState();
+  QuillToolbarToggleCheckListButtonState createState() =>
+      QuillToolbarToggleCheckListButtonState();
 }
 
-class _QuillToolbarToggleCheckListButtonState
+class QuillToolbarToggleCheckListButtonState
     extends State<QuillToolbarToggleCheckListButton> {
   bool? _isToggled;
 
@@ -93,6 +93,12 @@ class _QuillToolbarToggleCheckListButtonState
     return iconSize ?? baseFontSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
@@ -115,7 +121,7 @@ class _QuillToolbarToggleCheckListButtonState
   String get tooltip {
     return options.tooltip ??
         baseButtonExtraOptions.tooltip ??
-        'Checked list'.i18n;
+        context.loc.checkedList;
   }
 
   @override
@@ -129,6 +135,7 @@ class _QuillToolbarToggleCheckListButtonState
           iconTheme: iconTheme,
           controller: controller,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           tooltip: tooltip,
           iconData: iconData,
         ),
@@ -154,6 +161,7 @@ class _QuillToolbarToggleCheckListButtonState
         _toggleAttribute,
         afterButtonPressed,
         iconSize,
+        iconButtonFactor,
         iconTheme,
       ),
     );

@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode, jsonEncode;
 
 /// An object which can be embedded into a Quill document.
 ///
@@ -30,7 +30,7 @@ class Embeddable {
 /// the document model itself does not make any assumptions about the types
 /// of embedded objects and allows users to define their own types.
 class BlockEmbed extends Embeddable {
-  const BlockEmbed(String type, String data) : super(type, data);
+  const BlockEmbed(super.type, String super.data);
 
   static const String imageType = 'image';
   static BlockEmbed image(String imageUrl) => BlockEmbed(imageType, imageUrl);
@@ -47,7 +47,7 @@ class BlockEmbed extends Embeddable {
 }
 
 class CustomBlockEmbed extends BlockEmbed {
-  const CustomBlockEmbed(String type, String data) : super(type, data);
+  const CustomBlockEmbed(super.type, super.data);
 
   String toJsonString() => jsonEncode(toJson());
 

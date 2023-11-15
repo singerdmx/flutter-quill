@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../../utils/extensions/build_context.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
@@ -32,11 +32,11 @@ class QuillToolbarSelectAlignmentButton extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  _QuillToolbarSelectAlignmentButtonState createState() =>
-      _QuillToolbarSelectAlignmentButtonState();
+  QuillToolbarSelectAlignmentButtonState createState() =>
+      QuillToolbarSelectAlignmentButtonState();
 }
 
-class _QuillToolbarSelectAlignmentButtonState
+class QuillToolbarSelectAlignmentButtonState
     extends State<QuillToolbarSelectAlignmentButton> {
   Attribute? _value;
 
@@ -60,18 +60,24 @@ class _QuillToolbarSelectAlignmentButtonState
     return widget.controller;
   }
 
-  double get iconSize {
+  double get _iconSize {
     final baseFontSize = baseButtonExtraOptions.globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
   }
 
-  VoidCallback? get afterButtonPressed {
+  double get _iconButtonFactor {
+    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
+  }
+
+  VoidCallback? get _afterButtonPressed {
     return options.afterButtonPressed ??
         baseButtonExtraOptions.afterButtonPressed;
   }
 
-  QuillIconTheme? get iconTheme {
+  QuillIconTheme? get _iconTheme {
     return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
   }
 
@@ -116,10 +122,10 @@ class _QuillToolbarSelectAlignmentButtonState
       );
     }
     return QuillSelectAlignmentValues(
-      leftAlignment: 'Align left'.i18n,
-      centerAlignment: 'Align center'.i18n,
-      rightAlignment: 'Align right'.i18n,
-      justifyAlignment: 'Justify win width'.i18n,
+      leftAlignment: context.loc.alignLeft,
+      centerAlignment: context.loc.alignCenter,
+      rightAlignment: context.loc.alignRight,
+      justifyAlignment: context.loc.justifyWinWidth,
     );
   }
 
@@ -149,7 +155,7 @@ class _QuillToolbarSelectAlignmentButtonState
 
   @override
   Widget build(BuildContext context) {
-    final _valueToText = <Attribute, String>{
+    final valueToText = <Attribute, String>{
       if (widget.showLeftAlignment!)
         Attribute.leftAlignment: Attribute.leftAlignment.value!,
       if (widget.showCenterAlignment!)
@@ -160,13 +166,13 @@ class _QuillToolbarSelectAlignmentButtonState
         Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
-    final _valueAttribute = <Attribute>[
+    final valueAttribute = <Attribute>[
       if (widget.showLeftAlignment!) Attribute.leftAlignment,
       if (widget.showCenterAlignment!) Attribute.centerAlignment,
       if (widget.showRightAlignment!) Attribute.rightAlignment,
       if (widget.showJustifyAlignment!) Attribute.justifyAlignment
     ];
-    final _valueString = <String>[
+    final valueString = <String>[
       if (widget.showLeftAlignment!) Attribute.leftAlignment.value!,
       if (widget.showCenterAlignment!) Attribute.centerAlignment.value!,
       if (widget.showRightAlignment!) Attribute.rightAlignment.value!,
@@ -191,32 +197,50 @@ class _QuillToolbarSelectAlignmentButtonState
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;
 
-    if (childBuilder != null) {
-      throw UnsupportedError(
-        'Sorry but the `childBuilder` for the Select alignment buttons'
-        ' is not supported. Yet but we will work on that soon.',
-      );
+    void sharedOnPressed(int index) {
+      valueAttribute[index] == Attribute.leftAlignment
+          ? controller.formatSelection(
+              Attribute.clone(Attribute.align, null),
+            )
+          : controller.formatSelection(valueAttribute[index]);
+      _afterButtonPressed?.call();
     }
-
-    final theme = Theme.of(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(buttonCount, (index) {
+        if (childBuilder != null) {
+          return childBuilder(
+            QuillToolbarSelectAlignmentButtonOptions(
+              afterButtonPressed: _afterButtonPressed,
+              iconSize: _iconSize,
+              iconButtonFactor: _iconButtonFactor,
+              iconTheme: _iconTheme,
+              tooltips: _tooltips,
+              iconsData: _iconsData,
+            ),
+            QuillToolbarSelectAlignmentButtonExtraOptions(
+              context: context,
+              controller: controller,
+              onPressed: () => sharedOnPressed(index),
+            ),
+          );
+        }
+        final theme = Theme.of(context);
         return Padding(
           padding: widget.padding ??
               const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(
-              width: iconSize * kIconButtonFactor,
-              height: iconSize * kIconButtonFactor,
+              width: _iconSize * _iconButtonFactor,
+              height: _iconSize * _iconButtonFactor,
             ),
             child: UtilityWidgets.maybeTooltip(
-              message: _valueString[index] == Attribute.leftAlignment.value
+              message: valueString[index] == Attribute.leftAlignment.value
                   ? _tooltips.leftAlignment
-                  : _valueString[index] == Attribute.centerAlignment.value
+                  : valueString[index] == Attribute.centerAlignment.value
                       ? _tooltips.centerAlignment
-                      : _valueString[index] == Attribute.rightAlignment.value
+                      : valueString[index] == Attribute.rightAlignment.value
                           ? _tooltips.rightAlignment
                           : _tooltips.justifyAlignment,
               child: RawMaterialButton(
@@ -226,33 +250,25 @@ class _QuillToolbarSelectAlignmentButtonState
                 visualDensity: VisualDensity.compact,
                 shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(iconTheme?.borderRadius ?? 2)),
-                fillColor: _valueToText[_value] == _valueString[index]
-                    ? (iconTheme?.iconSelectedFillColor ??
-                        Theme.of(context).primaryColor)
-                    : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
-                onPressed: () {
-                  _valueAttribute[index] == Attribute.leftAlignment
-                      ? controller.formatSelection(
-                          Attribute.clone(Attribute.align, null),
-                        )
-                      : controller.formatSelection(_valueAttribute[index]);
-                  afterButtonPressed?.call();
-                },
+                        BorderRadius.circular(_iconTheme?.borderRadius ?? 2)),
+                fillColor: valueToText[_value] == valueString[index]
+                    ? (_iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
+                    : (_iconTheme?.iconUnselectedFillColor ??
+                        theme.canvasColor),
+                onPressed: () => sharedOnPressed(index),
                 child: Icon(
-                  _valueString[index] == Attribute.leftAlignment.value
+                  valueString[index] == Attribute.leftAlignment.value
                       ? _iconsData.leftAlignment
-                      : _valueString[index] == Attribute.centerAlignment.value
+                      : valueString[index] == Attribute.centerAlignment.value
                           ? _iconsData.centerAlignment
-                          : _valueString[index] ==
-                                  Attribute.rightAlignment.value
+                          : valueString[index] == Attribute.rightAlignment.value
                               ? _iconsData.rightAlignment
                               : _iconsData.justifyAlignment,
-                  size: iconSize,
-                  color: _valueToText[_value] == _valueString[index]
-                      ? (iconTheme?.iconSelectedColor ??
+                  size: _iconSize,
+                  color: valueToText[_value] == valueString[index]
+                      ? (_iconTheme?.iconSelectedColor ??
                           theme.primaryIconTheme.color)
-                      : (iconTheme?.iconUnselectedColor ??
+                      : (_iconTheme?.iconUnselectedColor ??
                           theme.iconTheme.color),
                 ),
               ),

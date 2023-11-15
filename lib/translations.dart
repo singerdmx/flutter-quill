@@ -1,3 +1,3 @@
 library flutter_quill.translations;
 
-export 'src/translations/toolbar.i18n.dart';
+export 'src/l10n/extensions/localizations.dart';

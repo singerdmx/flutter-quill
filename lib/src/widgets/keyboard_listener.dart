@@ -31,8 +31,7 @@ class QuillPressedKeys extends ChangeNotifier {
 }
 
 class QuillKeyboardListener extends StatefulWidget {
-  const QuillKeyboardListener({required this.child, Key? key})
-      : super(key: key);
+  const QuillKeyboardListener({required this.child, super.key});
 
   final Widget child;
 
@@ -44,8 +43,9 @@ class QuillKeyboardListenerState extends State<QuillKeyboardListener> {
   final QuillPressedKeys _pressedKeys = QuillPressedKeys();
 
   bool _keyEvent(KeyEvent event) {
-    _pressedKeys
-        ._updatePressedKeys(HardwareKeyboard.instance.logicalKeysPressed);
+    _pressedKeys._updatePressedKeys(
+      HardwareKeyboard.instance.logicalKeysPressed,
+    );
     return false;
   }
 
@@ -76,9 +76,8 @@ class QuillKeyboardListenerState extends State<QuillKeyboardListener> {
 class _QuillPressedKeysAccess extends InheritedWidget {
   const _QuillPressedKeysAccess({
     required this.pressedKeys,
-    required Widget child,
-    Key? key,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final QuillPressedKeys pressedKeys;
 

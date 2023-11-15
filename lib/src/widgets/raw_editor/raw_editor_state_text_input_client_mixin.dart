@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:flutter/animation.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter/animation.dart' show Curves;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 
 import '../../models/documents/document.dart';
@@ -27,7 +27,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// - cmd/ctrl+c shortcut to copy.
   /// - cmd/ctrl+a to select all.
   /// - Changing the selection using a physical keyboard.
-  bool get shouldCreateInputConnection => kIsWeb || !widget.readOnly;
+  bool get shouldCreateInputConnection =>
+      kIsWeb || !widget.configurations.isReadOnly;
 
   /// Returns `true` if there is open input connection.
   bool get hasConnection =>
@@ -36,9 +37,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// Opens or closes input connection based on the current state of
   /// [focusNode] and [value].
   void openOrCloseConnection() {
-    if (widget.focusNode.hasFocus && widget.focusNode.consumeKeyboardToken()) {
+    if (widget.configurations.focusNode.hasFocus &&
+        widget.configurations.focusNode.consumeKeyboardToken()) {
       openConnectionIfNeeded();
-    } else if (!widget.focusNode.hasFocus) {
+    } else if (!widget.configurations.focusNode.hasFocus) {
       closeConnectionIfNeeded();
     }
   }
@@ -54,14 +56,16 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         this,
         TextInputConfiguration(
           inputType: TextInputType.multiline,
-          readOnly: widget.readOnly,
-          inputAction: TextInputAction.newline,
-          enableSuggestions: !widget.readOnly,
-          keyboardAppearance: widget.keyboardAppearance,
-          textCapitalization: widget.textCapitalization,
-          allowedMimeTypes: widget.contentInsertionConfiguration == null
-              ? const <String>[]
-              : widget.contentInsertionConfiguration!.allowedMimeTypes,
+          readOnly: widget.configurations.isReadOnly,
+          inputAction: widget.configurations.textInputAction,
+          enableSuggestions: !widget.configurations.isReadOnly,
+          keyboardAppearance: widget.configurations.keyboardAppearance,
+          textCapitalization: widget.configurations.textCapitalization,
+          allowedMimeTypes:
+              widget.configurations.contentInsertionConfiguration == null
+                  ? const <String>[]
+                  : widget.configurations.contentInsertionConfiguration!
+                      .allowedMimeTypes,
         ),
       );
 
@@ -187,9 +191,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     final cursorPosition = value.selection.extentOffset;
     final diff = getDiff(oldText, text, cursorPosition);
     if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-      widget.controller.updateSelection(value.selection, ChangeSource.LOCAL);
+      widget.configurations.controller
+          .updateSelection(value.selection, ChangeSource.local);
     } else {
-      widget.controller.replaceText(
+      widget.configurations.controller.replaceText(
           diff.start, diff.deleted.length, diff.inserted, value.selection);
     }
   }

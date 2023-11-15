@@ -1,14 +1,17 @@
+import 'package:meta/meta.dart' show immutable;
+
 import '../documents/attribute.dart';
 import '../documents/nodes/embeddable.dart';
 import '../quill_delta.dart';
 import 'rule.dart';
 
 /// A heuristic rule for delete operations.
+@immutable
 abstract class DeleteRule extends Rule {
   const DeleteRule();
 
   @override
-  RuleType get type => RuleType.DELETE;
+  RuleType get type => RuleType.delete;
 
   @override
   void validateArgs(int? len, Object? data, Attribute? attribute) {
@@ -18,6 +21,7 @@ abstract class DeleteRule extends Rule {
   }
 }
 
+@immutable
 class EnsureLastLineBreakDeleteRule extends DeleteRule {
   const EnsureLastLineBreakDeleteRule();
 
@@ -34,6 +38,7 @@ class EnsureLastLineBreakDeleteRule extends DeleteRule {
 
 /// Fallback rule for delete operations which simply deletes specified text
 /// range without any special handling.
+@immutable
 class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
@@ -54,6 +59,7 @@ class CatchAllDeleteRule extends DeleteRule {
 /// This rule makes sure to apply all style attributes of deleted newline
 /// to the next available newline, which may reset any style attributes
 /// already present there.
+@immutable
 class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
@@ -112,6 +118,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
 /// Prevents user from merging a line containing an embed with other lines.
 /// This rule applies to video, not image.
 /// The rule relates to [InsertEmbedsRule].
+@immutable
 class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 

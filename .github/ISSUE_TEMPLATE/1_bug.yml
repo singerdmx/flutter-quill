@@ -1,0 +1,118 @@
+name: Report a bug
+description: |
+  You found a bug in Flutter Quill causing your application to crash or
+  throw an exception, a widget is buggy, unexpected behavior or something looks wrong.
+labels: 'bug'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for using Flutter Quill!
+
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      options:
+      - label: I have searched the [existing issues](https://github.com/singerdmx/flutter-quill/issues)
+        required: true
+  - type: input
+    attributes:
+      label: Flutter Quill version
+      description: Please tell us which version of `flutter_quill` that you are using.
+      placeholder: For example 9.0.0
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Other Flutter Quill packages versions
+      description: If you are using any other packages like `flutter_quill_extensions` or `flutter_quill_test` please mention the versions here
+      placeholder: |
+        flutter_quill_extensions: ^0.6.10
+        flutter_quill_test: ^0.0.5
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Please tell us exactly how to reproduce the problem you are running into.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected results
+      description: Please tell us what is expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual results
+      description: Please tell us what is actually happening.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Code sample
+      description: |
+        Please create a minimal reproducible sample that shows the problem
+        and attach it below between the lines with the backticks.
+
+        To create it, use the `flutter create bug` command and update the `main.dart` file.
+
+        Alternatively, you can use https://dartpad.dev/ or create a public GitHub
+        repository to share your sample.
+
+        Note: Please do not upload screenshots of text. Instead, use code blocks
+        or the above mentioned ways to upload your code sample.
+      value: |
+        <details><summary>Code sample</summary>
+
+        ```dart
+        [Paste your code here]
+        ```
+
+        </details>
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Screenshots or Video
+      description: |
+        Upload any screenshots or video of the bug if applicable.
+      value: |
+        <details>
+        <summary>Screenshots / Video demonstration</summary>
+
+        [Upload media here]
+
+        </details>
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Logs
+      description: |
+        Include the full logs of the commands you are running between the lines
+        with the backticks below. If you are running any `flutter` commands,
+        please include the output of running them with `--verbose`; for example,
+        the output of running `flutter --verbose create foo`.
+
+        If the logs are too large to be uploaded to GitHub, you may upload
+        them as a `txt` file or use online tools like https://pastebin.com to
+        share it.
+
+        Note: Please do not upload screenshots of text. Instead, use code blocks
+        or the above mentioned ways to upload logs.
+      value: |
+        <details><summary>Logs</summary>
+
+        ```console
+        [Paste your logs here]
+        ```
+
+        </details>
+    validations:
+      required: false

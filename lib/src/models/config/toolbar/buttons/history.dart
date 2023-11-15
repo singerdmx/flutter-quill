@@ -28,6 +28,7 @@ class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
     super.tooltip,
     super.childBuilder,
     this.iconSize,
+    this.iconButtonFactor,
   });
 
   /// If this true then it will be the undo button
@@ -36,4 +37,5 @@ class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
 
   /// By default will use [globalIconSize]
   final double? iconSize;
+  final double? iconButtonFactor;
 }

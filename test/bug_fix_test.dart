@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/flutter_quill_test.dart';
+import 'package:flutter_quill_test/flutter_quill_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -12,17 +12,21 @@ void main() {
           (tester) async {
         const tooltip = 'custom button';
 
+        final controller = QuillController.basic();
+
         await tester.pumpWidget(
           MaterialApp(
             home: QuillProvider(
               configurations: QuillConfigurations(
-                controller: QuillController.basic(),
+                controller: controller,
               ),
               child: const QuillToolbar(
                 configurations: QuillToolbarConfigurations(
                   showRedo: false,
                   customButtons: [
-                    QuillCustomButton(tooltip: tooltip),
+                    QuillToolbarCustomButtonOptions(
+                      tooltip: tooltip,
+                    )
                   ],
                 ),
               ),
@@ -130,7 +134,7 @@ void main() {
         controller.formatSelection(Attribute.unchecked);
         editor.focusNode.unfocus();
         await tester.pump();
-        await tester.tap(find.byType(CheckboxPoint));
+        await tester.tap(find.byType(QuillEditorCheckboxPoint));
         expect(tester.takeException(), isNull);
       });
     });

@@ -13,12 +13,13 @@ class QuillToolbarIconButton extends StatelessWidget {
     this.highlightElevation = 1,
     this.borderRadius = 2,
     this.tooltip,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback? onPressed;
   final VoidCallback? afterPressed;
   final Widget? icon;
+
   final double size;
   final Color? fillColor;
   final double hoverElevation;

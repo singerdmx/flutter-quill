@@ -1,13 +1,20 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:meta/meta.dart' show immutable;
+
 import '../models/documents/attribute.dart';
 import '../models/documents/nodes/node.dart';
 import '../models/quill_delta.dart';
 
 // Diff between two texts - old text and new text
+@immutable
 class Diff {
-  Diff(this.start, this.deleted, this.inserted);
+  const Diff({
+    required this.start,
+    required this.deleted,
+    required this.inserted,
+  });
 
   // Start index in old text at which changes begin.
   final int start;
@@ -37,7 +44,11 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
       start++) {}
   final deleted = (start >= end) ? '' : oldText.substring(start, end);
   final inserted = newText.substring(start, end + delta);
-  return Diff(start, deleted, inserted);
+  return Diff(
+    start: start,
+    deleted: deleted,
+    inserted: inserted,
+  );
 }
 
 int getPositionDelta(Delta user, Delta actual) {
@@ -53,8 +64,10 @@ int getPositionDelta(Delta user, Delta actual) {
     final userOperation = userItr.next(length);
     final actualOperation = actualItr.next(length);
     if (userOperation.length != actualOperation.length) {
-      throw 'userOp ${userOperation.length} does not match actualOp '
-          '${actualOperation.length}';
+      throw ArgumentError(
+        'userOp ${userOperation.length} does not match actualOp '
+        '${actualOperation.length}',
+      );
     }
     if (userOperation.key == actualOperation.key) {
       continue;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
-import '../../../utils/extensions/build_context.dart';
+import '../../../extensions/quill_provider.dart';
+import '../../../l10n/extensions/localizations.dart';
 import '../../controller.dart';
 import '../base_toolbar.dart';
 
@@ -16,11 +16,11 @@ class QuillToolbarHistoryButton extends StatefulWidget {
   final QuillController controller;
 
   @override
-  _QuillToolbarHistoryButtonState createState() =>
-      _QuillToolbarHistoryButtonState();
+  QuillToolbarHistoryButtonState createState() =>
+      QuillToolbarHistoryButtonState();
 }
 
-class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
+class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   late ThemeData theme;
   var _canPressed = false;
 
@@ -53,14 +53,16 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         context.requireQuillToolbarBaseButtonOptions;
     final tooltip = options.tooltip ??
         baseButtonConfigurations.tooltip ??
-        (options.isUndo ? 'Undo'.i18n : 'Redo'.i18n);
+        (options.isUndo ? context.loc.undo : context.loc.redo);
     final iconData = options.iconData ??
         baseButtonConfigurations.iconData ??
         (options.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
     final childBuilder =
         options.childBuilder ?? baseButtonConfigurations.childBuilder;
-    final iconSize = options.iconSize ??
-        context.requireQuillToolbarBaseButtonOptions.globalIconSize;
+    final iconSize =
+        options.iconSize ?? baseButtonConfigurations.globalIconSize;
+    final iconButtonFactor = options.iconButtonFactor ??
+        baseButtonConfigurations.globalIconButtonFactor;
     final iconTheme = options.iconTheme ?? baseButtonConfigurations.iconTheme;
 
     final afterButtonPressed = options.afterButtonPressed ??
@@ -74,6 +76,7 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
           controller: controller,
           iconData: iconData,
           iconSize: iconSize,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: iconTheme,
           tooltip: tooltip,
         ),
@@ -96,7 +99,7 @@ class _QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
       tooltip: tooltip,
       highlightElevation: 0,
       hoverElevation: 0,
-      size: iconSize * kIconButtonFactor,
+      size: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
         size: iconSize,

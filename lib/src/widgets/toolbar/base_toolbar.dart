@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 
 import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
+import '../../l10n/widgets/localizations.dart';
 import '../../models/config/toolbar/base_configurations.dart';
-import '../../utils/extensions/build_context.dart';
 import 'buttons/arrow_indicated_list.dart';
 
 export '../../models/config/toolbar/buttons/base.dart';
 export '../../models/config/toolbar/configurations.dart';
 export 'buttons/clear_format.dart';
-export 'buttons/color.dart';
+export 'buttons/color/color.dart';
 export 'buttons/custom_button.dart';
 export 'buttons/font_family.dart';
 export 'buttons/font_size.dart';
@@ -49,8 +48,7 @@ class QuillBaseToolbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final toolbarSize = configurations.toolbarSize;
-    return I18n(
-      initialLocale: context.quillSharedConfigurations?.locale,
+    return FlutterQuillLocalizationsWidget(
       child: QuillBaseToolbarProvider(
         toolbarConfigurations: configurations,
         child: Builder(
@@ -102,12 +100,12 @@ class QuillToolbarDivider extends StatelessWidget {
   });
 
   /// Provides a horizontal divider for vertical toolbar.
-  const QuillToolbarDivider.horizontal({Color? color, double? space})
-      : this(Axis.horizontal, color: color, space: space);
+  const QuillToolbarDivider.horizontal({Key? key, Color? color, double? space})
+      : this(Axis.horizontal, color: color, space: space, key: key);
 
   /// Provides a horizontal divider for horizontal toolbar.
-  const QuillToolbarDivider.vertical({Color? color, double? space})
-      : this(Axis.vertical, color: color, space: space);
+  const QuillToolbarDivider.vertical({Key? key, Color? color, double? space})
+      : this(Axis.vertical, color: color, space: space, key: key);
 
   /// The axis along which the toolbar is.
   final Axis axis;

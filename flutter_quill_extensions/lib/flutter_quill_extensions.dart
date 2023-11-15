@@ -1,27 +1,60 @@
 library flutter_quill_extensions;
 
-import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:meta/meta.dart' show immutable;
 
-import 'embeds/builders.dart';
-import 'embeds/embed_types.dart';
-import 'embeds/toolbar/camera_button.dart';
-import 'embeds/toolbar/formula_button.dart';
-import 'embeds/toolbar/image_button.dart';
-import 'embeds/toolbar/media_button.dart';
-import 'embeds/toolbar/video_button.dart';
+import 'presentation/embeds/editor/image/image.dart';
+import 'presentation/embeds/editor/image/image_web.dart';
+import 'presentation/embeds/editor/video/video.dart';
+import 'presentation/embeds/editor/video/video_web.dart';
+import 'presentation/embeds/editor/webview.dart';
+import 'presentation/embeds/toolbar/camera_button/camera_button.dart';
+import 'presentation/embeds/toolbar/image_button/image_button.dart';
+import 'presentation/embeds/toolbar/video_button/video_button.dart';
+import 'presentation/models/config/editor/image/image.dart';
+import 'presentation/models/config/editor/image/image_web.dart';
+import 'presentation/models/config/editor/video/video.dart';
+import 'presentation/models/config/editor/video/video_web.dart';
+import 'presentation/models/config/editor/webview.dart';
+import 'presentation/models/config/toolbar/buttons/camera.dart';
+import 'presentation/models/config/toolbar/buttons/image.dart';
+import 'presentation/models/config/toolbar/buttons/media_button.dart';
+import 'presentation/models/config/toolbar/buttons/video.dart';
 
-export 'embeds/embed_types.dart';
-export 'embeds/toolbar/camera_button.dart';
-export 'embeds/toolbar/formula_button.dart';
-export 'embeds/toolbar/image_button.dart';
-export 'embeds/toolbar/image_video_utils.dart';
-export 'embeds/toolbar/media_button.dart';
-export 'embeds/toolbar/video_button.dart';
-export 'embeds/utils.dart';
+export '/logic/extensions/controller.dart';
+export '/presentation/models/config/editor/webview.dart';
+export 'logic/models/config/shared_configurations.dart';
+export 'presentation/embeds/editor/image/image.dart';
+export 'presentation/embeds/editor/image/image_web.dart';
+export 'presentation/embeds/editor/unknown.dart';
+export 'presentation/embeds/editor/video/video.dart';
+export 'presentation/embeds/editor/video/video_web.dart';
+export 'presentation/embeds/editor/webview.dart';
+export 'presentation/embeds/embed_types.dart';
+export 'presentation/embeds/embed_types/image.dart';
+export 'presentation/embeds/embed_types/video.dart';
+export 'presentation/embeds/toolbar/camera_button/camera_button.dart';
+export 'presentation/embeds/toolbar/formula_button.dart';
+export 'presentation/embeds/toolbar/image_button/image_button.dart';
+export 'presentation/embeds/toolbar/media_button/media_button.dart';
+export 'presentation/embeds/toolbar/utils/image_video_utils.dart';
+export 'presentation/embeds/toolbar/video_button/video_button.dart';
+export 'presentation/models/config/editor/image/image.dart';
+export 'presentation/models/config/editor/image/image_web.dart';
+export 'presentation/models/config/editor/video/video.dart';
+export 'presentation/models/config/editor/video/video_web.dart';
+export 'presentation/models/config/toolbar/buttons/camera.dart';
+export 'presentation/models/config/toolbar/buttons/formula.dart';
+export 'presentation/models/config/toolbar/buttons/image.dart';
+export 'presentation/models/config/toolbar/buttons/media_button.dart';
+export 'presentation/models/config/toolbar/buttons/video.dart';
+export 'presentation/utils/utils.dart';
 
+@immutable
 class FlutterQuillEmbeds {
+  const FlutterQuillEmbeds._();
+
   /// Returns a list of embed builders for QuillEditor.
   ///
   /// This method provides a collection of embed builders to enhance the
@@ -32,179 +65,96 @@ class FlutterQuillEmbeds {
   ///
   /// **Note:** This method is not intended for web usage.
   /// For web-specific embeds,
-  /// use [webBuilders].
+  /// use [editorWebBuilders].
   ///
-  /// [onVideoInit] is a callback function that gets triggered when
-  ///  a video is initialized.
-  /// You can use this to perform actions or setup configurations related
-  ///  to video embedding.
-  ///
-  /// [onImageRemovedCallback] is called when an image is
-  ///  removed from the editor.
-  /// By default, [onImageRemovedCallback] deletes the
-  ///  temporary image file if
-  /// the platform is mobile and if it still exists. You
-  ///  can customize this behavior
-  /// by passing your own function that handles the removal process.
-  ///
-  /// Example of [onImageRemovedCallback] customization:
-  /// ```dart
-  /// afterRemoveImageFromEditor: (imageFile) async {
-  ///   // Your custom logic here
-  ///   // or leave it empty to do nothing
-  /// }
-  /// ```
-  ///
-  /// [shouldRemoveImageCallback] is a callback
-  ///  function that is invoked when the
-  /// user attempts to remove an image from the editor. It allows you to control
-  /// whether the image should be removed based on your custom logic.
-  ///
-  /// Example of [shouldRemoveImageCallback] customization:
-  /// ```dart
-  /// shouldRemoveImageFromEditor: (imageFile) async {
-  ///   // Show a confirmation dialog before removing the image
-  ///   final isShouldRemove = await showYesCancelDialog(
-  ///     context: context,
-  ///     options: const YesOrCancelDialogOptions(
-  ///       title: 'Deleting an image',
-  ///       message: 'Are you sure you want' ' to delete this
-  ///      image from the editor?',
-  ///     ),
-  ///   );
-  ///
-  ///   // Return `true` to allow image removal if the user confirms, otherwise
-  ///  `false`
-  ///   return isShouldRemove;
-  /// }
-  /// ```
-  ///
-  /// [imageProviderBuilder] if you want to use custom image provider, please
-  /// pass a value to this property
-  /// By default we will use [NetworkImage] provider if the image url/path
-  /// is using http/https, if not then we will use [FileImage] provider
-  /// If you ovveride this make sure to handle the case where if the [imageUrl]
-  /// is in the local storage or it does exists in the system file
-  /// or use the same way we did it
-  ///
-  /// Example of [imageProviderBuilder] customization:
-  /// ```dart
-  /// imageProviderBuilder: (imageUrl) async {
-  /// // Example of using cached_network_image package
-  /// // Don't forgot to check if that image is local or network one
-  /// return CachedNetworkImageProvider(imageUrl);
-  /// }
-  /// ```
-  ///
-  /// [imageErrorWidgetBuilder] if you want to show a custom widget based on the
-  /// exception that happen while loading the image, if it network image or
-  /// local one, and it will get called on all the images even in the photo
-  /// preview widget and not just in the quill editor
-  /// by default the default error from flutter framework will thrown
-  ///
-  /// [forceUseMobileOptionMenuForImageClick] is a boolean
-  /// flag that, when set to `true`,
-  /// enforces the use of the mobile-specific option menu for image clicks in
-  /// other platforms like desktop, this option doesn't affect mobile. it will
-  /// not affect web
-  ///  This option
-  /// can be used to override the default behavior based on the platform.
   ///
   /// The method returns a list of [EmbedBuilder] objects that can be used with
   ///  QuillEditor
   /// to enable embedded content features like images, videos, and formulas.
   ///
-  /// Example usage:
-  /// ```dart
-  /// final embedBuilders = QuillEmbedBuilders.builders(
-  ///   onVideoInit: (videoContainerKey) {
-  ///     // Custom video initialization logic
-  ///   },
-  ///   // Customize other callback functions as needed
-  /// );
   ///
   /// final quillEditor = QuillEditor(
   ///   // Other editor configurations
   ///   embedBuilders: embedBuilders,
   /// );
   /// ```
-  static List<EmbedBuilder> builders({
-    void Function(GlobalKey videoContainerKey)? onVideoInit,
-    ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
-    ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
-    ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
-    ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder,
-    bool forceUseMobileOptionMenuForImageClick = false,
-  }) =>
-      [
-        ImageEmbedBuilder(
-          imageErrorWidgetBuilder: imageErrorWidgetBuilder,
-          imageProviderBuilder: imageProviderBuilder,
-          forceUseMobileOptionMenu: forceUseMobileOptionMenuForImageClick,
-          onImageRemovedCallback: onImageRemovedCallback ??
-              (imageFile) async {
-                final mobile = isMobile();
-                // If the platform is not mobile, return void;
-                // Since the mobile OS gives us a copy of the image
-
-                // Note: We should remove the image on Flutter web
-                // since the behavior is similar to how it is on mobile,
-                // but since this builder is not for web, we will ignore it
-                if (!mobile) {
-                  return;
-                }
-
-                // On mobile OS (Android, iOS), the system will not give us
-                // direct access to the image; instead,
-                // it will give us the image
-                // in the temp directory of the application. So, we want to
-                // remove it when we no longer need it.
-
-                // but on desktop we don't want to touch user files
-                // especially on macOS, where we can't even delete it without
-                // permission
-
-                final isFileExists = await imageFile.exists();
-                if (isFileExists) {
-                  await imageFile.delete();
-                }
-              },
-          shouldRemoveImageCallback: shouldRemoveImageCallback,
+  ///
+  /// if you don't want image embed in your quill editor then please pass null
+  /// to [imageEmbedConfigurations]. same apply to [videoEmbedConfigurations]
+  static List<EmbedBuilder> editorBuilders({
+    QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
+        const QuillEditorImageEmbedConfigurations(),
+    QuillEditorVideoEmbedConfigurations? videoEmbedConfigurations =
+        const QuillEditorVideoEmbedConfigurations(),
+    QuillEditorWebViewEmbedConfigurations? webViewEmbedConfigurations =
+        const QuillEditorWebViewEmbedConfigurations(),
+  }) {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        'The editorBuilders() is not for web, please use editorBuilders() '
+        'instead',
+      );
+    }
+    return [
+      if (imageEmbedConfigurations != null)
+        QuillEditorImageEmbedBuilder(
+          configurations: imageEmbedConfigurations,
         ),
-        VideoEmbedBuilder(onVideoInit: onVideoInit),
-        FormulaEmbedBuilder(),
-      ];
+      if (videoEmbedConfigurations != null)
+        QuillEditorVideoEmbedBuilder(
+          configurations: videoEmbedConfigurations,
+        ),
+      if (webViewEmbedConfigurations != null)
+        QuillEditorWebViewEmbedBuilder(
+          configurations: webViewEmbedConfigurations,
+        )
+    ];
+  }
 
   /// Returns a list of embed builders specifically designed for web support.
   ///
-  /// [ImageEmbedBuilderWeb] is the embed builder for handling
+  /// [QuillEditorWebImageEmbedBuilder] is the embed builder for handling
   ///  images on the web.
   ///
-  static List<EmbedBuilder> webBuilders() => [
-        ImageEmbedBuilderWeb(),
-      ];
+  /// [QuillEditorWebVideoEmbedBuilder] is the embed builder for handling
+  ///  videos iframe on the web.
+  ///
+  static List<EmbedBuilder> editorWebBuilders(
+      {QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
+          const QuillEditorWebImageEmbedConfigurations(),
+      QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
+          const QuillEditorWebVideoEmbedConfigurations()}) {
+    if (!kIsWeb) {
+      throw UnsupportedError(
+        'The editorsWebBuilders() is only for web, please use editorBuilders() '
+        'instead for other platforms',
+      );
+    }
+    return [
+      if (imageEmbedConfigurations != null)
+        QuillEditorWebImageEmbedBuilder(
+          configurations: imageEmbedConfigurations,
+        ),
+      if (videoEmbedConfigurations != null)
+        QuillEditorWebVideoEmbedBuilder(
+          configurations: videoEmbedConfigurations,
+        ),
+    ];
+  }
+
+  /// Returns a list of default embed builders for QuillEditor.
+  ///
+  /// It will use [editorWebBuilders] for web and [editorBuilders] for others
+  ///
+  /// It's not customizable with minimal configurations
+  static List<EmbedBuilder> defaultEditorBuilders() {
+    return kIsWeb ? editorWebBuilders() : editorBuilders();
+  }
 
   /// Returns a list of embed button builders to customize the toolbar buttons.
   ///
-  /// [showImageButton] determines whether the image button should be displayed.
-  /// [showVideoButton] determines whether the video button should be displayed.
-  /// [showCameraButton] determines whether the camera button should
-  ///  be displayed.
-  /// [showFormulaButton] determines whether the formula button
-  ///  should be displayed.
-  ///
-  /// [imageButtonTooltip] specifies the tooltip text for the image button.
-  /// [videoButtonTooltip] specifies the tooltip text for the video button.
-  /// [cameraButtonTooltip] specifies the tooltip text for the camera button.
-  /// [formulaButtonTooltip] specifies the tooltip text for the formula button.
-  ///
-  /// [onImagePickCallback] is a callback function called when an
-  ///  image is picked.
-  /// [onVideoPickCallback] is a callback function called when a
-  /// video is picked.
-  ///
-  /// [mediaPickSettingSelector] allows customizing media pick settings.
-  /// [cameraPickSettingSelector] allows customizing camera pick settings.
+  /// If you don't want to show one of the buttons for soem reason,
+  /// pass null to the options of it
   ///
   /// Example of customizing media pick settings for the image button:
   /// ```dart
@@ -222,110 +172,49 @@ class FlutterQuillEmbeds {
   /// }
   /// ```
   ///
-  /// [filePickImpl] is an implementation for picking files.
-  /// [webImagePickImpl] is an implementation for picking web images.
-  /// [webVideoPickImpl] is an implementation for picking web videos.
-  ///
-  /// [imageLinkRegExp] is a regular expression to identify image links.
-  /// [videoLinkRegExp] is a regular expression to identify video links.
   ///
   /// The returned list contains embed button builders for the Quill toolbar.
-  static List<EmbedButtonBuilder> buttons({
-    bool showImageButton = true,
-    bool showVideoButton = true,
-    bool showCameraButton = true,
-    bool showImageMediaButton = false,
-    bool showFormulaButton = false,
-    String? imageButtonTooltip,
-    String? videoButtonTooltip,
-    String? cameraButtonTooltip,
-    String? formulaButtonTooltip,
-    OnImagePickCallback? onImagePickCallback,
-    OnVideoPickCallback? onVideoPickCallback,
-    MediaPickSettingSelector? mediaPickSettingSelector,
-    MediaPickSettingSelector? cameraPickSettingSelector,
-    MediaPickedCallback? onImageMediaPickedCallback,
-    FilePickImpl? filePickImpl,
-    WebImagePickImpl? webImagePickImpl,
-    WebVideoPickImpl? webVideoPickImpl,
-    RegExp? imageLinkRegExp,
-    RegExp? videoLinkRegExp,
+  /// the [formulaButtonOptions] will be disabled by default on web
+  static List<EmbedButtonBuilder> toolbarButtons({
+    QuillToolbarImageButtonOptions? imageButtonOptions =
+        const QuillToolbarImageButtonOptions(),
+    QuillToolbarVideoButtonOptions? videoButtonOptions =
+        const QuillToolbarVideoButtonOptions(),
+    QuillToolbarCameraButtonOptions? cameraButtonOptions,
+    QuillToolbarMediaButtonOptions? mediaButtonOptions,
   }) =>
       [
-        if (showImageButton)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) => ImageButton(
-                icon: Icons.image,
-                iconSize: toolbarIconSize,
-                tooltip: imageButtonTooltip,
-                controller: controller,
-                onImagePickCallback: onImagePickCallback,
-                filePickImpl: filePickImpl,
-                webImagePickImpl: webImagePickImpl,
-                mediaPickSettingSelector: mediaPickSettingSelector,
-                iconTheme: iconTheme,
-                dialogTheme: dialogTheme,
-                linkRegExp: imageLinkRegExp,
-              ),
-        if (showVideoButton)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) => VideoButton(
-                icon: Icons.movie_creation,
-                iconSize: toolbarIconSize,
-                tooltip: videoButtonTooltip,
-                controller: controller,
-                onVideoPickCallback: onVideoPickCallback,
-                filePickImpl: filePickImpl,
-                webVideoPickImpl: webImagePickImpl,
-                mediaPickSettingSelector: mediaPickSettingSelector,
-                iconTheme: iconTheme,
-                dialogTheme: dialogTheme,
-                linkRegExp: videoLinkRegExp,
-              ),
-        if ((onImagePickCallback != null || onVideoPickCallback != null) &&
-            showCameraButton)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) => CameraButton(
-                icon: Icons.photo_camera,
-                iconSize: toolbarIconSize,
-                tooltip: cameraButtonTooltip,
-                controller: controller,
-                onImagePickCallback: onImagePickCallback,
-                onVideoPickCallback: onVideoPickCallback,
-                filePickImpl: filePickImpl,
-                webImagePickImpl: webImagePickImpl,
-                webVideoPickImpl: webVideoPickImpl,
-                cameraPickSettingSelector: cameraPickSettingSelector,
-                iconTheme: iconTheme,
-              ),
-        if (showImageMediaButton)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) => MediaButton(
-                controller: controller,
-                dialogTheme: dialogTheme,
-                iconTheme: iconTheme,
-                iconSize: toolbarIconSize,
-                onMediaPickedCallback: onImageMediaPickedCallback,
-                onImagePickCallback: onImagePickCallback ??
-                    (throw ArgumentError.notNull(
-                      'onImagePickCallback is required when showCameraButton is'
-                      ' true',
-                    )),
-                onVideoPickCallback: onVideoPickCallback ??
-                    (throw ArgumentError.notNull(
-                      'onVideoPickCallback is required when showCameraButton is'
-                      ' true',
-                    )),
-                filePickImpl: filePickImpl,
-                webImagePickImpl: webImagePickImpl,
-                webVideoPickImpl: webVideoPickImpl,
-                icon: Icons.perm_media,
-              ),
-        if (showFormulaButton)
+        if (imageButtonOptions != null)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              FormulaButton(
-                icon: Icons.functions,
-                iconSize: toolbarIconSize,
-                tooltip: formulaButtonTooltip,
-                controller: controller,
-                iconTheme: iconTheme,
-                dialogTheme: dialogTheme,
+              QuillToolbarImageButton(
+                controller: imageButtonOptions.controller ?? controller,
+                options: imageButtonOptions,
               ),
+        if (videoButtonOptions != null)
+          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+              QuillToolbarVideoButton(
+                controller: videoButtonOptions.controller ?? controller,
+                options: videoButtonOptions,
+              ),
+        if (cameraButtonOptions != null)
+          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+              QuillToolbarCameraButton(
+                controller: cameraButtonOptions.controller ?? controller,
+                options: cameraButtonOptions,
+              ),
+        // TODO: We will return the support for this later
+        // if (mediaButtonOptions != null)
+        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+        //       QuillToolbarMediaButton(
+        //         controller: mediaButtonOptions.controller ?? controller,
+        //         options: mediaButtonOptions,
+        //       ),
+        // Drop the support for formula button for now
+        // if (formulaButtonOptions != null)
+        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+        //       QuillToolbarFormulaButton(
+        //         controller: formulaButtonOptions.controller ?? controller,
+        //         options: formulaButtonOptions,
+        //       ),
       ];
 }

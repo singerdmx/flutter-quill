@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 typedef WidgetWrapper = Widget Function(Widget child);
 
 /// Provides utiulity widgets.
-abstract class UtilityWidgets {
+class UtilityWidgets {
+  const UtilityWidgets._();
+
   /// Conditionally wraps the [child] with [Tooltip] widget if [message]
   /// is not null and not empty.
   static Widget maybeTooltip({

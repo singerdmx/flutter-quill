@@ -1,0 +1,37 @@
+name: flutter_quill_test
+description: Test utilities for flutter_quill which includes methods to simplify interacting with the editor in test cases.
+version: 0.0.5
+homepage: https://1o24bbs.com/c/bulletjournal/108
+repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_test
+
+topics:
+ - ui
+ - widgets
+ - widget
+ - rich-text-editor
+ - quill
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_quill: ^8.2.5
+  flutter_test:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true

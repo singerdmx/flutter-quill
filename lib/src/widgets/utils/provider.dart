@@ -9,6 +9,7 @@ class QuillProvider extends InheritedWidget {
   const QuillProvider({
     required this.configurations,
     required super.child,
+    super.key,
   });
 
   /// Controller object which establishes a link between a rich text document
@@ -67,6 +68,7 @@ class QuillToolbarProvider extends InheritedWidget {
   const QuillToolbarProvider({
     required super.child,
     required this.toolbarConfigurations,
+    super.key,
   });
 
   /// The configurations for the toolbar widget of flutter quill
@@ -96,7 +98,7 @@ class QuillToolbarProvider extends InheritedWidget {
             'because '
             'The provider is $provider. Please make sure to wrap this widget'
             ' with'
-            ' QuillProvider widget. '
+            ' QuillToolbarProvider widget. '
             'You might using QuillToolbar so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
@@ -124,6 +126,7 @@ class QuillBaseToolbarProvider extends InheritedWidget {
   const QuillBaseToolbarProvider({
     required super.child,
     required this.toolbarConfigurations,
+    super.key,
   });
 
   /// The configurations for the toolbar widget of flutter quill
@@ -154,8 +157,8 @@ class QuillBaseToolbarProvider extends InheritedWidget {
             'because '
             'The provider is $provider. Please make sure to wrap this widget'
             ' with'
-            ' QuillProvider widget. '
-            'You might using QuillToolbar so make sure to'
+            ' QuillBaseToolbarProvider widget. '
+            'You might using QuillBaseToolbar so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
         'QuillProvider',
@@ -181,6 +184,7 @@ class QuillEditorProvider extends InheritedWidget {
   const QuillEditorProvider({
     required super.child,
     required this.editorConfigurations,
+    super.key,
   });
 
   /// The configurations for the quill editor widget of flutter quill
@@ -210,7 +214,7 @@ class QuillEditorProvider extends InheritedWidget {
             'because '
             'The provider is $provider. Please make sure to wrap this widget'
             ' with'
-            ' QuillProvider widget. '
+            ' QuillEditorProvider widget. '
             'You might using QuillEditor so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',

@@ -10,18 +10,18 @@ class QuillToolbarArrowIndicatedButtonList extends StatefulWidget {
   const QuillToolbarArrowIndicatedButtonList({
     required this.axis,
     required this.buttons,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Axis axis;
   final List<Widget> buttons;
 
   @override
-  _QuillToolbarArrowIndicatedButtonListState createState() =>
-      _QuillToolbarArrowIndicatedButtonListState();
+  QuillToolbarArrowIndicatedButtonListState createState() =>
+      QuillToolbarArrowIndicatedButtonListState();
 }
 
-class _QuillToolbarArrowIndicatedButtonListState
+class QuillToolbarArrowIndicatedButtonListState
     extends State<QuillToolbarArrowIndicatedButtonList>
     with WidgetsBindingObserver {
   final ScrollController _controller = ScrollController();
