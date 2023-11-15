@@ -39,6 +39,15 @@ dependencies:
   flutter_quill_extensions: ^<latest-version-here>
 ```
 
+<p align="center">OR</p>
+
+```yaml
+dependencies:
+  flutter_quill_extensions:
+    git: https://github.com/singerdmx/flutter-quill.git
+    path: flutter_quill_extensions
+```
+
 ## Platform Spesefic Configurations
 
 >
