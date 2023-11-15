@@ -15,7 +15,12 @@ import '../settings/cubit/settings_cubit.dart';
 import 'embeds/timestamp_embed.dart';
 
 class MyQuillToolbar extends StatelessWidget {
-  const MyQuillToolbar({super.key});
+  const MyQuillToolbar({
+    required this.focusNode,
+    super.key,
+  });
+
+  final FocusNode focusNode;
 
   Future<void> onImageInsertWithCropping(
     String image,
@@ -211,6 +216,13 @@ class MyQuillToolbar extends StatelessWidget {
         }
         return QuillToolbar(
           configurations: QuillToolbarConfigurations(
+            showAlignmentButtons: true,
+            buttonOptions: QuillToolbarButtonOptions(
+              base: QuillToolbarBaseButtonOptions(
+                // Request editor focus when any button is pressed
+                afterButtonPressed: focusNode.requestFocus,
+              ),
+            ),
             customButtons: [
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),

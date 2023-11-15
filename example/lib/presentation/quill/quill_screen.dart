@@ -115,7 +115,10 @@ class _QuillScreenState extends State<QuillScreen> {
         ),
         child: Column(
           children: [
-            if (!_isReadOnly) const MyQuillToolbar(),
+            if (!_isReadOnly)
+              MyQuillToolbar(
+                focusNode: _editorFocusNode,
+              ),
             Builder(
               builder: (context) {
                 return Expanded(

@@ -154,7 +154,7 @@ class QuillToolbarConfigurations extends Equatable {
   ///   'Nunito': 'nunito',
   ///   'Pacifico': 'pacifico',
   ///   'Roboto Mono': 'roboto-mono',
-  ///   'Clear'.i18n: 'Clear'
+  ///   'Clear'.loc: 'Clear'
   /// };
   /// ```
   final Map<String, String>? fontFamilyValues;
@@ -165,7 +165,7 @@ class QuillToolbarConfigurations extends Equatable {
   ///   'Small'.i18n: 'small',
   ///   'Large'.i18n: 'large',
   ///   'Huge'.i18n: 'huge',
-  ///   'Clear'.i18n: '0'
+  ///   'Clear'.loc: '0'
   /// }
   /// ```
   final Map<String, String>? fontSizesValues;
