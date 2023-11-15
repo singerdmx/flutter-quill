@@ -90,8 +90,8 @@ body:
         [Upload media here]
 
         </details>
-      validations:
-        required: false
+    validations:
+      required: false
   - type: textarea
     attributes:
       label: Logs
@@ -115,21 +115,5 @@ body:
         ```
 
         </details>
-      validations:
-        required: false
-  # - type: textarea
-  #   attributes:
-  #     label: Flutter Doctor output (optional)
-  #     description: |
-  #       Please provide the full output of running `flutter doctor -v`
-  #       if the issue is related on how the library use the Flutter Quill
-  #     value: |
-  #       <details><summary>Doctor output</summary>
-
-  #       ```console
-  #       [Paste your output here]
-  #       ```
-
-  #       </details>
-  #   validations:
-  #     required: true
+    validations:
+      required: false
