@@ -15,6 +15,14 @@ body:
       options:
       - label: I have searched the [existing issues](https://github.com/singerdmx/flutter-quill/issues)
         required: true
+  - type: input
+    attributes:
+      label: Flutter Quill Version
+      description: Please tell us which version of `flutter_quill` that you are using.
+      placeholder: |
+        9.0.0
+      validations:
+        required: true
   - type: textarea
     attributes:
       label: Steps to reproduce
