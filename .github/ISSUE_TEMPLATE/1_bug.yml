@@ -24,6 +24,16 @@ body:
       required: true
   - type: textarea
     attributes:
+      label: Other Flutter Quill Packages Versions
+      description: If you are using any other packages like `flutter_quill_extensions` or `flutter_quill_test` please mention the versions here
+      placeholder: |
+        flutter_quill: ^8.5.5
+        flutter_quill_extensions: ^0.6.10
+        flutter_quill_test: ^0.0.5
+    validations:
+      required: false
+  - type: textarea
+    attributes:
       label: Steps to reproduce
       description: Please tell us exactly how to reproduce the problem you are running into.
       placeholder: |
@@ -80,6 +90,8 @@ body:
         [Upload media here]
 
         </details>
+      validations:
+        required: false
   - type: textarea
     attributes:
       label: Logs
@@ -103,19 +115,21 @@ body:
         ```
 
         </details>
-  - type: textarea
-    attributes:
-      label: Flutter Doctor output (optional)
-      description: |
-        Please provide the full output of running `flutter doctor -v`
-        if the issue is related on how the library use the Flutter Quill
-      value: |
-        <details><summary>Doctor output</summary>
+      validations:
+        required: false
+  # - type: textarea
+  #   attributes:
+  #     label: Flutter Doctor output (optional)
+  #     description: |
+  #       Please provide the full output of running `flutter doctor -v`
+  #       if the issue is related on how the library use the Flutter Quill
+  #     value: |
+  #       <details><summary>Doctor output</summary>
 
-        ```console
-        [Paste your output here]
-        ```
+  #       ```console
+  #       [Paste your output here]
+  #       ```
 
-        </details>
-    # validations:
-    #   required: true
+  #       </details>
+  #   validations:
+  #     required: true
