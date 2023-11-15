@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../extensions/quill_provider.dart';
 import '../../../../l10n/extensions/localizations.dart';
+import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../../models/documents/style.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../../utils/color.dart';
 import '../../../controller.dart';
+import '../../../utils/provider.dart';
 import '../../base_toolbar.dart';
 import 'dialog.dart';
 
@@ -225,11 +227,16 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
       context: context,
       barrierColor: options.dialogBarrierColor ??
           context.requireQuillSharedConfigurations.dialogBarrierColor,
-      builder: (context) => ColorPickerDialog(
-        isBackground: widget.isBackground,
-        onRequestChangeColor: _changeColor,
-        isToggledColor: _isToggledColor,
-        selectionStyle: _selectionStyle,
+      builder: (_) => QuillProvider.value(
+        value: context.requireQuillProvider,
+        child: FlutterQuillLocalizationsWidget(
+          child: ColorPickerDialog(
+            isBackground: widget.isBackground,
+            onRequestChangeColor: _changeColor,
+            isToggledColor: _isToggledColor,
+            selectionStyle: _selectionStyle,
+          ),
+        ),
       ),
     );
   }

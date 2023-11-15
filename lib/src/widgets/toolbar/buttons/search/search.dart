@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../extensions/quill_provider.dart';
 import '../../../../l10n/extensions/localizations.dart';
+import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../controller.dart';
+import '../../../utils/provider.dart';
 import '../../base_toolbar.dart';
 
 class QuillToolbarSearchButton extends StatelessWidget {
@@ -140,10 +142,15 @@ class QuillToolbarSearchButton extends StatelessWidget {
     await showDialog<String>(
       barrierColor: _dialogBarrierColor(context),
       context: context,
-      builder: (_) => QuillToolbarSearchDialog(
-        controller: controller,
-        dialogTheme: _dialogTheme(context),
-        text: '',
+      builder: (_) => QuillProvider.value(
+        value: context.requireQuillProvider,
+        child: FlutterQuillLocalizationsWidget(
+          child: QuillToolbarSearchDialog(
+            controller: controller,
+            dialogTheme: _dialogTheme(context),
+            text: '',
+          ),
+        ),
       ),
     );
   }

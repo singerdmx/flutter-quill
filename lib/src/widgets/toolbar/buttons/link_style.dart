@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_provider.dart';
 import '../../../l10n/extensions/localizations.dart';
+import '../../../l10n/widgets/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/rules/insert.dart';
 import '../../../models/structs/link_dialog_action.dart';
@@ -9,6 +10,7 @@ import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../controller.dart';
 import '../../link.dart';
+import '../../utils/provider.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarLinkStyleButton extends StatefulWidget {
@@ -164,7 +166,7 @@ class QuillToolbarLinkStyleButtonState
     final value = await showDialog<_TextLink>(
       context: context,
       barrierColor: dialogBarrierColor,
-      builder: (ctx) {
+      builder: (_) {
         final link = _getLinkAttributeValue();
         final index = controller.selection.start;
 
@@ -179,12 +181,17 @@ class QuillToolbarLinkStyleButtonState
 
         final len = controller.selection.end - index;
         text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
-        return _LinkDialog(
-          dialogTheme: options.dialogTheme,
-          link: link,
-          text: text,
-          linkRegExp: linkRegExp,
-          action: options.linkDialogAction,
+        return QuillProvider.value(
+          value: context.requireQuillProvider,
+          child: FlutterQuillLocalizationsWidget(
+            child: _LinkDialog(
+              dialogTheme: options.dialogTheme,
+              link: link,
+              text: text,
+              linkRegExp: linkRegExp,
+              action: options.linkDialogAction,
+            ),
+          ),
         );
       },
     );
