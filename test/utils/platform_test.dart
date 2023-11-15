@@ -23,8 +23,8 @@ void main() {
         expect(
           isDesktop(
             supportWeb: false,
-            platform: desktopPlatform,
             overrideIsWeb: false,
+            platform: desktopPlatform,
           ),
           true,
         );
@@ -64,8 +64,8 @@ void main() {
       ]) {
         expect(
           isMobile(
-            supportWeb: false,
             platform: mobilePlatform,
+            supportWeb: false,
             overrideIsWeb: false,
           ),
           true,
@@ -73,9 +73,9 @@ void main() {
 
         expect(
           isMobile(
+            platform: mobilePlatform,
             supportWeb: false,
             overrideIsWeb: true,
-            platform: mobilePlatform,
           ),
           false,
         );
