@@ -283,6 +283,5 @@ You can check the [Todo](./doc/todo.md) list if you want to
 [ReactQuill]: https://github.com/zenoamaro/react-quill
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
-[Sample Page]: ./example/lib/pages/home_page.dart
+[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/presentation/quill/quill_screen.dart
 [FluentUI]: https://pub.dev/packages/fluent_ui
-
