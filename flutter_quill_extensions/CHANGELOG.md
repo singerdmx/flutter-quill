@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.11
+* Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1)
+
 ## 0.6.10
 * Update deprecated members from `flutter_quill`
 * Update doc and `README.md`

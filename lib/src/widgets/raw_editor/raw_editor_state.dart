@@ -133,6 +133,9 @@ class QuillRawEditorState extends EditorState
       onSelectAll: selectAllEnabled
           ? () => selectAll(SelectionChangedCause.toolbar)
           : null,
+      onLookUp: null,
+      onSearchWeb: null,
+      onShare: null,
     );
   }
 
@@ -1612,6 +1615,14 @@ class QuillRawEditorState extends EditorState
   }
 
   @override
-  // TODO: implement liveTextInputEnabled
   bool get liveTextInputEnabled => false;
+
+  @override
+  bool get lookUpEnabled => false;
+
+  @override
+  bool get searchWebEnabled => false;
+
+  @override
+  bool get shareEnabled => false;
 }

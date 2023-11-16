@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show Color;
 
-import './../../shared_configurations.dart' show QuillSharedConfigurations;
 import '../../../../widgets/controller.dart';
+import './../../shared_configurations.dart' show QuillSharedConfigurations;
 import 'base.dart';
 
 class QuillToolbarColorButtonExtraOptions

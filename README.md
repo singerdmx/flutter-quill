@@ -87,7 +87,6 @@ dependencies:
     git: https://github.com/singerdmx/flutter-quill.git
 ```
 
-
 >
 > Note: At this time, we are making too many changes to the library, and you might see a new version almost every day
 >

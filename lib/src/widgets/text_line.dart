@@ -172,7 +172,7 @@ class _TextLineState extends State<TextLine> {
       textAlign: textAlign,
       textDirection: widget.textDirection,
       strutStyle: strutStyle,
-      textScaleFactor: MediaQuery.textScaleFactorOf(context),
+      textScaler: MediaQuery.textScalerOf(context),
     );
     return RichTextProxy(
       textStyle: textSpan.style!,
