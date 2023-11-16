@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 library flutter_quill_extensions;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -86,8 +88,6 @@ class FlutterQuillEmbeds {
         const QuillEditorImageEmbedConfigurations(),
     QuillEditorVideoEmbedConfigurations? videoEmbedConfigurations =
         const QuillEditorVideoEmbedConfigurations(),
-    QuillEditorWebViewEmbedConfigurations? webViewEmbedConfigurations =
-        const QuillEditorWebViewEmbedConfigurations(),
   }) {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -104,10 +104,6 @@ class FlutterQuillEmbeds {
         QuillEditorVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
-      if (webViewEmbedConfigurations != null)
-        QuillEditorWebViewEmbedBuilder(
-          configurations: webViewEmbedConfigurations,
-        )
     ];
   }
 

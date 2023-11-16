@@ -109,24 +109,6 @@ class Attribute<T> extends Equatable {
 
   static final ScriptAttribute script = ScriptAttribute(null);
 
-  @Deprecated('This property is no logner used in flutter_quill')
-  static const String mobileWidth = 'mobileWidth';
-
-  @Deprecated('This property is no logner used in flutter_quill')
-  static const String mobileHeight = 'mobileHeight';
-
-  @Deprecated('This property is no logner used in flutter_quill')
-  static const String mobileMargin = 'mobileMargin';
-
-  @Deprecated('This property is no logner used in flutter_quill')
-  static const String mobileAlignment = 'mobileAlignment';
-
-  @Deprecated("Will be removed as it doesn't confirm to Quill js")
-  static const String alignment = 'alignment';
-
-  @Deprecated("Will be removed as it doesn't confirm to Quill js")
-  static const String margin = 'margin';
-
   static const ImageAttribute image = ImageAttribute(null);
 
   static const VideoAttribute video = VideoAttribute(null);

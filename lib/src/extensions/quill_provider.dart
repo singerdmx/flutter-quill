@@ -104,6 +104,24 @@ extension QuillProviderExt on BuildContext {
     return QuillToolbarProvider.of(this)?.toolbarConfigurations;
   }
 
+  /// return [QuillBaseToolbarConfigurations] as not null . Since the quill
+  /// toolbar configurations is in the [QuillBaseToolbarProvider]
+  /// then we need to get the
+  /// provider widget first and then we will return toolbar configurations
+  /// throw exception if [QuillBaseToolbarProvider] is not in the widget tree
+  QuillBaseToolbarConfigurations get requireQuillBaseToolbarConfigurations {
+    return QuillBaseToolbarProvider.ofNotNull(this).toolbarConfigurations;
+  }
+
+  /// return nullable [QuillBaseToolbarConfigurations]. Since the quill
+  /// toolbar configurations is in the [QuillBaseToolbarProvider]
+  ///  then we need to get the
+  /// provider widget first and then we will return toolbar configurations
+  /// don't throw exception if [QuillBaseToolbarProvider] is not in the widget tree
+  QuillBaseToolbarConfigurations? get quillBaseToolbarConfigurations {
+    return QuillBaseToolbarProvider.of(this)?.toolbarConfigurations;
+  }
+
   /// return nullable [QuillToolbarBaseButtonOptions]. Since the quill
   /// toolbar base button options is in the [QuillProvider] then we need to
   /// get the provider widget first and then we will return base button
@@ -117,7 +135,11 @@ extension QuillProviderExt on BuildContext {
   /// get the provider widget first and then we will return base button
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillToolbarBaseButtonOptions get requireQuillToolbarBaseButtonOptions {
-    return requireQuillToolbarConfigurations.buttonOptions.base;
+    return quillToolbarConfigurations?.buttonOptions.base ??
+        quillBaseToolbarConfigurations?.buttonOptions.base ??
+        (throw ArgumentError(
+          "The buttonOptions is required and it's required",
+        ));
   }
 
   /// return nullable [QuillToolbarBaseButtonOptions]. Since the quill

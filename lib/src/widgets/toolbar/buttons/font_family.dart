@@ -86,8 +86,8 @@ class QuillToolbarFontFamilyButtonState
   }
 
   Map<String, String> get rawItemsMap {
+    // context.requireQuillToolbarConfigurations.buttonOptions;
     final rawItemsMap = options.rawItemsMap ??
-        context.requireQuillToolbarConfigurations.fontFamilyValues ??
         {
           'Sans Serif': 'sans-serif',
           'Serif': 'serif',

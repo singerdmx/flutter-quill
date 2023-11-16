@@ -1,16 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart'
-    show Axis, Color, Decoration, WrapAlignment, WrapCrossAlignment, immutable;
+    show Axis, Color, Decoration, WrapAlignment, WrapCrossAlignment;
 
 import '../../../widgets/toolbar/base_toolbar.dart';
 import '../../structs/link_dialog_action.dart';
 
-@immutable
-class QuillBaseToolbarConfigurations extends Equatable {
-  const QuillBaseToolbarConfigurations({
-    required this.childrenBuilder,
+abstract class QuillSharedToolbarProperties extends Equatable {
+  const QuillSharedToolbarProperties({
+    this.toolbarSize,
     this.axis = Axis.horizontal,
-    this.toolbarSize = kDefaultIconSize * 2,
     this.toolbarSectionSpacing = kToolbarSectionSpacing,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
@@ -21,14 +19,13 @@ class QuillBaseToolbarConfigurations extends Equatable {
     this.linkDialogAction,
     this.multiRowsDisplay = true,
     this.decoration,
+    this.buttonOptions = const QuillToolbarButtonOptions(),
   });
-
-  final QuillBaseToolbarChildrenBuilder childrenBuilder;
   final Axis axis;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
   final WrapCrossAlignment toolbarIconCrossAlignment;
-  final double toolbarSize;
+  final double? toolbarSize;
 
   // Overrides the action in the _LinkDialog widget
   final LinkDialogAction? linkDialogAction;
@@ -57,6 +54,7 @@ class QuillBaseToolbarConfigurations extends Equatable {
   /// The decoration to use for the toolbar.
   final Decoration? decoration;
 
-  @override
-  List<Object?> get props => [];
+  /// If you want change spesefic buttons or all of them
+  /// then you came to the right place
+  final QuillToolbarButtonOptions buttonOptions;
 }

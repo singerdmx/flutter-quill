@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart' show immutable;
 import '../../../flutter_quill.dart';
 
 export './editor/configurations.dart';
-export './shared_configurations.dart';
-export './toolbar/configurations.dart';
+export 'quill_shared_configurations.dart';
+export 'toolbar/toolbar_configurations.dart';
 
 @immutable
 class QuillConfigurations extends Equatable {

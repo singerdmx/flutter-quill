@@ -2,8 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 8.5.6
-* Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1)
+## 8.6.0
+* **Breaking Change** Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1), please upgrade to the latest stable version of flutter in order to use this update
+* **Breaking Change**: Remove Deprecated Fields
+* **Breaking Change**: Extract the shared things between `QuillToolbarConfigurations` and `QuillBaseToolbarConfigurations`
+* **Breaking Change**: You no longer need to use `QuillToolbarProvider` when using custom toolbar buttons, the example has been updated
 
 ## 8.5.5
 * Now when opening dialogs by `QuillToolbar` you will not get an exception when you don't use `FlutterQuillLocalizations.delegate` in your `WidgetsApp`, `MaterialApp`, or `CupertinoApp`. The fix is for the `QuillToolbarSearchButton`, `QuillToolbarLinkStyleButton`, and `QuillToolbarColorButton` buttons

@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
-    show Axis, Color, Decoration, Widget, WrapAlignment, WrapCrossAlignment;
+    show Axis, Widget, WrapAlignment, WrapCrossAlignment;
 
 import '../../../widgets/embeds.dart';
-import '../../structs/link_dialog_action.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
 import 'buttons/base.dart';
@@ -21,6 +20,7 @@ import 'buttons/select_alignment.dart';
 import 'buttons/select_header_style.dart';
 import 'buttons/toggle_check_list.dart';
 import 'buttons/toggle_style.dart';
+import 'toolbar_shared_configurations.dart';
 
 export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
 export './buttons/base.dart';
@@ -52,14 +52,13 @@ const double kToolbarSectionSpacing = 4;
 
 /// The configurations for the toolbar widget of flutter quill
 @immutable
-class QuillToolbarConfigurations extends Equatable {
+class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
   const QuillToolbarConfigurations({
-    this.toolbarSectionSpacing = kToolbarSectionSpacing,
-    this.toolbarIconAlignment = WrapAlignment.center,
-    this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
-    this.buttonOptions = const QuillToolbarButtonOptions(),
-    this.multiRowsDisplay = true,
-    this.fontFamilyValues,
+    super.toolbarSectionSpacing = kToolbarSectionSpacing,
+    super.toolbarIconAlignment = WrapAlignment.center,
+    super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
+    super.buttonOptions = const QuillToolbarButtonOptions(),
+    super.multiRowsDisplay = true,
     this.fontSizesValues,
     this.showDividers = true,
     this.showFontFamily = true,
@@ -92,22 +91,22 @@ class QuillToolbarConfigurations extends Equatable {
     this.showSearchButton = true,
     this.showSubscript = true,
     this.showSuperscript = true,
-    this.customButtons = const [],
+    super.customButtons = const [],
 
     /// The decoration to use for the toolbar.
-    this.decoration,
+    super.decoration,
 
     /// Toolbar items to display for controls of embed blocks
     this.embedButtons,
-    this.linkDialogAction,
+    super.linkDialogAction,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     // this.iconTheme,
     this.dialogTheme,
-    this.axis = Axis.horizontal,
-    this.color,
-    this.sectionDividerColor,
-    this.sectionDividerSpace,
+    super.axis = Axis.horizontal,
+    super.color,
+    super.sectionDividerColor,
+    super.sectionDividerSpace,
     this.spacerWidget,
 
     /// By default it will calculated based on the [globalIconSize] from
@@ -115,12 +114,13 @@ class QuillToolbarConfigurations extends Equatable {
     /// You can change it but the the change only apply if
     /// the [multiRowsDisplay] is false, if [multiRowsDisplay] then the value
     /// will be [kDefaultIconSize] * 2
-    double? toolbarSize,
+    super.toolbarSize,
   }) : _toolbarSize = toolbarSize;
 
   final double? _toolbarSize;
 
   /// The toolbar size, by default it will be `baseButtonOptions.iconSize * 2`
+  @override
   double get toolbarSize {
     final alternativeToolbarSize = _toolbarSize;
     if (alternativeToolbarSize != null) {
@@ -128,10 +128,6 @@ class QuillToolbarConfigurations extends Equatable {
     }
     return buttonOptions.base.globalIconSize * 2;
   }
-
-  /// If you want change spesefic buttons or all of them
-  /// then you came to the right place
-  final QuillToolbarButtonOptions buttonOptions;
 
   /// A widget that will placed between each button in the toolbar
   /// can be used as a spacer
@@ -141,23 +137,6 @@ class QuillToolbarConfigurations extends Equatable {
   /// Default value will be [SizedBox.shrink()]
   /// some widgets like the header styles will be considered as one widget
   final Widget? spacerWidget;
-  final bool multiRowsDisplay;
-
-  /// By default it will be
-  /// ```
-  /// {
-  ///   'Sans Serif': 'sans-serif',
-  ///   'Serif': 'serif',
-  ///   'Monospace': 'monospace',
-  ///   'Ibarra Real Nova': 'ibarra-real-nova',
-  ///   'SquarePeg': 'square-peg',
-  ///   'Nunito': 'nunito',
-  ///   'Pacifico': 'pacifico',
-  ///   'Roboto Mono': 'roboto-mono',
-  ///   'Clear'.loc: 'Clear'
-  /// };
-  /// ```
-  final Map<String, String>? fontFamilyValues;
 
   /// By default it will be
   /// ```
@@ -170,17 +149,6 @@ class QuillToolbarConfigurations extends Equatable {
   /// ```
   final Map<String, String>? fontSizesValues;
 
-  /// Toolbar axis
-  /// it will apply only for [QuillToolbar.basic]
-  /// we will update that logic soon
-  final Axis axis;
-
-  // Overrides the action in the _LinkDialog widget
-  final LinkDialogAction? linkDialogAction;
-
-  final double toolbarSectionSpacing;
-  final WrapAlignment toolbarIconAlignment;
-  final WrapCrossAlignment toolbarIconCrossAlignment;
   final bool showDividers;
   final bool showFontFamily;
   final bool showFontSize;
@@ -212,10 +180,6 @@ class QuillToolbarConfigurations extends Equatable {
   final bool showSearchButton;
   final bool showSubscript;
   final bool showSuperscript;
-  final List<QuillToolbarCustomButtonOptions> customButtons;
-
-  /// The decoration to use for the toolbar.
-  final Decoration? decoration;
 
   /// Toolbar items to display for controls of embed blocks
   final List<EmbedButtonBuilder>? embedButtons;
@@ -227,20 +191,10 @@ class QuillToolbarConfigurations extends Equatable {
   ///shown when embedding an image, for example
   final QuillDialogTheme? dialogTheme;
 
-  /// The color of the toolbar
-  final Color? color;
-
-  /// The color of the toolbar section divider
-  final Color? sectionDividerColor;
-
-  /// The space occupied by toolbar divider
-  final double? sectionDividerSpace;
-
   @override
   List<Object?> get props => [
         buttonOptions,
         multiRowsDisplay,
-        fontFamilyValues,
         fontSizesValues,
         toolbarSize,
         axis,

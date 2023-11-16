@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
 import '../../l10n/widgets/localizations.dart';
-import '../../models/config/toolbar/base_configurations.dart';
+import '../../models/config/toolbar/base_toolbar_configurations.dart';
 import 'buttons/arrow_indicated_list.dart';
 
 export '../../models/config/toolbar/buttons/base.dart';
-export '../../models/config/toolbar/configurations.dart';
+export '../../models/config/toolbar/toolbar_configurations.dart';
 export 'buttons/clear_format.dart';
 export 'buttons/color/color.dart';
 export 'buttons/custom_button.dart';

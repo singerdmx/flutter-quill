@@ -2,7 +2,14 @@ import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart' show isMobile;
 import 'package:flutter_quill/flutter_quill.dart'
-    show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
+    show
+        FlutterQuillLocalizationsWidget,
+        ImageUrl,
+        QuillController,
+        QuillProvider,
+        QuillProviderExt,
+        StyleAttribute,
+        getEmbedNode;
 import 'package:flutter_quill/translations.dart';
 
 import '../../../../logic/models/config/shared_configurations.dart';
@@ -47,33 +54,38 @@ class ImageOptionsMenu extends StatelessWidget {
                 Navigator.pop(context);
                 showCupertinoModalPopup<void>(
                   context: context,
-                  builder: (context) {
-                    final screenSize = MediaQuery.sizeOf(context);
-                    return ImageResizer(
-                      onImageResize: (width, height) {
-                        final res = getEmbedNode(
-                          controller,
-                          controller.selection.start,
-                        );
+                  builder: (modalContext) {
+                    final screenSize = MediaQuery.sizeOf(modalContext);
+                    return QuillProvider.value(
+                      value: context.requireQuillProvider,
+                      child: FlutterQuillLocalizationsWidget(
+                        child: ImageResizer(
+                          onImageResize: (width, height) {
+                            final res = getEmbedNode(
+                              controller,
+                              controller.selection.start,
+                            );
 
-                        final attr = replaceStyleStringWithSize(
-                          getImageStyleString(controller),
-                          width: width,
-                          height: height,
-                          isMobile: isMobile(supportWeb: false),
-                        );
-                        controller
-                          ..skipRequestKeyboard = true
-                          ..formatText(
-                            res.offset,
-                            1,
-                            StyleAttribute(attr),
-                          );
-                      },
-                      imageWidth: imageSize.width,
-                      imageHeight: imageSize.height,
-                      maxWidth: screenSize.width,
-                      maxHeight: screenSize.height,
+                            final attr = replaceStyleStringWithSize(
+                              getImageStyleString(controller),
+                              width: width,
+                              height: height,
+                              isMobile: isMobile(supportWeb: false),
+                            );
+                            controller
+                              ..skipRequestKeyboard = true
+                              ..formatText(
+                                res.offset,
+                                1,
+                                StyleAttribute(attr),
+                              );
+                          },
+                          imageWidth: imageSize.width,
+                          imageHeight: imageSize.height,
+                          maxWidth: screenSize.width,
+                          maxHeight: screenSize.height,
+                        ),
+                      ),
                     );
                   },
                 );

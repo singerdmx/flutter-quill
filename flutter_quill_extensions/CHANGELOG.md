@@ -2,8 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.12
+* The `FlutterQuillLocalizations.delegate` is no longer a requirement.
+
 ## 0.6.11
-* Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1)
+* **Breaking Change** Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1), please upgrade to the latest stable version of flutter in order to use this update
 
 ## 0.6.10
 * Update deprecated members from `flutter_quill`

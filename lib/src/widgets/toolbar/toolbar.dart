@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../extensions/quill_provider.dart';
 import '../../l10n/extensions/localizations.dart';
-import '../../models/config/toolbar/base_configurations.dart';
+import '../../models/config/toolbar/base_toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';
 import 'base_toolbar.dart';

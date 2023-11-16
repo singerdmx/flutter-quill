@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart'
     show BuildContext, InheritedWidget, Widget;
 
 import '../../models/config/quill_configurations.dart';
-import '../../models/config/toolbar/base_configurations.dart';
+import '../../models/config/toolbar/base_toolbar_configurations.dart';
 
 class QuillProvider extends InheritedWidget {
   const QuillProvider({

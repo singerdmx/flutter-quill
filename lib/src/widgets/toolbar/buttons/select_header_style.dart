@@ -87,7 +87,11 @@ class QuillToolbarSelectHeaderStyleButtonsState
   }
 
   Axis get axis {
-    return options.axis ?? context.requireQuillToolbarConfigurations.axis;
+    return options.axis ??
+        context.quillToolbarConfigurations?.axis ??
+        context.quillBaseToolbarConfigurations?.axis ??
+        (throw ArgumentError(
+            'There is no default value for the Axis of the toolbar'));
   }
 
   void _sharedOnPressed(Attribute attribute) {

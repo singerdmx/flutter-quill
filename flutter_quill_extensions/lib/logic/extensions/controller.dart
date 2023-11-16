@@ -1,5 +1,6 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
+// ignore: unused_import
 import '../../presentation/embeds/editor/webview.dart';
 import '../utils/quill_image_utils.dart';
 
@@ -13,24 +14,24 @@ extension QuillControllerExt on QuillController {
 
   /// Insert webview embed block, it requires [initialUrl] to load
   /// the initial page
-  void insertWebViewBlock({
-    required String initialUrl,
-  }) {
-    final block = BlockEmbed.custom(
-      QuillEditorWebViewBlockEmbed(
-        initialUrl,
-      ),
-    );
+  // void insertWebViewBlock({
+  //   required String initialUrl,
+  // }) {
+  //   final block = BlockEmbed.custom(
+  //     QuillEditorWebViewBlockEmbed(
+  //       initialUrl,
+  //     ),
+  //   );
 
-    this
-      ..skipRequestKeyboard = true
-      ..replaceText(
-        index,
-        length,
-        block,
-        null,
-      );
-  }
+  //   this
+  //     ..skipRequestKeyboard = true
+  //     ..replaceText(
+  //       index,
+  //       length,
+  //       block,
+  //       null,
+  //     );
+  // }
 
   /// Insert image embed block, it requires the [imageSource]
   ///
