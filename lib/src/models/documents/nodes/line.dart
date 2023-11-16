@@ -317,6 +317,14 @@ base class Line extends Container<Leaf?> {
   void _insertSafe(int index, Object data, Style? style) {
     assert(index == 0 || (index > 0 && index < length));
 
+    var inlineStyles = style;
+    if (style != null) {
+      final nonInlineStyles =
+          style.attributes.values.where((v) => !v.isInline).toSet();
+      final styleToApply = style.removeAll(nonInlineStyles);
+      inlineStyles = styleToApply;
+    }
+
     if (data is String) {
       assert(!data.contains('\n'));
       if (data.isEmpty) {
@@ -327,10 +335,10 @@ base class Line extends Container<Leaf?> {
     if (isEmpty) {
       final child = Leaf(data);
       add(child);
-      child.format(style);
+      child.format(inlineStyles);
     } else {
       final result = queryChild(index, true);
-      result.node!.insert(result.offset, data, style);
+      result.node!.insert(result.offset, data, inlineStyles);
     }
   }
 
