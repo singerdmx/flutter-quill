@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 0.6.12
 * The `FlutterQuillLocalizations.delegate` is no longer a requirement.
+* Requiring `flutter_quill` version `8.6.0` as minimum
 
 ## 0.6.11
 * Support for the latest version of `flutter_quill`
