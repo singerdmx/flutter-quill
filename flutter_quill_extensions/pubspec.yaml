@@ -1,6 +1,6 @@
 name: flutter_quill_extensions
 description: Embed extensions for flutter_quill including image, video, formula and etc.
-version: 0.6.10
+version: 0.7.0
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions
 
@@ -38,7 +38,7 @@ dependencies:
 
   # Plugins
   video_player: ^2.8.1
-  youtube_player_flutter: ^9.0.0-beta.0
+  youtube_player_flutter: ^8.1.2
   gal: ^2.1.3
   image_picker: ^1.0.4
   url_launcher: ^6.2.1
