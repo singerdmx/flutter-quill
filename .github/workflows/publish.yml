@@ -33,9 +33,9 @@ jobs:
       # This is needed in order for the authentication to success
       # dart pub token add https://pub.dev --env-var PUB_TOKEN
       # Requests to "https://pub.dev" will now be authenticated using the secret token stored in the environment variable "PUB_TOKEN".
-      # - uses: dart-lang/setup-dart@v1
-      - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
-        run: dart pub token add https://pub.dev --env-var PUB_TOKEN
+      - uses: dart-lang/setup-dart@v1
+      # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
+      #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
 
       - name: Publish
         run: flutter pub publish --force
