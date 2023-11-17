@@ -165,7 +165,7 @@ Define `width`, `height`, `margin`, `alignment` as follows:
 ### Drag and drop feature
 Currently, the drag and drop feature is not officially supported, but you can achieve this very easily in the following steps:
 
-1. Drag and drop require native code, you can use any flutter plugin you like, if you want a suggestion we recommend [desktop_drop](https://pub.dev/packages/desktop_drop), it was origanlly developed for desktop but it has support for web as well mobile platforms
+1. Drag and drop require native code, you can use any flutter plugin you like, if you want a suggestion we recommend [desktop_drop](https://pub.dev/packages/desktop_drop), it was origanlly developed for desktop but it has support for web as well Android (that is not the case for iOS)
 2. Add the dependency in your `pubspec.yaml` using the following command:
 
     ```yaml
