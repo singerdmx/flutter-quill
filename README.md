@@ -100,9 +100,8 @@ Compatible versions:
 
 | flutter_quill           | flutter_quill_extensions | flutter_quill_test      |
 |-------------------------|--------------------------|-------------------------|
+| 8.6.x                   | 0.7.x                    | 0.0.5                   |
 | 8.5.x                   | 0.6.x                    | 0.0.5                   |
-| 8.5.1                   | 0.6.7                    | 0.0.5                   |
-| 8.5.0                   | 0.6.7                    | 0.0.5                   |
 
 These versions are tested and well-supported, you shouldn't get a build failure
 
