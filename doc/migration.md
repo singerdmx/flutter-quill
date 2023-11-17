@@ -401,7 +401,7 @@ We have added shared configurations property for shared things
 )
 ```
 
-7. Custom Images for other platforms (excluding the web)
+7. Image size for all platforms
 
 We have added new properties `width`, `height`, `margin`, `alignment` for all platforms other than mobile and web for the images for example
 
