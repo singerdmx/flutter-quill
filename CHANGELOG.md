@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 8.6.1
+* Temporary revert style bug fix
+
 ## 8.6.0
 * **Breaking Change** Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1), please upgrade to the latest stable version of flutter to use this update
 * **Breaking Change**: Remove Deprecated Fields
