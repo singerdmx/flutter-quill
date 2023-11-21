@@ -6,12 +6,13 @@ import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
 import '../../../extensions/quill_provider.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/buttons/link_style2.dart';
+import '../../../l10n/widgets/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../controller.dart';
 import '../../link.dart';
+import '../../utils/provider.dart';
 import '../base_toolbar.dart';
 
 /// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more
@@ -172,18 +173,23 @@ class _QuillToolbarLinkStyleButton2State
     final textLink = await showDialog<QuillTextLink>(
       context: context,
       barrierColor: dialogBarrierColor,
-      builder: (_) => LinkStyleDialog(
-        dialogTheme: options.dialogTheme,
-        text: initialTextLink.text,
-        link: initialTextLink.link,
-        constraints: options.constraints,
-        addLinkLabel: options.addLinkLabel,
-        editLinkLabel: options.editLinkLabel,
-        linkColor: options.linkColor,
-        childrenSpacing: options.childrenSpacing,
-        autovalidateMode: options.autovalidateMode,
-        validationMessage: options.validationMessage,
-        buttonSize: options.buttonSize,
+      builder: (_) => QuillProvider.value(
+        value: context.requireQuillProvider,
+        child: FlutterQuillLocalizationsWidget(
+          child: LinkStyleDialog(
+            dialogTheme: options.dialogTheme,
+            text: initialTextLink.text,
+            link: initialTextLink.link,
+            constraints: options.constraints,
+            addLinkLabel: options.addLinkLabel,
+            editLinkLabel: options.editLinkLabel,
+            linkColor: options.linkColor,
+            childrenSpacing: options.childrenSpacing,
+            autovalidateMode: options.autovalidateMode,
+            validationMessage: options.validationMessage,
+            buttonSize: options.buttonSize,
+          ),
+        ),
       ),
     );
 

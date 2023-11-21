@@ -393,12 +393,19 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                   space: configurations.sectionDividerSpace,
                 ),
               if (configurations.showLink) ...[
-                QuillToolbarLinkStyleButton(
-                  controller: toolbarConfigurations
-                          .buttonOptions.linkStyle.controller ??
-                      globalController,
-                  options: toolbarConfigurations.buttonOptions.linkStyle,
-                ),
+                toolbarConfigurations.linkStyleType.isOriginal
+                    ? QuillToolbarLinkStyleButton(
+                        controller: toolbarConfigurations
+                                .buttonOptions.linkStyle.controller ??
+                            globalController,
+                        options: toolbarConfigurations.buttonOptions.linkStyle,
+                      )
+                    : QuillToolbarLinkStyleButton2(
+                        controller: toolbarConfigurations
+                                .buttonOptions.linkStyle2.controller ??
+                            globalController,
+                        options: toolbarConfigurations.buttonOptions.linkStyle2,
+                      ),
                 spacerWidget,
               ],
               if (configurations.showSearchButton) ...[
