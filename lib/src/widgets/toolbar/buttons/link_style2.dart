@@ -6,7 +6,6 @@ import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
 import '../../../extensions/quill_provider.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/buttons/link_style2.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';

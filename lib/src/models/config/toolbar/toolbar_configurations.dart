@@ -15,6 +15,7 @@ import 'buttons/font_size.dart';
 import 'buttons/history.dart';
 import 'buttons/indent.dart';
 import 'buttons/link_style.dart';
+import 'buttons/link_style2.dart';
 import 'buttons/search.dart';
 import 'buttons/select_alignment.dart';
 import 'buttons/select_header_style.dart';
@@ -32,6 +33,7 @@ export './buttons/font_size.dart';
 export './buttons/history.dart';
 export './buttons/indent.dart';
 export './buttons/link_style.dart';
+export './buttons/link_style2.dart';
 export './buttons/search.dart';
 export './buttons/select_alignment.dart';
 export './buttons/select_header_style.dart';
@@ -49,6 +51,17 @@ const double kIconButtonFactor = 1.77;
 
 /// The horizontal margin between the contents of each toolbar section.
 const double kToolbarSectionSpacing = 4;
+
+enum LinkStyleType {
+  /// Defines the original [QuillToolbarLinkStyleButton].
+  original,
+
+  /// Defines the alternative [QuillToolbarLinkStyleButton2].
+  alternative;
+
+  bool get isOriginal => this == LinkStyleType.original;
+  bool get isAlternative => this == LinkStyleType.alternative;
+}
 
 /// The configurations for the toolbar widget of flutter quill
 @immutable
@@ -91,6 +104,7 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showSearchButton = true,
     this.showSubscript = true,
     this.showSuperscript = true,
+    this.linkStyleType = LinkStyleType.original,
     super.customButtons = const [],
 
     /// The decoration to use for the toolbar.
@@ -191,6 +205,9 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
   ///shown when embedding an image, for example
   final QuillDialogTheme? dialogTheme;
 
+  /// Defines which dialog is used for applying link attribute.
+  final LinkStyleType linkStyleType;
+
   @override
   List<Object?> get props => [
         buttonOptions,
@@ -239,6 +256,7 @@ class QuillToolbarButtonOptions extends Equatable {
     this.selectHeaderStyleButtons =
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
+    this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
     this.customButtons = const QuillToolbarCustomButtonOptions(),
   });
 
@@ -284,6 +302,7 @@ class QuillToolbarButtonOptions extends Equatable {
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
+  final QuillToolbarLinkStyleButton2Options linkStyle2;
 
   final QuillToolbarCustomButtonOptions customButtons;
 
