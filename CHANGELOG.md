@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 8.6.2
+* Restore use of alternative QuillToolbarLinkStyleButton2 widget 
+
 ## 8.6.1
 * Temporary revert style bug fix
 
