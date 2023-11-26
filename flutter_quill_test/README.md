@@ -33,7 +33,7 @@ To aid in testing applications using the editor an extension to the flutter `Wid
 Import the test utilities in your test file:
 
 ```dart
-import 'package:flutter_quill/flutter_quill_test.dart';
+import 'package:flutter_quill_test/flutter_quill_test.dart';
 ```
 
 and then enter text using `quillEnterText`:
