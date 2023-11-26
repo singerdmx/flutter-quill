@@ -63,12 +63,12 @@ dependencies:
 >    2. For macOS, you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
 >
 > The extension package also uses [image_picker](https://pub.dev/packages/image_picker) which also 
-> requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, and macOS, we must inform you that you can't pick photos using camera on desktop so make sure to handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
+> requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, and macOS, we must inform you that you can't pick photos using the camera on a desktop so make sure to handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
 > 
 
 ## Usage
 
-Before starting using this package you must follow the [setup](#installation)
+Before starting to use this package you must follow the [setup](#installation)
 
 Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
 values provided by this repository.
@@ -87,7 +87,7 @@ QuillToolbar(
 Expanded(
   child: QuillEditor.basic(
     configurations: QuillEditorConfigurations(
-      embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorsWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
+      embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
     ),
   ),
 )
@@ -115,7 +115,7 @@ QuillProvider(
         child: QuillEditor.basic(
           configurations: QuillEditorConfigurations(
             padding: const EdgeInsets.all(16),
-            embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorsWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
+            embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
           ),
         ),
       )
@@ -190,7 +190,7 @@ Currently, the drag-and-drop feature is not officially supported, but you can ac
                 );
               },
             embedBuilders: kIsWeb
-                ? FlutterQuillEmbeds.editorsWebBuilders()
+                ? FlutterQuillEmbeds.editorWebBuilders()
                 : FlutterQuillEmbeds.editorBuilders(),
           ),
     )
@@ -241,7 +241,7 @@ OnDragDoneCallback get _onDragDone {
 ## Features
 
 — Easy to use and customizable
-- Has the option to use custom image provider for the images
+- Has the option to use a custom image provider for the images
 - Useful utilities and widgets
 - Handle different errors
 ```
