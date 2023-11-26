@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 0.7.1
-* Update the minimum flutter version to `3.1.5`
+* Update the minimum flutter version to `3.1.6`
 
 ## 0.7.0
 * The `FlutterQuillLocalizations.delegate` is no longer a requirement.

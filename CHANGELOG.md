@@ -1,7 +1,7 @@
 # Changelog
 
 ## 8.6.3
-* Update the minimum flutter version to `3.1.5`
+* Update the minimum flutter version to `3.1.6`
 
 All notable changes to this project will be documented in this file.
 
