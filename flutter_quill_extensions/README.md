@@ -1,7 +1,7 @@
 # Flutter Quill Extensions
 
 An extensions for [flutter_quill](https://pub.dev/packages/flutter_quill)
-to support embed widgets like image, formula, video and more.
+to support embedding widgets like images, formulas, videos, and more.
 
  Check [Flutter Quill](https://github.com/singerdmx/flutter-quill) for details of use.
 
@@ -11,7 +11,7 @@ to support embed widgets like image, formula, video and more.
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Installation](#installation)
-  - [Platform Spesefic Configurations](#platform-spesefic-configurations)
+  - [Platform Specific Configurations](#platform-spesefic-configurations)
   - [Usage](#usage)
   - [Embed Blocks](#embed-blocks)
     - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
@@ -24,8 +24,8 @@ to support embed widgets like image, formula, video and more.
 
 ## About
 
-Flutter quill is a rich editor text. It'd allow you to customize a lot of things, 
-it has custom embed builders which allow you to render custom widgets in the editor <br>
+Flutter Quill is a rich editor text. It'd allow you to customize a lot of things, 
+it has custom embed builders that allow you to render custom widgets in the editor <br>
 this is an extension to extend its functionalities by adding more features like images, videos, and more
 
 ## Installation
@@ -48,22 +48,22 @@ dependencies:
     path: flutter_quill_extensions
 ```
 
-## Platform Spesefic Configurations
+## Platform Specific Configurations
 
 >
-> 1. We are using [`gal`](https://github.com/natsuk4ze/) plugin to save images.
+> 1. We are using the [`gal`](https://github.com/natsuk4ze/) plugin to save images.
 > For this to work, you need to add the appropriate permissions
 > to your `Info.plist` and `AndroidManifest.xml` files.
 > See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
 >
-> 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure follow the instructions
+> 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the instructions
 >
-> 3. For loading the image from the internet, we need internet permission
->    1. For Android, you need to add some permissions in `AndroidManifest.xml`, Please follow this [link](https://developer.android.com/training/basics/network-ops/connecting) for more info, the internet permission included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your android application to accept `http` in the release mode, follow this [link](https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted) for more info.
->    2. for macOS, you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
+> 3. For loading the image from the internet, we need the internet permission
+>    1. For Android, you need to add some permissions in `AndroidManifest.xml`, Please follow this [link](https://developer.android.com/training/basics/network-ops/connecting) for more info, the internet permission is included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your Android application to accept `http` in the release mode, follow this [link](https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted) for more info.
+>    2. For macOS, you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
 >
 > The extension package also uses [image_picker](https://pub.dev/packages/image_picker) which also 
-> requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, macOS, we must inform you that you can't pick photo using camera in desktop so make sure to handle that if you plan on add support for desktop, this may change in the future and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
+> requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, and macOS, we must inform you that you can't pick photos using camera on desktop so make sure to handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
 > 
 
 ## Usage
@@ -93,7 +93,7 @@ Expanded(
 )
 ```
 
-They both should be have a parent `QuillProvider` in the widget tree and setup properly <br>
+They both should have a parent `QuillProvider` in the widget tree and set properly <br>
 Example:
 
 ```dart
@@ -126,9 +126,9 @@ QuillProvider(
 
 ## Embed Blocks
 
-As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface to all the user to provide there own implementations for embed blocks. Implementations for image, video and formula embed blocks is proved in this package
+As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface for all the users to provide their own implementations for embed blocks. Implementations for image, video, and formula embed blocks are proved in this package
 
-The instructions for using the embed blocks is in the [Usage](#usage) section
+The instructions for using the embed blocks are in the [Usage](#usage) section
 
 ### Custom Size Image for Mobile
 
@@ -163,9 +163,9 @@ Define `width`, `height`, `margin`, `alignment` as follows:
 
 
 ### Drag and drop feature
-Currently, the drag and drop feature is not officially supported, but you can achieve this very easily in the following steps:
+Currently, the drag-and-drop feature is not officially supported, but you can achieve this very easily in the following steps:
 
-1. Drag and drop require native code, you can use any flutter plugin you like, if you want a suggestion we recommend [desktop_drop](https://pub.dev/packages/desktop_drop), it was origanlly developed for desktop but it has support for web as well Android (that is not the case for iOS)
+1. Drag and drop require native code, you can use any Flutter plugin you like, if you want a suggestion we recommend [desktop_drop](https://pub.dev/packages/desktop_drop), it was originally developed for desktop but it has support for the web as well as Android (that is not the case for iOS)
 2. Add the dependency in your `pubspec.yaml` using the following command:
 
     ```yaml
