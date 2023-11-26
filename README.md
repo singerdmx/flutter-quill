@@ -36,7 +36,7 @@ You can join our [Slack Group] for discussion.
 Pub: [FlutterQuill] <br>
 If you are viewing this page from pub.dev page, then you
 might have some issues with opening some links, please open
-it in GitHub repo instead.
+it's in the GitHub repo instead.
 
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
@@ -93,8 +93,6 @@ dependencies:
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. 
 > Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
-> If the latest version of [FlutterQuill Extensions] is pre-release, then please use it to work with the latest stable version of [FlutterQuill]
->
 
 Compatible versions:
 
@@ -140,7 +138,7 @@ QuillProvider(
 )
 ```
 
-And depending on your use case, you might want to dispose the `_controller` in dispose method
+Depending on your use case, you might want to dispose of the `_controller` in `dispose` method
 
 in most cases, it's better to.
 
@@ -159,13 +157,13 @@ It consists of a series of operations, each representing an insertion, deletion,
 or formatting change within the document.
 
 Don’t be confused by its name Delta—Deltas represents both documents and changes to documents.
-If you think of Deltas as the instructions from going from one document to another,
+If you think of Deltas as the instructions for going from one document to another,
 the way Deltas represent a document is by expressing the instructions starting from an empty document.
 
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
 
-FlutterQuill provides some JSON serialization support, so that you can save and open documents.
+FlutterQuill provides some JSON serialization support so that you can save and open documents.
 To save a document as JSON, do something like the following:
 
 ```dart
@@ -256,7 +254,7 @@ Please use [flutter_quill_test](https://pub.dev/packages/flutter_quill_test) for
 
 ## Contributors
 
-Special thanks for everyone that has contributed to this project...
+Special thanks to everyone who has contributed to this project...
 
 <a href="https://github.com/singerdmx/flutter-quill/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=singerdmx/flutter-quill" />
@@ -270,7 +268,7 @@ We welcome contributions!
 
 Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details. <br>
 
-We must mention that the [CONTRIBUTING.md](./CONTRIBUTING.md) have a development notes, so if you're planning on contributing to the repo, 
+We must mention that the [CONTRIBUTING.md](./CONTRIBUTING.md) has a development notes, so if you're planning on contributing to the repo, 
 please consider reading it.
 
 You can check the [Todo](./doc/todo.md) list if you want to
@@ -283,4 +281,3 @@ You can check the [Todo](./doc/todo.md) list if you want to
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/presentation/quill/quill_screen.dart
-[FluentUI]: https://pub.dev/packages/fluent_ui
