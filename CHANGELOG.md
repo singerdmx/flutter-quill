@@ -1,9 +1,9 @@
 # Changelog
 
-## 8.6.3
-* Update the minimum flutter version to `3.1.6`
-
 All notable changes to this project will be documented in this file.
+
+## 8.6.3
+* Update the minimum flutter version to `3.16.0`
 
 ## 8.6.2
 * Restore use of alternative QuillToolbarLinkStyleButton2 widget 
@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file.
 * Now when opening dialogs by `QuillToolbar` you will not get an exception when you don't use `FlutterQuillLocalizations.delegate` in your `WidgetsApp`, `MaterialApp`, or `CupertinoApp`. The fix is for the `QuillToolbarSearchButton`, `QuillToolbarLinkStyleButton`, and `QuillToolbarColorButton` buttons
 
 ## 8.5.4
-* The `mobileWidth`, `mobileHeight`, `mobileMargin` and `mobileAlignment` is now deprecated in `flutter_quill`, they are are now defined in `flutter_quill_extensions`
+* The `mobileWidth`, `mobileHeight`, `mobileMargin`, and `mobileAlignment` is now deprecated in `flutter_quill`, they are now defined in `flutter_quill_extensions`
 * Deprecate `replaceStyleStringWithSize` function which is in `string.dart`
 * Deprecate `alignment`, and `margin` as they don't conform to official Quill JS
 
