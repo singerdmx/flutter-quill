@@ -11,7 +11,7 @@ to support embedding widgets like images, formulas, videos, and more.
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Installation](#installation)
-  - [Platform Specific Configurations](#platform-spesefic-configurations)
+  - [Platform Specific Configurations](#platform-specific-configurations)
   - [Usage](#usage)
   - [Embed Blocks](#embed-blocks)
     - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
