@@ -1,6 +1,6 @@
 # Custom Toolbar
 
-If you want to use custom toolbar but still want the support of this libray
+If you want to use a custom toolbar but still want the support of this library
 You can use the `QuillBaseToolbar` which is the base for the `QuillToolbar`
 
 Example:
@@ -138,4 +138,4 @@ QuillProvider(
 )
 ```
 
-if you want more customized toolbar feel free to create your own and use the `controller` to interact with the editor. checkout the `QuillToolbar` and the buttons inside it to see an example of how that will works
+if you want a more customized toolbar feel free to create your own and use the `controller` to interact with the editor. checkout the `QuillToolbar` and the buttons inside it to see an example of how that will work
