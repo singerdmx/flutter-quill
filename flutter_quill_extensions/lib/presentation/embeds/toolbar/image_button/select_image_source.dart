@@ -14,6 +14,7 @@ class SelectImageSourceDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            // TODO: Needs to be translated
             ListTile(
               title: const Text('Gallery'),
               subtitle: const Text(
@@ -53,7 +54,7 @@ Future<InsertImageSource?> showSelectImageSourceDialog({
     showDragHandle: true,
     context: context,
     constraints: const BoxConstraints(maxWidth: 640),
-    builder: (context) => const SelectImageSourceDialog(),
+    builder: (_) => const SelectImageSourceDialog(),
   );
   return imageSource;
 }

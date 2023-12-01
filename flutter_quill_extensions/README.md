@@ -246,6 +246,8 @@ OnDragDoneCallback get _onDragDone {
 - Handle different errors
 ```
 
+Please notice that the saving image functionality is not supported on Linux yet.
+
 ## Contributing
 
 We welcome contributions!

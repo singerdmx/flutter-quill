@@ -14,6 +14,7 @@ class SelectVideoSourceDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            // TODO: Needs to be translated
             ListTile(
               title: const Text('Gallery'),
               subtitle: const Text(

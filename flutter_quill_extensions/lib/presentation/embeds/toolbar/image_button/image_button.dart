@@ -172,10 +172,15 @@ class QuillToolbarImageButton extends StatelessWidget {
   Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => TypeLinkDialog(
-        dialogTheme: options.dialogTheme,
-        linkRegExp: options.linkRegExp,
-        linkType: LinkType.image,
+      builder: (_) => QuillProvider.value(
+        value: context.requireQuillProvider,
+        child: FlutterQuillLocalizationsWidget(
+          child: TypeLinkDialog(
+            dialogTheme: options.dialogTheme,
+            linkRegExp: options.linkRegExp,
+            linkType: LinkType.image,
+          ),
+        ),
       ),
     );
     return value;

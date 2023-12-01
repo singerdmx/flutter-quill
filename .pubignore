@@ -9,6 +9,7 @@ pubspec_overrides.yaml.disabled
 example/.fvm/
 example/build/
 example/.dart_tool/
+example/assets/images/
 
 scripts/
 <!-- flutter_quill_extensions/

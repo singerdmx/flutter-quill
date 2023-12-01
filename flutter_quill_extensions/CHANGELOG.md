@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.7.2
+* Fix a bug when opening the link dialog for both video and image buttons
+* Update `README.md`
+
 ## 0.7.1
 * Update the minimum flutter version to `3.16.0`
 

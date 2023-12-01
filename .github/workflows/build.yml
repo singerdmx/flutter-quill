@@ -1,0 +1,33 @@
+name: Build the example
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Check flutter version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Flutter build Web
+        run: flutter build web --release --verbose --dart-define=CI=true
+        working-directory: ./example
+
+      - name: Install flutter Linux prerequisites
+        run: sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
+
+      - name: Flutter build Linux
+        run: flutter build linux --release --verbose --dart-define=CI=true
+        working-directory: ./example

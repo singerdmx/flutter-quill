@@ -21,7 +21,13 @@ echo "Running 'dart format .'"
 dart format .
 
 # Check dart code formatting
-echo "Running `dart format --set-exit-if-changed .`"
+echo "Running 'dart format --set-exit-if-changed .'"
 dart format --set-exit-if-changed .
+
+# Check flutter web example
+echo "Running flutter build web --release --dart-define=CI=true."
+(cd example && flutter build web --release --dart-define=CI=true)
+
+echo ""
 
 echo "Script completed."
