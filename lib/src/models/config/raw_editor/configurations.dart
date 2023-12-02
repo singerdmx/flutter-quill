@@ -64,7 +64,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
     this.onTapOutside,
-    this.keyboardAppearance = Brightness.light,
+    this.keyboardAppearance,
     this.enableInteractiveSelection = true,
     this.scrollPhysics,
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
@@ -214,8 +214,21 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   /// This setting is only honored on iOS devices.
   ///
-  /// Defaults to [Brightness.light].
-  final Brightness keyboardAppearance;
+  /// Defaults to Material/Cupertino App Brightness.
+  /// If you are using Custom widget app then we will use the system
+  /// theme mode as a default.
+  ///
+  /// It will run using the following logic:
+  ///
+  /// ```dart
+  ///
+  /// widget.configurations.keyboardAppearance ??
+  /// CupertinoTheme.maybeBrightnessOf(context) ??
+  /// MediaQuery.maybePlatformBrightnessOf(context) ??
+  /// Theme.of(context).brightness
+  ///
+  /// ```
+  final Brightness? keyboardAppearance;
 
   /// If true, then long-pressing this TextField will select text and show the
   /// cut/copy/paste menu, and tapping will move the text caret.

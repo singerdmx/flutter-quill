@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 8.6.4
+* The default value of `keyboardAppearance` for the iOS will be the one from the App/System theme mode instead of always using the `Brightness.light`
+* Fix typos in `README.md`
+
 ## 8.6.3
 * Update the minimum flutter version to `3.16.0`
 
