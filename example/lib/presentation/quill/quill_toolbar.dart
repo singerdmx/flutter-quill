@@ -102,6 +102,11 @@ class MyQuillToolbar extends StatelessWidget {
             configurations: QuillBaseToolbarConfigurations(
               toolbarSize: 15 * 2,
               multiRowsDisplay: false,
+              buttonOptions: const QuillToolbarButtonOptions(
+                base: QuillToolbarBaseButtonOptions(
+                  globalIconSize: 30,
+                ),
+              ),
               childrenBuilder: (context) {
                 final controller = context.requireQuillController;
                 return [
@@ -122,9 +127,19 @@ class MyQuillToolbar extends StatelessWidget {
                   QuillToolbarToggleStyleButton(
                     attribute: Attribute.bold,
                     controller: controller,
-                    options: const QuillToolbarToggleStyleButtonOptions(
-                      iconData: Icons.format_bold,
-                      iconSize: 20,
+                    options: QuillToolbarToggleStyleButtonOptions(
+                      childBuilder: (options, extraOptions) {
+                        if (extraOptions.isToggled) {
+                          return IconButton.filled(
+                            onPressed: extraOptions.onPressed,
+                            icon: Icon(options.iconData),
+                          );
+                        }
+                        return IconButton(
+                          onPressed: extraOptions.onPressed,
+                          icon: Icon(options.iconData),
+                        );
+                      },
                     ),
                   ),
                   QuillToolbarToggleStyleButton(
@@ -132,7 +147,6 @@ class MyQuillToolbar extends StatelessWidget {
                     controller: controller,
                     options: const QuillToolbarToggleStyleButtonOptions(
                       iconData: Icons.format_italic,
-                      iconSize: 20,
                     ),
                   ),
                   QuillToolbarToggleStyleButton(
@@ -147,7 +161,6 @@ class MyQuillToolbar extends StatelessWidget {
                     controller: controller,
                     options: const QuillToolbarClearFormatButtonOptions(
                       iconData: Icons.format_clear,
-                      iconSize: 20,
                     ),
                   ),
                   VerticalDivider(
@@ -166,7 +179,7 @@ class MyQuillToolbar extends StatelessWidget {
                     controller: controller,
                     options: const QuillToolbarToggleStyleButtonOptions(
                       iconData: Icons.format_list_numbered,
-                      iconSize: 20,
+                      iconSize: 39,
                     ),
                   ),
                   QuillToolbarToggleStyleButton(
@@ -174,7 +187,6 @@ class MyQuillToolbar extends StatelessWidget {
                     controller: controller,
                     options: const QuillToolbarToggleStyleButtonOptions(
                       iconData: Icons.format_list_bulleted,
-                      iconSize: 20,
                     ),
                   ),
                   QuillToolbarToggleStyleButton(
@@ -182,7 +194,7 @@ class MyQuillToolbar extends StatelessWidget {
                     controller: controller,
                     options: const QuillToolbarToggleStyleButtonOptions(
                       iconData: Icons.format_quote,
-                      iconSize: 20,
+                      iconSize: 15,
                     ),
                   ),
                   VerticalDivider(

@@ -146,7 +146,16 @@ class QuillToolbarToggleStyleButtonState
         context.requireQuillToolbarBaseButtonOptions.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        options,
+        QuillToolbarToggleStyleButtonOptions(
+          afterButtonPressed: options.afterButtonPressed,
+          controller: controller,
+          fillColor: options.fillColor,
+          iconButtonFactor: options.iconButtonFactor,
+          iconData: iconData,
+          iconSize: iconSize,
+          tooltip: tooltip,
+          iconTheme: iconTheme,
+        ),
         QuillToolbarToggleStyleButtonExtraOptions(
           context: context,
           controller: controller,

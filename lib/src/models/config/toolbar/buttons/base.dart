@@ -90,26 +90,6 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
         childBuilder,
         controller,
       ];
-
-  // QuillToolbarBaseButtonOptions<T, I> copyWith({
-  //   IconData? iconData,
-  //   double? globalIconSize,
-  //   VoidCallback? afterButtonPressed,
-  //   String? tooltip,
-  //   QuillIconTheme? iconTheme,
-  //   Widget Function(T options, I extraOptions)? childBuilder,
-  //   QuillController? controller,
-  // }) {
-  //   return QuillToolbarBaseButtonOptions<T, I>(
-  //     iconData: iconData ?? this.iconData,
-  //     globalIconSize: globalIconSize ?? this.globalIconSize,
-  //     afterButtonPressed: afterButtonPressed ?? this.afterButtonPressed,
-  //     tooltip: tooltip ?? this.tooltip,
-  //     iconTheme: iconTheme ?? this.iconTheme,
-  //     childBuilder: childBuilder ?? this.childBuilder,
-  //     controller: controller ?? this.controller,
-  //   );
-  // }
 }
 
 typedef QuillToolbarButtonOptionsChildBuilder<T, I> = Widget Function(
