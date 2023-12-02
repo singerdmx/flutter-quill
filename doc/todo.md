@@ -28,6 +28,7 @@ This is a todo list page that added recently and will be updated soon.
  - Provide more support to all the platforms
  - Extract the shared properties between `QuillRawEditorConfigurations` and `QuillEditorConfigurations`
  - The todo in the this [commit](https://github.com/singerdmx/flutter-quill/commit/79597ea6425357795c0663588ac079665241f23a) needs to be checked
+ - use `maybeOf` and of instead `ofNotNull` in the providers to follow flutter offical convenstion, completly rework the providers and update the build context extensions
 
 ### Bugs
 

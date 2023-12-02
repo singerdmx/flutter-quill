@@ -138,7 +138,7 @@ extension QuillProviderExt on BuildContext {
     return quillToolbarConfigurations?.buttonOptions.base ??
         quillBaseToolbarConfigurations?.buttonOptions.base ??
         (throw ArgumentError(
-          "The buttonOptions is required and it's required",
+          "The buttonOptions is required and it's null because the toolbar configurations is.",
         ));
   }
 
