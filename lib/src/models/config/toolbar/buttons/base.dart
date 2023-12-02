@@ -8,6 +8,15 @@ import '../../../themes/quill_icon_theme.dart' show QuillIconTheme;
 import '../../quill_configurations.dart'
     show kDefaultIconSize, kIconButtonFactor;
 
+class QuillToolbarBaseButtonExtraOptionsIsToggled extends Equatable {
+  const QuillToolbarBaseButtonExtraOptionsIsToggled(this.isToggled);
+
+  final bool isToggled;
+
+  @override
+  List<Object?> get props => [isToggled];
+}
+
 @immutable
 class QuillToolbarBaseButtonExtraOptions extends Equatable {
   const QuillToolbarBaseButtonExtraOptions({

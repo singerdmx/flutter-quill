@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart' show Color;
 import 'base.dart';
 
 class QuillToolbarToggleStyleButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+    extends QuillToolbarBaseButtonExtraOptions
+    implements QuillToolbarBaseButtonExtraOptionsIsToggled {
   const QuillToolbarToggleStyleButtonExtraOptions({
     required super.controller,
     required super.context,
@@ -13,6 +14,7 @@ class QuillToolbarToggleStyleButtonExtraOptions
     required this.isToggled,
   });
 
+  @override
   final bool isToggled;
 }
 
