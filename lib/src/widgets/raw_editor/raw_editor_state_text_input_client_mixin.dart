@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart' show MediaQuery;
 
 import '../../models/documents/document.dart';
 import '../../utils/delta.dart';
@@ -64,7 +63,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           enableSuggestions: !widget.configurations.isReadOnly,
           keyboardAppearance: widget.configurations.keyboardAppearance ??
               CupertinoTheme.maybeBrightnessOf(context) ??
-              MediaQuery.maybePlatformBrightnessOf(context) ??
               Theme.of(context).brightness,
           textCapitalization: widget.configurations.textCapitalization,
           allowedMimeTypes:

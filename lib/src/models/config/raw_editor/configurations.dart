@@ -224,7 +224,6 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   /// widget.configurations.keyboardAppearance ??
   /// CupertinoTheme.maybeBrightnessOf(context) ??
-  /// MediaQuery.maybePlatformBrightnessOf(context) ??
   /// Theme.of(context).brightness
   ///
   /// ```
