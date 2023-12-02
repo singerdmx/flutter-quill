@@ -126,7 +126,7 @@ QuillProvider(
 
 ## Embed Blocks
 
-As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface for all the users to provide their own implementations for embed blocks. Implementations for image, video, and formula embed blocks are proved in this package
+As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface for all the users to provide their implementations for embed blocks. Implementations for image, video, and formula embed blocks are proved in this package
 
 The instructions for using the embed blocks are in the [Usage](#usage) section
 

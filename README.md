@@ -33,7 +33,7 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
-Pub: [FlutterQuill] <br>
+Pub page: [FlutterQuill] <br>
 If you are viewing this page from pub.dev page, then you
 might have some issues with opening some links, please open
 it's in the GitHub repo instead.
@@ -158,7 +158,7 @@ or formatting change within the document.
 
 Don’t be confused by its name Delta—Deltas represents both documents and changes to documents.
 If you think of Deltas as the instructions for going from one document to another,
-the way Deltas represent a document is by expressing the instructions starting from an empty document.
+the way Deltas represents a document is by expressing the instructions starting from an empty document.
 
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
@@ -192,7 +192,7 @@ _controller.document = Document.fromJson(json);
 
 ## Configurations
 
-The `QuillToolbar` and `QuillEditor` widgets lets you customize a lot of things
+The `QuillToolbar` and `QuillEditor` widgets let you customize a lot of things
 [Sample Page] provides sample code for advanced usage and configuration.
 
 ### Links
@@ -210,7 +210,7 @@ More details on [this commit](https://github.com/singerdmx/flutter-quill/commit/
 
 ## Embed Blocks
 
-As of version 6.0, embed blocks are not provided by default as part of this package. Instead, this package provides an interface to all the user to provide there own implementations for embed blocks. Implementations for image, video and formula embed blocks is proved in a separate package [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions).
+As of version 6.0, embed blocks are not provided by default as part of this package. Instead, this package provides an interface for all the users to provide their own implementations for embed blocks. Implementations for image, video, and formula embed blocks are proved in a separate package [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions).
 
 Provide a list of embed
 
@@ -268,7 +268,7 @@ We welcome contributions!
 
 Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details. <br>
 
-We must mention that the [CONTRIBUTING.md](./CONTRIBUTING.md) has a development notes, so if you're planning on contributing to the repo, 
+We must mention that the [CONTRIBUTING.md](./CONTRIBUTING.md) has development notes, so if you're planning on contributing to the repo, 
 please consider reading it.
 
 You can check the [Todo](./doc/todo.md) list if you want to
