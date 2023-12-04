@@ -54,6 +54,17 @@ dependency_overrides:
     path: ../flutter_quill_test
   quill_html_converter:
     path: ../packages/quill_html_converter
+  
+  gal_linux:
+    git:
+      url: https://github.com/freshtechtips/gal-linux.git
+      ref: main
+
+  gal:
+    git:
+      url: https://github.com/natsuk4ze/gal.git
+      ref: plugin_platform_interface
+
 
 dev_dependencies:
   flutter_test:
