@@ -8,7 +8,7 @@ final quillImagesSample = [
     'attributes': {
       'width': '100',
       'height': '100',
-      'style': 'width:500px; height:350px;'
+      'style': 'width:500px; height:350px; deletable: false;'
     }
   },
   {'insert': '\n'},
