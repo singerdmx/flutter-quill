@@ -24,6 +24,11 @@ dependencies:
   cross_file: ^0.3.3+6
   cached_network_image: ^3.3.0
 
+  gal_linux:
+    git:
+      url: https://github.com/freshtechtips/gal-linux.git
+      ref: main
+
   # Bloc libraries
   bloc: ^8.1.2
   flutter_bloc: ^8.1.3

@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalWidgetsLocalizations;
 import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:flutter_quill/translations.dart' show FlutterQuillLocalizations;
+import 'package:gal_linux/gal_linux.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart'
     show HydratedBloc, HydratedStorage;
 import 'package:path_provider/path_provider.dart'
@@ -29,6 +30,9 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+  if (defaultTargetPlatform == TargetPlatform.linux && !kIsWeb) {
+    GalPluginLinux.registerWith();
+  }
   runApp(const MyApp());
 }
 
