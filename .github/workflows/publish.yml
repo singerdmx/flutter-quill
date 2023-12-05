@@ -13,9 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Test
-        run: echo $HOME
-
       - name: Publish flutter_quill
         uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
 
