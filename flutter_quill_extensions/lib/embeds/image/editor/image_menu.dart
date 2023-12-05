@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' show isMobile;
 import 'package:flutter_quill/flutter_quill.dart'
     show
         ImageUrl,
