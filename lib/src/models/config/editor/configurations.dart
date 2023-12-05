@@ -6,11 +6,11 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../../widgets/editor/editor.dart';
+import '../../../widgets/editor/editor_builder.dart';
 import '../../../widgets/others/controller.dart';
 import '../../../widgets/others/default_styles.dart';
 import '../../../widgets/others/delegate.dart';
-import '../../../widgets/editor/editor.dart';
-import '../../../widgets/editor/editor_builder.dart';
 import '../../../widgets/others/embeds.dart';
 import '../../../widgets/others/link.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';

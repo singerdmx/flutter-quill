@@ -24,10 +24,7 @@ dependencies:
   cross_file: ^0.3.3+6
   cached_network_image: ^3.3.0
 
-  gal_linux:
-    git:
-      url: https://github.com/freshtechtips/gal-linux.git
-      ref: main
+  gal_linux: ^0.0.1-dev
 
   # Bloc libraries
   bloc: ^8.1.2
@@ -59,11 +56,6 @@ dependency_overrides:
     path: ../flutter_quill_test
   quill_html_converter:
     path: ../packages/quill_html_converter
-
-  gal:
-    git:
-      url: https://github.com/natsuk4ze/gal.git
-      ref: plugin_platform_interface
 
 
 dev_dependencies:

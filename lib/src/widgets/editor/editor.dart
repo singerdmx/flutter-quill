@@ -21,8 +21,8 @@ import '../others/cursor.dart';
 import '../others/delegate.dart';
 import '../others/embeds.dart';
 import '../others/float_cursor.dart';
-import '../raw_editor/raw_editor.dart';
 import '../others/text_selection.dart';
+import '../raw_editor/raw_editor.dart';
 import '../utils/provider.dart';
 import 'editor_builder.dart';
 
