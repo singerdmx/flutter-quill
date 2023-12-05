@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-3
+* Breaking Changes:
+  * Rename `QuillToolbar` to `QuillSimpleToolbar`
+  * Rename `QuillBaseToolbar` to `QuillToolbar`
+  * Replace `pasteboard` with `rich_cliboard`
+* Fix a bug in the example when inserting an image from url
+* Flutter Quill Extensions:
+ * Add support for copying the image to the system cliboard
+
 ## 9.0.0-dev-2
 * An attemp to fix CI automated publishing
 
