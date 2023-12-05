@@ -9,13 +9,14 @@ import 'package:yaml_edit/yaml_edit.dart';
 // ignore: unused_import
 import '../version.dart';
 
+final packages = [
+  './',
+  './flutter_quill_extensions',
+  './flutter_quill_test',
+  './packages/quill_html_converter'
+];
+
 Future<void> main(List<String> args) async {
-  final packages = [
-    './',
-    './flutter_quill_extensions',
-    './flutter_quill_test',
-    './packages/quill_html_converter'
-  ];
   for (final element in packages) {
     await updatePubspecYamlFile('$element/pubspec.yaml');
     if (element != packages.first) {
