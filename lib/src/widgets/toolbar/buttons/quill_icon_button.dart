@@ -6,7 +6,6 @@ class QuillToolbarIconButton extends StatelessWidget {
     required this.icon,
     required this.isFilled,
     this.afterPressed,
-    this.size = 40,
     this.tooltip,
     super.key,
   });
@@ -15,7 +14,6 @@ class QuillToolbarIconButton extends StatelessWidget {
   final VoidCallback? afterPressed;
   final Widget icon;
 
-  final double size;
   final String? tooltip;
   final bool isFilled;
 
@@ -25,7 +23,10 @@ class QuillToolbarIconButton extends StatelessWidget {
       return IconButton.filled(onPressed: onPressed, icon: icon);
     }
     return IconButton(
-      onPressed: onPressed,
+      onPressed: () {
+        onPressed?.call();
+        afterPressed?.call();
+      },
       icon: icon,
     );
   }

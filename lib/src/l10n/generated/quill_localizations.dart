@@ -634,7 +634,7 @@ abstract class FlutterQuillLocalizations {
   /// No description provided for @takeAPhotoUsingYourCamera.
   ///
   /// In en, this message translates to:
-  /// **'Take a photo using your phone camera'**
+  /// **'Take a photo using your camera'**
   String get takeAPhotoUsingYourCamera;
 
   /// No description provided for @pasteAPhotoUsingALink.
@@ -652,7 +652,7 @@ abstract class FlutterQuillLocalizations {
   /// No description provided for @recordAVideoUsingYourCamera.
   ///
   /// In en, this message translates to:
-  /// **'Record a video using your phone camera'**
+  /// **'Record a video using your camera'**
   String get recordAVideoUsingYourCamera;
 
   /// No description provided for @pasteAVideoUsingALink.

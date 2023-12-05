@@ -111,8 +111,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
 
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      size: iconSize * iconButtonFactor,
-      icon: Icon(iconData, size: iconSize, color: iconColor),
+      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
       isFilled: false,
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,

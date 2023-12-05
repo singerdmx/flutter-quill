@@ -95,10 +95,9 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     theme = Theme.of(context);
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      size: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
-        size: iconSize,
+        size: iconSize * iconButtonFactor,
         color: _canPressed
             ? iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
             : iconTheme?.disabledIconColor ?? theme.disabledColor,

@@ -113,8 +113,8 @@ class FlutterQuillEmbeds {
   ///  videos iframe on the web.
   ///
   static List<EmbedBuilder> editorWebBuilders(
-      {QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
-          const QuillEditorWebImageEmbedConfigurations(),
+      {QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
+          const QuillEditorImageEmbedConfigurations(),
       QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
           const QuillEditorWebVideoEmbedConfigurations()}) {
     if (!kIsWeb) {
@@ -125,7 +125,7 @@ class FlutterQuillEmbeds {
     }
     return [
       if (imageEmbedConfigurations != null)
-        QuillEditorWebImageEmbedBuilder(
+        QuillEditorImageEmbedBuilder(
           configurations: imageEmbedConfigurations,
         ),
       if (videoEmbedConfigurations != null)

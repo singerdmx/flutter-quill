@@ -3,7 +3,7 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
+    show FlutterQuillEmbeds;
 
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
@@ -100,40 +100,28 @@ class _QuillScreenState extends State<QuillScreen> {
           const HomeScreenButton(),
         ],
       ),
-      body: QuillProvider(
-        configurations: const QuillConfigurations(
-          sharedConfigurations: QuillSharedConfigurations(
-            extraConfigurations: {
-              QuillSharedExtensionsConfigurations.key:
-                  QuillSharedExtensionsConfigurations(
-                assetsPrefix: 'assets',
-              ),
+      body: Column(
+        children: [
+          if (!_isReadOnly)
+            MyQuillToolbar(
+              controller: _controller,
+              focusNode: _editorFocusNode,
+            ),
+          Builder(
+            builder: (context) {
+              return Expanded(
+                child: MyQuillEditor(
+                  configurations: QuillEditorConfigurations(
+                    controller: _controller,
+                    readOnly: _isReadOnly,
+                  ),
+                  scrollController: _editorScrollController,
+                  focusNode: _editorFocusNode,
+                ),
+              );
             },
           ),
-        ),
-        child: Column(
-          children: [
-            if (!_isReadOnly)
-              MyQuillToolbar(
-                controller: _controller,
-                focusNode: _editorFocusNode,
-              ),
-            Builder(
-              builder: (context) {
-                return Expanded(
-                  child: MyQuillEditor(
-                    configurations: QuillEditorConfigurations(
-                      controller: _controller,
-                      readOnly: _isReadOnly,
-                    ),
-                    scrollController: _editorScrollController,
-                    focusNode: _editorFocusNode,
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(_isReadOnly ? Icons.lock : Icons.edit),

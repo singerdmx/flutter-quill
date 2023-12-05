@@ -48,7 +48,7 @@ const double kDefaultIconSize = 18;
 const double defaultToolbarSize = kDefaultIconSize * 2;
 
 /// The factor of how much larger the button is in relation to the icon.
-const double kIconButtonFactor = 1.77;
+const double kIconButtonFactor = 1.6;
 
 /// The horizontal margin between the contents of each toolbar section.
 const double kToolbarSectionSpacing = 4;

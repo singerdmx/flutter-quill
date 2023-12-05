@@ -242,8 +242,7 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Take a photo using your phone camera';
+  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
 
   @override
   String get pasteAPhotoUsingALink => 'Paste a photo using a link';
@@ -252,8 +251,7 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Record a video using your phone camera';
+  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';

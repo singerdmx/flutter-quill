@@ -16,6 +16,7 @@ to support embedding widgets like images, formulas, videos, and more.
   - [Embed Blocks](#embed-blocks)
     - [Element properties](#element-properties)
     - [Custom Element properties](#custom-element-properties)
+    - [Image Assets](#image-assets)
     - [Drag and drop feature](#drag-and-drop-feature)
   - [Features](#features)
   - [Contributing](#contributing)
@@ -164,6 +165,28 @@ Define flutterAlignment` as follows:
 ```
 
 This works for all platforms except Web
+
+### Image Assets
+
+If you want to use image assets in the Quill Editor, you need to make sure your assets folder is `assets` otherwise:
+
+```dart
+   QuillProvider(
+     configurations: const QuillConfigurations(
+          sharedConfigurations: QuillSharedConfigurations(
+            extraConfigurations: {
+              QuillSharedExtensionsConfigurations.key:
+                  QuillSharedExtensionsConfigurations(
+                assetsPrefix: 'your-assets-folder-name', // Defaults to assets
+              ),
+            },
+          ),
+        ),
+        child: ...,
+   )
+```
+
+This info is needed by the package to check if it asset image to use the `AssetImage` provider
 
 ### Drag and drop feature
 Currently, the drag-and-drop feature is not officially supported, but you can achieve this very easily in the following steps:

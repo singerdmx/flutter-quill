@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
@@ -130,7 +131,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 await configurations.onImageRemovedCallback.call(imageSource);
               },
             ),
-          ...[
+          if (!kIsWeb)
             ListTile(
               leading: const Icon(Icons.save),
               title: Text(context.loc.save),
@@ -172,23 +173,22 @@ class ImageOptionsMenu extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.zoom_in),
-              title: Text(context.loc.zoom),
-              onTap: () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ImageTapWrapper(
-                    assetsPrefix: QuillSharedExtensionsConfigurations.get(
-                            context: context)
-                        .assetsPrefix,
-                    imageUrl: imageSource,
-                    configurations: configurations,
-                  ),
+          ListTile(
+            leading: const Icon(Icons.zoom_in),
+            title: Text(context.loc.zoom),
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ImageTapWrapper(
+                  assetsPrefix:
+                      QuillSharedExtensionsConfigurations.get(context: context)
+                          .assetsPrefix,
+                  imageUrl: imageSource,
+                  configurations: configurations,
                 ),
               ),
             ),
-          ],
+          ),
         ],
       ),
     );

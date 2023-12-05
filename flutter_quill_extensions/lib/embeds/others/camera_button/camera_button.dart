@@ -98,9 +98,8 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize, color: iconColor),
+      icon: Icon(iconData, size: iconSize * 1.77, color: iconColor),
       tooltip: tooltip,
-      size: iconSize * 1.77,
       isFilled: false,
       // isDesktop(supportWeb: false) ? null :
       onPressed: () => _sharedOnPressed(context),
