@@ -16,10 +16,12 @@ import 'embeds/timestamp_embed.dart';
 
 class MyQuillToolbar extends StatelessWidget {
   const MyQuillToolbar({
+    required this.controller,
     required this.focusNode,
     super.key,
   });
 
+  final QuillController controller;
   final FocusNode focusNode;
 
   Future<void> onImageInsertWithCropping(
@@ -224,6 +226,7 @@ class MyQuillToolbar extends StatelessWidget {
         }
         return QuillToolbar(
           configurations: QuillToolbarConfigurations(
+            controller: controller,
             showAlignmentButtons: true,
             buttonOptions: QuillToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(

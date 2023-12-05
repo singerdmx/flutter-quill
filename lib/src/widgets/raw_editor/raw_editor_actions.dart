@@ -76,7 +76,7 @@ class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
 
   @override
   bool get isActionEnabled =>
-      !state.widget.configurations.isReadOnly &&
+      !state.widget.configurations.readOnly &&
       state.textEditingValue.selection.isValid;
 }
 

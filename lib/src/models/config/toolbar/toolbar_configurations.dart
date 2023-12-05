@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
     show Axis, Widget, WrapAlignment, WrapCrossAlignment;
 
+import '../../../widgets/controller.dart';
 import '../../../widgets/embeds.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
@@ -67,6 +68,7 @@ enum LinkStyleType {
 @immutable
 class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
   const QuillToolbarConfigurations({
+    required this.controller,
     super.toolbarSectionSpacing = kToolbarSectionSpacing,
     super.toolbarIconAlignment = WrapAlignment.center,
     super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
@@ -142,6 +144,8 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
     }
     return buttonOptions.base.globalIconSize * 2;
   }
+
+  final QuillController controller;
 
   /// A widget that will placed between each button in the toolbar
   /// can be used as a spacer

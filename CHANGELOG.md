@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev
+* **Major Breaking change**: The `QuillProvider` is now optional, the `controller` parameter has been moved to the `QuillEditor` and `QuillToolbar` once again.
+
 ## 8.6.4
 * The default value of `keyboardAppearance` for the iOS will be the one from the App/System theme mode instead of always using the `Brightness.light`
 * Fix typos in `README.md`

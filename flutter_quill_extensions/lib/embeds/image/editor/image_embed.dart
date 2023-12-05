@@ -56,17 +56,14 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       onTap: configurations.onImageClicked ??
           () => showDialog(
                 context: context,
-                builder: (_) => QuillProvider.value(
-                  value: context.requireQuillProvider,
-                  child: FlutterQuillLocalizationsWidget(
-                    child: ImageOptionsMenu(
-                      controller: controller,
-                      configurations: configurations,
-                      imageSource: imageSource,
-                      imageSize: imageSize,
-                      isReadOnly: readOnly,
-                      imageSaverService: imageSaverService,
-                    ),
+                builder: (_) => FlutterQuillLocalizationsWidget(
+                  child: ImageOptionsMenu(
+                    controller: controller,
+                    configurations: configurations,
+                    imageSource: imageSource,
+                    imageSize: imageSize,
+                    isReadOnly: readOnly,
+                    imageSaverService: imageSaverService,
                   ),
                 ),
               ),

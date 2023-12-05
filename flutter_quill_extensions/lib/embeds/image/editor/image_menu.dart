@@ -1,13 +1,7 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
-    show
-        ImageUrl,
-        QuillController,
-        QuillProvider,
-        QuillProviderExt,
-        StyleAttribute,
-        getEmbedNode;
+    show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
 
 import '../../../models/config/editor/image/image.dart';
@@ -55,34 +49,31 @@ class ImageOptionsMenu extends StatelessWidget {
                   context: context,
                   builder: (modalContext) {
                     final screenSize = MediaQuery.sizeOf(modalContext);
-                    return QuillProvider.value(
-                      value: context.requireQuillProvider,
-                      child: FlutterQuillLocalizationsWidget(
-                        child: ImageResizer(
-                          onImageResize: (width, height) {
-                            final res = getEmbedNode(
-                              controller,
-                              controller.selection.start,
-                            );
+                    return FlutterQuillLocalizationsWidget(
+                      child: ImageResizer(
+                        onImageResize: (width, height) {
+                          final res = getEmbedNode(
+                            controller,
+                            controller.selection.start,
+                          );
 
-                            final attr = replaceStyleStringWithSize(
-                              getImageStyleString(controller),
-                              width: width,
-                              height: height,
+                          final attr = replaceStyleStringWithSize(
+                            getImageStyleString(controller),
+                            width: width,
+                            height: height,
+                          );
+                          controller
+                            ..skipRequestKeyboard = true
+                            ..formatText(
+                              res.offset,
+                              1,
+                              StyleAttribute(attr),
                             );
-                            controller
-                              ..skipRequestKeyboard = true
-                              ..formatText(
-                                res.offset,
-                                1,
-                                StyleAttribute(attr),
-                              );
-                          },
-                          imageWidth: imageSize.width,
-                          imageHeight: imageSize.height,
-                          maxWidth: screenSize.width,
-                          maxHeight: screenSize.height,
-                        ),
+                        },
+                        imageWidth: imageSize.width,
+                        imageHeight: imageSize.height,
+                        maxWidth: screenSize.width,
+                        maxHeight: screenSize.height,
                       ),
                     );
                   },

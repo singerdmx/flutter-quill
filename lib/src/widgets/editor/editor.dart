@@ -155,8 +155,7 @@ class QuillEditor extends StatefulWidget {
 
   factory QuillEditor.basic({
     /// The configurations for the quill editor widget of flutter quill
-    QuillEditorConfigurations configurations =
-        const QuillEditorConfigurations(),
+    required QuillEditorConfigurations configurations,
     FocusNode? focusNode,
     ScrollController? scrollController,
   }) {
@@ -257,13 +256,13 @@ class QuillEditorState extends State<QuillEditor>
           child: QuillRawEditor(
             key: _editorKey,
             configurations: QuillRawEditorConfigurations(
-              controller: context.requireQuillController,
+              controller: configurations.controller,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,
-              isReadOnly: configurations.readOnly,
+              readOnly: configurations.readOnly,
               placeholder: configurations.placeholder,
               onLaunchUrl: configurations.onLaunchUrl,
               contextMenuBuilder: showSelectionToolbar
@@ -442,7 +441,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool _isPositionSelected(TapUpDetails details) {
-    if (_state.context.requireQuillController.document.isEmpty()) {
+    if (_state.configurations.controller.document.isEmpty()) {
       return false;
     }
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);

@@ -6,12 +6,6 @@ import '../../flutter_quill.dart';
 
 /// Public shared extension
 extension QuillProviderExt on BuildContext {
-  /// return [QuillProvider] as not null
-  /// throw exception if it's not in the widget tree
-  QuillProvider get requireQuillProvider {
-    return QuillProvider.ofNotNull(this);
-  }
-
   /// return nullable [QuillProvider]
   /// don't throw exception if it's not in the widget tree
   /// instead it will be null
@@ -25,7 +19,8 @@ extension QuillProviderExt on BuildContext {
   /// don't throw exception if [QuillProvider] is not in the widget tree
   /// instead it will be null
   QuillController? get quilController {
-    return quillProvider?.configurations.controller;
+    return quillToolbarConfigurations?.controller ??
+        quillEditorConfigurations?.controller;
   }
 
   /// return [QuillController] as not null
@@ -33,15 +28,10 @@ extension QuillProviderExt on BuildContext {
   /// the provider widget first and then we will return the controller
   /// throw exception if [QuillProvider] is not in the widget tree
   QuillController get requireQuillController {
-    return requireQuillProvider.configurations.controller;
-  }
-
-  /// return [QuillConfigurations] as not null
-  /// since the quill configurations is in the [QuillProvider] then we need to
-  /// get the provider widget first and then we will return quill configurations
-  /// throw exception if [QuillProvider] is not in the widget tree
-  QuillConfigurations get requireQuillConfigurations {
-    return requireQuillProvider.configurations;
+    return quillToolbarConfigurations?.controller ??
+        quillEditorConfigurations?.controller ??
+        (throw ArgumentError(
+            'The quill provider is required, you must only call requireQuillController inside the QuillToolbar and QuillEditor'));
   }
 
   /// return nullable [QuillConfigurations]
@@ -50,14 +40,6 @@ extension QuillProviderExt on BuildContext {
   /// don't throw exception if [QuillProvider] is not in the widget tree
   QuillConfigurations? get quillConfigurations {
     return quillProvider?.configurations;
-  }
-
-  /// return [QuillSharedConfigurations] as not null. Since the quill
-  /// shared configurations is in the [QuillProvider] then we need to get the
-  /// provider widget first and then we will return shared configurations
-  /// throw exception if [QuillProvider] is not in the widget tree
-  QuillSharedConfigurations get requireQuillSharedConfigurations {
-    return requireQuillConfigurations.sharedConfigurations;
   }
 
   /// return nullable [QuillSharedConfigurations] . Since the quill

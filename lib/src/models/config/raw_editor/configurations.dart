@@ -49,7 +49,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.showCursor = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
-    this.isReadOnly = false,
+    this.readOnly = false,
     this.placeholder,
     this.onLaunchUrl,
     this.contextMenuBuilder = defaultContextMenuBuilder,
@@ -97,7 +97,7 @@ class QuillRawEditorConfigurations extends Equatable {
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
   /// Defaults to false. Must not be null.
-  final bool isReadOnly;
+  final bool readOnly;
 
   final String? placeholder;
 
@@ -296,7 +296,7 @@ class QuillRawEditorConfigurations extends Equatable {
 
   @override
   List<Object?> get props => [
-        isReadOnly,
+        readOnly,
         placeholder,
       ];
 }

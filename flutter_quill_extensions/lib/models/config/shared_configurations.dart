@@ -48,7 +48,7 @@ class QuillSharedExtensionsConfigurations {
     required BuildContext context,
   }) {
     final quillSharedExtensionsConfigurations =
-        context.requireQuillSharedConfigurations.extraConfigurations[key];
+        context.quillSharedConfigurations?.extraConfigurations[key];
     if (quillSharedExtensionsConfigurations != null) {
       if (quillSharedExtensionsConfigurations
           is! QuillSharedExtensionsConfigurations) {

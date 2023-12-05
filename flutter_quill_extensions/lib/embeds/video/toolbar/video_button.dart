@@ -165,13 +165,10 @@ class QuillToolbarVideoButton extends StatelessWidget {
   Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => QuillProvider.value(
-        value: context.requireQuillProvider,
-        child: FlutterQuillLocalizationsWidget(
-          child: TypeLinkDialog(
-            dialogTheme: options.dialogTheme,
-            linkType: LinkType.video,
-          ),
+      builder: (_) => FlutterQuillLocalizationsWidget(
+        child: TypeLinkDialog(
+          dialogTheme: options.dialogTheme,
+          linkType: LinkType.video,
         ),
       ),
     );

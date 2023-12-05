@@ -6,6 +6,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../../widgets/controller.dart';
 import '../../../widgets/default_styles.dart';
 import '../../../widgets/delegate.dart';
 import '../../../widgets/editor/editor.dart';
@@ -24,6 +25,7 @@ class QuillEditorConfigurations extends Equatable {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
+    required this.controller,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.autoFocus = false,
@@ -73,6 +75,8 @@ class QuillEditorConfigurations extends Equatable {
     this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
   });
+
+  final QuillController controller;
 
   /// The text placeholder in the quill editor
   final String? placeholder;
@@ -331,6 +335,7 @@ class QuillEditorConfigurations extends Equatable {
   // regenerate this function using extension in vs code or plugin in intellij
 
   QuillEditorConfigurations copyWith({
+    QuillController? controller,
     String? placeholder,
     bool? readOnly,
     bool? scrollable,
@@ -376,6 +381,7 @@ class QuillEditorConfigurations extends Equatable {
     TextInputAction? textInputAction,
   }) {
     return QuillEditorConfigurations(
+      controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       readOnly: readOnly ?? this.readOnly,
       scrollable: scrollable ?? this.scrollable,

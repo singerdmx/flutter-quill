@@ -552,7 +552,7 @@ class QuillRawEditorState extends EditorState
         controller.document.queryChild(controller.selection.baseOffset);
 
     KeyEventResult insertTabCharacter() {
-      if (widget.configurations.isReadOnly) {
+      if (widget.configurations.readOnly) {
         return KeyEventResult.ignored;
       }
       controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
@@ -662,7 +662,7 @@ class QuillRawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     final requestKeyboardFocusOnCheckListChanged =
         widget.configurations.requestKeyboardFocusOnCheckListChanged;
-    if (!widget.configurations.isReadOnly) {
+    if (!widget.configurations.readOnly) {
       _disableScrollControllerAnimateOnce = true;
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
@@ -737,7 +737,7 @@ class QuillRawEditorState extends EditorState
           indentLevelCounts: indentLevelCounts,
           clearIndents: clearIndents,
           onCheckboxTap: _handleCheckboxTap,
-          readOnly: widget.configurations.isReadOnly,
+          readOnly: widget.configurations.readOnly,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );
@@ -767,7 +767,7 @@ class QuillRawEditorState extends EditorState
       customStyleBuilder: widget.configurations.customStyleBuilder,
       customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
       styles: _styles!,
-      readOnly: widget.configurations.isReadOnly,
+      readOnly: widget.configurations.readOnly,
       controller: controller,
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.configurations.onLaunchUrl,
@@ -968,7 +968,7 @@ class QuillRawEditorState extends EditorState
     if (!shouldCreateInputConnection) {
       closeConnectionIfNeeded();
     } else {
-      if (oldWidget.configurations.isReadOnly && _hasFocus) {
+      if (oldWidget.configurations.readOnly && _hasFocus) {
         openConnectionIfNeeded();
       }
     }
@@ -1298,7 +1298,7 @@ class QuillRawEditorState extends EditorState
     _pastePlainText = controller.getPlainText();
     _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
 
-    if (widget.configurations.isReadOnly) {
+    if (widget.configurations.readOnly) {
       return;
     }
     final selection = textEditingValue.selection;
@@ -1318,7 +1318,7 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (widget.configurations.isReadOnly) {
+    if (widget.configurations.readOnly) {
       return;
     }
 

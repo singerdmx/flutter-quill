@@ -107,7 +107,8 @@ class _QuillToolbarLinkStyleButton2State
 
   Color get dialogBarrierColor {
     return options.dialogBarrierColor ??
-        context.requireQuillSharedConfigurations.dialogBarrierColor;
+        context.quillSharedConfigurations?.dialogBarrierColor ??
+        Colors.black54;
   }
 
   @override
@@ -173,22 +174,19 @@ class _QuillToolbarLinkStyleButton2State
     final textLink = await showDialog<QuillTextLink>(
       context: context,
       barrierColor: dialogBarrierColor,
-      builder: (_) => QuillProvider.value(
-        value: context.requireQuillProvider,
-        child: FlutterQuillLocalizationsWidget(
-          child: LinkStyleDialog(
-            dialogTheme: options.dialogTheme,
-            text: initialTextLink.text,
-            link: initialTextLink.link,
-            constraints: options.constraints,
-            addLinkLabel: options.addLinkLabel,
-            editLinkLabel: options.editLinkLabel,
-            linkColor: options.linkColor,
-            childrenSpacing: options.childrenSpacing,
-            autovalidateMode: options.autovalidateMode,
-            validationMessage: options.validationMessage,
-            buttonSize: options.buttonSize,
-          ),
+      builder: (_) => FlutterQuillLocalizationsWidget(
+        child: LinkStyleDialog(
+          dialogTheme: options.dialogTheme,
+          text: initialTextLink.text,
+          link: initialTextLink.link,
+          constraints: options.constraints,
+          addLinkLabel: options.addLinkLabel,
+          editLinkLabel: options.editLinkLabel,
+          linkColor: options.linkColor,
+          childrenSpacing: options.childrenSpacing,
+          autovalidateMode: options.autovalidateMode,
+          validationMessage: options.validationMessage,
+          buttonSize: options.buttonSize,
         ),
       ),
     );

@@ -8,7 +8,6 @@ import '../../../../models/documents/style.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../../utils/color.dart';
 import '../../../controller.dart';
-import '../../../utils/provider.dart';
 import '../../base_toolbar.dart';
 import 'dialog.dart';
 
@@ -226,16 +225,14 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     showDialog<String>(
       context: context,
       barrierColor: options.dialogBarrierColor ??
-          context.requireQuillSharedConfigurations.dialogBarrierColor,
-      builder: (_) => QuillProvider.value(
-        value: context.requireQuillProvider,
-        child: FlutterQuillLocalizationsWidget(
-          child: ColorPickerDialog(
-            isBackground: widget.isBackground,
-            onRequestChangeColor: _changeColor,
-            isToggledColor: _isToggledColor,
-            selectionStyle: _selectionStyle,
-          ),
+          context.quillSharedConfigurations?.dialogBarrierColor ??
+          Colors.black54,
+      builder: (_) => FlutterQuillLocalizationsWidget(
+        child: ColorPickerDialog(
+          isBackground: widget.isBackground,
+          onRequestChangeColor: _changeColor,
+          isToggledColor: _isToggledColor,
+          selectionStyle: _selectionStyle,
         ),
       ),
     );

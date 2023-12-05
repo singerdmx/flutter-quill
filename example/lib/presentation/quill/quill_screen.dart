@@ -101,11 +101,9 @@ class _QuillScreenState extends State<QuillScreen> {
         ],
       ),
       body: QuillProvider(
-        configurations: QuillConfigurations(
-          controller: _controller,
+        configurations: const QuillConfigurations(
           sharedConfigurations: QuillSharedConfigurations(
-            animationConfigurations: QuillAnimationConfigurations.disableAll(),
-            extraConfigurations: const {
+            extraConfigurations: {
               QuillSharedExtensionsConfigurations.key:
                   QuillSharedExtensionsConfigurations(
                 assetsPrefix: 'assets',
@@ -117,6 +115,7 @@ class _QuillScreenState extends State<QuillScreen> {
           children: [
             if (!_isReadOnly)
               MyQuillToolbar(
+                controller: _controller,
                 focusNode: _editorFocusNode,
               ),
             Builder(
@@ -124,6 +123,7 @@ class _QuillScreenState extends State<QuillScreen> {
                 return Expanded(
                   child: MyQuillEditor(
                     configurations: QuillEditorConfigurations(
+                      controller: _controller,
                       readOnly: _isReadOnly,
                     ),
                     scrollController: _editorScrollController,

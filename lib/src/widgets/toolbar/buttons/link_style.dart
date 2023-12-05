@@ -100,7 +100,8 @@ class QuillToolbarLinkStyleButtonState
 
   Color get dialogBarrierColor {
     return options.dialogBarrierColor ??
-        context.requireQuillSharedConfigurations.dialogBarrierColor;
+        context.quillSharedConfigurations?.dialogBarrierColor ??
+        Colors.black54;
   }
 
   RegExp? get linkRegExp {
@@ -181,16 +182,13 @@ class QuillToolbarLinkStyleButtonState
 
         final len = controller.selection.end - index;
         text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
-        return QuillProvider.value(
-          value: context.requireQuillProvider,
-          child: FlutterQuillLocalizationsWidget(
-            child: _LinkDialog(
-              dialogTheme: options.dialogTheme,
-              link: link,
-              text: text,
-              linkRegExp: linkRegExp,
-              action: options.linkDialogAction,
-            ),
+        return FlutterQuillLocalizationsWidget(
+          child: _LinkDialog(
+            dialogTheme: options.dialogTheme,
+            link: link,
+            text: text,
+            linkRegExp: linkRegExp,
+            action: options.linkDialogAction,
           ),
         );
       },

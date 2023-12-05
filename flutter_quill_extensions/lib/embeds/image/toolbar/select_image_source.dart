@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart' show isDesktop;
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
 import '../editor/image_embed_types.dart';
@@ -55,11 +54,8 @@ Future<InsertImageSource?> showSelectImageSourceDialog({
     showDragHandle: true,
     context: context,
     constraints: const BoxConstraints(maxWidth: 640),
-    builder: (_) => QuillProvider.value(
-      value: context.requireQuillProvider,
-      child: const FlutterQuillLocalizationsWidget(
-        child: SelectImageSourceDialog(),
-      ),
+    builder: (_) => const FlutterQuillLocalizationsWidget(
+      child: SelectImageSourceDialog(),
     ),
   );
   return imageSource;

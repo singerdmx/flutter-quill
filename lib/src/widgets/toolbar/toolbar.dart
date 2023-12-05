@@ -9,8 +9,8 @@ import 'base_toolbar.dart';
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
+    required this.configurations,
     super.key,
-    this.configurations = const QuillToolbarConfigurations(),
   });
 
   /// The configurations for the toolbar widget of flutter quill
@@ -71,7 +71,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 toolbarConfigurations.buttonOptions.base.globalIconSize;
 
             final axis = toolbarConfigurations.axis;
-            final globalController = context.requireQuillController;
+            final globalController = configurations.controller;
 
             final spacerWidget =
                 configurations.spacerWidget ?? const SizedBox.shrink();
@@ -270,7 +270,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                   options: toolbarConfigurations.buttonOptions.direction,
                   controller: toolbarConfigurations
                           .buttonOptions.direction.controller ??
-                      context.requireQuillController,
+                      globalController,
                 ),
                 spacerWidget,
               ],

@@ -15,9 +15,6 @@ class QuillSharedConfigurations extends Equatable {
     this.dialogBarrierColor = Colors.black54,
     this.dialogTheme,
     this.locale,
-    this.animationConfigurations = const QuillAnimationConfigurations(
-      checkBoxPointItem: false,
-    ),
     this.extraConfigurations = const {},
   });
 
@@ -37,9 +34,6 @@ class QuillSharedConfigurations extends Equatable {
   /// `MaterialApp` or `WidgetsApp`
   final Locale? locale;
 
-  /// To configure which animations you want to be enabled
-  final QuillAnimationConfigurations animationConfigurations;
-
   /// Store custom configurations in here and use it in the widget tree
   final Map<String, Object?> extraConfigurations;
 
@@ -48,6 +42,5 @@ class QuillSharedConfigurations extends Equatable {
         dialogBarrierColor,
         dialogTheme,
         locale,
-        animationConfigurations,
       ];
 }
