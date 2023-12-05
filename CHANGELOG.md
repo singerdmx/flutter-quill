@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-2
+* An attemp to fix CI automated publishing
+
 ## 9.0.0-dev-1
 * An attemp to fix CI automated publishing
 
