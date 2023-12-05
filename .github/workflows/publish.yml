@@ -27,15 +27,30 @@ jobs:
       # - run: dart tool/generate-code.dart
 
       - name: Re-generate the translations
-        run: ./scripts/regenerate-translations.sh
-      
+        run: ./scripts/regenerate_translations.sh
+
+      - name: Re-generate the versions
+        run: dart ./scripts/regenerate_versions.dart
       
       # This is needed in order for the authentication to success
       # dart pub token add https://pub.dev --env-var PUB_TOKEN
       # Requests to "https://pub.dev" will now be authenticated using the secret token stored in the environment variable "PUB_TOKEN".
       - uses: dart-lang/setup-dart@v1
+      ## dart-lang/setup-dart/.github/workflows/publish.yml@v1
       # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
       #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
 
-      - name: Publish
+      - name: Publish flutter_quill
         run: flutter pub publish --force
+
+      - name: Publish flutter_quill_extensions
+        run: flutter pub publish --force
+        working-directory: ./flutter_quill_extensions
+
+      - name: Publish flutter_quill_test
+        run: flutter pub publish --force
+        working-directory: ./flutter_quill_test
+
+      - name: Publish quill_html_converter
+        run: flutter pub publish --force
+        working-directory: ./packages/quill_html_converter

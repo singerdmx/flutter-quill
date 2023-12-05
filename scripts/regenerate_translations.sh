@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Important: make sure to run the script in the root folder of the repo:
-# ./scripts/regenerate-translations.sh
+# ./scripts/regenerate_translations.sh
 # otherwise the script could delete the wrong folder in rare cases
 
 echo ""
