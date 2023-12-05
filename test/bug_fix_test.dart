@@ -16,15 +16,17 @@ void main() {
 
         await tester.pumpWidget(
           MaterialApp(
-            home: QuillSimpleToolbar(
-              configurations: QuillSimpleToolbarConfigurations(
-                controller: controller,
-                showRedo: false,
-                customButtons: const [
-                  QuillToolbarCustomButtonOptions(
-                    tooltip: tooltip,
-                  )
-                ],
+            home: Scaffold(
+              body: QuillSimpleToolbar(
+                configurations: QuillSimpleToolbarConfigurations(
+                  controller: controller,
+                  showRedo: false,
+                  customButtons: const [
+                    QuillToolbarCustomButtonOptions(
+                      tooltip: tooltip,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
