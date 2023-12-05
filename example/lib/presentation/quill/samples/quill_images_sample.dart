@@ -5,11 +5,7 @@ final quillImagesSample = [
   {'insert': '\n'},
   {
     'insert': {'image': Assets.images.screenshot1.path},
-    'attributes': {
-      'width': '200',
-      'height': '500',
-      'style': 'width:500px; height:350px; margin: 20px;'
-    }
+    'attributes': {'style': 'width: 40vh; height:350px; margin: 20px;'}
   },
   {'insert': '\n'},
   {'insert': 'Here is a network image: \n'},

@@ -58,8 +58,13 @@ Future<Uint8List?> convertImageToUint8List(String image) async {
     }
     return null;
   }
-  final file = XFile(image);
-  return await file.readAsBytes();
+  // TODO: Add support for all image providers like AssetImage
+  try {
+    final file = XFile(image);
+    return await file.readAsBytes();
+  } catch (e) {
+    return null;
+  }
 }
 
 Future<SaveImageResult> saveImage({

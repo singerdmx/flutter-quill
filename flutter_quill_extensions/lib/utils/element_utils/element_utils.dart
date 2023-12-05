@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart' show Alignment;
+import 'package:flutter/widgets.dart' show Alignment, BuildContext;
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' show Attribute, Node;
 
@@ -18,15 +18,20 @@ enum ExtraElementProperties {
   Alignment alignment,
 ) getElementAttributes(
   Node node,
+  BuildContext context,
 ) {
   var elementSize = const ElementSize(null, null);
   var elementAlignment = Alignment.center;
   double? elementMargin;
 
   final heightValue = parseCssPropertyAsDouble(
-      node.style.attributes[Attribute.height.key]?.value.toString() ?? '');
+    node.style.attributes[Attribute.height.key]?.value.toString() ?? '',
+    context: context,
+  );
   final widthValue = parseCssPropertyAsDouble(
-      node.style.attributes[Attribute.width.key]?.value.toString() ?? '');
+    node.style.attributes[Attribute.width.key]?.value.toString() ?? '',
+    context: context,
+  );
 
   if (heightValue != null) {
     elementSize = elementSize.copyWith(
@@ -47,10 +52,14 @@ enum ExtraElementProperties {
     final cssAttrs = parseCssString(cssStyle.value.toString());
 
     // todo: This could be improved much better
-    final cssHeightValue =
-        parseCssPropertyAsDouble((cssAttrs[Attribute.height.key]) ?? '');
-    final cssWidthValue =
-        parseCssPropertyAsDouble((cssAttrs[Attribute.width.key]) ?? '');
+    final cssHeightValue = parseCssPropertyAsDouble(
+      (cssAttrs[Attribute.height.key]) ?? '',
+      context: context,
+    );
+    final cssWidthValue = parseCssPropertyAsDouble(
+      (cssAttrs[Attribute.width.key]) ?? '',
+      context: context,
+    );
 
     // cssHeightValue != null && elementSize.height == null
     if (cssHeightValue != null) {

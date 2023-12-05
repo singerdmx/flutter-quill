@@ -32,7 +32,10 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     // assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
     final imageSource = standardizeImageUrl(node.value.data);
-    final ((imageSize), margin, alignment) = getElementAttributes(node);
+    final ((imageSize), margin, alignment) = getElementAttributes(
+      node,
+      context,
+    );
 
     final width = imageSize.width;
     final height = imageSize.height;

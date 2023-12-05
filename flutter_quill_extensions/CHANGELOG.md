@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * Fix a bug in the example when inserting an image from url
 * Flutter Quill Extensions:
  * Add support for copying the image to the system cliboard
+ * Add support for other CSS units like (vh, vw) and more
 
 ## 9.0.0-dev-2
 * An attemp to fix CI automated publishing
