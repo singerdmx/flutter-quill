@@ -10,8 +10,9 @@ import '../../../utils/widgets.dart';
 import '../../others/controller.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarSelectAlignmentButton extends StatefulWidget {
-  const QuillToolbarSelectAlignmentButton({
+@Deprecated('This button has been deprecated, use')
+class QuillToolbarSelectAlignmentOldButtons extends StatefulWidget {
+  const QuillToolbarSelectAlignmentOldButtons({
     required this.controller,
     required this.options,
     this.showLeftAlignment,
@@ -32,12 +33,12 @@ class QuillToolbarSelectAlignmentButton extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  QuillToolbarSelectAlignmentButtonState createState() =>
-      QuillToolbarSelectAlignmentButtonState();
+  QuillToolbarSelectAlignmentOldButtonsState createState() =>
+      QuillToolbarSelectAlignmentOldButtonsState();
 }
 
-class QuillToolbarSelectAlignmentButtonState
-    extends State<QuillToolbarSelectAlignmentButton> {
+class QuillToolbarSelectAlignmentOldButtonsState
+    extends State<QuillToolbarSelectAlignmentOldButtons> {
   Attribute? _value;
 
   Style get _selectionStyle => controller.getSelectionStyle();
@@ -137,7 +138,8 @@ class QuillToolbarSelectAlignmentButtonState
   }
 
   @override
-  void didUpdateWidget(covariant QuillToolbarSelectAlignmentButton oldWidget) {
+  void didUpdateWidget(
+      covariant QuillToolbarSelectAlignmentOldButtons oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);

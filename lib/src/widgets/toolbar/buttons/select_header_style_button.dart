@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../translations.dart';
-import '../../../models/config/toolbar/buttons/select_header_style.dart';
+import '../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../others/controller.dart';
 
-enum QuillToolbarSelectHeaderStyleButtonOptions {
+enum _HeaderStyleOptions {
   normal,
   headingOne,
   headingTwo,
@@ -29,7 +29,7 @@ class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
 
 class _QuillToolbarSelectHeaderStyleButtonState
     extends State<QuillToolbarSelectHeaderStyleButton> {
-  var _selectedItem = QuillToolbarSelectHeaderStyleButtonOptions.normal;
+  var _selectedItem = _HeaderStyleOptions.normal;
   @override
   void initState() {
     super.initState();
@@ -55,47 +55,43 @@ class _QuillToolbarSelectHeaderStyleButtonState
         Attribute.header;
   }
 
-  String _label(QuillToolbarSelectHeaderStyleButtonOptions value) {
+  String _label(_HeaderStyleOptions value) {
     final label = switch (value) {
-      QuillToolbarSelectHeaderStyleButtonOptions.normal => context.loc.normal,
-      QuillToolbarSelectHeaderStyleButtonOptions.headingOne =>
-        context.loc.heading1,
-      QuillToolbarSelectHeaderStyleButtonOptions.headingTwo =>
-        context.loc.heading2,
-      QuillToolbarSelectHeaderStyleButtonOptions.headingThree =>
-        context.loc.heading3,
+      _HeaderStyleOptions.normal => context.loc.normal,
+      _HeaderStyleOptions.headingOne => context.loc.heading1,
+      _HeaderStyleOptions.headingTwo => context.loc.heading2,
+      _HeaderStyleOptions.headingThree => context.loc.heading3,
     };
     return label;
   }
 
-  Attribute<dynamic>? getAttributeByOptionsItem(
-      QuillToolbarSelectHeaderStyleButtonOptions option) {
+  Attribute<dynamic>? getAttributeByOptionsItem(_HeaderStyleOptions option) {
     return switch (option) {
-      QuillToolbarSelectHeaderStyleButtonOptions.normal => Attribute.header,
-      QuillToolbarSelectHeaderStyleButtonOptions.headingOne => Attribute.h1,
-      QuillToolbarSelectHeaderStyleButtonOptions.headingTwo => Attribute.h2,
-      QuillToolbarSelectHeaderStyleButtonOptions.headingThree => Attribute.h3,
+      _HeaderStyleOptions.normal => Attribute.header,
+      _HeaderStyleOptions.headingOne => Attribute.h1,
+      _HeaderStyleOptions.headingTwo => Attribute.h2,
+      _HeaderStyleOptions.headingThree => Attribute.h3,
     };
   }
 
-  QuillToolbarSelectHeaderStyleButtonOptions _getOptionsItemByAttribute(
+  _HeaderStyleOptions _getOptionsItemByAttribute(
       Attribute<dynamic>? attribute) {
     return switch (attribute) {
-      Attribute.h1 => QuillToolbarSelectHeaderStyleButtonOptions.headingOne,
-      Attribute.h2 => QuillToolbarSelectHeaderStyleButtonOptions.headingTwo,
-      Attribute.h2 => QuillToolbarSelectHeaderStyleButtonOptions.headingThree,
-      Attribute() => QuillToolbarSelectHeaderStyleButtonOptions.normal,
-      null => QuillToolbarSelectHeaderStyleButtonOptions.normal,
+      Attribute.h1 => _HeaderStyleOptions.headingOne,
+      Attribute.h2 => _HeaderStyleOptions.headingTwo,
+      Attribute.h2 => _HeaderStyleOptions.headingThree,
+      Attribute() => _HeaderStyleOptions.normal,
+      null => _HeaderStyleOptions.normal,
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<QuillToolbarSelectHeaderStyleButtonOptions>(
+    return DropdownButton<_HeaderStyleOptions>(
       value: _selectedItem,
-      items: QuillToolbarSelectHeaderStyleButtonOptions.values
+      items: _HeaderStyleOptions.values
           .map(
-            (e) => DropdownMenuItem<QuillToolbarSelectHeaderStyleButtonOptions>(
+            (e) => DropdownMenuItem<_HeaderStyleOptions>(
               value: e,
               child: Text(_label(e)),
               onTap: () {

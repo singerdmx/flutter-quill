@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'base.dart';
+import 'base_configurations.dart';
 
 class QuillToolbarIndentButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

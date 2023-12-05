@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' show VoidCallback, Widget;
 
-import 'base.dart';
+import 'base_configurations.dart';
 
 class QuillToolbarCustomButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

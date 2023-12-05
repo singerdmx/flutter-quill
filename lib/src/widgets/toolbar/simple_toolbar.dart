@@ -6,6 +6,7 @@ import '../../models/config/toolbar/toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';
 import 'base_toolbar.dart';
+import 'buttons/select_alignment_buttons.dart';
 import 'buttons/select_header_style_button.dart';
 
 class QuillSimpleToolbar extends StatelessWidget
@@ -58,7 +59,6 @@ class QuillSimpleToolbar extends StatelessWidget
           toolbarSectionSpacing: configurations.toolbarSectionSpacing,
           toolbarIconAlignment: configurations.toolbarIconAlignment,
           toolbarIconCrossAlignment: configurations.toolbarIconCrossAlignment,
-          customButtons: configurations.customButtons,
           linkDialogAction: configurations.linkDialogAction,
           multiRowsDisplay: configurations.multiRowsDisplay,
           sectionDividerColor: configurations.sectionDividerColor,
@@ -246,19 +246,12 @@ class QuillSimpleToolbar extends StatelessWidget
                   space: configurations.sectionDividerSpace,
                 ),
               if (configurations.showAlignmentButtons) ...[
-                QuillToolbarSelectAlignmentButton(
+                QuillToolbarSelectAlignmentButtons(
                   controller: toolbarConfigurations
                           .buttonOptions.selectAlignmentButtons.controller ??
                       globalController,
                   options: toolbarConfigurations
                       .buttonOptions.selectAlignmentButtons,
-                  // tooltips: Map.of(buttonTooltips)
-                  //   ..removeWhere((key, value) => ![
-                  //         ToolbarButtons.leftAlignment,
-                  //         ToolbarButtons.centerAlignment,
-                  //         ToolbarButtons.rightAlignment,
-                  //         ToolbarButtons.justifyAlignment,
-                  //       ].contains(key)),
                   showLeftAlignment: configurations.showLeftAlignment,
                   showCenterAlignment: configurations.showCenterAlignment,
                   showRightAlignment: configurations.showRightAlignment,

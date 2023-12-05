@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_provider.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/buttons/indent.dart';
+import '../../../models/config/toolbar/buttons/indent_configurations.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../others/controller.dart';
 import '../base_toolbar.dart'

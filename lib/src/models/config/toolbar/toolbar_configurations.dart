@@ -14,7 +14,6 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
     super.toolbarIconAlignment = WrapAlignment.center,
     super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     super.color,
-    super.customButtons = const [],
     super.sectionDividerColor,
     super.sectionDividerSpace,
     super.linkDialogAction,

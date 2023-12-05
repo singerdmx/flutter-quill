@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_provider.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/buttons/base.dart';
-import '../../../models/config/toolbar/buttons/toggle_check_list.dart';
+import '../../../models/config/toolbar/buttons/base_configurations.dart';
+import '../../../models/config/toolbar/buttons/toggle_check_list_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';

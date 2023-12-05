@@ -85,7 +85,7 @@ class QuillToolbarToggleStyleButtonState
         context.requireQuillToolbarBaseButtonOptions.iconTheme;
   }
 
-  (String?, IconData) get _defaultTooltipAndIconData {
+  (String, IconData) get _defaultTooltipAndIconData {
     switch (widget.attribute.key) {
       case 'bold':
         return (context.loc.bold, Icons.format_bold);
@@ -115,6 +115,14 @@ class QuillToolbarToggleStyleButtonState
         return (context.loc.codeBlock, Icons.code);
       case 'blockquote':
         return (context.loc.quote, Icons.format_quote);
+      case 'align':
+        return switch (widget.attribute.value) {
+          'left' => (context.loc.alignLeft, Icons.format_align_left),
+          'right' => (context.loc.alignRight, Icons.format_align_right),
+          'center' => (context.loc.alignCenter, Icons.format_align_center),
+          Object() => (context.loc.alignCenter, Icons.format_align_center),
+          null => (context.loc.alignCenter, Icons.format_align_center),
+        };
       default:
         throw ArgumentError(
           'Could not find the default tooltip for '
@@ -203,7 +211,8 @@ class QuillToolbarToggleStyleButtonState
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
     if (widget.attribute.key == Attribute.list.key ||
-        widget.attribute.key == Attribute.script.key) {
+        widget.attribute.key == Attribute.script.key ||
+        widget.attribute.key == Attribute.align.key) {
       final attribute = attrs[widget.attribute.key];
       if (attribute == null) {
         return false;

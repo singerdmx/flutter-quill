@@ -10,7 +10,6 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
 
-import '../extensions/scaffold_messenger.dart';
 import '../settings/cubit/settings_cubit.dart';
 import 'embeds/timestamp_embed.dart';
 
@@ -106,12 +105,21 @@ class MyQuillToolbar extends StatelessWidget {
               multiRowsDisplay: false,
               buttonOptions: const QuillToolbarButtonOptions(
                 base: QuillToolbarBaseButtonOptions(
-                  globalIconSize: 30,
+                  globalIconSize: 20,
                 ),
               ),
               childrenBuilder: (context) {
-                final controller = context.requireQuillController;
                 return [
+                  IconButton(
+                    onPressed: () {
+                      context.read<SettingsCubit>().updateSettings(
+                          state.copyWith(useCustomQuillToolbar: false));
+                    },
+                    icon: const Icon(
+                      Icons.width_normal,
+                      size: 16,
+                    ),
+                  ),
                   QuillToolbarImageButton(
                     controller: controller,
                     options: const QuillToolbarImageButtonOptions(),
@@ -238,7 +246,6 @@ class MyQuillToolbar extends StatelessWidget {
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),
                 onPressed: () {
-                  final controller = context.requireQuillController;
                   controller.document
                       .insert(controller.selection.extentOffset, '\n');
                   controller.updateSelection(
@@ -282,13 +289,10 @@ class MyQuillToolbar extends StatelessWidget {
                 },
               ),
               QuillToolbarCustomButtonOptions(
-                icon: const Icon(Icons.ac_unit),
+                icon: const Icon(Icons.dashboard_customize),
                 onPressed: () {
-                  ScaffoldMessenger.of(context)
-                    ..clearSnackBars()
-                    ..showText(
-                      'Custom button!',
-                    );
+                  context.read<SettingsCubit>().updateSettings(
+                      state.copyWith(useCustomQuillToolbar: true));
                 },
               ),
             ],

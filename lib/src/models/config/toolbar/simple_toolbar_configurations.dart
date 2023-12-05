@@ -7,39 +7,39 @@ import '../../../widgets/others/controller.dart';
 import '../../../widgets/others/embeds.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
-import 'buttons/base.dart';
-import 'buttons/clear_format.dart';
-import 'buttons/color.dart';
-import 'buttons/custom_button.dart';
-import 'buttons/font_family.dart';
-import 'buttons/font_size.dart';
-import 'buttons/history.dart';
-import 'buttons/indent.dart';
-import 'buttons/link_style.dart';
-import 'buttons/link_style2.dart';
-import 'buttons/search.dart';
-import 'buttons/select_alignment.dart';
-import 'buttons/select_header_style.dart';
-import 'buttons/toggle_check_list.dart';
-import 'buttons/toggle_style.dart';
+import 'buttons/base_configurations.dart';
+import 'buttons/clear_format_configurations.dart';
+import 'buttons/color_configurations.dart';
+import 'buttons/custom_button_configurations.dart';
+import 'buttons/font_family_configurations.dart';
+import 'buttons/font_size_configurations.dart';
+import 'buttons/history_configurations.dart';
+import 'buttons/indent_configurations.dart';
+import 'buttons/link_style_configurations.dart';
+import 'buttons/link_style2_configurations.dart';
+import 'buttons/search_configurations.dart';
+import 'buttons/select_alignment_configurations.dart';
+import 'buttons/select_header_style_configurations.dart';
+import 'buttons/toggle_check_list_configurations.dart';
+import 'buttons/toggle_style_configurations.dart';
 import 'toolbar_shared_configurations.dart';
 
 export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
-export './buttons/base.dart';
-export './buttons/clear_format.dart';
-export './buttons/color.dart';
-export './buttons/custom_button.dart';
-export './buttons/font_family.dart';
-export './buttons/font_size.dart';
-export './buttons/history.dart';
-export './buttons/indent.dart';
-export './buttons/link_style.dart';
-export './buttons/link_style2.dart';
-export './buttons/search.dart';
-export './buttons/select_alignment.dart';
-export './buttons/select_header_style.dart';
-export './buttons/toggle_check_list.dart';
-export './buttons/toggle_style.dart';
+export 'buttons/base_configurations.dart';
+export 'buttons/clear_format_configurations.dart';
+export 'buttons/color_configurations.dart';
+export 'buttons/custom_button_configurations.dart';
+export 'buttons/font_family_configurations.dart';
+export 'buttons/font_size_configurations.dart';
+export 'buttons/history_configurations.dart';
+export 'buttons/indent_configurations.dart';
+export 'buttons/link_style_configurations.dart';
+export 'buttons/link_style2_configurations.dart';
+export 'buttons/search_configurations.dart';
+export 'buttons/select_alignment_configurations.dart';
+export 'buttons/select_header_style_configurations.dart';
+export 'buttons/toggle_check_list_configurations.dart';
+export 'buttons/toggle_style_configurations.dart';
 
 /// The default size of the icon of a button.
 const double kDefaultIconSize = 18;
@@ -73,6 +73,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     super.toolbarIconAlignment = WrapAlignment.center,
     super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     super.buttonOptions = const QuillToolbarButtonOptions(),
+    this.customButtons = const [],
     super.multiRowsDisplay = true,
     this.fontSizesValues,
     this.showDividers = true,
@@ -107,7 +108,6 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showSubscript = true,
     this.showSuperscript = true,
     this.linkStyleType = LinkStyleType.original,
-    super.customButtons = const [],
 
     /// The decoration to use for the toolbar.
     super.decoration,
@@ -167,6 +167,9 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   /// ```
   final Map<String, String>? fontSizesValues;
 
+  /// List of custom buttons
+  final List<QuillToolbarCustomButtonOptions> customButtons;
+
   final bool showDividers;
   final bool showFontFamily;
   final bool showFontSize;
@@ -179,6 +182,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   final bool showColorButton;
   final bool showBackgroundColorButton;
   final bool showClearFormat;
+
   final bool showAlignmentButtons;
   final bool showLeftAlignment;
   final bool showCenterAlignment;

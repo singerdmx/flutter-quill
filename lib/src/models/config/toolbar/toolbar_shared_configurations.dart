@@ -13,7 +13,6 @@ abstract class QuillSharedToolbarProperties extends Equatable {
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     this.color,
-    this.customButtons = const [],
     this.sectionDividerColor,
     this.sectionDividerSpace,
     this.linkDialogAction,
@@ -35,9 +34,6 @@ abstract class QuillSharedToolbarProperties extends Equatable {
   /// Defaults to [ThemeData.canvasColor] of the current [Theme] if no color
   /// is given.
   final Color? color;
-
-  /// List of custom buttons
-  final List<QuillToolbarCustomButtonOptions> customButtons;
 
   /// The color to use when painting the toolbar section divider.
   ///

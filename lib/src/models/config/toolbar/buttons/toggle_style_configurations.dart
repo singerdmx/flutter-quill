@@ -2,7 +2,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show Color;
 
-import 'base.dart';
+import 'base_configurations.dart';
 
 class QuillToolbarToggleStyleButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions
