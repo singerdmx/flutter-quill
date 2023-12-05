@@ -81,3 +81,6 @@ pubspec.lock
 pubspec_overrides.yaml
 
 old_example
+
+# A directory where you put all of your local things that you don't want to push
+.flutter-quill

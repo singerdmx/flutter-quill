@@ -600,6 +600,42 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Insert image'**
   String get insertImage;
+
+  /// No description provided for @pickAPhotoFromYourGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a photo from your gallery'**
+  String get pickAPhotoFromYourGallery;
+
+  /// No description provided for @takeAPhotoUsingYourCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo using your phone camera'**
+  String get takeAPhotoUsingYourCamera;
+
+  /// No description provided for @pasteAPhotoUsingALink.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a photo using a link'**
+  String get pasteAPhotoUsingALink;
+
+  /// No description provided for @pickAVideoFromYourGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a video from your gallery'**
+  String get pickAVideoFromYourGallery;
+
+  /// No description provided for @recordAVideoUsingYourCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a video using your phone camera'**
+  String get recordAVideoUsingYourCamera;
+
+  /// No description provided for @pasteAVideoUsingALink.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a video using a link'**
+  String get pasteAVideoUsingALink;
 }
 
 class _FlutterQuillLocalizationsDelegate

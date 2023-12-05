@@ -225,6 +225,26 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
 
   @override
   String get insertImage => '插入图像';
+
+  @override
+  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+
+  @override
+  String get takeAPhotoUsingYourCamera =>
+      'Take a photo using your phone camera';
+
+  @override
+  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+
+  @override
+  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+
+  @override
+  String get recordAVideoUsingYourCamera =>
+      'Record a video using your phone camera';
+
+  @override
+  String get pasteAVideoUsingALink => 'Paste a video using a link';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
