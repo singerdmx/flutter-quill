@@ -18,7 +18,7 @@ import 'package:flutter/services.dart'
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
-import 'package:pasteboard/pasteboard.dart' show Pasteboard;
+import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
@@ -1381,23 +1381,25 @@ class QuillRawEditorState extends EditorState
 
     final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
-      final image = await Pasteboard.image;
-
-      if (image == null) {
+      final reader = await ClipboardReader.readClipboard();
+      if (!reader.canProvide(Formats.png)) {
         return;
       }
+      reader.getFile(Formats.png, (value) async {
+        final image = value;
 
-      final imageUrl = await onImagePaste(image);
-      if (imageUrl == null) {
-        return;
-      }
+        final imageUrl = await onImagePaste(await image.readAll());
+        if (imageUrl == null) {
+          return;
+        }
 
-      controller.replaceText(
-        textEditingValue.selection.end,
-        0,
-        BlockEmbed.image(imageUrl),
-        null,
-      );
+        controller.replaceText(
+          textEditingValue.selection.end,
+          0,
+          BlockEmbed.image(imageUrl),
+          null,
+        );
+      });
     }
   }
 

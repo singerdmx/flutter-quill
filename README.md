@@ -94,16 +94,26 @@ dependencies:
 > Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
 
-Compatible versions:
+<!-- Compatible versions:
 
 | flutter_quill           | flutter_quill_extensions | flutter_quill_test      |
 |-------------------------|--------------------------|-------------------------|
 | 8.6.x                   | 0.7.x                    | 0.0.5                   |
 | 8.5.x                   | 0.6.x                    | 0.0.5                   |
 
-These versions are tested and well-supported, you shouldn't get a build failure
+These versions are tested and well-supported, you shouldn't get a build failure -->
 
 ## Usage
+
+Before using the package, we must inform you the package use the following plugins:
+  ```
+  url_launcher
+  flutter_keyboard_visibility
+  device_info_plus
+  super_clipboard
+  ```
+
+All of them doesn't require any platform spesefic setup, except [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's optional but to support copying images and pasting them into editor then you must setup it, open the page in pub.dev and read the `README.md` to get the instructions.
 
 First, you need to instantiate a controller
 
