@@ -6,7 +6,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart'
     show Color, EdgeInsets, EdgeInsetsGeometry, TextOverflow, TextStyle;
 
-import '../../../../widgets/controller.dart';
+import '../../../../widgets/others/controller.dart';
 import '../../../documents/attribute.dart';
 import '../../../themes/quill_icon_theme.dart';
 import '../../quill_configurations.dart';
@@ -58,7 +58,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   final double hoverElevation;
   final double highlightElevation;
 
-  /// By default it will be [fontSizesValues] from [QuillToolbarConfigurations]
+  /// By default it will be [fontSizesValues] from [QuillSimpleToolbarConfigurations]
   /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_provider.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../controller.dart';
+import '../../others/controller.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarCustomButton extends StatelessWidget {

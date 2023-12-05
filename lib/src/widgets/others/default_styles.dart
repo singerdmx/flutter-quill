@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../models/documents/attribute.dart';
-import '../models/documents/style.dart';
-import '../models/structs/vertical_spacing.dart';
-import '../utils/platform.dart';
-import 'style_widgets/checkbox_point.dart';
+import '../../models/documents/attribute.dart';
+import '../../models/documents/style.dart';
+import '../../models/structs/vertical_spacing.dart';
+import '../../utils/platform.dart';
+import '../style_widgets/checkbox_point.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({

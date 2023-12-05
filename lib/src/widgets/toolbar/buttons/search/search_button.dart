@@ -5,7 +5,7 @@ import '../../../../l10n/extensions/localizations.dart';
 import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../controller.dart';
+import '../../../others/controller.dart';
 import '../../base_toolbar.dart';
 
 class QuillToolbarSearchButton extends StatelessWidget {

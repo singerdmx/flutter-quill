@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../../extensions/quill_provider.dart';
 import '../../l10n/extensions/localizations.dart';
-import '../../models/config/toolbar/base_toolbar_configurations.dart';
+import '../../models/config/toolbar/toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';
 import 'base_toolbar.dart';
 import 'buttons/select_header_style_button.dart';
 
-class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
-  const QuillToolbar({
+class QuillSimpleToolbar extends StatelessWidget
+    implements PreferredSizeWidget {
+  const QuillSimpleToolbar({
     required this.configurations,
     super.key,
   });
 
   /// The configurations for the toolbar widget of flutter quill
-  final QuillToolbarConfigurations configurations;
+  final QuillSimpleToolbarConfigurations configurations;
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +51,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
     return QuillToolbarProvider(
       toolbarConfigurations: configurations,
-      child: QuillBaseToolbar(
-        configurations: QuillBaseToolbarConfigurations(
+      child: QuillToolbar(
+        configurations: QuillToolbarConfigurations(
           color: configurations.color,
           decoration: configurations.decoration,
           toolbarSectionSpacing: configurations.toolbarSectionSpacing,
@@ -126,6 +127,36 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 spacerWidget,
               ],
+              if (configurations.showItalicButton) ...[
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.italic,
+                  options: toolbarConfigurations.buttonOptions.italic,
+                  controller:
+                      toolbarConfigurations.buttonOptions.italic.controller ??
+                          globalController,
+                ),
+                spacerWidget,
+              ],
+              if (configurations.showUnderLineButton) ...[
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.underline,
+                  options: toolbarConfigurations.buttonOptions.underLine,
+                  controller: toolbarConfigurations
+                          .buttonOptions.underLine.controller ??
+                      globalController,
+                ),
+                spacerWidget,
+              ],
+              if (configurations.showInlineCode) ...[
+                QuillToolbarToggleStyleButton(
+                  attribute: Attribute.inlineCode,
+                  options: toolbarConfigurations.buttonOptions.inlineCode,
+                  controller: toolbarConfigurations
+                          .buttonOptions.inlineCode.controller ??
+                      globalController,
+                ),
+                spacerWidget,
+              ],
               if (configurations.showSubscript) ...[
                 QuillToolbarToggleStyleButton(
                   attribute: Attribute.subscript,
@@ -146,16 +177,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 spacerWidget,
               ],
-              if (configurations.showItalicButton) ...[
-                QuillToolbarToggleStyleButton(
-                  attribute: Attribute.italic,
-                  options: toolbarConfigurations.buttonOptions.italic,
-                  controller:
-                      toolbarConfigurations.buttonOptions.italic.controller ??
-                          globalController,
-                ),
-                spacerWidget,
-              ],
               if (configurations.showSmallButton) ...[
                 QuillToolbarToggleStyleButton(
                   attribute: Attribute.small,
@@ -166,32 +187,12 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 spacerWidget,
               ],
-              if (configurations.showUnderLineButton) ...[
-                QuillToolbarToggleStyleButton(
-                  attribute: Attribute.underline,
-                  options: toolbarConfigurations.buttonOptions.underLine,
-                  controller: toolbarConfigurations
-                          .buttonOptions.underLine.controller ??
-                      globalController,
-                ),
-                spacerWidget,
-              ],
               if (configurations.showStrikeThrough) ...[
                 QuillToolbarToggleStyleButton(
                   attribute: Attribute.strikeThrough,
                   options: toolbarConfigurations.buttonOptions.strikeThrough,
                   controller: toolbarConfigurations
                           .buttonOptions.strikeThrough.controller ??
-                      globalController,
-                ),
-                spacerWidget,
-              ],
-              if (configurations.showInlineCode) ...[
-                QuillToolbarToggleStyleButton(
-                  attribute: Attribute.inlineCode,
-                  options: toolbarConfigurations.buttonOptions.inlineCode,
-                  controller: toolbarConfigurations
-                          .buttonOptions.inlineCode.controller ??
                       globalController,
                 ),
                 spacerWidget,

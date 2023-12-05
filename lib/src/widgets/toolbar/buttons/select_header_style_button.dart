@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../translations.dart';
 import '../../../models/config/toolbar/buttons/select_header_style.dart';
 import '../../../models/documents/attribute.dart';
-import '../../controller.dart';
+import '../../others/controller.dart';
 
 enum QuillToolbarSelectHeaderStyleButtonOptions {
   normal,

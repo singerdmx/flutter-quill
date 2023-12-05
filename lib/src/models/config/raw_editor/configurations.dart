@@ -25,11 +25,11 @@ import 'package:flutter/widgets.dart'
         Widget;
 import 'package:meta/meta.dart' show immutable;
 
-import '../../../widgets/controller.dart';
-import '../../../widgets/cursor.dart';
-import '../../../widgets/default_styles.dart';
-import '../../../widgets/delegate.dart';
-import '../../../widgets/link.dart';
+import '../../../widgets/others/controller.dart';
+import '../../../widgets/others/cursor.dart';
+import '../../../widgets/others/default_styles.dart';
+import '../../../widgets/others/delegate.dart';
+import '../../../widgets/others/link.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';
 import '../../../widgets/raw_editor/raw_editor_state.dart';
 import '../../themes/quill_dialog_theme.dart';

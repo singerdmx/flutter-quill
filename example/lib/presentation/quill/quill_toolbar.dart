@@ -100,8 +100,8 @@ class MyQuillToolbar extends StatelessWidget {
         if (state.useCustomQuillToolbar) {
           // For more info
           // https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_toolbar.md
-          return QuillBaseToolbar(
-            configurations: QuillBaseToolbarConfigurations(
+          return QuillToolbar(
+            configurations: QuillToolbarConfigurations(
               toolbarSize: 15 * 2,
               multiRowsDisplay: false,
               buttonOptions: const QuillToolbarButtonOptions(
@@ -224,8 +224,8 @@ class MyQuillToolbar extends StatelessWidget {
             ),
           );
         }
-        return QuillToolbar(
-          configurations: QuillToolbarConfigurations(
+        return QuillSimpleToolbar(
+          configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
             buttonOptions: QuillToolbarButtonOptions(

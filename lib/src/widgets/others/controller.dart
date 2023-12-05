@@ -3,16 +3,16 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
-import '../models/documents/attribute.dart';
-import '../models/documents/document.dart';
-import '../models/documents/nodes/embeddable.dart';
-import '../models/documents/nodes/leaf.dart';
-import '../models/documents/style.dart';
-import '../models/quill_delta.dart';
-import '../models/structs/doc_change.dart';
-import '../models/structs/image_url.dart';
-import '../models/structs/offset_value.dart';
-import '../utils/delta.dart';
+import '../../models/documents/attribute.dart';
+import '../../models/documents/document.dart';
+import '../../models/documents/nodes/embeddable.dart';
+import '../../models/documents/nodes/leaf.dart';
+import '../../models/documents/style.dart';
+import '../../models/quill_delta.dart';
+import '../../models/structs/doc_change.dart';
+import '../../models/structs/image_url.dart';
+import '../../models/structs/offset_value.dart';
+import '../../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);

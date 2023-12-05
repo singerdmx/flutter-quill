@@ -5,7 +5,7 @@ import '../../../flutter_quill.dart';
 
 export './editor/configurations.dart';
 export 'quill_shared_configurations.dart';
-export 'toolbar/toolbar_configurations.dart';
+export 'toolbar/simple_toolbar_configurations.dart';
 
 @immutable
 class QuillConfigurations extends Equatable {
@@ -22,7 +22,7 @@ class QuillConfigurations extends Equatable {
   // final QuillController controller;
 
   /// The shared configurations between [QuillEditorConfigurations] and
-  /// [QuillToolbarConfigurations] so we don't duplicate things
+  /// [QuillSimpleToolbarConfigurations] so we don't duplicate things
   final QuillSharedConfigurations sharedConfigurations;
 
   @override

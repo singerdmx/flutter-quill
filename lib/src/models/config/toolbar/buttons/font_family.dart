@@ -61,7 +61,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   final double hoverElevation;
   final double highlightElevation;
 
-  /// By default it will be [fontFamilyValues] from [QuillToolbarConfigurations]
+  /// By default it will be [fontFamilyValues] from [QuillSimpleToolbarConfigurations]
   /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;

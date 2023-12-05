@@ -37,7 +37,7 @@ class QuillToolbarSelectHeaderStyleButtonsOptions
   /// ]
   final List<Attribute>? attributes;
 
-  /// By default we will the toolbar axis from [QuillToolbarConfigurations]
+  /// By default we will the toolbar axis from [QuillSimpleToolbarConfigurations]
   final Axis? axis;
   final double? iconSize;
   final double? iconButtonFactor;

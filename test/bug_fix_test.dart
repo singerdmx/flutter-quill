@@ -16,8 +16,8 @@ void main() {
 
         await tester.pumpWidget(
           MaterialApp(
-            home: QuillToolbar(
-              configurations: QuillToolbarConfigurations(
+            home: QuillSimpleToolbar(
+              configurations: QuillSimpleToolbarConfigurations(
                 controller: controller,
                 showRedo: false,
                 customButtons: const [
@@ -40,7 +40,7 @@ void main() {
         //     builtinFinder.evaluate().first.widget as QuillToolbarIconButton;
 
         final customFinder = find.descendant(
-            of: find.byType(QuillBaseToolbar),
+            of: find.byType(QuillToolbar),
             matching: find.byWidgetPredicate((widget) =>
                 widget is QuillToolbarIconButton && widget.tooltip == tooltip),
             matchRoot: true);

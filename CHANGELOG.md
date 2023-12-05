@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-3
+* Breaking Changes:
+  * Rename `QuillToolbar` to `QuillSimpleToolbar`
+  * Rename `QuillBaseToolbar` to `QuillToolbar`
+
 ## 9.0.0-dev-2
 * An attemp to fix CI automated publishing
 

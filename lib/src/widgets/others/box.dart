@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 
-import '../models/documents/nodes/container.dart';
+import '../../models/documents/nodes/container.dart';
 
 /// A common interface to render boxes which represent a piece of rich text
 /// content.

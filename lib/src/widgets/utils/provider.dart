@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart'
     show BuildContext, InheritedWidget, Widget;
 
 import '../../models/config/quill_configurations.dart';
-import '../../models/config/toolbar/base_toolbar_configurations.dart';
+import '../../models/config/toolbar/toolbar_configurations.dart';
 
 class QuillProvider extends InheritedWidget {
   const QuillProvider({
@@ -72,7 +72,7 @@ class QuillToolbarProvider extends InheritedWidget {
   });
 
   /// The configurations for the toolbar widget of flutter quill
-  final QuillToolbarConfigurations toolbarConfigurations;
+  final QuillSimpleToolbarConfigurations toolbarConfigurations;
 
   @override
   bool updateShouldNotify(covariant QuillToolbarProvider oldWidget) {
@@ -130,7 +130,7 @@ class QuillBaseToolbarProvider extends InheritedWidget {
   });
 
   /// The configurations for the toolbar widget of flutter quill
-  final QuillBaseToolbarConfigurations toolbarConfigurations;
+  final QuillToolbarConfigurations toolbarConfigurations;
 
   @override
   bool updateShouldNotify(covariant QuillBaseToolbarProvider oldWidget) {
@@ -167,10 +167,10 @@ class QuillBaseToolbarProvider extends InheritedWidget {
     return provider;
   }
 
-  /// To pass the [QuillBaseToolbarConfigurations] instance as value
+  /// To pass the [QuillToolbarConfigurations] instance as value
   /// instead of creating new widget
   static QuillBaseToolbarProvider value({
-    required QuillBaseToolbarConfigurations value,
+    required QuillToolbarConfigurations value,
     required Widget child,
   }) {
     return QuillBaseToolbarProvider(

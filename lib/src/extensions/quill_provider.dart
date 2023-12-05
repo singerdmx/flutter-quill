@@ -68,39 +68,39 @@ extension QuillProviderExt on BuildContext {
     return QuillEditorProvider.of(this)?.editorConfigurations;
   }
 
-  /// return [QuillToolbarConfigurations] as not null . Since the quill
+  /// return [QuillSimpleToolbarConfigurations] as not null . Since the quill
   /// toolbar configurations is in the [QuillToolbarProvider]
   /// then we need to get the
   /// provider widget first and then we will return toolbar configurations
   /// throw exception if [QuillProvider] is not in the widget tree
-  QuillToolbarConfigurations get requireQuillToolbarConfigurations {
+  QuillSimpleToolbarConfigurations get requireQuillToolbarConfigurations {
     return QuillToolbarProvider.ofNotNull(this).toolbarConfigurations;
   }
 
-  /// return nullable [QuillToolbarConfigurations]. Since the quill
+  /// return nullable [QuillSimpleToolbarConfigurations]. Since the quill
   /// toolbar configurations is in the [QuillToolbarProvider]
   ///  then we need to get the
   /// provider widget first and then we will return toolbar configurations
   /// don't throw exception if [QuillProvider] is not in the widget tree
-  QuillToolbarConfigurations? get quillToolbarConfigurations {
+  QuillSimpleToolbarConfigurations? get quillToolbarConfigurations {
     return QuillToolbarProvider.of(this)?.toolbarConfigurations;
   }
 
-  /// return [QuillBaseToolbarConfigurations] as not null . Since the quill
+  /// return [QuillToolbarConfigurations] as not null . Since the quill
   /// toolbar configurations is in the [QuillBaseToolbarProvider]
   /// then we need to get the
   /// provider widget first and then we will return toolbar configurations
   /// throw exception if [QuillBaseToolbarProvider] is not in the widget tree
-  QuillBaseToolbarConfigurations get requireQuillBaseToolbarConfigurations {
+  QuillToolbarConfigurations get requireQuillBaseToolbarConfigurations {
     return QuillBaseToolbarProvider.ofNotNull(this).toolbarConfigurations;
   }
 
-  /// return nullable [QuillBaseToolbarConfigurations]. Since the quill
+  /// return nullable [QuillToolbarConfigurations]. Since the quill
   /// toolbar configurations is in the [QuillBaseToolbarProvider]
   ///  then we need to get the
   /// provider widget first and then we will return toolbar configurations
   /// don't throw exception if [QuillBaseToolbarProvider] is not in the widget tree
-  QuillBaseToolbarConfigurations? get quillBaseToolbarConfigurations {
+  QuillToolbarConfigurations? get quillBaseToolbarConfigurations {
     return QuillBaseToolbarProvider.of(this)?.toolbarConfigurations;
   }
 

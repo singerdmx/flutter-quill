@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ViewportOffset;
 
 import '../../models/documents/document.dart';
-import '../cursor.dart';
+import '../others/cursor.dart';
 import '../editor/editor.dart';
 
 class QuilRawEditorMultiChildRenderObject extends MultiChildRenderObjectWidget {

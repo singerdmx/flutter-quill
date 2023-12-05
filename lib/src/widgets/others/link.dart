@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../l10n/extensions/localizations.dart';
-import '../models/documents/attribute.dart';
-import '../models/documents/nodes/node.dart';
+import '../../l10n/extensions/localizations.dart';
+import '../../models/documents/attribute.dart';
+import '../../models/documents/nodes/node.dart';
 
 const linkPrefixes = [
   'mailto:', // email

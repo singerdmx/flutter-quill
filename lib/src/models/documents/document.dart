@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../widgets/embeds.dart';
+import '../../widgets/others/embeds.dart';
 import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../l10n/extensions/localizations.dart';
 import '../../../../models/documents/document.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
-import '../../../controller.dart';
+import '../../../others/controller.dart';
 
 @immutable
 class QuillToolbarSearchDialogChildBuilderExtraOptions {

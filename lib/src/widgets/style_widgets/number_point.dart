@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
-import '../text_block.dart';
+import '../others/text_block.dart';
 
 class QuillEditorNumberPoint extends StatelessWidget {
   const QuillEditorNumberPoint({

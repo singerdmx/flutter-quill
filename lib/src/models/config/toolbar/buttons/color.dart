@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' show Color;
 
-import '../../../../widgets/controller.dart';
+import '../../../../widgets/others/controller.dart';
 import '../../quill_shared_configurations.dart' show QuillSharedConfigurations;
 import 'base.dart';
 

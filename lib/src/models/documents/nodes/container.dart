@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import '../../../widgets/embeds.dart';
+import '../../../widgets/others/embeds.dart';
 import '../style.dart';
 import 'leaf.dart';
 import 'line.dart';

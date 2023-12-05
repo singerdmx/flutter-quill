@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import '../utils/platform.dart';
+import '../../utils/platform.dart';
 import 'box.dart';
 
 /// Style properties of editing cursor.

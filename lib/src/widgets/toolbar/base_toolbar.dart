@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
 import '../../l10n/widgets/localizations.dart';
-import '../../models/config/toolbar/base_toolbar_configurations.dart';
+import '../../models/config/toolbar/toolbar_configurations.dart';
 import 'buttons/arrow_indicated_list_button.dart';
 
 export '../../models/config/toolbar/buttons/base.dart';
-export '../../models/config/toolbar/toolbar_configurations.dart';
+export '../../models/config/toolbar/simple_toolbar_configurations.dart';
 export 'buttons/clear_format_button.dart';
 export 'buttons/color/color_button.dart';
 export 'buttons/custom_button_button.dart';
@@ -28,13 +28,13 @@ typedef QuillBaseToolbarChildrenBuilder = List<Widget> Function(
   BuildContext context,
 );
 
-class QuillBaseToolbar extends StatelessWidget implements PreferredSizeWidget {
-  const QuillBaseToolbar({
+class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
+  const QuillToolbar({
     required this.configurations,
     super.key,
   });
 
-  final QuillBaseToolbarConfigurations configurations;
+  final QuillToolbarConfigurations configurations;
 
   // We can't get the modified [toolbarSize] by the developer
   // but we tested the [QuillToolbar] on the [appBar] and I didn't notice
@@ -90,7 +90,7 @@ class QuillBaseToolbar extends StatelessWidget implements PreferredSizeWidget {
 /// The divider which is used for separation of buttons in the toolbar.
 ///
 /// It can be used outside of this package, for example when user does not use
-/// [QuillBaseToolbar.basic] and compose toolbar's children on its own.
+/// [QuillToolbar.basic] and compose toolbar's children on its own.
 class QuillToolbarDivider extends StatelessWidget {
   const QuillToolbarDivider(
     this.axis, {

@@ -7,7 +7,7 @@ import '../../../models/config/toolbar/buttons/font_family.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../controller.dart';
+import '../../others/controller.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
