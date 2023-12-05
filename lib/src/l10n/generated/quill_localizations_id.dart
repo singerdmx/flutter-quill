@@ -137,6 +137,18 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
   String get headerStyle => 'Gaya Header';
 
   @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Heading 1';
+
+  @override
+  String get heading2 => 'Heading 2';
+
+  @override
+  String get heading3 => 'Heading 3';
+
+  @override
   String get numberedList => 'Daftar Bernomor';
 
   @override

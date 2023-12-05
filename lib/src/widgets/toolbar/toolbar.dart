@@ -6,6 +6,7 @@ import '../../models/config/toolbar/base_toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';
 import 'base_toolbar.dart';
+import 'buttons/select_header_style_button.dart';
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
@@ -286,7 +287,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                   space: configurations.sectionDividerSpace,
                 ),
               if (configurations.showHeaderStyle) ...[
-                QuillToolbarSelectHeaderStyleButtons(
+                QuillToolbarSelectHeaderStyleButton(
                   controller: toolbarConfigurations
                           .buttonOptions.selectHeaderStyleButtons.controller ??
                       globalController,

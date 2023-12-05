@@ -137,6 +137,18 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get headerStyle => 'سبک هدر';
 
   @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Heading 1';
+
+  @override
+  String get heading2 => 'Heading 2';
+
+  @override
+  String get heading3 => 'Heading 3';
+
+  @override
   String get numberedList => 'لیست شماره‌دار';
 
   @override

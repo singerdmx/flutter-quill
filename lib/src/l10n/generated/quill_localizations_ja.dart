@@ -137,6 +137,18 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get headerStyle => 'タイトルスタイル';
 
   @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Heading 1';
+
+  @override
+  String get heading2 => 'Heading 2';
+
+  @override
+  String get heading3 => 'Heading 3';
+
+  @override
   String get numberedList => '順序付きリスト';
 
   @override

@@ -193,16 +193,13 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
       );
     }
 
-    return QuillToolbarIconButton(
+    return IconButton(
       tooltip: tooltip,
-      size: iconSize * iconButtonFactor,
+      iconSize: iconSize * iconButtonFactor,
       icon: Icon(iconData,
           size: iconSize,
           color: widget.isBackground ? iconColorBackground : iconColor),
-      // fillColor: widget.isBackground ? fillColorBackground : fillColor,
-      isFilled: false,
       onPressed: _showColorPicker,
-      afterPressed: afterButtonPressed,
     );
   }
 

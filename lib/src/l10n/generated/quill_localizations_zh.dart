@@ -137,6 +137,18 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get headerStyle => '标题样式';
 
   @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Heading 1';
+
+  @override
+  String get heading2 => 'Heading 2';
+
+  @override
+  String get heading3 => 'Heading 3';
+
+  @override
   String get numberedList => '编号列表';
 
   @override

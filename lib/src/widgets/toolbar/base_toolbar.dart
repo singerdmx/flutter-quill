@@ -20,7 +20,7 @@ export 'buttons/link_style_button.dart';
 export 'buttons/quill_icon_button.dart';
 export 'buttons/search/search_button.dart';
 export 'buttons/select_alignment_button.dart';
-export 'buttons/select_header_style_button.dart';
+export 'buttons/select_header_style_buttons.dart';
 export 'buttons/toggle_check_list_button.dart';
 export 'buttons/toggle_style_button.dart';
 

@@ -9,7 +9,7 @@ import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/widgets.dart';
 import '../../controller.dart';
-import 'toggle_style.dart';
+import 'toggle_style_button.dart';
 
 class QuillToolbarToggleCheckListButton extends StatefulWidget {
   const QuillToolbarToggleCheckListButton({
