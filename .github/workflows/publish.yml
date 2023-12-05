@@ -3,32 +3,49 @@ name: Publish to pub.dev
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
+    - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-
   publish:
     permissions:
-      id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-  publish_extensions:
-    permissions:
-      id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: ./flutter_quill_extensions
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      
+      - name: Check flutter version
+        run: flutter --version
 
-  publish_test:
-    permissions:
-      id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: ./flutter_quill_test
+      - name: Install dependencies
+        run: flutter pub get
 
-  publish_html_converter:
-    permissions:
-      id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: ./packages/quill_html_converter
+      # Here you can insert custom steps you need
+      # - run: dart tool/generate-code.dart
+      
+      # This is needed in order for the authentication to success
+      # dart pub token add https://pub.dev --env-var PUB_TOKEN
+      # Requests to "https://pub.dev" will now be authenticated using the secret token stored in the environment variable "PUB_TOKEN".
+      - uses: dart-lang/setup-dart@v1
+      ## dart-lang/setup-dart/.github/workflows/publish.yml@v1
+      # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
+      #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
+
+      - name: Publish flutter_quill
+        run: flutter pub publish --force
+
+      - name: Publish flutter_quill_extensions
+        run: flutter pub publish --force
+        working-directory: ./flutter_quill_extensions
+
+      - name: Publish flutter_quill_test
+        run: flutter pub publish --force
+        working-directory: ./flutter_quill_test
+
+      - name: Publish quill_html_converter
+        run: flutter pub publish --force
+        working-directory: ./packages/quill_html_converter
