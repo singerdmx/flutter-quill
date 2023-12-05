@@ -17,6 +17,9 @@ jobs:
 
       - name: Check flutter version
         run: flutter --version
+      
+      - name: Enable Local Dev
+        run: ./scripts/enable_local_dev.sh
 
       - name: Install dependencies
         run: flutter pub get
