@@ -3,7 +3,6 @@ import 'package:flutter/material.dart' show Color, Colors, Locale;
 
 import '../themes/quill_dialog_theme.dart';
 import './editor/configurations.dart' show QuillEditorConfigurations;
-import 'others/animations.dart';
 import 'toolbar/toolbar_configurations.dart' show QuillToolbarConfigurations;
 
 export './others/animations.dart';

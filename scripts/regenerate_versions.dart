@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io' show File;
 
 import 'package:yaml_edit/yaml_edit.dart';
@@ -8,10 +10,18 @@ import 'package:yaml_edit/yaml_edit.dart';
 import '../version.dart';
 
 Future<void> main(List<String> args) async {
-  await updatePubspecYamlFile('./pubspec.yaml');
-  await updatePubspecYamlFile('./flutter_quill_extensions/pubspec.yaml');
-  await updatePubspecYamlFile('./flutter_quill_test/pubspec.yaml');
-  await updatePubspecYamlFile('./packages/quill_html_converter/pubspec.yaml');
+  final packages = [
+    './',
+    './flutter_quill_extensions',
+    './flutter_quill_test',
+    './packages/quill_html_converter'
+  ];
+  for (final element in packages) {
+    await updatePubspecYamlFile('$element/pubspec.yaml');
+    if (element != packages.first) {
+      updateChangelogMD(element);
+    }
+  }
 }
 
 Future<void> updatePubspecYamlFile(String path) async {
@@ -19,6 +29,11 @@ Future<void> updatePubspecYamlFile(String path) async {
   final yaml = await file.readAsString();
   final yamlEditor = YamlEditor(yaml)..update(['version'], version);
   await file.writeAsString(yamlEditor.toString());
-  // ignore: avoid_print
   print(yamlEditor.toString());
+}
+
+Future<void> updateChangelogMD(String path) async {
+  final changeLog = await File('./CHANGELOG.md').readAsString();
+  final currentFile = File('$path/CHANGELOG.md');
+  await currentFile.writeAsString(changeLog);
 }

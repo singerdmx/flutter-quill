@@ -2,8 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-1
+* An attemp to fix CI automated publishing
+
 ## 9.0.0-dev
 * **Major Breaking change**: The `QuillProvider` is now optional, the `controller` parameter has been moved to the `QuillEditor` and `QuillToolbar` once again.
+* Flutter Quill Extensions;
+  * **Breaking Change**: Completly change the way how the source code structured to more basic and simple way, organize folders and file names, if you use the library
+from `flutter_quill_extensions.dart` then there is nothing you need to do, but if you are using any other import then you need to re-imports
+embed, this won't affect how quill js work
+  * Improvemenets to the image embed
+  * Add support for `margin` for web
+  * Add untranslated strings to the `quill_en.arb`
 
 ## 8.6.4
 * The default value of `keyboardAppearance` for the iOS will be the one from the App/System theme mode instead of always using the `Brightness.light`

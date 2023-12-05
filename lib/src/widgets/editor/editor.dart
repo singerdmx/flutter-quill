@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import '../../extensions/quill_provider.dart';
 import '../../l10n/widgets/localizations.dart';
 import '../../models/config/editor/configurations.dart';
 import '../../models/config/raw_editor/configurations.dart';
