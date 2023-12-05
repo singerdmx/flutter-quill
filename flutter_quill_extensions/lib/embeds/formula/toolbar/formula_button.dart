@@ -71,14 +71,11 @@ class QuillToolbarFormulaButton extends StatelessWidget {
         options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-        (options.fillColor ?? theme.canvasColor);
 
     if (childBuilder != null) {
       return childBuilder(
         QuillToolbarFormulaButtonOptions(
           afterButtonPressed: _afterButtonPressed(context),
-          fillColor: iconFillColor,
           iconData: iconData,
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,
@@ -96,12 +93,9 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     return QuillToolbarIconButton(
       icon: Icon(iconData, size: iconSize, color: iconColor),
       tooltip: tooltip,
-      highlightElevation: 0,
-      hoverElevation: 0,
       size: iconSize * 1.77,
-      fillColor: iconFillColor,
-      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _sharedOnPressed(context),
+      isFilled: false,
     );
   }
 

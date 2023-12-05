@@ -80,15 +80,13 @@ class QuillToolbarCustomButton extends StatelessWidget {
       );
     }
 
-    final theme = Theme.of(context);
     return QuillToolbarIconButton(
       size: iconSize * iconButtonFactor,
-      icon: options.icon,
+      icon: options.icon ?? const SizedBox.shrink(),
+      isFilled: false,
       tooltip: tooltip,
-      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _onPressed(context),
       afterPressed: afterButtonPressed,
-      fillColor: iconTheme?.iconUnselectedFillColor ?? theme.canvasColor,
     );
   }
 }

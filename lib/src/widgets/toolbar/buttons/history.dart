@@ -93,12 +93,8 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     }
 
     theme = Theme.of(context);
-
-    final fillColor = iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      highlightElevation: 0,
-      hoverElevation: 0,
       size: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
@@ -107,8 +103,7 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
             ? iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
             : iconTheme?.disabledIconColor ?? theme.disabledColor,
       ),
-      fillColor: fillColor,
-      borderRadius: iconTheme?.borderRadius ?? 2,
+      isFilled: false,
       onPressed: _updateHistory,
       afterPressed: afterButtonPressed,
     );
