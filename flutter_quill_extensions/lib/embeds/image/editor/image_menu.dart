@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart' show isMobile;
 import 'package:flutter_quill/flutter_quill.dart'
     show
-        FlutterQuillLocalizationsWidget,
         ImageUrl,
         QuillController,
         QuillProvider,
@@ -35,7 +34,7 @@ class ImageOptionsMenu extends StatelessWidget {
   final QuillController controller;
   final QuillEditorImageEmbedConfigurations configurations;
   final String imageSource;
-  final OptionalSize imageSize;
+  final ElementSize imageSize;
   final bool isReadOnly;
   final ImageSaverService imageSaverService;
 
@@ -71,7 +70,6 @@ class ImageOptionsMenu extends StatelessWidget {
                               getImageStyleString(controller),
                               width: width,
                               height: height,
-                              isMobile: isMobile(supportWeb: false),
                             );
                             controller
                               ..skipRequestKeyboard = true

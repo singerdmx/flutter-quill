@@ -15,21 +15,20 @@ import 'element_shared_utils.dart';
 ) {
   var height = 'auto';
   var width = 'auto';
-  // TODO: Add support for margin and alignment
-  const margin = 'auto';
+  // TODO(): Add support for margin and alignment
+  var margin = 'auto';
   const alignment = 'center';
-
-  // return (height, width, margin, alignment);
 
   final cssStyle = node.style.attributes['style'];
 
-  // Usually double value
   final heightValue = node.style.attributes[Attribute.height.key]?.value;
   final widthValue = node.style.attributes[Attribute.width.key]?.value;
 
   if (cssStyle != null) {
     final attrs = parseCssString(cssStyle.value.toString());
+
     final cssHeightValue = attrs[Attribute.height.key];
+
     if (cssHeightValue != null) {
       height = cssHeightValue;
     } else {
@@ -40,6 +39,11 @@ import 'element_shared_utils.dart';
       width = cssWidthValue;
     } else if (widthValue != null) {
       width = '${widthValue}px';
+    }
+
+    final cssMarginValue = attrs['margin'];
+    if (cssMarginValue != null) {
+      margin = cssMarginValue;
     }
 
     return (height, width, margin, alignment);

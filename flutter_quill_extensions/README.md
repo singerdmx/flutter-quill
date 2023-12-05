@@ -14,8 +14,8 @@ to support embedding widgets like images, formulas, videos, and more.
   - [Platform Specific Configurations](#platform-specific-configurations)
   - [Usage](#usage)
   - [Embed Blocks](#embed-blocks)
-    - [Custom Size Image for Mobile](#custom-size-image-for-mobile)
-    - [Custom Size Image for other platforms](#custom-size-image-for-other-platforms)
+    - [Element properties](#element-properties)
+    - [Custom Element properties](#custom-element-properties)
     - [Drag and drop feature](#drag-and-drop-feature)
   - [Features](#features)
   - [Contributing](#contributing)
@@ -130,24 +130,10 @@ As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed
 
 The instructions for using the embed blocks are in the [Usage](#usage) section
 
-### Custom Size Image for Mobile
+### Element properties
 
-Define `mobileWidth`, `mobileHeight`, `mobileMargin`, `mobileAlignment` as follows:
-
-```json
-{
-      "insert": {
-         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
-      },
-      "attributes":{
-         "style":"mobileWidth: 50; mobileHeight: 50; mobileMargin: 10; mobileAlignment: topLeft"
-      }
-}
-```
-
-### Custom Size Image for other platforms
-
-Define `width`, `height`, `margin`, `alignment` as follows:
+Currently the library has limitied support for the image and video properties
+and it supports only `width`, `height`, `margin`
 
 ```json
 {
@@ -155,12 +141,29 @@ Define `width`, `height`, `margin`, `alignment` as follows:
          "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
       },
       "attributes": {
-         "style":"width: 50; height: 50; margin: 10; alignment: topLeft"
+         "style":"width: 50px; height: 50px; margin: 10px;"
       }
 }
 ```
 
+### Custom Element properties
 
+Doesn't apply to official Quill JS
+
+Define flutterAlignment` as follows:
+
+```json
+{
+      "insert": {
+         "image": "https://user-images.githubusercontent.com/122956/72955931-ccc07900-3d52-11ea-89b1-d468a6e2aa2b.png"
+      },
+      "attributes":{
+         "style":"flutterAlignment: topLeft"
+      }
+}
+```
+
+This works for all platforms except Web
 
 ### Drag and drop feature
 Currently, the drag-and-drop feature is not officially supported, but you can achieve this very easily in the following steps:

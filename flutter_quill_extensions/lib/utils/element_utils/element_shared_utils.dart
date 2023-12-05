@@ -13,3 +13,17 @@ Map<String, String> parseCssString(String cssString) {
 
   return result;
 }
+
+double? parseCssPropertyAsDouble(String value) {
+  if (value.trim().isEmpty) {
+    return null;
+  }
+  final list = [
+    'px',
+    // '%', 'vw', 'vh', 'em', 'rem'
+  ];
+  for (final element in list) {
+    value = value.replaceFirst(element, '');
+  }
+  return double.tryParse(value);
+}

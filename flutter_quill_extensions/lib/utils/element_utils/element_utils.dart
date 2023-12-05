@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show Alignment;
-import 'package:flutter_quill/extensions.dart' as base;
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' show Attribute, Node;
 
-import '../../extensions/attribute.dart';
 import 'element_shared_utils.dart';
 
-/// Theses properties are not officaly supported by quill js
+/// Theses properties are not officialy supported by quill js
 /// but they are only used in all platforms other than web
 /// and they will be stored in css style property so quill js ignore them
 enum ExtraElementProperties {
@@ -14,20 +13,19 @@ enum ExtraElementProperties {
 }
 
 (
-  OptionalSize elementSize,
+  ElementSize elementSize,
   double? margin,
   Alignment alignment,
 ) getElementAttributes(
   Node node,
 ) {
-  var elementSize = const OptionalSize(null, null);
+  var elementSize = const ElementSize(null, null);
   var elementAlignment = Alignment.center;
   double? elementMargin;
 
-  // Usually double value
-  final heightValue = double.tryParse(
+  final heightValue = parseCssPropertyAsDouble(
       node.style.attributes[Attribute.height.key]?.value.toString() ?? '');
-  final widthValue = double.tryParse(
+  final widthValue = parseCssPropertyAsDouble(
       node.style.attributes[Attribute.width.key]?.value.toString() ?? '');
 
   if (heightValue != null) {
@@ -48,18 +46,13 @@ enum ExtraElementProperties {
 
     final cssAttrs = parseCssString(cssStyle.value.toString());
 
-    // TODO: This could be improved much better
-    final cssHeightValue = double.tryParse(((base.isMobile(supportWeb: false)
-                ? cssAttrs[AttributeExt.mobileHeight.key]
-                : cssAttrs[Attribute.height.key]) ??
-            '')
-        .replaceFirst('px', ''));
-    final cssWidthValue = double.tryParse(((!base.isMobile(supportWeb: false)
-                ? cssAttrs[Attribute.width.key]
-                : cssAttrs[AttributeExt.mobileWidth.key]) ??
-            '')
-        .replaceFirst('px', ''));
+    // todo: This could be improved much better
+    final cssHeightValue =
+        parseCssPropertyAsDouble((cssAttrs[Attribute.height.key]) ?? '');
+    final cssWidthValue =
+        parseCssPropertyAsDouble((cssAttrs[Attribute.width.key]) ?? '');
 
+    // cssHeightValue != null && elementSize.height == null
     if (cssHeightValue != null) {
       elementSize = elementSize.copyWith(height: cssHeightValue);
     }
@@ -67,12 +60,9 @@ enum ExtraElementProperties {
       elementSize = elementSize.copyWith(width: cssWidthValue);
     }
 
-    elementAlignment = base.getAlignment(base.isMobile(supportWeb: false)
-        ? cssAttrs[AttributeExt.mobileAlignment.key]
-        : cssAttrs['alignment']);
-    final margin = (base.isMobile(supportWeb: false)
-        ? double.tryParse(AttributeExt.mobileMargin.key)
-        : double.tryParse('margin'));
+    elementAlignment = getAlignment(cssAttrs['alignment']);
+
+    final margin = double.tryParse('margin');
     if (margin != null) {
       elementMargin = margin;
     }
@@ -82,8 +72,8 @@ enum ExtraElementProperties {
 }
 
 @immutable
-class OptionalSize {
-  const OptionalSize(
+class ElementSize {
+  const ElementSize(
     this.width,
     this.height,
   );
@@ -96,11 +86,11 @@ class OptionalSize {
   /// If null, the child is free to choose its own height.
   final double? height;
 
-  OptionalSize copyWith({
+  ElementSize copyWith({
     double? width,
     double? height,
   }) {
-    return OptionalSize(
+    return ElementSize(
       width ?? this.width,
       height ?? this.height,
     );

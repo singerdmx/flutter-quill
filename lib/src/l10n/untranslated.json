@@ -1,1 +1,298 @@
-{}
+{
+  "ar": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "bg": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "bn": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "cs": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "da": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "de": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "en_US": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "es": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "fa": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "fr": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "he": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "hi": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "id": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "it": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "ja": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "ko": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "ms": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "nl": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "no": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "pl": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "pt": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "pt_BR": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "ru": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "sr": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "sw": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "tk": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "tr": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "uk": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "ur": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "vi": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "zh": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "zh_CN": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ],
+
+  "zh_HK": [
+    "pickAPhotoFromYourGallery",
+    "takeAPhotoUsingYourCamera",
+    "pasteAPhotoUsingALink",
+    "pickAVideoFromYourGallery",
+    "recordAVideoUsingYourCamera",
+    "pasteAVideoUsingALink"
+  ]
+}

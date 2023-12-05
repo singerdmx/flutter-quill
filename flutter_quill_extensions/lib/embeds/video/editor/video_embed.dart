@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../../models/config/editor/video/video.dart';
@@ -23,7 +22,7 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
   Widget build(
     BuildContext context,
     QuillController controller,
-    base.Embed node,
+    Embed node,
     bool readOnly,
     bool inline,
     TextStyle textStyle,

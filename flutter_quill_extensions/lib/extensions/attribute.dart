@@ -1,30 +1,32 @@
 import 'package:flutter_quill/flutter_quill.dart'
     show Attribute, AttributeScope;
 
-class MobileWidthAttribute extends Attribute<String?> {
-  const MobileWidthAttribute(String? val)
-      : super('mobileWidth', AttributeScope.ignore, val);
-}
+// class FlutterWidthAttribute extends Attribute<String?> {
+//   const FlutterWidthAttribute(String? val)
+//       : super('flutterWidth', AttributeScope.ignore, val);
+// }
 
-class MobileHeightAttribute extends Attribute<String?> {
-  const MobileHeightAttribute(String? val)
-      : super('mobileHeight', AttributeScope.ignore, val);
-}
+// class FlutterHeightAttribute extends Attribute<String?> {
+//   const FlutterHeightAttribute(String? val)
+//       : super('flutterHeight', AttributeScope.ignore, val);
+// }
 
-class MobileMarginAttribute extends Attribute<String?> {
-  const MobileMarginAttribute(String? val)
-      : super('mobileMargin', AttributeScope.ignore, val);
-}
+// class FlutterMarginAttribute extends Attribute<String?> {
+//   const FlutterMarginAttribute(String? val)
+//       : super('flutterMargin', AttributeScope.ignore, val);
+// }
 
-class MobileAlignmentAttribute extends Attribute<String?> {
-  const MobileAlignmentAttribute(String? val)
-      : super('mobileAlignment', AttributeScope.ignore, val);
+class FlutterAlignmentAttribute extends Attribute<String?> {
+  const FlutterAlignmentAttribute(String? val)
+      : super('flutterAlignment', AttributeScope.ignore, val);
 }
 
 extension AttributeExt on Attribute {
-  static const MobileWidthAttribute mobileWidth = MobileWidthAttribute(null);
-  static const MobileHeightAttribute mobileHeight = MobileHeightAttribute(null);
-  static const MobileMarginAttribute mobileMargin = MobileMarginAttribute(null);
-  static const MobileAlignmentAttribute mobileAlignment =
-      MobileAlignmentAttribute(null);
+  // static const FlutterWidthAttribute flutterWidth = FlutterWidthAttribute(null);
+  // static const FlutterHeightAttribute flutterHeight =
+  //     FlutterHeightAttribute(null);
+  // static const FlutterMarginAttribute flutterMargin =
+  //     FlutterMarginAttribute(null);
+  static const FlutterAlignmentAttribute flutterAlignment =
+      FlutterAlignmentAttribute(null);
 }

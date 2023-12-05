@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
+import 'package:flutter_quill/translations.dart';
 
 import '../../../models/config/editor/image/image.dart';
 import '../../../models/config/shared_configurations.dart';
@@ -25,7 +25,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   Widget build(
     BuildContext context,
     QuillController controller,
-    base.Embed node,
+    Embed node,
     bool readOnly,
     bool inline,
     TextStyle textStyle,

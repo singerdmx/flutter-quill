@@ -5,8 +5,9 @@ All notable changes to this project will be documented in this file.
 ## 0.8.0
 * **Breaking Change**: Completly change the way how the source code structured to more basic and simple way, organize folders and file names, if you use the library
 from `flutter_quill_extensions.dart` then there is nothing you need to do, but if you are using any other import then you need to re-imports
-* Add support for unoffical css property called `deletable` in the image embed, this won't affect how quill js work
+embed, this won't affect how quill js work
 * Improvemenets to the image embed
+* Add support for `margin` for web
 
 ## 0.7.2
 * Fix a bug when opening the link dialog for both video and image buttons

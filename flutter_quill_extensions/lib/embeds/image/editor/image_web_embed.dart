@@ -43,7 +43,7 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
     // if not then it will add the data:image/png;base64, at the first
     if (isImageBase64(imageSource)) {
       // Sometimes the image base 64 for some reasons
-      // doesn't displayed with the
+      // doesn't displayed with the 'data:image/png;base64'
       if (!(imageSource.startsWith('data:image/') &&
           imageSource.contains('base64'))) {
         imageSource = 'data:image/png;base64, $imageSource';

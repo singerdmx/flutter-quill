@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart'
-    show BlockEmbed, EmbedBuilder, QuillController;
+    show BlockEmbed, Embed, EmbedBuilder, QuillController;
 
 class QuillEditorFormulaEmbedBuilder extends EmbedBuilder {
   const QuillEditorFormulaEmbedBuilder();
@@ -15,7 +14,7 @@ class QuillEditorFormulaEmbedBuilder extends EmbedBuilder {
   Widget build(
     BuildContext context,
     QuillController controller,
-    base.Embed node,
+    Embed node,
     bool readOnly,
     bool inline,
     TextStyle textStyle,

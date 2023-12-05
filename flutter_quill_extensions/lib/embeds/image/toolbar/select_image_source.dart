@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart' show isDesktop;
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/translations.dart';
 
 import '../editor/image_embed_types.dart';
 
@@ -14,28 +16,27 @@ class SelectImageSourceDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // TODO: Needs to be translated
             ListTile(
-              title: const Text('Gallery'),
-              subtitle: const Text(
-                'Pick a photo from your gallery',
+              title: Text(context.loc.gallery),
+              subtitle: Text(
+                context.loc.pickAPhotoFromYourGallery,
               ),
               leading: const Icon(Icons.photo_sharp),
               onTap: () => Navigator.of(context).pop(InsertImageSource.gallery),
             ),
             ListTile(
-              title: const Text('Camera'),
-              subtitle: const Text(
-                'Take a photo using your phone camera',
+              title: Text(context.loc.camera),
+              subtitle: Text(
+                context.loc.takeAPhotoUsingYourCamera,
               ),
               leading: const Icon(Icons.camera),
               enabled: !isDesktop(supportWeb: false),
               onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
             ),
             ListTile(
-              title: const Text('Link'),
-              subtitle: const Text(
-                'Paste a photo using a link',
+              title: Text(context.loc.link),
+              subtitle: Text(
+                context.loc.pasteAPhotoUsingALink,
               ),
               leading: const Icon(Icons.link),
               onTap: () => Navigator.of(context).pop(InsertImageSource.link),
@@ -54,7 +55,12 @@ Future<InsertImageSource?> showSelectImageSourceDialog({
     showDragHandle: true,
     context: context,
     constraints: const BoxConstraints(maxWidth: 640),
-    builder: (_) => const SelectImageSourceDialog(),
+    builder: (_) => QuillProvider.value(
+      value: context.requireQuillProvider,
+      child: const FlutterQuillLocalizationsWidget(
+        child: SelectImageSourceDialog(),
+      ),
+    ),
   );
   return imageSource;
 }

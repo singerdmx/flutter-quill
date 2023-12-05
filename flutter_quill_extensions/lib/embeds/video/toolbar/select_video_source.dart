@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart' show isDesktop;
+import 'package:flutter_quill/translations.dart';
 
 import '../video.dart';
 
@@ -14,28 +15,25 @@ class SelectVideoSourceDialog extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // TODO: Needs to be translated
             ListTile(
-              title: const Text('Gallery'),
-              subtitle: const Text(
-                'Pick a video from your gallery',
+              title: Text(context.loc.gallery),
+              subtitle: Text(
+                context.loc.pickAVideoFromYourGallery,
               ),
               leading: const Icon(Icons.photo_sharp),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.gallery),
             ),
             ListTile(
-              title: const Text('Camera'),
-              subtitle: const Text(
-                'Record a video using your phone camera',
-              ),
+              title: Text(context.loc.camera),
+              subtitle: Text(context.loc.recordAVideoUsingYourCamera),
               leading: const Icon(Icons.camera),
               enabled: !isDesktop(supportWeb: false),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
             ),
             ListTile(
-              title: const Text('Link'),
-              subtitle: const Text(
-                'Paste a video using a link',
+              title: Text(context.loc.link),
+              subtitle: Text(
+                context.loc.pasteAVideoUsingALink,
               ),
               leading: const Icon(Icons.link),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.link),
