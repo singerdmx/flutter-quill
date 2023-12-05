@@ -9,7 +9,7 @@ import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../../utils/color.dart';
 import '../../../controller.dart';
 import '../../base_toolbar.dart';
-import 'dialog.dart';
+import 'color_dialog.dart';
 
 /// Controls color styles.
 ///

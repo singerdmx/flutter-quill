@@ -4,7 +4,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart'
 
 import '../../../../../translations.dart';
 import '../../../../models/documents/style.dart';
-import 'color.dart' show hexToColor;
+import 'color_button.dart' show hexToColor;
 
 class ColorPickerDialog extends StatefulWidget {
   const ColorPickerDialog({

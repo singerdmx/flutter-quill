@@ -4,25 +4,25 @@ import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
 import '../../l10n/widgets/localizations.dart';
 import '../../models/config/toolbar/base_toolbar_configurations.dart';
-import 'buttons/arrow_indicated_list.dart';
+import 'buttons/arrow_indicated_list_button.dart';
 
 export '../../models/config/toolbar/buttons/base.dart';
 export '../../models/config/toolbar/toolbar_configurations.dart';
-export 'buttons/clear_format.dart';
-export 'buttons/color/color.dart';
-export 'buttons/custom_button.dart';
-export 'buttons/font_family.dart';
-export 'buttons/font_size.dart';
-export 'buttons/history.dart';
-export 'buttons/indent.dart';
-export 'buttons/link_style.dart';
-export 'buttons/link_style2.dart';
-export 'buttons/quill_icon.dart';
-export 'buttons/search/search.dart';
-export 'buttons/select_alignment.dart';
-export 'buttons/select_header_style.dart';
-export 'buttons/toggle_check_list.dart';
-export 'buttons/toggle_style.dart';
+export 'buttons/clear_format_button.dart';
+export 'buttons/color/color_button.dart';
+export 'buttons/custom_button_button.dart';
+export 'buttons/font_family_button.dart';
+export 'buttons/font_size_button.dart';
+export 'buttons/history_button.dart';
+export 'buttons/indent_button.dart';
+export 'buttons/link_style2_button.dart';
+export 'buttons/link_style_button.dart';
+export 'buttons/quill_icon_button.dart';
+export 'buttons/search/search_button.dart';
+export 'buttons/select_alignment_button.dart';
+export 'buttons/select_header_style_button.dart';
+export 'buttons/toggle_check_list_button.dart';
+export 'buttons/toggle_style_button.dart';
 
 typedef QuillBaseToolbarChildrenBuilder = List<Widget> Function(
   BuildContext context,
