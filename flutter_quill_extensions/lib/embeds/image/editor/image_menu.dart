@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
+import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../models/config/editor/image/image.dart';
 import '../../../models/config/shared_configurations.dart';
@@ -88,15 +89,17 @@ class ImageOptionsMenu extends StatelessWidget {
               final navigator = Navigator.of(context);
               final imageNode =
                   getEmbedNode(controller, controller.selection.start).value;
-              final imageUrl = imageNode.value.data;
+              final image = imageNode.value.data;
               controller.copiedImageUrl = ImageUrl(
-                imageUrl,
+                image,
                 getImageStyleString(controller),
               );
-              // TODO: Implement the copy image
-              // await Clipboard.setData(
-              //   ClipboardData(),
-              // );
+
+              final data = await convertImageToUint8List(image);
+              if (data != null) {
+                final item = DataWriterItem()..add(Formats.png(data));
+                await ClipboardWriter.instance.write([item]);
+              }
               navigator.pop();
             },
           ),

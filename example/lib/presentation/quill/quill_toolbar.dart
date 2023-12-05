@@ -66,7 +66,7 @@ class MyQuillToolbar extends StatelessWidget {
   }
 
   Future<void> onImageInsert(String image, QuillController controller) async {
-    if (isWeb()) {
+    if (isWeb() || isHttpBasedUrl(image)) {
       controller.insertImageBlock(imageSource: image);
       return;
     }

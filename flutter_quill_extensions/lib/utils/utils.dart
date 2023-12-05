@@ -1,6 +1,8 @@
 import 'dart:io' show File;
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart' show Uint8List, immutable;
+import 'package:http/http.dart' as http;
 
 import '../embeds/widgets/image.dart';
 import '../services/image_saver/s_image_saver.dart';
@@ -46,6 +48,18 @@ class SaveImageResult {
 
   final String? error;
   final SaveImageResultMethod method;
+}
+
+Future<Uint8List?> convertImageToUint8List(String image) async {
+  if (isHttpBasedUrl(image)) {
+    final response = await http.get(Uri.parse(image));
+    if (response.statusCode == 200) {
+      return Uint8List.fromList(response.bodyBytes);
+    }
+    return null;
+  }
+  final file = XFile(image);
+  return await file.readAsBytes();
 }
 
 Future<SaveImageResult> saveImage({

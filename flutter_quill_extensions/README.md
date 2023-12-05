@@ -53,8 +53,7 @@ dependencies:
 
 >
 > 1. We are using the [`gal`](https://github.com/natsuk4ze/) plugin to save images.
-> For this to work, you need to add the appropriate permissions
-> to your `Info.plist` and `AndroidManifest.xml` files.
+> For this to work, you need to add the appropriate configurations
 > See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
 >
 > 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the instructions
