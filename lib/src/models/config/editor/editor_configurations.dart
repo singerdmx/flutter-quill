@@ -75,9 +75,13 @@ class QuillEditorConfigurations extends Equatable {
     this.builder,
     this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
+    this.extraConfigurations = const {},
   });
 
   final QuillSharedConfigurations sharedConfigurations;
+
+  /// Store custom configurations in here and use it in the widget tree
+  final Map<String, Object?> extraConfigurations;
 
   final QuillController controller;
 
@@ -338,6 +342,8 @@ class QuillEditorConfigurations extends Equatable {
   // regenerate this function using extension in vs code or plugin in intellij
 
   QuillEditorConfigurations copyWith({
+    QuillSharedConfigurations? sharedConfigurations,
+    Map<String, Object?>? extraConfigurations,
     QuillController? controller,
     String? placeholder,
     bool? readOnly,
@@ -384,6 +390,8 @@ class QuillEditorConfigurations extends Equatable {
     TextInputAction? textInputAction,
   }) {
     return QuillEditorConfigurations(
+      sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
+      extraConfigurations: extraConfigurations ?? this.extraConfigurations,
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       readOnly: readOnly ?? this.readOnly,

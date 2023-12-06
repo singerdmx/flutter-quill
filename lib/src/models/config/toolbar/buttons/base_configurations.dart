@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show VoidCallback, immutable;
 import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
@@ -82,7 +81,7 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   /// If you want to dispaly a differnet widget based using a builder
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 
-  /// By default it will be from the one in [QuillProvider]
+  /// By default it will be from the one in [QuillEditor] or [QuillToolbar]
   /// To override it you must pass not null controller
   /// if you wish to use the controller in the [childBuilder], please use the
   /// one from the extraOptions since it will be not null and will be the one

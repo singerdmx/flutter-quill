@@ -33,6 +33,12 @@ class MyQuillEditor extends StatelessWidget {
       scrollController: scrollController,
       focusNode: focusNode,
       configurations: configurations.copyWith(
+        extraConfigurations: {
+          QuillEditorExtensionsConfigurations.key:
+              const QuillEditorExtensionsConfigurations(
+            assetsPrefix: 'dsadsasda', // Defaults to assets
+          ),
+        },
         customStyles: const DefaultStyles(
           h1: DefaultTextBlockStyle(
             TextStyle(
@@ -99,7 +105,7 @@ class MyQuillEditor extends StatelessWidget {
                       return getImageProviderByImageSource(
                         imageUrl,
                         imageProviderBuilder: null,
-                        assetsPrefix: QuillSharedExtensionsConfigurations.get(
+                        assetsPrefix: QuillEditorExtensionsConfigurations.get(
                                 context: context)
                             .assetsPrefix,
                       );

@@ -30,16 +30,19 @@ typedef QuillBaseToolbarChildrenBuilder = List<Widget> Function(
 
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
-    required this.configurations,
+    required this.child,
+    this.configurations = const QuillToolbarConfigurations(),
     super.key,
   });
 
   static QuillSimpleToolbar simple(
-      QuillSimpleToolbarConfigurations configurations) {
+      {required QuillSimpleToolbarConfigurations configurations}) {
     return QuillSimpleToolbar(
       configurations: configurations,
     );
   }
+
+  final Widget child;
 
   final QuillToolbarConfigurations configurations;
 
@@ -57,7 +60,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     return FlutterQuillLocalizationsWidget(
       child: QuillToolbarProvider(
         toolbarConfigurations: configurations,
-        child: configurations.child,
+        child: child,
       ),
     );
   }

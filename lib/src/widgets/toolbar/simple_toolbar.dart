@@ -428,39 +428,39 @@ class QuillSimpleToolbar extends StatelessWidget
       child: QuillToolbar(
         configurations: QuillToolbarConfigurations(
           buttonOptions: configurations.buttonOptions,
-          child: Builder(
-            builder: (context) {
-              if (configurations.multiRowsDisplay) {
-                return Wrap(
-                  direction: configurations.axis,
-                  alignment: configurations.toolbarIconAlignment,
-                  crossAxisAlignment: configurations.toolbarIconCrossAlignment,
-                  runSpacing: 4,
-                  spacing: configurations.toolbarSectionSpacing,
-                  children: childrenBuilder(context),
-                );
-              }
-              return Container(
-                decoration: configurations.decoration ??
-                    BoxDecoration(
-                      color:
-                          configurations.color ?? Theme.of(context).canvasColor,
-                    ),
-                constraints: BoxConstraints.tightFor(
-                  height: configurations.axis == Axis.horizontal
-                      ? configurations.toolbarSize
-                      : null,
-                  width: configurations.axis == Axis.vertical
-                      ? configurations.toolbarSize
-                      : null,
-                ),
-                child: QuillToolbarArrowIndicatedButtonList(
-                  axis: configurations.axis,
-                  buttons: childrenBuilder(context),
-                ),
+        ),
+        child: Builder(
+          builder: (context) {
+            if (configurations.multiRowsDisplay) {
+              return Wrap(
+                direction: configurations.axis,
+                alignment: configurations.toolbarIconAlignment,
+                crossAxisAlignment: configurations.toolbarIconCrossAlignment,
+                runSpacing: 4,
+                spacing: configurations.toolbarSectionSpacing,
+                children: childrenBuilder(context),
               );
-            },
-          ),
+            }
+            return Container(
+              decoration: configurations.decoration ??
+                  BoxDecoration(
+                    color:
+                        configurations.color ?? Theme.of(context).canvasColor,
+                  ),
+              constraints: BoxConstraints.tightFor(
+                height: configurations.axis == Axis.horizontal
+                    ? configurations.toolbarSize
+                    : null,
+                width: configurations.axis == Axis.vertical
+                    ? configurations.toolbarSize
+                    : null,
+              ),
+              child: QuillToolbarArrowIndicatedButtonList(
+                axis: configurations.axis,
+                buttons: childrenBuilder(context),
+              ),
+            );
+          },
         ),
       ),
     );

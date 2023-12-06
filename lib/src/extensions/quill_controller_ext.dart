@@ -5,7 +5,7 @@ import 'quill_configurations_ext.dart';
 
 extension QuillControllerNullableExt on QuillController? {
   /// Simple logic to use the current passed controller if not null
-  /// if null then we will have to use the default one from [QuillProvider]
+  /// if null then we will have to use the default one
   /// using the [context]
   QuillController notNull(BuildContext context) {
     final controller = this;

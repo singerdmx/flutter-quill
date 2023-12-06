@@ -44,7 +44,7 @@ class QuillSimpleToolbarProvider extends InheritedWidget {
             'You might using QuillToolbar so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
-        'QuillProvider',
+        'QuillSimpleToolbarProvider',
       );
     }
     return provider;
@@ -102,7 +102,7 @@ class QuillToolbarProvider extends InheritedWidget {
             'You might using QuillBaseToolbar so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
-        'QuillProvider',
+        'QuillToolbarProvider',
       );
     }
     return provider;
@@ -159,7 +159,7 @@ class QuillEditorProvider extends InheritedWidget {
             'You might using QuillEditor so make sure to'
             ' wrap them with the quill provider widget and setup the required '
             'configurations',
-        'QuillProvider',
+        'QuillEditorProvider',
       );
     }
     return provider;
