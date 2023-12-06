@@ -11,6 +11,7 @@ export '../../models/config/toolbar/toolbar_configurations.dart';
 export 'buttons/clear_format.dart';
 export 'buttons/color/color.dart';
 export 'buttons/custom_button.dart';
+export 'buttons/dropdown_header_style.dart';
 export 'buttons/font_family.dart';
 export 'buttons/font_size.dart';
 export 'buttons/history.dart';
