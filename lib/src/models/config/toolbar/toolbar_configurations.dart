@@ -10,6 +10,7 @@ import 'buttons/base.dart';
 import 'buttons/clear_format.dart';
 import 'buttons/color.dart';
 import 'buttons/custom_button.dart';
+import 'buttons/dropdown_header_style.dart';
 import 'buttons/font_family.dart';
 import 'buttons/font_size.dart';
 import 'buttons/history.dart';
@@ -37,6 +38,7 @@ export './buttons/link_style2.dart';
 export './buttons/search.dart';
 export './buttons/select_alignment.dart';
 export './buttons/select_header_style.dart';
+export './buttons/dropdown_header_style.dart';
 export './buttons/toggle_check_list.dart';
 export './buttons/toggle_style.dart';
 
@@ -61,6 +63,17 @@ enum LinkStyleType {
 
   bool get isOriginal => this == LinkStyleType.original;
   bool get isAlternative => this == LinkStyleType.alternative;
+}
+
+enum HeaderStyleType {
+  /// Defines the original [QuillToolbarSelectHeaderStyleButtons].
+  original,
+
+  /// Defines the alternative [QuillToolbarSelectHeaderStyleDropdownButton].
+  dropdown;
+
+  bool get isOriginal => this == HeaderStyleType.original;
+  bool get isDropdown => this == HeaderStyleType.dropdown;
 }
 
 /// The configurations for the toolbar widget of flutter quill
@@ -105,6 +118,7 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showSubscript = true,
     this.showSuperscript = true,
     this.linkStyleType = LinkStyleType.original,
+    this.headerStyleType = HeaderStyleType.original,
     super.customButtons = const [],
 
     /// The decoration to use for the toolbar.
@@ -208,6 +222,9 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
   /// Defines which dialog is used for applying link attribute.
   final LinkStyleType linkStyleType;
 
+  /// Defines which dialog is used for applying header attribute.
+  final HeaderStyleType headerStyleType;
+
   @override
   List<Object?> get props => [
         buttonOptions,
@@ -255,6 +272,8 @@ class QuillToolbarButtonOptions extends Equatable {
     this.search = const QuillToolbarSearchButtonOptions(),
     this.selectHeaderStyleButtons =
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
+    this.headerStyleButton =
+        const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
     this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
     this.customButtons = const QuillToolbarCustomButtonOptions(),
@@ -300,6 +319,7 @@ class QuillToolbarButtonOptions extends Equatable {
   /// for all the header style buttons and not just one, you still
   /// can customize it and you also have child builder
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
+  final QuillToolbarSelectHeaderStyleDropdownButtonOptions headerStyleButton;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
   final QuillToolbarLinkStyleButton2Options linkStyle2;
