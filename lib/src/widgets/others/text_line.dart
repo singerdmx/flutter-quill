@@ -175,11 +175,12 @@ class _TextLineState extends State<TextLine> {
       textScaler: MediaQuery.textScalerOf(context),
     );
     return RichTextProxy(
-      textStyle: textSpan.style!,
+      textStyle: textSpan.style ?? const TextStyle(),
       textAlign: textAlign,
       textDirection: widget.textDirection!,
       strutStyle: strutStyle,
       locale: Localizations.localeOf(context),
+      textScaler: MediaQuery.textScalerOf(context),
       child: child,
     );
   }

@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart'
         Widget;
 import 'package:meta/meta.dart' show immutable;
 
-import '../../models/config/raw_editor/configurations.dart';
+import '../../models/config/raw_editor/raw_editor_configurations.dart';
 import '../../models/structs/offset_value.dart';
 import '../editor/editor.dart';
 import '../others/text_selection.dart';

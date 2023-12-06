@@ -332,8 +332,6 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionEnd(DragEndDetails details) {
     renderEditor!.handleDragEnd(details);
-    // TODO: Should we care if the platform is desktop using native desktop app
-    // or the flutter app is running using web app??
     if (isDesktop(supportWeb: true) &&
         delegate.selectionEnabled &&
         shouldShowSelectionToolbar) {

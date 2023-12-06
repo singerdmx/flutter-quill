@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 
 import '../../../flutter_quill.dart';
 
-export './editor/configurations.dart';
+export 'editor/editor_configurations.dart';
 export 'quill_shared_configurations.dart';
 export 'toolbar/simple_toolbar_configurations.dart';
 

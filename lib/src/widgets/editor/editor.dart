@@ -9,8 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../../l10n/widgets/localizations.dart';
-import '../../models/config/editor/configurations.dart';
-import '../../models/config/raw_editor/configurations.dart';
+import '../../models/config/editor/editor_configurations.dart';
+import '../../models/config/raw_editor/raw_editor_configurations.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
 import '../../models/documents/nodes/leaf.dart';
@@ -1209,28 +1209,6 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   Rect getLocalRectForCaret(TextPosition position) {
     final targetChild = childAtPosition(position);
-    // TODO: There is a bug here
-    // The provided text position is not in the current node
-    // 'package:flutter_quill/src/widgets/text_block.dart':
-    // text_block.dart:1
-    // Failed assertion: line 604 pos 12:
-    // 'container.containsOffset(position.offset)'
-    //     When the exception was thrown, this was the stack
-    // #2      RenderEditableTextBlock.globalToLocalPosition
-    // text_block.dart:604
-    // #3      RenderEditor.getLocalRectForCaret
-    // editor.dart:1230
-    // #4      RawEditorStateTextInputClientMixin._updateComposingRectIfNeeded
-    // raw_editor_state_text_input_client_mixin.dart:85
-    // #5      RawEditorStateTextInputClientMixin.openConnectionIfNeeded
-    // raw_editor_state_text_input_client_mixin.dart:70
-    // #6      RawEditorState.requestKeyboard
-    // raw_editor.dart:1428
-    // #7      QuillEditorState._requestKeyboard
-    // editor.dart:379
-    // #8      _QuillEditorSelectionGestureDetectorBuilder.onSingleTapUp
-    // editor.dart:538
-    // #9      _EditorTextSelectionGestureDetectorState._handleTapUp
     final localPosition = targetChild.globalToLocalPosition(position);
 
     final childLocalRect = targetChild.getLocalRectForCaret(localPosition);

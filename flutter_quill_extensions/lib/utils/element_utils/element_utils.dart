@@ -51,7 +51,6 @@ enum ExtraElementProperties {
 
     final cssAttrs = parseCssString(cssStyle.value.toString());
 
-    // todo: This could be improved much better
     final cssHeightValue = parseCssPropertyAsDouble(
       (cssAttrs[Attribute.height.key]) ?? '',
       context: context,

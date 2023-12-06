@@ -423,7 +423,7 @@ class QuillSimpleToolbar extends StatelessWidget
       ];
     }
 
-    return QuillToolbarProvider(
+    return QuillSimpleToolbarProvider(
       toolbarConfigurations: configurations,
       child: QuillToolbar(
         configurations: QuillToolbarConfigurations(

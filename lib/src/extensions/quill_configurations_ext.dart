@@ -57,12 +57,12 @@ extension QuillEditorExt on BuildContext {
 extension QuillSimpleToolbarExt on BuildContext {
   /// return [QuillSimpleToolbarConfigurations] as not null
   QuillSimpleToolbarConfigurations get requireQuillSimpleToolbarConfigurations {
-    return QuillToolbarProvider.ofNotNull(this).toolbarConfigurations;
+    return QuillSimpleToolbarProvider.ofNotNull(this).toolbarConfigurations;
   }
 
   /// return nullable [QuillSimpleToolbarConfigurations]
   QuillSimpleToolbarConfigurations? get quillSimpleToolbarConfigurations {
-    return QuillToolbarProvider.of(this)?.toolbarConfigurations;
+    return QuillSimpleToolbarProvider.of(this)?.toolbarConfigurations;
   }
 
   /// return nullable [QuillToolbarBaseButtonOptions].
@@ -83,11 +83,11 @@ extension QuillSimpleToolbarExt on BuildContext {
 extension QuillToolbarExt on BuildContext {
   /// return [QuillToolbarConfigurations] as not null
   QuillToolbarConfigurations get requireQuillToolbarConfigurations {
-    return QuillBaseToolbarProvider.ofNotNull(this).toolbarConfigurations;
+    return QuillToolbarProvider.ofNotNull(this).toolbarConfigurations;
   }
 
   /// return nullable [QuillToolbarConfigurations].
   QuillToolbarConfigurations? get quillToolbarConfigurations {
-    return QuillBaseToolbarProvider.of(this)?.toolbarConfigurations;
+    return QuillToolbarProvider.of(this)?.toolbarConfigurations;
   }
 }

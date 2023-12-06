@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart' show immutable;
 
+import '../../extensions/uri_ext.dart';
 import '../../models/documents/document.dart';
 import '../documents/attribute.dart';
 import '../documents/nodes/embeddable.dart';
@@ -520,8 +521,7 @@ class AutoFormatLinksRule extends InsertRule {
     try {
       final cand = (prev.data as String).split('\n').last.split(' ').last;
       final link = Uri.parse(cand);
-      // TODO: Can be improved a little
-      if (!['https', 'http'].contains(link.scheme)) {
+      if (!link.isHttpBasedUrl()) {
         return null;
       }
       final attributes = prev.attributes ?? <String, dynamic>{};

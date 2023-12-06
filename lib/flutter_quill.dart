@@ -2,7 +2,7 @@ library flutter_quill;
 
 export 'src/extensions/quill_configurations_ext.dart';
 export 'src/models/config/quill_configurations.dart';
-export 'src/models/config/raw_editor/configurations.dart';
+export 'src/models/config/raw_editor/raw_editor_configurations.dart';
 export 'src/models/config/toolbar/toolbar_configurations.dart';
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';

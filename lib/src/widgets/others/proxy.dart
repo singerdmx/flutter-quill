@@ -136,8 +136,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
     required this.textDirection,
     required this.locale,
     required this.strutStyle,
-    // TODO: This might needs to be updated, previous value was 1.0 using `textScaleFactor`
-    this.textScaler = const TextScaler.linear(1),
+    required this.textScaler,
     this.textWidthBasis = TextWidthBasis.parent,
     this.textHeightBehavior,
     super.key,
