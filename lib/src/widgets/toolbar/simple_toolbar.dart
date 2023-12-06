@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/quill_configurations_ext.dart';
-import '../../l10n/extensions/localizations.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';

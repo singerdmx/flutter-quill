@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/widgets.dart'
-    show Axis, Widget, WrapAlignment, WrapCrossAlignment, immutable;
+import 'package:flutter/widgets.dart' show Widget, immutable;
 
 import '../../../widgets/toolbar/base_toolbar.dart';
 import 'toolbar_shared_configurations.dart';
