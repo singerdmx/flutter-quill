@@ -6,7 +6,6 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
-import '../../../widgets/editor/editor.dart';
 import '../../../widgets/editor/editor_builder.dart';
 import '../../../widgets/others/controller.dart';
 import '../../../widgets/others/default_styles.dart';

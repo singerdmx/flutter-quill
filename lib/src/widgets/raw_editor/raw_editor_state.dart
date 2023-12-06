@@ -116,10 +116,6 @@ class QuillRawEditorState extends EditorState
         .call(content);
   }
 
-  /// Returns the [ContextMenuButtonItem]s representing the buttons in this
-  /// platform's default selection menu for [QuillRawEditor].
-  ///
-  /// Copied from [EditableTextState].
   // List<ContextMenuButtonItem> get contextMenuButtonItems {
   //   return EditableText.getEditableButtonItems(
   //     clipboardStatus: _clipboardStatus.value,
@@ -297,6 +293,9 @@ class QuillRawEditorState extends EditorState
     }
   }
 
+  /// Returns the [ContextMenuButtonItem]s representing the buttons in this
+  /// platform's default selection menu for [QuillRawEditor].
+  /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
       clipboardStatus: _clipboardStatus.value,

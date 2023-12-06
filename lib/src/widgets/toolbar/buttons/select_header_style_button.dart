@@ -37,8 +37,12 @@ class _QuillToolbarSelectHeaderStyleButtonState
   }
 
   void _didChangeEditingValue() {
+    final newSelectedItem = _getOptionsItemByAttribute(_getHeaderValue());
+    if (newSelectedItem == _selectedItem) {
+      return;
+    }
     setState(() {
-      _selectedItem = _getOptionsItemByAttribute(_getHeaderValue());
+      _selectedItem = newSelectedItem;
     });
   }
 

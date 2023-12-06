@@ -7,6 +7,7 @@ import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../utils/platform.dart';
 import '../editor/editor.dart';
+import '../raw_editor/raw_editor.dart';
 import 'embeds.dart';
 import 'text_selection.dart';
 
