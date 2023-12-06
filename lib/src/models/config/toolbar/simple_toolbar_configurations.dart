@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
@@ -69,11 +70,13 @@ enum LinkStyleType {
 class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   const QuillSimpleToolbarConfigurations({
     required this.controller,
+    super.sharedConfigurations,
     super.toolbarSectionSpacing = kToolbarSectionSpacing,
     super.toolbarIconAlignment = WrapAlignment.center,
     super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     super.buttonOptions = const QuillToolbarButtonOptions(),
     this.customButtons = const [],
+    this.fontFamilyValues,
     super.multiRowsDisplay = true,
     this.fontSizesValues,
     this.showDividers = true,
@@ -144,6 +147,8 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     }
     return buttonOptions.base.globalIconSize * 2;
   }
+
+  final Map<String, String>? fontFamilyValues;
 
   final QuillController controller;
 
@@ -231,12 +236,8 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
 class QuillToolbarButtonOptions extends Equatable {
   const QuillToolbarButtonOptions({
     this.base = const QuillToolbarBaseButtonOptions(),
-    this.undoHistory = const QuillToolbarHistoryButtonOptions(
-      isUndo: true,
-    ),
-    this.redoHistory = const QuillToolbarHistoryButtonOptions(
-      isUndo: false,
-    ),
+    this.undoHistory = const QuillToolbarHistoryButtonOptions(),
+    this.redoHistory = const QuillToolbarHistoryButtonOptions(),
     this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
     this.fontSize = const QuillToolbarFontSizeButtonOptions(),
     this.bold = const QuillToolbarToggleStyleButtonOptions(),

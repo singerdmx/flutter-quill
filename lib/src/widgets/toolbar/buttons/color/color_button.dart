@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../extensions/quill_provider.dart';
+import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../l10n/extensions/localizations.dart';
 import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/documents/attribute.dart';
@@ -196,9 +196,10 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     return IconButton(
       tooltip: tooltip,
       iconSize: iconSize * iconButtonFactor,
-      icon: Icon(iconData,
-          size: iconSize,
-          color: widget.isBackground ? iconColorBackground : iconColor),
+      icon: Icon(
+        iconData,
+        color: widget.isBackground ? iconColorBackground : iconColor,
+      ),
       onPressed: _showColorPicker,
     );
   }

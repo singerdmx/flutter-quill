@@ -4,9 +4,11 @@ import 'package:flutter/widgets.dart'
 
 import '../../../widgets/toolbar/base_toolbar.dart';
 import '../../structs/link_dialog_action.dart';
+import '../quill_shared_configurations.dart';
 
 abstract class QuillSharedToolbarProperties extends Equatable {
   const QuillSharedToolbarProperties({
+    this.sharedConfigurations = const QuillSharedConfigurations(),
     this.toolbarSize,
     this.axis = Axis.horizontal,
     this.toolbarSectionSpacing = kToolbarSectionSpacing,
@@ -53,4 +55,6 @@ abstract class QuillSharedToolbarProperties extends Equatable {
   /// If you want change spesefic buttons or all of them
   /// then you came to the right place
   final QuillToolbarButtonOptions buttonOptions;
+
+  final QuillSharedConfigurations sharedConfigurations;
 }

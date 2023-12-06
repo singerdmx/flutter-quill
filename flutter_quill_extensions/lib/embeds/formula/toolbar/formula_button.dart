@@ -6,7 +6,7 @@ import '../../../models/config/toolbar/buttons/formula.dart';
 class QuillToolbarFormulaButton extends StatelessWidget {
   const QuillToolbarFormulaButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarFormulaButtonOptions(),
     super.key,
   });
 
@@ -91,7 +91,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     }
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize * 1.77, color: iconColor),
+      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
       tooltip: tooltip,
       onPressed: () => _sharedOnPressed(context),
       isFilled: false,

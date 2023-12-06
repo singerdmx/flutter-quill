@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/widgets.dart'
     show Axis, WrapAlignment, WrapCrossAlignment, immutable;
 
@@ -7,7 +8,7 @@ import 'toolbar_shared_configurations.dart';
 @immutable
 class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
   const QuillToolbarConfigurations({
-    required this.childrenBuilder,
+    this.childrenBuilder,
     super.axis = Axis.horizontal,
     super.toolbarSize = kDefaultIconSize * 2,
     super.toolbarSectionSpacing = kToolbarSectionSpacing,
@@ -25,8 +26,16 @@ class QuillToolbarConfigurations extends QuillSharedToolbarProperties {
     super.buttonOptions = const QuillToolbarButtonOptions(),
   });
 
-  final QuillBaseToolbarChildrenBuilder childrenBuilder;
+  final QuillBaseToolbarChildrenBuilder? childrenBuilder;
 
   @override
   List<Object?> get props => [];
+
+  QuillToolbarConfigurations copyWith({
+    QuillBaseToolbarChildrenBuilder? childrenBuilder,
+  }) {
+    return QuillToolbarConfigurations(
+      childrenBuilder: childrenBuilder ?? this.childrenBuilder,
+    );
+  }
 }

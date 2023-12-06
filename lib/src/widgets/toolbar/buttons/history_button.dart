@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../others/controller.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarHistoryButton extends StatefulWidget {
   const QuillToolbarHistoryButton({
-    required this.options,
     required this.controller,
+    required this.isUndo,
+    this.options = const QuillToolbarHistoryButtonOptions(),
     super.key,
   });
+
+  /// If this true then it will be the undo button
+  /// otherwise it will be redo
+  final bool isUndo;
 
   final QuillToolbarHistoryButtonOptions options;
   final QuillController controller;
@@ -53,10 +58,10 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         context.requireQuillToolbarBaseButtonOptions;
     final tooltip = options.tooltip ??
         baseButtonConfigurations.tooltip ??
-        (options.isUndo ? context.loc.undo : context.loc.redo);
+        (widget.isUndo ? context.loc.undo : context.loc.redo);
     final iconData = options.iconData ??
         baseButtonConfigurations.iconData ??
-        (options.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
+        (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
     final childBuilder =
         options.childBuilder ?? baseButtonConfigurations.childBuilder;
     final iconSize =
@@ -71,7 +76,6 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     if (childBuilder != null) {
       return childBuilder(
         QuillToolbarHistoryButtonOptions(
-          isUndo: options.isUndo,
           afterButtonPressed: afterButtonPressed,
           controller: controller,
           iconData: iconData,
@@ -115,7 +119,7 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   }
 
   void _updateCanPressed() {
-    if (options.isUndo) {
+    if (widget.isUndo) {
       _canPressed = controller.hasUndo;
       return;
     }
@@ -123,7 +127,7 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
   }
 
   void _updateHistory() {
-    if (options.isUndo) {
+    if (widget.isUndo) {
       if (controller.hasUndo) {
         controller.undo();
       }

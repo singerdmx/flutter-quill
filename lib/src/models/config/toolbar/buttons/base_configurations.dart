@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show VoidCallback, immutable;
 import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
-import '../../../../../flutter_quill.dart' show QuillController, QuillProvider;
+import '../../../../../flutter_quill.dart' show QuillController;
 import '../../../themes/quill_icon_theme.dart' show QuillIconTheme;
 import '../../quill_configurations.dart'
     show kDefaultIconSize, kIconButtonFactor;

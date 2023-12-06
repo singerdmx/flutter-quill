@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_icon_theme.dart';
@@ -10,7 +10,7 @@ import '../base_toolbar.dart';
 class QuillToolbarClearFormatButton extends StatelessWidget {
   const QuillToolbarClearFormatButton({
     required QuillController controller,
-    required this.options,
+    this.options = const QuillToolbarClearFormatButtonOptions(),
     super.key,
   }) : _controller = controller;
 

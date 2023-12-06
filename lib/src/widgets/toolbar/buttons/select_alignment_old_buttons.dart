@@ -14,7 +14,7 @@
 // class QuillToolbarSelectAlignmentOldButtons extends StatefulWidget {
 //   const QuillToolbarSelectAlignmentOldButtons({
 //     required this.controller,
-//     required this.options,
+//     this.options,
 //     this.showLeftAlignment,
 //     this.showCenterAlignment,
 //     this.showRightAlignment,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/quill_provider.dart';
+import '../../extensions/quill_configurations_ext.dart';
 import '../../l10n/extensions/localizations.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
@@ -67,7 +67,7 @@ class QuillSimpleToolbar extends StatelessWidget
           toolbarSize: configurations.toolbarSize,
           childrenBuilder: (context) {
             final toolbarConfigurations =
-                context.requireQuillToolbarConfigurations;
+                context.requireQuillSimpleToolbarConfigurations;
 
             final globalIconSize =
                 toolbarConfigurations.buttonOptions.base.globalIconSize;
@@ -81,6 +81,7 @@ class QuillSimpleToolbar extends StatelessWidget
             return [
               if (configurations.showUndo) ...[
                 QuillToolbarHistoryButton(
+                  isUndo: true,
                   options: toolbarConfigurations.buttonOptions.undoHistory,
                   controller: toolbarConfigurations
                           .buttonOptions.undoHistory.controller ??
@@ -90,6 +91,7 @@ class QuillSimpleToolbar extends StatelessWidget
               ],
               if (configurations.showRedo) ...[
                 QuillToolbarHistoryButton(
+                  isUndo: false,
                   options: toolbarConfigurations.buttonOptions.redoHistory,
                   controller: toolbarConfigurations
                           .buttonOptions.redoHistory.controller ??

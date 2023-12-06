@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../flutter_quill.dart'
     show QuillBaseToolbarProvider, defaultToolbarSize;
 import '../../l10n/widgets/localizations.dart';
+import '../../models/config/toolbar/simple_toolbar_configurations.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
 import 'buttons/arrow_indicated_list_button.dart';
+import 'simple_toolbar.dart';
 
 export '../../models/config/toolbar/buttons/base_configurations.dart';
 export '../../models/config/toolbar/simple_toolbar_configurations.dart';
@@ -34,6 +36,13 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
   });
 
+  static QuillSimpleToolbar simple(
+      QuillSimpleToolbarConfigurations configurations) {
+    return QuillSimpleToolbar(
+      configurations: configurations,
+    );
+  }
+
   final QuillToolbarConfigurations configurations;
 
   // We can't get the modified [toolbarSize] by the developer
@@ -60,7 +69,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
                 crossAxisAlignment: configurations.toolbarIconCrossAlignment,
                 runSpacing: 4,
                 spacing: configurations.toolbarSectionSpacing,
-                children: configurations.childrenBuilder(context),
+                children: configurations.childrenBuilder?.call(context) ?? [],
               );
             }
             return Container(
@@ -77,7 +86,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
               ),
               child: QuillToolbarArrowIndicatedButtonList(
                 axis: configurations.axis,
-                buttons: configurations.childrenBuilder(context),
+                buttons: configurations.childrenBuilder?.call(context) ?? [],
               ),
             );
           },

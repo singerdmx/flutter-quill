@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../others/controller.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarCustomButton extends StatelessWidget {
   const QuillToolbarCustomButton({
-    required this.options,
     required this.controller,
+    this.options = const QuillToolbarCustomButtonOptions(),
     super.key,
   });
 

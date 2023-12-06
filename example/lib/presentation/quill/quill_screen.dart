@@ -3,7 +3,7 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show FlutterQuillEmbeds;
+    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
 
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
@@ -106,12 +106,14 @@ class _QuillScreenState extends State<QuillScreen> {
             MyQuillToolbar(
               controller: _controller,
               focusNode: _editorFocusNode,
+              sharedConfigurations: _sharedConfigurations,
             ),
           Builder(
             builder: (context) {
               return Expanded(
                 child: MyQuillEditor(
                   configurations: QuillEditorConfigurations(
+                    sharedConfigurations: _sharedConfigurations,
                     controller: _controller,
                     readOnly: _isReadOnly,
                   ),
@@ -127,6 +129,17 @@ class _QuillScreenState extends State<QuillScreen> {
         child: Icon(_isReadOnly ? Icons.lock : Icons.edit),
         onPressed: () => setState(() => _isReadOnly = !_isReadOnly),
       ),
+    );
+  }
+
+  QuillSharedConfigurations get _sharedConfigurations {
+    return const QuillSharedConfigurations(
+      extraConfigurations: {
+        QuillSharedExtensionsConfigurations.key:
+            QuillSharedExtensionsConfigurations(
+          assetsPrefix: 'your-assets-folder-name', // Defaults to assets
+        ),
+      },
     );
   }
 }

@@ -20,7 +20,7 @@ enum _AlignmentOptions {
 class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
   const QuillToolbarSelectAlignmentButtons({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarSelectAlignmentButtonOptions(),
     this.showLeftAlignment,
     this.showCenterAlignment,
     this.showRightAlignment,
@@ -44,7 +44,6 @@ class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: _AlignmentOptions.values
           .map((e) => QuillToolbarToggleStyleButton(
-                options: const QuillToolbarToggleStyleButtonOptions(),
                 controller: controller,
                 attribute: e.attribute,
               ))

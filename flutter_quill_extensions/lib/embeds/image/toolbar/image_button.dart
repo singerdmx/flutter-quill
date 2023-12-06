@@ -14,7 +14,7 @@ import 'select_image_source.dart';
 class QuillToolbarImageButton extends StatelessWidget {
   const QuillToolbarImageButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarImageButtonOptions(),
     super.key,
   });
 
@@ -105,7 +105,7 @@ class QuillToolbarImageButton extends StatelessWidget {
     return QuillToolbarIconButton(
       icon: Icon(
         iconData,
-        size: iconSize * 1.77,
+        size: iconButtonFactor * iconSize,
         color: iconColor,
       ),
       tooltip: tooltip,

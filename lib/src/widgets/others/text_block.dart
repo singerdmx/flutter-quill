@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../extensions/quill_provider.dart';
+import '../../extensions/quill_configurations_ext.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/block.dart';
 import '../../models/documents/nodes/line.dart';

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-4
+* The options parameter in all of the buttons is no longer required which can be useful to create custom toolbar with minimal efforts
+* Toolbar buttons fixes in both `flutter_quill` and `flutter_quill_extensions`
+
 ## 9.0.0-dev-3
 * Breaking Changes:
   * Rename `QuillToolbar` to `QuillSimpleToolbar`

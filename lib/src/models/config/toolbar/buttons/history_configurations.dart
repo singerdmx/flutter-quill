@@ -20,7 +20,6 @@ class QuillToolbarHistoryButtonExtraOptions
 class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions> {
   const QuillToolbarHistoryButtonOptions({
-    required this.isUndo,
     super.iconData,
     super.controller,
     super.iconTheme,
@@ -30,10 +29,6 @@ class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
     this.iconSize,
     this.iconButtonFactor,
   });
-
-  /// If this true then it will be the undo button
-  /// otherwise it will be redo
-  final bool isUndo;
 
   /// By default will use [globalIconSize]
   final double? iconSize;

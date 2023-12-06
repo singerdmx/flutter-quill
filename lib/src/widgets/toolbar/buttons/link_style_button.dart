@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../l10n/widgets/localizations.dart';
 import '../../../models/documents/attribute.dart';
@@ -15,7 +15,7 @@ import '../base_toolbar.dart';
 class QuillToolbarLinkStyleButton extends StatefulWidget {
   const QuillToolbarLinkStyleButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarLinkStyleButtonOptions(),
     super.key,
   });
 

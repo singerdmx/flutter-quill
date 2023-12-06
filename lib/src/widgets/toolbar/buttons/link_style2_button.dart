@@ -4,7 +4,7 @@ import 'package:url_launcher/link.dart';
 
 import '../../../../extensions.dart'
     show UtilityWidgets, AutoFormatMultipleLinksRule;
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../l10n/widgets/localizations.dart';
 import '../../../models/documents/attribute.dart';
@@ -20,7 +20,7 @@ import '../base_toolbar.dart';
 class QuillToolbarLinkStyleButton2 extends StatefulWidget {
   QuillToolbarLinkStyleButton2({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarLinkStyleButton2Options(),
     super.key,
   })  : assert(options.addLinkLabel == null ||
             (options.addLinkLabel?.isNotEmpty ?? true)),

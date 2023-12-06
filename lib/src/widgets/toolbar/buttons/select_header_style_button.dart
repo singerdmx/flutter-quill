@@ -15,7 +15,7 @@ enum _HeaderStyleOptions {
 class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
   const QuillToolbarSelectHeaderStyleButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
     super.key,
   });
 

@@ -17,11 +17,14 @@ class MyQuillToolbar extends StatelessWidget {
   const MyQuillToolbar({
     required this.controller,
     required this.focusNode,
+    required this.sharedConfigurations,
     super.key,
   });
 
   final QuillController controller;
   final FocusNode focusNode;
+  // TODO: Use it
+  final QuillSharedConfigurations sharedConfigurations;
 
   Future<void> onImageInsertWithCropping(
     String image,
@@ -101,132 +104,103 @@ class MyQuillToolbar extends StatelessWidget {
           // https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_toolbar.md
           return QuillToolbar(
             configurations: QuillToolbarConfigurations(
-              toolbarSize: 15 * 2,
+              toolbarSize: 20 * 2,
               multiRowsDisplay: false,
               buttonOptions: const QuillToolbarButtonOptions(
                 base: QuillToolbarBaseButtonOptions(
                   globalIconSize: 20,
+                  globalIconButtonFactor: 1.4,
                 ),
               ),
               childrenBuilder: (context) {
                 return [
                   IconButton(
-                    onPressed: () {
-                      context.read<SettingsCubit>().updateSettings(
-                          state.copyWith(useCustomQuillToolbar: false));
-                    },
+                    onPressed: () => context
+                        .read<SettingsCubit>()
+                        .updateSettings(
+                            state.copyWith(useCustomQuillToolbar: false)),
                     icon: const Icon(
                       Icons.width_normal,
-                      size: 16,
                     ),
                   ),
-                  QuillToolbarImageButton(
+                  QuillToolbarHistoryButton(
+                    isUndo: true,
                     controller: controller,
-                    options: const QuillToolbarImageButtonOptions(),
                   ),
                   QuillToolbarHistoryButton(
+                    isUndo: false,
                     controller: controller,
-                    options:
-                        const QuillToolbarHistoryButtonOptions(isUndo: true),
-                  ),
-                  QuillToolbarHistoryButton(
-                    controller: controller,
-                    options:
-                        const QuillToolbarHistoryButtonOptions(isUndo: false),
                   ),
                   QuillToolbarToggleStyleButton(
+                    options: const QuillToolbarToggleStyleButtonOptions(),
+                    controller: controller,
                     attribute: Attribute.bold,
-                    controller: controller,
-                    options: QuillToolbarToggleStyleButtonOptions(
-                      childBuilder: (options, extraOptions) {
-                        if (extraOptions.isToggled) {
-                          return IconButton.filled(
-                            onPressed: extraOptions.onPressed,
-                            icon: Icon(options.iconData),
-                          );
-                        }
-                        return IconButton(
-                          onPressed: extraOptions.onPressed,
-                          icon: Icon(options.iconData),
-                        );
-                      },
-                    ),
                   ),
                   QuillToolbarToggleStyleButton(
+                    options: const QuillToolbarToggleStyleButtonOptions(),
+                    controller: controller,
                     attribute: Attribute.italic,
-                    controller: controller,
-                    options: const QuillToolbarToggleStyleButtonOptions(
-                      iconData: Icons.format_italic,
-                    ),
                   ),
                   QuillToolbarToggleStyleButton(
-                    attribute: Attribute.underline,
                     controller: controller,
-                    options: const QuillToolbarToggleStyleButtonOptions(
-                      iconData: Icons.format_underline,
-                      iconSize: 20,
-                    ),
+                    attribute: Attribute.underline,
                   ),
                   QuillToolbarClearFormatButton(
                     controller: controller,
-                    options: const QuillToolbarClearFormatButtonOptions(
-                      iconData: Icons.format_clear,
-                    ),
                   ),
-                  VerticalDivider(
-                    indent: 12,
-                    endIndent: 12,
-                    color: Colors.grey.shade400,
-                  ),
-                  QuillToolbarSelectHeaderStyleButtons(
+                  const VerticalDivider(),
+                  QuillToolbarImageButton(
                     controller: controller,
-                    options: const QuillToolbarSelectHeaderStyleButtonsOptions(
-                      iconSize: 20,
-                    ),
+                  ),
+                  QuillToolbarCameraButton(
+                    controller: controller,
+                  ),
+                  QuillToolbarVideoButton(
+                    controller: controller,
+                  ),
+                  const VerticalDivider(),
+                  QuillToolbarColorButton(
+                    controller: controller,
+                    isBackground: false,
+                  ),
+                  QuillToolbarColorButton(
+                    controller: controller,
+                    isBackground: true,
+                  ),
+                  const VerticalDivider(),
+                  QuillToolbarSelectHeaderStyleButton(
+                    controller: controller,
+                  ),
+                  const VerticalDivider(),
+                  QuillToolbarToggleCheckListButton(
+                    controller: controller,
                   ),
                   QuillToolbarToggleStyleButton(
-                    attribute: Attribute.ol,
                     controller: controller,
-                    options: const QuillToolbarToggleStyleButtonOptions(
-                      iconData: Icons.format_list_numbered,
-                      iconSize: 39,
-                    ),
+                    attribute: Attribute.list,
                   ),
                   QuillToolbarToggleStyleButton(
+                    controller: controller,
                     attribute: Attribute.ul,
-                    controller: controller,
-                    options: const QuillToolbarToggleStyleButtonOptions(
-                      iconData: Icons.format_list_bulleted,
-                    ),
                   ),
                   QuillToolbarToggleStyleButton(
-                    attribute: Attribute.blockQuote,
                     controller: controller,
-                    options: const QuillToolbarToggleStyleButtonOptions(
-                      iconData: Icons.format_quote,
-                      iconSize: 15,
-                    ),
+                    attribute: Attribute.inlineCode,
                   ),
-                  VerticalDivider(
-                    indent: 12,
-                    endIndent: 12,
-                    color: Colors.grey.shade400,
+                  QuillToolbarToggleStyleButton(
+                    controller: controller,
+                    attribute: Attribute.blockQuote,
                   ),
                   QuillToolbarIndentButton(
-                      controller: controller,
-                      isIncrease: true,
-                      options: const QuillToolbarIndentButtonOptions(
-                        iconData: Icons.format_indent_increase,
-                        iconSize: 20,
-                      )),
+                    controller: controller,
+                    isIncrease: true,
+                  ),
                   QuillToolbarIndentButton(
                     controller: controller,
                     isIncrease: false,
-                    options: const QuillToolbarIndentButtonOptions(
-                      iconData: Icons.format_indent_decrease,
-                      iconSize: 20,
-                    ),
                   ),
+                  const VerticalDivider(),
+                  QuillToolbarLinkStyleButton(controller: controller),
                 ];
               },
             ),

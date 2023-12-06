@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/quill_configurations.dart';
 import '../../../models/documents/attribute.dart';
@@ -12,9 +12,9 @@ import '../../others/controller.dart';
 
 class QuillToolbarFontSizeButton extends StatefulWidget {
   QuillToolbarFontSizeButton({
-    required this.options,
     required this.controller,
     required this.defaultDisplayText,
+    this.options = const QuillToolbarFontSizeButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? true),
         assert(options.initialValue == null ||
@@ -43,7 +43,7 @@ class QuillToolbarFontSizeButtonState
 
   Map<String, String> get rawItemsMap {
     final fontSizes = options.rawItemsMap ??
-        context.requireQuillToolbarConfigurations.fontSizesValues ??
+        context.quillSimpleToolbarConfigurations?.fontSizesValues ??
         {
           context.loc.small: 'small',
           context.loc.large: 'large',
@@ -112,10 +112,9 @@ class QuillToolbarFontSizeButtonState
   }
 
   double get iconSize {
-    final baseFontSize =
-        context.requireQuillToolbarBaseButtonOptions.globalIconSize;
+    final baseFontSize = context.quillToolbarBaseButtonOptions?.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double get iconButtonFactor {

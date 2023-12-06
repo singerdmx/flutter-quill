@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../extensions/quill_provider.dart';
+import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../l10n/extensions/localizations.dart';
 import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
@@ -11,7 +11,7 @@ import '../../base_toolbar.dart';
 class QuillToolbarSearchButton extends StatelessWidget {
   const QuillToolbarSearchButton({
     required QuillController controller,
-    required this.options,
+    this.options = const QuillToolbarSearchButtonOptions(),
     super.key,
   }) : _controller = controller;
 

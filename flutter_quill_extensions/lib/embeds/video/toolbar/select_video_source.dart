@@ -52,7 +52,8 @@ Future<InsertVideoSource?> showSelectVideoSourceDialog({
     showDragHandle: true,
     context: context,
     constraints: const BoxConstraints(maxWidth: 640),
-    builder: (context) => const SelectVideoSourceDialog(),
+    builder: (context) =>
+        const FlutterQuillLocalizationsWidget(child: SelectVideoSourceDialog()),
   );
   return imageSource;
 }

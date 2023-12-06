@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
@@ -23,9 +23,9 @@ typedef ToggleStyleButtonBuilder = Widget Function(
 
 class QuillToolbarToggleStyleButton extends StatefulWidget {
   const QuillToolbarToggleStyleButton({
-    required this.options,
     required this.controller,
     required this.attribute,
+    this.options = const QuillToolbarToggleStyleButtonOptions(),
     super.key,
   });
 
@@ -62,10 +62,9 @@ class QuillToolbarToggleStyleButtonState
   }
 
   double get iconSize {
-    final baseFontSize =
-        context.requireQuillToolbarBaseButtonOptions.globalIconSize;
+    final baseFontSize = context.quillToolbarBaseButtonOptions?.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double get iconButtonFactor {

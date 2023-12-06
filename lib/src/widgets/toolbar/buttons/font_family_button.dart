@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/font_family_configurations.dart';
 import '../../../models/documents/attribute.dart';
@@ -11,9 +11,9 @@ import '../../others/controller.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
-    required this.options,
     required this.controller,
     required this.defaultDispalyText,
+    this.options = const QuillToolbarFontFamilyButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
         assert(
@@ -86,19 +86,20 @@ class QuillToolbarFontFamilyButtonState
   }
 
   Map<String, String> get rawItemsMap {
-    // context.requireQuillToolbarConfigurations.buttonOptions;
-    final rawItemsMap = options.rawItemsMap ??
-        {
-          'Sans Serif': 'sans-serif',
-          'Serif': 'serif',
-          'Monospace': 'monospace',
-          'Ibarra Real Nova': 'ibarra-real-nova',
-          'SquarePeg': 'square-peg',
-          'Nunito': 'nunito',
-          'Pacifico': 'pacifico',
-          'Roboto Mono': 'roboto-mono',
-          context.loc.clear: 'Clear'
-        };
+    final rawItemsMap =
+        context.quillSimpleToolbarConfigurations?.fontFamilyValues ??
+            options.rawItemsMap ??
+            {
+              'Sans Serif': 'sans-serif',
+              'Serif': 'serif',
+              'Monospace': 'monospace',
+              'Ibarra Real Nova': 'ibarra-real-nova',
+              'SquarePeg': 'square-peg',
+              'Nunito': 'nunito',
+              'Pacifico': 'pacifico',
+              'Roboto Mono': 'roboto-mono',
+              context.loc.clear: 'Clear'
+            };
     return rawItemsMap;
   }
 

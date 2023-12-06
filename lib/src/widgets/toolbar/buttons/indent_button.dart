@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/indent_configurations.dart';
 import '../../../models/themes/quill_icon_theme.dart';
@@ -12,7 +12,7 @@ class QuillToolbarIndentButton extends StatefulWidget {
   const QuillToolbarIndentButton({
     required this.controller,
     required this.isIncrease,
-    required this.options,
+    this.options = const QuillToolbarIndentButtonOptions(),
     super.key,
   });
 

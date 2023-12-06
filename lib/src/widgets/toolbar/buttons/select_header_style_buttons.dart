@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
@@ -13,7 +13,7 @@ import '../base_toolbar.dart';
 class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {
   const QuillToolbarSelectHeaderStyleButtons({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
     super.key,
   });
 
@@ -88,8 +88,8 @@ class QuillToolbarSelectHeaderStyleButtonsState
 
   Axis get axis {
     return options.axis ??
+        context.quillSimpleToolbarConfigurations?.axis ??
         context.quillToolbarConfigurations?.axis ??
-        context.quillBaseToolbarConfigurations?.axis ??
         (throw ArgumentError(
             'There is no default value for the Axis of the toolbar'));
   }

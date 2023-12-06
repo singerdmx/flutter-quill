@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_provider.dart';
+import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/base_configurations.dart';
 import '../../../models/config/toolbar/buttons/toggle_check_list_configurations.dart';
@@ -13,8 +13,8 @@ import 'toggle_style_button.dart';
 
 class QuillToolbarToggleCheckListButton extends StatefulWidget {
   const QuillToolbarToggleCheckListButton({
-    required this.options,
     required this.controller,
+    this.options = const QuillToolbarToggleCheckListButtonOptions(),
     super.key,
   });
 

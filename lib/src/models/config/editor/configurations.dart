@@ -15,6 +15,7 @@ import '../../../widgets/others/embeds.dart';
 import '../../../widgets/others/link.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';
 import '../../themes/quill_dialog_theme.dart';
+import '../quill_shared_configurations.dart';
 import 'element_options.dart';
 
 export 'element_options.dart';
@@ -26,6 +27,7 @@ class QuillEditorConfigurations extends Equatable {
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
     required this.controller,
+    this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.autoFocus = false,
@@ -75,6 +77,8 @@ class QuillEditorConfigurations extends Equatable {
     this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
   });
+
+  final QuillSharedConfigurations sharedConfigurations;
 
   final QuillController controller;
 
