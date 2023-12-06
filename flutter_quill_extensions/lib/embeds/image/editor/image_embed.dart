@@ -41,18 +41,19 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     final height = imageSize.height;
 
     final image = getImageWidgetByImageSource(
+      context: context,
       imageSource,
       imageProviderBuilder: configurations.imageProviderBuilder,
       imageErrorWidgetBuilder: configurations.imageErrorWidgetBuilder,
       alignment: alignment,
       height: height,
       width: width,
-      assetsPrefix: QuillEditorExtensionsConfigurations.get(context: context)
+      assetsPrefix: QuillSharedExtensionsConfigurations.get(context: context)
           .assetsPrefix,
     );
 
     final imageSaverService =
-        QuillEditorExtensionsConfigurations.get(context: context)
+        QuillSharedExtensionsConfigurations.get(context: context)
             .imageSaverService;
     return GestureDetector(
       onTap: configurations.onImageClicked ??

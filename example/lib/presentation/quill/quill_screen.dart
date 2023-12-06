@@ -3,15 +3,15 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show FlutterQuillEmbeds;
+    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
 
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../extensions/scaffold_messenger.dart';
 import '../shared/widgets/home_screen_button.dart';
-import 'quill_editor.dart';
-import 'quill_toolbar.dart';
+import 'my_quill_editor.dart';
+import 'my_quill_toolbar.dart';
 
 @immutable
 class QuillScreenArgs {
@@ -133,7 +133,13 @@ class _QuillScreenState extends State<QuillScreen> {
 
   QuillSharedConfigurations get _sharedConfigurations {
     return const QuillSharedConfigurations(
-        // locale: Locale('en'),
-        );
+      // locale: Locale('en'),
+      extraConfigurations: {
+        QuillSharedExtensionsConfigurations.key:
+            QuillSharedExtensionsConfigurations(
+          assetsPrefix: 'assets', // Defaults to assets
+        ),
+      },
+    );
   }
 }

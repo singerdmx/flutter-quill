@@ -132,7 +132,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
     QuillController controller,
   ) async {
     final imagePickerService =
-        QuillEditorExtensionsConfigurations.get(context: context)
+        QuillSharedExtensionsConfigurations.get(context: context)
             .imagePickerService;
 
     final cameraAction = await _getCameraAction(context);

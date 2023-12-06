@@ -5,10 +5,11 @@ import 'package:meta/meta.dart' show immutable;
 import '../../services/image_picker/s_image_picker.dart';
 import '../../services/image_saver/s_image_saver.dart';
 
-/// Configurations for Flutter Quill Editor Extensions
+/// Configurations for Flutter Editor Extensions
+/// shared between toolbar and editor
 @immutable
-class QuillEditorExtensionsConfigurations {
-  const QuillEditorExtensionsConfigurations({
+class QuillSharedExtensionsConfigurations {
+  const QuillSharedExtensionsConfigurations({
     ImagePickerService? imagePickerService,
     ImageSaverService? imageSaverService,
     this.assetsPrefix = 'assets',
@@ -17,12 +18,12 @@ class QuillEditorExtensionsConfigurations {
 
   /// Get the instance from the widget tree in [QuillSharedConfigurations]
   /// if it doesn't exists, we will create new one with default options
-  factory QuillEditorExtensionsConfigurations.get({
+  factory QuillSharedExtensionsConfigurations.get({
     required BuildContext context,
   }) {
-    final value = context.quillEditorConfigurations?.extraConfigurations[key];
+    final value = context.quillSharedConfigurations?.extraConfigurations[key];
     if (value != null) {
-      if (value is! QuillEditorExtensionsConfigurations) {
+      if (value is! QuillSharedExtensionsConfigurations) {
         throw ArgumentError(
           'The value of key `$key` should be of type '
           '$key',
@@ -30,7 +31,7 @@ class QuillEditorExtensionsConfigurations {
       }
       return value;
     }
-    return const QuillEditorExtensionsConfigurations();
+    return const QuillSharedExtensionsConfigurations();
   }
 
   /// The key to be used in the `extraConfigurations` property
@@ -38,7 +39,7 @@ class QuillEditorExtensionsConfigurations {
   /// which lives in the [QuillConfigurations]
   ///
   /// which exists in the [QuillEditorConfigurations]
-  static const String key = 'QuillEditorExtensionsConfigurations';
+  static const String key = 'QuillSharedExtensionsConfigurations';
 
   /// Defaults to [ImagePickerService.defaultImpl]
   final ImagePickerService? _imagePickerService;

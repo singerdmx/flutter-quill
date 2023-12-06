@@ -170,17 +170,19 @@ This works for all platforms except Web
 If you want to use image assets in the Quill Editor, you need to make sure your assets folder is `assets` otherwise:
 
 ```dart
-  QuillEditor.basic(
-    configurations: const QuillEditorConfigurations(
-      // ...
+QuillEditor.basic(
+  configurations: const QuillEditorConfigurations(
+    // ...
+    sharedConfigurations: QuillSharedConfigurations(
       extraConfigurations: {
-        QuillEditorExtensionsConfigurations.key:
-            QuillEditorExtensionsConfigurations(
-          assetsPrefix: 'your-assets-folder-name', // Defaults to assets
+        QuillSharedExtensionsConfigurations.key:
+            QuillSharedExtensionsConfigurations(
+          assetsPrefix: 'your-assets-folder-name', // Defaults to `assets`
         ),
       },
     ),
-  )
+  ),
+);
 ```
 
 This info is needed by the package to check if it asset image to use the `AssetImage` provider

@@ -76,6 +76,7 @@ typedef ImageEmbedBuilderOnRemovedCallback = Future<void> Function(
 );
 
 typedef ImageEmbedBuilderProviderBuilder = ImageProvider Function(
+  BuildContext context,
   String imageUrl,
 );
 

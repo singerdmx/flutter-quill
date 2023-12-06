@@ -184,7 +184,7 @@ class ImageOptionsMenu extends StatelessWidget {
               MaterialPageRoute(
                 builder: (_) => ImageTapWrapper(
                   assetsPrefix:
-                      QuillEditorExtensionsConfigurations.get(context: context)
+                      QuillSharedExtensionsConfigurations.get(context: context)
                           .assetsPrefix,
                   imageUrl: imageSource,
                   configurations: configurations,

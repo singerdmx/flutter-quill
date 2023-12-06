@@ -36,9 +36,10 @@ ImageProvider getImageProviderByImageSource(
   String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required String assetsPrefix,
+  required BuildContext context,
 }) {
   if (imageProviderBuilder != null) {
-    return imageProviderBuilder(imageSource);
+    return imageProviderBuilder(context, imageSource);
   }
 
   if (isImageBase64(imageSource)) {
@@ -57,6 +58,7 @@ ImageProvider getImageProviderByImageSource(
 
 Image getImageWidgetByImageSource(
   String imageSource, {
+  required BuildContext context,
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required ImageErrorWidgetBuilder? imageErrorWidgetBuilder,
   required String assetsPrefix,
@@ -66,6 +68,7 @@ Image getImageWidgetByImageSource(
 }) {
   return Image(
     image: getImageProviderByImageSource(
+      context: context,
       imageSource,
       imageProviderBuilder: imageProviderBuilder,
       assetsPrefix: assetsPrefix,
@@ -126,6 +129,7 @@ class ImageTapWrapper extends StatelessWidget {
           children: [
             PhotoView(
               imageProvider: getImageProviderByImageSource(
+                context: context,
                 imageUrl,
                 imageProviderBuilder: configurations.imageProviderBuilder,
                 assetsPrefix: assetsPrefix,

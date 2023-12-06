@@ -15,6 +15,7 @@ class QuillSharedConfigurations extends Equatable {
     this.dialogBarrierColor = Colors.black54,
     this.dialogTheme,
     this.locale,
+    this.extraConfigurations = const {},
   });
 
   // This is just example or showcase of this major update to make the library
@@ -32,6 +33,9 @@ class QuillSharedConfigurations extends Equatable {
   /// in the `localizationsDelegates` which exists in
   /// `MaterialApp` or `WidgetsApp`
   final Locale? locale;
+
+  /// Store custom configurations in here and use it in the widget tree
+  final Map<String, Object?> extraConfigurations;
 
   @override
   List<Object?> get props => [

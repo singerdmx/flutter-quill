@@ -33,12 +33,6 @@ class MyQuillEditor extends StatelessWidget {
       scrollController: scrollController,
       focusNode: focusNode,
       configurations: configurations.copyWith(
-        extraConfigurations: {
-          QuillEditorExtensionsConfigurations.key:
-              const QuillEditorExtensionsConfigurations(
-            assetsPrefix: 'dsadsasda', // Defaults to assets
-          ),
-        },
         customStyles: const DefaultStyles(
           h1: DefaultTextBlockStyle(
             TextStyle(
@@ -88,7 +82,7 @@ class MyQuillEditor extends StatelessWidget {
                         'Error while loading an image: ${error.toString()}',
                       );
                     },
-                    imageProviderBuilder: (imageUrl) {
+                    imageProviderBuilder: (context, imageUrl) {
                       // cached_network_image is supported
                       // only for Android, iOS and web
 
@@ -105,7 +99,8 @@ class MyQuillEditor extends StatelessWidget {
                       return getImageProviderByImageSource(
                         imageUrl,
                         imageProviderBuilder: null,
-                        assetsPrefix: QuillEditorExtensionsConfigurations.get(
+                        context: context,
+                        assetsPrefix: QuillSharedExtensionsConfigurations.get(
                                 context: context)
                             .assetsPrefix,
                       );

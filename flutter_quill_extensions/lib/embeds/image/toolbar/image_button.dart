@@ -116,7 +116,7 @@ class QuillToolbarImageButton extends StatelessWidget {
 
   Future<void> _onPressedHandler(BuildContext context) async {
     final imagePickerService =
-        QuillEditorExtensionsConfigurations.get(context: context)
+        QuillSharedExtensionsConfigurations.get(context: context)
             .imagePickerService;
 
     final onRequestPickImage =
