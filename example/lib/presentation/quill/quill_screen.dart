@@ -115,6 +115,19 @@ class _QuillScreenState extends State<QuillScreen> {
                     sharedConfigurations: _sharedConfigurations,
                     controller: _controller,
                     readOnly: _isReadOnly,
+                    elementOptions: const QuillEditorElementOptions(
+                      codeBlock: QuillEditorCodeBlockElementOptions(
+                        enableLineNumbers: true,
+                      ),
+                      // orderedList: QuillEditorOrderedListElementOptions(
+                      //   backgroundColor: Colors.amber,
+                      //   fontColor: Colors.black,
+                      // ),
+                      // unorderedList: QuillEditorUnOrderedListElementOptions(
+                      //   backgroundColor: Colors.green,
+                      //   fontColor: Colors.red,
+                      // ),
+                    ),
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,

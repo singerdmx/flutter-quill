@@ -20,14 +20,14 @@ class QuillSimpleToolbarProvider extends InheritedWidget {
     return oldWidget.toolbarConfigurations != toolbarConfigurations;
   }
 
-  static QuillSimpleToolbarProvider? of(BuildContext context) {
+  static QuillSimpleToolbarProvider? maybeOf(BuildContext context) {
     /// The configurations for the quill editor widget of flutter quill
     return context
         .dependOnInheritedWidgetOfExactType<QuillSimpleToolbarProvider>();
   }
 
-  static QuillSimpleToolbarProvider ofNotNull(BuildContext context) {
-    final provider = of(context);
+  static QuillSimpleToolbarProvider of(BuildContext context) {
+    final provider = maybeOf(context);
     if (provider == null) {
       if (kDebugMode) {
         debugPrint(
@@ -79,13 +79,13 @@ class QuillToolbarProvider extends InheritedWidget {
     return oldWidget.toolbarConfigurations != toolbarConfigurations;
   }
 
-  static QuillToolbarProvider? of(BuildContext context) {
+  static QuillToolbarProvider? maybeOf(BuildContext context) {
     /// The configurations for the quill editor widget of flutter quill
     return context.dependOnInheritedWidgetOfExactType<QuillToolbarProvider>();
   }
 
-  static QuillToolbarProvider ofNotNull(BuildContext context) {
-    final provider = of(context);
+  static QuillToolbarProvider of(BuildContext context) {
+    final provider = maybeOf(context);
     if (provider == null) {
       if (kDebugMode) {
         debugPrint(
@@ -136,13 +136,13 @@ class QuillEditorProvider extends InheritedWidget {
     return oldWidget.editorConfigurations != editorConfigurations;
   }
 
-  static QuillEditorProvider? of(BuildContext context) {
+  static QuillEditorProvider? maybeOf(BuildContext context) {
     /// The configurations for the quill editor widget of flutter quill
     return context.dependOnInheritedWidgetOfExactType<QuillEditorProvider>();
   }
 
-  static QuillEditorProvider ofNotNull(BuildContext context) {
-    final provider = of(context);
+  static QuillEditorProvider of(BuildContext context) {
+    final provider = maybeOf(context);
     if (provider == null) {
       if (kDebugMode) {
         debugPrint(

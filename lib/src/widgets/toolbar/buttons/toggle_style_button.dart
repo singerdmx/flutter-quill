@@ -76,12 +76,12 @@ class QuillToolbarToggleStyleButtonState
 
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
-        context.requireQuillToolbarBaseButtonOptions.afterButtonPressed;
+        context.quillToolbarBaseButtonOptions?.afterButtonPressed;
   }
 
   QuillIconTheme? get iconTheme {
     return options.iconTheme ??
-        context.requireQuillToolbarBaseButtonOptions.iconTheme;
+        context.quillToolbarBaseButtonOptions?.iconTheme;
   }
 
   (String, IconData) get _defaultTooltipAndIconData {
@@ -132,13 +132,13 @@ class QuillToolbarToggleStyleButtonState
 
   String? get tooltip {
     return options.tooltip ??
-        context.requireQuillToolbarBaseButtonOptions.tooltip ??
+        context.quillToolbarBaseButtonOptions?.tooltip ??
         _defaultTooltipAndIconData.$1;
   }
 
   IconData get iconData {
     return options.iconData ??
-        context.requireQuillToolbarBaseButtonOptions.iconData ??
+        context.quillToolbarBaseButtonOptions?.iconData ??
         _defaultTooltipAndIconData.$2;
   }
 
@@ -150,7 +150,7 @@ class QuillToolbarToggleStyleButtonState
   @override
   Widget build(BuildContext context) {
     final childBuilder = options.childBuilder ??
-        context.requireQuillToolbarBaseButtonOptions.childBuilder;
+        context.quillToolbarBaseButtonOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         QuillToolbarToggleStyleButtonOptions(

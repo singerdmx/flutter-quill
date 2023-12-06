@@ -29,12 +29,12 @@ extension QuillSharedExt on BuildContext {
 extension QuillEditorExt on BuildContext {
   /// return [QuillEditorConfigurations] as not null
   QuillEditorConfigurations get requireQuillEditorConfigurations {
-    return QuillEditorProvider.ofNotNull(this).editorConfigurations;
+    return QuillEditorProvider.of(this).editorConfigurations;
   }
 
   /// return nullable [QuillEditorConfigurations]
   QuillEditorConfigurations? get quillEditorConfigurations {
-    return QuillEditorProvider.of(this)?.editorConfigurations;
+    return QuillEditorProvider.maybeOf(this)?.editorConfigurations;
   }
 
   /// return nullable [QuillToolbarBaseButtonOptions]. Since the quill
@@ -57,12 +57,12 @@ extension QuillEditorExt on BuildContext {
 extension QuillSimpleToolbarExt on BuildContext {
   /// return [QuillSimpleToolbarConfigurations] as not null
   QuillSimpleToolbarConfigurations get requireQuillSimpleToolbarConfigurations {
-    return QuillSimpleToolbarProvider.ofNotNull(this).toolbarConfigurations;
+    return QuillSimpleToolbarProvider.of(this).toolbarConfigurations;
   }
 
   /// return nullable [QuillSimpleToolbarConfigurations]
   QuillSimpleToolbarConfigurations? get quillSimpleToolbarConfigurations {
-    return QuillSimpleToolbarProvider.of(this)?.toolbarConfigurations;
+    return QuillSimpleToolbarProvider.maybeOf(this)?.toolbarConfigurations;
   }
 
   /// return nullable [QuillToolbarBaseButtonOptions].
@@ -83,11 +83,11 @@ extension QuillSimpleToolbarExt on BuildContext {
 extension QuillToolbarExt on BuildContext {
   /// return [QuillToolbarConfigurations] as not null
   QuillToolbarConfigurations get requireQuillToolbarConfigurations {
-    return QuillToolbarProvider.ofNotNull(this).toolbarConfigurations;
+    return QuillToolbarProvider.of(this).toolbarConfigurations;
   }
 
   /// return nullable [QuillToolbarConfigurations].
   QuillToolbarConfigurations? get quillToolbarConfigurations {
-    return QuillToolbarProvider.of(this)?.toolbarConfigurations;
+    return QuillToolbarProvider.maybeOf(this)?.toolbarConfigurations;
   }
 }

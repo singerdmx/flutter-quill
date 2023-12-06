@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../extensions/quill_configurations_ext.dart';
 import '../../models/documents/attribute.dart';
 import '../others/text_block.dart';
 
@@ -67,7 +68,13 @@ class QuillEditorNumberPoint extends StatelessWidget {
       alignment: AlignmentDirectional.topEnd,
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
-      child: Text(withDot ? '$s.' : s, style: style),
+      color: context.quillEditorElementOptions?.orderedList.backgroundColor,
+      child: Text(
+        withDot ? '$s.' : s,
+        style: style.copyWith(
+          color: context.quillEditorElementOptions?.orderedList.fontColor,
+        ),
+      ),
     );
   }
 

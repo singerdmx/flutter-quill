@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-6
+* Move the `child` from `QuillToolbarConfigurations` into `QuillToolbar` directly
+* Bug fixes
+* Add the ability to change the background and font color of the ol/ul elements dots and numbers
+* Flutter Quill Extensions:
+  * **Breaking Change**: The `imageProviderBuilder`is now providing the context and image url
+
 ## 9.0.0-dev-5
 * The `QuillToolbar` is now accepting only `child` with no configurations so you can customize everything you wants, the `QuillToolbar.simple()` or `QuillSimpleToolbar` implements a simple toolbar that is based on `QuillToolbar`, you are free to use it but it just an example and not standard
 * Flutter Quill Extensions:
