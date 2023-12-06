@@ -13,17 +13,6 @@ class _SimpleScreenState extends State<SimpleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        QuillToolbar.simple(
-            QuillSimpleToolbarConfigurations(controller: _controller)),
-        Expanded(
-          child: QuillEditor.basic(
-            configurations: QuillEditorConfigurations(controller: _controller),
-          ),
-        )
-      ],
-    );
     return Scaffold(
       appBar: AppBar(),
       body: Column(
