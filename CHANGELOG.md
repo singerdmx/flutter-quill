@@ -2,9 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-5
+* The `QuillToolbar` is now accepting only `child` with no configurations so you can customize everything you wants, the `QuillToolbar.simple()` or `QuillSimpleToolbar` implements a simple toolbar that is based on `QuillToolbar`, you are free to use it but it just an example and not standard
+* Flutter Quill Extensions:
+  * Improve the camera button
+
 ## 9.0.0-dev-4
 * The options parameter in all of the buttons is no longer required which can be useful to create custom toolbar with minimal efforts
 * Toolbar buttons fixes in both `flutter_quill` and `flutter_quill_extensions`
+* The `QuillProvider` has been dropped and no longer used, the providers will be used only internally from now on and we will not using them as much as possible
 
 ## 9.0.0-dev-3
 * Breaking Changes:

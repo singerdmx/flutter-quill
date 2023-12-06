@@ -106,7 +106,6 @@ class _QuillScreenState extends State<QuillScreen> {
             MyQuillToolbar(
               controller: _controller,
               focusNode: _editorFocusNode,
-              sharedConfigurations: _sharedConfigurations,
             ),
           Builder(
             builder: (context) {

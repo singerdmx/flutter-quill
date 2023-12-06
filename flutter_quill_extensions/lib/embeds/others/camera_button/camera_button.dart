@@ -120,10 +120,8 @@ class QuillToolbarCameraButton extends StatelessWidget {
     if (customCallback != null) {
       return await customCallback(context);
     }
-    final cameraAction = await showDialog<CameraAction>(
+    final cameraAction = await showSelectCameraActionDialog(
       context: context,
-      builder: (ctx) => const FlutterQuillLocalizationsWidget(
-          child: SelectCameraActionDialog()),
     );
 
     return cameraAction;
@@ -171,12 +169,5 @@ class QuillToolbarCameraButton extends StatelessWidget {
         await options.cameraConfigurations.onImageInsertedCallback
             ?.call(imageFile.path);
     }
-
-    // final file = await switch (cameraAction) {
-    //   CameraAction.image =>
-    //     imagePickerService.pickImage(source: ImageSource.camera),
-    //   CameraAction.video =>
-    //     imagePickerService.pickVideo(source: ImageSource.camera),
-    // };
   }
 }

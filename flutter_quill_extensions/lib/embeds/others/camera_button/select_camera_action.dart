@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/translations.dart';
 
 import 'camera_types.dart';
@@ -8,27 +9,46 @@ class SelectCameraActionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextButton.icon(
-            icon: const Icon(
-              Icons.camera,
+    return SizedBox(
+      height: 150,
+      width: double.infinity,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(context.loc.photo),
+              subtitle: Text(
+                context.loc.takeAPhotoUsingYourCamera,
+              ),
+              leading: const Icon(Icons.photo_sharp),
+              enabled: !isDesktop(supportWeb: false),
+              onTap: () => Navigator.of(context).pop(CameraAction.image),
             ),
-            label: Text(context.loc.photo),
-            onPressed: () => Navigator.pop(context, CameraAction.image),
-          ),
-          TextButton.icon(
-            icon: const Icon(
-              Icons.video_call,
+            ListTile(
+              title: Text(context.loc.video),
+              subtitle: Text(
+                context.loc.recordAVideoUsingYourCamera,
+              ),
+              leading: const Icon(Icons.camera),
+              enabled: !isDesktop(supportWeb: false),
+              onTap: () => Navigator.of(context).pop(CameraAction.video),
             ),
-            label: Text(context.loc.video),
-            onPressed: () => Navigator.pop(context, CameraAction.video),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
+}
+
+Future<CameraAction?> showSelectCameraActionDialog({
+  required BuildContext context,
+}) async {
+  final imageSource = await showModalBottomSheet<CameraAction>(
+    showDragHandle: true,
+    context: context,
+    constraints: const BoxConstraints(maxWidth: 640),
+    builder: (context) => const FlutterQuillLocalizationsWidget(
+        child: SelectCameraActionDialog()),
+  );
+  return imageSource;
 }

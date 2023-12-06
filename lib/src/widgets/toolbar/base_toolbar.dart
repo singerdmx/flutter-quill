@@ -5,7 +5,6 @@ import '../../../flutter_quill.dart'
 import '../../l10n/widgets/localizations.dart';
 import '../../models/config/toolbar/simple_toolbar_configurations.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
-import 'buttons/arrow_indicated_list_button.dart';
 import 'simple_toolbar.dart';
 
 export '../../models/config/toolbar/buttons/base_configurations.dart';
@@ -56,90 +55,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final toolbarSize = configurations.toolbarSize;
     return FlutterQuillLocalizationsWidget(
       child: QuillBaseToolbarProvider(
         toolbarConfigurations: configurations,
-        child: Builder(
-          builder: (context) {
-            if (configurations.multiRowsDisplay) {
-              return Wrap(
-                direction: configurations.axis,
-                alignment: configurations.toolbarIconAlignment,
-                crossAxisAlignment: configurations.toolbarIconCrossAlignment,
-                runSpacing: 4,
-                spacing: configurations.toolbarSectionSpacing,
-                children: configurations.childrenBuilder?.call(context) ?? [],
-              );
-            }
-            return Container(
-              decoration: configurations.decoration ??
-                  BoxDecoration(
-                    color:
-                        configurations.color ?? Theme.of(context).canvasColor,
-                  ),
-              constraints: BoxConstraints.tightFor(
-                height:
-                    configurations.axis == Axis.horizontal ? toolbarSize : null,
-                width:
-                    configurations.axis == Axis.vertical ? toolbarSize : null,
-              ),
-              child: QuillToolbarArrowIndicatedButtonList(
-                axis: configurations.axis,
-                buttons: configurations.childrenBuilder?.call(context) ?? [],
-              ),
-            );
-          },
-        ),
+        child: configurations.child,
       ),
     );
-  }
-}
-
-/// The divider which is used for separation of buttons in the toolbar.
-///
-/// It can be used outside of this package, for example when user does not use
-/// [QuillToolbar.basic] and compose toolbar's children on its own.
-class QuillToolbarDivider extends StatelessWidget {
-  const QuillToolbarDivider(
-    this.axis, {
-    super.key,
-    this.color,
-    this.space,
-  });
-
-  /// Provides a horizontal divider for vertical toolbar.
-  const QuillToolbarDivider.horizontal({Key? key, Color? color, double? space})
-      : this(Axis.horizontal, color: color, space: space, key: key);
-
-  /// Provides a horizontal divider for horizontal toolbar.
-  const QuillToolbarDivider.vertical({Key? key, Color? color, double? space})
-      : this(Axis.vertical, color: color, space: space, key: key);
-
-  /// The axis along which the toolbar is.
-  final Axis axis;
-
-  /// The color to use when painting this divider's line.
-  final Color? color;
-
-  /// The divider's space (width or height) depending of [axis].
-  final double? space;
-
-  @override
-  Widget build(BuildContext context) {
-    // Vertical toolbar requires horizontal divider, and vice versa
-    return axis == Axis.vertical
-        ? Divider(
-            height: space,
-            color: color,
-            indent: 12,
-            endIndent: 12,
-          )
-        : VerticalDivider(
-            width: space,
-            color: color,
-            indent: 12,
-            endIndent: 12,
-          );
   }
 }
