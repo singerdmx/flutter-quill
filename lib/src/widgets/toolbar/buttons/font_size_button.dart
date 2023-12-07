@@ -5,7 +5,6 @@ import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/quill_configurations.dart';
 import '../../../models/documents/attribute.dart';
-import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/font.dart';
 import '../../quill/quill_controller.dart';
