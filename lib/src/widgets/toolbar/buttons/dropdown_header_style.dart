@@ -37,7 +37,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     Attribute.h6: context.loc.heading6,
   };
 
-  late final Map<Attribute, TextStyle> _headerTextStyles;
+  Map<Attribute, TextStyle>? _headerTextStyles;
 
   QuillToolbarSelectHeaderStyleDropdownButtonOptions get options {
     return widget.options;
@@ -100,19 +100,26 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_headerTextStyles == null) {
+      final defaultStyles = QuillStyles.getStyles(context, false);
+      _headerTextStyles = {
+        Attribute.h1: defaultStyles!.h1!.style,
+        Attribute.h2: defaultStyles.h2!.style,
+        Attribute.h3: defaultStyles.h3!.style,
+        Attribute.h4: defaultStyles.h4!.style,
+        Attribute.h5: defaultStyles.h5!.style,
+        Attribute.h6: defaultStyles.h6!.style,
+      };
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     controller.addListener(_didChangeEditingValue);
     _selectedAttribute = _getHeaderValue();
-    final defaultStyles = QuillStyles.getStyles(context, false);
-    _headerTextStyles = {
-      Attribute.h1: defaultStyles!.h1!.style,
-      Attribute.h2: defaultStyles.h2!.style,
-      Attribute.h3: defaultStyles.h3!.style,
-      Attribute.h4: defaultStyles.h4!.style,
-      Attribute.h5: defaultStyles.h5!.style,
-      Attribute.h6: defaultStyles.h6!.style,
-    };
   }
 
   @override
@@ -244,7 +251,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
               header.value,
               style: TextStyle(
                 fontSize: options.renderItemTextStyle
-                    ? _headerTextStyles[header.key]?.fontSize ??
+                    ? _headerTextStyles![header.key]!.fontSize ??
                         DefaultTextStyle.of(context).style.fontSize ??
                         14
                     : null,
