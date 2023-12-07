@@ -184,17 +184,19 @@ class QuillToolbarFontFamilyButtonState
           }
           return Tooltip(message: effectiveTooltip, child: child);
         },
-        child: RawMaterialButton(
+        child: IconButton(
+          // tooltip: '', // TODO: Use this here
           visualDensity: VisualDensity.compact,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(iconTheme?.borderRadius ?? 2),
+          style: IconButton.styleFrom(
+            shape: iconTheme?.borderRadius != null
+                ? RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(iconTheme?.borderRadius ?? -1),
+                  )
+                : null,
           ),
-          fillColor: options.fillColor,
-          elevation: 0,
-          hoverElevation: options.hoverElevation,
-          highlightElevation: options.hoverElevation,
           onPressed: _onPressed,
-          child: _buildContent(context),
+          icon: _buildContent(context),
         ),
       ),
     );
@@ -222,6 +224,9 @@ class QuillToolbarFontFamilyButtonState
             value: fontFamily.value,
             height: options.itemHeight ?? kMinInteractiveDimension,
             padding: options.itemPadding,
+            onTap: () {
+              controller.selectFontFamily(fontFamily.value);
+            },
             child: Text(
               fontFamily.key.toString(),
               style: TextStyle(
