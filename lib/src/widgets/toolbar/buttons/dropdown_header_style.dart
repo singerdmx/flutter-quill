@@ -251,7 +251,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
               header.value,
               style: TextStyle(
                 fontSize: options.renderItemTextStyle
-                    ? _headerTextStyles![header.key]!.fontSize ??
+                    ? _headerStyle(header.key).fontSize ??
                         DefaultTextStyle.of(context).style.fontSize ??
                         14
                     : null,
@@ -274,5 +274,10 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
         _selectedAttribute == newValue ? Attribute.header : newValue;
     controller.formatSelection(attribute0);
     afterButtonPressed?.call();
+  }
+
+  TextStyle _headerStyle(Attribute attribute) {
+    assert(_headerTextStyles!.containsKey(attribute));
+    return _headerTextStyles![attribute]!;
   }
 }
