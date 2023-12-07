@@ -226,17 +226,13 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    // TODO: Could be improved
-    Delta? deltaFromCliboard;
     final reader = await ClipboardReader.readClipboard();
     if (reader.canProvide(Formats.htmlText)) {
       final html = await reader.readValue(Formats.htmlText);
       if (html == null) {
         return;
       }
-      deltaFromCliboard = QuillController.fromHtml(html);
-    }
-    if (deltaFromCliboard != null) {
+      final deltaFromCliboard = QuillController.fromHtml(html);
       final delta = controller.document.toDelta().compose(deltaFromCliboard);
 
       controller
