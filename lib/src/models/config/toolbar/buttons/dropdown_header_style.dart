@@ -32,7 +32,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     this.fillColor,
     this.hoverElevation = 1,
     this.highlightElevation = 1,
-    this.rawItemsMap,
     this.onSelected,
     this.attributes,
     this.padding,
@@ -50,7 +49,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   final Color? fillColor;
   final double hoverElevation;
   final double highlightElevation;
-  final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;
   final List<Attribute>? attributes;
   final EdgeInsetsGeometry? padding;
@@ -67,7 +65,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     double? hoverElevation,
     double? highlightElevation,
     List<PopupMenuEntry<String>>? items,
-    Map<String, String>? rawItemsMap,
     ValueChanged<String>? onSelected,
     List<Attribute>? attributes,
     EdgeInsetsGeometry? padding,
@@ -91,7 +88,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   }) {
     return QuillToolbarSelectHeaderStyleDropdownButtonOptions(
       attributes: attributes ?? this.attributes,
-      rawItemsMap: rawItemsMap ?? this.rawItemsMap,
       controller: controller ?? this.controller,
       iconData: iconData ?? this.iconData,
       afterButtonPressed: afterButtonPressed ?? this.afterButtonPressed,

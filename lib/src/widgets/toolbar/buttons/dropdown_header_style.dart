@@ -27,11 +27,14 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
 
   Style get _selectionStyle => controller.getSelectionStyle();
 
-  final _valueToText = <Attribute, String>{
-    Attribute.header: 'Normal',
-    Attribute.h1: 'H1',
-    Attribute.h2: 'H2',
-    Attribute.h3: 'H3',
+  late final _valueToText = <Attribute, String>{
+    Attribute.header: context.loc.normal,
+    Attribute.h1: context.loc.heading1,
+    Attribute.h2: context.loc.heading2,
+    Attribute.h3: context.loc.heading3,
+    Attribute.h4: context.loc.heading4,
+    Attribute.h5: context.loc.heading5,
+    Attribute.h6: context.loc.heading6,
   };
 
   QuillToolbarSelectHeaderStyleDropdownButtonOptions get options {
@@ -74,13 +77,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   }
 
   List<Attribute> get _attrbuites {
-    return options.attributes ??
-        const [
-          Attribute.header,
-          Attribute.h1,
-          Attribute.h2,
-          Attribute.h3,
-        ];
+    return options.attributes ?? _valueToText.keys.toList();
   }
 
   @override
@@ -103,18 +100,13 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   @override
   void initState() {
     super.initState();
-    _selectedAttribute = _getHeaderValue();
     controller.addListener(_didChangeEditingValue);
+    _selectedAttribute = _getHeaderValue();
   }
 
   @override
   Widget build(BuildContext context) {
-    assert(
-      _attrbuites.every(
-        (element) => _valueToText.keys.contains(element),
-      ),
-      'All attributes must be one of them: header, h1, h2 or h3',
-    );
+    assert(_attrbuites.every((element) => _valueToText.keys.contains(element)));
 
     final baseButtonConfigurations =
         context.requireQuillToolbarBaseButtonOptions;
@@ -189,7 +181,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              _selectedAttribute!.key,
+              _valueToText[_selectedAttribute]!,
               overflow: options.labelOverflow,
               style: options.style ??
                   TextStyle(
@@ -240,7 +232,9 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
             child: Text(
               header.value,
               style: TextStyle(
-                color: header.value == 'N' ? options.defaultItemColor : null,
+                color: header.key == Attribute.header
+                    ? options.defaultItemColor
+                    : null,
               ),
             ),
           ),

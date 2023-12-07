@@ -636,6 +636,48 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Paste a video using a link'**
   String get pasteAVideoUsingALink;
+
+  /// No description provided for @normal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get normal => 'Normal';
+
+  /// No description provided for @heading1.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 1'**
+  String get heading1 => 'Heading 1';
+
+  /// No description provided for @heading2.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 2'**
+  String get heading2 => 'Heading 2';
+
+  /// No description provided for @heading3.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 3'**
+  String get heading3 => 'Heading 3';
+
+  /// No description provided for @heading4.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 4'**
+  String get heading4 => 'Heading 4';
+
+  /// No description provided for @heading5.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 5'**
+  String get heading5 => 'Heading 5';
+
+  /// No description provided for @heading6.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 6'**
+  String get heading6 => 'Heading 6';
 }
 
 class _FlutterQuillLocalizationsDelegate
