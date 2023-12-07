@@ -28,13 +28,13 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   Style get _selectionStyle => controller.getSelectionStyle();
 
   late final _valueToText = <Attribute, String>{
-    Attribute.header: context.loc.normal,
     Attribute.h1: context.loc.heading1,
     Attribute.h2: context.loc.heading2,
     Attribute.h3: context.loc.heading3,
     Attribute.h4: context.loc.heading4,
     Attribute.h5: context.loc.heading5,
     Attribute.h6: context.loc.heading6,
+    Attribute.header: context.loc.normal,
   };
 
   Map<Attribute, TextStyle>? _headerTextStyles;
@@ -105,14 +105,14 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     if (_headerTextStyles == null) {
       final defaultStyles = DefaultStyles.getInstance(context);
       _headerTextStyles = {
-        Attribute.header:
-            widget.options.style ?? defaultStyles.paragraph!.style,
         Attribute.h1: defaultStyles.h1!.style,
         Attribute.h2: defaultStyles.h2!.style,
         Attribute.h3: defaultStyles.h3!.style,
         Attribute.h4: defaultStyles.h4!.style,
         Attribute.h5: defaultStyles.h5!.style,
         Attribute.h6: defaultStyles.h6!.style,
+        Attribute.header:
+            widget.options.style ?? defaultStyles.paragraph!.style,
       };
     }
   }
