@@ -42,6 +42,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     this.itemHeight,
     this.itemPadding,
     this.defaultItemColor,
+    this.renderItemTextStyle = false,
   });
 
   final double? iconSize;
@@ -59,6 +60,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   final double? itemHeight;
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
+  final bool renderItemTextStyle;
 
   QuillToolbarSelectHeaderStyleDropdownButtonOptions copyWith({
     Color? fillColor,
@@ -79,12 +81,12 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     Color? defaultItemColor,
     double? iconSize,
     double? iconButtonFactor,
-    // Add properties to override inherited properties
     QuillController? controller,
     IconData? iconData,
     VoidCallback? afterButtonPressed,
     String? tooltip,
     QuillIconTheme? iconTheme,
+    bool? renderItemTextStyle,
   }) {
     return QuillToolbarSelectHeaderStyleDropdownButtonOptions(
       attributes: attributes ?? this.attributes,
@@ -107,6 +109,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
       fillColor: fillColor ?? this.fillColor,
       hoverElevation: hoverElevation ?? this.hoverElevation,
       highlightElevation: highlightElevation ?? this.highlightElevation,
+      renderItemTextStyle: renderItemTextStyle ?? this.renderItemTextStyle,
     );
   }
 }
