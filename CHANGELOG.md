@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-9
+* Improves the new logic of pasting HTML contents into the Editor
+* Update `README.md` and the doc
+
 ## 9.0.0-dev-8
 * Better support for pasting HTML contents from external websites to the editor
 * The experimental support of converting the HTML from `quill_html_converter` is now built-in in the `flutter_quill` and removed from there (Breaking change for `quill_html_converter`)

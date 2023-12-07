@@ -237,17 +237,7 @@ class QuillRawEditorState extends EditorState
       deltaFromCliboard = QuillController.fromHtml(html);
     }
     if (deltaFromCliboard != null) {
-      // final index = selection.baseOffset;
-      // final length = selection.extentOffset - index;
-
-      final list = controller.document.toDelta().toList()
-        ..insertAll(controller.document.toDelta().toList().length - 1,
-            deltaFromCliboard.toList());
-
-      final delta = controller.document.toDelta();
-      for (final operation in list) {
-        delta.push(operation);
-      }
+      final delta = controller.document.toDelta().compose(deltaFromCliboard);
 
       controller
         ..updateDocument(
