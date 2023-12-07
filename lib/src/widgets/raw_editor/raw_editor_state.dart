@@ -117,26 +117,6 @@ class QuillRawEditorState extends EditorState
         .call(content);
   }
 
-  // List<ContextMenuButtonItem> get contextMenuButtonItems {
-  //   return EditableText.getEditableButtonItems(
-  //     clipboardStatus: _clipboardStatus.value,
-  //     onLiveTextInput: null,
-  //     onCopy: copyEnabled
-  //         ? () => copySelection(SelectionChangedCause.toolbar)
-  //         : null,
-  //     onCut:
-  //         cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
-  //     onPaste:
-  //         pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
-  //     onSelectAll: selectAllEnabled
-  //         ? () => selectAll(SelectionChangedCause.toolbar)
-  //         : null,
-  //     onLookUp: null,
-  //     onSearchWeb: null,
-  //     onShare: null,
-  //   );
-  // }
-
   /// Copy current selection to [Clipboard].
   @override
   void copySelection(SelectionChangedCause cause) {

@@ -33,6 +33,7 @@ This is a todo list page that added recently and will be updated soon.
  - Change the color of the numbers and dots in ol/ul to match the ones in the item list
  - Fix the bugs of the font family and font size
  - Try to update Quill Html Converter
+ - When pasting a HTML text from cliboard by not using the context menu builder, the new logic won't work
 
 ### Bugs
 
