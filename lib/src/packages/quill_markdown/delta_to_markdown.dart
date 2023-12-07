@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import '../../../flutter_quill.dart';
 import './custom_quill_attributes.dart';
 import './utils.dart';
 

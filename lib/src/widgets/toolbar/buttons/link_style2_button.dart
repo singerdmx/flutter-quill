@@ -10,8 +10,8 @@ import '../../../l10n/widgets/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../quill/quill_controller.dart';
 import '../../others/link.dart';
+import '../../quill/quill_controller.dart';
 import '../base_toolbar.dart';
 
 /// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more

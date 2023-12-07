@@ -7,11 +7,11 @@ import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
 import '../../../widgets/editor/editor_builder.dart';
-import '../../../widgets/quill/quill_controller.dart';
 import '../../../widgets/others/default_styles.dart';
 import '../../../widgets/others/delegate.dart';
-import '../../../widgets/quill/embeds.dart';
 import '../../../widgets/others/link.dart';
+import '../../../widgets/quill/embeds.dart';
+import '../../../widgets/quill/quill_controller.dart';
 import '../../../widgets/raw_editor/raw_editor.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../quill_shared_configurations.dart';

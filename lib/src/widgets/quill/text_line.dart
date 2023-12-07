@@ -11,8 +11,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
 import '../../models/documents/nodes/embeddable.dart';
-import '../../models/documents/nodes/leaf.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
+import '../../models/documents/nodes/leaf.dart';
 import '../../models/documents/nodes/line.dart';
 import '../../models/documents/nodes/node.dart';
 import '../../models/documents/style.dart';
@@ -21,7 +21,6 @@ import '../../utils/color.dart';
 import '../../utils/font.dart';
 import '../../utils/platform.dart';
 import '../others/box.dart';
-import 'quill_controller.dart';
 import '../others/cursor.dart';
 import '../others/default_styles.dart';
 import '../others/delegate.dart';
@@ -29,6 +28,7 @@ import '../others/keyboard_listener.dart';
 import '../others/link.dart';
 import '../others/proxy.dart';
 import '../others/text_selection.dart';
+import 'quill_controller.dart';
 
 class TextLine extends StatefulWidget {
   const TextLine({

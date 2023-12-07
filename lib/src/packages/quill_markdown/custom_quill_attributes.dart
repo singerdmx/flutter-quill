@@ -1,4 +1,4 @@
-import 'package:flutter_quill/flutter_quill.dart';
+import '../../../flutter_quill.dart';
 
 /// Custom attribute to save the language of codeblock
 class CodeBlockLanguageAttribute extends Attribute<String?> {

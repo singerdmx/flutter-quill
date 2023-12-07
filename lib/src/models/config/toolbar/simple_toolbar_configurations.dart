@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
     show Axis, Widget, WrapAlignment, WrapCrossAlignment;
 
-import '../../../widgets/quill/quill_controller.dart';
 import '../../../widgets/quill/embeds.dart';
+import '../../../widgets/quill/quill_controller.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
 import 'buttons/base_configurations.dart';

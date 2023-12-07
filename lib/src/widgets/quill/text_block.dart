@@ -8,17 +8,17 @@ import '../../models/documents/nodes/line.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/delta.dart';
 import '../editor/editor.dart';
-import '../style_widgets/bullet_point.dart';
-import '../style_widgets/checkbox_point.dart';
-import '../style_widgets/number_point.dart';
 import '../others/box.dart';
-import 'quill_controller.dart';
 import '../others/cursor.dart';
 import '../others/default_styles.dart';
 import '../others/delegate.dart';
 import '../others/link.dart';
-import 'text_line.dart';
 import '../others/text_selection.dart';
+import '../style_widgets/bullet_point.dart';
+import '../style_widgets/checkbox_point.dart';
+import '../style_widgets/number_point.dart';
+import 'quill_controller.dart';
+import 'text_line.dart';
 
 const List<int> arabianRomanNumbers = [
   1000,

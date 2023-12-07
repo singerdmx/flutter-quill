@@ -1,5 +1,5 @@
 //ignore_for_file: cast_nullable_to_non_nullable
-import 'package:flutter_quill/flutter_quill.dart';
+import '../../../flutter_quill.dart';
 
 import './embeddable_table_syntax.dart';
 

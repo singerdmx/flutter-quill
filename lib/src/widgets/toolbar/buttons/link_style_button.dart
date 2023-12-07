@@ -8,8 +8,8 @@ import '../../../models/rules/insert.dart';
 import '../../../models/structs/link_dialog_action.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../quill/quill_controller.dart';
 import '../../others/link.dart';
+import '../../quill/quill_controller.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarLinkStyleButton extends StatefulWidget {
