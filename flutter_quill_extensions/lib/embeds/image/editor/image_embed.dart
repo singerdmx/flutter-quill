@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
 import 'package:flutter_quill/translations.dart';
@@ -30,15 +29,19 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
+    // assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
     final imageSource = standardizeImageUrl(node.value.data);
-    final ((imageSize), margin, alignment) = getElementAttributes(node);
+    final ((imageSize), margin, alignment) = getElementAttributes(
+      node,
+      context,
+    );
 
     final width = imageSize.width;
     final height = imageSize.height;
 
     final image = getImageWidgetByImageSource(
+      context: context,
       imageSource,
       imageProviderBuilder: configurations.imageProviderBuilder,
       imageErrorWidgetBuilder: configurations.imageErrorWidgetBuilder,
@@ -56,17 +59,14 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       onTap: configurations.onImageClicked ??
           () => showDialog(
                 context: context,
-                builder: (_) => QuillProvider.value(
-                  value: context.requireQuillProvider,
-                  child: FlutterQuillLocalizationsWidget(
-                    child: ImageOptionsMenu(
-                      controller: controller,
-                      configurations: configurations,
-                      imageSource: imageSource,
-                      imageSize: imageSize,
-                      isReadOnly: readOnly,
-                      imageSaverService: imageSaverService,
-                    ),
+                builder: (_) => FlutterQuillLocalizationsWidget(
+                  child: ImageOptionsMenu(
+                    controller: controller,
+                    configurations: configurations,
+                    imageSource: imageSource,
+                    imageSize: imageSize,
+                    isReadOnly: readOnly,
+                    imageSaverService: imageSaverService,
                   ),
                 ),
               ),

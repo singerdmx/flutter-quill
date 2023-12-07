@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' show QuillDialogTheme;
 import 'package:flutter_quill/translations.dart';
 
+import '../../utils/patterns.dart';
+
 enum LinkType {
   video,
   image,
@@ -28,7 +30,7 @@ class TypeLinkDialog extends StatefulWidget {
 class TypeLinkDialogState extends State<TypeLinkDialog> {
   late String _link;
   late TextEditingController _controller;
-  late RegExp _linkRegExp;
+  RegExp? _linkRegExp;
 
   @override
   void initState() {
@@ -36,15 +38,7 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
     _link = widget.link ?? '';
     _controller = TextEditingController(text: _link);
 
-    final defaultLinkNonSecureRegExp = RegExp(
-      r'https?://.*?\.(?:png|jpe?g|gif|bmp|webp|tiff?)',
-      caseSensitive: false,
-    ); // Not secure
-    // final defaultLinkRegExp = RegExp(
-    //   r'https://.*?\.(?:png|jpe?g|gif|bmp|webp|tiff?)',
-    //   caseSensitive: false,
-    // ); // Secure
-    _linkRegExp = widget.linkRegExp ?? defaultLinkNonSecureRegExp;
+    _linkRegExp = widget.linkRegExp;
   }
 
   @override
@@ -102,8 +96,28 @@ class TypeLinkDialogState extends State<TypeLinkDialog> {
     Navigator.pop(context, _link.trim());
   }
 
+  RegExp get linkRegExp {
+    final customRegExp = _linkRegExp;
+    if (customRegExp != null) {
+      return customRegExp;
+    }
+    switch (widget.linkType) {
+      case LinkType.video:
+        if (youtubeRegExp.hasMatch(_link)) {
+          return youtubeRegExp;
+        }
+        return videoRegExp;
+      case LinkType.image:
+        return imageRegExp;
+    }
+  }
+
   bool _canPress() {
-    return _link.isNotEmpty && _linkRegExp.hasMatch(_link);
+    if (_link.isEmpty) {
+      return false;
+    }
+    if (widget.linkType == LinkType.image) {}
+    return _link.isNotEmpty && linkRegExp.hasMatch(_link);
   }
 }
 

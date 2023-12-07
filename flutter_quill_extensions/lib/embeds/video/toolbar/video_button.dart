@@ -13,8 +13,8 @@ import 'select_video_source.dart';
 
 class QuillToolbarVideoButton extends StatelessWidget {
   const QuillToolbarVideoButton({
-    required this.options,
     required this.controller,
+    this.options = const QuillToolbarVideoButtonOptions(),
     super.key,
   });
 
@@ -26,6 +26,13 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final baseFontSize = baseButtonExtraOptions(context).globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
+  }
+
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor =
+        baseButtonExtraOptions(context).globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
@@ -67,6 +74,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
 
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
+    final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
@@ -83,7 +91,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
           dialogTheme: options.dialogTheme,
           fillColor: iconFillColor,
           iconSize: options.iconSize,
-          iconButtonFactor: options.iconButtonFactor,
+          iconButtonFactor: iconButtonFactor,
           linkRegExp: options.linkRegExp,
           tooltip: options.tooltip,
           iconTheme: options.iconTheme,
@@ -98,13 +106,9 @@ class QuillToolbarVideoButton extends StatelessWidget {
     }
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize, color: iconColor),
+      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
       tooltip: tooltip,
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: iconSize * 1.77,
-      fillColor: iconFillColor,
-      borderRadius: iconTheme?.borderRadius ?? 2,
+      isFilled: false,
       onPressed: () => _sharedOnPressed(context),
     );
   }
@@ -165,13 +169,10 @@ class QuillToolbarVideoButton extends StatelessWidget {
   Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => QuillProvider.value(
-        value: context.requireQuillProvider,
-        child: FlutterQuillLocalizationsWidget(
-          child: TypeLinkDialog(
-            dialogTheme: options.dialogTheme,
-            linkType: LinkType.video,
-          ),
+      builder: (_) => FlutterQuillLocalizationsWidget(
+        child: TypeLinkDialog(
+          dialogTheme: options.dialogTheme,
+          linkType: LinkType.video,
         ),
       ),
     );

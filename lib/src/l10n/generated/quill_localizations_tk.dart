@@ -137,6 +137,18 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get headerStyle => 'Sözbaşy stili';
 
   @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Heading 1';
+
+  @override
+  String get heading2 => 'Heading 2';
+
+  @override
+  String get heading3 => 'Heading 3';
+
+  @override
   String get numberedList => 'Sanly sanaw';
 
   @override
@@ -231,8 +243,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Take a photo using your phone camera';
+  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
 
   @override
   String get pasteAPhotoUsingALink => 'Paste a photo using a link';
@@ -241,8 +252,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Record a video using your phone camera';
+  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';

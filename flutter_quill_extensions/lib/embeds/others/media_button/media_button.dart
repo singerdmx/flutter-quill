@@ -20,7 +20,7 @@
 // class QuillToolbarMediaButton extends StatelessWidget {
 //   QuillToolbarMediaButton({
 //     required this.controller,
-//     required this.options,
+//     this.options,
 //     super.key,
 //   }) : assert(options.type == QuillMediaType.image,
 //             'Video selection is not supported yet');
@@ -135,7 +135,7 @@
 //       tooltip: tooltip,
 //       highlightElevation: 0,
 //       hoverElevation: 0,
-//       size: iconSize * 1.77,
+//       size: iconSize * iconButtonFactor,
 //       fillColor: iconFillColor,
 //       borderRadius: iconTheme?.borderRadius ?? 2,
 //       onPressed: () => _sharedOnPressed(context),

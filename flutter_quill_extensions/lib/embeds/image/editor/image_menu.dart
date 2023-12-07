@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
-    show
-        ImageUrl,
-        QuillController,
-        QuillProvider,
-        QuillProviderExt,
-        StyleAttribute,
-        getEmbedNode;
+    show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
+import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../models/config/editor/image/image.dart';
 import '../../../models/config/shared_configurations.dart';
@@ -55,34 +51,31 @@ class ImageOptionsMenu extends StatelessWidget {
                   context: context,
                   builder: (modalContext) {
                     final screenSize = MediaQuery.sizeOf(modalContext);
-                    return QuillProvider.value(
-                      value: context.requireQuillProvider,
-                      child: FlutterQuillLocalizationsWidget(
-                        child: ImageResizer(
-                          onImageResize: (width, height) {
-                            final res = getEmbedNode(
-                              controller,
-                              controller.selection.start,
-                            );
+                    return FlutterQuillLocalizationsWidget(
+                      child: ImageResizer(
+                        onImageResize: (width, height) {
+                          final res = getEmbedNode(
+                            controller,
+                            controller.selection.start,
+                          );
 
-                            final attr = replaceStyleStringWithSize(
-                              getImageStyleString(controller),
-                              width: width,
-                              height: height,
+                          final attr = replaceStyleStringWithSize(
+                            getImageStyleString(controller),
+                            width: width,
+                            height: height,
+                          );
+                          controller
+                            ..skipRequestKeyboard = true
+                            ..formatText(
+                              res.offset,
+                              1,
+                              StyleAttribute(attr),
                             );
-                            controller
-                              ..skipRequestKeyboard = true
-                              ..formatText(
-                                res.offset,
-                                1,
-                                StyleAttribute(attr),
-                              );
-                          },
-                          imageWidth: imageSize.width,
-                          imageHeight: imageSize.height,
-                          maxWidth: screenSize.width,
-                          maxHeight: screenSize.height,
-                        ),
+                        },
+                        imageWidth: imageSize.width,
+                        imageHeight: imageSize.height,
+                        maxWidth: screenSize.width,
+                        maxHeight: screenSize.height,
                       ),
                     );
                   },
@@ -96,15 +89,17 @@ class ImageOptionsMenu extends StatelessWidget {
               final navigator = Navigator.of(context);
               final imageNode =
                   getEmbedNode(controller, controller.selection.start).value;
-              final imageUrl = imageNode.value.data;
+              final image = imageNode.value.data;
               controller.copiedImageUrl = ImageUrl(
-                imageUrl,
+                image,
                 getImageStyleString(controller),
               );
-              // TODO: Implement the copy image
-              // await Clipboard.setData(
-              //   ClipboardData(),
-              // );
+
+              final data = await convertImageToUint8List(image);
+              if (data != null) {
+                final item = DataWriterItem()..add(Formats.png(data));
+                await ClipboardWriter.instance.write([item]);
+              }
               navigator.pop();
             },
           ),
@@ -139,7 +134,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 await configurations.onImageRemovedCallback.call(imageSource);
               },
             ),
-          ...[
+          if (!kIsWeb)
             ListTile(
               leading: const Icon(Icons.save),
               title: Text(context.loc.save),
@@ -181,23 +176,22 @@ class ImageOptionsMenu extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.zoom_in),
-              title: Text(context.loc.zoom),
-              onTap: () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ImageTapWrapper(
-                    assetsPrefix: QuillSharedExtensionsConfigurations.get(
-                            context: context)
-                        .assetsPrefix,
-                    imageUrl: imageSource,
-                    configurations: configurations,
-                  ),
+          ListTile(
+            leading: const Icon(Icons.zoom_in),
+            title: Text(context.loc.zoom),
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ImageTapWrapper(
+                  assetsPrefix:
+                      QuillSharedExtensionsConfigurations.get(context: context)
+                          .assetsPrefix,
+                  imageUrl: imageSource,
+                  configurations: configurations,
                 ),
               ),
             ),
-          ],
+          ),
         ],
       ),
     );

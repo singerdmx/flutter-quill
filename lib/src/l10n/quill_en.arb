@@ -44,6 +44,10 @@
   "justifyWinWidth": "Justify win width",
   "textDirection": "Text direction",
   "headerStyle": "Header style",
+  "normal": "Normal",
+  "heading1": "Heading 1",
+  "heading2": "Heading 2",
+  "heading3": "Heading 3",
   "numberedList": "Numbered list",
   "bulletList": "Bullet list",
   "checkedList": "Checked list",
@@ -75,9 +79,9 @@
   "caseSensitivityAndWholeWordSearch": "Case sensitivity and whole word search",
   "insertImage": "Insert image",
   "pickAPhotoFromYourGallery": "Pick a photo from your gallery",
-  "takeAPhotoUsingYourCamera": "Take a photo using your phone camera",
+  "takeAPhotoUsingYourCamera": "Take a photo using your camera",
   "pasteAPhotoUsingALink": "Paste a photo using a link",
   "pickAVideoFromYourGallery": "Pick a video from your gallery",
-  "recordAVideoUsingYourCamera": "Record a video using your phone camera",
+  "recordAVideoUsingYourCamera": "Record a video using your camera",
   "pasteAVideoUsingALink": "Paste a video using a link"
 }

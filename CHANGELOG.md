@@ -2,6 +2,58 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-8
+* Better support for pasting HTML contents from external websites to the editor
+* The experimental support of converting the HTML from `quill_html_converter` is now built-in in the `flutter_quill` and removed from there (Breaking change for `quill_html_converter`)
+
+## 9.0.0-dev-7
+* Fix a bug in chaning the background/font color of ol/ul list
+* Flutter Quill Extensions:
+  * Fix link bug in the video url
+  * Fix patterns
+
+## 9.0.0-dev-6
+* Move the `child` from `QuillToolbarConfigurations` into `QuillToolbar` directly
+* Bug fixes
+* Add the ability to change the background and font color of the ol/ul elements dots and numbers
+* Flutter Quill Extensions:
+  * **Breaking Change**: The `imageProviderBuilder`is now providing the context and image url
+
+## 9.0.0-dev-5
+* The `QuillToolbar` is now accepting only `child` with no configurations so you can customize everything you wants, the `QuillToolbar.simple()` or `QuillSimpleToolbar` implements a simple toolbar that is based on `QuillToolbar`, you are free to use it but it just an example and not standard
+* Flutter Quill Extensions:
+  * Improve the camera button
+
+## 9.0.0-dev-4
+* The options parameter in all of the buttons is no longer required which can be useful to create custom toolbar with minimal efforts
+* Toolbar buttons fixes in both `flutter_quill` and `flutter_quill_extensions`
+* The `QuillProvider` has been dropped and no longer used, the providers will be used only internally from now on and we will not using them as much as possible
+
+## 9.0.0-dev-3
+* Breaking Changes:
+  * Rename `QuillToolbar` to `QuillSimpleToolbar`
+  * Rename `QuillBaseToolbar` to `QuillToolbar`
+  * Replace `pasteboard` with `rich_cliboard`
+* Fix a bug in the example when inserting an image from url
+* Flutter Quill Extensions:
+ * Add support for copying the image to the system cliboard
+
+## 9.0.0-dev-2
+* An attemp to fix CI automated publishing
+
+## 9.0.0-dev-1
+* An attemp to fix CI automated publishing
+
+## 9.0.0-dev
+* **Major Breaking change**: The `QuillProvider` is now optional, the `controller` parameter has been moved to the `QuillEditor` and `QuillToolbar` once again.
+* Flutter Quill Extensions;
+  * **Breaking Change**: Completly change the way how the source code structured to more basic and simple way, organize folders and file names, if you use the library
+from `flutter_quill_extensions.dart` then there is nothing you need to do, but if you are using any other import then you need to re-imports
+embed, this won't affect how quill js work
+  * Improvemenets to the image embed
+  * Add support for `margin` for web
+  * Add untranslated strings to the `quill_en.arb`
+
 ## 8.6.4
 * The default value of `keyboardAppearance` for the iOS will be the one from the App/System theme mode instead of always using the `Brightness.light`
 * Fix typos in `README.md`

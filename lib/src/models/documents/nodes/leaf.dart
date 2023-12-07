@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import '../../../widgets/embeds.dart';
+import '../../../widgets/quill/embeds.dart';
 import '../../quill_delta.dart';
 import '../style.dart';
 import 'embeddable.dart';

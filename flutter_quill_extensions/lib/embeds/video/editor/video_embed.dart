@@ -37,7 +37,10 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
         readOnly: readOnly,
       );
     }
-    final ((elementSize), margin, alignment) = getElementAttributes(node);
+    final ((elementSize), margin, alignment) = getElementAttributes(
+      node,
+      context,
+    );
 
     final width = elementSize.width;
     final height = elementSize.height;

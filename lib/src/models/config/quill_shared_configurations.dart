@@ -2,22 +2,19 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show Color, Colors, Locale;
 
 import '../themes/quill_dialog_theme.dart';
-import './editor/configurations.dart' show QuillEditorConfigurations;
-import 'others/animations.dart';
-import 'toolbar/toolbar_configurations.dart' show QuillToolbarConfigurations;
+import 'editor/editor_configurations.dart' show QuillEditorConfigurations;
+import 'toolbar/simple_toolbar_configurations.dart'
+    show QuillSimpleToolbarConfigurations;
 
 export './others/animations.dart';
 
 /// The shared configurations between [QuillEditorConfigurations] and
-/// [QuillToolbarConfigurations] so we don't duplicate things
+/// [QuillSimpleToolbarConfigurations] so we don't duplicate things
 class QuillSharedConfigurations extends Equatable {
   const QuillSharedConfigurations({
     this.dialogBarrierColor = Colors.black54,
     this.dialogTheme,
     this.locale,
-    this.animationConfigurations = const QuillAnimationConfigurations(
-      checkBoxPointItem: false,
-    ),
     this.extraConfigurations = const {},
   });
 
@@ -37,9 +34,6 @@ class QuillSharedConfigurations extends Equatable {
   /// `MaterialApp` or `WidgetsApp`
   final Locale? locale;
 
-  /// To configure which animations you want to be enabled
-  final QuillAnimationConfigurations animationConfigurations;
-
   /// Store custom configurations in here and use it in the widget tree
   final Map<String, Object?> extraConfigurations;
 
@@ -48,6 +42,5 @@ class QuillSharedConfigurations extends Equatable {
         dialogBarrierColor,
         dialogTheme,
         locale,
-        animationConfigurations,
       ];
 }

@@ -36,7 +36,7 @@ export 'embeds/video/editor/video_embed.dart';
 export 'embeds/video/editor/video_web_embed.dart';
 export 'embeds/video/toolbar/video_button.dart';
 export 'embeds/video/video.dart';
-export 'extensions/controller.dart';
+export 'extensions/controller_ext.dart';
 export 'models/config/editor/image/image.dart';
 export 'models/config/editor/image/image_web.dart';
 export 'models/config/editor/video/video.dart';
@@ -113,8 +113,8 @@ class FlutterQuillEmbeds {
   ///  videos iframe on the web.
   ///
   static List<EmbedBuilder> editorWebBuilders(
-      {QuillEditorWebImageEmbedConfigurations? imageEmbedConfigurations =
-          const QuillEditorWebImageEmbedConfigurations(),
+      {QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
+          const QuillEditorImageEmbedConfigurations(),
       QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
           const QuillEditorWebVideoEmbedConfigurations()}) {
     if (!kIsWeb) {
@@ -125,7 +125,7 @@ class FlutterQuillEmbeds {
     }
     return [
       if (imageEmbedConfigurations != null)
-        QuillEditorWebImageEmbedBuilder(
+        QuillEditorImageEmbedBuilder(
           configurations: imageEmbedConfigurations,
         ),
       if (videoEmbedConfigurations != null)

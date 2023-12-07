@@ -6,7 +6,7 @@ import '../../../models/config/toolbar/buttons/formula.dart';
 class QuillToolbarFormulaButton extends StatelessWidget {
   const QuillToolbarFormulaButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarFormulaButtonOptions(),
     super.key,
   });
 
@@ -71,14 +71,11 @@ class QuillToolbarFormulaButton extends StatelessWidget {
         options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-        (options.fillColor ?? theme.canvasColor);
 
     if (childBuilder != null) {
       return childBuilder(
         QuillToolbarFormulaButtonOptions(
           afterButtonPressed: _afterButtonPressed(context),
-          fillColor: iconFillColor,
           iconData: iconData,
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,
@@ -94,14 +91,10 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     }
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize, color: iconColor),
+      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
       tooltip: tooltip,
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: iconSize * 1.77,
-      fillColor: iconFillColor,
-      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _sharedOnPressed(context),
+      isFilled: false,
     );
   }
 

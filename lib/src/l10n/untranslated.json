@@ -1,5 +1,9 @@
 {
   "ar": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -9,6 +13,10 @@
   ],
 
   "bg": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -18,6 +26,10 @@
   ],
 
   "bn": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -27,6 +39,10 @@
   ],
 
   "cs": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -36,6 +52,10 @@
   ],
 
   "da": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -45,6 +65,10 @@
   ],
 
   "de": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -54,6 +78,10 @@
   ],
 
   "en_US": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -63,6 +91,10 @@
   ],
 
   "es": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -72,6 +104,10 @@
   ],
 
   "fa": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -81,6 +117,10 @@
   ],
 
   "fr": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -90,6 +130,10 @@
   ],
 
   "he": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -99,6 +143,10 @@
   ],
 
   "hi": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -108,6 +156,10 @@
   ],
 
   "id": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -117,6 +169,10 @@
   ],
 
   "it": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -126,6 +182,10 @@
   ],
 
   "ja": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -135,6 +195,10 @@
   ],
 
   "ko": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -144,6 +208,10 @@
   ],
 
   "ms": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -153,6 +221,10 @@
   ],
 
   "nl": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -162,6 +234,10 @@
   ],
 
   "no": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -171,6 +247,10 @@
   ],
 
   "pl": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -180,6 +260,10 @@
   ],
 
   "pt": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -189,6 +273,10 @@
   ],
 
   "pt_BR": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -198,6 +286,10 @@
   ],
 
   "ru": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -207,6 +299,10 @@
   ],
 
   "sr": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -216,6 +312,10 @@
   ],
 
   "sw": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -225,6 +325,10 @@
   ],
 
   "tk": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -234,6 +338,10 @@
   ],
 
   "tr": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -243,6 +351,10 @@
   ],
 
   "uk": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -252,6 +364,10 @@
   ],
 
   "ur": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -261,6 +377,10 @@
   ],
 
   "vi": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -270,6 +390,10 @@
   ],
 
   "zh": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -279,6 +403,10 @@
   ],
 
   "zh_CN": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
@@ -288,6 +416,10 @@
   ],
 
   "zh_HK": [
+    "normal",
+    "heading1",
+    "heading2",
+    "heading3",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",

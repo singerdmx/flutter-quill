@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import '../../../widgets/embeds.dart';
+import '../../../widgets/quill/embeds.dart';
 import '../../quill_delta.dart';
 import '../attribute.dart';
 import '../style.dart';

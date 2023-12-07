@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import '../../models/documents/document.dart';
 import '../../utils/delta.dart';
 import '../editor/editor.dart';
+import 'raw_editor.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
     implements TextInputClient {
@@ -30,7 +31,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// - cmd/ctrl+a to select all.
   /// - Changing the selection using a physical keyboard.
   bool get shouldCreateInputConnection =>
-      kIsWeb || !widget.configurations.isReadOnly;
+      kIsWeb || !widget.configurations.readOnly;
 
   /// Returns `true` if there is open input connection.
   bool get hasConnection =>
@@ -58,9 +59,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         this,
         TextInputConfiguration(
           inputType: TextInputType.multiline,
-          readOnly: widget.configurations.isReadOnly,
+          readOnly: widget.configurations.readOnly,
           inputAction: widget.configurations.textInputAction,
-          enableSuggestions: !widget.configurations.isReadOnly,
+          enableSuggestions: !widget.configurations.readOnly,
           keyboardAppearance: widget.configurations.keyboardAppearance ??
               CupertinoTheme.maybeBrightnessOf(context) ??
               Theme.of(context).brightness,

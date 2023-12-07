@@ -29,6 +29,10 @@ This is a todo list page that added recently and will be updated soon.
  - Extract the shared properties between `QuillRawEditorConfigurations` and `QuillEditorConfigurations`
  - The todo in the this [commit](https://github.com/singerdmx/flutter-quill/commit/79597ea6425357795c0663588ac079665241f23a) needs to be checked
  - use `maybeOf` and of instead `ofNotNull` in the providers to follow flutter offical convenstion, completly rework the providers and update the build context extensions
+ - Add line through to the text when the check point checked is true
+ - Change the color of the numbers and dots in ol/ul to match the ones in the item list
+ - Fix the bugs of the font family and font size
+ - Try to update Quill Html Converter
 
 ### Bugs
 
@@ -39,12 +43,7 @@ Please go to the [issues](https://github.com/singerdmx/flutter-quill/issues)
 ## Flutter Quill Extensions
 
 ### Features
-- Add support for copying images to the Clipboard
 
 ### Improvemenets
 
-Please check the todos, this list will be updated soon.
-
 ### Bugs
-
-Please check the todos, this list will be updated soon.

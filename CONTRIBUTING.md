@@ -39,7 +39,7 @@ to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and will be us
 9. Mention the new changes in the [CHANGELOG.md](../CHANGELOG.md) in the next block
 10. Run the following script if possible
     ```
-    ./scripts/before-push.sh
+    ./scripts/before_push.sh
     ```
 11. When you are done sending your pull request, run:
     ```

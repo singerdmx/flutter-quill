@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
     show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
-
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../extensions/scaffold_messenger.dart';
 import '../shared/widgets/home_screen_button.dart';
-import 'quill_editor.dart';
-import 'quill_toolbar.dart';
+import 'my_quill_editor.dart';
+import 'my_quill_toolbar.dart';
 
 @immutable
 class QuillScreenArgs {
@@ -46,6 +45,18 @@ class _QuillScreenState extends State<QuillScreen> {
     _controller.document = widget.args.document;
   }
 
+  // Future<void> _init() async {
+  //   final reader = await ClipboardReader.readClipboard();
+  //   if (reader.canProvide(Formats.htmlText)) {
+  //     final html = await reader.readValue(Formats.htmlText);
+  //     if (html == null) {
+  //       return;
+  //     }
+  //     final delta = DeltaHtmlExt.fromHtml(html);
+  //     _controller.document = Document.fromDelta(delta);
+  //   }
+  // }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -65,7 +76,7 @@ class _QuillScreenState extends State<QuillScreen> {
             onPressed: () {
               final html = _controller.document.toDelta().toHtml();
               _controller.document =
-                  Document.fromDelta(DeltaHtmlExt.fromHtml(html));
+                  Document.fromDelta(QuillController.fromHtml(html));
             },
             icon: const Icon(Icons.html),
           ),
@@ -100,45 +111,60 @@ class _QuillScreenState extends State<QuillScreen> {
           const HomeScreenButton(),
         ],
       ),
-      body: QuillProvider(
-        configurations: QuillConfigurations(
-          controller: _controller,
-          sharedConfigurations: QuillSharedConfigurations(
-            animationConfigurations: QuillAnimationConfigurations.disableAll(),
-            extraConfigurations: const {
-              QuillSharedExtensionsConfigurations.key:
-                  QuillSharedExtensionsConfigurations(
-                assetsPrefix: 'assets',
-              ),
+      body: Column(
+        children: [
+          if (!_isReadOnly)
+            MyQuillToolbar(
+              controller: _controller,
+              focusNode: _editorFocusNode,
+            ),
+          Builder(
+            builder: (context) {
+              return Expanded(
+                child: MyQuillEditor(
+                  configurations: QuillEditorConfigurations(
+                    sharedConfigurations: _sharedConfigurations,
+                    controller: _controller,
+                    readOnly: _isReadOnly,
+                    customStyles: const DefaultStyles(),
+                    elementOptions: const QuillEditorElementOptions(
+                      codeBlock: QuillEditorCodeBlockElementOptions(
+                        enableLineNumbers: true,
+                      ),
+                      // orderedList: QuillEditorOrderedListElementOptions(
+                      //   backgroundColor: Colors.amber,
+                      //   fontColor: Colors.black,
+                      // ),
+                      // unorderedList: QuillEditorUnOrderedListElementOptions(
+                      //   backgroundColor: Colors.green,
+                      //   fontColor: Colors.red,
+                      // ),
+                    ),
+                  ),
+                  scrollController: _editorScrollController,
+                  focusNode: _editorFocusNode,
+                ),
+              );
             },
           ),
-        ),
-        child: Column(
-          children: [
-            if (!_isReadOnly)
-              MyQuillToolbar(
-                focusNode: _editorFocusNode,
-              ),
-            Builder(
-              builder: (context) {
-                return Expanded(
-                  child: MyQuillEditor(
-                    configurations: QuillEditorConfigurations(
-                      readOnly: _isReadOnly,
-                    ),
-                    scrollController: _editorScrollController,
-                    focusNode: _editorFocusNode,
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(_isReadOnly ? Icons.lock : Icons.edit),
         onPressed: () => setState(() => _isReadOnly = !_isReadOnly),
       ),
+    );
+  }
+
+  QuillSharedConfigurations get _sharedConfigurations {
+    return const QuillSharedConfigurations(
+      // locale: Locale('en'),
+      extraConfigurations: {
+        QuillSharedExtensionsConfigurations.key:
+            QuillSharedExtensionsConfigurations(
+          assetsPrefix: 'assets', // Defaults to assets
+        ),
+      },
     );
   }
 }

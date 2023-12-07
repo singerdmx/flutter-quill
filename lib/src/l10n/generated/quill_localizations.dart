@@ -421,6 +421,30 @@ abstract class FlutterQuillLocalizations {
   /// **'Header style'**
   String get headerStyle;
 
+  /// No description provided for @normal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get normal;
+
+  /// No description provided for @heading1.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 1'**
+  String get heading1;
+
+  /// No description provided for @heading2.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 2'**
+  String get heading2;
+
+  /// No description provided for @heading3.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading 3'**
+  String get heading3;
+
   /// No description provided for @numberedList.
   ///
   /// In en, this message translates to:
@@ -610,7 +634,7 @@ abstract class FlutterQuillLocalizations {
   /// No description provided for @takeAPhotoUsingYourCamera.
   ///
   /// In en, this message translates to:
-  /// **'Take a photo using your phone camera'**
+  /// **'Take a photo using your camera'**
   String get takeAPhotoUsingYourCamera;
 
   /// No description provided for @pasteAPhotoUsingALink.
@@ -628,7 +652,7 @@ abstract class FlutterQuillLocalizations {
   /// No description provided for @recordAVideoUsingYourCamera.
   ///
   /// In en, this message translates to:
-  /// **'Record a video using your phone camera'**
+  /// **'Record a video using your camera'**
   String get recordAVideoUsingYourCamera;
 
   /// No description provided for @pasteAVideoUsingALink.

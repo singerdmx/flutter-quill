@@ -14,7 +14,7 @@ import 'select_image_source.dart';
 class QuillToolbarImageButton extends StatelessWidget {
   const QuillToolbarImageButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarImageButtonOptions(),
     super.key,
   });
 
@@ -101,21 +101,15 @@ class QuillToolbarImageButton extends StatelessWidget {
     final iconTheme = _iconTheme(context);
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-        (options.fillColor ?? theme.canvasColor);
 
     return QuillToolbarIconButton(
       icon: Icon(
         iconData,
-        size: iconSize,
+        size: iconButtonFactor * iconSize,
         color: iconColor,
       ),
       tooltip: tooltip,
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: iconSize * 1.77,
-      fillColor: iconFillColor,
-      borderRadius: iconTheme?.borderRadius ?? 2,
+      isFilled: false,
       onPressed: () => _sharedOnPressed(context),
     );
   }
@@ -172,14 +166,11 @@ class QuillToolbarImageButton extends StatelessWidget {
   Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => QuillProvider.value(
-        value: context.requireQuillProvider,
-        child: FlutterQuillLocalizationsWidget(
-          child: TypeLinkDialog(
-            dialogTheme: options.dialogTheme,
-            linkRegExp: options.linkRegExp,
-            linkType: LinkType.image,
-          ),
+      builder: (_) => FlutterQuillLocalizationsWidget(
+        child: TypeLinkDialog(
+          dialogTheme: options.dialogTheme,
+          linkRegExp: options.linkRegExp,
+          linkType: LinkType.image,
         ),
       ),
     );

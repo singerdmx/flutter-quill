@@ -94,16 +94,26 @@ dependencies:
 > Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
 >
 
-Compatible versions:
+<!-- Compatible versions:
 
 | flutter_quill           | flutter_quill_extensions | flutter_quill_test      |
 |-------------------------|--------------------------|-------------------------|
 | 8.6.x                   | 0.7.x                    | 0.0.5                   |
 | 8.5.x                   | 0.6.x                    | 0.0.5                   |
 
-These versions are tested and well-supported, you shouldn't get a build failure
+These versions are tested and well-supported, you shouldn't get a build failure -->
 
 ## Usage
+
+Before using the package, we must inform you the package use the following plugins:
+  ```
+  url_launcher
+  flutter_keyboard_visibility
+  device_info_plus
+  super_clipboard
+  ```
+
+All of them doesn't require any platform spesefic setup, except [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's optional but to support copying images and pasting them into editor then you must setup it, open the page in pub.dev and read the `README.md` to get the instructions.
 
 First, you need to instantiate a controller
 
@@ -228,11 +238,13 @@ To see how to use the extension package, please take a look at the [README](./fl
 Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
 it to other formats such as HTML to publish it, or send an email.
 
+**Note**: This package support converting from HTML back to Quill delta but it's experimental and used internally when pasting Html content from the cliboard to the Quill Editor
+
 You have two options:
 
-1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to/from HTML, the package can convert the Quill delta to HTML well
-(it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)) but the converting from HTML back to Quill delta is experimental
-2. Another option is to use
+1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to HTML, the package can convert the Quill delta to HTML well
+(it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it just a handy extension to do it more quickly
+1. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML.
    This package has full support for all Quill operations—including images, videos, formulas,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
 import '../editor/editor.dart';
-import '../toolbar/buttons/link_style2.dart';
+import '../toolbar/buttons/link_style2_button.dart';
 import '../toolbar/buttons/search/search_dialog.dart';
 import 'raw_editor_state.dart';
 import 'raw_editor_text_boundaries.dart';
@@ -76,7 +76,7 @@ class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
 
   @override
   bool get isActionEnabled =>
-      !state.widget.configurations.isReadOnly &&
+      !state.widget.configurations.readOnly &&
       state.textEditingValue.selection.isValid;
 }
 

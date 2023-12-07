@@ -10,15 +10,16 @@ import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
     show
-        LogicalKeyboardKey,
-        RawKeyDownEvent,
-        HardwareKeyboard,
         Clipboard,
         ClipboardData,
+        HardwareKeyboard,
+        LogicalKeyboardKey,
+        RawKeyDownEvent,
+        SystemChannels,
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
-import 'package:pasteboard/pasteboard.dart' show Pasteboard;
+import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
@@ -27,23 +28,24 @@ import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../models/documents/nodes/line.dart';
 import '../../models/documents/nodes/node.dart';
+import '../../models/quill_delta.dart';
 import '../../models/structs/offset_value.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/cast.dart';
 import '../../utils/delta.dart';
 import '../../utils/embeds.dart';
 import '../../utils/platform.dart';
-import '../controller.dart';
-import '../cursor.dart';
-import '../default_styles.dart';
 import '../editor/editor.dart';
-import '../keyboard_listener.dart';
-import '../link.dart';
-import '../proxy.dart';
-import '../quill_single_child_scroll_view.dart';
-import '../text_block.dart';
-import '../text_line.dart';
-import '../text_selection.dart';
+import '../others/cursor.dart';
+import '../others/default_styles.dart';
+import '../others/keyboard_listener.dart';
+import '../others/link.dart';
+import '../others/proxy.dart';
+import '../others/text_selection.dart';
+import '../quill/quill_controller.dart';
+import '../quill/text_block.dart';
+import '../quill/text_line.dart';
+import 'quill_single_child_scroll_view.dart';
 import 'raw_editor.dart';
 import 'raw_editor_actions.dart';
 import 'raw_editor_render_object.dart';
@@ -115,14 +117,240 @@ class QuillRawEditorState extends EditorState
         .call(content);
   }
 
+  // List<ContextMenuButtonItem> get contextMenuButtonItems {
+  //   return EditableText.getEditableButtonItems(
+  //     clipboardStatus: _clipboardStatus.value,
+  //     onLiveTextInput: null,
+  //     onCopy: copyEnabled
+  //         ? () => copySelection(SelectionChangedCause.toolbar)
+  //         : null,
+  //     onCut:
+  //         cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
+  //     onPaste:
+  //         pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
+  //     onSelectAll: selectAllEnabled
+  //         ? () => selectAll(SelectionChangedCause.toolbar)
+  //         : null,
+  //     onLookUp: null,
+  //     onSearchWeb: null,
+  //     onShare: null,
+  //   );
+  // }
+
+  /// Copy current selection to [Clipboard].
+  @override
+  void copySelection(SelectionChangedCause cause) {
+    controller.copiedImageUrl = null;
+    _pastePlainText = controller.getPlainText();
+    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
+
+    final selection = textEditingValue.selection;
+    final text = textEditingValue.text;
+    if (selection.isCollapsed) {
+      return;
+    }
+    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
+
+    if (cause == SelectionChangedCause.toolbar) {
+      bringIntoView(textEditingValue.selection.extent);
+
+      // Collapse the selection and hide the toolbar and handles.
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: textEditingValue.text,
+          selection:
+              TextSelection.collapsed(offset: textEditingValue.selection.end),
+        ),
+        SelectionChangedCause.toolbar,
+      );
+    }
+  }
+
+  /// Cut current selection to [Clipboard].
+  @override
+  void cutSelection(SelectionChangedCause cause) {
+    controller.copiedImageUrl = null;
+    _pastePlainText = controller.getPlainText();
+    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
+
+    if (widget.configurations.readOnly) {
+      return;
+    }
+    final selection = textEditingValue.selection;
+    final text = textEditingValue.text;
+    if (selection.isCollapsed) {
+      return;
+    }
+    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
+    _replaceText(ReplaceTextIntent(textEditingValue, '', selection, cause));
+
+    if (cause == SelectionChangedCause.toolbar) {
+      bringIntoView(textEditingValue.selection.extent);
+      hideToolbar();
+    }
+  }
+
+  /// Paste text from [Clipboard].
+  @override
+  Future<void> pasteText(SelectionChangedCause cause) async {
+    if (widget.configurations.readOnly) {
+      return;
+    }
+
+    if (controller.copiedImageUrl != null) {
+      final index = textEditingValue.selection.baseOffset;
+      final length = textEditingValue.selection.extentOffset - index;
+      final copied = controller.copiedImageUrl!;
+      controller.replaceText(
+        index,
+        length,
+        BlockEmbed.image(copied.url),
+        null,
+      );
+      if (copied.styleString.isNotEmpty) {
+        controller.formatText(
+          getEmbedNode(controller, index + 1).offset,
+          1,
+          StyleAttribute(copied.styleString),
+        );
+      }
+      controller.copiedImageUrl = null;
+      await Clipboard.setData(
+        const ClipboardData(text: ''),
+      );
+      return;
+    }
+
+    final selection = textEditingValue.selection;
+    if (!selection.isValid) {
+      return;
+    }
+
+    // TODO: Could be improved
+    Delta? deltaFromCliboard;
+    final reader = await ClipboardReader.readClipboard();
+    if (reader.canProvide(Formats.htmlText)) {
+      final html = await reader.readValue(Formats.htmlText);
+      if (html == null) {
+        return;
+      }
+      deltaFromCliboard = QuillController.fromHtml(html);
+    }
+    if (deltaFromCliboard != null) {
+      // final index = selection.baseOffset;
+      // final length = selection.extentOffset - index;
+
+      final list = controller.document.toDelta().toList()
+        ..insertAll(controller.document.toDelta().toList().length - 1,
+            deltaFromCliboard.toList());
+
+      final delta = controller.document.toDelta();
+      for (final operation in list) {
+        delta.push(operation);
+      }
+
+      controller
+        ..updateDocument(
+          Document.fromDelta(delta),
+        )
+        ..updateSelection(
+          TextSelection.collapsed(
+            offset: controller.document.length,
+          ),
+          ChangeSource.local,
+        );
+
+      bringIntoView(textEditingValue.selection.extent);
+
+      // Collapse the selection and hide the toolbar and handles.
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: textEditingValue.text,
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
+        ),
+        cause,
+      );
+
+      return;
+    }
+
+    // Snapshot the input before using `await`.
+    // See https://github.com/flutter/flutter/issues/11427
+    final plainText = await Clipboard.getData(Clipboard.kTextPlain);
+    if (plainText != null) {
+      _replaceText(
+        ReplaceTextIntent(
+          textEditingValue,
+          plainText.text!,
+          selection,
+          cause,
+        ),
+      );
+
+      bringIntoView(textEditingValue.selection.extent);
+
+      // Collapse the selection and hide the toolbar and handles.
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: textEditingValue.text,
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
+        ),
+        cause,
+      );
+
+      return;
+    }
+
+    final onImagePaste = widget.configurations.onImagePaste;
+    if (onImagePaste != null) {
+      final reader = await ClipboardReader.readClipboard();
+      if (!reader.canProvide(Formats.png)) {
+        return;
+      }
+      reader.getFile(Formats.png, (value) async {
+        final image = value;
+
+        final imageUrl = await onImagePaste(await image.readAll());
+        if (imageUrl == null) {
+          return;
+        }
+
+        controller.replaceText(
+          textEditingValue.selection.end,
+          0,
+          BlockEmbed.image(imageUrl),
+          null,
+        );
+      });
+    }
+  }
+
+  /// Select the entire text value.
+  @override
+  void selectAll(SelectionChangedCause cause) {
+    userUpdateTextEditingValue(
+      textEditingValue.copyWith(
+        selection: TextSelection(
+            baseOffset: 0, extentOffset: textEditingValue.text.length),
+      ),
+      cause,
+    );
+
+    if (cause == SelectionChangedCause.toolbar) {
+      bringIntoView(textEditingValue.selection.extent);
+    }
+  }
+
   /// Returns the [ContextMenuButtonItem]s representing the buttons in this
   /// platform's default selection menu for [QuillRawEditor].
-  ///
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
       clipboardStatus: _clipboardStatus.value,
-      onLiveTextInput: null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
@@ -133,10 +361,68 @@ class QuillRawEditorState extends EditorState
       onSelectAll: selectAllEnabled
           ? () => selectAll(SelectionChangedCause.toolbar)
           : null,
-      onLookUp: null,
-      onSearchWeb: null,
-      onShare: null,
+      onLookUp: lookUpEnabled
+          ? () => lookUpSelection(SelectionChangedCause.toolbar)
+          : null,
+      onSearchWeb: searchWebEnabled
+          ? () => searchWebForSelection(SelectionChangedCause.toolbar)
+          : null,
+      onShare: shareEnabled
+          ? () => shareSelection(SelectionChangedCause.toolbar)
+          : null,
+      onLiveTextInput: liveTextInputEnabled ? () {} : null,
     );
+  }
+
+  /// Look up the current selection,
+  /// as in the "Look Up" edit menu button on iOS.
+  ///
+  /// Currently this is only implemented for iOS.
+  ///
+  /// Throws an error if the selection is empty or collapsed.
+  Future<void> lookUpSelection(SelectionChangedCause cause) async {
+    final text = textEditingValue.selection.textInside(textEditingValue.text);
+    if (text.isEmpty) {
+      return;
+    }
+    await SystemChannels.platform.invokeMethod(
+      'LookUp.invoke',
+      text,
+    );
+  }
+
+  /// Launch a web search on the current selection,
+  /// as in the "Search Web" edit menu button on iOS.
+  ///
+  /// Currently this is only implemented for iOS.
+  ///
+  /// When 'obscureText' is true or the selection is empty,
+  /// this function will not do anything
+  Future<void> searchWebForSelection(SelectionChangedCause cause) async {
+    final text = textEditingValue.selection.textInside(textEditingValue.text);
+    if (text.isNotEmpty) {
+      await SystemChannels.platform.invokeMethod(
+        'SearchWeb.invoke',
+        text,
+      );
+    }
+  }
+
+  /// Launch the share interface for the current selection,
+  /// as in the "Share" edit menu button on iOS.
+  ///
+  /// Currently this is only implemented for iOS.
+  ///
+  /// When 'obscureText' is true or the selection is empty,
+  /// this function will not do anything
+  Future<void> shareSelection(SelectionChangedCause cause) async {
+    final text = textEditingValue.selection.textInside(textEditingValue.text);
+    if (text.isNotEmpty) {
+      await SystemChannels.platform.invokeMethod(
+        'Share.invoke',
+        text,
+      );
+    }
   }
 
   /// Returns the anchor points for the default context menu.
@@ -552,7 +838,7 @@ class QuillRawEditorState extends EditorState
         controller.document.queryChild(controller.selection.baseOffset);
 
     KeyEventResult insertTabCharacter() {
-      if (widget.configurations.isReadOnly) {
+      if (widget.configurations.readOnly) {
         return KeyEventResult.ignored;
       }
       controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
@@ -662,7 +948,7 @@ class QuillRawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     final requestKeyboardFocusOnCheckListChanged =
         widget.configurations.requestKeyboardFocusOnCheckListChanged;
-    if (!widget.configurations.isReadOnly) {
+    if (!widget.configurations.readOnly) {
       _disableScrollControllerAnimateOnce = true;
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
@@ -737,7 +1023,7 @@ class QuillRawEditorState extends EditorState
           indentLevelCounts: indentLevelCounts,
           clearIndents: clearIndents,
           onCheckboxTap: _handleCheckboxTap,
-          readOnly: widget.configurations.isReadOnly,
+          readOnly: widget.configurations.readOnly,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );
@@ -767,7 +1053,7 @@ class QuillRawEditorState extends EditorState
       customStyleBuilder: widget.configurations.customStyleBuilder,
       customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
       styles: _styles!,
-      readOnly: widget.configurations.isReadOnly,
+      readOnly: widget.configurations.readOnly,
       controller: controller,
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.configurations.onLaunchUrl,
@@ -968,7 +1254,7 @@ class QuillRawEditorState extends EditorState
     if (!shouldCreateInputConnection) {
       closeConnectionIfNeeded();
     } else {
-      if (oldWidget.configurations.isReadOnly && _hasFocus) {
+      if (oldWidget.configurations.readOnly && _hasFocus) {
         openConnectionIfNeeded();
       }
     }
@@ -1262,161 +1548,6 @@ class QuillRawEditorState extends EditorState
     );
   }
 
-  /// Copy current selection to [Clipboard].
-  @override
-  void copySelection(SelectionChangedCause cause) {
-    controller.copiedImageUrl = null;
-    _pastePlainText = controller.getPlainText();
-    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
-
-    final selection = textEditingValue.selection;
-    final text = textEditingValue.text;
-    if (selection.isCollapsed) {
-      return;
-    }
-    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-
-      // Collapse the selection and hide the toolbar and handles.
-      userUpdateTextEditingValue(
-        TextEditingValue(
-          text: textEditingValue.text,
-          selection:
-              TextSelection.collapsed(offset: textEditingValue.selection.end),
-        ),
-        SelectionChangedCause.toolbar,
-      );
-    }
-  }
-
-  /// Cut current selection to [Clipboard].
-  @override
-  void cutSelection(SelectionChangedCause cause) {
-    controller.copiedImageUrl = null;
-    _pastePlainText = controller.getPlainText();
-    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
-
-    if (widget.configurations.isReadOnly) {
-      return;
-    }
-    final selection = textEditingValue.selection;
-    final text = textEditingValue.text;
-    if (selection.isCollapsed) {
-      return;
-    }
-    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
-    _replaceText(ReplaceTextIntent(textEditingValue, '', selection, cause));
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-      hideToolbar();
-    }
-  }
-
-  /// Paste text from [Clipboard].
-  @override
-  Future<void> pasteText(SelectionChangedCause cause) async {
-    if (widget.configurations.isReadOnly) {
-      return;
-    }
-
-    if (controller.copiedImageUrl != null) {
-      final index = textEditingValue.selection.baseOffset;
-      final length = textEditingValue.selection.extentOffset - index;
-      final copied = controller.copiedImageUrl!;
-      controller.replaceText(
-        index,
-        length,
-        BlockEmbed.image(copied.url),
-        null,
-      );
-      if (copied.styleString.isNotEmpty) {
-        controller.formatText(
-          getEmbedNode(controller, index + 1).offset,
-          1,
-          StyleAttribute(copied.styleString),
-        );
-      }
-      controller.copiedImageUrl = null;
-      await Clipboard.setData(
-        const ClipboardData(text: ''),
-      );
-      return;
-    }
-
-    final selection = textEditingValue.selection;
-    if (!selection.isValid) {
-      return;
-    }
-    // Snapshot the input before using `await`.
-    // See https://github.com/flutter/flutter/issues/11427
-    final text = await Clipboard.getData(Clipboard.kTextPlain);
-    if (text != null) {
-      _replaceText(
-        ReplaceTextIntent(
-          textEditingValue,
-          text.text!,
-          selection,
-          cause,
-        ),
-      );
-
-      bringIntoView(textEditingValue.selection.extent);
-
-      // Collapse the selection and hide the toolbar and handles.
-      userUpdateTextEditingValue(
-        TextEditingValue(
-          text: textEditingValue.text,
-          selection: TextSelection.collapsed(
-            offset: textEditingValue.selection.end,
-          ),
-        ),
-        cause,
-      );
-
-      return;
-    }
-
-    final onImagePaste = widget.configurations.onImagePaste;
-    if (onImagePaste != null) {
-      final image = await Pasteboard.image;
-
-      if (image == null) {
-        return;
-      }
-
-      final imageUrl = await onImagePaste(image);
-      if (imageUrl == null) {
-        return;
-      }
-
-      controller.replaceText(
-        textEditingValue.selection.end,
-        0,
-        BlockEmbed.image(imageUrl),
-        null,
-      );
-    }
-  }
-
-  /// Select the entire text value.
-  @override
-  void selectAll(SelectionChangedCause cause) {
-    userUpdateTextEditingValue(
-      textEditingValue.copyWith(
-        selection: TextSelection(
-            baseOffset: 0, extentOffset: textEditingValue.text.length),
-      ),
-      cause,
-    );
-
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
-    }
-  }
-
   @override
   bool get wantKeepAlive => widget.configurations.focusNode.hasFocus;
 
@@ -1613,6 +1744,8 @@ class QuillRawEditorState extends EditorState
       }
     }
   }
+
+  // TODO: Review those
 
   @override
   bool get liveTextInputEnabled => false;

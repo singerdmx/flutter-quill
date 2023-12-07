@@ -2,7 +2,7 @@ import 'dart:math';
 
 import '../models/documents/nodes/leaf.dart';
 import '../models/structs/offset_value.dart';
-import '../widgets/controller.dart';
+import '../widgets/quill/quill_controller.dart';
 
 OffsetValue<Embed> getEmbedNode(QuillController controller, int offset) {
   var offset = controller.selection.start;

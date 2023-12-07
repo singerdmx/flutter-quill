@@ -1,16 +1,15 @@
 import 'dart:io' show File;
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart' show Uint8List, immutable;
+import 'package:http/http.dart' as http;
 
 import '../embeds/widgets/image.dart';
 import '../services/image_saver/s_image_saver.dart';
-
-RegExp _base64 = RegExp(
-  r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$',
-);
+import 'patterns.dart';
 
 bool isBase64(String str) {
-  return _base64.hasMatch(str);
+  return base64RegExp.hasMatch(str);
 }
 
 bool isHttpBasedUrl(String url) {
@@ -46,6 +45,23 @@ class SaveImageResult {
 
   final String? error;
   final SaveImageResultMethod method;
+}
+
+Future<Uint8List?> convertImageToUint8List(String image) async {
+  if (isHttpBasedUrl(image)) {
+    final response = await http.get(Uri.parse(image));
+    if (response.statusCode == 200) {
+      return Uint8List.fromList(response.bodyBytes);
+    }
+    return null;
+  }
+  // TODO: Add support for all image providers like AssetImage
+  try {
+    final file = XFile(image);
+    return await file.readAsBytes();
+  } catch (e) {
+    return null;
+  }
 }
 
 Future<SaveImageResult> saveImage({

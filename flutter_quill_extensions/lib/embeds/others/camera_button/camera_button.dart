@@ -3,7 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart'
     show
         QuillController,
         QuillIconTheme,
-        QuillProviderExt,
+        QuillSimpleToolbarExt,
         QuillToolbarBaseButtonOptions,
         QuillToolbarIconButton;
 import 'package:flutter_quill/translations.dart';
@@ -17,7 +17,7 @@ import 'select_camera_action.dart';
 class QuillToolbarCameraButton extends StatelessWidget {
   const QuillToolbarCameraButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarCameraButtonOptions(),
     super.key,
   });
 
@@ -28,6 +28,13 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final baseFontSize = baseButtonExtraOptions(context).globalIconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize;
+  }
+
+  double _iconButtonFactor(BuildContext context) {
+    final baseIconFactor =
+        baseButtonExtraOptions(context).globalIconButtonFactor;
+    final iconButtonFactor = options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
@@ -69,6 +76,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
     final iconData = _iconData(context);
+    final iconButtonFactor = _iconButtonFactor(context);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
@@ -80,7 +88,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
           iconData: options.iconData,
           fillColor: options.fillColor,
           iconSize: options.iconSize,
-          iconButtonFactor: options.iconButtonFactor,
+          iconButtonFactor: iconButtonFactor,
           iconTheme: options.iconTheme,
           tooltip: options.tooltip,
           cameraConfigurations: options.cameraConfigurations,
@@ -96,17 +104,11 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-        (options.fillColor ?? theme.canvasColor);
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize, color: iconColor),
+      icon: Icon(iconData, size: iconButtonFactor * iconSize, color: iconColor),
       tooltip: tooltip,
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: iconSize * 1.77,
-      fillColor: iconFillColor,
-      borderRadius: iconTheme?.borderRadius ?? 2,
+      isFilled: false,
       // isDesktop(supportWeb: false) ? null :
       onPressed: () => _sharedOnPressed(context),
     );
@@ -118,9 +120,8 @@ class QuillToolbarCameraButton extends StatelessWidget {
     if (customCallback != null) {
       return await customCallback(context);
     }
-    final cameraAction = await showDialog<CameraAction>(
+    final cameraAction = await showSelectCameraActionDialog(
       context: context,
-      builder: (ctx) => const SelectCameraActionDialog(),
     );
 
     return cameraAction;
@@ -168,12 +169,5 @@ class QuillToolbarCameraButton extends StatelessWidget {
         await options.cameraConfigurations.onImageInsertedCallback
             ?.call(imageFile.path);
     }
-
-    // final file = await switch (cameraAction) {
-    //   CameraAction.image =>
-    //     imagePickerService.pickImage(source: ImageSource.camera),
-    //   CameraAction.video =>
-    //     imagePickerService.pickVideo(source: ImageSource.camera),
-    // };
   }
 }
