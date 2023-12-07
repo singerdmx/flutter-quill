@@ -105,6 +105,8 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     if (_headerTextStyles == null) {
       final defaultStyles = DefaultStyles.getInstance(context);
       _headerTextStyles = {
+        Attribute.header:
+            widget.options.style ?? defaultStyles.paragraph!.style,
         Attribute.h1: defaultStyles.h1!.style,
         Attribute.h2: defaultStyles.h2!.style,
         Attribute.h3: defaultStyles.h3!.style,
