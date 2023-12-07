@@ -96,10 +96,9 @@ dependencies:
 
 <!-- Compatible versions:
 
-| flutter_quill           | flutter_quill_extensions | flutter_quill_test      |
-|-------------------------|--------------------------|-------------------------|
-| 8.6.x                   | 0.7.x                    | 0.0.5                   |
-| 8.5.x                   | 0.6.x                    | 0.0.5                   |
+| flutter_quill | Flutter | Dart  |
+|---------------|---------|-------|
+| 9.0.x         | 3.16.x  | 3.2.x |
 
 These versions are tested and well-supported, you shouldn't get a build failure -->
 
@@ -126,24 +125,23 @@ connect the `QuillController` to them
 using `QuillProvider` inherited widget
 
 ```dart
-QuillProvider(
-  configurations: QuillConfigurations(
+QuillToolbar.simple(
+  configurations: QuillSimpleToolbarConfigurations(
     controller: _controller,
     sharedConfigurations: const QuillSharedConfigurations(
       locale: Locale('de'),
     ),
   ),
-  child: Column(
-    children: [
-      const QuillToolbar(),
-      Expanded(
-        child: QuillEditor.basic(
-          configurations: const QuillEditorConfigurations(
-            readOnly: false,
-          ),
-        ),
-      )
-    ],
+),
+Expanded(
+  child: QuillEditor.basic(
+    configurations: QuillEditorConfigurations(
+      controller: _controller,
+      readOnly: false,
+      sharedConfigurations: const QuillSharedConfigurations(
+        locale: Locale('de'),
+      ),
+    ),
   ),
 )
 ```
