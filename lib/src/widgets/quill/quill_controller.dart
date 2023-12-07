@@ -64,7 +64,7 @@ class QuillController extends ChangeNotifier {
   String? get selectedFontFamily => _selectedFontFamily;
 
   void selectFontFamily(String newFontFamily) {
-    _selectedFontFamily = selectedFontFamily;
+    _selectedFontFamily = newFontFamily;
   }
 
   /// Tells whether to keep or reset the [toggledStyle]

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 
+import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
 import '../../utils/delta.dart';
 import '../editor/editor.dart';
@@ -200,7 +201,22 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           .updateSelection(value.selection, ChangeSource.local);
     } else {
       widget.configurations.controller.replaceText(
-          diff.start, diff.deleted.length, diff.inserted, value.selection);
+        diff.start,
+        diff.deleted.length,
+        diff.inserted,
+        value.selection,
+      );
+      print(widget.configurations.controller.selectedFontFamily != null);
+      if (widget.configurations.controller.selectedFontFamily != null) {
+        widget.configurations.controller.formatText(
+          diff.start,
+          diff.deleted.length,
+          Attribute.fromKeyValue(
+            Attribute.font.key,
+            widget.configurations.controller.selectedFontFamily,
+          ),
+        );
+      }
     }
   }
 

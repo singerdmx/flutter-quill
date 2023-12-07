@@ -51,39 +51,39 @@ class QuillToolbarFontFamilyButtonState
 
   void _initState() {
     _currentValue = _defaultDisplayText;
-    controller.addListener(_didChangeEditingValue);
+    // controller.addListener(_didChangeEditingValue);
   }
 
-  @override
-  void dispose() {
-    controller.removeListener(_didChangeEditingValue);
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   controller.removeListener(_didChangeEditingValue);
+  //   super.dispose();
+  // }
 
   String get _defaultDisplayText {
     return options.initialValue ?? widget.defaultDispalyText;
   }
 
-  @override
-  void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller == controller) {
-      return;
-    }
-    controller
-      ..removeListener(_didChangeEditingValue)
-      ..addListener(_didChangeEditingValue);
-  }
+  // @override
+  // void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (oldWidget.controller == controller) {
+  //     return;
+  //   }
+  //   controller
+  //     ..removeListener(_didChangeEditingValue)
+  //     ..addListener(_didChangeEditingValue);
+  // }
 
-  void _didChangeEditingValue() {
-    final attribute = _selectionStyle.attributes[options.attribute.key];
-    if (attribute == null) {
-      setState(() => _currentValue = _defaultDisplayText);
-      return;
-    }
-    final keyName = _getKeyName(attribute.value);
-    setState(() => _currentValue = keyName ?? _defaultDisplayText);
-  }
+  // void _didChangeEditingValue() {
+  //   final attribute = _selectionStyle.attributes[options.attribute.key];
+  //   if (attribute == null) {
+  //     setState(() => _currentValue = _defaultDisplayText);
+  //     return;
+  //   }
+  //   final keyName = _getKeyName(attribute.value);
+  //   setState(() => _currentValue = keyName ?? _defaultDisplayText);
+  // }
 
   Map<String, String> get rawItemsMap {
     final rawItemsMap =
@@ -225,6 +225,9 @@ class QuillToolbarFontFamilyButtonState
             height: options.itemHeight ?? kMinInteractiveDimension,
             padding: options.itemPadding,
             onTap: () {
+              if (fontFamily.value == 'Clear') {
+                return;
+              }
               controller.selectFontFamily(fontFamily.value);
             },
             child: Text(
@@ -251,11 +254,13 @@ class QuillToolbarFontFamilyButtonState
     }
     final keyName = _getKeyName(newValue);
     setState(() {
-      _currentValue = keyName ?? _defaultDisplayText;
+      if (keyName != 'Clear') {
+        _currentValue = keyName ?? _defaultDisplayText;
+      }
       if (keyName != null) {
         controller.formatSelection(
           Attribute.fromKeyValue(
-            'font',
+            Attribute.font.key,
             newValue == 'Clear' ? null : newValue,
           ),
         );
@@ -277,7 +282,7 @@ class QuillToolbarFontFamilyButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              _currentValue,
+              widget.controller.selectedFontFamily ?? _currentValue,
               maxLines: 1,
               overflow: options.labelOverflow,
               style: options.style ??

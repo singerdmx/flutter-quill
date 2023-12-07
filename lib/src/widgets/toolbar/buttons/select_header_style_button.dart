@@ -37,6 +37,24 @@ class _QuillToolbarSelectHeaderStyleButtonState
     widget.controller.addListener(_didChangeEditingValue);
   }
 
+  @override
+  void dispose() {
+    widget.controller.removeListener(_didChangeEditingValue);
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(
+      covariant QuillToolbarSelectHeaderStyleButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller == widget.controller) {
+      return;
+    }
+    widget.controller
+      ..removeListener(_didChangeEditingValue)
+      ..addListener(_didChangeEditingValue);
+  }
+
   void _didChangeEditingValue() {
     final newSelectedItem = _getOptionsItemByAttribute(_getHeaderValue());
     if (newSelectedItem == _selectedItem) {
