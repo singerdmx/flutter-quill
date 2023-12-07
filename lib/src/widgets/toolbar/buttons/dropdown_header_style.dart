@@ -100,8 +100,16 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    controller.addListener(_didChangeEditingValue);
+    _selectedAttribute = _getHeaderValue();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    assert(_attrbuites.every((element) => _valueToText.keys.contains(element)));
+
     if (_headerTextStyles == null) {
       final defaultStyles = QuillStyles.getStyles(context, false);
       _headerTextStyles = {
@@ -113,18 +121,6 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
         Attribute.h6: defaultStyles.h6!.style,
       };
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(_didChangeEditingValue);
-    _selectedAttribute = _getHeaderValue();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    assert(_attrbuites.every((element) => _valueToText.keys.contains(element)));
 
     final baseButtonConfigurations =
         context.requireQuillToolbarBaseButtonOptions;
