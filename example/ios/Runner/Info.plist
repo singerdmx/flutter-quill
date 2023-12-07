@@ -49,7 +49,7 @@
 	<string>We need permission to the photo library in order for inserting images in the text editor</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need permission to the camera in order for takeing a photos and record videos in the text editor</string>
-	<key>NSMicrophoneUsageDescription<key>
+	<key>NSMicrophoneUsageDescription</key>
 	<string>We don't really need that permission</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need this permission for saving the images in the editor</string>
