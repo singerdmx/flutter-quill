@@ -1,4 +1,4 @@
-name: Flutter Quill CI
+name: CI Tests
 
 on:
   push:
