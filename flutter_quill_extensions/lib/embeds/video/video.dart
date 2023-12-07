@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import '../../extensions/controller.dart';
+import '../../extensions/controller_ext.dart';
 import '../../services/image_picker/s_image_picker.dart';
 
 /// When request picking an video, for example when the video button toolbar

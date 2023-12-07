@@ -7,7 +7,7 @@ import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
-import '../../others/controller.dart';
+import '../../quill/quill_controller.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {

@@ -52,11 +52,16 @@ dependencies:
   equatable: ^2.0.5
   meta: ^1.9.1
 
+  # For Quill HTML
+  markdown: ^7.1.1
+  html2md: ^1.3.1
+
   # Plugins
   url_launcher: ^6.1.14
   flutter_keyboard_visibility: ^5.4.1
   device_info_plus: ^9.1.0
   super_clipboard: ^0.7.3
+  charcode: ^1.3.1
 
 dev_dependencies:
   flutter_lints: ^3.0.1

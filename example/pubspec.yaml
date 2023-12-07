@@ -44,6 +44,7 @@ dependencies:
   file_picker: ^6.1.1
   # For sharing text
   share_plus: ^7.2.1
+  super_clipboard: ^0.7.3
 
 dependency_overrides:
   flutter_quill:

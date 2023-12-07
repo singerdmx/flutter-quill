@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../extensions/quill_configurations_ext.dart';
 import '../../models/documents/attribute.dart';
-import '../others/text_block.dart';
+import '../quill/text_block.dart';
 
 class QuillEditorNumberPoint extends StatelessWidget {
   const QuillEditorNumberPoint({

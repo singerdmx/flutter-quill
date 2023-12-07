@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
     show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
-
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
@@ -46,6 +45,18 @@ class _QuillScreenState extends State<QuillScreen> {
     _controller.document = widget.args.document;
   }
 
+  // Future<void> _init() async {
+  //   final reader = await ClipboardReader.readClipboard();
+  //   if (reader.canProvide(Formats.htmlText)) {
+  //     final html = await reader.readValue(Formats.htmlText);
+  //     if (html == null) {
+  //       return;
+  //     }
+  //     final delta = DeltaHtmlExt.fromHtml(html);
+  //     _controller.document = Document.fromDelta(delta);
+  //   }
+  // }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -65,7 +76,7 @@ class _QuillScreenState extends State<QuillScreen> {
             onPressed: () {
               final html = _controller.document.toDelta().toHtml();
               _controller.document =
-                  Document.fromDelta(DeltaHtmlExt.fromHtml(html));
+                  Document.fromDelta(QuillController.fromHtml(html));
             },
             icon: const Icon(Icons.html),
           ),
@@ -119,14 +130,14 @@ class _QuillScreenState extends State<QuillScreen> {
                       codeBlock: QuillEditorCodeBlockElementOptions(
                         enableLineNumbers: true,
                       ),
-                      orderedList: QuillEditorOrderedListElementOptions(
-                        backgroundColor: Colors.amber,
-                        fontColor: Colors.black,
-                      ),
-                      unorderedList: QuillEditorUnOrderedListElementOptions(
-                        backgroundColor: Colors.green,
-                        fontColor: Colors.red,
-                      ),
+                      // orderedList: QuillEditorOrderedListElementOptions(
+                      //   backgroundColor: Colors.amber,
+                      //   fontColor: Colors.black,
+                      // ),
+                      // unorderedList: QuillEditorUnOrderedListElementOptions(
+                      //   backgroundColor: Colors.green,
+                      //   fontColor: Colors.red,
+                      // ),
                     ),
                   ),
                   scrollController: _editorScrollController,

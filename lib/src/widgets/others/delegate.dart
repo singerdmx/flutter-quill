@@ -7,8 +7,8 @@ import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../utils/platform.dart';
 import '../editor/editor.dart';
+import '../quill/embeds.dart';
 import '../raw_editor/raw_editor.dart';
-import 'embeds.dart';
 import 'text_selection.dart';
 
 typedef EmbedsBuilder = EmbedBuilder Function(Embed node);

@@ -18,7 +18,7 @@ import '../../utils/platform.dart';
 import '../others/box.dart';
 import '../others/cursor.dart';
 import '../others/delegate.dart';
-import '../others/embeds.dart';
+import '../quill/embeds.dart';
 import '../others/float_cursor.dart';
 import '../others/text_selection.dart';
 import '../raw_editor/raw_editor.dart';

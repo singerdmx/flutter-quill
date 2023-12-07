@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/config/toolbar/buttons/select_alignment_configurations.dart';
 import '../../../models/documents/attribute.dart';
-import '../../others/controller.dart';
+import '../../quill/quill_controller.dart';
 import 'toggle_style_button.dart';
 
 enum _AlignmentOptions {

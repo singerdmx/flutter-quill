@@ -28,6 +28,7 @@ import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../models/documents/nodes/line.dart';
 import '../../models/documents/nodes/node.dart';
+import '../../models/quill_delta.dart';
 import '../../models/structs/offset_value.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/cast.dart';
@@ -35,14 +36,14 @@ import '../../utils/delta.dart';
 import '../../utils/embeds.dart';
 import '../../utils/platform.dart';
 import '../editor/editor.dart';
-import '../others/controller.dart';
+import '../quill/quill_controller.dart';
 import '../others/cursor.dart';
 import '../others/default_styles.dart';
 import '../others/keyboard_listener.dart';
 import '../others/link.dart';
 import '../others/proxy.dart';
-import '../others/text_block.dart';
-import '../others/text_line.dart';
+import '../quill/text_block.dart';
+import '../quill/text_line.dart';
 import '../others/text_selection.dart';
 import 'quill_single_child_scroll_view.dart';
 import 'raw_editor.dart';
@@ -224,14 +225,65 @@ class QuillRawEditorState extends EditorState
     if (!selection.isValid) {
       return;
     }
+
+    // TODO: Could be improved
+    Delta? deltaFromCliboard;
+    final reader = await ClipboardReader.readClipboard();
+    if (reader.canProvide(Formats.htmlText)) {
+      final html = await reader.readValue(Formats.htmlText);
+      if (html == null) {
+        return;
+      }
+      deltaFromCliboard = QuillController.fromHtml(html);
+    }
+    if (deltaFromCliboard != null) {
+      // final index = selection.baseOffset;
+      // final length = selection.extentOffset - index;
+
+      final list = controller.document.toDelta().toList()
+        ..insertAll(controller.document.toDelta().toList().length - 1,
+            deltaFromCliboard.toList());
+
+      final delta = controller.document.toDelta();
+      for (final operation in list) {
+        delta.push(operation);
+      }
+
+      controller
+        ..updateDocument(
+          Document.fromDelta(delta),
+        )
+        ..updateSelection(
+          TextSelection.collapsed(
+            offset: controller.document.length,
+          ),
+          ChangeSource.local,
+        );
+
+      bringIntoView(textEditingValue.selection.extent);
+
+      // Collapse the selection and hide the toolbar and handles.
+      userUpdateTextEditingValue(
+        TextEditingValue(
+          text: textEditingValue.text,
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
+        ),
+        cause,
+      );
+
+      return;
+    }
+
     // Snapshot the input before using `await`.
     // See https://github.com/flutter/flutter/issues/11427
-    final text = await Clipboard.getData(Clipboard.kTextPlain);
-    if (text != null) {
+    final plainText = await Clipboard.getData(Clipboard.kTextPlain);
+    if (plainText != null) {
       _replaceText(
         ReplaceTextIntent(
           textEditingValue,
-          text.text!,
+          plainText.text!,
           selection,
           cause,
         ),
@@ -1692,6 +1744,8 @@ class QuillRawEditorState extends EditorState
       }
     }
   }
+
+  // TODO: Review those
 
   @override
   bool get liveTextInputEnabled => false;

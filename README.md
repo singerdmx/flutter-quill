@@ -238,11 +238,13 @@ To see how to use the extension package, please take a look at the [README](./fl
 Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
 it to other formats such as HTML to publish it, or send an email.
 
+**Note**: This package support converting from HTML back to Quill delta but it's experimental and used internally when pasting Html content from the cliboard to the Quill Editor
+
 You have two options:
 
-1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to/from HTML, the package can convert the Quill delta to HTML well
-(it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)) but the converting from HTML back to Quill delta is experimental
-2. Another option is to use
+1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to HTML, the package can convert the Quill delta to HTML well
+(it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it just a handy extension to do it more quickly
+1. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML.
    This package has full support for all Quill operations—including images, videos, formulas,

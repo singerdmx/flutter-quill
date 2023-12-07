@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../others/controller.dart';
+import '../../quill/quill_controller.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarHistoryButton extends StatefulWidget {

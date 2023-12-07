@@ -36,7 +36,7 @@ export 'embeds/video/editor/video_embed.dart';
 export 'embeds/video/editor/video_web_embed.dart';
 export 'embeds/video/toolbar/video_button.dart';
 export 'embeds/video/video.dart';
-export 'extensions/controller.dart';
+export 'extensions/controller_ext.dart';
 export 'models/config/editor/image/image.dart';
 export 'models/config/editor/image/image_web.dart';
 export 'models/config/editor/video/video.dart';

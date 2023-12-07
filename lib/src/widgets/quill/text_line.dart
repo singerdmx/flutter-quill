@@ -20,15 +20,15 @@ import '../../models/structs/vertical_spacing.dart';
 import '../../utils/color.dart';
 import '../../utils/font.dart';
 import '../../utils/platform.dart';
-import 'box.dart';
-import 'controller.dart';
-import 'cursor.dart';
-import 'default_styles.dart';
-import 'delegate.dart';
-import 'keyboard_listener.dart';
-import 'link.dart';
-import 'proxy.dart';
-import 'text_selection.dart';
+import '../others/box.dart';
+import 'quill_controller.dart';
+import '../others/cursor.dart';
+import '../others/default_styles.dart';
+import '../others/delegate.dart';
+import '../others/keyboard_listener.dart';
+import '../others/link.dart';
+import '../others/proxy.dart';
+import '../others/text_selection.dart';
 
 class TextLine extends StatefulWidget {
   const TextLine({
@@ -163,7 +163,7 @@ class _TextLineState extends State<TextLine> {
         );
       }
     }
-    final textSpan = _getTextSpanForWholeLine(context);
+    final textSpan = _getTextSpanForWholeLine();
     final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
     final textAlign = _getTextAlign();
     final child = RichText(
@@ -185,7 +185,7 @@ class _TextLineState extends State<TextLine> {
     );
   }
 
-  InlineSpan _getTextSpanForWholeLine(BuildContext context) {
+  InlineSpan _getTextSpanForWholeLine() {
     final lineStyle = _getLineStyle(widget.styles);
     if (!widget.line.hasEmbed) {
       return _buildTextSpan(widget.styles, widget.line.children, lineStyle);

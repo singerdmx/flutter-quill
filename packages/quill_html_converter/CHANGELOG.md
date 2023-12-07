@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## 9.0.0-dev-7
 * Fix a bug in chaning the background/font color of ol/ul list
+* Better support for pasting HTML contents from external websites to the editor
+* The experimental support of converting the HTML from `quill_html_converter` is now built-in in the `flutter_quill` and removed from there (Breaking change for `quill_html_converter`)
 * Flutter Quill Extensions:
   * Fix link bug in the video url
   * Fix patterns

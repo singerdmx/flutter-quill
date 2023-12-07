@@ -4,7 +4,7 @@ import '../../../extensions.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../models/themes/quill_dialog_theme.dart';
 import '../../models/themes/quill_icon_theme.dart';
-import 'controller.dart';
+import 'quill_controller.dart';
 
 abstract class EmbedBuilder {
   const EmbedBuilder();

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart'
     show Color, EdgeInsets, EdgeInsetsGeometry, TextOverflow, TextStyle;
 
-import '../../../../widgets/others/controller.dart';
+import '../../../../widgets/quill/quill_controller.dart';
 import '../../../documents/attribute.dart';
 import '../../../themes/quill_icon_theme.dart';
 import '../../quill_configurations.dart';

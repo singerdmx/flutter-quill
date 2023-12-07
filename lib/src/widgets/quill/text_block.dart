@@ -11,14 +11,14 @@ import '../editor/editor.dart';
 import '../style_widgets/bullet_point.dart';
 import '../style_widgets/checkbox_point.dart';
 import '../style_widgets/number_point.dart';
-import 'box.dart';
-import 'controller.dart';
-import 'cursor.dart';
-import 'default_styles.dart';
-import 'delegate.dart';
-import 'link.dart';
+import '../others/box.dart';
+import 'quill_controller.dart';
+import '../others/cursor.dart';
+import '../others/default_styles.dart';
+import '../others/delegate.dart';
+import '../others/link.dart';
 import 'text_line.dart';
-import 'text_selection.dart';
+import '../others/text_selection.dart';
 
 const List<int> arabianRomanNumbers = [
   1000,

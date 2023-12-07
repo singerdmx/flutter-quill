@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../widgets/others/embeds.dart';
+import '../../widgets/quill/embeds.dart';
 import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';
@@ -402,6 +402,7 @@ class Document {
       throw ArgumentError.value(doc, 'Document Delta cannot be empty.');
     }
 
+    // print(doc.last.data.runtimeType);
     assert((doc.last.data as String).endsWith('\n'));
 
     var offset = 0;

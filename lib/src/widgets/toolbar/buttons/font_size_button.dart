@@ -8,7 +8,7 @@ import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/font.dart';
-import '../../others/controller.dart';
+import '../../quill/quill_controller.dart';
 
 class QuillToolbarFontSizeButton extends StatefulWidget {
   QuillToolbarFontSizeButton({

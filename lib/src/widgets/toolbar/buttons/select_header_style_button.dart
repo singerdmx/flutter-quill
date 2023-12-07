@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../translations.dart';
 import '../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
 import '../../../models/documents/attribute.dart';
-import '../../others/controller.dart';
+import '../../quill/quill_controller.dart';
 
 enum _HeaderStyleOptions {
   normal,
