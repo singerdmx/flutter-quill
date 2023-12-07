@@ -449,6 +449,21 @@ class QuillRawEditorState extends EditorState
               meta: isDesktopMacOS,
             ): const QuillEditorApplyHeaderIntent(Attribute.h3),
             SingleActivator(
+              LogicalKeyboardKey.digit4,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const QuillEditorApplyHeaderIntent(Attribute.h4),
+            SingleActivator(
+              LogicalKeyboardKey.digit5,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const QuillEditorApplyHeaderIntent(Attribute.h5),
+            SingleActivator(
+              LogicalKeyboardKey.digit6,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const QuillEditorApplyHeaderIntent(Attribute.h6),
+            SingleActivator(
               LogicalKeyboardKey.digit0,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,

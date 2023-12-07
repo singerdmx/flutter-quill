@@ -67,6 +67,9 @@ class InlineCodeStyle {
     this.header1,
     this.header2,
     this.header3,
+    this.header4,
+    this.header5,
+    this.header6,
     this.backgroundColor,
     this.radius,
   });
@@ -82,6 +85,15 @@ class InlineCodeStyle {
 
   /// Style override for inline code in headings level 3.
   final TextStyle? header3;
+
+  /// Style override for inline code in headings level 4.
+  final TextStyle? header4;
+
+  /// Style override for inline code in headings level 5.
+  final TextStyle? header5;
+
+  /// Style override for inline code in headings level 6.
+  final TextStyle? header6;
 
   /// Background color for inline code.
   final Color? backgroundColor;
@@ -101,6 +113,15 @@ class InlineCodeStyle {
     if (lineStyle.containsKey(Attribute.h3.key)) {
       return header3 ?? style;
     }
+    if (lineStyle.containsKey(Attribute.h4.key)) {
+      return header4 ?? style;
+    }
+    if (lineStyle.containsKey(Attribute.h5.key)) {
+      return header5 ?? style;
+    }
+    if (lineStyle.containsKey(Attribute.h6.key)) {
+      return header6 ?? style;
+    }
     return style;
   }
 
@@ -116,13 +137,16 @@ class InlineCodeStyle {
         other.header1 == header1 &&
         other.header2 == header2 &&
         other.header3 == header3 &&
+        other.header4 == header4 &&
+        other.header5 == header5 &&
+        other.header6 == header6 &&
         other.backgroundColor == backgroundColor &&
         other.radius == radius;
   }
 
   @override
-  int get hashCode =>
-      Object.hash(style, header1, header2, header3, backgroundColor, radius);
+  int get hashCode => Object.hash(style, header1, header2, header3, header4,
+      header5, header6, backgroundColor, radius);
 }
 
 @immutable
