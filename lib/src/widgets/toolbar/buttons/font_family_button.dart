@@ -5,7 +5,6 @@ import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/config/toolbar/buttons/font_family_configurations.dart';
 import '../../../models/documents/attribute.dart';
-import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../quill/quill_controller.dart';
 
@@ -226,6 +225,7 @@ class QuillToolbarFontFamilyButtonState
             padding: options.itemPadding,
             onTap: () {
               if (fontFamily.value == 'Clear') {
+                controller.selectFontFamily(null);
                 return;
               }
               controller.selectFontFamily(fontFamily.value);
@@ -256,6 +256,8 @@ class QuillToolbarFontFamilyButtonState
     setState(() {
       if (keyName != 'Clear') {
         _currentValue = keyName ?? _defaultDisplayText;
+      } else {
+        _currentValue = _defaultDisplayText;
       }
       if (keyName != null) {
         controller.formatSelection(

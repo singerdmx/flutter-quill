@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 * Update `README.md` and the doc
 * Dispose the `QuillToolbarSelectHeaderStyleButton` state listener in `dispose`
 * Upgrade the font family button to material 3
-* Rework the font family functionallity to change the font once and type all over the editor
+* Rework the font family and font size functionallities to change the font once and type all over the editor
 
 ## 9.0.0-dev-8
 * Better support for pasting HTML contents from external websites to the editor

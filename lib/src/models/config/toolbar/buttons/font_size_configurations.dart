@@ -2,13 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/material.dart'
-    show Colors, PopupMenuEntry, ValueChanged;
+    show ButtonStyle, Colors, PopupMenuEntry, ValueChanged;
 import 'package:flutter/widgets.dart'
-    show Color, EdgeInsets, EdgeInsetsGeometry, TextOverflow, TextStyle;
+    show
+        Color,
+        EdgeInsets,
+        EdgeInsetsGeometry,
+        OutlinedBorder,
+        TextOverflow,
+        TextStyle;
 
 import '../../../../widgets/quill/quill_controller.dart';
 import '../../../documents/attribute.dart';
-import '../../../themes/quill_icon_theme.dart';
 import '../../quill_configurations.dart';
 
 class QuillToolbarFontSizeButtonExtraOptions
@@ -31,12 +36,8 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarFontSizeButtonOptions({
     this.iconSize,
     this.iconButtonFactor,
-    this.fillColor,
-    this.hoverElevation = 1,
-    this.highlightElevation = 1,
     this.rawItemsMap,
     this.onSelected,
-    super.iconTheme,
     this.attribute = Attribute.size,
     super.controller,
     super.afterButtonPressed,
@@ -50,13 +51,13 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.itemPadding,
     this.defaultItemColor = Colors.red,
     super.childBuilder,
+    this.shape,
   });
 
   final double? iconSize;
   final double? iconButtonFactor;
-  final Color? fillColor;
-  final double hoverElevation;
-  final double highlightElevation;
+
+  final ButtonStyle? shape;
 
   /// By default it will be [fontSizesValues] from [QuillSimpleToolbarConfigurations]
   /// You can override this if you want
@@ -92,15 +93,12 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     Color? defaultItemColor,
     VoidCallback? afterButtonPressed,
     String? tooltip,
-    QuillIconTheme? iconTheme,
     QuillController? controller,
+    OutlinedBorder? shape,
   }) {
     return QuillToolbarFontSizeButtonOptions(
       iconSize: iconSize ?? this.iconSize,
       iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
-      fillColor: fillColor ?? this.fillColor,
-      hoverElevation: hoverElevation ?? this.hoverElevation,
-      highlightElevation: highlightElevation ?? this.highlightElevation,
       rawItemsMap: rawItemsMap ?? this.rawItemsMap,
       onSelected: onSelected ?? this.onSelected,
       attribute: attribute ?? this.attribute,
@@ -113,7 +111,6 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
       itemPadding: itemPadding ?? this.itemPadding,
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       tooltip: tooltip ?? super.tooltip,
-      iconTheme: iconTheme ?? super.iconTheme,
       afterButtonPressed: afterButtonPressed ?? super.afterButtonPressed,
       controller: controller ?? super.controller,
     );

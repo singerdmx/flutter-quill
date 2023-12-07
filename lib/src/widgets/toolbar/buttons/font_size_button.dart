@@ -57,45 +57,15 @@ class QuillToolbarFontSizeButtonState
     return options.initialValue ?? widget.defaultDisplayText;
   }
 
-  Style get _selectionStyle => controller.getSelectionStyle();
-
   @override
   void initState() {
     super.initState();
-
-    _initState();
-  }
-
-  void _initState() {
     _currentValue = _defaultDisplayText;
-    controller.addListener(_didChangeEditingValue);
   }
 
   @override
   void dispose() {
-    controller.removeListener(_didChangeEditingValue);
     super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant QuillToolbarFontSizeButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (controller == oldWidget.controller) {
-      return;
-    }
-    controller
-      ..removeListener(_didChangeEditingValue)
-      ..addListener(_didChangeEditingValue);
-  }
-
-  void _didChangeEditingValue() {
-    final attribute = _selectionStyle.attributes[options.attribute.key];
-    if (attribute == null) {
-      setState(() => _currentValue = _defaultDisplayText);
-      return;
-    }
-    final keyName = _getKeyName(attribute.value);
-    setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
   String? _getKeyName(dynamic value) {
@@ -157,7 +127,6 @@ class QuillToolbarFontSizeButtonState
           tooltip: tooltip,
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,
-          iconTheme: iconTheme,
           afterButtonPressed: afterButtonPressed,
           controller: controller,
         ),
@@ -177,17 +146,18 @@ class QuillToolbarFontSizeButtonState
       ),
       child: UtilityWidgets.maybeTooltip(
         message: tooltip,
-        child: RawMaterialButton(
+        child: IconButton(
           visualDensity: VisualDensity.compact,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(iconTheme?.borderRadius ?? 2),
+          style: IconButton.styleFrom(
+            shape: iconTheme?.borderRadius != null
+                ? RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(iconTheme?.borderRadius ?? -1),
+                  )
+                : null,
           ),
-          fillColor: options.fillColor,
-          elevation: 0,
-          hoverElevation: options.hoverElevation,
-          highlightElevation: options.hoverElevation,
           onPressed: _onPressed,
-          child: _buildContent(context),
+          icon: _buildContent(context),
         ),
       ),
     );
@@ -215,6 +185,13 @@ class QuillToolbarFontSizeButtonState
             value: fontSize.value,
             height: options.itemHeight ?? kMinInteractiveDimension,
             padding: options.itemPadding,
+            onTap: () {
+              if (fontSize.value == '0') {
+                controller.selectFontSize(null);
+                return;
+              }
+              controller.selectFontSize(fontSize.value);
+            },
             child: Text(
               fontSize.key.toString(),
               style: TextStyle(
@@ -233,10 +210,18 @@ class QuillToolbarFontSizeButtonState
     }
     final keyName = _getKeyName(newValue);
     setState(() {
-      _currentValue = keyName ?? _defaultDisplayText;
+      if (keyName != 'Clear') {
+        _currentValue = keyName ?? _defaultDisplayText;
+      } else {
+        _currentValue = _defaultDisplayText;
+      }
       if (keyName != null) {
-        controller.formatSelection(Attribute.fromKeyValue(
-            'size', newValue == '0' ? null : getFontSize(newValue)));
+        controller.formatSelection(
+          Attribute.fromKeyValue(
+            Attribute.size.key,
+            newValue == '0' ? null : getFontSize(newValue),
+          ),
+        );
         options.onSelected?.call(newValue);
       }
     });
@@ -255,7 +240,7 @@ class QuillToolbarFontSizeButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              _currentValue,
+              widget.controller.selectedFontSize ?? _currentValue,
               overflow: options.labelOverflow,
               style: options.style ??
                   TextStyle(
