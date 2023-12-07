@@ -6,13 +6,10 @@ import 'package:http/http.dart' as http;
 
 import '../embeds/widgets/image.dart';
 import '../services/image_saver/s_image_saver.dart';
-
-RegExp _base64 = RegExp(
-  r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$',
-);
+import 'patterns.dart';
 
 bool isBase64(String str) {
-  return _base64.hasMatch(str);
+  return base64RegExp.hasMatch(str);
 }
 
 bool isHttpBasedUrl(String url) {
