@@ -37,7 +37,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     this.padding,
     this.style,
     this.width,
-    this.initialValue,
     this.labelOverflow = TextOverflow.visible,
     this.itemHeight,
     this.itemPadding,
@@ -55,7 +54,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   final EdgeInsetsGeometry? padding;
   final TextStyle? style;
   final double? width;
-  final String? initialValue;
   final TextOverflow labelOverflow;
   final double? itemHeight;
   final EdgeInsets? itemPadding;
@@ -72,7 +70,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     EdgeInsetsGeometry? padding,
     TextStyle? style,
     double? width,
-    String? initialValue,
     TextOverflow? labelOverflow,
     bool? renderFontFamilies,
     bool? overrideTooltipByFontFamily,
@@ -99,7 +96,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
       padding: padding ?? this.padding,
       style: style ?? this.style,
       width: width ?? this.width,
-      initialValue: initialValue ?? this.initialValue,
       labelOverflow: labelOverflow ?? this.labelOverflow,
       itemHeight: itemHeight ?? this.itemHeight,
       itemPadding: itemPadding ?? this.itemPadding,
