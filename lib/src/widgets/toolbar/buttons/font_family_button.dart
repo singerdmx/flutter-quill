@@ -41,7 +41,7 @@ class QuillToolbarFontFamilyButtonState
     return widget.options;
   }
 
-  Style get _selectionStyle => controller.getSelectionStyle();
+  // Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
   void initState() {

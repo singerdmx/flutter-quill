@@ -206,7 +206,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         diff.inserted,
         value.selection,
       );
-      print(widget.configurations.controller.selectedFontFamily != null);
       if (widget.configurations.controller.selectedFontFamily != null) {
         widget.configurations.controller.formatText(
           diff.start,
