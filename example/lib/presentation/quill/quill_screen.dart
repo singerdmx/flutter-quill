@@ -126,6 +126,7 @@ class _QuillScreenState extends State<QuillScreen> {
                     sharedConfigurations: _sharedConfigurations,
                     controller: _controller,
                     readOnly: _isReadOnly,
+                    customStyles: const DefaultStyles(),
                     elementOptions: const QuillEditorElementOptions(
                       codeBlock: QuillEditorCodeBlockElementOptions(
                         enableLineNumbers: true,
