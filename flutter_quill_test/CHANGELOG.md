@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0-dev-7
+* Fix a bug in chaning the background/font color of ol/ul list
+* Flutter Quill Extensions:
+  * Fix link bug in the video url
+  * Fix patterns
+
 ## 9.0.0-dev-6
 * Move the `child` from `QuillToolbarConfigurations` into `QuillToolbar` directly
 * Bug fixes
