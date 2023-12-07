@@ -229,22 +229,43 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get insertImage => 'Вставить изображение';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Выберите фотографю из вашей галереи';
 
   @override
   String get takeAPhotoUsingYourCamera =>
-      'Take a photo using your phone camera';
+      'Создайте фотографю, использую фотокамеру';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Вставьте фотографию, используя ссылку';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Выберете видео из вашей галереи';
 
   @override
   String get recordAVideoUsingYourCamera =>
-      'Record a video using your phone camera';
+      'Запишите видео, используя вдеокамеру';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Вставьте видео, используя ссылку';
+
+  @override
+  String get normal => 'Обычный';
+
+  @override
+  String get heading1 => 'Заголовок 1';
+
+  @override
+  String get heading2 => 'Заголовок 2';
+
+  @override
+  String get heading3 => 'Заголовок 3';
+
+  @override
+  String get heading4 => 'Заголовок 4';
+
+  @override
+  String get heading5 => 'Заголовок 5';
+
+  @override
+  String get heading6 => 'Заголовок 6';
 }
