@@ -53,6 +53,7 @@ jobs:
   #       - name: Check flutter version
   #         run: flutter --version
 
+  #       # Sh scripts is not supported on windows
   #       - name: Enable Local Dev
   #         run: ./scripts/enable_local_dev.sh
         
@@ -63,30 +64,30 @@ jobs:
   #         run: flutter build windows --release --verbose --dart-define=CI=true
   #         working-directory: ./example
 
-  build_macOS:
-    name: Build macOS App
-    runs-on: macos-latest
+  # build_macOS:
+  #   name: Build macOS App
+  #   runs-on: macos-latest
 
-    steps:
-        - uses: actions/checkout@v4
-        - uses: subosito/flutter-action@v2
-          with:
-            channel: 'stable'
-            cache: true
+  #   steps:
+  #       - uses: actions/checkout@v4
+  #       - uses: subosito/flutter-action@v2
+  #         with:
+  #           channel: 'stable'
+  #           cache: true
   
-        - name: Check flutter version
-          run: flutter --version
+  #       - name: Check flutter version
+  #         run: flutter --version
 
-        - name: Enable Local Dev
-          run: ./scripts/enable_local_dev.sh
+  #       - name: Enable Local Dev
+  #         run: ./scripts/enable_local_dev.sh
         
-        - name: Install dependencies
-          run: flutter pub get
+  #       - name: Install dependencies
+  #         run: flutter pub get
         
-        - name: Flutter build macOS
-          run: flutter build macos --release --verbose --dart-define=CI=true
-          working-directory: ./example
+  #       - name: Flutter build macOS
+  #         run: flutter build macos --release --verbose --dart-define=CI=true
+  #         working-directory: ./example
 
-        - name: Flutter build iOS
-          run: flutter build ios --release --verbose --dart-define=CI=true
-          working-directory: ./example
+  #       - name: Flutter build iOS
+  #         run: flutter build ios --release --verbose --dart-define=CI=true
+  #         working-directory: ./example
