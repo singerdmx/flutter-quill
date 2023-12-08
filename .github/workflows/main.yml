@@ -49,14 +49,3 @@ jobs:
 
       - name: Run flutter tests
         run: flutter test
-      
-      # - name: Flutter build Web
-      #   run: flutter build web --release --verbose --dart-define=CI=true
-      #   working-directory: ./example
-
-      # - name: Install flutter Linux prerequisites
-      #   run: sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
-
-      # - name: Flutter build Linux
-      #   run: flutter build linux --release --verbose --dart-define=CI=true
-      #   working-directory: ./example
