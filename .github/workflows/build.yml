@@ -30,12 +30,14 @@ jobs:
       
       - name: Flutter build Web
         run: flutter build web --release --verbose --dart-define=CI=true
+        working-directory: ./example
 
       - name: Install flutter Linux prerequisites
         run: sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
 
       - name: Flutter build Linux
         run: flutter build linux --release --verbose --dart-define=CI=true
+        working-directory: ./example
 
   build_windows:
     name: Build Windows App
@@ -59,6 +61,7 @@ jobs:
         
         - name: Flutter build windows
           run: flutter build windows --release --verbose --dart-define=CI=true
+          working-directory: ./example
 
   build_macOS:
     name: Build macOS App
@@ -82,5 +85,7 @@ jobs:
         
         - name: Flutter build macOS
           run: flutter build macos --release --verbose --dart-define=CI=true
+          working-directory: ./example
         - name: Flutter build iOS
           run: flutter build ios --release --verbose --dart-define=CI=true
+          working-directory: ./example
