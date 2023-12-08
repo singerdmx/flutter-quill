@@ -1,7 +1,7 @@
 import 'dart:async' show StreamController;
 
+import '../../../quill_delta.dart';
 import '../../widgets/quill/embeds.dart';
-import '../quill_delta.dart';
 import '../rules/rule.dart';
 import '../structs/doc_change.dart';
 import '../structs/history_changed.dart';

@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:meta/meta.dart' show immutable;
 
+import '../../quill_delta.dart';
 import '../models/documents/attribute.dart';
 import '../models/documents/nodes/node.dart';
-import '../models/quill_delta.dart';
 
 // Diff between two texts - old text and new text
 @immutable

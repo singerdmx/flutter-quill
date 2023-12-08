@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import '../../../quill_delta.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
 
@@ -11,7 +12,6 @@ import '../../models/documents/document.dart';
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart';
 import '../../models/documents/style.dart';
-import '../../models/quill_delta.dart';
 import '../../models/structs/doc_change.dart';
 import '../../models/structs/image_url.dart';
 import '../../models/structs/offset_value.dart';

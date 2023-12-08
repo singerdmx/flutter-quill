@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:markdown/markdown.dart' as md;
 
 import '../../../flutter_quill.dart';
+import '../../../quill_delta.dart';
 import './custom_quill_attributes.dart';
 import './embeddable_table_syntax.dart';
 import './utils.dart';
