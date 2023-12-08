@@ -80,6 +80,7 @@ jobs:
         - name: Flutter build macOS
           run: flutter build macos --release --verbose --dart-define=CI=true
           working-directory: ./example
+          
         - name: Flutter build iOS
           run: flutter build ios --release --verbose --dart-define=CI=true
           working-directory: ./example
