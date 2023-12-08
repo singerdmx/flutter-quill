@@ -54,7 +54,7 @@ dependency_overrides:
   flutter_quill_test:
     path: ../flutter_quill_test
   quill_html_converter:
-    path: ../packages/quill_html_converter
+    path: ../quill_html_converter
 
 
 dev_dependencies:

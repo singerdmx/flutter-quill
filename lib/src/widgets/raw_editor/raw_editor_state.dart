@@ -28,7 +28,6 @@ import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../models/documents/nodes/line.dart';
 import '../../models/documents/nodes/node.dart';
-import '../../models/quill_delta.dart';
 import '../../models/structs/offset_value.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/cast.dart';
@@ -116,26 +115,6 @@ class QuillRawEditorState extends EditorState
     widget.configurations.contentInsertionConfiguration?.onContentInserted
         .call(content);
   }
-
-  // List<ContextMenuButtonItem> get contextMenuButtonItems {
-  //   return EditableText.getEditableButtonItems(
-  //     clipboardStatus: _clipboardStatus.value,
-  //     onLiveTextInput: null,
-  //     onCopy: copyEnabled
-  //         ? () => copySelection(SelectionChangedCause.toolbar)
-  //         : null,
-  //     onCut:
-  //         cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
-  //     onPaste:
-  //         pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
-  //     onSelectAll: selectAllEnabled
-  //         ? () => selectAll(SelectionChangedCause.toolbar)
-  //         : null,
-  //     onLookUp: null,
-  //     onSearchWeb: null,
-  //     onShare: null,
-  //   );
-  // }
 
   /// Copy current selection to [Clipboard].
   @override
@@ -226,28 +205,16 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    // TODO: Could be improved
-    Delta? deltaFromCliboard;
+    // TODO: Bug, Doesn't replace the selected text, it just add a new one
+
     final reader = await ClipboardReader.readClipboard();
     if (reader.canProvide(Formats.htmlText)) {
       final html = await reader.readValue(Formats.htmlText);
       if (html == null) {
         return;
       }
-      deltaFromCliboard = QuillController.fromHtml(html);
-    }
-    if (deltaFromCliboard != null) {
-      // final index = selection.baseOffset;
-      // final length = selection.extentOffset - index;
-
-      final list = controller.document.toDelta().toList()
-        ..insertAll(controller.document.toDelta().toList().length - 1,
-            deltaFromCliboard.toList());
-
-      final delta = controller.document.toDelta();
-      for (final operation in list) {
-        delta.push(operation);
-      }
+      final deltaFromCliboard = QuillController.fromHtml(html);
+      final delta = deltaFromCliboard.compose(controller.document.toDelta());
 
       controller
         ..updateDocument(

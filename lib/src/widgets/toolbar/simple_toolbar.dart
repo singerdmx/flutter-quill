@@ -133,6 +133,16 @@ class QuillSimpleToolbar extends StatelessWidget
           ),
           spacerWidget,
         ],
+        if (configurations.showStrikeThrough) ...[
+          QuillToolbarToggleStyleButton(
+            attribute: Attribute.strikeThrough,
+            options: toolbarConfigurations.buttonOptions.strikeThrough,
+            controller:
+                toolbarConfigurations.buttonOptions.strikeThrough.controller ??
+                    globalController,
+          ),
+          spacerWidget,
+        ],
         if (configurations.showInlineCode) ...[
           QuillToolbarToggleStyleButton(
             attribute: Attribute.inlineCode,
@@ -169,16 +179,6 @@ class QuillSimpleToolbar extends StatelessWidget
             options: toolbarConfigurations.buttonOptions.small,
             controller: toolbarConfigurations.buttonOptions.small.controller ??
                 globalController,
-          ),
-          spacerWidget,
-        ],
-        if (configurations.showStrikeThrough) ...[
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.strikeThrough,
-            options: toolbarConfigurations.buttonOptions.strikeThrough,
-            controller:
-                toolbarConfigurations.buttonOptions.strikeThrough.controller ??
-                    globalController,
           ),
           spacerWidget,
         ],

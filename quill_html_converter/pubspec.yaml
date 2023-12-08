@@ -1,10 +1,10 @@
 name: quill_html_converter
 description: A extension for flutter_quill package to add support for dealing with conversion to/from html
-version: 9.0.0-dev-8
-homepage: https://github.com/singerdmx/flutter-quill/tree/master/packages/quill_html_converter/
-repository: https://github.com/singerdmx/flutter-quill/tree/master/packages/quill_html_converter/
+version: 9.0.0-dev-11
+homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_html_converter/
+repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_html_converter/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
-documentation: https://github.com/singerdmx/flutter-quill/tree/master/packages/quill_html_converter/
+documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_html_converter/
 
 topics:
  - ui
@@ -20,14 +20,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_quill: ^9.0.0-dev-6
   vsc_quill_delta_to_html: ^1.0.3
   html2md: ^1.3.1
-  # markdown: ^7.1.1
-  # delta_markdown_converter: ^0.0.3-dev
   markdown: ^7.1.1
   charcode: ^1.3.1
   collection: ^1.18.0
+  dart_quill_delta: ^0.0.1
+
 
 dev_dependencies:
   flutter_test:

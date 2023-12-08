@@ -19,6 +19,9 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
   String get key => BlockEmbed.videoType;
 
   @override
+  bool get expanded => false;
+
+  @override
   Widget build(
     BuildContext context,
     QuillController controller,

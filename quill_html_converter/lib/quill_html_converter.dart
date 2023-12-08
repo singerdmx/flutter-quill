@@ -1,6 +1,6 @@
 library quill_html_converter;
 
-import 'package:flutter_quill/flutter_quill.dart' show Delta;
+import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart'
     as conventer show ConverterOptions, QuillDeltaToHtmlConverter;
 

@@ -59,6 +59,22 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// The current font family, null to use the default one
+  String? _selectedFontFamily;
+  String? get selectedFontFamily => _selectedFontFamily;
+
+  void selectFontFamily(String? newFontFamily) {
+    _selectedFontFamily = newFontFamily;
+  }
+
+  /// The current font size, null to use the default one
+  String? _selectedFontSize;
+  String? get selectedFontSize => _selectedFontSize;
+
+  void selectFontSize(String? newFontSize) {
+    _selectedFontSize = newFontSize;
+  }
+
   /// Tells whether to keep or reset the [toggledStyle]
   /// when user adds a new line.
   final bool _keepStyleOnNewLine;

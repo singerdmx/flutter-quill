@@ -164,7 +164,8 @@ class _TextLineState extends State<TextLine> {
       }
     }
     final textSpan = _getTextSpanForWholeLine();
-    final strutStyle = StrutStyle.fromTextStyle(textSpan.style!);
+    final strutStyle =
+        StrutStyle.fromTextStyle(textSpan.style ?? const TextStyle());
     final textAlign = _getTextAlign();
     final child = RichText(
       key: _richTextKey,
@@ -247,8 +248,11 @@ class _TextLineState extends State<TextLine> {
     return TextAlign.start;
   }
 
-  TextSpan _buildTextSpan(DefaultStyles defaultStyles, LinkedList<Node> nodes,
-      TextStyle lineStyle) {
+  TextSpan _buildTextSpan(
+    DefaultStyles defaultStyles,
+    LinkedList<Node> nodes,
+    TextStyle lineStyle,
+  ) {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }

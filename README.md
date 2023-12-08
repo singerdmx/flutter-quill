@@ -240,7 +240,7 @@ it to other formats such as HTML to publish it, or send an email.
 
 You have two options:
 
-1. Using [quill_html_converter](./packages/quill_html_converter/) to convert to HTML, the package can convert the Quill delta to HTML well
+1. Using [quill_html_converter](./quill_html_converter/) to convert to HTML, the package can convert the Quill delta to HTML well
 (it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it just a handy extension to do it more quickly
 1. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document

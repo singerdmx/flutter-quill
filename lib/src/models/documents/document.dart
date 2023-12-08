@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show StreamController;
 
 import '../../widgets/quill/embeds.dart';
 import '../quill_delta.dart';
