@@ -1,4 +1,4 @@
-name: Build the app
+name: Build the example
 
 on:
   push:
@@ -52,6 +52,9 @@ jobs:
   
         - name: Check flutter version
           run: flutter --version
+
+        - name: Enable Local Dev
+          run: ./scripts/enable_local_dev.sh
         
         - name: Install dependencies
           run: flutter pub get
@@ -73,6 +76,9 @@ jobs:
   
         - name: Check flutter version
           run: flutter --version
+
+        - name: Enable Local Dev
+          run: ./scripts/enable_local_dev.sh
         
         - name: Install dependencies
           run: flutter pub get
@@ -80,7 +86,7 @@ jobs:
         - name: Flutter build macOS
           run: flutter build macos --release --verbose --dart-define=CI=true
           working-directory: ./example
-          
+
         - name: Flutter build iOS
           run: flutter build ios --release --verbose --dart-define=CI=true
           working-directory: ./example
