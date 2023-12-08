@@ -44,11 +44,13 @@ dependencies:
   intl: ^0.18.1
 
   # Normal packages
+  dart_quill_delta: ^0.0.1
   collection: ^1.17.0
-  flutter_colorpicker: ^1.0.3
   quiver: ^3.2.1
   equatable: ^2.0.5
   meta: ^1.9.1
+
+  flutter_colorpicker: ^1.0.3
 
   # For converting HTML to Quill delta
   markdown: ^7.1.1
