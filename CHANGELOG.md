@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 9.0.0-dev.11
+## 9.0.0-dev-11
 * Test new GitHub workflows
 
 ## 9.0.0-dev-10
