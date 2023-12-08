@@ -4,8 +4,6 @@ on:
   push:
     paths:
       - 'pubspec.yaml'
-  pull_request:
-    branches: [main, dev]
 
 jobs:
   build_linux:
