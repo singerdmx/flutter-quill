@@ -21,9 +21,6 @@ jobs:
 
       - name: Check flutter version
         run: flutter --version
-
-      - name: Fallbacks
-        run: ./scripts/fallbacks.sh
     
       - name: Install dependencies
         run: flutter pub get
