@@ -34,6 +34,7 @@ This is a todo list page that added recently and will be updated soon.
  - Fix the bugs of the font family and font size
  - Try to update Quill Html Converter
  - When pasting a HTML text from cliboard by not using the context menu builder, the new logic won't work
+ - Add strike-through in checkbox text when the checkpoint is checked
 
 ### Bugs
 
