@@ -207,6 +207,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         diff.inserted,
         value.selection,
       );
+
+      // TODO: There is a bug here, the first character is not being formatted
+
       if (widget.configurations.controller.selectedFontFamily != null) {
         widget.configurations.controller.formatText(
           diff.start,
@@ -217,6 +220,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           ),
         );
       }
+
+      // TODO: A bug here too
 
       if (widget.configurations.controller.selectedFontSize != null) {
         widget.configurations.controller.formatText(
