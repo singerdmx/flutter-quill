@@ -20,7 +20,7 @@ rm flutter_quill_test/pubspec_overrides.yaml
 echo ""
 
 echo "Disable local development for all the other packages..."
-rm packages/quill_html_converter/pubspec_overrides.yaml
+rm quill_html_converter/pubspec_overrides.yaml
 
 echo ""
 

@@ -47,8 +47,6 @@ dependencies:
   collection: ^1.17.0
   flutter_colorpicker: ^1.0.3
   quiver: ^3.2.1
-  characters: ^1.3.0
-  diff_match_patch: ^0.4.1
   equatable: ^2.0.5
   meta: ^1.9.1
 
