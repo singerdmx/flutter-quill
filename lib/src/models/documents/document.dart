@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../widgets/others/cursor.dart';
 import '../../widgets/quill/embeds.dart';
 import '../quill_delta.dart';
 import '../rules/rule.dart';
