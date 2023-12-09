@@ -116,10 +116,10 @@ class _QuillToolbarSelectHeaderStyleButtonState
       menuChildren: _HeaderStyleOptions.values
           .map(
             (e) => MenuItemButton(
-              // value: e,
               child: Text(_label(e)),
               onPressed: () {
                 widget.controller.formatSelection(getAttributeByOptionsItem(e));
+                setState(() => _selectedItem = e);
               },
             ),
           )
@@ -141,15 +141,5 @@ class _QuillToolbarSelectHeaderStyleButtonState
         ),
       ),
     );
-    // return DropdownButton<_HeaderStyleOptions>(
-    //   value: _selectedItem,
-    //   items: ,
-    //   onChanged: (newItem) {
-    //     if (newItem == null) {
-    //       return;
-    //     }
-    //     setState(() => _selectedItem = newItem);
-    //   },
-    // );
   }
 }
