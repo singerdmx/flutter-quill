@@ -54,13 +54,24 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDocument(Document newDocument) {
+  void updateContents(
+    Delta delta, {
+    ChangeSource changeSource = ChangeSource.local,
+  }) {
+    final newDocument = Document.fromDelta(delta);
+
+    final change = DocChange(_document.toDelta(), delta, changeSource);
+    newDocument.documentChangeObserver.add(change);
+    newDocument.history.handleDocChange(change);
+
     _document = newDocument;
     notifyListeners();
   }
 
   /// The current font family, null to use the default one
   String? _selectedFontFamily;
+
+  /// The current font family, null to use the default one
   String? get selectedFontFamily => _selectedFontFamily;
 
   void selectFontFamily(String? newFontFamily) {
@@ -69,6 +80,8 @@ class QuillController extends ChangeNotifier {
 
   /// The current font size, null to use the default one
   String? _selectedFontSize;
+
+  /// The current font size, null to use the default one
   String? get selectedFontSize => _selectedFontSize;
 
   void selectFontSize(String? newFontSize) {

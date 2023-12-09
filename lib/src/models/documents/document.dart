@@ -53,12 +53,13 @@ class Document {
     _rules.setCustomRules(customRules);
   }
 
-  final StreamController<DocChange> _observer = StreamController.broadcast();
+  final StreamController<DocChange> documentChangeObserver =
+      StreamController.broadcast();
 
-  final History _history = History();
+  final History history = History();
 
   /// Stream of [DocChange]s applied to this document.
-  Stream<DocChange> get changes => _observer.stream;
+  Stream<DocChange> get changes => documentChangeObserver.stream;
 
   /// Inserts [data] in this document at specified [index].
   ///
@@ -285,7 +286,7 @@ class Document {
   ///
   /// In case the [change] is invalid, behavior of this method is unspecified.
   void compose(Delta delta, ChangeSource changeSource) {
-    assert(!_observer.isClosed);
+    assert(!documentChangeObserver.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
 
@@ -320,21 +321,21 @@ class Document {
       throw StateError('Compose failed');
     }
     final change = DocChange(originalDelta, delta, changeSource);
-    _observer.add(change);
-    _history.handleDocChange(change);
+    documentChangeObserver.add(change);
+    history.handleDocChange(change);
   }
 
   HistoryChanged undo() {
-    return _history.undo(this);
+    return history.undo(this);
   }
 
   HistoryChanged redo() {
-    return _history.redo(this);
+    return history.redo(this);
   }
 
-  bool get hasUndo => _history.hasUndo;
+  bool get hasUndo => history.hasUndo;
 
-  bool get hasRedo => _history.hasRedo;
+  bool get hasRedo => history.hasRedo;
 
   static Delta _transform(Delta delta) {
     final res = Delta();
@@ -384,8 +385,8 @@ class Document {
   }
 
   void close() {
-    _observer.close();
-    _history.clear();
+    documentChangeObserver.close();
+    history.clear();
   }
 
   /// Returns plain text representation of this document.
@@ -450,4 +451,7 @@ enum ChangeSource {
 
   /// Change originated from a remote action.
   remote,
+
+  /// Silent change.
+  silent;
 }
