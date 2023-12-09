@@ -7,8 +7,8 @@ import '../../models/documents/attribute.dart';
 import '../utils/provider.dart';
 import 'base_toolbar.dart';
 import 'buttons/arrow_indicated_list_button.dart';
-import 'buttons/select_alignment_buttons.dart';
-import 'buttons/select_header_style_button.dart';
+import 'buttons/alignment/select_alignment_buttons.dart';
+import 'buttons/hearder_style/select_header_style_button.dart';
 
 class QuillSimpleToolbar extends StatelessWidget
     implements PreferredSizeWidget {

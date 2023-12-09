@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import '../../../../extensions.dart';
-import '../../../extensions/quill_configurations_ext.dart';
-import '../../../l10n/extensions/localizations.dart';
-import '../../../models/documents/attribute.dart';
-import '../../../models/documents/style.dart';
-import '../../../models/themes/quill_icon_theme.dart';
-import '../../quill/quill_controller.dart';
-import '../base_toolbar.dart';
+import '../../../../../extensions.dart';
+import '../../../../extensions/quill_configurations_ext.dart';
+import '../../../../l10n/extensions/localizations.dart';
+import '../../../../models/documents/attribute.dart';
+import '../../../../models/documents/style.dart';
+import '../../../../models/themes/quill_icon_theme.dart';
+import '../../../quill/quill_controller.dart';
+import '../../base_toolbar.dart';
 
 class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {
   const QuillToolbarSelectHeaderStyleButtons({
