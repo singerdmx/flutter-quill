@@ -54,7 +54,7 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateContents(
+  void setContents(
     Delta delta, {
     ChangeSource changeSource = ChangeSource.local,
   }) {
