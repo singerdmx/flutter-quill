@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.0
+* This version is quite stable but it's not how we wanted to be, because the lack of time and there are not too many maintainers active, we decided to publish it, we might make a new breaking changes verion
+
+## 9.0.1-dev.1
+* Flutter Quill Extensions:
+  * Update `QuillImageUtilities` and fixining some bugs
+
 ## 9.0.1-dev
 * Test new GitHub workflows
 

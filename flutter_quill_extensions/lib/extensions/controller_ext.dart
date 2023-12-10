@@ -43,10 +43,4 @@ extension QuillControllerExt on QuillController {
       ..skipRequestKeyboard = true
       ..replaceText(index, length, BlockEmbed.video(videoUrl), null);
   }
-
-  QuillImageUtilities get imageUtilities {
-    return QuillImageUtilities(
-      controller: this,
-    );
-  }
 }
