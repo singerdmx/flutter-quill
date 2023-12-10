@@ -43,6 +43,7 @@ it's in the GitHub repo instead.
   - [Table of contents](#table-of-contents)
   - [Screenshots](#screenshots)
   - [Installation](#installation)
+  - [Platform Specific Configurations](#platform-specific-configurations)
   - [Usage](#usage)
   - [Migration](#migration)
   - [Input / Output](#input--output)
@@ -102,7 +103,7 @@ dependencies:
 
 These versions are tested and well-supported, you shouldn't get a build failure -->
 
-## Usage
+## Platform Specific Configurations
 
 Before using the package, we must inform you the package use the following plugins:
   ```
@@ -112,7 +113,11 @@ Before using the package, we must inform you the package use the following plugi
   super_clipboard
   ```
 
-All of them doesn't require any platform spesefic setup, except [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's optional but to support copying images and pasting them into editor then you must setup it, open the page in pub.dev and read the `README.md` to get the instructions.
+All of them doesn't require any platform specific setup, except [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to support copying images and pasting them into editor then you must setup it, open the page in pub.dev and read the `README.md` to get the instructions.
+
+The minSdkVersion is `23` as `super_clipboard` requires it
+
+## Usage
 
 First, you need to instantiate a controller
 
