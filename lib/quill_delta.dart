@@ -1,3 +1,3 @@
 library flutter_quill.delta;
 
-export 'src/models/quill_delta.dart';
+export 'package:dart_quill_delta/dart_quill_delta.dart';

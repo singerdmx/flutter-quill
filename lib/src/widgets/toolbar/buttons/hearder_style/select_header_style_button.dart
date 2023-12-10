@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../translations.dart';
-import '../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
-import '../../../models/documents/attribute.dart';
-import '../../quill/quill_controller.dart';
+import '../../../../../translations.dart';
+import '../../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
+import '../../../../models/documents/attribute.dart';
+import '../../../quill/quill_controller.dart';
 
 enum _HeaderStyleOptions {
   normal,
@@ -31,6 +31,7 @@ class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
 class _QuillToolbarSelectHeaderStyleButtonState
     extends State<QuillToolbarSelectHeaderStyleButton> {
   var _selectedItem = _HeaderStyleOptions.normal;
+  final _controller = MenuController();
   @override
   void initState() {
     super.initState();
@@ -110,25 +111,35 @@ class _QuillToolbarSelectHeaderStyleButtonState
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<_HeaderStyleOptions>(
-      value: _selectedItem,
-      items: _HeaderStyleOptions.values
+    return MenuAnchor(
+      controller: _controller,
+      menuChildren: _HeaderStyleOptions.values
           .map(
-            (e) => DropdownMenuItem<_HeaderStyleOptions>(
-              value: e,
+            (e) => MenuItemButton(
               child: Text(_label(e)),
-              onTap: () {
+              onPressed: () {
                 widget.controller.formatSelection(getAttributeByOptionsItem(e));
+                setState(() => _selectedItem = e);
               },
             ),
           )
           .toList(),
-      onChanged: (newItem) {
-        if (newItem == null) {
-          return;
-        }
-        setState(() => _selectedItem = newItem);
-      },
+      child: IconButton(
+        onPressed: () {
+          if (_controller.isOpen) {
+            _controller.close();
+            return;
+          }
+          _controller.open();
+        },
+        icon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(_label(_selectedItem)),
+            const Icon(Icons.arrow_drop_down),
+          ],
+        ),
+      ),
     );
   }
 }

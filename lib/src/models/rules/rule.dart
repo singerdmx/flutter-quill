@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart' show immutable;
 
+import '../../../quill_delta.dart';
 import '../documents/attribute.dart';
 import '../documents/document.dart';
-import '../quill_delta.dart';
 import 'delete.dart';
 import 'format.dart';
 import 'insert.dart';

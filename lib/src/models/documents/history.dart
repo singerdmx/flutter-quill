@@ -1,4 +1,4 @@
-import '../quill_delta.dart';
+import '../../../quill_delta.dart';
 import '../structs/doc_change.dart';
 import '../structs/history_changed.dart';
 import 'document.dart';

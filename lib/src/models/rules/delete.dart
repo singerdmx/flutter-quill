@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart' show immutable;
 
+import '../../../quill_delta.dart';
 import '../documents/attribute.dart';
 import '../documents/nodes/embeddable.dart';
-import '../quill_delta.dart';
 import 'rule.dart';
 
 /// A heuristic rule for delete operations.

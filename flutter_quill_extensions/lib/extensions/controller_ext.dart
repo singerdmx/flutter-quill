@@ -1,7 +1,5 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../utils/quill_image_utils.dart';
-
 /// Extension functions on [QuillController]
 /// that make it easier to insert the embed blocks
 ///
@@ -42,11 +40,5 @@ extension QuillControllerExt on QuillController {
     this
       ..skipRequestKeyboard = true
       ..replaceText(index, length, BlockEmbed.video(videoUrl), null);
-  }
-
-  QuillImageUtilities get imageUtilities {
-    return QuillImageUtilities(
-      controller: this,
-    );
   }
 }

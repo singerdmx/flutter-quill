@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart' show immutable;
 
+import '../../../quill_delta.dart';
 import '../documents/document.dart';
-import '../quill_delta.dart';
 
 @immutable
 class DocChange {

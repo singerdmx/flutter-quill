@@ -2,9 +2,8 @@ import 'dart:io' show Directory, File, Platform;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:path/path.dart' as path;
-
-import 'utils.dart';
 
 typedef OnGenerateNewFileNameCallback = String Function(
   String currentFileName,
@@ -13,10 +12,10 @@ typedef OnGenerateNewFileNameCallback = String Function(
 
 class QuillImageUtilities {
   const QuillImageUtilities({
-    required this.controller,
+    required this.document,
   });
 
-  final quill.QuillController controller;
+  final quill.Document document;
 
   /// Private function that is throw an error if the platform is web
   static void _webIsNotSupported(String functionName) {
@@ -172,31 +171,49 @@ class QuillImageUtilities {
     required bool onlyLocalImages,
   }) {
     _webIsNotSupported('getImagesPathsFromDocument');
-    final images = controller.document.root.children
-        .whereType<quill.Line>()
-        .where((node) {
-          if (node.isEmpty) {
-            return false;
-          }
-          final firstNode = node.children.first;
-          if (firstNode is! quill.Embed) {
-            return false;
-          }
+    // final images = document.root.children
+    //     .whereType<quill.Line>()
+    //     .where((node) {
+    //       if (node.isEmpty) {
+    //         return false;
+    //       }
+    //       final firstNode = node.children.first;
+    //       if (firstNode is! quill.Embed) {
+    //         return false;
+    //       }
 
-          if (firstNode.value.type != quill.BlockEmbed.imageType) {
-            return false;
-          }
-          final imageSource = firstNode.value.data;
-          if (imageSource is! String) {
-            return false;
-          }
-          if (onlyLocalImages && isHttpBasedUrl(imageSource)) {
-            return false;
-          }
-          return imageSource.trim().isNotEmpty;
-        })
-        .toList()
-        .map((e) => (e.children.first as quill.Embed).value.data as String);
+    //       if (firstNode.value.type != quill.BlockEmbed.imageType) {
+    //         return false;
+    //       }
+    //       final imageSource = firstNode.value.data;
+    //       if (imageSource is! String) {
+    //         return false;
+    //       }
+    //       if (onlyLocalImages && isHttpBasedUrl(imageSource)) {
+    //         return false;
+    //       }
+    //       return imageSource.trim().isNotEmpty;
+    //     })
+    //     .toList()
+    //     .map((e) => (e.children.first as quill.Embed).value.data as String);
+
+    final images = <String>[];
+    for (final item in document.toDelta().toJson()) {
+      if (item is! Map) {
+        return [];
+      }
+      if (!item.containsKey(Operation.insertKey)) {
+        return [];
+      }
+      final insertValue = item[Operation.insertKey];
+
+      // Check if the insert value is a map with the "image" key
+      if (insertValue is Map &&
+          insertValue.containsKey(quill.BlockEmbed.imageType)) {
+        final String imageUrl = insertValue[quill.BlockEmbed.imageType];
+        images.add(imageUrl);
+      }
+    }
     return images;
   }
 
@@ -249,9 +266,9 @@ class QuillImageUtilities {
   ///
   /// Returns a list of cached image paths found in the document.
   /// On non-mobile platforms, this function returns an empty list.
-  Future<Iterable<String>> getCachedImagePathsFromDocument({
+  Iterable<String> getCachedImagePathsFromDocument({
     String? replaceUnexistentImagesWith,
-  }) async {
+  }) {
     _webIsNotSupported('getCachedImagePathsFromDocument');
     final imagePaths = getImagesPathsFromDocument(
       onlyLocalImages: true,
@@ -262,25 +279,6 @@ class QuillImageUtilities {
       final isCurrentImageCached = isImageCached(imagePath);
       return isCurrentImageCached;
     }).toList();
-
-    // Remove all the images that doesn't exists
-    for (final imagePath in cachesImagePaths) {
-      final file = File(imagePath);
-      final exists = await file.exists();
-      if (!exists) {
-        final index = cachesImagePaths.indexOf(imagePath);
-        if (index == -1) {
-          continue;
-        }
-        cachesImagePaths.removeAt(index);
-        if (replaceUnexistentImagesWith != null) {
-          cachesImagePaths.insert(
-            index,
-            replaceUnexistentImagesWith,
-          );
-        }
-      }
-    }
     return cachesImagePaths;
   }
 }

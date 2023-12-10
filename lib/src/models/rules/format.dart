@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart' show immutable;
 
+import '../../../quill_delta.dart';
 import '../documents/attribute.dart';
-import '../quill_delta.dart';
 import 'rule.dart';
 
 /// A heuristic rule for format (retain) operations.

@@ -217,8 +217,8 @@ class QuillRawEditorState extends EditorState
       final delta = deltaFromCliboard.compose(controller.document.toDelta());
 
       controller
-        ..updateDocument(
-          Document.fromDelta(delta),
+        ..setContents(
+          delta,
         )
         ..updateSelection(
           TextSelection.collapsed(

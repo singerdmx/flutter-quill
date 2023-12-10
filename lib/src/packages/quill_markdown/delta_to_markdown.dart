@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import '../../../flutter_quill.dart';
+import '../../../quill_delta.dart';
 import './custom_quill_attributes.dart';
 import './utils.dart';
 
