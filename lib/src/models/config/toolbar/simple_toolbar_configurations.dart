@@ -43,7 +43,7 @@ export 'buttons/toggle_check_list_configurations.dart';
 export 'buttons/toggle_style_configurations.dart';
 
 /// The default size of the icon of a button.
-const double kDefaultIconSize = 18;
+const double kDefaultIconSize = 15;
 
 /// The default size for the toolbar (width, height)
 const double defaultToolbarSize = kDefaultIconSize * 2;
