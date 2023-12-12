@@ -249,10 +249,9 @@ Widget defaultToggleStyleButtonBuilder(
           : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)
       : (iconTheme?.disabledIconColor ?? theme.disabledColor);
   return QuillToolbarIconButton(
-    icon: Icon(icon, size: iconSize * iconButtonFactor, color: iconColor),
-    isFilled: isEnabled ? isToggled == true : false,
-    onPressed: onPressed,
-    afterPressed: afterPressed,
-    padding: iconTheme?.padding
-  );
+      icon: Icon(icon, size: iconSize * iconButtonFactor, color: iconColor),
+      isFilled: isEnabled ? isToggled == true : false,
+      onPressed: onPressed,
+      afterPressed: afterPressed,
+      padding: iconTheme?.padding);
 }
