@@ -253,5 +253,6 @@ Widget defaultToggleStyleButtonBuilder(
     isFilled: isEnabled ? isToggled == true : false,
     onPressed: onPressed,
     afterPressed: afterPressed,
+    padding: iconTheme?.padding
   );
 }

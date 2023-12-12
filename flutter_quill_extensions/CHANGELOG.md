@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
+<<<<<<< HEAD
 ## 9.0.2-dev
 * **Breaking change** Remove the spacer widget, removed the controller option for each button
 * Add `toolbarRunSpacing` property to the simple toolbar
@@ -9,6 +10,8 @@ All notable changes to this project will be documented in this file.
 ## 9.0.1
 * Fix default icon size
 
+=======
+>>>>>>> upstream/master
 ## 9.0.0
 * This version is quite stable but it's not how we wanted to be, because the lack of time and there are not too many maintainers active, we decided to publish it, we might make a new breaking changes verion
 

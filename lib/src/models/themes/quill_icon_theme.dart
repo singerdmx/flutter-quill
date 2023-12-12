@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart' show Color;
-
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter/material.dart';
 
 @immutable
 class QuillIconTheme {
@@ -11,7 +9,8 @@ class QuillIconTheme {
       this.iconUnselectedFillColor,
       this.disabledIconColor,
       this.disabledIconFillColor,
-      this.borderRadius});
+      this.borderRadius,
+      this.padding});
 
   ///The color to use for selected icons in the toolbar
   final Color? iconSelectedColor;
@@ -33,4 +32,7 @@ class QuillIconTheme {
 
   ///The borderRadius for icons
   final double? borderRadius;
+
+  ///The padding for icons
+  final EdgeInsets? padding;  
 }
