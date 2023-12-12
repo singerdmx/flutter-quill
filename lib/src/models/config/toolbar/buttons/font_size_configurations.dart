@@ -12,7 +12,6 @@ import 'package:flutter/widgets.dart'
         TextOverflow,
         TextStyle;
 
-import '../../../../widgets/quill/quill_controller.dart';
 import '../../../documents/attribute.dart';
 import '../../quill_configurations.dart';
 
