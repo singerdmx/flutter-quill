@@ -197,7 +197,7 @@ class MyQuillToolbar extends StatelessWidget {
             ),
           );
         }
-        return QuillSimpleToolbar(
+        return QuillToolbar.simple(
           configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
