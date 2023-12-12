@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
-    show Axis, Widget, WrapAlignment, WrapCrossAlignment;
+    show Axis, WrapAlignment, WrapCrossAlignment;
 
 import '../../../widgets/quill/embeds.dart';
 import '../../../widgets/quill/quill_controller.dart';
