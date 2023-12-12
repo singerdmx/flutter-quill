@@ -4,6 +4,7 @@ import '../../../../../translations.dart';
 import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../models/config/toolbar/buttons/select_header_style_button_configurations.dart';
 import '../../../../models/documents/attribute.dart';
+import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../quill/quill_controller.dart';
 import '../../base_toolbar.dart';
 
@@ -123,6 +124,11 @@ class _QuillToolbarSelectHeaderStyleButtonState
     return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
   }
 
+  QuillIconTheme? get iconTheme {
+    return widget.options.iconTheme ??
+        context.quillToolbarBaseButtonOptions?.iconTheme;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MenuAnchor(
@@ -149,7 +155,13 @@ class _QuillToolbarSelectHeaderStyleButtonState
         icon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(_label(_selectedItem)),
+            Text(
+              _label(_selectedItem),
+              style: widget.options.textStyle ??
+                  TextStyle(
+                    fontSize: iconSize / 1.15,
+                  ),
+            ),
             Icon(
               Icons.arrow_drop_down,
               size: iconSize * iconButtonFactor,

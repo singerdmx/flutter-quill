@@ -39,6 +39,7 @@ export 'buttons/link_style2_configurations.dart';
 export 'buttons/link_style_configurations.dart';
 export 'buttons/search_configurations.dart';
 export 'buttons/select_alignment_configurations.dart';
+export 'buttons/select_header_style_button_configurations.dart';
 export 'buttons/select_header_style_buttons_configurations.dart';
 export 'buttons/toggle_check_list_configurations.dart';
 export 'buttons/toggle_style_configurations.dart';
