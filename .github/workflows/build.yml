@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'pubspec.yaml'
-      - 'flutter_quill_extensions/pubspec.yaml'
 
 jobs:
   build_linux:
