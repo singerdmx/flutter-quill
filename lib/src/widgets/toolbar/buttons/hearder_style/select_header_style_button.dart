@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../translations.dart';
+import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../quill/quill_controller.dart';
+import '../../base_toolbar.dart';
 
 enum _HeaderStyleOptions {
   normal,
@@ -20,7 +22,6 @@ class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
   });
 
   final QuillController controller;
-  // TODO: Needs to be reviewed
   final QuillToolbarSelectHeaderStyleButtonsOptions options;
 
   @override
@@ -109,6 +110,19 @@ class _QuillToolbarSelectHeaderStyleButtonState
     };
   }
 
+  double get iconSize {
+    final baseFontSize = context.quillToolbarBaseButtonOptions?.globalIconSize;
+    final iconSize = widget.options.iconSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+  }
+
+  double get iconButtonFactor {
+    final baseIconFactor =
+        context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
+    final iconButtonFactor = widget.options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MenuAnchor(
@@ -136,7 +150,10 @@ class _QuillToolbarSelectHeaderStyleButtonState
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(_label(_selectedItem)),
-            const Icon(Icons.arrow_drop_down),
+            Icon(
+              Icons.arrow_drop_down,
+              size: iconSize * iconButtonFactor,
+            ),
           ],
         ),
       ),

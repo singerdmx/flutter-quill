@@ -32,6 +32,7 @@ class QuillToolbarColorButton extends StatefulWidget {
   QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
 }
 
+// TODO: This button shouldn't require anything to use it
 class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   late bool _isToggledColor;
   late bool _isToggledBackground;
