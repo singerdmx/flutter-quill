@@ -126,7 +126,6 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     super.color,
     super.sectionDividerColor,
     super.sectionDividerSpace,
-    this.spacerWidget,
 
     /// By default it will calculated based on the [globalIconSize] from
     /// [base] in [QuillToolbarButtonOptions]
@@ -151,15 +150,6 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   final Map<String, String>? fontFamilyValues;
 
   final QuillController controller;
-
-  /// A widget that will placed between each button in the toolbar
-  /// can be used as a spacer
-  /// it will not used before the first button
-  /// it will not used after the last button
-  /// it will also not used in the toolbar dividers
-  /// Default value will be [SizedBox.shrink()]
-  /// some widgets like the header styles will be considered as one widget
-  final Widget? spacerWidget;
 
   /// By default it will be
   /// ```

@@ -61,11 +61,8 @@ class QuillSimpleToolbar extends StatelessWidget
       final axis = toolbarConfigurations.axis;
       final globalController = configurations.controller;
 
-      final spacerWidget =
-          configurations.spacerWidget ?? const SizedBox.shrink();
-
       return [
-        if (configurations.showUndo) ...[
+        if (configurations.showUndo)
           QuillToolbarHistoryButton(
             isUndo: true,
             options: toolbarConfigurations.buttonOptions.undoHistory,
@@ -73,9 +70,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.undoHistory.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showRedo) ...[
+        if (configurations.showRedo)
           QuillToolbarHistoryButton(
             isUndo: false,
             options: toolbarConfigurations.buttonOptions.redoHistory,
@@ -83,9 +78,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.redoHistory.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showFontFamily) ...[
+        if (configurations.showFontFamily)
           QuillToolbarFontFamilyButton(
             options: toolbarConfigurations.buttonOptions.fontFamily,
             controller:
@@ -93,9 +86,7 @@ class QuillSimpleToolbar extends StatelessWidget
                     globalController,
             defaultDispalyText: context.loc.font,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showFontSize) ...[
+        if (configurations.showFontSize)
           QuillToolbarFontSizeButton(
             options: toolbarConfigurations.buttonOptions.fontSize,
             controller:
@@ -103,27 +94,21 @@ class QuillSimpleToolbar extends StatelessWidget
                     globalController,
             defaultDisplayText: context.loc.fontSize,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showBoldButton) ...[
+        if (configurations.showBoldButton)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.bold,
             options: toolbarConfigurations.buttonOptions.bold,
             controller: toolbarConfigurations.buttonOptions.bold.controller ??
                 globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showItalicButton) ...[
+        if (configurations.showItalicButton)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.italic,
             options: toolbarConfigurations.buttonOptions.italic,
             controller: toolbarConfigurations.buttonOptions.italic.controller ??
                 globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showUnderLineButton) ...[
+        if (configurations.showUnderLineButton)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.underline,
             options: toolbarConfigurations.buttonOptions.underLine,
@@ -131,9 +116,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.underLine.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showStrikeThrough) ...[
+        if (configurations.showStrikeThrough)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.strikeThrough,
             options: toolbarConfigurations.buttonOptions.strikeThrough,
@@ -141,9 +124,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.strikeThrough.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showInlineCode) ...[
+        if (configurations.showInlineCode)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.inlineCode,
             options: toolbarConfigurations.buttonOptions.inlineCode,
@@ -151,9 +132,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.inlineCode.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showSubscript) ...[
+        if (configurations.showSubscript)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.subscript,
             options: toolbarConfigurations.buttonOptions.subscript,
@@ -161,9 +140,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.subscript.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showSuperscript) ...[
+        if (configurations.showSuperscript)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.superscript,
             options: toolbarConfigurations.buttonOptions.superscript,
@@ -171,44 +148,34 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.superscript.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showSmallButton) ...[
+        if (configurations.showSmallButton)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.small,
             options: toolbarConfigurations.buttonOptions.small,
             controller: toolbarConfigurations.buttonOptions.small.controller ??
                 globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showColorButton) ...[
+        if (configurations.showColorButton)
           QuillToolbarColorButton(
             controller: toolbarConfigurations.buttonOptions.color.controller ??
                 globalController,
             isBackground: false,
             options: toolbarConfigurations.buttonOptions.color,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showBackgroundColorButton) ...[
+        if (configurations.showBackgroundColorButton)
           QuillToolbarColorButton(
             options: toolbarConfigurations.buttonOptions.backgroundColor,
             controller: toolbarConfigurations.buttonOptions.color.controller ??
                 globalController,
             isBackground: true,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showClearFormat) ...[
+        if (configurations.showClearFormat)
           QuillToolbarClearFormatButton(
             controller:
                 toolbarConfigurations.buttonOptions.clearFormat.controller ??
                     globalController,
             options: toolbarConfigurations.buttonOptions.clearFormat,
           ),
-          spacerWidget,
-        ],
         if (theEmbedButtons != null)
           for (final builder in theEmbedButtons)
             builder(
@@ -228,7 +195,7 @@ class QuillSimpleToolbar extends StatelessWidget
             color: configurations.sectionDividerColor,
             space: configurations.sectionDividerSpace,
           ),
-        if (configurations.showAlignmentButtons) ...[
+        if (configurations.showAlignmentButtons)
           QuillToolbarSelectAlignmentButtons(
             controller: toolbarConfigurations
                     .buttonOptions.selectAlignmentButtons.controller ??
@@ -239,9 +206,7 @@ class QuillSimpleToolbar extends StatelessWidget
             showRightAlignment: configurations.showRightAlignment,
             showJustifyAlignment: configurations.showJustifyAlignment,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showDirection) ...[
+        if (configurations.showDirection)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.rtl,
             options: toolbarConfigurations.buttonOptions.direction,
@@ -249,8 +214,6 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.direction.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
         if (configurations.showDividers &&
             isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
@@ -262,7 +225,7 @@ class QuillSimpleToolbar extends StatelessWidget
             color: configurations.sectionDividerColor,
             space: configurations.sectionDividerSpace,
           ),
-        if (configurations.showHeaderStyle) ...[
+        if (configurations.showHeaderStyle)
           QuillToolbarSelectHeaderStyleButton(
             controller: toolbarConfigurations
                     .buttonOptions.selectHeaderStyleButtons.controller ??
@@ -270,8 +233,6 @@ class QuillSimpleToolbar extends StatelessWidget
             options:
                 toolbarConfigurations.buttonOptions.selectHeaderStyleButtons,
           ),
-          spacerWidget,
-        ],
         if (configurations.showDividers &&
             configurations.showHeaderStyle &&
             isButtonGroupShown[2] &&
@@ -283,7 +244,7 @@ class QuillSimpleToolbar extends StatelessWidget
             color: configurations.sectionDividerColor,
             space: configurations.sectionDividerSpace,
           ),
-        if (configurations.showListNumbers) ...[
+        if (configurations.showListNumbers)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.ol,
             options: toolbarConfigurations.buttonOptions.listNumbers,
@@ -291,9 +252,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.listNumbers.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showListBullets) ...[
+        if (configurations.showListBullets)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.ul,
             options: toolbarConfigurations.buttonOptions.listBullets,
@@ -301,18 +260,14 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.listBullets.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showListCheck) ...[
+        if (configurations.showListCheck)
           QuillToolbarToggleCheckListButton(
             options: toolbarConfigurations.buttonOptions.toggleCheckList,
             controller: toolbarConfigurations
                     .buttonOptions.toggleCheckList.controller ??
                 globalController,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showCodeBlock) ...[
+        if (configurations.showCodeBlock)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.codeBlock,
             options: toolbarConfigurations.buttonOptions.codeBlock,
@@ -320,8 +275,6 @@ class QuillSimpleToolbar extends StatelessWidget
                 toolbarConfigurations.buttonOptions.codeBlock.controller ??
                     globalController,
           ),
-          spacerWidget,
-        ],
         if (configurations.showDividers &&
             isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5])) ...[
@@ -331,16 +284,14 @@ class QuillSimpleToolbar extends StatelessWidget
             space: configurations.sectionDividerSpace,
           ),
         ],
-        if (configurations.showQuote) ...[
+        if (configurations.showQuote)
           QuillToolbarToggleStyleButton(
             options: toolbarConfigurations.buttonOptions.quote,
             controller: toolbarConfigurations.buttonOptions.quote.controller ??
                 globalController,
             attribute: Attribute.blockQuote,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showIndent) ...[
+        if (configurations.showIndent)
           QuillToolbarIndentButton(
             controller:
                 toolbarConfigurations.buttonOptions.indentIncrease.controller ??
@@ -348,9 +299,7 @@ class QuillSimpleToolbar extends StatelessWidget
             isIncrease: true,
             options: toolbarConfigurations.buttonOptions.indentIncrease,
           ),
-          spacerWidget,
-        ],
-        if (configurations.showIndent) ...[
+        if (configurations.showIndent)
           QuillToolbarIndentButton(
             controller:
                 toolbarConfigurations.buttonOptions.indentDecrease.controller ??
@@ -358,8 +307,6 @@ class QuillSimpleToolbar extends StatelessWidget
             isIncrease: false,
             options: toolbarConfigurations.buttonOptions.indentDecrease,
           ),
-          spacerWidget,
-        ],
         if (configurations.showDividers &&
             isButtonGroupShown[4] &&
             isButtonGroupShown[5])
@@ -368,7 +315,7 @@ class QuillSimpleToolbar extends StatelessWidget
             color: configurations.sectionDividerColor,
             space: configurations.sectionDividerSpace,
           ),
-        if (configurations.showLink) ...[
+        if (configurations.showLink)
           toolbarConfigurations.linkStyleType.isOriginal
               ? QuillToolbarLinkStyleButton(
                   controller: toolbarConfigurations
@@ -382,16 +329,12 @@ class QuillSimpleToolbar extends StatelessWidget
                       globalController,
                   options: toolbarConfigurations.buttonOptions.linkStyle2,
                 ),
-          spacerWidget,
-        ],
-        if (configurations.showSearchButton) ...[
+        if (configurations.showSearchButton)
           QuillToolbarSearchButton(
             controller: toolbarConfigurations.buttonOptions.search.controller ??
                 globalController,
             options: toolbarConfigurations.buttonOptions.search,
           ),
-          spacerWidget,
-        ],
         if (configurations.customButtons.isNotEmpty) ...[
           if (configurations.showDividers)
             QuillToolbarDivider(
@@ -418,7 +361,6 @@ class QuillSimpleToolbar extends StatelessWidget
           //         globalController,
           //   ),
           // ],
-          spacerWidget,
         ],
       ];
     }
