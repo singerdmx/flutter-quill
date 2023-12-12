@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 9.0.1-dev.1
-* Remove the spacer widget
+* **Breaking change** Remove the spacer widget
 
 ## 9.0.1
 * Fix default icon size
