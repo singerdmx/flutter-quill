@@ -329,7 +329,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 direction: configurations.axis,
                 alignment: configurations.toolbarIconAlignment,
                 crossAxisAlignment: configurations.toolbarIconCrossAlignment,
-                runSpacing: 4,
+                runSpacing: configurations.toolbarRunSpacing,
                 spacing: configurations.toolbarSectionSpacing,
                 children: childrenBuilder(context),
               );

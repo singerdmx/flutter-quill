@@ -100,14 +100,7 @@ class MyQuillToolbar extends StatelessWidget {
           // For more info
           // https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_toolbar.md
           return QuillToolbar(
-            configurations: const QuillToolbarConfigurations(
-              buttonOptions: QuillToolbarButtonOptions(
-                base: QuillToolbarBaseButtonOptions(
-                  globalIconSize: 20,
-                  globalIconButtonFactor: 1.4,
-                ),
-              ),
-            ),
+            configurations: const QuillToolbarConfigurations(),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Wrap(

@@ -21,11 +21,13 @@ abstract class QuillSharedToolbarProperties extends Equatable {
     this.multiRowsDisplay = true,
     this.decoration,
     this.buttonOptions = const QuillToolbarButtonOptions(),
+    this.toolbarRunSpacing = 4,
   });
   final Axis axis;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
   final WrapCrossAlignment toolbarIconCrossAlignment;
+  final double toolbarRunSpacing;
   final double? toolbarSize;
 
   // Overrides the action in the _LinkDialog widget
