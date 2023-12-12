@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../translations.dart';
-<<<<<<< HEAD
 import '../../../../extensions/quill_configurations_ext.dart';
-import '../../../../models/config/toolbar/buttons/select_header_style_button_configurations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../quill/quill_controller.dart';
 import '../../base_toolbar.dart';
-=======
-import '../../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
-import '../../../../models/documents/attribute.dart';
-import '../../../quill/quill_controller.dart';
->>>>>>> upstream/master
 
 enum _HeaderStyleOptions {
   normal,
