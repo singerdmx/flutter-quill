@@ -20,7 +20,8 @@ import 'buttons/link_style2_configurations.dart';
 import 'buttons/link_style_configurations.dart';
 import 'buttons/search_configurations.dart';
 import 'buttons/select_alignment_configurations.dart';
-import 'buttons/select_header_style_configurations.dart';
+import 'buttons/select_header_style_button_configurations.dart';
+import 'buttons/select_header_style_buttons_configurations.dart';
 import 'buttons/toggle_check_list_configurations.dart';
 import 'buttons/toggle_style_configurations.dart';
 import 'toolbar_shared_configurations.dart';
@@ -38,7 +39,7 @@ export 'buttons/link_style2_configurations.dart';
 export 'buttons/link_style_configurations.dart';
 export 'buttons/search_configurations.dart';
 export 'buttons/select_alignment_configurations.dart';
-export 'buttons/select_header_style_configurations.dart';
+export 'buttons/select_header_style_buttons_configurations.dart';
 export 'buttons/toggle_check_list_configurations.dart';
 export 'buttons/toggle_style_configurations.dart';
 
@@ -254,6 +255,8 @@ class QuillToolbarButtonOptions extends Equatable {
     this.search = const QuillToolbarSearchButtonOptions(),
     this.selectHeaderStyleButtons =
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
+    this.selectHeaderStyleButton =
+        const QuillToolbarSelectHeaderStyleButtonOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
     this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
     this.customButtons = const QuillToolbarCustomButtonOptions(),
@@ -299,6 +302,11 @@ class QuillToolbarButtonOptions extends Equatable {
   /// for all the header style buttons and not just one, you still
   /// can customize it and you also have child builder
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
+
+  /// The reason we call this buttons in the end because this is responsible
+  /// for all the header style buttons and not just one, you still
+  /// can customize it and you also have child builder
+  final QuillToolbarSelectHeaderStyleButtonOptions selectHeaderStyleButton;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
   final QuillToolbarLinkStyleButton2Options linkStyle2;

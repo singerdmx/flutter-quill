@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../translations.dart';
 import '../../../../extensions/quill_configurations_ext.dart';
-import '../../../../models/config/toolbar/buttons/select_header_style_configurations.dart';
+import '../../../../models/config/toolbar/buttons/select_header_style_button_configurations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../quill/quill_controller.dart';
 import '../../base_toolbar.dart';
@@ -17,12 +17,12 @@ enum _HeaderStyleOptions {
 class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
   const QuillToolbarSelectHeaderStyleButton({
     required this.controller,
-    this.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
+    this.options = const QuillToolbarSelectHeaderStyleButtonOptions(),
     super.key,
   });
 
   final QuillController controller;
-  final QuillToolbarSelectHeaderStyleButtonsOptions options;
+  final QuillToolbarSelectHeaderStyleButtonOptions options;
 
   @override
   State<QuillToolbarSelectHeaderStyleButton> createState() =>

@@ -200,7 +200,7 @@ class QuillSimpleToolbar extends StatelessWidget
           QuillToolbarSelectHeaderStyleButton(
             controller: globalController,
             options:
-                toolbarConfigurations.buttonOptions.selectHeaderStyleButtons,
+                toolbarConfigurations.buttonOptions.selectHeaderStyleButton,
           ),
         if (configurations.showDividers &&
             configurations.showHeaderStyle &&
