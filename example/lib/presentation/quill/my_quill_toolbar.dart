@@ -110,7 +110,7 @@ class MyQuillToolbar extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
+              child: Wrap(
                 children: [
                   IconButton(
                     onPressed: () => context
