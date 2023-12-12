@@ -8,7 +8,7 @@ import '../../../widgets/quill/embeds.dart';
 import '../../../widgets/quill/quill_controller.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
-import 'buttons/base_configurations.dart';
+import 'base_button_configurations.dart';
 import 'buttons/clear_format_configurations.dart';
 import 'buttons/color_configurations.dart';
 import 'buttons/custom_button_configurations.dart';
@@ -26,7 +26,7 @@ import 'buttons/toggle_style_configurations.dart';
 import 'toolbar_shared_configurations.dart';
 
 export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
-export 'buttons/base_configurations.dart';
+export 'base_button_configurations.dart';
 export 'buttons/clear_format_configurations.dart';
 export 'buttons/color_configurations.dart';
 export 'buttons/custom_button_configurations.dart';

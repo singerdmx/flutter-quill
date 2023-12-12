@@ -14,7 +14,6 @@ class QuillToolbarSearchButtonExtraOptions
 class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions {
   const QuillToolbarSearchButtonOptions({
     super.iconData,
-    super.controller,
     super.childBuilder,
     super.tooltip,
     super.afterButtonPressed,

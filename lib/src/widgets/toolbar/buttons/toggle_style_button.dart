@@ -155,7 +155,6 @@ class QuillToolbarToggleStyleButtonState
       return childBuilder(
         QuillToolbarToggleStyleButtonOptions(
           afterButtonPressed: options.afterButtonPressed,
-          controller: controller,
           fillColor: options.fillColor,
           iconButtonFactor: options.iconButtonFactor,
           iconData: iconData,

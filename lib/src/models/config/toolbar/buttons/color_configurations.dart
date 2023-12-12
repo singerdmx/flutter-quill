@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart' show Color;
 
 import '../../../../widgets/quill/quill_controller.dart';
 import '../../quill_shared_configurations.dart' show QuillSharedConfigurations;
-import 'base_configurations.dart';
+import '../base_button_configurations.dart';
 
 class QuillToolbarColorButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {
@@ -31,7 +31,6 @@ class QuillToolbarColorButtonOptions extends QuillToolbarBaseButtonOptions<
     super.iconData,
     super.afterButtonPressed,
     super.childBuilder,
-    super.controller,
     super.iconTheme,
     super.tooltip,
     this.customOnPressedCallback,

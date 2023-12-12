@@ -67,7 +67,6 @@ class QuillToolbarCustomButton extends StatelessWidget {
           iconButtonFactor: iconButtonFactor,
           iconSize: iconSize,
           afterButtonPressed: afterButtonPressed,
-          controller: controller,
           iconTheme: iconTheme,
           tooltip: tooltip,
           icon: options.icon,

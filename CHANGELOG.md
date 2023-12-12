@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 9.0.2-dev
-* **Breaking change** Remove the spacer widget
+* **Breaking change** Remove the spacer widget, removed the controller option for each button
 
 ## 9.0.1
 * Fix default icon size

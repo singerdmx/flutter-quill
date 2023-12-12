@@ -18,7 +18,6 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarImageButtonOptions, QuillToolbarImageButtonExtraOptions> {
   const QuillToolbarImageButtonOptions({
     super.iconData,
-    super.controller,
     this.iconSize,
     this.iconButtonFactor,
 

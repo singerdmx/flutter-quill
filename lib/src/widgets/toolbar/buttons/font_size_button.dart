@@ -127,7 +127,6 @@ class QuillToolbarFontSizeButtonState
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,
           afterButtonPressed: afterButtonPressed,
-          controller: controller,
         ),
         QuillToolbarFontSizeButtonExtraOptions(
           controller: controller,

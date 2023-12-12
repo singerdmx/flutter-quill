@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../themes/quill_dialog_theme.dart';
-import 'base_configurations.dart';
+import '../base_button_configurations.dart';
 
 class QuillToolbarLinkStyleButton2ExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {
@@ -33,7 +33,6 @@ class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
     super.tooltip,
     super.iconTheme,
     super.childBuilder,
-    super.controller,
   });
 
   final double? iconSize;

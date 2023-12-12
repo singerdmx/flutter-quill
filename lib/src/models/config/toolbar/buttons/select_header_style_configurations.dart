@@ -19,7 +19,6 @@ class QuillToolbarSelectHeaderStyleButtonsOptions
   const QuillToolbarSelectHeaderStyleButtonsOptions({
     super.afterButtonPressed,
     super.childBuilder,
-    super.controller,
     super.iconTheme,
     super.tooltip,
     this.axis,

@@ -24,7 +24,6 @@ class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
     super.tooltip,
     super.iconTheme,
     super.childBuilder,
-    super.controller,
   });
 
   final double? iconSize;

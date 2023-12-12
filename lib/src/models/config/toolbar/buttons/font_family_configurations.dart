@@ -33,7 +33,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarFontFamilyButtonOptions({
     this.attribute = Attribute.font,
     this.rawItemsMap,
-    super.controller,
     super.iconData,
     super.afterButtonPressed,
     super.tooltip,
@@ -92,8 +91,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     Color? defaultItemColor,
     double? iconSize,
     double? iconButtonFactor,
-    // Add properties to override inherited properties
-    QuillController? controller,
     IconData? iconData,
     VoidCallback? afterButtonPressed,
     String? tooltip,
@@ -102,7 +99,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     return QuillToolbarFontFamilyButtonOptions(
       attribute: attribute ?? this.attribute,
       rawItemsMap: rawItemsMap ?? this.rawItemsMap,
-      controller: controller ?? this.controller,
       iconData: iconData ?? this.iconData,
       afterButtonPressed: afterButtonPressed ?? this.afterButtonPressed,
       tooltip: tooltip ?? this.tooltip,

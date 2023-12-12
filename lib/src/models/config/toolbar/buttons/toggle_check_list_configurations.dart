@@ -26,7 +26,6 @@ class QuillToolbarToggleCheckListButtonOptions
     this.fillColor,
     this.attribute = Attribute.unchecked,
     this.isShouldRequestKeyboard = false,
-    super.controller,
     super.iconTheme,
     super.tooltip,
     super.iconData,

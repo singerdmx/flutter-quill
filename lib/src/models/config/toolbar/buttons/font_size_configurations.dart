@@ -39,7 +39,6 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.rawItemsMap,
     this.onSelected,
     this.attribute = Attribute.size,
-    super.controller,
     super.afterButtonPressed,
     super.tooltip,
     this.padding,
@@ -93,7 +92,6 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     Color? defaultItemColor,
     VoidCallback? afterButtonPressed,
     String? tooltip,
-    QuillController? controller,
     OutlinedBorder? shape,
   }) {
     return QuillToolbarFontSizeButtonOptions(
@@ -112,7 +110,6 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       tooltip: tooltip ?? super.tooltip,
       afterButtonPressed: afterButtonPressed ?? super.afterButtonPressed,
-      controller: controller ?? super.controller,
     );
   }
 }

@@ -7,7 +7,7 @@ import '../../models/config/toolbar/simple_toolbar_configurations.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
 import 'simple_toolbar.dart';
 
-export '../../models/config/toolbar/buttons/base_configurations.dart';
+export '../../models/config/toolbar/base_button_configurations.dart';
 export '../../models/config/toolbar/simple_toolbar_configurations.dart';
 export 'buttons/clear_format_button.dart';
 export 'buttons/color/color_button.dart';
