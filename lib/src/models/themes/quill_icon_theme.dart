@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart' show Color;
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart' show immutable;
 
 @immutable
 class QuillIconTheme {
