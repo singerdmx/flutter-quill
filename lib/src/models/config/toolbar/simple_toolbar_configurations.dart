@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart'
     show Axis, WrapAlignment, WrapCrossAlignment;
@@ -8,22 +6,7 @@ import '../../../widgets/quill/embeds.dart';
 import '../../../widgets/quill/quill_controller.dart';
 import '../../themes/quill_dialog_theme.dart';
 import '../../themes/quill_icon_theme.dart';
-import 'base_button_configurations.dart';
-import 'buttons/clear_format_configurations.dart';
-import 'buttons/color_configurations.dart';
-import 'buttons/custom_button_configurations.dart';
-import 'buttons/font_family_configurations.dart';
-import 'buttons/font_size_configurations.dart';
-import 'buttons/history_configurations.dart';
-import 'buttons/indent_configurations.dart';
-import 'buttons/link_style2_configurations.dart';
-import 'buttons/link_style_configurations.dart';
-import 'buttons/search_configurations.dart';
-import 'buttons/select_alignment_configurations.dart';
-import 'buttons/select_header_style_button_configurations.dart';
-import 'buttons/select_header_style_buttons_configurations.dart';
-import 'buttons/toggle_check_list_configurations.dart';
-import 'buttons/toggle_style_configurations.dart';
+import 'simple_toolbar_button_options.dart';
 import 'toolbar_shared_configurations.dart';
 
 export './../../../widgets/toolbar/buttons/search/search_dialog.dart';
@@ -39,10 +22,11 @@ export 'buttons/link_style2_configurations.dart';
 export 'buttons/link_style_configurations.dart';
 export 'buttons/search_configurations.dart';
 export 'buttons/select_alignment_configurations.dart';
-export 'buttons/select_header_style_button_configurations.dart';
 export 'buttons/select_header_style_buttons_configurations.dart';
+export 'buttons/select_header_style_dropdown_button_configurations.dart';
 export 'buttons/toggle_check_list_configurations.dart';
 export 'buttons/toggle_style_configurations.dart';
+export 'simple_toolbar_button_options.dart';
 
 /// The default size of the icon of a button.
 const double kDefaultIconSize = 15;
@@ -67,6 +51,17 @@ enum LinkStyleType {
   bool get isAlternative => this == LinkStyleType.alternative;
 }
 
+enum HeaderStyleType {
+  /// Defines the original [QuillToolbarSelectHeaderStyleButtons].
+  original,
+
+  /// Defines the alternative [QuillToolbarSelectHeaderStyleDropdownButton].
+  dropdown;
+
+  bool get isOriginal => this == HeaderStyleType.original;
+  bool get isDropdown => this == HeaderStyleType.dropdown;
+}
+
 /// The configurations for the toolbar widget of flutter quill
 @immutable
 class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
@@ -76,7 +71,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     super.toolbarSectionSpacing = kToolbarSectionSpacing,
     super.toolbarIconAlignment = WrapAlignment.center,
     super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
-    super.buttonOptions = const QuillToolbarButtonOptions(),
+    super.buttonOptions = const QuillSimpleToolbarButtonOptions(),
     this.customButtons = const [],
     this.fontFamilyValues,
     super.multiRowsDisplay = true,
@@ -113,6 +108,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showSubscript = true,
     this.showSuperscript = true,
     this.linkStyleType = LinkStyleType.original,
+    this.headerStyleType = HeaderStyleType.original,
 
     /// The decoration to use for the toolbar.
     super.decoration,
@@ -154,7 +150,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   final QuillController controller;
 
   /// By default it will be
-  /// ```
+  /// ```dart
   /// {
   ///   'Small'.i18n: 'small',
   ///   'Large'.i18n: 'large',
@@ -213,6 +209,9 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   /// Defines which dialog is used for applying link attribute.
   final LinkStyleType linkStyleType;
 
+  /// Defines which dialog is used for applying header attribute.
+  final HeaderStyleType headerStyleType;
+
   @override
   List<Object?> get props => [
         buttonOptions,
@@ -220,102 +219,5 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
         fontSizesValues,
         toolbarSize,
         axis,
-      ];
-}
-
-/// The configurations for the buttons of the toolbar widget of flutter quill
-@immutable
-class QuillToolbarButtonOptions extends Equatable {
-  const QuillToolbarButtonOptions({
-    this.base = const QuillToolbarBaseButtonOptions(),
-    this.undoHistory = const QuillToolbarHistoryButtonOptions(),
-    this.redoHistory = const QuillToolbarHistoryButtonOptions(),
-    this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
-    this.fontSize = const QuillToolbarFontSizeButtonOptions(),
-    this.bold = const QuillToolbarToggleStyleButtonOptions(),
-    this.subscript = const QuillToolbarToggleStyleButtonOptions(),
-    this.superscript = const QuillToolbarToggleStyleButtonOptions(),
-    this.italic = const QuillToolbarToggleStyleButtonOptions(),
-    this.small = const QuillToolbarToggleStyleButtonOptions(),
-    this.underLine = const QuillToolbarToggleStyleButtonOptions(),
-    this.strikeThrough = const QuillToolbarToggleStyleButtonOptions(),
-    this.inlineCode = const QuillToolbarToggleStyleButtonOptions(),
-    this.direction = const QuillToolbarToggleStyleButtonOptions(),
-    this.listNumbers = const QuillToolbarToggleStyleButtonOptions(),
-    this.listBullets = const QuillToolbarToggleStyleButtonOptions(),
-    this.codeBlock = const QuillToolbarToggleStyleButtonOptions(),
-    this.quote = const QuillToolbarToggleStyleButtonOptions(),
-    this.toggleCheckList = const QuillToolbarToggleCheckListButtonOptions(),
-    this.indentIncrease = const QuillToolbarIndentButtonOptions(),
-    this.indentDecrease = const QuillToolbarIndentButtonOptions(),
-    this.color = const QuillToolbarColorButtonOptions(),
-    this.backgroundColor = const QuillToolbarColorButtonOptions(),
-    this.clearFormat = const QuillToolbarClearFormatButtonOptions(),
-    this.selectAlignmentButtons =
-        const QuillToolbarSelectAlignmentButtonOptions(),
-    this.search = const QuillToolbarSearchButtonOptions(),
-    this.selectHeaderStyleButtons =
-        const QuillToolbarSelectHeaderStyleButtonsOptions(),
-    this.selectHeaderStyleButton =
-        const QuillToolbarSelectHeaderStyleButtonOptions(),
-    this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
-    this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
-    this.customButtons = const QuillToolbarCustomButtonOptions(),
-  });
-
-  /// The base configurations for all the buttons which will apply to all
-  /// but if the options overrided in the spesefic button options
-  /// then it will use that instead
-  final QuillToolbarBaseButtonOptions base;
-  final QuillToolbarHistoryButtonOptions undoHistory;
-  final QuillToolbarHistoryButtonOptions redoHistory;
-  final QuillToolbarFontFamilyButtonOptions fontFamily;
-  final QuillToolbarFontSizeButtonOptions fontSize;
-  final QuillToolbarToggleStyleButtonOptions bold;
-  final QuillToolbarToggleStyleButtonOptions subscript;
-  final QuillToolbarToggleStyleButtonOptions superscript;
-  final QuillToolbarToggleStyleButtonOptions italic;
-  final QuillToolbarToggleStyleButtonOptions small;
-  final QuillToolbarToggleStyleButtonOptions underLine;
-  final QuillToolbarToggleStyleButtonOptions strikeThrough;
-  final QuillToolbarToggleStyleButtonOptions inlineCode;
-  final QuillToolbarToggleStyleButtonOptions direction;
-  final QuillToolbarToggleStyleButtonOptions listNumbers;
-  final QuillToolbarToggleStyleButtonOptions listBullets;
-  final QuillToolbarToggleStyleButtonOptions codeBlock;
-  final QuillToolbarToggleStyleButtonOptions quote;
-  final QuillToolbarToggleCheckListButtonOptions toggleCheckList;
-  final QuillToolbarIndentButtonOptions indentIncrease;
-  final QuillToolbarIndentButtonOptions indentDecrease;
-  final QuillToolbarColorButtonOptions color;
-  final QuillToolbarColorButtonOptions backgroundColor;
-  final QuillToolbarClearFormatButtonOptions clearFormat;
-
-  /// The reason we call this buttons in the end because this is responsible
-  /// for all the alignment buttons and not just one, you still
-  /// can customize the icons and tooltips
-  /// and you have child builder
-  final QuillToolbarSelectAlignmentButtonOptions selectAlignmentButtons;
-
-  final QuillToolbarSearchButtonOptions search;
-
-  /// The reason we call this buttons in the end because this is responsible
-  /// for all the header style buttons and not just one, you still
-  /// can customize it and you also have child builder
-  final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
-
-  /// The reason we call this buttons in the end because this is responsible
-  /// for all the header style buttons and not just one, you still
-  /// can customize it and you also have child builder
-  final QuillToolbarSelectHeaderStyleButtonOptions selectHeaderStyleButton;
-
-  final QuillToolbarLinkStyleButtonOptions linkStyle;
-  final QuillToolbarLinkStyleButton2Options linkStyle2;
-
-  final QuillToolbarCustomButtonOptions customButtons;
-
-  @override
-  List<Object?> get props => [
-        base,
       ];
 }

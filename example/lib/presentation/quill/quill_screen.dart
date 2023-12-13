@@ -76,7 +76,7 @@ class _QuillScreenState extends State<QuillScreen> {
             onPressed: () {
               final html = _controller.document.toDelta().toHtml();
               _controller.document =
-                  Document.fromDelta(QuillController.fromHtml(html));
+                  Document.fromDelta(Document.fromHtml(html));
             },
             icon: const Icon(Icons.html),
           ),

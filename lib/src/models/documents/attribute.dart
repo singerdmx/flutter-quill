@@ -158,11 +158,23 @@ class Attribute<T> extends Equatable {
     Attribute.video.key,
   };
 
+  /// "attributes":{"header": 1 }
   static const Attribute<int?> h1 = HeaderAttribute(level: 1);
 
+  /// "attributes":{"header": 2 }
   static const Attribute<int?> h2 = HeaderAttribute(level: 2);
 
+  /// "attributes":{"header": 3 }
   static const Attribute<int?> h3 = HeaderAttribute(level: 3);
+
+  /// "attributes":{"header": 4 }
+  static const Attribute<int?> h4 = HeaderAttribute(level: 4);
+
+  /// "attributes":{"header": 5 }
+  static const Attribute<int?> h5 = HeaderAttribute(level: 5);
+
+  /// "attributes":{"header": 6 }
+  static const Attribute<int?> h6 = HeaderAttribute(level: 6);
 
   // "attributes":{"align":"left"}
   static const Attribute<String?> leftAlignment = AlignAttribute('left');

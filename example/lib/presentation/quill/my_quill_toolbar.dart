@@ -159,7 +159,7 @@ class MyQuillToolbar extends StatelessWidget {
                     isBackground: true,
                   ),
                   const VerticalDivider(),
-                  QuillToolbarSelectHeaderStyleButton(
+                  QuillToolbarSelectHeaderStyleDropdownButton(
                     controller: controller,
                   ),
                   const VerticalDivider(),
@@ -201,14 +201,14 @@ class MyQuillToolbar extends StatelessWidget {
           configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
-            buttonOptions: QuillToolbarButtonOptions(
+            buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 // Request editor focus when any button is pressed
                 afterButtonPressed: focusNode.requestFocus,
                 globalIconSize: 18,
               ),
-              selectHeaderStyleButton:
-                  const QuillToolbarSelectHeaderStyleButtonOptions(
+              selectHeaderStyleDropdownButton:
+                  const QuillToolbarSelectHeaderStyleDropdownButtonOptions(
                 textStyle: TextStyle(
                   fontSize: 20,
                 ),

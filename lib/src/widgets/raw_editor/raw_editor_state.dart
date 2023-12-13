@@ -702,6 +702,21 @@ class QuillRawEditorState extends EditorState
               meta: isDesktopMacOS,
             ): const QuillEditorApplyHeaderIntent(Attribute.h3),
             SingleActivator(
+              LogicalKeyboardKey.digit4,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const QuillEditorApplyHeaderIntent(Attribute.h4),
+            SingleActivator(
+              LogicalKeyboardKey.digit5,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const QuillEditorApplyHeaderIntent(Attribute.h5),
+            SingleActivator(
+              LogicalKeyboardKey.digit6,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const QuillEditorApplyHeaderIntent(Attribute.h6),
+            SingleActivator(
               LogicalKeyboardKey.digit0,
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
@@ -1061,6 +1076,12 @@ class QuillRawEditorState extends EditorState
           return defaultStyles!.h2!.verticalSpacing;
         case 3:
           return defaultStyles!.h3!.verticalSpacing;
+        case 4:
+          return defaultStyles!.h4!.verticalSpacing;
+        case 5:
+          return defaultStyles!.h5!.verticalSpacing;
+        case 6:
+          return defaultStyles!.h6!.verticalSpacing;
         default:
           throw ArgumentError('Invalid level $level');
       }
