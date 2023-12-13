@@ -7,6 +7,7 @@ import '../../models/documents/nodes/block.dart';
 import '../../models/documents/nodes/line.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/delta.dart';
+import '../../utils/font.dart';
 import '../../utils/string.dart';
 import '../editor/editor.dart';
 import '../others/box.dart';
@@ -213,6 +214,7 @@ class EditableTextBlock extends StatelessWidget {
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = line.style.attributes;
 
+    // Of the color button
     final fontColor =
         line.toDelta().operations.first.attributes?[Attribute.color.key] != null
             ? hexToColor(
@@ -223,17 +225,28 @@ class EditableTextBlock extends StatelessWidget {
                     .attributes?[Attribute.color.key],
               )
             : null;
-    // final textAlign = line.style.attributes['align']?.value != null
-    //     ? getTextAlign(line.style.attributes['align']?.value)
+
+    // Of the size button
+    final size =
+        line.toDelta().operations.first.attributes?[Attribute.size.key] != null
+            ? getFontSizeAsDouble(
+                line.toDelta().operations.first.attributes?[Attribute.size.key],
+                defaultStyles: defaultStyles,
+              )
+            : null;
+
+    // Of the alignment buttons
+    // final textAlign = line.style.attributes[Attribute.align.key]?.value != null
+    //     ? getTextAlign(line.style.attributes[Attribute.align.key]?.value)
     //     : null;
 
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return QuillEditorNumberPoint(
         index: index,
-        // textAlign: textAlign,
         indentLevelCounts: indentLevelCounts,
         count: count,
         style: defaultStyles.leading!.style.copyWith(
+          fontSize: size,
           color: context.quillEditorElementOptions?.orderedList
                       .useTextColorForDot ==
                   true
@@ -250,6 +263,7 @@ class EditableTextBlock extends StatelessWidget {
       return QuillEditorBulletPoint(
         style: defaultStyles.leading!.style.copyWith(
           fontWeight: FontWeight.bold,
+          fontSize: size,
           color: context.quillEditorElementOptions?.unorderedList
                       .useTextColorForDot ==
                   true
@@ -258,7 +272,6 @@ class EditableTextBlock extends StatelessWidget {
         ),
         width: fontSize * 2,
         padding: fontSize / 2,
-        // textAlign: textAlign,
       );
     }
 
@@ -284,7 +297,6 @@ class EditableTextBlock extends StatelessWidget {
         attrs: attrs,
         padding: fontSize,
         withDot: false,
-        // textAlign: textAlign,
       );
     }
     return null;

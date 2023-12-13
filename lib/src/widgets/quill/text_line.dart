@@ -404,7 +404,11 @@ class _TextLineState extends State<TextLine> {
           res = res.merge(defaultStyles.sizeHuge);
           break;
         default:
-          res = res.merge(TextStyle(fontSize: getFontSize(size.value)));
+          res = res.merge(TextStyle(
+            fontSize: getFontSize(
+              size.value,
+            ),
+          ));
       }
     }
 

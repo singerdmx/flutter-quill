@@ -224,7 +224,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
             widget.configurations.controller.selectedFontSize == '0'
                 ? null
                 : getFontSize(
-                    widget.configurations.controller.selectedFontSize),
+                    widget.configurations.controller.selectedFontSize,
+                  ),
           ),
         );
       }
