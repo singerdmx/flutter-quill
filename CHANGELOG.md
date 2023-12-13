@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.2-dev.3
+* Export `QuillSingleChildScrollView`
+
 ## 9.0.2-dev.2
 * Add the new translations for ru, uk arb files by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
 * Add a new dropdown button by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
