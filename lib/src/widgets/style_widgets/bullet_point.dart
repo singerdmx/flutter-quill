@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class QuillEditorBulletPoint extends StatelessWidget {
   const QuillEditorBulletPoint({
@@ -6,6 +6,7 @@ class QuillEditorBulletPoint extends StatelessWidget {
     required this.width,
     this.padding = 0,
     this.backgroundColor,
+    this.textAlign,
     super.key,
   });
 
@@ -13,6 +14,7 @@ class QuillEditorBulletPoint extends StatelessWidget {
   final double width;
   final double padding;
   final Color? backgroundColor;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class QuillEditorBulletPoint extends StatelessWidget {
       child: Text(
         '•',
         style: style,
+        textAlign: textAlign,
       ),
     );
   }

@@ -11,6 +11,7 @@ class QuillEditorNumberPoint extends StatelessWidget {
     required this.style,
     required this.width,
     required this.attrs,
+    this.textAlign,
     this.withDot = true,
     this.padding = 0.0,
     super.key,
@@ -26,6 +27,7 @@ class QuillEditorNumberPoint extends StatelessWidget {
   final bool withDot;
   final double padding;
   final Color? backgroundColor;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class QuillEditorNumberPoint extends StatelessWidget {
         child: Text(
           withDot ? '$s.' : s,
           style: style,
+          textAlign: textAlign,
         ),
       );
     }
@@ -77,6 +80,7 @@ class QuillEditorNumberPoint extends StatelessWidget {
       child: Text(
         withDot ? '$s.' : s,
         style: style,
+        textAlign: textAlign,
       ),
     );
   }

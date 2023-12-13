@@ -7,6 +7,7 @@ import '../../models/documents/nodes/block.dart';
 import '../../models/documents/nodes/line.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/delta.dart';
+import '../../utils/string.dart';
 import '../editor/editor.dart';
 import '../others/box.dart';
 import '../others/cursor.dart';
@@ -222,10 +223,14 @@ class EditableTextBlock extends StatelessWidget {
                     .attributes?[Attribute.color.key],
               )
             : null;
+    // final textAlign = line.style.attributes['align']?.value != null
+    //     ? getTextAlign(line.style.attributes['align']?.value)
+    //     : null;
 
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return QuillEditorNumberPoint(
         index: index,
+        // textAlign: textAlign,
         indentLevelCounts: indentLevelCounts,
         count: count,
         style: defaultStyles.leading!.style.copyWith(
@@ -253,6 +258,7 @@ class EditableTextBlock extends StatelessWidget {
         ),
         width: fontSize * 2,
         padding: fontSize / 2,
+        // textAlign: textAlign,
       );
     }
 
@@ -278,6 +284,7 @@ class EditableTextBlock extends StatelessWidget {
         attrs: attrs,
         padding: fontSize,
         withDot: false,
+        // textAlign: textAlign,
       );
     }
     return null;
