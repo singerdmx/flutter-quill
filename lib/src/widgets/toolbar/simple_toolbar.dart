@@ -196,10 +196,10 @@ class QuillSimpleToolbar extends StatelessWidget
             space: configurations.sectionDividerSpace,
           ),
         if (configurations.showHeaderStyle)
-          QuillToolbarSelectHeaderStyleButton(
+          QuillToolbarSelectHeaderStyleDropdownButton(
             controller: globalController,
-            options:
-                toolbarConfigurations.buttonOptions.selectHeaderStyleButton,
+            options: toolbarConfigurations
+                .buttonOptions.selectHeaderStyleDropdownButton,
           ),
         if (configurations.showDividers &&
             configurations.showHeaderStyle &&

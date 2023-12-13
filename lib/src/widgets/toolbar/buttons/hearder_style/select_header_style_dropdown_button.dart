@@ -7,31 +7,25 @@ import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../quill/quill_controller.dart';
 import '../../base_toolbar.dart';
 
-enum _HeaderStyleOptions {
-  normal,
-  headingOne,
-  headingTwo,
-  headingThree,
-}
-
-class QuillToolbarSelectHeaderStyleButton extends StatefulWidget {
-  const QuillToolbarSelectHeaderStyleButton({
+class QuillToolbarSelectHeaderStyleDropdownButton extends StatefulWidget {
+  const QuillToolbarSelectHeaderStyleDropdownButton({
     required this.controller,
-    this.options = const QuillToolbarSelectHeaderStyleButtonOptions(),
+    this.options = const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
     super.key,
   });
 
   final QuillController controller;
-  final QuillToolbarSelectHeaderStyleButtonOptions options;
+  final QuillToolbarSelectHeaderStyleDropdownButtonOptions options;
 
   @override
-  State<QuillToolbarSelectHeaderStyleButton> createState() =>
-      _QuillToolbarSelectHeaderStyleButtonState();
+  State<QuillToolbarSelectHeaderStyleDropdownButton> createState() =>
+      _QuillToolbarSelectHeaderStyleDropdownButtonState();
 }
 
-class _QuillToolbarSelectHeaderStyleButtonState
-    extends State<QuillToolbarSelectHeaderStyleButton> {
-  var _selectedItem = _HeaderStyleOptions.normal;
+class _QuillToolbarSelectHeaderStyleDropdownButtonState
+    extends State<QuillToolbarSelectHeaderStyleDropdownButton> {
+  Attribute<dynamic> _selectedItem = Attribute.header;
+
   final _controller = MenuController();
   @override
   void initState() {
@@ -47,7 +41,7 @@ class _QuillToolbarSelectHeaderStyleButtonState
 
   @override
   void didUpdateWidget(
-      covariant QuillToolbarSelectHeaderStyleButton oldWidget) {
+      covariant QuillToolbarSelectHeaderStyleDropdownButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller == widget.controller) {
       return;
@@ -58,7 +52,7 @@ class _QuillToolbarSelectHeaderStyleButtonState
   }
 
   void _didChangeEditingValue() {
-    final newSelectedItem = _getOptionsItemByAttribute(_getHeaderValue());
+    final newSelectedItem = _getHeaderValue();
     if (newSelectedItem == _selectedItem) {
       return;
     }
@@ -80,34 +74,18 @@ class _QuillToolbarSelectHeaderStyleButtonState
         Attribute.header;
   }
 
-  String _label(_HeaderStyleOptions value) {
+  String _label(Attribute<dynamic> value) {
     final label = switch (value) {
-      _HeaderStyleOptions.normal => context.loc.normal,
-      _HeaderStyleOptions.headingOne => context.loc.heading1,
-      _HeaderStyleOptions.headingTwo => context.loc.heading2,
-      _HeaderStyleOptions.headingThree => context.loc.heading3,
+      Attribute.h1 => context.loc.heading1,
+      Attribute.h2 => context.loc.heading2,
+      Attribute.h3 => context.loc.heading3,
+      Attribute.h4 => context.loc.heading4,
+      Attribute.h5 => context.loc.heading5,
+      Attribute.h6 => context.loc.heading6,
+      Attribute.header => context.loc.normal,
+      Attribute<dynamic>() => throw ArgumentError(),
     };
     return label;
-  }
-
-  Attribute<dynamic>? getAttributeByOptionsItem(_HeaderStyleOptions option) {
-    return switch (option) {
-      _HeaderStyleOptions.normal => Attribute.header,
-      _HeaderStyleOptions.headingOne => Attribute.h1,
-      _HeaderStyleOptions.headingTwo => Attribute.h2,
-      _HeaderStyleOptions.headingThree => Attribute.h3,
-    };
-  }
-
-  _HeaderStyleOptions _getOptionsItemByAttribute(
-      Attribute<dynamic>? attribute) {
-    return switch (attribute) {
-      Attribute.h1 => _HeaderStyleOptions.headingOne,
-      Attribute.h2 => _HeaderStyleOptions.headingTwo,
-      Attribute.h2 => _HeaderStyleOptions.headingThree,
-      Attribute() => _HeaderStyleOptions.normal,
-      null => _HeaderStyleOptions.normal,
-    };
   }
 
   double get iconSize {
@@ -128,18 +106,66 @@ class _QuillToolbarSelectHeaderStyleButtonState
         context.quillToolbarBaseButtonOptions?.iconTheme;
   }
 
+  List<Attribute<int?>> get headerAttributes {
+    return widget.options.attributes ??
+        [
+          Attribute.h1,
+          Attribute.h2,
+          Attribute.h3,
+          Attribute.h4,
+          Attribute.h5,
+          Attribute.h6,
+          Attribute.header,
+        ];
+  }
+
+  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
+    return context.requireQuillToolbarBaseButtonOptions;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return widget.options.afterButtonPressed ??
+        baseButtonExtraOptions.afterButtonPressed;
+  }
+
+  void _onPressed(Attribute<int?> e) {
+    setState(() => _selectedItem = e);
+    widget.controller.formatSelection(_selectedItem);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final baseButtonConfigurations =
+        context.requireQuillToolbarBaseButtonOptions;
+    final childBuilder =
+        widget.options.childBuilder ?? baseButtonConfigurations.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        widget.options.copyWith(
+          iconSize: iconSize,
+          iconTheme: iconTheme,
+          afterButtonPressed: afterButtonPressed,
+        ),
+        QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions(
+          currentValue: _selectedItem,
+          context: context,
+          controller: widget.controller,
+          onPressed: () {
+            throw UnimplementedError('Not implemented yet.');
+          },
+        ),
+      );
+    }
+
     return MenuAnchor(
       controller: _controller,
-      menuChildren: _HeaderStyleOptions.values
+      menuChildren: headerAttributes
           .map(
             (e) => MenuItemButton(
-              child: Text(_label(e)),
               onPressed: () {
-                widget.controller.formatSelection(getAttributeByOptionsItem(e));
-                setState(() => _selectedItem = e);
+                _onPressed(e);
               },
+              child: Text(_label(e)),
             ),
           )
           .toList(),

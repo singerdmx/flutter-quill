@@ -28,12 +28,15 @@ class QuillToolbarSelectHeaderStyleButtonsOptions
   });
 
   /// Default value:
+  ///
+  /// ```dart
   /// const [
   ///   Attribute.header,
   ///   Attribute.h1,
   ///   Attribute.h2,
   ///   Attribute.h3,
   /// ]
+  /// ```
   final List<Attribute>? attributes;
 
   /// By default we will the toolbar axis from [QuillSimpleToolbarConfigurations]

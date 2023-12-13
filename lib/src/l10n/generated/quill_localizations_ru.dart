@@ -149,6 +149,15 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get heading3 => 'Heading 3';
 
   @override
+  String get heading4 => 'Heading 4';
+
+  @override
+  String get heading5 => 'Heading 5';
+
+  @override
+  String get heading6 => 'Heading 6';
+
+  @override
   String get numberedList => 'Numbered list';
 
   @override
@@ -241,19 +250,21 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get insertImage => 'Вставить изображение';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Выберите фотографю из вашей галереи';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera =>
+      'Создайте фотографю, использую фотокамеру';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Вставьте фотографию, используя ссылку';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Выберете видео из вашей галереи';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera =>
+      'Запишите видео, используя вдеокамеру';
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';

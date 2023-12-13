@@ -20,7 +20,7 @@ abstract class QuillSharedToolbarProperties extends Equatable {
     this.linkDialogAction,
     this.multiRowsDisplay = true,
     this.decoration,
-    this.buttonOptions = const QuillToolbarButtonOptions(),
+    this.buttonOptions = const QuillSimpleToolbarButtonOptions(),
     this.toolbarRunSpacing = 4,
   });
   final Axis axis;
@@ -56,7 +56,7 @@ abstract class QuillSharedToolbarProperties extends Equatable {
 
   /// If you want change spesefic buttons or all of them
   /// then you came to the right place
-  final QuillToolbarButtonOptions buttonOptions;
+  final QuillSimpleToolbarButtonOptions buttonOptions;
 
   final QuillSharedConfigurations sharedConfigurations;
 }
