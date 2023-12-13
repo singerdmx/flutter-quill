@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 * Add the new translations for ru, uk arb files by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
 * Add a new dropdown button by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
 * Update the default style values by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
- 
+* Fix bug [#1562](https://github.com/singerdmx/flutter-quill/issues/1562)
 
 ## 9.0.2-dev.1
 * Add configurations for the new dropdown `QuillToolbarSelectHeaderStyleButton`, you can use the orignal one or this

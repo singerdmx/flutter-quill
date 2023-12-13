@@ -4,11 +4,15 @@ import 'package:flutter/widgets.dart' show Color;
 
 @immutable
 class QuillEditorOrderedListElementOptions extends Equatable {
-  const QuillEditorOrderedListElementOptions(
-      {this.backgroundColor, this.fontColor});
+  const QuillEditorOrderedListElementOptions({
+    this.backgroundColor,
+    this.fontColor,
+    this.useTextColorForDot = true,
+  });
 
   final Color? backgroundColor;
   final Color? fontColor;
+  final bool useTextColorForDot;
   @override
   List<Object?> get props => [];
 }

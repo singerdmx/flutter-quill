@@ -17,6 +17,7 @@ import '../others/text_selection.dart';
 import '../style_widgets/bullet_point.dart';
 import '../style_widgets/checkbox_point.dart';
 import '../style_widgets/number_point.dart';
+import '../toolbar/base_toolbar.dart';
 import 'quill_controller.dart';
 import 'text_line.dart';
 
@@ -211,12 +212,29 @@ class EditableTextBlock extends StatelessWidget {
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = line.style.attributes;
 
+    final fontColor =
+        line.toDelta().operations.first.attributes?[Attribute.color.key] != null
+            ? hexToColor(
+                line
+                    .toDelta()
+                    .operations
+                    .first
+                    .attributes?[Attribute.color.key],
+              )
+            : null;
+
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return QuillEditorNumberPoint(
         index: index,
         indentLevelCounts: indentLevelCounts,
         count: count,
-        style: defaultStyles.leading!.style,
+        style: defaultStyles.leading!.style.copyWith(
+          color: context.quillEditorElementOptions?.orderedList
+                      .useTextColorForDot ==
+                  true
+              ? fontColor
+              : null,
+        ),
         attrs: attrs,
         width: _numberPointWidth(fontSize, count),
         padding: fontSize / 2,
@@ -225,8 +243,14 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.ul) {
       return QuillEditorBulletPoint(
-        style:
-            defaultStyles.leading!.style.copyWith(fontWeight: FontWeight.bold),
+        style: defaultStyles.leading!.style.copyWith(
+          fontWeight: FontWeight.bold,
+          color: context.quillEditorElementOptions?.unorderedList
+                      .useTextColorForDot ==
+                  true
+              ? fontColor
+              : null,
+        ),
         width: fontSize * 2,
         padding: fontSize / 2,
       );
