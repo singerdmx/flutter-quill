@@ -208,8 +208,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         value.selection,
       );
 
-      // TODO: There is a bug here, the first character is not being formatted
-
       if (widget.configurations.controller.selectedFontFamily != null) {
         widget.configurations.controller.formatSelection(
           Attribute.fromKeyValue(
@@ -218,8 +216,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           ),
         );
       }
-
-      // TODO: The same bug here
 
       if (widget.configurations.controller.selectedFontSize != null) {
         widget.configurations.controller.formatSelection(
@@ -232,14 +228,13 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           ),
         );
       }
-
-      // TODO: The same bug here
-
-      widget.configurations.controller.selectedStyles.forEach((key, value) {
-        if (value ?? false) {
-          widget.configurations.controller.formatSelection(key);
-        }
-      });
+      // if (widget.configurations.controller.keepStyleOnNewLine) {
+      //   widget.configurations.controller.selectedStyles.forEach((key, value) {
+      //     if (value ?? false) {
+      //       widget.configurations.controller.formatSelection(key);
+      //     }
+      //   });
+      // }
     }
   }
 
