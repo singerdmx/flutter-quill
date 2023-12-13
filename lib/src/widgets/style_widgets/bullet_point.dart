@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/quill_configurations_ext.dart';
-
 class QuillEditorBulletPoint extends StatelessWidget {
   const QuillEditorBulletPoint({
     required this.style,
     required this.width,
     this.padding = 0,
+    this.backgroundColor,
     super.key,
   });
 
   final TextStyle style;
   final double width;
   final double padding;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,10 @@ class QuillEditorBulletPoint extends StatelessWidget {
       alignment: AlignmentDirectional.topEnd,
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
-      color: context.quillEditorElementOptions?.unorderedList.backgroundColor,
+      color: backgroundColor,
       child: Text(
         '•',
-        style: style.copyWith(
-          color: context.quillEditorElementOptions?.unorderedList.fontColor,
-        ),
+        style: style,
       ),
     );
   }
