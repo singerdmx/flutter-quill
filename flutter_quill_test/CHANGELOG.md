@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-<<<<<<< HEAD
+## 9.0.2-dev.1
+* Add configurations for the new dropdown `QuillToolbarSelectHeaderStyleButton`, you can use the orignal one or this
+* Fix the [issue](https://github.com/singerdmx/flutter-quill/issues/1119) when enter is pressed, all font settings is lost
+
 ## 9.0.2-dev
 * **Breaking change** Remove the spacer widget, removed the controller option for each button
 * Add `toolbarRunSpacing` property to the simple toolbar
@@ -10,8 +13,6 @@ All notable changes to this project will be documented in this file.
 ## 9.0.1
 * Fix default icon size
 
-=======
->>>>>>> upstream/master
 ## 9.0.0
 * This version is quite stable but it's not how we wanted to be, because the lack of time and there are not too many maintainers active, we decided to publish it, we might make a new breaking changes verion
 
