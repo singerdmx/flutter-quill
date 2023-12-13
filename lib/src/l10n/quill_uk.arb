@@ -73,6 +73,19 @@
     "errorWhileSavingImage": "Помилка при збереженні зображення",
     "pleaseEnterTextForYourLink": "Наприклад, 'Дізнатися більше'",
     "pleaseEnterTheLinkURL": "Наприклад, 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Будь ласка, введіть правильний URL-адресу зображення"
+    "pleaseEnterAValidImageURL": "Будь ласка, введіть правильний URL-адресу зображення",
+    "pickAPhotoFromYourGallery": "Оберіть фотографію з вашої галереї",
+    "takeAPhotoUsingYourCamera": "Створіть фотографію, використовуючи фотокамеру",
+    "pasteAPhotoUsingALink": "Вставте фотографію, використовуючи посилання",
+    "pickAVideoFromYourGallery": "Оберіть відео з вашої галереї",
+    "recordAVideoUsingYourCamera": "Запишіть відео, використовуючи відеокамеру",
+    "pasteAVideoUsingALink": "Вставте відео, використовуючи посилання",
+    "normal": "Звичайний",
+    "heading1": "Заголовок 1",
+    "heading2": "Заголовок 2",
+    "heading3": "Заголовок 3",
+    "heading4": "Заголовок 4",
+    "heading5": "Заголовок 5",
+    "heading6": "Заголовок 6"
   }
   

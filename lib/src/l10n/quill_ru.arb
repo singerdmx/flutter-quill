@@ -73,6 +73,11 @@
     "photo": "Фото",
     "image": "Изображение",
     "caseSensitivityAndWholeWordSearch": "Чувствительность к регистру и поиск целых слов",
-    "insertImage": "Вставить изображение"
+    "insertImage": "Вставить изображение",
+    "pickAPhotoFromYourGallery": "Выберите фотографю из вашей галереи",
+    "takeAPhotoUsingYourCamera": "Создайте фотографю, использую фотокамеру",
+    "pasteAPhotoUsingALink": "Вставьте фотографию, используя ссылку",
+    "pickAVideoFromYourGallery": "Выберете видео из вашей галереи",
+    "recordAVideoUsingYourCamera": "Запишите видео, используя вдеокамеру"
 }
   
