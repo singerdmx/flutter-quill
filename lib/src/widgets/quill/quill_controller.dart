@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
+import 'package:meta/meta.dart';
 
 import '../../../markdown_quill.dart';
 import '../../../quill_delta.dart';
@@ -16,6 +17,7 @@ import '../../models/structs/doc_change.dart';
 import '../../models/structs/image_url.dart';
 import '../../models/structs/offset_value.dart';
 import '../../utils/delta.dart';
+import '../toolbar/buttons/toggle_style_button.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -54,6 +56,7 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
+  @experimental
   void setContents(
     Delta delta, {
     ChangeSource changeSource = ChangeSource.local,
@@ -83,6 +86,17 @@ class QuillController extends ChangeNotifier {
 
   /// The current font size, null to use the default one
   String? get selectedFontSize => _selectedFontSize;
+
+  /// For the [QuillToolbarToggleStyleButton]
+  final Map<Attribute, bool?> _selectedStyles = {};
+
+  /// For the [QuillToolbarToggleStyleButton]
+  Map<Attribute, bool?> get selectedStyles => _selectedStyles;
+
+  /// For the [QuillToolbarToggleStyleButton]
+  void selectStyle(Attribute attribute, bool value) {
+    _selectedStyles[attribute] = value;
+  }
 
   void selectFontSize(String? newFontSize) {
     _selectedFontSize = newFontSize;
