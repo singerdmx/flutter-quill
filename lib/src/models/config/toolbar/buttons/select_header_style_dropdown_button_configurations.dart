@@ -62,7 +62,20 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   final double hoverElevation;
   final double highlightElevation;
   final ValueChanged<String>? onSelected;
-  final List<HeaderAttribute>? attributes;
+
+  /// Header attributes, defaults to:
+  /// ```dart
+  /// [
+  ///   Attribute.h1,
+  ///   Attribute.h2,
+  ///   Attribute.h3,
+  ///   Attribute.h4,
+  ///   Attribute.h5,
+  ///   Attribute.h6,
+  ///   Attribute.header,
+  /// ]
+  /// ```
+  final List<Attribute<int>>? attributes;
   final EdgeInsetsGeometry? padding;
   final TextStyle? style;
   final double? width;
@@ -78,7 +91,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     double? highlightElevation,
     List<PopupMenuEntry<String>>? items,
     ValueChanged<String>? onSelected,
-    List<HeaderAttribute>? attributes,
+    List<Attribute<int>>? attributes,
     EdgeInsetsGeometry? padding,
     TextStyle? style,
     double? width,
