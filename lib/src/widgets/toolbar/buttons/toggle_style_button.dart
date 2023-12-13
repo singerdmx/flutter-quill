@@ -221,9 +221,13 @@ class QuillToolbarToggleStyleButtonState
   }
 
   void _toggleAttribute() {
-    controller.formatSelection(
-      _isToggled! ? Attribute.clone(widget.attribute, null) : widget.attribute,
-    );
+    controller
+      ..formatSelection(
+        (_isToggled ?? false)
+            ? Attribute.clone(widget.attribute, null)
+            : widget.attribute,
+      )
+      ..selectStyle(widget.attribute, _isToggled ?? false);
   }
 }
 
@@ -249,9 +253,10 @@ Widget defaultToggleStyleButtonBuilder(
           : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color)
       : (iconTheme?.disabledIconColor ?? theme.disabledColor);
   return QuillToolbarIconButton(
-      icon: Icon(icon, size: iconSize * iconButtonFactor, color: iconColor),
-      isFilled: isEnabled ? isToggled == true : false,
-      onPressed: onPressed,
-      afterPressed: afterPressed,
-      padding: iconTheme?.padding);
+    icon: Icon(icon, size: iconSize * iconButtonFactor, color: iconColor),
+    isFilled: isEnabled ? isToggled == true : false,
+    onPressed: onPressed,
+    afterPressed: afterPressed,
+    padding: iconTheme?.padding,
+  );
 }
