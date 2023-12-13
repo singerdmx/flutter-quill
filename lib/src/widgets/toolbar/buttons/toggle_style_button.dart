@@ -227,7 +227,7 @@ class QuillToolbarToggleStyleButtonState
             ? Attribute.clone(widget.attribute, null)
             : widget.attribute,
       )
-      ..selectStyle(widget.attribute, _isToggled == true ? true : false);
+      ..selectStyle(widget.attribute, _isToggled ?? false);
   }
 }
 

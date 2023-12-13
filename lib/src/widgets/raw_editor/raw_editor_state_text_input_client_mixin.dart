@@ -219,7 +219,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         );
       }
 
-      // TODO: A bug here too
+      // TODO: The same bug here
 
       if (widget.configurations.controller.selectedFontSize != null) {
         widget.configurations.controller.formatSelection(
@@ -232,6 +232,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           ),
         );
       }
+
+      // TODO: The same bug here
 
       widget.configurations.controller.selectedStyles.forEach((key, value) {
         if (value ?? false) {
