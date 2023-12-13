@@ -1,5 +1,6 @@
 library flutter_quill;
 
+export '/src/widgets/raw_editor/quill_single_child_scroll_view.dart';
 export 'src/extensions/quill_configurations_ext.dart';
 export 'src/models/config/quill_configurations.dart';
 export 'src/models/config/raw_editor/raw_editor_configurations.dart';
