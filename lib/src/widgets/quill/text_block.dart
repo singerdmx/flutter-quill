@@ -8,7 +8,6 @@ import '../../models/documents/nodes/line.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/delta.dart';
 import '../../utils/font.dart';
-import '../../utils/string.dart';
 import '../editor/editor.dart';
 import '../others/box.dart';
 import '../others/cursor.dart';
