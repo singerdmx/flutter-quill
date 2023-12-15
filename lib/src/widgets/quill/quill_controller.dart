@@ -1,11 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
-import 'package:html2md/html2md.dart' as html2md;
-import 'package:markdown/markdown.dart' as md;
+import 'package:meta/meta.dart';
 
-import '../../../markdown_quill.dart';
 import '../../../quill_delta.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
@@ -16,6 +14,7 @@ import '../../models/structs/doc_change.dart';
 import '../../models/structs/image_url.dart';
 import '../../models/structs/offset_value.dart';
 import '../../utils/delta.dart';
+import '../toolbar/buttons/toggle_style_button.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -24,14 +23,13 @@ class QuillController extends ChangeNotifier {
   QuillController({
     required Document document,
     required TextSelection selection,
-    bool keepStyleOnNewLine = false,
+    this.keepStyleOnNewLine = true,
     this.onReplaceText,
     this.onDelete,
     this.onSelectionCompleted,
     this.onSelectionChanged,
   })  : _document = document,
-        _selection = selection,
-        _keepStyleOnNewLine = keepStyleOnNewLine;
+        _selection = selection;
 
   factory QuillController.basic() {
     return QuillController(
@@ -54,6 +52,7 @@ class QuillController extends ChangeNotifier {
     notifyListeners();
   }
 
+  @experimental
   void setContents(
     Delta delta, {
     ChangeSource changeSource = ChangeSource.local,
@@ -67,6 +66,9 @@ class QuillController extends ChangeNotifier {
     _document = newDocument;
     notifyListeners();
   }
+
+  // Thoses are the values that the user selects and not the one
+  // from the current line
 
   /// The current font family, null to use the default one
   String? _selectedFontFamily;
@@ -88,9 +90,20 @@ class QuillController extends ChangeNotifier {
     _selectedFontSize = newFontSize;
   }
 
+  /// For the [QuillToolbarToggleStyleButton]
+  final Map<Attribute, bool?> _selectedStyles = {};
+
+  /// For the [QuillToolbarToggleStyleButton]
+  Map<Attribute, bool?> get selectedStyles => _selectedStyles;
+
+  /// For the [QuillToolbarToggleStyleButton]
+  void selectStyle(Attribute attribute, bool value) {
+    _selectedStyles[attribute] = value;
+  }
+
   /// Tells whether to keep or reset the [toggledStyle]
   /// when user adds a new line.
-  final bool _keepStyleOnNewLine;
+  final bool keepStyleOnNewLine;
 
   /// Currently selected text within the [document].
   TextSelection get selection => _selection;
@@ -269,6 +282,7 @@ class QuillController extends ChangeNotifier {
     Object? data,
     TextSelection? textSelection, {
     bool ignoreFocus = false,
+    bool shouldNotifyListeners = true,
   }) {
     assert(data is String || data is Embeddable);
 
@@ -324,7 +338,9 @@ class QuillController extends ChangeNotifier {
     if (ignoreFocus) {
       ignoreFocusOnTextChange = true;
     }
-    notifyListeners();
+    if (shouldNotifyListeners) {
+      notifyListeners();
+    }
     ignoreFocusOnTextChange = false;
   }
 
@@ -342,7 +358,12 @@ class QuillController extends ChangeNotifier {
     });
   }
 
-  void formatText(int index, int len, Attribute? attribute) {
+  void formatText(
+    int index,
+    int len,
+    Attribute? attribute, {
+    bool shouldNotifyListeners = true,
+  }) {
     if (len == 0 &&
         attribute!.isInline &&
         attribute.key != Attribute.link.key) {
@@ -361,11 +382,19 @@ class QuillController extends ChangeNotifier {
     if (selection != adjustedSelection) {
       _updateSelection(adjustedSelection, ChangeSource.local);
     }
-    notifyListeners();
+    if (shouldNotifyListeners) {
+      notifyListeners();
+    }
   }
 
-  void formatSelection(Attribute? attribute) {
-    formatText(selection.start, selection.end - selection.start, attribute);
+  void formatSelection(Attribute? attribute,
+      {bool shouldNotifyListeners = true}) {
+    formatText(
+      selection.start,
+      selection.end - selection.start,
+      attribute,
+      shouldNotifyListeners: shouldNotifyListeners,
+    );
   }
 
   void moveCursorToStart() {
@@ -447,7 +476,7 @@ class QuillController extends ChangeNotifier {
     _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
-    if (_keepStyleOnNewLine) {
+    if (keepStyleOnNewLine) {
       final style = getSelectionStyle();
       final ignoredStyles = style.attributes.values.where(
         (s) => !s.isInline || s.key == Attribute.link.key,
@@ -476,38 +505,4 @@ class QuillController extends ChangeNotifier {
 
   // Notify toolbar buttons directly with attributes
   Map<String, Attribute> toolbarButtonToggler = const {};
-
-  /// Convert the HTML Raw string to [Delta]
-  ///
-  /// It will run using the following steps:
-  ///
-  /// 1. Convert the html to markdown string using `html2md` package
-  /// 2. Convert the markdown string to quill delta json string
-  /// 3. Decode the delta json string to [Delta]
-  ///
-  /// for more [info](https://github.com/singerdmx/flutter-quill/issues/1100)
-  static Delta fromHtml(String html) {
-    final markdown = html2md
-        .convert(
-          html,
-        )
-        .replaceAll('unsafe:', '');
-
-    final mdDocument = md.Document(encodeHtml: false);
-
-    final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
-
-    return mdToDelta.convert(markdown);
-
-    // final deltaJsonString = markdownToDelta(markdown);
-    // final deltaJson = jsonDecode(deltaJsonString);
-    // if (deltaJson is! List) {
-    //   throw ArgumentError(
-    //     'The delta json string should be of type list when jsonDecode() it',
-    //   );
-    // }
-    // return Delta.fromJson(
-    //   deltaJson,
-    // );
-  }
 }

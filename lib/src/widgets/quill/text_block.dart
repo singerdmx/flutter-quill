@@ -7,6 +7,7 @@ import '../../models/documents/nodes/block.dart';
 import '../../models/documents/nodes/line.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/delta.dart';
+import '../../utils/font.dart';
 import '../editor/editor.dart';
 import '../others/box.dart';
 import '../others/cursor.dart';
@@ -17,6 +18,7 @@ import '../others/text_selection.dart';
 import '../style_widgets/bullet_point.dart';
 import '../style_widgets/checkbox_point.dart';
 import '../style_widgets/number_point.dart';
+import '../toolbar/base_toolbar.dart';
 import 'quill_controller.dart';
 import 'text_line.dart';
 
@@ -211,12 +213,45 @@ class EditableTextBlock extends StatelessWidget {
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = line.style.attributes;
 
+    // Of the color button
+    final fontColor =
+        line.toDelta().operations.first.attributes?[Attribute.color.key] != null
+            ? hexToColor(
+                line
+                    .toDelta()
+                    .operations
+                    .first
+                    .attributes?[Attribute.color.key],
+              )
+            : null;
+
+    // Of the size button
+    final size =
+        line.toDelta().operations.first.attributes?[Attribute.size.key] != null
+            ? getFontSizeAsDouble(
+                line.toDelta().operations.first.attributes?[Attribute.size.key],
+                defaultStyles: defaultStyles,
+              )
+            : null;
+
+    // Of the alignment buttons
+    // final textAlign = line.style.attributes[Attribute.align.key]?.value != null
+    //     ? getTextAlign(line.style.attributes[Attribute.align.key]?.value)
+    //     : null;
+
     if (attrs[Attribute.list.key] == Attribute.ol) {
       return QuillEditorNumberPoint(
         index: index,
         indentLevelCounts: indentLevelCounts,
         count: count,
-        style: defaultStyles.leading!.style,
+        style: defaultStyles.leading!.style.copyWith(
+          fontSize: size,
+          color: context.quillEditorElementOptions?.orderedList
+                      .useTextColorForDot ==
+                  true
+              ? fontColor
+              : null,
+        ),
         attrs: attrs,
         width: _numberPointWidth(fontSize, count),
         padding: fontSize / 2,
@@ -225,8 +260,15 @@ class EditableTextBlock extends StatelessWidget {
 
     if (attrs[Attribute.list.key] == Attribute.ul) {
       return QuillEditorBulletPoint(
-        style:
-            defaultStyles.leading!.style.copyWith(fontWeight: FontWeight.bold),
+        style: defaultStyles.leading!.style.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: size,
+          color: context.quillEditorElementOptions?.unorderedList
+                      .useTextColorForDot ==
+                  true
+              ? fontColor
+              : null,
+        ),
         width: fontSize * 2,
         padding: fontSize / 2,
       );
@@ -311,6 +353,18 @@ class EditableTextBlock extends StatelessWidget {
         case 3:
           top = defaultStyles!.h3!.verticalSpacing.top;
           bottom = defaultStyles.h3!.verticalSpacing.bottom;
+          break;
+        case 4:
+          top = defaultStyles!.h4!.verticalSpacing.top;
+          bottom = defaultStyles.h4!.verticalSpacing.bottom;
+          break;
+        case 5:
+          top = defaultStyles!.h5!.verticalSpacing.top;
+          bottom = defaultStyles.h5!.verticalSpacing.bottom;
+          break;
+        case 6:
+          top = defaultStyles!.h6!.verticalSpacing.top;
+          bottom = defaultStyles.h6!.verticalSpacing.bottom;
           break;
         default:
           throw ArgumentError('Invalid level $level');

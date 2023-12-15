@@ -20,12 +20,14 @@ abstract class QuillSharedToolbarProperties extends Equatable {
     this.linkDialogAction,
     this.multiRowsDisplay = true,
     this.decoration,
-    this.buttonOptions = const QuillToolbarButtonOptions(),
+    this.buttonOptions = const QuillSimpleToolbarButtonOptions(),
+    this.toolbarRunSpacing = 4,
   });
   final Axis axis;
   final double toolbarSectionSpacing;
   final WrapAlignment toolbarIconAlignment;
   final WrapCrossAlignment toolbarIconCrossAlignment;
+  final double toolbarRunSpacing;
   final double? toolbarSize;
 
   // Overrides the action in the _LinkDialog widget
@@ -54,7 +56,7 @@ abstract class QuillSharedToolbarProperties extends Equatable {
 
   /// If you want change spesefic buttons or all of them
   /// then you came to the right place
-  final QuillToolbarButtonOptions buttonOptions;
+  final QuillSimpleToolbarButtonOptions buttonOptions;
 
   final QuillSharedConfigurations sharedConfigurations;
 }

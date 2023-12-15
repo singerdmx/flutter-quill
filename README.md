@@ -127,7 +127,6 @@ QuillController _controller = QuillController.basic();
 
 And then use the `QuillEditor`, `QuillToolbar` widgets,
 connect the `QuillController` to them
-using `QuillProvider` inherited widget
 
 ```dart
 QuillToolbar.simple(

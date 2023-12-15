@@ -87,7 +87,6 @@ class QuillToolbarSearchButton extends StatelessWidget {
       return childBuilder(
         QuillToolbarSearchButtonOptions(
           afterButtonPressed: afterButtonPressed,
-          controller: controller,
           dialogBarrierColor: _dialogBarrierColor(context),
           dialogTheme: _dialogTheme(context),
           fillColor: options.fillColor,

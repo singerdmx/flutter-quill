@@ -76,7 +76,7 @@ class _QuillScreenState extends State<QuillScreen> {
             onPressed: () {
               final html = _controller.document.toDelta().toHtml();
               _controller.document =
-                  Document.fromDelta(QuillController.fromHtml(html));
+                  Document.fromDelta(Document.fromHtml(html));
             },
             icon: const Icon(Icons.html),
           ),
@@ -126,20 +126,6 @@ class _QuillScreenState extends State<QuillScreen> {
                     sharedConfigurations: _sharedConfigurations,
                     controller: _controller,
                     readOnly: _isReadOnly,
-                    customStyles: const DefaultStyles(),
-                    elementOptions: const QuillEditorElementOptions(
-                      codeBlock: QuillEditorCodeBlockElementOptions(
-                        enableLineNumbers: true,
-                      ),
-                      // orderedList: QuillEditorOrderedListElementOptions(
-                      //   backgroundColor: Colors.amber,
-                      //   fontColor: Colors.black,
-                      // ),
-                      // unorderedList: QuillEditorUnOrderedListElementOptions(
-                      //   backgroundColor: Colors.green,
-                      //   fontColor: Colors.red,
-                      // ),
-                    ),
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,

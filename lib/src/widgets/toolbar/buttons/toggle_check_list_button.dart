@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/buttons/base_configurations.dart';
+import '../../../models/config/toolbar/base_button_configurations.dart';
 import '../../../models/config/toolbar/buttons/toggle_check_list_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
@@ -133,7 +133,6 @@ class QuillToolbarToggleCheckListButtonState
         QuillToolbarToggleCheckListButtonOptions(
           afterButtonPressed: afterButtonPressed,
           iconTheme: iconTheme,
-          controller: controller,
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,
           tooltip: tooltip,

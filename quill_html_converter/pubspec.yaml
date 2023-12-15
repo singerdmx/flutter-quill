@@ -1,6 +1,6 @@
 name: quill_html_converter
 description: A extension for flutter_quill package to add support for dealing with conversion to/from html
-version: 9.0.0
+version: 9.0.2
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_html_converter/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_html_converter/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/

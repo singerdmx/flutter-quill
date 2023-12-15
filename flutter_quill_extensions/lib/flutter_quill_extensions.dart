@@ -180,19 +180,19 @@ class FlutterQuillEmbeds {
         if (imageButtonOptions != null)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
               QuillToolbarImageButton(
-                controller: imageButtonOptions.controller ?? controller,
+                controller: controller,
                 options: imageButtonOptions,
               ),
         if (videoButtonOptions != null)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
               QuillToolbarVideoButton(
-                controller: videoButtonOptions.controller ?? controller,
+                controller: controller,
                 options: videoButtonOptions,
               ),
         if (cameraButtonOptions != null)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>
               QuillToolbarCameraButton(
-                controller: cameraButtonOptions.controller ?? controller,
+                controller: controller,
                 options: cameraButtonOptions,
               ),
         // TODO: We will return the support for this later

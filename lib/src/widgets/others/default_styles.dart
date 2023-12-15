@@ -67,6 +67,9 @@ class InlineCodeStyle {
     this.header1,
     this.header2,
     this.header3,
+    this.header4,
+    this.header5,
+    this.header6,
     this.backgroundColor,
     this.radius,
   });
@@ -82,6 +85,15 @@ class InlineCodeStyle {
 
   /// Style override for inline code in headings level 3.
   final TextStyle? header3;
+
+  /// Style override for inline code in headings level 4.
+  final TextStyle? header4;
+
+  /// Style override for inline code in headings level 5.
+  final TextStyle? header5;
+
+  /// Style override for inline code in headings level 6.
+  final TextStyle? header6;
 
   /// Background color for inline code.
   final Color? backgroundColor;
@@ -101,6 +113,15 @@ class InlineCodeStyle {
     if (lineStyle.containsKey(Attribute.h3.key)) {
       return header3 ?? style;
     }
+    if (lineStyle.containsKey(Attribute.h4.key)) {
+      return header4 ?? style;
+    }
+    if (lineStyle.containsKey(Attribute.h5.key)) {
+      return header5 ?? style;
+    }
+    if (lineStyle.containsKey(Attribute.h6.key)) {
+      return header6 ?? style;
+    }
     return style;
   }
 
@@ -116,13 +137,16 @@ class InlineCodeStyle {
         other.header1 == header1 &&
         other.header2 == header2 &&
         other.header3 == header3 &&
+        other.header4 == header4 &&
+        other.header5 == header5 &&
+        other.header6 == header6 &&
         other.backgroundColor == backgroundColor &&
         other.radius == radius;
   }
 
   @override
-  int get hashCode =>
-      Object.hash(style, header1, header2, header3, backgroundColor, radius);
+  int get hashCode => Object.hash(style, header1, header2, header3, header4,
+      header5, header6, backgroundColor, radius);
 }
 
 @immutable
@@ -144,6 +168,9 @@ class DefaultStyles {
     this.h1,
     this.h2,
     this.h3,
+    this.h4,
+    this.h5,
+    this.h6,
     this.paragraph,
     this.bold,
     this.subscript,
@@ -170,6 +197,9 @@ class DefaultStyles {
   final DefaultTextBlockStyle? h1;
   final DefaultTextBlockStyle? h2;
   final DefaultTextBlockStyle? h3;
+  final DefaultTextBlockStyle? h4;
+  final DefaultTextBlockStyle? h5;
+  final DefaultTextBlockStyle? h6;
   final DefaultTextBlockStyle? paragraph;
   final TextStyle? bold;
   final TextStyle? subscript;
@@ -220,9 +250,10 @@ class DefaultStyles {
         h1: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
               fontSize: 34,
-              color: defaultTextStyle.style.color!.withOpacity(0.70),
-              height: 1.15,
-              fontWeight: FontWeight.w300,
+              color: defaultTextStyle.style.color,
+              letterSpacing: -1,
+              height: 1,
+              fontWeight: FontWeight.bold,
               decoration: TextDecoration.none,
             ),
             const VerticalSpacing(16, 0),
@@ -230,10 +261,11 @@ class DefaultStyles {
             null),
         h2: DefaultTextBlockStyle(
             defaultTextStyle.style.copyWith(
-              fontSize: 24,
-              color: defaultTextStyle.style.color!.withOpacity(0.70),
-              height: 1.15,
-              fontWeight: FontWeight.normal,
+              fontSize: 30,
+              color: defaultTextStyle.style.color,
+              letterSpacing: -0.8,
+              height: 1.067,
+              fontWeight: FontWeight.bold,
               decoration: TextDecoration.none,
             ),
             const VerticalSpacing(8, 0),
@@ -241,26 +273,72 @@ class DefaultStyles {
             null),
         h3: DefaultTextBlockStyle(
           defaultTextStyle.style.copyWith(
-            fontSize: 20,
-            color: defaultTextStyle.style.color!.withOpacity(0.70),
-            height: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 24,
+            color: defaultTextStyle.style.color,
+            letterSpacing: -0.5,
+            height: 1.083,
+            fontWeight: FontWeight.bold,
             decoration: TextDecoration.none,
           ),
           const VerticalSpacing(8, 0),
           const VerticalSpacing(0, 0),
           null,
         ),
-        paragraph: DefaultTextBlockStyle(baseStyle, const VerticalSpacing(0, 0),
-            const VerticalSpacing(0, 0), null),
+        h4: DefaultTextBlockStyle(
+          defaultTextStyle.style.copyWith(
+            fontSize: 20,
+            color: defaultTextStyle.style.color,
+            letterSpacing: -0.4,
+            height: 1.1,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.none,
+          ),
+          const VerticalSpacing(6, 0),
+          const VerticalSpacing(0, 0),
+          null,
+        ),
+        h5: DefaultTextBlockStyle(
+          defaultTextStyle.style.copyWith(
+            fontSize: 18,
+            color: defaultTextStyle.style.color,
+            letterSpacing: -0.2,
+            height: 1.11,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.none,
+          ),
+          const VerticalSpacing(6, 0),
+          const VerticalSpacing(0, 0),
+          null,
+        ),
+        h6: DefaultTextBlockStyle(
+          defaultTextStyle.style.copyWith(
+            fontSize: 16,
+            color: defaultTextStyle.style.color,
+            letterSpacing: -0.1,
+            height: 1.125,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.none,
+          ),
+          const VerticalSpacing(4, 0),
+          const VerticalSpacing(0, 0),
+          null,
+        ),
+        paragraph: DefaultTextBlockStyle(
+          baseStyle,
+          const VerticalSpacing(0, 0),
+          const VerticalSpacing(0, 0),
+          null,
+        ),
         bold: const TextStyle(fontWeight: FontWeight.bold),
         subscript: const TextStyle(
           fontFeatures: [
+            FontFeature.liningFigures(),
             FontFeature.subscripts(),
           ],
         ),
         superscript: const TextStyle(
           fontFeatures: [
+            FontFeature.liningFigures(),
             FontFeature.superscripts(),
           ],
         ),
@@ -274,9 +352,12 @@ class DefaultStyles {
           style: inlineCodeStyle,
           header1: inlineCodeStyle.copyWith(
             fontSize: 32,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w500,
           ),
-          header2: inlineCodeStyle.copyWith(fontSize: 22),
+          header2: inlineCodeStyle.copyWith(
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+          ),
           header3: inlineCodeStyle.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w500,
@@ -353,6 +434,9 @@ class DefaultStyles {
       h1: other.h1 ?? h1,
       h2: other.h2 ?? h2,
       h3: other.h3 ?? h3,
+      h4: other.h4 ?? h4,
+      h5: other.h5 ?? h5,
+      h6: other.h6 ?? h6,
       paragraph: other.paragraph ?? paragraph,
       bold: other.bold ?? bold,
       subscript: other.subscript ?? subscript,

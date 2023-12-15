@@ -1,5 +1,6 @@
 library flutter_quill;
 
+export '/src/widgets/raw_editor/quill_single_child_scroll_view.dart';
 export 'src/extensions/quill_configurations_ext.dart';
 export 'src/models/config/quill_configurations.dart';
 export 'src/models/config/raw_editor/raw_editor_configurations.dart';
@@ -32,6 +33,6 @@ export 'src/widgets/raw_editor/raw_editor.dart';
 export 'src/widgets/raw_editor/raw_editor_state.dart';
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar/base_toolbar.dart';
-export 'src/widgets/toolbar/buttons/hearder_style/select_header_style_button.dart';
+export 'src/widgets/toolbar/buttons/hearder_style/select_header_style_dropdown_button.dart';
 export 'src/widgets/toolbar/simple_toolbar.dart';
 export 'src/widgets/utils/provider.dart';

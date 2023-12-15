@@ -117,7 +117,6 @@ class QuillToolbarLinkStyleButtonState
       return childBuilder(
         QuillToolbarLinkStyleButtonOptions(
           afterButtonPressed: afterButtonPressed,
-          controller: controller,
           dialogBarrierColor: dialogBarrierColor,
           dialogTheme: options.dialogTheme,
           iconData: iconData,

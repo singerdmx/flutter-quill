@@ -77,7 +77,6 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
       return childBuilder(
         QuillToolbarHistoryButtonOptions(
           afterButtonPressed: afterButtonPressed,
-          controller: controller,
           iconData: iconData,
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,

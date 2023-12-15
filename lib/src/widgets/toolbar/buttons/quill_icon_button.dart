@@ -24,12 +24,12 @@ class QuillToolbarIconButton extends StatelessWidget {
     if (isFilled) {
       return IconButton.filled(
         padding: padding,
-        constraints: const BoxConstraints(),
-        onPressed: onPressed, icon: icon);
+        onPressed: onPressed,
+        icon: icon,
+      );
     }
     return IconButton(
       padding: padding,
-      constraints: const BoxConstraints(),
       onPressed: () {
         onPressed?.call();
         afterPressed?.call();

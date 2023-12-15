@@ -16,7 +16,6 @@ class QuillToolbarClearFormatButtonOptions
     super.iconData,
     super.afterButtonPressed,
     super.childBuilder,
-    super.controller,
     super.iconTheme,
     super.tooltip,
     this.iconSize,

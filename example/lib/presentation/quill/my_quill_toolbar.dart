@@ -100,17 +100,10 @@ class MyQuillToolbar extends StatelessWidget {
           // For more info
           // https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_toolbar.md
           return QuillToolbar(
-            configurations: const QuillToolbarConfigurations(
-              buttonOptions: QuillToolbarButtonOptions(
-                base: QuillToolbarBaseButtonOptions(
-                  globalIconSize: 20,
-                  globalIconButtonFactor: 1.4,
-                ),
-              ),
-            ),
+            configurations: const QuillToolbarConfigurations(),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
+              child: Wrap(
                 children: [
                   IconButton(
                     onPressed: () => context
@@ -166,7 +159,7 @@ class MyQuillToolbar extends StatelessWidget {
                     isBackground: true,
                   ),
                   const VerticalDivider(),
-                  QuillToolbarSelectHeaderStyleButton(
+                  QuillToolbarSelectHeaderStyleDropdownButton(
                     controller: controller,
                   ),
                   const VerticalDivider(),
@@ -204,14 +197,24 @@ class MyQuillToolbar extends StatelessWidget {
             ),
           );
         }
-        return QuillSimpleToolbar(
+        return QuillToolbar.simple(
           configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
-            buttonOptions: QuillToolbarButtonOptions(
+            buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 // Request editor focus when any button is pressed
                 afterButtonPressed: focusNode.requestFocus,
+                globalIconSize: 18,
+              ),
+              selectHeaderStyleDropdownButton:
+                  const QuillToolbarSelectHeaderStyleDropdownButtonOptions(
+                textStyle: TextStyle(
+                  fontSize: 20,
+                ),
+                iconTheme: QuillIconTheme(
+                  iconSelectedColor: Colors.red,
+                ),
               ),
             ),
             customButtons: [

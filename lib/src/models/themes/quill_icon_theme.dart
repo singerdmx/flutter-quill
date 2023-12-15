@@ -34,5 +34,5 @@ class QuillIconTheme {
   final double? borderRadius;
 
   ///The padding for icons
-  final EdgeInsets? padding;  
+  final EdgeInsets? padding;
 }

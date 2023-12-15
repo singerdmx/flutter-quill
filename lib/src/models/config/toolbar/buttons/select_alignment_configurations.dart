@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart' show IconData, immutable;
-import 'base_configurations.dart';
+import '../base_button_configurations.dart';
 
 class QuillToolbarSelectAlignmentButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {
@@ -23,7 +23,6 @@ class QuillToolbarSelectAlignmentButtonOptions
 
     /// This will called on every select alignment button
     super.childBuilder,
-    super.controller,
     super.iconTheme,
   });
   final double? iconSize;

@@ -140,7 +140,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
             iconTheme: iconTheme,
             tooltip: tooltip,
           ),
-          QuillToolbarSelectHeaderStyleButtonExtraOptions(
+          QuillToolbarSelectHeaderStyleButtonsExtraOptions(
             controller: controller,
             context: context,
             onPressed: () => _sharedOnPressed(attribute),

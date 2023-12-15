@@ -149,6 +149,15 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get heading3 => 'Heading 3';
 
   @override
+  String get heading4 => 'Heading 4';
+
+  @override
+  String get heading5 => 'Heading 5';
+
+  @override
+  String get heading6 => 'Heading 6';
+
+  @override
   String get numberedList => 'Liste numérotée';
 
   @override

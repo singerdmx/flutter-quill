@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/quill_configurations_ext.dart';
 import '../../models/documents/attribute.dart';
 import '../quill/text_block.dart';
 
@@ -12,9 +11,11 @@ class QuillEditorNumberPoint extends StatelessWidget {
     required this.style,
     required this.width,
     required this.attrs,
+    this.textAlign,
     this.withDot = true,
     this.padding = 0.0,
     super.key,
+    this.backgroundColor,
   });
 
   final int index;
@@ -25,6 +26,8 @@ class QuillEditorNumberPoint extends StatelessWidget {
   final Map<String, Attribute> attrs;
   final bool withDot;
   final double padding;
+  final Color? backgroundColor;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +40,11 @@ class QuillEditorNumberPoint extends StatelessWidget {
         alignment: AlignmentDirectional.topEnd,
         width: width,
         padding: EdgeInsetsDirectional.only(end: padding),
-        color: context.quillEditorElementOptions?.orderedList.backgroundColor,
+        color: backgroundColor,
         child: Text(
           withDot ? '$s.' : s,
-          style: style.copyWith(
-            color: context.quillEditorElementOptions?.orderedList.fontColor,
-          ),
+          style: style,
+          textAlign: textAlign,
         ),
       );
     }
@@ -74,12 +76,11 @@ class QuillEditorNumberPoint extends StatelessWidget {
       alignment: AlignmentDirectional.topEnd,
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
-      color: context.quillEditorElementOptions?.orderedList.backgroundColor,
+      color: backgroundColor,
       child: Text(
         withDot ? '$s.' : s,
-        style: style.copyWith(
-          color: context.quillEditorElementOptions?.orderedList.fontColor,
-        ),
+        style: style,
+        textAlign: textAlign,
       ),
     );
   }

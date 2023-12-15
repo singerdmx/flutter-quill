@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'base_configurations.dart';
+import '../base_button_configurations.dart';
 
 class QuillToolbarIndentButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {
@@ -18,7 +18,6 @@ class QuillToolbarIndentButtonOptions extends QuillToolbarBaseButtonOptions<
     super.iconData,
     super.afterButtonPressed,
     super.childBuilder,
-    super.controller,
     super.iconTheme,
     super.tooltip,
     this.iconSize,

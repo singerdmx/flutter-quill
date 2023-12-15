@@ -25,6 +25,9 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Install dart_quill_delta dependencies
+        run: flutter pub get -C dart_quill_delta
       
       - name: Install flutter_quill_extensions dependencies
         run: flutter pub get -C flutter_quill_extensions

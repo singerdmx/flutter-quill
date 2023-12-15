@@ -21,7 +21,6 @@ class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions> {
   const QuillToolbarHistoryButtonOptions({
     super.iconData,
-    super.controller,
     super.iconTheme,
     super.afterButtonPressed,
     super.tooltip,

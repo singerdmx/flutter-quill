@@ -137,16 +137,25 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get headerStyle => 'Стиль заголовка';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Звичайний';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Заголовок 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Заголовок 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Заголовок 3';
+
+  @override
+  String get heading4 => 'Заголовок 4';
+
+  @override
+  String get heading5 => 'Заголовок 5';
+
+  @override
+  String get heading6 => 'Заголовок 6';
 
   @override
   String get numberedList => 'Нумерований список';
@@ -243,20 +252,23 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get insertImage => 'Вставити зображення';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Оберіть фотографію з вашої галереї';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera =>
+      'Створіть фотографію, використовуючи фотокамеру';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink =>
+      'Вставте фотографію, використовуючи посилання';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Оберіть відео з вашої галереї';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera =>
+      'Запишіть відео, використовуючи відеокамеру';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Вставте відео, використовуючи посилання';
 }

@@ -47,8 +47,22 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             title: 'Flutter Quill Demo',
-            theme: ThemeData.light(useMaterial3: true),
-            darkTheme: ThemeData.dark(useMaterial3: true),
+            theme: ThemeData(
+              useMaterial3: true,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              colorScheme: ColorScheme.fromSeed(
+                brightness: Brightness.light,
+                seedColor: Colors.red,
+              ),
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              colorScheme: ColorScheme.fromSeed(
+                brightness: Brightness.dark,
+                seedColor: Colors.red,
+              ),
+            ),
             themeMode: state.themeMode,
             debugShowCheckedModeBanner: false,
             localizationsDelegates: const [

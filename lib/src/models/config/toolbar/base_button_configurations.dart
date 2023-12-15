@@ -2,10 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show VoidCallback, immutable;
 import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
-import '../../../../../flutter_quill.dart' show QuillController;
-import '../../../themes/quill_icon_theme.dart' show QuillIconTheme;
-import '../../quill_configurations.dart'
-    show kDefaultIconSize, kIconButtonFactor;
+import '../../../../flutter_quill.dart' show QuillController;
+import '../../themes/quill_icon_theme.dart' show QuillIconTheme;
+import '../quill_configurations.dart' show kDefaultIconSize, kIconButtonFactor;
 
 class QuillToolbarBaseButtonExtraOptionsIsToggled extends Equatable {
   const QuillToolbarBaseButtonExtraOptionsIsToggled(this.isToggled);
@@ -52,7 +51,6 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
     this.tooltip,
     this.iconTheme,
     this.childBuilder,
-    this.controller,
   });
 
   /// By default it will use a Icon data from Icons which comes from material
@@ -81,13 +79,6 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   /// If you want to dispaly a differnet widget based using a builder
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 
-  /// By default it will be from the one in [QuillEditor] or [QuillToolbar]
-  /// To override it you must pass not null controller
-  /// if you wish to use the controller in the [childBuilder], please use the
-  /// one from the extraOptions since it will be not null and will be the one
-  /// which will be used from the quill toolbar
-  final QuillController? controller;
-
   @override
   List<Object?> get props => [
         iconData,
@@ -96,7 +87,6 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
         tooltip,
         iconTheme,
         childBuilder,
-        controller,
       ];
 }
 

@@ -155,7 +155,6 @@ class QuillToolbarToggleStyleButtonState
       return childBuilder(
         QuillToolbarToggleStyleButtonOptions(
           afterButtonPressed: options.afterButtonPressed,
-          controller: controller,
           fillColor: options.fillColor,
           iconButtonFactor: options.iconButtonFactor,
           iconData: iconData,
@@ -222,9 +221,13 @@ class QuillToolbarToggleStyleButtonState
   }
 
   void _toggleAttribute() {
-    controller.formatSelection(
-      _isToggled! ? Attribute.clone(widget.attribute, null) : widget.attribute,
-    );
+    controller
+      ..formatSelection(
+        (_isToggled ?? false)
+            ? Attribute.clone(widget.attribute, null)
+            : widget.attribute,
+      )
+      ..selectStyle(widget.attribute, _isToggled ?? false);
   }
 }
 
@@ -254,6 +257,6 @@ Widget defaultToggleStyleButtonBuilder(
     isFilled: isEnabled ? isToggled == true : false,
     onPressed: onPressed,
     afterPressed: afterPressed,
-    padding: iconTheme?.padding
+    padding: iconTheme?.padding,
   );
 }
