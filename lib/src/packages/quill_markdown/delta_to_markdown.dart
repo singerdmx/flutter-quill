@@ -306,17 +306,21 @@ abstract class _NodeVisitor<T> {
 
 extension _NodeX on Node {
   T accept<T>(_NodeVisitor<T> visitor, [T? context]) {
-    switch (runtimeType) {
-      case const (Root):
-        return visitor.visitRoot(this as Root, context);
-      case const (Block):
-        return visitor.visitBlock(this as Block, context);
-      case const (Line):
-        return visitor.visitLine(this as Line, context);
-      case const (QuillText):
-        return visitor.visitText(this as QuillText, context);
-      case const (Embed):
-        return visitor.visitEmbed(this as Embed, context);
+    final node = this;
+    if (node is Root) {
+      return visitor.visitRoot(node, context);
+    }
+    if (node is Block) {
+      return visitor.visitBlock(node, context);
+    }
+    if (node is Line) {
+      return visitor.visitLine(node, context);
+    }
+    if (node is QuillText) {
+      return visitor.visitText(node, context);
+    }
+    if (node is Embed) {
+      return visitor.visitEmbed(node, context);
     }
     throw Exception('Container of type $runtimeType cannot be visited');
   }
