@@ -4,7 +4,6 @@ import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
 
 import '../../../markdown_quill.dart';
-
 import '../../../quill_delta.dart';
 import '../../widgets/quill/embeds.dart';
 import '../rules/rule.dart';
@@ -58,8 +57,7 @@ class Document {
     _rules.setCustomRules(customRules);
   }
 
-  final StreamController<DocChange> documentChangeObserver =
-      StreamController.broadcast();
+  final StreamController<DocChange> documentChangeObserver = StreamController.broadcast();
 
   final History history = History();
 
@@ -84,8 +82,7 @@ class Document {
       return Delta();
     }
 
-    final delta = _rules.apply(RuleType.insert, this, index,
-        data: data, len: replaceLength);
+    final delta = _rules.apply(RuleType.insert, this, index, data: data, len: replaceLength);
     compose(delta, ChangeSource.local);
     return delta;
   }
@@ -148,8 +145,7 @@ class Document {
 
     var delta = Delta();
 
-    final formatDelta = _rules.apply(RuleType.format, this, index,
-        len: len, attribute: attribute);
+    final formatDelta = _rules.apply(RuleType.format, this, index, len: len, attribute: attribute);
     if (formatDelta.isNotEmpty) {
       compose(formatDelta, ChangeSource.local);
       delta = delta.compose(formatDelta);
@@ -189,8 +185,7 @@ class Document {
   /// Returns all styles and Embed for each node within selection
   List<OffsetValue> collectAllIndividualStyleAndEmbed(int index, int len) {
     final res = queryChild(index);
-    return (res.node as Line)
-        .collectAllIndividualStylesAndEmbed(res.offset, len);
+    return (res.node as Line).collectAllIndividualStylesAndEmbed(res.offset, len);
   }
 
   /// Returns all styles for any character within the specified text range.
@@ -299,8 +294,7 @@ class Document {
     delta = _transform(delta);
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
-      final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      final style = op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
         // Must normalize data before inserting into the document, makes sure
@@ -366,8 +360,7 @@ class Document {
       res.push(Operation.insert('\n'));
     }
     // embed could be image or video
-    final opInsertEmbed =
-        op.isInsert && op.data is Map && (op.data as Map).containsKey(type);
+    final opInsertEmbed = op.isInsert && op.data is Map && (op.data as Map).containsKey(type);
     final nextOpIsLineBreak = i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is String &&
@@ -399,9 +392,7 @@ class Document {
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
   ]) =>
-      _root.children
-          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
-          .join();
+      _root.children.map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder)).join();
 
   void _loadDocument(Delta doc) {
     if (doc.isEmpty) {
@@ -414,20 +405,16 @@ class Document {
     var offset = 0;
     for (final op in doc.toList()) {
       if (!op.isInsert) {
-        throw ArgumentError.value(doc,
-            'Document can only contain insert operations but ${op.key} found.');
+        throw ArgumentError.value(
+            doc, 'Document can only contain insert operations but ${op.key} found.');
       }
-      final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      final style = op.attributes != null ? Style.fromJson(op.attributes) : null;
       final data = _normalize(op.data);
       _root.insert(offset, data, style);
       offset += op.length!;
     }
     final node = _root.last;
-    if (node is Line &&
-        node.parent is! Block &&
-        node.style.isEmpty &&
-        _root.childCount > 1) {
+    if (node is Line && node.parent is! Block && node.style.isEmpty && _root.childCount > 1) {
       _root.remove(node);
     }
   }
@@ -443,11 +430,11 @@ class Document {
     }
 
     final delta = node.toDelta();
-    return delta.length == 1 &&
-        delta.first.data == '\n' &&
-        delta.first.key == 'insert';
+    return delta.length == 1 && delta.first.data == '\n' && delta.first.key == 'insert';
   }
+}
 
+class DeltaX {
   /// Convert the HTML Raw string to [Delta]
   ///
   /// It will run using the following steps:
@@ -458,28 +445,13 @@ class Document {
   ///
   /// for more [info](https://github.com/singerdmx/flutter-quill/issues/1100)
   static Delta fromHtml(String html) {
-    final markdown = html2md
-        .convert(
-          html,
-        )
-        .replaceAll('unsafe:', '');
+    final markdown = html2md.convert(html).replaceAll('unsafe:', '');
 
     final mdDocument = md.Document(encodeHtml: false);
 
     final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
 
     return mdToDelta.convert(markdown);
-
-    // final deltaJsonString = markdownToDelta(markdown);
-    // final deltaJson = jsonDecode(deltaJsonString);
-    // if (deltaJson is! List) {
-    //   throw ArgumentError(
-    //     'The delta json string should be of type list when jsonDecode() it',
-    //   );
-    // }
-    // return Delta.fromJson(
-    //   deltaJson,
-    // );
   }
 }
 
