@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.2
+* Release instead of pre-release
+
 ## 9.0.2-dev.3
 * Export `QuillSingleChildScrollView`
 
