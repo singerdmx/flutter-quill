@@ -208,7 +208,7 @@ class MarkdownToDelta extends Converter<String, Delta>
     final tag = element.tag;
 
     if (_isEmbedElement(element)) {
-      _delta.insert(_toEmbeddable(element).toJson());
+      _delta.insert(_toEmbeddable(element).toJson(), element.attributes);
     }
 
     if (tag == 'br') {

@@ -445,9 +445,22 @@ class DeltaX {
   ///
   /// for more [info](https://github.com/singerdmx/flutter-quill/issues/1100)
   static Delta fromHtml(String html) {
-    final markdown = html2md.convert(html).replaceAll('unsafe:', '');
+    var rules = [
+      html2md.Rule('image', filters: ['img'], replacement: (content, node) {
+        node.asElement()?.attributes.remove('class');
+        //Later we can convert this to delta along with the attributes by GoodInlineHtmlSyntax
+        return node.outerHTML;
+      }),
+    ];
 
-    final mdDocument = md.Document(encodeHtml: false);
+    final markdown = html2md.convert(html, rules: rules).replaceAll('unsafe:', '');
+
+    final mdDocument = md.Document(
+      encodeHtml: false,
+      inlineSyntaxes: [
+        GoodInlineHtmlSyntax(),
+      ],
+    );
 
     final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
 
@@ -465,4 +478,25 @@ enum ChangeSource {
 
   /// Silent change.
   silent;
+}
+
+/// Convert the html to Element, not Text
+class GoodInlineHtmlSyntax extends md.InlineHtmlSyntax {
+  @override
+  onMatch(parser, match) {
+    if (super.onMatch(parser, match)) {
+      return true;
+    }
+
+    var root = html2md.Node.root(match.group(0)!);
+    root = root.childNodes().last.firstChild!;
+
+    var node = md.Element.empty(root.nodeName);
+    var attrs = root.asElement()?.attributes.map((key, value) => MapEntry(key.toString(), value));
+    if (attrs != null) node.attributes.addAll(attrs);
+
+    parser.addNode(node);
+    parser.start = parser.pos;
+    return false;
+  }
 }
