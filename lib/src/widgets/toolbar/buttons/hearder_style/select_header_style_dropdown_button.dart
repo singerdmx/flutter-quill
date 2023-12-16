@@ -26,7 +26,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     extends State<QuillToolbarSelectHeaderStyleDropdownButton> {
   Attribute<dynamic> _selectedItem = Attribute.header;
 
-  final _controller = MenuController();
+  final _menuController = MenuController();
   @override
   void initState() {
     super.initState();
@@ -158,7 +158,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     }
 
     return MenuAnchor(
-      controller: _controller,
+      controller: _menuController,
       menuChildren: headerAttributes
           .map(
             (e) => MenuItemButton(
@@ -169,31 +169,45 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
             ),
           )
           .toList(),
-      child: IconButton(
-        onPressed: () {
-          if (_controller.isOpen) {
-            _controller.close();
-            return;
+      child: Builder(
+        builder: (context) {
+          final isMaterial3 = Theme.of(context).useMaterial3;
+          final child = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _label(_selectedItem),
+                style: widget.options.textStyle ??
+                    TextStyle(
+                      fontSize: iconSize / 1.15,
+                    ),
+              ),
+              Icon(
+                Icons.arrow_drop_down,
+                size: iconSize * iconButtonFactor,
+              ),
+            ],
+          );
+          if (!isMaterial3) {
+            return RawMaterialButton(
+              onPressed: _onDropdownButtonPressed,
+              child: child,
+            );
           }
-          _controller.open();
+          return IconButton(
+            onPressed: _onDropdownButtonPressed,
+            icon: child,
+          );
         },
-        icon: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              _label(_selectedItem),
-              style: widget.options.textStyle ??
-                  TextStyle(
-                    fontSize: iconSize / 1.15,
-                  ),
-            ),
-            Icon(
-              Icons.arrow_drop_down,
-              size: iconSize * iconButtonFactor,
-            ),
-          ],
-        ),
       ),
     );
+  }
+
+  void _onDropdownButtonPressed() {
+    if (_menuController.isOpen) {
+      _menuController.close();
+      return;
+    }
+    _menuController.open();
   }
 }

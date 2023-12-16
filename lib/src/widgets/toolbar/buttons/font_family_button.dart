@@ -183,19 +183,30 @@ class QuillToolbarFontFamilyButtonState
           }
           return Tooltip(message: effectiveTooltip, child: child);
         },
-        child: IconButton(
-          // tooltip: '', // TODO: Use this here
-          visualDensity: VisualDensity.compact,
-          style: IconButton.styleFrom(
-            shape: iconTheme?.borderRadius != null
-                ? RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(iconTheme?.borderRadius ?? -1),
-                  )
-                : null,
-          ),
-          onPressed: _onPressed,
-          icon: _buildContent(context),
+        child: Builder(
+          builder: (context) {
+            final isMaterial3 = Theme.of(context).useMaterial3;
+            if (!isMaterial3) {
+              return RawMaterialButton(
+                onPressed: _onPressed,
+                child: _buildContent(context),
+              );
+            }
+            return IconButton(
+              // tooltip: , // TODO: Use this here
+              visualDensity: VisualDensity.compact,
+              style: IconButton.styleFrom(
+                shape: iconTheme?.borderRadius != null
+                    ? RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            iconTheme?.borderRadius ?? -1),
+                      )
+                    : null,
+              ),
+              onPressed: _onPressed,
+              icon: _buildContent(context),
+            );
+          },
         ),
       ),
     );
