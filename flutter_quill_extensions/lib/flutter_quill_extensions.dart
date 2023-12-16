@@ -112,11 +112,12 @@ class FlutterQuillEmbeds {
   /// [QuillEditorWebVideoEmbedBuilder] is the embed builder for handling
   ///  videos iframe on the web.
   ///
-  static List<EmbedBuilder> editorWebBuilders(
-      {QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
-          const QuillEditorImageEmbedConfigurations(),
-      QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
-          const QuillEditorWebVideoEmbedConfigurations()}) {
+  static List<EmbedBuilder> editorWebBuilders({
+    QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
+        const QuillEditorImageEmbedConfigurations(),
+    QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
+        const QuillEditorWebVideoEmbedConfigurations(),
+  }) {
     if (!kIsWeb) {
       throw UnsupportedError(
         'The editorsWebBuilders() is only for web, please use editorBuilders() '

@@ -12,8 +12,10 @@ final quillImagesSample = [
   {'insert': '\n'},
   {
     'insert': {
-      'image':
-          'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'
+      'image': true
+          ? 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png'
+          // ignore: dead_code
+          : 'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'
     },
     'attributes': {
       'width': '250',

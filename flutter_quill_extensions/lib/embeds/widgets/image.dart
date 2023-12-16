@@ -1,6 +1,7 @@
-import 'dart:convert';
+import 'dart:convert' show base64;
 import 'dart:io' show File;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
@@ -52,6 +53,11 @@ ImageProvider getImageProviderByImageSource(
 
   if (imageSource.startsWith(assetsPrefix)) {
     return AssetImage(imageSource);
+  }
+
+  // File image
+  if (kIsWeb) {
+    return NetworkImage(imageSource);
   }
   return FileImage(File(imageSource));
 }
