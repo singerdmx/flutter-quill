@@ -38,6 +38,7 @@ This is a todo list page that added recently and will be updated soon.
  - Add strike-through in checkbox text when the checkpoint is checked
  - No more using of dynamic
  - There is a bug here, the first character is not being formatted when choosing font family or font size and type in the editor
+ - Fix the toolbar and the toolbar buttons, rework some of them, for example missing tooltips
 
 ### Bugs
 
