@@ -37,16 +37,11 @@ class MyQuillEditor extends StatelessWidget {
           codeBlock: QuillEditorCodeBlockElementOptions(
             enableLineNumbers: true,
           ),
-          // orderedList: QuillEditorOrderedListElementOptions(
-          //   backgroundColor: Colors.amber,
-          //   fontColor: Colors.black,
-          // ),
-          // unorderedList: QuillEditorUnOrderedListElementOptions(
-          //   backgroundColor: Colors.green,
-          //   fontColor: Colors.red,
-          // ),
+          orderedList: QuillEditorOrderedListElementOptions(
+            customWidget: Icon(Icons.add),
+          ),
           unorderedList: QuillEditorUnOrderedListElementOptions(
-            useTextColorForDot: false,
+            useTextColorForDot: true,
           ),
         ),
         customStyles: const DefaultStyles(

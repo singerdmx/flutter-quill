@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/documents/attribute.dart';
+import '../../../flutter_quill.dart';
 import '../quill/text_block.dart';
 
 class QuillEditorNumberPoint extends StatelessWidget {
@@ -41,11 +41,13 @@ class QuillEditorNumberPoint extends StatelessWidget {
         width: width,
         padding: EdgeInsetsDirectional.only(end: padding),
         color: backgroundColor,
-        child: Text(
-          withDot ? '$s.' : s,
-          style: style,
-          textAlign: textAlign,
-        ),
+        child: context.quillEditorConfigurations?.elementOptions.orderedList
+                .customWidget ??
+            Text(
+              withDot ? '$s.' : s,
+              style: style,
+              textAlign: textAlign,
+            ),
       );
     }
     if (attrs.containsKey(Attribute.indent.key)) {
@@ -77,11 +79,13 @@ class QuillEditorNumberPoint extends StatelessWidget {
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
       color: backgroundColor,
-      child: Text(
-        withDot ? '$s.' : s,
-        style: style,
-        textAlign: textAlign,
-      ),
+      child: context.quillEditorConfigurations?.elementOptions.orderedList
+              .customWidget ??
+          Text(
+            withDot ? '$s.' : s,
+            style: style,
+            textAlign: textAlign,
+          ),
     );
   }
 
