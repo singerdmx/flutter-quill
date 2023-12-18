@@ -213,7 +213,7 @@ class QuillRawEditorState extends EditorState
       if (html == null) {
         return;
       }
-      final deltaFromCliboard = Document.fromHtml(html);
+      final deltaFromCliboard = DeltaX.fromHtml(html);
       final delta = deltaFromCliboard.compose(controller.document.toDelta());
 
       controller
