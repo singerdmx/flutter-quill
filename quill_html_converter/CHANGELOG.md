@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.1.0
+* Because most of the users still uses material 2, we have to revert back to old buttons of `7.0.0`, take a look at [https://github.com/singerdmx/flutter-quill/pull/1621/](https://github.com/singerdmx/flutter-quill/pull/1621/)
+
 ## 9.0.4
 * Feature: [#1611](https://github.com/singerdmx/flutter-quill/issues/1611)
 * Export missing widgets
