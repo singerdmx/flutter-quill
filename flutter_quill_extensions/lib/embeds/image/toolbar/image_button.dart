@@ -103,7 +103,6 @@ class QuillToolbarImageButton extends StatelessWidget {
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
 
     return QuillToolbarIconButton(
-      isFilled: false,
       icon: Icon(
         iconData,
         size: iconButtonFactor * iconSize,
