@@ -109,6 +109,7 @@ class QuillToolbarImageButton extends StatelessWidget {
         color: iconColor,
       ),
       tooltip: tooltip,
+      isFilled: false,
       onPressed: () => _sharedOnPressed(context),
     );
   }
