@@ -33,6 +33,7 @@ export 'src/widgets/raw_editor/raw_editor.dart';
 export 'src/widgets/raw_editor/raw_editor_state.dart';
 export 'src/widgets/style_widgets/style_widgets.dart';
 export 'src/widgets/toolbar/base_toolbar.dart';
+export 'src/widgets/toolbar/buttons/alignment/select_alignment_button.dart';
 export 'src/widgets/toolbar/buttons/hearder_style/select_header_style_dropdown_button.dart';
 export 'src/widgets/toolbar/simple_toolbar.dart';
 export 'src/widgets/utils/provider.dart';
