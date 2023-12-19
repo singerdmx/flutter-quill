@@ -88,24 +88,24 @@ class QuillToolbarFontSizeButtonState
 
   double get iconButtonFactor {
     final baseIconFactor =
-        context.requireQuillToolbarBaseButtonOptions.globalIconButtonFactor;
+        context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
-        context.requireQuillToolbarBaseButtonOptions.afterButtonPressed;
+        context.quillToolbarBaseButtonOptions?.afterButtonPressed;
   }
 
   QuillIconTheme? get iconTheme {
     return options.iconTheme ??
-        context.requireQuillToolbarBaseButtonOptions.iconTheme;
+        context.quillToolbarBaseButtonOptions?.iconTheme;
   }
 
   String get tooltip {
     return options.tooltip ??
-        context.requireQuillToolbarBaseButtonOptions.tooltip ??
+        context.quillToolbarBaseButtonOptions?.tooltip ??
         context.loc.fontSize;
   }
 
@@ -116,10 +116,9 @@ class QuillToolbarFontSizeButtonState
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations =
-        context.requireQuillToolbarBaseButtonOptions;
+    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
     final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations.childBuilder;
+        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options.copyWith(

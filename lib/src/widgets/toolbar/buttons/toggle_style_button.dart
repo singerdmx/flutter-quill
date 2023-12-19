@@ -69,9 +69,9 @@ class QuillToolbarToggleStyleButtonState
 
   double get iconButtonFactor {
     final baseIconFactor =
-        context.requireQuillToolbarBaseButtonOptions.globalIconButtonFactor;
+        context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
