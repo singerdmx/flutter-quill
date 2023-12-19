@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/base_button_configurations.dart';
-import '../../../models/config/toolbar/buttons/toggle_check_list_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/widgets.dart';
 import '../../quill/quill_controller.dart';
-import 'toggle_style_button.dart';
+import '../base_toolbar.dart';
 
 class QuillToolbarToggleCheckListButton extends StatefulWidget {
   const QuillToolbarToggleCheckListButton({
@@ -88,46 +86,46 @@ class QuillToolbarToggleCheckListButtonState
   }
 
   double get iconSize {
-    final baseFontSize = baseButtonExtraOptions.globalIconSize;
+    final baseFontSize = baseButtonExtraOptions?.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
-        baseButtonExtraOptions.afterButtonPressed;
+        baseButtonExtraOptions?.afterButtonPressed;
   }
 
   QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
+    return options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
   }
 
-  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
-    return context.requireQuillToolbarBaseButtonOptions;
+  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
+    return context.quillToolbarBaseButtonOptions;
   }
 
   IconData get iconData {
     return options.iconData ??
-        baseButtonExtraOptions.iconData ??
+        baseButtonExtraOptions?.iconData ??
         Icons.check_box;
   }
 
   String get tooltip {
     return options.tooltip ??
-        baseButtonExtraOptions.tooltip ??
+        baseButtonExtraOptions?.tooltip ??
         context.loc.checkedList;
   }
 
   @override
   Widget build(BuildContext context) {
     final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         QuillToolbarToggleCheckListButtonOptions(

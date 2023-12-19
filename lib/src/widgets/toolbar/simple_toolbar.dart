@@ -155,7 +155,7 @@ class QuillSimpleToolbar extends StatelessWidget
             builder(
                 globalController,
                 globalIconSize,
-                context.requireQuillToolbarBaseButtonOptions.iconTheme,
+                context.quillToolbarBaseButtonOptions?.iconTheme,
                 configurations.dialogTheme),
         if (configurations.showDividers &&
             isButtonGroupShown[0] &&

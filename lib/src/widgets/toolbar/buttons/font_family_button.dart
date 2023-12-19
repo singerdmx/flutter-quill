@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../../extensions.dart';
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/toolbar/buttons/font_family_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../quill/quill_controller.dart';
+import '../base_toolbar.dart';
 
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
@@ -116,25 +116,24 @@ class QuillToolbarFontFamilyButtonState
   }
 
   double get iconSize {
-    final baseFontSize =
-        context.requireQuillToolbarBaseButtonOptions.globalIconSize;
+    final baseFontSize = context.quillToolbarBaseButtonOptions?.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
-        context.requireQuillToolbarBaseButtonOptions.afterButtonPressed;
+        context.quillToolbarBaseButtonOptions?.afterButtonPressed;
   }
 
   QuillIconTheme? get iconTheme {
     return options.iconTheme ??
-        context.requireQuillToolbarBaseButtonOptions.iconTheme;
+        context.quillToolbarBaseButtonOptions?.iconTheme;
   }
 
   String get tooltip {
     return options.tooltip ??
-        context.requireQuillToolbarBaseButtonOptions.tooltip ??
+        context.quillToolbarBaseButtonOptions?.tooltip ??
         context.loc.fontFamily;
   }
 
@@ -145,10 +144,9 @@ class QuillToolbarFontFamilyButtonState
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations =
-        context.requireQuillToolbarBaseButtonOptions;
+    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
     final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations.childBuilder;
+        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options.copyWith(

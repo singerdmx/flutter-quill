@@ -69,15 +69,6 @@ extension QuillSimpleToolbarExt on BuildContext {
   QuillToolbarBaseButtonOptions? get quillToolbarBaseButtonOptions {
     return quillSimpleToolbarConfigurations?.buttonOptions.base;
   }
-
-  /// return [QuillToolbarBaseButtonOptions] as not null.
-  QuillToolbarBaseButtonOptions get requireQuillToolbarBaseButtonOptions {
-    return quillSimpleToolbarConfigurations?.buttonOptions.base ??
-        quillToolbarConfigurations?.buttonOptions.base ??
-        (throw ArgumentError(
-          "The buttonOptions is required and it's null because the toolbar configurations is.",
-        ));
-  }
 }
 
 extension QuillToolbarExt on BuildContext {

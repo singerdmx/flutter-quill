@@ -54,24 +54,25 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations =
-        context.requireQuillToolbarBaseButtonOptions;
+    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
     final tooltip = options.tooltip ??
-        baseButtonConfigurations.tooltip ??
+        baseButtonConfigurations?.tooltip ??
         (widget.isUndo ? context.loc.undo : context.loc.redo);
     final iconData = options.iconData ??
-        baseButtonConfigurations.iconData ??
+        baseButtonConfigurations?.iconData ??
         (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
     final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations.childBuilder;
-    final iconSize =
-        options.iconSize ?? baseButtonConfigurations.globalIconSize;
+        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final iconSize = options.iconSize ??
+        baseButtonConfigurations?.globalIconSize ??
+        kDefaultIconSize;
     final iconButtonFactor = options.iconButtonFactor ??
-        baseButtonConfigurations.globalIconButtonFactor;
-    final iconTheme = options.iconTheme ?? baseButtonConfigurations.iconTheme;
+        baseButtonConfigurations?.globalIconButtonFactor ??
+        kIconButtonFactor;
+    final iconTheme = options.iconTheme ?? baseButtonConfigurations?.iconTheme;
 
     final afterButtonPressed = options.afterButtonPressed ??
-        baseButtonConfigurations.afterButtonPressed;
+        baseButtonConfigurations?.afterButtonPressed;
 
     if (childBuilder != null) {
       return childBuilder(

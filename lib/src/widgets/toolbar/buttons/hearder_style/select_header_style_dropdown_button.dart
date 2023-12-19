@@ -119,13 +119,13 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
         ];
   }
 
-  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
-    return context.requireQuillToolbarBaseButtonOptions;
+  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
+    return context.quillToolbarBaseButtonOptions;
   }
 
   VoidCallback? get afterButtonPressed {
     return widget.options.afterButtonPressed ??
-        baseButtonExtraOptions.afterButtonPressed;
+        baseButtonExtraOptions?.afterButtonPressed;
   }
 
   void _onPressed(Attribute<int?> e) {
@@ -135,10 +135,9 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations =
-        context.requireQuillToolbarBaseButtonOptions;
+    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
     final childBuilder =
-        widget.options.childBuilder ?? baseButtonConfigurations.childBuilder;
+        widget.options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         widget.options.copyWith(

@@ -56,33 +56,33 @@ class QuillToolbarSelectHeaderStyleButtonsState
   }
 
   double get iconSize {
-    final baseFontSize = baseButtonExtraOptions.globalIconSize;
+    final baseFontSize = baseButtonExtraOptions?.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
-        baseButtonExtraOptions.afterButtonPressed;
+        baseButtonExtraOptions?.afterButtonPressed;
   }
 
   QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
+    return options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
   }
 
-  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
-    return context.requireQuillToolbarBaseButtonOptions;
+  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
+    return context.quillToolbarBaseButtonOptions;
   }
 
   String get tooltip {
     return options.tooltip ??
-        baseButtonExtraOptions.tooltip ??
+        baseButtonExtraOptions?.tooltip ??
         context.loc.headerStyle;
   }
 
@@ -126,7 +126,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
     );
 
     final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
+        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
 
     final children = _attrbuites.map((attribute) {
       if (childBuilder != null) {

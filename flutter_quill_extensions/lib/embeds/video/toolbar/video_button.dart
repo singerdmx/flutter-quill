@@ -23,40 +23,40 @@ class QuillToolbarVideoButton extends StatelessWidget {
   final QuillToolbarVideoButtonOptions options;
 
   double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context).globalIconSize;
+    final baseFontSize = baseButtonExtraOptions(context)?.globalIconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double _iconButtonFactor(BuildContext context) {
     final baseIconFactor =
-        baseButtonExtraOptions(context).globalIconButtonFactor;
+        baseButtonExtraOptions(context)?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
     return options.afterButtonPressed ??
-        baseButtonExtraOptions(context).afterButtonPressed;
+        baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context).iconTheme;
+    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
   }
 
-  QuillToolbarBaseButtonOptions baseButtonExtraOptions(BuildContext context) {
-    return context.requireQuillToolbarBaseButtonOptions;
+  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
+    return context.quillToolbarBaseButtonOptions;
   }
 
   IconData _iconData(BuildContext context) {
     return options.iconData ??
-        baseButtonExtraOptions(context).iconData ??
+        baseButtonExtraOptions(context)?.iconData ??
         Icons.movie_creation;
   }
 
   String _tooltip(BuildContext context) {
     return options.tooltip ??
-        baseButtonExtraOptions(context).tooltip ??
+        baseButtonExtraOptions(context)?.tooltip ??
         'Insert video';
     // ('Insert video'.i18n);
   }
@@ -77,7 +77,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
     final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context).childBuilder;
+        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
     final iconFillColor = iconTheme?.iconUnselectedFillColor ??
