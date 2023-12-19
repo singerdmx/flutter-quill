@@ -9,6 +9,8 @@ class QuillToolbarIconButton extends StatelessWidget {
     this.tooltip,
     this.padding,
     super.key,
+    this.iconFilledStyle,
+    this.iconStyle,
   });
 
   final VoidCallback? onPressed;
@@ -19,6 +21,8 @@ class QuillToolbarIconButton extends StatelessWidget {
   final EdgeInsets? padding;
   final bool isFilled;
 
+  final ButtonStyle? iconStyle;
+  final ButtonStyle? iconFilledStyle;
   @override
   Widget build(BuildContext context) {
     if (isFilled) {
@@ -26,6 +30,7 @@ class QuillToolbarIconButton extends StatelessWidget {
         padding: padding,
         onPressed: onPressed,
         icon: icon,
+        style: iconStyle,
       );
     }
     return IconButton(
@@ -35,6 +40,7 @@ class QuillToolbarIconButton extends StatelessWidget {
         afterPressed?.call();
       },
       icon: icon,
+      style: iconFilledStyle,
     );
   }
 }
