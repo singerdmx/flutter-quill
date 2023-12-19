@@ -205,6 +205,10 @@ class MyQuillToolbar extends StatelessWidget {
               base: QuillToolbarBaseButtonOptions(
                 // Request editor focus when any button is pressed
                 afterButtonPressed: focusNode.requestFocus,
+                iconTheme: const QuillIconTheme(
+                  iconSelectedFillColor: Colors.red,
+                  iconUnselectedFillColor: Colors.yellow,
+                ),
                 // globalIconSize: 18,
               ),
               selectHeaderStyleDropdownButton:
