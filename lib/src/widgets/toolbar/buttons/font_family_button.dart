@@ -188,6 +188,15 @@ class QuillToolbarFontFamilyButtonState
             final isMaterial3 = Theme.of(context).useMaterial3;
             if (!isMaterial3) {
               return RawMaterialButton(
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(iconTheme?.borderRadius ?? 2),
+                ),
+                fillColor: options.fillColor,
+                elevation: 0,
+                hoverElevation: options.hoverElevation,
+                highlightElevation: options.hoverElevation,
                 onPressed: _onPressed,
                 child: _buildContent(context),
               );
@@ -198,8 +207,8 @@ class QuillToolbarFontFamilyButtonState
               style: IconButton.styleFrom(
                 shape: iconTheme?.borderRadius != null
                     ? RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            iconTheme?.borderRadius ?? -1),
+                        borderRadius:
+                            BorderRadius.circular(iconTheme?.borderRadius ?? 2),
                       )
                     : null,
               ),
