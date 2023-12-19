@@ -52,14 +52,14 @@ enum LinkStyleType {
 }
 
 enum HeaderStyleType {
-  /// Defines the original [QuillToolbarSelectHeaderStyleButtons].
+  /// Defines the original [QuillToolbarSelectHeaderStyleDropdownButton].
   original,
 
-  /// Defines the alternative [QuillToolbarSelectHeaderStyleDropdownButton].
-  dropdown;
+  /// Defines the alternative [QuillToolbarSelectHeaderStyleButtons].
+  buttons;
 
   bool get isOriginal => this == HeaderStyleType.original;
-  bool get isDropdown => this == HeaderStyleType.dropdown;
+  bool get isButtons => this == HeaderStyleType.buttons;
 }
 
 /// The configurations for the toolbar widget of flutter quill
