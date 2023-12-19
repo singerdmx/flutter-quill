@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## 9.0.4
 * Feature: [#1611](https://github.com/singerdmx/flutter-quill/issues/1611)
 * Export missing widgets
+* Revert changes of (revert material 3 to 2)
 
 ## 9.0.3
 * Flutter Quill Extensions:
