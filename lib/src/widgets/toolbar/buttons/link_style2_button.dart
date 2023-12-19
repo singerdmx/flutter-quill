@@ -148,14 +148,20 @@ class _QuillToolbarLinkStyleButton2State
     final isToggled = _getLinkAttributeValue() != null;
     return QuillToolbarIconButton(
       tooltip: tooltip,
+      highlightElevation: 0,
+      hoverElevation: 0,
+      size: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
-        size: iconSize * iconButtonFactor,
+        size: iconSize,
         color: isToggled
             ? (iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
             : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
-      isFilled: isToggled,
+      fillColor: isToggled
+          ? (iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
+          : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
+      borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: _openLinkDialog,
       afterPressed: afterButtonPressed,
     );

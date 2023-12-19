@@ -81,7 +81,6 @@ class QuillToolbarCustomButton extends StatelessWidget {
 
     return QuillToolbarIconButton(
       icon: options.icon ?? const SizedBox.shrink(),
-      isFilled: false,
       tooltip: tooltip,
       onPressed: () => _onPressed(context),
       afterPressed: afterButtonPressed,

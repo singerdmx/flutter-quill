@@ -210,7 +210,7 @@ class MyQuillToolbar extends StatelessWidget {
               ),
               selectHeaderStyleDropdownButton:
                   const QuillToolbarSelectHeaderStyleDropdownButtonOptions(
-                textStyle: TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                 ),
                 iconTheme: QuillIconTheme(

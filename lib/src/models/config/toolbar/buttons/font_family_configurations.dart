@@ -49,11 +49,18 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.itemPadding,
     this.defaultItemColor = Colors.red,
     this.renderFontFamilies = true,
+    this.highlightElevation = 1,
+    this.hoverElevation = 1,
+    this.fillColor,
     this.iconSize,
     this.iconButtonFactor,
   });
 
-  /// By default it will be [fontFamilyValues] from [QuillSimpleToolbarConfigurations]
+  final Color? fillColor;
+  final double hoverElevation;
+  final double highlightElevation;
+
+  /// By default it will be [fontFamilyValues] from [QuillToolbarConfigurations]
   /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;
@@ -75,6 +82,9 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   final double? iconButtonFactor;
 
   QuillToolbarFontFamilyButtonOptions copyWith({
+    Color? fillColor,
+    double? hoverElevation,
+    double? highlightElevation,
     List<PopupMenuEntry<String>>? items,
     Map<String, String>? rawItemsMap,
     ValueChanged<String>? onSelected,
@@ -91,6 +101,8 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     Color? defaultItemColor,
     double? iconSize,
     double? iconButtonFactor,
+    // Add properties to override inherited properties
+    QuillController? controller,
     IconData? iconData,
     VoidCallback? afterButtonPressed,
     String? tooltip,
@@ -117,6 +129,9 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       iconSize: iconSize ?? this.iconSize,
       iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
+      fillColor: fillColor ?? this.fillColor,
+      hoverElevation: hoverElevation ?? this.hoverElevation,
+      highlightElevation: highlightElevation ?? this.highlightElevation,
     );
   }
 }

@@ -2,15 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/material.dart'
-    show ButtonStyle, Colors, PopupMenuEntry, ValueChanged;
+    show Colors, PopupMenuEntry, ValueChanged;
 import 'package:flutter/widgets.dart'
-    show
-        Color,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        OutlinedBorder,
-        TextOverflow,
-        TextStyle;
+    show Color, EdgeInsets, EdgeInsetsGeometry, TextOverflow, TextStyle;
 
 import '../../../documents/attribute.dart';
 import '../../quill_configurations.dart';
@@ -35,6 +29,9 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarFontSizeButtonOptions({
     this.iconSize,
     this.iconButtonFactor,
+    this.fillColor,
+    this.hoverElevation = 1,
+    this.highlightElevation = 1,
     this.rawItemsMap,
     this.onSelected,
     this.attribute = Attribute.size,
@@ -49,15 +46,15 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.itemPadding,
     this.defaultItemColor = Colors.red,
     super.childBuilder,
-    this.shape,
   });
 
   final double? iconSize;
   final double? iconButtonFactor;
+  final Color? fillColor;
+  final double hoverElevation;
+  final double highlightElevation;
 
-  final ButtonStyle? shape;
-
-  /// By default it will be [fontSizesValues] from [QuillSimpleToolbarConfigurations]
+  /// By default it will be [fontSizesValues] from [QuillToolbarConfigurations]
   /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;
@@ -91,11 +88,13 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     Color? defaultItemColor,
     VoidCallback? afterButtonPressed,
     String? tooltip,
-    OutlinedBorder? shape,
   }) {
     return QuillToolbarFontSizeButtonOptions(
       iconSize: iconSize ?? this.iconSize,
       iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
+      fillColor: fillColor ?? this.fillColor,
+      hoverElevation: hoverElevation ?? this.hoverElevation,
+      highlightElevation: highlightElevation ?? this.highlightElevation,
       rawItemsMap: rawItemsMap ?? this.rawItemsMap,
       onSelected: onSelected ?? this.onSelected,
       attribute: attribute ?? this.attribute,
