@@ -109,6 +109,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
       icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
       tooltip: tooltip,
       onPressed: () => _sharedOnPressed(context),
+      isFilled: false,
     );
   }
 
