@@ -147,6 +147,7 @@ class QuillToolbarLinkStyleButtonState
             ? (iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
             : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
+      isFilled: isToggled,
       onPressed: () => _openLinkDialog(context),
       afterPressed: afterButtonPressed,
     );

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../extensions.dart';
 import '../../../../../translations.dart';
 import '../../../../extensions/quill_configurations_ext.dart';
-import '../../../../models/config/toolbar/base_button_configurations.dart';
-import '../../../../models/config/toolbar/buttons/select_header_style_dropdown_button_configurations.dart';
 import '../../../../models/documents/attribute.dart';
-import '../../../../models/documents/style.dart';
 import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../others/default_styles.dart';
 import '../../../quill/quill_controller.dart';
+import '../../base_toolbar.dart';
 
 class QuillToolbarSelectHeaderStyleDropdownButton extends StatefulWidget {
   const QuillToolbarSelectHeaderStyleDropdownButton({
@@ -18,8 +14,6 @@ class QuillToolbarSelectHeaderStyleDropdownButton extends StatefulWidget {
     super.key,
   });
 
-  /// Since we can't get the state from the instace of the widget for comparing
-  /// in [didUpdateWidget] then we will have to store reference here
   final QuillController controller;
   final QuillToolbarSelectHeaderStyleDropdownButtonOptions options;
 
@@ -30,68 +24,18 @@ class QuillToolbarSelectHeaderStyleDropdownButton extends StatefulWidget {
 
 class _QuillToolbarSelectHeaderStyleDropdownButtonState
     extends State<QuillToolbarSelectHeaderStyleDropdownButton> {
-  Attribute? _selectedAttribute;
+  Attribute<dynamic> _selectedItem = Attribute.header;
 
-  Style get _selectionStyle => controller.getSelectionStyle();
-
-  late final _valueToText = <Attribute, String>{
-    Attribute.h1: context.loc.heading1,
-    Attribute.h2: context.loc.heading2,
-    Attribute.h3: context.loc.heading3,
-    Attribute.h4: context.loc.heading4,
-    Attribute.h5: context.loc.heading5,
-    Attribute.h6: context.loc.heading6,
-    Attribute.header: context.loc.normal,
-  };
-
-  Map<Attribute, TextStyle>? _headerTextStyles;
-
-  QuillToolbarSelectHeaderStyleDropdownButtonOptions get options {
-    return widget.options;
-  }
-
-  QuillController get controller {
-    return widget.controller;
-  }
-
-  double get iconSize {
-    final baseFontSize = baseButtonExtraOptions.globalIconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions.globalIconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions.afterButtonPressed;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
-    return context.requireQuillToolbarBaseButtonOptions;
-  }
-
-  String get tooltip {
-    return options.tooltip ??
-        baseButtonExtraOptions.tooltip ??
-        context.loc.headerStyle;
-  }
-
-  List<Attribute> get _attrbuites {
-    return options.attributes ?? _valueToText.keys.toList();
+  final _menuController = MenuController();
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_didChangeEditingValue);
   }
 
   @override
   void dispose() {
-    controller.removeListener(_didChangeEditingValue);
+    widget.controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 
@@ -99,194 +43,171 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   void didUpdateWidget(
       covariant QuillToolbarSelectHeaderStyleDropdownButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != controller) {
-      oldWidget.controller.removeListener(_didChangeEditingValue);
-      controller.addListener(_didChangeEditingValue);
-      _selectedAttribute = _getHeaderValue();
+    if (oldWidget.controller == widget.controller) {
+      return;
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_headerTextStyles == null) {
-      final defaultStyles = DefaultStyles.getInstance(context);
-      _headerTextStyles = {
-        Attribute.h1: defaultStyles.h1!.style,
-        Attribute.h2: defaultStyles.h2!.style,
-        Attribute.h3: defaultStyles.h3!.style,
-        Attribute.h4: defaultStyles.h4!.style,
-        Attribute.h5: defaultStyles.h5!.style,
-        Attribute.h6: defaultStyles.h6!.style,
-        Attribute.header:
-            widget.options.style ?? defaultStyles.paragraph!.style,
-      };
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(_didChangeEditingValue);
-    _selectedAttribute = _getHeaderValue();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    assert(_attrbuites.every((element) => _valueToText.keys.contains(element)));
-
-    final baseButtonConfigurations =
-        context.requireQuillToolbarBaseButtonOptions;
-    final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations.childBuilder;
-    if (childBuilder != null) {
-      return childBuilder(
-        options.copyWith(
-          iconSize: iconSize,
-          iconTheme: iconTheme,
-          tooltip: tooltip,
-          afterButtonPressed: afterButtonPressed,
-        ),
-        QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions(
-          currentValue: _selectedAttribute!,
-          controller: controller,
-          context: context,
-          onPressed: _onPressed,
-        ),
-      );
-    }
-
-    return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        height: iconSize * 1.81,
-        width: options.width,
-      ),
-      child: UtilityWidgets.maybeTooltip(
-        message: tooltip,
-        child: RawMaterialButton(
-          visualDensity: VisualDensity.compact,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(iconTheme?.borderRadius ?? 2),
-          ),
-          fillColor: options.fillColor,
-          elevation: 0,
-          hoverElevation: options.hoverElevation,
-          highlightElevation: options.hoverElevation,
-          onPressed: _onPressed,
-          child: _buildContent(context),
-        ),
-      ),
-    );
+    widget.controller
+      ..removeListener(_didChangeEditingValue)
+      ..addListener(_didChangeEditingValue);
   }
 
   void _didChangeEditingValue() {
+    final newSelectedItem = _getHeaderValue();
+    if (newSelectedItem == _selectedItem) {
+      return;
+    }
     setState(() {
-      _selectedAttribute = _getHeaderValue();
+      _selectedItem = newSelectedItem;
     });
   }
 
   Attribute<dynamic> _getHeaderValue() {
-    final attr = controller.toolbarButtonToggler[Attribute.header.key];
+    final attr = widget.controller.toolbarButtonToggler[Attribute.header.key];
     if (attr != null) {
       // checkbox tapping causes controller.selection to go to offset 0
-      controller.toolbarButtonToggler.remove(Attribute.header.key);
+      widget.controller.toolbarButtonToggler.remove(Attribute.header.key);
       return attr;
     }
-    return _selectionStyle.attributes[Attribute.header.key] ?? Attribute.header;
+    return widget.controller
+            .getSelectionStyle()
+            .attributes[Attribute.header.key] ??
+        Attribute.header;
   }
 
-  Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    final hasFinalWidth = options.width != null;
-    return Padding(
-      padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
-      child: Row(
-        mainAxisSize: !hasFinalWidth ? MainAxisSize.min : MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          UtilityWidgets.maybeWidget(
-            enabled: hasFinalWidth,
-            wrapper: (child) => Expanded(child: child),
-            child: Text(
-              _valueToText[_selectedAttribute]!,
-              overflow: options.labelOverflow,
-              style: options.style ??
-                  TextStyle(
-                    fontSize: iconSize / 1.15,
-                    color:
-                        iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
-                  ),
-            ),
-          ),
-          const SizedBox(width: 3),
-          Icon(
-            Icons.arrow_drop_down,
-            size: iconSize / 1.15,
-            color: iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
-          )
-        ],
-      ),
-    );
+  String _label(Attribute<dynamic> value) {
+    final label = switch (value) {
+      Attribute.h1 => context.loc.heading1,
+      Attribute.h2 => context.loc.heading2,
+      Attribute.h3 => context.loc.heading3,
+      Attribute.h4 => context.loc.heading4,
+      Attribute.h5 => context.loc.heading5,
+      Attribute.h6 => context.loc.heading6,
+      Attribute.header => context.loc.normal,
+      Attribute<dynamic>() => throw ArgumentError(),
+    };
+    return label;
   }
 
-  void _onPressed() {
-    _showMenu();
-    options.afterButtonPressed?.call();
+  double get iconSize {
+    final baseFontSize = context.quillToolbarBaseButtonOptions?.globalIconSize;
+    final iconSize = widget.options.iconSize;
+    return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
-  Future<void> _showMenu() async {
-    final popupMenuTheme = PopupMenuTheme.of(context);
-    final button = context.findRenderObject() as RenderBox;
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    final position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        button.localToGlobal(Offset.zero, ancestor: overlay),
-        button.localToGlobal(button.size.bottomLeft(Offset.zero),
-            ancestor: overlay),
-      ),
-      Offset.zero & overlay.size,
-    );
-    final newValue = await showMenu<Attribute>(
-      context: context,
-      elevation: 4,
-      items: [
-        for (final header in _valueToText.entries)
-          PopupMenuItem<Attribute>(
-            key: ValueKey(header.value),
-            value: header.key,
-            height: options.itemHeight ?? kMinInteractiveDimension,
-            padding: options.itemPadding,
-            child: Text(
-              header.value,
-              style: TextStyle(
-                fontSize: options.renderItemTextStyle
-                    ? _headerStyle(header.key).fontSize ??
-                        DefaultTextStyle.of(context).style.fontSize ??
-                        14
-                    : null,
-                color: header.key == _selectedAttribute
-                    ? options.defaultItemColor
-                    : null,
-              ),
-            ),
-          ),
-      ],
-      position: position,
-      shape: popupMenuTheme.shape,
-      color: popupMenuTheme.color,
-    );
-    if (newValue == null) {
-      return;
+  double get iconButtonFactor {
+    final baseIconFactor =
+        context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
+    final iconButtonFactor = widget.options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+  }
+
+  QuillIconTheme? get iconTheme {
+    return widget.options.iconTheme ??
+        context.quillToolbarBaseButtonOptions?.iconTheme;
+  }
+
+  List<Attribute<int?>> get headerAttributes {
+    return widget.options.attributes ??
+        [
+          Attribute.h1,
+          Attribute.h2,
+          Attribute.h3,
+          Attribute.h4,
+          Attribute.h5,
+          Attribute.h6,
+          Attribute.header,
+        ];
+  }
+
+  QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
+    return context.requireQuillToolbarBaseButtonOptions;
+  }
+
+  VoidCallback? get afterButtonPressed {
+    return widget.options.afterButtonPressed ??
+        baseButtonExtraOptions.afterButtonPressed;
+  }
+
+  void _onPressed(Attribute<int?> e) {
+    setState(() => _selectedItem = e);
+    widget.controller.formatSelection(_selectedItem);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final baseButtonConfigurations =
+        context.requireQuillToolbarBaseButtonOptions;
+    final childBuilder =
+        widget.options.childBuilder ?? baseButtonConfigurations.childBuilder;
+    if (childBuilder != null) {
+      return childBuilder(
+        widget.options.copyWith(
+          iconSize: iconSize,
+          iconTheme: iconTheme,
+          afterButtonPressed: afterButtonPressed,
+        ),
+        QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions(
+          currentValue: _selectedItem,
+          context: context,
+          controller: widget.controller,
+          onPressed: () {
+            throw UnimplementedError('Not implemented yet.');
+          },
+        ),
+      );
     }
 
-    final attribute0 =
-        _selectedAttribute == newValue ? Attribute.header : newValue;
-    controller.formatSelection(attribute0);
-    afterButtonPressed?.call();
+    return MenuAnchor(
+      controller: _menuController,
+      menuChildren: headerAttributes
+          .map(
+            (e) => MenuItemButton(
+              onPressed: () {
+                _onPressed(e);
+              },
+              child: Text(_label(e)),
+            ),
+          )
+          .toList(),
+      child: Builder(
+        builder: (context) {
+          final isMaterial3 = Theme.of(context).useMaterial3;
+          final child = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _label(_selectedItem),
+                style: widget.options.textStyle ??
+                    TextStyle(
+                      fontSize: iconSize / 1.15,
+                    ),
+              ),
+              Icon(
+                Icons.arrow_drop_down,
+                size: iconSize * iconButtonFactor,
+              ),
+            ],
+          );
+          if (!isMaterial3) {
+            return RawMaterialButton(
+              onPressed: _onDropdownButtonPressed,
+              child: child,
+            );
+          }
+          return IconButton(
+            onPressed: _onDropdownButtonPressed,
+            icon: child,
+          );
+        },
+      ),
+    );
   }
 
-  TextStyle _headerStyle(Attribute attribute) {
-    assert(_headerTextStyles!.containsKey(attribute));
-    return _headerTextStyles![attribute]!;
+  void _onDropdownButtonPressed() {
+    if (_menuController.isOpen) {
+      _menuController.close();
+      return;
+    }
+    _menuController.open();
   }
 }

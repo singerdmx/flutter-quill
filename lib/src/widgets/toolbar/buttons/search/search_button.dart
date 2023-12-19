@@ -118,6 +118,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
         size: iconSize * iconButtonFactor,
         color: iconColor,
       ),
+      isFilled: false,
       onPressed: () => _sharedOnPressed(context),
       afterPressed: afterButtonPressed,
     );

@@ -146,21 +146,9 @@ class QuillToolbarFontSizeButtonState
         builder: (context) {
           final isMaterial3 = Theme.of(context).useMaterial3;
           if (!isMaterial3) {
-            return Tooltip(
-              message: tooltip,
-              child: RawMaterialButton(
-                visualDensity: VisualDensity.compact,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(iconTheme?.borderRadius ?? 2),
-                ),
-                fillColor: options.fillColor,
-                elevation: 0,
-                hoverElevation: options.hoverElevation,
-                highlightElevation: options.hoverElevation,
-                onPressed: _onPressed,
-                child: _buildContent(context),
-              ),
+            return RawMaterialButton(
+              onPressed: _onPressed,
+              child: _buildContent(context),
             );
           }
           return IconButton(
@@ -170,7 +158,7 @@ class QuillToolbarFontSizeButtonState
               shape: iconTheme?.borderRadius != null
                   ? RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(iconTheme?.borderRadius ?? 2),
+                          BorderRadius.circular(iconTheme?.borderRadius ?? -1),
                     )
                   : null,
             ),
