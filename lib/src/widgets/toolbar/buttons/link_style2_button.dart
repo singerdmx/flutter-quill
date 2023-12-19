@@ -155,7 +155,6 @@ class _QuillToolbarLinkStyleButton2State
             ? (iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
             : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
       ),
-      isFilled: isToggled,
       onPressed: _openLinkDialog,
       afterPressed: afterButtonPressed,
     );

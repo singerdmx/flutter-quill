@@ -110,7 +110,6 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
-      isFilled: false,
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
     );
