@@ -13,11 +13,11 @@ import '../../../quill/quill_controller.dart';
 class QuillToolbarSelectAlignmentButton extends StatefulWidget {
   const QuillToolbarSelectAlignmentButton({
     required this.controller,
-    required this.options,
-    this.showLeftAlignment,
-    this.showCenterAlignment,
-    this.showRightAlignment,
-    this.showJustifyAlignment,
+    this.options = const QuillToolbarSelectAlignmentButtonOptions(),
+    this.showLeftAlignment = true,
+    this.showCenterAlignment = true,
+    this.showRightAlignment = true,
+    this.showJustifyAlignment = true,
     this.padding,
     super.key,
   });
@@ -25,10 +25,10 @@ class QuillToolbarSelectAlignmentButton extends StatefulWidget {
   final QuillController controller;
   final QuillToolbarSelectAlignmentButtonOptions options;
 
-  final bool? showLeftAlignment;
-  final bool? showCenterAlignment;
-  final bool? showRightAlignment;
-  final bool? showJustifyAlignment;
+  final bool showLeftAlignment;
+  final bool showCenterAlignment;
+  final bool showRightAlignment;
+  final bool showJustifyAlignment;
   final EdgeInsetsGeometry? padding;
 
   @override
@@ -156,27 +156,27 @@ class QuillToolbarSelectAlignmentButtonState
   @override
   Widget build(BuildContext context) {
     final valueToText = <Attribute, String>{
-      if (widget.showLeftAlignment!)
+      if (widget.showLeftAlignment)
         Attribute.leftAlignment: Attribute.leftAlignment.value!,
-      if (widget.showCenterAlignment!)
+      if (widget.showCenterAlignment)
         Attribute.centerAlignment: Attribute.centerAlignment.value!,
-      if (widget.showRightAlignment!)
+      if (widget.showRightAlignment)
         Attribute.rightAlignment: Attribute.rightAlignment.value!,
-      if (widget.showJustifyAlignment!)
+      if (widget.showJustifyAlignment)
         Attribute.justifyAlignment: Attribute.justifyAlignment.value!,
     };
 
     final valueAttribute = <Attribute>[
-      if (widget.showLeftAlignment!) Attribute.leftAlignment,
-      if (widget.showCenterAlignment!) Attribute.centerAlignment,
-      if (widget.showRightAlignment!) Attribute.rightAlignment,
-      if (widget.showJustifyAlignment!) Attribute.justifyAlignment
+      if (widget.showLeftAlignment) Attribute.leftAlignment,
+      if (widget.showCenterAlignment) Attribute.centerAlignment,
+      if (widget.showRightAlignment) Attribute.rightAlignment,
+      if (widget.showJustifyAlignment) Attribute.justifyAlignment
     ];
     final valueString = <String>[
-      if (widget.showLeftAlignment!) Attribute.leftAlignment.value!,
-      if (widget.showCenterAlignment!) Attribute.centerAlignment.value!,
-      if (widget.showRightAlignment!) Attribute.rightAlignment.value!,
-      if (widget.showJustifyAlignment!) Attribute.justifyAlignment.value!,
+      if (widget.showLeftAlignment) Attribute.leftAlignment.value!,
+      if (widget.showCenterAlignment) Attribute.centerAlignment.value!,
+      if (widget.showRightAlignment) Attribute.rightAlignment.value!,
+      if (widget.showJustifyAlignment) Attribute.justifyAlignment.value!,
     ];
     // final _valueToButtons = <Attribute, ToolbarButtons>{
     //   if (widget.showLeftAlignment!)
@@ -189,10 +189,10 @@ class QuillToolbarSelectAlignmentButtonState
     //     Attribute.justifyAlignment: ToolbarButtons.justifyAlignment,
     // };
 
-    final buttonCount = ((widget.showLeftAlignment!) ? 1 : 0) +
-        ((widget.showCenterAlignment!) ? 1 : 0) +
-        ((widget.showRightAlignment!) ? 1 : 0) +
-        ((widget.showJustifyAlignment!) ? 1 : 0);
+    final buttonCount = ((widget.showLeftAlignment) ? 1 : 0) +
+        ((widget.showCenterAlignment) ? 1 : 0) +
+        ((widget.showRightAlignment) ? 1 : 0) +
+        ((widget.showJustifyAlignment) ? 1 : 0);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions.childBuilder;

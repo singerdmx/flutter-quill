@@ -14,7 +14,7 @@ import '../../../quill/quill_controller.dart';
 class QuillToolbarSelectHeaderStyleDropdownButton extends StatefulWidget {
   const QuillToolbarSelectHeaderStyleDropdownButton({
     required this.controller,
-    required this.options,
+    this.options = const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
     super.key,
   });
 
