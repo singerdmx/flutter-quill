@@ -14,6 +14,8 @@ class QuillToolbarIconButton extends StatelessWidget {
     this.borderRadius = 2,
     this.tooltip,
     super.key,
+    this.iconFilledStyle,
+    this.iconStyle,
   });
 
   final VoidCallback? onPressed;
@@ -27,6 +29,8 @@ class QuillToolbarIconButton extends StatelessWidget {
   final double borderRadius;
   final String? tooltip;
 
+  final ButtonStyle? iconStyle;
+  final ButtonStyle? iconFilledStyle;
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(

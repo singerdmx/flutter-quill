@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.4
+* Feature: [#1611](https://github.com/singerdmx/flutter-quill/issues/1611)
+* Export missing widgets
+
 ## 9.0.3
 * Flutter Quill Extensions:
   * Fix file image support for web image emebed builder

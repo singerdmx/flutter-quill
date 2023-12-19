@@ -201,11 +201,12 @@ class MyQuillToolbar extends StatelessWidget {
           configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
+            headerStyleType: HeaderStyleType.dropdown,
             buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 // Request editor focus when any button is pressed
                 afterButtonPressed: focusNode.requestFocus,
-                globalIconSize: 18,
+                // globalIconSize: 18,
               ),
               selectHeaderStyleDropdownButton:
                   const QuillToolbarSelectHeaderStyleDropdownButtonOptions(
