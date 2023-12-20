@@ -227,7 +227,7 @@ class QuillToolbarFontSizeButtonState
   }
 
   Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
     final hasFinalWidth = options.width != null;
     return Padding(
       padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
