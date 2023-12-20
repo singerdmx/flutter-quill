@@ -49,7 +49,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   ///   Attribute.header,
   /// ]
   /// ```
-  final List<Attribute<int>>? attributes;
+  final List<Attribute<int?>>? attributes;
 
   QuillToolbarSelectHeaderStyleDropdownButtonOptions copyWith({
     ValueChanged<String>? onSelected,
