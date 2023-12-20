@@ -156,14 +156,17 @@ class QuillToolbarFontSizeButtonState
               onPressed: _onPressed,
               icon: _buildContent(context),
             )
-          : RawMaterialButton(
-              visualDensity: VisualDensity.compact,
-              shape: RoundedRectangleBorder(borderRadius: borderRadius),
-              elevation: 0,
-              hoverElevation: 0,
-              highlightElevation: 0,
-              onPressed: _onPressed,
-              child: _buildContent(context),
+          : Tooltip(
+              message: tooltip,
+              child: RawMaterialButton(
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(borderRadius: borderRadius),
+                elevation: 0,
+                hoverElevation: 0,
+                highlightElevation: 0,
+                onPressed: _onPressed,
+                child: _buildContent(context),
+              ),
             ),
     );
   }
