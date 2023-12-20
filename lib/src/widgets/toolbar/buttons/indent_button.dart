@@ -107,10 +107,15 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
     final theme = Theme.of(context);
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
+
+    final iconFillColor =
+        iconTheme?.iconUnselectedFillColor ?? theme.canvasColor;
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
+      size: iconSize * iconButtonFactor,
+      icon: Icon(iconData, size: iconSize, color: iconColor),
       isFilled: false,
+      iconFilledStyle: IconButton.styleFrom(backgroundColor: iconFillColor),
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
     );
