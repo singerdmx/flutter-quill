@@ -114,7 +114,7 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
       isSelected: false,
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
-      iconUnselectedStyle: iconTheme?.iconButtonUnselectedStyle,
+      iconTheme: iconTheme,
     );
   }
 }

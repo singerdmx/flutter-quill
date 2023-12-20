@@ -116,8 +116,7 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
       isSelected: false,
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
-      iconSelectedStyle: iconTheme?.iconButtonSelectedStyle,
-      iconUnselectedStyle: iconTheme?.iconButtonUnselectedStyle,
+      iconTheme: iconTheme,
     );
   }
 }
