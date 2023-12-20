@@ -155,12 +155,17 @@ class QuillToolbarSelectHeaderStyleButtonsState
             width: iconSize * iconButtonFactor,
             height: iconSize * iconButtonFactor,
           ),
-          child: IconButton(
+          child: QuillToolbarIconButton(
             tooltip: tooltip,
-            visualDensity: VisualDensity.compact,
-            style: isSelected
-                ? iconTheme?.iconButtonSelectedStyle
-                : iconTheme?.iconButtonUnselectedStyle,
+            iconTheme: iconTheme?.copyWith(
+              iconButtonSelectedData: const IconButtonData(
+                visualDensity: VisualDensity.compact,
+              ),
+              iconButtonUnselectedData: const IconButtonData(
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+            isSelected: isSelected,
             onPressed: () => _sharedOnPressed(attribute),
             icon: Text(
               _valueToText[attribute] ??
