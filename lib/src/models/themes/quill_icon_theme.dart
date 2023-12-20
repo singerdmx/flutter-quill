@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 @immutable
 class QuillIconTheme {
   const QuillIconTheme({
-    this.padding,
     this.iconButtonSelectedStyle,
     this.iconButtonUnselectedStyle,
     this.iconButtonSelectedData,
@@ -17,9 +16,6 @@ class QuillIconTheme {
 
   final IconButtonData? iconButtonUnselectedData;
   final IconButtonData? iconButtonSelectedData;
-
-  ///The padding for icons
-  final EdgeInsets? padding;
 }
 
 @immutable

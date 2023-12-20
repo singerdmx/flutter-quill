@@ -7,10 +7,10 @@ class QuillToolbarIconButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     required this.isSelected,
+    required this.iconTheme,
     this.afterPressed,
     this.tooltip,
     super.key,
-    this.iconTheme,
   });
 
   final VoidCallback? onPressed;

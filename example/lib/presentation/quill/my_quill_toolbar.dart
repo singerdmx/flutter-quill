@@ -202,6 +202,15 @@ class MyQuillToolbar extends StatelessWidget {
             controller: controller,
             showAlignmentButtons: true,
             multiRowsDisplay: true,
+            buttonOptions: const QuillSimpleToolbarButtonOptions(
+              base: QuillToolbarBaseButtonOptions(
+                iconTheme: QuillIconTheme(
+                  iconButtonUnselectedData: IconButtonData(
+                    splashRadius: 200,
+                  ),
+                ),
+              ),
+            ),
             customButtons: [
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),

@@ -149,6 +149,7 @@ class QuillToolbarLinkStyleButtonState
       isSelected: isToggled,
       onPressed: () => _openLinkDialog(context),
       afterPressed: afterButtonPressed,
+      iconTheme: iconTheme,
     );
   }
 

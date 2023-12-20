@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
             darkTheme: ThemeData(
-              useMaterial3: false,
+              useMaterial3: true,
               visualDensity: VisualDensity.adaptivePlatformDensity,
               colorScheme: ColorScheme.fromSeed(
                 brightness: Brightness.dark,
