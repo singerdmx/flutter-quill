@@ -35,10 +35,12 @@ class QuillToolbarIconButton extends StatelessWidget {
     }
     return IconButton(
       padding: padding,
-      onPressed: () {
-        onPressed?.call();
-        afterPressed?.call();
-      },
+      onPressed: onPressed != null
+          ? () {
+              onPressed?.call();
+              afterPressed?.call();
+            }
+          : null,
       icon: icon,
       style: iconUnselectedStyle,
     );

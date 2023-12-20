@@ -201,14 +201,7 @@ class MyQuillToolbar extends StatelessWidget {
           configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
-            multiRowsDisplay: false,
-            buttonOptions: QuillSimpleToolbarButtonOptions(
-              base: QuillToolbarBaseButtonOptions(
-                // Request editor focus when any button is pressed
-                afterButtonPressed: focusNode.requestFocus,
-                // globalIconSize: 18,
-              ),
-            ),
+            multiRowsDisplay: true,
             customButtons: [
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),
