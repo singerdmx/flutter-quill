@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.1.0-dev.2
+* Fix the history buttons
+
 ## 9.1.0-dev.1
 * Bug fixes in the simple toolbar buttons
 
