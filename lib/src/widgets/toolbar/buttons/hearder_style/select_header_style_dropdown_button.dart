@@ -173,6 +173,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
           final isMaterial3 = Theme.of(context).useMaterial3;
           final child = Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 _label(_selectedItem),

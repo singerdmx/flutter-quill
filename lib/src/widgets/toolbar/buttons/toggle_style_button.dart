@@ -119,7 +119,11 @@ class QuillToolbarToggleStyleButtonState
           'left' => (context.loc.alignLeft, Icons.format_align_left),
           'right' => (context.loc.alignRight, Icons.format_align_right),
           'center' => (context.loc.alignCenter, Icons.format_align_center),
-          Object() => (context.loc.alignCenter, Icons.format_align_center),
+          'justify' => (
+              context.loc.justifyWinWidth,
+              Icons.format_align_justify
+            ),
+          Object() => throw ArgumentError(widget.attribute.value),
           null => (context.loc.alignCenter, Icons.format_align_center),
         };
       default:

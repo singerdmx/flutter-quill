@@ -145,22 +145,22 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
 
   @override
   Widget build(BuildContext context) {
-    // final iconColor = _isToggledColor && !widget.isBackground && !_isWhite
-    //     ? stringToColor(_selectionStyle.attributes['color']!.value)
-    //     : (iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color);
+    final iconColor = _isToggledColor && !widget.isBackground && !_isWhite
+        ? stringToColor(_selectionStyle.attributes['color']!.value)
+        : null;
 
-    // final iconColorBackground =
-    //     _isToggledBackground && widget.isBackground && !_isWhiteBackground
-    //         ? stringToColor(_selectionStyle.attributes['background']!.value)
-    //         : (iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color);
+    final iconColorBackground =
+        _isToggledBackground && widget.isBackground && !_isWhiteBackground
+            ? stringToColor(_selectionStyle.attributes['background']!.value)
+            : null;
 
-    // final fillColor = _isToggledColor && !widget.isBackground && _isWhite
-    //     ? stringToColor('#ffffff')
-    //     : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor);
-    // final fillColorBackground =
-    //     _isToggledBackground && widget.isBackground && _isWhiteBackground
-    //         ? stringToColor('#ffffff')
-    //         : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor);
+    final fillColor = _isToggledColor && !widget.isBackground && _isWhite
+        ? stringToColor('#ffffff')
+        : null;
+    final fillColorBackground =
+        _isToggledBackground && widget.isBackground && _isWhiteBackground
+            ? stringToColor('#ffffff')
+            : null;
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
@@ -186,9 +186,9 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
             afterButtonPressed?.call();
           },
           iconColor: null,
-          iconColorBackground: Colors.red,
-          fillColor: Colors.red,
-          fillColorBackground: Colors.red,
+          iconColorBackground: iconColorBackground,
+          fillColor: fillColor,
+          fillColorBackground: fillColorBackground,
         ),
       );
     }
@@ -198,7 +198,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
       iconSize: iconSize * iconButtonFactor,
       icon: Icon(
         iconData,
-        // color: widget.isBackground ? iconColorBackground : iconColor,
+        color: widget.isBackground ? iconColorBackground : iconColor,
       ),
       onPressed: _showColorPicker,
     );

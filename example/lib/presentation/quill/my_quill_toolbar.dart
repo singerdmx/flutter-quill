@@ -201,25 +201,12 @@ class MyQuillToolbar extends StatelessWidget {
           configurations: QuillSimpleToolbarConfigurations(
             controller: controller,
             showAlignmentButtons: true,
+            multiRowsDisplay: false,
             buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 // Request editor focus when any button is pressed
                 afterButtonPressed: focusNode.requestFocus,
                 // globalIconSize: 18,
-                iconTheme: QuillIconTheme(
-                  iconButtonUnselectedStyle: IconButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  iconButtonSelectedStyle: IconButton.styleFrom(
-                    backgroundColor: Colors.red,
-                  ),
-                ),
-              ),
-              selectHeaderStyleDropdownButton:
-                  const QuillToolbarSelectHeaderStyleDropdownButtonOptions(
-                textStyle: TextStyle(
-                  fontSize: 20,
-                ),
               ),
             ),
             customButtons: [

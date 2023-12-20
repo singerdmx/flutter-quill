@@ -102,12 +102,10 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
       icon: Icon(
         iconData,
         size: iconSize * iconButtonFactor,
-        // TODO: HEeeerre
-        // color: _canPressed
-        //     ? iconTheme?.iconUnselectedColor ?? theme.iconTheme.color
-        //     : iconTheme?.disabledIconColor ?? theme.disabledColor,
       ),
-      isSelected: false,
+      isSelected: _canPressed,
+      iconSelectedStyle: iconTheme?.iconButtonSelectedStyle,
+      iconUnselectedStyle: iconTheme?.iconButtonUnselectedStyle,
       onPressed: _updateHistory,
       afterPressed: afterButtonPressed,
     );

@@ -18,8 +18,8 @@ class QuillToolbarColorButtonExtraOptions
 
   final Color? iconColor;
   final Color? iconColorBackground;
-  final Color fillColor;
-  final Color fillColorBackground;
+  final Color? fillColor;
+  final Color? fillColorBackground;
 }
 
 class QuillToolbarColorButtonOptions extends QuillToolbarBaseButtonOptions<
