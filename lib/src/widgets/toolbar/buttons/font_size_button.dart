@@ -53,6 +53,16 @@ class QuillToolbarFontSizeButtonState
     return fontSizes;
   }
 
+  String? getLabel(String? currentValue) {
+    return switch (currentValue) {
+      'small' => context.loc.small,
+      'large' => context.loc.large,
+      'huge' => context.loc.huge,
+      String() => currentValue,
+      null => null,
+    };
+  }
+
   String get _defaultDisplayText {
     return options.initialValue ?? widget.defaultDisplayText;
   }
@@ -235,7 +245,6 @@ class QuillToolbarFontSizeButtonState
   }
 
   Widget _buildContent(BuildContext context) {
-    // final theme = Theme.of(context);
     final hasFinalWidth = options.width != null;
     return Padding(
       padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -247,7 +256,9 @@ class QuillToolbarFontSizeButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              widget.controller.selectedFontSize ?? _currentValue,
+              getLabel(widget.controller.selectedFontSize) ??
+                  getLabel(_currentValue) ??
+                  '',
               overflow: options.labelOverflow,
               style: options.style ??
                   TextStyle(
