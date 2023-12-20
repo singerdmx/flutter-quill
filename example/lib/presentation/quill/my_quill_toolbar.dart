@@ -202,14 +202,23 @@ class MyQuillToolbar extends StatelessWidget {
             controller: controller,
             showAlignmentButtons: true,
             multiRowsDisplay: true,
-            buttonOptions: const QuillSimpleToolbarButtonOptions(
+            buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
-                iconTheme: QuillIconTheme(
-                  iconButtonUnselectedData: IconButtonData(
-                    splashRadius: 200,
+                  afterButtonPressed: focusNode.requestFocus
+                  // globalIconSize: 20,
+                  // iconTheme: QuillIconTheme(
+                  //   iconButtonSelectedData: IconButtonData(
+                  //     style: IconButton.styleFrom(
+                  //       foregroundColor: Colors.amberAccent,
+                  //     ),
+                  //   ),
+                  //   iconButtonUnselectedData: IconButtonData(
+                  //     style: IconButton.styleFrom(
+                  //       foregroundColor: Colors.amberAccent,
+                  //     ),
+                  //   ),
+                  // ),
                   ),
-                ),
-              ),
             ),
             customButtons: [
               QuillToolbarCustomButtonOptions(
