@@ -14,6 +14,7 @@ enum _AlignmentOptions {
   final Attribute attribute;
 }
 
+/// Dropdown button
 class QuillToolbarSelectAlignmentButton extends StatelessWidget {
   const QuillToolbarSelectAlignmentButton(
       {required this.controller, super.key});
