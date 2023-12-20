@@ -112,8 +112,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
       isSelected: false,
       // isDesktop(supportWeb: false) ? null :
       onPressed: () => _sharedOnPressed(context),
-      iconSelectedStyle: iconTheme?.iconButtonSelectedStyle,
-      iconUnselectedStyle: iconTheme?.iconButtonUnselectedStyle,
+      iconTheme: iconTheme,
     );
   }
 

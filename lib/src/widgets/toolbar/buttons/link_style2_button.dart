@@ -156,6 +156,7 @@ class _QuillToolbarLinkStyleButton2State
       ),
       isSelected: isToggled,
       onPressed: _openLinkDialog,
+      iconTheme: iconTheme,
       afterPressed: afterButtonPressed,
     );
   }

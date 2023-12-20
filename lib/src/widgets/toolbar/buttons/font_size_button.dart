@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
+
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../../models/config/quill_configurations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/font.dart';
 import '../../quill/quill_controller.dart';
+import '../base_toolbar.dart';
 
 class QuillToolbarFontSizeButton extends StatefulWidget {
   QuillToolbarFontSizeButton({
@@ -150,10 +151,17 @@ class QuillToolbarFontSizeButtonState
               child: _buildContent(context),
             );
           }
-          return IconButton(
+          return QuillToolbarIconButton(
             tooltip: tooltip,
-            visualDensity: VisualDensity.compact,
-            style: iconTheme?.iconButtonUnselectedStyle,
+            isSelected: false,
+            iconTheme: iconTheme?.copyWith(
+              iconButtonSelectedData: const IconButtonData(
+                visualDensity: VisualDensity.compact,
+              ),
+              iconButtonUnselectedData: const IconButtonData(
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
             onPressed: _onPressed,
             icon: _buildContent(context),
           );

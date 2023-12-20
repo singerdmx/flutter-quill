@@ -190,10 +190,16 @@ class QuillToolbarFontFamilyButtonState
                 child: _buildContent(context),
               );
             }
-            return IconButton(
-              // tooltip: , // TODO: Use this here
-              visualDensity: VisualDensity.compact,
-              style: iconTheme?.iconButtonUnselectedStyle,
+            return QuillToolbarIconButton(
+              isSelected: false,
+              iconTheme: iconTheme?.copyWith(
+                iconButtonSelectedData: const IconButtonData(
+                  visualDensity: VisualDensity.compact,
+                ),
+                iconButtonUnselectedData: const IconButtonData(
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
               onPressed: _onPressed,
               icon: _buildContent(context),
             );

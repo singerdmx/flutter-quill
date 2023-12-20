@@ -94,6 +94,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
       tooltip: tooltip,
       onPressed: () => _sharedOnPressed(context),
       isSelected: false,
+      iconTheme: iconTheme,
     );
   }
 

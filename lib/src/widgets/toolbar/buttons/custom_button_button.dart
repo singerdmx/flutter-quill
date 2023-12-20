@@ -85,6 +85,7 @@ class QuillToolbarCustomButton extends StatelessWidget {
       tooltip: tooltip,
       onPressed: () => _onPressed(context),
       afterPressed: afterButtonPressed,
+      iconTheme: iconTheme,
     );
   }
 }
