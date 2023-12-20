@@ -13,6 +13,7 @@ import 'package:flutter/widgets.dart'
         TextStyle;
 
 import '../../../documents/attribute.dart';
+import '../../../themes/quill_icon_theme.dart';
 import '../../quill_configurations.dart';
 
 class QuillToolbarFontSizeButtonExtraOptions
@@ -38,6 +39,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.rawItemsMap,
     this.onSelected,
     this.attribute = Attribute.size,
+    super.iconTheme,
     super.afterButtonPressed,
     super.tooltip,
     this.padding,
@@ -92,9 +94,11 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     VoidCallback? afterButtonPressed,
     String? tooltip,
     OutlinedBorder? shape,
+    QuillIconTheme? iconTheme,
   }) {
     return QuillToolbarFontSizeButtonOptions(
       iconSize: iconSize ?? this.iconSize,
+      iconTheme: iconTheme ?? this.iconTheme,
       iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
       rawItemsMap: rawItemsMap ?? this.rawItemsMap,
       onSelected: onSelected ?? this.onSelected,
