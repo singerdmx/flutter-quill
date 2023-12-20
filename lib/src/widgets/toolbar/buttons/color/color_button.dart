@@ -200,7 +200,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
       icon: Icon(iconData,
           size: iconSize,
           color: widget.isBackground ? iconColorBackground : iconColor),
-      isFilled: false,
+      isFilled: _isToggledColor || _isToggledBackground,
       iconFilledStyle: IconButton.styleFrom(
           backgroundColor:
               widget.isBackground ? fillColorBackground : fillColor),
