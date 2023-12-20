@@ -165,6 +165,9 @@ class QuillToolbarFontFamilyButtonState
         ),
       );
     }
+
+    final borderRadius = BorderRadius.circular(iconTheme?.borderRadius ?? 2);
+
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
         height: iconSize * 1.81,
@@ -181,31 +184,26 @@ class QuillToolbarFontFamilyButtonState
           }
           return Tooltip(message: effectiveTooltip, child: child);
         },
-        child: Builder(
-          builder: (context) {
-            final isMaterial3 = Theme.of(context).useMaterial3;
-            if (!isMaterial3) {
-              return RawMaterialButton(
+        child: Theme.of(context).useMaterial3
+            ? IconButton(
+                visualDensity: VisualDensity.compact,
+                style: IconButton.styleFrom(
+                  shape: iconTheme?.borderRadius != null
+                      ? RoundedRectangleBorder(borderRadius: borderRadius)
+                      : null,
+                ),
+                onPressed: _onPressed,
+                icon: _buildContent(context),
+              )
+            : RawMaterialButton(
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(borderRadius: borderRadius),
+                elevation: 0,
+                hoverElevation: 0,
+                highlightElevation: 0,
                 onPressed: _onPressed,
                 child: _buildContent(context),
-              );
-            }
-            return IconButton(
-              // tooltip: , // TODO: Use this here
-              visualDensity: VisualDensity.compact,
-              style: IconButton.styleFrom(
-                shape: iconTheme?.borderRadius != null
-                    ? RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            iconTheme?.borderRadius ?? -1),
-                      )
-                    : null,
               ),
-              onPressed: _onPressed,
-              icon: _buildContent(context),
-            );
-          },
-        ),
       ),
     );
   }
