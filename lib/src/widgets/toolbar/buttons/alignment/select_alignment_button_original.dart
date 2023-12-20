@@ -77,7 +77,8 @@ class QuillToolbarSelectTextAlignmentButtonState
   }
 
   QuillToolbarBaseButtonOptions get baseButtonExtraOptions {
-    return context.quillToolbarBaseButtonOptions!;
+    return context.quillToolbarBaseButtonOptions ??
+        const QuillToolbarBaseButtonOptions();
   }
 
   QuillSelectAlignmentValues<IconData> get _iconsData {

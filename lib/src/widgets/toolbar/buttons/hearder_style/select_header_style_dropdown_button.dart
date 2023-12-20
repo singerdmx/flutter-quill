@@ -127,10 +127,8 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   Widget build(BuildContext context) {
     assert(_attrbuites.every((element) => _valueToText.keys.contains(element)));
 
-    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions ??
-        const QuillToolbarBaseButtonOptions();
     final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations.childBuilder;
+        options.childBuilder ?? baseButtonExtraOptions.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options.copyWith(
