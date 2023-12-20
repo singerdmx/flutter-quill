@@ -104,16 +104,17 @@ class QuillToolbarClearFormatButton extends StatelessWidget {
       );
     }
 
-    final theme = Theme.of(context);
-
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
-      isFilled: false,
+      icon: Icon(
+        iconData,
+        size: iconSize * iconButtonFactor,
+        // color: iconColor,
+      ),
+      isSelected: false,
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
+      iconUnselectedStyle: iconTheme?.iconButtonUnselectedStyle,
     );
   }
 }

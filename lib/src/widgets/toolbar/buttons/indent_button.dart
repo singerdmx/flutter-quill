@@ -104,15 +104,20 @@ class QuillToolbarIndentButtonState extends State<QuillToolbarIndentButton> {
         ),
       );
     }
-    final theme = Theme.of(context);
 
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
+    // final iconColor = iconTheme?.iconUnselectedFillColor;
     return QuillToolbarIconButton(
       tooltip: tooltip,
-      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
-      isFilled: false,
+      icon: Icon(
+        iconData,
+        size: iconSize * iconButtonFactor,
+        // color: iconColor,
+      ),
+      isSelected: false,
       onPressed: _sharedOnPressed,
       afterPressed: afterButtonPressed,
+      iconSelectedStyle: iconTheme?.iconButtonSelectedStyle,
+      iconUnselectedStyle: iconTheme?.iconButtonUnselectedStyle,
     );
   }
 }

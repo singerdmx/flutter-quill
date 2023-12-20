@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.1.0-dev
+* **Breaking Change**: in the `QuillSimpleToolbar` Fix the `QuillIconTheme` by replacing all the properties with two properties of type `ButtonStyle`, use `IconButton.styleFrom()`
+
 ## 9.0.6
 * Fix bug in QuillToolbarSelectAlignmentButtons
 

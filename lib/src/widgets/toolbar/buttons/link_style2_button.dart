@@ -144,18 +144,17 @@ class _QuillToolbarLinkStyleButton2State
         ),
       );
     }
-    final theme = Theme.of(context);
     final isToggled = _getLinkAttributeValue() != null;
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(
         iconData,
         size: iconSize * iconButtonFactor,
-        color: isToggled
-            ? (iconTheme?.iconSelectedColor ?? theme.primaryIconTheme.color)
-            : (iconTheme?.iconUnselectedColor ?? theme.iconTheme.color),
+        // color: isToggled
+        //     ? iconTheme?.iconSelectedFillColor
+        //     : iconTheme?.iconUnselectedFillColor,
       ),
-      isFilled: isToggled,
+      isSelected: isToggled,
       onPressed: _openLinkDialog,
       afterPressed: afterButtonPressed,
     );

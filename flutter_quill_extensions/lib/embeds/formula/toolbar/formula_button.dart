@@ -59,8 +59,6 @@ class QuillToolbarFormulaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     final iconTheme = _iconTheme(context);
 
     final tooltip = _tooltip(context);
@@ -69,8 +67,6 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     final iconData = _iconData(context);
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
-
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -91,10 +87,13 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     }
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
+      icon: Icon(
+        iconData,
+        size: iconSize * iconButtonFactor,
+      ),
       tooltip: tooltip,
       onPressed: () => _sharedOnPressed(context),
-      isFilled: false,
+      isSelected: false,
     );
   }
 

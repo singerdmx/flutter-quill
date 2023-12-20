@@ -107,18 +107,19 @@ class QuillToolbarSearchButton extends StatelessWidget {
       );
     }
 
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
 
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
+    // final iconColor =
+    //     iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color;
 
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(
         iconData,
         size: iconSize * iconButtonFactor,
-        color: iconColor,
+        // color: iconColor,
       ),
-      isFilled: false,
+      isSelected: false,
       onPressed: () => _sharedOnPressed(context),
       afterPressed: afterButtonPressed,
     );

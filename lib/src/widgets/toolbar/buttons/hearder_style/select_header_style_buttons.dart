@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import '../../../../../extensions.dart';
 import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../l10n/extensions/localizations.dart';
 import '../../../../models/documents/attribute.dart';
@@ -147,7 +146,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
           ),
         );
       }
-      final theme = Theme.of(context);
+      // final theme = Theme.of(context);
       final isSelected = _selectedAttribute == attribute;
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
@@ -156,33 +155,25 @@ class QuillToolbarSelectHeaderStyleButtonsState
             width: iconSize * iconButtonFactor,
             height: iconSize * iconButtonFactor,
           ),
-          child: UtilityWidgets.maybeTooltip(
-            message: tooltip,
-            child: RawMaterialButton(
-              hoverElevation: 0,
-              highlightElevation: 0,
-              elevation: 0,
-              visualDensity: VisualDensity.compact,
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(iconTheme?.borderRadius ?? 2)),
-              fillColor: isSelected
-                  ? (iconTheme?.iconSelectedFillColor ?? theme.primaryColor)
-                  : (iconTheme?.iconUnselectedFillColor ?? theme.canvasColor),
-              onPressed: () => _sharedOnPressed(attribute),
-              child: Text(
-                _valueToText[attribute] ??
-                    (throw ArgumentError.notNull(
-                      'attrbuite',
-                    )),
-                style: style.copyWith(
-                  color: isSelected
-                      ? (iconTheme?.iconSelectedColor ??
-                          theme.primaryIconTheme.color)
-                      : (iconTheme?.iconUnselectedColor ??
-                          theme.iconTheme.color),
-                ),
-              ),
+          child: IconButton(
+            tooltip: tooltip,
+            visualDensity: VisualDensity.compact,
+            style: isSelected
+                ? iconTheme?.iconButtonSelectedStyle
+                : iconTheme?.iconButtonUnselectedStyle,
+            onPressed: () => _sharedOnPressed(attribute),
+            icon: Text(
+              _valueToText[attribute] ??
+                  (throw ArgumentError.notNull(
+                    'attrbuite',
+                  )),
+              style: style.copyWith(
+                  // color: isSelected
+                  //     ? (iconTheme?.iconSelectedFillColor ??
+                  //         theme.primaryIconTheme.color)
+                  //     : (iconTheme?.iconUnselectedFillColor ??
+                  //         theme.iconTheme.color),
+                  ),
             ),
           ),
         ),

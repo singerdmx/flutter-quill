@@ -153,14 +153,7 @@ class QuillToolbarFontSizeButtonState
           return IconButton(
             tooltip: tooltip,
             visualDensity: VisualDensity.compact,
-            style: IconButton.styleFrom(
-              shape: iconTheme?.borderRadius != null
-                  ? RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(iconTheme?.borderRadius ?? -1),
-                    )
-                  : null,
-            ),
+            style: iconTheme?.iconButtonUnselectedStyle,
             onPressed: _onPressed,
             icon: _buildContent(context),
           );
@@ -251,8 +244,8 @@ class QuillToolbarFontSizeButtonState
               style: options.style ??
                   TextStyle(
                     fontSize: iconSize / 1.15,
-                    color:
-                        iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+                    // color: iconTheme?.iconUnselectedFillColor ??
+                    //     theme.iconTheme.color,
                   ),
             ),
           ),
@@ -260,7 +253,7 @@ class QuillToolbarFontSizeButtonState
           Icon(
             Icons.arrow_drop_down,
             size: iconSize / 1.15,
-            color: iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+            // color: iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color,
           )
         ],
       ),

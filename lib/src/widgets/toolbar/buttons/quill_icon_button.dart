@@ -4,13 +4,13 @@ class QuillToolbarIconButton extends StatelessWidget {
   const QuillToolbarIconButton({
     required this.onPressed,
     required this.icon,
-    required this.isFilled,
+    required this.isSelected,
     this.afterPressed,
     this.tooltip,
     this.padding,
     super.key,
-    this.iconFilledStyle,
-    this.iconStyle,
+    this.iconSelectedStyle,
+    this.iconUnselectedStyle,
   });
 
   final VoidCallback? onPressed;
@@ -19,18 +19,18 @@ class QuillToolbarIconButton extends StatelessWidget {
 
   final String? tooltip;
   final EdgeInsets? padding;
-  final bool isFilled;
+  final bool isSelected;
 
-  final ButtonStyle? iconStyle;
-  final ButtonStyle? iconFilledStyle;
+  final ButtonStyle? iconUnselectedStyle;
+  final ButtonStyle? iconSelectedStyle;
   @override
   Widget build(BuildContext context) {
-    if (isFilled) {
+    if (isSelected) {
       return IconButton.filled(
         padding: padding,
         onPressed: onPressed,
         icon: icon,
-        style: iconStyle,
+        style: iconSelectedStyle,
       );
     }
     return IconButton(
@@ -40,7 +40,7 @@ class QuillToolbarIconButton extends StatelessWidget {
         afterPressed?.call();
       },
       icon: icon,
-      style: iconFilledStyle,
+      style: iconUnselectedStyle,
     );
   }
 }

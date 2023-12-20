@@ -68,10 +68,6 @@ class QuillToolbarVideoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    final iconTheme = _iconTheme(context);
-
     final tooltip = _tooltip(context);
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
@@ -79,9 +75,10 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-        (options.fillColor ?? theme.canvasColor);
+    // final iconColor =
+    //     iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color;
+    // final iconFillColor = iconTheme?.iconUnselectedFillColor ??
+    //     (options.fillColor ?? theme.canvasColor);
 
     if (childBuilder != null) {
       return childBuilder(
@@ -89,7 +86,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
           afterButtonPressed: _afterButtonPressed(context),
           iconData: iconData,
           dialogTheme: options.dialogTheme,
-          fillColor: iconFillColor,
+          // fillColor: iconFillColor,
           iconSize: options.iconSize,
           iconButtonFactor: iconButtonFactor,
           linkRegExp: options.linkRegExp,
@@ -106,9 +103,13 @@ class QuillToolbarVideoButton extends StatelessWidget {
     }
 
     return QuillToolbarIconButton(
-      icon: Icon(iconData, size: iconSize * iconButtonFactor, color: iconColor),
+      icon: Icon(
+        iconData,
+        size: iconSize * iconButtonFactor,
+        // color: iconColor,
+      ),
       tooltip: tooltip,
-      isFilled: false,
+      isSelected: false,
       onPressed: () => _sharedOnPressed(context),
     );
   }

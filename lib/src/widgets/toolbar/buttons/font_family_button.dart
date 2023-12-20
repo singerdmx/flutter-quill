@@ -193,14 +193,7 @@ class QuillToolbarFontFamilyButtonState
             return IconButton(
               // tooltip: , // TODO: Use this here
               visualDensity: VisualDensity.compact,
-              style: IconButton.styleFrom(
-                shape: iconTheme?.borderRadius != null
-                    ? RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            iconTheme?.borderRadius ?? -1),
-                      )
-                    : null,
-              ),
+              style: iconTheme?.iconButtonUnselectedStyle,
               onPressed: _onPressed,
               icon: _buildContent(context),
             );
@@ -281,7 +274,6 @@ class QuillToolbarFontFamilyButtonState
   }
 
   Widget _buildContent(BuildContext context) {
-    final theme = Theme.of(context);
     final hasFinalWidth = options.width != null;
     return Padding(
       padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -299,8 +291,8 @@ class QuillToolbarFontFamilyButtonState
               style: options.style ??
                   TextStyle(
                     fontSize: iconSize / 1.15,
-                    color:
-                        iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+                    // color: iconTheme?.iconUnselectedFillColor ??
+                    //     theme.iconTheme.color,
                   ),
             ),
           ),
@@ -308,7 +300,7 @@ class QuillToolbarFontFamilyButtonState
           Icon(
             Icons.arrow_drop_down,
             size: iconSize / 1.15,
-            color: iconTheme?.iconUnselectedColor ?? theme.iconTheme.color,
+            // color: iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color,
           )
         ],
       ),

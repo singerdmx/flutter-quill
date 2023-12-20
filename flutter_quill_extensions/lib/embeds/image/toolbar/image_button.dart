@@ -96,20 +96,13 @@ class QuillToolbarImageButton extends StatelessWidget {
       );
     }
 
-    final theme = Theme.of(context);
-
-    final iconTheme = _iconTheme(context);
-
-    final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-
     return QuillToolbarIconButton(
       icon: Icon(
         iconData,
         size: iconButtonFactor * iconSize,
-        color: iconColor,
       ),
       tooltip: tooltip,
-      isFilled: false,
+      isSelected: false,
       onPressed: () => _sharedOnPressed(context),
     );
   }
