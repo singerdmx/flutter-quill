@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/config/toolbar/buttons/select_alignment_configurations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../quill/quill_controller.dart';
-import '../toggle_style_button.dart';
+import '../../base_toolbar.dart';
 
 enum _AlignmentOptions {
   left(attribute: Attribute.leftAlignment),
@@ -45,6 +44,14 @@ class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
           .map((e) => QuillToolbarToggleStyleButton(
                 controller: controller,
                 attribute: e.attribute,
+                options: QuillToolbarToggleStyleButtonOptions(
+                  iconData: options.iconData,
+                  iconSize: options.iconSize,
+                  iconButtonFactor: options.iconButtonFactor,
+                  afterButtonPressed: options.afterButtonPressed,
+                  iconTheme: options.iconTheme,
+                  tooltip: options.tooltip,
+                ),
               ))
           .toList(),
     );

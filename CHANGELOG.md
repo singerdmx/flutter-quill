@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.0.6
+* Fix bug in QuillToolbarSelectAlignmentButtons
+
 ## 9.0.5
 * You can now use most of the buttons without internal provider
 
