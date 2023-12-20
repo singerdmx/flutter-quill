@@ -27,6 +27,7 @@ class QuillToolbarIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isSelected) {
       return IconButton.filled(
+        tooltip: tooltip,
         padding: padding,
         onPressed: onPressed,
         icon: icon,
@@ -34,6 +35,7 @@ class QuillToolbarIconButton extends StatelessWidget {
       );
     }
     return IconButton(
+      tooltip: tooltip,
       padding: padding,
       onPressed: onPressed != null
           ? () {
