@@ -12,7 +12,7 @@ import 'package:flutter_quill_extensions/embeds/widgets/image.dart'
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart' as path;
 
-import '../extensions/scaffold_messenger.dart';
+import '../../extensions/scaffold_messenger.dart';
 import 'embeds/timestamp_embed.dart';
 
 class MyQuillEditor extends StatelessWidget {

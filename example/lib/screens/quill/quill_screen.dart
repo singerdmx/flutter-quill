@@ -7,7 +7,7 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
 import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
-import '../extensions/scaffold_messenger.dart';
+import '../../extensions/scaffold_messenger.dart';
 import '../shared/widgets/home_screen_button.dart';
 import 'my_quill_editor.dart';
 import 'my_quill_toolbar.dart';

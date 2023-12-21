@@ -5,12 +5,13 @@ import 'package:file_picker/file_picker.dart' show FilePicker, FileType;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../extensions/scaffold_messenger.dart';
+import '../../../extensions/scaffold_messenger.dart';
 import '../../quill/quill_screen.dart';
 import '../../quill/samples/quill_default_sample.dart';
 import '../../quill/samples/quill_images_sample.dart';
 import '../../quill/samples/quill_text_sample.dart';
 import '../../quill/samples/quill_videos_sample.dart';
+
 import '../../settings/widgets/settings_screen.dart';
 import 'example_item.dart';
 
