@@ -21,6 +21,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
 import 'package:super_clipboard/super_clipboard.dart';
 
+import '../../../quill_delta.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/block.dart';
@@ -214,11 +215,15 @@ class QuillRawEditorState extends EditorState
         return;
       }
       final deltaFromCliboard = Document.fromHtml(html);
-      final delta = deltaFromCliboard.compose(controller.document.toDelta());
+      var newDelta = Delta();
+      newDelta = newDelta.compose(deltaFromCliboard);
+      if (!controller.document.isEmpty()) {
+        newDelta = newDelta.compose(controller.document.toDelta());
+      }
 
       controller
         ..setContents(
-          delta,
+          newDelta,
         )
         ..updateSelection(
           TextSelection.collapsed(

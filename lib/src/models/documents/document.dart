@@ -405,7 +405,8 @@ class Document {
 
   void _loadDocument(Delta doc) {
     if (doc.isEmpty) {
-      throw ArgumentError.value(doc, 'Document Delta cannot be empty.');
+      throw ArgumentError.value(
+          doc.toString(), 'Document Delta cannot be empty.');
     }
 
     // print(doc.last.data.runtimeType);
