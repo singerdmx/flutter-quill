@@ -13,6 +13,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart'
 import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
 
+import 'screens/home/widgets/home_screen.dart';
 import 'screens/quill/quill_screen.dart';
 import 'screens/quill/samples/quill_default_sample.dart';
 import 'screens/quill/samples/quill_images_sample.dart';
@@ -20,7 +21,6 @@ import 'screens/quill/samples/quill_text_sample.dart';
 import 'screens/quill/samples/quill_videos_sample.dart';
 import 'screens/settings/cubit/settings_cubit.dart';
 import 'screens/settings/widgets/settings_screen.dart';
-import 'screens/home/widgets/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
