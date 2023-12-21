@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../l10n/extensions/localizations.dart';
+import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/documents/document.dart';
 import '../../../../models/themes/quill_dialog_theme.dart';
 import '../../../quill/quill_controller.dart';
@@ -116,78 +117,85 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       alignment: Alignment.bottomCenter,
       insetPadding: EdgeInsets.zero,
-      child: SizedBox(
-        height: 45,
-        child: Row(
-          children: [
-            Tooltip(
-              message: context.loc.caseSensitivityAndWholeWordSearch,
-              child: ToggleButtons(
-                onPressed: (index) {
-                  if (index == 0) {
-                    _changeCaseSensitivity();
-                  } else if (index == 1) {
-                    _changeWholeWord();
-                  }
-                },
-                borderRadius: const BorderRadius.all(Radius.circular(2)),
-                isSelected: [_caseSensitive, _wholeWord],
-                children: const [
-                  Text(
-                    '\u0391\u03b1',
-                    style: TextStyle(
-                      fontFamily: 'MaterialIcons',
-                      fontSize: 24,
+      child: FlutterQuillLocalizationsWidget(
+        child: Builder(
+          builder: (context) {
+            return SizedBox(
+              height: 45,
+              child: Row(
+                children: [
+                  Tooltip(
+                    message: context.loc.caseSensitivityAndWholeWordSearch,
+                    child: ToggleButtons(
+                      onPressed: (index) {
+                        if (index == 0) {
+                          _changeCaseSensitivity();
+                        } else if (index == 1) {
+                          _changeWholeWord();
+                        }
+                      },
+                      borderRadius: const BorderRadius.all(Radius.circular(2)),
+                      isSelected: [_caseSensitive, _wholeWord],
+                      children: const [
+                        Text(
+                          '\u0391\u03b1',
+                          style: TextStyle(
+                            fontFamily: 'MaterialIcons',
+                            fontSize: 24,
+                          ),
+                        ),
+                        Text(
+                          '\u201c\u2026\u201d',
+                          style: TextStyle(
+                            fontFamily: 'MaterialIcons',
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    '\u201c\u2026\u201d',
-                    style: TextStyle(
-                      fontFamily: 'MaterialIcons',
-                      fontSize: 24,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 12, left: 5),
+                      child: TextField(
+                        style: widget.dialogTheme?.inputTextStyle,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          suffixText: (_offsets != null) ? matchShown : '',
+                          suffixStyle: widget.dialogTheme?.labelTextStyle,
+                        ),
+                        autofocus: true,
+                        onChanged: _textChanged,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.text,
+                        onEditingComplete: _findText,
+                        controller: _controller,
+                      ),
                     ),
                   ),
+                  if (_offsets == null)
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      tooltip: context.loc.findText,
+                      onPressed: _findText,
+                    ),
+                  if (_offsets != null)
+                    IconButton(
+                      icon: const Icon(Icons.keyboard_arrow_up),
+                      tooltip: context.loc.moveToPreviousOccurrence,
+                      onPressed:
+                          (_offsets!.isNotEmpty) ? _moveToPrevious : null,
+                    ),
+                  if (_offsets != null)
+                    IconButton(
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      tooltip: context.loc.moveToNextOccurrence,
+                      onPressed: (_offsets!.isNotEmpty) ? _moveToNext : null,
+                    ),
                 ],
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 12, left: 5),
-                child: TextField(
-                  style: widget.dialogTheme?.inputTextStyle,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    suffixText: (_offsets != null) ? matchShown : '',
-                    suffixStyle: widget.dialogTheme?.labelTextStyle,
-                  ),
-                  autofocus: true,
-                  onChanged: _textChanged,
-                  textInputAction: TextInputAction.done,
-                  keyboardType: TextInputType.text,
-                  onEditingComplete: _findText,
-                  controller: _controller,
-                ),
-              ),
-            ),
-            if (_offsets == null)
-              IconButton(
-                icon: const Icon(Icons.search),
-                tooltip: context.loc.findText,
-                onPressed: _findText,
-              ),
-            if (_offsets != null)
-              IconButton(
-                icon: const Icon(Icons.keyboard_arrow_up),
-                tooltip: context.loc.moveToPreviousOccurrence,
-                onPressed: (_offsets!.isNotEmpty) ? _moveToPrevious : null,
-              ),
-            if (_offsets != null)
-              IconButton(
-                icon: const Icon(Icons.keyboard_arrow_down),
-                tooltip: context.loc.moveToNextOccurrence,
-                onPressed: (_offsets!.isNotEmpty) ? _moveToNext : null,
-              ),
-          ],
+            );
+          },
         ),
       ),
     );

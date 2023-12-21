@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.1.1
+* Fix bug [#1636](https://github.com/singerdmx/flutter-quill/issues/1636)
+
 ## 9.1.0
 * Fix the simple toolbar by add properties of `IconButton` and fix some buttons
 
