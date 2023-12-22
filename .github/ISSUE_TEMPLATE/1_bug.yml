@@ -21,7 +21,7 @@ body:
       description: Please tell us which version of `flutter_quill` that you are using.
       placeholder: For example 9.0.0
     validations:
-      required: true
+      required: false
   # - type: textarea
   #   attributes:
   #     label: Other Flutter Quill packages versions
