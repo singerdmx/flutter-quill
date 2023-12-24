@@ -11,7 +11,8 @@ class QuillToolbarSearchButtonExtraOptions
   });
 }
 
-class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions {
+class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions<
+    QuillToolbarBaseButtonOptions, QuillToolbarSearchButtonExtraOptions> {
   const QuillToolbarSearchButtonOptions({
     super.iconData,
     super.childBuilder,
