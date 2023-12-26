@@ -82,7 +82,8 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
       Attribute.h4 => context.loc.heading4,
       Attribute.h5 => context.loc.heading5,
       Attribute.h6 => context.loc.heading6,
-      Attribute.header => context.loc.normal,
+      Attribute.header =>
+        widget.options.defaultDisplayText ?? context.loc.normal,
       Attribute<dynamic>() => throw ArgumentError(),
     };
     return label;
