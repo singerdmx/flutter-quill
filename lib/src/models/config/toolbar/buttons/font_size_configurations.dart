@@ -50,6 +50,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.defaultItemColor = Colors.red,
     super.childBuilder,
     this.shape,
+    this.defaultDisplayText,
   });
 
   final double? iconSize;
@@ -70,6 +71,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   final double? itemHeight;
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
+  final String? defaultDisplayText;
 
   QuillToolbarFontSizeButtonOptions copyWith({
     double? iconSize,
@@ -92,6 +94,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     VoidCallback? afterButtonPressed,
     String? tooltip,
     OutlinedBorder? shape,
+    String? defaultDisplayText,
   }) {
     return QuillToolbarFontSizeButtonOptions(
       iconSize: iconSize ?? this.iconSize,
@@ -109,6 +112,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       tooltip: tooltip ?? super.tooltip,
       afterButtonPressed: afterButtonPressed ?? super.afterButtonPressed,
+      defaultDisplayText: defaultDisplayText ?? this.defaultDisplayText,
     );
   }
 }
