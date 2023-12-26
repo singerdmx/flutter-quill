@@ -23,7 +23,7 @@ Expanded(
 )
 ```
 
-Currently, translations are available for these 31 locales:
+Currently, translations are available for these 33 locales:
 
 * `Locale('en')`, `Locale('ar')`, `Locale('bn')`, `Locale('bs')`
 * `Locale('cs')`, `Locale('de')`, `Locale('da')`, `Locale('fr')`
