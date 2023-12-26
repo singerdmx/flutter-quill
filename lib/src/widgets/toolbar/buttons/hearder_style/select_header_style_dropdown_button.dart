@@ -120,6 +120,12 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
         ];
   }
 
+  String get tooltip {
+    return widget.options.tooltip ??
+        context.quillToolbarBaseButtonOptions?.tooltip ??
+        context.loc.headerStyle;
+  }
+
   QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
     return context.quillToolbarBaseButtonOptions;
   }
@@ -195,9 +201,12 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
               child: child,
             );
           }
-          return IconButton(
+          return QuillToolbarIconButton(
             onPressed: _onDropdownButtonPressed,
             icon: child,
+            isSelected: false,
+            iconTheme: iconTheme,
+            tooltip: tooltip,
           );
         },
       ),
