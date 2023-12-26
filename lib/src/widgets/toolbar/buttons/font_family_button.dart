@@ -11,7 +11,7 @@ import '../base_toolbar.dart';
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
     required this.controller,
-    required this.defaultDispalyText,
+    required this.defaultDisplayText,
     this.options = const QuillToolbarFontFamilyButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
@@ -22,7 +22,7 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
   final QuillToolbarFontFamilyButtonOptions options;
 
   @Deprecated('Please use the default display text from the options')
-  final String defaultDispalyText;
+  final String defaultDisplayText;
 
   /// Since we can't get the state from the instace of the widget for comparing
   /// in [didUpdateWidget] then we will have to store reference here
@@ -64,7 +64,7 @@ class QuillToolbarFontFamilyButtonState
     return options.initialValue ??
         widget.options.defaultDisplayText ??
         // ignore: deprecated_member_use_from_same_package
-        widget.defaultDispalyText;
+        widget.defaultDisplayText;
   }
 
   // @override
