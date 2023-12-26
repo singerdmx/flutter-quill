@@ -216,8 +216,9 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   void _onDropdownButtonPressed() {
     if (_menuController.isOpen) {
       _menuController.close();
-      return;
+    } else {
+      _menuController.open();
     }
-    _menuController.open();
+    afterButtonPressed?.call();
   }
 }
