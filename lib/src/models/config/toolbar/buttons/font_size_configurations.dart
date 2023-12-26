@@ -68,7 +68,9 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   final double? width;
   final String? initialValue;
   final TextOverflow labelOverflow;
+  @Deprecated('No longer used')
   final double? itemHeight;
+  @Deprecated('No longer used')
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
   final String? defaultDisplayText;
