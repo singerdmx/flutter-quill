@@ -21,6 +21,7 @@ import 'quill_localizations_id.dart';
 import 'quill_localizations_it.dart';
 import 'quill_localizations_ja.dart';
 import 'quill_localizations_ko.dart';
+import 'quill_localizations_ku.dart';
 import 'quill_localizations_ms.dart';
 import 'quill_localizations_nl.dart';
 import 'quill_localizations_no.dart';
@@ -138,6 +139,8 @@ abstract class FlutterQuillLocalizations {
     Locale('it'),
     Locale('ja'),
     Locale('ko'),
+    Locale('ku'),
+    Locale('ku', 'CKB'),
     Locale('ms'),
     Locale('nl'),
     Locale('no'),
@@ -708,6 +711,7 @@ class _FlutterQuillLocalizationsDelegate
         'it',
         'ja',
         'ko',
+        'ku',
         'ms',
         'nl',
         'no',
@@ -736,6 +740,14 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
         switch (locale.countryCode) {
           case 'US':
             return FlutterQuillLocalizationsEnUs();
+        }
+        break;
+      }
+    case 'ku':
+      {
+        switch (locale.countryCode) {
+          case 'CKB':
+            return FlutterQuillLocalizationsKuCkb();
         }
         break;
       }
@@ -793,6 +805,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsJa();
     case 'ko':
       return FlutterQuillLocalizationsKo();
+    case 'ku':
+      return FlutterQuillLocalizationsKu();
     case 'ms':
       return FlutterQuillLocalizationsMs();
     case 'nl':
