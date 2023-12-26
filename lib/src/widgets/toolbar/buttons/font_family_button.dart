@@ -21,6 +21,7 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
 
   final QuillToolbarFontFamilyButtonOptions options;
 
+  @Deprecated('Please use the default display text from the options')
   final String defaultDispalyText;
 
   /// Since we can't get the state from the instace of the widget for comparing
@@ -60,7 +61,10 @@ class QuillToolbarFontFamilyButtonState
   // }
 
   String get _defaultDisplayText {
-    return options.initialValue ?? widget.defaultDispalyText;
+    return options.initialValue ??
+        widget.options.defaultDisplayText ??
+        // ignore: deprecated_member_use_from_same_package
+        widget.defaultDispalyText;
   }
 
   // @override

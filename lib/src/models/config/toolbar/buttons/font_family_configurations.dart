@@ -51,6 +51,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.renderFontFamilies = true,
     this.iconSize,
     this.iconButtonFactor,
+    this.defaultDisplayText,
   });
 
   /// By default it will be [fontFamilyValues] from [QuillSimpleToolbarConfigurations]
@@ -69,6 +70,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   final double? itemHeight;
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
+  final String? defaultDisplayText;
 
   /// By default will use [globalIconSize]
   final double? iconSize;
@@ -95,6 +97,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     VoidCallback? afterButtonPressed,
     String? tooltip,
     QuillIconTheme? iconTheme,
+    String? defaultDisplayText,
   }) {
     return QuillToolbarFontFamilyButtonOptions(
       attribute: attribute ?? this.attribute,
@@ -117,6 +120,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       iconSize: iconSize ?? this.iconSize,
       iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
+      defaultDisplayText: defaultDisplayText ?? this.defaultDisplayText,
     );
   }
 }
