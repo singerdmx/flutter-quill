@@ -27,7 +27,8 @@ Currently, translations are available for these 31 locales:
 
 * `Locale('en')`, `Locale('ar')`, `Locale('bn')`, `Locale('bs')`
 * `Locale('cs')`, `Locale('de')`, `Locale('da')`, `Locale('fr')`
-* `Locale('he')`, `Locale('zh', 'CN')`, `Locale('zh', 'HK')`, `Locale('ko')`
+* `Locale('he')`, `Locale('zh', 'CN')`, `Locale('zh', 'HK')`
+* `Locale('ko')`, `Locale('ku')`, `Locale('ku', 'CKB')`
 * `Locale('ru')`, `Locale('es')`, `Locale('tk')`, `Locale('tr')`
 * `Locale('uk')`, `Locale('ur')`, `Locale('pt')`, `Locale('pl')`
 * `Locale('vi')`, `Locale('id')`, `Locale('it')`, `Locale('ms')`
