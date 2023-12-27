@@ -52,3 +52,7 @@ jobs:
       - name: Publish quill_html_converter
         run: flutter pub publish --force
         working-directory: ./quill_html_converter/
+      
+      - name: Publish quill_pdf_converter
+        run: flutter pub publish --force
+        working-directory: ./quill_pdf_converter/
