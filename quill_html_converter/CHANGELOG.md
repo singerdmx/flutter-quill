@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.1.2
+* Fix the font size button and migrate to `MenuAnchor`
+* The `defaultDisplayText` is no longer required in the font size and header dropdown buttons
+
+## 9.1.1
+* Fix bug [#1636](https://github.com/singerdmx/flutter-quill/issues/1636)
+* Fix a where you paste styled content (HTML) it always insert a new line at first even if the document is empty
+
 ## 9.1.0
 * Fix the simple toolbar by add properties of `IconButton` and fix some buttons
 

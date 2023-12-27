@@ -21,6 +21,7 @@ echo ""
 
 echo "Enable local development for all the other packages..."
 cp quill_html_converter/pubspec_overrides.yaml.disabled quill_html_converter/pubspec_overrides.yaml
+cp quill_pdf_converter/pubspec_overrides.yaml.disabled quill_pdf_converter/pubspec_overrides.yaml
 
 echo ""
 

@@ -21,7 +21,7 @@ dependencies:
 
 ## Usage
 
-First, you need to [setup](../../README.md#usage) the `flutter_quill` first
+First, you need to [setup](../README.md#usage) the `flutter_quill` first
 
 Then you can simply convert to/from HTML
 
@@ -33,7 +33,7 @@ final html = _controller.document.toDelta().toHtml();
 
 // Load Delta document using HTML
 _controller.document =
-    Document.fromDelta(DeltaHtmlExt.fromHtml(html));
+    Document.fromDelta(Document.fromHtml(html));
 ```
 
 ## Additional information

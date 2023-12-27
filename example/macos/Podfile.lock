@@ -17,6 +17,8 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - printing (1.0.0):
+    - FlutterMacOS
   - share_plus (0.0.1):
     - FlutterMacOS
   - sqflite (0.0.2):
@@ -38,6 +40,7 @@ DEPENDENCIES:
   - gal (from `Flutter/ephemeral/.symlinks/plugins/gal/darwin`)
   - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
+  - printing (from `Flutter/ephemeral/.symlinks/plugins/printing/macos`)
   - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
   - super_native_extensions (from `Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos`)
@@ -63,6 +66,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
+  printing:
+    :path: Flutter/ephemeral/.symlinks/plugins/printing/macos
   share_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/share_plus/macos
   sqflite:
@@ -83,6 +88,7 @@ SPEC CHECKSUMS:
   gal: 61e868295d28fe67ffa297fae6dacebf56fd53e1
   irondash_engine_context: da62996ee25616d2f01bbeb85dc115d813359478
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  printing: 1dd6a1fce2209ec240698e2439a4adbb9b427637
   share_plus: 76dd39142738f7a68dd57b05093b5e8193f220f7
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   super_native_extensions: 85efee3a7495b46b04befcfc86ed12069264ebf3
