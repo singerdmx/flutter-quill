@@ -1,9 +1,6 @@
 name: Build the example
 
 on:
-  push:
-    paths:
-      - 'pubspec.yaml'
   pull_request:
     branches: [master, dev]
 
