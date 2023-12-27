@@ -109,7 +109,9 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
       width: width ?? this.width,
       initialValue: initialValue ?? this.initialValue,
       labelOverflow: labelOverflow ?? this.labelOverflow,
+      // ignore: deprecated_member_use_from_same_package
       itemHeight: itemHeight ?? this.itemHeight,
+      // ignore: deprecated_member_use_from_same_package
       itemPadding: itemPadding ?? this.itemPadding,
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       tooltip: tooltip ?? super.tooltip,

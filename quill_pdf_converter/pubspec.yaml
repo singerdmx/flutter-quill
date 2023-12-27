@@ -1,0 +1,33 @@
+name: quill_pdf_converter
+description: A extension for flutter_quill package to add support for dealing with conversion to pdf
+version: 9.1.0
+homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_pdf_converter/
+repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_pdf_converter/
+issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
+documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_pdf_converter/
+
+topics:
+ - ui
+ - widgets
+ - widget
+ - rich-text-editor
+ - quill
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dart_quill_delta: ^0.0.1
+  quill_html_converter: ^9.1.0
+  pdf: ^3.10.7
+  htmltopdfwidgets: ^0.0.9+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:

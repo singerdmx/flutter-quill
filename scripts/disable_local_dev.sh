@@ -21,6 +21,7 @@ echo ""
 
 echo "Disable local development for all the other packages..."
 rm quill_html_converter/pubspec_overrides.yaml
+rm quill_pdf_converter/pubspec_overrides.yaml
 
 echo ""
 

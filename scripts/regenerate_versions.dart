@@ -13,7 +13,8 @@ final packages = [
   './',
   './flutter_quill_extensions',
   './flutter_quill_test',
-  './quill_html_converter'
+  './quill_html_converter',
+  './quill_pdf_converter',
 ];
 
 Future<void> main(List<String> args) async {
