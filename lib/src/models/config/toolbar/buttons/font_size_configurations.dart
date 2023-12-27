@@ -42,7 +42,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     super.tooltip,
     this.padding,
     this.style,
-    this.width,
+    @Deprecated('No longer used') this.width,
     this.initialValue,
     this.labelOverflow = TextOverflow.visible,
     this.itemHeight,
@@ -106,6 +106,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
       attribute: attribute ?? this.attribute,
       padding: padding ?? this.padding,
       style: style ?? this.style,
+      // ignore: deprecated_member_use_from_same_package
       width: width ?? this.width,
       initialValue: initialValue ?? this.initialValue,
       labelOverflow: labelOverflow ?? this.labelOverflow,

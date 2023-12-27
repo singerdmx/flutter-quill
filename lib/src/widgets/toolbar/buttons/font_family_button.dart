@@ -11,7 +11,8 @@ import '../base_toolbar.dart';
 class QuillToolbarFontFamilyButton extends StatefulWidget {
   QuillToolbarFontFamilyButton({
     required this.controller,
-    required this.defaultDisplayText,
+    @Deprecated('Please use the default display text from the options')
+    this.defaultDisplayText,
     this.options = const QuillToolbarFontFamilyButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
@@ -21,8 +22,7 @@ class QuillToolbarFontFamilyButton extends StatefulWidget {
 
   final QuillToolbarFontFamilyButtonOptions options;
 
-  @Deprecated('Please use the default display text from the options')
-  final String defaultDisplayText;
+  final String? defaultDisplayText;
 
   /// Since we can't get the state from the instace of the widget for comparing
   /// in [didUpdateWidget] then we will have to store reference here
@@ -50,8 +50,13 @@ class QuillToolbarFontFamilyButtonState
   }
 
   void _initState() {
-    _currentValue = _defaultDisplayText;
     // controller.addListener(_didChangeEditingValue);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _currentValue = _defaultDisplayText;
   }
 
   // @override
@@ -63,8 +68,8 @@ class QuillToolbarFontFamilyButtonState
   String get _defaultDisplayText {
     return options.initialValue ??
         widget.options.defaultDisplayText ??
-        // ignore: deprecated_member_use_from_same_package
-        widget.defaultDisplayText;
+        widget.defaultDisplayText ??
+        context.loc.font;
   }
 
   // @override
@@ -169,46 +174,40 @@ class QuillToolbarFontFamilyButtonState
         ),
       );
     }
-    return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        height: iconSize * 1.81,
-        width: options.width,
-      ),
-      child: UtilityWidgets.maybeWidget(
-        enabled: tooltip.isNotEmpty || options.overrideTooltipByFontFamily,
-        wrapper: (child) {
-          var effectiveTooltip = tooltip;
-          if (options.overrideTooltipByFontFamily) {
-            effectiveTooltip = effectiveTooltip.isNotEmpty
-                ? '$effectiveTooltip: $_currentValue'
-                : '${context.loc.font}: $_currentValue';
-          }
-          return Tooltip(message: effectiveTooltip, child: child);
-        },
-        child: Builder(
-          builder: (context) {
-            final isMaterial3 = Theme.of(context).useMaterial3;
-            if (!isMaterial3) {
-              return RawMaterialButton(
-                onPressed: _onPressed,
-                child: _buildContent(context),
-              );
-            }
-            return QuillToolbarIconButton(
-              isSelected: false,
-              iconTheme: iconTheme?.copyWith(
-                iconButtonSelectedData: const IconButtonData(
-                  visualDensity: VisualDensity.compact,
-                ),
-                iconButtonUnselectedData: const IconButtonData(
-                  visualDensity: VisualDensity.compact,
-                ),
-              ),
+    return UtilityWidgets.maybeWidget(
+      enabled: tooltip.isNotEmpty || options.overrideTooltipByFontFamily,
+      wrapper: (child) {
+        var effectiveTooltip = tooltip;
+        if (options.overrideTooltipByFontFamily) {
+          effectiveTooltip = effectiveTooltip.isNotEmpty
+              ? '$effectiveTooltip: $_currentValue'
+              : '${context.loc.font}: $_currentValue';
+        }
+        return Tooltip(message: effectiveTooltip, child: child);
+      },
+      child: Builder(
+        builder: (context) {
+          final isMaterial3 = Theme.of(context).useMaterial3;
+          if (!isMaterial3) {
+            return RawMaterialButton(
               onPressed: _onPressed,
-              icon: _buildContent(context),
+              child: _buildContent(context),
             );
-          },
-        ),
+          }
+          return QuillToolbarIconButton(
+            isSelected: false,
+            iconTheme: iconTheme?.copyWith(
+              iconButtonSelectedData: const IconButtonData(
+                visualDensity: VisualDensity.compact,
+              ),
+              iconButtonUnselectedData: const IconButtonData(
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+            onPressed: _onPressed,
+            icon: _buildContent(context),
+          );
+        },
       ),
     );
   }

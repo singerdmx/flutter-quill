@@ -107,15 +107,6 @@ class _QuillScreenState extends State<QuillScreen> {
                 },
                 child: const Text('Print as PDF'),
               ),
-              MenuItemButton(
-                child: const Text('Convert to markdown'),
-                onPressed: () {
-                  final delta = _controller.document.toDelta();
-                  // final content = DeltaToMarkdown().convert(delta);
-                  print('H');
-                  context.messenger.showText('Printted to log');
-                },
-              ),
             ],
           ),
           IconButton(

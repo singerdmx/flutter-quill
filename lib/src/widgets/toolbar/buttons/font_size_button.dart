@@ -13,6 +13,7 @@ import '../base_toolbar.dart';
 class QuillToolbarFontSizeButton extends StatefulWidget {
   QuillToolbarFontSizeButton({
     required this.controller,
+    @Deprecated('Please use the default display text from the options')
     this.defaultDisplayText,
     this.options = const QuillToolbarFontSizeButtonOptions(),
     super.key,
@@ -22,7 +23,6 @@ class QuillToolbarFontSizeButton extends StatefulWidget {
 
   final QuillToolbarFontSizeButtonOptions options;
 
-  @Deprecated('Please use the default display text from the options')
   final String? defaultDisplayText;
 
   /// Since we can't get the state from the instace of the widget for comparing
@@ -68,7 +68,6 @@ class QuillToolbarFontSizeButtonState
   String get _defaultDisplayText {
     return options.initialValue ??
         widget.options.defaultDisplayText ??
-        // ignore: deprecated_member_use_from_same_package
         widget.defaultDisplayText ??
         context.loc.fontSize;
   }

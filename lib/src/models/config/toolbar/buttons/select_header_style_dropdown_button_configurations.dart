@@ -31,6 +31,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     super.iconData,
     this.attributes,
     this.defaultDisplayText,
+    this.width,
   });
 
   /// By default we will the toolbar axis from [QuillSimpleToolbarConfigurations]
@@ -51,6 +52,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   /// ]
   /// ```
   final List<Attribute<int?>>? attributes;
+  final double? width;
 
   final String? defaultDisplayText;
 
@@ -65,6 +67,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     String? tooltip,
     QuillIconTheme? iconTheme,
     String? defaultDisplayText,
+    double? width,
   }) {
     return QuillToolbarSelectHeaderStyleDropdownButtonOptions(
       attributes: attributes ?? this.attributes,
@@ -75,6 +78,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
       iconSize: iconSize ?? this.iconSize,
       iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
       defaultDisplayText: defaultDisplayText ?? this.defaultDisplayText,
+      width: width ?? this.width,
     );
   }
 }

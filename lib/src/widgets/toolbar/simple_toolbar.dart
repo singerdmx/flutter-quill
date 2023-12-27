@@ -77,7 +77,6 @@ class QuillSimpleToolbar extends StatelessWidget
           QuillToolbarFontFamilyButton(
             options: toolbarConfigurations.buttonOptions.fontFamily,
             controller: globalController,
-            defaultDisplayText: context.loc.font,
           ),
         if (configurations.showFontSize)
           QuillToolbarFontSizeButton(
