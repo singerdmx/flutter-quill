@@ -2,6 +2,7 @@ import 'dart:async' show StreamController;
 
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
+import 'package:meta/meta.dart';
 
 import '../../../markdown_quill.dart';
 
@@ -458,6 +459,11 @@ class Document {
   /// 3. Decode the delta json string to [Delta]
   ///
   /// for more [info](https://github.com/singerdmx/flutter-quill/issues/1100)
+  ///
+  /// Please notice that this api is designed to be used internally and shouldn't
+  /// used for real world applications
+  ///
+  @experimental
   static Delta fromHtml(String html) {
     final markdown = html2md
         .convert(

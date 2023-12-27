@@ -2,6 +2,7 @@ import 'dart:convert' show jsonEncode;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/markdown_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
     show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
 import 'package:pdf/pdf.dart';
@@ -48,18 +49,6 @@ class _QuillScreenState extends State<QuillScreen> {
     super.initState();
     _controller.document = widget.args.document;
   }
-
-  // Future<void> _init() async {
-  //   final reader = await ClipboardReader.readClipboard();
-  //   if (reader.canProvide(Formats.htmlText)) {
-  //     final html = await reader.readValue(Formats.htmlText);
-  //     if (html == null) {
-  //       return;
-  //     }
-  //     final delta = DeltaHtmlExt.fromHtml(html);
-  //     _controller.document = Document.fromDelta(delta);
-  //   }
-  // }
 
   @override
   void dispose() {
@@ -117,6 +106,15 @@ class _QuillScreenState extends State<QuillScreen> {
                       onLayout: (format) async => pdfDocument.save());
                 },
                 child: const Text('Print as PDF'),
+              ),
+              MenuItemButton(
+                child: const Text('Convert to markdown'),
+                onPressed: () {
+                  final delta = _controller.document.toDelta();
+                  // final content = DeltaToMarkdown().convert(delta);
+                  print('H');
+                  context.messenger.showText('Printted to log');
+                },
               ),
             ],
           ),
