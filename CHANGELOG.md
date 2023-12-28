@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-# 9.1.1
+## 9.1.1
 * Require `super_clipboard` minimum version `0.8.1` to fix some bug with Linux build failure
 
 ## 9.1.1-dev
