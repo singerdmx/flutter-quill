@@ -2,12 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+# 9.1.1
+* Require `super_clipboard` minimum version `0.8.1` to fix some bug with Linux build failure
+
 ## 9.1.1-dev
 * Fix bug [#1636](https://github.com/singerdmx/flutter-quill/issues/1636)
 * Fix a where you paste styled content (HTML) it always insert a new line at first even if the document is empty
 * Fix the font size button and migrate to `MenuAnchor`
 * The `defaultDisplayText` is no longer required in the font size and header dropdown buttons
-* Add pdf converter in a new package (quill_pdf_converter)
+* Add pdf converter in a new package (`quill_pdf_converter`)
 
 ## 9.1.0
 * Fix the simple toolbar by add properties of `IconButton` and fix some buttons
