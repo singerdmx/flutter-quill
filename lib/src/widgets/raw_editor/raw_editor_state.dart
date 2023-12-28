@@ -177,21 +177,22 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    if (controller.copiedImageUrl != null) {
+    // When image copied internally in the editor
+    final copiedImageUrl = controller.copiedImageUrl;
+    if (copiedImageUrl != null) {
       final index = textEditingValue.selection.baseOffset;
       final length = textEditingValue.selection.extentOffset - index;
-      final copied = controller.copiedImageUrl!;
       controller.replaceText(
         index,
         length,
-        BlockEmbed.image(copied.url),
+        BlockEmbed.image(copiedImageUrl.url),
         null,
       );
-      if (copied.styleString.isNotEmpty) {
+      if (copiedImageUrl.styleString.isNotEmpty) {
         controller.formatText(
           getEmbedNode(controller, index + 1).offset,
           1,
-          StyleAttribute(copied.styleString),
+          StyleAttribute(copiedImageUrl.styleString),
         );
       }
       controller.copiedImageUrl = null;
@@ -206,46 +207,49 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    // TODO: Bug, Doesn't replace the selected text, it just add a new one
+    final clipboard = SystemClipboard.instance;
 
-    final reader = await ClipboardReader.readClipboard();
-    if (reader.canProvide(Formats.htmlText)) {
-      final html = await reader.readValue(Formats.htmlText);
-      if (html == null) {
-        return;
-      }
-      final deltaFromCliboard = Document.fromHtml(html);
-      var newDelta = Delta();
-      newDelta = newDelta.compose(deltaFromCliboard);
-      if (!controller.document.isEmpty()) {
-        newDelta = newDelta.compose(controller.document.toDelta());
-      }
+    if (clipboard != null) {
+      // TODO: Bug, Doesn't replace the selected text, it just add a new one
+      final reader = await clipboard.read();
+      if (reader.canProvide(Formats.htmlText)) {
+        final html = await reader.readValue(Formats.htmlText);
+        if (html == null) {
+          return;
+        }
+        final deltaFromClipboard = Document.fromHtml(html);
+        var newDelta = Delta();
+        newDelta = newDelta.compose(deltaFromClipboard);
+        if (!controller.document.isEmpty()) {
+          newDelta = newDelta.compose(controller.document.toDelta());
+        }
 
-      controller
-        ..setContents(
-          newDelta,
-        )
-        ..updateSelection(
-          TextSelection.collapsed(
-            offset: controller.document.length,
+        controller
+          ..setContents(
+            newDelta,
+          )
+          ..updateSelection(
+            TextSelection.collapsed(
+              offset: controller.document.length,
+            ),
+            ChangeSource.local,
+          );
+
+        bringIntoView(textEditingValue.selection.extent);
+
+        // Collapse the selection and hide the toolbar and handles.
+        userUpdateTextEditingValue(
+          TextEditingValue(
+            text: textEditingValue.text,
+            selection: TextSelection.collapsed(
+              offset: textEditingValue.selection.end,
+            ),
           ),
-          ChangeSource.local,
+          cause,
         );
 
-      bringIntoView(textEditingValue.selection.extent);
-
-      // Collapse the selection and hide the toolbar and handles.
-      userUpdateTextEditingValue(
-        TextEditingValue(
-          text: textEditingValue.text,
-          selection: TextSelection.collapsed(
-            offset: textEditingValue.selection.end,
-          ),
-        ),
-        cause,
-      );
-
-      return;
+        return;
+      }
     }
 
     // Snapshot the input before using `await`.
@@ -279,25 +283,27 @@ class QuillRawEditorState extends EditorState
 
     final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
-      final reader = await ClipboardReader.readClipboard();
-      if (!reader.canProvide(Formats.png)) {
-        return;
-      }
-      reader.getFile(Formats.png, (value) async {
-        final image = value;
-
-        final imageUrl = await onImagePaste(await image.readAll());
-        if (imageUrl == null) {
+      if (clipboard != null) {
+        final reader = await clipboard.read();
+        if (!reader.canProvide(Formats.png)) {
           return;
         }
+        reader.getFile(Formats.png, (value) async {
+          final image = value;
 
-        controller.replaceText(
-          textEditingValue.selection.end,
-          0,
-          BlockEmbed.image(imageUrl),
-          null,
-        );
-      });
+          final imageUrl = await onImagePaste(await image.readAll());
+          if (imageUrl == null) {
+            return;
+          }
+
+          controller.replaceText(
+            textEditingValue.selection.end,
+            0,
+            BlockEmbed.image(imageUrl),
+            null,
+          );
+        });
+      }
     }
   }
 

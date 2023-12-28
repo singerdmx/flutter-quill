@@ -137,25 +137,25 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get headerStyle => 'ستايل العنوان';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'عادي';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'ترويسة ١';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'ترويسة ٢';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'ترويسة ٣';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'ترويسة ٤';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'ترويسة ٥';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'ترويسة ٦';
 
   @override
   String get numberedList => 'قائمة مرقمة';
@@ -249,20 +249,20 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get insertImage => 'إدراج صورة';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'اختيار صورة من معرض الصور';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'التقاط صورة باستخدام الكاميرا';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'لصق صورة باستخدام رابط';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'اختيار فيديو من معرض الفيديو';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'تسجيل فيديو باستخدام الكاميرا';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'لصق فيديو باستخدام رابط';
 }

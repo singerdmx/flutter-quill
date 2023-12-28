@@ -1,13 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart' show ThemeMode;
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart' show HydratedMixin;
+import 'package:hydrated_bloc/hydrated_bloc.dart' show HydratedCubit;
 
 part 'settings_state.dart';
 part 'settings_cubit.freezed.dart';
 part 'settings_cubit.g.dart';
 
-class SettingsCubit extends Cubit<SettingsState> with HydratedMixin {
+class SettingsCubit extends HydratedCubit<SettingsState> {
   SettingsCubit() : super(const SettingsState());
 
   void updateSettings(SettingsState newSettingsState) {

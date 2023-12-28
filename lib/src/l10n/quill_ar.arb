@@ -73,6 +73,19 @@
     "photo": "صورة",
     "image": "صورة",
     "caseSensitivityAndWholeWordSearch": "حالة الحساسية والبحث عن كلمة كاملة",
-    "insertImage": "إدراج صورة"
+    "insertImage": "إدراج صورة",
+    "normal": "عادي",
+    "heading1": "ترويسة ١",
+    "heading2": "ترويسة ٢",
+    "heading3": "ترويسة ٣",
+    "heading4": "ترويسة ٤",
+    "heading5": "ترويسة ٥",
+    "heading6": "ترويسة ٦",
+    "pickAPhotoFromYourGallery": "اختيار صورة من معرض الصور",
+    "takeAPhotoUsingYourCamera": "التقاط صورة باستخدام الكاميرا",
+    "pasteAPhotoUsingALink": "لصق صورة باستخدام رابط",
+    "pickAVideoFromYourGallery": "اختيار فيديو من معرض الفيديو",
+    "recordAVideoUsingYourCamera": "تسجيل فيديو باستخدام الكاميرا",
+    "pasteAVideoUsingALink": "لصق فيديو باستخدام رابط"
 }
   

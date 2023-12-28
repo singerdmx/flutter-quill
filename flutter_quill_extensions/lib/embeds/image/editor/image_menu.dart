@@ -96,9 +96,10 @@ class ImageOptionsMenu extends StatelessWidget {
               );
 
               final data = await convertImageToUint8List(image);
+              final clipboard = SystemClipboard.instance;
               if (data != null) {
                 final item = DataWriterItem()..add(Formats.png(data));
-                await ClipboardWriter.instance.write([item]);
+                await clipboard?.write([item]);
               }
               navigator.pop();
             },
