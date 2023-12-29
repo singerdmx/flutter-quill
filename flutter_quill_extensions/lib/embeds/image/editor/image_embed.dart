@@ -64,15 +64,13 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         }
         showDialog(
           context: context,
-          builder: (_) => FlutterQuillLocalizationsWidget(
-            child: ImageOptionsMenu(
-              controller: controller,
-              configurations: configurations,
-              imageSource: imageSource,
-              imageSize: imageSize,
-              isReadOnly: readOnly,
-              imageSaverService: imageSaverService,
-            ),
+          builder: (_) => ImageOptionsMenu(
+            controller: controller,
+            configurations: configurations,
+            imageSource: imageSource,
+            imageSize: imageSize,
+            isReadOnly: readOnly,
+            imageSaverService: imageSaverService,
           ),
         );
       },
