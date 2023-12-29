@@ -1,6 +1,5 @@
 import 'dart:io' show File;
 
-import 'package:flutter/foundation.dart' show VoidCallback;
 import 'package:flutter_quill/extensions.dart';
 import 'package:meta/meta.dart' show immutable;
 
@@ -103,8 +102,9 @@ class QuillEditorImageEmbedConfigurations {
 
   /// What should happen when the image is pressed?
   ///
-  /// By default will show `ImageOptionsMenu` dialog
-  final VoidCallback? onImageClicked;
+  /// By default will show `ImageOptionsMenu` dialog. If you want to handle what happens
+  /// to the image when it's clicked, you can pass a callback to this property.
+  final void Function(String imageSource)? onImageClicked;
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
     return (imageUrl) async {
