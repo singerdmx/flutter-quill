@@ -56,8 +56,9 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         QuillSharedExtensionsConfigurations.get(context: context)
             .imageSaverService;
     return GestureDetector(
-      onTap: configurations.onImageClicked ??
-          () => showDialog(
+      onTap: configurations.onImageClicked != null
+          ? () => configurations.onImageClicked!(imageSource)
+          : () => showDialog(
                 context: context,
                 builder: (_) => FlutterQuillLocalizationsWidget(
                   child: ImageOptionsMenu(
