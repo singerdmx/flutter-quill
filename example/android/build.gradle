@@ -24,7 +24,7 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 
-    // For mode details visit https://gist.github.com/freshtechtips/93fefb39e48c40592bda3931e05fd35c
+    // For mode details visit https://gist.github.com/ellet0/93fefb39e48c40592bda3931e05fd35c
     afterEvaluate {
         // check if android block is available
 

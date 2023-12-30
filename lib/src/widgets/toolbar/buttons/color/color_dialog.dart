@@ -6,6 +6,11 @@ import '../../../../../translations.dart';
 import '../../../../models/documents/style.dart';
 import 'color_button.dart' show hexToColor;
 
+enum _PickerType {
+  material,
+  color,
+}
+
 class ColorPickerDialog extends StatefulWidget {
   const ColorPickerDialog({
     required this.isBackground,
@@ -17,7 +22,7 @@ class ColorPickerDialog extends StatefulWidget {
   final bool isBackground;
 
   final bool isToggledColor;
-  final Function(BuildContext context, Color color) onRequestChangeColor;
+  final Function(BuildContext context, Color? color) onRequestChangeColor;
   final Style selectionStyle;
 
   @override
@@ -25,7 +30,7 @@ class ColorPickerDialog extends StatefulWidget {
 }
 
 class ColorPickerDialogState extends State<ColorPickerDialog> {
-  var pickerType = 'material';
+  var pickerType = _PickerType.material;
   var selectedColor = Colors.black;
 
   late final TextEditingController hexController;
@@ -61,24 +66,33 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
             Row(
               children: [
                 TextButton(
-                    onPressed: () {
-                      setState(() {
-                        pickerType = 'material';
-                      });
-                    },
-                    child: Text(context.loc.material)),
+                  onPressed: () {
+                    setState(() {
+                      pickerType = _PickerType.material;
+                    });
+                  },
+                  child: Text(context.loc.material),
+                ),
                 TextButton(
-                    onPressed: () {
-                      setState(() {
-                        pickerType = 'color';
-                      });
-                    },
-                    child: Text(context.loc.color)),
+                  onPressed: () {
+                    setState(() {
+                      pickerType = _PickerType.color;
+                    });
+                  },
+                  child: Text(context.loc.color),
+                ),
+                TextButton(
+                  onPressed: () {
+                    widget.onRequestChangeColor(context, null);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(context.loc.clear),
+                ),
               ],
             ),
             Column(
               children: [
-                if (pickerType == 'material')
+                if (pickerType == _PickerType.material)
                   MaterialPicker(
                     pickerColor: selectedColor,
                     onColorChanged: (color) {
@@ -86,7 +100,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       Navigator.of(context).pop();
                     },
                   ),
-                if (pickerType == 'color')
+                if (pickerType == _PickerType.color)
                   ColorPicker(
                     pickerColor: selectedColor,
                     onColorChanged: (color) {

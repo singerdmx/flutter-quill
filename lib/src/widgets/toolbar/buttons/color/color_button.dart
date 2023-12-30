@@ -32,7 +32,6 @@ class QuillToolbarColorButton extends StatefulWidget {
   QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
 }
 
-// TODO: This button shouldn't require anything to use it
 class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   late bool _isToggledColor;
   late bool _isToggledBackground;
@@ -165,8 +164,6 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
-      // if the caller using Cupertino app he might need to wrap the builder
-      // with Material() widget
       return childBuilder(
         QuillToolbarColorButtonOptions(
           afterButtonPressed: afterButtonPressed,
@@ -206,7 +203,15 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     );
   }
 
-  void _changeColor(BuildContext context, Color color) {
+  void _changeColor(BuildContext context, Color? color) {
+    if (color == null) {
+      widget.controller.formatSelection(
+        widget.isBackground
+            ? const BackgroundAttribute(null)
+            : const ColorAttribute(null),
+      );
+      return;
+    }
     var hex = colorToHex(color);
     hex = '#$hex';
     widget.controller.formatSelection(

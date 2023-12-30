@@ -36,7 +36,6 @@ class QuillSharedExtensionsConfigurations {
 
   /// The key to be used in the `extraConfigurations` property
   /// which can be found in the [QuillSharedConfigurations]
-  /// which lives in the [QuillConfigurations]
   ///
   /// which exists in the [QuillEditorConfigurations]
   static const String key = 'QuillSharedExtensionsConfigurations';

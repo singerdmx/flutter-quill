@@ -23,8 +23,6 @@ class QuillToolbarBaseButtonExtraOptions extends Equatable {
     required this.onPressed,
   });
 
-  /// if you need the not null controller for some usage in the [childBuilder]
-  /// then please use this instead of the one in the [options]
   final QuillController controller;
 
   /// if the child builder you must use this when the widget tapped or pressed
