@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../flutter_quill.dart'
-    show QuillToolbarProvider, defaultToolbarSize;
+    show QuillToolbarProvider, kDefaultToolbarSize;
 import '../../l10n/widgets/localizations.dart';
 import '../../models/config/toolbar/simple_toolbar_configurations.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
@@ -53,8 +53,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   // default
   @override
   Size get preferredSize => configurations.axis == Axis.horizontal
-      ? const Size.fromHeight(defaultToolbarSize)
-      : const Size.fromWidth(defaultToolbarSize);
+      ? const Size.fromHeight(kDefaultToolbarSize)
+      : const Size.fromWidth(kDefaultToolbarSize);
 
   @override
   Widget build(BuildContext context) {

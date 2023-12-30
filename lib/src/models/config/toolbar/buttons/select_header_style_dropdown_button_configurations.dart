@@ -25,8 +25,8 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     super.childBuilder,
     super.iconTheme,
     super.tooltip,
-    this.iconSize,
-    this.iconButtonFactor,
+    super.iconSize,
+    super.iconButtonFactor,
     this.textStyle,
     super.iconData,
     this.attributes,
@@ -34,9 +34,6 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     this.width,
   });
 
-  /// By default we will the toolbar axis from [QuillSimpleToolbarConfigurations]
-  final double? iconSize;
-  final double? iconButtonFactor;
   final TextStyle? textStyle;
 
   /// Header attributes, defaults to:

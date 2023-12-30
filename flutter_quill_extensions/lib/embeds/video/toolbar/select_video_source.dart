@@ -9,8 +9,8 @@ class SelectVideoSourceDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 230,
+    return Container(
+      constraints: const BoxConstraints(minHeight: 200),
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(

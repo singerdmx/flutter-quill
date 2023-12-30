@@ -32,10 +32,10 @@ export 'simple_toolbar_button_options.dart';
 const double kDefaultIconSize = 15;
 
 /// The default size for the toolbar (width, height)
-const double defaultToolbarSize = kDefaultIconSize * 2;
+const double kDefaultToolbarSize = kDefaultIconSize * 2;
 
 /// The factor of how much larger the button is in relation to the icon.
-const double kIconButtonFactor = 1.6;
+const double kDefaultIconButtonFactor = 1.6;
 
 /// The horizontal margin between the contents of each toolbar section.
 const double kToolbarSectionSpacing = 4;

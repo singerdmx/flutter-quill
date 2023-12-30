@@ -15,19 +15,6 @@ class QuillToolbarCustomButton extends StatelessWidget {
   final QuillController controller;
   final QuillToolbarCustomButtonOptions options;
 
-  double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.globalIconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor =
-        baseButtonExtraOptions(context)?.globalIconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
-  }
-
   VoidCallback? _afterButtonPressed(BuildContext context) {
     return options.afterButtonPressed ??
         baseButtonExtraOptions(context)?.afterButtonPressed;
@@ -54,8 +41,6 @@ class QuillToolbarCustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final iconTheme = _iconTheme(context);
     final tooltip = _tooltip(context);
-    final iconSize = _iconSize(context);
-    final iconButtonFactor = _iconButtonFactor(context);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
@@ -63,14 +48,7 @@ class QuillToolbarCustomButton extends StatelessWidget {
 
     if (childBuilder != null) {
       return childBuilder(
-        QuillToolbarCustomButtonOptions(
-          iconButtonFactor: iconButtonFactor,
-          iconSize: iconSize,
-          afterButtonPressed: afterButtonPressed,
-          iconTheme: iconTheme,
-          tooltip: tooltip,
-          icon: options.icon,
-        ),
+        options,
         QuillToolbarCustomButtonExtraOptions(
           context: context,
           controller: controller,

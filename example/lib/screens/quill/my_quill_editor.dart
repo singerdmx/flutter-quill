@@ -37,9 +37,7 @@ class MyQuillEditor extends StatelessWidget {
           codeBlock: QuillEditorCodeBlockElementOptions(
             enableLineNumbers: true,
           ),
-          orderedList: QuillEditorOrderedListElementOptions(
-            customWidget: Icon(Icons.add),
-          ),
+          orderedList: QuillEditorOrderedListElementOptions(),
           unorderedList: QuillEditorUnOrderedListElementOptions(
             useTextColorForDot: true,
           ),

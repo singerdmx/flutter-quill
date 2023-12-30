@@ -32,7 +32,7 @@ class QuillToolbarImageButton extends StatelessWidget {
     final baseIconFactor =
         baseButtonExtraOptions(context)?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {

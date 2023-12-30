@@ -4,7 +4,8 @@ import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
 import '../../../../flutter_quill.dart' show QuillController;
 import '../../themes/quill_icon_theme.dart' show QuillIconTheme;
-import '../quill_configurations.dart' show kDefaultIconSize, kIconButtonFactor;
+import '../quill_configurations.dart'
+    show kDefaultIconSize, kDefaultIconButtonFactor;
 
 class QuillToolbarBaseButtonExtraOptionsIsToggled extends Equatable {
   const QuillToolbarBaseButtonExtraOptionsIsToggled(this.isToggled);
@@ -44,7 +45,9 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   const QuillToolbarBaseButtonOptions({
     this.iconData,
     this.globalIconSize = kDefaultIconSize,
-    this.globalIconButtonFactor = kIconButtonFactor,
+    this.iconSize,
+    this.iconButtonFactor,
+    this.globalIconButtonFactor = kDefaultIconButtonFactor,
     this.afterButtonPressed,
     this.tooltip,
     this.iconTheme,
@@ -61,9 +64,13 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   /// this will be used for all the buttons but you can override this
   final double globalIconSize;
 
+  final double? iconSize;
+
   /// The factor of how much larger the button is in relation to the icon,
-  /// by default it will be [kIconButtonFactor].
+  /// by default it will be [kDefaultIconButtonFactor].
   final double globalIconButtonFactor;
+
+  final double? iconButtonFactor;
 
   /// To do extra logic after pressing the button
   final VoidCallback? afterButtonPressed;

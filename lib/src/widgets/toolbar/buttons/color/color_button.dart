@@ -112,7 +112,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   double get iconButtonFactor {
     final baseIconFactor = baseButtonExtraOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
@@ -165,16 +165,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        QuillToolbarColorButtonOptions(
-          afterButtonPressed: afterButtonPressed,
-          dialogBarrierColor: options.dialogBarrierColor,
-          tooltip: tooltip,
-          iconTheme: iconTheme,
-          iconSize: iconSize,
-          iconData: iconData,
-          iconButtonFactor: iconButtonFactor,
-          customOnPressedCallback: options.customOnPressedCallback,
-        ),
+        options,
         QuillToolbarColorButtonExtraOptions(
           controller: controller,
           context: context,

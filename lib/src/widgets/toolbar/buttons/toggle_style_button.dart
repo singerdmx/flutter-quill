@@ -71,7 +71,7 @@ class QuillToolbarToggleStyleButtonState
     final baseIconFactor =
         context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
@@ -157,15 +157,7 @@ class QuillToolbarToggleStyleButtonState
         context.quillToolbarBaseButtonOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        QuillToolbarToggleStyleButtonOptions(
-          afterButtonPressed: options.afterButtonPressed,
-          fillColor: options.fillColor,
-          iconButtonFactor: options.iconButtonFactor,
-          iconData: iconData,
-          iconSize: iconSize,
-          tooltip: tooltip,
-          iconTheme: iconTheme,
-        ),
+        options,
         QuillToolbarToggleStyleButtonExtraOptions(
           context: context,
           controller: controller,
@@ -244,7 +236,7 @@ Widget defaultToggleStyleButtonBuilder(
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [
   double iconSize = kDefaultIconSize,
-  double iconButtonFactor = kIconButtonFactor,
+  double iconButtonFactor = kDefaultIconButtonFactor,
   QuillIconTheme? iconTheme,
 ]) {
   final isEnabled = onPressed != null;

@@ -32,7 +32,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
     final baseIconFactor =
         baseButtonExtraOptions(context)?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
@@ -85,17 +85,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
 
     if (childBuilder != null) {
       return childBuilder(
-        QuillToolbarSearchButtonOptions(
-          afterButtonPressed: afterButtonPressed,
-          dialogBarrierColor: _dialogBarrierColor(context),
-          dialogTheme: _dialogTheme(context),
-          fillColor: options.fillColor,
-          iconData: iconData,
-          iconSize: iconSize,
-          iconButtonFactor: iconButtonFactor,
-          tooltip: tooltip,
-          iconTheme: iconTheme,
-        ),
+        options,
         QuillToolbarSearchButtonExtraOptions(
           controller: controller,
           context: context,

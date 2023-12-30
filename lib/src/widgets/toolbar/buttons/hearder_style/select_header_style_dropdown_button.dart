@@ -99,7 +99,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     final baseIconFactor =
         context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
     final iconButtonFactor = widget.options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   QuillIconTheme? get iconTheme {
@@ -113,9 +113,6 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
           Attribute.h1,
           Attribute.h2,
           Attribute.h3,
-          Attribute.h4,
-          Attribute.h5,
-          Attribute.h6,
           Attribute.header,
         ];
   }
@@ -147,11 +144,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
         widget.options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        widget.options.copyWith(
-          iconSize: iconSize,
-          iconTheme: iconTheme,
-          afterButtonPressed: afterButtonPressed,
-        ),
+        widget.options,
         QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions(
           currentValue: _selectedItem,
           context: context,

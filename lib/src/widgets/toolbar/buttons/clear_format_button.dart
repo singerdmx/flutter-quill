@@ -1,120 +1,64 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
-import '../../../models/themes/quill_icon_theme.dart';
-import '../../quill/quill_controller.dart';
+import '../base_button/stateless_base_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarClearFormatButton extends StatelessWidget {
+class QuillToolbarClearFormatButton extends QuillToolbarBaseButton {
   const QuillToolbarClearFormatButton({
-    required QuillController controller,
-    this.options = const QuillToolbarClearFormatButtonOptions(),
+    required super.controller,
+    super.options,
     super.key,
-  }) : _controller = controller;
-
-  final QuillController _controller;
-  final QuillToolbarClearFormatButtonOptions options;
-
-  QuillController get controller {
-    return _controller;
-  }
-
-  double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.globalIconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor =
-        baseButtonExtraOptions(context)?.globalIconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
-  }
-
-  VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
-  }
-
-  QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.format_clear;
-  }
-
-  String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        (context.loc.clearFormat);
-  }
+  });
 
   void _sharedOnPressed() {
-    final attrs = <Attribute>{};
+    final attributes = <Attribute>{};
     for (final style in controller.getAllSelectionStyles()) {
       for (final attr in style.attributes.values) {
-        attrs.add(attr);
+        attributes.add(attr);
       }
     }
-    for (final attr in attrs) {
-      controller.formatSelection(Attribute.clone(attr, null));
+    for (final attribute in attributes) {
+      controller.formatSelection(Attribute.clone(attribute, null));
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final iconTheme = _iconTheme(context);
-    final tooltip = _tooltip(context);
-    final iconSize = _iconSize(context);
-    final iconButtonFactor = _iconButtonFactor(context);
-    final iconData = _iconData(context);
-
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
-    final afterButtonPressed = _afterButtonPressed(context);
-
-    if (childBuilder != null) {
-      return childBuilder(
-        QuillToolbarClearFormatButtonOptions(
-          afterButtonPressed: afterButtonPressed,
-          iconData: iconData,
-          iconSize: iconSize,
-          iconButtonFactor: iconButtonFactor,
-          iconTheme: iconTheme,
-          tooltip: tooltip,
-        ),
-        QuillToolbarClearFormatButtonExtraOptions(
-          controller: controller,
-          context: context,
-          onPressed: () {
-            _sharedOnPressed();
-            _afterButtonPressed(context)?.call();
-          },
-        ),
-      );
-    }
-
+  Widget buildButton(BuildContext context) {
     return QuillToolbarIconButton(
-      tooltip: tooltip,
+      tooltip: tooltip(context),
       icon: Icon(
-        iconData,
-        size: iconSize * iconButtonFactor,
-        // color: iconColor,
+        iconData(context),
+        size: iconSize(context) * iconButtonFactor(context),
       ),
       isSelected: false,
       onPressed: _sharedOnPressed,
-      afterPressed: afterButtonPressed,
-      iconTheme: iconTheme,
+      afterPressed: afterButtonPressed(context),
+      iconTheme: iconTheme(context),
     );
   }
+
+  @override
+  Widget? buildCustomChildBuilder(BuildContext context) {
+    return options?.childBuilder?.call(
+      options,
+      QuillToolbarClearFormatButtonExtraOptions(
+        controller: controller,
+        context: context,
+        onPressed: () {
+          _sharedOnPressed();
+          afterButtonPressed(context)?.call();
+        },
+      ),
+    );
+  }
+
+  @override
+  IconData Function(BuildContext context) get getDefaultIconData =>
+      (context) => Icons.format_clear;
+
+  @override
+  String Function(BuildContext context) get getDefaultIconSize =>
+      (context) => context.loc.clearFormat;
 }

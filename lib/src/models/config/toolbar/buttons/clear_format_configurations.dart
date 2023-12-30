@@ -18,10 +18,9 @@ class QuillToolbarClearFormatButtonOptions
     super.childBuilder,
     super.iconTheme,
     super.tooltip,
-    this.iconSize,
+    super.iconSize,
     this.iconButtonFactor,
   });
 
-  final double? iconSize;
   final double? iconButtonFactor;
 }

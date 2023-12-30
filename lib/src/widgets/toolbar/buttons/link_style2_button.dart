@@ -78,7 +78,7 @@ class _QuillToolbarLinkStyleButton2State
   double get iconButtonFactor {
     final baseIconFactor = baseButtonExtraOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
@@ -116,24 +116,7 @@ class _QuillToolbarLinkStyleButton2State
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        QuillToolbarLinkStyleButton2Options(
-          iconData: iconData,
-          addLinkLabel: options.addLinkLabel,
-          afterButtonPressed: options.afterButtonPressed,
-          autovalidateMode: options.autovalidateMode,
-          buttonSize: options.buttonSize,
-          childrenSpacing: options.childrenSpacing,
-          dialogBarrierColor: dialogBarrierColor,
-          dialogTheme: options.dialogTheme,
-          iconSize: iconSize,
-          iconButtonFactor: iconButtonFactor,
-          constraints: options.constraints,
-          tooltip: tooltip,
-          iconTheme: iconTheme,
-          editLinkLabel: options.editLinkLabel,
-          validationMessage: options.validationMessage,
-          linkColor: options.linkColor,
-        ),
+        options,
         QuillToolbarLinkStyleButton2ExtraOptions(
           controller: controller,
           context: context,

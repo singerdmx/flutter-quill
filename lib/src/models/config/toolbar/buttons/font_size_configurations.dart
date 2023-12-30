@@ -33,8 +33,8 @@ class QuillToolbarFontSizeButtonExtraOptions
 class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   const QuillToolbarFontSizeButtonOptions({
-    this.iconSize,
-    this.iconButtonFactor,
+    super.iconSize,
+    super.iconButtonFactor,
     this.rawItemsMap,
     this.onSelected,
     this.attribute = Attribute.size,
@@ -52,9 +52,6 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.shape,
     this.defaultDisplayText,
   });
-
-  final double? iconSize;
-  final double? iconButtonFactor;
 
   final ButtonStyle? shape;
 

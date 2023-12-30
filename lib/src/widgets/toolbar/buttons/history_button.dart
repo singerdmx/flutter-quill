@@ -68,7 +68,7 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
         kDefaultIconSize;
     final iconButtonFactor = options.iconButtonFactor ??
         baseButtonConfigurations?.globalIconButtonFactor ??
-        kIconButtonFactor;
+        kDefaultIconButtonFactor;
     final iconTheme = options.iconTheme ?? baseButtonConfigurations?.iconTheme;
 
     final afterButtonPressed = options.afterButtonPressed ??
@@ -76,14 +76,7 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
 
     if (childBuilder != null) {
       return childBuilder(
-        QuillToolbarHistoryButtonOptions(
-          afterButtonPressed: afterButtonPressed,
-          iconData: iconData,
-          iconSize: iconSize,
-          iconButtonFactor: iconButtonFactor,
-          iconTheme: iconTheme,
-          tooltip: tooltip,
-        ),
+        options,
         QuillToolbarHistoryButtonExtraOptions(
           onPressed: () {
             _updateHistory();

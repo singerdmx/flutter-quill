@@ -106,7 +106,7 @@ class QuillToolbarFontSizeButtonState
     final baseIconFactor =
         context.quillToolbarBaseButtonOptions?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? get afterButtonPressed {
@@ -141,12 +141,7 @@ class QuillToolbarFontSizeButtonState
         options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
-        options.copyWith(
-          tooltip: tooltip,
-          iconSize: iconSize,
-          iconButtonFactor: iconButtonFactor,
-          afterButtonPressed: afterButtonPressed,
-        ),
+        options,
         QuillToolbarFontSizeButtonExtraOptions(
           controller: controller,
           currentValue: _currentValue,

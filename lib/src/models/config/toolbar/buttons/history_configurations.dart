@@ -25,11 +25,7 @@ class QuillToolbarHistoryButtonOptions extends QuillToolbarBaseButtonOptions<
     super.afterButtonPressed,
     super.tooltip,
     super.childBuilder,
-    this.iconSize,
-    this.iconButtonFactor,
+    super.iconSize,
+    super.iconButtonFactor,
   });
-
-  /// By default will use [globalIconSize]
-  final double? iconSize;
-  final double? iconButtonFactor;
 }

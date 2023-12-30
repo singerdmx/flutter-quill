@@ -7,7 +7,7 @@ import 'package:flutter_quill/flutter_quill.dart'
         QuillToolbarBaseButtonOptions,
         QuillToolbarIconButton,
         kDefaultIconSize,
-        kIconButtonFactor;
+        kDefaultIconButtonFactor;
 import 'package:flutter_quill/translations.dart';
 
 import '../../../models/config/camera/camera_configurations.dart';
@@ -36,7 +36,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final baseIconFactor =
         baseButtonExtraOptions(context)?.globalIconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kIconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {

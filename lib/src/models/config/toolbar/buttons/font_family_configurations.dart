@@ -49,8 +49,8 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.itemPadding,
     this.defaultItemColor = Colors.red,
     this.renderFontFamilies = true,
-    this.iconSize,
-    this.iconButtonFactor,
+    super.iconSize,
+    super.iconButtonFactor,
     this.defaultDisplayText,
   });
 
@@ -71,10 +71,6 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
   final String? defaultDisplayText;
-
-  /// By default will use [globalIconSize]
-  final double? iconSize;
-  final double? iconButtonFactor;
 
   QuillToolbarFontFamilyButtonOptions copyWith({
     List<PopupMenuEntry<String>>? items,

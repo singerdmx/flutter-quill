@@ -15,8 +15,6 @@ class QuillToolbarCustomButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarBaseButtonOptions, QuillToolbarCustomButtonExtraOptions> {
   const QuillToolbarCustomButtonOptions({
     this.icon,
-    this.iconButtonFactor,
-    this.iconSize,
     super.afterButtonPressed,
     super.tooltip,
     super.iconTheme,
@@ -24,8 +22,6 @@ class QuillToolbarCustomButtonOptions extends QuillToolbarBaseButtonOptions<
     this.onPressed,
   });
 
-  final double? iconButtonFactor;
-  final double? iconSize;
   final VoidCallback? onPressed;
   final Widget? icon;
 }

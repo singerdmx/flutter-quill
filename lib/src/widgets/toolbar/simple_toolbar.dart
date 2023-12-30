@@ -365,8 +365,8 @@ class QuillSimpleToolbar extends StatelessWidget
 
   @override
   Size get preferredSize => configurations.axis == Axis.horizontal
-      ? const Size.fromHeight(defaultToolbarSize)
-      : const Size.fromWidth(defaultToolbarSize);
+      ? const Size.fromHeight(kDefaultToolbarSize)
+      : const Size.fromWidth(kDefaultToolbarSize);
 }
 
 /// The divider which is used for separation of buttons in the toolbar.
