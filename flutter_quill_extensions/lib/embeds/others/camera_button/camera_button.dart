@@ -10,8 +10,8 @@ import 'package:flutter_quill/flutter_quill.dart'
         kIconButtonFactor;
 import 'package:flutter_quill/translations.dart';
 
-import '../../../models/config/shared_configurations.dart';
 import '../../../models/config/camera/camera_configurations.dart';
+import '../../../models/config/shared_configurations.dart';
 import '../../../services/image_picker/image_options.dart';
 import 'camera_types.dart';
 import 'select_camera_action.dart';
