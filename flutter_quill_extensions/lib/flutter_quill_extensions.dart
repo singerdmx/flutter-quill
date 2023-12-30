@@ -1,7 +1,7 @@
 library flutter_quill_extensions;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart' as fq;
 import 'package:meta/meta.dart' show immutable;
 
 import 'embeds/image/editor/image_embed.dart';
@@ -68,7 +68,7 @@ class FlutterQuillEmbeds {
   /// );
   /// ```
   ///
-  static List<EmbedBuilder> editorBuilders({
+  static List<fq.EmbedBuilder> editorBuilders({
     QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
         const QuillEditorImageEmbedConfigurations(),
     QuillEditorVideoEmbedConfigurations? videoEmbedConfigurations =
@@ -100,7 +100,7 @@ class FlutterQuillEmbeds {
   /// [QuillEditorWebVideoEmbedBuilder] is the embed builder for handling
   ///  videos iframe on the web. this will use <iframe> tag of HTML
   ///
-  static List<EmbedBuilder> editorWebBuilders({
+  static List<fq.EmbedBuilder> editorWebBuilders({
     QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
         const QuillEditorImageEmbedConfigurations(),
     QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
@@ -129,7 +129,7 @@ class FlutterQuillEmbeds {
   /// It will use [editorWebBuilders] for web and [editorBuilders] for others
   ///
   /// It's not customizable with minimal configurations
-  static List<EmbedBuilder> defaultEditorBuilders() {
+  static List<fq.EmbedBuilder> defaultEditorBuilders() {
     return kIsWeb ? editorWebBuilders() : editorBuilders();
   }
 
@@ -139,7 +139,7 @@ class FlutterQuillEmbeds {
   /// pass null to the options of it
   ///
   /// The returned list contains embed button builders for the Quill toolbar.
-  static List<EmbedButtonBuilder> toolbarButtons({
+  static List<fq.EmbedButtonBuilder> toolbarButtons({
     QuillToolbarImageButtonOptions? imageButtonOptions =
         const QuillToolbarImageButtonOptions(),
     QuillToolbarVideoButtonOptions? videoButtonOptions =
