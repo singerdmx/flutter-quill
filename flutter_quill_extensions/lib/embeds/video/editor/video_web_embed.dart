@@ -4,7 +4,7 @@ import 'package:universal_html/html.dart' as html;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart'
     show YoutubePlayer;
 
-import '../../../models/config/editor/video/video_web_configurations.dart';
+import '../../../models/config/video/editor/video_web_configurations.dart';
 import '../../../utils/dart_ui/dart_ui_fake.dart'
     if (dart.library.html) '../../../utils/dart_ui/dart_ui_real.dart' as ui;
 import '../../../utils/element_utils/element_web_utils.dart';

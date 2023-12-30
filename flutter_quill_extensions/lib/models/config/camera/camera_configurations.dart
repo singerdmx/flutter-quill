@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show Color;
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../../../embeds/others/camera_button/camera_types.dart';
+import '../../../embeds/others/camera_button/camera_types.dart';
 
 class QuillToolbarCameraButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

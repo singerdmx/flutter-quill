@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../../models/config/editor/video/video_configurations.dart';
+import '../../../models/config/video/editor/video_configurations.dart';
 import '../../../utils/element_utils/element_utils.dart';
 import '../../../utils/utils.dart';
 import '../../widgets/video_app.dart';

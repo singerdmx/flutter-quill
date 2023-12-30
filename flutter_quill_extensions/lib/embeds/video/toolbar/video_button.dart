@@ -1,11 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
 import '../../../models/config/shared_configurations.dart';
-import '../../../models/config/toolbar/buttons/video_configurations.dart';
+import '../../../models/config/video/toolbar/video_configurations.dart';
 import '../../../services/image_picker/image_options.dart';
 import '../../others/image_video_utils.dart';
 import '../video.dart';
@@ -141,7 +139,8 @@ class QuillToolbarVideoButton extends StatelessWidget {
         (await imagePickerService.pickVideo(source: ImageSource.gallery))?.path,
       InsertVideoSource.camera =>
         (await imagePickerService.pickVideo(source: ImageSource.camera))?.path,
-      InsertVideoSource.link => await _typeLink(context),
+      InsertVideoSource.link =>
+        context.mounted ? await _typeLink(context) : null,
     };
     if (videoUrl == null) {
       return;

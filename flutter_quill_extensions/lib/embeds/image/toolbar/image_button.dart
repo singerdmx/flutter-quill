@@ -5,7 +5,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
 import '../../../models/config/shared_configurations.dart';
-import '../../../models/config/toolbar/buttons/image_configurations.dart';
+import '../../../models/config/image/toolbar/image_configurations.dart';
 import '../../../services/image_picker/image_picker.dart';
 import '../../others/image_video_utils.dart';
 import '../editor/image_embed_types.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
 import 'package:flutter_quill/translations.dart';
 
-import '../../../models/config/editor/image/image_configurations.dart';
+import '../../../models/config/image/editor/image_configurations.dart';
 import '../../../models/config/shared_configurations.dart';
 import '../../../utils/element_utils/element_utils.dart';
 import '../../widgets/image.dart';
