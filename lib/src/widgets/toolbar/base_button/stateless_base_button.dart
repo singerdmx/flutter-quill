@@ -20,14 +20,13 @@ abstract class QuillToolbarBaseButton<T, I> extends StatelessWidget {
   final QuillController controller;
 
   double iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.globalIconSize;
+    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options?.iconSize;
     return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double iconButtonFactor(BuildContext context) {
-    final baseIconFactor =
-        baseButtonExtraOptions(context)?.globalIconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options?.iconButtonFactor;
     return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }

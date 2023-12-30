@@ -64,10 +64,10 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
     final childBuilder =
         options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     final iconSize = options.iconSize ??
-        baseButtonConfigurations?.globalIconSize ??
+        baseButtonConfigurations?.iconSize ??
         kDefaultIconSize;
     final iconButtonFactor = options.iconButtonFactor ??
-        baseButtonConfigurations?.globalIconButtonFactor ??
+        baseButtonConfigurations?.iconButtonFactor ??
         kDefaultIconButtonFactor;
     final iconTheme = options.iconTheme ?? baseButtonConfigurations?.iconTheme;
 

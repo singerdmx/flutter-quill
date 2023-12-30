@@ -53,8 +53,7 @@ class QuillSimpleToolbar extends StatelessWidget
       final toolbarConfigurations =
           context.requireQuillSimpleToolbarConfigurations;
 
-      final globalIconSize =
-          toolbarConfigurations.buttonOptions.base.globalIconSize;
+      final globalIconSize = toolbarConfigurations.buttonOptions.base.iconSize;
 
       final axis = toolbarConfigurations.axis;
       final globalController = configurations.controller;
@@ -151,7 +150,7 @@ class QuillSimpleToolbar extends StatelessWidget
           for (final builder in theEmbedButtons)
             builder(
                 globalController,
-                globalIconSize,
+                globalIconSize ?? kDefaultIconSize,
                 context.quillToolbarBaseButtonOptions?.iconTheme,
                 configurations.dialogTheme),
         if (configurations.showDividers &&

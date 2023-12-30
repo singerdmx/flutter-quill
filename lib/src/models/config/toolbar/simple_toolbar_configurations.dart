@@ -142,7 +142,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     if (alternativeToolbarSize != null) {
       return alternativeToolbarSize;
     }
-    return buttonOptions.base.globalIconSize * 2;
+    return (buttonOptions.base.iconSize ?? kDefaultIconSize) * 2;
   }
 
   final Map<String, String>? fontFamilyValues;

@@ -125,7 +125,7 @@ class QuillToolbarFontFamilyButtonState
   }
 
   double get iconSize {
-    final baseFontSize = context.quillToolbarBaseButtonOptions?.globalIconSize;
+    final baseFontSize = context.quillToolbarBaseButtonOptions?.iconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }

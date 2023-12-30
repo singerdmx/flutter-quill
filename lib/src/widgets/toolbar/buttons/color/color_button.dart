@@ -104,13 +104,13 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
   }
 
   double get iconSize {
-    final baseFontSize = baseButtonExtraOptions?.globalIconSize;
+    final baseFontSize = baseButtonExtraOptions?.iconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
   double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions?.globalIconButtonFactor;
+    final baseIconFactor = baseButtonExtraOptions?.iconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
     return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
   }

@@ -44,9 +44,12 @@ class QuillToolbarBaseButtonExtraOptions extends Equatable {
 class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   const QuillToolbarBaseButtonOptions({
     this.iconData,
+    @Deprecated('This will be removed in future releases, use iconSize instead')
     this.globalIconSize = kDefaultIconSize,
     this.iconSize,
     this.iconButtonFactor,
+    @Deprecated(
+        'This will be removed in future releases, use iconButtonFactor instead')
     this.globalIconButtonFactor = kDefaultIconButtonFactor,
     this.afterButtonPressed,
     this.tooltip,
@@ -62,12 +65,18 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   /// To change the the icon size pass a different value, by default will be
   /// [kDefaultIconSize].
   /// this will be used for all the buttons but you can override this
+  @Deprecated('This will be removed in future releases, use iconSize instead')
   final double globalIconSize;
 
+  /// To change the the icon size pass a different value, by default will be
+  /// [kDefaultIconSize].
+  /// this will be used for all the buttons but you can override this
   final double? iconSize;
 
   /// The factor of how much larger the button is in relation to the icon,
   /// by default it will be [kDefaultIconButtonFactor].
+  @Deprecated(
+      'This will be removed in future releases, use iconButtonFactor instead')
   final double globalIconButtonFactor;
 
   final double? iconButtonFactor;
@@ -87,7 +96,8 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   @override
   List<Object?> get props => [
         iconData,
-        globalIconSize,
+        iconSize,
+        iconButtonFactor,
         afterButtonPressed,
         tooltip,
         iconTheme,

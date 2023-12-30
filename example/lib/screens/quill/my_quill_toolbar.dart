@@ -205,7 +205,7 @@ class MyQuillToolbar extends StatelessWidget {
             buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 afterButtonPressed: focusNode.requestFocus,
-                // globalIconSize: 20,
+                // iconSize: 20,
                 // iconTheme: QuillIconTheme(
                 //   iconButtonSelectedData: IconButtonData(
                 //     style: IconButton.styleFrom(
