@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
 
-import '../../models/config/editor/image/image.dart';
+import '../../models/config/editor/image/image_configurations.dart';
 import '../../utils/utils.dart';
 import '../image/editor/image_embed_types.dart';
 

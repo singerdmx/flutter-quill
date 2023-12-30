@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
 
-import '../../../models/config/editor/image/image_web.dart';
+import '../../../models/config/editor/image/image_web_configurations.dart';
 import '../../../utils/dart_ui/dart_ui_fake.dart'
     if (dart.library.html) '../../../utils/dart_ui/dart_ui_real.dart' as ui;
 import '../../../utils/element_utils/element_web_utils.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../../models/config/toolbar/buttons/formula.dart';
+import '../../../models/config/toolbar/buttons/formula_configurations.dart';
 
 class QuillToolbarFormulaButton extends StatelessWidget {
   const QuillToolbarFormulaButton({
