@@ -138,23 +138,6 @@ class FlutterQuillEmbeds {
   /// If you don't want to show one of the buttons for soem reason,
   /// pass null to the options of it
   ///
-  /// Example of customizing media pick settings for the image button:
-  /// ```dart
-  /// mediaPickSettingSelector: (context) async {
-  ///   final mediaPickSetting = await showModalBottomSheet<MediaPickSetting>(
-  ///     showDragHandle: true,
-  ///     context: context,
-  ///     constraints: const BoxConstraints(maxWidth: 640),
-  ///     builder: (context) => const SelectImageSourceDialog(),
-  ///   );
-  ///   if (mediaPickSetting == null) {
-  ///     return null;
-  ///   }
-  ///   return mediaPickSetting;
-  /// }
-  /// ```
-  ///
-  ///
   /// The returned list contains embed button builders for the Quill toolbar.
   static List<EmbedButtonBuilder> toolbarButtons({
     QuillToolbarImageButtonOptions? imageButtonOptions =
