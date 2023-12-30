@@ -7,10 +7,8 @@ import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 
-import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
 import '../../utils/delta.dart';
-import '../../utils/font.dart';
 import '../editor/editor.dart';
 import 'raw_editor.dart';
 
