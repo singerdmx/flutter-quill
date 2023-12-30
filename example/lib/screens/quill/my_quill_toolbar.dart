@@ -216,12 +216,12 @@ class MyQuillToolbar extends StatelessWidget {
                 // iconTheme: QuillIconTheme(
                 //   iconButtonSelectedData: IconButtonData(
                 //     style: IconButton.styleFrom(
-                //       foregroundColor: Colors.amberAccent,
+                //       foregroundColor: Colors.blue,
                 //     ),
                 //   ),
                 //   iconButtonUnselectedData: IconButtonData(
                 //     style: IconButton.styleFrom(
-                //       foregroundColor: Colors.amberAccent,
+                //       foregroundColor: Colors.red,
                 //     ),
                 //   ),
                 // ),
