@@ -168,11 +168,13 @@ class QuillSimpleToolbar extends StatelessWidget
         if (configurations.showAlignmentButtons)
           QuillToolbarSelectAlignmentButtons(
             controller: globalController,
-            options: toolbarConfigurations.buttonOptions.selectAlignmentButtons,
-            showLeftAlignment: configurations.showLeftAlignment,
-            showCenterAlignment: configurations.showCenterAlignment,
-            showRightAlignment: configurations.showRightAlignment,
-            showJustifyAlignment: configurations.showJustifyAlignment,
+            options: toolbarConfigurations.buttonOptions.selectAlignmentButtons
+                .copyWith(
+              showLeftAlignment: configurations.showLeftAlignment,
+              showCenterAlignment: configurations.showCenterAlignment,
+              showRightAlignment: configurations.showRightAlignment,
+              showJustifyAlignment: configurations.showJustifyAlignment,
+            ),
           ),
         if (configurations.showDirection)
           QuillToolbarToggleStyleButton(

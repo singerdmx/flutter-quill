@@ -71,12 +71,12 @@ class QuillController extends ChangeNotifier {
   // from the current line
 
   /// The current font family, null to use the default one
-  String? _selectedFontFamily;
+  MapEntry<String, String>? _selectedFontFamily;
 
   /// The current font family, null to use the default one
-  String? get selectedFontFamily => _selectedFontFamily;
+  MapEntry<String, String>? get selectedFontFamily => _selectedFontFamily;
 
-  void selectFontFamily(String? newFontFamily) {
+  void selectFontFamily(MapEntry<String, String>? newFontFamily) {
     _selectedFontFamily = newFontFamily;
   }
 

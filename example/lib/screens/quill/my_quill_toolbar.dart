@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart' show isAndroid, isIOS, isWeb;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart'
@@ -202,6 +203,12 @@ class MyQuillToolbar extends StatelessWidget {
             controller: controller,
             showAlignmentButtons: true,
             multiRowsDisplay: true,
+            fontFamilyValues: {
+              'Amatic': GoogleFonts.amaticSc().fontFamily!,
+              'Annie': GoogleFonts.annieUseYourTelescope().fontFamily!,
+              'Formal': GoogleFonts.petitFormalScript().fontFamily!,
+              'Roboto': GoogleFonts.roboto().fontFamily!
+            },
             buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 afterButtonPressed: focusNode.requestFocus,

@@ -1,4 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/widgets.dart' show IconData, immutable;
+
+import '../../../documents/attribute.dart';
 import '../base_button_configurations.dart';
 
 class QuillToolbarSelectAlignmentButtonExtraOptions
@@ -24,6 +27,11 @@ class QuillToolbarSelectAlignmentButtonOptions
     /// This will called on every select alignment button
     super.childBuilder,
     super.iconTheme,
+    this.attributes,
+    this.showLeftAlignment = true,
+    this.showCenterAlignment = true,
+    this.showRightAlignment = true,
+    this.showJustifyAlignment = true,
   });
 
   /// Default to
@@ -37,6 +45,33 @@ class QuillToolbarSelectAlignmentButtonOptions
 
   /// By default will use the localized tooltips
   final QuillSelectAlignmentValues<String>? tooltips;
+
+  final List<Attribute>? attributes;
+
+  final bool showLeftAlignment;
+  final bool showCenterAlignment;
+  final bool showRightAlignment;
+  final bool showJustifyAlignment;
+
+  QuillToolbarSelectAlignmentButtonOptions copyWith({
+    QuillSelectAlignmentValues<IconData>? iconsData,
+    QuillSelectAlignmentValues<String>? tooltips,
+    List<Attribute>? attributes,
+    bool? showLeftAlignment,
+    bool? showCenterAlignment,
+    bool? showRightAlignment,
+    bool? showJustifyAlignment,
+  }) {
+    return QuillToolbarSelectAlignmentButtonOptions(
+      iconsData: iconsData ?? this.iconsData,
+      tooltips: tooltips ?? this.tooltips,
+      attributes: attributes ?? this.attributes,
+      showLeftAlignment: showLeftAlignment ?? this.showLeftAlignment,
+      showCenterAlignment: showCenterAlignment ?? this.showCenterAlignment,
+      showRightAlignment: showRightAlignment ?? this.showRightAlignment,
+      showJustifyAlignment: showJustifyAlignment ?? this.showJustifyAlignment,
+    );
+  }
 }
 
 /// A helper class which hold all the values for the alignments of the
