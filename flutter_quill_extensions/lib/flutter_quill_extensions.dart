@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 library flutter_quill_extensions;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -15,7 +13,6 @@ import 'embeds/video/editor/video_web_embed.dart';
 import 'embeds/video/toolbar/video_button.dart';
 import 'models/config/camera/camera_configurations.dart';
 import 'models/config/image/editor/image_configurations.dart';
-import 'models/config/image/editor/image_web_configurations.dart';
 import 'models/config/image/toolbar/image_configurations.dart';
 import 'models/config/media/media_button_configurations.dart';
 import 'models/config/video/editor/video_configurations.dart';
@@ -52,18 +49,13 @@ export 'utils/utils.dart';
 class FlutterQuillEmbeds {
   const FlutterQuillEmbeds._();
 
-  /// Returns a list of embed builders for QuillEditor.
+  /// Returns a list of embed builders for [QuillEditor].
   ///
   /// This method provides a collection of embed builders to enhance the
   /// functionality
   /// of a QuillEditor. It offers customization options for
   /// handling various types of
   /// embedded content, such as images, videos, and formulas.
-  ///
-  /// **Note:** This method is not intended for web usage.
-  /// For web-specific embeds,
-  /// use [editorWebBuilders].
-  ///
   ///
   /// The method returns a list of [EmbedBuilder] objects that can be used with
   ///  QuillEditor
@@ -76,8 +68,6 @@ class FlutterQuillEmbeds {
   /// );
   /// ```
   ///
-  /// if you don't want image embed in your quill editor then please pass null
-  /// to [imageEmbedConfigurations]. same apply to [videoEmbedConfigurations]
   static List<EmbedBuilder> editorBuilders({
     QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
         const QuillEditorImageEmbedConfigurations(),
@@ -105,10 +95,10 @@ class FlutterQuillEmbeds {
   /// Returns a list of embed builders specifically designed for web support.
   ///
   /// [QuillEditorWebImageEmbedBuilder] is the embed builder for handling
-  ///  images on the web.
+  ///  images on the web. this will use <img> tag of HTML
   ///
   /// [QuillEditorWebVideoEmbedBuilder] is the embed builder for handling
-  ///  videos iframe on the web.
+  ///  videos iframe on the web. this will use <iframe> tag of HTML
   ///
   static List<EmbedBuilder> editorWebBuilders({
     QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
@@ -166,7 +156,6 @@ class FlutterQuillEmbeds {
   ///
   ///
   /// The returned list contains embed button builders for the Quill toolbar.
-  /// the [formulaButtonOptions] will be disabled by default on web
   static List<EmbedButtonBuilder> toolbarButtons({
     QuillToolbarImageButtonOptions? imageButtonOptions =
         const QuillToolbarImageButtonOptions(),
@@ -194,7 +183,6 @@ class FlutterQuillEmbeds {
                 controller: controller,
                 options: cameraButtonOptions,
               ),
-        // TODO: We will return the support for this later
         // if (mediaButtonOptions != null)
         //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
         //       QuillToolbarMediaButton(
