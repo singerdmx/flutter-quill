@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Romanian Moldavian Moldovan (`ro`).
 class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsRo([String locale = 'ro']) : super(locale);
+  FlutterQuillLocalizationsRo([super.locale = 'ro']);
 
   @override
   String get pasteLink => 'Lipește un link';
@@ -225,11 +225,11 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Vă rugăm să introduceți un text pentru link-ul dvs. (de exemplu, \'Aflați mai multe\')';
+      "Vă rugăm să introduceți un text pentru link-ul dvs. (de exemplu, 'Aflați mai multe')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Vă rugăm să introduceți URL-ul link-ului (de exemplu, \'https://example.com\')';
+      "Vă rugăm să introduceți URL-ul link-ului (de exemplu, 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL =>
@@ -497,11 +497,11 @@ class FlutterQuillLocalizationsRoRo extends FlutterQuillLocalizationsRo {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Vă rugăm să introduceți un text pentru link-ul dvs. (de exemplu, \'Aflați mai multe\')';
+      "Vă rugăm să introduceți un text pentru link-ul dvs. (de exemplu, 'Aflați mai multe')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Vă rugăm să introduceți URL-ul link-ului (de exemplu, \'https://example.com\')';
+      "Vă rugăm să introduceți URL-ul link-ului (de exemplu, 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL =>
