@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart' show isAndroid, isIOS, isWeb;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart'
@@ -202,6 +203,25 @@ class MyQuillToolbar extends StatelessWidget {
             controller: controller,
             showAlignmentButtons: true,
             multiRowsDisplay: true,
+            fontFamilyValues: {
+              'Amatic': GoogleFonts.amaticSc().fontFamily!,
+              'Annie': GoogleFonts.annieUseYourTelescope().fontFamily!,
+              'Formal': GoogleFonts.petitFormalScript().fontFamily!,
+              'Roboto': GoogleFonts.roboto().fontFamily!
+            },
+            fontSizesValues: const {
+              '14': '14.0',
+              '16': '16.0',
+              '18': '18.0',
+              '20': '20.0',
+              '22': '22.0',
+              '24': '24.0',
+              '26': '26.0',
+              '28': '28.0',
+              '30': '30.0',
+              '35': '35.0',
+              '40': '40.0'
+            },
             buttonOptions: QuillSimpleToolbarButtonOptions(
               base: QuillToolbarBaseButtonOptions(
                 afterButtonPressed: focusNode.requestFocus,
@@ -209,12 +229,12 @@ class MyQuillToolbar extends StatelessWidget {
                 // iconTheme: QuillIconTheme(
                 //   iconButtonSelectedData: IconButtonData(
                 //     style: IconButton.styleFrom(
-                //       foregroundColor: Colors.amberAccent,
+                //       foregroundColor: Colors.blue,
                 //     ),
                 //   ),
                 //   iconButtonUnselectedData: IconButtonData(
                 //     style: IconButton.styleFrom(
-                //       foregroundColor: Colors.amberAccent,
+                //       foregroundColor: Colors.red,
                 //     ),
                 //   ),
                 // ),

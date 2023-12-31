@@ -4,46 +4,34 @@ import '../../../../models/documents/attribute.dart';
 import '../../../quill/quill_controller.dart';
 import '../../base_toolbar.dart';
 
-enum _AlignmentOptions {
-  left(attribute: Attribute.leftAlignment),
-  center(attribute: Attribute.centerAlignment),
-  right(attribute: Attribute.rightAlignment),
-  justifyMinWidth(attribute: Attribute.justifyAlignment);
-
-  const _AlignmentOptions({required this.attribute});
-
-  final Attribute attribute;
-}
-
 class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
   const QuillToolbarSelectAlignmentButtons({
     required this.controller,
     this.options = const QuillToolbarSelectAlignmentButtonOptions(),
-    this.showLeftAlignment,
-    this.showCenterAlignment,
-    this.showRightAlignment,
-    this.showJustifyAlignment,
-    this.padding,
     super.key,
   });
 
   final QuillController controller;
   final QuillToolbarSelectAlignmentButtonOptions options;
 
-  final bool? showLeftAlignment;
-  final bool? showCenterAlignment;
-  final bool? showRightAlignment;
-  final bool? showJustifyAlignment;
-  final EdgeInsetsGeometry? padding;
+  List<Attribute> get _attrbuites {
+    return options.attributes ??
+        [
+          if (options.showLeftAlignment) Attribute.leftAlignment,
+          if (options.showCenterAlignment) Attribute.centerAlignment,
+          if (options.showRightAlignment) Attribute.rightAlignment,
+          if (options.showJustifyAlignment) Attribute.justifyAlignment,
+        ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: _AlignmentOptions.values
+      children: _attrbuites
           .map((e) => QuillToolbarToggleStyleButton(
                 controller: controller,
-                attribute: e.attribute,
+                attribute: e,
                 options: QuillToolbarToggleStyleButtonOptions(
                   iconData: options.iconData,
                   iconSize: options.iconSize,

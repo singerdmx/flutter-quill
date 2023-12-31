@@ -41,29 +41,19 @@ class QuillToolbarFontFamilyButtonState
     return widget.options;
   }
 
-  // Style get _selectionStyle => controller.getSelectionStyle();
-
   @override
   void initState() {
     super.initState();
     _initState();
   }
 
-  void _initState() {
-    // controller.addListener(_didChangeEditingValue);
-  }
+  void _initState() {}
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _currentValue = _defaultDisplayText;
   }
-
-  // @override
-  // void dispose() {
-  //   controller.removeListener(_didChangeEditingValue);
-  //   super.dispose();
-  // }
 
   String get _defaultDisplayText {
     return options.initialValue ??
@@ -218,7 +208,7 @@ class QuillToolbarFontFamilyButtonState
                   controller.selectFontFamily(null);
                   return;
                 }
-                controller.selectFontFamily(fontFamily.value);
+                controller.selectFontFamily(fontFamily);
               },
               child: Text(
                 fontFamily.key.toString(),
@@ -272,7 +262,7 @@ class QuillToolbarFontFamilyButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              widget.controller.selectedFontFamily ?? _currentValue,
+              widget.controller.selectedFontFamily?.key ?? _currentValue,
               maxLines: 1,
               overflow: options.labelOverflow,
               style: options.style ??

@@ -1,28 +1,28 @@
 name: flutter_quill
 description: A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
-version: 9.1.1
+version: 9.2.0
 homepage: https://1o24bbs.com/c/bulletjournal/108/
 repository: https://github.com/singerdmx/flutter-quill/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
 documentation: https://github.com/singerdmx/flutter-quill/
 
 topics:
- - ui
- - widgets
- - widget
- - rich-text-editor
- - quill
+  - ui
+  - widgets
+  - widget
+  - rich-text-editor
+  - quill
 
 screenshots:
- - description: 'Screenshot 1'
-   path: example/assets/images/screenshot_1.png
- - description: 'Screenshot 2'
-   path: example/assets/images/screenshot_2.png
- - description: 'Screenshot 3'
-   path: example/assets/images/screenshot_3.png
- - description: 'Screenshot 4'
-   path: example/assets/images/screenshot_4.png
- 
+  - description: "Screenshot 1"
+    path: example/assets/images/screenshot_1.png
+  - description: "Screenshot 2"
+    path: example/assets/images/screenshot_2.png
+  - description: "Screenshot 3"
+    path: example/assets/images/screenshot_3.png
+  - description: "Screenshot 4"
+    path: example/assets/images/screenshot_4.png
+
 platforms:
   android:
   ios:
@@ -32,7 +32,7 @@ platforms:
   windows:
 
 environment:
-  sdk: '>=3.1.6 <4.0.0'
+  sdk: ">=3.1.6 <4.0.0"
   flutter: ">=3.16.0"
 
 dependencies:

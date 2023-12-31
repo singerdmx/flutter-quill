@@ -181,7 +181,7 @@ class QuillToolbarFontSizeButtonState
               controller.selectFontSize(null);
               return;
             }
-            controller.selectFontSize(fontSize.value);
+            controller.selectFontSize(fontSize);
           },
           child: Text(
             fontSize.key.toString(),
@@ -231,7 +231,7 @@ class QuillToolbarFontSizeButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              getLabel(widget.controller.selectedFontSize) ??
+              getLabel(widget.controller.selectedFontSize?.key) ??
                   getLabel(_currentValue) ??
                   '',
               overflow: options.labelOverflow,

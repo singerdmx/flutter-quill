@@ -23,13 +23,13 @@ Expanded(
 )
 ```
 
-Currently, translations are available for these 33 locales:
+Currently, translations are available for these 34 locales:
 
 * `Locale('en')`, `Locale('ar')`, `Locale('bn')`, `Locale('bs')`
 * `Locale('cs')`, `Locale('de')`, `Locale('da')`, `Locale('fr')`
 * `Locale('he')`, `Locale('zh', 'CN')`, `Locale('zh', 'HK')`
 * `Locale('ko')`, `Locale('ku')`, `Locale('ku', 'CKB')`
-* `Locale('ru')`, `Locale('es')`, `Locale('tk')`, `Locale('tr')`
+* `Locale('ro', 'RO')`, `Locale('ru')`, `Locale('es')`, `Locale('tk')`, `Locale('tr')`
 * `Locale('uk')`, `Locale('ur')`, `Locale('pt')`, `Locale('pl')`
 * `Locale('vi')`, `Locale('id')`, `Locale('it')`, `Locale('ms')`
 * `Locale('nl')`, `Locale('no')`, `Locale('fa')`, `Locale('hi')`
@@ -49,16 +49,18 @@ Also, you can take a look at the [untranslated.json](../lib/src/l10n/untranslate
 After you are done and want to test the changes, run the following in the root folder (preferred):
 
 ```
-flutter gen-l10n
-```
-
-or:
-
-```
 ./scripts/regenerate_translations.sh
+```
+
+or (if you can't run the script for some reasons):
+
+```
+flutter gen-l10n
+dart fix --apply ./lib/src/l10n/generated
+dart format ./lib/src/l10n/generated
 ```
 
 
 This will generate the new dart files from the arb files in order to take effect, otherwise, you won't notice a difference
 
- Then open a pull request so everyone can benefit from your translations!
+Then open a pull request so everyone can benefit from your translations!

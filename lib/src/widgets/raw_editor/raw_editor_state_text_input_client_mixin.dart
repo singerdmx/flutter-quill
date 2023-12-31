@@ -7,10 +7,8 @@ import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 
-import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
 import '../../utils/delta.dart';
-import '../../utils/font.dart';
 import '../editor/editor.dart';
 import 'raw_editor.dart';
 
@@ -208,27 +206,27 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         value.selection,
       );
 
-      if (widget.configurations.controller.selectedFontFamily != null) {
-        widget.configurations.controller.formatSelection(
-          Attribute.fromKeyValue(
-            Attribute.font.key,
-            widget.configurations.controller.selectedFontFamily,
-          ),
-        );
-      }
+      // if (widget.configurations.controller.selectedFontFamily != null) {
+      //   widget.configurations.controller.formatSelection(
+      //     Attribute.fromKeyValue(
+      //       Attribute.font.key,
+      //       widget.configurations.controller.selectedFontFamily?.value,
+      //     ),
+      //   );
+      // }
 
-      if (widget.configurations.controller.selectedFontSize != null) {
-        widget.configurations.controller.formatSelection(
-          Attribute.fromKeyValue(
-            Attribute.size.key,
-            widget.configurations.controller.selectedFontSize == '0'
-                ? null
-                : getFontSize(
-                    widget.configurations.controller.selectedFontSize,
-                  ),
-          ),
-        );
-      }
+      // if (widget.configurations.controller.selectedFontSize != null) {
+      //   widget.configurations.controller.formatSelection(
+      //     Attribute.fromKeyValue(
+      //       Attribute.size.key,
+      //       widget.configurations.controller.selectedFontSize == '0'
+      //           ? null
+      //           : getFontSize(
+      //               widget.configurations.controller.selectedFontSize,
+      //             ),
+      //     ),
+      //   );
+      // }
       // if (widget.configurations.controller.keepStyleOnNewLine) {
       //   widget.configurations.controller.selectedStyles.forEach((key, value) {
       //     if (value ?? false) {

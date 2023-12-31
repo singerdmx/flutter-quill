@@ -47,6 +47,7 @@ dependencies:
   # For sharing text
   share_plus: ^7.2.1
   printing: ^5.11.1
+  google_fonts: ^6.1.0
 
 dependency_overrides:
   flutter_quill:
