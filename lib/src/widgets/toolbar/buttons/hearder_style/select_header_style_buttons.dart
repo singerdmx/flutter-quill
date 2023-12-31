@@ -157,14 +157,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
           ),
           child: QuillToolbarIconButton(
             tooltip: tooltip,
-            iconTheme: iconTheme?.copyWith(
-              iconButtonSelectedData: const IconButtonData(
-                visualDensity: VisualDensity.compact,
-              ),
-              iconButtonUnselectedData: const IconButtonData(
-                visualDensity: VisualDensity.compact,
-              ),
-            ),
+            iconTheme: iconTheme,
             isSelected: isSelected,
             onPressed: () => _sharedOnPressed(attribute),
             icon: Text(
@@ -173,12 +166,10 @@ class QuillToolbarSelectHeaderStyleButtonsState
                     'attrbuite',
                   )),
               style: style.copyWith(
-                  // color: isSelected
-                  //     ? (iconTheme?.iconSelectedFillColor ??
-                  //         theme.primaryIconTheme.color)
-                  //     : (iconTheme?.iconUnselectedFillColor ??
-                  //         theme.iconTheme.color),
-                  ),
+                color: isSelected
+                    ? iconTheme?.iconButtonSelectedData?.color
+                    : iconTheme?.iconButtonUnselectedData?.color,
+              ),
             ),
           ),
         ),
