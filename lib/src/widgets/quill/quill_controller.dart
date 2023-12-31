@@ -81,12 +81,12 @@ class QuillController extends ChangeNotifier {
   }
 
   /// The current font size, null to use the default one
-  String? _selectedFontSize;
+  MapEntry<String, String>? _selectedFontSize;
 
   /// The current font size, null to use the default one
-  String? get selectedFontSize => _selectedFontSize;
+  MapEntry<String, String>? get selectedFontSize => _selectedFontSize;
 
-  void selectFontSize(String? newFontSize) {
+  void selectFontSize(MapEntry<String, String>? newFontSize) {
     _selectedFontSize = newFontSize;
   }
 

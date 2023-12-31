@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.1
+* Fix [bug](https://github.com/singerdmx/flutter-quill/issues/1119#issuecomment-1872605246) with font size button
+
 ## 9.2.0
 * Require minimum version `6.0.0` of `flutter_keyboard_visibility` to fix some build issues with Android Gradle Plugin 8.2.0
 * Add on image clicked in `flutter_quill_extensions` callback
