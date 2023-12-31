@@ -222,24 +222,25 @@ class MyQuillToolbar extends StatelessWidget {
               '35': '35.0',
               '40': '40.0'
             },
-            buttonOptions: QuillSimpleToolbarButtonOptions(
-              base: QuillToolbarBaseButtonOptions(
-                afterButtonPressed: focusNode.requestFocus,
-                // iconSize: 20,
-                // iconTheme: QuillIconTheme(
-                //   iconButtonSelectedData: IconButtonData(
-                //     style: IconButton.styleFrom(
-                //       foregroundColor: Colors.blue,
-                //     ),
-                //   ),
-                //   iconButtonUnselectedData: IconButtonData(
-                //     style: IconButton.styleFrom(
-                //       foregroundColor: Colors.red,
-                //     ),
-                //   ),
-                // ),
-              ),
-            ),
+            // headerStyleType: HeaderStyleType.buttons,
+            // buttonOptions: QuillSimpleToolbarButtonOptions(
+            //   base: QuillToolbarBaseButtonOptions(
+            //     afterButtonPressed: focusNode.requestFocus,
+            //     // iconSize: 20,
+            //     iconTheme: QuillIconTheme(
+            //       iconButtonSelectedData: IconButtonData(
+            //         style: IconButton.styleFrom(
+            //           foregroundColor: Colors.blue,
+            //         ),
+            //       ),
+            //       iconButtonUnselectedData: IconButtonData(
+            //         style: IconButton.styleFrom(
+            //           foregroundColor: Colors.red,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             customButtons: [
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),
