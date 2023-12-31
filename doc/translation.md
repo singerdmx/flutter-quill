@@ -49,13 +49,15 @@ Also, you can take a look at the [untranslated.json](../lib/src/l10n/untranslate
 After you are done and want to test the changes, run the following in the root folder (preferred):
 
 ```
-flutter gen-l10n
-```
-
-or:
-
-```
 ./scripts/regenerate_translations.sh
+```
+
+or (if you can't run the script for some reasons):
+
+```
+flutter gen-l10n
+dart fix --apply ./lib/src/l10n/generated
+dart format ./lib/src/l10n/generated
 ```
 
 
