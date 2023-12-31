@@ -90,6 +90,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                 ),
               ],
             ),
+            const SizedBox(height: 6),
             Column(
               children: [
                 if (pickerType == _PickerType.material)
