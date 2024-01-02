@@ -19,6 +19,7 @@ import 'package:flutter/services.dart'
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
+import 'package:html/parser.dart' as html_parser;
 import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../quill_delta.dart';
@@ -217,7 +218,9 @@ class QuillRawEditorState extends EditorState
         if (html == null) {
           return;
         }
-        final deltaFromClipboard = Document.fromHtml(html);
+        final htmlBody = html_parser.parse(html).body?.outerHtml;
+        final deltaFromClipboard = Document.fromHtml(htmlBody ?? html);
+
         var newDelta = Delta();
         newDelta = newDelta.compose(deltaFromClipboard);
         if (!controller.document.isEmpty()) {

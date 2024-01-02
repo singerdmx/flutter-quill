@@ -49,6 +49,7 @@ dependencies:
   quiver: ^3.2.1
   equatable: ^2.0.5
   meta: ^1.9.1
+  html: ^0.15.4
 
   flutter_colorpicker: ^1.0.3
 
@@ -61,7 +62,7 @@ dependencies:
   url_launcher: ^6.1.14
   flutter_keyboard_visibility: ^6.0.0
   device_info_plus: ^9.1.0
-  super_clipboard: ^0.8.1
+  super_clipboard: ^0.8.2+1
 
 dev_dependencies:
   flutter_lints: ^3.0.1
