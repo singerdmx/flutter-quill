@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.2
+* Fix bug [#1627](https://github.com/singerdmx/flutter-quill/issues/1627)
+
 ## 9.2.1
 * Fix [bug](https://github.com/singerdmx/flutter-quill/issues/1119#issuecomment-1872605246) with font size button
 * Added ro RO translations
