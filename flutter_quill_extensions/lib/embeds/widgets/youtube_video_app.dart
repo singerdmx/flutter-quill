@@ -60,23 +60,14 @@ class YoutubeVideoAppState extends State<YoutubeVideoApp> {
       );
     }
 
-    return SizedBox(
-      height: 300,
-      child: YoutubePlayerBuilder(
-        player: YoutubePlayer(
-          controller: youtubeController,
-          showVideoProgressIndicator: true,
-        ),
-        builder: (context, player) {
-          return Column(
-            children: [
-              // some widgets
-              player,
-              //some other widgets
-            ],
-          );
-        },
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: youtubeController,
+        showVideoProgressIndicator: true,
       ),
+      builder: (context, player) {
+        return player;
+      },
     );
   }
 
