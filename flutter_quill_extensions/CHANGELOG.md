@@ -2,8 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.4
+* Use fixed version of intl
+
 ## 9.2.3
-* Allow to use any version of intl
+* remove unncessary column in Flutter quill video embed block
 
 ## 9.2.2
 * Fix bug [#1627](https://github.com/singerdmx/flutter-quill/issues/1627)
