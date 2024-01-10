@@ -36,7 +36,6 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
     if (isYouTubeUrl(videoUrl)) {
       return YoutubeVideoApp(
         videoUrl: videoUrl,
-        context: context,
         readOnly: readOnly,
       );
     }
