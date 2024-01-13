@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.5
+* Bumb version of `super_clipboard`
+
 ## 9.2.4
 * Use fixed version of intl
 
