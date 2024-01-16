@@ -203,7 +203,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         diff.start,
         diff.deleted.length,
         diff.inserted,
-        value.selection.copyWith(affinity: widget.configurations.controller.selection.affinity),
+        value.selection.copyWith(
+            affinity: widget.configurations.controller.selection.affinity),
       );
 
       // if (widget.configurations.controller.selectedFontFamily != null) {
