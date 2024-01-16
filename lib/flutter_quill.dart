@@ -8,6 +8,7 @@ export 'src/models/config/toolbar/toolbar_configurations.dart';
 export 'src/models/documents/attribute.dart';
 export 'src/models/documents/document.dart';
 export 'src/models/documents/nodes/block.dart';
+export 'src/models/documents/nodes/container.dart';
 export 'src/models/documents/nodes/embeddable.dart';
 export 'src/models/documents/nodes/leaf.dart';
 export 'src/models/documents/nodes/line.dart';
