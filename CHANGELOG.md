@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.6
+* [fix selection.affinity always downstream after updateEditingValue](https://github.com/singerdmx/flutter-quill/pull/1682)
+* Bumb version of `super_clipboard`
+
 ## 9.2.5
 * Bumb version of `super_clipboard`
 
