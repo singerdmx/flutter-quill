@@ -6,16 +6,11 @@ import 'embeds/image/editor/image_embed.dart';
 import 'embeds/image/editor/image_web_embed.dart';
 import 'embeds/image/toolbar/image_button.dart';
 import 'embeds/others/camera_button/camera_button.dart';
-import 'embeds/video/editor/video_embed.dart';
-import 'embeds/video/editor/video_web_embed.dart';
-import 'embeds/video/toolbar/video_button.dart';
 import 'models/config/camera/camera_configurations.dart';
 import 'models/config/image/editor/image_configurations.dart';
 import 'models/config/image/toolbar/image_configurations.dart';
 import 'models/config/media/media_button_configurations.dart';
-import 'models/config/video/editor/video_configurations.dart';
-import 'models/config/video/editor/video_web_configurations.dart';
-import 'models/config/video/toolbar/video_configurations.dart';
+
 
 @immutable
 class FlutterQuillEmbeds {
@@ -43,8 +38,7 @@ class FlutterQuillEmbeds {
   static List<fq.EmbedBuilder> editorBuilders({
     QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
         const QuillEditorImageEmbedConfigurations(),
-    QuillEditorVideoEmbedConfigurations? videoEmbedConfigurations =
-        const QuillEditorVideoEmbedConfigurations(),
+
   }) {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -56,10 +50,6 @@ class FlutterQuillEmbeds {
       if (imageEmbedConfigurations != null)
         QuillEditorImageEmbedBuilder(
           configurations: imageEmbedConfigurations,
-        ),
-      if (videoEmbedConfigurations != null)
-        QuillEditorVideoEmbedBuilder(
-          configurations: videoEmbedConfigurations,
         ),
     ];
   }
@@ -75,8 +65,6 @@ class FlutterQuillEmbeds {
   static List<fq.EmbedBuilder> editorWebBuilders({
     QuillEditorImageEmbedConfigurations? imageEmbedConfigurations =
         const QuillEditorImageEmbedConfigurations(),
-    QuillEditorWebVideoEmbedConfigurations? videoEmbedConfigurations =
-        const QuillEditorWebVideoEmbedConfigurations(),
   }) {
     if (!kIsWeb) {
       throw UnsupportedError(
@@ -88,10 +76,6 @@ class FlutterQuillEmbeds {
       if (imageEmbedConfigurations != null)
         QuillEditorImageEmbedBuilder(
           configurations: imageEmbedConfigurations,
-        ),
-      if (videoEmbedConfigurations != null)
-        QuillEditorWebVideoEmbedBuilder(
-          configurations: videoEmbedConfigurations,
         ),
     ];
   }
@@ -114,8 +98,6 @@ class FlutterQuillEmbeds {
   static List<fq.EmbedButtonBuilder> toolbarButtons({
     QuillToolbarImageButtonOptions? imageButtonOptions =
         const QuillToolbarImageButtonOptions(),
-    QuillToolbarVideoButtonOptions? videoButtonOptions =
-        const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
     QuillToolbarMediaButtonOptions? mediaButtonOptions,
   }) =>
@@ -125,12 +107,6 @@ class FlutterQuillEmbeds {
               QuillToolbarImageButton(
                 controller: controller,
                 options: imageButtonOptions,
-              ),
-        if (videoButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarVideoButton(
-                controller: controller,
-                options: videoButtonOptions,
               ),
         if (cameraButtonOptions != null)
           (controller, toolbarIconSize, iconTheme, dialogTheme) =>

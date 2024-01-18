@@ -24,15 +24,6 @@ class SelectCameraActionDialog extends StatelessWidget {
               enabled: !isDesktop(supportWeb: false),
               onTap: () => Navigator.of(context).pop(CameraAction.image),
             ),
-            ListTile(
-              title: Text(context.loc.video),
-              subtitle: Text(
-                context.loc.recordAVideoUsingYourCamera,
-              ),
-              leading: const Icon(Icons.camera),
-              enabled: !isDesktop(supportWeb: false),
-              onTap: () => Navigator.of(context).pop(CameraAction.video),
-            ),
           ],
         ),
       ),

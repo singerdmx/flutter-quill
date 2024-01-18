@@ -147,9 +147,6 @@ class MyQuillToolbar extends StatelessWidget {
                   QuillToolbarCameraButton(
                     controller: controller,
                   ),
-                  QuillToolbarVideoButton(
-                    controller: controller,
-                  ),
                   const VerticalDivider(),
                   QuillToolbarColorButton(
                     controller: controller,

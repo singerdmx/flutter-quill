@@ -40,7 +40,6 @@ dependencies:
 
   # Plugins
   video_player: ^2.8.1
-  youtube_player_flutter: ^8.1.2
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.4
   gal: ^2.2.0

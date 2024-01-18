@@ -2,10 +2,8 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:meta/meta.dart' show immutable;
 
 import '../../image/editor/image_embed_types.dart';
-import '../../video/video.dart';
 
 enum CameraAction {
-  video,
   image,
 }
 
@@ -23,10 +21,8 @@ class QuillToolbarCameraConfigurations {
     this.onRequestCameraActionCallback,
     OnImageInsertCallback? onImageInsertCallback,
     this.onImageInsertedCallback,
-    this.onVideoInsertedCallback,
-    OnVideoInsertCallback? onVideoInsertCallback,
-  })  : _onImageInsertCallback = onImageInsertCallback,
-        _onVideoInsertCallback = onVideoInsertCallback;
+  })  : _onImageInsertCallback = onImageInsertCallback;
+
 
   final OnRequestCameraActionCallback? onRequestCameraActionCallback;
 
@@ -38,11 +34,4 @@ class QuillToolbarCameraConfigurations {
     return _onImageInsertCallback ?? defaultOnImageInsertCallback();
   }
 
-  final OnVideoInsertedCallback? onVideoInsertedCallback;
-
-  final OnVideoInsertCallback? _onVideoInsertCallback;
-
-  OnVideoInsertCallback get onVideoInsertCallback {
-    return _onVideoInsertCallback ?? defaultOnVideoInsertCallback();
-  }
 }

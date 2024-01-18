@@ -12,6 +12,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   QuillEditorImageEmbedBuilder({
     required this.configurations,
   });
+
   final QuillEditorImageEmbedConfigurations configurations;
 
   @override
@@ -37,8 +38,8 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       context,
     );
 
-    final width = imageSize.width;
-    final height = imageSize.height;
+    final width = imageSize.width ?? MediaQuery.of(context).size.width;
+    final height = imageSize.height ?? 160;
 
     final image = getImageWidgetByImageSource(
       context: context,
@@ -81,10 +82,12 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
           if (margin != null) {
             return Padding(
               padding: EdgeInsets.all(margin),
-              child: image,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8), child: image),
             );
           }
-          return image;
+          return ClipRRect(
+              borderRadius: BorderRadius.circular(8), child: image);
         },
       ),
     );

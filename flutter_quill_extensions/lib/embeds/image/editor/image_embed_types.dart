@@ -43,7 +43,6 @@ typedef OnImageInsertedCallback = Future<void> Function(
 enum InsertImageSource {
   gallery,
   camera,
-  link,
 }
 
 /// Configurations for dealing with images, on insert a image
