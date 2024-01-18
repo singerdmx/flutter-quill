@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
     show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
