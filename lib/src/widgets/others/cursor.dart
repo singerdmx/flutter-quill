@@ -291,7 +291,7 @@ class CursorPainter {
 
     final caretHeight = editable!.getFullHeightForCaret(position);
     if (caretHeight != null) {
-      if (isAppleOS(supportWeb: true)) {
+      if (isAppleOS(supportWeb: false)) {
         // Center the caret vertically along the text.
         caretRect = Rect.fromLTWH(
           caretRect.left,
