@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 9.2.7
+## 9.2.8
 * feat: Export Container node as QuillContainer
 * fix web cursor position / height (don't use iOS logic)
 * Added Swedish translation
