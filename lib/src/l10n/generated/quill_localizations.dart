@@ -30,6 +30,7 @@ import 'quill_localizations_pt.dart';
 import 'quill_localizations_ro.dart';
 import 'quill_localizations_ru.dart';
 import 'quill_localizations_sr.dart';
+import 'quill_localizations_sv.dart';
 import 'quill_localizations_sw.dart';
 import 'quill_localizations_tk.dart';
 import 'quill_localizations_tr.dart';
@@ -152,6 +153,7 @@ abstract class FlutterQuillLocalizations {
     Locale('ro', 'RO'),
     Locale('ru'),
     Locale('sr'),
+    Locale('sv'),
     Locale('sw'),
     Locale('tk'),
     Locale('tr'),
@@ -723,6 +725,7 @@ class _FlutterQuillLocalizationsDelegate
         'ro',
         'ru',
         'sr',
+        'sv',
         'sw',
         'tk',
         'tr',
@@ -835,6 +838,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsRu();
     case 'sr':
       return FlutterQuillLocalizationsSr();
+    case 'sv':
+      return FlutterQuillLocalizationsSv();
     case 'sw':
       return FlutterQuillLocalizationsSw();
     case 'tk':
