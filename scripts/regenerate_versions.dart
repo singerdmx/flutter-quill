@@ -10,6 +10,7 @@ import '../version.dart';
 
 final packages = [
   './',
+  './dart_quill_delta',
   './flutter_quill_extensions',
   './flutter_quill_test',
   './quill_html_converter',
