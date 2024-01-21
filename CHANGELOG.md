@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 9.2.9
-* Placeholder
+* Refactor the type of `Delta().toJson()` to be more clear type
 
 ## 9.2.8
 * feat: Export Container node as QuillContainer
