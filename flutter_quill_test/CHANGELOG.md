@@ -3,7 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 ## 9.2.9
-* Placeholder
+* Refactor the type of `Delta().toJson()` to be more clear type
+
+## 9.2.8
+* feat: Export Container node as QuillContainer
+* fix web cursor position / height (don't use iOS logic)
+* Added Swedish translation
 
 ## 9.2.6
 * [fix selection.affinity always downstream after updateEditingValue](https://github.com/singerdmx/flutter-quill/pull/1682)
