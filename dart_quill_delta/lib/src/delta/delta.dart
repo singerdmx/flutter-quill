@@ -122,7 +122,8 @@ class Delta {
   List<Operation> toList() => List.from(operations);
 
   /// Returns JSON-serializable version of this delta.
-  List toJson() => toList().map((operation) => operation.toJson()).toList();
+  List<Map<String, dynamic>> toJson() =>
+      toList().map((operation) => operation.toJson()).toList();
 
   /// Returns `true` if this delta is empty.
   bool get isEmpty => operations.isEmpty;
