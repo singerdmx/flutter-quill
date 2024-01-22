@@ -13,23 +13,24 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   # Flutter Quill Packages
-  flutter_quill: ^9.1.0
-  flutter_quill_extensions: ^9.1.0
-  flutter_quill_test: ^9.1.0
-  quill_html_converter: ^0.0.1-experimental.1
+  flutter_quill: ^9.2.10
+  dart_quill_delta: ^9.2.10
+  flutter_quill_extensions: ^9.2.10
+  flutter_quill_test: ^9.2.10
+  quill_html_converter: ^9.2.10
   quill_pdf_converter: ^9.1.0
 
-  # Normal Packages
+  # No^9.2.10ackages
   path: ^1.8.3
   equatable: ^2.0.5
-  cross_file: ^0.3.3+6
-  cached_network_image: ^3.3.0
+  cross_file: ^0.3.3+8
+  cached_network_image: ^3.3.1
   pdf: ^3.10.7
 
   # Bloc libraries
   bloc: ^8.1.2
   flutter_bloc: ^8.1.3
-  hydrated_bloc: ^9.1.2
+  hydrated_bloc: ^9.1.3
 
   # Freezed
   freezed_annotation: ^2.4.1
@@ -54,6 +55,8 @@ dependency_overrides:
     path: ../
   flutter_quill_extensions:
     path: ../flutter_quill_extensions
+  dart_quill_delta:
+    path: ../dart_quill_delta
   flutter_quill_test:
     path: ../flutter_quill_test
   quill_html_converter:

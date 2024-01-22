@@ -44,7 +44,7 @@ dependencies:
 
   # Normal packages
   intl: ^0.18.1
-  dart_quill_delta: ^0.0.1
+  dart_quill_delta: ^9.2.10
   collection: ^1.17.0
   quiver: ^3.2.1
   equatable: ^2.0.5
@@ -68,7 +68,7 @@ dev_dependencies:
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
-  flutter_quill_test: ^9.0.0-dev-6
+  flutter_quill_test: ^9.2.10
   test: ^1.24.3
   # intl_translation: ^0.19.0
   yaml_edit: ^2.1.1
