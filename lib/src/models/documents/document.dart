@@ -219,7 +219,7 @@ class Document {
     if (res.node is Line) {
       return res;
     }
-    final block = res.node as Block;
+    final block = res.node as Block; // TODO: Can be nullable, handle this case
     return block.queryChild(res.offset, true);
   }
 

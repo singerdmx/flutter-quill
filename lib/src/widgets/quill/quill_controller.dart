@@ -251,8 +251,13 @@ class QuillController extends ChangeNotifier {
       // updateSelection(
       // TextSelection.collapsed(offset: document.length), ChangeSource.LOCAL);
       updateSelection(
-          TextSelection.collapsed(offset: selection.baseOffset + len),
-          ChangeSource.local);
+        (selection.baseOffset + len) > 0
+            ? TextSelection.collapsed(
+                offset: selection.baseOffset + len,
+              )
+            : TextSelection.collapsed(offset: document.length),
+        ChangeSource.local,
+      );
     } else {
       // no need to move cursor
       notifyListeners();
