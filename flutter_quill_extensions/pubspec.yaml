@@ -35,7 +35,7 @@ dependencies:
   universal_html: ^2.2.4
   cross_file: ^0.3.3+6
 
-  flutter_quill: ^9.2.1
+  flutter_quill: ^9.2.10
   photo_view: ^0.14.0
 
   # Plugins
@@ -43,7 +43,7 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.4
-  gal: ^2.2.0
+  gal: ^2.2.2
   gal_linux: ^0.0.1
   image_picker: ^1.0.4
 

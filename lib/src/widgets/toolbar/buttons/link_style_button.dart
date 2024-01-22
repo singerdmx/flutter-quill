@@ -143,8 +143,6 @@ class QuillToolbarLinkStyleButtonState
   }
 
   Future<void> _openLinkDialog(BuildContext context) async {
-    // TODO: Add a custom call back to customize this just like in the search dialog
-    // button
     final value = await showDialog<_TextLink>(
       context: context,
       barrierColor: dialogBarrierColor,

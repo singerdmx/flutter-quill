@@ -199,9 +199,6 @@ class QuillImageUtilities {
 
     final images = <String>[];
     for (final item in document.toDelta().toJson()) {
-      if (item is! Map) {
-        return [];
-      }
       if (!item.containsKey(Operation.insertKey)) {
         return [];
       }
