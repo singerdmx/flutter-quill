@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.10
+* Update example screenshots
+* Refactor `Container` to `QuillContainer` with backward compatibility
+* A workaround fix in history feature
+
 ## 9.2.9
 * Refactor the type of `Delta().toJson()` to be more clear type
 

@@ -38,7 +38,7 @@ abstract class RenderContentProxyBox implements RenderBox {
 /// [RenderContentProxyBox].
 abstract class RenderEditableBox extends RenderBox {
   /// The document node represented by this render box.
-  Container get container;
+  QuillContainer get container;
 
   /// Returns preferred line height at specified `position` in text.
   ///

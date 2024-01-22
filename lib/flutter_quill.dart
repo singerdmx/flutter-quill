@@ -1,7 +1,5 @@
 library flutter_quill;
 
-import 'src/models/documents/nodes/container.dart';
-
 export '/src/widgets/raw_editor/quill_single_child_scroll_view.dart';
 export 'src/extensions/quill_configurations_ext.dart';
 export 'src/models/config/quill_configurations.dart';
@@ -39,5 +37,3 @@ export 'src/widgets/toolbar/buttons/alignment/select_alignment_button.dart';
 export 'src/widgets/toolbar/buttons/hearder_style/select_header_style_dropdown_button.dart';
 export 'src/widgets/toolbar/simple_toolbar.dart';
 export 'src/widgets/utils/provider.dart';
-
-typedef QuillContainer = Container;

@@ -6,6 +6,11 @@ import 'leaf.dart';
 import 'line.dart';
 import 'node.dart';
 
+@Deprecated('Please use QuillContainer instead')
+
+/// For backward compatibility
+abstract base class Container<T extends Node?> extends QuillContainer<T> {}
+
 /// Container can accommodate other nodes.
 ///
 /// Delegates insert, retain and delete operations to children nodes. For each
@@ -14,7 +19,7 @@ import 'node.dart';
 ///
 /// Most of the operation handling logic is implemented by [Line]
 /// and [QuillText].
-abstract base class Container<T extends Node?> extends Node {
+abstract base class QuillContainer<T extends Node?> extends Node {
   final LinkedList<Node> _children = LinkedList<Node>();
 
   /// List of children.
@@ -64,7 +69,7 @@ abstract base class Container<T extends Node?> extends Node {
   }
 
   /// Moves children of this node to [newParent].
-  void moveChildToNewParent(Container? newParent) {
+  void moveChildToNewParent(QuillContainer? newParent) {
     if (isEmpty) {
       return;
     }
@@ -154,7 +159,7 @@ abstract base class Container<T extends Node?> extends Node {
   String toString() => _children.join('\n');
 }
 
-/// Result of a child query in a [Container].
+/// Result of a child query in a [QuillContainer].
 class ChildQuery {
   ChildQuery(this.node, this.offset);
 
@@ -163,7 +168,7 @@ class ChildQuery {
 
   /// Starting offset within the child [node] which points at the same
   /// character in the document as the original offset passed to
-  /// [Container.queryChild] method.
+  /// [QuillContainer.queryChild] method.
   final int offset;
 
   /// Returns `true` if there is no child node found, e.g. [node] is `null`.

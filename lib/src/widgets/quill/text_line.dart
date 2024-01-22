@@ -895,7 +895,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   }
 
   @override
-  container_node.Container get container => line;
+  container_node.QuillContainer get container => line;
 
   double get cursorWidth => cursorCont.style.width;
 

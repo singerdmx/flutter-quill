@@ -13,7 +13,7 @@ import 'node.dart';
 /// - Text Alignment
 /// - Text Direction
 /// - Code Block
-base class Block extends Container<Line?> {
+base class Block extends QuillContainer<Line?> {
   /// Creates new unmounted [Block].
   @override
   Node newInstance() => Block();
@@ -47,7 +47,7 @@ base class Block extends Container<Line?> {
         block.previous is Block &&
         prev!.style == block.style) {
       block
-        ..moveChildToNewParent(prev as Container<Node?>?)
+        ..moveChildToNewParent(prev as QuillContainer<Node?>?)
         ..unlink();
       block = prev as Block;
     }

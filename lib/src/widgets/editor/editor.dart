@@ -1503,7 +1503,7 @@ class RenderEditableContainerBox extends RenderBox
         RenderBoxContainerDefaultsMixin<RenderEditableBox,
             EditableContainerParentData> {
   RenderEditableContainerBox({
-    required container_node.Container container,
+    required container_node.QuillContainer container,
     required this.textDirection,
     required this.scrollBottomInset,
     required EdgeInsetsGeometry padding,
@@ -1514,15 +1514,15 @@ class RenderEditableContainerBox extends RenderBox
     addAll(children);
   }
 
-  container_node.Container _container;
+  container_node.QuillContainer _container;
   TextDirection textDirection;
   EdgeInsetsGeometry _padding;
   double scrollBottomInset;
   EdgeInsets? _resolvedPadding;
 
-  container_node.Container get container => _container;
+  container_node.QuillContainer get container => _container;
 
-  void setContainer(container_node.Container c) {
+  void setContainer(container_node.QuillContainer c) {
     if (_container == c) {
       return;
     }
