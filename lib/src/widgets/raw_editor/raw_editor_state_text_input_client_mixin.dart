@@ -206,35 +206,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         value.selection.copyWith(
             affinity: widget.configurations.controller.selection.affinity),
       );
-
-      // if (widget.configurations.controller.selectedFontFamily != null) {
-      //   widget.configurations.controller.formatSelection(
-      //     Attribute.fromKeyValue(
-      //       Attribute.font.key,
-      //       widget.configurations.controller.selectedFontFamily?.value,
-      //     ),
-      //   );
-      // }
-
-      // if (widget.configurations.controller.selectedFontSize != null) {
-      //   widget.configurations.controller.formatSelection(
-      //     Attribute.fromKeyValue(
-      //       Attribute.size.key,
-      //       widget.configurations.controller.selectedFontSize == '0'
-      //           ? null
-      //           : getFontSize(
-      //               widget.configurations.controller.selectedFontSize,
-      //             ),
-      //     ),
-      //   );
-      // }
-      // if (widget.configurations.controller.keepStyleOnNewLine) {
-      //   widget.configurations.controller.selectedStyles.forEach((key, value) {
-      //     if (value ?? false) {
-      //       widget.configurations.controller.formatSelection(key);
-      //     }
-      //   });
-      // }
     }
   }
 
