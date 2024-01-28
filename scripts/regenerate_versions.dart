@@ -14,11 +14,11 @@ import '../version.dart';
 /// in all the packages
 final packages = [
   './',
-  './dart_quill_delta',
-  './flutter_quill_extensions',
-  './flutter_quill_test',
-  './quill_html_converter',
-  './quill_pdf_converter',
+  './packages/dart_quill_delta',
+  './packages/flutter_quill_extensions',
+  './packages/flutter_quill_test',
+  './packages/quill_html_converter',
+  './packages/quill_pdf_converter',
 ];
 
 /// A script that should run in the root folder of the repo and not inside

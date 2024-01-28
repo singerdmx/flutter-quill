@@ -10,18 +10,18 @@ rm pubspec_overrides.yaml
 echo ""
 
 echo "Enable local development for flutter_quill_extensions..."
-rm flutter_quill_extensions/pubspec_overrides.yaml
+rm packages/flutter_quill_extensions/pubspec_overrides.yaml
 
 echo ""
 
 echo "Enable local development for flutter_quill_test..."
-rm flutter_quill_test/pubspec_overrides.yaml
+rm packages/flutter_quill_test/pubspec_overrides.yaml
 
 echo ""
 
 echo "Disable local development for all the other packages..."
-rm quill_html_converter/pubspec_overrides.yaml
-rm quill_pdf_converter/pubspec_overrides.yaml
+rm packages/quill_html_converter/pubspec_overrides.yaml
+rm packages/quill_pdf_converter/pubspec_overrides.yaml
 
 echo ""
 
