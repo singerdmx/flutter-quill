@@ -27,26 +27,26 @@ jobs:
         run: flutter pub get
 
       - name: Install dart_quill_delta dependencies
-        run: flutter pub get -C dart_quill_delta
-      
+        run: flutter pub get -C packages/dart_quill_delta
+
       - name: Install flutter_quill_extensions dependencies
-        run: flutter pub get -C flutter_quill_extensions
+        run: flutter pub get -C packages/flutter_quill_extensions
 
       - name: Install flutter_quill_test dependencies
-        run: flutter pub get -C flutter_quill_test
-      
+        run: flutter pub get -C packages/flutter_quill_test
+
       - name: Install quill_html_converter dependencies
-        run: flutter pub get -C quill_html_converter
-      
+        run: flutter pub get -C packages/quill_html_converter
+
       - name: Install quill_pdf_converter dependencies
-        run: flutter pub get -C quill_pdf_converter
+        run: flutter pub get -C packages/quill_pdf_converter
 
       - name: Run flutter analysis
         run: flutter analyze
 
       - name: Check dart code formatting
         run: dart format --set-exit-if-changed .
-      
+
       - name: Preview dart proposed changes
         run: dart fix --dry-run
 

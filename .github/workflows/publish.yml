@@ -17,10 +17,10 @@ jobs:
         with:
           channel: 'stable'
           cache: true
-      
+
       - name: Check flutter version
         run: flutter --version
-      
+
       - name: Enable Local Dev
         run: ./scripts/enable_local_dev.sh
 
@@ -29,7 +29,7 @@ jobs:
 
       # Here you can insert custom steps you need
       # - run: dart tool/generate-code.dart
-      
+
       # This is needed in order for the authentication to success
       # dart pub token add https://pub.dev --env-var PUB_TOKEN
       # Requests to "https://pub.dev" will now be authenticated using the secret token stored in the environment variable "PUB_TOKEN".
@@ -40,7 +40,7 @@ jobs:
 
       - name: Publish flutter_quill
         run: flutter pub publish --force
-      
+
       - name: Publish dart_quill_delta
         run: flutter pub publish --force
         working-directory: ./dart_quill_delta/
@@ -56,7 +56,7 @@ jobs:
       - name: Publish quill_html_converter
         run: flutter pub publish --force
         working-directory: ./quill_html_converter/
-      
+
       - name: Publish quill_pdf_converter
         run: flutter pub publish --force
         working-directory: ./quill_pdf_converter/
