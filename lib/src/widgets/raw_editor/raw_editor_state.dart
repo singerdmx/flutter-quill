@@ -224,8 +224,7 @@ class QuillRawEditorState extends EditorState
             textEditingValue.selection.start,
             textEditingValue.selection.end - textEditingValue.selection.start,
             deltaFromClipboard,
-            TextSelection.collapsed(
-                offset: textEditingValue.selection.end));
+            TextSelection.collapsed(offset: textEditingValue.selection.end));
 
         bringIntoView(textEditingValue.selection.extent);
 

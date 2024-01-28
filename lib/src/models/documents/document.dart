@@ -60,7 +60,7 @@ class Document {
   }
 
   final StreamController<DocChange> documentChangeObserver =
-  StreamController.broadcast();
+      StreamController.broadcast();
 
   final History history = History();
 
@@ -320,7 +320,7 @@ class Document {
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
       final style =
-      op.attributes != null ? Style.fromJson(op.attributes) : null;
+          op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
         // Must normalize data before inserting into the document, makes sure
@@ -439,7 +439,7 @@ class Document {
             'Document can only contain insert operations but ${op.key} found.');
       }
       final style =
-      op.attributes != null ? Style.fromJson(op.attributes) : null;
+          op.attributes != null ? Style.fromJson(op.attributes) : null;
       final data = _normalize(op.data);
       _root.insert(offset, data, style);
       offset += op.length!;
@@ -486,8 +486,8 @@ class Document {
   static Delta fromHtml(String html) {
     final markdown = html2md
         .convert(
-      html,
-    )
+          html,
+        )
         .replaceAll('unsafe:', '');
 
     final mdDocument = md.Document(encodeHtml: false);
