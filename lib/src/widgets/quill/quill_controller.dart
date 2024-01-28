@@ -291,7 +291,7 @@ class QuillController extends ChangeNotifier {
     bool ignoreFocus = false,
     bool shouldNotifyListeners = true,
   }) {
-    assert(data is String || data is Embeddable);
+    assert(data is String || data is Embeddable || data is Delta);
 
     if (onReplaceText != null && !onReplaceText!(index, len, data)) {
       return;

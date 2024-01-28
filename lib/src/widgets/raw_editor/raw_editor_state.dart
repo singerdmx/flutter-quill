@@ -221,22 +221,12 @@ class QuillRawEditorState extends EditorState
         final htmlBody = html_parser.parse(html).body?.outerHtml;
         final deltaFromClipboard = Document.fromHtml(htmlBody ?? html);
 
-        var newDelta = Delta();
-        newDelta = newDelta.compose(deltaFromClipboard);
-        if (!controller.document.isEmpty()) {
-          newDelta = newDelta.compose(controller.document.toDelta());
-        }
-
-        controller
-          ..setContents(
-            newDelta,
-          )
-          ..updateSelection(
+        controller.replaceText(
+            textEditingValue.selection.start,
+            textEditingValue.selection.end - textEditingValue.selection.start,
+            deltaFromClipboard,
             TextSelection.collapsed(
-              offset: controller.document.length,
-            ),
-            ChangeSource.local,
-          );
+                offset: textEditingValue.selection.end));
 
         bringIntoView(textEditingValue.selection.extent);
 
