@@ -60,7 +60,7 @@ class Document {
   }
 
   final StreamController<DocChange> documentChangeObserver =
-      StreamController.broadcast();
+  StreamController.broadcast();
 
   final History history = History();
 
@@ -114,23 +114,42 @@ class Document {
   /// Returns an instance of [Delta] actually composed into this document.
   Delta replace(int index, int len, Object? data) {
     assert(index >= 0);
-    assert(data is String || data is Embeddable);
-
-    final dataIsNotEmpty = (data is String) ? data.isNotEmpty : true;
-
-    assert(dataIsNotEmpty || len > 0);
+    assert(data is String || data is Embeddable || data is Delta);
 
     var delta = Delta();
 
-    // We have to insert before applying delete rules
-    // Otherwise delete would be operating on stale document snapshot.
-    if (dataIsNotEmpty) {
-      delta = insert(index, data, replaceLength: len);
-    }
+    if (data is Delta) {
+      // move to insertion point and add the inserted content
+      if (index > 0) {
+        delta.retain(index);
+      }
 
-    if (len > 0) {
-      final deleteDelta = delete(index, len);
-      delta = delta.compose(deleteDelta);
+      // remove any text we are replacing
+      if (len > 0) {
+        delta.delete(len);
+      }
+
+      // add the pasted content
+      for (final op in data.operations) {
+        delta.push(op);
+      }
+
+      compose(delta, ChangeSource.local);
+    } else {
+      final dataIsNotEmpty = (data is String) ? data.isNotEmpty : true;
+
+      assert(dataIsNotEmpty || len > 0);
+
+      // We have to insert before applying delete rules
+      // Otherwise delete would be operating on stale document snapshot.
+      if (dataIsNotEmpty) {
+        delta = insert(index, data, replaceLength: len);
+      }
+
+      if (len > 0) {
+        final deleteDelta = delete(index, len);
+        delta = delta.compose(deleteDelta);
+      }
     }
 
     return delta;
@@ -301,7 +320,7 @@ class Document {
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
       final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      op.attributes != null ? Style.fromJson(op.attributes) : null;
 
       if (op.isInsert) {
         // Must normalize data before inserting into the document, makes sure
@@ -420,7 +439,7 @@ class Document {
             'Document can only contain insert operations but ${op.key} found.');
       }
       final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      op.attributes != null ? Style.fromJson(op.attributes) : null;
       final data = _normalize(op.data);
       _root.insert(offset, data, style);
       offset += op.length!;
@@ -467,8 +486,8 @@ class Document {
   static Delta fromHtml(String html) {
     final markdown = html2md
         .convert(
-          html,
-        )
+      html,
+    )
         .replaceAll('unsafe:', '');
 
     final mdDocument = md.Document(encodeHtml: false);
