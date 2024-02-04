@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.11
+* Fix a bug where it has problems with pasting text into the editor when the clipboard has styled text
+
 ## 9.2.10
 * Update example screenshots
 * Refactor `Container` to `QuillContainer` with backward compatibility
