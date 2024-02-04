@@ -21,10 +21,10 @@ jobs:
 
       - name: Enable Local Dev
         run: ./scripts/enable_local_dev.sh
-
+    
       - name: Install dependencies
         run: flutter pub get
-
+      
       - name: Flutter build Web
         run: flutter build web --release --verbose --dart-define=CI=true
         working-directory: ./example
