@@ -46,7 +46,7 @@ dependencies:
 dependencies:
   flutter_quill_extensions:
     git: https://github.com/singerdmx/flutter-quill.git
-    path: packages/flutter_quill_extensions
+    path: flutter_quill_extensions
 ```
 
 ## Platform Specific Configurations
