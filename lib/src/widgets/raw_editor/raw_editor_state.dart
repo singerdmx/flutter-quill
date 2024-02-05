@@ -1121,7 +1121,7 @@ class QuillRawEditorState extends EditorState
   @override
   void initState() {
     super.initState();
-    if (clipboardStatus != null) {
+    if (_clipboardStatus != null) {
       _clipboardStatus!.addListener(_onChangedClipboardStatus);
     }
 
@@ -1379,7 +1379,7 @@ class QuillRawEditorState extends EditorState
         renderObject: renderEditor,
         selectionCtrls: widget.configurations.selectionCtrls,
         selectionDelegate: this,
-        //clipboardStatus: _clipboardStatus,
+        clipboardStatus: _clipboardStatus,
         contextMenuBuilder: widget.configurations.contextMenuBuilder == null
             ? null
             : (context) =>
