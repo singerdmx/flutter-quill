@@ -319,8 +319,8 @@ class QuillRawEditorState extends EditorState
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
-//      clipboardStatus: _clipboardStatus.value,
-      clipboardStatus: null,
+      clipboardStatus:
+          (_clipboardStatus != null) ? _clipboardStatus!.value : null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
@@ -1121,8 +1121,9 @@ class QuillRawEditorState extends EditorState
   @override
   void initState() {
     super.initState();
-
-//    _clipboardStatus.addListener(_onChangedClipboardStatus);
+    if (clipboardStatus != null) {
+      _clipboardStatus!.addListener(_onChangedClipboardStatus);
+    }
 
     controller.addListener(_didChangeTextEditingValueListener);
 
@@ -1276,9 +1277,11 @@ class QuillRawEditorState extends EditorState
     controller.removeListener(_didChangeTextEditingValueListener);
     widget.configurations.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
-    //_clipboardStatus
-    //  ..removeListener(_onChangedClipboardStatus)
-    //  ..dispose();
+    if (_clipboardStatus != null) {
+      _clipboardStatus!
+        ..removeListener(_onChangedClipboardStatus)
+        ..dispose();
+    }
     super.dispose();
   }
 
