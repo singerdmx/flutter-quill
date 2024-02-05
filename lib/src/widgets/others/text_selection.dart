@@ -70,8 +70,8 @@ class EditorTextSelectionOverlay {
     required this.debugRequiredFor,
     required this.selectionCtrls,
     required this.selectionDelegate,
-    required this.clipboardStatus,
     required this.contextMenuBuilder,
+    this.clipboardStatus,
     this.onSelectionHandleTapped,
     this.dragStartBehavior = DragStartBehavior.start,
     this.handlesVisible = false,
@@ -82,7 +82,9 @@ class EditorTextSelectionOverlay {
     // our listener being created
     // we won't know the status unless there is forced update
     // i.e. occasionally no paste
-    clipboardStatus.update();
+    if (clipboardStatus != null) {
+      clipboardStatus!.update();
+    }
   }
 
   TextEditingValue value;
@@ -167,7 +169,7 @@ class EditorTextSelectionOverlay {
   ///
   /// Useful because the actual value of the clipboard can only be checked
   /// asynchronously (see [Clipboard.getData]).
-  final ClipboardStatusNotifier clipboardStatus;
+  final ClipboardStatusNotifier? clipboardStatus;
 
   /// A pair of handles. If this is non-null, there are always 2, though the
   /// second is hidden when the selection is collapsed.

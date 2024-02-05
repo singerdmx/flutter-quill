@@ -235,6 +235,7 @@ class QuillEditorState extends State<QuillEditor>
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,
               readOnly: configurations.readOnly,
+              disableClipboard: configurations.disableClipboard,
               placeholder: configurations.placeholder,
               onLaunchUrl: configurations.onLaunchUrl,
               contextMenuBuilder: showSelectionToolbar
