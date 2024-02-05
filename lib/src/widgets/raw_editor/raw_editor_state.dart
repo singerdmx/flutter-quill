@@ -97,7 +97,7 @@ class QuillRawEditorState extends EditorState
   String get pastePlainText => _pastePlainText;
   String _pastePlainText = '';
 
-  final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
+  ClipboardStatusNotifier? _clipboardStatus;
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
@@ -319,7 +319,8 @@ class QuillRawEditorState extends EditorState
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
-      clipboardStatus: _clipboardStatus.value,
+//      clipboardStatus: _clipboardStatus.value,
+      clipboardStatus: null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
@@ -521,6 +522,10 @@ class QuillRawEditorState extends EditorState
         ),
       ),
     );
+
+    if (!widget.configurations.disableClipboard) {
+      _clipboardStatus = ClipboardStatusNotifier();
+    }
 
     if (widget.configurations.scrollable) {
       /// Since [SingleChildScrollView] does not implement
@@ -1117,7 +1122,7 @@ class QuillRawEditorState extends EditorState
   void initState() {
     super.initState();
 
-    _clipboardStatus.addListener(_onChangedClipboardStatus);
+//    _clipboardStatus.addListener(_onChangedClipboardStatus);
 
     controller.addListener(_didChangeTextEditingValueListener);
 
@@ -1271,9 +1276,9 @@ class QuillRawEditorState extends EditorState
     controller.removeListener(_didChangeTextEditingValueListener);
     widget.configurations.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
-    _clipboardStatus
-      ..removeListener(_onChangedClipboardStatus)
-      ..dispose();
+    //_clipboardStatus
+    //  ..removeListener(_onChangedClipboardStatus)
+    //  ..dispose();
     super.dispose();
   }
 
@@ -1371,7 +1376,7 @@ class QuillRawEditorState extends EditorState
         renderObject: renderEditor,
         selectionCtrls: widget.configurations.selectionCtrls,
         selectionDelegate: this,
-        clipboardStatus: _clipboardStatus,
+        //clipboardStatus: _clipboardStatus,
         contextMenuBuilder: widget.configurations.contextMenuBuilder == null
             ? null
             : (context) =>

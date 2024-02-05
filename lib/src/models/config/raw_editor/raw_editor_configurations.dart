@@ -50,6 +50,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.readOnly = false,
+    this.disableClipboard = false,
     this.placeholder,
     this.onLaunchUrl,
     this.contextMenuBuilder = defaultContextMenuBuilder,
@@ -98,6 +99,14 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   /// Defaults to false. Must not be null.
   final bool readOnly;
+
+  /// Disable Clipboard features
+  ///
+  /// when this is set to true clipboard can not be used
+  /// this disables the clipboard notification for requesting permissions
+  ///
+  /// Defaults to false. Must not be null.
+  final bool disableClipboard;
 
   final String? placeholder;
 
