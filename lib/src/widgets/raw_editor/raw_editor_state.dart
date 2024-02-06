@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
@@ -524,7 +524,13 @@ class QuillRawEditorState extends EditorState
     );
 
     if (!widget.configurations.disableClipboard) {
-      _clipboardStatus = ClipboardStatusNotifier();
+      // Web - esp Safari Mac/iOS has security measures in place that restrict
+      // cliboard status checks w/o direct user interaction. Initializing the
+      // ClipboardStatusNotifier with a default value of unknown will cause the
+      // clipboard status to be checked w/o user interaction which fails. Default
+      // to pasteable for web.
+      _clipboardStatus = ClipboardStatusNotifier(
+          value: kIsWeb ? ClipboardStatus.pasteable : ClipboardStatus.unknown);
     }
 
     if (widget.configurations.scrollable) {
