@@ -100,9 +100,10 @@ class QuillRawEditorState extends EditorState
   // Web - esp Safari Mac/iOS has security measures in place that restrict
   // cliboard status checks w/o direct user interaction. Initializing the
   // ClipboardStatusNotifier with a default value of unknown will cause the
-  // clipboard status to be checked w/o user interaction which fails.
+  // clipboard status to be checked w/o user interaction which fails. Default
+  // to pasteable for web.
   final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier(
-      value: kIsWeb ? ClipboardStatus.notPasteable : ClipboardStatus.unknown);
+      value: kIsWeb ? ClipboardStatus.pasteable : ClipboardStatus.unknown);
   final LayerLink _toolbarLayerLink = LayerLink();
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
