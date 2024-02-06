@@ -82,7 +82,12 @@ class EditorTextSelectionOverlay {
     // our listener being created
     // we won't know the status unless there is forced update
     // i.e. occasionally no paste
-    clipboardStatus.update();
+    if (!kIsWeb) {
+      // Web - esp Safari Mac/iOS has security measures in place that restrict
+      // cliboard status checks w/o direct user interaction. So skip this
+      // for web
+      clipboardStatus.update();
+    }
   }
 
   TextEditingValue value;
