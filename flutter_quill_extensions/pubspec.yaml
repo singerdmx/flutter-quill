@@ -29,9 +29,9 @@ dependencies:
     sdk: flutter
 
   # Normal packages
-  http: ^1.1.0
+  http: ^1.2.0
   path: ^1.8.3
-  meta: ^1.9.1
+  meta: ^1.10.0
   universal_html: ^2.2.4
   cross_file: ^0.3.3+6
 
@@ -43,8 +43,8 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.4
-  gal: ^2.2.2
-  gal_linux: ^0.0.1
+  gal: ^2.3.0
+  gal_linux: ^0.1.0
   image_picker: ^1.0.4
 
 dev_dependencies:
