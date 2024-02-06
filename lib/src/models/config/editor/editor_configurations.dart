@@ -33,6 +33,7 @@ class QuillEditorConfigurations extends Equatable {
     this.expands = false,
     this.placeholder,
     this.readOnly = false,
+    this.disableClipboard = false,
     this.textSelectionThemeData,
     this.showCursor,
     this.paintCursorAboveText,
@@ -91,6 +92,14 @@ class QuillEditorConfigurations extends Equatable {
   ///
   /// Defaults to `false`. Must not be `null`.
   final bool readOnly;
+
+  /// Disable Clipboard features
+  ///
+  /// when this is set to `true` clipboard can not be used
+  /// this disables the clipboard notification for requesting permissions
+  ///
+  /// Defaults to `false`. Must not be `null`.
+  final bool disableClipboard;
 
   /// Whether this editor should create a scrollable container for its content.
   ///
@@ -342,6 +351,7 @@ class QuillEditorConfigurations extends Equatable {
     QuillController? controller,
     String? placeholder,
     bool? readOnly,
+    bool? disableClipboard,
     bool? scrollable,
     double? scrollBottomInset,
     EdgeInsetsGeometry? padding,
@@ -389,6 +399,7 @@ class QuillEditorConfigurations extends Equatable {
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       readOnly: readOnly ?? this.readOnly,
+      disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
       padding: padding ?? this.padding,
