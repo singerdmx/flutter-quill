@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.12
+* Fix safari clipboard bug
+* Add the option to disable clipboard functionality
+
 ## 9.2.11
 * Fix a bug where it has problems with pasting text into the editor when the clipboard has styled text
 
