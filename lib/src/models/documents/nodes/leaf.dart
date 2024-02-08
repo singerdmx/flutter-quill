@@ -27,13 +27,6 @@ abstract base class Leaf extends Node {
   Object _value;
 
   @override
-  void applyStyle(Style value) {
-    assert(value.isInline || value.isIgnored || value.isEmpty,
-        'Unable to apply Style to leaf: $value');
-    super.applyStyle(value);
-  }
-
-  @override
   Line? get parent => super.parent as Line?;
 
   @override
