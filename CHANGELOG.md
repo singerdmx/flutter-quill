@@ -2,9 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## 9.2.13
-* Fix crash with inserting text from contextMenuButtonItems  [32-bit CPU Type](https://github.com/singerdmx/flutter-quill/issues/1724)
-
 ## 9.2.12
 * Fix safari clipboard bug
 * Add the option to disable clipboard functionality
