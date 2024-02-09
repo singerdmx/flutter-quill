@@ -528,9 +528,9 @@ class QuillRawEditorState extends EditorState
       // ClipboardStatusNotifier with a default value of unknown will cause the
       // clipboard status to be checked w/o user interaction which fails. Default
       // to pasteable for web.
-      if(kIsWeb){
-        _clipboardStatus = ClipboardStatusNotifier (value: ClipboardStatus.pasteable);
-        }
+      if (kIsWeb) {
+        _clipboardStatus = ClipboardStatusNotifier(value: ClipboardStatus.pasteable);
+      }
     }
 
     if (widget.configurations.scrollable) {
