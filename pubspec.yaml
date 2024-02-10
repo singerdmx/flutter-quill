@@ -62,7 +62,7 @@ dependencies:
   url_launcher: ^6.2.4
   flutter_keyboard_visibility: ^6.0.0
   device_info_plus: ^9.1.0
-  super_clipboard: ^0.8.4
+  super_clipboard: ^0.8.5
 
 dev_dependencies:
   flutter_lints: ^3.0.1
