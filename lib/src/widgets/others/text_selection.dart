@@ -308,10 +308,13 @@ class EditorTextSelectionOverlay {
           )
         : null;
 
+    update(value.copyWith(
+      selection: currSelection,
+      composing: TextRange.empty,
+    ));
+
     selectionDelegate
-      ..userUpdateTextEditingValue(
-          value.copyWith(selection: currSelection, composing: TextRange.empty),
-          SelectionChangedCause.drag)
+      ..userUpdateTextEditingValue(value, SelectionChangedCause.drag)
       ..bringIntoView(textPosition);
   }
 
