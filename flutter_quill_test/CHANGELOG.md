@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.13
+* Fix crash with inserting text from contextMenuButtonItems
+* Fix incorrect behaviour of context menu
+* fix: selection handles behaviour and unnessesary style assert
+* Update quill_fr.arb
+
 ## 9.2.12
 * Fix safari clipboard bug
 * Add the option to disable clipboard functionality
