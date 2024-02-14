@@ -78,6 +78,9 @@ class QuillRawEditorConfigurations extends Equatable {
     this.contentInsertionConfiguration,
     this.textInputAction = TextInputAction.newline,
     this.requestKeyboardFocusOnCheckListChanged = false,
+    this.enableScribble = false,
+    this.onScribbleActivated,
+    this.scribbleAreaInsets,
   });
 
   /// Controls the document being edited.
@@ -302,6 +305,15 @@ class QuillRawEditorConfigurations extends Equatable {
   final bool requestKeyboardFocusOnCheckListChanged;
 
   final TextInputAction textInputAction;
+
+  /// Enable Scribble? Currently Apple Pencil only, defaults to false.
+  final bool enableScribble;
+
+  /// Called when Scribble is activated.
+  final void Function()? onScribbleActivated;
+
+  /// Optional insets for the scribble area.
+  final EdgeInsets? scribbleAreaInsets;
 
   @override
   List<Object?> get props => [

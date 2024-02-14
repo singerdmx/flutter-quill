@@ -52,6 +52,7 @@ import 'raw_editor_render_object.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
 import 'raw_editor_text_boundaries.dart';
+import 'scribble_focusable.dart';
 
 class QuillRawEditorState extends EditorState
     with
@@ -480,6 +481,24 @@ class QuillRawEditorState extends EditorState
     }
   }
 
+  Widget _scribbleFocusable(Widget child) {
+    return ScribbleFocusable(
+      editorKey: _editorKey,
+      enabled: widget.configurations.enableScribble &&
+          !widget.configurations.readOnly,
+      renderBoxForBounds: () => context
+          .findAncestorStateOfType<QuillEditorState>()
+          ?.context
+          .findRenderObject() as RenderBox?,
+      onScribbleFocus: (offset) {
+        widget.configurations.focusNode.requestFocus();
+        widget.configurations.onScribbleActivated?.call();
+      },
+      scribbleAreaInsets: widget.configurations.scribbleAreaInsets,
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -495,34 +514,6 @@ class QuillRawEditorState extends EditorState
       );
     }
 
-    Widget child = CompositedTransformTarget(
-      link: _toolbarLayerLink,
-      child: Semantics(
-        child: MouseRegion(
-          cursor: SystemMouseCursors.text,
-          child: QuilRawEditorMultiChildRenderObject(
-            key: _editorKey,
-            document: doc,
-            selection: controller.selection,
-            hasFocus: _hasFocus,
-            scrollable: widget.configurations.scrollable,
-            cursorController: _cursorCont,
-            textDirection: _textDirection,
-            startHandleLayerLink: _startHandleLayerLink,
-            endHandleLayerLink: _endHandleLayerLink,
-            onSelectionChanged: _handleSelectionChanged,
-            onSelectionCompleted: _handleSelectionCompleted,
-            scrollBottomInset: widget.configurations.scrollBottomInset,
-            padding: widget.configurations.padding,
-            maxContentWidth: widget.configurations.maxContentWidth,
-            floatingCursorDisabled:
-                widget.configurations.floatingCursorDisabled,
-            children: _buildChildren(doc, context),
-          ),
-        ),
-      ),
-    );
-
     if (!widget.configurations.disableClipboard) {
       // Web - esp Safari Mac/iOS has security measures in place that restrict
       // cliboard status checks w/o direct user interaction. Initializing the
@@ -536,6 +527,7 @@ class QuillRawEditorState extends EditorState
       }
     }
 
+    Widget child;
     if (widget.configurations.scrollable) {
       /// Since [SingleChildScrollView] does not implement
       /// `computeDistanceToActualBaseline` it prevents the editor from
@@ -555,13 +547,46 @@ class QuillRawEditorState extends EditorState
             link: _toolbarLayerLink,
             child: MouseRegion(
               cursor: SystemMouseCursors.text,
-              child: QuilRawEditorMultiChildRenderObject(
+              child: _scribbleFocusable(
+                QuilRawEditorMultiChildRenderObject(
+                  key: _editorKey,
+                  offset: offset,
+                  document: doc,
+                  selection: controller.selection,
+                  hasFocus: _hasFocus,
+                  scrollable: widget.configurations.scrollable,
+                  textDirection: _textDirection,
+                  startHandleLayerLink: _startHandleLayerLink,
+                  endHandleLayerLink: _endHandleLayerLink,
+                  onSelectionChanged: _handleSelectionChanged,
+                  onSelectionCompleted: _handleSelectionCompleted,
+                  scrollBottomInset: widget.configurations.scrollBottomInset,
+                  padding: widget.configurations.padding,
+                  maxContentWidth: widget.configurations.maxContentWidth,
+                  cursorController: _cursorCont,
+                  floatingCursorDisabled:
+                      widget.configurations.floatingCursorDisabled,
+                  children: _buildChildren(doc, context),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      child = CompositedTransformTarget(
+        link: _toolbarLayerLink,
+        child: Semantics(
+          child: MouseRegion(
+            cursor: SystemMouseCursors.text,
+            child: _scribbleFocusable(
+              QuilRawEditorMultiChildRenderObject(
                 key: _editorKey,
-                offset: offset,
                 document: doc,
                 selection: controller.selection,
                 hasFocus: _hasFocus,
                 scrollable: widget.configurations.scrollable,
+                cursorController: _cursorCont,
                 textDirection: _textDirection,
                 startHandleLayerLink: _startHandleLayerLink,
                 endHandleLayerLink: _endHandleLayerLink,
@@ -570,7 +595,6 @@ class QuillRawEditorState extends EditorState
                 scrollBottomInset: widget.configurations.scrollBottomInset,
                 padding: widget.configurations.padding,
                 maxContentWidth: widget.configurations.maxContentWidth,
-                cursorController: _cursorCont,
                 floatingCursorDisabled:
                     widget.configurations.floatingCursorDisabled,
                 children: _buildChildren(doc, context),
