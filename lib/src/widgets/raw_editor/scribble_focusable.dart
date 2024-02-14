@@ -25,8 +25,10 @@ class ScribbleFocusable extends StatefulWidget {
   _ScribbleFocusableState createState() => _ScribbleFocusableState();
 }
 
-class _ScribbleFocusableState extends State<ScribbleFocusable> implements ScribbleClient {
-  _ScribbleFocusableState() : _elementIdentifier = 'quill-scribble-${_nextElementIdentifier++}';
+class _ScribbleFocusableState extends State<ScribbleFocusable>
+    implements ScribbleClient {
+  _ScribbleFocusableState()
+      : _elementIdentifier = 'quill-scribble-${_nextElementIdentifier++}';
 
   @override
   void initState() {
@@ -87,9 +89,11 @@ class _ScribbleFocusableState extends State<ScribbleFocusable> implements Scribb
     }
     final intersection = calculatedBounds.intersect(rect);
     final result = HitTestResult();
-    WidgetsBinding.instance.hitTestInView(result, intersection.center, View.of(context).viewId);
-    return result.path
-        .any((entry) => entry.target == _renderBoxForEditor || entry.target == _renderBoxForBounds);
+    WidgetsBinding.instance
+        .hitTestInView(result, intersection.center, View.of(context).viewId);
+    return result.path.any((entry) =>
+        entry.target == _renderBoxForEditor ||
+        entry.target == _renderBoxForBounds);
   }
 
   @override
