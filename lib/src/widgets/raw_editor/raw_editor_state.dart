@@ -540,15 +540,15 @@ class QuillRawEditorState extends EditorState
       child = BaselineProxy(
         textStyle: _styles!.paragraph!.style,
         padding: baselinePadding,
-        child: QuillSingleChildScrollView(
-          controller: _scrollController,
-          physics: widget.configurations.scrollPhysics,
-          viewportBuilder: (_, offset) => CompositedTransformTarget(
-            link: _toolbarLayerLink,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.text,
-              child: _scribbleFocusable(
-                QuilRawEditorMultiChildRenderObject(
+        child: _scribbleFocusable(
+          QuillSingleChildScrollView(
+            controller: _scrollController,
+            physics: widget.configurations.scrollPhysics,
+            viewportBuilder: (_, offset) => CompositedTransformTarget(
+              link: _toolbarLayerLink,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.text,
+                child: QuilRawEditorMultiChildRenderObject(
                   key: _editorKey,
                   offset: offset,
                   document: doc,
