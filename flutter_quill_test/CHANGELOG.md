@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.2.14
+* feat: move cursor after inserting video/image
+* Apple pencil
+
 ## 9.2.13
 * Fix crash with inserting text from contextMenuButtonItems
 * Fix incorrect behaviour of context menu 
