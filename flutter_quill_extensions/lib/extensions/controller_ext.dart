@@ -24,7 +24,8 @@ extension QuillControllerExt on QuillController {
         length,
         BlockEmbed.image(imageSource),
         null,
-      );
+      )
+      ..moveCursorToPosition(index + 1);
   }
 
   /// Insert video embed block, it requires the [videoUrl]
@@ -39,6 +40,7 @@ extension QuillControllerExt on QuillController {
   }) {
     this
       ..skipRequestKeyboard = true
-      ..replaceText(index, length, BlockEmbed.video(videoUrl), null);
+      ..replaceText(index, length, BlockEmbed.video(videoUrl), null)
+      ..moveCursorToPosition(index + 1);
   }
 }
