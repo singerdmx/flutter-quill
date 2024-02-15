@@ -285,6 +285,9 @@ class QuillEditorState extends State<QuillEditor>
               dialogTheme: configurations.dialogTheme,
               contentInsertionConfiguration:
                   configurations.contentInsertionConfiguration,
+              enableScribble: configurations.enableScribble,
+              onScribbleActivated: configurations.onScribbleActivated,
+              scribbleAreaInsets: configurations.scribbleAreaInsets,
             ),
           ),
         ),
