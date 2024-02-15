@@ -574,13 +574,13 @@ class QuillRawEditorState extends EditorState
         ),
       );
     } else {
-      child = CompositedTransformTarget(
-        link: _toolbarLayerLink,
-        child: Semantics(
-          child: MouseRegion(
-            cursor: SystemMouseCursors.text,
-            child: _scribbleFocusable(
-              QuilRawEditorMultiChildRenderObject(
+      child = _scribbleFocusable(
+        CompositedTransformTarget(
+          link: _toolbarLayerLink,
+          child: Semantics(
+            child: MouseRegion(
+              cursor: SystemMouseCursors.text,
+              child: QuilRawEditorMultiChildRenderObject(
                 key: _editorKey,
                 document: doc,
                 selection: controller.selection,
