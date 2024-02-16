@@ -1,5 +1,4 @@
 import 'dart:io' as io show Directory, File;
-import 'dart:ui' show FontFeature;
 
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;

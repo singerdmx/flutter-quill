@@ -147,7 +147,7 @@ class Delta {
   Operation get last => operations.last;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! Delta) return false;
     final typedOther = other;
