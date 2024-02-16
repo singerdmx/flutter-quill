@@ -307,10 +307,10 @@ class QuillEditorState extends State<QuillEditor>
       // that might interfere with the editor key behavior, such as
       // SingleChildScrollView. Thanks to @wliumelb for the workaround.
       // See issue https://github.com/singerdmx/flutter-quill/issues/304
-      return RawKeyboardListener(
-        onKey: (_) {},
+      return KeyboardListener(
+        onKeyEvent: (_) {},
         focusNode: FocusNode(
-          onKey: (node, event) => KeyEventResult.skipRemainingHandlers,
+          onKeyEvent: (node, event) => KeyEventResult.skipRemainingHandlers,
         ),
         child: editor,
       );
@@ -453,10 +453,11 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool isShiftClick(PointerDeviceKind deviceKind) {
-    final pressed = RawKeyboard.instance.keysPressed;
     return deviceKind == PointerDeviceKind.mouse &&
-        (pressed.contains(LogicalKeyboardKey.shiftLeft) ||
-            pressed.contains(LogicalKeyboardKey.shiftRight));
+        (HardwareKeyboard.instance
+                .isLogicalKeyPressed(LogicalKeyboardKey.shiftLeft) ||
+            HardwareKeyboard.instance
+                .isLogicalKeyPressed(LogicalKeyboardKey.shiftRight));
   }
 
   @override
@@ -739,8 +740,10 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   bool get _shiftPressed =>
-      RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftLeft) ||
-      RawKeyboard.instance.keysPressed.contains(LogicalKeyboardKey.shiftRight);
+      HardwareKeyboard.instance
+          .isLogicalKeyPressed(LogicalKeyboardKey.shiftLeft) ||
+      HardwareKeyboard.instance
+          .isLogicalKeyPressed(LogicalKeyboardKey.shiftRight);
 
   void setStartHandleLayerLink(LayerLink value) {
     if (_startHandleLayerLink == value) {
