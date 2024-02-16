@@ -876,7 +876,7 @@ class QuillRawEditorState extends EditorState
       if (parentBlock.style.containsKey(Attribute.ol.key) ||
           parentBlock.style.containsKey(Attribute.ul.key) ||
           parentBlock.style.containsKey(Attribute.checked.key)) {
-        controller.indentSelection(!event.isShiftPressed);
+        controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
       }
       return KeyEventResult.handled;
     }
@@ -905,7 +905,7 @@ class QuillRawEditorState extends EditorState
           controller.selection.base.offset > node.documentOffset) {
         return insertTabCharacter();
       }
-      controller.indentSelection(!event.isShiftPressed);
+      controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
       return KeyEventResult.handled;
     }
 
