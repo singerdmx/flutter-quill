@@ -31,7 +31,7 @@ for the modern Android, iOS,
 web and desktop platforms.
 Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.md)
 to take a detailed walkthrough of the code base.
-You can join our [Slack Group] or [Telegram Channel] for discussion.
+You can join our [Slack Group] for discussion.
 
 Pub page: [FlutterQuill] <br>
 If you are viewing this page from pub.dev page, then you
@@ -294,5 +294,4 @@ You can check the [Todo](./doc/todo.md) list if you want to
 [ReactQuill]: https://github.com/zenoamaro/react-quill
 [Youtube Playlist]: https://youtube.com/playlist?list=PLbhaS_83B97vONkOAWGJrSXWX58et9zZ2
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
-[Telegram Channel]: https://t.me/flutter_quill
 [Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/screens/quill/quill_screen.dart
