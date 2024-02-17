@@ -33,7 +33,7 @@ platforms:
 
 environment:
   sdk: ">=3.1.6 <4.0.0"
-  flutter: ">=3.16.0"
+  flutter: ">=3.19.0"
 
 dependencies:
   flutter:
@@ -44,7 +44,7 @@ dependencies:
 
   # Normal packages
   intl: ^0.18.1
-  dart_quill_delta: ^9.2.10
+  dart_quill_delta: ^9.3.0
   collection: ^1.17.0
   quiver: ^3.2.1
   equatable: ^2.0.5

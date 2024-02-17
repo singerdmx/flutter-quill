@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.1
+* Require Flutter 3.19.0 as minimum version
+
 ## 9.3.0
 * **Breaking change**: `Document.fromHtml(html)` is now returns `Document` instead of `Delta`, use `DeltaX.fromHtml` to return `Delta`
 * Update old deprecated api from Flutter 3.19
