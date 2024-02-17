@@ -23,6 +23,7 @@ import 'package:html/parser.dart' as html_parser;
 import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../models/documents/attribute.dart';
+import '../../models/documents/delta_x.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/block.dart';
 import '../../models/documents/nodes/embeddable.dart';
@@ -219,13 +220,14 @@ class QuillRawEditorState extends EditorState
           return;
         }
         final htmlBody = html_parser.parse(html).body?.outerHtml;
-        final deltaFromClipboard = Document.fromHtml(htmlBody ?? html);
+        final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
 
         controller.replaceText(
-            textEditingValue.selection.start,
-            textEditingValue.selection.end - textEditingValue.selection.start,
-            deltaFromClipboard,
-            TextSelection.collapsed(offset: textEditingValue.selection.end));
+          textEditingValue.selection.start,
+          textEditingValue.selection.end - textEditingValue.selection.start,
+          deltaFromClipboard,
+          TextSelection.collapsed(offset: textEditingValue.selection.end),
+        );
 
         bringIntoView(textEditingValue.selection.extent);
 

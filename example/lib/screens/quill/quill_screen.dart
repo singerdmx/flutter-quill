@@ -82,8 +82,7 @@ class _QuillScreenState extends State<QuillScreen> {
               MenuItemButton(
                 onPressed: () {
                   final html = _controller.document.toDelta().toHtml();
-                  _controller.document =
-                      Document.fromDelta(Document.fromHtml(html));
+                  _controller.document = Document.fromHtml(html);
                 },
                 child: const Text('Load with HTML'),
               ),
