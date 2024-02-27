@@ -48,7 +48,7 @@ class FlutterQuillEmbeds {
   }) {
     if (kIsWeb) {
       throw UnsupportedError(
-        'The editorBuilders() is not for web, please use editorBuilders() '
+        'The editorBuilders() is not for web, please use editorWebBuilders() '
         'instead',
       );
     }
