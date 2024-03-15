@@ -75,6 +75,12 @@ class RenderBaselineProxy extends RenderProxyBox {
     super.performLayout();
     _prototypePainter.layout();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _prototypePainter.dispose();
+  }
 }
 
 class EmbedProxy extends SingleChildRenderObjectWidget {
