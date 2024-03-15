@@ -299,4 +299,10 @@ class RenderParagraphProxy extends RenderProxyBox
     _prototypePainter.layout(
         minWidth: constraints.minWidth, maxWidth: constraints.maxWidth);
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _prototypePainter.dispose();
+  }
 }
