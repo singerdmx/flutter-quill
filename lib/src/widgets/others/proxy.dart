@@ -75,6 +75,12 @@ class RenderBaselineProxy extends RenderProxyBox {
     super.performLayout();
     _prototypePainter.layout();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _prototypePainter.dispose();
+  }
 }
 
 class EmbedProxy extends SingleChildRenderObjectWidget {
@@ -292,5 +298,11 @@ class RenderParagraphProxy extends RenderProxyBox
     super.performLayout();
     _prototypePainter.layout(
         minWidth: constraints.minWidth, maxWidth: constraints.maxWidth);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _prototypePainter.dispose();
   }
 }
