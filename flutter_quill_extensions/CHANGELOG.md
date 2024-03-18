@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.3
+* Update `quill_html_converter` versions
+
 ## 9.3.2
 * Fix dispose of text painter [#1774](https://github.com/singerdmx/flutter-quill/pull/1774)
 
