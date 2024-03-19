@@ -249,7 +249,7 @@ class EditableTextBlock extends StatelessWidget {
           color: context.quillEditorElementOptions?.orderedList
                       .useTextColorForDot ==
                   true
-              ? fontColor
+              ? Theme.of(context).colorScheme.onPrimary
               : null,
         ),
         attrs: attrs,
@@ -266,7 +266,7 @@ class EditableTextBlock extends StatelessWidget {
           color: context.quillEditorElementOptions?.unorderedList
                       .useTextColorForDot ==
                   true
-              ? fontColor
+              ? Theme.of(context).colorScheme.onPrimary
               : null,
         ),
         width: fontSize * 2,
@@ -290,8 +290,8 @@ class EditableTextBlock extends StatelessWidget {
         index: index,
         indentLevelCounts: indentLevelCounts,
         count: count,
-        style: defaultStyles.code!.style
-            .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
+        style: defaultStyles.code!.style.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.4)),
         width: _numberPointWidth(fontSize, count),
         attrs: attrs,
         padding: fontSize,
