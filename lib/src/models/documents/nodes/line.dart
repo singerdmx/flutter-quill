@@ -390,6 +390,7 @@ base class Line extends QuillContainer<Leaf?> {
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
       final rest = nextLine!.collectStyle(0, remaining);
+      result = result.mergeAll(rest);
       handle(rest);
     }
 
