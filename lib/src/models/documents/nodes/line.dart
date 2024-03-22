@@ -362,7 +362,7 @@ base class Line extends QuillContainer<Leaf?> {
     void handle(Style style) {
       for (final attr in result.values) {
         if (!style.containsKey(attr.key) ||
-            (style.attributes[attr.key] != attr.value)) {
+            (style.attributes[attr.key]?.value != attr.value)) {
           excluded.add(attr);
         }
       }
