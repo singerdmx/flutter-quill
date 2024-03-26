@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.4
+* fix: multiline styling stuck/not working properly [#1782](https://github.com/singerdmx/flutter-quill/pull/1782)
+
 ## 9.3.3
 * Update `quill_html_converter` versions
 
