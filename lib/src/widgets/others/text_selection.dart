@@ -463,13 +463,24 @@ class _TextSelectionHandleOverlayState
 
   void _handleDragUpdate(DragUpdateDetails details) {
     _dragPosition += details.delta;
-    final position =
-        widget.renderObject.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
+      final position = widget.renderObject.getPositionForOffset(
+        details.globalPosition,
+      );
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
     }
-
+    final textPosition = switch (widget.position) {
+      _TextSelectionHandlePosition.start => widget.selection.base,
+      _TextSelectionHandlePosition.end => widget.selection.extent,
+    };
+    final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
+    final position = widget.renderObject.getPositionForOffset(
+      details.globalPosition.translate(0, switch (widget.position) {
+        _TextSelectionHandlePosition.start => lineHeight,
+        _TextSelectionHandlePosition.end => -lineHeight,
+      }),
+    );
     final isNormalized =
         widget.selection.extentOffset >= widget.selection.baseOffset;
     TextSelection newSelection;
