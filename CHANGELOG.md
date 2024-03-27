@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.5
+* Update the minimum version for the packages to support `device_info_plus` version 10.0.0 [#1783](https://github.com/singerdmx/flutter-quill/issues/1783)
+* Update the minimum version for `youtube_player_flutter` to new major version 9.0.0 in the `flutter_quill_extensions`
+
 ## 9.3.4
 * fix: multiline styling stuck/not working properly [#1782](https://github.com/singerdmx/flutter-quill/pull/1782)
 
