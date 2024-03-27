@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsSv extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'Sparad med hjälp av lokal lagring';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Fel vid när bilden skulle sparas';
 
   @override

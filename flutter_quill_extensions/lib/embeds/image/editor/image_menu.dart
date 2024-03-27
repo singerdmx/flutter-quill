@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
@@ -160,14 +161,15 @@ class ImageOptionsMenu extends StatelessWidget {
                   return;
                 }
 
-                String message;
-                switch (saveImageResult.method) {
-                  case SaveImageResultMethod.network:
-                    message = localizations.savedUsingTheNetwork;
-                    break;
-                  case SaveImageResultMethod.localStorage:
-                    message = localizations.savedUsingLocalStorage;
-                    break;
+                var message = switch (saveImageResult.method) {
+                  SaveImageResultMethod.network =>
+                    localizations.savedUsingTheNetwork,
+                  SaveImageResultMethod.localStorage =>
+                    localizations.savedUsingLocalStorage,
+                };
+
+                if (isDesktop(supportWeb: false)) {
+                  message = localizations.theImageHasBeenSavedAt(imageSource);
                 }
 
                 messenger.showSnackBar(

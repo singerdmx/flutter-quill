@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'Uloženo lokálně';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Chyba při ukládání obrázku';
 
   @override

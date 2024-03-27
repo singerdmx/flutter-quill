@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'ローカルストレージを使用して保存';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => '画像の保存中にエラーが発生しました';
 
   @override

@@ -72,6 +72,16 @@
   "moveToNextOccurrence": "Move to next occurrence",
   "savedUsingTheNetwork": "Saved using the network",
   "savedUsingLocalStorage": "Saved using the local storage",
+  "theImageHasBeenSavedAt": "The image has been saved at: {imagePath}",
+  "@theImageHasBeenSavedAt": {
+    "description": "A message with a single parameter",
+    "placeholders": {
+      "imagePath": {
+        "type": "String",
+        "example": "path/to/location"
+      }
+    }
+  },
   "errorWhileSavingImage": "Error while saving image",
   "pleaseEnterTextForYourLink": "Please enter a text for your link (e.g., 'Learn more')",
   "pleaseEnterTheLinkURL": "Please enter the link URL (e.g., 'https://example.com')",

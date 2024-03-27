@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'Imehifadhiwa kwa Hifadhi ya Ndani';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Hitilafu Wakati wa Kuhifadhi Picha';
 
   @override

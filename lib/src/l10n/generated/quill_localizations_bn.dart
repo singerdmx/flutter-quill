@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'স্থানীয় সংরক্ষণ ব্যবহার করে সংরক্ষিত';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'চিত্র সংরক্ষণে সময়ে ত্রুটি';
 
   @override

@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
       'स्थानीय संग्रहण का उपयोग करके सहेजा गया';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'तस्वीर सहेजते समय त्रुटि';
 
   @override

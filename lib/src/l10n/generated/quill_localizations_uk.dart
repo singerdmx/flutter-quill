@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
       'Збережено за допомогою локального сховища';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Помилка при збереженні зображення';
 
   @override

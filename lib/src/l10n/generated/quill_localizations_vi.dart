@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'Đã lưu sử dụng lưu trữ địa phương';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Lỗi khi lưu hình ảnh';
 
   @override

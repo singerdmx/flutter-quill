@@ -597,6 +597,12 @@ abstract class FlutterQuillLocalizations {
   /// **'Saved using the local storage'**
   String get savedUsingLocalStorage;
 
+  /// A message with a single parameter
+  ///
+  /// In en, this message translates to:
+  /// **'The image has been saved at: {imagePath}'**
+  String theImageHasBeenSavedAt(String imagePath);
+
   /// No description provided for @errorWhileSavingImage.
   ///
   /// In en, this message translates to:

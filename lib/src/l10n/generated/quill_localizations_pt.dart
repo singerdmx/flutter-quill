@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
       'Guardado através do armazenamento local';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Erro a gravar imagem';
 
   @override

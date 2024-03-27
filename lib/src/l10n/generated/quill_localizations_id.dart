@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
       'Tersimpan menggunakan penyimpanan lokal';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Error saat menyimpan gambar';
 
   @override

@@ -58,7 +58,8 @@ dependencies:
 >
 > 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the instructions
 >
-> 3. For loading the image from the internet, we need the internet permission
+> 3. We are using [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter) plugin which uses [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) which has requirement on web, please follow this [link](https://pub.dev/packages/flutter_inappwebview#installation) in order to setup the support for web
+> 4. For loading the image from the internet, we need the internet permission
 >    1. For Android, you need to add some permissions in `AndroidManifest.xml`, Please follow this [link](https://developer.android.com/training/basics/network-ops/connecting) for more info, the internet permission is included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your Android application to accept `http` in the release mode, follow this [link](https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted) for more info.
 >    2. For macOS, you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
 >

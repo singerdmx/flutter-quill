@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'Saved using the local storage';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override

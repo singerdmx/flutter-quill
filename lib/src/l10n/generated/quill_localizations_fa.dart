@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
       'ذخیره شده با استفاده از فضای ذخیره محلی';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'خطا در هنگام ذخیره تصویر';
 
   @override
