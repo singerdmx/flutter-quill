@@ -265,6 +265,9 @@ class _LinkDialogState extends State<_LinkDialog> {
               decoration: InputDecoration(
                 labelText: context.loc.text,
                 hintText: context.loc.pleaseEnterTextForYourLink,
+                hintStyle: widget.dialogTheme?.inputTextStyle?.copyWith(
+                    color: widget.dialogTheme?.inputTextStyle?.color
+                        ?.withOpacity(0.65)),
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
@@ -284,6 +287,9 @@ class _LinkDialogState extends State<_LinkDialog> {
               decoration: InputDecoration(
                 labelText: context.loc.link,
                 hintText: context.loc.pleaseEnterTheLinkURL,
+                hintStyle: widget.dialogTheme?.inputTextStyle?.copyWith(
+                    color: widget.dialogTheme?.inputTextStyle?.color
+                        ?.withOpacity(0.65)),
                 labelStyle: widget.dialogTheme?.labelTextStyle,
                 floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
               ),
