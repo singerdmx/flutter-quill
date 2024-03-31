@@ -186,7 +186,9 @@ class QuillToolbarFontSizeButtonState
           child: Text(
             fontSize.key.toString(),
             style: TextStyle(
-              color: fontSize.value == '0' ? options.defaultItemColor : null,
+              color: fontSize.value == '0'
+                  ? options.defaultItemColor
+                  : options.dropdownTextColor,
             ),
           ),
         );

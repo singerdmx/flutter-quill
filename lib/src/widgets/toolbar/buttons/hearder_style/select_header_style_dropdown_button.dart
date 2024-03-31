@@ -164,7 +164,7 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
               onPressed: () {
                 _onPressed(e);
               },
-              child: Text(_label(e)),
+              child: Text(_label(e), style: widget.options.dropdownTextStyle),
             ),
           )
           .toList(),

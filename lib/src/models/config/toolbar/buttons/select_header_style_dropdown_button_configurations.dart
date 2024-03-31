@@ -28,6 +28,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
     super.iconSize,
     super.iconButtonFactor,
     this.textStyle,
+    this.dropdownTextStyle,
     super.iconData,
     this.attributes,
     this.defaultDisplayText,
@@ -35,6 +36,7 @@ class QuillToolbarSelectHeaderStyleDropdownButtonOptions
   });
 
   final TextStyle? textStyle;
+  final TextStyle? dropdownTextStyle;
 
   /// Header attributes, defaults to:
   /// ```dart

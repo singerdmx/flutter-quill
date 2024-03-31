@@ -217,7 +217,7 @@ class QuillToolbarFontFamilyButtonState
                       options.renderFontFamilies ? fontFamily.value : null,
                   color: fontFamily.value == 'Clear'
                       ? options.defaultItemColor
-                      : null,
+                      : options.dropdownTextColor,
                 ),
               ),
             ),

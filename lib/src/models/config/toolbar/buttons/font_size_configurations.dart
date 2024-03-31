@@ -48,6 +48,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     this.itemHeight,
     this.itemPadding,
     this.defaultItemColor = Colors.red,
+    this.dropdownTextColor,
     super.childBuilder,
     this.shape,
     this.defaultDisplayText,
@@ -70,6 +71,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   @Deprecated('No longer used')
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
+  final Color? dropdownTextColor;
   final String? defaultDisplayText;
 
   QuillToolbarFontSizeButtonOptions copyWith({
