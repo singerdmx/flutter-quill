@@ -137,25 +137,25 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get headerStyle => 'Styl záhlaví';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Normální text';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Nadpis 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Nadpis 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Nadpis 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Nadpis 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Nadpis 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Nadpis 6';
 
   @override
   String get numberedList => 'Číslovaný seznam';
@@ -222,7 +222,7 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Obrázek byl uložen v: $imagePath';
   }
 
   @override
@@ -256,20 +256,20 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get insertImage => 'Vložit obrázek';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Vybrat fotku z galerie';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Použít fotoaparát';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Vložit fotografii pomocí odkazu';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Vyberte video z galerie';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Natočit video pomocí kamery';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Vložit video pomocí odkazu';
 }

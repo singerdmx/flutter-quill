@@ -77,6 +77,29 @@
     "photo": "Foto",
     "image": "Obrázek",
     "caseSensitivityAndWholeWordSearch": "Citlivost na velká a malá písmena a vyhledávání celého slova",
-    "insertImage": "Vložit obrázek"
+    "insertImage": "Vložit obrázek",
+    "normal": "Normální text",
+    "heading1": "Nadpis 1",
+    "heading2": "Nadpis 2",
+    "heading3": "Nadpis 3",
+    "heading4": "Nadpis 4",
+    "heading5": "Nadpis 5",
+    "heading6": "Nadpis 6",
+    "theImageHasBeenSavedAt": "Obrázek byl uložen v: {imagePath}",
+    "@theImageHasBeenSavedAt": {
+      "description": "Zpráva s jedním parametrem",
+      "placeholders": {
+        "imagePath": {
+          "type": "String",
+          "example": "cesta/k/umístění"
+        }
+      }
+    },
+    "pickAPhotoFromYourGallery": "Vybrat fotku z galerie",
+    "takeAPhotoUsingYourCamera": "Použít fotoaparát",
+    "pasteAPhotoUsingALink": "Vložit fotografii pomocí odkazu",
+    "pickAVideoFromYourGallery": "Vyberte video z galerie",
+    "recordAVideoUsingYourCamera": "Natočit video pomocí kamery",
+    "pasteAVideoUsingALink": "Vložit video pomocí odkazu"
   }
   
