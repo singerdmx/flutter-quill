@@ -233,14 +233,7 @@ class QuillToolbarFontFamilyButtonState
             }
             return QuillToolbarIconButton(
               isSelected: false,
-              iconTheme: iconTheme?.copyWith(
-                iconButtonSelectedData: const IconButtonData(
-                  visualDensity: VisualDensity.compact,
-                ),
-                iconButtonUnselectedData: const IconButtonData(
-                  visualDensity: VisualDensity.compact,
-                ),
-              ),
+              iconTheme: iconTheme,
               onPressed: _onPressed,
               icon: _buildContent(context),
             );
