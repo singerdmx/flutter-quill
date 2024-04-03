@@ -234,10 +234,9 @@ class QuillToolbarFontSizeButtonState
                   ),
             ),
           ),
-          const SizedBox(width: 3),
           Icon(
             Icons.arrow_drop_down,
-            size: iconSize / 1.15,
+            size: iconSize * iconButtonFactor,
           )
         ],
       ),
