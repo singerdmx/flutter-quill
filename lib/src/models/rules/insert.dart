@@ -560,9 +560,6 @@ class PreserveInlineStylesRule extends InsertRule {
 
     final itr = DeltaIterator(document);
     var prev = itr.skip(len == 0 ? index : index + 1);
-    //
-    //  Inserting at start of line should use style for first character on the line
-    //
     if (prev == null ||
         (prev.data is String && (prev.data as String).endsWith('\n'))) {
       prev = itr.next();

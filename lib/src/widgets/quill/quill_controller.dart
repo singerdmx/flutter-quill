@@ -478,24 +478,13 @@ class QuillController extends ChangeNotifier {
     super.dispose();
   }
 
-  /// Comments:
-  /// Removed param:
-  ///   'ChangeSource source' as not used within this function!
-  /// Added param:
-  ///   insertNewline is non-null when user makes an editing change, true when newline is inserted to allow style to be maintained
   void _updateSelection(TextSelection textSelection, {bool insertNewline = false}) {
     _selection = textSelection;
     final end = document.length - 1;
     _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
-    //
     if (keepStyleOnNewLine) {
-      //
-      //  Update toggledStyle:
-      //    if insertNewline: gets style from preceding/last character entered (if any)
-      //    else clears so style will be style of selection
-      //
       if (insertNewline && selection.start > 0) {
         final style = document.collectStyle(selection.start - 1, 0);
         final ignoredStyles = style.attributes.values.where(
@@ -508,7 +497,6 @@ class QuillController extends ChangeNotifier {
     } else {
       toggledStyle = const Style();
     }
-    //
     onSelectionChanged?.call(textSelection);
   }
 
