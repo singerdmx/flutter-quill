@@ -478,7 +478,8 @@ class QuillController extends ChangeNotifier {
     super.dispose();
   }
 
-  void _updateSelection(TextSelection textSelection, {bool insertNewline = false}) {
+  void _updateSelection(TextSelection textSelection,
+      {bool insertNewline = false}) {
     _selection = textSelection;
     final end = document.length - 1;
     _selection = selection.copyWith(
