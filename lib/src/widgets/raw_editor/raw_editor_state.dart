@@ -1452,12 +1452,13 @@ class QuillRawEditorState extends EditorState
   }
 
   void _handleFocusChanged() {
-    openOrCloseConnection();
     if (dirty) {
+      requestKeyboard();
       SchedulerBinding.instance
           .addPostFrameCallback((_) => _handleFocusChanged());
       return;
     }
+    openOrCloseConnection();
     _cursorCont.startOrStopCursorTimerIfNeeded(_hasFocus, controller.selection);
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
