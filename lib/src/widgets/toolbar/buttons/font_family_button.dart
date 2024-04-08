@@ -45,6 +45,8 @@ class QuillToolbarFontFamilyButtonState
   void initState() {
     super.initState();
     _initState();
+    controller
+      .addListener(_didChangeEditingValue);
   }
 
   void _initState() {}
@@ -62,26 +64,32 @@ class QuillToolbarFontFamilyButtonState
         context.loc.font;
   }
 
-  // @override
-  // void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (oldWidget.controller == controller) {
-  //     return;
-  //   }
-  //   controller
-  //     ..removeListener(_didChangeEditingValue)
-  //     ..addListener(_didChangeEditingValue);
-  // }
+   @override
+   void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
+     super.didUpdateWidget(oldWidget);
+     if (oldWidget.controller == controller) {
+       return;
+     }
+     controller
+       ..removeListener(_didChangeEditingValue)
+       ..addListener(_didChangeEditingValue);
+   }
 
-  // void _didChangeEditingValue() {
-  //   final attribute = _selectionStyle.attributes[options.attribute.key];
-  //   if (attribute == null) {
-  //     setState(() => _currentValue = _defaultDisplayText);
-  //     return;
-  //   }
-  //   final keyName = _getKeyName(attribute.value);
-  //   setState(() => _currentValue = keyName ?? _defaultDisplayText);
-  // }
+  @override
+  void dispose() {
+    controller.removeListener(_didChangeEditingValue);
+    super.dispose();
+  }
+
+  void _didChangeEditingValue() {
+     final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
+     if (attribute == null) {
+       setState(() => _currentValue = _defaultDisplayText);
+       return;
+     }
+     final keyName = _getKeyName(attribute.value);
+     setState(() => _currentValue = keyName ?? _defaultDisplayText);
+   }
 
   Map<String, String> get rawItemsMap {
     final rawItemsMap =
@@ -142,7 +150,7 @@ class QuillToolbarFontFamilyButtonState
     } else {
       _menuController.open();
     }
-    options.afterButtonPressed?.call();
+    afterButtonPressed?.call();
   }
 
   final _menuController = MenuController();
@@ -262,7 +270,7 @@ class QuillToolbarFontFamilyButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              widget.controller.selectedFontFamily?.key ?? _currentValue,
+              _currentValue,
               maxLines: 1,
               overflow: options.labelOverflow,
               style: options.style ??

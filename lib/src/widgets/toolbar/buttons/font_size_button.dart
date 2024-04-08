@@ -73,14 +73,46 @@ class QuillToolbarFontSizeButtonState
   }
 
   @override
+  void initState() {
+    super.initState();
+    _initState();
+    controller
+        .addListener(_didChangeEditingValue);
+  }
+
+  void _initState() {}
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _currentValue = _defaultDisplayText;
   }
 
   @override
+  void didUpdateWidget(covariant QuillToolbarFontSizeButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller == controller) {
+      return;
+    }
+    controller
+      ..removeListener(_didChangeEditingValue)
+      ..addListener(_didChangeEditingValue);
+  }
+
+  @override
   void dispose() {
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
+  }
+
+  void _didChangeEditingValue() {
+    final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
+    if (attribute == null) {
+      setState(() => _currentValue = _defaultDisplayText);
+      return;
+    }
+    final keyName = _getKeyName(attribute.value);
+    setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
   String? _getKeyName(dynamic value) {
@@ -231,7 +263,6 @@ class QuillToolbarFontSizeButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              getLabel(widget.controller.selectedFontSize?.key) ??
                   getLabel(_currentValue) ??
                   '',
               overflow: options.labelOverflow,
