@@ -82,3 +82,6 @@ pubspec_overrides.yaml
 
 # A directory where you put all of your local things that you don't want to push
 .flutter-quill
+
+# FVM Version Cache
+.fvm/
