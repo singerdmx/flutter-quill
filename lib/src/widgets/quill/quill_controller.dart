@@ -327,7 +327,7 @@ class QuillController extends ChangeNotifier {
 
     if (textSelection != null) {
       if (delta == null || delta.isEmpty) {
-        _updateSelection(textSelection, ChangeSource.local);
+        _updateSelection(textSelection);
       } else {
         final user = Delta()
           ..retain(index)
@@ -335,12 +335,11 @@ class QuillController extends ChangeNotifier {
           ..delete(len);
         final positionDelta = getPositionDelta(user, delta);
         _updateSelection(
-          textSelection.copyWith(
-            baseOffset: textSelection.baseOffset + positionDelta,
-            extentOffset: textSelection.extentOffset + positionDelta,
-          ),
-          ChangeSource.local,
-        );
+            textSelection.copyWith(
+              baseOffset: textSelection.baseOffset + positionDelta,
+              extentOffset: textSelection.extentOffset + positionDelta,
+            ),
+            insertNewline: data == '\n');
       }
     }
 
@@ -389,7 +388,7 @@ class QuillController extends ChangeNotifier {
         baseOffset: change.transformPosition(selection.baseOffset),
         extentOffset: change.transformPosition(selection.extentOffset));
     if (selection != adjustedSelection) {
-      _updateSelection(adjustedSelection, ChangeSource.local);
+      _updateSelection(adjustedSelection);
     }
     if (shouldNotifyListeners) {
       notifyListeners();
@@ -428,7 +427,7 @@ class QuillController extends ChangeNotifier {
   }
 
   void updateSelection(TextSelection textSelection, ChangeSource source) {
-    _updateSelection(textSelection, source);
+    _updateSelection(textSelection);
     notifyListeners();
   }
 
@@ -445,7 +444,7 @@ class QuillController extends ChangeNotifier {
       ),
     );
     if (selection != textSelection) {
-      _updateSelection(textSelection, source);
+      _updateSelection(textSelection);
     }
 
     notifyListeners();
@@ -479,18 +478,23 @@ class QuillController extends ChangeNotifier {
     super.dispose();
   }
 
-  void _updateSelection(TextSelection textSelection, ChangeSource source) {
+  void _updateSelection(TextSelection textSelection,
+      {bool insertNewline = false}) {
     _selection = textSelection;
     final end = document.length - 1;
     _selection = selection.copyWith(
         baseOffset: math.min(selection.baseOffset, end),
         extentOffset: math.min(selection.extentOffset, end));
     if (keepStyleOnNewLine) {
-      final style = getSelectionStyle();
-      final ignoredStyles = style.attributes.values.where(
-        (s) => !s.isInline || s.key == Attribute.link.key,
-      );
-      toggledStyle = style.removeAll(ignoredStyles.toSet());
+      if (insertNewline && selection.start > 0) {
+        final style = document.collectStyle(selection.start - 1, 0);
+        final ignoredStyles = style.attributes.values.where(
+          (s) => !s.isInline || s.key == Attribute.link.key,
+        );
+        toggledStyle = style.removeAll(ignoredStyles.toSet());
+      } else {
+        toggledStyle = const Style();
+      }
     } else {
       toggledStyle = const Style();
     }

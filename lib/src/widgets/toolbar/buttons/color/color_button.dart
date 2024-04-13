@@ -191,6 +191,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
         size: iconSize * iconButtonFactor,
       ),
       onPressed: _showColorPicker,
+      afterPressed: afterButtonPressed,
     );
   }
 

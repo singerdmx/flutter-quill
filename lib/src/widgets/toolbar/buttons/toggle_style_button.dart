@@ -148,7 +148,7 @@ class QuillToolbarToggleStyleButtonState
 
   void _onPressed() {
     _toggleAttribute();
-    options.afterButtonPressed?.call();
+    afterButtonPressed?.call();
   }
 
   @override
@@ -175,7 +175,7 @@ class QuillToolbarToggleStyleButtonState
         options.fillColor,
         _isToggled,
         _toggleAttribute,
-        options.afterButtonPressed,
+        afterButtonPressed,
         iconSize,
         iconButtonFactor,
         iconTheme,
