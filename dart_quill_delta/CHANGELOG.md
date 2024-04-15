@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.7
+* Fix for keyboard jumping when switching focus from a TextField
+* Toolbar button styling to reflect cursor position when running on desktops with keyboard to move care
+
 ## 9.3.6
 * Add SK and update CS locales [#1796](https://github.com/singerdmx/flutter-quill/pull/1796)
 * Fixes:
