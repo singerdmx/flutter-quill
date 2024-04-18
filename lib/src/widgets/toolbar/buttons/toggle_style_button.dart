@@ -218,12 +218,11 @@ class QuillToolbarToggleStyleButtonState
 
   void _toggleAttribute() {
     controller
-      ..formatSelection(
+      .formatSelection(
         (_isToggled ?? false)
             ? Attribute.clone(widget.attribute, null)
             : widget.attribute,
-      )
-      ..selectStyle(widget.attribute, _isToggled ?? false);
+      );
   }
 }
 

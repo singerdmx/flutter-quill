@@ -67,12 +67,10 @@ class QuillToolbarFontFamilyButtonState
    @override
    void didUpdateWidget(covariant QuillToolbarFontFamilyButton oldWidget) {
      super.didUpdateWidget(oldWidget);
-     if (oldWidget.controller == controller) {
-       return;
+     if (oldWidget.controller != controller) {
+       oldWidget.controller.removeListener(_didChangeEditingValue);
+       controller.addListener(_didChangeEditingValue);
      }
-     controller
-       ..removeListener(_didChangeEditingValue)
-       ..addListener(_didChangeEditingValue);
    }
 
   @override
@@ -218,13 +216,7 @@ class QuillToolbarFontFamilyButtonState
                     options.onSelected?.call(newValue);
                   }
                 });
-
-                if (fontFamily.value == 'Clear') {
-                  controller.selectFontFamily(null);
-                  return;
-                }
-                controller.selectFontFamily(fontFamily);
-              },
+                },
               child: Text(
                 fontFamily.key.toString(),
                 style: TextStyle(

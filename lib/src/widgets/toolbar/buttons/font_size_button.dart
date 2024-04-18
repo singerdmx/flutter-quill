@@ -91,12 +91,10 @@ class QuillToolbarFontSizeButtonState
   @override
   void didUpdateWidget(covariant QuillToolbarFontSizeButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller == controller) {
-      return;
+    if (oldWidget.controller != controller) {
+      oldWidget.controller.removeListener(_didChangeEditingValue);
+      controller.addListener(_didChangeEditingValue);
     }
-    controller
-      ..removeListener(_didChangeEditingValue)
-      ..addListener(_didChangeEditingValue);
   }
 
   @override
@@ -208,12 +206,6 @@ class QuillToolbarFontSizeButtonState
                 options.onSelected?.call(newValue);
               }
             });
-
-            if (fontSize.value == '0') {
-              controller.selectFontSize(null);
-              return;
-            }
-            controller.selectFontSize(fontSize);
           },
           child: Text(
             fontSize.key.toString(),

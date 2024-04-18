@@ -14,7 +14,6 @@ import '../../models/structs/doc_change.dart';
 import '../../models/structs/image_url.dart';
 import '../../models/structs/offset_value.dart';
 import '../../utils/delta.dart';
-import '../toolbar/buttons/toggle_style_button.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -65,40 +64,6 @@ class QuillController extends ChangeNotifier {
 
     _document = newDocument;
     notifyListeners();
-  }
-
-  // Thoses are the values that the user selects and not the one
-  // from the current line
-
-  /// The current font family, null to use the default one
-  MapEntry<String, String>? _selectedFontFamily;
-
-  /// The current font family, null to use the default one
-  MapEntry<String, String>? get selectedFontFamily => _selectedFontFamily;
-
-  void selectFontFamily(MapEntry<String, String>? newFontFamily) {
-    _selectedFontFamily = newFontFamily;
-  }
-
-  /// The current font size, null to use the default one
-  MapEntry<String, String>? _selectedFontSize;
-
-  /// The current font size, null to use the default one
-  MapEntry<String, String>? get selectedFontSize => _selectedFontSize;
-
-  void selectFontSize(MapEntry<String, String>? newFontSize) {
-    _selectedFontSize = newFontSize;
-  }
-
-  /// For the [QuillToolbarToggleStyleButton]
-  final Map<Attribute, bool?> _selectedStyles = {};
-
-  /// For the [QuillToolbarToggleStyleButton]
-  Map<Attribute, bool?> get selectedStyles => _selectedStyles;
-
-  /// For the [QuillToolbarToggleStyleButton]
-  void selectStyle(Attribute attribute, bool value) {
-    _selectedStyles[attribute] = value;
   }
 
   /// Tells whether to keep or reset the [toggledStyle]
