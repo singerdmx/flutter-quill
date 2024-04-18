@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.7
+* Fix for keyboard jumping when switching focus from a TextField
+* Toolbar button styling to reflect cursor position when running on desktops with keyboard to move care
+
+## 9.3.6
+* Add SK and update CS locales [#1796](https://github.com/singerdmx/flutter-quill/pull/1796)
+* Fixes:
+  * QuillIconTheme changes for FontFamily and FontSize buttons are not applied [#1797](https://github.com/singerdmx/flutter-quill/pull/1796)
+  * Make the arrow_drop_down icons in the QuillToolbar the same size for all MenuAnchor buttons [#1799](https://github.com/singerdmx/flutter-quill/pull/1796)
+
 ## 9.3.5
 * Update the minimum version for the packages to support `device_info_plus` version 10.0.0 [#1783](https://github.com/singerdmx/flutter-quill/issues/1783)
 * Update the minimum version for `youtube_player_flutter` to new major version 9.0.0 in the `flutter_quill_extensions`

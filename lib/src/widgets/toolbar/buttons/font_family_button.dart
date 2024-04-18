@@ -120,6 +120,13 @@ class QuillToolbarFontFamilyButtonState
     return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }
 
+  double get iconButtonFactor {
+    final baseIconFactor =
+        context.quillToolbarBaseButtonOptions?.iconButtonFactor;
+    final iconButtonFactor = widget.options.iconButtonFactor;
+    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+  }
+
   VoidCallback? get afterButtonPressed {
     return options.afterButtonPressed ??
         context.quillToolbarBaseButtonOptions?.afterButtonPressed;
@@ -233,14 +240,7 @@ class QuillToolbarFontFamilyButtonState
             }
             return QuillToolbarIconButton(
               isSelected: false,
-              iconTheme: iconTheme?.copyWith(
-                iconButtonSelectedData: const IconButtonData(
-                  visualDensity: VisualDensity.compact,
-                ),
-                iconButtonUnselectedData: const IconButtonData(
-                  visualDensity: VisualDensity.compact,
-                ),
-              ),
+              iconTheme: iconTheme,
               onPressed: _onPressed,
               icon: _buildContent(context),
             );
@@ -273,10 +273,9 @@ class QuillToolbarFontFamilyButtonState
                   ),
             ),
           ),
-          const SizedBox(width: 3),
           Icon(
             Icons.arrow_drop_down,
-            size: iconSize / 1.15,
+            size: iconSize * iconButtonFactor,
             // color: iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color,
           )
         ],

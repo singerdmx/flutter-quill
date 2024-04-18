@@ -203,14 +203,7 @@ class QuillToolbarFontSizeButtonState
           return QuillToolbarIconButton(
             tooltip: tooltip,
             isSelected: false,
-            iconTheme: iconTheme?.copyWith(
-              iconButtonSelectedData: const IconButtonData(
-                visualDensity: VisualDensity.compact,
-              ),
-              iconButtonUnselectedData: const IconButtonData(
-                visualDensity: VisualDensity.compact,
-              ),
-            ),
+            iconTheme: iconTheme,
             onPressed: _onDropdownButtonPressed,
             icon: _buildContent(context),
           );
@@ -241,10 +234,9 @@ class QuillToolbarFontSizeButtonState
                   ),
             ),
           ),
-          const SizedBox(width: 3),
           Icon(
             Icons.arrow_drop_down,
-            size: iconSize / 1.15,
+            size: iconSize * iconButtonFactor,
           )
         ],
       ),
