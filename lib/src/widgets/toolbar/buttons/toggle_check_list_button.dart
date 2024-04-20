@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
-import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/widgets.dart';
-import '../../quill/quill_controller.dart';
+import '../base_button/stateful_base_button_ex.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarToggleCheckListButton extends StatefulWidget {
+class QuillToolbarToggleCheckListButton extends QuillToolbarStatefulBaseButton<
+    QuillToolbarToggleCheckListButtonOptions,
+    QuillToolbarToggleCheckListButtonExtraOptions> {
   const QuillToolbarToggleCheckListButton({
-    required this.controller,
-    this.options = const QuillToolbarToggleCheckListButtonOptions(),
+    required super.controller,
+    super.options = const QuillToolbarToggleCheckListButtonOptions(),
     super.key,
   });
-
-  final QuillToolbarToggleCheckListButtonOptions options;
-
-  final QuillController controller;
 
   @override
   QuillToolbarToggleCheckListButtonState createState() =>
@@ -26,12 +22,16 @@ class QuillToolbarToggleCheckListButton extends StatefulWidget {
 }
 
 class QuillToolbarToggleCheckListButtonState
-    extends State<QuillToolbarToggleCheckListButton> {
+    extends QuillToolbarBaseButtonState<
+        QuillToolbarToggleCheckListButton,
+        QuillToolbarToggleCheckListButtonOptions,
+        QuillToolbarToggleCheckListButtonExtraOptions> {
   bool? _isToggled;
 
   Style get _selectionStyle => controller.getSelectionStyle();
 
-  void _didChangeEditingValue() {
+  @override
+  void didChangeEditingValue() {
     setState(() {
       _isToggled = _getIsToggled(controller.getSelectionStyle().attributes);
     });
@@ -41,7 +41,6 @@ class QuillToolbarToggleCheckListButtonState
   void initState() {
     super.initState();
     _isToggled = _getIsToggled(_selectionStyle.attributes);
-    controller.addListener(_didChangeEditingValue);
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
@@ -65,61 +64,17 @@ class QuillToolbarToggleCheckListButtonState
   void didUpdateWidget(covariant QuillToolbarToggleCheckListButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != controller) {
-      oldWidget.controller.removeListener(_didChangeEditingValue);
-      controller.addListener(_didChangeEditingValue);
       _isToggled = _getIsToggled(_selectionStyle.attributes);
     }
   }
 
   @override
-  void dispose() {
-    controller.removeListener(_didChangeEditingValue);
-    super.dispose();
-  }
-
-  QuillToolbarToggleCheckListButtonOptions get options {
-    return widget.options;
-  }
-
-  QuillController get controller {
-    return widget.controller;
-  }
-
-  double get iconSize {
-    final baseFontSize = baseButtonExtraOptions?.iconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions?.iconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions?.afterButtonPressed;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
-    return context.quillToolbarBaseButtonOptions;
-  }
+  String get defaultTooltip => context.loc.checkedList;
 
   IconData get iconData {
     return options.iconData ??
         baseButtonExtraOptions?.iconData ??
         Icons.check_box;
-  }
-
-  String get tooltip {
-    return options.tooltip ??
-        baseButtonExtraOptions?.tooltip ??
-        context.loc.checkedList;
   }
 
   @override
