@@ -4,10 +4,10 @@ import '../../../../extensions.dart';
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
-import '../base_button/stateful_base_button_ex.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarFontFamilyButton extends QuillToolbarStatefulBaseButton<
+class QuillToolbarFontFamilyButton extends QuillToolbarBaseValueButton<
     QuillToolbarFontFamilyButtonOptions,
     QuillToolbarFontFamilyButtonExtraOptions> {
   QuillToolbarFontFamilyButton({
@@ -28,16 +28,16 @@ class QuillToolbarFontFamilyButton extends QuillToolbarStatefulBaseButton<
       QuillToolbarFontFamilyButtonState();
 }
 
-class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
+class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseValueButtonState<
     QuillToolbarFontFamilyButton,
     QuillToolbarFontFamilyButtonOptions,
-    QuillToolbarFontFamilyButtonExtraOptions> {
-  var _currentValue = '';
+    QuillToolbarFontFamilyButtonExtraOptions,
+    String> {
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _currentValue = _defaultDisplayText;
+  String get currentStateValue {
+    final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
+    return attribute == null ? _defaultDisplayText : (_getKeyName(attribute.value) ?? _defaultDisplayText);
   }
 
   String get _defaultDisplayText {
@@ -45,18 +45,6 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
         widget.options.defaultDisplayText ??
         widget.defaultDisplayText ??
         context.loc.font;
-  }
-
-  @override
-  void didChangeEditingValue() {
-    final attribute =
-        controller.getSelectionStyle().attributes[options.attribute.key];
-    if (attribute == null) {
-      setState(() => _currentValue = _defaultDisplayText);
-      return;
-    }
-    final keyName = _getKeyName(attribute.value);
-    setState(() => _currentValue = keyName ?? _defaultDisplayText);
   }
 
   Map<String, String> get rawItemsMap {
@@ -109,7 +97,7 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
       return childBuilder(
         options,
         QuillToolbarFontFamilyButtonExtraOptions(
-          currentValue: _currentValue,
+          currentValue: currentValue,
           defaultDisplayText: _defaultDisplayText,
           controller: controller,
           context: context,
@@ -123,8 +111,8 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
         var effectiveTooltip = tooltip;
         if (options.overrideTooltipByFontFamily) {
           effectiveTooltip = effectiveTooltip.isNotEmpty
-              ? '$effectiveTooltip: $_currentValue'
-              : '${context.loc.font}: $_currentValue';
+              ? '$effectiveTooltip: $currentValue'
+              : '${context.loc.font}: $currentValue';
         }
         return Tooltip(message: effectiveTooltip, child: child);
       },
@@ -142,9 +130,9 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
                 final keyName = _getKeyName(newValue);
                 setState(() {
                   if (keyName != 'Clear') {
-                    _currentValue = keyName ?? _defaultDisplayText;
+                    currentValue = keyName ?? _defaultDisplayText;
                   } else {
-                    _currentValue = _defaultDisplayText;
+                    currentValue = _defaultDisplayText;
                   }
                   if (keyName != null) {
                     controller.formatSelection(
@@ -208,7 +196,7 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              _currentValue,
+              currentValue,
               maxLines: 1,
               overflow: options.labelOverflow,
               style: options.style ??

@@ -4,10 +4,10 @@ import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../utils/widgets.dart';
-import '../base_button/stateful_base_button_ex.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarToggleCheckListButton extends QuillToolbarStatefulBaseButton<
+class QuillToolbarToggleCheckListButton extends QuillToolbarBaseValueButton<
     QuillToolbarToggleCheckListButtonOptions,
     QuillToolbarToggleCheckListButtonExtraOptions> {
   const QuillToolbarToggleCheckListButton({
@@ -22,26 +22,16 @@ class QuillToolbarToggleCheckListButton extends QuillToolbarStatefulBaseButton<
 }
 
 class QuillToolbarToggleCheckListButtonState
-    extends QuillToolbarBaseButtonState<
+    extends QuillToolbarBaseValueButtonState<
         QuillToolbarToggleCheckListButton,
         QuillToolbarToggleCheckListButtonOptions,
-        QuillToolbarToggleCheckListButtonExtraOptions> {
-  bool? _isToggled;
+        QuillToolbarToggleCheckListButtonExtraOptions,
+        bool> {
 
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
-  void didChangeEditingValue() {
-    setState(() {
-      _isToggled = _getIsToggled(controller.getSelectionStyle().attributes);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _isToggled = _getIsToggled(_selectionStyle.attributes);
-  }
+  bool get currentStateValue => _getIsToggled(_selectionStyle.attributes);
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
     var attribute = controller.toolbarButtonToggler[Attribute.list.key];
@@ -58,14 +48,6 @@ class QuillToolbarToggleCheckListButtonState
     }
     return attribute.value == Attribute.unchecked.value ||
         attribute.value == Attribute.checked.value;
-  }
-
-  @override
-  void didUpdateWidget(covariant QuillToolbarToggleCheckListButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != controller) {
-      _isToggled = _getIsToggled(_selectionStyle.attributes);
-    }
   }
 
   @override
@@ -91,7 +73,7 @@ class QuillToolbarToggleCheckListButtonState
             _toggleAttribute();
             afterButtonPressed?.call();
           },
-          isToggled: _isToggled ?? false,
+          isToggled: currentValue,
         ),
       );
     }
@@ -102,7 +84,7 @@ class QuillToolbarToggleCheckListButtonState
         Attribute.unchecked,
         iconData,
         options.fillColor,
-        _isToggled,
+        currentValue,
         _toggleAttribute,
         afterButtonPressed,
         iconSize,
@@ -116,7 +98,7 @@ class QuillToolbarToggleCheckListButtonState
     controller
       ..skipRequestKeyboard = !options.isShouldRequestKeyboard
       ..formatSelection(
-        _isToggled!
+        currentValue
             ? Attribute.clone(Attribute.unchecked, null)
             : Attribute.unchecked,
       );

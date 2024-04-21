@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../flutter_quill.dart';
 
 /// The [T] is the options for the button
 /// The [E] is the extra options for the button
-abstract class QuillToolbarStatefulBaseButton<
+abstract class QuillToolbarBaseValueButton<
     T extends QuillToolbarBaseButtonOptions<T, E>,
     E extends QuillToolbarBaseButtonExtraOptions> extends StatefulWidget {
-  const QuillToolbarStatefulBaseButton(
+  const QuillToolbarBaseValueButton(
       {required this.controller, required this.options, super.key});
 
   final T options;
@@ -17,13 +16,20 @@ abstract class QuillToolbarStatefulBaseButton<
 }
 
 /// The [W] is the widget that creates this State
-abstract class QuillToolbarBaseButtonState<
-    W extends QuillToolbarStatefulBaseButton<T, E>,
+/// The [V] is the type of the currentValue
+abstract class QuillToolbarBaseValueButtonState<
+    W extends QuillToolbarBaseValueButton<T, E>,
     T extends QuillToolbarBaseButtonOptions<T, E>,
-    E extends QuillToolbarBaseButtonExtraOptions> extends State<W> {
+    E extends QuillToolbarBaseButtonExtraOptions,
+    V > extends State<W> {
   T get options => widget.options;
 
   QuillController get controller => widget.controller;
+
+  late V currentValue;
+
+  /// Callback to query the widget's state for the value to be assigned to currentState
+  V get currentStateValue;
 
   @override
   void initState() {
@@ -31,7 +37,15 @@ abstract class QuillToolbarBaseButtonState<
     controller.addListener(didChangeEditingValue);
   }
 
-  void didChangeEditingValue();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    currentValue = currentStateValue;
+  }
+
+  void didChangeEditingValue() {
+    setState(() => currentValue = currentStateValue);
+  }
 
   @override
   void dispose() {
@@ -45,6 +59,7 @@ abstract class QuillToolbarBaseButtonState<
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(didChangeEditingValue);
       controller.addListener(didChangeEditingValue);
+      currentValue = currentStateValue;
     }
   }
 

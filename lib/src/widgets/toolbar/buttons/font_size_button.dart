@@ -6,10 +6,10 @@ import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../models/documents/attribute.dart';
 import '../../../utils/font.dart';
-import '../base_button/stateful_base_button_ex.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarFontSizeButton extends QuillToolbarStatefulBaseButton<
+class QuillToolbarFontSizeButton extends QuillToolbarBaseValueButton<
     QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   QuillToolbarFontSizeButton({
     required super.controller,
@@ -28,12 +28,12 @@ class QuillToolbarFontSizeButton extends QuillToolbarStatefulBaseButton<
       QuillToolbarFontSizeButtonState();
 }
 
-class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
+class QuillToolbarFontSizeButtonState extends QuillToolbarBaseValueButtonState<
     QuillToolbarFontSizeButton,
     QuillToolbarFontSizeButtonOptions,
-    QuillToolbarFontSizeButtonExtraOptions> {
+    QuillToolbarFontSizeButtonExtraOptions,
+    String> {
   final _menuController = MenuController();
-  String _currentValue = '';
 
   Map<String, String> get rawItemsMap {
     final fontSizes = options.rawItemsMap ??
@@ -65,21 +65,9 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _currentValue = _defaultDisplayText;
-  }
-
-  @override
-  void didChangeEditingValue() {
-    final attribute =
-        controller.getSelectionStyle().attributes[options.attribute.key];
-    if (attribute == null) {
-      setState(() => _currentValue = _defaultDisplayText);
-      return;
-    }
-    final keyName = _getKeyName(attribute.value);
-    setState(() => _currentValue = keyName ?? _defaultDisplayText);
+  String get currentStateValue {
+    final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
+    return attribute == null ? _defaultDisplayText : (_getKeyName(attribute.value) ?? _defaultDisplayText);
   }
 
   String? _getKeyName(dynamic value) {
@@ -113,7 +101,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
         options,
         QuillToolbarFontSizeButtonExtraOptions(
           controller: controller,
-          currentValue: _currentValue,
+          currentValue: currentValue,
           defaultDisplayText: _defaultDisplayText,
           context: context,
           onPressed: _onDropdownButtonPressed,
@@ -131,9 +119,9 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
             final keyName = _getKeyName(newValue);
             setState(() {
               if (keyName != context.loc.clear) {
-                _currentValue = keyName ?? _defaultDisplayText;
+                currentValue = keyName ?? _defaultDisplayText;
               } else {
-                _currentValue = _defaultDisplayText;
+                currentValue = _defaultDisplayText;
               }
               if (keyName != null) {
                 controller.formatSelection(
@@ -193,7 +181,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              getLabel(_currentValue) ?? '',
+              getLabel(currentValue) ?? '',
               overflow: options.labelOverflow,
               style: options.style ??
                   TextStyle(
