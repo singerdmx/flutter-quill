@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart' show Color;
 import 'package:flutter_quill/flutter_quill.dart';
 
 class QuillToolbarFormulaButtonExtraOptions

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart' show Color;
 
 import '../../../documents/attribute.dart';
 import '../../quill_configurations.dart';
