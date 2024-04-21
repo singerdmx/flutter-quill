@@ -66,8 +66,11 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseValueButtonState<
 
   @override
   String get currentStateValue {
-    final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
-    return attribute == null ? _defaultDisplayText : (_getKeyName(attribute.value) ?? _defaultDisplayText);
+    final attribute =
+        controller.getSelectionStyle().attributes[options.attribute.key];
+    return attribute == null
+        ? _defaultDisplayText
+        : (_getKeyName(attribute.value) ?? _defaultDisplayText);
   }
 
   String? _getKeyName(dynamic value) {

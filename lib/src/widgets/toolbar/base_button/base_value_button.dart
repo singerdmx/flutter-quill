@@ -21,7 +21,7 @@ abstract class QuillToolbarBaseValueButtonState<
     W extends QuillToolbarBaseValueButton<T, E>,
     T extends QuillToolbarBaseButtonOptions<T, E>,
     E extends QuillToolbarBaseButtonExtraOptions,
-    V > extends State<W> {
+    V> extends State<W> {
   T get options => widget.options;
 
   QuillController get controller => widget.controller;
@@ -72,7 +72,7 @@ abstract class QuillToolbarBaseValueButtonState<
   }
 
   double get iconSize {
-    final baseFontSize = context.quillToolbarBaseButtonOptions?.iconSize;
+    final baseFontSize = baseButtonExtraOptions?.iconSize;
     final iconSize = options.iconSize;
     return iconSize ?? baseFontSize ?? kDefaultIconSize;
   }

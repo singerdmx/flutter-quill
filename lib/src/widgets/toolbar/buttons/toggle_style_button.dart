@@ -21,9 +21,7 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   QuillIconTheme? iconTheme,
 ]);
 
-class QuillToolbarToggleStyleButton extends QuillToolbarBaseValueButton<
-    QuillToolbarToggleStyleButtonOptions,
-    QuillToolbarToggleStyleButtonExtraOptions> {
+class QuillToolbarToggleStyleButton extends QuillToolbarBaseValueButton<QuillToolbarToggleStyleButtonOptions, QuillToolbarToggleStyleButtonExtraOptions> {
   const QuillToolbarToggleStyleButton({
     required super.controller,
     required this.attribute,
@@ -34,16 +32,11 @@ class QuillToolbarToggleStyleButton extends QuillToolbarBaseValueButton<
   final Attribute attribute;
 
   @override
-  QuillToolbarToggleStyleButtonState createState() =>
-      QuillToolbarToggleStyleButtonState();
+  QuillToolbarToggleStyleButtonState createState() => QuillToolbarToggleStyleButtonState();
 }
 
-class QuillToolbarToggleStyleButtonState extends QuillToolbarBaseValueButtonState<
-    QuillToolbarToggleStyleButton,
-    QuillToolbarToggleStyleButtonOptions,
-    QuillToolbarToggleStyleButtonExtraOptions,
-    bool> {
-
+class QuillToolbarToggleStyleButtonState
+    extends QuillToolbarBaseValueButtonState<QuillToolbarToggleStyleButton, QuillToolbarToggleStyleButtonOptions, QuillToolbarToggleStyleButtonExtraOptions, bool> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
@@ -84,10 +77,7 @@ class QuillToolbarToggleStyleButtonState extends QuillToolbarBaseValueButtonStat
           'left' => (context.loc.alignLeft, Icons.format_align_left),
           'right' => (context.loc.alignRight, Icons.format_align_right),
           'center' => (context.loc.alignCenter, Icons.format_align_center),
-          'justify' => (
-              context.loc.justifyWinWidth,
-              Icons.format_align_justify
-            ),
+          'justify' => (context.loc.justifyWinWidth, Icons.format_align_justify),
           Object() => throw ArgumentError(widget.attribute.value),
           null => (context.loc.alignCenter, Icons.format_align_center),
         };
@@ -103,9 +93,7 @@ class QuillToolbarToggleStyleButtonState extends QuillToolbarBaseValueButtonStat
   String get defaultTooltip => _defaultTooltipAndIconData.$1;
 
   IconData get iconData {
-    return options.iconData ??
-        context.quillToolbarBaseButtonOptions?.iconData ??
-        _defaultTooltipAndIconData.$2;
+    return options.iconData ?? context.quillToolbarBaseButtonOptions?.iconData ?? _defaultTooltipAndIconData.$2;
   }
 
   void _onPressed() {
@@ -115,8 +103,7 @@ class QuillToolbarToggleStyleButtonState extends QuillToolbarBaseValueButtonStat
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder ??
-        context.quillToolbarBaseButtonOptions?.childBuilder;
+    final childBuilder = options.childBuilder ?? context.quillToolbarBaseButtonOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -146,9 +133,7 @@ class QuillToolbarToggleStyleButtonState extends QuillToolbarBaseValueButtonStat
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    if (widget.attribute.key == Attribute.list.key ||
-        widget.attribute.key == Attribute.script.key ||
-        widget.attribute.key == Attribute.align.key) {
+    if (widget.attribute.key == Attribute.list.key || widget.attribute.key == Attribute.script.key || widget.attribute.key == Attribute.align.key) {
       final attribute = attrs[widget.attribute.key];
       if (attribute == null) {
         return false;
@@ -159,11 +144,11 @@ class QuillToolbarToggleStyleButtonState extends QuillToolbarBaseValueButtonStat
   }
 
   void _toggleAttribute() {
-    controller..formatSelection(
-      currentValue
-          ? Attribute.clone(widget.attribute, null)
-          : widget.attribute,
-    )
+    controller
+      ..skipRequestKeyboard = !widget.attribute.isInline
+      ..formatSelection(
+        currentValue ? Attribute.clone(widget.attribute, null) : widget.attribute,
+      )
       ..selectStyle(widget.attribute, currentValue);
   }
 }

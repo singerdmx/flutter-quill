@@ -27,7 +27,6 @@ class QuillToolbarToggleCheckListButtonState
         QuillToolbarToggleCheckListButtonOptions,
         QuillToolbarToggleCheckListButtonExtraOptions,
         bool> {
-
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override

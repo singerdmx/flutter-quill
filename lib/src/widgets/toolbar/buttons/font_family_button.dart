@@ -28,16 +28,19 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseValueButton<
       QuillToolbarFontFamilyButtonState();
 }
 
-class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseValueButtonState<
-    QuillToolbarFontFamilyButton,
-    QuillToolbarFontFamilyButtonOptions,
-    QuillToolbarFontFamilyButtonExtraOptions,
-    String> {
-
+class QuillToolbarFontFamilyButtonState
+    extends QuillToolbarBaseValueButtonState<
+        QuillToolbarFontFamilyButton,
+        QuillToolbarFontFamilyButtonOptions,
+        QuillToolbarFontFamilyButtonExtraOptions,
+        String> {
   @override
   String get currentStateValue {
-    final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
-    return attribute == null ? _defaultDisplayText : (_getKeyName(attribute.value) ?? _defaultDisplayText);
+    final attribute =
+        controller.getSelectionStyle().attributes[options.attribute.key];
+    return attribute == null
+        ? _defaultDisplayText
+        : (_getKeyName(attribute.value) ?? _defaultDisplayText);
   }
 
   String get _defaultDisplayText {
