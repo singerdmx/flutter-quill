@@ -23,7 +23,6 @@ class QuillToolbarToggleCheckListButtonOptions
   const QuillToolbarToggleCheckListButtonOptions({
     super.iconSize,
     super.iconButtonFactor,
-    this.fillColor,
     this.attribute = Attribute.unchecked,
     this.isShouldRequestKeyboard = false,
     super.iconTheme,
@@ -32,8 +31,6 @@ class QuillToolbarToggleCheckListButtonOptions
     super.afterButtonPressed,
     super.childBuilder,
   });
-
-  final Color? fillColor;
 
   final Attribute attribute;
 

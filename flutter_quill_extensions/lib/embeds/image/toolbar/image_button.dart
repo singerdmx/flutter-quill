@@ -81,7 +81,6 @@ class QuillToolbarImageButton extends StatelessWidget {
           iconSize: iconSize,
           iconButtonFactor: iconButtonFactor,
           dialogTheme: options.dialogTheme,
-          fillColor: options.fillColor,
           iconTheme: options.iconTheme,
           linkRegExp: options.linkRegExp,
           tooltip: options.tooltip,

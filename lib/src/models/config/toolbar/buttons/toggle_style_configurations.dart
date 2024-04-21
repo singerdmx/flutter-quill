@@ -26,12 +26,9 @@ class QuillToolbarToggleStyleButtonOptions
     super.iconData,
     super.iconSize,
     super.iconButtonFactor,
-    this.fillColor,
     super.tooltip,
     super.afterButtonPressed,
     super.iconTheme,
     super.childBuilder,
   });
-
-  final Color? fillColor;
 }

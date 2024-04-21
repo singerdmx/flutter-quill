@@ -26,13 +26,10 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
     super.afterButtonPressed,
     super.childBuilder,
     super.iconTheme,
-    this.fillColor,
     this.dialogTheme,
     this.linkRegExp,
     this.imageButtonConfigurations = const QuillToolbarImageConfigurations(),
   });
-
-  final Color? fillColor;
 
   final QuillDialogTheme? dialogTheme;
 
