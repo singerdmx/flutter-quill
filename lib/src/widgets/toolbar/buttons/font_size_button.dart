@@ -136,12 +136,6 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseValueButtonState<
                 options.onSelected?.call(newValue);
               }
             });
-
-            if (fontSize.value == '0') {
-              controller.selectFontSize(null);
-              return;
-            }
-            controller.selectFontSize(fontSize);
           },
           child: Text(
             fontSize.key.toString(),

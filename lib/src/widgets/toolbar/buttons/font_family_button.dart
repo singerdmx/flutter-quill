@@ -147,12 +147,6 @@ class QuillToolbarFontFamilyButtonState
                     options.onSelected?.call(newValue);
                   }
                 });
-
-                if (fontFamily.value == 'Clear') {
-                  controller.selectFontFamily(null);
-                  return;
-                }
-                controller.selectFontFamily(fontFamily);
               },
               child: Text(
                 fontFamily.key.toString(),
