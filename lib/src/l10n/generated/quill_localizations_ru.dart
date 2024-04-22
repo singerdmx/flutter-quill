@@ -41,100 +41,100 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get text => 'Текст';
 
   @override
-  String get resize => 'Resize';
+  String get resize => 'Изменить размер';
 
   @override
-  String get width => 'Width';
+  String get width => 'Ширина';
 
   @override
-  String get height => 'Height';
+  String get height => 'Высота';
 
   @override
-  String get size => 'Size';
+  String get size => 'Размер';
 
   @override
-  String get small => 'Small';
+  String get small => 'Маленький';
 
   @override
-  String get large => 'Large';
+  String get large => 'Большой';
 
   @override
-  String get huge => 'Huge';
+  String get huge => 'Огромный';
 
   @override
-  String get clear => 'Clear';
+  String get clear => 'Очистить';
 
   @override
-  String get font => 'Font';
+  String get font => 'Шрифт';
 
   @override
-  String get search => 'Search';
+  String get search => 'Поиск';
 
   @override
-  String get camera => 'Camera';
+  String get camera => 'Камера';
 
   @override
-  String get video => 'Video';
+  String get video => 'Видео';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Отменить';
 
   @override
-  String get redo => 'Redo';
+  String get redo => 'Повторить';
 
   @override
-  String get fontFamily => 'Font family';
+  String get fontFamily => 'Семейство шрифтов';
 
   @override
-  String get fontSize => 'Font size';
+  String get fontSize => 'Размер шрифта';
 
   @override
-  String get bold => 'Bold';
+  String get bold => 'Жирный';
 
   @override
-  String get subscript => 'Subscript';
+  String get subscript => 'Нижний индекс';
 
   @override
-  String get superscript => 'Superscript';
+  String get superscript => 'Верхний индекс';
 
   @override
-  String get italic => 'Italic';
+  String get italic => 'Курсив';
 
   @override
-  String get underline => 'Underline';
+  String get underline => 'Подчеркнутый';
 
   @override
-  String get strikeThrough => 'Strike through';
+  String get strikeThrough => 'Зачеркнутый';
 
   @override
-  String get inlineCode => 'Inline code';
+  String get inlineCode => 'Встроенный код';
 
   @override
-  String get fontColor => 'Font color';
+  String get fontColor => 'Цвет шрифта';
 
   @override
-  String get backgroundColor => 'Background color';
+  String get backgroundColor => 'Цвет фона';
 
   @override
-  String get clearFormat => 'Clear format';
+  String get clearFormat => 'Очистить форматирование';
 
   @override
-  String get alignLeft => 'Align left';
+  String get alignLeft => 'Выровнять по левому краю';
 
   @override
-  String get alignCenter => 'Align center';
+  String get alignCenter => 'Выровнять по центру';
 
   @override
-  String get alignRight => 'Align right';
+  String get alignRight => 'Выровнять по правому краю';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Выровнять по ширине окна';
 
   @override
-  String get textDirection => 'Text direction';
+  String get textDirection => 'Направление текста';
 
   @override
-  String get headerStyle => 'Header style';
+  String get headerStyle => 'Стиль заголовка';
 
   @override
   String get normal => 'Normal';
@@ -158,43 +158,43 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get heading6 => 'Heading 6';
 
   @override
-  String get numberedList => 'Numbered list';
+  String get numberedList => 'Нумерованный список';
 
   @override
-  String get bulletList => 'Bullet list';
+  String get bulletList => 'Маркированный список';
 
   @override
-  String get checkedList => 'Checked list';
+  String get checkedList => 'Список с галочками';
 
   @override
-  String get codeBlock => 'Code block';
+  String get codeBlock => 'Блок кода';
 
   @override
-  String get quote => 'Quote';
+  String get quote => 'Цитата';
 
   @override
-  String get increaseIndent => 'Increase indent';
+  String get increaseIndent => 'Увеличить отступ';
 
   @override
-  String get decreaseIndent => 'Decrease indent';
+  String get decreaseIndent => 'Уменьшить отступ';
 
   @override
-  String get insertURL => 'Insert URL';
+  String get insertURL => 'Вставить URL';
 
   @override
-  String get visitLink => 'Visit link';
+  String get visitLink => 'Посетить ссылку';
 
   @override
-  String get enterLink => 'Enter link';
+  String get enterLink => 'Введите ссылку';
 
   @override
-  String get enterMedia => 'Enter media';
+  String get enterMedia => 'Введите медиа';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Редактировать';
 
   @override
-  String get apply => 'Apply';
+  String get apply => 'Применить';
 
   @override
   String get hex => 'Hex';
@@ -206,19 +206,20 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get color => 'Цвет';
 
   @override
-  String get findText => 'Find text';
+  String get findText => 'Найти текст';
 
   @override
-  String get moveToPreviousOccurrence => 'Move to previous occurrence';
+  String get moveToPreviousOccurrence => 'Перейти к предыдущему вхождению';
 
   @override
-  String get moveToNextOccurrence => 'Move to next occurrence';
+  String get moveToNextOccurrence => 'Перейти к следующему вхождению';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Сохранено с использованием сети';
 
   @override
-  String get savedUsingLocalStorage => 'Saved using the local storage';
+  String get savedUsingLocalStorage =>
+      'Сохранено с использованием локального хранилища';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -226,16 +227,17 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   }
 
   @override
-  String get errorWhileSavingImage => 'Error while saving image';
+  String get errorWhileSavingImage => 'Ошибка при сохранении изображения';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => "например, 'Узнать больше'";
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => "например, 'https://example.com'";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Пожалуйста, введите действительный URL изображения';
 
   @override
   String get pleaseEnterAValidVideoURL =>
@@ -249,27 +251,27 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Чувствительность к регистру и поиск целых слов';
+      'Учет регистра и поиск по всему слову';
 
   @override
   String get insertImage => 'Вставить изображение';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Выберите фотографю из вашей галереи';
+  String get pickAPhotoFromYourGallery =>
+      'Выберите фотографию из вашей галереи';
 
   @override
   String get takeAPhotoUsingYourCamera =>
-      'Создайте фотографю, использую фотокамеру';
+      'Сделайте фотографию, используя камеру';
 
   @override
   String get pasteAPhotoUsingALink => 'Вставьте фотографию, используя ссылку';
 
   @override
-  String get pickAVideoFromYourGallery => 'Выберете видео из вашей галереи';
+  String get pickAVideoFromYourGallery => 'Выберите видео из вашей галереи';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Запишите видео, используя вдеокамеру';
+  String get recordAVideoUsingYourCamera => 'Запишите видео, используя камеру';
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
