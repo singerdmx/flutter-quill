@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../../../extensions.dart';
 
@@ -37,6 +38,7 @@ class QuillToolbarFontSizeButton extends StatefulWidget {
 class QuillToolbarFontSizeButtonState
     extends State<QuillToolbarFontSizeButton> {
   final _menuController = MenuController();
+  Style get _selectionStyle => controller.getSelectionStyle();
   String _currentValue = '';
 
   QuillToolbarFontSizeButtonOptions get options {
@@ -79,7 +81,43 @@ class QuillToolbarFontSizeButtonState
   }
 
   @override
+  void didUpdateWidget(covariant QuillToolbarFontSizeButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != controller) {
+      oldWidget.controller.removeListener(_didChangeEditingValue);
+      controller.addListener(_didChangeEditingValue);
+      _currentValue = _defaultDisplayText;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(_didChangeEditingValue);
+  }
+
+  void _didChangeEditingValue() {
+    final selectedFontSize =
+        _selectionStyle.attributes[Attribute.size.key]?.value;
+
+    if (selectedFontSize == null) {
+      setState(() {
+        _currentValue = _defaultDisplayText;
+      });
+
+      return;
+    }
+
+    setState(() {
+      _currentValue = selectedFontSize is double
+          ? selectedFontSize.toInt().toString()
+          : selectedFontSize;
+    });
+  }
+
+  @override
   void dispose() {
+    controller.removeListener(_didChangeEditingValue);
     super.dispose();
   }
 
@@ -224,9 +262,7 @@ class QuillToolbarFontSizeButtonState
             enabled: hasFinalWidth,
             wrapper: (child) => Expanded(child: child),
             child: Text(
-              getLabel(widget.controller.selectedFontSize?.key) ??
-                  getLabel(_currentValue) ??
-                  '',
+              getLabel(_currentValue) ?? '',
               overflow: options.labelOverflow,
               style: options.style ??
                   TextStyle(
