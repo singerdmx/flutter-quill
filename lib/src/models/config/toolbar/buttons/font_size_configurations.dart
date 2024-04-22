@@ -75,7 +75,6 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   QuillToolbarFontSizeButtonOptions copyWith({
     double? iconSize,
     double? iconButtonFactor,
-    Color? fillColor,
     double? hoverElevation,
     double? highlightElevation,
     List<PopupMenuEntry<String>>? items,

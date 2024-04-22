@@ -24,7 +24,6 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
     this.childrenSpacing = 16.0,
     this.autovalidateMode = AutovalidateMode.disabled,
     super.iconSize,
-    this.fillColor,
     this.dialogTheme,
     this.labelText,
     this.hintText,
@@ -40,7 +39,6 @@ class QuillToolbarMediaButtonOptions extends QuillToolbarBaseButtonOptions<
     super.childBuilder,
   });
 
-  final Color? fillColor;
   final QuillMediaType type;
   final QuillDialogTheme? dialogTheme;
   final MediaFilePicker? mediaFilePicker;
