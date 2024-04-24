@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.8
+* fix: removed misleading parameters
+* fix: added missed translations for ru, es, de
+* added translations for Nepali Locale('ne', 'NP')
+
 ## 9.3.7
 * Fix for keyboard jumping when switching focus from a TextField
 * Toolbar button styling to reflect cursor position when running on desktops with keyboard to move care
