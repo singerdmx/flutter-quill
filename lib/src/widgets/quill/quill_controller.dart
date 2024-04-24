@@ -2,10 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
+import 'package:html/parser.dart' as html_parser;
 import 'package:meta/meta.dart';
+import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../quill_delta.dart';
 import '../../models/documents/attribute.dart';
+import '../../models/documents/delta_x.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart';
@@ -14,6 +17,7 @@ import '../../models/structs/doc_change.dart';
 import '../../models/structs/image_url.dart';
 import '../../models/structs/offset_value.dart';
 import '../../utils/delta.dart';
+import '../../utils/embeds.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -111,9 +115,7 @@ class QuillController extends ChangeNotifier {
   /// Only attributes applied to all characters within this range are
   /// included in the result.
   Style getSelectionStyle() {
-    return document
-        .collectStyle(selection.start, selection.end - selection.start)
-        .mergeAll(toggledStyle);
+    return document.collectStyle(selection.start, selection.end - selection.start).mergeAll(toggledStyle);
   }
 
   // Increases or decreases the indent of the current selection by 1.
@@ -182,23 +184,19 @@ class QuillController extends ChangeNotifier {
 
   /// Returns all styles and Embed for each node within selection
   List<OffsetValue> getAllIndividualSelectionStylesAndEmbed() {
-    final stylesAndEmbed = document.collectAllIndividualStyleAndEmbed(
-        selection.start, selection.end - selection.start);
+    final stylesAndEmbed = document.collectAllIndividualStyleAndEmbed(selection.start, selection.end - selection.start);
     return stylesAndEmbed;
   }
 
   /// Returns plain text for each node within selection
   String getPlainText() {
-    final text =
-        document.getPlainText(selection.start, selection.end - selection.start);
+    final text = document.getPlainText(selection.start, selection.end - selection.start);
     return text;
   }
 
   /// Returns all styles for any character within the specified text range.
   List<Style> getAllSelectionStyles() {
-    final styles = document.collectAllStyles(
-        selection.start, selection.end - selection.start)
-      ..add(toggledStyle);
+    final styles = document.collectAllStyles(selection.start, selection.end - selection.start)..add(toggledStyle);
     return styles;
   }
 
@@ -244,8 +242,7 @@ class QuillController extends ChangeNotifier {
 
   /// clear editor
   void clear() {
-    replaceText(0, plainTextEditingValue.text.length - 1, '',
-        const TextSelection.collapsed(offset: 0));
+    replaceText(0, plainTextEditingValue.text.length - 1, '', const TextSelection.collapsed(offset: 0));
   }
 
   void replaceText(
@@ -271,13 +268,9 @@ class QuillController extends ChangeNotifier {
           delta.last.isInsert &&
           // pasted text should not use toggledStyle
           (data is! String || data.length < 2);
-      if (shouldRetainDelta &&
-          toggledStyle.isNotEmpty &&
-          delta.length == 2 &&
-          delta.last.data == '\n') {
+      if (shouldRetainDelta && toggledStyle.isNotEmpty && delta.length == 2 && delta.last.data == '\n') {
         // if all attributes are inline, shouldRetainDelta should be false
-        final anyAttributeNotInline =
-            toggledStyle.values.any((attr) => !attr.isInline);
+        final anyAttributeNotInline = toggledStyle.values.any((attr) => !attr.isInline);
         if (!anyAttributeNotInline) {
           shouldRetainDelta = false;
         }
@@ -322,8 +315,7 @@ class QuillController extends ChangeNotifier {
   /// forward == true && textAfter.isEmpty
   /// Android only
   /// see https://github.com/singerdmx/flutter-quill/discussions/514
-  void handleDelete(int cursorPosition, bool forward) =>
-      onDelete?.call(cursorPosition, forward);
+  void handleDelete(int cursorPosition, bool forward) => onDelete?.call(cursorPosition, forward);
 
   void formatTextStyle(int index, int len, Style style) {
     style.attributes.forEach((key, attr) {
@@ -337,9 +329,7 @@ class QuillController extends ChangeNotifier {
     Attribute? attribute, {
     bool shouldNotifyListeners = true,
   }) {
-    if (len == 0 &&
-        attribute!.isInline &&
-        attribute.key != Attribute.link.key) {
+    if (len == 0 && attribute!.isInline && attribute.key != Attribute.link.key) {
       // Add the attribute to our toggledStyle.
       // It will be used later upon insertion.
       toggledStyle = toggledStyle.put(attribute);
@@ -349,9 +339,7 @@ class QuillController extends ChangeNotifier {
     // Transform selection against the composed change and give priority to
     // the change. This is needed in cases when format operation actually
     // inserts data into the document (e.g. embeds).
-    final adjustedSelection = selection.copyWith(
-        baseOffset: change.transformPosition(selection.baseOffset),
-        extentOffset: change.transformPosition(selection.extentOffset));
+    final adjustedSelection = selection.copyWith(baseOffset: change.transformPosition(selection.baseOffset), extentOffset: change.transformPosition(selection.extentOffset));
     if (selection != adjustedSelection) {
       _updateSelection(adjustedSelection);
     }
@@ -360,8 +348,7 @@ class QuillController extends ChangeNotifier {
     }
   }
 
-  void formatSelection(Attribute? attribute,
-      {bool shouldNotifyListeners = true}) {
+  void formatSelection(Attribute? attribute, {bool shouldNotifyListeners = true}) {
     formatText(
       selection.start,
       selection.end - selection.start,
@@ -443,13 +430,10 @@ class QuillController extends ChangeNotifier {
     super.dispose();
   }
 
-  void _updateSelection(TextSelection textSelection,
-      {bool insertNewline = false}) {
+  void _updateSelection(TextSelection textSelection, {bool insertNewline = false}) {
     _selection = textSelection;
     final end = document.length - 1;
-    _selection = selection.copyWith(
-        baseOffset: math.min(selection.baseOffset, end),
-        extentOffset: math.min(selection.extentOffset, end));
+    _selection = selection.copyWith(baseOffset: math.min(selection.baseOffset, end), extentOffset: math.min(selection.extentOffset, end));
     if (keepStyleOnNewLine) {
       if (insertNewline && selection.start > 0) {
         final style = document.collectStyle(selection.start - 1, 0);
@@ -471,9 +455,18 @@ class QuillController extends ChangeNotifier {
     return document.querySegmentLeafNode(offset).leaf;
   }
 
-  /// Clipboard for image url and its corresponding style
-  ImageUrl? _copiedImageUrl;
+  // Notify toolbar buttons directly with attributes
+  Map<String, Attribute> toolbarButtonToggler = const {};
 
+  /// Clipboard caches last copy to allow paste with styles. Static to allow paste between multiple instances of editor.
+  static String _pastePlainText = '';
+  static List<OffsetValue> _pasteStyleAndEmbed = <OffsetValue>[];
+
+  String get pastePlainText => _pastePlainText;
+  List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
+  bool readOnly = false;
+
+  ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;
 
   set copiedImageUrl(ImageUrl? value) {
@@ -481,6 +474,148 @@ class QuillController extends ChangeNotifier {
     Clipboard.setData(const ClipboardData(text: ''));
   }
 
-  // Notify toolbar buttons directly with attributes
-  Map<String, Attribute> toolbarButtonToggler = const {};
+  bool clipboardSelection(bool copy) {
+    copiedImageUrl = null;
+    _pastePlainText = getPlainText();
+    _pasteStyleAndEmbed = getAllIndividualSelectionStylesAndEmbed();
+
+    if (!selection.isCollapsed) {
+      Clipboard.setData(ClipboardData(text: _pastePlainText));
+      if (!copy) {
+        final sel = selection;
+        replaceText(sel.start, sel.end - sel.start, '', TextSelection.collapsed(offset: sel.start));
+      }
+      return  true;
+    }
+    return false;
+  }
+
+  /// Returns whether paste was handled here.
+  Future<bool> clipboardPaste({void Function()? updateEditor}) async {
+    if (readOnly) return true;
+
+    // When image copied internally in the editor
+    if (_copiedImageUrl != null) {
+      final index = selection.baseOffset;
+      final length = selection.extentOffset - index;
+      replaceText(
+        index,
+        length,
+        BlockEmbed.image(_copiedImageUrl!.url),
+        null,
+      );
+      if (_copiedImageUrl!.styleString.isNotEmpty) {
+        formatText(
+          getEmbedNode(this, index + 1).offset,
+          1,
+          StyleAttribute(_copiedImageUrl!.styleString),
+        );
+      }
+      copiedImageUrl = null;
+      return true;
+    }
+
+    if (!selection.isValid) {
+      return true;
+    }
+
+    if (await _pasteHTML()) {
+      updateEditor?.call();
+      return true;
+    }
+
+    // Snapshot the input before using `await`.
+    // See https://github.com/flutter/flutter/issues/11427
+    final plainText = await Clipboard.getData(Clipboard.kTextPlain);
+    if (plainText != null) {
+      replaceTextWithEmbeds(
+        selection.start,
+        selection.end - selection.start,
+        plainText.text!,
+        TextSelection.collapsed(offset: selection.start + plainText.text!.length),
+      );
+      updateEditor?.call();
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> _pasteHTML() async {
+    final clipboard = SystemClipboard.instance;
+    if (clipboard != null) {
+      final reader = await clipboard.read();
+      if (reader.canProvide(Formats.htmlText)) {
+        final html = await reader.readValue(Formats.htmlText);
+        if (html == null) {
+          return false;
+        }
+        final htmlBody = html_parser.parse(html).body?.outerHtml;
+        final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+
+        replaceText(
+          selection.start,
+          selection.end - selection.start,
+          deltaFromClipboard,
+          TextSelection.collapsed(offset: selection.end),
+        );
+
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void replaceTextWithEmbeds(
+    int index,
+    int len,
+    String insertedText,
+    TextSelection? textSelection, {
+    bool ignoreFocus = false,
+    bool shouldNotifyListeners = true,
+  }) {
+    final containsEmbed = insertedText.codeUnits.contains(Embed.kObjectReplacementInt);
+    insertedText = containsEmbed ? _adjustInsertedText(insertedText) : insertedText;
+
+    replaceText(index, len, insertedText, textSelection, ignoreFocus: ignoreFocus, shouldNotifyListeners: shouldNotifyListeners);
+
+    _applyPasteStyleAndEmbed(insertedText, index, containsEmbed);
+  }
+
+  void _applyPasteStyleAndEmbed(String insertedText, int start, bool containsEmbed) {
+    if (insertedText == pastePlainText && pastePlainText != '' || containsEmbed) {
+      final pos = start;
+      for (final p in pasteStyleAndEmbed) {
+        final offset = p.offset;
+        final styleAndEmbed = p.value;
+
+        final local = pos + offset;
+        if (styleAndEmbed is Embeddable) {
+          replaceText(local, 0, styleAndEmbed, null);
+        } else {
+          final style = styleAndEmbed as Style;
+          if (style.isInline) {
+            formatTextStyle(local, p.length!, style);
+          } else if (style.isBlock) {
+            final node = document.queryChild(local).node;
+            if (node != null && p.length == node.length - 1) {
+              for (final attribute in style.values) {
+                document.format(local, 0, attribute);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  String _adjustInsertedText(String text) {
+    final sb = StringBuffer();
+    for (var i = 0; i < text.length; i++) {
+      if (text.codeUnitAt(i) == Embed.kObjectReplacementInt) {
+        continue;
+      }
+      sb.write(text[i]);
+    }
+    return sb.toString();
+  }
 }
