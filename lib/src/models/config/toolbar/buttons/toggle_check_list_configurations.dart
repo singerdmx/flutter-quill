@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart' show Color;
 
 import '../../../documents/attribute.dart';
 import '../../quill_configurations.dart';
@@ -23,7 +22,6 @@ class QuillToolbarToggleCheckListButtonOptions
   const QuillToolbarToggleCheckListButtonOptions({
     super.iconSize,
     super.iconButtonFactor,
-    this.fillColor,
     this.attribute = Attribute.unchecked,
     this.isShouldRequestKeyboard = false,
     super.iconTheme,
@@ -32,8 +30,6 @@ class QuillToolbarToggleCheckListButtonOptions
     super.afterButtonPressed,
     super.childBuilder,
   });
-
-  final Color? fillColor;
 
   final Attribute attribute;
 

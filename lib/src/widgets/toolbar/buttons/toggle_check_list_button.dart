@@ -82,7 +82,6 @@ class QuillToolbarToggleCheckListButtonState
         context,
         Attribute.unchecked,
         iconData,
-        options.fillColor,
         currentValue,
         _toggleAttribute,
         afterButtonPressed,

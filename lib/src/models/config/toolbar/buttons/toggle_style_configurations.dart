@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart' show Color;
 
 import '../base_button_configurations.dart';
 
@@ -26,12 +25,9 @@ class QuillToolbarToggleStyleButtonOptions
     super.iconData,
     super.iconSize,
     super.iconButtonFactor,
-    this.fillColor,
     super.tooltip,
     super.afterButtonPressed,
     super.iconTheme,
     super.childBuilder,
   });
-
-  final Color? fillColor;
 }
