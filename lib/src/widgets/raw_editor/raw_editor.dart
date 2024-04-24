@@ -29,7 +29,9 @@ class QuillRawEditor extends StatefulWidget {
             configurations.maxHeight == null ||
                 configurations.minHeight == null ||
                 configurations.maxHeight! >= configurations.minHeight!,
-            'maxHeight cannot be null');
+            'maxHeight cannot be null') {
+    configurations.controller.readOnly = configurations.readOnly;
+  }
 
   final QuillRawEditorConfigurations configurations;
 
