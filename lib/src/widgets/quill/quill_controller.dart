@@ -485,7 +485,7 @@ class QuillController extends ChangeNotifier {
         final sel = selection;
         replaceText(sel.start, sel.end - sel.start, '', TextSelection.collapsed(offset: sel.start));
       }
-      return  true;
+      return true;
     }
     return false;
   }
