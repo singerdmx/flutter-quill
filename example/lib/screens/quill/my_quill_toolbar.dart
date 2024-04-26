@@ -225,7 +225,7 @@ class MyQuillToolbar extends StatelessWidget {
             // headerStyleType: HeaderStyleType.buttons,
             // buttonOptions: QuillSimpleToolbarButtonOptions(
             //   base: QuillToolbarBaseButtonOptions(
-            //     afterButtonPressed: focusNode.requestFocus,
+            //   afterButtonPressed: focusNode.requestFocus,
             //     // iconSize: 20,
             //     iconTheme: QuillIconTheme(
             //       iconButtonSelectedData: IconButtonData(
@@ -239,8 +239,8 @@ class MyQuillToolbar extends StatelessWidget {
             //         ),
             //       ),
             //     ),
-            //   ),
-            // ),
+            //  ),
+            //),
             customButtons: [
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),
