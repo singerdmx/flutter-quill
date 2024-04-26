@@ -65,7 +65,6 @@ void main() {
           configurations: QuillEditorConfigurations(
             controller: controller,
             // ignore: avoid_redundant_argument_values
-            readOnly: false,
           ),
         );
       });

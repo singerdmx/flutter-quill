@@ -27,7 +27,6 @@ void main() {
             configurations: QuillEditorConfigurations(
               controller: controller,
               // ignore: avoid_redundant_argument_values
-              readOnly: false,
             ),
           ),
         ),
@@ -47,7 +46,6 @@ void main() {
             configurations: QuillEditorConfigurations(
               controller: controller,
               // ignore: avoid_redundant_argument_values
-              readOnly: false,
               autoFocus: true,
               expands: true,
               contentInsertionConfiguration: ContentInsertionConfiguration(
@@ -121,7 +119,6 @@ void main() {
             configurations: QuillEditorConfigurations(
               controller: controller,
               // ignore: avoid_redundant_argument_values
-              readOnly: false,
               autoFocus: true,
               expands: true,
               contextMenuBuilder: customBuilder,

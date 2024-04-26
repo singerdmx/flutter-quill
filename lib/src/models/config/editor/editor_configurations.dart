@@ -32,7 +32,6 @@ class QuillEditorConfigurations extends Equatable {
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
-    this.readOnly = false,
     this.disableClipboard = false,
     this.textSelectionThemeData,
     this.showCursor,
@@ -95,7 +94,7 @@ class QuillEditorConfigurations extends Equatable {
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
   /// Defaults to `false`. Must not be `null`.
-  final bool readOnly;
+  bool get readOnly => controller.readOnly;
 
   /// Disable Clipboard features
   ///
@@ -132,11 +131,11 @@ class QuillEditorConfigurations extends Equatable {
 
   /// Whether the [onTapOutside] should be triggered or not
   /// Defaults to `true`
-  /// it have default implementation, check [onTapOuside] for more
+  /// it have default implementation, check [onTapOutside] for more
   final bool isOnTapOutsideEnabled;
 
   /// This will run only when [isOnTapOutsideEnabled] is true
-  /// by default on desktop and web it will unfocus
+  /// by default on desktop and web it will un-focus
   /// on mobile it will only unFocus if the kind property of
   /// event [PointerDownEvent] is [PointerDeviceKind.unknown]
   /// you can override this to fit your needs
@@ -303,7 +302,7 @@ class QuillEditorConfigurations extends Equatable {
   /// Additional list if links prefixes, which must not be prepended
   /// with "https://" when [LinkMenuAction.launch] happened
   ///
-  /// Useful for deeplinks
+  /// Useful for deep-links
   final List<String> customLinkPrefixes;
 
   /// Configures the dialog theme.
@@ -357,10 +356,10 @@ class QuillEditorConfigurations extends Equatable {
   @override
   List<Object?> get props => [
         placeholder,
-        readOnly,
+        controller.readOnly,
       ];
 
-  // We might use code generator like freezed but sometimes it can be limitied
+  // We might use code generator like freezed but sometimes it can be limited
   // instead whatever there is a change to the parameters in this class please
   // regenerate this function using extension in vs code or plugin in intellij
 
@@ -420,7 +419,6 @@ class QuillEditorConfigurations extends Equatable {
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
-      readOnly: readOnly ?? this.readOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,

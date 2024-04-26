@@ -7,6 +7,7 @@ import '../utils/provider.dart';
 import 'base_toolbar.dart';
 import 'buttons/alignment/select_alignment_buttons.dart';
 import 'buttons/arrow_indicated_list_button.dart';
+import 'buttons/clipboard_button.dart';
 
 class QuillSimpleToolbar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -291,6 +292,26 @@ class QuillSimpleToolbar extends StatelessWidget
             controller: globalController,
             options: toolbarConfigurations.buttonOptions.search,
           ),
+
+        if (configurations.showClipboardCut)
+          QuillToolbarClipboardButton(
+            options: toolbarConfigurations.buttonOptions.clipboardCut,
+            controller: globalController,
+            clipboard: ClipboardAction.cut,
+          ),
+        if (configurations.showClipboardCopy)
+          QuillToolbarClipboardButton(
+            options: toolbarConfigurations.buttonOptions.clipboardCopy,
+            controller: globalController,
+            clipboard: ClipboardAction.copy,
+          ),
+        if (configurations.showClipboardPaste)
+          QuillToolbarClipboardButton(
+            options: toolbarConfigurations.buttonOptions.clipboardPaste,
+            controller: globalController,
+            clipboard: ClipboardAction.paste,
+          ),
+
         if (configurations.customButtons.isNotEmpty) ...[
           if (configurations.showDividers)
             QuillToolbarDivider(

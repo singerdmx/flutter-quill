@@ -6,18 +6,10 @@ import 'package:html/parser.dart' as html_parser;
 import 'package:meta/meta.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
+import '../../../flutter_quill.dart';
 import '../../../quill_delta.dart';
-import '../../models/documents/attribute.dart';
 import '../../models/documents/delta_x.dart';
-import '../../models/documents/document.dart';
-import '../../models/documents/nodes/embeddable.dart';
-import '../../models/documents/nodes/leaf.dart';
-import '../../models/documents/style.dart';
-import '../../models/structs/doc_change.dart';
-import '../../models/structs/image_url.dart';
-import '../../models/structs/offset_value.dart';
 import '../../utils/delta.dart';
-import '../../utils/embeds.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -31,6 +23,7 @@ class QuillController extends ChangeNotifier {
     this.onDelete,
     this.onSelectionCompleted,
     this.onSelectionChanged,
+    this.readOnly = false,
   })  : _document = document,
         _selection = selection;
 
@@ -464,7 +457,7 @@ class QuillController extends ChangeNotifier {
 
   String get pastePlainText => _pastePlainText;
   List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
-  bool readOnly = false;
+  bool readOnly;
 
   ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;
