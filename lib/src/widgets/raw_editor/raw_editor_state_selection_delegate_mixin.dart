@@ -26,7 +26,8 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       return;
     }
 
-    widget.configurations.controller.replaceTextWithEmbeds(diff.start, diff.deleted.length, diff.inserted, value.selection);
+    widget.configurations.controller.replaceTextWithEmbeds(
+        diff.start, diff.deleted.length, diff.inserted, value.selection);
   }
 
   @override

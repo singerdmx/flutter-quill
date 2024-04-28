@@ -116,7 +116,7 @@ class QuillRawEditorState extends EditorState
   /// Copy current selection to [Clipboard].
   @override
   void copySelection(SelectionChangedCause cause) {
-    if ( !controller.clipboardSelection(true)) return;
+    if (!controller.clipboardSelection(true)) return;
 
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
@@ -137,7 +137,7 @@ class QuillRawEditorState extends EditorState
   /// Cut current selection to [Clipboard].
   @override
   void cutSelection(SelectionChangedCause cause) {
-    if ( !controller.clipboardSelection(false)) return;
+    if (!controller.clipboardSelection(false)) return;
 
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
@@ -148,8 +148,8 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-
-    if ( await controller.clipboardPaste(updateEditor: () => bringIntoView(textEditingValue.selection.extent) ) ) {
+    if (await controller.clipboardPaste(
+        updateEditor: () => bringIntoView(textEditingValue.selection.extent))) {
       return;
     }
 

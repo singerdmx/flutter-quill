@@ -37,7 +37,8 @@ class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
 }
 
 class QuillToolbarToggleStyleButtonState
-    extends QuillToolbarToggleStyleBaseButtonState<QuillToolbarToggleStyleButton> {
+    extends QuillToolbarToggleStyleBaseButtonState<
+        QuillToolbarToggleStyleButton> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override

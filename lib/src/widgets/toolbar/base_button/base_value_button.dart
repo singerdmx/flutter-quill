@@ -28,7 +28,7 @@ abstract class QuillToolbarBaseValueButtonState<
 
   V? _currentValue;
   V get currentValue => _currentValue!;
-  set currentValue (V value) => _currentValue = value;
+  set currentValue(V value) => _currentValue = value;
 
   /// Callback to query the widget's state for the value to be assigned to currentState
   V get currentStateValue;
@@ -70,8 +70,8 @@ abstract class QuillToolbarBaseValueButtonState<
   }
 
   /// Extra listeners allow a subclass to listen to an external event that can affect its currentValue
-  void addExtraListener () {}
-  void removeExtraListener (covariant W oldWidget) {}
+  void addExtraListener() {}
+  void removeExtraListener(covariant W oldWidget) {}
 
   String get defaultTooltip;
 
@@ -107,6 +107,11 @@ abstract class QuillToolbarBaseValueButtonState<
   }
 }
 
-typedef QuillToolbarToggleStyleBaseButton = QuillToolbarBaseValueButton<QuillToolbarToggleStyleButtonOptions, QuillToolbarToggleStyleButtonExtraOptions>;
+typedef QuillToolbarToggleStyleBaseButton = QuillToolbarBaseValueButton<
+    QuillToolbarToggleStyleButtonOptions,
+    QuillToolbarToggleStyleButtonExtraOptions>;
 
-typedef QuillToolbarToggleStyleBaseButtonState<W extends QuillToolbarToggleStyleBaseButton> = QuillToolbarBaseValueButtonState<W, QuillToolbarToggleStyleButtonOptions, QuillToolbarToggleStyleButtonExtraOptions, bool>;
+typedef QuillToolbarToggleStyleBaseButtonState<
+        W extends QuillToolbarToggleStyleBaseButton>
+    = QuillToolbarBaseValueButtonState<W, QuillToolbarToggleStyleButtonOptions,
+        QuillToolbarToggleStyleButtonExtraOptions, bool>;

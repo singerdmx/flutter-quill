@@ -75,7 +75,6 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
     this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
     this.customButtons = const QuillToolbarCustomButtonOptions(),
-
     this.clipboardCut = const QuillToolbarToggleStyleButtonOptions(),
     this.clipboardCopy = const QuillToolbarToggleStyleButtonOptions(),
     this.clipboardPaste = const QuillToolbarToggleStyleButtonOptions(),

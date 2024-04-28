@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../extensions.dart';
@@ -14,10 +15,12 @@ class ClipboardMonitor {
 
   Timer? _timer;
 
-  void monitorClipboard ( bool add, void Function() listener ) {
-    if ( add ) {
+  void monitorClipboard(bool add, void Function() listener) {
+    if (kIsWeb) return;
+    if (add) {
       _clipboardStatus.addListener(listener);
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) => _clipboardStatus.update());
+      _timer = Timer.periodic(
+          const Duration(seconds: 1), (timer) => _clipboardStatus.update());
     } else {
       _timer?.cancel();
       _clipboardStatus.removeListener(listener);
@@ -26,9 +29,13 @@ class ClipboardMonitor {
 }
 
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton({required super.controller, required this.clipboard, required super.options, super.key});
+  QuillToolbarClipboardButton(
+      {required super.controller,
+      required this.clipboardAction,
+      super.options = const QuillToolbarToggleStyleButtonOptions(),
+      super.key});
 
-  final ClipboardAction clipboard;
+  final ClipboardAction clipboardAction;
 
   final ClipboardMonitor _monitor = ClipboardMonitor();
 
@@ -36,50 +43,55 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
   State<StatefulWidget> createState() => QuillToolbarClipboardButtonState();
 }
 
-class QuillToolbarClipboardButtonState extends QuillToolbarToggleStyleBaseButtonState<QuillToolbarClipboardButton> {
+class QuillToolbarClipboardButtonState
+    extends QuillToolbarToggleStyleBaseButtonState<
+        QuillToolbarClipboardButton> {
   @override
   bool get currentStateValue {
-    switch (widget.clipboard) {
+    switch (widget.clipboardAction) {
       case ClipboardAction.cut:
         return !controller.readOnly && !controller.selection.isCollapsed;
       case ClipboardAction.copy:
         return !controller.selection.isCollapsed;
       case ClipboardAction.paste:
-        return !controller.readOnly && widget._monitor._clipboardStatus.value == ClipboardStatus.pasteable;
+        return !controller.readOnly &&
+            (kIsWeb ||
+                widget._monitor._clipboardStatus.value ==
+                    ClipboardStatus.pasteable);
     }
   }
 
-  void _listenClipboardStatus () => didChangeEditingValue();
+  void _listenClipboardStatus() => didChangeEditingValue();
 
   @override
-  void addExtraListener () {
-    if ( widget.clipboard == ClipboardAction.paste) {
+  void addExtraListener() {
+    if (widget.clipboardAction == ClipboardAction.paste) {
       widget._monitor.monitorClipboard(true, _listenClipboardStatus);
     }
   }
 
   @override
-  void removeExtraListener (covariant QuillToolbarClipboardButton oldWidget) {
-    if ( widget.clipboard == ClipboardAction.paste) {
+  void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
+    if (widget.clipboardAction == ClipboardAction.paste) {
       oldWidget._monitor.monitorClipboard(false, _listenClipboardStatus);
     }
   }
 
   @override
-  String get defaultTooltip => switch (widget.clipboard) {
-        ClipboardAction.cut => 'cut',
+  String get defaultTooltip => switch (widget.clipboardAction) {
+        ClipboardAction.cut => 'Cut',
         ClipboardAction.copy => context.loc.copy,
-        ClipboardAction.paste => 'paste',
+        ClipboardAction.paste => 'Paste',
       };
 
-  IconData get _icon => switch (widget.clipboard) {
+  IconData get _icon => switch (widget.clipboardAction) {
         ClipboardAction.cut => Icons.cut_outlined,
         ClipboardAction.copy => Icons.copy_outlined,
         ClipboardAction.paste => Icons.paste_outlined,
       };
 
   void _onPressed() {
-    switch (widget.clipboard) {
+    switch (widget.clipboardAction) {
       case ClipboardAction.cut:
         controller.clipboardSelection(false);
         break;

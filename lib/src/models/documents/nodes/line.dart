@@ -43,7 +43,9 @@ base class Line extends QuillContainer<Leaf?> {
     if (parent!.isLast) {
       return null;
     }
-    return parent!.next is Block ? (parent!.next as Block).first as Line? : parent!.next as Line?;
+    return parent!.next is Block
+        ? (parent!.next as Block).first as Line?
+        : parent!.next as Line?;
   }
 
   @override
@@ -51,7 +53,9 @@ base class Line extends QuillContainer<Leaf?> {
 
   @override
   Delta toDelta() {
-    final delta = children.map((child) => child.toDelta()).fold(Delta(), (dynamic a, b) => a.concat(b));
+    final delta = children
+        .map((child) => child.toDelta())
+        .fold(Delta(), (dynamic a, b) => a.concat(b));
     var attributes = style;
     if (parent is Block) {
       final block = parent as Block;
@@ -130,11 +134,17 @@ base class Line extends QuillContainer<Leaf?> {
     final isLineFormat = (index + local == thisLength) && local == 1;
 
     if (isLineFormat) {
-      assert(style.values.every((attr) => attr.scope == AttributeScope.block || attr.scope == AttributeScope.ignore), 'It is not allowed to apply inline attributes to line itself.');
+      assert(
+          style.values.every((attr) =>
+              attr.scope == AttributeScope.block ||
+              attr.scope == AttributeScope.ignore),
+          'It is not allowed to apply inline attributes to line itself.');
       _format(style);
     } else {
       // Otherwise forward to children as it's an inline format update.
-      assert(style.values.every((attr) => attr.scope == AttributeScope.inline || attr.scope == AttributeScope.ignore));
+      assert(style.values.every((attr) =>
+          attr.scope == AttributeScope.inline ||
+          attr.scope == AttributeScope.ignore));
       assert(index + local != thisLength);
       super.retain(index, local, style);
     }
@@ -205,15 +215,21 @@ base class Line extends QuillContainer<Leaf?> {
       // Ensure that we're only unwrapping the block only if we unset a single
       // block format in the `parentStyle` and there are no more block formats
       // left to unset.
-      if (blockStyle.value == null && parentStyle.containsKey(blockStyle.key) && parentStyle.length == 1) {
+      if (blockStyle.value == null &&
+          parentStyle.containsKey(blockStyle.key) &&
+          parentStyle.length == 1) {
         _unwrap();
-      } else if (!const MapEquality().equals(newStyle.getBlocksExceptHeader(), parentStyle)) {
+      } else if (!const MapEquality()
+          .equals(newStyle.getBlocksExceptHeader(), parentStyle)) {
         _unwrap();
         // Block style now can contain multiple attributes
-        if (newStyle.attributes.keys.any(Attribute.exclusiveBlockKeys.contains)) {
-          parentStyle.removeWhere((key, attr) => Attribute.exclusiveBlockKeys.contains(key));
+        if (newStyle.attributes.keys
+            .any(Attribute.exclusiveBlockKeys.contains)) {
+          parentStyle.removeWhere(
+              (key, attr) => Attribute.exclusiveBlockKeys.contains(key));
         }
-        parentStyle.removeWhere((key, attr) => newStyle?.attributes.keys.contains(key) ?? false);
+        parentStyle.removeWhere(
+            (key, attr) => newStyle?.attributes.keys.contains(key) ?? false);
         final parentStyleToMerge = Style.attr(parentStyle);
         newStyle = newStyle.mergeAll(parentStyleToMerge);
         _applyBlockStyles(newStyle);
@@ -345,7 +361,8 @@ base class Line extends QuillContainer<Leaf?> {
 
     void handle(Style style) {
       for (final attr in result.values) {
-        if (!style.containsKey(attr.key) || (style.attributes[attr.key]?.value != attr.value)) {
+        if (!style.containsKey(attr.key) ||
+            (style.attributes[attr.key]?.value != attr.value)) {
           excluded.add(attr);
         }
       }
@@ -382,7 +399,8 @@ base class Line extends QuillContainer<Leaf?> {
 
   /// Returns each node segment's offset in selection
   /// with its corresponding style or embed as a list
-  List<OffsetValue> collectAllIndividualStylesAndEmbed(int offset, int len, {int beg = 0}) {
+  List<OffsetValue> collectAllIndividualStylesAndEmbed(int offset, int len,
+      {int beg = 0}) {
     final local = math.min(length - offset, len);
     final result = <OffsetValue>[];
 
@@ -414,7 +432,8 @@ base class Line extends QuillContainer<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
-      final rest = nextLine!.collectAllIndividualStylesAndEmbed(0, remaining, beg: local + beg);
+      final rest = nextLine!
+          .collectAllIndividualStylesAndEmbed(0, remaining, beg: local + beg);
       result.addAll(rest);
     }
 
@@ -484,7 +503,8 @@ base class Line extends QuillContainer<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
-      final rest = nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
+      final rest =
+          nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
       result.addAll(rest);
     }
 

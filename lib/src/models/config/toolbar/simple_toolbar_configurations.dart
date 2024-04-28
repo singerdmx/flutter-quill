@@ -107,11 +107,9 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showSearchButton = true,
     this.showSubscript = true,
     this.showSuperscript = true,
-
     this.showClipboardCut = true,
     this.showClipboardCopy = true,
     this.showClipboardPaste = true,
-
     this.linkStyleType = LinkStyleType.original,
     this.headerStyleType = HeaderStyleType.original,
 
