@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.9
+* fix: MD Parsing for multi space
+* fix: FontFamily and FontSize toolbars track the text selected in the editor
+* feat: Add checkBoxReadOnly property which can override readOnly for checkbox
+
 ## 9.3.8
 * fix: removed misleading parameters
 * fix: added missed translations for ru, es, de
