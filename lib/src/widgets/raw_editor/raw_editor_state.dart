@@ -877,7 +877,8 @@ class QuillRawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     final requestKeyboardFocusOnCheckListChanged =
         widget.configurations.requestKeyboardFocusOnCheckListChanged;
-    if (!widget.configurations.readOnly) {
+    if (!(widget.configurations.checkBoxReadOnly ??
+        widget.configurations.readOnly)) {
       _disableScrollControllerAnimateOnce = true;
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
@@ -953,6 +954,7 @@ class QuillRawEditorState extends EditorState
           clearIndents: clearIndents,
           onCheckboxTap: _handleCheckboxTap,
           readOnly: widget.configurations.readOnly,
+          checkBoxReadOnly: widget.configurations.checkBoxReadOnly,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );

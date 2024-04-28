@@ -4,16 +4,9 @@ import 'package:flutter/material.dart';
 @immutable
 class QuillIconTheme {
   const QuillIconTheme({
-    this.iconButtonSelectedStyle,
-    this.iconButtonUnselectedStyle,
     this.iconButtonSelectedData,
     this.iconButtonUnselectedData,
   });
-
-  @Deprecated('Please use iconButtonUnselectedData instead')
-  final ButtonStyle? iconButtonUnselectedStyle;
-  @Deprecated('Please use iconButtonSelectedData instead')
-  final ButtonStyle? iconButtonSelectedStyle;
 
   final IconButtonData? iconButtonUnselectedData;
   final IconButtonData? iconButtonSelectedData;

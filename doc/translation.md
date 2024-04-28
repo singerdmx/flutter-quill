@@ -23,7 +23,7 @@ Expanded(
 )
 ```
 
-Currently, translations are available for these 36 locales:
+Currently, translations are available for these 37 locales:
 
 * `Locale('en')`, `Locale('ar')`, `Locale('bn')`, `Locale('bs')`
 * `Locale('cs')`, `Locale('de')`, `Locale('da')`, `Locale('fr')`
@@ -32,7 +32,7 @@ Currently, translations are available for these 36 locales:
 * `Locale('ro', 'RO')`, `Locale('ru')`, `Locale('es')`, `Locale('tk')`, `Locale('tr')`
 * `Locale('uk')`, `Locale('ur')`, `Locale('pt')`, `Locale('pl')`
 * `Locale('vi')`, `Locale('id')`, `Locale('it')`, `Locale('ms')`
-* `Locale('nl')`, `Locale('no')`, `Locale('fa')`, `Locale('hi')`
+* `Locale('nl')`, `Locale('no')`, `Locale('ne', 'NP')`, `Locale('fa')`, `Locale('hi')`
 * `Locale('sk')`, `Locale('sr')`, `Locale('sv')`, `Locale('sw')`, `Locale('ja')`
 
 #### Contributing to translations

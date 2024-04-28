@@ -32,6 +32,7 @@ class QuillEditorConfigurations extends Equatable {
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
+    this.checkBoxReadOnly,
     this.disableClipboard = false,
     this.textSelectionThemeData,
     this.showCursor,
@@ -95,6 +96,15 @@ class QuillEditorConfigurations extends Equatable {
   ///
   /// Defaults to `false`. Must not be `null`.
   bool get readOnly => controller.readOnly;
+
+  /// Override [readOnly] for checkbox.
+  ///
+  /// When this is set to `false`, the checkbox can be checked
+  /// or unchecked while [readOnly] is set to `true`.
+  /// When this is set to `null`, the [readOnly] value is used.
+  ///
+  /// Defaults to `null`.
+  final bool? checkBoxReadOnly;
 
   /// Disable Clipboard features
   ///
@@ -368,6 +378,7 @@ class QuillEditorConfigurations extends Equatable {
     QuillController? controller,
     String? placeholder,
     bool? readOnly,
+    bool? checkBoxReadOnly,
     bool? disableClipboard,
     bool? scrollable,
     double? scrollBottomInset,
@@ -419,6 +430,7 @@ class QuillEditorConfigurations extends Equatable {
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
+      checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
