@@ -79,9 +79,9 @@ class QuillToolbarClipboardButtonState
 
   @override
   String get defaultTooltip => switch (widget.clipboardAction) {
-        ClipboardAction.cut => 'Cut',
+        ClipboardAction.cut => context.loc.cut,
         ClipboardAction.copy => context.loc.copy,
-        ClipboardAction.paste => 'Paste',
+        ClipboardAction.paste => context.loc.paste,
       };
 
   IconData get _icon => switch (widget.clipboardAction) {

@@ -128,7 +128,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get alignRight => 'Saga deňleşdir';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Justify';
 
   @override
   String get textDirection => 'Tekst ugry';

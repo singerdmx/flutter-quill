@@ -26,6 +26,12 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
   String get copy => 'Copy';
 
   @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
+
+  @override
   String get remove => 'Remove';
 
   @override
@@ -128,7 +134,7 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Justify';
 
   @override
   String get textDirection => 'Text direction';
@@ -402,7 +408,7 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
   String get alignRight => 'Align right';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Justify';
 
   @override
   String get textDirection => 'Text direction';
