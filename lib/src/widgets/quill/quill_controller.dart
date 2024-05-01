@@ -18,6 +18,7 @@ class QuillController extends ChangeNotifier {
   QuillController({
     required Document document,
     required TextSelection selection,
+    this.configurations = const QuillControllerConfigurations(),
     this.keepStyleOnNewLine = true,
     this.onReplaceText,
     this.onDelete,
@@ -27,12 +28,17 @@ class QuillController extends ChangeNotifier {
   })  : _document = document,
         _selection = selection;
 
-  factory QuillController.basic() {
+  factory QuillController.basic(
+      {QuillControllerConfigurations configurations =
+          const QuillControllerConfigurations()}) {
     return QuillController(
+      configurations: configurations,
       document: Document(),
       selection: const TextSelection.collapsed(offset: 0),
     );
   }
+
+  final QuillControllerConfigurations configurations;
 
   /// Document managed by this controller.
   Document _document;
@@ -505,34 +511,10 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// Returns whether paste was handled here.
+  /// Returns whether paste operation was handled here.
+  /// updateEditor is called if paste operation was successful.
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
-    if (readOnly) return true;
-
-    // When image copied internally in the editor
-    if (_copiedImageUrl != null) {
-      final index = selection.baseOffset;
-      final length = selection.extentOffset - index;
-      replaceText(
-        index,
-        length,
-        BlockEmbed.image(_copiedImageUrl!.url),
-        null,
-      );
-      if (_copiedImageUrl!.styleString.isNotEmpty) {
-        formatText(
-          getEmbedNode(this, index + 1).offset,
-          1,
-          StyleAttribute(_copiedImageUrl!.styleString),
-        );
-      }
-      copiedImageUrl = null;
-      return true;
-    }
-
-    if (!selection.isValid) {
-      return true;
-    }
+    if (readOnly || !selection.isValid) return true;
 
     if (await _pasteHTML()) {
       updateEditor?.call();
@@ -553,6 +535,12 @@ class QuillController extends ChangeNotifier {
       updateEditor?.call();
       return true;
     }
+
+    if (await configurations.onClipboardPaste?.call() == true) {
+      updateEditor?.call();
+      return true;
+    }
+
     return false;
   }
 

@@ -11,9 +11,10 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
     show
         Clipboard,
+        ClipboardData,
         HardwareKeyboard,
-        LogicalKeyboardKey,
         KeyDownEvent,
+        LogicalKeyboardKey,
         SystemChannels,
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
@@ -31,6 +32,7 @@ import '../../models/structs/offset_value.dart';
 import '../../models/structs/vertical_spacing.dart';
 import '../../utils/cast.dart';
 import '../../utils/delta.dart';
+import '../../utils/embeds.dart';
 import '../../utils/platform.dart';
 import '../editor/editor.dart';
 import '../others/cursor.dart';
@@ -148,8 +150,37 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (await controller.clipboardPaste(
-        updateEditor: () => bringIntoView(textEditingValue.selection.extent))) {
+    if (controller.readOnly) {
+      return;
+    }
+
+    // When image copied internally in the editor
+    final copiedImageUrl = controller.copiedImageUrl;
+    if (copiedImageUrl != null) {
+      final index = textEditingValue.selection.baseOffset;
+      final length = textEditingValue.selection.extentOffset - index;
+      controller.replaceText(
+        index,
+        length,
+        BlockEmbed.image(copiedImageUrl.url),
+        null,
+      );
+      if (copiedImageUrl.styleString.isNotEmpty) {
+        controller.formatText(
+          getEmbedNode(controller, index + 1).offset,
+          1,
+          StyleAttribute(copiedImageUrl.styleString),
+        );
+      }
+      controller.copiedImageUrl = null;
+      await Clipboard.setData(
+        const ClipboardData(text: ''),
+      );
+      return;
+    }
+
+    if (await controller.clipboardPaste()) {
+      bringIntoView(textEditingValue.selection.extent);
       return;
     }
 

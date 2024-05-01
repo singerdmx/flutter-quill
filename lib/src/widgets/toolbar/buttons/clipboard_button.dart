@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../../extensions.dart';
 import '../../../../flutter_quill.dart';
@@ -11,19 +12,28 @@ import '../base_button/base_value_button.dart';
 enum ClipboardAction { cut, copy, paste }
 
 class ClipboardMonitor {
-  final ClipboardStatusNotifier _clipboardStatus = ClipboardStatusNotifier();
-
+  bool _canPaste = false;
+  bool get canPaste => _canPaste;
   Timer? _timer;
 
   void monitorClipboard(bool add, void Function() listener) {
     if (kIsWeb) return;
     if (add) {
-      _clipboardStatus.addListener(listener);
       _timer = Timer.periodic(
-          const Duration(seconds: 1), (timer) => _clipboardStatus.update());
+          const Duration(seconds: 1), (timer) => _update(listener));
     } else {
       _timer?.cancel();
-      _clipboardStatus.removeListener(listener);
+    }
+  }
+
+  Future<void> _update(void Function() listener) async {
+    final reader = await SystemClipboard.instance?.read();
+    if (reader != null) {
+      final available = reader.platformFormats;
+      if (_canPaste != available.isNotEmpty) {
+        _canPaste = available.isNotEmpty;
+        listener();
+      }
     }
   }
 }
@@ -54,10 +64,7 @@ class QuillToolbarClipboardButtonState
       case ClipboardAction.copy:
         return !controller.selection.isCollapsed;
       case ClipboardAction.paste:
-        return !controller.readOnly &&
-            (kIsWeb ||
-                widget._monitor._clipboardStatus.value ==
-                    ClipboardStatus.pasteable);
+        return !controller.readOnly && (kIsWeb || widget._monitor.canPaste);
     }
   }
 
