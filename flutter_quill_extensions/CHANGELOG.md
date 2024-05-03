@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.10
+* Support clipboard actions from the toolbar
+
 ## 9.3.9
 * fix: MD Parsing for multi space
 * fix: FontFamily and FontSize toolbars track the text selected in the editor
