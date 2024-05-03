@@ -2,17 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
+import 'package:html/parser.dart' as html_parser;
 import 'package:meta/meta.dart';
+import 'package:super_clipboard/super_clipboard.dart';
 
+import '../../../flutter_quill.dart';
 import '../../../quill_delta.dart';
-import '../../models/documents/attribute.dart';
-import '../../models/documents/document.dart';
-import '../../models/documents/nodes/embeddable.dart';
-import '../../models/documents/nodes/leaf.dart';
-import '../../models/documents/style.dart';
-import '../../models/structs/doc_change.dart';
-import '../../models/structs/image_url.dart';
-import '../../models/structs/offset_value.dart';
+import '../../models/documents/delta_x.dart';
 import '../../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
@@ -22,20 +18,27 @@ class QuillController extends ChangeNotifier {
   QuillController({
     required Document document,
     required TextSelection selection,
+    this.configurations = const QuillControllerConfigurations(),
     this.keepStyleOnNewLine = true,
     this.onReplaceText,
     this.onDelete,
     this.onSelectionCompleted,
     this.onSelectionChanged,
+    this.readOnly = false,
   })  : _document = document,
         _selection = selection;
 
-  factory QuillController.basic() {
+  factory QuillController.basic(
+      {QuillControllerConfigurations configurations =
+          const QuillControllerConfigurations()}) {
     return QuillController(
+      configurations: configurations,
       document: Document(),
       selection: const TextSelection.collapsed(offset: 0),
     );
   }
+
+  final QuillControllerConfigurations configurations;
 
   /// Document managed by this controller.
   Document _document;
@@ -471,9 +474,18 @@ class QuillController extends ChangeNotifier {
     return document.querySegmentLeafNode(offset).leaf;
   }
 
-  /// Clipboard for image url and its corresponding style
-  ImageUrl? _copiedImageUrl;
+  // Notify toolbar buttons directly with attributes
+  Map<String, Attribute> toolbarButtonToggler = const {};
 
+  /// Clipboard caches last copy to allow paste with styles. Static to allow paste between multiple instances of editor.
+  static String _pastePlainText = '';
+  static List<OffsetValue> _pasteStyleAndEmbed = <OffsetValue>[];
+
+  String get pastePlainText => _pastePlainText;
+  List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
+  bool readOnly;
+
+  ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;
 
   set copiedImageUrl(ImageUrl? value) {
@@ -481,6 +493,138 @@ class QuillController extends ChangeNotifier {
     Clipboard.setData(const ClipboardData(text: ''));
   }
 
-  // Notify toolbar buttons directly with attributes
-  Map<String, Attribute> toolbarButtonToggler = const {};
+  bool clipboardSelection(bool copy) {
+    copiedImageUrl = null;
+    _pastePlainText = getPlainText();
+    _pasteStyleAndEmbed = getAllIndividualSelectionStylesAndEmbed();
+
+    if (!selection.isCollapsed) {
+      Clipboard.setData(ClipboardData(text: _pastePlainText));
+      if (!copy) {
+        if (readOnly) return false;
+        final sel = selection;
+        replaceText(sel.start, sel.end - sel.start, '',
+            TextSelection.collapsed(offset: sel.start));
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /// Returns whether paste operation was handled here.
+  /// updateEditor is called if paste operation was successful.
+  Future<bool> clipboardPaste({void Function()? updateEditor}) async {
+    if (readOnly || !selection.isValid) return true;
+
+    if (await _pasteHTML()) {
+      updateEditor?.call();
+      return true;
+    }
+
+    // Snapshot the input before using `await`.
+    // See https://github.com/flutter/flutter/issues/11427
+    final plainText = await Clipboard.getData(Clipboard.kTextPlain);
+    if (plainText != null) {
+      replaceTextWithEmbeds(
+        selection.start,
+        selection.end - selection.start,
+        plainText.text!,
+        TextSelection.collapsed(
+            offset: selection.start + plainText.text!.length),
+      );
+      updateEditor?.call();
+      return true;
+    }
+
+    if (await configurations.onClipboardPaste?.call() == true) {
+      updateEditor?.call();
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> _pasteHTML() async {
+    final clipboard = SystemClipboard.instance;
+    if (clipboard != null) {
+      final reader = await clipboard.read();
+      if (reader.canProvide(Formats.htmlText)) {
+        final html = await reader.readValue(Formats.htmlText);
+        if (html == null) {
+          return false;
+        }
+        final htmlBody = html_parser.parse(html).body?.outerHtml;
+        final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+
+        replaceText(
+          selection.start,
+          selection.end - selection.start,
+          deltaFromClipboard,
+          TextSelection.collapsed(offset: selection.end),
+        );
+
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void replaceTextWithEmbeds(
+    int index,
+    int len,
+    String insertedText,
+    TextSelection? textSelection, {
+    bool ignoreFocus = false,
+    bool shouldNotifyListeners = true,
+  }) {
+    final containsEmbed =
+        insertedText.codeUnits.contains(Embed.kObjectReplacementInt);
+    insertedText =
+        containsEmbed ? _adjustInsertedText(insertedText) : insertedText;
+
+    replaceText(index, len, insertedText, textSelection,
+        ignoreFocus: ignoreFocus, shouldNotifyListeners: shouldNotifyListeners);
+
+    _applyPasteStyleAndEmbed(insertedText, index, containsEmbed);
+  }
+
+  void _applyPasteStyleAndEmbed(
+      String insertedText, int start, bool containsEmbed) {
+    if (insertedText == pastePlainText && pastePlainText != '' ||
+        containsEmbed) {
+      final pos = start;
+      for (final p in pasteStyleAndEmbed) {
+        final offset = p.offset;
+        final styleAndEmbed = p.value;
+
+        final local = pos + offset;
+        if (styleAndEmbed is Embeddable) {
+          replaceText(local, 0, styleAndEmbed, null);
+        } else {
+          final style = styleAndEmbed as Style;
+          if (style.isInline) {
+            formatTextStyle(local, p.length!, style);
+          } else if (style.isBlock) {
+            final node = document.queryChild(local).node;
+            if (node != null && p.length == node.length - 1) {
+              for (final attribute in style.values) {
+                document.format(local, 0, attribute);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  String _adjustInsertedText(String text) {
+    final sb = StringBuffer();
+    for (var i = 0; i < text.length; i++) {
+      if (text.codeUnitAt(i) == Embed.kObjectReplacementInt) {
+        continue;
+      }
+      sb.write(text[i]);
+    }
+    return sb.toString();
+  }
 }

@@ -4,9 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../models/documents/document.dart';
-import '../../models/documents/nodes/embeddable.dart';
-import '../../models/documents/nodes/leaf.dart';
-import '../../models/documents/style.dart';
 import '../../utils/delta.dart';
 import 'raw_editor.dart';
 
@@ -29,62 +26,8 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       return;
     }
 
-    var insertedText = diff.inserted;
-    final containsEmbed =
-        insertedText.codeUnits.contains(Embed.kObjectReplacementInt);
-    insertedText =
-        containsEmbed ? _adjustInsertedText(diff.inserted) : diff.inserted;
-
-    widget.configurations.controller.replaceText(
-        diff.start, diff.deleted.length, insertedText, value.selection);
-
-    _applyPasteStyleAndEmbed(insertedText, diff.start, containsEmbed);
-  }
-
-  void _applyPasteStyleAndEmbed(
-      String insertedText, int start, bool containsEmbed) {
-    if (insertedText == pastePlainText && pastePlainText != '' ||
-        containsEmbed) {
-      final pos = start;
-      for (var i = 0; i < pasteStyleAndEmbed.length; i++) {
-        final offset = pasteStyleAndEmbed[i].offset;
-        final styleAndEmbed = pasteStyleAndEmbed[i].value;
-
-        final local = pos + offset;
-        if (styleAndEmbed is Embeddable) {
-          widget.configurations.controller
-              .replaceText(local, 0, styleAndEmbed, null);
-        } else {
-          final style = styleAndEmbed as Style;
-          if (style.isInline) {
-            widget.configurations.controller
-                .formatTextStyle(local, pasteStyleAndEmbed[i].length!, style);
-          } else if (style.isBlock) {
-            final node = widget.configurations.controller.document
-                .queryChild(local)
-                .node;
-            if (node != null &&
-                pasteStyleAndEmbed[i].length == node.length - 1) {
-              for (final attribute in style.values) {
-                widget.configurations.controller.document
-                    .format(local, 0, attribute);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  String _adjustInsertedText(String text) {
-    final sb = StringBuffer();
-    for (var i = 0; i < text.length; i++) {
-      if (text.codeUnitAt(i) == Embed.kObjectReplacementInt) {
-        continue;
-      }
-      sb.write(text[i]);
-    }
-    return sb.toString();
+    widget.configurations.controller.replaceTextWithEmbeds(
+        diff.start, diff.deleted.length, diff.inserted, value.selection);
   }
 
   @override

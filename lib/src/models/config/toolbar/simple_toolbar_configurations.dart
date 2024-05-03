@@ -107,6 +107,9 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showSearchButton = true,
     this.showSubscript = true,
     this.showSuperscript = true,
+    this.showClipboardCut = true,
+    this.showClipboardCopy = true,
+    this.showClipboardPaste = true,
     this.linkStyleType = LinkStyleType.original,
     this.headerStyleType = HeaderStyleType.original,
 
@@ -195,6 +198,9 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   final bool showSearchButton;
   final bool showSubscript;
   final bool showSuperscript;
+  final bool showClipboardCut;
+  final bool showClipboardCopy;
+  final bool showClipboardPaste;
 
   /// Toolbar items to display for controls of embed blocks
   final List<EmbedButtonBuilder>? embedButtons;

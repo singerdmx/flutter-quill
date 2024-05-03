@@ -26,7 +26,9 @@ abstract class QuillToolbarBaseValueButtonState<
 
   QuillController get controller => widget.controller;
 
-  late V currentValue;
+  V? _currentValue;
+  V get currentValue => _currentValue!;
+  set currentValue(V value) => _currentValue = value;
 
   /// Callback to query the widget's state for the value to be assigned to currentState
   V get currentStateValue;
@@ -35,6 +37,7 @@ abstract class QuillToolbarBaseValueButtonState<
   void initState() {
     super.initState();
     controller.addListener(didChangeEditingValue);
+    addExtraListener();
   }
 
   @override
@@ -50,6 +53,7 @@ abstract class QuillToolbarBaseValueButtonState<
   @override
   void dispose() {
     controller.removeListener(didChangeEditingValue);
+    removeExtraListener(widget);
     super.dispose();
   }
 
@@ -58,10 +62,16 @@ abstract class QuillToolbarBaseValueButtonState<
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(didChangeEditingValue);
+      removeExtraListener(oldWidget);
       controller.addListener(didChangeEditingValue);
+      addExtraListener();
       currentValue = currentStateValue;
     }
   }
+
+  /// Extra listeners allow a subclass to listen to an external event that can affect its currentValue
+  void addExtraListener() {}
+  void removeExtraListener(covariant W oldWidget) {}
 
   String get defaultTooltip;
 
@@ -96,3 +106,12 @@ abstract class QuillToolbarBaseValueButtonState<
         baseButtonExtraOptions?.afterButtonPressed;
   }
 }
+
+typedef QuillToolbarToggleStyleBaseButton = QuillToolbarBaseValueButton<
+    QuillToolbarToggleStyleButtonOptions,
+    QuillToolbarToggleStyleButtonExtraOptions>;
+
+typedef QuillToolbarToggleStyleBaseButtonState<
+        W extends QuillToolbarToggleStyleBaseButton>
+    = QuillToolbarBaseValueButtonState<W, QuillToolbarToggleStyleButtonOptions,
+        QuillToolbarToggleStyleButtonExtraOptions, bool>;

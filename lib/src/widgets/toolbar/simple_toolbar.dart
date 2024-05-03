@@ -18,6 +18,8 @@ class QuillSimpleToolbar extends StatelessWidget
   /// The configurations for the toolbar widget of flutter quill
   final QuillSimpleToolbarConfigurations configurations;
 
+  double get _toolbarSize => configurations.toolbarSize * 1.4;
+
   @override
   Widget build(BuildContext context) {
     final theEmbedButtons = configurations.embedButtons;
@@ -57,6 +59,14 @@ class QuillSimpleToolbar extends StatelessWidget
 
       final axis = toolbarConfigurations.axis;
       final globalController = configurations.controller;
+
+      final divider = SizedBox(
+          height: _toolbarSize,
+          child: QuillToolbarDivider(
+            axis,
+            color: configurations.sectionDividerColor,
+            space: configurations.sectionDividerSpace,
+          ));
 
       return [
         if (configurations.showUndo)
@@ -160,11 +170,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          QuillToolbarDivider(
-            axis,
-            color: configurations.sectionDividerColor,
-            space: configurations.sectionDividerSpace,
-          ),
+          divider,
         if (configurations.showAlignmentButtons)
           QuillToolbarSelectAlignmentButtons(
             controller: globalController,
@@ -188,11 +194,7 @@ class QuillSimpleToolbar extends StatelessWidget
                 isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          QuillToolbarDivider(
-            axis,
-            color: configurations.sectionDividerColor,
-            space: configurations.sectionDividerSpace,
-          ),
+          divider,
         if (configurations.showHeaderStyle) ...[
           if (configurations.headerStyleType.isOriginal)
             QuillToolbarSelectHeaderStyleDropdownButton(
@@ -213,11 +215,7 @@ class QuillSimpleToolbar extends StatelessWidget
             (isButtonGroupShown[3] ||
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
-          QuillToolbarDivider(
-            axis,
-            color: configurations.sectionDividerColor,
-            space: configurations.sectionDividerSpace,
-          ),
+          divider,
         if (configurations.showListNumbers)
           QuillToolbarToggleStyleButton(
             attribute: Attribute.ol,
@@ -244,11 +242,7 @@ class QuillSimpleToolbar extends StatelessWidget
         if (configurations.showDividers &&
             isButtonGroupShown[3] &&
             (isButtonGroupShown[4] || isButtonGroupShown[5])) ...[
-          QuillToolbarDivider(
-            axis,
-            color: configurations.sectionDividerColor,
-            space: configurations.sectionDividerSpace,
-          ),
+          divider,
         ],
         if (configurations.showQuote)
           QuillToolbarToggleStyleButton(
@@ -271,11 +265,7 @@ class QuillSimpleToolbar extends StatelessWidget
         if (configurations.showDividers &&
             isButtonGroupShown[4] &&
             isButtonGroupShown[5])
-          QuillToolbarDivider(
-            axis,
-            color: configurations.sectionDividerColor,
-            space: configurations.sectionDividerSpace,
-          ),
+          divider,
         if (configurations.showLink)
           toolbarConfigurations.linkStyleType.isOriginal
               ? QuillToolbarLinkStyleButton(
@@ -291,13 +281,26 @@ class QuillSimpleToolbar extends StatelessWidget
             controller: globalController,
             options: toolbarConfigurations.buttonOptions.search,
           ),
+        if (configurations.showClipboardCut)
+          QuillToolbarClipboardButton(
+            options: toolbarConfigurations.buttonOptions.clipboardCut,
+            controller: globalController,
+            clipboardAction: ClipboardAction.cut,
+          ),
+        if (configurations.showClipboardCopy)
+          QuillToolbarClipboardButton(
+            options: toolbarConfigurations.buttonOptions.clipboardCopy,
+            controller: globalController,
+            clipboardAction: ClipboardAction.copy,
+          ),
+        if (configurations.showClipboardPaste)
+          QuillToolbarClipboardButton(
+            options: toolbarConfigurations.buttonOptions.clipboardPaste,
+            controller: globalController,
+            clipboardAction: ClipboardAction.paste,
+          ),
         if (configurations.customButtons.isNotEmpty) ...[
-          if (configurations.showDividers)
-            QuillToolbarDivider(
-              axis,
-              color: configurations.sectionDividerColor,
-              space: configurations.sectionDividerSpace,
-            ),
+          if (configurations.showDividers) divider,
           for (final customButton in configurations.customButtons)
             QuillToolbarCustomButton(
               options: customButton,
@@ -347,11 +350,10 @@ class QuillSimpleToolbar extends StatelessWidget
                   ),
               constraints: BoxConstraints.tightFor(
                 height: configurations.axis == Axis.horizontal
-                    ? configurations.toolbarSize
+                    ? _toolbarSize
                     : null,
-                width: configurations.axis == Axis.vertical
-                    ? configurations.toolbarSize
-                    : null,
+                width:
+                    configurations.axis == Axis.vertical ? _toolbarSize : null,
               ),
               child: QuillToolbarArrowIndicatedButtonList(
                 axis: configurations.axis,

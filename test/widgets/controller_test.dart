@@ -6,6 +6,7 @@ import 'package:test/test.dart';
 void main() {
   const testDocumentContents = 'data';
   late QuillController controller;
+  WidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
     controller = QuillController.basic()
@@ -117,6 +118,26 @@ void main() {
       expect(result[0].offset, 0);
       expect(result[0].value, const Style().put(Attribute.bold));
       expect((result[1].value as Embeddable).type, BlockEmbed.imageType);
+    });
+
+    test('getAllIndividualSelectionStylesAndEmbed mixed', () {
+      controller
+        ..replaceText(0, 4, 'bold plain italic', null)
+        ..formatText(0, 4, Attribute.bold)
+        ..formatText(11, 17, Attribute.italic)
+        ..updateSelection(const TextSelection(baseOffset: 2, extentOffset: 14),
+            ChangeSource.local);
+      expect(controller.getPlainText(), 'ld plain ita',
+          reason: 'Selection spans 3 styles');
+      //
+      final result = controller.getAllIndividualSelectionStylesAndEmbed();
+      expect(result.length, 2);
+      expect(result[0].offset, 0);
+      expect(result[0].length, 2, reason: 'First style is 2 characters bold');
+      expect(result[0].value, const Style().put(Attribute.bold));
+      expect(result[1].offset, 9);
+      expect(result[1].length, 3, reason: 'Last style is 3 characters italic');
+      expect(result[1].value, const Style().put(Attribute.italic));
     });
 
     test('getPlainText', () {
@@ -301,6 +322,38 @@ void main() {
       expect(listenerCalled, isTrue);
       expect(controller.document.toDelta(),
           Delta()..insert('test $originalContents'));
+    });
+
+    test('clipboardSelection empty', () {
+      expect(controller.clipboardSelection(true), false,
+          reason: 'No effect when no selection');
+      expect(controller.clipboardSelection(false), false);
+    });
+
+    test('clipboardSelection', () {
+      controller
+        ..replaceText(0, 4, 'bold plain italic', null)
+        ..formatText(0, 4, Attribute.bold)
+        ..formatText(11, 17, Attribute.italic)
+        ..updateSelection(const TextSelection(baseOffset: 2, extentOffset: 14),
+            ChangeSource.local);
+      //
+      expect(controller.clipboardSelection(true), true);
+      expect(controller.document.length, 18,
+          reason: 'Copy does not change the document');
+      expect(controller.clipboardSelection(false), true);
+      expect(controller.document.length, 6, reason: 'Cut changes the document');
+      //
+      controller
+        ..readOnly = true
+        ..updateSelection(const TextSelection(baseOffset: 2, extentOffset: 4),
+            ChangeSource.local);
+      expect(controller.selection.isCollapsed, false);
+      expect(controller.clipboardSelection(true), true);
+      expect(controller.document.length, 6);
+      expect(controller.clipboardSelection(false), false);
+      expect(controller.document.length, 6,
+          reason: 'Cut not permitted on readOnly document');
     });
   });
 }

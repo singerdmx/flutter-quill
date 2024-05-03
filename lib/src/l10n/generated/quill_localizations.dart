@@ -211,6 +211,18 @@ abstract class FlutterQuillLocalizations {
   /// **'Copy'**
   String get copy;
 
+  /// No description provided for @cut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get cut => 'Cut';
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste => 'Paste';
+
   /// No description provided for @remove.
   ///
   /// In en, this message translates to:

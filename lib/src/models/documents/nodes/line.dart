@@ -407,20 +407,20 @@ base class Line extends QuillContainer<Leaf?> {
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      var pos = 0;
-      pos = node.length - data.offset;
+      var pos = math.min(local, node.length - data.offset);
       if (node is QuillText && node.style.isNotEmpty) {
-        result.add(OffsetValue(beg, node.style, node.length));
+        result.add(OffsetValue(beg, node.style, pos));
       } else if (node.value is Embeddable) {
-        result.add(OffsetValue(beg, node.value as Embeddable, node.length));
+        result.add(OffsetValue(beg, node.value as Embeddable, pos));
       }
+
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
+        final span = math.min(local - pos, node.length);
         if (node is QuillText && node.style.isNotEmpty) {
-          result.add(OffsetValue(pos + beg, node.style, node.length));
+          result.add(OffsetValue(pos + beg, node.style, span));
         } else if (node.value is Embeddable) {
-          result.add(
-              OffsetValue(pos + beg, node.value as Embeddable, node.length));
+          result.add(OffsetValue(pos + beg, node.value as Embeddable, span));
         }
         pos += node.length;
       }

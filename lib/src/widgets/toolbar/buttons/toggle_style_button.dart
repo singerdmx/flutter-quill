@@ -20,9 +20,7 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   QuillIconTheme? iconTheme,
 ]);
 
-class QuillToolbarToggleStyleButton extends QuillToolbarBaseValueButton<
-    QuillToolbarToggleStyleButtonOptions,
-    QuillToolbarToggleStyleButtonExtraOptions> {
+class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
   const QuillToolbarToggleStyleButton({
     required super.controller,
     required this.attribute,
@@ -38,11 +36,8 @@ class QuillToolbarToggleStyleButton extends QuillToolbarBaseValueButton<
 }
 
 class QuillToolbarToggleStyleButtonState
-    extends QuillToolbarBaseValueButtonState<
-        QuillToolbarToggleStyleButton,
-        QuillToolbarToggleStyleButtonOptions,
-        QuillToolbarToggleStyleButtonExtraOptions,
-        bool> {
+    extends QuillToolbarToggleStyleBaseButtonState<
+        QuillToolbarToggleStyleButton> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
