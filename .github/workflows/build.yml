@@ -21,66 +21,69 @@ jobs:
 
       - name: Enable Local Dev
         run: ./scripts/enable_local_dev.sh
-    
+
       - name: Install dependencies
         run: flutter pub get
-      
+
       - name: Flutter build Web
         run: flutter build web --release --verbose --dart-define=CI=true
         working-directory: ./example
 
+      - name: Updates APT Linux Package Lists && Upgrade
+        run: sudo apt update -y && sudo apt upgrade -y
+
       - name: Install flutter Linux prerequisites
-        run: sudo apt-get install clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
+        run: sudo apt install -y curl git unzip xz-utils zip libglu1-mesa
 
       - name: Flutter build Linux
         run: flutter build linux --release --verbose --dart-define=CI=true
         working-directory: ./example
 
-  # build_windows:
-  #   name: Build Windows App
-  #   runs-on: windows-latest
+        # build_windows:
+        #   name: Build Windows App
+        #   runs-on: windows-latest
 
-  #   steps:
-  #       - uses: actions/checkout@v4
-  #       - uses: subosito/flutter-action@v2
-  #         with:
-  #           channel: 'stable'
-  #           cache: true
-  
-  #       - name: Check flutter version
-  #         run: flutter --version
+        #   steps:
+        #       - uses: actions/checkout@v4
+        #       - uses: subosito/flutter-action@v2
+        #         with:
+        #           channel: 'stable'
+        #           cache: true
 
-  #       # Sh scripts is not supported on windows
-  #       - name: Enable Local Dev
-  #         run: ./scripts/enable_local_dev.sh
-        
-  #       - name: Install dependencies
-  #         run: flutter pub get
-        
-  #       - name: Flutter build windows
-  #         run: flutter build windows --release --verbose --dart-define=CI=true
-  #         working-directory: ./example
+        #       - name: Check flutter version
+        #         run: flutter --version
 
-  # build_macOS:
-  #   name: Build macOS App
-  #   runs-on: macos-latest
+        #       # Sh scripts is not supported on windows
+        #       - name: Enable Local Dev
+        #         run: ./scripts/enable_local_dev.sh
 
-  #   steps:
-  #       - uses: actions/checkout@v4
-  #       - uses: subosito/flutter-action@v2
-  #         with:
-  #           channel: 'stable'
-  #           cache: true
-  
-  #       - name: Check flutter version
-  #         run: flutter --version
+        #       - name: Install dependencies
+        #         run: flutter pub get
 
-  #       - name: Enable Local Dev
-  #         run: ./scripts/enable_local_dev.sh
-        
-  #       - name: Install dependencies
-  #         run: flutter pub get
-        
+        #       - name: Flutter build windows
+        #         run: flutter build windows --release --verbose --dart-define=CI=true
+        #         working-directory: ./example
+
+        # build_macOS:
+        #   name: Build macOS App
+        #   runs-on: macos-latest
+
+        #   steps:
+        #       - uses: actions/checkout@v4
+        #       - uses: subosito/flutter-action@v2
+        #         with:
+        #           channel: 'stable'
+        #           cache: true
+
+        #       - name: Check flutter version
+        #         run: flutter --version
+
+        #       - name: Enable Local Dev
+        #         run: ./scripts/enable_local_dev.sh
+
+        #       - name: Install dependencies
+        #         run: flutter pub get
+
   #       - name: Flutter build macOS
   #         run: flutter build macos --release --verbose --dart-define=CI=true
   #         working-directory: ./example
