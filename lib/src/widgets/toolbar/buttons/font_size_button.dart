@@ -9,7 +9,7 @@ import '../../../utils/font.dart';
 import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarFontSizeButton extends QuillToolbarBaseValueButton<
+class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
     QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   QuillToolbarFontSizeButton({
     required super.controller,
@@ -28,7 +28,7 @@ class QuillToolbarFontSizeButton extends QuillToolbarBaseValueButton<
       QuillToolbarFontSizeButtonState();
 }
 
-class QuillToolbarFontSizeButtonState extends QuillToolbarBaseValueButtonState<
+class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
     QuillToolbarFontSizeButton,
     QuillToolbarFontSizeButtonOptions,
     QuillToolbarFontSizeButtonExtraOptions,

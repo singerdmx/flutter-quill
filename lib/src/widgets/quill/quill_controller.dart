@@ -25,14 +25,17 @@ class QuillController extends ChangeNotifier {
     this.onSelectionCompleted,
     this.onSelectionChanged,
     this.readOnly = false,
+    this.editorFocusNode,
   })  : _document = document,
         _selection = selection;
 
   factory QuillController.basic(
       {QuillControllerConfigurations configurations =
-          const QuillControllerConfigurations()}) {
+          const QuillControllerConfigurations(),
+      FocusNode? editorFocusNode}) {
     return QuillController(
       configurations: configurations,
+      editorFocusNode: editorFocusNode,
       document: Document(),
       selection: const TextSelection.collapsed(offset: 0),
     );
@@ -484,6 +487,9 @@ class QuillController extends ChangeNotifier {
   String get pastePlainText => _pastePlainText;
   List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
   bool readOnly;
+
+  /// Used to give focus to the editor following a toolbar action
+  FocusNode? editorFocusNode;
 
   ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;
