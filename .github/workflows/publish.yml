@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Upload the License to the release assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: LICENSE
+          path: LICENSE
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
@@ -26,9 +32,6 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-
-      # Here you can insert custom steps you need
-      # - run: dart tool/generate-code.dart
       
       # This is needed in order for the authentication to success
       # dart pub token add https://pub.dev --env-var PUB_TOKEN
