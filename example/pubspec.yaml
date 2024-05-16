@@ -19,7 +19,7 @@ dependencies:
   flutter_quill_test: ^9.3.4
   quill_html_converter: ^9.3.4
   quill_pdf_converter: ^9.3.4
-  # No^9.2.10ackages
+  # Normal packages
   path: ^1.8.3
   equatable: ^2.0.5
   cross_file: ^0.3.4
@@ -62,6 +62,11 @@ dependency_overrides:
     path: ../quill_html_converter
   quill_pdf_converter:
     path: ../quill_pdf_converter
+
+  # TODO: Temporarily add this so the example can work
+  flutter_colorpicker:
+    git: https://github.com/mchome/flutter_colorpicker.git
+  pdf_widget_wrapper: ^1.0.4
 
 
 dev_dependencies:

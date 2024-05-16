@@ -98,8 +98,8 @@ SPEC CHECKSUMS:
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   super_native_extensions: 85efee3a7495b46b04befcfc86ed12069264ebf3
   url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95
-  video_player_avfoundation: 02011213dab73ae3687df27ce441fbbcc82b5579
+  video_player_avfoundation: 2b4384f3b157206b5e150a0083cdc0c905d260d3
 
-PODFILE CHECKSUM: c2e95c8c0fe03c5c57e438583cae4cc732296009
+PODFILE CHECKSUM: 7159dd71cf9f57a5669bb2dee7a5030dbcc0483f
 
 COCOAPODS: 1.15.2
