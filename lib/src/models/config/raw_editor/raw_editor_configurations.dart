@@ -23,7 +23,8 @@ import 'package:flutter/widgets.dart'
         TextSelectionControls,
         ValueChanged,
         Widget,
-        MouseCursor;
+        MouseCursor,
+        SystemMouseCursors;
 import 'package:meta/meta.dart' show immutable;
 
 import '../../../widgets/others/cursor.dart';
