@@ -5,8 +5,9 @@ import '../../models/documents/document.dart';
 import '../editor/editor.dart';
 import '../others/cursor.dart';
 
-class QuilRawEditorMultiChildRenderObject extends MultiChildRenderObjectWidget {
-  const QuilRawEditorMultiChildRenderObject({
+class QuillRawEditorMultiChildRenderObject
+    extends MultiChildRenderObjectWidget {
+  const QuillRawEditorMultiChildRenderObject({
     required super.children,
     required this.document,
     required this.textDirection,

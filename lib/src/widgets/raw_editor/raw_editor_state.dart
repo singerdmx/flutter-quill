@@ -483,8 +483,10 @@ class QuillRawEditorState extends EditorState
             viewportBuilder: (_, offset) => CompositedTransformTarget(
               link: _toolbarLayerLink,
               child: MouseRegion(
-                cursor: SystemMouseCursors.text,
-                child: QuilRawEditorMultiChildRenderObject(
+                cursor: widget.configurations.readOnly
+                    ? widget.configurations.readOnlyMouseCursor
+                    : SystemMouseCursors.text,
+                child: QuillRawEditorMultiChildRenderObject(
                   key: _editorKey,
                   offset: offset,
                   document: doc,
@@ -515,8 +517,10 @@ class QuillRawEditorState extends EditorState
           link: _toolbarLayerLink,
           child: Semantics(
             child: MouseRegion(
-              cursor: SystemMouseCursors.text,
-              child: QuilRawEditorMultiChildRenderObject(
+              cursor: widget.configurations.readOnly
+                  ? widget.configurations.readOnlyMouseCursor
+                  : SystemMouseCursors.text,
+              child: QuillRawEditorMultiChildRenderObject(
                 key: _editorKey,
                 document: doc,
                 selection: controller.selection,
