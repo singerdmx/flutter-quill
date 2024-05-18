@@ -7,7 +7,7 @@ import '../../../models/documents/attribute.dart';
 import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarFontFamilyButton extends QuillToolbarBaseValueButton<
+class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     QuillToolbarFontFamilyButtonOptions,
     QuillToolbarFontFamilyButtonExtraOptions> {
   QuillToolbarFontFamilyButton({
@@ -28,12 +28,11 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseValueButton<
       QuillToolbarFontFamilyButtonState();
 }
 
-class QuillToolbarFontFamilyButtonState
-    extends QuillToolbarBaseValueButtonState<
-        QuillToolbarFontFamilyButton,
-        QuillToolbarFontFamilyButtonOptions,
-        QuillToolbarFontFamilyButtonExtraOptions,
-        String> {
+class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
+    QuillToolbarFontFamilyButton,
+    QuillToolbarFontFamilyButtonOptions,
+    QuillToolbarFontFamilyButtonExtraOptions,
+    String> {
   @override
   String get currentStateValue {
     final attribute =

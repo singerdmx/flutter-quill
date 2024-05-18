@@ -33,7 +33,8 @@ abstract class QuillToolbarBaseButton<T, I> extends StatelessWidget {
 
   VoidCallback? afterButtonPressed(BuildContext context) {
     return options?.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+        baseButtonExtraOptions(context)?.afterButtonPressed ??
+        () => controller.editorFocusNode?.requestFocus();
   }
 
   QuillIconTheme? iconTheme(BuildContext context) {
@@ -53,11 +54,11 @@ abstract class QuillToolbarBaseButton<T, I> extends StatelessWidget {
   String tooltip(BuildContext context) {
     return options?.tooltip ??
         baseButtonExtraOptions(context)?.tooltip ??
-        getDefaultIconSize(context);
+        getDefaultTooltip(context);
   }
 
   abstract final IconData Function(BuildContext context) getDefaultIconData;
-  abstract final String Function(BuildContext context) getDefaultIconSize;
+  abstract final String Function(BuildContext context) getDefaultTooltip;
 
   Widget buildButton(BuildContext context);
   Widget? buildCustomChildBuilder(

@@ -372,7 +372,7 @@ base class Line extends QuillContainer<Leaf?> {
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      result = result.mergeAll(node.style);
+      result = node.style;
       var pos = node.length - data.offset;
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
@@ -380,7 +380,6 @@ base class Line extends QuillContainer<Leaf?> {
         pos += node.length;
       }
     }
-
     result = result.mergeAll(style);
     if (parent is Block) {
       final block = parent as Block;
@@ -390,7 +389,6 @@ base class Line extends QuillContainer<Leaf?> {
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
       final rest = nextLine!.collectStyle(0, remaining);
-      result = result.mergeAll(rest);
       handle(rest);
     }
 

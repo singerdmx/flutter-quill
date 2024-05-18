@@ -564,8 +564,12 @@ class PreserveInlineStylesRule extends InsertRule {
     if (prev == null || prev.data is! String) return null;
 
     if ((prev.data as String).endsWith('\n')) {
-      if (prev.attributes?.containsKey(Attribute.list.key) == true) {
-        return null;
+      if (prev.attributes != null) {
+        for (final key in prev.attributes!.keys) {
+          if (Attribute.blockKeys.contains(key)) {
+            return null;
+          }
+        }
       }
       prev = itr
           .next(); // at the start of a line, apply the style for the current line and not the style for the preceding line

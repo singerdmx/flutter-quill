@@ -355,5 +355,61 @@ void main() {
       expect(controller.document.length, 6,
           reason: 'Cut not permitted on readOnly document');
     });
+
+    test('blockSelectionStyles', () {
+      Style select(int start, int end) {
+        controller.updateSelection(
+            TextSelection(baseOffset: start, extentOffset: end),
+            ChangeSource.local);
+        return controller.getSelectionStyle();
+      }
+
+      Attribute fromKey(String key) => switch (key) {
+            'header' => Attribute.h1,
+            'list' => Attribute.ol,
+            'align' => Attribute.centerAlignment,
+            'code-block' => Attribute.codeBlock,
+            'blockquote' => Attribute.blockQuote,
+            'indent' => Attribute.indentL2,
+            'direction' => Attribute.rtl,
+            String() => throw UnimplementedError(key)
+          };
+
+      for (final blockKey in Attribute.blockKeys) {
+        final blockAttribute = fromKey(blockKey);
+        controller
+          ..clear()
+          ..replaceText(0, 0, 'line 1\nLine 2\nLine 3', null)
+          ..formatText(0, 0, blockAttribute) // first 2 lines
+          ..formatText(
+              4, 6, Attribute.bold) // spans end of line 1 and start of line 2
+          ..formatText(7, 0, blockAttribute);
+
+        expect(select(2, 5), const Style().put(blockAttribute),
+            reason: 'line 1 block, plain and bold');
+        expect(
+            select(5, 6), const Style().put(Attribute.bold).put(blockAttribute),
+            reason: 'line 1 block, bold');
+        expect(
+            select(4, 8), const Style().put(Attribute.bold).put(blockAttribute),
+            reason: 'spans line1 and 2, selection is all bold');
+        expect(select(4, 11), const Style().put(blockAttribute),
+            reason: 'selection expands into non-bold text');
+        expect(select(2, 11), const Style().put(blockAttribute),
+            reason:
+                'selection starts in non-bold text extends into plain on next line');
+        expect(select(2, 8), const Style().put(blockAttribute),
+            reason:
+                'selection starts in non-bold text, extends into bold on next line');
+
+        expect(
+            select(7, 8), const Style().put(Attribute.bold).put(blockAttribute),
+            reason: 'line 2 block, bold');
+        expect(select(7, 11), const Style().put(blockAttribute),
+            reason: 'line 2 block, selection extends into plain text');
+        expect(select(4, 16), const Style(),
+            reason: 'line 1 extends into line3 which is not block');
+      }
+    });
   });
 }
