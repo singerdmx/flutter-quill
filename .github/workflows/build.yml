@@ -18,29 +18,29 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Check flutter version
+      - name: Check Flutter Version
         run: flutter --version
 
-      - name: Enable Local Dev
+      - name: Enable Local Development Environment (use the local packages)
         run: ./scripts/enable_local_dev.sh
 
-      - name: Install dependencies
+      - name: Install Flutter Dependencies
         run: flutter pub get
 
-      - name: Flutter build Web
+      - name: Build Flutter Web Application
         run: flutter build web --release --verbose --dart-define=CI=true
         working-directory: ./example
 
-      - name: Updates APT Linux Package Lists && Upgrade
+      - name: Update and Upgrade APT Packages
         run: sudo apt update -y && sudo apt upgrade -y
 
-      - name: Install flutter Linux prerequisites
+      - name: Install Flutter Linux Prerequisites
         run: sudo apt install -y curl git unzip xz-utils zip libglu1-mesa
 
-      - name: Install flutter Linux desktop dependencies
+      - name: Install Flutter Linux Desktop Dependencies
         run: sudo apt install -y clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
-      - name: Flutter build Linux
+      - name: Build Flutter Linux Desktop Application
         run: flutter build linux --release --verbose --dart-define=CI=true
         working-directory: ./example
 
