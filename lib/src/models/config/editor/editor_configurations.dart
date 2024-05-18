@@ -80,6 +80,7 @@ class QuillEditorConfigurations extends Equatable {
     this.enableScribble = false,
     this.onScribbleActivated,
     this.scribbleAreaInsets,
+    this.readOnlyMouseCursor = SystemMouseCursors.text,
   });
 
   final QuillSharedConfigurations sharedConfigurations;
@@ -156,6 +157,9 @@ class QuillEditorConfigurations extends Equatable {
   /// The cursor refers to the blinking caret when the editor is focused.
   final bool? showCursor;
   final bool? paintCursorAboveText;
+
+  /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
+  final MouseCursor readOnlyMouseCursor;
 
   /// Whether to enable user interface affordances for changing the
   /// text selection.

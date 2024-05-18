@@ -85,6 +85,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.enableScribble = false,
     this.onScribbleActivated,
     this.scribbleAreaInsets,
+    this.readOnlyMouseCursor = SystemMouseCursors.text,
   });
 
   /// Controls the document being edited.
@@ -177,7 +178,7 @@ class QuillRawEditorConfigurations extends Equatable {
   final CursorStyle cursorStyle;
 
   /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
-  final MouseCursor readOnlyMouseCursor = SystemMouseCursors.text;
+  final MouseCursor readOnlyMouseCursor;
 
   /// Configures how the platform keyboard will select an uppercase or
   /// lowercase keyboard.
