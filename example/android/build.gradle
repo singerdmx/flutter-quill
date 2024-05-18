@@ -1,18 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    ext.kotlin_version = '1.9.21'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
 allprojects {
     repositories {
         google()
@@ -20,53 +5,12 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
+rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-
-    // For mode details visit https://gist.github.com/ellet0/93fefb39e48c40592bda3931e05fd35c
-    afterEvaluate {
-        // check if android block is available
-
-        if (it.hasProperty('android')) {
-
-            if (it.android.namespace == null) {
-                def manifest = new XmlSlurper().parse(file(it.android.sourceSets.main.manifest.srcFile))
-                def packageName = manifest.@package.text()
-                println("Setting ${packageName} as android namespace in build.gradle from the AndroidManifest.xml")
-                android.namespace = packageName
-            }
-
-            def javaVersion = JavaVersion.VERSION_17
-            println("Changes will be applied for the following packages:")
-            android {
-                def androidApiVersion = 34
-//                compileSdkVersion androidApiVersion
-                compileSdk androidApiVersion
-                defaultConfig {
-                    targetSdkVersion androidApiVersion
-                }
-                compileOptions {
-                    sourceCompatibility javaVersion
-                    targetCompatibility javaVersion
-                }
-                tasks.withType(KotlinCompile).configureEach {
-                    buildscript {
-                        ext.kotlin_version = kotlin_version
-                    }
-                    kotlinOptions {
-                        jvmTarget = javaVersion.toString()
-                    }
-                }
-                String message = "For package ${android.namespace} by update compileSdkVersion, targetSdkVersion \n to $androidApiVersion and java version to ${javaVersion.toString()}"
-                println(message)
-            }
-        }
-
-    }
 }
 subprojects {
-    project.evaluationDependsOn(':app')
+    project.evaluationDependsOn(":app")
 }
 
 tasks.register("clean", Delete) {
