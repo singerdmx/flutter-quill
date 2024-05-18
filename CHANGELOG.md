@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.12
+* Add `readOnlyMouseCursor` to config mouse cursor type
+
 ## 9.3.11
 * Fix typo in QuillHtmlConverter
 * Fix re-create checkbox
