@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.13
+* fix: `readOnlyMouseCursor` losing in construction function
+* Fix block multi-line selection style
+
 ## 9.3.12
 * Add `readOnlyMouseCursor` to config mouse cursor type
 
