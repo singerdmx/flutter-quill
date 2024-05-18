@@ -22,7 +22,9 @@ import 'package:flutter/widgets.dart'
         TextFieldTapRegion,
         TextSelectionControls,
         ValueChanged,
-        Widget;
+        Widget,
+        MouseCursor,
+        SystemMouseCursors;
 import 'package:meta/meta.dart' show immutable;
 
 import '../../../widgets/others/cursor.dart';
@@ -173,6 +175,9 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// The style to be used for the editing cursor.
   final CursorStyle cursorStyle;
+
+  /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
+  final MouseCursor readOnlyMouseCursor = SystemMouseCursors.text;
 
   /// Configures how the platform keyboard will select an uppercase or
   /// lowercase keyboard.
