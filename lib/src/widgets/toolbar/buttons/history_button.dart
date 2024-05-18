@@ -30,7 +30,6 @@ class QuillToolbarHistoryButton extends QuillToolbarHistoryBaseButton {
 
 class QuillToolbarHistoryButtonState
     extends QuillToolbarHistoryBaseButtonState {
-
   var _canPressed = false;
 
   @override
