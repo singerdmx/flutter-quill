@@ -9,15 +9,16 @@ jobs:
   publish:
     permissions:
       id-token: write
+      contents: write # For uploading to the release assets
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Upload the License to the release assets
-        uses: actions/upload-artifact@v4
+      - name: Upload LICENSE to the release assets
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: LICENSE
-          path: LICENSE
+          files: LICENSE
 
       - uses: subosito/flutter-action@v2
         with:
