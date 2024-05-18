@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../translations.dart';
 import '../../../../models/documents/style.dart';
-import '../../../../packages/flutter_colorpicker/flutter_colorpicker.dart' show ColorPicker, MaterialPicker, colorToHex;
+import '../../../../packages/flutter_colorpicker/flutter_colorpicker.dart'
+    show ColorPicker, MaterialPicker, colorToHex;
 import 'color_button.dart' show hexToColor;
 
 enum _PickerType {
