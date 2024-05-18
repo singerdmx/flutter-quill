@@ -51,7 +51,8 @@ dependencies:
   meta: ^1.10.0
   html: ^0.15.4
 
-  flutter_colorpicker: ^1.0.3
+  # TODO: temporarily disable from https://pub.dev/packages/flutter_colorpicker and clone it in the `lib/src/packages/flutter_colorpicker` as it's hasn't been published on pub.dev for a while
+  # flutter_colorpicker: ^1.0.3
 
   # For converting HTML to Quill delta
   markdown: ^7.2.1
