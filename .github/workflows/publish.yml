@@ -74,7 +74,7 @@ jobs:
         id: fetch-release-notes-request
         uses: fjogeleit/http-request-action@v1
         with:
-          url: https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/releases/tags/${{ steps.release_tag.outputs.tag }}
+          url: https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ steps.release_tag.outputs.tag }}
           method: 'GET'
           customHeaders: '{"Authorization": "${{ secrets.GITHUB_TOKEN }}"}'
           preventFailureOnNoResponse: 'false'
