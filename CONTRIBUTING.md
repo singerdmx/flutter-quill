@@ -8,6 +8,8 @@ If you don't have anything specific in mind to improve or fix, you can take a lo
 
 You can also check the [Todo](./doc/todo.md) list or the issues  if you want to
 
+> Make sure to not edit the `CHANGELOG.md` or the version in `pubspec.yaml` for any of the packages, this process will be automated by CI.
+
 ## Requirements
 
 - [Flutter SDK](https://docs.flutter.dev/get-started/install) which can be installed by following the instructions the provided link, also make sure to add it to your path so `flutter --version` and `dart --version` work
