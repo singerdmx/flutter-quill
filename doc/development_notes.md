@@ -1,9 +1,8 @@
 # Development notes
 
 - When updating the translations or localizations in the app, please take a look at the [Translation](./translation.md) page as it has important notes in order to work, if you also add a feature that adds new localizations then you need to the instructions of it in order for the translations to take effect
-- Only update the `version.dart` and `CHANGELOG.md` at the root folder of the repo, then run the script:
+- We use the same package version and `CHANGELOG.md` for all the packages, for more [details](https://github.com/singerdmx/flutter-quill/pull/1878), the process is automated. We have a script that will do the followings:
+    1. Copy the contents of the root `CHANGELOG.md` file into all the `CHANGELOG.md` of the packages (overwrite), you need to mention the changes of all the packages in the `CHANGELOG.md` of the root folder as it will be copied, we still have to mention the new changes in the `CHANGELOG.md` and update it as it's not automated yet.
+    2. The script require the new version as an argument, you don't need to run the script manually, when a maintainer create a new tag and publish a new GitHub release, the publish workflow will extract the new version from the tag name, run the script (pass the extracted version as an argument), commit the changes and push them into the repository, the script will update the `version` property for all the packages so the `flutter pub publish` will use the new version for each package correctly.
 
-    ```console
-    dart ./scripts/regenerate_versions.dart
-    ```
-    You must mention the changes of the other packages in the repo in the root `CHANGELOG.md` only and the script will replace the `CHANGELOG.md` in the other packages with the root one, and change the version in `pubspec.yaml` with the one in `version.dart` in the root folder
+    the script will be used the CI and no need to run it manually
