@@ -42,7 +42,7 @@ dependencies:
   video_player: ^2.8.1
   youtube_player_flutter: ^9.0.0
   url_launcher: ^6.2.1
-  super_clipboard: ^0.8.10
+  super_clipboard: ^0.8.13
   gal: ^2.3.0
   gal_linux: ^0.1.0
   image_picker: ^1.0.4
@@ -50,7 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
