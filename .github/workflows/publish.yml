@@ -66,20 +66,25 @@ jobs:
             exit 1
           fi
 
-      - name: Extract release notes
-        id: extract-release-notes
-        run: |
-          # Fetch the release notes using the GitHub API
-          releaseId=$(jq -r .release.id $GITHUB_EVENT_PATH)
-          releaseNotes=$(curl -s \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/releases/$releaseId" | jq -r .body)
+      - name: Fetch release notes
+        id: fetch-release-notes-request
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/releases/tags/${{ github.event.release.tag_name }}
+          method: 'GET'
+          customHeaders: '{"Authorization": "${{ secrets.GITHUB_TOKEN }}"}'
+          preventFailureOnNoResponse: 'false'
 
-          echo "RELEASE_NOTES=${releaseNotes}" >> $GITHUB_OUTPUT
+      - name: Validate release notes response
+        run: |
+          responseBody=$(jq -r '.body' <<< ${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }})
+          if [[ -z "$responseBody" ]]; then
+            echo "Error: Release notes response is empty."
+            exit 1
+          fi
 
       - name: Update the version & CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} "${{ steps.extract-release-notes.outputs.RELEASE_NOTES }}"
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} "${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }}"
 
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
         id: auto-commit-action
