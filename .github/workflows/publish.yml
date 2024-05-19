@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Required In non-push events, such as pull_request
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Upload LICENSE to the release assets
         uses: softprops/action-gh-release@v2
@@ -58,10 +61,14 @@ jobs:
         run: dart ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
 
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
-        uses: devops-infra/action-commit-push@v0.9.2
+        id: auto-commit-action
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
           commit_message: "chore(version): update to version ${{ steps.extract_version.outputs.VERSION }}"
+
+      - name: Run if changes have been detected
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        run: echo "The changes of the previous step has been done."
 
       - name: Check if package is ready for publishing
         run: flutter pub publish --dry-run
