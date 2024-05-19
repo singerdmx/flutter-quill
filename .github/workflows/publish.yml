@@ -60,6 +60,9 @@ jobs:
       - name: Update the version & CHANGELOG for all the packages
         run: dart ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
 
+      - name: Checkout to the master branch
+        run: git checkout master
+
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
         id: auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
