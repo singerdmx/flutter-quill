@@ -17,7 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       # Needed for commit and push changes
         with:
-          ref: ${{ github.ref }}
+          # TODO: Try to not hardcode the branch name
+          ref: master
           fetch-depth: 0 # To get all tags
 
       - name: Upload LICENSE to the release assets
