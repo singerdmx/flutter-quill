@@ -1,18 +1,12 @@
 // ignore_for_file: avoid_print
 
-import 'dart:io' show File;
+import 'dart:io' show File, exit;
 
 import 'package:yaml_edit/yaml_edit.dart';
 
-import '../version.dart';
-
 /// The list of the packages that which will be used to update the `CHANGELOG.md`
-/// and the `README.md`, always make `'./'` at the top
-///
-/// since we should not update the `CHANGELOG.md` of
-/// the `flutter_quill` since it used
-/// in all the packages
-final packages = [
+/// and `README.md` files for all the packages
+final _packages = [
   './',
   './dart_quill_delta',
   './flutter_quill_extensions',
@@ -21,36 +15,51 @@ final packages = [
   './quill_pdf_converter',
 ];
 
-/// A script that should run in the root folder of the repo and not inside
-/// the scripts folder
+/// A script that should run in the root folder and not inside any other folder
+/// it has one task, which update the version for `pubspec.yaml` and `CHANGELOG.md` for all the packages
+/// since we have only one CHANGELOG.md file and version, previously we had different `CHANGELOG.md` and `pubspec.yaml` package version
+/// for each package
 ///
-/// it will update the versions and changelogs, the versions will be all the same
-/// from the `version.dart` and the changelogs will be use the same one from the
-/// root folder of `flutter_quill`
+/// the new version should be passed in the [args], the script accept only one argument
 Future<void> main(List<String> args) async {
-  for (final packagePath in packages) {
-    await updatePubspecYamlFile('$packagePath/pubspec.yaml');
-    if (packagePath != packages.first) {
+  if (args.isEmpty) {
+    print('Missing required version argument. Usage: ./script <new-version>');
+    exit(1);
+  }
+  if (args.length > 1) {
+    print('Too many arguments. Usage: ./script <new-version>');
+    exit(1);
+  }
+  final newVersion = args[0];
+  if (newVersion.isEmpty) {
+    print('The new version is empty. Usage: ./script <new-version>');
+    exit(1);
+  }
+  for (final packagePath in _packages) {
+    await updatePubspecYamlFile('$packagePath/pubspec.yaml',
+        newVersion: newVersion);
+    if (packagePath != _packages.first) {
       updateChangelogMD('$packagePath/CHANGELOG.md');
     }
   }
 }
 
-/// Read the `version` variable from `version.dart`
-/// and update the package version
-///  in `pubspec.yaml` from the [pubspecYamlPath]
-Future<void> updatePubspecYamlFile(String pubspecYamlPath) async {
+/// Update the [pubspecYamlPath] file to update the `version` property from [newVersion]
+Future<void> updatePubspecYamlFile(
+  String pubspecYamlPath, {
+  required String newVersion,
+}) async {
   final file = File(pubspecYamlPath);
   final yaml = await file.readAsString();
-  final yamlEditor = YamlEditor(yaml)..update(['version'], version);
+  final yamlEditor = YamlEditor(yaml)..update(['version'], newVersion);
   await file.writeAsString(yamlEditor.toString());
   print(yamlEditor.toString());
 }
 
-/// Copy the text from the root `CHANGELOG.md` and paste it to the one
-/// from the [changeLogPath]
-Future<void> updateChangelogMD(String changeLogPath) async {
-  final changeLog = await File('./CHANGELOG.md').readAsString();
-  final currentFile = File(changeLogPath);
-  await currentFile.writeAsString(changeLog);
+/// Read the contents of the root `CHANGELOG.md` file and copy it
+/// to the [changeLogFilePath]
+Future<void> updateChangelogMD(String changeLogFilePath) async {
+  final rootChangeLogFileContent = await File('./CHANGELOG.md').readAsString();
+  final changeLogFile = File(changeLogFilePath);
+  await changeLogFile.writeAsString(rootChangeLogFileContent);
 }
