@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.15
+
+## What's Changed
+* Ci/automate updating the  files by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1879
+* Updating outdated README.md and adding a few guidelines for CONTRIBUTING.md
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.14...v9.3.15
+
 ## 9.3.14
 
 * Chore/use original color picker package in [#1877](https://github.com/singerdmx/flutter-quill/pull/1877)
