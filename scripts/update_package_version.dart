@@ -55,7 +55,7 @@ Future<void> main(List<String> args) async {
 
   // A file that will be used to build the `CHANGELOG.md` files
   // the data format is in Json
-  final sourceChangeLogFile = File('./CHANGELOG.json');
+  final sourceChangeLogFile = File('./CHANGELOG_DATA.json');
   await _replaceVersion(
     sourceChangeLogFile: sourceChangeLogFile,
     version: passedVersion,
