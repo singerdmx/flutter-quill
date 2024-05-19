@@ -9,7 +9,9 @@ jobs:
   publish:
     permissions:
       id-token: write
-      contents: write # For uploading to the release assets
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files to the repository.
+      # Also required for uploading files to the Release assets
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,6 +43,24 @@ jobs:
       ## dart-lang/setup-dart/.github/workflows/publish.yml@v1
       # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
       #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
+
+      # TODO: We might automate updating the CHANGELOG.md for all the packages too
+      # Before publishing the new packages, update the version for all the packages first
+
+      # Extract version from the tag (handles optional 'v' prefix)
+      - name: Extract version
+        id: extract_version
+        run: |
+          version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/\(.*\)$/\1/')
+          echo ::set-output name=VERSION::${version}
+
+      - name: Update the version for all the packages
+        run: ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
+
+      - name: Commit the changes of updating version for all the packages
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(version): update to version ${{ steps.extract_version.outputs.VERSION }}"
 
       - name: Publish flutter_quill
         run: flutter pub publish --force
