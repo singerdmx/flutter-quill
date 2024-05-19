@@ -55,7 +55,7 @@ jobs:
       - name: Extract version from the release tag
         id: extract_version
         run: |
-          version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/\(.*\)$/\1/')
+          version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
       - name: Update the version & CHANGELOG for all the packages
