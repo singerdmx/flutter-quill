@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.14
+Chore/use original color picker package in [#1877](https://github.com/singerdmx/flutter-quill/pull/1877)
+
 ## 9.3.13
 * fix: `readOnlyMouseCursor` losing in construction function
 * Fix block multi-line selection style
