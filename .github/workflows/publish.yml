@@ -51,12 +51,20 @@ jobs:
       # TODO: We might automate updating the CHANGELOG.md for all the packages too (update Development notes too if you did)
       # Before publishing the new packages, update the version for all the packages first
 
-      # Extract version from the tag (handles optional 'v' prefix)
+      # Extract version from the tag (handles the 'v' prefix)
       - name: Extract version from the release tag
         id: extract_version
         run: |
           version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
+
+      - name: Validate version format
+        run: |
+          version=${{ steps.extract_version.outputs.VERSION }}
+          if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid version format: $version. The version must be a valid pubspec.yaml version"
+            exit 1
+          fi
 
       - name: Update the version & CHANGELOG for all the packages
         run: dart ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
