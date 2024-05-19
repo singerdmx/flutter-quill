@@ -62,7 +62,7 @@ jobs:
           version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
-      - name: ✅ Validate version format
+      - name: ✅ Validate extracted version format (should be pubspec.yaml valid version)
         run: |
           version=${{ steps.extract_version.outputs.VERSION }}
           if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
