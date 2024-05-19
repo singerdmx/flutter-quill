@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Required In non-push events, such as pull_request
+      # Needed for commit and push changes
         with:
           ref: ${{ github.head_ref }}
+          fetch-depth: 0 # To get all tags
 
       - name: Upload LICENSE to the release assets
         uses: softprops/action-gh-release@v2
