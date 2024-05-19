@@ -48,14 +48,14 @@ jobs:
       # Before publishing the new packages, update the version for all the packages first
 
       # Extract version from the tag (handles optional 'v' prefix)
-      - name: Extract version
+      - name: Extract version from the release tag
         id: extract_version
         run: |
           version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/\(.*\)$/\1/')
-          echo ::set-output name=VERSION::${version}
+          echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
       - name: Update the version & CHANGELOG for all the packages
-        run: ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
+        run: dart ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
 
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
         uses: stefanzweifel/git-auto-commit-action@v5
