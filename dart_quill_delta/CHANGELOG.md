@@ -1,4 +1,4 @@
-<!-- This file is auto-generated from CHANGELOG.json using a script - Manual changes will be overwritten -->
+<!-- This file is auto-generated from CHANGELOG_DATA.json using a script - Manual changes will be overwritten -->
 
 # Changelog
 
