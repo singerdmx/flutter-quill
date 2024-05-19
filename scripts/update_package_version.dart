@@ -35,21 +35,21 @@ const _usage = 'Usage: ./script <version> <changelog-version-content>';
 /// the package
 Future<void> main(List<String> args) async {
   if (args.isEmpty || args.length < 2) {
-    print('Missing required arguments. $_usage');
+    print('Missing required arguments ($args). $_usage');
     exit(1);
   }
   if (args.length > 2) {
-    print('Too many arguments. $_usage');
+    print('Too many arguments ($args). $_usage');
     exit(1);
   }
   final passedVersion = args[0];
   if (passedVersion.isEmpty) {
-    print('The version is empty. $_usage');
+    print('The version is empty ($args). $_usage');
     exit(1);
   }
   final passedVersionContent = args[1];
   if (passedVersionContent.isEmpty) {
-    print('The version content is empty. $_usage');
+    print('The version content is empty ($args). $_usage');
     exit(1);
   }
 

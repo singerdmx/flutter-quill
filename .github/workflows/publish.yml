@@ -71,7 +71,7 @@ jobs:
         uses: ffurrer2/extract-release-notes@v2
 
       - name: Update the version & CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} ${{ steps.extract-release-notes.outputs.release_notes }}
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} "${{ steps.extract-release-notes.outputs.release_notes }}"
 
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
         id: auto-commit-action
