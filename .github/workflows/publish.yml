@@ -68,10 +68,18 @@ jobs:
 
       - name: Extract release notes
         id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v2
+        run: |
+          # Fetch the release notes using the GitHub API
+          releaseId=$(jq -r .release.id $GITHUB_EVENT_PATH)
+          releaseNotes=$(curl -s \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/$releaseId" | jq -r .body)
+
+          echo "RELEASE_NOTES=${releaseNotes}" >> $GITHUB_OUTPUT
 
       - name: Update the version & CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} "${{ steps.extract-release-notes.outputs.release_notes }}"
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} "${{ steps.extract-release-notes.outputs.RELEASE_NOTES }}"
 
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
         id: auto-commit-action

@@ -53,6 +53,10 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
+  print(
+    'The version is $passedVersion and the content is:\n$passedVersionContent',
+  );
+
   // A file that will be used to build the `CHANGELOG.md` files
   // the data format is in Json
   final sourceChangeLogFile = File('./CHANGELOG_DATA.json');
