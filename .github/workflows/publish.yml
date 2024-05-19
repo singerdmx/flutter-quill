@@ -49,7 +49,6 @@ jobs:
       # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
       #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
 
-      # TODO: We might automate updating the CHANGELOG.md for all the packages too (update Development notes too if you did)
       # Before publishing the new packages, update the version for all the packages first
 
       # Extract version from the tag (handles the 'v' prefix)
@@ -67,8 +66,12 @@ jobs:
             exit 1
           fi
 
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+
       - name: Update the version & CHANGELOG for all the packages
-        run: dart ./scripts/regenerate_versions.dart ${{ steps.extract_version.outputs.VERSION }}
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} ${{ steps.extract-release-notes.outputs.release_notes }}
 
       - name: Commit the changes of the updated version & CHANGELOG for all the packages
         id: auto-commit-action
