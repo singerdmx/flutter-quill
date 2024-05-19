@@ -88,20 +88,9 @@ dependencies:
     git: https://github.com/singerdmx/flutter-quill.git
 ```
 
->
-> Note: At this time, we are making too many changes to the library, and you might see a new version almost every day
->
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. 
-> Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
+> Your input and insights are valuable in shaping a stable and reliable version for all the developers. Thank you for being part of the open-source community!
 >
-
-<!-- Compatible versions:
-
-| flutter_quill | Flutter | Dart  |
-|---------------|---------|-------|
-| 9.0.x         | 3.16.x  | 3.2.x |
-
-These versions are tested and well-supported, you shouldn't get a build failure -->
 
 ## Platform Specific Configurations
 
