@@ -1,126 +1,159 @@
+<!-- This file is auto-generated from CHANGELOG.json using a script - Manual changes will be overwritten -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 ## 9.3.14
-Chore/use original color picker package in [#1877](https://github.com/singerdmx/flutter-quill/pull/1877)
+
+* Chore/use original color picker package in [#1877](https://github.com/singerdmx/flutter-quill/pull/1877)
 
 ## 9.3.13
+
 * fix: `readOnlyMouseCursor` losing in construction function
 * Fix block multi-line selection style
 
 ## 9.3.12
+
 * Add `readOnlyMouseCursor` to config mouse cursor type
 
 ## 9.3.11
+
 * Fix typo in QuillHtmlConverter
 * Fix re-create checkbox
 
 ## 9.3.10
+
 * Support clipboard actions from the toolbar
 
 ## 9.3.9
+
 * fix: MD Parsing for multi space
 * fix: FontFamily and FontSize toolbars track the text selected in the editor
 * feat: Add checkBoxReadOnly property which can override readOnly for checkbox
 
 ## 9.3.8
+
 * fix: removed misleading parameters
 * fix: added missed translations for ru, es, de
 * added translations for Nepali Locale('ne', 'NP')
 
 ## 9.3.7
+
 * Fix for keyboard jumping when switching focus from a TextField
 * Toolbar button styling to reflect cursor position when running on desktops with keyboard to move care
 
 ## 9.3.6
+
 * Add SK and update CS locales [#1796](https://github.com/singerdmx/flutter-quill/pull/1796)
 * Fixes:
   * QuillIconTheme changes for FontFamily and FontSize buttons are not applied [#1797](https://github.com/singerdmx/flutter-quill/pull/1796)
   * Make the arrow_drop_down icons in the QuillToolbar the same size for all MenuAnchor buttons [#1799](https://github.com/singerdmx/flutter-quill/pull/1796)
 
 ## 9.3.5
+
 * Update the minimum version for the packages to support `device_info_plus` version 10.0.0 [#1783](https://github.com/singerdmx/flutter-quill/issues/1783)
 * Update the minimum version for `youtube_player_flutter` to new major version 9.0.0 in the `flutter_quill_extensions`
 
 ## 9.3.4
+
 * fix: multiline styling stuck/not working properly [#1782](https://github.com/singerdmx/flutter-quill/pull/1782)
 
 ## 9.3.3
+
 * Update `quill_html_converter` versions
 
 ## 9.3.2
+
 * Fix dispose of text painter [#1774](https://github.com/singerdmx/flutter-quill/pull/1774)
 
 ## 9.3.1
+
 * Require Flutter 3.19.0 as minimum version
 
 ## 9.3.0
+
 * **Breaking change**: `Document.fromHtml(html)` is now returns `Document` instead of `Delta`, use `DeltaX.fromHtml` to return `Delta`
 * Update old deprecated api from Flutter 3.19
 * Scribble scroll fix by @mtallenca in https://github.com/singerdmx/flutter-quill/pull/1745
 
 ## 9.2.14
+
 * feat: move cursor after inserting video/image
 * Apple pencil
 
 ## 9.2.13
+
 * Fix crash with inserting text from contextMenuButtonItems
 * Fix incorrect behaviour of context menu 
 * fix: selection handles behaviour and unnessesary style assert
 * Update quill_fr.arb
 
 ## 9.2.12
+
 * Fix safari clipboard bug
 * Add the option to disable clipboard functionality
 
 ## 9.2.11
+
 * Fix a bug where it has problems with pasting text into the editor when the clipboard has styled text
 
 ## 9.2.10
+
 * Update example screenshots
 * Refactor `Container` to `QuillContainer` with backward compatibility
 * A workaround fix in history feature
 
 ## 9.2.9
+
 * Refactor the type of `Delta().toJson()` to be more clear type
 
 ## 9.2.8
+
 * feat: Export Container node as QuillContainer
 * fix web cursor position / height (don't use iOS logic)
 * Added Swedish translation
 
 ## 9.2.6
+
 * [fix selection.affinity always downstream after updateEditingValue](https://github.com/singerdmx/flutter-quill/pull/1682)
 * Bumb version of `super_clipboard`
 
 ## 9.2.5
+
 * Bumb version of `super_clipboard`
 
 ## 9.2.4
+
 * Use fixed version of intl
 
 ## 9.2.3
+
 * remove unncessary column in Flutter quill video embed block
 
 ## 9.2.2
+
 * Fix bug [#1627](https://github.com/singerdmx/flutter-quill/issues/1627)
 
 ## 9.2.1
+
 * Fix [bug](https://github.com/singerdmx/flutter-quill/issues/1119#issuecomment-1872605246) with font size button
 * Added ro RO translations
 * 📖 Update zh, zh_CN translations
 
 ## 9.2.0
+
 * Require minimum version `6.0.0` of `flutter_keyboard_visibility` to fix some build issues with Android Gradle Plugin 8.2.0
 * Add on image clicked in `flutter_quill_extensions` callback
 * Deprecate `globalIconSize` and `globalIconButtonFactor`, use `iconSize` and `iconButtonFactor` instead
 * Fix the `QuillToolbarSelectAlignmentButtons`
 
 ## 9.1.1
+
 * Require `super_clipboard` minimum version `0.8.1` to fix some bug with Linux build failure
 
 ## 9.1.1-dev
+
 * Fix bug [#1636](https://github.com/singerdmx/flutter-quill/issues/1636)
 * Fix a where you paste styled content (HTML) it always insert a new line at first even if the document is empty
 * Fix the font size button and migrate to `MenuAnchor`
@@ -128,39 +161,50 @@ Chore/use original color picker package in [#1877](https://github.com/singerdmx/
 * Add pdf converter in a new package (`quill_pdf_converter`)
 
 ## 9.1.0
+
 * Fix the simple toolbar by add properties of `IconButton` and fix some buttons
 
 ## 9.1.0-dev.2
+
 * Fix the history buttons
 
 ## 9.1.0-dev.1
+
 * Bug fixes in the simple toolbar buttons
 
 ## 9.1.0-dev
+
 * **Breaking Change**: in the `QuillSimpleToolbar` Fix the `QuillIconTheme` by replacing all the properties with two properties of type `ButtonStyle`, use `IconButton.styleFrom()`
 
 ## 9.0.6
+
 * Fix bug in QuillToolbarSelectAlignmentButtons
 
 ## 9.0.5
+
 * You can now use most of the buttons without internal provider
 
 ## 9.0.4
+
 * Feature: [#1611](https://github.com/singerdmx/flutter-quill/issues/1611)
 * Export missing widgets
 
 ## 9.0.3
+
 * Flutter Quill Extensions:
   * Fix file image support for web image emebed builder
 
 ## 9.0.2
+
 * Remove unused properties in the `QuillToolbarSelectHeaderStyleDropdownButton`
 * Fix the `QuillSimpleToolbar` when `useMaterial3` is false, please upgrade to the latest version of flutter for better support
 
 ## 9.0.2-dev.3
+
 * Export `QuillSingleChildScrollView`
 
 ## 9.0.2-dev.2
+
 * Add the new translations for ru, uk arb files by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
 * Add a new dropdown button by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
 * Update the default style values by [#1575](https://github.com/singerdmx/flutter-quill/pull/1575)
@@ -168,30 +212,38 @@ Chore/use original color picker package in [#1877](https://github.com/singerdmx/
 * Fix the second bug of [#1480](https://github.com/singerdmx/flutter-quill/issues/1480)
 
 ## 9.0.2-dev.1
+
 * Add configurations for the new dropdown `QuillToolbarSelectHeaderStyleButton`, you can use the orignal one or this
 * Fix the [issue](https://github.com/singerdmx/flutter-quill/issues/1119) when enter is pressed, all font settings is lost
 
 ## 9.0.2-dev
+
 * **Breaking change** Remove the spacer widget, removed the controller option for each button
 * Add `toolbarRunSpacing` property to the simple toolbar
 
 ## 9.0.1
+
 * Fix default icon size
 
 ## 9.0.0
+
 * This version is quite stable but it's not how we wanted to be, because the lack of time and there are not too many maintainers active, we decided to publish it, we might make a new breaking changes verion
 
 ## 9.0.1-dev.1
+
 * Flutter Quill Extensions:
   * Update `QuillImageUtilities` and fixining some bugs
 
 ## 9.0.1-dev
+
 * Test new GitHub workflows
 
 ## 9.0.0-dev-10
+
 * Fix a bug of the improved pasting HTML contents contents into the editor
 
 ## 9.0.0-dev-9
+
 * Improves the new logic of pasting HTML contents into the Editor
 * Update `README.md` and the doc
 * Dispose the `QuillToolbarSelectHeaderStyleButton` state listener in `dispose`
@@ -199,16 +251,19 @@ Chore/use original color picker package in [#1877](https://github.com/singerdmx/
 * Rework the font family and font size functionalities to change the font once and type all over the editor
 
 ## 9.0.0-dev-8
+
 * Better support for pasting HTML contents from external websites to the editor
 * The experimental support of converting the HTML from `quill_html_converter` is now built-in in the `flutter_quill` and removed from there (Breaking change for `quill_html_converter`)
 
 ## 9.0.0-dev-7
+
 * Fix a bug in chaning the background/font color of ol/ul list
 * Flutter Quill Extensions:
   * Fix link bug in the video url
   * Fix patterns
 
 ## 9.0.0-dev-6
+
 * Move the `child` from `QuillToolbarConfigurations` into `QuillToolbar` directly
 * Bug fixes
 * Add the ability to change the background and font color of the ol/ul elements dots and numbers
@@ -216,16 +271,19 @@ Chore/use original color picker package in [#1877](https://github.com/singerdmx/
   * **Breaking Change**: The `imageProviderBuilder`is now providing the context and image url
 
 ## 9.0.0-dev-5
+
 * The `QuillToolbar` is now accepting only `child` with no configurations so you can customize everything you wants, the `QuillToolbar.simple()` or `QuillSimpleToolbar` implements a simple toolbar that is based on `QuillToolbar`, you are free to use it but it just an example and not standard
 * Flutter Quill Extensions:
   * Improve the camera button
 
 ## 9.0.0-dev-4
+
 * The options parameter in all of the buttons is no longer required which can be useful to create custom toolbar with minimal efforts
 * Toolbar buttons fixes in both `flutter_quill` and `flutter_quill_extensions`
 * The `QuillProvider` has been dropped and no longer used, the providers will be used only internally from now on and we will not using them as much as possible
 
 ## 9.0.0-dev-3
+
 * Breaking Changes:
   * Rename `QuillToolbar` to `QuillSimpleToolbar`
   * Rename `QuillBaseToolbar` to `QuillToolbar`
@@ -235,12 +293,15 @@ Chore/use original color picker package in [#1877](https://github.com/singerdmx/
  * Add support for copying the image to the system cliboard
 
 ## 9.0.0-dev-2
+
 * An attemp to fix CI automated publishing
 
 ## 9.0.0-dev-1
+
 * An attemp to fix CI automated publishing
 
 ## 9.0.0-dev
+
 * **Major Breaking change**: The `QuillProvider` is now optional, the `controller` parameter has been moved to the `QuillEditor` and `QuillToolbar` once again.
 * Flutter Quill Extensions;
   * **Breaking Change**: Completly change the way how the source code structured to more basic and simple way, organize folders and file names, if you use the library
@@ -251,19 +312,24 @@ embed, this won't affect how quill js work
   * Add untranslated strings to the `quill_en.arb`
 
 ## 8.6.4
+
 * The default value of `keyboardAppearance` for the iOS will be the one from the App/System theme mode instead of always using the `Brightness.light`
 * Fix typos in `README.md`
 
 ## 8.6.3
+
 * Update the minimum flutter version to `3.16.0`
 
 ## 8.6.2
-* Restore use of alternative QuillToolbarLinkStyleButton2 widget 
+
+* Restore use of alternative QuillToolbarLinkStyleButton2 widget
 
 ## 8.6.1
+
 * Temporary revert style bug fix
 
 ## 8.6.0
+
 * **Breaking Change** Support [Flutter 3.16](https://medium.com/flutter/whats-new-in-flutter-3-16-dba6cb1015d1), please upgrade to the latest stable version of flutter to use this update
 * **Breaking Change**: Remove Deprecated Fields
 * **Breaking Change**: Extract the shared things between `QuillToolbarConfigurations` and `QuillBaseToolbarConfigurations`
@@ -271,14 +337,17 @@ embed, this won't affect how quill js work
 * Bug fixes
 
 ## 8.5.5
+
 * Now when opening dialogs by `QuillToolbar` you will not get an exception when you don't use `FlutterQuillLocalizations.delegate` in your `WidgetsApp`, `MaterialApp`, or `CupertinoApp`. The fix is for the `QuillToolbarSearchButton`, `QuillToolbarLinkStyleButton`, and `QuillToolbarColorButton` buttons
 
 ## 8.5.4
+
 * The `mobileWidth`, `mobileHeight`, `mobileMargin`, and `mobileAlignment` is now deprecated in `flutter_quill`, they are now defined in `flutter_quill_extensions`
 * Deprecate `replaceStyleStringWithSize` function which is in `string.dart`
 * Deprecate `alignment`, and `margin` as they don't conform to official Quill JS
 
 ## 8.5.3
+
 * Update doc
 * Update `README.md` and `CHANGELOG.md`
 * Fix typos
@@ -286,14 +355,17 @@ embed, this won't affect how quill js work
 * Update `.pubignore`
 
 ## 8.5.2
+
 * Updated `README.md`.
 * Feature: Added the ability to include a custom callback when the `QuillToolbarColorButton` is pressed.
 * The `QuillToolbar` now implements `PreferredSizeWidget`, enabling usage in the AppBar, similar to `QuillBaseToolbar`.
 
 ## 8.5.1
+
 * Updated `README.md`.
 
 ## 8.5.0
+
 * Migrated to `flutter_localizations` for translations.
 * Fixed: Translated all previously untranslated localizations.
 * Fixed: Added translations for missing items.
@@ -302,12 +374,15 @@ embed, this won't affect how quill js work
 * Updated: Documentation.
 
 ## 8.4.4
+
 * Updated `.pubignore` to ignore unnecessary files and folders.
 
 ## 8.4.3
+
 * Updated `CHANGELOG.md`.
 
 ## 8.4.2
+
 * **Breaking change**: Configuration for `QuillRawEditor` has been moved to a separate class. Additionally, `readOnly` has been renamed to `isReadOnly`. If using `QuillEditor`, no action is required.
 * Introduced the ability for developers to override `TextInputAction` in both `QuillRawEditor` and `QuillEditor`.
 * Enabled using `QuillRawEditor` without `QuillEditorProvider`.
@@ -315,9 +390,11 @@ embed, this won't affect how quill js work
 * Added image cropping implementation in the example.
 
 ## 8.4.1
+
 * Added `copyWith` in `OptionalSize` class.
 
 ## 8.4.0
+
 * **Breaking change**: Updated `QuillCustomButton` to use `QuillCustomButtonOptions`. Moved all properties from `QuillCustomButton` to `QuillCustomButtonOptions`, replacing `iconData` with `icon` widget for increased customization.
 * **Breaking change**: `customButtons` in `QuillToolbarConfigurations` is now of type `List<QuillToolbarCustomButtonOptions>`.
 * Bug fixes following the `8.0.0` update.
@@ -325,69 +402,89 @@ embed, this won't affect how quill js work
 * Improved platform checking.
 
 ## 8.3.0
+
 * Added `iconButtonFactor` property to `QuillToolbarBaseButtonOptions` for customizing button size relative to its icon size (defaults to `kIconButtonFactor`, consistent with previous releases).
 
 ## 8.2.6
+
 * Organized `QuillRawEditor` code.
 
 ## 8.2.5
+
 * Added `builder` property in `QuillEditorConfigurations`.
 
 ## 8.2.4
+
 * Adhered to Flutter best practices.
 * Fixed auto-focus bug.
 
 ## 8.2.3
+
 * Updated `README.md`.
 
 ## 8.2.2
+
 * Moved `flutter_quill_test` to a separate package: [flutter_quill_test](https://pub.dev/packages/flutter_quill_test).
 
 ## 8.2.1
+
 * Updated `README.md`.
 
 ## 8.2.0
+
 * Added the option to add configurations for `flutter_quill_extensions` using `extraConfigurations`.
 
 ## 8.1.11
+
 * Followed Dart best practices by using `lints` and removed `pedantic` and `platform` since they are not used.
 * Fixed text direction bug.
 * Updated `README.md`.
 
 ## 8.1.10
+
 * Secret for automated publishing to pub.dev.
 
 ## 8.1.9
+
 * Fixed automated publishing to pub.dev.
 
 ## 8.1.8
+
 * Fixed automated publishing to pub.dev.
 
 ## 8.1.7
+
 * Automated publishing to pub.dev.
 
 ## 8.1.6
+
 * Fixed compatibility with `integration_test` by downgrading the minimum version of the platform package to 3.1.0.
 
 ## 8.1.5
+
 * Reversed background/font color toolbar button icons.
 
 ## 8.1.4
+
 * Reversed background/font color toolbar button tooltips.
 
 ## 8.1.3
+
 * Moved images to screenshots instead of `README.md`.
 
 ## 8.1.2
+
 * Fixed a bug related to the regexp of the insert link dialog.
 * Required Dart 3 as the minimum version.
 * Code cleanup.
 * Added a spacer widget between each button in the `QuillToolbar`.
 
 ## 8.1.1
+
 * Fixed null error in line.dart #1487(https://github.com/singerdmx/flutter*quill/issues/1487).
 
 ## 8.1.0
+
 * Fixed a word typo of `mirgration` to `migration` in the readme & migration document.
 * Updated migration guide.
 * Removed property `enableUnfocusOnTapOutside` in `QuillEditor` configurations and added `isOnTapOutsideEnabled` instead.
@@ -396,19 +493,23 @@ embed, this won't affect how quill js work
 * Removed the old property of `iconTheme`. Instead, pass `iconTheme` in the button options; you will find the `base` property inside it with `iconTheme`.
 
 ## 8.0.0
+
 * If you have migrated recently, don't be alarmed by this update; it adds documentation, a migration guide, and marks the version as a more stable release. Although there are breaking changes (as reported by some developers), the major version was not changed due to time constraints during development. A single property was also renamed from `code` to `codeBlock` in the `elements` of the new `QuillEditorConfigurations` class.
 * Updated the README for better readability.
 
 ## 7.10.2
+
 * Removed line numbers from code blocks by default. You can still enable this feature thanks to the new configurations in the `QuillEditor`. Find the `elementOptions` property and enable `enableLineNumbers`.
 
 ## 7.10.1
+
 * Fixed issues and utilized the new parameters.
 * No longer need to use `MaterialApp` for most toolbar button child builders.
 * Compatibility with [fresh_quill_extensions](https://pub.dev/packages/fresh_quill_extensions), a temporary alternative to [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions).
 * Updated most of the documentation in `README.md`.
 
 ## 7.10.0
+
 * **Breaking change**: `QuillToolbar.basic()` can be accessed directly from `QuillToolbar()`, and the old `QuillToolbar` can be accessed from `QuillBaseToolbar`.
 * Refactored Quill editor and toolbar configurations into a single class each.
 * After changing checkbox list values, the controller will not request keyboard focus by default.
@@ -416,6 +517,7 @@ embed, this won't affect how quill js work
 * Fixes to some code after the refactoring.
 
 ## 7.9.0
+
 * Buttons Improvemenets
 * Refactor all the button configurations that used in `QuillToolbar.basic()` but there are still few lefts
 * **Breaking change**: Remove some configurations from the QuillToolbar and move them to the new `QuillProvider`, please notice this is a development version and this might be changed in the next few days, the stable release will be ready in less than 3 weeks
@@ -423,173 +525,226 @@ embed, this won't affect how quill js work
 * Allow you to customize the search dialog by custom callback with child builder
 
 ## 7.8.0
+
 * **Important note**: this is not test release yet, it works but need more test and changes and breaking changes, we don't have development version and it will help us if you try the latest version and report the issues in Github but if you want a stable version please use `7.4.16`. this refactoring process will not take long and should be done less than three weeks with the testing.
 * We managed to refactor most of the buttons configurations and customizations in the `QuillProvider`, only three lefts then will start on refactoring the toolbar configurations
 * Code improvemenets
 
 ## 7.7.0
+
 * **Breaking change**: We have mirgrated more buttons in the toolbar configurations, you can do change them in the `QuillProvider`
 * Important bug fixes
 
 ## 7.6.1
+
 * Bug fixes
 
 ## 7.6.0
+
 * **Breaking change**: To customize the buttons in the toolbar, you can do that in the `QuillProvider`
 
 ## 7.5.0
+
 * **Breaking change**: The widgets `QuillEditor` and `QuillToolbar` are no longer have controller parameter, instead you need to make sure in the widget tree you have wrapped them with `QuillProvider` widget and provide the controller and the require configurations
 
 ## 7.4.16
+
 * Update documentation and README.md
 
 ## 7.4.15
+
 * Custom style attrbuites for platforms other than mobile (alignment, margin, width, height)
 * Bug fixes and other improvemenets
 
 ## 7.4.14
+
 * Improve performance by reducing the number of widgets rebuilt by listening to media query for only the needed things, for example instead of using `MediaQuery.of(context).size`, now we are using `MediaQuery.sizeOf(context)`
 * Add MediaButton for picking the images only since the video one is not ready
 * A  new feature which allows customizing the text selection in quill editor which is useful for custom theme design system for custom app widget
 
 ## 7.4.13
+
 * Fixed tab editing when in readOnly mode.
 
 ## 7.4.12
+
 * Update the minimum version of device_info_plus to 9.1.0.
 
 ## 7.4.11
+
 * Add sw locale.
 
 ## 7.4.10
+
 * Update translations.
 
 ## 7.4.9
+
 * Style recognition fixes.
 
 ## 7.4.8
+
 * Upgrade dependencies.
 
 ## 7.4.7
+
 * Add Vietnamese and German translations.
 
 ## 7.4.6
+
 * Fix more null errors in Leaf.retain [##1394](https://github.com/singerdmx/flutter-quill/issues/1394) and Line.delete [##1395](https://github.com/singerdmx/flutter-quill/issues/1395).
 
 ## 7.4.5
+
 * Fix null error in Container.insert [##1392](https://github.com/singerdmx/flutter-quill/issues/1392).
 
 ## 7.4.4
+
 * Fix extra padding on checklists [##1131](https://github.com/singerdmx/flutter-quill/issues/1131).
 
 ## 7.4.3
+
 * Fixed a space input error on iPad.
 
 ## 7.4.2
+
 * Fix bug with keepStyleOnNewLine for link.
 
 ## 7.4.1
+
 * Fix toolbar dividers condition.
 
 ## 7.4.0
+
 * Support Flutter version 3.13.0.
 
 ## 7.3.3
+
 * Updated Dependencies conflicting.
 
 ## 7.3.2
+
 * Added builder for custom button in _LinkDialog.
 
 ## 7.3.1
+
 * Added case sensitive and whole word search parameters.
 * Added wrap around.
 * Moved search dialog to the bottom in order not to override the editor and the text found.
 * Other minor search dialog enhancements.
 
 ## 7.3.0
+
 * Add default attributes to basic factory.
 
 ## 7.2.19
+
 * Feat/link regexp.
 
 ## 7.2.18
+
 * Fix paste block text in words apply same style.
 
 ## 7.2.17
+
 * Fix paste text mess up style.
 * Add support copy/cut block text.
 
 ## 7.2.16
+
 * Allow for custom context menu.
 
 ## 7.2.15
+
 * Add flutter_quill.delta library which only exposes Delta datatype.
 
 ## 7.2.14
+
 * Fix errors when the editor is used in the `screenshot` package.
 
 ## 7.2.13
+
 * Fix around image can't delete line break.
 
 ## 7.2.12
+
 * Add support for copy/cut select image and text together.
 
 ## 7.2.11
+
 * Add affinity for localPosition.
 
 ## 7.2.10
+
 * LINE._getPlainText queryChild inclusive=false.
 
 ## 7.2.9
+
 * Add toPlainText method to `EmbedBuilder`.
 
 ## 7.2.8
+
 * Add custom button widget in toolbar.
 
 ## 7.2.7
+
 * Fix language code of Japan.
 
 ## 7.2.6
+
 * Style custom toolbar buttons like builtins.
 
 ## 7.2.5
+
 * Always use text cursor for editor on desktop.
 
 ## 7.2.4
+
 * Fixed keepStyleOnNewLine.
 
 ## 7.2.3
+
 * Get pixel ratio from view.
 
 ## 7.2.2
+
 * Prevent operations on stale editor state.
 
 ## 7.2.1
+
 * Add support for android keyboard content insertion.
 * Enhance color picker, enter hex color and color palette option.
 
 ## 7.2.0
+
 * Checkboxes, bullet points, and number points are now scaled based on the default paragraph font size.
 
 ## 7.1.20
+
 * Pass linestyle to embedded block.
 
 ## 7.1.19
+
 * Fix Rtl leading alignment problem.
 
 ## 7.1.18
+
 * Support flutter latest version.
 
 ## 7.1.17+1
+
 * Updates `device_info_plus` to version 9.0.0 to benefit from AGP 8 (see [changelog##900](https://pub.dev/packages/device_info_plus/changelog##900)).
 
 ## 7.1.16
+
 * Fixed subscript key from 'sup' to 'sub'.
 
 ## 7.1.15
+
 * Fixed a bug introduced in 7.1.7 where each section in `QuillToolbar` was displayed on its own line.
 
 ## 7.1.14
+
 * Add indents change for multiline selection.
 
 ## 7.1.13
@@ -1820,3 +1975,4 @@ QuillToolbar.basic(
 ## 0.0.1
 
 * Rich text editor based on Quill Delta.
+
