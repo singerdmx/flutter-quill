@@ -35,7 +35,7 @@ jobs:
       - name: Check flutter version
         run: flutter --version
       
-      - name: Enable Local Dev
+      - name: Enable Local Development Environment (use the local packages)
         run: ./scripts/enable_local_dev.sh
 
       - name: Install dependencies
@@ -66,19 +66,22 @@ jobs:
             exit 1
           fi
 
+      - name: Extract release tag
+        id: release_tag
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+
       - name: Fetch release notes
         id: fetch-release-notes-request
         uses: fjogeleit/http-request-action@v1
         with:
-          url: https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/releases/tags/${{ github.event.release.tag_name }}
+          url: https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/releases/tags/${{ steps.release_tag.outputs.tag }}
           method: 'GET'
           customHeaders: '{"Authorization": "${{ secrets.GITHUB_TOKEN }}"}'
           preventFailureOnNoResponse: 'false'
 
       - name: Validate release notes response
         run: |
-          responseBody=$(jq -r '.body' <<< ${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }})
-          if [[ -z "$responseBody" ]]; then
+          if [[ -z "$(fromJson ${{ steps.fetch-release-notes-request.outputs }}).body" ]]; then
             echo "Error: Release notes response is empty."
             exit 1
           fi
