@@ -62,6 +62,9 @@ jobs:
         with:
           commit_message: "chore(version): update to version ${{ steps.extract_version.outputs.VERSION }}"
 
+      - name: Check if package is ready for publishing
+        run: flutter pub publish --dry-run
+
       - name: Publish flutter_quill
         run: flutter pub publish --force
       
