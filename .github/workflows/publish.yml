@@ -65,7 +65,7 @@ jobs:
       - name: ✅ Validate extracted version format (should be pubspec.yaml valid version)
         run: |
           version=${{ steps.extract_version.outputs.VERSION }}
-          if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+          if [[ ! $version =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "❌ Invalid version format: $version. The version must be a valid pubspec.yaml version"
             exit 1
           fi
@@ -93,7 +93,7 @@ jobs:
 
       # TODO: There is a bug that cause styling loss: https://github.com/singerdmx/flutter-quill/issues/1880
       - name: 📝 Update version and CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} ${{ toJson(fromJson(steps.fetch-release-notes-request.outputs.response).body) }}
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} '${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }}'
 
       - name: 💾 Commit updated version and CHANGELOG
         id: auto-commit-action
