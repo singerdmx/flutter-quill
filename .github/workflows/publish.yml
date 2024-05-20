@@ -92,7 +92,7 @@ jobs:
 
       # TODO: There is a bug that cause styling loss: https://github.com/singerdmx/flutter-quill/issues/1880
       - name: 📝 Update version and CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} "${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }}"
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} ${{ toJson(fromJson(steps.fetch-release-notes-request.outputs.response).body) }}
 
       - name: 💾 Commit updated version and CHANGELOG
         id: auto-commit-action
