@@ -4,6 +4,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.16-experimental
+
+- This version is released for **testing** the , there are other solutions to test the workflows but we had reasons to do it this way, please ignore this version.\r\n\r\n"Test", "World", , [Link](https://github.com/singerdmx/flutter-quill/compare/v9.3.16...v9.3.16-experimental)\r\n\r\n**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.16...v9.3.16-experimental
+
 ## 9.3.16
 
 * Update  dev package to 4.0.0
