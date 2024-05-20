@@ -65,7 +65,7 @@ jobs:
       - name: ✅ Validate extracted version format (should be pubspec.yaml valid version)
         run: |
           version=${{ steps.extract_version.outputs.VERSION }}
-          if [[ ! $version =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
             echo "❌ Invalid version format: $version. The version must be a valid pubspec.yaml version"
             exit 1
           fi
