@@ -4,17 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## 9.3.16-experimental
+## 9.3.17
 
-- This version is released for **testing** the `GitHub publish workflow`, there are other solutions to test the workflows but we had reasons to do it this way, please ignore this version.
+* Update super_clipboard plugin to 0.8.15 to address [#1882](https://github.com/singerdmx/flutter-quill/issues/1882)
 
-"Test", "World", `Hello`, [Link](https://github.com/singerdmx/flutter-quill/compare/v9.3.16...v9.3.16-experimental)
 
-**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.16...v9.3.16-experimental
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.16...v9.3.17
 
 ## 9.3.16
 
-* Update  dev package to 4.0.0
+* Update `lint` dev package to 4.0.0
 * Require at least version 0.8.13 of the plugin
 
 **Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.15...v9.3.16
