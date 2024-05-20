@@ -79,6 +79,9 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
   @override
   String get defaultTooltip => context.loc.fontFamily;
 
+  @override
+  IconData get defaultIconData => Icons.font_download_outlined;
+
   void _onPressed() {
     if (_menuController.isOpen) {
       _menuController.close();

@@ -62,9 +62,8 @@ class QuillToolbarLinkStyleButtonState
     controller.removeListener(_didChangeSelection);
   }
 
-  IconData get iconData {
-    return options.iconData ?? baseButtonExtraOptions?.iconData ?? Icons.link;
-  }
+  @override
+  IconData get defaultIconData => Icons.link;
 
   Color get dialogBarrierColor {
     return options.dialogBarrierColor ??
