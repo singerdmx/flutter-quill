@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.19
+
+* Fix reported issues by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1886
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.18...v9.3.19
+
 ## 9.3.18
 
 * Fix: Undo/redo cursor position fixed by @Alspb in https://github.com/singerdmx/flutter-quill/pull/1885
