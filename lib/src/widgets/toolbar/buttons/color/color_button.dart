@@ -138,7 +138,7 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
             _showColorPicker();
             afterButtonPressed?.call();
           },
-          iconColor: null,
+          iconColor: iconColor,
           iconColorBackground: iconColorBackground,
           fillColor: fillColor,
           fillColorBackground: fillColorBackground,
