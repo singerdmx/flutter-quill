@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.18
+
+* Fix: Undo/redo cursor position fixed by @Alspb in https://github.com/singerdmx/flutter-quill/pull/1885
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.17...v9.3.18
+
 ## 9.3.17
 
 * Update super_clipboard plugin to 0.8.15 to address [#1882](https://github.com/singerdmx/flutter-quill/issues/1882)
