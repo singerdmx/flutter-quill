@@ -35,6 +35,9 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   @override
   String get defaultTooltip => context.loc.headerStyle;
 
+  @override
+  IconData get defaultIconData => Icons.question_mark_outlined;
+
   Attribute<dynamic> _selectedItem = Attribute.header;
 
   final _menuController = MenuController();

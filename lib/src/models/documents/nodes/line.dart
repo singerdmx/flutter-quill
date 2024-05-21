@@ -519,6 +519,7 @@ base class Line extends QuillContainer<Leaf?> {
   int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining) {
     final text = node.toPlainText();
     if (text == Embed.kObjectReplacementCharacter) {
+      buffer.write(Embed.kObjectReplacementCharacter);
       return remaining - node.length;
     }
 

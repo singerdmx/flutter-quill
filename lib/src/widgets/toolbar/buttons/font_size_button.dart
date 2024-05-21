@@ -85,6 +85,9 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   @override
   String get defaultTooltip => context.loc.fontSize;
 
+  @override
+  IconData get defaultIconData => Icons.format_size_outlined;
+
   void _onDropdownButtonPressed() {
     if (_menuController.isOpen) {
       _menuController.close();

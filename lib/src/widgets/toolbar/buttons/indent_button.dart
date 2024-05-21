@@ -33,13 +33,10 @@ class QuillToolbarIndentButtonState extends QuillToolbarIndentBaseButtonState {
       ? context.loc.increaseIndent
       : context.loc.decreaseIndent;
 
-  IconData get iconData {
-    return options.iconData ??
-        baseButtonExtraOptions?.iconData ??
-        (widget.isIncrease
-            ? Icons.format_indent_increase
-            : Icons.format_indent_decrease);
-  }
+  @override
+  IconData get defaultIconData => widget.isIncrease
+      ? Icons.format_indent_increase
+      : Icons.format_indent_decrease;
 
   void _sharedOnPressed() {
     widget.controller.indentSelection(widget.isIncrease);
