@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.20
+
+* Fix: Issue 1887 by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1892
+* fix: toolbar style change will be invalid when inputting more than 2 characters at a time by @crasowas in https://github.com/singerdmx/flutter-quill/pull/1890
+
+## New Contributors
+* @crasowas made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1890
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.19...v9.3.20
+
 ## 9.3.19
 
 * Fix reported issues by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1886
