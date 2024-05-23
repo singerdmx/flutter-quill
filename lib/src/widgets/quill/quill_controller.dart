@@ -261,9 +261,7 @@ class QuillController extends ChangeNotifier {
       var shouldRetainDelta = toggledStyle.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
-          delta.last.isInsert &&
-          // pasted text should not use toggledStyle
-          (data is! String || data.length < 2);
+          delta.last.isInsert;
       if (shouldRetainDelta &&
           toggledStyle.isNotEmpty &&
           delta.length == 2 &&
@@ -518,13 +516,27 @@ class QuillController extends ChangeNotifier {
     // See https://github.com/flutter/flutter/issues/11427
     final plainText = await Clipboard.getData(Clipboard.kTextPlain);
     if (plainText != null) {
-      replaceTextWithEmbeds(
-        selection.start,
-        selection.end - selection.start,
-        plainText.text!,
-        TextSelection.collapsed(
-            offset: selection.start + plainText.text!.length),
-      );
+      final lines = plainText.text!.split('\n');
+      for (var i = 0; i < lines.length; ++i) {
+        final line = lines[i];
+        if (line.isNotEmpty) {
+          replaceTextWithEmbeds(
+            selection.start,
+            selection.end - selection.start,
+            line,
+            TextSelection.collapsed(offset: selection.start + line.length),
+          );
+        }
+        if (i != lines.length - 1) {
+          document.insert(selection.extentOffset, '\n');
+          _updateSelection(
+            TextSelection.collapsed(
+              offset: selection.extentOffset + 1,
+            ),
+            insertNewline: true,
+          );
+        }
+      }
       updateEditor?.call();
       return true;
     }
