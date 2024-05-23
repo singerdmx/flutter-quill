@@ -565,8 +565,9 @@ class PreserveInlineStylesRule extends InsertRule {
 
     if ((prev.data as String).endsWith('\n')) {
       if (prev.attributes != null) {
-        for (final value in prev.attributes!.values) {
-          if (!(value as Attribute).isInline) {
+        for (final key in prev.attributes!.keys) {
+          if (Attribute.blockKeys.contains(key) ||
+              !(prev.attributes![key] as Attribute).isInline) {
             return null;
           }
         }
