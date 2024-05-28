@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.21
+
+* fix: assertion failure for swipe typing and undo on Android by @crasowas in https://github.com/singerdmx/flutter-quill/pull/1898
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.20...v9.3.21
+
 ## 9.3.20
 
 * Fix: Issue 1887 by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1892
