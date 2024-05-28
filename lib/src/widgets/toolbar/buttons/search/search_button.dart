@@ -124,13 +124,13 @@ class QuillToolbarSearchButton extends StatelessWidget {
       return;
     }
     await showDialog<String>(
-      barrierColor: _dialogBarrierColor(context),
+      barrierColor: Colors.transparent,
       context: context,
       builder: (_) => FlutterQuillLocalizationsWidget(
         child: QuillToolbarSearchDialog(
           controller: controller,
           dialogTheme: _dialogTheme(context),
-          text: '',
+          searchBarAlignment: options.searchBarAlignment,
         ),
       ),
     );
