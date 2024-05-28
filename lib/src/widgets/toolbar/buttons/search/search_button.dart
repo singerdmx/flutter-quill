@@ -59,11 +59,11 @@ class QuillToolbarSearchButton extends StatelessWidget {
         (context.loc.search);
   }
 
-  Color _dialogBarrierColor(BuildContext context) {
-    return options.dialogBarrierColor ??
-        context.quillSharedConfigurations?.dialogBarrierColor ??
-        Colors.black54;
-  }
+  // Color _dialogBarrierColor(BuildContext context) {
+  //   return options.dialogBarrierColor ??
+  //       context.quillSharedConfigurations?.dialogBarrierColor ??
+  //       Colors.black54;
+  // }
 
   QuillDialogTheme? _dialogTheme(BuildContext context) {
     return options.dialogTheme ??
