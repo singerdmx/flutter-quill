@@ -241,8 +241,6 @@ OnDragDoneCallback get _onDragDone {
 - Handle different errors
 ```
 
-Please notice that the saving image functionality is not supported on Linux yet.
-
 ## Contributing
 
 We welcome contributions!
@@ -252,4 +250,10 @@ Please follow these guidelines when contributing to our project. See [CONTRIBUTI
 ## Acknowledgments
 
 - Thanks to the [Flutter Team](https://flutter.dev/)
-- Thanks to [flutter_quill](https://pub.dev/packages/flutter_quill)
+- Thanks to the welcoming community, the volunteers who helped along the journey, developers, contributors
+  and contributors who put time and effort into everything including making all the libraries, tools, and the
+  information we rely on
+
+We are incredibly grateful to many individuals and organizations who have played a
+role in the project. This includes the welcoming community, dedicated volunteers, talented developers and
+contributors, and the creators of the open-source tools we rely on.
