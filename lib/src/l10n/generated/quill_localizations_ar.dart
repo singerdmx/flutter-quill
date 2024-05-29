@@ -251,6 +251,12 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
       'حالة الحساسية والبحث عن كلمة كاملة';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'إدراج صورة';
 
   @override
@@ -270,4 +276,10 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'لصق فيديو باستخدام رابط';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
 }

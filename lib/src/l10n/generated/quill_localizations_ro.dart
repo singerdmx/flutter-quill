@@ -255,6 +255,12 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
       'Sensibilitate la majuscule și căutare cuvânt întreg';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Introdu imaginea';
 
   @override
@@ -275,6 +281,12 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Lipește un video folosind un link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
 }
 
 /// The translations for Romanian Moldavian Moldovan, as used in Romania (`ro_RO`).
