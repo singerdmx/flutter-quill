@@ -4,6 +4,8 @@
 # ./scripts/regenerate_translations.sh
 # otherwise the script could delete the wrong folder in rare cases
 
+# TODO: Refactor this to a dart script to allow developers who use Windows to use it
+
 echo ""
 
 echo "Delete the current generated localizations..."

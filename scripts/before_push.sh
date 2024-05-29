@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# The script must be run from the root project folder and not inside the scripts
+
+# TODO: Refactor this to a dart script to allow developers who use Windows to use it
+
 # Run Flutter analyze
 echo "Running 'flutter analyze'..."
 flutter analyze
@@ -27,6 +31,12 @@ dart format --set-exit-if-changed .
 # Check flutter web example
 echo "Running flutter build web --release --dart-define=CI=true."
 (cd example && flutter build web --release --dart-define=CI=true)
+
+echo ""
+
+# Check the translations
+echo "Running dart ./scripts/ensure_translations_correct.dart"
+(dart ./scripts/ensure_translations_correct.dart)
 
 echo ""
 
