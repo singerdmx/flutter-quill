@@ -720,6 +720,18 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Search settings'**
   String get searchSettings;
+
+  /// No description provided for @cut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get cut;
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste;
 }
 
 class _FlutterQuillLocalizationsDelegate

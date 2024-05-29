@@ -287,6 +287,12 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
 
   @override
   String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }
 
 /// The translations for Romanian Moldavian Moldovan, as used in Romania (`ro_RO`).

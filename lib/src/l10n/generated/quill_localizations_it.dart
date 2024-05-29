@@ -286,4 +286,10 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
 
   @override
   String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

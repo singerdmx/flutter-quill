@@ -284,6 +284,12 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
 
   @override
   String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

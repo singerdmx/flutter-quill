@@ -4,7 +4,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "bg": [
@@ -25,7 +27,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "bn": [
@@ -46,14 +50,18 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "cs": [
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "da": [
@@ -74,7 +82,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "de": [
@@ -90,7 +100,9 @@
     "wholeWord",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "en_US": [
@@ -111,7 +123,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "es": [
@@ -127,7 +141,9 @@
     "wholeWord",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "fa": [
@@ -148,7 +164,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "fr": [
@@ -156,7 +174,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "he": [
@@ -177,7 +197,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "hi": [
@@ -198,7 +220,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "id": [
@@ -219,7 +243,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "it": [
@@ -240,7 +266,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ja": [
@@ -261,7 +289,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ko": [
@@ -282,7 +312,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ku": [
@@ -290,7 +322,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ku_CKB": [
@@ -298,7 +332,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ms": [
@@ -319,14 +355,18 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ne": [
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "nl": [
@@ -347,7 +387,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "no": [
@@ -368,7 +410,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "pl": [
@@ -389,7 +433,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "pt": [
@@ -410,7 +456,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "pt_BR": [
@@ -431,7 +479,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ro": [
@@ -439,7 +489,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ro_RO": [
@@ -447,7 +499,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ru": [
@@ -463,14 +517,18 @@
     "wholeWord",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "sk": [
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "sr": [
@@ -491,7 +549,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "sv": [
@@ -499,7 +559,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "sw": [
@@ -520,7 +582,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "tk": [
@@ -541,7 +605,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "tr": [
@@ -562,7 +628,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "uk": [
@@ -570,7 +638,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ur": [
@@ -591,7 +661,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "vi": [
@@ -612,7 +684,9 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "zh": [
@@ -620,7 +694,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "zh_CN": [
@@ -628,7 +704,9 @@
     "caseSensitive",
     "wholeWord",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "zh_HK": [
@@ -649,6 +727,8 @@
     "recordAVideoUsingYourCamera",
     "pasteAVideoUsingALink",
     "close",
-    "searchSettings"
+    "searchSettings",
+    "cut",
+    "paste"
   ]
 }

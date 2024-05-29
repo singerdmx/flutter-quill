@@ -100,5 +100,7 @@
   "recordAVideoUsingYourCamera": "Record a video using your camera",
   "pasteAVideoUsingALink": "Paste a video using a link",
   "close": "Close",
-  "searchSettings": "Search settings"
+  "searchSettings": "Search settings",
+  "cut": "Cut",
+  "paste": "Paste"
 }
