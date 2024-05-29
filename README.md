@@ -33,10 +33,8 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
-Pub page: [FlutterQuill] <br>
-If you are viewing this page from pub.dev page, then you
-might have some issues with opening some links, please open
-it's in the GitHub repo instead.
+> If you are viewing this page from [pub.dev](https://pub.dev/) page, then you
+might have some issues with opening some links, open it in the GitHub repo instead.
 
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
