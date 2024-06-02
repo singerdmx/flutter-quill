@@ -90,11 +90,17 @@
   "photo": "Photo",
   "image": "Image",
   "caseSensitivityAndWholeWordSearch": "Case sensitivity and whole word search",
+  "caseSensitive": "Case sensitive",
+  "wholeWord": "Whole word",
   "insertImage": "Insert image",
   "pickAPhotoFromYourGallery": "Pick a photo from your gallery",
   "takeAPhotoUsingYourCamera": "Take a photo using your camera",
   "pasteAPhotoUsingALink": "Paste a photo using a link",
   "pickAVideoFromYourGallery": "Pick a video from your gallery",
   "recordAVideoUsingYourCamera": "Record a video using your camera",
-  "pasteAVideoUsingALink": "Paste a video using a link"
+  "pasteAVideoUsingALink": "Paste a video using a link",
+  "close": "Close",
+  "searchSettings": "Search settings",
+  "cut": "Cut",
+  "paste": "Paste"
 }

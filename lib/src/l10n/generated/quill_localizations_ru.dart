@@ -254,6 +254,12 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
       'Учет регистра и поиск по всему слову';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Вставить изображение';
 
   @override
@@ -275,4 +281,16 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

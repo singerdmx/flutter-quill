@@ -253,6 +253,12 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
       'Citlivost na velká a malá písmena a vyhledávání celého slova';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Vložit obrázek';
 
   @override
@@ -272,4 +278,16 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Vložit video pomocí odkazu';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

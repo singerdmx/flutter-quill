@@ -128,7 +128,7 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get justifyWinWidth => 'Justify';
+  String get justifyWinWidth => 'Justify win width';
 
   @override
   String get textDirection => 'Text direction';
@@ -251,6 +251,12 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
       'Stor- og småbogstavsfølsomhed samt helordsøgning';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Indsæt billede';
 
   @override
@@ -270,4 +276,16 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

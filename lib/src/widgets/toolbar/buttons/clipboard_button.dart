@@ -91,7 +91,8 @@ class QuillToolbarClipboardButtonState
         ClipboardAction.paste => context.loc.paste,
       };
 
-  IconData get _icon => switch (widget.clipboardAction) {
+  @override
+  IconData get defaultIconData => switch (widget.clipboardAction) {
         ClipboardAction.cut => Icons.cut_outlined,
         ClipboardAction.copy => Icons.copy_outlined,
         ClipboardAction.paste => Icons.paste_outlined,
@@ -132,7 +133,7 @@ class QuillToolbarClipboardButtonState
         message: tooltip,
         child: QuillToolbarIconButton(
           icon: Icon(
-            _icon,
+            iconData,
             size: iconSize * iconButtonFactor,
           ),
           isSelected: false,

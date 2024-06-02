@@ -39,6 +39,9 @@ class QuillToolbarSelectHeaderStyleButtonsState
   @override
   String get defaultTooltip => context.loc.headerStyle;
 
+  @override
+  IconData get defaultIconData => Icons.question_mark_outlined;
+
   Style get _selectionStyle => controller.getSelectionStyle();
 
   final _valueToText = <Attribute, String>{

@@ -26,12 +26,6 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
   String get copy => 'Copy';
 
   @override
-  String get cut => 'Cut';
-
-  @override
-  String get paste => 'Paste';
-
-  @override
   String get remove => 'Remove';
 
   @override
@@ -134,7 +128,7 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get justifyWinWidth => 'Justify';
+  String get justifyWinWidth => 'Justify win width';
 
   @override
   String get textDirection => 'Text direction';
@@ -259,6 +253,12 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
       'Case sensitivity and whole word search';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Insert image';
 
   @override
@@ -278,6 +278,18 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
@@ -408,7 +420,7 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
   String get alignRight => 'Align right';
 
   @override
-  String get justifyWinWidth => 'Justify';
+  String get justifyWinWidth => 'Justify win width';
 
   @override
   String get textDirection => 'Text direction';

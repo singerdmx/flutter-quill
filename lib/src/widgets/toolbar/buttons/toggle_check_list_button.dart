@@ -52,11 +52,8 @@ class QuillToolbarToggleCheckListButtonState
   @override
   String get defaultTooltip => context.loc.checkedList;
 
-  IconData get iconData {
-    return options.iconData ??
-        baseButtonExtraOptions?.iconData ??
-        Icons.check_box;
-  }
+  @override
+  IconData get defaultIconData => Icons.check_box;
 
   @override
   Widget build(BuildContext context) {

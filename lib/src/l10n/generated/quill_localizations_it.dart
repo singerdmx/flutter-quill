@@ -255,6 +255,12 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
       'Sensibilità maiuscole/minuscole e ricerca di parole intere';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Inserisci immagine';
 
   @override
@@ -274,4 +280,16 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

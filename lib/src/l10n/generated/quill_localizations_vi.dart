@@ -253,6 +253,12 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
       'Độ nhạy cảm chữ hoa/chữ thường và tìm kiếm toàn bộ từ';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Chèn hình ảnh';
 
   @override
@@ -272,4 +278,16 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

@@ -60,7 +60,9 @@ dart fix --apply ./lib/src/l10n/generated
 dart format ./lib/src/l10n/generated
 ```
 
-
 This will generate the new dart files from the arb files in order to take effect, otherwise, you won't notice a difference
+
+> If you added or removed translations, make sure to update `_expectedTranslationKeysLength` variable in `./scripts/ensure_translations_correct.dart` <br>
+> Otherwise you don't need to update it.
 
 Then open a pull request so everyone can benefit from your translations!

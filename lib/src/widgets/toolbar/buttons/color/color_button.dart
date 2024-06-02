@@ -103,11 +103,9 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
     super.dispose();
   }
 
-  IconData get iconData {
-    return options.iconData ??
-        baseButtonExtraOptions?.iconData ??
-        (widget.isBackground ? Icons.format_color_fill : Icons.color_lens);
-  }
+  @override
+  IconData get defaultIconData =>
+      widget.isBackground ? Icons.format_color_fill : Icons.color_lens;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +138,7 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
             _showColorPicker();
             afterButtonPressed?.call();
           },
-          iconColor: null,
+          iconColor: iconColor,
           iconColorBackground: iconColorBackground,
           fillColor: fillColor,
           fillColorBackground: fillColorBackground,

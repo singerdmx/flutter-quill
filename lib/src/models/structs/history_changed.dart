@@ -8,5 +8,5 @@ class HistoryChanged {
   );
 
   final bool changed;
-  final int? len;
+  final int len;
 }

@@ -255,6 +255,12 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
       'Stor/liten bokstavfølsomhet og helordsøk';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Sett inn bilde';
 
   @override
@@ -274,4 +280,16 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

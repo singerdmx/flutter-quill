@@ -4,6 +4,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.3.21
+
+* fix: assertion failure for swipe typing and undo on Android by @crasowas in https://github.com/singerdmx/flutter-quill/pull/1898
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.20...v9.3.21
+
+## 9.3.20
+
+* Fix: Issue 1887 by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1892
+* fix: toolbar style change will be invalid when inputting more than 2 characters at a time by @crasowas in https://github.com/singerdmx/flutter-quill/pull/1890
+
+## New Contributors
+* @crasowas made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1890
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.19...v9.3.20
+
+## 9.3.19
+
+* Fix reported issues by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1886
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.18...v9.3.19
+
+## 9.3.18
+
+* Fix: Undo/redo cursor position fixed by @Alspb in https://github.com/singerdmx/flutter-quill/pull/1885
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.17...v9.3.18
+
 ## 9.3.17
 
 * Update super_clipboard plugin to 0.8.15 to address [#1882](https://github.com/singerdmx/flutter-quill/issues/1882)

@@ -254,6 +254,12 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
       'केस सेंसिटिविटी और पूरे शब्द की खोज';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'छवि डालें';
 
   @override
@@ -273,4 +279,16 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

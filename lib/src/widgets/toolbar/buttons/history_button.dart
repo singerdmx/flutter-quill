@@ -37,6 +37,10 @@ class QuillToolbarHistoryButtonState
       widget.isUndo ? context.loc.undo : context.loc.redo;
 
   @override
+  IconData get defaultIconData =>
+      (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
+
+  @override
   void initState() {
     super.initState();
     _listenForChanges(); // Listen for changes and change it
@@ -53,9 +57,6 @@ class QuillToolbarHistoryButtonState
 
   @override
   Widget build(BuildContext context) {
-    final iconData = options.iconData ??
-        baseButtonExtraOptions?.iconData ??
-        (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
 
