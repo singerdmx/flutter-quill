@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'ローカルストレージを使用して保存';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => '画像の保存中にエラーが発生しました';
 
   @override
@@ -245,6 +250,12 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get caseSensitivityAndWholeWordSearch => '大文字と小文字の区別と完全一致検索';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => '画像を挿入';
 
   @override
@@ -264,4 +275,16 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

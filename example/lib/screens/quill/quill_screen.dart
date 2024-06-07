@@ -59,6 +59,7 @@ class _QuillScreenState extends State<QuillScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.readOnly = _isReadOnly;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Quill'),
@@ -152,7 +153,6 @@ class _QuillScreenState extends State<QuillScreen> {
                   configurations: QuillEditorConfigurations(
                     sharedConfigurations: _sharedConfigurations,
                     controller: _controller,
-                    readOnly: _isReadOnly,
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,

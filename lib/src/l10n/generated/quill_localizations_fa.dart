@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
       'ذخیره شده با استفاده از فضای ذخیره محلی';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'خطا در هنگام ذخیره تصویر';
 
   @override
@@ -249,6 +254,12 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
       'حساسیت به کوچکی و بزرگی حروف و جستجوی کلمه کامل';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'وارد کردن تصویر';
 
   @override
@@ -268,4 +279,16 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

@@ -184,11 +184,7 @@ class Document {
       return (res.node as Line).collectStyle(res.offset, len);
     }
     if (res.offset == 0) {
-      rangeStyle = (res.node as Line).collectStyle(res.offset, len);
-      return rangeStyle.removeAll({
-        for (final attr in rangeStyle.values)
-          if (attr.isInline) attr
-      });
+      return rangeStyle = (res.node as Line).collectStyle(res.offset, len);
     }
     rangeStyle = (res.node as Line).collectStyle(res.offset - 1, len);
     final linkAttribute = rangeStyle.attributes[Attribute.link.key];

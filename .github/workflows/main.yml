@@ -1,4 +1,4 @@
-name: CI Tests
+name: 🧪 Run Tests
 
 on:
   push:
@@ -8,50 +8,57 @@ on:
 
 jobs:
   tests:
+    name: Check lints and tests
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
 
-      - name: Check flutter version
+      - name: 🔍 Verify Flutter installation
         run: flutter --version
 
-      - name: Enable Local Dev
+      - name: 🚧 Enable local development environment (use the local packages)
         run: ./scripts/enable_local_dev.sh
 
-      - name: Install dependencies
+      - name: 📥 Install Flutter dependencies
         run: flutter pub get
 
-      - name: Install dart_quill_delta dependencies
+      - name: 📦 Install dart_quill_delta dependencies
         run: flutter pub get -C dart_quill_delta
       
-      - name: Install flutter_quill_extensions dependencies
+      - name: 📦 Install flutter_quill_extensions dependencies
         run: flutter pub get -C flutter_quill_extensions
 
-      - name: Install flutter_quill_test dependencies
+      - name: 📦 Install flutter_quill_test dependencies
         run: flutter pub get -C flutter_quill_test
       
-      - name: Install quill_html_converter dependencies
+      - name: 📦 Install quill_html_converter dependencies
         run: flutter pub get -C quill_html_converter
       
-      - name: Install quill_pdf_converter dependencies
+      - name: 📦 Install quill_pdf_converter dependencies
         run: flutter pub get -C quill_pdf_converter
 
-      - name: Run flutter analysis
+      - name: 🔍 Run Flutter analysis
         run: flutter analyze
 
-      - name: Check dart code formatting
+      - name: 🧹 Check Dart code formatting
         run: dart format --set-exit-if-changed .
       
-      - name: Preview dart proposed changes
+      - name: 🔍 Preview Dart proposed changes
         run: dart fix --dry-run
 
-      - name: Check if package is ready for publishing
+      - name: 📦 Check if package is ready for publishing
         run: flutter pub publish --dry-run
 
-      - name: Run flutter tests
+      - name: 🧪 Run Flutter tests
         run: flutter test
+
+      - name: 🔍 Check the translations
+        run: dart ./scripts/ensure_translations_correct.dart

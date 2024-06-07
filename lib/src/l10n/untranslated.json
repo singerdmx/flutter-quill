@@ -1,4 +1,14 @@
 {
+  "ar": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
   "bg": [
     "normal",
     "heading1",
@@ -7,12 +17,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "bn": [
@@ -23,28 +40,28 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "cs": [
-    "normal",
-    "heading1",
-    "heading2",
-    "heading3",
-    "heading4",
-    "heading5",
-    "heading6",
-    "pickAPhotoFromYourGallery",
-    "takeAPhotoUsingYourCamera",
-    "pasteAPhotoUsingALink",
-    "pickAVideoFromYourGallery",
-    "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "da": [
@@ -55,12 +72,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "de": [
@@ -71,12 +95,14 @@
     "heading4",
     "heading5",
     "heading6",
-    "pickAPhotoFromYourGallery",
-    "takeAPhotoUsingYourCamera",
-    "pasteAPhotoUsingALink",
-    "pickAVideoFromYourGallery",
-    "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "en_US": [
@@ -87,12 +113,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "es": [
@@ -103,12 +136,14 @@
     "heading4",
     "heading5",
     "heading6",
-    "pickAPhotoFromYourGallery",
-    "takeAPhotoUsingYourCamera",
-    "pasteAPhotoUsingALink",
-    "pickAVideoFromYourGallery",
-    "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "fa": [
@@ -119,28 +154,29 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "fr": [
-    "normal",
-    "heading1",
-    "heading2",
-    "heading3",
-    "heading4",
-    "heading5",
-    "heading6",
-    "pickAPhotoFromYourGallery",
-    "takeAPhotoUsingYourCamera",
-    "pasteAPhotoUsingALink",
-    "pickAVideoFromYourGallery",
-    "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "he": [
@@ -151,12 +187,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "hi": [
@@ -167,12 +210,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "id": [
@@ -183,12 +233,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "it": [
@@ -199,12 +256,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ja": [
@@ -215,12 +279,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ko": [
@@ -231,12 +302,39 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "ku": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "ku_CKB": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ms": [
@@ -247,12 +345,28 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "ne": [
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "nl": [
@@ -263,12 +377,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "no": [
@@ -279,12 +400,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "pl": [
@@ -295,12 +423,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "pt": [
@@ -311,12 +446,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "pt_BR": [
@@ -327,12 +469,39 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "ro": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "ro_RO": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ru": [
@@ -343,7 +512,23 @@
     "heading4",
     "heading5",
     "heading6",
-    "pasteAVideoUsingALink"
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "sk": [
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "sr": [
@@ -354,12 +539,29 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "sv": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "sw": [
@@ -370,12 +572,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "tk": [
@@ -386,12 +595,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "tr": [
@@ -402,12 +618,29 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "uk": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "ur": [
@@ -418,12 +651,19 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "vi": [
@@ -434,12 +674,39 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "zh": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
+  ],
+
+  "zh_CN": [
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ],
 
   "zh_HK": [
@@ -450,11 +717,18 @@
     "heading4",
     "heading5",
     "heading6",
+    "theImageHasBeenSavedAt",
+    "caseSensitive",
+    "wholeWord",
     "pickAPhotoFromYourGallery",
     "takeAPhotoUsingYourCamera",
     "pasteAPhotoUsingALink",
     "pickAVideoFromYourGallery",
     "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink"
+    "pasteAVideoUsingALink",
+    "close",
+    "searchSettings",
+    "cut",
+    "paste"
   ]
 }

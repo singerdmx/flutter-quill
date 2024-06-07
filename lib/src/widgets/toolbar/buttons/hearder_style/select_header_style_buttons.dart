@@ -5,19 +5,27 @@ import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../l10n/extensions/localizations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../../models/documents/style.dart';
-import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../quill/quill_controller.dart';
+import '../../base_button/base_value_button.dart';
 import '../../base_toolbar.dart';
 
-class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {
+typedef QuillToolbarSelectHeaderStyleBaseButtons = QuillToolbarBaseButton<
+    QuillToolbarSelectHeaderStyleButtonsOptions,
+    QuillToolbarSelectHeaderStyleButtonsExtraOptions>;
+
+typedef QuillToolbarSelectHeaderStyleBaseButtonsState<
+        W extends QuillToolbarSelectHeaderStyleBaseButtons>
+    = QuillToolbarCommonButtonState<
+        W,
+        QuillToolbarSelectHeaderStyleButtonsOptions,
+        QuillToolbarSelectHeaderStyleButtonsExtraOptions>;
+
+class QuillToolbarSelectHeaderStyleButtons
+    extends QuillToolbarSelectHeaderStyleBaseButtons {
   const QuillToolbarSelectHeaderStyleButtons({
-    required this.controller,
-    this.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
+    required super.controller,
+    super.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
     super.key,
   });
-
-  final QuillController controller;
-  final QuillToolbarSelectHeaderStyleButtonsOptions options;
 
   @override
   QuillToolbarSelectHeaderStyleButtonsState createState() =>
@@ -25,8 +33,14 @@ class QuillToolbarSelectHeaderStyleButtons extends StatefulWidget {
 }
 
 class QuillToolbarSelectHeaderStyleButtonsState
-    extends State<QuillToolbarSelectHeaderStyleButtons> {
+    extends QuillToolbarSelectHeaderStyleBaseButtonsState {
   Attribute? _selectedAttribute;
+
+  @override
+  String get defaultTooltip => context.loc.headerStyle;
+
+  @override
+  IconData get defaultIconData => Icons.question_mark_outlined;
 
   Style get _selectionStyle => controller.getSelectionStyle();
 
@@ -46,45 +60,6 @@ class QuillToolbarSelectHeaderStyleButtonsState
     controller.addListener(_didChangeEditingValue);
   }
 
-  QuillToolbarSelectHeaderStyleButtonsOptions get options {
-    return widget.options;
-  }
-
-  QuillController get controller {
-    return widget.controller;
-  }
-
-  double get iconSize {
-    final baseFontSize = baseButtonExtraOptions?.iconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions?.iconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions?.afterButtonPressed;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  String get tooltip {
-    return options.tooltip ??
-        baseButtonExtraOptions?.tooltip ??
-        context.loc.headerStyle;
-  }
-
   Axis get axis {
     return options.axis ??
         context.quillSimpleToolbarConfigurations?.axis ??
@@ -99,7 +74,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
     afterButtonPressed?.call();
   }
 
-  List<Attribute> get _attrbuites {
+  List<Attribute> get _attributes {
     return options.attributes ??
         const [
           Attribute.header,
@@ -112,7 +87,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
   @override
   Widget build(BuildContext context) {
     assert(
-      _attrbuites.every(
+      _attributes.every(
         (element) => _valueToText.keys.contains(element),
       ),
       'All attributes must be one of them: header, h1, h2 or h3',
@@ -126,7 +101,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
 
-    final children = _attrbuites.map((attribute) {
+    final children = _attributes.map((attribute) {
       if (childBuilder != null) {
         return childBuilder(
           options,
@@ -149,7 +124,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
           icon: Text(
             _valueToText[attribute] ??
                 (throw ArgumentError.notNull(
-                  'attrbuite',
+                  'attribute',
                 )),
             style: style.copyWith(
               color: isSelected

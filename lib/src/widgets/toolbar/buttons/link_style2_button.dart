@@ -12,15 +12,25 @@ import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../others/link.dart';
 import '../../quill/quill_controller.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
+
+typedef QuillToolbarLinkStyleBaseButton2 = QuillToolbarBaseButton<
+    QuillToolbarLinkStyleButton2Options,
+    QuillToolbarLinkStyleButton2ExtraOptions>;
+
+typedef QuillToolbarLinkStyleBaseButton2State<
+        W extends QuillToolbarLinkStyleBaseButton2>
+    = QuillToolbarCommonButtonState<W, QuillToolbarLinkStyleButton2Options,
+        QuillToolbarLinkStyleButton2ExtraOptions>;
 
 /// Alternative version of [QuillToolbarLinkStyleButton]. This widget has more
 /// customization
 /// and uses dialog similar to one which is used on [http://quilljs.com].
-class QuillToolbarLinkStyleButton2 extends StatefulWidget {
+class QuillToolbarLinkStyleButton2 extends QuillToolbarLinkStyleBaseButton2 {
   QuillToolbarLinkStyleButton2({
-    required this.controller,
-    this.options = const QuillToolbarLinkStyleButton2Options(),
+    required super.controller,
+    super.options = const QuillToolbarLinkStyleButton2Options(),
     super.key,
   })  : assert(options.addLinkLabel == null ||
             (options.addLinkLabel?.isNotEmpty ?? true)),
@@ -29,9 +39,6 @@ class QuillToolbarLinkStyleButton2 extends StatefulWidget {
         assert(options.childrenSpacing > 0),
         assert(options.validationMessage == null ||
             (options.validationMessage?.isNotEmpty ?? true));
-
-  final QuillController controller;
-  final QuillToolbarLinkStyleButton2Options options;
 
   @override
   State<QuillToolbarLinkStyleButton2> createState() =>
@@ -281,7 +288,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
         ? Theme.of(context)
             .elevatedButtonTheme
             .style
-            ?.copyWith(fixedSize: MaterialStatePropertyAll(widget.buttonSize))
+            ?.copyWith(fixedSize: WidgetStatePropertyAll(widget.buttonSize))
         : widget.dialogTheme?.buttonStyle;
 
     final isWrappable = widget.dialogTheme?.isWrappable ?? false;

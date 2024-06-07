@@ -140,22 +140,22 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Titre 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Titre 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Titre 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Titre 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Titre 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Titre 6';
 
   @override
   String get numberedList => 'Liste numérotée';
@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
       'Enregistré en utilisant le stockage local';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage =>
       "Erreur lors de l'enregistrement de l'image";
 
@@ -250,23 +255,45 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
       'Sensibilité à la casse et recherche de mots entiers';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Insérer une image';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery =>
+      'Choisissez une photo dans votre galerie';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera =>
+      'Prendre une photo avec votre appareil photo';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => "Coller une photo à l'aide d'un lien";
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery =>
+      'Choisissez une vidéo dans votre galerie';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera =>
+      'Enregistrez une vidéo en utilisant votre caméra';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => "Coller une vidéo à l'aide d'un lien";
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

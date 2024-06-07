@@ -7,20 +7,25 @@ import '../../../models/documents/attribute.dart';
 import '../../../models/rules/insert.dart';
 import '../../../models/structs/link_dialog_action.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
-import '../../../models/themes/quill_icon_theme.dart';
 import '../../others/link.dart';
-import '../../quill/quill_controller.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarLinkStyleButton extends StatefulWidget {
+typedef QuillToolbarLinkStyleBaseButton = QuillToolbarBaseButton<
+    QuillToolbarLinkStyleButtonOptions,
+    QuillToolbarLinkStyleButtonExtraOptions>;
+
+typedef QuillToolbarLinkStyleBaseButtonState<
+        W extends QuillToolbarLinkStyleBaseButton>
+    = QuillToolbarCommonButtonState<W, QuillToolbarLinkStyleButtonOptions,
+        QuillToolbarLinkStyleButtonExtraOptions>;
+
+class QuillToolbarLinkStyleButton extends QuillToolbarLinkStyleBaseButton {
   const QuillToolbarLinkStyleButton({
-    required this.controller,
-    this.options = const QuillToolbarLinkStyleButtonOptions(),
+    required super.controller,
+    super.options = const QuillToolbarLinkStyleButtonOptions(),
     super.key,
   });
-
-  final QuillController controller;
-  final QuillToolbarLinkStyleButtonOptions options;
 
   @override
   QuillToolbarLinkStyleButtonState createState() =>
@@ -28,7 +33,10 @@ class QuillToolbarLinkStyleButton extends StatefulWidget {
 }
 
 class QuillToolbarLinkStyleButtonState
-    extends State<QuillToolbarLinkStyleButton> {
+    extends QuillToolbarLinkStyleBaseButtonState {
+  @override
+  String get defaultTooltip => context.loc.insertURL;
+
   void _didChangeSelection() {
     setState(() {});
   }
@@ -54,48 +62,8 @@ class QuillToolbarLinkStyleButtonState
     controller.removeListener(_didChangeSelection);
   }
 
-  QuillController get controller {
-    return widget.controller;
-  }
-
-  QuillToolbarLinkStyleButtonOptions get options {
-    return widget.options;
-  }
-
-  double get iconSize {
-    final baseFontSize = baseButtonExtraOptions?.iconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions?.iconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions?.afterButtonPressed;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  String get tooltip {
-    return options.tooltip ??
-        baseButtonExtraOptions?.tooltip ??
-        context.loc.insertURL;
-  }
-
-  IconData get iconData {
-    return options.iconData ?? baseButtonExtraOptions?.iconData ?? Icons.link;
-  }
+  @override
+  IconData get defaultIconData => Icons.link;
 
   Color get dialogBarrierColor {
     return options.dialogBarrierColor ??

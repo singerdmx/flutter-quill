@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
       'Guardado através do armazenamento local';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Erro a gravar imagem';
 
   @override
@@ -248,6 +253,12 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
       'Sensibilidade a maiúsculas e minúsculas e pesquisa de palavras inteiras';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Inserir imagem';
 
   @override
@@ -267,6 +278,18 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

@@ -33,10 +33,8 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
-Pub page: [FlutterQuill] <br>
-If you are viewing this page from pub.dev page, then you
-might have some issues with opening some links, please open
-it's in the GitHub repo instead.
+> If you are viewing this page from [pub.dev](https://pub.dev/) page, then you
+might have some issues with opening some links, open it in the GitHub repo instead.
 
 ## Table of contents
 - [Flutter Quill](#flutter-quill)
@@ -67,9 +65,9 @@ it's in the GitHub repo instead.
 <br>
 
 <img src="./example/assets/images/screenshot_1.png" width="250" alt="Screenshot 1">
-<img src="./example/assets/images/screenshot_2.png" width="200" alt="Screenshot 2">
-<img src="./example/assets/images/screenshot_3.png" width="175" alt="Screenshot 3">
-<img src="./example/assets/images/screenshot_4.png" width="135" alt="Screenshot 4">
+<img src="./example/assets/images/screenshot_2.png" width="250" alt="Screenshot 2">
+<img src="./example/assets/images/screenshot_3.png" width="250" alt="Screenshot 3">
+<img src="./example/assets/images/screenshot_4.png" width="250" alt="Screenshot 4">
 
 </details>
 
@@ -88,20 +86,9 @@ dependencies:
     git: https://github.com/singerdmx/flutter-quill.git
 ```
 
->
-> Note: At this time, we are making too many changes to the library, and you might see a new version almost every day
->
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement of the library. 
-> Your input and insights are valuable in shaping a stable and reliable version for all our users. Thank you for being part of the open-source community!
+> Your input and insights are valuable in shaping a stable and reliable version for all the developers. Thank you for being part of the open-source community!
 >
-
-<!-- Compatible versions:
-
-| flutter_quill | Flutter | Dart  |
-|---------------|---------|-------|
-| 9.0.x         | 3.16.x  | 3.2.x |
-
-These versions are tested and well-supported, you shouldn't get a build failure -->
 
 ## Platform Specific Configurations
 
@@ -240,12 +227,12 @@ To see how to use the extension package, please take a look at the [README](./fl
 Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
 it to other formats such as HTML to publish it, or send an email.
 
-**Note**: This package support converting from HTML back to Quill delta but it's experimental and used internally when pasting Html content from the cliboard to the Quill Editor
+**Note**: This package supports converting from HTML back to Quill delta but it's experimental and used internally when pasting HTML content from the clipboard to the Quill Editor
 
 You have two options:
 
 1. Using [quill_html_converter](./quill_html_converter/) to convert to HTML, the package can convert the Quill delta to HTML well
-(it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it just a handy extension to do it more quickly
+(it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it is just a handy extension to do it more quickly
 1. Another option is to use
 [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
 to HTML.
@@ -268,7 +255,7 @@ Please use [flutter_quill_test](https://pub.dev/packages/flutter_quill_test) for
 
 ## Contributors
 
-Special thanks to everyone who has contributed to this project...
+- Special thanks to everyone who has contributed to this project...
 
 <a href="https://github.com/singerdmx/flutter-quill/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=singerdmx/flutter-quill" />
@@ -278,14 +265,19 @@ Special thanks to everyone who has contributed to this project...
 
 Made with [contrib.rocks](https://contrib.rocks).
 
-We welcome contributions!
+- Thanks to the [Flutter Team](https://flutter.dev/)
+- Thanks to the welcoming community, the volunteers who helped along the journey, developers, contributors
+  and contributors who put time and effort into everything including making all the libraries, tools, and the
+  information we rely on
+- We are incredibly grateful to many individuals and organizations who have played a
+role in the project. This includes the welcoming community, dedicated volunteers, talented developers and
+contributors, and the creators of the open-source tools we rely on.
+
+We welcome all contributions!
 
 Please follow these guidelines when contributing to the project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details. <br>
 
-We must mention that the [CONTRIBUTING.md](./CONTRIBUTING.md) has development notes, so if you're planning on contributing to the repo, 
-please consider reading it.
-
-You can check the [Todo](./doc/todo.md) list if you want to
+The [CONTRIBUTING.md](./CONTRIBUTING.md) has development notes, if you're planning on contributing to the package, please consider reading it.
 
 [Quill]: https://quilljs.com/docs/formats
 [Flutter]: https://github.com/flutter/flutter

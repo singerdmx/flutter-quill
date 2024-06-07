@@ -141,8 +141,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     // with the last known remote value.
     // It is important to prevent excessive remote updates as it can cause
     // race conditions.
+    final composingRange = _lastKnownRemoteTextEditingValue!.composing;
     final actualValue = value.copyWith(
-      composing: _lastKnownRemoteTextEditingValue!.composing,
+      // Ignore last known composing range if it exceeds current text length.
+      composing: composingRange.end > value.text.length ? null : composingRange,
     );
 
     if (actualValue == _lastKnownRemoteTextEditingValue) {

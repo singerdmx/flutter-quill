@@ -60,12 +60,12 @@
     "findText": "Text suchen",
     "moveToPreviousOccurrence": "Zum vorherigen Auftreten springen",
     "moveToNextOccurrence": "Zum nächsten Auftreten springen",
-    "savedUsingTheNetwork": "Saved using the network",
-    "savedUsingLocalStorage": "Saved using the local storage",
-    "errorWhileSavingImage": "Error while saving image",
-    "pleaseEnterTextForYourLink": "e.g., 'Learn more'",
-    "pleaseEnterTheLinkURL": "e.g., 'https://example.com'",
-    "pleaseEnterAValidImageURL": "Please enter a valid image URL",
+    "savedUsingTheNetwork": "Mit dem Netzwerk gespeichert",
+    "savedUsingLocalStorage": "Mit dem lokalen Speicher gespeichert",
+    "errorWhileSavingImage": "Fehler beim Speichern des Bildes",
+    "pleaseEnterTextForYourLink": "z.B. 'Mehr erfahren'",
+    "pleaseEnterTheLinkURL": "z.B. 'https://example.com'",
+    "pleaseEnterAValidImageURL": "Bitte geben Sie eine gültige Bild-URL ein",
     "hex": "Hex",
     "material": "Material",
     "color": "Farbe",
@@ -73,6 +73,10 @@
     "photo": "Foto",
     "image": "Bild",
     "caseSensitivityAndWholeWordSearch": "Groß- und Kleinschreibung sowie Ganzwortsuche",
-    "insertImage": "Bild einfügen"
-  }
-  
+    "insertImage": "Bild einfügen",
+    "pickAPhotoFromYourGallery": "Wählen Sie ein Foto aus Ihrer Galerie",
+    "takeAPhotoUsingYourCamera": "Machen Sie ein Foto mit Ihrer Kamera",
+    "pasteAPhotoUsingALink": "Fügen Sie ein Foto über einen Link ein",
+    "pickAVideoFromYourGallery": "Wählen Sie ein Video aus Ihrer Galerie",
+    "recordAVideoUsingYourCamera": "Nehmen Sie ein Video mit Ihrer Kamera auf"
+}

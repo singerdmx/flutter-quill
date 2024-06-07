@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'لە ڕێی دیسکی ناوخۆییەوە پاشەکەوتکرا';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'هەڵە ڕویدا لە کاتی پاشەکەوتکردنی وێنەدا';
 
   @override
@@ -247,6 +252,12 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
   String get caseSensitivityAndWholeWordSearch => 'گەڕان بۆ تەواوی وشە';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'دانانی وێنە';
 
   @override
@@ -268,6 +279,18 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'لینکی ڤیدیۆیەک دابنێ';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }
 
 /// The translations for Kurdish (`ku_CKB`).

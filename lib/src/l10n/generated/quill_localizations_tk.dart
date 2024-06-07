@@ -221,6 +221,11 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get savedUsingLocalStorage => 'Saved using the local storage';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
@@ -246,6 +251,12 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
       'Iňkisar we iň oňg söz gözleýinç';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Surat goş';
 
   @override
@@ -265,4 +276,16 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

@@ -2,9 +2,9 @@ library quill_html_converter;
 
 import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart'
-    as conventer show ConverterOptions, QuillDeltaToHtmlConverter;
+    as converter show ConverterOptions, QuillDeltaToHtmlConverter;
 
-typedef ConverterOptions = conventer.ConverterOptions;
+typedef ConverterOptions = converter.ConverterOptions;
 
 /// A extension for [Delta] which comes from `flutter_quill` to extends
 /// the functionality of it to support converting the [Delta] to/from HTML
@@ -19,7 +19,7 @@ extension DeltaHtmlExt on Delta {
   /// that designed specifically for converting the quill delta to html
   String toHtml({ConverterOptions? options}) {
     final json = toJson();
-    final html = conventer.QuillDeltaToHtmlConverter(
+    final html = converter.QuillDeltaToHtmlConverter(
       List.castFrom(json),
       options,
     ).convert();

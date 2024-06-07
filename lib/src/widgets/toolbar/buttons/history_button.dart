@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
-import '../../quill/quill_controller.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-class QuillToolbarHistoryButton extends StatefulWidget {
+typedef QuillToolbarHistoryBaseButton = QuillToolbarBaseButton<
+    QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions>;
+
+typedef QuillToolbarHistoryBaseButtonState<W extends QuillToolbarHistoryButton>
+    = QuillToolbarCommonButtonState<W, QuillToolbarHistoryButtonOptions,
+        QuillToolbarHistoryButtonExtraOptions>;
+
+class QuillToolbarHistoryButton extends QuillToolbarHistoryBaseButton {
   const QuillToolbarHistoryButton({
-    required this.controller,
+    required super.controller,
     required this.isUndo,
-    this.options = const QuillToolbarHistoryButtonOptions(),
+    super.options = const QuillToolbarHistoryButtonOptions(),
     super.key,
   });
 
@@ -17,25 +23,22 @@ class QuillToolbarHistoryButton extends StatefulWidget {
   /// otherwise it will be redo
   final bool isUndo;
 
-  final QuillToolbarHistoryButtonOptions options;
-  final QuillController controller;
-
   @override
   QuillToolbarHistoryButtonState createState() =>
       QuillToolbarHistoryButtonState();
 }
 
-class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
-  late ThemeData theme;
+class QuillToolbarHistoryButtonState
+    extends QuillToolbarHistoryBaseButtonState {
   var _canPressed = false;
 
-  QuillToolbarHistoryButtonOptions get options {
-    return widget.options;
-  }
+  @override
+  String get defaultTooltip =>
+      widget.isUndo ? context.loc.undo : context.loc.redo;
 
-  QuillController get controller {
-    return widget.controller;
-  }
+  @override
+  IconData get defaultIconData =>
+      (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
 
   @override
   void initState() {
@@ -54,25 +57,8 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final tooltip = options.tooltip ??
-        baseButtonConfigurations?.tooltip ??
-        (widget.isUndo ? context.loc.undo : context.loc.redo);
-    final iconData = options.iconData ??
-        baseButtonConfigurations?.iconData ??
-        (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
     final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
-    final iconSize = options.iconSize ??
-        baseButtonConfigurations?.iconSize ??
-        kDefaultIconSize;
-    final iconButtonFactor = options.iconButtonFactor ??
-        baseButtonConfigurations?.iconButtonFactor ??
-        kDefaultIconButtonFactor;
-    final iconTheme = options.iconTheme ?? baseButtonConfigurations?.iconTheme;
-
-    final afterButtonPressed = options.afterButtonPressed ??
-        baseButtonConfigurations?.afterButtonPressed;
+        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -89,7 +75,6 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
       );
     }
 
-    theme = Theme.of(context);
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(
@@ -122,13 +107,13 @@ class QuillToolbarHistoryButtonState extends State<QuillToolbarHistoryButton> {
       if (controller.hasUndo) {
         controller.undo();
       }
-      // _updateCanPressed(); // We are already listeneting for the changes
+      // _updateCanPressed(); // We are already listening for the changes
       return;
     }
 
     if (controller.hasRedo) {
       controller.redo();
-      // _updateCanPressed(); // We are already listeneting for the changes
+      // _updateCanPressed(); // We are already listening for the changes
     }
   }
 }

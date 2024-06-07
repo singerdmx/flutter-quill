@@ -2,6 +2,8 @@
 
 # Please make sure to run this script in the root directory of the repository and not inside sub-folders
 
+# TODO: Refactor this to a dart script to allow developers who use Windows to use it
+
 echo ""
 
 echo "Enable local development for flutter_quill..."

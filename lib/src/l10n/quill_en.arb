@@ -72,6 +72,16 @@
   "moveToNextOccurrence": "Move to next occurrence",
   "savedUsingTheNetwork": "Saved using the network",
   "savedUsingLocalStorage": "Saved using the local storage",
+  "theImageHasBeenSavedAt": "The image has been saved at: {imagePath}",
+  "@theImageHasBeenSavedAt": {
+    "description": "A message with a single parameter",
+    "placeholders": {
+      "imagePath": {
+        "type": "String",
+        "example": "path/to/location"
+      }
+    }
+  },
   "errorWhileSavingImage": "Error while saving image",
   "pleaseEnterTextForYourLink": "Please enter a text for your link (e.g., 'Learn more')",
   "pleaseEnterTheLinkURL": "Please enter the link URL (e.g., 'https://example.com')",
@@ -80,11 +90,17 @@
   "photo": "Photo",
   "image": "Image",
   "caseSensitivityAndWholeWordSearch": "Case sensitivity and whole word search",
+  "caseSensitive": "Case sensitive",
+  "wholeWord": "Whole word",
   "insertImage": "Insert image",
   "pickAPhotoFromYourGallery": "Pick a photo from your gallery",
   "takeAPhotoUsingYourCamera": "Take a photo using your camera",
   "pasteAPhotoUsingALink": "Paste a photo using a link",
   "pickAVideoFromYourGallery": "Pick a video from your gallery",
   "recordAVideoUsingYourCamera": "Record a video using your camera",
-  "pasteAVideoUsingALink": "Paste a video using a link"
+  "pasteAVideoUsingALink": "Paste a video using a link",
+  "close": "Close",
+  "searchSettings": "Search settings",
+  "cut": "Cut",
+  "paste": "Paste"
 }

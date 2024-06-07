@@ -222,6 +222,11 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
       'स्थानीय संग्रहण का उपयोग करके सहेजा गया';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'तस्वीर सहेजते समय त्रुटि';
 
   @override
@@ -249,6 +254,12 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
       'केस सेंसिटिविटी और पूरे शब्द की खोज';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'छवि डालें';
 
   @override
@@ -268,4 +279,16 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

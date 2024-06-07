@@ -77,64 +77,64 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get video => 'Vídeo';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Deshacer';
 
   @override
-  String get redo => 'Redo';
+  String get redo => 'Rehacer';
 
   @override
-  String get fontFamily => 'Font family';
+  String get fontFamily => 'Familia de fuentes';
 
   @override
-  String get fontSize => 'Font size';
+  String get fontSize => 'Tamaño de fuente';
 
   @override
-  String get bold => 'Bold';
+  String get bold => 'Negrita';
 
   @override
-  String get subscript => 'Subscript';
+  String get subscript => 'Subíndice';
 
   @override
-  String get superscript => 'Superscript';
+  String get superscript => 'Superíndice';
 
   @override
-  String get italic => 'Italic';
+  String get italic => 'Cursiva';
 
   @override
-  String get underline => 'Underline';
+  String get underline => 'Subrayado';
 
   @override
-  String get strikeThrough => 'Strike through';
+  String get strikeThrough => 'Tachado';
 
   @override
-  String get inlineCode => 'Inline code';
+  String get inlineCode => 'Código en línea';
 
   @override
-  String get fontColor => 'Font color';
+  String get fontColor => 'Color de fuente';
 
   @override
-  String get backgroundColor => 'Background color';
+  String get backgroundColor => 'Color de fondo';
 
   @override
-  String get clearFormat => 'Clear format';
+  String get clearFormat => 'Quitar formato';
 
   @override
-  String get alignLeft => 'Align left';
+  String get alignLeft => 'Alinear a la izquierda';
 
   @override
-  String get alignCenter => 'Align center';
+  String get alignCenter => 'Centrar';
 
   @override
-  String get alignRight => 'Align right';
+  String get alignRight => 'Alinear a la derecha';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Justificar';
 
   @override
-  String get textDirection => 'Text direction';
+  String get textDirection => 'Dirección del texto';
 
   @override
-  String get headerStyle => 'Header style';
+  String get headerStyle => 'Estilo de encabezado';
 
   @override
   String get normal => 'Normal';
@@ -158,43 +158,43 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get heading6 => 'Heading 6';
 
   @override
-  String get numberedList => 'Numbered list';
+  String get numberedList => 'Lista numerada';
 
   @override
-  String get bulletList => 'Bullet list';
+  String get bulletList => 'Lista con viñetas';
 
   @override
-  String get checkedList => 'Checked list';
+  String get checkedList => 'Lista de comprobación';
 
   @override
-  String get codeBlock => 'Code block';
+  String get codeBlock => 'Bloque de código';
 
   @override
-  String get quote => 'Quote';
+  String get quote => 'Cita';
 
   @override
-  String get increaseIndent => 'Increase indent';
+  String get increaseIndent => 'Aumentar sangría';
 
   @override
-  String get decreaseIndent => 'Decrease indent';
+  String get decreaseIndent => 'Disminuir sangría';
 
   @override
-  String get insertURL => 'Insert URL';
+  String get insertURL => 'Insertar URL';
 
   @override
-  String get visitLink => 'Visit link';
+  String get visitLink => 'Visitar enlace';
 
   @override
-  String get enterLink => 'Enter link';
+  String get enterLink => 'Introducir enlace';
 
   @override
-  String get enterMedia => 'Enter media';
+  String get enterMedia => 'Insertar medio';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Editar';
 
   @override
-  String get apply => 'Apply';
+  String get apply => 'Aplicar';
 
   @override
   String get hex => 'Hex';
@@ -206,31 +206,37 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get color => 'Color';
 
   @override
-  String get findText => 'Find text';
+  String get findText => 'Buscar texto';
 
   @override
-  String get moveToPreviousOccurrence => 'Move to previous occurrence';
+  String get moveToPreviousOccurrence => 'Ir a la ocurrencia anterior';
 
   @override
-  String get moveToNextOccurrence => 'Move to next occurrence';
+  String get moveToNextOccurrence => 'Ir a la siguiente ocurrencia';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Guardado usando la red';
 
   @override
-  String get savedUsingLocalStorage => 'Saved using the local storage';
+  String get savedUsingLocalStorage => 'Guardado usando almacenamiento local';
 
   @override
-  String get errorWhileSavingImage => 'Error while saving image';
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get errorWhileSavingImage => 'Error al guardar imagen';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTextForYourLink => "p.ej., 'Aprende más'";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterTheLinkURL => "p.ej., 'https://example.com'";
+
+  @override
+  String get pleaseEnterAValidImageURL =>
+      'Por favor, introduzca una URL de imagen válida';
 
   @override
   String get pleaseEnterAValidVideoURL =>
@@ -244,26 +250,44 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Sensibilidad a mayúsculas y minúsculas y búsqueda de palabras completas';
+      'Sensibilidad a mayúsculas y búsqueda de palabras completas';
+
+  @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
 
   @override
   String get insertImage => 'Insertar imagen';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Elige una foto de tu galería';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Toma una foto con tu cámara';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Pega una foto usando un enlace';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Elige un video de tu galería';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Graba un video con tu cámara';
 
   @override
   String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
 }

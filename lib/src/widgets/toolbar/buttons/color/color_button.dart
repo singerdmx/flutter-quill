@@ -5,38 +5,46 @@ import '../../../../l10n/extensions/localizations.dart';
 import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/documents/attribute.dart';
 import '../../../../models/documents/style.dart';
-import '../../../../models/themes/quill_icon_theme.dart';
 import '../../../../utils/color.dart';
-import '../../../quill/quill_controller.dart';
+import '../../base_button/base_value_button.dart';
 import '../../base_toolbar.dart';
 import 'color_dialog.dart';
+
+typedef QuillToolbarColorBaseButton = QuillToolbarBaseButton<
+    QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;
+
+typedef QuillToolbarColorBaseButtonState<W extends QuillToolbarColorButton>
+    = QuillToolbarCommonButtonState<W, QuillToolbarColorButtonOptions,
+        QuillToolbarColorButtonExtraOptions>;
 
 /// Controls color styles.
 ///
 /// When pressed, this button displays overlay toolbar with
 /// buttons for each color.
-class QuillToolbarColorButton extends StatefulWidget {
+class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
   const QuillToolbarColorButton({
-    required this.controller,
+    required super.controller,
     required this.isBackground,
-    this.options = const QuillToolbarColorButtonOptions(),
+    super.options = const QuillToolbarColorButtonOptions(),
     super.key,
   });
 
   /// Is this background color button or font color
   final bool isBackground;
-  final QuillController controller;
-  final QuillToolbarColorButtonOptions options;
 
   @override
   QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
 }
 
-class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
+class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
   late bool _isToggledColor;
   late bool _isToggledBackground;
   late bool _isWhite;
   late bool _isWhiteBackground;
+
+  @override
+  String get defaultTooltip =>
+      widget.isBackground ? context.loc.backgroundColor : context.loc.fontColor;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
 
@@ -95,52 +103,9 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
     super.dispose();
   }
 
-  QuillToolbarColorButtonOptions get options {
-    return widget.options;
-  }
-
-  QuillController get controller {
-    return widget.controller;
-  }
-
-  double get iconSize {
-    final baseFontSize = baseButtonExtraOptions?.iconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor = baseButtonExtraOptions?.iconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions?.afterButtonPressed;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  IconData get iconData {
-    return options.iconData ??
-        baseButtonExtraOptions?.iconData ??
-        (widget.isBackground ? Icons.format_color_fill : Icons.color_lens);
-  }
-
-  String get tooltip {
-    return options.tooltip ??
-        baseButtonExtraOptions?.tooltip ??
-        (widget.isBackground
-            ? context.loc.backgroundColor
-            : context.loc.fontColor);
-  }
+  @override
+  IconData get defaultIconData =>
+      widget.isBackground ? Icons.format_color_fill : Icons.color_lens;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +138,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
             _showColorPicker();
             afterButtonPressed?.call();
           },
-          iconColor: null,
+          iconColor: iconColor,
           iconColorBackground: iconColorBackground,
           fillColor: fillColor,
           fillColorBackground: fillColorBackground,
@@ -191,6 +156,7 @@ class QuillToolbarColorButtonState extends State<QuillToolbarColorButton> {
         size: iconSize * iconButtonFactor,
       ),
       onPressed: _showColorPicker,
+      afterPressed: afterButtonPressed,
     );
   }
 

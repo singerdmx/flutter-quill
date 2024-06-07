@@ -3,27 +3,41 @@ import 'package:flutter/material.dart';
 import '../../../../../translations.dart';
 import '../../../../extensions/quill_configurations_ext.dart';
 import '../../../../models/documents/attribute.dart';
-import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../quill/quill_controller.dart';
+import '../../base_button/base_value_button.dart';
 import '../../base_toolbar.dart';
 
-class QuillToolbarSelectHeaderStyleDropdownButton extends StatefulWidget {
+typedef QuillToolbarSelectHeaderStyleDropdownBaseButton
+    = QuillToolbarBaseButton<QuillToolbarSelectHeaderStyleDropdownButtonOptions,
+        QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions>;
+
+typedef QuillToolbarSelectHeaderStyleDropdownBaseButtonsState<
+        W extends QuillToolbarSelectHeaderStyleDropdownButton>
+    = QuillToolbarCommonButtonState<
+        W,
+        QuillToolbarSelectHeaderStyleDropdownButtonOptions,
+        QuillToolbarSelectHeaderStyleDropdownButtonExtraOptions>;
+
+class QuillToolbarSelectHeaderStyleDropdownButton
+    extends QuillToolbarSelectHeaderStyleDropdownBaseButton {
   const QuillToolbarSelectHeaderStyleDropdownButton({
-    required this.controller,
-    this.options = const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
+    required super.controller,
+    super.options = const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
     super.key,
   });
 
-  final QuillController controller;
-  final QuillToolbarSelectHeaderStyleDropdownButtonOptions options;
-
   @override
-  State<QuillToolbarSelectHeaderStyleDropdownButton> createState() =>
+  QuillToolbarSelectHeaderStyleDropdownBaseButtonsState createState() =>
       _QuillToolbarSelectHeaderStyleDropdownButtonState();
 }
 
 class _QuillToolbarSelectHeaderStyleDropdownButtonState
-    extends State<QuillToolbarSelectHeaderStyleDropdownButton> {
+    extends QuillToolbarSelectHeaderStyleDropdownBaseButtonsState {
+  @override
+  String get defaultTooltip => context.loc.headerStyle;
+
+  @override
+  IconData get defaultIconData => Icons.question_mark_outlined;
+
   Attribute<dynamic> _selectedItem = Attribute.header;
 
   final _menuController = MenuController();
@@ -89,24 +103,6 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
     return label;
   }
 
-  double get iconSize {
-    final baseFontSize = context.quillToolbarBaseButtonOptions?.iconSize;
-    final iconSize = widget.options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor =
-        context.quillToolbarBaseButtonOptions?.iconButtonFactor;
-    final iconButtonFactor = widget.options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return widget.options.iconTheme ??
-        context.quillToolbarBaseButtonOptions?.iconTheme;
-  }
-
   List<Attribute<int?>> get headerAttributes {
     return widget.options.attributes ??
         [
@@ -115,21 +111,6 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
           Attribute.h3,
           Attribute.header,
         ];
-  }
-
-  String get tooltip {
-    return widget.options.tooltip ??
-        context.quillToolbarBaseButtonOptions?.tooltip ??
-        context.loc.headerStyle;
-  }
-
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return widget.options.afterButtonPressed ??
-        baseButtonExtraOptions?.afterButtonPressed;
   }
 
   void _onPressed(Attribute<int?> e) {

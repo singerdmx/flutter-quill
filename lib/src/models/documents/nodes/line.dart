@@ -362,7 +362,7 @@ base class Line extends QuillContainer<Leaf?> {
     void handle(Style style) {
       for (final attr in result.values) {
         if (!style.containsKey(attr.key) ||
-            (style.attributes[attr.key] != attr.value)) {
+            (style.attributes[attr.key]?.value != attr.value)) {
           excluded.add(attr);
         }
       }
@@ -372,7 +372,7 @@ base class Line extends QuillContainer<Leaf?> {
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      result = result.mergeAll(node.style);
+      result = node.style;
       var pos = node.length - data.offset;
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
@@ -380,7 +380,6 @@ base class Line extends QuillContainer<Leaf?> {
         pos += node.length;
       }
     }
-
     result = result.mergeAll(style);
     if (parent is Block) {
       final block = parent as Block;
@@ -406,20 +405,20 @@ base class Line extends QuillContainer<Leaf?> {
     final data = queryChild(offset, true);
     var node = data.node as Leaf?;
     if (node != null) {
-      var pos = 0;
-      pos = node.length - data.offset;
+      var pos = math.min(local, node.length - data.offset);
       if (node is QuillText && node.style.isNotEmpty) {
-        result.add(OffsetValue(beg, node.style, node.length));
+        result.add(OffsetValue(beg, node.style, pos));
       } else if (node.value is Embeddable) {
-        result.add(OffsetValue(beg, node.value as Embeddable, node.length));
+        result.add(OffsetValue(beg, node.value as Embeddable, pos));
       }
+
       while (!node!.isLast && pos < local) {
         node = node.next as Leaf;
+        final span = math.min(local - pos, node.length);
         if (node is QuillText && node.style.isNotEmpty) {
-          result.add(OffsetValue(pos + beg, node.style, node.length));
+          result.add(OffsetValue(pos + beg, node.style, span));
         } else if (node.value is Embeddable) {
-          result.add(
-              OffsetValue(pos + beg, node.value as Embeddable, node.length));
+          result.add(OffsetValue(pos + beg, node.value as Embeddable, span));
         }
         pos += node.length;
       }
@@ -520,6 +519,7 @@ base class Line extends QuillContainer<Leaf?> {
   int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining) {
     final text = node.toPlainText();
     if (text == Embed.kObjectReplacementCharacter) {
+      buffer.write(Embed.kObjectReplacementCharacter);
       return remaining - node.length;
     }
 

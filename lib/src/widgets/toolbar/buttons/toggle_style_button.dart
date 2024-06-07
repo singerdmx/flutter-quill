@@ -6,14 +6,13 @@ import '../../../models/documents/attribute.dart';
 import '../../../models/documents/style.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../../utils/widgets.dart';
-import '../../quill/quill_controller.dart';
+import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
 typedef ToggleStyleButtonBuilder = Widget Function(
   BuildContext context,
   Attribute attribute,
   IconData icon,
-  Color? fillColor,
   bool? isToggled,
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [
@@ -21,19 +20,15 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   QuillIconTheme? iconTheme,
 ]);
 
-class QuillToolbarToggleStyleButton extends StatefulWidget {
+class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
   const QuillToolbarToggleStyleButton({
-    required this.controller,
+    required super.controller,
     required this.attribute,
-    this.options = const QuillToolbarToggleStyleButtonOptions(),
+    super.options = const QuillToolbarToggleStyleButtonOptions(),
     super.key,
   });
 
   final Attribute attribute;
-
-  final QuillToolbarToggleStyleButtonOptions options;
-
-  final QuillController controller;
 
   @override
   QuillToolbarToggleStyleButtonState createState() =>
@@ -41,48 +36,12 @@ class QuillToolbarToggleStyleButton extends StatefulWidget {
 }
 
 class QuillToolbarToggleStyleButtonState
-    extends State<QuillToolbarToggleStyleButton> {
-  bool? _isToggled;
-
+    extends QuillToolbarToggleStyleBaseButtonState<
+        QuillToolbarToggleStyleButton> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
-  QuillToolbarToggleStyleButtonOptions get options {
-    return widget.options;
-  }
-
   @override
-  void initState() {
-    super.initState();
-    _isToggled = _getIsToggled(_selectionStyle.attributes);
-    controller.addListener(_didChangeEditingValue);
-  }
-
-  QuillController get controller {
-    return widget.controller;
-  }
-
-  double get iconSize {
-    final baseFontSize = context.quillToolbarBaseButtonOptions?.iconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double get iconButtonFactor {
-    final baseIconFactor =
-        context.quillToolbarBaseButtonOptions?.iconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        context.quillToolbarBaseButtonOptions?.afterButtonPressed;
-  }
-
-  QuillIconTheme? get iconTheme {
-    return options.iconTheme ??
-        context.quillToolbarBaseButtonOptions?.iconTheme;
-  }
+  bool get currentStateValue => _getIsToggled(_selectionStyle.attributes);
 
   (String, IconData) get _defaultTooltipAndIconData {
     switch (widget.attribute.key) {
@@ -134,21 +93,15 @@ class QuillToolbarToggleStyleButtonState
     }
   }
 
-  String? get tooltip {
-    return options.tooltip ??
-        context.quillToolbarBaseButtonOptions?.tooltip ??
-        _defaultTooltipAndIconData.$1;
-  }
+  @override
+  String get defaultTooltip => _defaultTooltipAndIconData.$1;
 
-  IconData get iconData {
-    return options.iconData ??
-        context.quillToolbarBaseButtonOptions?.iconData ??
-        _defaultTooltipAndIconData.$2;
-  }
+  @override
+  IconData get defaultIconData => _defaultTooltipAndIconData.$2;
 
   void _onPressed() {
     _toggleAttribute();
-    options.afterButtonPressed?.call();
+    afterButtonPressed?.call();
   }
 
   @override
@@ -162,7 +115,7 @@ class QuillToolbarToggleStyleButtonState
           context: context,
           controller: controller,
           onPressed: _onPressed,
-          isToggled: _isToggled ?? false,
+          isToggled: currentValue,
         ),
       );
     }
@@ -172,10 +125,9 @@ class QuillToolbarToggleStyleButtonState
         context,
         widget.attribute,
         iconData,
-        options.fillColor,
-        _isToggled,
+        currentValue,
         _toggleAttribute,
-        options.afterButtonPressed,
+        afterButtonPressed,
         iconSize,
         iconButtonFactor,
         iconTheme,
@@ -183,28 +135,9 @@ class QuillToolbarToggleStyleButtonState
     );
   }
 
-  @override
-  void didUpdateWidget(covariant QuillToolbarToggleStyleButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != controller) {
-      oldWidget.controller.removeListener(_didChangeEditingValue);
-      controller.addListener(_didChangeEditingValue);
-      _isToggled = _getIsToggled(_selectionStyle.attributes);
-    }
-  }
-
-  @override
-  void dispose() {
-    controller.removeListener(_didChangeEditingValue);
-    super.dispose();
-  }
-
-  void _didChangeEditingValue() {
-    setState(() => _isToggled = _getIsToggled(_selectionStyle.attributes));
-  }
-
   bool _getIsToggled(Map<String, Attribute> attrs) {
     if (widget.attribute.key == Attribute.list.key ||
+        widget.attribute.key == Attribute.header.key ||
         widget.attribute.key == Attribute.script.key ||
         widget.attribute.key == Attribute.align.key) {
       final attribute = attrs[widget.attribute.key];
@@ -218,12 +151,12 @@ class QuillToolbarToggleStyleButtonState
 
   void _toggleAttribute() {
     controller
+      ..skipRequestKeyboard = !widget.attribute.isInline
       ..formatSelection(
-        (_isToggled ?? false)
+        currentValue
             ? Attribute.clone(widget.attribute, null)
             : widget.attribute,
-      )
-      ..selectStyle(widget.attribute, _isToggled ?? false);
+      );
   }
 }
 
@@ -231,7 +164,6 @@ Widget defaultToggleStyleButtonBuilder(
   BuildContext context,
   Attribute attribute,
   IconData icon,
-  Color? fillColor,
   bool? isToggled,
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [
