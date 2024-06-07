@@ -426,7 +426,7 @@ abstract class FlutterQuillLocalizations {
   /// No description provided for @justifyWinWidth.
   ///
   /// In en, this message translates to:
-  /// **'Justify win width'**
+  /// **'Justify'**
   String get justifyWinWidth;
 
   /// No description provided for @textDirection.
