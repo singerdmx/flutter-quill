@@ -59,11 +59,9 @@ class QuillToolbarSearchButton extends StatelessWidget {
         (context.loc.search);
   }
 
-  // Color _dialogBarrierColor(BuildContext context) {
-  //   return options.dialogBarrierColor ??
-  //       context.quillSharedConfigurations?.dialogBarrierColor ??
-  //       Colors.black54;
-  // }
+  Color _dialogBarrierColor(BuildContext context) {
+    return options.dialogBarrierColor ?? Colors.transparent;
+  }
 
   QuillDialogTheme? _dialogTheme(BuildContext context) {
     return options.dialogTheme ??
@@ -124,7 +122,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
       return;
     }
     await showDialog<String>(
-      barrierColor: Colors.transparent,
+      barrierColor: _dialogBarrierColor(context),
       context: context,
       builder: (_) => FlutterQuillLocalizationsWidget(
         child: QuillToolbarSearchDialog(

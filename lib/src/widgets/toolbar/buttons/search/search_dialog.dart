@@ -45,6 +45,7 @@ class QuillToolbarSearchDialog extends StatefulWidget {
   const QuillToolbarSearchDialog({
     required this.controller,
     this.dialogTheme,
+    this.text,
     this.childBuilder,
     this.searchBarAlignment,
     super.key,
@@ -52,6 +53,7 @@ class QuillToolbarSearchDialog extends StatefulWidget {
 
   final QuillController controller;
   final QuillDialogTheme? dialogTheme;
+  final String? text;
   final QuillToolbarSearchDialogChildBuilder? childBuilder;
   final AlignmentGeometry? searchBarAlignment;
 
@@ -62,13 +64,19 @@ class QuillToolbarSearchDialog extends StatefulWidget {
 
 class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
   final TextEditingController _textController = TextEditingController();
-  String _text = '';
+  late String _text;
   List<int> _offsets = [];
   int _index = 0;
   bool _caseSensitive = false;
   bool _wholeWord = false;
   bool _searchSettingsUnfolded = false;
   Timer? _searchTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _text = widget.text ?? '';
+  }
 
   @override
   void dispose() {
@@ -120,7 +128,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
         children: [
           IconButton(
             icon: const Icon(Icons.close),
-            tooltip: 'Close',
+            tooltip: context.loc.close,
             visualDensity: VisualDensity.compact,
             onPressed: () {
               Navigator.of(context).pop();
@@ -129,7 +137,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
           IconButton(
             icon: const Icon(Icons.more_vert),
             isSelected: _caseSensitive || _wholeWord,
-            tooltip: 'Search settings',
+            tooltip: context.loc.searchSettings,
             visualDensity: VisualDensity.compact,
             onPressed: () {
               setState(() {
@@ -175,8 +183,8 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
               controlAffinity: ListTileControlAffinity.leading,
               visualDensity: VisualDensity.compact,
               contentPadding: EdgeInsets.zero,
-              title: const Text(
-                'Case sensitive',
+              title: Text(
+                context.loc.caseSensitive,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -194,8 +202,8 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
               controlAffinity: ListTileControlAffinity.leading,
               visualDensity: VisualDensity.compact,
               contentPadding: EdgeInsets.zero,
-              title: const Text(
-                'Whole word',
+              title: Text(
+                context.loc.wholeWord,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
