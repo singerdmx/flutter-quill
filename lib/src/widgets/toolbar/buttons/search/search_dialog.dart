@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../../../../../extensions.dart';
 import '../../../../l10n/extensions/localizations.dart';
 import '../../../../l10n/widgets/localizations.dart';
 import '../../../../models/documents/document.dart';
@@ -44,6 +47,7 @@ class QuillToolbarSearchDialog extends StatefulWidget {
     this.dialogTheme,
     this.text,
     this.childBuilder,
+    this.searchBarAlignment,
     super.key,
   });
 
@@ -51,6 +55,7 @@ class QuillToolbarSearchDialog extends StatefulWidget {
   final QuillDialogTheme? dialogTheme;
   final String? text;
   final QuillToolbarSearchDialogChildBuilder? childBuilder;
+  final AlignmentGeometry? searchBarAlignment;
 
   @override
   QuillToolbarSearchDialogState createState() =>
@@ -58,39 +63,30 @@ class QuillToolbarSearchDialog extends StatefulWidget {
 }
 
 class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
+  final TextEditingController _textController = TextEditingController();
   late String _text;
-  late TextEditingController _controller;
-  late List<int>? _offsets;
-  late int _index;
+  List<int> _offsets = [];
+  int _index = 0;
   bool _caseSensitive = false;
   bool _wholeWord = false;
+  bool _searchSettingsUnfolded = false;
+  Timer? _searchTimer;
 
   @override
   void initState() {
     super.initState();
     _text = widget.text ?? '';
-    _offsets = null;
-    _index = 0;
-    _controller = TextEditingController(text: _text);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _textController.dispose();
+    _searchTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var matchShown = '';
-    if (_offsets != null) {
-      if (_offsets!.isEmpty) {
-        matchShown = '0/0';
-      } else {
-        matchShown = '${_index + 1}/${_offsets!.length}';
-      }
-    }
-
     final childBuilder = widget.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
@@ -99,7 +95,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
           onEditingComplete: _findText,
           onTextChanged: _textChanged,
           caseSensitive: _caseSensitive,
-          textEditingController: _controller,
+          textEditingController: _textController,
           index: _index,
           offsets: _offsets,
           text: _text,
@@ -110,90 +106,139 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       );
     }
 
+    final searchBarAlignment =
+        widget.searchBarAlignment ?? Alignment.bottomCenter;
+    final searchBarAtBottom = (searchBarAlignment == Alignment.bottomCenter) ||
+        (searchBarAlignment == Alignment.bottomLeft) ||
+        (searchBarAlignment == Alignment.bottomRight);
+    final addBottomPadding = searchBarAtBottom && isMobile(supportWeb: true);
+    var matchShown = '';
+    if (_text.isNotEmpty) {
+      if (_offsets.isEmpty) {
+        matchShown = '0/0';
+      } else {
+        matchShown = '${_index + 1}/${_offsets.length}';
+      }
+    }
+
+    final searchBar = Container(
+      height: addBottomPadding ? 50 : 45,
+      padding: addBottomPadding ? const EdgeInsets.only(bottom: 12) : null,
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.close),
+            tooltip: context.loc.close,
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            isSelected: _caseSensitive || _wholeWord,
+            tooltip: context.loc.searchSettings,
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              setState(() {
+                _searchSettingsUnfolded = !_searchSettingsUnfolded;
+              });
+            },
+          ),
+          Expanded(
+            child: TextField(
+              style: widget.dialogTheme?.inputTextStyle,
+              decoration: InputDecoration(
+                isDense: true,
+                suffixText: matchShown,
+                suffixStyle: widget.dialogTheme?.labelTextStyle,
+              ),
+              autofocus: true,
+              onChanged: _textChanged,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.text,
+              controller: _textController,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.keyboard_arrow_up),
+            tooltip: context.loc.moveToPreviousOccurrence,
+            onPressed: (_offsets.isNotEmpty) ? _moveToPrevious : null,
+          ),
+          IconButton(
+            icon: const Icon(Icons.keyboard_arrow_down),
+            tooltip: context.loc.moveToNextOccurrence,
+            onPressed: (_offsets.isNotEmpty) ? _moveToNext : null,
+          ),
+        ],
+      ),
+    );
+
+    final searchSettings = SizedBox(
+      height: 45,
+      child: Row(
+        children: [
+          Expanded(
+            child: CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                context.loc.caseSensitive,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              value: _caseSensitive,
+              onChanged: (value) {
+                setState(() {
+                  _caseSensitive = value!;
+                  _findText();
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                context.loc.wholeWord,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              value: _wholeWord,
+              onChanged: (value) {
+                setState(() {
+                  _wholeWord = value!;
+                  _findText();
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
       ),
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
-      alignment: Alignment.bottomCenter,
+      alignment: searchBarAlignment,
       insetPadding: EdgeInsets.zero,
       child: FlutterQuillLocalizationsWidget(
         child: Builder(
           builder: (context) {
-            return SizedBox(
-              height: 45,
-              child: Row(
-                children: [
-                  Tooltip(
-                    message: context.loc.caseSensitivityAndWholeWordSearch,
-                    child: ToggleButtons(
-                      onPressed: (index) {
-                        if (index == 0) {
-                          _changeCaseSensitivity();
-                        } else if (index == 1) {
-                          _changeWholeWord();
-                        }
-                      },
-                      borderRadius: const BorderRadius.all(Radius.circular(2)),
-                      isSelected: [_caseSensitive, _wholeWord],
-                      children: const [
-                        Text(
-                          '\u0391\u03b1',
-                          style: TextStyle(
-                            fontFamily: 'MaterialIcons',
-                            fontSize: 24,
-                          ),
-                        ),
-                        Text(
-                          '\u201c\u2026\u201d',
-                          style: TextStyle(
-                            fontFamily: 'MaterialIcons',
-                            fontSize: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 12, left: 5),
-                      child: TextField(
-                        style: widget.dialogTheme?.inputTextStyle,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          suffixText: (_offsets != null) ? matchShown : '',
-                          suffixStyle: widget.dialogTheme?.labelTextStyle,
-                        ),
-                        autofocus: true,
-                        onChanged: _textChanged,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.text,
-                        onEditingComplete: _findText,
-                        controller: _controller,
-                      ),
-                    ),
-                  ),
-                  if (_offsets == null)
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      tooltip: context.loc.findText,
-                      onPressed: _findText,
-                    ),
-                  if (_offsets != null)
-                    IconButton(
-                      icon: const Icon(Icons.keyboard_arrow_up),
-                      tooltip: context.loc.moveToPreviousOccurrence,
-                      onPressed:
-                          (_offsets!.isNotEmpty) ? _moveToPrevious : null,
-                    ),
-                  if (_offsets != null)
-                    IconButton(
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      tooltip: context.loc.moveToNextOccurrence,
-                      onPressed: (_offsets!.isNotEmpty) ? _moveToNext : null,
-                    ),
-                ],
-              ),
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_searchSettingsUnfolded && searchBarAtBottom)
+                  searchSettings,
+                searchBar,
+                if (_searchSettingsUnfolded && !searchBarAtBottom)
+                  searchSettings,
+              ],
             );
           },
         ),
@@ -201,9 +246,30 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     );
   }
 
+  void _textChanged(String text) {
+    _text = text;
+    if (_searchTimer?.isActive ?? false) {
+      _searchTimer?.cancel();
+    }
+    _searchTimer = Timer(
+      const Duration(milliseconds: 300),
+      _findText,
+    );
+  }
+
   void _findText() {
-    _text = _controller.text;
     if (_text.isEmpty) {
+      setState(() {
+        _offsets = [];
+        _index = 0;
+        widget.controller.updateSelection(
+          TextSelection(
+            baseOffset: widget.controller.selection.baseOffset,
+            extentOffset: widget.controller.selection.baseOffset,
+          ),
+          ChangeSource.local,
+        );
+      });
       return;
     }
     setState(() {
@@ -214,7 +280,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       );
       _index = 0;
     });
-    if (_offsets!.isNotEmpty) {
+    if (_offsets.isNotEmpty) {
       _moveToPosition();
     }
   }
@@ -222,62 +288,38 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
   void _moveToPosition() {
     widget.controller.updateSelection(
       TextSelection(
-        baseOffset: _offsets![_index],
-        extentOffset: _offsets![_index] + _text.length,
+        baseOffset: _offsets[_index],
+        extentOffset: _offsets[_index] + _text.length,
       ),
       ChangeSource.local,
     );
   }
 
   void _moveToPrevious() {
-    if (_offsets!.isEmpty) {
+    if (_offsets.isEmpty) {
       return;
     }
     setState(() {
       if (_index > 0) {
         _index -= 1;
       } else {
-        _index = _offsets!.length - 1;
+        _index = _offsets.length - 1;
       }
     });
     _moveToPosition();
   }
 
   void _moveToNext() {
-    if (_offsets!.isEmpty) {
+    if (_offsets.isEmpty) {
       return;
     }
     setState(() {
-      if (_index < _offsets!.length - 1) {
+      if (_index < _offsets.length - 1) {
         _index += 1;
       } else {
         _index = 0;
       }
     });
     _moveToPosition();
-  }
-
-  void _textChanged(String value) {
-    setState(() {
-      _text = value;
-      _offsets = null;
-      _index = 0;
-    });
-  }
-
-  void _changeCaseSensitivity() {
-    setState(() {
-      _caseSensitive = !_caseSensitive;
-      _offsets = null;
-      _index = 0;
-    });
-  }
-
-  void _changeWholeWord() {
-    setState(() {
-      _wholeWord = !_wholeWord;
-      _offsets = null;
-      _index = 0;
-    });
   }
 }

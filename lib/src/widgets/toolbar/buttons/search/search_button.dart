@@ -60,9 +60,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
   }
 
   Color _dialogBarrierColor(BuildContext context) {
-    return options.dialogBarrierColor ??
-        context.quillSharedConfigurations?.dialogBarrierColor ??
-        Colors.black54;
+    return options.dialogBarrierColor ?? Colors.transparent;
   }
 
   QuillDialogTheme? _dialogTheme(BuildContext context) {
@@ -130,7 +128,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
         child: QuillToolbarSearchDialog(
           controller: controller,
           dialogTheme: _dialogTheme(context),
-          text: '',
+          searchBarAlignment: options.searchBarAlignment,
         ),
       ),
     );
