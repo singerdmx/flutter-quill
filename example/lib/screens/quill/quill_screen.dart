@@ -127,7 +127,7 @@ class _QuillScreenState extends State<QuillScreen> {
           IconButton(
             tooltip: 'Print to log',
             onPressed: () {
-              print(
+              debugPrint(
                 jsonEncode(_controller.document.toDelta().toJson()),
               );
               ScaffoldMessenger.of(context).showText(

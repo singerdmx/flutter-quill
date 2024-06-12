@@ -1,5 +1,11 @@
 library flutter_quill_extensions;
 
+// ignore: implementation_imports
+import 'package:flutter_quill/src/services/clipboard/clipboard_service_provider.dart';
+import 'package:meta/meta.dart' show immutable;
+
+import 'services/clipboard/super_clipboard_service.dart';
+
 export 'embeds/embed_types.dart';
 export 'embeds/formula/toolbar/formula_button.dart';
 export 'embeds/image/editor/image_embed.dart';
@@ -26,3 +32,15 @@ export 'models/config/video/editor/video_configurations.dart';
 export 'models/config/video/editor/video_web_configurations.dart';
 export 'models/config/video/toolbar/video_configurations.dart';
 export 'utils/utils.dart';
+
+@immutable
+class FlutterQuillExtensions {
+  const FlutterQuillExtensions._();
+
+  /// Override default implementation of [ClipboardServiceProvider.instacne]
+  /// to allow `flutter_quill` package to use `super_clipboard` plugin
+  /// to support rich text features, gif and images.
+  static void useSuperClipboardPlugin() {
+    ClipboardServiceProvider.setInstance(SuperClipboardService());
+  }
+}

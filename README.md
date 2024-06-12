@@ -97,12 +97,11 @@ Before using the package, we must inform you the package use the following plugi
   url_launcher
   flutter_keyboard_visibility
   device_info_plus
-  super_clipboard
   ```
 
-All of them doesn't require any platform specific setup, except [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to support copying images and pasting them into editor then you must setup it, open the page in pub.dev and read the `README.md` to get the instructions.
+All of them doesn't require any platform specific setup.
 
-The minSdkVersion is `23` as `super_clipboard` requires it
+> Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved to [FlutterQuill Extensions], to use rich text features, support pasting images, gif files, take a look at `flutter_quill_extensions` Readme.
 
 ## Usage
 
