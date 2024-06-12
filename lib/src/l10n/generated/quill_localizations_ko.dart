@@ -5,7 +5,7 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsKo([super.locale = 'ko']);
 
   @override
-  String get pasteLink => '링크를 붙여넣어 주세요.';
+  String get pasteLink => '링크를 붙여 넣어 주세요';
 
   @override
   String get ok => '확인';
@@ -35,10 +35,10 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   String get zoom => '확대하기';
 
   @override
-  String get saved => '저장되었습니다.';
+  String get saved => '저장되었습니다';
 
   @override
-  String get text => '텍스트';
+  String get text => '제목';
 
   @override
   String get resize => '크기조정';
@@ -77,168 +77,168 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   String get video => '비디오';
 
   @override
-  String get undo => 'Undo';
+  String get undo => '되돌리기';
 
   @override
-  String get redo => 'Redo';
+  String get redo => '다시실행';
 
   @override
-  String get fontFamily => 'Font family';
+  String get fontFamily => '글꼴';
 
   @override
-  String get fontSize => 'Font size';
+  String get fontSize => '글자 크기';
 
   @override
-  String get bold => 'Bold';
+  String get bold => '굵게';
 
   @override
-  String get subscript => 'Subscript';
+  String get subscript => '아래 첨자';
 
   @override
-  String get superscript => 'Superscript';
+  String get superscript => '위 첨자';
 
   @override
-  String get italic => 'Italic';
+  String get italic => '기울이기';
 
   @override
-  String get underline => 'Underline';
+  String get underline => '밑줄';
 
   @override
-  String get strikeThrough => 'Strike through';
+  String get strikeThrough => '취소선';
 
   @override
-  String get inlineCode => 'Inline code';
+  String get inlineCode => '인라인 코드';
 
   @override
-  String get fontColor => 'Font color';
+  String get fontColor => '글자 색상';
 
   @override
-  String get backgroundColor => 'Background color';
+  String get backgroundColor => '배경 색상';
 
   @override
-  String get clearFormat => 'Clear format';
+  String get clearFormat => '서식 지우기';
 
   @override
-  String get alignLeft => 'Align left';
+  String get alignLeft => '왼쪽 정렬';
 
   @override
-  String get alignCenter => 'Align center';
+  String get alignCenter => '가운데 정렬';
 
   @override
-  String get alignRight => 'Align right';
+  String get alignRight => '오른쪽 정렬';
 
   @override
   String get alignJustify => 'Align justify';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => '좌우로 정렬';
 
   @override
-  String get textDirection => 'Text direction';
+  String get textDirection => '텍스트 방향';
 
   @override
-  String get headerStyle => 'Header style';
+  String get headerStyle => '헤더 스타일';
 
   @override
-  String get normal => 'Normal';
+  String get normal => '일반 텍스트';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => '제목 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => '제목 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => '제목 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => '제목 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => '제목 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => '제목 6';
 
   @override
-  String get numberedList => 'Numbered list';
+  String get numberedList => '번호 매기기 목록';
 
   @override
-  String get bulletList => 'Bullet list';
+  String get bulletList => '글머리 기호 목록';
 
   @override
-  String get checkedList => 'Checked list';
+  String get checkedList => '체크리스트';
 
   @override
-  String get codeBlock => 'Code block';
+  String get codeBlock => '코드 블록';
 
   @override
-  String get quote => 'Quote';
+  String get quote => '인용';
 
   @override
-  String get increaseIndent => 'Increase indent';
+  String get increaseIndent => '들여쓰기 증가';
 
   @override
-  String get decreaseIndent => 'Decrease indent';
+  String get decreaseIndent => '들여쓰기 감소';
 
   @override
-  String get insertURL => 'Insert URL';
+  String get insertURL => 'URL 삽입';
 
   @override
-  String get visitLink => 'Visit link';
+  String get visitLink => '링크 방문';
 
   @override
-  String get enterLink => 'Enter link';
+  String get enterLink => '링크 입력';
 
   @override
-  String get enterMedia => 'Enter media';
+  String get enterMedia => '미디어 입력';
 
   @override
-  String get edit => 'Edit';
+  String get edit => '편집';
 
   @override
-  String get apply => 'Apply';
+  String get apply => '적용';
 
   @override
-  String get hex => 'Hex';
+  String get hex => 'Hex 값';
 
   @override
-  String get material => 'Material';
+  String get material => 'Material 색상';
 
   @override
-  String get color => 'Color';
+  String get color => '색상';
 
   @override
-  String get findText => 'Find text';
+  String get findText => '찾기';
 
   @override
-  String get moveToPreviousOccurrence => 'Move to previous occurrence';
+  String get moveToPreviousOccurrence => '이전 위치로 이동';
 
   @override
-  String get moveToNextOccurrence => 'Move to next occurrence';
+  String get moveToNextOccurrence => '다음 위치로 이동';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => '네트워크를 통해 저장';
 
   @override
-  String get savedUsingLocalStorage => 'Saved using the local storage';
+  String get savedUsingLocalStorage => '로컬 스토리지를 통해 저장';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return '이미지가 저장되었습니다 $imagePath';
   }
 
   @override
-  String get errorWhileSavingImage => 'Error while saving image';
+  String get errorWhileSavingImage => '이미지를 저장하는데 실패했습니다';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => '링크 제목 입력';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => "예시) 'https://example.com'";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL => '유효한 이미지 URL을 입력하세요';
 
   @override
   String get pleaseEnterAValidVideoURL => '유효한 비디오 URL을 입력하세요';
@@ -253,41 +253,41 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   String get caseSensitivityAndWholeWordSearch => '대소문자 구분 및 전체 단어 검색';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => '대소문자 구분';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => '전체 단어';
 
   @override
   String get insertImage => '이미지 삽입';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => '갤러리에서 이미지 선택';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => '카메라로 사진 촬영';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => '이미지 링크 입력';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => '갤러리에서 동영상 선택';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => '카메라로 동영상 촬영';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => '동영상 링크 입력';
 
   @override
-  String get close => 'Close';
+  String get close => '닫기';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => '검색 설정';
 
   @override
-  String get cut => 'Cut';
+  String get cut => '잘라내기';
 
   @override
-  String get paste => 'Paste';
+  String get paste => '붙여넣기';
 }
