@@ -222,25 +222,7 @@ class MyQuillToolbar extends StatelessWidget {
               '35': '35.0',
               '40': '40.0'
             },
-            // headerStyleType: HeaderStyleType.buttons,
-            // buttonOptions: QuillSimpleToolbarButtonOptions(
-            //   base: QuillToolbarBaseButtonOptions(
-            //   afterButtonPressed: focusNode.requestFocus,
-            //     // iconSize: 20,
-            //     iconTheme: QuillIconTheme(
-            //       iconButtonSelectedData: IconButtonData(
-            //         style: IconButton.styleFrom(
-            //           foregroundColor: Colors.blue,
-            //         ),
-            //       ),
-            //       iconButtonUnselectedData: IconButtonData(
-            //         style: IconButton.styleFrom(
-            //           foregroundColor: Colors.red,
-            //         ),
-            //       ),
-            //     ),
-            //  ),
-            //),
+            searchButtonType: SearchButtonType.modern,
             customButtons: [
               QuillToolbarCustomButtonOptions(
                 icon: const Icon(Icons.add_alarm_rounded),
