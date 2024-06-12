@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../flutter_quill.dart';
 import '../../extensions/quill_configurations_ext.dart';
 import '../../models/config/toolbar/toolbar_configurations.dart';
 import '../../models/documents/attribute.dart';
