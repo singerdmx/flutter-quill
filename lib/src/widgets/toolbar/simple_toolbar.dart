@@ -277,10 +277,16 @@ class QuillSimpleToolbar extends StatelessWidget
                   options: toolbarConfigurations.buttonOptions.linkStyle2,
                 ),
         if (configurations.showSearchButton)
-          QuillToolbarSearchButton(
-            controller: globalController,
-            options: toolbarConfigurations.buttonOptions.search,
-          ),
+          switch (configurations.searchButtonType) {
+            SearchButtonType.legacy => QuillToolbarLegacySearchButton(
+                controller: globalController,
+                options: toolbarConfigurations.buttonOptions.search,
+              ),
+            SearchButtonType.modern => QuillToolbarSearchButton(
+                controller: globalController,
+                options: toolbarConfigurations.buttonOptions.search,
+              ),
+          },
         if (configurations.showClipboardCut)
           QuillToolbarClipboardButton(
             options: toolbarConfigurations.buttonOptions.clipboardCut,
@@ -306,20 +312,6 @@ class QuillSimpleToolbar extends StatelessWidget
               options: customButton,
               controller: globalController,
             ),
-          // if (customButton.child != null) ...[
-          //   InkWell(
-          //     onTap: customButton.onTap,
-          //     child: customButton.child,
-          //   ),
-          // ] else ...[
-          //   QuillToolbarCustomButton(
-          //     options:
-          //         toolbarConfigurations.buttonOptions.customButtons,
-          //     controller: toolbarConfigurations
-          //             .buttonOptions.customButtons.controller ??
-          //         globalController,
-          //   ),
-          // ],
         ],
       ];
     }

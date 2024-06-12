@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart' show Color;
+import 'package:flutter/material.dart';
 
 import '../../../../../flutter_quill.dart';
 
@@ -24,6 +24,7 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions<
     super.iconButtonFactor,
     this.dialogBarrierColor,
     this.customOnPressedCallback,
+    this.searchBarAlignment,
   });
 
   final QuillDialogTheme? dialogTheme;
@@ -34,6 +35,8 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions<
   /// By default we will show simple search dialog ui
   /// you can pass value to this callback to change this
   final QuillToolbarSearchButtonOnPressedCallback? customOnPressedCallback;
+
+  final AlignmentGeometry? searchBarAlignment;
 }
 
 typedef QuillToolbarSearchButtonOnPressedCallback = Future<void> Function(

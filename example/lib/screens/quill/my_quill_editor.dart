@@ -54,11 +54,9 @@ class MyQuillEditor extends StatelessWidget {
           ),
           sizeSmall: TextStyle(fontSize: 9),
           subscript: TextStyle(
-            fontFamily: 'SF-UI-Display',
             fontFeatures: [FontFeature.subscripts()],
           ),
           superscript: TextStyle(
-            fontFamily: 'SF-UI-Display',
             fontFeatures: [FontFeature.superscripts()],
           ),
         ),
