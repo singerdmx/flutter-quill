@@ -128,7 +128,10 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get justifyWinWidth => 'Justify';
+  String get alignJustify => 'Align justify';
+
+  @override
+  String get justifyWinWidth => 'Justify win width';
 
   @override
   String get textDirection => 'Text direction';

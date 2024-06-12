@@ -1,5 +1,6 @@
 {
   "ar": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -10,6 +11,7 @@
   ],
 
   "bg": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -33,6 +35,7 @@
   ],
 
   "bn": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -56,6 +59,7 @@
   ],
 
   "cs": [
+    "alignJustify",
     "caseSensitive",
     "wholeWord",
     "close",
@@ -65,6 +69,7 @@
   ],
 
   "da": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -88,6 +93,7 @@
   ],
 
   "de": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -106,6 +112,7 @@
   ],
 
   "en_US": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -129,6 +136,7 @@
   ],
 
   "es": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -147,6 +155,7 @@
   ],
 
   "fa": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -170,6 +179,7 @@
   ],
 
   "fr": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -180,6 +190,7 @@
   ],
 
   "he": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -203,6 +214,7 @@
   ],
 
   "hi": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -226,6 +238,7 @@
   ],
 
   "id": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -249,6 +262,7 @@
   ],
 
   "it": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -272,6 +286,7 @@
   ],
 
   "ja": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -295,6 +310,7 @@
   ],
 
   "ko": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -318,6 +334,7 @@
   ],
 
   "ku": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -328,6 +345,7 @@
   ],
 
   "ku_CKB": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -338,6 +356,7 @@
   ],
 
   "ms": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -361,6 +380,7 @@
   ],
 
   "ne": [
+    "alignJustify",
     "caseSensitive",
     "wholeWord",
     "close",
@@ -370,6 +390,7 @@
   ],
 
   "nl": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -393,6 +414,7 @@
   ],
 
   "no": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -416,6 +438,7 @@
   ],
 
   "pl": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -439,6 +462,7 @@
   ],
 
   "pt": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -462,6 +486,7 @@
   ],
 
   "pt_BR": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -485,6 +510,7 @@
   ],
 
   "ro": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -495,6 +521,7 @@
   ],
 
   "ro_RO": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -505,6 +532,7 @@
   ],
 
   "ru": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -523,6 +551,7 @@
   ],
 
   "sk": [
+    "alignJustify",
     "caseSensitive",
     "wholeWord",
     "close",
@@ -532,6 +561,7 @@
   ],
 
   "sr": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -555,6 +585,7 @@
   ],
 
   "sv": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -565,6 +596,7 @@
   ],
 
   "sw": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -588,6 +620,7 @@
   ],
 
   "tk": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -611,6 +644,7 @@
   ],
 
   "tr": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -634,6 +668,7 @@
   ],
 
   "uk": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -644,6 +679,7 @@
   ],
 
   "ur": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -667,6 +703,7 @@
   ],
 
   "vi": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -690,6 +727,7 @@
   ],
 
   "zh": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -700,6 +738,7 @@
   ],
 
   "zh_CN": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
@@ -710,6 +749,7 @@
   ],
 
   "zh_HK": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",

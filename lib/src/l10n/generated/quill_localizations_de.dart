@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
   String get alignRight => 'Rechtsbündig ausrichten';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Blocksatz';
 
   @override

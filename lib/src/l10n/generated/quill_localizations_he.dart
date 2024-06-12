@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get alignRight => 'יישור לימין';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'יישור לרוחב החלון';
 
   @override

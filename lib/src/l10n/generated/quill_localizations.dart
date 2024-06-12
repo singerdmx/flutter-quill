@@ -415,10 +415,16 @@ abstract class FlutterQuillLocalizations {
   /// **'Align right'**
   String get alignRight;
 
+  /// Justify the text over the full window width
+  ///
+  /// In en, this message translates to:
+  /// **'Align justify'**
+  String get alignJustify;
+
   /// No description provided for @justifyWinWidth.
   ///
   /// In en, this message translates to:
-  /// **'Justify'**
+  /// **'Justify win width'**
   String get justifyWinWidth;
 
   /// No description provided for @textDirection.

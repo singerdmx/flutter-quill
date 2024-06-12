@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
   String get alignRight => 'Подравни вдясно';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Подравни във всяка колонка';
 
   @override

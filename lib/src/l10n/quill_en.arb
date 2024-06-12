@@ -41,7 +41,11 @@
   "alignLeft": "Align left",
   "alignCenter": "Align center",
   "alignRight": "Align right",
-  "justifyWinWidth": "Justify",
+  "alignJustify": "Align justify",
+  "@alignJustify": {
+  "description": "Justify the text over the full window width"
+  },
+  "justifyWinWidth": "Justify win width",
   "textDirection": "Text direction",
   "headerStyle": "Header style",
   "normal": "Normal",

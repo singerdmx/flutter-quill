@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get alignRight => 'چیدمان راست';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'تضمین عرض پنجره';
 
   @override

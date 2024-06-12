@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsSv extends FlutterQuillLocalizations {
   String get alignRight => 'Högerjustera';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Justera till fönsterbredd';
 
   @override

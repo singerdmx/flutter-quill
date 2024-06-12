@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
   String get alignRight => 'Sağa Hizala';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Kenarlara Hizala';
 
   @override

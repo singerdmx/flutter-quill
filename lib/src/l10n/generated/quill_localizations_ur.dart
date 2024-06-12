@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get alignRight => 'دائیں ہم آہنگ ہوں';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'جسٹیفائی ون چوڑائی';
 
   @override

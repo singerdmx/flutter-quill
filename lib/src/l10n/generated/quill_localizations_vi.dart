@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
   String get alignRight => 'Căn phải';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Căn đều chiều rộng';
 
   @override
