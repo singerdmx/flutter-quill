@@ -550,6 +550,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
+  /// True if can paste using HTML
   Future<bool> _pasteHTML() async {
     final clipboardService = ClipboardServiceProvider.instacne;
     if (await clipboardService.canProvideHtmlText()) {
