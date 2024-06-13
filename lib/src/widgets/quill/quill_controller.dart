@@ -507,12 +507,14 @@ class QuillController extends ChangeNotifier {
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 
-    if (await _pasteHTML()) {
+    final pasteUsingHtmlSuccess = await _pasteHTML();
+    if (pasteUsingHtmlSuccess) {
       updateEditor?.call();
       return true;
     }
 
-    if (await _pasteMarkdown()) {
+    final pasteUsingMarkdownSuccess = await _pasteMarkdown();
+    if (pasteUsingMarkdownSuccess) {
       updateEditor?.call();
       return true;
     }
