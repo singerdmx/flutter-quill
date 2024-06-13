@@ -91,6 +91,9 @@ jobs:
             exit 1
           fi
 
+      - name: 🖌️ Create required version content file to use in the next step
+        run: echo "${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }}" > ./build/versionContent.md
+
       - name: 📝 Update version and CHANGELOG for all the packages
         run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} '${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }}'
 
