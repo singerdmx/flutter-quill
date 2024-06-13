@@ -75,7 +75,7 @@ jobs:
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: 📑 Fetch release notes from Github API and create a required file by the next step
-        run: dart ./scripts/create_version_content_from_github_release.dart "${{ github.repository }}" "${{ steps.release_tag.outputs.tag }}" "${{ secrets.GITHUB_TOKEN }}"
+        run: dart ./scripts/create_version_content_from_github_release.dart "${{ github.repository }}" "${{ steps.release_tag.outputs.tag }}"
 
       - name: 📝 Update version and CHANGELOG for all the packages
         run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }}
