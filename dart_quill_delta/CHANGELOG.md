@@ -4,6 +4,151 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.0
+
+This release can be used without changing anything, although it can break the behavior a little, we provided a way to use the old behavior in `9.3.x`
+
+- Thanks to @Alspb, the search bar/dialog has been reworked for improved UI that fits **Material 3** look and feel, the search happens on the fly, and other minor changes, if you want the old search bar, you can restore it with one line if you're using `QuillSimpleToolbar`:
+  ```dart
+  QuillToolbar.simple(
+    configurations: QuillSimpleToolbarConfigurations(
+      searchButtonType: SearchButtonType.legacy,
+    ),
+  )
+  ```
+  While the changes are mostly to the `QuillToolbarSearchDialog` and it seems this should be `searchDialogType`, we provided the old button with the old dialog in case we update the button in the future.
+
+   If you're using `QuillToolbarSearchButton` in a custom Toolbar, you don't need anything to get the new button. if you want the old button, use the `QuillToolbarLegacySearchButton` widget
+    
+    Consider using the improved button with the improved dialog as the legacy button might removed in future releases (for now, it's not deprecated)
+
+  <details>
+  <summary>Before</summary>
+  
+  ![image](https://github.com/singerdmx/flutter-quill/assets/73608287/9b40ad03-717f-4518-95f1-8d9cad773b2b)
+  
+  
+  </details> 
+  
+   <details>
+  <summary>Improved</summary>
+  
+  ![image](https://github.com/singerdmx/flutter-quill/assets/73608287/e581733d-63fa-4984-9c41-4a325a0a0c04)
+  
+  </details>
+  
+  For the detailed changes, see #1904
+
+- Korean translations by @leegh519 in https://github.com/singerdmx/flutter-quill/pull/1911
+
+- The usage of `super_clipboard` plugin in `flutter_quill` has been moved to the `flutter_quill_extensions` package, this will restore the old behavior in `8.x.x` though it will break the `onImagePaste`, `onGifPaste` and rich text pasting from HTML or Markdown, most of those features are available in `super_clipboard` plugin except `onImagePaste` which was available as we were using [pasteboard](https://pub.dev/packages/pasteboard), Unfortunately, it's no longer supported on recent versions of Flutter, and some functionalities such as an image from Clipboard and Html paste are not supported on some platforms such as Android, your project will continue to work, calls of `onImagePaste` and `onGifPaste` will be ignored unless you include [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) package in your project and call:
+
+  ```dart
+  FlutterQuillExtensions.useSuperClipboardPlugin();
+  ```
+  Before using any `flutter_quill` widgets, this will restore the old behavior in `9.x.x`
+  
+  We initially wanted to publish `flutter_quill_super_clipboard` to allow:
+  - Using `super_clipboard` without `flutter_quill_extensions` packages and plugins
+  - Using `flutter_quill_extensions` with optional `super_clipboard`
+  
+  To simplify the usage, we moved it to `flutter_quill_extensions`, let us know if you want any of the use cases above.
+  
+  Overall `super_clipboard` is a Comprehensive clipboard plugin with a lot of features, the only thing that developers didn't want is Rust installation even though it's automated.
+
+ The main goal of `ClipboardService` is to make `super_clipboard` optional, you can use your own implementation, and create a class that implements `ClipboardService`, which you can get by:
+ ```dart
+  // ignore: implementation_imports
+  import 'package:flutter_quill/src/services/clipboard/clipboard_service.dart';
+ ```
+
+ Then you can call:
+ ```dart
+ // ignore: implementation_imports
+import 'package:flutter_quill/src/services/clipboard/clipboard_service_provider.dart';
+ ClipboardServiceProvider.setInstance(YourClipboardService());
+```
+ 
+ The interface could change at any time and will be updated internally for `flutter_quill` and `flutter_quill_extensions`, we didn't export those two classes by default to avoid breaking changes in case you use them as we might change them in the future.
+
+ If you use the above imports, you might get **breaking changes** in **non-breaking change releases**.
+
+- Subscript and Superscript should now work for all languages and characters
+
+  The previous implementation required the Apple 'SF-Pro-Display-Regular.otf' font which is only licensed/permitted for use on Apple devices.
+We have removed the Apple font from the example
+
+- Allow pasting Markdown and HTML file content from the system to the editor
+
+  Before `9.4.x` if you try to copy an HTML or Markdown file, and paste it into the editor, you will get the file name in the editor
+  Copying an HTML file, or HTML content from apps and websites is different than copying plain text.
+
+  This is why this change requires `super_clipboard` implementation as this is platform-dependent:
+  ```dart
+  FlutterQuillExtensions.useSuperClipboardPlugin();
+  ```
+   as mentioned above.
+  
+    The following example for copying a Markdown file:
+
+    <details>
+    <summary>Markdown File Content</summary>
+    
+    ```md
+  
+    **Note**: This package supports converting from HTML back to Quill delta but it's experimental and used internally when pasting HTML content from the clipboard to the Quill Editor
+      
+      You have two options:
+      
+      1. Using [quill_html_converter](./quill_html_converter/) to convert to HTML, the package can convert the Quill delta to HTML well
+      (it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it is just a handy extension to do it more quickly
+      1. Another option is to use
+      [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
+      to HTML.
+         This package has full support for all Quill operations—including images, videos, formulas,
+      tables, and mentions.
+         Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.
+      It is a complete Dart part of the popular and mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
+      Typescript/Javascript package.
+         this package doesn't convert the HTML back to Quill Delta as far as we know  
+  
+    ```
+
+    </details>
+    
+    <details>
+    <summary>Before</summary>
+    
+    ![image](https://github.com/singerdmx/flutter-quill/assets/73608287/03f5ae20-796c-4e8b-8668-09a994211c1e)
+    
+    </details>
+    
+    <details>
+    <summary>After</summary>
+    
+    ![image](https://github.com/singerdmx/flutter-quill/assets/73608287/7e3a1987-36e7-4665-944a-add87d24e788)
+    
+    </details>
+  
+    Markdown, and HTML converting from and to Delta are **currently far from perfect**, the current implementation could improved a lot 
+    however **it will likely not work like expected**, due to differences between HTML and Delta, see this [comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.
+  
+    ![Copying Markdown file into Flutter Quill Editor](https://github.com/singerdmx/flutter-quill/assets/73608287/63bd6ba6-cc49-4335-84dc-91a0fa5c95a9)
+  
+    For more details see #1915
+  
+   Using or converting to HTML or Markdown is highly experimental and shouldn't be used for production applications. 
+  
+   We use it internally as it is more suitable for our specific use case., copying content from external websites and pasting it into the editor 
+   previously breaks the styles, while the current implementation is not ready, it provides a better user experience and doesn't have many downsides.
+
+ Feel free to report any bugs or feature requests at [Issues](https://github.com/singerdmx/flutter-quill/issues) or drop any suggestions and questions at [Discussions](https://github.com/singerdmx/flutter-quill/discussions)
+
+## New Contributors
+* @leegh519 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1911
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.3.21...v9.4.0
+
 ## 9.3.21
 
 * fix: assertion failure for swipe typing and undo on Android by @crasowas in https://github.com/singerdmx/flutter-quill/pull/1898

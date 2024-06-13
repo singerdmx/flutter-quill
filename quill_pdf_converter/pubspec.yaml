@@ -1,6 +1,6 @@
 name: quill_pdf_converter
 description: A extension for flutter_quill package to add support for dealing with conversion to pdf
-version: 9.3.21
+version: 9.4.0
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_pdf_converter/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_pdf_converter/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/

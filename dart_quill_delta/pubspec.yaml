@@ -1,6 +1,6 @@
 name: dart_quill_delta
 description: A port of quill-js-delta from typescript to dart
-version: 9.3.21
+version: 9.4.0
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/dart_quill_delta/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/dart_quill_delta/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
