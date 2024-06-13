@@ -34,8 +34,9 @@ class SuperClipboardService implements ClipboardService {
     return reader.canProvide(format);
   }
 
-  Future<Uint8List> _provideFileAsBytes(
-      {required SimpleFileFormat format}) async {
+  Future<Uint8List> _provideFileAsBytes({
+    required SimpleFileFormat format,
+  }) async {
     final clipboard = _getSuperClipboardOrThrow();
     final reader = await clipboard.read();
     final completer = Completer<Uint8List>();
