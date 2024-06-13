@@ -53,7 +53,6 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
       alignment: alignment,
       child: VideoApp(
         videoUrl: videoUrl,
-        context: context,
         readOnly: readOnly,
         onVideoInit: configurations.onVideoInit,
       ),

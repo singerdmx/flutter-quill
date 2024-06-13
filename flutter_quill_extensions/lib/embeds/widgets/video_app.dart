@@ -13,14 +13,16 @@ import '../../flutter_quill_extensions.dart';
 class VideoApp extends StatefulWidget {
   const VideoApp({
     required this.videoUrl,
-    required this.context,
     required this.readOnly,
+    @Deprecated(
+      'The context is no longer required and will be removed on future releases',
+    )
+    BuildContext? context,
     super.key,
     this.onVideoInit,
   });
 
   final String videoUrl;
-  final BuildContext context;
   final bool readOnly;
   final void Function(GlobalKey videoContainerKey)? onVideoInit;
 
@@ -92,29 +94,33 @@ class VideoAppState extends State<VideoApp> {
                 : _controller.play();
           });
         },
-        child: Stack(alignment: Alignment.center, children: [
-          Center(
-              child: AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          )),
-          _controller.value.isPlaying
-              ? const SizedBox.shrink()
-              : Container(
-                  color: const Color(0xfff5f5f5),
-                  child: const Icon(
-                    Icons.play_arrow,
-                    size: 60,
-                    color: Colors.blueGrey,
-                  ))
-        ]),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+                child: AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            )),
+            _controller.value.isPlaying
+                ? const SizedBox.shrink()
+                : Container(
+                    color: const Color(0xfff5f5f5),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      size: 60,
+                      color: Colors.blueGrey,
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 }
