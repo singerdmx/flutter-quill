@@ -6,43 +6,35 @@ import '../../../markdown_quill.dart';
 import '../../../quill_delta.dart';
 
 @immutable
+@experimental
 class DeltaX {
+  const DeltaX._();
+
+  /// Convert Markdown text to [Delta]
+  ///
+  /// This api is **experimental** and designed to be used **internally** and shouldn't
+  /// used for **production applications**.
+  @experimental
+  static Delta fromMarkdown(String markdownText) {
+    final mdDocument = md.Document(encodeHtml: false);
+    final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
+    return mdToDelta.convert(markdownText);
+  }
+
   /// Convert the HTML Raw string to [Delta]
   ///
   /// It will run using the following steps:
   ///
   /// 1. Convert the html to markdown string using `html2md` package
-  /// 2. Convert the markdown string to quill delta json string
-  /// 3. Decode the delta json string to [Delta]
+  /// 2. Convert the markdown string to [Delta] using [fromMarkdown]
   ///
-  /// for more [info](https://github.com/singerdmx/flutter-quill/issues/1100)
-  ///
-  /// Please notice that this api is designed to be used internally and shouldn't
-  /// used for real world applications
+  /// This api is **experimental** and designed to be used **internally** and shouldn't
+  /// used for **production applications**.
   ///
   @experimental
-  static Delta fromHtml(String html) {
-    final markdown = html2md
-        .convert(
-          html,
-        )
-        .replaceAll('unsafe:', '');
+  static Delta fromHtml(String htmlText) {
+    final markdownText = html2md.convert(htmlText).replaceAll('unsafe:', '');
 
-    final mdDocument = md.Document(encodeHtml: false);
-
-    final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
-
-    return mdToDelta.convert(markdown);
-
-    // final deltaJsonString = markdownToDelta(markdown);
-    // final deltaJson = jsonDecode(deltaJsonString);
-    // if (deltaJson is! List) {
-    //   throw ArgumentError(
-    //     'The delta json string should be of type list when jsonDecode() it',
-    //   );
-    // }
-    // return Delta.fromJson(
-    //   deltaJson,
-    // );
+    return fromMarkdown(markdownText);
   }
 }
