@@ -76,15 +76,15 @@ The minSdkVersion is `23` as `super_clipboard` requires it
 Start using the package in 3 steps:
 
 1. Besure to to follow the [Installation](#installation) section.
-2. This package already include `super_clipboard` and will be used internally, to use it in `flutter_quill`, call this function before using any of the widgets or functionalities
+2. This package already include `super_clipboard` and will be used internally in this package, to use it in `flutter_quill`, call this function before using any of the widgets or functionalities
 
     ```dart
     FlutterQuillExtensions.useSuperClipboardPlugin();
     ```
 
-    Notice that `super_clipboard` is comprehensive plugin that provide many clipboard features for reading and writing of rich text, images and other formats.
+    `super_clipboard` is comprehensive plugin that provide many clipboard features for reading and writing of rich text, images and other formats.
 
-    Executing this function will allow `flutter_quill` to use modern rich text features, support for Gif files, and other formats.
+    Executing this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown, support for Gif files, and other formats.
 
 3. Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
     values provided by this repository.
