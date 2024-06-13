@@ -41,10 +41,14 @@ class SuperClipboardService implements ClipboardService {
     final reader = await clipboard.read();
     final completer = Completer<Uint8List>();
 
-    reader.getFile(format, (file) async {
-      final bytes = await file.readAll();
-      completer.complete(bytes);
-    });
+    reader.getFile(
+      format,
+      (file) async {
+        final bytes = await file.readAll();
+        completer.complete(bytes);
+      },
+      onError: completer.completeError,
+    );
     final bytes = await completer.future;
     return bytes;
   }
