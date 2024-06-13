@@ -61,5 +61,8 @@ Future<void> main(List<String> args) async {
     print('Release notes is null.');
     exit(1);
   }
+  if (!await versionContentFile.parent.exists()) {
+    await versionContentFile.parent.create(recursive: true);
+  }
   await versionContentFile.writeAsString(githubReleaseNotes);
 }
