@@ -512,6 +512,11 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
+    if (await _pasteMarkdown()) {
+      updateEditor?.call();
+      return true;
+    }
+
     // Snapshot the input before using `await`.
     // See https://github.com/flutter/flutter/issues/11427
     final plainTextClipboardData =
@@ -550,24 +555,60 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// True if can paste using HTML
+  void _pasteUsingDelta(Delta deltaFromClipboard) {
+    replaceText(
+      selection.start,
+      selection.end - selection.start,
+      deltaFromClipboard,
+      TextSelection.collapsed(offset: selection.end),
+    );
+  }
+
+  /// Return true if can paste using HTML
   Future<bool> _pasteHTML() async {
     final clipboardService = ClipboardServiceProvider.instacne;
-    if (await clipboardService.canProvideHtmlText()) {
-      final html = await clipboardService.getHtmlText();
 
-      if (html == null) {
-        return false;
+    Future<String?> getHTML() async {
+      if (await clipboardService.canProvideHtmlTextFromFile()) {
+        return await clipboardService.getHtmlTextFromFile();
       }
-      final htmlBody = html_parser.parse(html).body?.outerHtml;
-      final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+      if (await clipboardService.canProvideHtmlText()) {
+        return await clipboardService.getHtmlText();
+      }
+      return null;
+    }
 
-      replaceText(
-        selection.start,
-        selection.end - selection.start,
-        deltaFromClipboard,
-        TextSelection.collapsed(offset: selection.end),
-      );
+    final htmlText = await getHTML();
+    if (htmlText != null) {
+      final htmlBody = html_parser.parse(htmlText).body?.outerHtml;
+      final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? htmlText);
+
+      _pasteUsingDelta(deltaFromClipboard);
+
+      return true;
+    }
+    return false;
+  }
+
+  /// Return true if can paste using Markdown
+  Future<bool> _pasteMarkdown() async {
+    final clipboardService = ClipboardServiceProvider.instacne;
+
+    Future<String?> getMarkdown() async {
+      if (await clipboardService.canProvideMarkdownTextFromFile()) {
+        return await clipboardService.getMarkdownTextFromFile();
+      }
+      if (await clipboardService.canProvideMarkdownText()) {
+        return await clipboardService.getMarkdownText();
+      }
+      return null;
+    }
+
+    final markdownText = await getMarkdown();
+    if (markdownText != null) {
+      final deltaFromClipboard = DeltaX.fromMarkdown(markdownText);
+
+      _pasteUsingDelta(deltaFromClipboard);
 
       return true;
     }
