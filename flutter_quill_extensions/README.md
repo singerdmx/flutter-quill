@@ -13,7 +13,8 @@ to support embedding widgets like images, formulas, videos, and more.
   - [Installation](#installation)
   - [Platform Specific Configurations](#platform-specific-configurations)
   - [Usage](#usage)
-  - [Embed Blocks](#embed-blocks)
+  - [Configurations](#configurations)
+    - [Embed Blocks](#embed-blocks)
     - [Element properties](#element-properties)
     - [Custom Element properties](#custom-element-properties)
     - [Image Assets](#image-assets)
@@ -51,52 +52,68 @@ dependencies:
 
 ## Platform Specific Configurations
 
+The package use the following plugins:
+
+1. [`gal`](https://github.com/natsuk4ze/) plugin to save images.
+For this to work, you need to add the appropriate configurations
+See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
+1. [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the instructions
+2. [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter) plugin which uses [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) which has requirement on web, please follow this [link](https://pub.dev/packages/flutter_inappwebview#installation) in order to setup the support for web
+3. [image_picker](https://pub.dev/packages/image_picker) which also 
+requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, and macOS, we must inform you that you can't pick photos using the camera on a desktop so make sure to handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux)
+4. [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to support copying images and pasting them into editor then you must setup it, open the page in pub.dev and read the `README.md` or click on this [link](https://pub.dev/packages/super_clipboard#android-support) to get the instructions.
+
+The minSdkVersion is `23` as `super_clipboard` requires it
+
+
+> For loading the image from the internet <br> <br>
+> **Android**: you need to add permissions in `AndroidManifest.xml`, Follow this [Android Guide](https://developer.android.com/training/basics/network-ops/connecting) or [Flutter Networking](https://docs.flutter.dev/data-and-backend/networking#android) for more info, the internet permission is included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your Android application to accept `http` in the release mode, follow this [Android Cleartext / Plaintext HTTP](https://developer.android.com/privacy-and-security/risks/cleartext) page for more info. <br> <br>
+> **macOS**: you need to include a key in your `Info.plist`, follow this [link](https://docs.flutter.dev/data-and-backend/networking#macos) to add the required configurations
 >
-> 1. We are using the [`gal`](https://github.com/natsuk4ze/) plugin to save images.
-> For this to work, you need to add the appropriate configurations
-> See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
->
-> 2. We also use [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the instructions
->
-> 3. We are using [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter) plugin which uses [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) which has requirement on web, please follow this [link](https://pub.dev/packages/flutter_inappwebview#installation) in order to setup the support for web
-> 4. For loading the image from the internet, we need the internet permission
->    1. For Android, you need to add some permissions in `AndroidManifest.xml`, Please follow this [link](https://developer.android.com/training/basics/network-ops/connecting) for more info, the internet permission is included by default only for debugging so you need to follow this link to add it in the release version too. you should allow loading images and videos only for the `https` protocol but if you want http too then you need to configure your Android application to accept `http` in the release mode, follow this [link](https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted) for more info.
->    2. For macOS, you also need to include a key in your `Info.plist`, please follow this [link](https://stackoverflow.com/a/61201081/18519412) to add the required configurations
->
-> The extension package also uses [image_picker](https://pub.dev/packages/image_picker) which also 
-> requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation). It's needed for Android, iOS, and macOS, we must inform you that you can't pick photos using the camera on a desktop so make sure to handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux) <br>
-> 
 
 ## Usage
 
-Before starting to use this package you must follow the [setup](#installation)
+Start using the package in 3 steps:
 
-Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
-values provided by this repository.
+1. Besure to to follow the [Installation](#installation) section.
+2. This package already include `super_clipboard` and will be used internally in this package, to use it in `flutter_quill`, call this function before using any of the widgets or functionalities
 
-**Quill Toolbar**:
-```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
-    embedButtons: FlutterQuillEmbeds.toolbarButtons(),
-  ),
-),
-```
+    ```dart
+    FlutterQuillExtensions.useSuperClipboardPlugin();
+    ```
 
-**Quill Editor**
-```dart
-Expanded(
-  child: QuillEditor.basic(
-    configurations: QuillEditorConfigurations(
-      embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
+    `super_clipboard` is comprehensive plugin that provide many clipboard features for reading and writing of rich text, images and other formats.
+
+    Executing this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown, support for Gif files, and other formats.
+
+3. Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
+    values provided by this repository.
+
+    **Quill Toolbar**:
+    ```dart
+    QuillToolbar(
+      configurations: QuillToolbarConfigurations(
+        embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+      ),
     ),
-  ),
-)
-```
+    ```
 
-## Embed Blocks
+    **Quill Editor**
+    ```dart
+    Expanded(
+      child: QuillEditor.basic(
+        configurations: QuillEditorConfigurations(
+          embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
+        ),
+      ),
+    )
+    ```
 
-As of version [flutter_quill](https://pub.dev/packages/flutter_quill) 6.0, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface for all the users to provide their implementations for embed blocks. Implementations for image, video, and formula embed blocks are proved in this package
+## Configurations
+
+### Embed Blocks
+
+As of version [flutter_quill](https://pub.dev/packages/flutter_quill) `6.0.x`, embed blocks are not provided by default as part of Flutter quill. Instead, it provides an interface for all the users to provide their implementations for embed blocks. Implementations for image, video, and formula embed blocks are proved in this package
 
 The instructions for using the embed blocks are in the [Usage](#usage) section
 
@@ -236,9 +253,8 @@ OnDragDoneCallback get _onDragDone {
 ## Features
 
 — Easy to use and customizable
-- Has the option to use a custom image provider for the images
+- Rich text, images and other formats
 - Useful utilities and widgets
-- Handle different errors
 ```
 
 ## Contributing

@@ -500,7 +500,6 @@ class _TextLineState extends State<TextLine> {
         _tapLink(link);
         break;
       case LinkMenuAction.copy:
-        // ignore: unawaited_futures
         Clipboard.setData(ClipboardData(text: link));
         break;
       case LinkMenuAction.remove:

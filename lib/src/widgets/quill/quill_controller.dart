@@ -4,11 +4,11 @@ import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:meta/meta.dart';
-import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../flutter_quill.dart';
 import '../../../quill_delta.dart';
 import '../../models/documents/delta_x.dart';
+import '../../services/clipboard/clipboard_service_provider.dart';
 import '../../utils/delta.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
@@ -514,9 +514,10 @@ class QuillController extends ChangeNotifier {
 
     // Snapshot the input before using `await`.
     // See https://github.com/flutter/flutter/issues/11427
-    final plainText = await Clipboard.getData(Clipboard.kTextPlain);
-    if (plainText != null) {
-      final lines = plainText.text!.split('\n');
+    final plainTextClipboardData =
+        await Clipboard.getData(Clipboard.kTextPlain);
+    if (plainTextClipboardData != null) {
+      final lines = plainTextClipboardData.text!.split('\n');
       for (var i = 0; i < lines.length; ++i) {
         final line = lines[i];
         if (line.isNotEmpty) {
@@ -549,27 +550,26 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
+  /// True if can paste using HTML
   Future<bool> _pasteHTML() async {
-    final clipboard = SystemClipboard.instance;
-    if (clipboard != null) {
-      final reader = await clipboard.read();
-      if (reader.canProvide(Formats.htmlText)) {
-        final html = await reader.readValue(Formats.htmlText);
-        if (html == null) {
-          return false;
-        }
-        final htmlBody = html_parser.parse(html).body?.outerHtml;
-        final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+    final clipboardService = ClipboardServiceProvider.instacne;
+    if (await clipboardService.canProvideHtmlText()) {
+      final html = await clipboardService.getHtmlText();
 
-        replaceText(
-          selection.start,
-          selection.end - selection.start,
-          deltaFromClipboard,
-          TextSelection.collapsed(offset: selection.end),
-        );
-
-        return true;
+      if (html == null) {
+        return false;
       }
+      final htmlBody = html_parser.parse(html).body?.outerHtml;
+      final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+
+      replaceText(
+        selection.start,
+        selection.end - selection.start,
+        deltaFromClipboard,
+        TextSelection.collapsed(offset: selection.end),
+      );
+
+      return true;
     }
     return false;
   }
