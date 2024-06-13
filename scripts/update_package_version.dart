@@ -20,6 +20,7 @@ final _packages = [
 
 const _usage = 'Usage: ./script <version>';
 const _versionContentFileName = 'versionContent.md';
+final versionContentFile = File(path.join('build', _versionContentFileName));
 
 /// A script that should run in the root folder and not inside any other folder
 /// it has one task, which update the version for `pubspec.yaml` and
@@ -50,7 +51,6 @@ Future<void> main(List<String> args) async {
     print('The version is empty ($args). $_usage');
     exit(1);
   }
-  final versionContentFile = File(path.join('build', _versionContentFileName));
   if (!(await versionContentFile.exists())) {
     print(
       'The file "$_versionContentFileName" in ${versionContentFile.path} does not exist.',
