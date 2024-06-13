@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
   String get alignRight => 'Aliniază la dreapta';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Justifică lățimea ferestrei';
 
   @override

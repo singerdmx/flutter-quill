@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get alignRight => 'Allinea a destra';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Giustifica per larghezza finestra';
 
   @override

@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
   String get alignRight => 'بۆ ڕاست';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'پانی ڕێکبخە';
 
   @override

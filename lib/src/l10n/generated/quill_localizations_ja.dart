@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
   String get alignRight => '右揃え';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => '両端揃え';
 
   @override

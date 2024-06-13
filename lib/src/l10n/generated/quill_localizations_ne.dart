@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
   String get alignRight => 'दायाँ पङ्क्तिबद्ध';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'जस्टीफ़ी विन चौड़ाई';
 
   @override
