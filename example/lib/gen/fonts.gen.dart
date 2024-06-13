@@ -10,9 +10,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: SF-UI-Display
-  static const String sFUIDisplay = 'SF-UI-Display';
-
   /// Font family: ibarra-real-nova
   static const String ibarraRealNova = 'ibarra-real-nova';
 

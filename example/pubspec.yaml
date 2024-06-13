@@ -108,8 +108,5 @@ flutter:
     - family: roboto-mono
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
-    - family: SF-UI-Display
-      fonts:
-        - asset: assets/fonts/SF-Pro-Display-Regular.otf
 
 flutter_gen:

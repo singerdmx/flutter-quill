@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../../extensions/quill_configurations_ext.dart';
-import '../../../../l10n/extensions/localizations.dart';
-import '../../../../l10n/widgets/localizations.dart';
-import '../../../../models/themes/quill_dialog_theme.dart';
-import '../../../../models/themes/quill_icon_theme.dart';
-import '../../../quill/quill_controller.dart';
-import '../../base_toolbar.dart';
+import '../../../../../extensions/quill_configurations_ext.dart';
+import '../../../../../l10n/extensions/localizations.dart';
+import '../../../../../l10n/widgets/localizations.dart';
+import '../../../../../models/themes/quill_dialog_theme.dart';
+import '../../../../../models/themes/quill_icon_theme.dart';
+import '../../../../quill/quill_controller.dart';
+import '../../../base_toolbar.dart';
+import 'legacy_search_dialog.dart';
 
-class QuillToolbarSearchButton extends StatelessWidget {
-  const QuillToolbarSearchButton({
+/// We suggest to see [QuillToolbarSearchButton] before using this widget.
+class QuillToolbarLegacySearchButton extends StatelessWidget {
+  const QuillToolbarLegacySearchButton({
     required QuillController controller,
     this.options = const QuillToolbarSearchButtonOptions(),
     super.key,
@@ -62,7 +64,9 @@ class QuillToolbarSearchButton extends StatelessWidget {
   }
 
   Color _dialogBarrierColor(BuildContext context) {
-    return options.dialogBarrierColor ?? Colors.transparent;
+    return options.dialogBarrierColor ??
+        context.quillSharedConfigurations?.dialogBarrierColor ??
+        Colors.black54;
   }
 
   QuillDialogTheme? _dialogTheme(BuildContext context) {
@@ -121,10 +125,10 @@ class QuillToolbarSearchButton extends StatelessWidget {
       barrierColor: _dialogBarrierColor(context),
       context: context,
       builder: (_) => FlutterQuillLocalizationsWidget(
-        child: QuillToolbarSearchDialog(
+        child: QuillToolbarLegacySearchDialog(
           controller: controller,
           dialogTheme: _dialogTheme(context),
-          searchBarAlignment: options.searchBarAlignment,
+          text: '',
         ),
       ),
     );
