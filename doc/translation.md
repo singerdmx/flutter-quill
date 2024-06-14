@@ -37,32 +37,31 @@ Currently, translations are available for these 37 locales:
 
 #### Contributing to translations
 
-The translation files are located in the [l10n folder](../lib/src/l10n/). Feel free to contribute your own translations, just copy the [English translations](../lib/src/l10n/quill_en.arb) map and replace the values with your translations.
+The translation files are located in the [l10n folder](../lib/src/l10n/). Feel free to contribute your own translations.
 
-Add a new file in the l10n folder with the following name
-`quill_${localName}.arb` for example `quill_de.arb`
+You can take a look at the [untranslated.json](../lib/src/l10n/untranslated.json) file, which is a generated file that tells you which keys with which locales haven't translated so you can find the missings easily.
 
-paste the English version and replace the values
+1. Create a new file in [l10n](../lib/src/l10n/) folder, with the following name`quill_${localName}.arb` for example `quill_de.arb`
 
-Also, you can take a look at the [untranslated.json](../lib/src/l10n/untranslated.json) JSON file, which is a generated file that tells you which keys with which locales haven't translated so you can find the missings easily
+2. Copy the [Arb Template](../lib/src/l10n/quill_en.arb) file and paste it into your new file, replace the values with your translations
 
-After you are done and want to test the changes, run the following in the root folder (preferred):
+3. Once you finish, run the following script:
 
-```
-./scripts/regenerate_translations.sh
-```
+    ```bash
+    dart ./scripts/regenerate_translations.dart
+    ```
 
-or (if you can't run the script for some reasons):
+    Or (if you can't run the script for some reason):
 
-```
-flutter gen-l10n
-dart fix --apply ./lib/src/l10n/generated
-dart format ./lib/src/l10n/generated
-```
+    ```bash
+    flutter gen-l10n
+    dart fix --apply ./lib/src/l10n/generated
+    dart format ./lib/src/l10n/generated
+    ```
 
-This will generate the new dart files from the arb files in order to take effect, otherwise, you won't notice a difference
+The script above will generate Dart files from the Arb files in order to test the changes and take effect, otherwise you won't notice a difference.
 
-> If you added or removed translations, make sure to update `_expectedTranslationKeysLength` variable in `./scripts/ensure_translations_correct.dart` <br>
+> If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength` variable in `./scripts/ensure_translations_correct.dart` <br>
 > Otherwise you don't need to update it.
 
 Then open a pull request so everyone can benefit from your translations!
