@@ -1,4 +1,4 @@
-# Translation
+# 🌍 Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the locale that is defined in
 your `WidgetsApp` for example `MaterialApp` which usually follows the system locally unless you set your own locale
@@ -25,7 +25,7 @@ Expanded(
 )
 ```
 
-## Supported Locales
+## 🌐 Supported Locales
 
 Currently, translations are available for these 41 locales:
 
@@ -36,7 +36,7 @@ Currently, translations are available for these 41 locales:
 * `Locale('da')`, `Locale('fr')`, `Locale('ko')`, `Locale('no')`, `Locale('ru')`, `Locale('tr')`, `Locale('zh', 'HK')`
 * `Locale('de')`, `Locale('he')`, `Locale('ku')`, `Locale('pl')`, `Locale('ar')`, `Locale('sk')`, `Locale('uk')`
 
-## Contributing to translations
+## 📌 Contributing to translations
 
 The translation files are located in the [l10n](../lib/src/l10n/) folder. Feel free to contribute your own translations.
 
@@ -93,7 +93,7 @@ dart format ./lib/src/l10n/generated
 The script above will generate Dart files from the Arb files to test the changes and take effect, otherwise you
 won't notice a difference.
 
-> If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength`
+> 🔧 If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength`
 > variable in [scripts/ensure_translations_correct.dart](../scripts/ensure_translations_correct.dart) <br>
 > Otherwise you don't need to update it.
 

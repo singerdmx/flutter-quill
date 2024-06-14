@@ -45,29 +45,29 @@ You can join our [Slack Group] for discussion.
 > If you are viewing this page from [pub.dev](https://pub.dev/) page, then you
 > might have some issues with opening some links, open it in the GitHub repo instead.
 
-## Table of contents
+## 📚 Table of contents
 
 - [Flutter Quill](#flutter-quill)
-    - [Table of contents](#table-of-contents)
-    - [Screenshots](#screenshots)
-    - [Installation](#installation)
-    - [Platform Specific Configurations](#platform-specific-configurations)
-    - [Usage](#usage)
-    - [Migration](#migration)
-    - [Input / Output](#input--output)
-        - [Links](#links)
-    - [Configurations](#configurations)
-        - [Links](#links-1)
-        - [Font Family](#font-family)
-    - [Embed Blocks](#embed-blocks)
-        - [Using the embed blocks from `flutter_quill_extensions`](#using-the-embed-blocks-from-flutter_quill_extensions)
-        - [Links](#links-2)
-    - [Conversion to HTML](#conversion-to-html)
-    - [Translation](#translation)
-    - [Testing](#testing)
-    - [Contributors](#contributors)
+  - [📚 Table of contents](#-table-of-contents)
+  - [📸 Screenshots](#-screenshots)
+  - [📦 Installation](#-installation)
+  - [🛠 Platform Specific Configurations](#-platform-specific-configurations)
+  - [🚀 Usage](#-usage)
+  - [🔄 Migration](#-migration)
+  - [🔤 Input / Output](#-input--output)
+    - [🔗 Links](#-links)
+  - [⚙️ Configurations](#️-configurations)
+    - [🔗 Links](#-links-1)
+    - [🖋 Font Family](#-font-family)
+  - [📦 Embed Blocks](#-embed-blocks)
+    - [🛠️ Using the embed blocks from `flutter_quill_extensions`](#️-using-the-embed-blocks-from-flutter_quill_extensions)
+    - [🔗 Links](#-links-2)
+  - [🔄 Conversion to HTML](#-conversion-to-html)
+  - [🌐 Translation](#-translation)
+  - [🧪 Testing](#-testing)
+  - [👥 Contributors](#-contributors)
 
-## Screenshots
+## 📸 Screenshots
 
 <details>
 <summary>Tap to show/hide screenshots</summary>
@@ -81,7 +81,7 @@ You can join our [Slack Group] for discussion.
 
 </details>
 
-## Installation
+## 📦 Installation
 
 ```yaml
 dependencies:
@@ -102,15 +102,14 @@ dependencies:
 > being part of the open-source community!
 >
 
-## Platform Specific Configurations
+## 🛠 Platform Specific Configurations
 
 Before using the package, we must inform you the package uses the following plugins:
 
-  ```
-  url_launcher
-  flutter_keyboard_visibility
-  device_info_plus
-  ```
+1. [url_launcher](https://pub.dev/packages/url_launcher) to open links.
+2. [device_info_plus](https://pub.dev/packages/device_info_plus) to view info about the current device.
+3. [flutter_keyboard_visibility](https://pub.dev/packages/flutter_keyboard_visibility) to listen for keyboard visibility
+   changes.
 
 All of them don't require any platform-specific setup.
 
@@ -118,7 +117,7 @@ All of them don't require any platform-specific setup.
 > to [FlutterQuill Extensions], to use rich text features, support pasting images, gif files, take a look
 > at `flutter_quill_extensions` Readme.
 
-## Usage
+## 🚀 Usage
 
 First, you need to instantiate a controller
 
@@ -157,12 +156,12 @@ in most cases, it's better to.
 
 Check out [Sample Page] for more advanced usage.
 
-## Migration
+## 🔄 Migration
 
 Starting from version `8.0.0`
 We have added [Migration Guide](/doc/migration.md) for migration from different versions
 
-## Input / Output
+## 🔤 Input / Output
 
 This library uses [Quill Delta](https://quilljs.com/docs/delta/)
 to represent the document content.
@@ -195,7 +194,7 @@ final json = jsonDecode(r'{"insert":"hello\n"}');
 _controller.document = Document.fromJson(json);
 ```
 
-### Links
+### 🔗 Links
 
 - [Quill Delta](https://quilljs.com/docs/delta/)
 - [Quill Delta Formats](https://quilljs.com/docs/formats)
@@ -204,12 +203,12 @@ _controller.document = Document.fromJson(json);
 - [Quill JS Interactive Playground](https://quilljs.com/playground/)
 - [Quill JS GitHub repo](https://github.com/quilljs/quill)
 
-## Configurations
+## ⚙️ Configurations
 
 The `QuillToolbar` and `QuillEditor` widgets let you customize a lot of things
 [Sample Page] provides sample code for advanced usage and configuration.
 
-### Links
+### 🔗 Links
 
 - [Using Custom App Widget](./doc/configurations/using_custom_app_widget.md)
 - [Localizations Setup](./doc/configurations/localizations_setup.md)
@@ -217,7 +216,7 @@ The `QuillToolbar` and `QuillEditor` widgets let you customize a lot of things
 - [Font Family](#font-family)
 - [Custom Toolbar buttons](./doc/configurations/custom_buttons.md)
 
-### Font Family
+### 🖋 Font Family
 
 To use your own fonts, update your [Assets](./example/assets/fonts) folder and pass in `fontFamilyValues`.
 More details
@@ -225,7 +224,7 @@ on [this commit](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b
 [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter)
 and [this](https://www.flutterbeads.com/change-font-family-flutter/).
 
-## Embed Blocks
+## 📦 Embed Blocks
 
 As of version 6.0, embed blocks are not provided by default as part of this package.
 
@@ -236,17 +235,17 @@ package [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_exte
 
 Provide a list of embed
 
-### Using the embed blocks from `flutter_quill_extensions`
+### 🛠️ Using the embed blocks from `flutter_quill_extensions`
 
 To see how to use the extension package, please take a look at the [README](./flutter_quill_extensions/README.md)
 of [FlutterQuill Extensions]
 
-### Links
+### 🔗 Links
 
 - [Custom Embed Blocks](./doc/custom_embed_blocks.md)
 - [Custom Toolbar](./doc/custom_toolbar.md)
 
-## Conversion to HTML
+## 🔄 Conversion to HTML
 
 Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
 it to other formats such as HTML to publish it, or send an email.
@@ -271,18 +270,18 @@ You have two options:
    Typescript/Javascript package.
    this package doesn't convert the HTML back to Quill Delta as far as we know
 
-## Translation
+## 🌐 Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your
 own locale.
 
 Open this [page](./doc/translation.md) for more info
 
-## Testing
+## 🧪 Testing
 
 Please use [flutter_quill_test](https://pub.dev/packages/flutter_quill_test) for testing
 
-## Contributors
+## 👥 Contributors
 
 - Special thanks to everyone who has contributed to this project...
 
@@ -306,8 +305,7 @@ Made with [contrib.rocks](https://contrib.rocks).
 We welcome all contributions!
 
 Please follow these guidelines when contributing to the project.
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for more
-details.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details.
 <br>
 
 The [CONTRIBUTING.md](./CONTRIBUTING.md) has development notes, if you're planning on contributing to the package,
