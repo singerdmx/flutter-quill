@@ -23,6 +23,8 @@ Expanded(
 )
 ```
 
+## Supported Locales
+
 Currently, translations are available for these 41 locales:
 
 * `Locale('en')`, `Locale('hi')`, `Locale('ku', 'CKB')`, `Locale('pt')`, `Locale('sr')`, `Locale('ur')`
@@ -32,33 +34,55 @@ Currently, translations are available for these 41 locales:
 * `Locale('da')`, `Locale('fr')`, `Locale('ko')`, `Locale('no')`, `Locale('ru')`, `Locale('tr')`, `Locale('zh', 'HK')`
 * `Locale('de')`, `Locale('he')`, `Locale('ku')`, `Locale('pl')`, `Locale('ar')`, `Locale('sk')`, `Locale('uk')`
 
-#### Contributing to translations
+## Contributing to translations
 
-The translation files are located in the [l10n folder](../lib/src/l10n/). Feel free to contribute your own translations.
+The translation files are located in the [l10n](../lib/src/l10n/) folder. Feel free to contribute your own translations.
 
 You can take a look at the [untranslated.json](../lib/src/l10n/untranslated.json) file, which is a generated file that tells you which keys with which locales haven't translated so you can find the missings easily.
+
+<details>
+<summary>Add new local</summary>
 
 1. Create a new file in [l10n](../lib/src/l10n/) folder, with the following name`quill_${localName}.arb` for example `quill_de.arb`
 
 2. Copy the [Arb Template](../lib/src/l10n/quill_en.arb) file and paste it into your new file, replace the values with your translations
 
-3. Once you finish, run the following script:
+3. Update [Supported Locales](#supported-locales) section in this page to update the supported translations for both the number and the list
 
-    ```bash
-    dart ./scripts/regenerate_translations.dart
-    ```
+</details>
 
-    Or (if you can't run the script for some reason):
+<details>
+<summary>Update existing local</summary>
 
-    ```bash
-    flutter gen-l10n
-    dart fix --apply ./lib/src/l10n/generated
-    dart format ./lib/src/l10n/generated
-    ```
+1. Navigate to [l10n](../lib/src/l10n/) folder
+
+2. Find the existing local, let's say you want to update the Korean translations, it will be `quill_ko.arb`
+
+3. Use [untranslated.json](../lib/src/l10n/untranslated.json) as reference to find missings, update or add what you want to translate.
+
+</details>
+<br>
+
+We usually avoid **updating existing value of a key in the template file without updating the key or creating a new one**, this will not update the [untranslated.json](../lib/src/l10n/untranslated.json) correctly and will make it harder for contributors to find missings or incomplete.
+
+
+Once you finish, run the following script:
+
+```bash
+dart ./scripts/regenerate_translations.dart
+```
+
+Or (if you can't run the script for some reason):
+
+```bash
+flutter gen-l10n
+dart fix --apply ./lib/src/l10n/generated
+dart format ./lib/src/l10n/generated
+```
 
 The script above will generate Dart files from the Arb files in order to test the changes and take effect, otherwise you won't notice a difference.
 
-> If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength` variable in `./scripts/ensure_translations_correct.dart` <br>
+> If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength` variable in [scripts/ensure_translations_correct.dart](../scripts/ensure_translations_correct.dart) <br>
 > Otherwise you don't need to update it.
 
 Then open a pull request so everyone can benefit from your translations!
