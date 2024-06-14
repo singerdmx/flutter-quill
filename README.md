@@ -272,7 +272,7 @@ You have two options:
 
 
 > **Converting to Delta from Markdown and HTML is highly experimental and shouldn't be used for production applications**, while the current implementation is far from perfect, it could improved a lot however **it will likely not work as expected**, due to differences between HTML and Delta, see this [comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.<br>
->We use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
+> We use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
 previously breaks the styles, while the current implementation is not ready, it provides a better user experience and doesn't have many downsides.
 
 ## 🌐 Translation
