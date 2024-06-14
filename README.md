@@ -114,7 +114,7 @@ Before using the package, we must inform you the package uses the following plug
 All of them don't require any platform-specific setup.
 
 > Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved
-> to [FlutterQuill Extensions], to use rich text features, support pasting images, gif files, take a look
+> to [FlutterQuill Extensions], to use rich text pasting, support pasting images, and gif files, take a look
 > at `flutter_quill_extensions` Readme.
 
 ## 🚀 Usage
