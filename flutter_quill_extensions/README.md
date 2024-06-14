@@ -144,7 +144,7 @@ Implementations for image, video, and formula embed blocks are proved in this pa
 
 The instructions for using the embed blocks are in the [Usage](#usage) section
 
-### 🔍Element properties
+### 🔍 Element properties
 
 Currently, the library has limited support for the image and video properties,
 and it supports only `width`, `height`, `margin`
