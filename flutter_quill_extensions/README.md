@@ -15,7 +15,7 @@ Check [Flutter Quill](https://github.com/singerdmx/flutter-quill) for details of
   - [🚀 Usage](#-usage)
   - [⚙️ Configurations](#️-configurations)
     - [📦 Embed Blocks](#-embed-blocks)
-    - [🔍Element properties](#element-properties)
+    - [🔍 Element properties](#-element-properties)
     - [🔧 Custom Element properties](#-custom-element-properties)
     - [🖼️ Image Assets](#️-image-assets)
     - [🎯 Drag and drop feature](#-drag-and-drop-feature)
@@ -60,16 +60,16 @@ The package uses the following plugins:
    See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
 2. [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the
    instructions
-3. [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter) plugin which
-   uses [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) which has a requirement on web, please
+3. [`youtube_player_flutter`](https://pub.dev/packages/youtube_player_flutter) plugin which
+   uses [`flutter_inappwebview`](https://pub.dev/packages/flutter_inappwebview) which has a requirement on web, please
    follow this [link](https://pub.dev/packages/flutter_inappwebview#installation) to set up the support for web
-4. [image_picker](https://pub.dev/packages/image_picker) which also
+4. [`image_picker`](https://pub.dev/packages/image_picker) which also
    requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation).
    It's needed for
    Android, iOS, and macOS, we must inform you that you can't pick photos using the camera on a desktop so make sure to
    handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow
    this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux)
-5. [super_clipboard](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
+5. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
    support copying images and pasting them into editor then you must set up it, open the page in pub.dev and read
    the `README.md` or click on this [link](https://pub.dev/packages/super_clipboard#android-support) to get the
    instructions.

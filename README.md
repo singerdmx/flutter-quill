@@ -106,9 +106,9 @@ dependencies:
 
 Before using the package, we must inform you the package uses the following plugins:
 
-1. [url_launcher](https://pub.dev/packages/url_launcher) to open links.
-2. [device_info_plus](https://pub.dev/packages/device_info_plus) to view info about the current device.
-3. [flutter_keyboard_visibility](https://pub.dev/packages/flutter_keyboard_visibility) to listen for keyboard visibility
+1. [`url_launcher`](https://pub.dev/packages/url_launcher) to open links.
+2. [`device_info_plus`](https://pub.dev/packages/device_info_plus) to view info about the current device.
+3. [`flutter_keyboard_visibility`](https://pub.dev/packages/flutter_keyboard_visibility) to listen for keyboard visibility
    changes.
 
 All of them don't require any platform-specific setup.
