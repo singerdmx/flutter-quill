@@ -23,17 +23,14 @@ Expanded(
 )
 ```
 
-Currently, translations are available for these 37 locales:
+Currently, translations are available for these 41 locales:
 
-* `Locale('en')`, `Locale('ar')`, `Locale('bn')`, `Locale('bs')`
-* `Locale('cs')`, `Locale('de')`, `Locale('da')`, `Locale('fr')`
-* `Locale('he')`, `Locale('zh', 'CN')`, `Locale('zh', 'HK')`
-* `Locale('ko')`, `Locale('ku')`, `Locale('ku', 'CKB')`
-* `Locale('ro', 'RO')`, `Locale('ru')`, `Locale('es')`, `Locale('tk')`, `Locale('tr')`
-* `Locale('uk')`, `Locale('ur')`, `Locale('pt')`, `Locale('pl')`
-* `Locale('vi')`, `Locale('id')`, `Locale('it')`, `Locale('ms')`
-* `Locale('nl')`, `Locale('no')`, `Locale('ne', 'NP')`, `Locale('fa')`, `Locale('hi')`
-* `Locale('sk')`, `Locale('sr')`, `Locale('sv')`, `Locale('sw')`, `Locale('ja')`
+* `Locale('en')`, `Locale('hi')`, `Locale('ku', 'CKB')`, `Locale('pt')`, `Locale('sr')`, `Locale('ur')`
+* `Locale('bg')`, `Locale('en', 'US')`, `Locale('id')`, `Locale('ms')`, `Locale('pt', 'br')`, `Locale('sv')`, `Locale('vi')`
+* `Locale('bn')`, `Locale('es')`, `Locale('it')`, `Locale('ne')`, `Locale('ro')`, `Locale('sw')`, `Locale('zh')`
+* `Locale('cs')`, `Locale('fa')`, `Locale('ja')`, `Locale('nl')`, `Locale('ro', 'RO')`, `Locale('tk')`, `Locale('zh', 'CN')`
+* `Locale('da')`, `Locale('fr')`, `Locale('ko')`, `Locale('no')`, `Locale('ru')`, `Locale('tr')`, `Locale('zh', 'HK')`
+* `Locale('de')`, `Locale('he')`, `Locale('ku')`, `Locale('pl')`, `Locale('ar')`, `Locale('sk')`, `Locale('uk')`
 
 #### Contributing to translations
 
