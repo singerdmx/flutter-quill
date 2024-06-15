@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.1
+
+* replace base64 regex string by @salba360496 in https://github.com/singerdmx/flutter-quill/pull/1919
+
+## New Contributors
+* @salba360496 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1919
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.0...v9.4.1
+
 ## 9.4.0
 
 This release can be used without changing anything, although it can break the behavior a little, we provided a way to use the old behavior in `9.3.x`
