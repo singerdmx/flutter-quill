@@ -173,7 +173,9 @@ class QuillEditorState extends State<QuillEditor>
   void initState() {
     super.initState();
     widget.configurations.controller.editorFocusNode ??= widget.focusNode;
-    widget.configurations.controller.editorFocusNode?.requestFocus();
+    if (configurations.autoFocus) {
+      widget.configurations.controller.editorFocusNode?.requestFocus();
+    }
     _editorKey = configurations.editorKey ?? GlobalKey<EditorState>();
     _selectionGestureDetectorBuilder =
         _QuillEditorSelectionGestureDetectorBuilder(
