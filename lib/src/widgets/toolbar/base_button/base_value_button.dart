@@ -84,6 +84,7 @@ abstract class QuillToolbarBaseButtonState<
   }
 
   void didChangeEditingValue() {
+    if (!mounted) return;
     setState(() => currentValue = currentStateValue);
   }
 
