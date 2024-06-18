@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.2
+
+* Respect autofocus, closes #1923 by @Guillergood in https://github.com/singerdmx/flutter-quill/pull/1924
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.1...v9.4.2
+
 ## 9.4.1
 
 * replace base64 regex string by @salba360496 in https://github.com/singerdmx/flutter-quill/pull/1919
