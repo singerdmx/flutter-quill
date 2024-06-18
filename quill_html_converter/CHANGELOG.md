@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.3
+
+* Fix: setState() called after dispose(): QuillToolbarClipboardButtonState #1895 by @windows7lake in https://github.com/singerdmx/flutter-quill/pull/1926
+
+## New Contributors
+* @windows7lake made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1926
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.2...v9.4.3
+
 ## 9.4.2
 
 * Respect autofocus, closes #1923 by @Guillergood in https://github.com/singerdmx/flutter-quill/pull/1924
