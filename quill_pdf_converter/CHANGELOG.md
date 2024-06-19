@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.4
+
+* fix: Enabled link regex to be overridden by @JoepHeijnen in https://github.com/singerdmx/flutter-quill/pull/1931
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.3...v9.4.4
+
 ## 9.4.3
 
 * Fix: setState() called after dispose(): QuillToolbarClipboardButtonState #1895 by @windows7lake in https://github.com/singerdmx/flutter-quill/pull/1926
