@@ -372,16 +372,16 @@ class AutoFormatMultipleLinksRule extends InsertRule {
 
   /// It requires a valid link in one link
   RegExp get oneLineLinkRegExp => RegExp(
-    _oneLineLinkPattern,
-    caseSensitive: false,
-  );
+        _oneLineLinkPattern,
+        caseSensitive: false,
+      );
 
   /// It detect if there is a link in the text whatever if it in the middle etc
   // Used to solve bug https://github.com/singerdmx/flutter-quill/issues/1432
   RegExp get detectLinkRegExp => RegExp(
-    _detectLinkPattern,
-    caseSensitive: false,
-  );
+        _detectLinkPattern,
+        caseSensitive: false,
+      );
   RegExp get linkRegExp => oneLineLinkRegExp;
 
   @override
