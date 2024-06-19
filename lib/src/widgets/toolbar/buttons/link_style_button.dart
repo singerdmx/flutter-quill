@@ -196,7 +196,8 @@ class _LinkDialogState extends State<_LinkDialog> {
   late String _text;
 
   RegExp get linkRegExp {
-    return widget.linkRegExp ?? AutoFormatMultipleLinksRule.oneLineLinkRegExp;
+    return widget.linkRegExp ??
+        const AutoFormatMultipleLinksRule().oneLineLinkRegExp;
   }
 
   late TextEditingController _linkController;
