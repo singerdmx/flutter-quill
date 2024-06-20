@@ -577,3 +577,35 @@ class QuillEditorInsertEmbedIntent extends Intent {
 
   final Attribute type;
 }
+
+class QuillEditorUpdateCursorLocationAction
+    extends ContextAction<ScrollToDocumentBoundaryIntent> {
+  QuillEditorUpdateCursorLocationAction(this.state);
+
+  final QuillRawEditorState state;
+
+  @override
+  Object? invoke(ScrollToDocumentBoundaryIntent intent,
+      [BuildContext? context]) {
+    if (intent.forward) {
+      return Actions.invoke(
+        context!,
+        UpdateSelectionIntent(
+          state.textEditingValue,
+          TextSelection.collapsed(
+            offset: state.controller.plainTextEditingValue.text.length,
+          ),
+          SelectionChangedCause.keyboard,
+        ),
+      );
+    }
+    return Actions.invoke(
+      context!,
+      UpdateSelectionIntent(
+        state.textEditingValue,
+        const TextSelection.collapsed(offset: 0),
+        SelectionChangedCause.keyboard,
+      ),
+    );
+  }
+}
