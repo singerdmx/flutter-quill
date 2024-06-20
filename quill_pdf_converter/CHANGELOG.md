@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.5
+
+* fix: color picker hex unfocus on web by @geronimol in https://github.com/singerdmx/flutter-quill/pull/1934
+
+## New Contributors
+* @geronimol made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1934
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.4...v9.4.5
+
 ## 9.4.4
 
 * fix: Enabled link regex to be overridden by @JoepHeijnen in https://github.com/singerdmx/flutter-quill/pull/1931
