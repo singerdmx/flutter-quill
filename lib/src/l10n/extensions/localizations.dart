@@ -15,7 +15,7 @@ extension LocalizationsExt on BuildContext {
           ' required, please make sure you wrapping the current widget with '
           'FlutterQuillLocalizationsWidget or add '
           'FlutterQuillLocalizations.delegate to the localizationsDelegates '
-          'in your App widget, please consider report this in GitHub as a bug',
+          'in your App widget, please consider reporting this as a bug',
         ));
   }
 }

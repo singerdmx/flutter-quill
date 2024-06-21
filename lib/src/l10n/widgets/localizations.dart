@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../extensions/quill_configurations_ext.dart';
 import '../extensions/localizations.dart';
 
+/// A widget that check if [FlutterQuillLocalizations.delegate] is provided
+/// in the widgets app (e.g, [MaterialApp] or [WidgetsApp]).
+///
+/// If not, will provide in the [child] to access it in the widget tree.
 class FlutterQuillLocalizationsWidget extends StatelessWidget {
   const FlutterQuillLocalizationsWidget({
     required this.child,
