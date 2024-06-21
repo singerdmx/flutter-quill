@@ -1,4 +1,4 @@
-# Font Size
+# 🔠 Font Size
 
 Within the editor toolbar, a drop-down with font-sizing capabilities is available.
 This can be enabled or disabled
