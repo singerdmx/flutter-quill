@@ -578,9 +578,9 @@ class QuillEditorInsertEmbedIntent extends Intent {
   final Attribute type;
 }
 
-class QuillEditorUpdateCursorLocationAction
+class UpdateCursorLocationAction
     extends ContextAction<ScrollToDocumentBoundaryIntent> {
-  QuillEditorUpdateCursorLocationAction(this.state);
+  UpdateCursorLocationAction(this.state);
 
   final QuillRawEditorState state;
 

@@ -1687,7 +1687,7 @@ class QuillRawEditorState extends EditorState
     QuillEditorApplyHeaderIntent: _applyHeaderAction,
     QuillEditorApplyCheckListIntent: _applyCheckListAction,
     QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this),
-    ScrollToDocumentBoundaryIntent: QuillEditorUpdateCursorLocationAction(this)
+    ScrollToDocumentBoundaryIntent: UpdateCursorLocationAction(this)
   };
 
   @override
