@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.6
+
+* fix: search dialog throw an exception due to missing FlutterQuillLocalizations.delegate in the editor by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1938
+* fix(editor): implement editor shortcut action for home and end keys to fix exception about unimplemented ScrollToDocumentBoundaryIntent by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1937
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.5...v9.4.6
+
 ## 9.4.5
 
 * fix: color picker hex unfocus on web by @geronimol in https://github.com/singerdmx/flutter-quill/pull/1934
