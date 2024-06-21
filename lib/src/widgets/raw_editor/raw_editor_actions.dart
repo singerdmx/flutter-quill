@@ -585,25 +585,19 @@ class QuillEditorUpdateCursorLocationAction
   final QuillRawEditorState state;
 
   @override
-  Object? invoke(ScrollToDocumentBoundaryIntent intent,
-      [BuildContext? context]) {
-    if (intent.forward) {
-      return Actions.invoke(
-        context!,
-        UpdateSelectionIntent(
-          state.textEditingValue,
-          TextSelection.collapsed(
-            offset: state.controller.plainTextEditingValue.text.length,
-          ),
-          SelectionChangedCause.keyboard,
-        ),
-      );
-    }
+  Object? invoke(
+    ScrollToDocumentBoundaryIntent intent, [
+    BuildContext? context,
+  ]) {
     return Actions.invoke(
       context!,
       UpdateSelectionIntent(
         state.textEditingValue,
-        const TextSelection.collapsed(offset: 0),
+        intent.forward
+            ? TextSelection.collapsed(
+                offset: state.controller.plainTextEditingValue.text.length,
+              )
+            : const TextSelection.collapsed(offset: 0),
         SelectionChangedCause.keyboard,
       ),
     );
