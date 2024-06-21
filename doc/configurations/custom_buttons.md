@@ -1,4 +1,4 @@
-# Custom QuillToolbar Buttons ✨
+# Custom `QuillToolbar` Buttons ✨
 
 You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List`
 of `QuillToolbarCustomButtonOptions`.
