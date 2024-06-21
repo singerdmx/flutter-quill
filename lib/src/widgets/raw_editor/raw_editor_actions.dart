@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../translations.dart';
 import '../../models/documents/attribute.dart';
 import '../editor/editor.dart';
 import '../toolbar/buttons/link_style2_button.dart';
@@ -460,8 +461,10 @@ class QuillEditorOpenSearchAction extends ContextAction<OpenSearchIntent> {
     }
     await showDialog<String>(
       context: context,
-      builder: (_) => QuillToolbarSearchDialog(
-        controller: state.controller,
+      builder: (_) => FlutterQuillLocalizationsWidget(
+        child: QuillToolbarSearchDialog(
+          controller: state.controller,
+        ),
       ),
     );
   }
