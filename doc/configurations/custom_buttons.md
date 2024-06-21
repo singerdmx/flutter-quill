@@ -17,8 +17,8 @@ To add an Icon, we should use a new `QuillToolbarCustomButtonOptions` class
 Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
 
 ```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
+QuillToolbar.simple(
+  configurations: QuillSimpleToolbarConfigurations(
     customButtons: [
       QuillToolbarCustomButtonOptions(
         icon: const Icon(Icons.ac_unit),

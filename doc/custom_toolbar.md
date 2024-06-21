@@ -6,8 +6,8 @@ You can use the `QuillBaseToolbar` which is the base for the `QuillToolbar`
 Example:
 
 ```dart
-QuillToolbar(
-  configurations: const QuillToolbarConfigurations(
+QuillToolbar.simple(
+  configurations: const QuillSimpleToolbarConfigurations(
     buttonOptions: QuillToolbarButtonOptions(
       base: QuillToolbarBaseButtonOptions(
         globalIconSize: 20,
