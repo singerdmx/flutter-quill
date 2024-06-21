@@ -173,7 +173,7 @@ void main() {
     );
 
     testWidgets(
-      'should throw FlutterQuillLocalizationsWidget if the delegate not provided',
+      'should throw MissingFlutterQuillLocalizationException if the delegate not provided',
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -194,7 +194,7 @@ void main() {
     );
 
     testWidgets(
-      'should not throw FlutterQuillLocalizationsWidget if the delegate is provided',
+      'should not throw MissingFlutterQuillLocalizationException if the delegate is provided',
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
