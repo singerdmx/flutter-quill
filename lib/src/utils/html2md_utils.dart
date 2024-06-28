@@ -55,8 +55,29 @@ class Html2MdRules {
     //Is used a local underline implemenation since markdown just use underline with html tags
     return '<und>$content<und>';
   });
-  static final videoRule =
-      hmd.Rule('video', filters: ['iframe'], replacement: (content, node) {
+  static final videoRule = hmd.Rule('video', filters: ['iframe', 'video'],
+      replacement: (content, node) {
+    //This need to be verified by a different way of iframes, since video tag can have <source> children
+    if (node.nodeName == 'video') {
+      //if has children then just will be taked as different part of code
+      if (node.childNum > 0) {
+        var child = node.firstChild!;
+        var src = child.getAttribute('src');
+        if (src == null) {
+          child = node.childNodes().last;
+          src = child.getAttribute('src');
+        }
+        if (!youtubeVideoUrlValidator.hasMatch(src ?? '')) {
+          return '<video>${child.outerHTML}</video>';
+        }
+        return '[$content]($src)';
+      }
+      final src = node.getAttribute('src');
+      if (src == null || !youtubeVideoUrlValidator.hasMatch(src)) {
+        return node.outerHTML;
+      }
+      return '[$content]($src)';
+    }
     //by now, we can only access to src
     final src = node.getAttribute('src');
     //if the source is null or is not valid youtube url, then just return the html instead remove it
