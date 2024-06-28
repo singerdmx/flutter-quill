@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 // [ character
 const int $lbracket = 0x5B;
 final RegExp youtubeVideoUrlValidator = RegExp(
-    r'^(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?$');
+    r'^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$');
 
 ///Local syntax implementation for underline
 class UnderlineSyntax extends md.DelimiterSyntax {
