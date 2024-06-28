@@ -1,7 +1,5 @@
 import 'package:html2md/html2md.dart' as hmd;
 import 'package:markdown/markdown.dart' as md;
-import 'package:markdown/src/ast.dart' as ast;
-import 'package:markdown/src/util.dart' as util;
 
 // [ character
 const int _$lbracket = 0x5B;
@@ -27,17 +25,15 @@ class VideoSyntax extends md.LinkSyntax {
         );
 
   @override
-  ast.Element createNode(
+  md.Element createNode(
     String destination,
     String? title, {
-    required List<ast.Node> Function() getChildren,
+    required List<md.Node> Function() getChildren,
   }) {
     final element = md.Element.empty('video');
-    element.attributes['src'] = util.normalizeLinkDestination(
-      util.escapePunctuation(destination),
-    );
+    element.attributes['src'] = destination;
     if (title != null && title.isNotEmpty) {
-      element.attributes['title'] = util.normalizeLinkTitle(title);
+      element.attributes['title'] = title;
     }
     return element;
   }
