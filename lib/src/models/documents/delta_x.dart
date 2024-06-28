@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
 import 'package:meta/meta.dart';
 import '../../../markdown_quill.dart';
 import '../../../quill_delta.dart';
+import '../../utils/html2md_utils.dart';
 
 @immutable
 @experimental
@@ -18,7 +20,8 @@ class DeltaX {
     String markdownText, {
     Md2DeltaConfigs md2DeltaConfigs = const Md2DeltaConfigs(),
   }) {
-    final mdDocument = md.Document(encodeHtml: false);
+    final mdDocument = md.Document(
+        encodeHtml: false, inlineSyntaxes: [UnderlineSyntax(), VideoSyntax()]);
     final mdToDelta = MarkdownToDelta(
       markdownDocument: mdDocument,
       customElementToBlockAttribute:
@@ -42,15 +45,29 @@ class DeltaX {
   /// used for **production applications**.
   ///
   @experimental
-  static Delta fromHtml(String htmlText, {Html2MdConfigs? configs}) {
+  static Delta fromHtml(
+    String htmlText, {
+    Html2MdConfigs? configs,
+  }) {
+    configs = Html2MdConfigs(
+      customRules: [
+        Html2MdRules.underlineRule,
+        Html2MdRules.videoRule,
+        ...configs?.customRules ?? []
+      ],
+      ignoreIf: configs?.ignoreIf,
+      rootTag: configs?.rootTag,
+      imageBaseUrl: configs?.imageBaseUrl,
+      styleOptions: configs?.styleOptions ?? {'emDelimiter': '*'},
+    );
     final markdownText = html2md
         .convert(
           htmlText,
-          rules: configs?.customRules,
-          ignore: configs?.ignoreIf,
-          rootTag: configs?.rootTag,
-          imageBaseUrl: configs?.imageBaseUrl,
-          styleOptions: configs?.styleOptions,
+          rules: configs.customRules,
+          ignore: configs.ignoreIf,
+          rootTag: configs.rootTag,
+          imageBaseUrl: configs.imageBaseUrl,
+          styleOptions: configs.styleOptions,
         )
         .replaceAll(
           'unsafe:',
@@ -60,7 +77,6 @@ class DeltaX {
   }
 }
 
-@immutable
 @experimental
 class Md2DeltaConfigs {
   const Md2DeltaConfigs({
@@ -73,41 +89,4 @@ class Md2DeltaConfigs {
   final Map<String, ElementToAttributeConvertor> customElementToBlockAttribute;
   final Map<String, ElementToEmbeddableConvertor> customElementToEmbeddable;
   final bool softLineBreak;
-}
-
-@immutable
-@experimental
-class Html2MdConfigs {
-  const Html2MdConfigs({
-    this.customRules,
-    this.ignoreIf,
-    this.rootTag,
-    this.imageBaseUrl,
-    this.styleOptions = const {'emDelimiter': '*'},
-    //emDelimiter set em to be "*" instead a "_"
-  });
-
-  /// The [rules] parameter can be used to customize element processing.
-  final List<html2md.Rule>? customRules;
-
-  /// Elements list in [ignore] would be ingored.
-  final List<String>? ignoreIf;
-
-  final String? rootTag;
-  final String? imageBaseUrl;
-
-  /// The default and available style options:
-  ///
-  /// | Name        | Default           | Options  |
-  /// | ------------- |:-------------:| -----:|
-  /// | headingStyle      | "setext" | "setext", "atx" |
-  /// | hr      | "* * *" | "* * *", "- - -", "_ _ _" |
-  /// | bulletListMarker      | "*" | "*", "-", "_" |
-  /// | codeBlockStyle      | "indented" | "indented", "fenced" |
-  /// | fence      | "\`\`\`" | "\`\`\`", "~~~" |
-  /// | emDelimiter      | "_" | "_", "*" |
-  /// | strongDelimiter      | "**" | "**", "__" |
-  /// | linkStyle      | "inlined" | "inlined", "referenced" |
-  /// | linkReferenceStyle      | "full" | "full", "collapsed", "shortcut" |
-  final Map<String, String>? styleOptions;
 }
