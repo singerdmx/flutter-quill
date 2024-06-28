@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.7
+
+* fixed #1953 italic detection error by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1954
+
+## New Contributors
+* @CatHood0 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1954
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.6...v9.4.7
+
 ## 9.4.6
 
 * fix: search dialog throw an exception due to missing FlutterQuillLocalizations.delegate in the editor by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1938
