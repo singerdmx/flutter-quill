@@ -25,6 +25,11 @@ void main() {
     Operation.insert('\n'),
   ]);
 
+  final expectedDeltaVideo = Delta.fromOperations([
+    Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
+    Operation.insert('\n'),
+  ]);
+
   test('should detect emphasis and parse correctly', () {
     final delta = DeltaX.fromHtml(htmlWithEmp);
     expect(delta, expectedDeltaEmp);
@@ -37,6 +42,6 @@ void main() {
 
   test('should detect video and parse correctly', () {
     final delta = DeltaX.fromHtml(htmlWithVideo);
-    print(delta);
+    expect(delta, expectedDeltaVideo);
   });
 }

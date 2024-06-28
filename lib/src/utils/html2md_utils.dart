@@ -6,6 +6,11 @@ import 'package:markdown/src/ast.dart' as ast;
 import 'package:markdown/src/util.dart' as util;
 import 'package:meta/meta.dart';
 
+// [ character
+const int $lbracket = 0x5B;
+final RegExp youtubeVideoUrlValidator = RegExp(
+    r'^(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?$');
+
 ///Local syntax implementation for underline
 class UnderlineSyntax extends md.DelimiterSyntax {
   UnderlineSyntax()
@@ -16,11 +21,6 @@ class UnderlineSyntax extends md.DelimiterSyntax {
           tags: [md.DelimiterTag('u', 5)],
         );
 }
-
-// [ character
-const int $lbracket = 0x5B;
-final RegExp youtubeVideoUrlValidator = RegExp(
-    r'^(?:https?:)?(?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]{7,15})(?:[\?&][a-zA-Z0-9\_-]+=[a-zA-Z0-9\_-]+)*(?:[&\/\#].*)?$');
 
 class VideoSyntax extends md.LinkSyntax {
   VideoSyntax({super.linkResolver})

@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -125,7 +124,6 @@ class MarkdownToDelta extends Converter<String, Delta>
     _topLevelNodes.addAll(mdNodes);
 
     for (final node in mdNodes) {
-      print(node.toString());
       node.accept(this);
     }
 
@@ -178,8 +176,6 @@ class MarkdownToDelta extends Converter<String, Delta>
 
   @override
   bool visitElementBefore(md.Element element) {
-    print(
-        'Visit before: [tag: ${element.tag}, attributes: ${element.attributes}]');
     _insertNewLineBeforeElementIfNeeded(element);
 
     final tag = element.tag;
@@ -211,9 +207,6 @@ class MarkdownToDelta extends Converter<String, Delta>
   @override
   void visitElementAfter(md.Element element) {
     final tag = element.tag;
-
-    print(
-        'Visit after: [tag: ${element.tag}, attributes: ${element.attributes}]');
 
     if (_isEmbedElement(element)) {
       _delta.insert(_toEmbeddable(element).toJson());
