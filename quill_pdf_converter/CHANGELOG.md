@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.4.8
+
+* Add support for html underline and videos  by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1955
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.7...v9.4.8
+
 ## 9.4.7
 
 * fixed #1953 italic detection error by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1954
