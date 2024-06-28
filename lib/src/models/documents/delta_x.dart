@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
 import 'package:meta/meta.dart';

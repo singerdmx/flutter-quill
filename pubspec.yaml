@@ -75,6 +75,7 @@ dev_dependencies:
   yaml: ^3.1.2
   http: ^1.2.1
 
+  path: any
 flutter:
   uses-material-design: true
   generate: true
