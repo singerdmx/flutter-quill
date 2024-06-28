@@ -3,7 +3,7 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:meta/meta.dart';
 import '../../../markdown_quill.dart';
 import '../../../quill_delta.dart';
-import '../../utils/html2md_utils.dart';
+import '../../utils/delta_x_utils.dart';
 
 @immutable
 @experimental
@@ -15,21 +15,12 @@ class DeltaX {
   /// This api is **experimental** and designed to be used **internally** and shouldn't
   /// used for **production applications**.
   @experimental
-  static Delta fromMarkdown(
-    String markdownText, {
-    Md2DeltaConfigs md2DeltaConfigs = const Md2DeltaConfigs(),
-  }) {
+  static Delta fromMarkdown(String markdownText) {
     final mdDocument = md.Document(
-        encodeHtml: false, inlineSyntaxes: [UnderlineSyntax(), VideoSyntax()]);
-    final mdToDelta = MarkdownToDelta(
-      markdownDocument: mdDocument,
-      customElementToBlockAttribute:
-          md2DeltaConfigs.customElementToBlockAttribute,
-      customElementToEmbeddable: md2DeltaConfigs.customElementToEmbeddable,
-      customElementToInlineAttribute:
-          md2DeltaConfigs.customElementToInlineAttribute,
-      softLineBreak: md2DeltaConfigs.softLineBreak,
+      encodeHtml: false,
+      inlineSyntaxes: [UnderlineSyntax(), VideoSyntax()],
     );
+    final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
     return mdToDelta.convert(markdownText);
   }
 
@@ -44,48 +35,15 @@ class DeltaX {
   /// used for **production applications**.
   ///
   @experimental
-  static Delta fromHtml(
-    String htmlText, {
-    Html2MdConfigs? configs,
-  }) {
-    configs = Html2MdConfigs(
-      customRules: [
-        Html2MdRules.underlineRule,
-        Html2MdRules.videoRule,
-        ...configs?.customRules ?? []
-      ],
-      ignoreIf: configs?.ignoreIf,
-      rootTag: configs?.rootTag,
-      imageBaseUrl: configs?.imageBaseUrl,
-      styleOptions: configs?.styleOptions ?? {'emDelimiter': '*'},
+  static Delta fromHtml(String htmlText) {
+    final markdownText = html2md.convert(
+      htmlText,
+      rules: [underlineRule, videoRule],
+      styleOptions: {'emDelimiter': '*'},
+    ).replaceAll(
+      'unsafe:',
+      '',
     );
-    final markdownText = html2md
-        .convert(
-          htmlText,
-          rules: configs.customRules,
-          ignore: configs.ignoreIf,
-          rootTag: configs.rootTag,
-          imageBaseUrl: configs.imageBaseUrl,
-          styleOptions: configs.styleOptions,
-        )
-        .replaceAll(
-          'unsafe:',
-          '',
-        );
     return fromMarkdown(markdownText);
   }
-}
-
-@experimental
-class Md2DeltaConfigs {
-  const Md2DeltaConfigs({
-    this.customElementToInlineAttribute = const {},
-    this.customElementToBlockAttribute = const {},
-    this.customElementToEmbeddable = const {},
-    this.softLineBreak = false,
-  });
-  final Map<String, ElementToAttributeConvertor> customElementToInlineAttribute;
-  final Map<String, ElementToAttributeConvertor> customElementToBlockAttribute;
-  final Map<String, ElementToEmbeddableConvertor> customElementToEmbeddable;
-  final bool softLineBreak;
 }
