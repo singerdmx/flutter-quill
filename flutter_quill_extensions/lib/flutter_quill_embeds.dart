@@ -6,6 +6,8 @@ import 'embeds/image/editor/image_embed.dart';
 import 'embeds/image/editor/image_web_embed.dart';
 import 'embeds/image/toolbar/image_button.dart';
 import 'embeds/others/camera_button/camera_button.dart';
+import 'embeds/table/editor/table_embed.dart';
+import 'embeds/table/toolbar/table_button.dart';
 import 'embeds/video/editor/video_embed.dart';
 import 'embeds/video/editor/video_web_embed.dart';
 import 'embeds/video/toolbar/video_button.dart';
@@ -13,6 +15,7 @@ import 'models/config/camera/camera_configurations.dart';
 import 'models/config/image/editor/image_configurations.dart';
 import 'models/config/image/toolbar/image_configurations.dart';
 import 'models/config/media/media_button_configurations.dart';
+import 'models/config/table/table_configurations.dart';
 import 'models/config/video/editor/video_configurations.dart';
 import 'models/config/video/editor/video_web_configurations.dart';
 import 'models/config/video/toolbar/video_configurations.dart';
@@ -61,6 +64,7 @@ class FlutterQuillEmbeds {
         QuillEditorVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
+      QuillEditorTableEmbedBuilder(),
     ];
   }
 
@@ -118,6 +122,7 @@ class FlutterQuillEmbeds {
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
     QuillToolbarMediaButtonOptions? mediaButtonOptions,
+    QuillToolbarTableButtonOptions? tableButtonOptions,
   }) =>
       [
         if (imageButtonOptions != null)
@@ -137,6 +142,12 @@ class FlutterQuillEmbeds {
               QuillToolbarCameraButton(
                 controller: controller,
                 options: cameraButtonOptions,
+              ),
+        if (tableButtonOptions != null)
+          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+              QuillToolbarTableButton(
+                controller: controller,
+                options: tableButtonOptions,
               ),
         // if (mediaButtonOptions != null)
         //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
