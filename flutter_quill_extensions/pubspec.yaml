@@ -35,7 +35,7 @@ dependencies:
   universal_html: ^2.2.4
   cross_file: ^0.3.3+6
 
-  flutter_quill: ^9.3.12
+  flutter_quill: ^9.5.1
   photo_view: ^0.15.0
   youtube_explode_dart: ^2.2.1
 
