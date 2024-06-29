@@ -54,6 +54,7 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
       actions: [
         TextButton(
             onPressed: () {
+              widget.onRequestChangeColor(context, selectedColor);
               Navigator.of(context).pop();
             },
             child: Text(context.loc.ok)),
@@ -123,8 +124,6 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                         controller: hexController,
                         onChanged: (value) {
                           selectedColor = hexToColor(value);
-                          widget.onRequestChangeColor(context, selectedColor);
-
                           colorBoxSetState(() {});
                         },
                         decoration: InputDecoration(

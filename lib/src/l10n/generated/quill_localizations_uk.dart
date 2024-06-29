@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get alignRight => 'Вирівняти праворуч';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Вирівняти за шириною вікна';
 
   @override
@@ -294,4 +297,7 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get alignRight => 'چیدمان راست';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'تضمین عرض پنجره';
 
   @override
@@ -291,4 +294,7 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

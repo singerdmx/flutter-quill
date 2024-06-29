@@ -1,7 +1,7 @@
-# Localizations Setup
-in addition to the required delegates mentioned above in [Using custom app widget](./using_custom_app_widget.md)
+# 🌍 Localizations Setup
 
-which are:
+In addition to the required delegates mentioned above in [Using custom app widget](./using_custom_app_widget.md), which are:
+
 ```dart
 localizationsDelegates: const [
     DefaultCupertinoLocalizations.delegate,
@@ -9,17 +9,16 @@ localizationsDelegates: const [
     DefaultWidgetsLocalizations.delegate,
 ],
 ```
-which are used by official Flutter widgets
 
-The library also needs the 
+Which are used by Flutter widgets.
+
+📌 Note: The library also needs the `FlutterQuillLocalizations.delegate`:
+
 ```dart
 // Required localizations delegates ...
 FlutterQuillLocalizations.delegate
 ```
 
-To offer the default localizations.
+**You don't have to add this explicitly** because we have wrapped the `QuillEditor` and `QuillToolbar` with `FlutterQuillLocalizationsWidget`. This widget will check if the necessary localizations are set; if not, it will provide them only for these widgets. Therefore, it's not strictly required. However, if you are overriding the `localizationsDelegates`, you can also add the `FlutterQuillLocalizations.delegate`.
 
-But **you don't have to** since we have wrapped the `QuillEditor` and `QuillToolbar` with `FlutterQuillLocalizationsWidget` which will check if it sets then it will go, if not, then it will be provided only for them, so it's not really required, but if you are overriding the `localizationsDelegates` you could also add the `FlutterQuillLocalizations.delegate`
-which won't change anything
-
-There are additional notes in the [Translation](../translation.md) section
+📄 For additional notes, refer to the [Translation](../translation.md) section.

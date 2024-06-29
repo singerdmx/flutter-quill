@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   String get alignRight => '오른쪽 정렬';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => '좌우로 정렬';
 
   @override
@@ -287,4 +290,7 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
 
   @override
   String get paste => '붙여넣기';
+
+  @override
+  String get insertTable => 'Insert table';
 }

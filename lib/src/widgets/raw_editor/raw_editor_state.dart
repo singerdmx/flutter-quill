@@ -701,6 +701,18 @@ class QuillRawEditorState extends EditorState
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
             ): const OpenSearchIntent(),
+
+            // Navigate to the start or end of the document
+            SingleActivator(
+              LogicalKeyboardKey.home,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollToDocumentBoundaryIntent(forward: false),
+            SingleActivator(
+              LogicalKeyboardKey.end,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollToDocumentBoundaryIntent(forward: true),
           }, {
             ...?widget.configurations.customShortcuts
           }),
@@ -1674,7 +1686,8 @@ class QuillRawEditorState extends EditorState
     IndentSelectionIntent: _indentSelectionAction,
     QuillEditorApplyHeaderIntent: _applyHeaderAction,
     QuillEditorApplyCheckListIntent: _applyCheckListAction,
-    QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this)
+    QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this),
+    ScrollToDocumentBoundaryIntent: NavigateToDocumentBoundaryAction(this)
   };
 
   @override

@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get alignRight => '右对齐';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => '两端对齐';
 
   @override
@@ -287,6 +290,9 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).

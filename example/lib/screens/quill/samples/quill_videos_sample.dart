@@ -1,7 +1,7 @@
 const quillVideosSample = [
   {'insert': '\n'},
   {
-    'insert': {'video': 'https://youtu.be/xz6_AlJkDPA'},
+    'insert': {'video': 'https://youtu.be/fq4N0hgOWzU?si=SqoY_bAZYnjCkUvn'},
     'attributes': {
       'width': '300',
       'height': '300',
@@ -10,10 +10,8 @@ const quillVideosSample = [
   },
   {'insert': '\n'},
   {'insert': '\n'},
-  {'insert': 'And this is just a youtube video'},
   {'insert': '\n'},
-  {
-    'insert': 'This sample is not complete.',
-  },
+  {'insert': 'The video above is a Youtube video.'},
+  {'insert': '\n'},
   {'insert': '\n'},
 ];

@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
   String get alignRight => 'Høyrejuster';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Rettferdiggjør bredden';
 
   @override
@@ -292,4 +295,7 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

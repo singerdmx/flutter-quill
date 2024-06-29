@@ -1,9 +1,9 @@
 import 'package:html2md/html2md.dart' as html2md;
 import 'package:markdown/markdown.dart' as md;
 import 'package:meta/meta.dart';
-
 import '../../../markdown_quill.dart';
 import '../../../quill_delta.dart';
+import '../../utils/delta_x_utils.dart';
 
 @immutable
 @experimental
@@ -16,7 +16,10 @@ class DeltaX {
   /// used for **production applications**.
   @experimental
   static Delta fromMarkdown(String markdownText) {
-    final mdDocument = md.Document(encodeHtml: false);
+    final mdDocument = md.Document(
+      encodeHtml: false,
+      inlineSyntaxes: [UnderlineSyntax(), VideoSyntax()],
+    );
     final mdToDelta = MarkdownToDelta(markdownDocument: mdDocument);
     return mdToDelta.convert(markdownText);
   }
@@ -33,8 +36,14 @@ class DeltaX {
   ///
   @experimental
   static Delta fromHtml(String htmlText) {
-    final markdownText = html2md.convert(htmlText).replaceAll('unsafe:', '');
-
+    final markdownText = html2md.convert(
+      htmlText,
+      rules: [underlineRule, videoRule],
+      styleOptions: {'emDelimiter': '*'},
+    ).replaceAll(
+      'unsafe:',
+      '',
+    );
     return fromMarkdown(markdownText);
   }
 }

@@ -371,18 +371,18 @@ class AutoFormatMultipleLinksRule extends InsertRule {
       r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/[^\s]*)?';
 
   /// It requires a valid link in one link
-  static final oneLineLinkRegExp = RegExp(
-    _oneLineLinkPattern,
-    caseSensitive: false,
-  );
+  RegExp get oneLineLinkRegExp => RegExp(
+        _oneLineLinkPattern,
+        caseSensitive: false,
+      );
 
   /// It detect if there is a link in the text whatever if it in the middle etc
   // Used to solve bug https://github.com/singerdmx/flutter-quill/issues/1432
-  static final detectLinkRegExp = RegExp(
-    _detectLinkPattern,
-    caseSensitive: false,
-  );
-  static final linkRegExp = oneLineLinkRegExp;
+  RegExp get detectLinkRegExp => RegExp(
+        _detectLinkPattern,
+        caseSensitive: false,
+      );
+  RegExp get linkRegExp => oneLineLinkRegExp;
 
   @override
   Delta? applyRule(

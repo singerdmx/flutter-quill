@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get alignRight => 'दाएं संरेखित करें';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'जस्टीफ़ी विन चौड़ाई';
 
   @override
@@ -291,4 +294,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }
