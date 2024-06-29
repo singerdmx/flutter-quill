@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.0
+
+* Partial support for table embed by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1960
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.4.9...v9.5.0
+
 ## 9.4.9
 
 * Upgrade photo_view to 0.15.0 for flutter_quill_extensions by @singerdmx in https://github.com/singerdmx/flutter-quill/pull/1958
