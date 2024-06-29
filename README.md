@@ -94,6 +94,7 @@ dependencies:
 dependencies:
   flutter_quill:
     git: https://github.com/singerdmx/flutter-quill.git
+    ref: v<latest-version-here>
 ```
 
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement
