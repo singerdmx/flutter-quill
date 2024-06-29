@@ -121,8 +121,11 @@ class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
-    QuillToolbarMediaButtonOptions? mediaButtonOptions,
     QuillToolbarTableButtonOptions? tableButtonOptions,
+    @Deprecated(
+      'Media button has been removed, the value of this parameter will be ignored',
+    )
+    QuillToolbarMediaButtonOptions? mediaButtonOptions,
   }) =>
       [
         if (imageButtonOptions != null)
@@ -149,18 +152,5 @@ class FlutterQuillEmbeds {
                 controller: controller,
                 options: tableButtonOptions,
               ),
-        // if (mediaButtonOptions != null)
-        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-        //       QuillToolbarMediaButton(
-        //         controller: mediaButtonOptions.controller ?? controller,
-        //         options: mediaButtonOptions,
-        //       ),
-        // Drop the support for formula button for now
-        // if (formulaButtonOptions != null)
-        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-        //       QuillToolbarFormulaButton(
-        //         controller: formulaButtonOptions.controller ?? controller,
-        //         options: formulaButtonOptions,
-        //       ),
       ];
 }
