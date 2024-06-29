@@ -738,6 +738,12 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Paste'**
   String get paste;
+
+  /// No description provided for @insertTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert table'**
+  String get insertTable;
 }
 
 class _FlutterQuillLocalizationsDelegate

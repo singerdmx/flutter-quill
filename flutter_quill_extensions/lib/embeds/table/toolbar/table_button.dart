@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/translations.dart';
 import '../../../models/config/table/table_configurations.dart';
 import '../../../utils/quill_table_utils.dart';
 
@@ -45,11 +46,10 @@ class QuillToolbarTableButton extends StatelessWidget {
         Icons.table_chart;
   }
 
-  //TODO: implement translations for table insertion tooltip
   String _tooltip(BuildContext context) {
     return options.tooltip ??
         baseButtonExtraOptions(context)?.tooltip ??
-        'Insert table';
+        context.loc.insertTable;
   }
 
   void _sharedOnPressed(BuildContext context) {

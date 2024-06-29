@@ -290,4 +290,7 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
 
   @override
   String get paste => '붙여넣기';
+
+  @override
+  String get insertTable => 'Insert table';
 }

@@ -106,5 +106,6 @@
   "close": "Close",
   "searchSettings": "Search settings",
   "cut": "Cut",
-  "paste": "Paste"
+  "paste": "Paste",
+  "insertTable": "Insert table"
 }

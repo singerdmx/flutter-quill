@@ -7,7 +7,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "bg": [
@@ -31,7 +32,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "bn": [
@@ -55,7 +57,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "cs": [
@@ -65,7 +68,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "da": [
@@ -89,7 +93,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "de": [
@@ -108,7 +113,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "en_US": [
@@ -132,7 +138,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "es": [
@@ -151,7 +158,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "fa": [
@@ -175,7 +183,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "fr": [
@@ -186,7 +195,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "he": [
@@ -210,7 +220,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "hi": [
@@ -234,7 +245,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "id": [
@@ -258,7 +270,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "it": [
@@ -282,7 +295,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ja": [
@@ -306,11 +320,13 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ko": [
-    "alignJustify"
+    "alignJustify",
+    "insertTable"
   ],
 
   "ku": [
@@ -321,7 +337,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ku_CKB": [
@@ -332,7 +349,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ms": [
@@ -356,7 +374,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ne": [
@@ -366,7 +385,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "nl": [
@@ -390,7 +410,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "no": [
@@ -414,7 +435,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "pl": [
@@ -438,7 +460,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "pt": [
@@ -462,7 +485,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "pt_BR": [
@@ -486,7 +510,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ro": [
@@ -497,7 +522,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ro_RO": [
@@ -508,7 +534,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ru": [
@@ -527,7 +554,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sk": [
@@ -537,7 +565,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sr": [
@@ -561,7 +590,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sv": [
@@ -572,7 +602,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sw": [
@@ -596,7 +627,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "tk": [
@@ -620,7 +652,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "tr": [
@@ -644,7 +677,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "uk": [
@@ -655,7 +689,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ur": [
@@ -679,7 +714,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "vi": [
@@ -703,7 +739,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "zh": [
@@ -714,7 +751,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "zh_CN": [
@@ -725,7 +763,8 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "zh_HK": [
@@ -749,6 +788,7 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ]
 }
