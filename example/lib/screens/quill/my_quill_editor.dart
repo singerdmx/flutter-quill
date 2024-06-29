@@ -131,7 +131,7 @@ class MyQuillEditor extends StatelessWidget {
                     },
                   ),
                   videoEmbedConfigurations: QuillEditorVideoEmbedConfigurations(
-                    // Loading YouTube vidoes on Desktop is not supported yet
+                    // Loading YouTube videos on Desktop is not supported yet
                     // when using iframe platform view
                     youtubeVideoSupportMode: isDesktop(supportWeb: false)
                         ? YoutubeVideoSupportMode.customPlayerWithDownloadUrl
