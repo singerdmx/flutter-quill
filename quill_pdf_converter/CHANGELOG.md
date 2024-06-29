@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.1
+
+* feat(extensions): Youtube Video Player Support Mode by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1916
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.0...v9.5.1
+
 ## 9.5.0
 
 * Partial support for table embed by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1960
