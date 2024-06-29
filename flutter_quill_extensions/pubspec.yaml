@@ -36,7 +36,7 @@ dependencies:
   cross_file: ^0.3.3+6
 
   flutter_quill: ^9.3.12
-  photo_view: ^0.14.0
+  photo_view: ^0.15.0
 
   # Plugins
   video_player: ^2.8.1
