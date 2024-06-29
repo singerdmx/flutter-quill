@@ -1,53 +1,65 @@
 import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' show DefaultStyles;
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../models/config/video/editor/youtube_video_support_mode.dart';
 import 'video_app.dart';
 
 class YoutubeVideoApp extends StatefulWidget {
   const YoutubeVideoApp({
     required this.videoUrl,
     required this.readOnly,
+    required this.youtubeVideoSupportMode,
     super.key,
   });
 
   final String videoUrl;
   final bool readOnly;
+  final YoutubeVideoSupportMode youtubeVideoSupportMode;
 
   @override
   YoutubeVideoAppState createState() => YoutubeVideoAppState();
 }
 
 class YoutubeVideoAppState extends State<YoutubeVideoApp> {
-  YoutubePlayerController? _youtubeController;
-  late String? _videoId;
+  YoutubePlayerController? _youtubeIframeController;
 
   /// On some platforms such as desktop, Webview is not supported yet
   /// as a result the youtube video player package is not supported too
   /// this future will be not null and fetch the video url to load it using
   /// [VideoApp]
-  Future<String>? _loadYoutubeVideoWithVideoPlayer;
+  Future<String>? _loadYoutubeVideoByDownloadUrlFuture;
+
+  /// Null if the video URL is not a YouTube video
+  String? get _videoId {
+    return YoutubePlayer.convertUrlToId(widget.videoUrl);
+  }
 
   @override
   void initState() {
     super.initState();
-    _videoId = YoutubePlayer.convertUrlToId(widget.videoUrl);
     final videoId = _videoId;
-    if (videoId != null) {
-      _youtubeController = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: const YoutubePlayerFlags(
-          autoPlay: false,
-        ),
-      );
-      if (isDesktop(supportWeb: false)) {
-        _loadYoutubeVideoWithVideoPlayer =
+    if (videoId == null) {
+      return;
+    }
+    switch (widget.youtubeVideoSupportMode) {
+      case YoutubeVideoSupportMode.disabled:
+        break;
+      case YoutubeVideoSupportMode.iframeView:
+        _youtubeIframeController = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            autoPlay: false,
+          ),
+        );
+        break;
+      case YoutubeVideoSupportMode.customPlayerWithDownloadUrl:
+        _loadYoutubeVideoByDownloadUrlFuture =
             _loadYoutubeVideoWithVideoPlayerByVideoUrl();
-      }
+        break;
     }
   }
 
@@ -56,11 +68,11 @@ class YoutubeVideoAppState extends State<YoutubeVideoApp> {
     final manifest =
         await youtubeExplode.videos.streamsClient.getManifest(_videoId);
     final streamInfo = manifest.muxed.withHighestBitrate();
-    final downloadUrl = streamInfo.url;
-    return downloadUrl.toString();
+    final videoDownloadUri = streamInfo.url;
+    return videoDownloadUri.toString();
   }
 
-  Widget _videoLink({required DefaultStyles defaultStyles}) {
+  Widget _clickableVideoLinkText({required DefaultStyles defaultStyles}) {
     return RichText(
       text: TextSpan(
         text: widget.videoUrl,
@@ -74,50 +86,58 @@ class YoutubeVideoAppState extends State<YoutubeVideoApp> {
   @override
   Widget build(BuildContext context) {
     final defaultStyles = DefaultStyles.getInstance(context);
-    final youtubeController = _youtubeController;
 
-    if (youtubeController == null) {
-      if (widget.readOnly) {
-        return _videoLink(defaultStyles: defaultStyles);
-      }
+    switch (widget.youtubeVideoSupportMode) {
+      case YoutubeVideoSupportMode.disabled:
+        throw UnsupportedError('YouTube video links are not supported');
+      case YoutubeVideoSupportMode.iframeView:
+        final youtubeController = _youtubeIframeController;
 
-      return RichText(
-        text: TextSpan(text: widget.videoUrl, style: defaultStyles.link),
-      );
-    }
-
-    // Workaround as YoutubePlayer doesn't support Desktop
-    if (_loadYoutubeVideoWithVideoPlayer != null) {
-      return FutureBuilder<String>(
-        future: _loadYoutubeVideoWithVideoPlayer,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator.adaptive());
+        if (youtubeController == null) {
+          if (widget.readOnly) {
+            return _clickableVideoLinkText(defaultStyles: defaultStyles);
           }
-          if (snapshot.hasError) {
-            return _videoLink(defaultStyles: defaultStyles);
-          }
-          return VideoApp(
-            videoUrl: snapshot.requireData,
-            readOnly: widget.readOnly,
+
+          return RichText(
+            text: TextSpan(text: widget.videoUrl, style: defaultStyles.link),
           );
-        },
-      );
+        }
+        return YoutubePlayerBuilder(
+          player: YoutubePlayer(
+            controller: youtubeController,
+            showVideoProgressIndicator: true,
+          ),
+          builder: (context, player) {
+            return player;
+          },
+        );
+      case YoutubeVideoSupportMode.customPlayerWithDownloadUrl:
+        assert(
+          _loadYoutubeVideoByDownloadUrlFuture != null,
+          'The load youtube video future should not null for "${widget.youtubeVideoSupportMode}" mode',
+        );
+
+        return FutureBuilder<String>(
+          future: _loadYoutubeVideoByDownloadUrlFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator.adaptive());
+            }
+            if (snapshot.hasError) {
+              return _clickableVideoLinkText(defaultStyles: defaultStyles);
+            }
+            return VideoApp(
+              videoUrl: snapshot.requireData,
+              readOnly: widget.readOnly,
+            );
+          },
+        );
     }
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: youtubeController,
-        showVideoProgressIndicator: true,
-      ),
-      builder: (context, player) {
-        return player;
-      },
-    );
   }
 
   @override
   void dispose() {
-    _youtubeController?.dispose();
+    _youtubeIframeController?.dispose();
     super.dispose();
   }
 }
