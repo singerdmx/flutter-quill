@@ -38,8 +38,9 @@ class _TableCellWidgetState extends State<TableCellWidget> {
 
   @override
   void dispose() {
-    controller.removeListener(_onTextChanged);
-    controller.dispose();
+    controller
+      ..removeListener(_onTextChanged)
+      ..dispose();
     node.dispose();
     super.dispose();
   }
@@ -65,9 +66,7 @@ class _TableCellWidgetState extends State<TableCellWidget> {
         onChanged: (value) {
           _debounce = Timer(
             const Duration(milliseconds: 900),
-            () {
-              _onTextChanged();
-            },
+            _onTextChanged,
           );
         },
       ),
