@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.2
+
+* Fix style settings by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1962
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.1...v9.5.2
+
 ## 9.5.1
 
 * feat(extensions): Youtube Video Player Support Mode by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1916
