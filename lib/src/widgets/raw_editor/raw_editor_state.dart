@@ -875,6 +875,14 @@ class QuillRawEditorState extends EditorState
       ..formatSelection(attribute)
       // Remove the added newline.
       ..replaceText(controller.selection.baseOffset + 1, 1, '', null);
+    //
+    final style =
+        controller.document.collectStyle(controller.selection.baseOffset, 0);
+    if (style.isNotEmpty) {
+      for (final attr in style.values) {
+        controller.formatSelection(attr);
+      }
+    }
   }
 
   void _handleSelectionChanged(
