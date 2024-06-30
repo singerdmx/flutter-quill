@@ -30,6 +30,7 @@ class MyQuillEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultTextStyle = DefaultTextStyle.of(context);
     return QuillEditor(
       scrollController: scrollController,
       focusNode: focusNode,
@@ -43,27 +44,21 @@ class MyQuillEditor extends StatelessWidget {
             useTextColorForDot: true,
           ),
         ),
-        customStyles: const DefaultStyles(
+        customStyles: DefaultStyles(
           h1: DefaultTextBlockStyle(
-            TextStyle(
+            defaultTextStyle.style.copyWith(
               fontSize: 32,
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
-            VerticalSpacing(16, 0),
-            VerticalSpacing(0, 0),
+            const VerticalSpacing(16, 0),
+            const VerticalSpacing(0, 0),
             null,
           ),
-          sizeSmall: TextStyle(fontSize: 9),
-          subscript: TextStyle(
-            fontFeatures: [FontFeature.subscripts()],
-          ),
-          superscript: TextStyle(
-            fontFeatures: [FontFeature.superscripts()],
-          ),
+          sizeSmall: defaultTextStyle.style.copyWith(fontSize: 9),
         ),
         scrollable: true,
-        placeholder: 'Start writting your notes...',
+        placeholder: 'Start writing your notes...',
         padding: const EdgeInsets.all(16),
         onImagePaste: (imageBytes) async {
           if (isWeb()) {
