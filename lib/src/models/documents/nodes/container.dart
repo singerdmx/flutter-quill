@@ -47,11 +47,14 @@ abstract base class QuillContainer<T extends Node?> extends Node {
   /// Always returns fresh instance.
   T get defaultChild;
 
+  int? _length;
+
   /// Adds [node] to the end of this container children list.
   void add(T node) {
     assert(node?.parent == null);
     node?.parent = this;
     _children.add(node as Node);
+    clearLengthCache();
   }
 
   /// Adds [node] to the beginning of this container children list.
@@ -59,6 +62,7 @@ abstract base class QuillContainer<T extends Node?> extends Node {
     assert(node?.parent == null);
     node?.parent = this;
     _children.addFirst(node as Node);
+    clearLengthCache();
   }
 
   /// Removes [node] from this container.
@@ -66,6 +70,7 @@ abstract base class QuillContainer<T extends Node?> extends Node {
     assert(node?.parent == this);
     node?.parent = null;
     _children.remove(node as Node);
+    clearLengthCache();
   }
 
   /// Moves children of this node to [newParent].
@@ -118,11 +123,20 @@ abstract base class QuillContainer<T extends Node?> extends Node {
           .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
           .join();
 
-  /// Content length of this node's children.
-  ///
-  /// To get number of children in this node use [childCount].
   @override
-  int get length => _children.fold(0, (cur, node) => cur + node.length);
+  int get length {
+    _length ??= _children.fold(0, (cur, node) => (cur ?? 0) + node.length);
+    return _length!;
+  }
+
+  @override
+  void clearLengthCache() {
+    _length = null;
+    clearOffsetCache();
+    if (parent != null) {
+      parent!.clearLengthCache();
+    }
+  }
 
   @override
   void insert(int index, Object data, Style? style) {
