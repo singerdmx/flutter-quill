@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart' show immutable;
 
 import '../../../quill_delta.dart';
+import '../../models/documents/document.dart';
 import '../documents/attribute.dart';
 import 'rule.dart';
 
@@ -28,7 +29,7 @@ class ResolveLineFormatRule extends FormatRule {
 
   @override
   Delta? applyRule(
-    Delta document,
+    Document document,
     int index, {
     int? len,
     Object? data,
@@ -41,7 +42,7 @@ class ResolveLineFormatRule extends FormatRule {
     // Apply line styles to all newline characters within range of this
     // retain operation.
     var result = Delta()..retain(index);
-    final itr = DeltaIterator(document)..skip(index);
+    final itr = DeltaIterator(document.toDelta())..skip(index);
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
       op = itr.next(len - cur);
@@ -119,7 +120,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
 
   @override
   Delta? applyRule(
-    Delta document,
+    Document document,
     int index, {
     int? len,
     Object? data,
@@ -130,7 +131,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
     }
 
     final delta = Delta();
-    final itr = DeltaIterator(document);
+    final itr = DeltaIterator(document.toDelta());
     final before = itr.skip(index), after = itr.next();
     int? beg = index, retain = 0;
     if (before != null && before.hasAttribute(attribute.key)) {
@@ -159,7 +160,7 @@ class ResolveInlineFormatRule extends FormatRule {
 
   @override
   Delta? applyRule(
-    Delta document,
+    Document document,
     int index, {
     int? len,
     Object? data,
@@ -170,7 +171,7 @@ class ResolveInlineFormatRule extends FormatRule {
     }
 
     final delta = Delta()..retain(index);
-    final itr = DeltaIterator(document)..skip(index);
+    final itr = DeltaIterator(document.toDelta())..skip(index);
 
     Operation op;
     for (var cur = 0; cur < len! && itr.hasNext; cur += op.length!) {
@@ -205,7 +206,7 @@ class ResolveImageFormatRule extends FormatRule {
 
   @override
   Delta? applyRule(
-    Delta document,
+    Document document,
     int index, {
     int? len,
     Object? data,

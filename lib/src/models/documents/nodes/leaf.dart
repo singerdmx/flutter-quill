@@ -24,18 +24,39 @@ abstract base class Leaf extends Node {
   /// Contents of this node, either a String if this is a [QuillText] or an
   /// [Embed] if this is an [BlockEmbed].
   Object get value => _value;
+
+  set value(Object v) {
+    _value = v;
+    _length = null;
+    clearOffsetCache();
+  }
+
   Object _value;
 
   @override
   Line? get parent => super.parent as Line?;
 
+  int? _length;
+
   @override
   int get length {
-    if (_value is String) {
-      return (_value as String).length;
+    if (_length != null) {
+      return _length!;
     }
-    // return 1 for embedded object
-    return 1;
+    if (_value is String) {
+      _length = (_value as String).length;
+    } else {
+      // return 1 for embedded object
+      _length = 1;
+    }
+    return _length!;
+  }
+
+  @override
+  void clearLengthCache() {
+    if (parent != null) {
+      parent!.clearLengthCache();
+    }
   }
 
   @override
@@ -47,6 +68,7 @@ abstract base class Leaf extends Node {
 
   @override
   void insert(int index, Object data, Style? style) {
+    final length = this.length;
     assert(index >= 0 && index <= length);
     final node = Leaf(data);
     if (index < length) {
@@ -75,6 +97,7 @@ abstract base class Leaf extends Node {
 
   @override
   void delete(int index, int? len) {
+    final length = this.length;
     assert(index < length);
 
     final local = math.min(length - index, len!);
@@ -117,7 +140,7 @@ abstract base class Leaf extends Node {
     // Merging it with previous node if style is the same.
     final prev = node.previous;
     if (!node.isFirst && prev is QuillText && prev.style == node.style) {
-      prev._value = prev.value + node.value;
+      prev.value = prev.value + node.value;
       node.unlink();
       node = prev;
     }
@@ -125,7 +148,7 @@ abstract base class Leaf extends Node {
     // Merging it with next node if style is the same.
     final next = node.next;
     if (!node.isLast && next is QuillText && next.style == node.style) {
-      node._value = node.value + next.value;
+      node.value = node.value + next.value;
       next.unlink();
     }
   }
@@ -152,7 +175,7 @@ abstract base class Leaf extends Node {
 
     assert(this is QuillText);
     final text = _value as String;
-    _value = text.substring(0, index);
+    value = text.substring(0, index);
     final split = Leaf(text.substring(index))..applyStyle(style);
     insertAfter(split);
     return split;
