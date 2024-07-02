@@ -22,6 +22,8 @@ class QuillToolbarSearchButton extends StatelessWidget {
     return _controller;
   }
 
+  // TODO: The logic is common and can be extracted
+
   double _iconSize(BuildContext context) {
     final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options.iconSize;
@@ -60,9 +62,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
   }
 
   Color _dialogBarrierColor(BuildContext context) {
-    return options.dialogBarrierColor ??
-        context.quillSharedConfigurations?.dialogBarrierColor ??
-        Colors.black54;
+    return options.dialogBarrierColor ?? Colors.transparent;
   }
 
   QuillDialogTheme? _dialogTheme(BuildContext context) {
@@ -96,17 +96,11 @@ class QuillToolbarSearchButton extends StatelessWidget {
       );
     }
 
-    // final theme = Theme.of(context);
-
-    // final iconColor =
-    //     iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color;
-
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(
         iconData,
         size: iconSize * iconButtonFactor,
-        // color: iconColor,
       ),
       isSelected: false,
       onPressed: () => _sharedOnPressed(context),
@@ -130,7 +124,7 @@ class QuillToolbarSearchButton extends StatelessWidget {
         child: QuillToolbarSearchDialog(
           controller: controller,
           dialogTheme: _dialogTheme(context),
-          text: '',
+          searchBarAlignment: options.searchBarAlignment,
         ),
       ),
     );

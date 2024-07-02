@@ -6,6 +6,8 @@ import 'embeds/image/editor/image_embed.dart';
 import 'embeds/image/editor/image_web_embed.dart';
 import 'embeds/image/toolbar/image_button.dart';
 import 'embeds/others/camera_button/camera_button.dart';
+import 'embeds/table/editor/table_embed.dart';
+import 'embeds/table/toolbar/table_button.dart';
 import 'embeds/video/editor/video_embed.dart';
 import 'embeds/video/editor/video_web_embed.dart';
 import 'embeds/video/toolbar/video_button.dart';
@@ -13,6 +15,7 @@ import 'models/config/camera/camera_configurations.dart';
 import 'models/config/image/editor/image_configurations.dart';
 import 'models/config/image/toolbar/image_configurations.dart';
 import 'models/config/media/media_button_configurations.dart';
+import 'models/config/table/table_configurations.dart';
 import 'models/config/video/editor/video_configurations.dart';
 import 'models/config/video/editor/video_web_configurations.dart';
 import 'models/config/video/toolbar/video_configurations.dart';
@@ -61,6 +64,7 @@ class FlutterQuillEmbeds {
         QuillEditorVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
+      QuillEditorTableEmbedBuilder(),
     ];
   }
 
@@ -117,6 +121,10 @@ class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
+    QuillToolbarTableButtonOptions? tableButtonOptions,
+    @Deprecated(
+      'Media button has been removed, the value of this parameter will be ignored',
+    )
     QuillToolbarMediaButtonOptions? mediaButtonOptions,
   }) =>
       [
@@ -138,18 +146,11 @@ class FlutterQuillEmbeds {
                 controller: controller,
                 options: cameraButtonOptions,
               ),
-        // if (mediaButtonOptions != null)
-        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-        //       QuillToolbarMediaButton(
-        //         controller: mediaButtonOptions.controller ?? controller,
-        //         options: mediaButtonOptions,
-        //       ),
-        // Drop the support for formula button for now
-        // if (formulaButtonOptions != null)
-        //   (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-        //       QuillToolbarFormulaButton(
-        //         controller: formulaButtonOptions.controller ?? controller,
-        //         options: formulaButtonOptions,
-        //       ),
+        if (tableButtonOptions != null)
+          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
+              QuillToolbarTableButton(
+                controller: controller,
+                options: tableButtonOptions,
+              ),
       ];
 }

@@ -9,6 +9,8 @@ import '../../others/image_video_utils.dart';
 import '../video.dart';
 import 'select_video_source.dart';
 
+// TODO: Add custom callback to validate the video link input
+
 class QuillToolbarVideoButton extends StatelessWidget {
   const QuillToolbarVideoButton({
     required this.controller,
@@ -71,11 +73,6 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final iconData = _iconData(context);
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
-
-    // final iconColor =
-    //     iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color;
-    // final iconFillColor = iconTheme?.iconUnselectedFillColor ??
-    //     (options.fillColor ?? theme.canvasColor);
 
     if (childBuilder != null) {
       return childBuilder(
@@ -150,18 +147,6 @@ class QuillToolbarVideoButton extends StatelessWidget {
           .onVideoInsertCallback(videoUrl, controller);
       await options.videoConfigurations.onVideoInsertedCallback?.call(videoUrl);
     }
-
-    // if (options.onVideoPickCallback != null) {
-    //   final selector = options.mediaPickSettingSelector ??
-    //       ImageVideoUtils.selectMediaPickSetting;
-    //   final source = await selector(context);
-    //   if (source != null) {
-    //     if (source == MediaPickSetting.gallery) {
-    //     } else {
-    //       await _typeLink(context);
-    //     }
-    //   }
-    // } else {}
   }
 
   Future<String?> _typeLink(BuildContext context) async {
@@ -176,13 +161,4 @@ class QuillToolbarVideoButton extends StatelessWidget {
     );
     return value;
   }
-
-  // void _linkSubmitted(String? value) {
-  //   if (value != null && value.isNotEmpty) {
-  //     final index = controller.selection.baseOffset;
-  //     final length = controller.selection.extentOffset - index;
-
-  //     controller.replaceText(index, length, BlockEmbed.video(value), null);
-  //   }
-  // }
 }

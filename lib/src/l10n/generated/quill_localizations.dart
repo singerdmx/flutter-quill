@@ -415,6 +415,12 @@ abstract class FlutterQuillLocalizations {
   /// **'Align right'**
   String get alignRight;
 
+  /// Justify the text over the full window width
+  ///
+  /// In en, this message translates to:
+  /// **'Align justify'**
+  String get alignJustify;
+
   /// No description provided for @justifyWinWidth.
   ///
   /// In en, this message translates to:
@@ -732,6 +738,12 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Paste'**
   String get paste;
+
+  /// No description provided for @insertTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert table'**
+  String get insertTable;
 }
 
 class _FlutterQuillLocalizationsDelegate

@@ -37,6 +37,7 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
       return YoutubeVideoApp(
         videoUrl: videoUrl,
         readOnly: readOnly,
+        youtubeVideoSupportMode: configurations.youtubeVideoSupportMode,
       );
     }
     final ((elementSize), margin, alignment) = getElementAttributes(
@@ -53,7 +54,6 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
       alignment: alignment,
       child: VideoApp(
         videoUrl: videoUrl,
-        context: context,
         readOnly: readOnly,
         onVideoInit: configurations.onVideoInit,
       ),

@@ -1,6 +1,9 @@
-# Custom `QuillToolbar` Buttons
+# Custom `QuillToolbar` Buttons ✨
 
-You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List` of `QuillToolbarCustomButtonOptions`.
+You may add custom buttons to the _end_ of the toolbar, via the `customButtons` option, which is a `List`
+of `QuillToolbarCustomButtonOptions`.
+
+## Adding an Icon 🖌️
 
 To add an Icon, we should use a new `QuillToolbarCustomButtonOptions` class
 
@@ -13,11 +16,13 @@ To add an Icon, we should use a new `QuillToolbarCustomButtonOptions` class
       ),
 ```
 
+## Example Usage 📚
+
 Each `QuillCustomButton` is used as part of the `customButtons` option as follows:
 
 ```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
+QuillToolbar.simple(
+  configurations: QuillSimpleToolbarConfigurations(
     customButtons: [
       QuillToolbarCustomButtonOptions(
         icon: const Icon(Icons.ac_unit),

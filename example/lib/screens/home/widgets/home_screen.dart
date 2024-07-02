@@ -155,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                       } catch (e) {
-                        print(
+                        debugPrint(
                           'Error while loading json delta file: ${e.toString()}',
                         );
                         scaffoldMessenger.showText(

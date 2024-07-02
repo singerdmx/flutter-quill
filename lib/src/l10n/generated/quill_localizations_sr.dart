@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get alignRight => 'Poravnanje desno';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Centriraj širinu prozora';
 
   @override
@@ -291,4 +294,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

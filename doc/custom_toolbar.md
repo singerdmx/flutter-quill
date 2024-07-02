@@ -1,13 +1,13 @@
 # Custom Toolbar
 
-If you want to use a custom toolbar but still want the support of this library
+If you want to use a custom toolbar but still want the support of this library,
 You can use the `QuillBaseToolbar` which is the base for the `QuillToolbar`
 
 Example:
 
 ```dart
-QuillToolbar(
-  configurations: const QuillToolbarConfigurations(
+QuillToolbar.simple(
+  configurations: const QuillSimpleToolbarConfigurations(
     buttonOptions: QuillToolbarButtonOptions(
       base: QuillToolbarBaseButtonOptions(
         globalIconSize: 20,
@@ -112,4 +112,5 @@ QuillToolbar(
 )
 ```
 
-if you want a more customized toolbar feel free to create your own and use the `controller` to interact with the editor. checkout the `QuillToolbar` and the buttons inside it to see an example of how that will work
+if you want a more customized toolbar feel free to create your own and use the `controller` to interact with the editor.
+checkout the `QuillToolbar` and the buttons inside it to see an example of how that will work

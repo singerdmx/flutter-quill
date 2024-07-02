@@ -11,7 +11,7 @@ linter:
     annotate_overrides: true
     avoid_empty_else: true
     avoid_escaping_inner_quotes: true
-    avoid_print: false
+    avoid_print: true
     avoid_redundant_argument_values: false
     avoid_types_on_closure_parameters: true
     avoid_void_async: true

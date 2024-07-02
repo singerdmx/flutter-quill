@@ -19,7 +19,6 @@ import 'package:flutter/services.dart'
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
-import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
@@ -30,6 +29,7 @@ import '../../models/documents/nodes/line.dart';
 import '../../models/documents/nodes/node.dart';
 import '../../models/structs/offset_value.dart';
 import '../../models/structs/vertical_spacing.dart';
+import '../../services/clipboard/clipboard_service_provider.dart';
 import '../../utils/cast.dart';
 import '../../utils/delta.dart';
 import '../../utils/embeds.dart';
@@ -184,53 +184,41 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    final clipboard = SystemClipboard.instance;
+    final clipboardService = ClipboardServiceProvider.instacne;
 
     final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
-      if (clipboard != null) {
-        final reader = await clipboard.read();
-        if (reader.canProvide(Formats.png)) {
-          reader.getFile(Formats.png, (value) async {
-            final image = value;
-
-            final imageUrl = await onImagePaste(await image.readAll());
-            if (imageUrl == null) {
-              return;
-            }
-
-            controller.replaceText(
-              textEditingValue.selection.end,
-              0,
-              BlockEmbed.image(imageUrl),
-              null,
-            );
-          });
+      if (await clipboardService.canProvideImageFile()) {
+        final imageBytes = await clipboardService.getImageFileAsBytes();
+        final imageUrl = await onImagePaste(imageBytes);
+        if (imageUrl == null) {
+          return;
         }
+
+        controller.replaceText(
+          textEditingValue.selection.end,
+          0,
+          BlockEmbed.image(imageUrl),
+          null,
+        );
       }
     }
 
     final onGifPaste = widget.configurations.onGifPaste;
     if (onGifPaste != null) {
-      if (clipboard != null) {
-        final reader = await clipboard.read();
-        if (reader.canProvide(Formats.gif)) {
-          reader.getFile(Formats.gif, (value) async {
-            final gif = value;
-
-            final gifUrl = await onGifPaste(await gif.readAll());
-            if (gifUrl == null) {
-              return;
-            }
-
-            controller.replaceText(
-              textEditingValue.selection.end,
-              0,
-              BlockEmbed.image(gifUrl),
-              null,
-            );
-          });
+      if (await clipboardService.canProvideGifFile()) {
+        final gifBytes = await clipboardService.getGifFileAsBytes();
+        final gifUrl = await onGifPaste(gifBytes);
+        if (gifUrl == null) {
+          return;
         }
+
+        controller.replaceText(
+          textEditingValue.selection.end,
+          0,
+          BlockEmbed.image(gifUrl),
+          null,
+        );
       }
     }
   }
@@ -713,6 +701,18 @@ class QuillRawEditorState extends EditorState
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
             ): const OpenSearchIntent(),
+
+            // Navigate to the start or end of the document
+            SingleActivator(
+              LogicalKeyboardKey.home,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollToDocumentBoundaryIntent(forward: false),
+            SingleActivator(
+              LogicalKeyboardKey.end,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollToDocumentBoundaryIntent(forward: true),
           }, {
             ...?widget.configurations.customShortcuts
           }),
@@ -875,6 +875,14 @@ class QuillRawEditorState extends EditorState
       ..formatSelection(attribute)
       // Remove the added newline.
       ..replaceText(controller.selection.baseOffset + 1, 1, '', null);
+    //
+    final style =
+        controller.document.collectStyle(controller.selection.baseOffset, 0);
+    if (style.isNotEmpty) {
+      for (final attr in style.values) {
+        controller.formatSelection(attr);
+      }
+    }
   }
 
   void _handleSelectionChanged(
@@ -1686,7 +1694,8 @@ class QuillRawEditorState extends EditorState
     IndentSelectionIntent: _indentSelectionAction,
     QuillEditorApplyHeaderIntent: _applyHeaderAction,
     QuillEditorApplyCheckListIntent: _applyCheckListAction,
-    QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this)
+    QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this),
+    ScrollToDocumentBoundaryIntent: NavigateToDocumentBoundaryAction(this)
   };
 
   @override

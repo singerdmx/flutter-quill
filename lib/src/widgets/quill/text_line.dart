@@ -322,19 +322,71 @@ class _TextLineState extends State<TextLine> {
     return textStyle;
   }
 
-  TextSpan _getTextSpanFromNode(
+  /// Processes subscript and superscript attributed text.
+  ///
+  /// Reduces text fontSize and shifts down or up. Increases fontWeight to maintain balance with normal text.
+  /// Outputs characters individually to allow correct caret positioning and text selection.
+  InlineSpan _scriptSpan(String text, bool superScript, TextStyle style,
+      DefaultStyles defaultStyles) {
+    assert(text.isNotEmpty);
+    //
+    final lineStyle = style.fontSize == null || style.fontWeight == null
+        ? _getLineStyle(defaultStyles)
+        : null;
+    final fontWeight = FontWeight.lerp(
+        style.fontWeight ?? lineStyle?.fontWeight ?? FontWeight.normal,
+        FontWeight.w900,
+        0.25);
+    final fontSize = style.fontSize ?? lineStyle?.fontSize ?? 16;
+    final y = (superScript ? -0.4 : 0.14) * fontSize;
+    final charStyle = style.copyWith(
+        fontFeatures: <FontFeature>[],
+        fontWeight: fontWeight,
+        fontSize: fontSize * 0.7);
+    //
+    final offset = Offset(0, y);
+    final children = <WidgetSpan>[];
+    for (final c in text.characters) {
+      children.add(WidgetSpan(
+          child: Transform.translate(
+              offset: offset,
+              child: Text(
+                c,
+                style: charStyle,
+              ))));
+    }
+    //
+    if (children.length > 1) {
+      return TextSpan(children: children);
+    }
+    return children[0];
+  }
+
+  InlineSpan _getTextSpanFromNode(
       DefaultStyles defaultStyles, Node node, Style lineStyle) {
     final textNode = node as leaf.QuillText;
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
-    final recognizer = _getRecognizer(node, isLink);
+    final style = _getInlineTextStyle(
+        textNode, defaultStyles, nodeStyle, lineStyle, isLink);
 
+    if (widget.controller.configurations.requireScriptFontFeatures == false &&
+        textNode.value.isNotEmpty) {
+      if (nodeStyle.containsKey(Attribute.script.key)) {
+        final attr = nodeStyle.attributes[Attribute.script.key];
+        if (attr == Attribute.superscript || attr == Attribute.subscript) {
+          return _scriptSpan(textNode.value, attr == Attribute.superscript,
+              style, defaultStyles);
+        }
+      }
+    }
+
+    final recognizer = _getRecognizer(node, isLink);
     return TextSpan(
       text: textNode.value,
-      style: _getInlineTextStyle(
-          textNode, defaultStyles, nodeStyle, lineStyle, isLink),
+      style: style,
       recognizer: recognizer,
       mouseCursor: (recognizer != null) ? SystemMouseCursors.click : null,
     );
@@ -500,7 +552,6 @@ class _TextLineState extends State<TextLine> {
         _tapLink(link);
         break;
       case LinkMenuAction.copy:
-        // ignore: unawaited_futures
         Clipboard.setData(ClipboardData(text: link));
         break;
       case LinkMenuAction.remove:

@@ -1,15 +1,18 @@
 {
   "ar": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "bg": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -29,10 +32,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "bn": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -52,19 +57,23 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "cs": [
+    "alignJustify",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "da": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -84,10 +93,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "de": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -102,10 +113,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "en_US": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -125,10 +138,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "es": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -143,10 +158,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "fa": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -166,20 +183,24 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "fr": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "he": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -199,10 +220,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "hi": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -222,10 +245,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "id": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -245,10 +270,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "it": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -268,10 +295,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ja": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -291,53 +320,41 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ko": [
-    "normal",
-    "heading1",
-    "heading2",
-    "heading3",
-    "heading4",
-    "heading5",
-    "heading6",
-    "theImageHasBeenSavedAt",
-    "caseSensitive",
-    "wholeWord",
-    "pickAPhotoFromYourGallery",
-    "takeAPhotoUsingYourCamera",
-    "pasteAPhotoUsingALink",
-    "pickAVideoFromYourGallery",
-    "recordAVideoUsingYourCamera",
-    "pasteAVideoUsingALink",
-    "close",
-    "searchSettings",
-    "cut",
-    "paste"
+    "alignJustify",
+    "insertTable"
   ],
 
   "ku": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ku_CKB": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ms": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -357,19 +374,23 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ne": [
+    "alignJustify",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "nl": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -389,10 +410,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "no": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -412,10 +435,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "pl": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -435,10 +460,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "pt": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -458,10 +485,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "pt_BR": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -481,30 +510,36 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ro": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ro_RO": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ru": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -519,19 +554,23 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sk": [
+    "alignJustify",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sr": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -551,20 +590,24 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sv": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "sw": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -584,10 +627,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "tk": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -607,10 +652,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "tr": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -630,20 +677,24 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "uk": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "ur": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -663,10 +714,12 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "vi": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -686,30 +739,36 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "zh": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "zh_CN": [
+    "alignJustify",
     "theImageHasBeenSavedAt",
     "caseSensitive",
     "wholeWord",
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ],
 
   "zh_HK": [
+    "alignJustify",
     "normal",
     "heading1",
     "heading2",
@@ -729,6 +788,7 @@
     "close",
     "searchSettings",
     "cut",
-    "paste"
+    "paste",
+    "insertTable"
   ]
 }

@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get alignRight => 'Pangilia Kulia';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Kuhalalisha Upana wa Ushindi';
 
   @override
@@ -289,4 +292,7 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

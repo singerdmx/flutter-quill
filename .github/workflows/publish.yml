@@ -74,25 +74,11 @@ jobs:
         id: release_tag
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: 📑 Fetch release notes from Github API
-        id: fetch-release-notes-request
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ steps.release_tag.outputs.tag }}
-          method: 'GET'
-          customHeaders: '{"Authorization": "${{ secrets.GITHUB_TOKEN }}"}'
-          preventFailureOnNoResponse: 'false'
-
-      - name: ⚠️ Validate release notes response
-        run: |
-          releaseNotesResponse="${{ fromJson(steps.fetch-release-notes-request.outputs.response) }}"
-          if [[ -z "$releaseNotesResponse" || "$releaseNotesResponse" == "null" ]]; then
-            echo "Error: Release notes response is empty."
-            exit 1
-          fi
+      - name: 📑 Fetch release notes from Github API and create a required file by the next step
+        run: dart ./scripts/create_version_content_from_github_release.dart "${{ github.repository }}" "${{ steps.release_tag.outputs.tag }}"
 
       - name: 📝 Update version and CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }} '${{ fromJson(steps.fetch-release-notes-request.outputs.response).body }}'
+        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }}
 
       - name: 💾 Commit updated version and CHANGELOG
         id: auto-commit-action

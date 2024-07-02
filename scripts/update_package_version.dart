@@ -3,6 +3,8 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:io' show File, exit;
 
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as path;
 import 'package:yaml_edit/yaml_edit.dart' show YamlEditor;
 
 /// The list of the packages that which will be used to update the `CHANGELOG.md`
@@ -16,7 +18,9 @@ final _packages = [
   './quill_pdf_converter',
 ];
 
-const _usage = 'Usage: ./script <version> <changelog-version-content>';
+const _usage = 'Usage: ./script <version>';
+const _versionContentFileName = 'versionContent.md';
+final versionContentFile = File(path.join('build', _versionContentFileName));
 
 /// A script that should run in the root folder and not inside any other folder
 /// it has one task, which update the version for `pubspec.yaml` and
@@ -34,11 +38,11 @@ const _usage = 'Usage: ./script <version> <changelog-version-content>';
 /// this script designed to run in CI to automate the process of updating
 /// the package
 Future<void> main(List<String> args) async {
-  if (args.isEmpty || args.length < 2) {
+  if (args.isEmpty) {
     print('Missing required arguments ($args). $_usage');
     exit(1);
   }
-  if (args.length > 2) {
+  if (args.length > 1) {
     print('Too many arguments ($args). $_usage');
     exit(1);
   }
@@ -47,14 +51,16 @@ Future<void> main(List<String> args) async {
     print('The version is empty ($args). $_usage');
     exit(1);
   }
-  final passedVersionContent = args[1];
-  if (passedVersionContent.isEmpty) {
-    print('The version content is empty ($args). $_usage');
+  if (!(await versionContentFile.exists())) {
+    print(
+      'The file "$_versionContentFileName" in ${versionContentFile.path} does not exist.',
+    );
     exit(1);
   }
+  final versionContent = await versionContentFile.readAsString();
 
   print(
-    'The version is $passedVersion and the content is:\n$passedVersionContent',
+    'The version is "$passedVersion" and the content is:\n$versionContent',
   );
 
   // A file that will be used to build the `CHANGELOG.md` files
@@ -63,7 +69,7 @@ Future<void> main(List<String> args) async {
   await _replaceVersion(
     sourceChangeLogFile: sourceChangeLogFile,
     version: passedVersion,
-    versionContent: passedVersionContent,
+    versionContent: versionContent,
   );
   final sourceChangeLog = jsonDecode(await sourceChangeLogFile.readAsString())
       as Map<String, Object?>;

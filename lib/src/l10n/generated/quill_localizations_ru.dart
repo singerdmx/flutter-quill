@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get alignRight => 'Выровнять по правому краю';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Выровнять по ширине окна';
 
   @override
@@ -293,4 +296,7 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

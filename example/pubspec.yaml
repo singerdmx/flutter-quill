@@ -19,7 +19,7 @@ dependencies:
   flutter_quill_test: ^9.3.4
   quill_html_converter: ^9.3.4
   quill_pdf_converter: ^9.3.4
-  # Normal packages
+  # Dart Packages
   path: ^1.8.3
   equatable: ^2.0.5
   cross_file: ^0.3.4
@@ -108,8 +108,5 @@ flutter:
     - family: roboto-mono
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
-    - family: SF-UI-Display
-      fonts:
-        - asset: assets/fonts/SF-Pro-Display-Regular.otf
 
 flutter_gen:

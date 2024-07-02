@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get alignRight => 'محاذاة اليمين';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'تبرير مع العرض';
 
   @override
@@ -288,4 +291,7 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

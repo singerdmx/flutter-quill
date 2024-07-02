@@ -128,6 +128,9 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get alignRight => 'Zarovnat vpravo';
 
   @override
+  String get alignJustify => 'Align justify';
+
+  @override
   String get justifyWinWidth => 'Zarovnat do bloku';
 
   @override
@@ -290,4 +293,7 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

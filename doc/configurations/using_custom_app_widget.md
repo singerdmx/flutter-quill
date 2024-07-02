@@ -1,14 +1,12 @@
-# Using Custom App Widget
+# 🛠️ Using Custom App Widget
 
-This project uses some adaptive widgets like `AdaptiveTextSelectionToolbar` which require the following delegates:
+The project uses some adaptive widgets like `AdaptiveTextSelectionToolbar` which require the following delegates:
 
 1. Default Material Localizations delegate
 2. Default Cupertino Localizations delegate
 3. Default Widgets Localizations delegate
 
-You don't need to include those since they are defined by default
- but if you are using a Custom app or you are overriding the `localizationsDelegates` in the App widget
-then please make sure it includes those:
+You don't need to include these since they are defined by default. However, if you are using a custom app or overriding the `localizationsDelegates` in the App widget, ensure it includes the following:
 
 ```dart
 localizationsDelegates: const [
@@ -18,8 +16,8 @@ localizationsDelegates: const [
 ],
 ```
 
-You might need more depending on your use case, for example, if you are using custom localizations for your app, using a custom app widget like `FluentApp` from [FluentUI]
-which will also need
+
+You might need more depending on your use case. For example, if you are using custom localizations for your app with a custom app widget like `FluentApp` from [FluentUI], you will also need:
 
 ```dart
 localizationsDelegates: const [
@@ -29,8 +27,8 @@ localizationsDelegates: const [
 ],
 ```
 
-Note: In the latest versions of `FluentApp` you no longer need to add the `localizationsDelegates` but this is just an example, for more [info](https://github.com/bdlukaa/fluent_ui/pull/946)
+📌 Note: In recent versions of `FluentApp`, you no longer need to add the `localizationsDelegates`. This is just an example. For more information, refer to the [#946](https://github.com/bdlukaa/fluent_ui/pull/946).
 
-There are additional notes on the [Localizations](./localizations_setup.md) page
+📄 For additional notes, see the [Localizations](./localizations_setup.md) page.
 
 [FluentUI]: https://pub.dev/packages/fluent_ui
