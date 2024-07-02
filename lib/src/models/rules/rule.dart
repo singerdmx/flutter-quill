@@ -14,7 +14,7 @@ abstract class Rule {
   const Rule();
 
   Delta? apply(
-    Delta document,
+    Document document,
     int index, {
     int? len,
     Object? data,
@@ -35,7 +35,7 @@ abstract class Rule {
   /// Applies heuristic rule to an operation on a [document] and returns
   /// resulting [Delta].
   Delta? applyRule(
-    Delta document,
+    Document document,
     int index, {
     int? len,
     Object? data,
@@ -85,13 +85,12 @@ class Rules {
     Object? data,
     Attribute? attribute,
   }) {
-    final delta = document.toDelta();
     for (final rule in _customRules + _rules) {
       if (rule.type != ruleType) {
         continue;
       }
       try {
-        final result = rule.apply(delta, index,
+        final result = rule.apply(document, index,
             len: len, data: data, attribute: attribute);
         if (result != null) {
           return result..trim();
