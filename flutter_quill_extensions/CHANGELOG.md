@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.3
+
+* Perf: Performance optimization by @Alspb in https://github.com/singerdmx/flutter-quill/pull/1964
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.2...v9.5.3
+
 ## 9.5.2
 
 * Fix style settings by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1962
