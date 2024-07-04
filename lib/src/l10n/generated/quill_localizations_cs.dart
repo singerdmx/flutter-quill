@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get color => 'Barva';
 
   @override
+  String get lineheight => 'Výška čáry';
+
+  @override
   String get findText => 'Najít text';
 
   @override

@@ -60,6 +60,7 @@
     "hex": "Hex",
     "material": "Material",
     "color": "Цвят",
+    "lineheight": "височина на линията",
     "findText": "Намери текст",
     "moveToPreviousOccurrence": "Премести към предишното съвпадение",
     "moveToNextOccurrence": "Премести към следващото съвпадение",

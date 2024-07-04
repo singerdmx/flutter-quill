@@ -301,6 +301,17 @@ class _TextLineState extends State<TextLine> {
     }
 
     textStyle = textStyle.merge(toMerge);
+    
+    final lineHeight = widget.line.style.attributes[Attribute.lineHeight.key];
+    final x = <Attribute, TextStyle>{
+      Attribute.lineHeightNormal: defaultStyles.lineHeightNormal!.style,
+      Attribute.lineHeightTight: defaultStyles.lineHeightTight!.style,
+      Attribute.lineHeightOneAndHalf: defaultStyles.lineHeightOneAndHalf!.style,
+      Attribute.lineHeightDouble: defaultStyles.lineHeightDouble!.style,
+    };
+
+    textStyle = textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
+
     textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
 
     return textStyle;

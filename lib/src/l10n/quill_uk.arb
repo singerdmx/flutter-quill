@@ -14,6 +14,7 @@
     "hex": "Hex",
     "material": "Матеріал",
     "color": "Колір",
+    "lineheight": "Висота лінії",
     "pleaseEnterAValidVideoURL": "Будь ласка, введіть дійсну URL-адресу відео",
     "photo": "Фото",
     "image": "Зображення",

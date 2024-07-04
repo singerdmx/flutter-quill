@@ -60,6 +60,7 @@
     "hex": "Esadecimale",
     "material": "Materiale",
     "color": "Colore",
+    "lineheight": "Altezza della linea",
     "findText": "Trova testo",
     "moveToPreviousOccurrence": "Vai all'occorrenza precedente",
     "moveToNextOccurrence": "Vai all'occorrenza successiva",

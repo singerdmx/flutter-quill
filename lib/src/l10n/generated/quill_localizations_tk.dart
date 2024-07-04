@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get color => 'Reňk';
 
   @override
+  String get lineheight => 'Çyzyk beýikligi';
+
+  @override
   String get findText => 'Tekst tapyň';
 
   @override

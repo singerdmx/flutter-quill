@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
   String get color => 'रङ';
 
   @override
+  String get lineheight => 'रेखा-उचाइ';
+
+  @override
   String get findText => 'टेक्स्ट फेला पार्नुहोस्';
 
   @override

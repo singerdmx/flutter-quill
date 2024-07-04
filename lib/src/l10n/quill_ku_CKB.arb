@@ -67,6 +67,7 @@
   "hex": "هێکس",
   "material": "بابەت",
   "color": "ڕەنگ",
+  "lineheight": "بەرزی هێڵ",
   "findText": "دۆزینەوەی نوسین",
   "moveToPreviousOccurrence": "بچۆ بۆ ڕووداوی پێشوو",
   "moveToNextOccurrence": "بڕۆ بۆ ڕووداوی داهاتوو",

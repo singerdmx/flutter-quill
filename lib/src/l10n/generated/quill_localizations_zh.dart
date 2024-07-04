@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get color => '颜色';
 
   @override
+  String get lineheight => '行高';
+
+  @override
   String get findText => '搜索文本';
 
   @override
@@ -501,6 +504,9 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
   String get color => '颜色';
 
   @override
+  String get lineheight => '行高';
+
+  @override
   String get findText => '搜索文本';
 
   @override
@@ -744,6 +750,9 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
 
   @override
   String get color => '顏色';
+
+  @override
+  String get lineheight => '行高';
 
   @override
   String get findText => '搜尋文本';

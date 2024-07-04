@@ -60,6 +60,7 @@
     "hex": "Hex",
     "material": "Material",
     "color": "Barva",
+    "lineheight": "Výška čáry",
     "findText": "Najít text",
     "moveToPreviousOccurrence": "Přesunout na předchozí výskyt",
     "moveToNextOccurrence": "Přesunout na následující výskyt",

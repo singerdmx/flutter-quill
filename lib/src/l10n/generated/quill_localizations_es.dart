@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get color => 'Color';
 
   @override
+  String get lineheight => 'Interlineado';
+
+  @override
   String get findText => 'Buscar texto';
 
   @override
