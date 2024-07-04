@@ -58,7 +58,9 @@ class _MinimalColorButtonState extends State<MinimalColorButton> {
   void _applyColor() {
     final hex = '#${colorToHex(widget.color)}';
     widget.controller.formatSelection(ColorAttribute(hex));
-    widget.callback;
+    if(widget.callback != null) {
+      widget.callback!();
+    }
     _updateSelectionState();
   }
 
