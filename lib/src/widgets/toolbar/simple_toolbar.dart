@@ -31,7 +31,7 @@ class QuillSimpleToolbar extends StatelessWidget
           configurations.showItalicButton ||
           configurations.showSmallButton ||
           configurations.showUnderLineButton ||
-          configurations.showLineHeightButton || 
+          configurations.showLineHeightButton ||
           configurations.showStrikeThrough ||
           configurations.showInlineCode ||
           configurations.showColorButton ||
@@ -196,13 +196,12 @@ class QuillSimpleToolbar extends StatelessWidget
                 isButtonGroupShown[4] ||
                 isButtonGroupShown[5]))
           divider,
-
         if (configurations.showLineHeightButton)
-            QuillToolbarSelectLineHeightStyleDropdownButton(
-              controller: globalController,
-              options: toolbarConfigurations
-                  .buttonOptions.selectLineHeightStyleDropdownButton,
-            ),
+          QuillToolbarSelectLineHeightStyleDropdownButton(
+            controller: globalController,
+            options: toolbarConfigurations
+                .buttonOptions.selectLineHeightStyleDropdownButton,
+          ),
         if (configurations.showHeaderStyle) ...[
           if (configurations.headerStyleType.isOriginal)
             QuillToolbarSelectHeaderStyleDropdownButton(

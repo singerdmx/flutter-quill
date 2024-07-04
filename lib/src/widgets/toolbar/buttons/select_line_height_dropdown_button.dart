@@ -7,19 +7,24 @@ import '../../../models/documents/attribute.dart';
 import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-typedef QuillToolbarSelectLineHeightStyleDropdownBaseButton = QuillToolbarBaseButton<
-    QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
-    QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions>;
+typedef QuillToolbarSelectLineHeightStyleDropdownBaseButton
+    = QuillToolbarBaseButton<
+        QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
+        QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions>;
 
 typedef QuillToolbarSelectLineHeightStyleDropdownBaseButtonsState<
         W extends QuillToolbarSelectLineHeightStyleDropdownButton>
-    = QuillToolbarCommonButtonState<W, QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
+    = QuillToolbarCommonButtonState<
+        W,
+        QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
         QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions>;
 
-class QuillToolbarSelectLineHeightStyleDropdownButton extends QuillToolbarSelectLineHeightStyleDropdownBaseButton {
+class QuillToolbarSelectLineHeightStyleDropdownButton
+    extends QuillToolbarSelectLineHeightStyleDropdownBaseButton {
   const QuillToolbarSelectLineHeightStyleDropdownButton({
     required super.controller,
-    super.options = const QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
+    super.options =
+        const QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
     super.key,
   });
 
@@ -52,7 +57,8 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
   }
 
   @override
-  void didUpdateWidget(covariant QuillToolbarSelectLineHeightStyleDropdownButton oldWidget) {
+  void didUpdateWidget(
+      covariant QuillToolbarSelectLineHeightStyleDropdownButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller == widget.controller) {
       return;
@@ -73,12 +79,16 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
   }
 
   Attribute<dynamic> _getLineHeightValue() {
-    final attr = widget.controller.toolbarButtonToggler[Attribute.lineHeight.key];
+    final attr =
+        widget.controller.toolbarButtonToggler[Attribute.lineHeight.key];
     if (attr != null) {
       widget.controller.toolbarButtonToggler.remove(Attribute.lineHeight.key);
       return attr;
     }
-    return widget.controller.getSelectionStyle().attributes[Attribute.lineHeight.key] ?? Attribute.lineHeight;
+    return widget.controller
+            .getSelectionStyle()
+            .attributes[Attribute.lineHeight.key] ??
+        Attribute.lineHeight;
   }
 
   String _label(Attribute<dynamic> attribute) {
@@ -107,7 +117,8 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
   @override
   Widget build(BuildContext context) {
     final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final childBuilder = widget.options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final childBuilder =
+        widget.options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         widget.options,

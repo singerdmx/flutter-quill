@@ -1,10 +1,12 @@
-import 'package:flutter/widgets.dart' show IconData, TextStyle, ValueChanged, VoidCallback;
+import 'package:flutter/widgets.dart'
+    show IconData, TextStyle, ValueChanged, VoidCallback;
 
 import '../../../../widgets/toolbar/base_toolbar.dart';
 import '../../../documents/attribute.dart';
 import '../../../themes/quill_icon_theme.dart';
 
-class QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions
+    extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions({
     required super.controller,
     required super.context,
@@ -14,9 +16,10 @@ class QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions extends QuillT
   final Attribute currentValue;
 }
 
-class QuillToolbarSelectLineHeightStyleDropdownButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
-    QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions> {
+class QuillToolbarSelectLineHeightStyleDropdownButtonOptions
+    extends QuillToolbarBaseButtonOptions<
+        QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
+        QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions> {
   const QuillToolbarSelectLineHeightStyleDropdownButtonOptions({
     super.afterButtonPressed,
     super.childBuilder,

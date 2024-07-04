@@ -330,34 +330,34 @@ class DefaultStyles {
         const VerticalSpacing(0, 0),
         null,
       ),
-      lineHeightNormal:  DefaultTextBlockStyle(
+      lineHeightNormal: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 1.15),
-         const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
-      lineHeightTight:  DefaultTextBlockStyle(
+      lineHeightTight: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 1.30),
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
-      lineHeightOneAndHalf:  DefaultTextBlockStyle(
+      lineHeightOneAndHalf: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 1.55),
         const VerticalSpacing(0, 0),
-         const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
         null,
       ),
-      lineHeightDouble:  DefaultTextBlockStyle(
+      lineHeightDouble: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 2),
         const VerticalSpacing(0, 0),
-         const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
         null,
       ),
       paragraph: DefaultTextBlockStyle(
         baseStyle,
-         const VerticalSpacing(0, 0),
-         const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
         null,
       ),
       bold: const TextStyle(fontWeight: FontWeight.bold),

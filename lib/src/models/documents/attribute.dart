@@ -58,9 +58,11 @@ class Attribute<T> extends Equatable {
 
   static const BoldAttribute bold = BoldAttribute();
 
-  static final ScriptAttribute subscript = ScriptAttribute(ScriptAttributes.sub);
+  static final ScriptAttribute subscript =
+      ScriptAttribute(ScriptAttributes.sub);
 
-  static final ScriptAttribute superscript = ScriptAttribute(ScriptAttributes.sup);
+  static final ScriptAttribute superscript =
+      ScriptAttribute(ScriptAttributes.sup);
 
   static const ItalicAttribute italic = ItalicAttribute();
 
@@ -180,16 +182,20 @@ class Attribute<T> extends Equatable {
   static const Attribute<int?> h6 = HeaderAttribute(level: 6);
 
   /// "attributes":{"line-height": 1.0 }
-  static const Attribute<double?> lineHeightNormal = LineHeightAttribute(lineHeight: 1);
+  static const Attribute<double?> lineHeightNormal =
+      LineHeightAttribute(lineHeight: 1);
 
   /// "attributes":{"line-height": 1.15 }
-  static const Attribute<double?> lineHeightTight = LineHeightAttribute(lineHeight: 1.15);
+  static const Attribute<double?> lineHeightTight =
+      LineHeightAttribute(lineHeight: 1.15);
 
   /// "attributes":{"line-height": 1.5 }
-  static const Attribute<double?> lineHeightOneAndHalf = LineHeightAttribute(lineHeight: 1.5);
+  static const Attribute<double?> lineHeightOneAndHalf =
+      LineHeightAttribute(lineHeight: 1.5);
 
   /// "attributes":{"line-height": 2.0 }
-  static const Attribute<double?> lineHeightDouble = LineHeightAttribute(lineHeight: 2);
+  static const Attribute<double?> lineHeightDouble =
+      LineHeightAttribute(lineHeight: 2);
 
   // "attributes":{"align":"left"}
   static const Attribute<String?> leftAlignment = AlignAttribute('left');
@@ -277,7 +283,9 @@ class Attribute<T> extends Equatable {
     if (identical(this, other)) return true;
     if (other is! Attribute) return false;
     final typedOther = other;
-    return key == typedOther.key && scope == typedOther.scope && value == typedOther.value;
+    return key == typedOther.key &&
+        scope == typedOther.scope &&
+        value == typedOther.value;
   }
 
   // This might not needed anymore because of equatable
@@ -330,28 +338,34 @@ class LinkAttribute extends Attribute<String?> {
 }
 
 class ColorAttribute extends Attribute<String?> {
-  const ColorAttribute(String? val) : super('color', AttributeScope.inline, val);
+  const ColorAttribute(String? val)
+      : super('color', AttributeScope.inline, val);
 }
 
 class BackgroundAttribute extends Attribute<String?> {
-  const BackgroundAttribute(String? val) : super('background', AttributeScope.inline, val);
+  const BackgroundAttribute(String? val)
+      : super('background', AttributeScope.inline, val);
 }
 
 /// This is custom attribute for hint
 class PlaceholderAttribute extends Attribute<bool> {
-  const PlaceholderAttribute() : super('placeholder', AttributeScope.inline, true);
+  const PlaceholderAttribute()
+      : super('placeholder', AttributeScope.inline, true);
 }
 
 class HeaderAttribute extends Attribute<int?> {
-  const HeaderAttribute({int? level}) : super('header', AttributeScope.block, level);
+  const HeaderAttribute({int? level})
+      : super('header', AttributeScope.block, level);
 }
 
 class LineHeightAttribute extends Attribute<double?> {
-  const LineHeightAttribute({double? lineHeight}) : super('line-height', AttributeScope.block, lineHeight);
+  const LineHeightAttribute({double? lineHeight})
+      : super('line-height', AttributeScope.block, lineHeight);
 }
 
 class IndentAttribute extends Attribute<int?> {
-  const IndentAttribute({int? level}) : super('indent', AttributeScope.block, level);
+  const IndentAttribute({int? level})
+      : super('indent', AttributeScope.block, level);
 }
 
 class AlignAttribute extends Attribute<String?> {
@@ -371,19 +385,23 @@ class BlockQuoteAttribute extends Attribute<bool> {
 }
 
 class DirectionAttribute extends Attribute<String?> {
-  const DirectionAttribute(String? val) : super('direction', AttributeScope.block, val);
+  const DirectionAttribute(String? val)
+      : super('direction', AttributeScope.block, val);
 }
 
 class WidthAttribute extends Attribute<String?> {
-  const WidthAttribute(String? val) : super('width', AttributeScope.ignore, val);
+  const WidthAttribute(String? val)
+      : super('width', AttributeScope.ignore, val);
 }
 
 class HeightAttribute extends Attribute<String?> {
-  const HeightAttribute(String? val) : super('height', AttributeScope.ignore, val);
+  const HeightAttribute(String? val)
+      : super('height', AttributeScope.ignore, val);
 }
 
 class StyleAttribute extends Attribute<String?> {
-  const StyleAttribute(String? val) : super('style', AttributeScope.ignore, val);
+  const StyleAttribute(String? val)
+      : super('style', AttributeScope.ignore, val);
 }
 
 class TokenAttribute extends Attribute<String> {
@@ -391,7 +409,8 @@ class TokenAttribute extends Attribute<String> {
 }
 
 class ScriptAttribute extends Attribute<String?> {
-  ScriptAttribute(ScriptAttributes? val) : super('script', AttributeScope.inline, val?.value);
+  ScriptAttribute(ScriptAttributes? val)
+      : super('script', AttributeScope.inline, val?.value);
 }
 
 enum ScriptAttributes {
@@ -404,9 +423,11 @@ enum ScriptAttributes {
 }
 
 class ImageAttribute extends Attribute<String?> {
-  const ImageAttribute(String? url) : super('image', AttributeScope.embeds, url);
+  const ImageAttribute(String? url)
+      : super('image', AttributeScope.embeds, url);
 }
 
 class VideoAttribute extends Attribute<String?> {
-  const VideoAttribute(String? url) : super('video', AttributeScope.embeds, url);
+  const VideoAttribute(String? url)
+      : super('video', AttributeScope.embeds, url);
 }

@@ -73,7 +73,7 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
     this.selectHeaderStyleDropdownButton =
         const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
-    this.selectLineHeightStyleDropdownButton = 
+    this.selectLineHeightStyleDropdownButton =
         const QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
     this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
