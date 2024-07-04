@@ -7,12 +7,14 @@ class MinimalColorButton extends StatefulWidget {
     required this.controller,
     required this.color,
     required this.child,
+    this.callback,
     super.key,
   });
 
   final QuillController controller;
   final Color color;
   final Widget child;
+  final VoidCallback? callback;
 
   @override
   _MinimalColorButtonState createState() => _MinimalColorButtonState();
@@ -56,6 +58,7 @@ class _MinimalColorButtonState extends State<MinimalColorButton> {
   void _applyColor() {
     final hex = '#${colorToHex(widget.color)}';
     widget.controller.formatSelection(ColorAttribute(hex));
+    widget.callback;
     _updateSelectionState();
   }
 
