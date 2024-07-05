@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.4
+
+* Feat: Line height support by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1972
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.3...v9.5.4
+
 ## 9.5.3
 
 * Perf: Performance optimization by @Alspb in https://github.com/singerdmx/flutter-quill/pull/1964

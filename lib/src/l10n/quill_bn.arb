@@ -60,6 +60,7 @@
     "hex": "হেক্স",
     "material": "ম্যাটারিয়াল",
     "color": "কালার",
+    "lineheight": "লাইনের উচ্চতা",
     "findText": "পাঠ্য খুঁজুন",
     "moveToPreviousOccurrence": "পূর্ববর্তী ঘটনায় চলুন",
     "moveToNextOccurrence": "পরবর্তী ঘটনায় চলুন",

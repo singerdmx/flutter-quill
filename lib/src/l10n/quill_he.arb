@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "חומר",
     "color": "צבע",
+    "lineheight": "גובה קו",
     "savedUsingTheNetwork": "נשמר באמצעות הרשת",
     "pleaseEnterTextForYourLink": "אנא הזן טקסט לקישור שלך (לדוגמה, 'מידע נוסף')",
     "pleaseEnterTheLinkURL": "אנא הזן את כתובת ה-URL של הקישור (לדוגמה, 'https://example.com')",

@@ -69,6 +69,7 @@
     "hex": "हेक्स",
     "material": "सामग्री",
     "color": "रंग",
+    "lineheight": "ऊंची लाईन",
     "savedUsingTheNetwork": "नेटवर्क का उपयोग करके सहेजा गया",
     "pleaseEnterTextForYourLink": "कृपया अपने लिंक के लिए एक पाठ दर्ज करें (उदाहरण: 'और अधिक जानें')",
     "pleaseEnterTheLinkURL": "कृपया लिंक URL दर्ज करें (उदाहरण: 'https://example.com')",

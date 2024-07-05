@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Material",
     "color": "Cor",
+    "lineheight": "Altura da linha",
     "pleaseEnterAValidVideoURL": "Por favor, insira uma URL de vídeo válida",
     "photo": "Foto",
     "image": "Imagem",

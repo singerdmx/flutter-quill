@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get color => 'Cor';
 
   @override
+  String get lineheight => 'Altura da linha';
+
+  @override
   String get findText => 'Find text';
 
   @override
@@ -481,6 +484,9 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
 
   @override
   String get color => 'Cor';
+
+  @override
+  String get lineheight => 'Altura da linha';
 
   @override
   String get findText => 'Find text';

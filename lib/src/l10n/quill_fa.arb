@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "مواد",
     "color": "رنگ",
+    "lineheight": "ارتفاع خط",
     "savedUsingTheNetwork": "با استفاده از شبکه ذخیره شده است",
     "pleaseEnterTextForYourLink": "لطفاً متن لینک خود را وارد کنید (مثال: 'بیشتر بدانید')",
     "pleaseEnterTheLinkURL": "لطفاً URL لینک را وارد کنید (مثال: 'https://example.com')",

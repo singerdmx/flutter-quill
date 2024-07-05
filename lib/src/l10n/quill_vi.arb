@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Chất liệu",
     "color": "Màu",
+    "lineheight": "Chiều cao giữa các dòng",
     "savedUsingTheNetwork": "Đã lưu bằng cách sử dụng mạng",
     "pleaseEnterTextForYourLink": "Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: 'Tìm hiểu thêm')",
     "pleaseEnterTheLinkURL": "Vui lòng nhập URL của liên kết (ví dụ: 'https://example.com')",

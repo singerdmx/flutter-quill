@@ -67,6 +67,7 @@
     "hex": "Hex",
     "material": "Materiál",
     "color": "Farba",
+    "lineheight": "Výška riadku",
     "findText": "Nájsť text",
     "moveToPreviousOccurrence": "Prejsť na predchádzajúce výskyty",
     "moveToNextOccurrence": "Prejsť na ďalší výskyt",

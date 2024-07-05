@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
   String get color => 'Culoare';
 
   @override
+  String get lineheight => 'Inaltimea liniei';
+
+  @override
   String get findText => 'Găsește text';
 
   @override
@@ -505,6 +508,9 @@ class FlutterQuillLocalizationsRoRo extends FlutterQuillLocalizationsRo {
 
   @override
   String get color => 'Culoare';
+
+  @override
+  String get lineheight => 'Inaltimea liniei';
 
   @override
   String get findText => 'Găsește text';

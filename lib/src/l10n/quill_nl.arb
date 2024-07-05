@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Materiaal",
     "color": "Kleur",
+    "lineheight": "Lijnhoogte",
     "savedUsingTheNetwork": "Opgeslagen via het netwerk",
     "pleaseEnterTextForYourLink": "Voer tekst in voor uw link (bijvoorbeeld 'Meer weten')",
     "pleaseEnterTheLinkURL": "Voer de URL van de link in (bijvoorbeeld 'https://example.com')",
