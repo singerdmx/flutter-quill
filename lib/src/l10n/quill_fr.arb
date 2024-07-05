@@ -67,6 +67,7 @@
     "hex": "Hex",
     "material": "Matériel",
     "color": "Couleur",
+    "lineheight": "Hauteur de la ligne",
     "findText": "Rechercher du texte",
     "moveToPreviousOccurrence": "Aller à l'occurrence précédente",
     "moveToNextOccurrence": "Aller à l'occurrence suivante",

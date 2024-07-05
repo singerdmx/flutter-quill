@@ -67,6 +67,7 @@
   "hex": "Hex",
   "material": "Material",
   "color": "Färg",
+  "lineheight": "Radavstånd",
   "findText": "Hitta text",
   "moveToPreviousOccurrence": "Gå till föregående förekomst",
   "moveToNextOccurrence": "Gå till nästa förekomst",

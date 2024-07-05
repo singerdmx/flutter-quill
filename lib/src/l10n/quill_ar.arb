@@ -60,6 +60,7 @@
     "hex": "Hex",
     "material": "Material",
     "color": "اللون",
+    "lineheight": "ارتفاع خط",
     "findText": "بحث عن نص",
     "moveToPreviousOccurrence": "الانتقال إلى الحدث السابق",
     "moveToNextOccurrence": "الانتقال إلى الحدث التالي",

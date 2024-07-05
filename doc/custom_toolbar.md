@@ -73,6 +73,14 @@ QuillToolbar.simple(
           isBackground: true,
         ),
         const VerticalDivider(),
+        // This is an implementation that only is used on
+        // flutter_quill and it's not originally 
+        // implemented in Quill JS API, so it could cause conflicts
+        // with the original Quill Delta format
+        QuillToolbarSelectLineHeightStyleDropdownButton(
+          controller: globalController,
+        ),
+        const VerticalDivider(),
         QuillToolbarSelectHeaderStyleButton(
           controller: controller,
         ),

@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get color => 'Колір';
 
   @override
+  String get lineheight => 'Висота лінії';
+
+  @override
   String get findText => 'Знайти текст';
 
   @override

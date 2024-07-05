@@ -170,6 +170,10 @@ class DefaultStyles {
     this.h5,
     this.h6,
     this.paragraph,
+    this.lineHeightNormal,
+    this.lineHeightTight,
+    this.lineHeightOneAndHalf,
+    this.lineHeightDouble,
     this.bold,
     this.subscript,
     this.superscript,
@@ -199,6 +203,10 @@ class DefaultStyles {
   final DefaultTextBlockStyle? h5;
   final DefaultTextBlockStyle? h6;
   final DefaultTextBlockStyle? paragraph;
+  final DefaultTextBlockStyle? lineHeightNormal;
+  final DefaultTextBlockStyle? lineHeightTight;
+  final DefaultTextBlockStyle? lineHeightOneAndHalf;
+  final DefaultTextBlockStyle? lineHeightDouble;
   final TextStyle? bold;
   final TextStyle? subscript;
   final TextStyle? superscript;
@@ -227,7 +235,7 @@ class DefaultStyles {
     final defaultTextStyle = DefaultTextStyle.of(context);
     final baseStyle = defaultTextStyle.style.copyWith(
       fontSize: 16,
-      height: 1.3,
+      height: 1.15,
       decoration: TextDecoration.none,
     );
     const baseSpacing = VerticalSpacing(6, 0);
@@ -245,186 +253,211 @@ class DefaultStyles {
     );
 
     return DefaultStyles(
-        h1: DefaultTextBlockStyle(
-            defaultTextStyle.style.copyWith(
-              fontSize: 34,
-              color: defaultTextStyle.style.color,
-              letterSpacing: -1,
-              height: 1,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.none,
-            ),
-            const VerticalSpacing(16, 0),
-            const VerticalSpacing(0, 0),
-            null),
-        h2: DefaultTextBlockStyle(
-            defaultTextStyle.style.copyWith(
-              fontSize: 30,
-              color: defaultTextStyle.style.color,
-              letterSpacing: -0.8,
-              height: 1.067,
-              fontWeight: FontWeight.bold,
-              decoration: TextDecoration.none,
-            ),
-            const VerticalSpacing(8, 0),
-            const VerticalSpacing(0, 0),
-            null),
-        h3: DefaultTextBlockStyle(
+      h1: DefaultTextBlockStyle(
           defaultTextStyle.style.copyWith(
-            fontSize: 24,
+            fontSize: 34,
             color: defaultTextStyle.style.color,
             letterSpacing: -0.5,
             height: 1.083,
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none,
           ),
+          const VerticalSpacing(16, 0),
+          const VerticalSpacing(0, 0),
+          null),
+      h2: DefaultTextBlockStyle(
+          defaultTextStyle.style.copyWith(
+            fontSize: 30,
+            color: defaultTextStyle.style.color,
+            letterSpacing: -0.8,
+            height: 1.067,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.none,
+          ),
           const VerticalSpacing(8, 0),
           const VerticalSpacing(0, 0),
-          null,
+          null),
+      h3: DefaultTextBlockStyle(
+        defaultTextStyle.style.copyWith(
+          fontSize: 24,
+          color: defaultTextStyle.style.color,
+          letterSpacing: -0.5,
+          height: 1.083,
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.none,
         ),
-        h4: DefaultTextBlockStyle(
+        const VerticalSpacing(8, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      h4: DefaultTextBlockStyle(
+        defaultTextStyle.style.copyWith(
+          fontSize: 20,
+          color: defaultTextStyle.style.color,
+          letterSpacing: -0.4,
+          height: 1.1,
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.none,
+        ),
+        const VerticalSpacing(6, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      h5: DefaultTextBlockStyle(
+        defaultTextStyle.style.copyWith(
+          fontSize: 18,
+          color: defaultTextStyle.style.color,
+          letterSpacing: -0.2,
+          height: 1.11,
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.none,
+        ),
+        const VerticalSpacing(6, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      h6: DefaultTextBlockStyle(
+        defaultTextStyle.style.copyWith(
+          fontSize: 16,
+          color: defaultTextStyle.style.color,
+          letterSpacing: -0.1,
+          height: 1.125,
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.none,
+        ),
+        const VerticalSpacing(4, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      lineHeightNormal: DefaultTextBlockStyle(
+        baseStyle.copyWith(height: 1.15),
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      lineHeightTight: DefaultTextBlockStyle(
+        baseStyle.copyWith(height: 1.30),
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      lineHeightOneAndHalf: DefaultTextBlockStyle(
+        baseStyle.copyWith(height: 1.55),
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      lineHeightDouble: DefaultTextBlockStyle(
+        baseStyle.copyWith(height: 2),
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      paragraph: DefaultTextBlockStyle(
+        baseStyle,
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      bold: const TextStyle(fontWeight: FontWeight.bold),
+      subscript: const TextStyle(
+        fontFeatures: [
+          FontFeature.liningFigures(),
+          FontFeature.subscripts(),
+        ],
+      ),
+      superscript: const TextStyle(
+        fontFeatures: [
+          FontFeature.liningFigures(),
+          FontFeature.superscripts(),
+        ],
+      ),
+      italic: const TextStyle(fontStyle: FontStyle.italic),
+      small: const TextStyle(fontSize: 12),
+      underline: const TextStyle(decoration: TextDecoration.underline),
+      strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
+      inlineCode: InlineCodeStyle(
+        backgroundColor: Colors.grey.shade100,
+        radius: const Radius.circular(3),
+        style: inlineCodeStyle,
+        header1: inlineCodeStyle.copyWith(
+          fontSize: 32,
+          fontWeight: FontWeight.w500,
+        ),
+        header2: inlineCodeStyle.copyWith(
+          fontSize: 22,
+          fontWeight: FontWeight.w500,
+        ),
+        header3: inlineCodeStyle.copyWith(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      link: TextStyle(
+        color: themeData.colorScheme.secondary,
+        decoration: TextDecoration.underline,
+      ),
+      placeHolder: DefaultTextBlockStyle(
           defaultTextStyle.style.copyWith(
             fontSize: 20,
-            color: defaultTextStyle.style.color,
-            letterSpacing: -0.4,
-            height: 1.1,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.none,
+            height: 1.5,
+            color: Colors.grey.withOpacity(0.6),
           ),
-          const VerticalSpacing(6, 0),
-          const VerticalSpacing(0, 0),
-          null,
-        ),
-        h5: DefaultTextBlockStyle(
-          defaultTextStyle.style.copyWith(
-            fontSize: 18,
-            color: defaultTextStyle.style.color,
-            letterSpacing: -0.2,
-            height: 1.11,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.none,
-          ),
-          const VerticalSpacing(6, 0),
-          const VerticalSpacing(0, 0),
-          null,
-        ),
-        h6: DefaultTextBlockStyle(
-          defaultTextStyle.style.copyWith(
-            fontSize: 16,
-            color: defaultTextStyle.style.color,
-            letterSpacing: -0.1,
-            height: 1.125,
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.none,
-          ),
-          const VerticalSpacing(4, 0),
-          const VerticalSpacing(0, 0),
-          null,
-        ),
-        paragraph: DefaultTextBlockStyle(
-          baseStyle,
           const VerticalSpacing(0, 0),
           const VerticalSpacing(0, 0),
-          null,
-        ),
-        bold: const TextStyle(fontWeight: FontWeight.bold),
-        subscript: const TextStyle(
-          fontFeatures: [
-            FontFeature.liningFigures(),
-            FontFeature.subscripts(),
-          ],
-        ),
-        superscript: const TextStyle(
-          fontFeatures: [
-            FontFeature.liningFigures(),
-            FontFeature.superscripts(),
-          ],
-        ),
-        italic: const TextStyle(fontStyle: FontStyle.italic),
-        small: const TextStyle(fontSize: 12),
-        underline: const TextStyle(decoration: TextDecoration.underline),
-        strikeThrough: const TextStyle(decoration: TextDecoration.lineThrough),
-        inlineCode: InlineCodeStyle(
-          backgroundColor: Colors.grey.shade100,
-          radius: const Radius.circular(3),
-          style: inlineCodeStyle,
-          header1: inlineCodeStyle.copyWith(
-            fontSize: 32,
-            fontWeight: FontWeight.w500,
-          ),
-          header2: inlineCodeStyle.copyWith(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-          ),
-          header3: inlineCodeStyle.copyWith(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
+          null),
+      lists: DefaultListBlockStyle(
+        baseStyle,
+        baseSpacing,
+        const VerticalSpacing(0, 6),
+        null,
+        null,
+      ),
+      quote: DefaultTextBlockStyle(
+        TextStyle(color: baseStyle.color!.withOpacity(0.6)),
+        baseSpacing,
+        const VerticalSpacing(6, 2),
+        BoxDecoration(
+          border: Border(
+            left: BorderSide(width: 4, color: Colors.grey.shade300),
           ),
         ),
-        link: TextStyle(
-          color: themeData.colorScheme.secondary,
-          decoration: TextDecoration.underline,
-        ),
-        placeHolder: DefaultTextBlockStyle(
-            defaultTextStyle.style.copyWith(
-              fontSize: 20,
-              height: 1.5,
-              color: Colors.grey.withOpacity(0.6),
-            ),
-            const VerticalSpacing(0, 0),
-            const VerticalSpacing(0, 0),
-            null),
-        lists: DefaultListBlockStyle(
-          baseStyle,
+      ),
+      code: DefaultTextBlockStyle(
+          TextStyle(
+            color: Colors.blue.shade900.withOpacity(0.9),
+            fontFamily: fontFamily,
+            fontSize: 13,
+            height: 1.15,
+          ),
           baseSpacing,
-          const VerticalSpacing(0, 6),
-          null,
-          null,
-        ),
-        quote: DefaultTextBlockStyle(
-          TextStyle(color: baseStyle.color!.withOpacity(0.6)),
-          baseSpacing,
-          const VerticalSpacing(6, 2),
+          const VerticalSpacing(0, 0),
           BoxDecoration(
-            border: Border(
-              left: BorderSide(width: 4, color: Colors.grey.shade300),
-            ),
-          ),
-        ),
-        code: DefaultTextBlockStyle(
-            TextStyle(
-              color: Colors.blue.shade900.withOpacity(0.9),
-              fontFamily: fontFamily,
-              fontSize: 13,
-              height: 1.15,
-            ),
-            baseSpacing,
-            const VerticalSpacing(0, 0),
-            BoxDecoration(
-              color: Colors.grey.shade50,
-              borderRadius: BorderRadius.circular(2),
-            )),
-        indent: DefaultTextBlockStyle(
-          baseStyle,
-          baseSpacing,
-          const VerticalSpacing(0, 6),
-          null,
-        ),
-        align: DefaultTextBlockStyle(
-          baseStyle,
-          const VerticalSpacing(0, 0),
-          const VerticalSpacing(0, 0),
-          null,
-        ),
-        leading: DefaultTextBlockStyle(
-          baseStyle,
-          const VerticalSpacing(0, 0),
-          const VerticalSpacing(0, 0),
-          null,
-        ),
-        sizeSmall: const TextStyle(fontSize: 10),
-        sizeLarge: const TextStyle(fontSize: 18),
-        sizeHuge: const TextStyle(fontSize: 22));
+            color: Colors.grey.shade50,
+            borderRadius: BorderRadius.circular(2),
+          )),
+      indent: DefaultTextBlockStyle(
+        baseStyle,
+        baseSpacing,
+        const VerticalSpacing(0, 6),
+        null,
+      ),
+      align: DefaultTextBlockStyle(
+        baseStyle,
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      leading: DefaultTextBlockStyle(
+        baseStyle,
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      sizeSmall: const TextStyle(fontSize: 10),
+      sizeLarge: const TextStyle(fontSize: 18),
+      sizeHuge: const TextStyle(fontSize: 22),
+    );
   }
 
   DefaultStyles merge(DefaultStyles other) {
@@ -447,6 +480,10 @@ class DefaultStyles {
       link: other.link ?? link,
       color: other.color ?? color,
       placeHolder: other.placeHolder ?? placeHolder,
+      lineHeightNormal: other.lineHeightNormal ?? lineHeightNormal,
+      lineHeightTight: other.lineHeightTight ?? lineHeightTight,
+      lineHeightOneAndHalf: other.lineHeightOneAndHalf ?? lineHeightOneAndHalf,
+      lineHeightDouble: other.lineHeightDouble ?? lineHeightDouble,
       lists: other.lists ?? lists,
       quote: other.quote ?? quote,
       code: other.code ?? code,

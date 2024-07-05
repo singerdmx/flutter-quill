@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get color => 'رنگ';
 
   @override
+  String get lineheight => 'ارتفاع خط';
+
+  @override
   String get findText => 'جستجوی متن';
 
   @override

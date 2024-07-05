@@ -69,6 +69,7 @@
     "hex": "ہیکس",
     "material": "مواد",
     "color": "رنگ",
+    "lineheight": "لکیر کی اونچائی",
     "savedUsingTheNetwork": "نیٹ ورک کا استعمال کر کے محفوظ ہوا",
     "pleaseEnterTextForYourLink": "براہ کرم اپنے لنک کے لیے متن درج کریں (مثال کے طور پر، 'مزید جانیں')",
     "pleaseEnterTheLinkURL": "براہ کرم لنک کا URL درج کریں (مثال کے طور پر، 'https://example.com')",

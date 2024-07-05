@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsPl extends FlutterQuillLocalizations {
   String get color => 'Kolor';
 
   @override
+  String get lineheight => 'Wysokość linii';
+
+  @override
   String get findText => 'Find text';
 
   @override
