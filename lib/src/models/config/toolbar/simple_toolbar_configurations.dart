@@ -97,7 +97,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showItalicButton = true,
     this.showSmallButton = false,
     this.showUnderLineButton = true,
-    this.showLineHeightButton = true,
+    this.showLineHeightButton = false,
     this.showStrikeThrough = true,
     this.showInlineCode = true,
     this.showColorButton = true,
