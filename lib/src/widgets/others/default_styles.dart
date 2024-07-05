@@ -203,11 +203,10 @@ class DefaultStyles {
   final DefaultTextBlockStyle? h5;
   final DefaultTextBlockStyle? h6;
   final DefaultTextBlockStyle? paragraph;
-  final DefaultTextBlockStyle? lineHeightNormal; // 1.0
-  final DefaultTextBlockStyle? lineHeightTight; // 1.15
-  final DefaultTextBlockStyle? lineHeightOneAndHalf; // 1.5
-  final DefaultTextBlockStyle? lineHeightDouble; // 2.0
-  //
+  final DefaultTextBlockStyle? lineHeightNormal;
+  final DefaultTextBlockStyle? lineHeightTight;
+  final DefaultTextBlockStyle? lineHeightOneAndHalf;
+  final DefaultTextBlockStyle? lineHeightDouble;
   final TextStyle? bold;
   final TextStyle? subscript;
   final TextStyle? superscript;

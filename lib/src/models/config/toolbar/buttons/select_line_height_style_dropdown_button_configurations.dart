@@ -43,7 +43,6 @@ class QuillToolbarSelectLineHeightStyleDropdownButtonOptions
   ///   Attribute.lineHeightTight,
   ///   Attribute.lineHeightOneAndHalf,
   ///   Attribute.lineHeightDouble,
-  ///   Attribute.lineHeight,
   /// ]
   /// ```
   final List<Attribute<double?>>? attributes;

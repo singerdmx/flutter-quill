@@ -4,6 +4,7 @@ import '../../../../translations.dart';
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../models/config/toolbar/buttons/select_line_height_style_dropdown_button_configurations.dart';
 import '../../../models/documents/attribute.dart';
+import '../../../models/themes/quill_icon_theme.dart';
 import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
@@ -43,7 +44,6 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
 
   Attribute<dynamic> _selectedItem = Attribute.lineHeight;
 
-  final _menuController = MenuController();
   @override
   void initState() {
     super.initState();
@@ -133,62 +133,102 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
       );
     }
 
-    return MenuAnchor(
-      controller: _menuController,
-      menuChildren: lineHeightAttributes
-          .map(
-            (e) => MenuItemButton(
-              onPressed: () {
-                _onPressed(e);
-              },
-              child: Text(_label(e)),
+    return Builder(
+      builder: (context) {
+        final isMaterial3 = Theme.of(context).useMaterial3;
+        final child = Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _label(_selectedItem),
+              style: widget.options.textStyle ??
+                  TextStyle(
+                    fontSize: iconSize / 1.15,
+                  ),
             ),
-          )
-          .toList(),
-      child: Builder(
-        builder: (context) {
-          final isMaterial3 = Theme.of(context).useMaterial3;
-          final child = Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                _label(_selectedItem),
-                style: widget.options.textStyle ??
-                    TextStyle(
-                      fontSize: iconSize / 1.15,
-                    ),
-              ),
-              Icon(
-                Icons.arrow_drop_down,
-                size: iconSize * iconButtonFactor,
-              ),
-            ],
+            Icon(
+              Icons.arrow_drop_down,
+              size: iconSize * iconButtonFactor,
+            ),
+          ],
+        );
+        if (!isMaterial3) {
+          return RawMaterialButton(
+            onPressed: () => _onDropdownButtonPressed(context),
+            child: child,
           );
-          if (!isMaterial3) {
-            return RawMaterialButton(
-              onPressed: _onDropdownButtonPressed,
-              child: child,
-            );
-          }
-          return QuillToolbarIconButton(
-            onPressed: _onDropdownButtonPressed,
-            icon: child,
-            isSelected: false,
-            iconTheme: iconTheme,
-            tooltip: tooltip,
-          );
-        },
-      ),
+        }
+        return _QuillToolbarLineHeightIcon(
+          iconTheme: iconTheme,
+          tooltip: tooltip,
+          onPressed: _onDropdownButtonPressed,
+          child: child,
+        );
+      },
     );
   }
 
-  void _onDropdownButtonPressed() {
-    if (_menuController.isOpen) {
-      _menuController.close();
-    } else {
-      _menuController.open();
-    }
-    afterButtonPressed?.call();
+  Future<void> _onDropdownButtonPressed(BuildContext context) async {
+    final position = _renderPosition(context);
+    await showMenu<Attribute<dynamic>>(
+            context: context,
+            position: position,
+            items: lineHeightAttributes
+                .map(
+                  (e) => PopupMenuItem(
+                    value: e,
+                    child: Text(_label(e)),
+                  ),
+                )
+                .toList())
+        .then<void>(
+      (value) {
+        if (value != null) {
+          _onPressed(value);
+        }
+      },
+    );
+  }
+
+  RelativeRect _renderPosition(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final button = context.findRenderObject() as RenderBox;
+    final position = RelativeRect.fromRect(
+      Rect.fromPoints(
+        button.localToGlobal(const Offset(0, -65), ancestor: overlay),
+        button.localToGlobal(
+            button.size.bottomRight(Offset.zero) + const Offset(-50, 0),
+            ancestor: overlay),
+      ),
+      Offset.zero & size * 0.40,
+    );
+    return position;
+  }
+}
+
+class _QuillToolbarLineHeightIcon extends StatelessWidget {
+  const _QuillToolbarLineHeightIcon({
+    required this.tooltip,
+    required this.iconTheme,
+    required this.onPressed,
+    required this.child,
+  });
+
+  final Row child;
+  final void Function(BuildContext) onPressed;
+  final QuillIconTheme? iconTheme;
+  final String tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return QuillToolbarIconButton(
+      icon: child,
+      isSelected: false,
+      iconTheme: iconTheme,
+      tooltip: tooltip,
+      onPressed: () => onPressed(context),
+    );
   }
 }
