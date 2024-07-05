@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
+import 'package:flutter_quill/src/models/documents/attribute.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -372,7 +373,7 @@ void main() {
             'blockquote' => Attribute.blockQuote,
             'indent' => Attribute.indentL2,
             'direction' => Attribute.rtl,
-            'line-height' => Attribute.lineHeightNormal,
+            'line-height' => LineHeightAttribute.lineHeightNormal,
             String() => throw UnimplementedError(key)
           };
 
