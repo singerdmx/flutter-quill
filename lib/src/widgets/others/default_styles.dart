@@ -258,8 +258,8 @@ class DefaultStyles {
           defaultTextStyle.style.copyWith(
             fontSize: 34,
             color: defaultTextStyle.style.color,
-            letterSpacing: -1,
-            height: 1.030,
+            letterSpacing: -0.5,
+            height: 1.083,
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none,
           ),
