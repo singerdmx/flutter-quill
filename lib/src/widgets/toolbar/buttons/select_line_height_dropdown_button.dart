@@ -92,9 +92,9 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
   }
 
   String _label(Attribute<dynamic> attribute) {
-    var label = '1.0';
+    var label = LineHeightAttribute.lineHeightNormal.value.toString();
     if (attribute.value != null) {
-      label = '${attribute.value}';
+      label = attribute.value.toString();
     }
     return label;
   }
@@ -102,10 +102,10 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
   List<Attribute<dynamic>> get lineHeightAttributes {
     return widget.options.attributes ??
         [
-          Attribute.lineHeightNormal,
-          Attribute.lineHeightTight,
-          Attribute.lineHeightOneAndHalf,
-          Attribute.lineHeightDouble,
+          LineHeightAttribute.lineHeightNormal,
+          LineHeightAttribute.lineHeightTight,
+          LineHeightAttribute.lineHeightOneAndHalf,
+          LineHeightAttribute.lineHeightDouble,
         ];
   }
 
