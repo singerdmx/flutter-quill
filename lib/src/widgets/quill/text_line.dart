@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../flutter_quill.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
 import '../../models/documents/nodes/embeddable.dart';
@@ -304,10 +305,10 @@ class _TextLineState extends State<TextLine> {
 
     final lineHeight = widget.line.style.attributes[Attribute.lineHeight.key];
     final x = <Attribute, TextStyle>{
-      Attribute.lineHeightNormal: defaultStyles.lineHeightNormal!.style,
-      Attribute.lineHeightTight: defaultStyles.lineHeightTight!.style,
-      Attribute.lineHeightOneAndHalf: defaultStyles.lineHeightOneAndHalf!.style,
-      Attribute.lineHeightDouble: defaultStyles.lineHeightDouble!.style,
+      LineHeightAttribute.lineHeightNormal: defaultStyles.lineHeightNormal!.style,
+      LineHeightAttribute.lineHeightTight: defaultStyles.lineHeightTight!.style,
+      LineHeightAttribute.lineHeightOneAndHalf: defaultStyles.lineHeightOneAndHalf!.style,
+      LineHeightAttribute.lineHeightDouble: defaultStyles.lineHeightDouble!.style,
     };
 
     textStyle =

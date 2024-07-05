@@ -181,22 +181,6 @@ class Attribute<T> extends Equatable {
   /// "attributes":{"header": 6 }
   static const Attribute<int?> h6 = HeaderAttribute(level: 6);
 
-  /// "attributes":{"line-height": 1.0 }
-  static const Attribute<double?> lineHeightNormal =
-      LineHeightAttribute(lineHeight: 1);
-
-  /// "attributes":{"line-height": 1.15 }
-  static const Attribute<double?> lineHeightTight =
-      LineHeightAttribute(lineHeight: 1.15);
-
-  /// "attributes":{"line-height": 1.5 }
-  static const Attribute<double?> lineHeightOneAndHalf =
-      LineHeightAttribute(lineHeight: 1.5);
-
-  /// "attributes":{"line-height": 2.0 }
-  static const Attribute<double?> lineHeightDouble =
-      LineHeightAttribute(lineHeight: 2);
-
   // "attributes":{"align":"left"}
   static const Attribute<String?> leftAlignment = AlignAttribute('left');
 
@@ -361,6 +345,18 @@ class HeaderAttribute extends Attribute<int?> {
 class LineHeightAttribute extends Attribute<double?> {
   const LineHeightAttribute({double? lineHeight})
       : super('line-height', AttributeScope.block, lineHeight);
+
+  /// "attributes":{"line-height": 1.0 }
+  static const Attribute<double?> lineHeightNormal = LineHeightAttribute(lineHeight: 1);
+
+  /// "attributes":{"line-height": 1.15 }
+  static const Attribute<double?> lineHeightTight = LineHeightAttribute(lineHeight: 1.15);
+
+  /// "attributes":{"line-height": 1.5 }
+  static const Attribute<double?> lineHeightOneAndHalf = LineHeightAttribute(lineHeight: 1.5);
+
+  /// "attributes":{"line-height": 2.0 }
+  static const Attribute<double?> lineHeightDouble = LineHeightAttribute(lineHeight: 2);
 }
 
 class IndentAttribute extends Attribute<int?> {
