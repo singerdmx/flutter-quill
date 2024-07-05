@@ -191,7 +191,6 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   final bool showUnderLineButton;
   final bool showStrikeThrough;
   final bool showInlineCode;
-  final bool showLineHeightButton;
   final bool showColorButton;
   final bool showBackgroundColorButton;
   final bool showClearFormat;
@@ -218,6 +217,10 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   final bool showClipboardCut;
   final bool showClipboardCopy;
   final bool showClipboardPaste;
+
+  /// This activates a functionality that is only implemented in [flutter_quill] and is NOT originally 
+  /// used in the [Quill Js API]. So it could cause conflicts if you use this attribute with the original Delta format of Quill Js 
+  final bool showLineHeightButton;
 
   /// Toolbar items to display for controls of embed blocks
   final List<EmbedButtonBuilder>? embedButtons;
