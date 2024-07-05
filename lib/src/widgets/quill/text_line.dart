@@ -304,6 +304,8 @@ class _TextLineState extends State<TextLine> {
           defaultStyles.lineHeightDouble!.style,
     };
 
+    // If the lineHeight attribute isn't null, then get just the height param instead whole TextStyle
+    // to avoid modify the current style of the text line
     textStyle =
         textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
 
