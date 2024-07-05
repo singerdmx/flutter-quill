@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.5
+
+* fix: context menu behavior in mouse, desktop env by @n7484443 in https://github.com/singerdmx/flutter-quill/pull/1976
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.4...v9.5.5
+
 ## 9.5.4
 
 * Feat: Line height support by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1972
