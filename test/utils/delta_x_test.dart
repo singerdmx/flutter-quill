@@ -13,8 +13,11 @@ void main() {
       '<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player"></iframe>';
 
   const htmlWithVideoTag =
-      '''<video src="https://www.youtube.com/embed/dQw4w9WgXcQ">Your browser does not support the video tag.</video> 
-''';
+      '<video src="https://www.youtube.com/embed/dQw4w9WgXcQ">Your browser does not support the video tag.</video>';
+
+  const htmlWithNormalLinkAndVideo =
+      '<a href="https://www.macrumors.com/" type="text/html">fdsfsd</a><br><video src="https://www.youtube.com/embed/dQw4w9WgXcQ">Your browser does not support the video tag.</video>';
+
   final expectedDeltaEmp = Delta.fromOperations([
     Operation.insert(
         'This is a normal sentence, and this section has greater emp'),
@@ -30,6 +33,13 @@ void main() {
   ]);
 
   final expectedDeltaVideo = Delta.fromOperations([
+    Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
+    Operation.insert('\n'),
+  ]);
+
+  final expectedDeltaLinkAndVideoLink = Delta.fromOperations([
+    Operation.insert('fdsfsd', {'link': 'https://www.macrumors.com/'}),
+    Operation.insert('\n\n'),
     Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
     Operation.insert('\n'),
   ]);
@@ -52,5 +62,10 @@ void main() {
   test('should detect video and parse correctly', () {
     final delta = DeltaX.fromHtml(htmlWithVideoTag);
     expect(delta, expectedDeltaVideo);
+  });
+
+  test('should detect by different way normal link and video link', () {
+    final delta = DeltaX.fromHtml(htmlWithNormalLinkAndVideo);
+    expect(delta, expectedDeltaLinkAndVideoLink);
   });
 }

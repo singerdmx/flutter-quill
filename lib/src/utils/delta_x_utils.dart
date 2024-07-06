@@ -20,7 +20,7 @@ class UnderlineSyntax extends md.DelimiterSyntax {
 class VideoSyntax extends md.LinkSyntax {
   VideoSyntax({super.linkResolver})
       : super(
-          pattern: r'\[',
+          pattern: r'\[!\[',
           startCharacter: _$lbracket,
         );
 
@@ -60,13 +60,13 @@ final videoRule = hmd.Rule('video', filters: ['iframe', 'video'],
       if (!_youtubeVideoUrlValidator.hasMatch(src ?? '')) {
         return '<video>${child.outerHTML}</video>';
       }
-      return '[$content]($src)';
+      return '[![$content]($src)';
     }
     final src = node.getAttribute('src');
     if (src == null || !_youtubeVideoUrlValidator.hasMatch(src)) {
       return node.outerHTML;
     }
-    return '[$content]($src)';
+    return '[![$content]($src)';
   }
   //by now, we can only access to src
   final src = node.getAttribute('src');
@@ -76,5 +76,5 @@ final videoRule = hmd.Rule('video', filters: ['iframe', 'video'],
     return node.outerHTML;
   }
   final title = node.getAttribute('title');
-  return '[$title]($src)';
+  return '[![$title]($src)';
 });
