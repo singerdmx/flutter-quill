@@ -85,7 +85,14 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// will return true if current [onTapDown] event is triggered by a touch or
   /// a stylus.
   bool shouldShowSelectionToolbar = true;
-  bool requiresAdditionalActionForToolbar = false;
+  PointerDeviceKind? kind;
+
+  bool checkSelectionToolbarShouldShow({required bool isAdditionalAction}) {
+    if (kind != PointerDeviceKind.mouse) {
+      return shouldShowSelectionToolbar;
+    }
+    return shouldShowSelectionToolbar && isAdditionalAction;
+  }
 
   bool detectWordBoundary = true;
 
@@ -116,14 +123,13 @@ class EditorTextSelectionGestureDetectorBuilder {
     // through a touch screen (via either a finger or a stylus).
     // A mouse shouldn't trigger the selection overlay.
     // For backwards-compatibility, we treat a null kind the same as touch.
-    final kind = details.kind;
+    kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
         kind ==
             PointerDeviceKind
                 .mouse || // Enable word selection by mouse double tap
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;
-    requiresAdditionalActionForToolbar = kind == PointerDeviceKind.mouse;
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onForcePressStart].
@@ -169,7 +175,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       null,
       SelectionChangedCause.forcePress,
     );
-    if (shouldShowSelectionToolbar && !requiresAdditionalActionForToolbar) {
+    if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
       editor!.showToolbar();
     }
   }
@@ -193,7 +199,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onSecondarySingleTapUp(TapUpDetails details) {
     // added to show toolbar by right click
-    if (shouldShowSelectionToolbar) {
+    if (checkSelectionToolbarShouldShow(isAdditionalAction: true)) {
       editor!.showToolbar();
     }
   }
@@ -259,7 +265,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onSingleLongTapEnd(LongPressEndDetails details) {
-    if (shouldShowSelectionToolbar && !requiresAdditionalActionForToolbar) {
+    if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
       editor!.showToolbar();
     }
   }
@@ -284,7 +290,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       // have focus, selection hasn't been set when the toolbars
       // get added
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        if (shouldShowSelectionToolbar && !requiresAdditionalActionForToolbar) {
+        if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
           editor!.showToolbar();
         }
       });
@@ -336,8 +342,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     renderEditor!.handleDragEnd(details);
     if (isDesktop(supportWeb: true) &&
         delegate.selectionEnabled &&
-        shouldShowSelectionToolbar &&
-        !requiresAdditionalActionForToolbar) {
+        checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
       // added to show selection copy/paste toolbar after drag to select
       editor!.showToolbar();
     }
