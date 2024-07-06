@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.6
+
+* fix: common link is detected as a video link by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1978
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.5...v9.5.6
+
 ## 9.5.5
 
 * fix: context menu behavior in mouse, desktop env by @n7484443 in https://github.com/singerdmx/flutter-quill/pull/1976
