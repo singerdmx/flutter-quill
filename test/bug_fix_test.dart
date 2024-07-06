@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -10,51 +8,51 @@ void main() {
   group('Bug fix', () {
     group(
         '1266 - QuillToolbar.basic() custom buttons do not have correct fill'
-        'color set', () {
+            'color set', () {
       testWidgets('fillColor of custom buttons and builtin buttons match',
-          (tester) async {
-        const tooltip = 'custom button';
+              (tester) async {
+            const tooltip = 'custom button';
 
-        final controller = QuillController.basic();
+            final controller = QuillController.basic();
 
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: QuillSimpleToolbar(
-                configurations: QuillSimpleToolbarConfigurations(
-                  controller: controller,
-                  showRedo: false,
-                  customButtons: const [
-                    QuillToolbarCustomButtonOptions(
-                      tooltip: tooltip,
-                    )
-                  ],
+            await tester.pumpWidget(
+              MaterialApp(
+                home: Scaffold(
+                  body: QuillSimpleToolbar(
+                    configurations: QuillSimpleToolbarConfigurations(
+                      controller: controller,
+                      showRedo: false,
+                      customButtons: const [
+                        QuillToolbarCustomButtonOptions(
+                          tooltip: tooltip,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        );
+            );
 
-        final builtinFinder = find.descendant(
-          of: find.byType(QuillToolbarHistoryButton),
-          matching: find.byType(QuillToolbarIconButton),
-          matchRoot: true,
-        );
-        expect(builtinFinder, findsOneWidget);
-        // final builtinButton =
-        //     builtinFinder.evaluate().first.widget as QuillToolbarIconButton;
+            final builtinFinder = find.descendant(
+              of: find.byType(QuillToolbarHistoryButton),
+              matching: find.byType(QuillToolbarIconButton),
+              matchRoot: true,
+            );
+            expect(builtinFinder, findsOneWidget);
+            // final builtinButton =
+            //     builtinFinder.evaluate().first.widget as QuillToolbarIconButton;
 
-        final customFinder = find.descendant(
-            of: find.byType(QuillToolbar),
-            matching: find.byWidgetPredicate((widget) =>
+            final customFinder = find.descendant(
+                of: find.byType(QuillToolbar),
+                matching: find.byWidgetPredicate((widget) =>
                 widget is QuillToolbarIconButton && widget.tooltip == tooltip),
-            matchRoot: true);
-        expect(customFinder, findsOneWidget);
-        // final customButton =
-        //     customFinder.evaluate().first.widget as QuillToolbarIconButton;
+                matchRoot: true);
+            expect(customFinder, findsOneWidget);
+            // final customButton =
+            //     customFinder.evaluate().first.widget as QuillToolbarIconButton;
 
-        // expect(customButton.fillColor, equals(builtinButton.fillColor));
-      });
+            // expect(customButton.fillColor, equals(builtinButton.fillColor));
+          });
     });
 
     group('1189 - The provided text position is not in the current node', () {
@@ -77,41 +75,41 @@ void main() {
       });
 
       testWidgets('Refocus editor after controller clears document',
-          (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Column(
-              children: [editor],
-            ),
-          ),
-        );
-        await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
+              (tester) async {
+            await tester.pumpWidget(
+              MaterialApp(
+                home: Column(
+                  children: [editor],
+                ),
+              ),
+            );
+            await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
-        editor.focusNode.unfocus();
-        await tester.pump();
-        controller.clear();
-        editor.focusNode.requestFocus();
-        await tester.pump();
-        expect(tester.takeException(), isNull);
-      });
+            editor.focusNode.unfocus();
+            await tester.pump();
+            controller.clear();
+            editor.focusNode.requestFocus();
+            await tester.pump();
+            expect(tester.takeException(), isNull);
+          });
 
       testWidgets('Refocus editor after removing block attribute',
-          (tester) async {
-        await tester.pumpWidget(MaterialApp(
-          home: Column(
-            children: [editor],
-          ),
-        ));
-        await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
+              (tester) async {
+            await tester.pumpWidget(MaterialApp(
+              home: Column(
+                children: [editor],
+              ),
+            ));
+            await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
-        controller.formatSelection(Attribute.ul);
-        editor.focusNode.unfocus();
-        await tester.pump();
-        controller.formatSelection(const ListAttribute(null));
-        editor.focusNode.requestFocus();
-        await tester.pump();
-        expect(tester.takeException(), isNull);
-      });
+            controller.formatSelection(Attribute.ul);
+            editor.focusNode.unfocus();
+            await tester.pump();
+            controller.formatSelection(const ListAttribute(null));
+            editor.focusNode.requestFocus();
+            await tester.pump();
+            expect(tester.takeException(), isNull);
+          });
 
       testWidgets('Tap checkbox in unfocused editor', (tester) async {
         await tester.pumpWidget(
@@ -146,46 +144,46 @@ void main() {
     for (final device in [PointerDeviceKind.mouse, PointerDeviceKind.touch]) {
       testWidgets(
           '1742 - Disable context menu after selection for desktop platform $device',
-          (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: QuillEditor(
-              focusNode: FocusNode(),
-              scrollController: ScrollController(),
-              // ignore: avoid_redundant_argument_values
-              configurations: QuillEditorConfigurations(
-                controller: controller,
-                // ignore: avoid_redundant_argument_values
-                autoFocus: true,
-                expands: true,
+              (tester) async {
+            await tester.pumpWidget(
+              MaterialApp(
+                home: QuillEditor(
+                  focusNode: FocusNode(),
+                  scrollController: ScrollController(),
+                  // ignore: avoid_redundant_argument_values
+                  configurations: QuillEditorConfigurations(
+                    controller: controller,
+                    // ignore: avoid_redundant_argument_values
+                    autoFocus: true,
+                    expands: true,
+                  ),
+                ),
               ),
-            ),
-          ),
-        );
-        if (device == PointerDeviceKind.mouse) {
-          expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
-          // Long press to show menu
-          await tester.longPress(find.byType(QuillEditor), kind: device);
-          await tester.pumpAndSettle();
+            );
+            if (device == PointerDeviceKind.mouse) {
+              expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+              // Long press to show menu
+              await tester.longPress(find.byType(QuillEditor), kind: device);
+              await tester.pumpAndSettle();
 
-          // Verify custom widget not shows
-          expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+              // Verify custom widget not shows
+              expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
 
-          await tester.tap(find.byType(QuillEditor),
-              buttons: kSecondaryButton, kind: device);
-          await tester.pumpAndSettle();
+              await tester.tap(find.byType(QuillEditor),
+                  buttons: kSecondaryButton, kind: device);
+              await tester.pumpAndSettle();
 
-          // Verify custom widget shows
-          expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
-        } else {
-          // Long press to show menu
-          await tester.longPress(find.byType(QuillEditor), kind: device);
-          await tester.pumpAndSettle();
+              // Verify custom widget shows
+              expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
+            } else {
+              // Long press to show menu
+              await tester.longPress(find.byType(QuillEditor), kind: device);
+              await tester.pumpAndSettle();
 
-          // Verify custom widget shows
-          expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
-        }
-      });
+              // Verify custom widget shows
+              expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
+            }
+          });
     }
   });
 }

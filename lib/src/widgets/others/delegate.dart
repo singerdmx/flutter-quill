@@ -87,6 +87,10 @@ class EditorTextSelectionGestureDetectorBuilder {
   bool shouldShowSelectionToolbar = true;
   PointerDeviceKind? kind;
 
+  /// Check if the selection toolbar should show.
+  ///
+  /// If mouse is used, the toolbar should only show when right click.
+  /// Else, it should show when the selection is enabled.
   bool checkSelectionToolbarShouldShow({required bool isAdditionalAction}) {
     if (kind != PointerDeviceKind.mouse) {
       return shouldShowSelectionToolbar;
@@ -320,8 +324,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  * [EditorTextSelectionGestureDetector.onDragSelectionUpdate],
   ///  which triggers this callback./lib/src/material/text_field.dart
   @protected
-  void onDragSelectionUpdate(
-      //DragStartDetails startDetails,
+  void onDragSelectionUpdate(//DragStartDetails startDetails,
       DragUpdateDetails updateDetails) {
     renderEditor!.extendSelection(
       updateDetails.globalPosition,
