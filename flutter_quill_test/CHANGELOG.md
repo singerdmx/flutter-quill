@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.7
+
+* refactor: context menu function, add test code by @n7484443 in https://github.com/singerdmx/flutter-quill/pull/1979
+* Fix: PreserveInlineStylesRule by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1980
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.6...v9.5.7
+
 ## 9.5.6
 
 * fix: common link is detected as a video link by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1978
