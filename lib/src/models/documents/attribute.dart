@@ -116,7 +116,9 @@ class Attribute<T> extends Equatable {
 
   static const VideoAttribute video = VideoAttribute(null);
 
-  static final Set<String> inlineKeys = {
+  static final registeredAttributeKeys = Set.unmodifiable(_registry.keys);
+
+  static final inlineKeys = Set.unmodifiable(<String>{
     Attribute.bold.key,
     Attribute.subscript.key,
     Attribute.superscript.key,
@@ -128,7 +130,17 @@ class Attribute<T> extends Equatable {
     Attribute.color.key,
     Attribute.background.key,
     Attribute.placeholder.key,
-  };
+    Attribute.font.key,
+    Attribute.size.key,
+    Attribute.inlineCode.key,
+  });
+
+  static final ignoreKeys = Set.unmodifiable(<String>{
+    Attribute.width.key,
+    Attribute.height.key,
+    Attribute.style.key,
+    Attribute.token.key,
+  });
 
   static final Set<String> blockKeys = LinkedHashSet.of({
     Attribute.header.key,

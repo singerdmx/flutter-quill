@@ -556,26 +556,47 @@ class PreserveInlineStylesRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document.toDelta());
+    final documentDelta = document.toDelta();
+    final itr = DeltaIterator(documentDelta);
     var prev = itr.skip(len == 0 ? index : index + 1);
 
     if (prev == null || prev.data is! String) return null;
 
-    if ((prev.data as String).endsWith('\n')) {
-      if (prev.attributes != null) {
-        for (final key in prev.attributes!.keys) {
-          if (!Attribute.inlineKeys.contains(key)) {
-            return null;
+    /// Trap for simple insertions at start of line
+    if (len == 0) {
+      final prevData = prev.data as String;
+      if (prevData.endsWith('\n')) {
+        /// If current line is empty get attributes from a prior line
+        final currLine = itr.next();
+        final currData = currLine.data as String?;
+        if (currData != null && (currData.isEmpty || currData[0] == '\n')) {
+          if (prevData.trimRight().isEmpty) {
+            final back =
+                DeltaIterator(documentDelta).skip(index - prevData.length);
+            if (back != null && back.data is String) {
+              prev = back;
+            }
           }
+        } else {
+          prev = currLine;
         }
       }
-      prev = itr
-          .next(); // at the start of a line, apply the style for the current line and not the style for the preceding line
     }
 
-    final attributes = prev.attributes;
+    final attributes = <String, dynamic>{};
+    if (prev.attributes != null) {
+      for (final entry in prev.attributes!.entries) {
+        if (Attribute.inlineKeys.contains(entry.key)) {
+          attributes[entry.key] = entry.value;
+        }
+      }
+    }
+    if (attributes.isEmpty) {
+      return null;
+    }
+
     final text = data;
-    if (attributes == null || !attributes.containsKey(Attribute.link.key)) {
+    if (attributes.isEmpty || !attributes.containsKey(Attribute.link.key)) {
       return Delta()
         ..retain(index + (len ?? 0))
         ..insert(text, attributes);
