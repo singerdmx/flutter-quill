@@ -67,6 +67,7 @@
     "hex": "Hex 값",
     "material": "Material 색상",
     "color": "색상",
+    "lineheight": "선 높이",
     "findText": "찾기",
     "moveToPreviousOccurrence": "이전 위치로 이동",
     "moveToNextOccurrence": "다음 위치로 이동",

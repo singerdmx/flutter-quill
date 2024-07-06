@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
   String get color => 'Farba';
 
   @override
+  String get lineheight => 'Výška riadku';
+
+  @override
   String get findText => 'Nájsť text';
 
   @override

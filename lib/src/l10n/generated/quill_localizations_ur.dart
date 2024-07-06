@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get color => 'رنگ';
 
   @override
+  String get lineheight => 'لکیر کی اونچائی';
+
+  @override
   String get findText => 'متن تلاش کریں';
 
   @override

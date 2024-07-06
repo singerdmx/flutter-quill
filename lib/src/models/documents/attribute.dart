@@ -40,6 +40,7 @@ class Attribute<T> extends Equatable {
     Attribute.background.key: Attribute.background,
     Attribute.placeholder.key: Attribute.placeholder,
     Attribute.header.key: Attribute.header,
+    Attribute.lineHeight.key: Attribute.lineHeight,
     Attribute.align.key: Attribute.align,
     Attribute.direction.key: Attribute.direction,
     Attribute.list.key: Attribute.list,
@@ -86,6 +87,8 @@ class Attribute<T> extends Equatable {
   static const PlaceholderAttribute placeholder = PlaceholderAttribute();
 
   static const HeaderAttribute header = HeaderAttribute();
+
+  static const LineHeightAttribute lineHeight = LineHeightAttribute();
 
   static const IndentAttribute indent = IndentAttribute();
 
@@ -147,6 +150,7 @@ class Attribute<T> extends Equatable {
     Attribute.blockQuote.key,
     Attribute.indent.key,
     Attribute.direction.key,
+    Attribute.lineHeight.key,
   });
 
   static final Set<String> blockKeysExceptHeader = LinkedHashSet.of({
@@ -154,6 +158,7 @@ class Attribute<T> extends Equatable {
     Attribute.align.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
+    Attribute.lineHeight.key,
     Attribute.indent.key,
     Attribute.direction.key,
   });
@@ -347,6 +352,27 @@ class PlaceholderAttribute extends Attribute<bool> {
 class HeaderAttribute extends Attribute<int?> {
   const HeaderAttribute({int? level})
       : super('header', AttributeScope.block, level);
+}
+
+/// This attribute represents the space between text lines. The line height can be
+/// adjusted using predefined constants or custom values
+///
+/// The attribute at the json looks like: "attributes":{"line-height": 1.5 }
+class LineHeightAttribute extends Attribute<double?> {
+  const LineHeightAttribute({double? lineHeight})
+      : super('line-height', AttributeScope.block, lineHeight);
+
+  static const Attribute<double?> lineHeightNormal =
+      LineHeightAttribute(lineHeight: 1);
+
+  static const Attribute<double?> lineHeightTight =
+      LineHeightAttribute(lineHeight: 1.15);
+
+  static const Attribute<double?> lineHeightOneAndHalf =
+      LineHeightAttribute(lineHeight: 1.5);
+
+  static const Attribute<double?> lineHeightDouble =
+      LineHeightAttribute(lineHeight: 2);
 }
 
 class IndentAttribute extends Attribute<int?> {

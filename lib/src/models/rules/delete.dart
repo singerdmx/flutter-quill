@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart' show immutable;
 
 import '../../../quill_delta.dart';
+import '../../models/documents/document.dart';
 import '../documents/attribute.dart';
 import '../documents/nodes/embeddable.dart';
 import 'rule.dart';
@@ -26,9 +27,9 @@ class EnsureLastLineBreakDeleteRule extends DeleteRule {
   const EnsureLastLineBreakDeleteRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
+  Delta? applyRule(Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    final itr = DeltaIterator(document)..skip(index + len!);
+    final itr = DeltaIterator(document.toDelta())..skip(index + len!);
 
     return Delta()
       ..retain(index)
@@ -43,9 +44,9 @@ class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
   @override
-  Delta applyRule(Delta document, int index,
+  Delta applyRule(Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    final itr = DeltaIterator(document)..skip(index + len!);
+    final itr = DeltaIterator(document.toDelta())..skip(index + len!);
 
     return Delta()
       ..retain(index)
@@ -64,9 +65,9 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
+  Delta? applyRule(Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    final itr = DeltaIterator(document)..skip(index);
+    final itr = DeltaIterator(document.toDelta())..skip(index);
     var op = itr.next(1);
     if (op.data != '\n') {
       return null;
@@ -121,9 +122,9 @@ class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 
   @override
-  Delta? applyRule(Delta document, int index,
+  Delta? applyRule(Document document, int index,
       {int? len, Object? data, Attribute? attribute}) {
-    final itr = DeltaIterator(document);
+    final itr = DeltaIterator(document.toDelta());
 
     var op = itr.skip(index);
     final opAfter = itr.skip(index + 1);

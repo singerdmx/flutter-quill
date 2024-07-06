@@ -354,10 +354,7 @@ class Document {
     } catch (e) {
       throw StateError('_delta compose failed');
     }
-
-    if (_delta != _root.toDelta()) {
-      throw StateError('Compose failed');
-    }
+    assert(_delta == _root.toDelta(), 'Compose failed');
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
@@ -442,7 +439,6 @@ class Document {
           doc.toString(), 'Document Delta cannot be empty.');
     }
 
-    // print(doc.last.data.runtimeType);
     assert((doc.last.data as String).endsWith('\n'));
 
     var offset = 0;

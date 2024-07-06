@@ -164,6 +164,10 @@ class MyQuillToolbar extends StatelessWidget {
                     controller: controller,
                   ),
                   const VerticalDivider(),
+                  QuillToolbarSelectLineHeightStyleDropdownButton(
+                    controller: controller,
+                  ),
+                  const VerticalDivider(),
                   QuillToolbarToggleCheckListButton(
                     controller: controller,
                   ),

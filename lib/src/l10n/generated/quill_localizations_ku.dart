@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
   String get color => 'ڕەنگ';
 
   @override
+  String get lineheight => 'بەرزی هێڵ';
+
+  @override
   String get findText => 'دۆزینەوەی نوسین';
 
   @override
@@ -503,6 +506,9 @@ class FlutterQuillLocalizationsKuCkb extends FlutterQuillLocalizationsKu {
 
   @override
   String get color => 'ڕەنگ';
+
+  @override
+  String get lineheight => 'بەرزی هێڵ';
 
   @override
   String get findText => 'دۆزینەوەی نوسین';

@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Material",
     "color": "Color",
+    "lineheight": "行の高さ",
     "pleaseEnterAValidVideoURL": "有効なビデオURLを入力してください",
     "photo": "写真",
     "image": "画像",

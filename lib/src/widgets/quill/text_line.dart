@@ -8,27 +8,18 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../models/documents/attribute.dart';
+import '../../../flutter_quill.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
-import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
-import '../../models/documents/nodes/leaf.dart';
-import '../../models/documents/nodes/line.dart';
-import '../../models/documents/nodes/node.dart';
-import '../../models/documents/style.dart';
-import '../../models/structs/vertical_spacing.dart';
 import '../../utils/color.dart';
 import '../../utils/font.dart';
 import '../../utils/platform.dart';
 import '../others/box.dart';
-import '../others/cursor.dart';
-import '../others/default_styles.dart';
 import '../others/delegate.dart';
 import '../others/keyboard_listener.dart';
 import '../others/link.dart';
 import '../others/proxy.dart';
 import '../others/text_selection.dart';
-import 'quill_controller.dart';
 
 class TextLine extends StatefulWidget {
   const TextLine({
@@ -301,6 +292,23 @@ class _TextLineState extends State<TextLine> {
     }
 
     textStyle = textStyle.merge(toMerge);
+
+    final lineHeight = widget.line.style.attributes[Attribute.lineHeight.key];
+    final x = <Attribute, TextStyle>{
+      LineHeightAttribute.lineHeightNormal:
+          defaultStyles.lineHeightNormal!.style,
+      LineHeightAttribute.lineHeightTight: defaultStyles.lineHeightTight!.style,
+      LineHeightAttribute.lineHeightOneAndHalf:
+          defaultStyles.lineHeightOneAndHalf!.style,
+      LineHeightAttribute.lineHeightDouble:
+          defaultStyles.lineHeightDouble!.style,
+    };
+
+    // If the lineHeight attribute isn't null, then get just the height param instead whole TextStyle
+    // to avoid modify the current style of the text line
+    textStyle =
+        textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
+
     textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
 
     return textStyle;

@@ -127,11 +127,11 @@ base class Line extends QuillContainer<Leaf?> {
     if (style == null) {
       return;
     }
-    final thisLength = length;
+    final length = this.length;
 
-    final local = math.min(thisLength - index, len!);
+    final local = math.min(length - index, len!);
     // If index is at newline character then this is a line/block style update.
-    final isLineFormat = (index + local == thisLength) && local == 1;
+    final isLineFormat = (index + local == length) && local == 1;
 
     if (isLineFormat) {
       assert(
@@ -145,7 +145,7 @@ base class Line extends QuillContainer<Leaf?> {
       assert(style.values.every((attr) =>
           attr.scope == AttributeScope.inline ||
           attr.scope == AttributeScope.ignore));
-      assert(index + local != thisLength);
+      assert(index + local != length);
       super.retain(index, local, style);
     }
 
@@ -158,6 +158,7 @@ base class Line extends QuillContainer<Leaf?> {
 
   @override
   void delete(int index, int? len) {
+    final length = this.length;
     final local = math.min(length - index, len!);
     final isLFDeleted = index + local == length; // Line feed
     if (isLFDeleted) {

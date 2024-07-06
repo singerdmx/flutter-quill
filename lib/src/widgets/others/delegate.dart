@@ -85,6 +85,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// will return true if current [onTapDown] event is triggered by a touch or
   /// a stylus.
   bool shouldShowSelectionToolbar = true;
+  bool requiresAdditionalActionForToolbar = false;
 
   bool detectWordBoundary = true;
 
@@ -122,6 +123,7 @@ class EditorTextSelectionGestureDetectorBuilder {
                 .mouse || // Enable word selection by mouse double tap
         kind == PointerDeviceKind.touch ||
         kind == PointerDeviceKind.stylus;
+    requiresAdditionalActionForToolbar = kind == PointerDeviceKind.mouse;
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onForcePressStart].
@@ -167,7 +169,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       null,
       SelectionChangedCause.forcePress,
     );
-    if (shouldShowSelectionToolbar) {
+    if (shouldShowSelectionToolbar && !requiresAdditionalActionForToolbar) {
       editor!.showToolbar();
     }
   }
@@ -257,7 +259,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onSingleLongTapEnd(LongPressEndDetails details) {
-    if (shouldShowSelectionToolbar) {
+    if (shouldShowSelectionToolbar && !requiresAdditionalActionForToolbar) {
       editor!.showToolbar();
     }
   }
@@ -282,7 +284,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       // have focus, selection hasn't been set when the toolbars
       // get added
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        if (shouldShowSelectionToolbar) {
+        if (shouldShowSelectionToolbar && !requiresAdditionalActionForToolbar) {
           editor!.showToolbar();
         }
       });
@@ -334,7 +336,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     renderEditor!.handleDragEnd(details);
     if (isDesktop(supportWeb: true) &&
         delegate.selectionEnabled &&
-        shouldShowSelectionToolbar) {
+        shouldShowSelectionToolbar &&
+        !requiresAdditionalActionForToolbar) {
       // added to show selection copy/paste toolbar after drag to select
       editor!.showToolbar();
     }

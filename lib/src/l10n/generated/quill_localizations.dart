@@ -577,6 +577,12 @@ abstract class FlutterQuillLocalizations {
   /// **'Color'**
   String get color;
 
+  /// No description provided for @lineheight.
+  ///
+  /// In en, this message translates to:
+  /// **'Line height'**
+  String get lineheight;
+
   /// No description provided for @findText.
   ///
   /// In en, this message translates to:
