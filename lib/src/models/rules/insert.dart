@@ -556,7 +556,8 @@ class PreserveInlineStylesRule extends InsertRule {
       return null;
     }
 
-    final itr = DeltaIterator(document.toDelta());
+    final documentDelta = document.toDelta();
+    final itr = DeltaIterator(documentDelta);
     var prev = itr.skip(len == 0 ? index : index + 1);
 
     if (prev == null || prev.data is! String) return null;
@@ -570,7 +571,7 @@ class PreserveInlineStylesRule extends InsertRule {
         final currData = currLine.data as String?;
         if (currData != null && (currData.isEmpty || currData[0] == '\n')) {
           if (prevData.trimRight().isEmpty) {
-            final back = DeltaIterator(document).skip(index - prevData.length);
+            final back = DeltaIterator(documentDelta).skip(index - prevData.length);
             if (back != null && back.data is String) {
               prev = back;
             }
