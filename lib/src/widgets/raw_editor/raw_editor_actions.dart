@@ -460,6 +460,7 @@ class QuillEditorOpenSearchAction extends ContextAction<OpenSearchIntent> {
       );
     }
     await showDialog<String>(
+      barrierColor: Colors.transparent,
       context: context,
       builder: (_) => FlutterQuillLocalizationsWidget(
         child: QuillToolbarSearchDialog(
