@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.9
+
+* Update pubspec.yaml to remove html2md by @singerdmx in https://github.com/singerdmx/flutter-quill/pull/1985
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.8...v9.5.9
+
 ## 9.5.8
 
 * fix(typo): fix typo ClipboardServiceProvider.instacne by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1983
