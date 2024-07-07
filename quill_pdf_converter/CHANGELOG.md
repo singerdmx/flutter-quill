@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.10
+
+* chore: remove dependency html converter by @ellet0 in https://github.com/singerdmx/flutter-quill/pull/1987
+* Fix: LineHeight button to use MenuAnchor by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/1986
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.9...v9.5.10
+
 ## 9.5.9
 
 * Update pubspec.yaml to remove html2md by @singerdmx in https://github.com/singerdmx/flutter-quill/pull/1985
