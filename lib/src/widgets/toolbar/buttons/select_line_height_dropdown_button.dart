@@ -44,6 +44,7 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
 
   Attribute<dynamic> _selectedItem = Attribute.lineHeight;
 
+  final _menuController = MenuController();
   @override
   void initState() {
     super.initState();
@@ -133,78 +134,61 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
       );
     }
 
-    return Builder(
-      builder: (context) {
-        final isMaterial3 = Theme.of(context).useMaterial3;
-        final child = Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              _label(_selectedItem),
-              style: widget.options.textStyle ??
-                  TextStyle(
-                    fontSize: iconSize / 1.15,
-                  ),
-            ),
-            Icon(
-              Icons.arrow_drop_down,
-              size: iconSize * iconButtonFactor,
-            ),
-          ],
-        );
-        if (!isMaterial3) {
-          return RawMaterialButton(
-            onPressed: () => _onDropdownButtonPressed(context),
-            child: child,
-          );
-        }
-        return _QuillToolbarLineHeightIcon(
-          iconTheme: iconTheme,
-          tooltip: tooltip,
-          onPressed: _onDropdownButtonPressed,
-          child: child,
-        );
-      },
-    );
+    return MenuAnchor(
+        controller: _menuController,
+        menuChildren: lineHeightAttributes
+            .map(
+              (e) => MenuItemButton(
+                onPressed: () {
+                  _onPressed(e);
+                },
+                child: Text(_label(e)),
+              ),
+            )
+            .toList(),
+        child: Builder(
+          builder: (context) {
+            final isMaterial3 = Theme.of(context).useMaterial3;
+            final child = Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _label(_selectedItem),
+                  style: widget.options.textStyle ??
+                      TextStyle(
+                        fontSize: iconSize / 1.15,
+                      ),
+                ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  size: iconSize * iconButtonFactor,
+                ),
+              ],
+            );
+            if (!isMaterial3) {
+              return RawMaterialButton(
+                onPressed: _onDropdownButtonPressed,
+                child: child,
+              );
+            }
+            return _QuillToolbarLineHeightIcon(
+              iconTheme: iconTheme,
+              tooltip: tooltip,
+              onPressed: _onDropdownButtonPressed,
+              child: child,
+            );
+          },
+        ));
   }
 
-  Future<void> _onDropdownButtonPressed(BuildContext context) async {
-    final position = _renderPosition(context);
-    await showMenu<Attribute<dynamic>>(
-            context: context,
-            position: position,
-            items: lineHeightAttributes
-                .map(
-                  (e) => PopupMenuItem(
-                    value: e,
-                    child: Text(_label(e)),
-                  ),
-                )
-                .toList())
-        .then<void>(
-      (value) {
-        if (value != null) {
-          _onPressed(value);
-        }
-      },
-    );
-  }
-
-  RelativeRect _renderPosition(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    final button = context.findRenderObject() as RenderBox;
-    final position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        button.localToGlobal(const Offset(0, -65), ancestor: overlay),
-        button.localToGlobal(
-            button.size.bottomRight(Offset.zero) + const Offset(-50, 0),
-            ancestor: overlay),
-      ),
-      Offset.zero & size * 0.40,
-    );
-    return position;
+  void _onDropdownButtonPressed() {
+    if (_menuController.isOpen) {
+      _menuController.close();
+    } else {
+      _menuController.open();
+    }
+    afterButtonPressed?.call();
   }
 }
 
@@ -217,7 +201,7 @@ class _QuillToolbarLineHeightIcon extends StatelessWidget {
   });
 
   final Row child;
-  final void Function(BuildContext) onPressed;
+  final void Function() onPressed;
   final QuillIconTheme? iconTheme;
   final String tooltip;
 
@@ -228,7 +212,7 @@ class _QuillToolbarLineHeightIcon extends StatelessWidget {
       isSelected: false,
       iconTheme: iconTheme,
       tooltip: tooltip,
-      onPressed: () => onPressed(context),
+      onPressed: onPressed,
     );
   }
 }
