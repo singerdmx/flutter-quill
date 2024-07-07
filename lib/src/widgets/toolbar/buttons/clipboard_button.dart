@@ -27,7 +27,7 @@ class ClipboardMonitor {
   }
 
   Future<void> _update(void Function() listener) async {
-    final clipboardService = ClipboardServiceProvider.instacne;
+    final clipboardService = ClipboardServiceProvider.instance;
     if (await clipboardService.canPaste()) {
       _canPaste = true;
       listener();

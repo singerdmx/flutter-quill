@@ -42,7 +42,7 @@ export 'utils/utils.dart';
 class FlutterQuillExtensions {
   const FlutterQuillExtensions._();
 
-  /// Override default implementation of [ClipboardServiceProvider.instacne]
+  /// Override default implementation of [ClipboardServiceProvider.instance]
   /// to allow `flutter_quill` package to use `super_clipboard` plugin
   /// to support rich text features, gif and images.
   static void useSuperClipboardPlugin() {

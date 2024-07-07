@@ -568,7 +568,7 @@ class QuillController extends ChangeNotifier {
 
   /// Return true if can paste using HTML
   Future<bool> _pasteHTML() async {
-    final clipboardService = ClipboardServiceProvider.instacne;
+    final clipboardService = ClipboardServiceProvider.instance;
 
     Future<String?> getHTML() async {
       if (await clipboardService.canProvideHtmlTextFromFile()) {
@@ -594,7 +594,7 @@ class QuillController extends ChangeNotifier {
 
   /// Return true if can paste using Markdown
   Future<bool> _pasteMarkdown() async {
-    final clipboardService = ClipboardServiceProvider.instacne;
+    final clipboardService = ClipboardServiceProvider.instance;
 
     Future<String?> getMarkdown() async {
       if (await clipboardService.canProvideMarkdownTextFromFile()) {

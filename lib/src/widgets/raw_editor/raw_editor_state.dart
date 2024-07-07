@@ -184,7 +184,7 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    final clipboardService = ClipboardServiceProvider.instacne;
+    final clipboardService = ClipboardServiceProvider.instance;
 
     final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
