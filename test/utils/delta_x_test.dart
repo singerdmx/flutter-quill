@@ -33,6 +33,7 @@ void main() {
   ]);
 
   final expectedDeltaVideo = Delta.fromOperations([
+    Operation.insert('\n'),
     Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
     Operation.insert('\n'),
   ]);
