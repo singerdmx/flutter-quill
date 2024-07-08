@@ -42,6 +42,7 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
+> [!NOTE]
 > If you are viewing this page from [pub.dev](https://pub.dev/) page, then you
 > might have some issues with opening some links, open it in the GitHub repo instead.
 
@@ -97,6 +98,7 @@ dependencies:
     ref: v<latest-version-here>
 ```
 
+> [!TIP]
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement
 > of the library.
 > Your input and insights are valuable in shaping a stable and reliable version for all the developers. Thank you for
@@ -114,6 +116,7 @@ Before using the package, we must inform you the package uses the following plug
 
 All of them don't require any platform-specific setup.
 
+> [!NOTE]
 > Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved
 > to [FlutterQuill Extensions], to use rich text pasting, support pasting images, and gif files from external apps or websites, take a look
 > at `flutter_quill_extensions` Readme.
@@ -271,7 +274,7 @@ You have two options:
    Typescript/Javascript package.
    this package doesn't convert the HTML back to Quill Delta as far as we know
 
-
+> [!CAUTION]
 > **Converting to Delta from Markdown and HTML is highly experimental and shouldn't be used for production applications**, while the current implementation is far from perfect, it could improved a lot however **it will likely not work as expected**, due to differences between HTML and Delta, see this [comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.<br>
 > We use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
 previously breaks the styles, while the current implementation is not ready, it provides a better user experience and doesn't have many downsides.
