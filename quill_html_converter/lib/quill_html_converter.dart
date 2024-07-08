@@ -1,7 +1,8 @@
 library quill_html_converter;
 
 import 'package:dart_quill_delta/dart_quill_delta.dart';
-import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart' as converter
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart'
+    as converter
     show
         ConverterOptions,
         QuillDeltaToHtmlConverter,
@@ -64,14 +65,14 @@ final _defaultConverterOptions = ConverterOptions(
     allow8DigitHexColors: true,
   ),
 
-  // This handle specific styles and attributes  
+  // This handle specific styles and attributes
   converterOptions: converter.OpConverterOptions(
     customCssStyles: (op) {
       // Validate if our attributes exist in [DeltaInsertOp]
       // and return the necessary HTML style
       // These lists of attributes, are passed as inline styles
       //
-      // For example, if you have a delta like -> 
+      // For example, if you have a delta like ->
       // [ { "insert": "hello", "attributes": { "line-height": 1.5 }} ]
       //
       // Without the validation below to verify if exist line-height atribute in the Operation, it would be:
@@ -93,7 +94,8 @@ final _defaultConverterOptions = ConverterOptions(
     inlineStyles: converter.InlineStyles(
       <String, converter.InlineStyleType>{
         'font': converter.InlineStyleType(
-          fn: (value, _) => converter.defaultInlineFonts[value] ?? 'font-family: $value',
+          fn: (value, _) =>
+              converter.defaultInlineFonts[value] ?? 'font-family: $value',
         ),
         'size': converter.InlineStyleType(
           fn: (value, _) {
