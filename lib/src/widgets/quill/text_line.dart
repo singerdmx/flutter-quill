@@ -178,7 +178,7 @@ class _TextLineState extends State<TextLine> {
   }
 
   InlineSpan _getTextSpanForWholeLine() {
-    final lineStyle = _getLineStyle(widget.styles);
+    var lineStyle = _getLineStyle(widget.styles);
     if (!widget.line.hasEmbed) {
       return _buildTextSpan(widget.styles, widget.line.children, lineStyle);
     }
@@ -198,6 +198,16 @@ class _TextLineState extends State<TextLine> {
           child = Embed(CustomBlockEmbed.fromJsonString(child.value.data))
             ..applyStyle(child.style);
         }
+
+        if (child.value.type == BlockEmbed.formulaType) {
+          lineStyle = lineStyle.merge(_getInlineTextStyle(
+            child.style,
+            widget.styles,
+            widget.line.style,
+            false,
+          ));
+        }
+
         final embedBuilder = widget.embedBuilder(child);
         final embedWidget = EmbedProxy(
           embedBuilder.build(
@@ -377,8 +387,8 @@ class _TextLineState extends State<TextLine> {
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
-    final style = _getInlineTextStyle(
-        textNode, defaultStyles, nodeStyle, lineStyle, isLink);
+    final style =
+        _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
 
     if (widget.controller.configurations.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
@@ -400,14 +410,10 @@ class _TextLineState extends State<TextLine> {
     );
   }
 
-  TextStyle _getInlineTextStyle(
-      leaf.QuillText textNode,
-      DefaultStyles defaultStyles,
-      Style nodeStyle,
-      Style lineStyle,
-      bool isLink) {
+  TextStyle _getInlineTextStyle(Style nodeStyle, DefaultStyles defaultStyles,
+      Style lineStyle, bool isLink) {
     var res = const TextStyle(); // This is inline text style
-    final color = textNode.style.attributes[Attribute.color.key];
+    final color = nodeStyle.attributes[Attribute.color.key];
 
     <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
@@ -446,12 +452,12 @@ class _TextLineState extends State<TextLine> {
       res = _merge(res, defaultStyles.inlineCode!.styleFor(lineStyle));
     }
 
-    final font = textNode.style.attributes[Attribute.font.key];
+    final font = nodeStyle.attributes[Attribute.font.key];
     if (font != null && font.value != null) {
       res = res.merge(TextStyle(fontFamily: font.value));
     }
 
-    final size = textNode.style.attributes[Attribute.size.key];
+    final size = nodeStyle.attributes[Attribute.size.key];
     if (size != null && size.value != null) {
       switch (size.value) {
         case 'small':
@@ -482,13 +488,13 @@ class _TextLineState extends State<TextLine> {
       }
     }
 
-    final background = textNode.style.attributes[Attribute.background.key];
+    final background = nodeStyle.attributes[Attribute.background.key];
     if (background != null && background.value != null) {
       final backgroundColor = stringToColor(background.value);
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
     }
 
-    res = _applyCustomAttributes(res, textNode.style.attributes);
+    res = _applyCustomAttributes(res, nodeStyle.attributes);
     return res;
   }
 
