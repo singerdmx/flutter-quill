@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.12
+
+* fix: Fixed passing textStyle to formula embed by @shubham030 in https://github.com/singerdmx/flutter-quill/pull/1989
+
+## New Contributors
+* @shubham030 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/1989
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.11...v9.5.12
+
 ## 9.5.11
 
 * Update flutter_quill_delta_from_html in pubspec.yaml by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1988
