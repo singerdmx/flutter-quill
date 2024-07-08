@@ -198,7 +198,7 @@ class _TextLineState extends State<TextLine> {
           child = Embed(CustomBlockEmbed.fromJsonString(child.value.data))
             ..applyStyle(child.style);
         }
-        
+
         if (child.value.type == BlockEmbed.formulaType) {
           lineStyle = lineStyle.merge(_getInlineTextStyle(
             child.style,
@@ -387,8 +387,8 @@ class _TextLineState extends State<TextLine> {
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
-    final style = _getInlineTextStyle(
-        nodeStyle, defaultStyles, lineStyle, isLink);
+    final style =
+        _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
 
     if (widget.controller.configurations.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
@@ -410,11 +410,8 @@ class _TextLineState extends State<TextLine> {
     );
   }
 
-  TextStyle _getInlineTextStyle(
-      Style nodeStyle,
-      DefaultStyles defaultStyles,
-      Style lineStyle,
-      bool isLink) {
+  TextStyle _getInlineTextStyle(Style nodeStyle, DefaultStyles defaultStyles,
+      Style lineStyle, bool isLink) {
     var res = const TextStyle(); // This is inline text style
     final color = nodeStyle.attributes[Attribute.color.key];
 
