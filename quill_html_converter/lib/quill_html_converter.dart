@@ -86,10 +86,6 @@ final _defaultConverterOptions = ConverterOptions(
         // Fit images within restricted parent width
         return ['max-width: 100%', 'object-fit: contain'];
       }
-      if (op.isBlockquote()) {
-        // Style for blockquotes
-        return ['border-left: 4px solid #ccc', 'padding-left: 16px'];
-      }
       return null;
     },
     // Enable inline styles
