@@ -1,8 +1,7 @@
 library quill_html_converter;
 
 import 'package:dart_quill_delta/dart_quill_delta.dart';
-import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart'
-    as converter
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart' as converter
     show
         ConverterOptions,
         QuillDeltaToHtmlConverter,
@@ -29,67 +28,104 @@ extension DeltaHtmlExt on Delta {
     final json = toJson();
     final html = converter.QuillDeltaToHtmlConverter(
       List.castFrom(json),
-      options ??
-          ConverterOptions(
-            orderedListTag: 'ol',
-            bulletListTag: 'ul',
-            multiLineBlockquote: true,
-            multiLineHeader: true,
-            multiLineCodeblock: true,
-            multiLineParagraph: true,
-            multiLineCustomBlock: true,
-            sanitizerOptions: converter.OpAttributeSanitizerOptions(
-                allow8DigitHexColors: true),
-            converterOptions: converter.OpConverterOptions(
-              customCssStyles: (op) {
-                ///if found line-height apply this as a inline style
-                if (op.attributes['line-height'] != null) {
-                  return ['line-height: ${op.attributes['line-height']}px'];
-                }
-                //here is where us pass the necessary
-                //code to validate if our attributes exist in [DeltaInsertOp]
-                //and return the necessary html style
-                if (op.isImage()) {
-                  // Fit images within restricted parent width.
-                  return ['max-width: 100%', 'object-fit: contain'];
-                }
-                if (op.isBlockquote()) {
-                  return ['border-left: 4px solid #ccc', 'padding-left: 16px'];
-                }
-                return null;
-              },
-              inlineStylesFlag: true, //This let inlineStyles work
-              inlineStyles: converter.InlineStyles(
-                <String, converter.InlineStyleType>{
-                  'font': converter.InlineStyleType(
-                      fn: (value, _) =>
-                          converter.defaultInlineFonts[value] ??
-                          'font-family: $value'),
-                  'size': converter.InlineStyleType(fn: (value, _) {
-                    //default sizes
-                    if (value == 'small') return 'font-size: 0.75em';
-                    if (value == 'large') return 'font-size: 1.5em';
-                    if (value == 'huge') return 'font-size: 2.5em';
-                    //accept any int or double type size
-                    return 'font-size: ${value}px';
-                  }),
-                  'indent': converter.InlineStyleType(fn: (value, op) {
-                    final indentSize =
-                        (double.tryParse(value) ?? double.nan) * 3;
-                    final side =
-                        op.attributes['direction'] == 'rtl' ? 'right' : 'left';
-                    return 'padding-$side:${indentSize}em';
-                  }),
-                  'list': converter.InlineStyleType(map: <String, String>{
-                    'checked': "list-style-type:'\\2611';padding-left: 0.5em;",
-                    'unchecked':
-                        "list-style-type:'\\2610';padding-left: 0.5em;",
-                  }),
-                },
-              ),
-            ),
-          ),
+      options ?? _defaultConverterOptions,
     ).convert();
     return html;
   }
 }
+
+/// Configuration options for converting Quill Delta to HTML.
+/// This includes various settings for how different elements and styles should be handled.
+final _defaultConverterOptions = ConverterOptions(
+  // Tag to be used for ordered lists
+  orderedListTag: 'ol',
+
+  // Tag to be used for bullet lists
+  bulletListTag: 'ul',
+
+  // Enable multi-line blockquote conversion
+  multiLineBlockquote: true,
+
+  // Enable multi-line header conversion
+  multiLineHeader: true,
+
+  // Enable multi-line code block conversion
+  multiLineCodeblock: true,
+
+  // Enable multi-line paragraph conversion
+  multiLineParagraph: true,
+
+  // Enable multi-line custom block conversion
+  multiLineCustomBlock: true,
+
+  // Options for sanitizing attributes
+  sanitizerOptions: converter.OpAttributeSanitizerOptions(
+    // Allow 8-digit hex colors in styles
+    allow8DigitHexColors: true,
+  ),
+
+  // This handle specific styles and attributes  
+  converterOptions: converter.OpConverterOptions(
+    customCssStyles: (op) {
+      // Validate if our attributes exist in [DeltaInsertOp]
+      // and return the necessary HTML style
+      // These lists of attributes, are passed as inline styles
+      //
+      // For example, if you have a delta like -> 
+      // [ { "insert": "hello", "attributes": { "line-height": 1.5 }} ]
+      //
+      // Without the validation below to verify if exist line-height atribute in the Operation, it would be:
+      // <p>hello</p> -> isn't created the attribute
+      //
+      // But, with this validation an implementation of the style will be:
+      // <p><span style="line-height: 1.5px">hello</span></p>
+      if (op.attributes['line-height'] != null) {
+        return ['line-height: ${op.attributes['line-height']}px'];
+      }
+      if (op.isImage()) {
+        // Fit images within restricted parent width
+        return ['max-width: 100%', 'object-fit: contain'];
+      }
+      if (op.isBlockquote()) {
+        // Style for blockquotes
+        return ['border-left: 4px solid #ccc', 'padding-left: 16px'];
+      }
+      return null;
+    },
+    // Enable inline styles
+    inlineStylesFlag: true,
+    inlineStyles: converter.InlineStyles(
+      <String, converter.InlineStyleType>{
+        'font': converter.InlineStyleType(
+          fn: (value, _) => converter.defaultInlineFonts[value] ?? 'font-family: $value',
+        ),
+        'size': converter.InlineStyleType(
+          fn: (value, _) {
+            // Default sizes
+            if (value == 'small') return 'font-size: 0.75em';
+            if (value == 'large') return 'font-size: 1.5em';
+            if (value == 'huge') return 'font-size: 2.5em';
+            // Accept any int or double type size
+            return 'font-size: ${value}px';
+          },
+        ),
+        'indent': converter.InlineStyleType(
+          fn: (value, op) {
+            // Calculate indent size based on the value
+            final indentSize = (double.tryParse(value) ?? double.nan) * 3;
+            // Determine side for padding based on text direction
+            final side = op.attributes['direction'] == 'rtl' ? 'right' : 'left';
+            return 'padding-$side:${indentSize}em';
+          },
+        ),
+        'list': converter.InlineStyleType(
+          map: <String, String>{
+            // Styles for checked and unchecked list items
+            'checked': "list-style-type:'\\2611';padding-left: 0.5em;",
+            'unchecked': "list-style-type:'\\2610';padding-left: 0.5em;",
+          },
+        ),
+      },
+    ),
+  ),
+);
