@@ -251,33 +251,41 @@ of [FlutterQuill Extensions]
 
 ## 🔄 Conversion to HTML
 
-Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
-it to other formats such as HTML to publish it, or send an email.
-
-**Note**: This package supports converting from HTML back to Quill delta but it's experimental and used internally when
+> [!CAUTION]
+> **Converting to Delta from Markdown and HTML is highly experimental and shouldn't be used for production applications**, while the current implementation is far from perfect, it could improved a lot however **it will likely not work as expected**, due to differences between **HTML** and **Delta**, see this [comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.<br>
+> We use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
+previously breaks the styles, while the current implementation is not ready, it provides a better user experience and doesn't have many downsides.
+>
+> The support for converting HTML to **Quill Delta** is quite experimental and used internally when
 pasting HTML content from the clipboard to the Quill Editor
+>
+> Converting **Delta** from/to **HTML** is not a standard feature in [Quill JS](https://github.com/slab/quill) or [FlutterQuill].
 
-You have two options:
+> [!IMPORTANT]
+> Converting HTML to **Delta** usually won't work as expected, we highly recommend storing the document as **Delta JSON**
+in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML, CSV, etc...)
+>
+> Converting between HTML and **Delta** JSON is generally not recommended due to their structural and functional differences.
+>
+> Sometimes you might want to convert **HTML** to **Delta** for specific use cases:
+> 
+> 1. **Migration**: If you're using an existing system that stores the data in HTML and want to convert the document data to **Delta**.
+> 2. **Sharing**: For example, if you want to share the Document **Delta** somewhere or send it as an email.
+> 3. **Save as**: If your app has a feature that allows converting Documents to other formats.
+> 4. **Rich text pasting**: If you copy some content from websites or apps, and want to paste it into the app.
 
-1. Using [quill_html_converter](./quill_html_converter/) to convert to HTML, the package can convert the Quill delta to
-   HTML well
-   (it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it is just a handy extension
-   to do it more quickly
-2. Another option is to use
-   [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
+The following packages can be used:
+
+1. [`quill_html_converter`](./quill_html_converter/): To convert Delta HTML, it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html), it's an extension to `Delta`.
+2. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
    to HTML.
    This package has full support for all Quill operations—including images, videos, formulas,
    tables, and mentions.
-   Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.
+   Conversion can be performed in vanilla Dart (i.e., Server Side or CLI) or in **Flutter**.
    It is a complete Dart part of the popular and
    mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
-   Typescript/Javascript package.
-   this package doesn't convert the HTML back to Quill Delta as far as we know
-
-> [!CAUTION]
-> **Converting to Delta from Markdown and HTML is highly experimental and shouldn't be used for production applications**, while the current implementation is far from perfect, it could improved a lot however **it will likely not work as expected**, due to differences between HTML and Delta, see this [comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.<br>
-> We use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
-previously breaks the styles, while the current implementation is not ready, it provides a better user experience and doesn't have many downsides.
+   Typescript/JS package.
+3. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML to **Delta**.
 
 ## 🌐 Translation
 
