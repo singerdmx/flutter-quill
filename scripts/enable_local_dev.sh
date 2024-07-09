@@ -21,10 +21,4 @@ cp flutter_quill_test/pubspec_overrides.yaml.disabled flutter_quill_test/pubspec
 
 echo ""
 
-echo "Enable local development for all the other packages..."
-cp quill_html_converter/pubspec_overrides.yaml.disabled quill_html_converter/pubspec_overrides.yaml
-cp quill_pdf_converter/pubspec_overrides.yaml.disabled quill_pdf_converter/pubspec_overrides.yaml
-
-echo ""
-
 echo "Local development for all libraries has been enabled, please 'flutter pub get' for each one of them"

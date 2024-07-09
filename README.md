@@ -276,8 +276,7 @@ in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft W
 
 The following packages can be used:
 
-1. [`quill_html_converter`](./quill_html_converter/): To convert Delta HTML, it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html), it's an extension to `Delta`.
-2. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
+1. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
    to HTML.
    This package has full support for all Quill operations—including images, videos, formulas,
    tables, and mentions.
@@ -285,7 +284,7 @@ The following packages can be used:
    It is a complete Dart part of the popular and
    mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
    Typescript/JS package.
-3. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML** to **Delta**.
+2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML** to **Delta**.
 
 ## 🌐 Translation
 

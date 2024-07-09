@@ -7,7 +7,6 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:quill_html_converter/quill_html_converter.dart';
 import 'package:quill_pdf_converter/quill_pdf_converter.dart';
 import 'package:share_plus/share_plus.dart' show Share;
 
@@ -80,13 +79,6 @@ class _QuillScreenState extends State<QuillScreen> {
               );
             },
             menuChildren: [
-              MenuItemButton(
-                onPressed: () {
-                  final html = _controller.document.toDelta().toHtml();
-                  _controller.document = Document.fromHtml(html);
-                },
-                child: const Text('Load with HTML'),
-              ),
               MenuItemButton(
                 onPressed: () async {
                   final pdfDocument = pw.Document();
