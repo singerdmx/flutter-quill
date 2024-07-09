@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.14
+
+* docs(readme): update 'Conversion to HTML' section to include more details by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/1996
+* Update flutter_quill_delta_from_html on pubspec.yaml to fix current issues by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1999
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.13...v9.5.14
+
 ## 9.5.13
 
 * Added new default ConverterOptions configurations by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1990
