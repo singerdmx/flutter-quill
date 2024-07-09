@@ -278,12 +278,6 @@ The following packages can be used:
 
 1. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
    to HTML.
-   This package has full support for all Quill operations—including images, videos, formulas,
-   tables, and mentions.
-   Conversion can be performed in vanilla Dart (i.e., Server Side or CLI) or in **Flutter**.
-   It is a complete Dart part of the popular and
-   mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
-   Typescript/JS package.
 2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML** to **Delta**.
 
 ## 🌐 Translation
