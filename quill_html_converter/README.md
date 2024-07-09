@@ -32,9 +32,7 @@ import 'package:quill_html_converter/quill_html_converter.dart';
 final html = _controller.document.toDelta().toHtml();
 
 // Load Delta document using HTML
-_controller.document = Document.fromDelta(
-  Document.fromHtml(html).toDelta(),
-);
+_controller.document = Document.fromHtml(html);
 ```
 
 ## Additional information
