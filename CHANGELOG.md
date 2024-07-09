@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.13
+
+* Added new default ConverterOptions configurations by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/1990
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.12...v9.5.13
+
 ## 9.5.12
 
 * fix: Fixed passing textStyle to formula embed by @shubham030 in https://github.com/singerdmx/flutter-quill/pull/1989
