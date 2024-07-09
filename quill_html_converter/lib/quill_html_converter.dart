@@ -85,7 +85,9 @@ final _defaultConverterOptions = ConverterOptions(
       }
       if (op.isImage()) {
         // Fit images within restricted parent width
-        return ['max-width: 100%', 'object-fit: contain'];
+        final String? styles = op.attributes['style'];
+        final listStyles = styles?.split(';') ?? [];
+        return ['max-width: 100%', 'object-fit: contain', ...listStyles];
       }
       return null;
     },

@@ -28,15 +28,16 @@ void main() {
       expect(Delta.fromJson(quillDelta).toHtml().trim(), html.trim());
     });
 
-    test('should parse block image embed to html', () {
+    test("should parse block image embed with it's attributes to html", () {
       const html =
-          '<p><img style="max-width: 100%;object-fit: contain" src="https://img.freepik.com/foto-gratis/belleza-otonal-abstracta-patron-venas-hoja-multicolor-generado-ia_188544-9871.jpg"/></p>';
+          '<p><img style="max-width: 100%;object-fit: contain;width: 40vh; height:350px; margin: 20px;" src="https://img.freepik.com/foto-gratis/belleza-otonal-abstracta-patron-venas-hoja-multicolor-generado-ia_188544-9871.jpg"/></p>';
       final quillDelta = [
         {
           'insert': {
             'image':
                 'https://img.freepik.com/foto-gratis/belleza-otonal-abstracta-patron-venas-hoja-multicolor-generado-ia_188544-9871.jpg'
           },
+          'attributes': {'style': 'width: 40vh; height:350px; margin: 20px;'}
         },
         {'insert': '\n'}
       ];
