@@ -285,7 +285,7 @@ The following packages can be used:
    It is a complete Dart part of the popular and
    mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
    Typescript/JS package.
-3. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML to **Delta**.
+3. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML** to **Delta**.
 
 ## 🌐 Translation
 
