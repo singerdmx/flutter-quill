@@ -27,14 +27,15 @@ Expanded(
 
 ## 🌐 Supported Locales
 
-Currently, translations are available for these 41 locales:
+Currently, translations are available for these 40 locales:
 
-* `Locale('en')`, `Locale('hi')`, `Locale('ku', 'CKB')`, `Locale('pt')`, `Locale('sr')`, `Locale('ur')`
-* `Locale('bg')`, `Locale('en', 'US')`, `Locale('id')`, `Locale('ms')`, `Locale('pt', 'br')`, `Locale('sv')`, `Locale('vi')`
-* `Locale('bn')`, `Locale('es')`, `Locale('it')`, `Locale('ne')`, `Locale('ro')`, `Locale('sw')`, `Locale('zh')`
-* `Locale('cs')`, `Locale('fa')`, `Locale('ja')`, `Locale('nl')`, `Locale('ro', 'RO')`, `Locale('tk')`, `Locale('zh', 'CN')`
-* `Locale('da')`, `Locale('fr')`, `Locale('ko')`, `Locale('no')`, `Locale('ru')`, `Locale('tr')`, `Locale('zh', 'HK')`
-* `Locale('de')`, `Locale('he')`, `Locale('ku')`, `Locale('pl')`, `Locale('ar')`, `Locale('sk')`, `Locale('uk')`
+* `ar`, `bg`, `bn`, `cs`, `da`, `de`
+* `en`, `en_US`, `es`, `fa`, `fr`, `he`
+* `hi`, `id`, `it`, `ja`, `ko`, `ku`
+* `ms`, `ne`, `nl`, `no`, `pl`, `pt`
+* `pt_BR`, `ro`, `ro_RO`, `ru`, `sk`, `sr`
+* `sv`, `sw`, `tk`, `tr`, `uk`, `ur`
+* `vi`, `zh`, `zh_CN`, `zh_HK`
 
 ## 📌 Contributing to translations
 
