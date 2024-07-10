@@ -34,7 +34,16 @@ class DeltaX {
     consider using alternatives such as https://pub.dev/packages/flutter_quill_delta_from_html
     ''',
   )
-  static Delta fromHtml(String htmlText, {List<CustomHtmlPart>? customBlocks}) {
+  static Delta fromHtml(
+    String htmlText, {
+    @Deprecated(
+      '''
+    The experimental support for HTML conversion has been dropped and will be removed in future releases, 
+    consider using alternatives such as https://pub.dev/packages/flutter_quill_delta_from_html
+    ''',
+    )
+    List<CustomHtmlPart>? customBlocks,
+  }) {
     final htmlToDelta = HtmlToDelta(customBlocks: customBlocks);
     return htmlToDelta.convert(htmlText);
   }
