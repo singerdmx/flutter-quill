@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill/src/models/documents/delta_x.dart';
 import 'package:test/test.dart';

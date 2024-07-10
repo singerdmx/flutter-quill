@@ -480,6 +480,12 @@ class Document {
 
   /// Convert the HTML Raw string to [Document]
   @experimental
+  @Deprecated(
+    '''
+    The experimental support for HTML conversion has been dropped and will be removed in future releases, 
+    consider using alternatives such as https://pub.dev/packages/flutter_quill_delta_from_html
+    ''',
+  )
   static Document fromHtml(String html) {
     return Document.fromDelta(DeltaX.fromHtml(html));
   }
