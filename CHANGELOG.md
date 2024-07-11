@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.15
+
+* Update delta_from_html to fix nested lists issues and more by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2000
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.14...v9.5.15
+
 ## 9.5.14
 
 * docs(readme): update 'Conversion to HTML' section to include more details by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/1996
