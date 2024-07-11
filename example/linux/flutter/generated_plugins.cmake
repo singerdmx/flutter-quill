@@ -6,7 +6,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   desktop_drop
   file_selector_linux
   irondash_engine_context
-  printing
   super_native_extensions
   url_launcher_linux
 )

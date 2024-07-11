@@ -583,6 +583,7 @@ class QuillController extends ChangeNotifier {
     final htmlText = await getHTML();
     if (htmlText != null) {
       final htmlBody = html_parser.parse(htmlText).body?.outerHtml;
+      // ignore: deprecated_member_use_from_same_package
       final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? htmlText);
 
       _pasteUsingDelta(deltaFromClipboard);
@@ -608,6 +609,7 @@ class QuillController extends ChangeNotifier {
 
     final markdownText = await getMarkdown();
     if (markdownText != null) {
+      // ignore: deprecated_member_use_from_same_package
       final deltaFromClipboard = DeltaX.fromMarkdown(markdownText);
 
       _pasteUsingDelta(deltaFromClipboard);
