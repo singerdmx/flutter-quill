@@ -262,12 +262,13 @@ in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft W
 >
 > Converting between **HTML** and **Delta** JSON is generally not recommended due to their structural and functional differences.
 >
-> Sometimes you might want to convert **HTML** to **Delta** for specific use cases:
+> Sometimes you might want to convert between **HTML** and **Delta** for specific use cases:
 > 
 > 1. **Migration**: If you're using an existing system that stores the data in HTML and want to convert the document data to **Delta**.
 > 2. **Sharing**: For example, if you want to share the Document **Delta** somewhere or send it as an email.
 > 3. **Save as**: If your app has a feature that allows converting Documents to other formats.
 > 4. **Rich text pasting**: If you copy some content from websites or apps, and want to paste it into the app.
+> 5. **SEO**: In case you want to use HTML for SEO support.
 
 The following packages can be used:
 
