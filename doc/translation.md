@@ -42,18 +42,18 @@ Currently, translations are available for these 40 locales:
 The translation files are located in the [l10n](../lib/src/l10n/) folder. Feel free to contribute your own translations.
 
 You can take a look at the [untranslated.json](../lib/src/l10n/untranslated.json) file, which is a generated file that
-tells you which keys with which locales haven't translated so you can find the missing easily.
+tells you which keys with which locales haven't been translated so you can find the missing easily.
 
 <details>
 <summary>Add new local</summary>
 
 1. Create a new file in [l10n](../lib/src/l10n/) folder, with the following name`quill_${localName}.arb` for
-   example `quill_de.arb`
+   example `quill_de.arb`. See [locale codes](https://saimana.com/list-of-country-locale-code/).
 
 2. Copy the [Arb Template](../lib/src/l10n/quill_en.arb) file and paste it into your new file, replace the values with
    your translations
 
-3. Update [Supported Locales](#supported-locales) section in this page to update the supported translations for both the
+3. Update the [Supported Locales](#supported-locales) section on this page to update the supported translations for both the
    number and the list
 
 </details>
@@ -65,7 +65,7 @@ tells you which keys with which locales haven't translated so you can find the m
 
 2. Find the existing local, let's say you want to update the Korean translations, it will be `quill_ko.arb`
 
-3. Use [untranslated.json](../lib/src/l10n/untranslated.json) as a reference to find missing, update or add what you
+3. Use [untranslated.json](../lib/src/l10n/untranslated.json) as a reference to find missing, update, or add what you
    want
    to translate.
 
