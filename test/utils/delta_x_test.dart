@@ -32,14 +32,13 @@ void main() {
   ]);
 
   final expectedDeltaVideo = Delta.fromOperations([
-    Operation.insert('\n'),
     Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
     Operation.insert('\n'),
   ]);
 
   final expectedDeltaLinkAndVideoLink = Delta.fromOperations([
     Operation.insert('fdsfsd', {'link': 'https://www.macrumors.com/'}),
-    Operation.insert('\n\n'),
+    Operation.insert('\n'),
     Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
     Operation.insert('\n'),
   ]);
