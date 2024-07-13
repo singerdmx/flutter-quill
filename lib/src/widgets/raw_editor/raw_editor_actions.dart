@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../translations.dart';
 import '../../models/documents/attribute.dart';
 import '../editor/editor.dart';
+import '../others/link.dart';
 import '../toolbar/buttons/link_style2_button.dart';
 import '../toolbar/buttons/search/search_dialog.dart';
 import 'raw_editor_state.dart';

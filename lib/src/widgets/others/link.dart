@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/extensions/localizations.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/nodes/node.dart';
+import '../../widgets/quill/quill_controller.dart';
 
 const linkPrefixes = [
   'mailto:', // email
@@ -87,6 +88,63 @@ TextRange getLinkRange(Node node) {
     }
   }
   return TextRange(start: start, end: start + length);
+}
+
+/// Contains information about link and text.
+class QuillTextLink {
+  QuillTextLink(
+    this.text,
+    this.link,
+  );
+
+  factory QuillTextLink.prepare(QuillController controller) {
+    final link = _getLinkAttributeValue(controller);
+    final index = controller.selection.start;
+
+    String? text;
+    if (link != null) {
+      // text should be the link's corresponding text, not selection
+      final leaf = controller.document.querySegmentLeafNode(index).leaf;
+      if (leaf != null) {
+        text = leaf.toPlainText();
+      }
+    }
+
+    final len = controller.selection.end - index;
+    text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
+
+    return QuillTextLink(text, link);
+  }
+
+  final String text;
+  final String? link;
+
+  void submit(QuillController controller) {
+    var index = controller.selection.start;
+    var length = controller.selection.end - index;
+    final linkValue = _getLinkAttributeValue(controller);
+
+    if (linkValue != null) {
+      // text should be the link's corresponding text, not selection
+      final leaf = controller.document.querySegmentLeafNode(index).leaf;
+      if (leaf != null) {
+        final range = getLinkRange(leaf);
+        index = range.start;
+        length = range.end - range.start;
+      }
+    }
+    controller
+      ..replaceText(index, length, text, null)
+      ..formatText(index, text.length, LinkAttribute(link));
+  }
+
+  static String? _getLinkAttributeValue(QuillController controller) {
+    return controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
+  }
+
+  static bool isSelected(QuillController controller) {
+    return _getLinkAttributeValue(controller) != null;
+  }
 }
 
 Future<LinkMenuAction> _showCupertinoLinkMenu(
