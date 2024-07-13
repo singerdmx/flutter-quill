@@ -67,6 +67,7 @@
   "hex": "Hex",
   "material": "Material",
   "color": "Culoare",
+  "lineheight": "Inaltimea liniei",
   "findText": "Găsește text",
   "moveToPreviousOccurrence": "Mutați la apariția anterioară",
   "moveToNextOccurrence": "Mutați la apariția următoare",

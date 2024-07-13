@@ -354,10 +354,7 @@ class Document {
     } catch (e) {
       throw StateError('_delta compose failed');
     }
-
-    if (_delta != _root.toDelta()) {
-      throw StateError('Compose failed');
-    }
+    assert(_delta == _root.toDelta(), 'Compose failed');
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
@@ -442,7 +439,6 @@ class Document {
           doc.toString(), 'Document Delta cannot be empty.');
     }
 
-    // print(doc.last.data.runtimeType);
     assert((doc.last.data as String).endsWith('\n'));
 
     var offset = 0;
@@ -484,6 +480,12 @@ class Document {
 
   /// Convert the HTML Raw string to [Document]
   @experimental
+  @Deprecated(
+    '''
+    The experimental support for HTML conversion has been dropped and will be removed in future releases, 
+    consider using alternatives such as https://pub.dev/packages/flutter_quill_delta_from_html
+    ''',
+  )
   static Document fromHtml(String html) {
     return Document.fromDelta(DeltaX.fromHtml(html));
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill/src/models/documents/delta_x.dart';
 import 'package:test/test.dart';
@@ -9,12 +11,12 @@ void main() {
   const htmlWithUnderline =
       '<p>This is a normal sentence, and this section has greater <u>underline</u>';
 
-  const htmlWithIframeVideo =
-      '<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player"></iframe>';
-
   const htmlWithVideoTag =
-      '''<video src="https://www.youtube.com/embed/dQw4w9WgXcQ">Your browser does not support the video tag.</video> 
-''';
+      '<video src="https://www.youtube.com/embed/dQw4w9WgXcQ">Your browser does not support the video tag.</video>';
+
+  const htmlWithNormalLinkAndVideo =
+      '<a href="https://www.macrumors.com/" type="text/html">fdsfsd</a><br><video src="https://www.youtube.com/embed/dQw4w9WgXcQ">Your browser does not support the video tag.</video>';
+
   final expectedDeltaEmp = Delta.fromOperations([
     Operation.insert(
         'This is a normal sentence, and this section has greater emp'),
@@ -30,6 +32,14 @@ void main() {
   ]);
 
   final expectedDeltaVideo = Delta.fromOperations([
+    Operation.insert('\n'),
+    Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
+    Operation.insert('\n'),
+  ]);
+
+  final expectedDeltaLinkAndVideoLink = Delta.fromOperations([
+    Operation.insert('fdsfsd', {'link': 'https://www.macrumors.com/'}),
+    Operation.insert('\n\n'),
     Operation.insert({'video': 'https://www.youtube.com/embed/dQw4w9WgXcQ'}),
     Operation.insert('\n'),
   ]);
@@ -44,13 +54,13 @@ void main() {
     expect(delta, expectedDeltaUnderline);
   });
 
-  test('should detect iframe and parse correctly', () {
-    final delta = DeltaX.fromHtml(htmlWithIframeVideo);
-    expect(delta, expectedDeltaVideo);
-  });
-
   test('should detect video and parse correctly', () {
     final delta = DeltaX.fromHtml(htmlWithVideoTag);
     expect(delta, expectedDeltaVideo);
+  });
+
+  test('should detect by different way normal link and video link', () {
+    final delta = DeltaX.fromHtml(htmlWithNormalLinkAndVideo);
+    expect(delta, expectedDeltaLinkAndVideoLink);
   });
 }

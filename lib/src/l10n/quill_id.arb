@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Material",
     "color": "Warna",
+    "lineheight": "Tinggi garis",
     "savedUsingTheNetwork": "Tersimpan menggunakan jaringan",
     "pleaseEnterTextForYourLink": "Harap masukkan teks untuk tautan Anda (contoh: 'Pelajari lebih lanjut')",
     "pleaseEnterTheLinkURL": "Harap masukkan URL tautan (contoh: 'https://example.com')",

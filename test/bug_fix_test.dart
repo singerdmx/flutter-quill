@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_test/flutter_quill_test.dart';
@@ -127,5 +128,62 @@ void main() {
         expect(tester.takeException(), isNull);
       });
     });
+  });
+
+  group('1742 - Disable context menu after selection for desktop platform', () {
+    late QuillController controller;
+
+    setUp(() {
+      controller = QuillController.basic();
+    });
+
+    tearDown(() {
+      controller.dispose();
+    });
+
+    for (final device in [PointerDeviceKind.mouse, PointerDeviceKind.touch]) {
+      testWidgets(
+          '1742 - Disable context menu after selection for desktop platform $device',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: QuillEditor(
+              focusNode: FocusNode(),
+              scrollController: ScrollController(),
+              // ignore: avoid_redundant_argument_values
+              configurations: QuillEditorConfigurations(
+                controller: controller,
+                // ignore: avoid_redundant_argument_values
+                autoFocus: true,
+                expands: true,
+              ),
+            ),
+          ),
+        );
+        if (device == PointerDeviceKind.mouse) {
+          expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+          // Long press to show menu
+          await tester.longPress(find.byType(QuillEditor), kind: device);
+          await tester.pumpAndSettle();
+
+          // Verify custom widget not shows
+          expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
+
+          await tester.tap(find.byType(QuillEditor),
+              buttons: kSecondaryButton, kind: device);
+          await tester.pumpAndSettle();
+
+          // Verify custom widget shows
+          expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
+        } else {
+          // Long press to show menu
+          await tester.longPress(find.byType(QuillEditor), kind: device);
+          await tester.pumpAndSettle();
+
+          // Verify custom widget shows
+          expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);
+        }
+      });
+    }
   });
 }

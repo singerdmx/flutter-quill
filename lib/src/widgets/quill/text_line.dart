@@ -8,27 +8,18 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../models/documents/attribute.dart';
+import '../../../flutter_quill.dart';
 import '../../models/documents/nodes/container.dart' as container_node;
-import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
-import '../../models/documents/nodes/leaf.dart';
-import '../../models/documents/nodes/line.dart';
-import '../../models/documents/nodes/node.dart';
-import '../../models/documents/style.dart';
-import '../../models/structs/vertical_spacing.dart';
 import '../../utils/color.dart';
 import '../../utils/font.dart';
 import '../../utils/platform.dart';
 import '../others/box.dart';
-import '../others/cursor.dart';
-import '../others/default_styles.dart';
 import '../others/delegate.dart';
 import '../others/keyboard_listener.dart';
 import '../others/link.dart';
 import '../others/proxy.dart';
 import '../others/text_selection.dart';
-import 'quill_controller.dart';
 
 class TextLine extends StatefulWidget {
   const TextLine({
@@ -187,7 +178,7 @@ class _TextLineState extends State<TextLine> {
   }
 
   InlineSpan _getTextSpanForWholeLine() {
-    final lineStyle = _getLineStyle(widget.styles);
+    var lineStyle = _getLineStyle(widget.styles);
     if (!widget.line.hasEmbed) {
       return _buildTextSpan(widget.styles, widget.line.children, lineStyle);
     }
@@ -207,6 +198,16 @@ class _TextLineState extends State<TextLine> {
           child = Embed(CustomBlockEmbed.fromJsonString(child.value.data))
             ..applyStyle(child.style);
         }
+
+        if (child.value.type == BlockEmbed.formulaType) {
+          lineStyle = lineStyle.merge(_getInlineTextStyle(
+            child.style,
+            widget.styles,
+            widget.line.style,
+            false,
+          ));
+        }
+
         final embedBuilder = widget.embedBuilder(child);
         final embedWidget = EmbedProxy(
           embedBuilder.build(
@@ -301,6 +302,23 @@ class _TextLineState extends State<TextLine> {
     }
 
     textStyle = textStyle.merge(toMerge);
+
+    final lineHeight = widget.line.style.attributes[Attribute.lineHeight.key];
+    final x = <Attribute, TextStyle>{
+      LineHeightAttribute.lineHeightNormal:
+          defaultStyles.lineHeightNormal!.style,
+      LineHeightAttribute.lineHeightTight: defaultStyles.lineHeightTight!.style,
+      LineHeightAttribute.lineHeightOneAndHalf:
+          defaultStyles.lineHeightOneAndHalf!.style,
+      LineHeightAttribute.lineHeightDouble:
+          defaultStyles.lineHeightDouble!.style,
+    };
+
+    // If the lineHeight attribute isn't null, then get just the height param instead whole TextStyle
+    // to avoid modify the current style of the text line
+    textStyle =
+        textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
+
     textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
 
     return textStyle;
@@ -369,8 +387,8 @@ class _TextLineState extends State<TextLine> {
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
-    final style = _getInlineTextStyle(
-        textNode, defaultStyles, nodeStyle, lineStyle, isLink);
+    final style =
+        _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
 
     if (widget.controller.configurations.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
@@ -392,14 +410,10 @@ class _TextLineState extends State<TextLine> {
     );
   }
 
-  TextStyle _getInlineTextStyle(
-      leaf.QuillText textNode,
-      DefaultStyles defaultStyles,
-      Style nodeStyle,
-      Style lineStyle,
-      bool isLink) {
+  TextStyle _getInlineTextStyle(Style nodeStyle, DefaultStyles defaultStyles,
+      Style lineStyle, bool isLink) {
     var res = const TextStyle(); // This is inline text style
-    final color = textNode.style.attributes[Attribute.color.key];
+    final color = nodeStyle.attributes[Attribute.color.key];
 
     <String, TextStyle?>{
       Attribute.bold.key: defaultStyles.bold,
@@ -438,12 +452,12 @@ class _TextLineState extends State<TextLine> {
       res = _merge(res, defaultStyles.inlineCode!.styleFor(lineStyle));
     }
 
-    final font = textNode.style.attributes[Attribute.font.key];
+    final font = nodeStyle.attributes[Attribute.font.key];
     if (font != null && font.value != null) {
       res = res.merge(TextStyle(fontFamily: font.value));
     }
 
-    final size = textNode.style.attributes[Attribute.size.key];
+    final size = nodeStyle.attributes[Attribute.size.key];
     if (size != null && size.value != null) {
       switch (size.value) {
         case 'small':
@@ -474,13 +488,13 @@ class _TextLineState extends State<TextLine> {
       }
     }
 
-    final background = textNode.style.attributes[Attribute.background.key];
+    final background = nodeStyle.attributes[Attribute.background.key];
     if (background != null && background.value != null) {
       final backgroundColor = stringToColor(background.value);
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
     }
 
-    res = _applyCustomAttributes(res, textNode.style.attributes);
+    res = _applyCustomAttributes(res, nodeStyle.attributes);
     return res;
   }
 

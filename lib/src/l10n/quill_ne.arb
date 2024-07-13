@@ -67,6 +67,7 @@
   "hex": "Hex",
   "material": "Material",
   "color": "रङ",
+  "lineheight": "रेखा-उचाइ",
   "findText": "टेक्स्ट फेला पार्नुहोस्",
   "moveToPreviousOccurrence": "अघिल्लो घटनामा जानुहोस्",
   "moveToNextOccurrence": "अर्को घटनामा सार्नुहोस्",

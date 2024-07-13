@@ -1,3 +1,0 @@
-dependency_overrides:
-  dart_quill_delta:
-    path: ../dart_quill_delta

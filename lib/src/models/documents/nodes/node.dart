@@ -47,24 +47,41 @@ abstract base class Node extends LinkedListEntry<Node> {
   /// Length of this node in characters.
   int get length;
 
+  void clearLengthCache();
+
   Node clone() => newInstance()..applyStyle(style);
+
+  int? _offset;
 
   /// Offset in characters of this node relative to [parent] node.
   ///
   /// To get offset of this node in the document see [documentOffset].
   int get offset {
-    var offset = 0;
-
-    if (list == null || isFirst) {
-      return offset;
+    if (_offset != null) {
+      return _offset!;
     }
 
-    var cur = this;
-    do {
-      cur = cur.previous!;
-      offset += cur.length;
-    } while (!cur.isFirst);
-    return offset;
+    if (list == null || isFirst) {
+      return 0;
+    }
+    var offset = 0;
+    for (final node in list!) {
+      if (node == this) {
+        break;
+      }
+      offset += node.length;
+    }
+
+    _offset = offset;
+    return _offset!;
+  }
+
+  void clearOffsetCache() {
+    _offset = null;
+    final next = this.next;
+    if (next != null) {
+      next.clearOffsetCache();
+    }
   }
 
   /// Offset in characters of this node in the document.
@@ -100,6 +117,7 @@ abstract base class Node extends LinkedListEntry<Node> {
     assert(entry.parent == null && parent != null);
     entry.parent = parent;
     super.insertBefore(entry);
+    clearLengthCache();
   }
 
   @override
@@ -107,11 +125,13 @@ abstract base class Node extends LinkedListEntry<Node> {
     assert(entry.parent == null && parent != null);
     entry.parent = parent;
     super.insertAfter(entry);
+    clearLengthCache();
   }
 
   @override
   void unlink() {
     assert(parent != null);
+    clearLengthCache();
     parent = null;
     super.unlink();
   }

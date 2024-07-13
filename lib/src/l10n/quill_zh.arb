@@ -67,6 +67,7 @@
   "hex": "十六进制",
   "material": "Material 设计",
   "color": "颜色",
+  "lineheight": "行高",
   "findText": "搜索文本",
   "moveToPreviousOccurrence": "上一个匹配项",
   "moveToNextOccurrence": "下一个匹配项",

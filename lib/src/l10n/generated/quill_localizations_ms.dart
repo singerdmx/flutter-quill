@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
   String get color => 'Warna';
 
   @override
+  String get lineheight => 'Ketinggian garisan';
+
+  @override
   String get findText => 'Find text';
 
   @override

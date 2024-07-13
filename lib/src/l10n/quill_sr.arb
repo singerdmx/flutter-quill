@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Materijal",
     "color": "Boja",
+    "lineheight": "Visina linije",
     "savedUsingTheNetwork": "Sačuvano korišćenjem mreže",
     "pleaseEnterTextForYourLink": "Unesite tekst za svoj link (na primer, 'Saznajte više')",
     "pleaseEnterTheLinkURL": "Unesite URL linka (na primer, 'https://example.com')",

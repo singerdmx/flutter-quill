@@ -17,14 +17,11 @@ dependencies:
   dart_quill_delta: ^9.3.4
   flutter_quill_extensions: ^9.3.4
   flutter_quill_test: ^9.3.4
-  quill_html_converter: ^9.3.4
-  quill_pdf_converter: ^9.3.4
   # Dart Packages
   path: ^1.8.3
   equatable: ^2.0.5
   cross_file: ^0.3.4
   cached_network_image: ^3.3.1
-  pdf: ^3.10.8
 
   # Bloc libraries
   bloc: ^8.1.4
@@ -46,7 +43,6 @@ dependencies:
   file_picker: ^8.0.0+1
   # For sharing text
   share_plus: ^8.0.2
-  printing: ^5.12.0
   google_fonts: ^6.2.1
 
 dependency_overrides:
@@ -58,12 +54,6 @@ dependency_overrides:
     path: ../dart_quill_delta
   flutter_quill_test:
     path: ../flutter_quill_test
-  quill_html_converter:
-    path: ../quill_html_converter
-  quill_pdf_converter:
-    path: ../quill_pdf_converter
-
-  pdf_widget_wrapper: ^1.0.4
 
 
 dev_dependencies:

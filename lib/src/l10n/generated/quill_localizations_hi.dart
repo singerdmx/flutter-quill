@@ -209,6 +209,9 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get color => 'रंग';
 
   @override
+  String get lineheight => 'ऊंची लाईन';
+
+  @override
   String get findText => 'मद को खोजें';
 
   @override

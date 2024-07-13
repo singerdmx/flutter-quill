@@ -69,6 +69,7 @@
     "hex": "十六進制",
     "material": "物料",
     "color": "顏色",
+    "lineheight": "行高",
     "pleaseEnterAValidVideoURL": "請輸入有效的視頻URL",
     "photo": "照片",
     "image": "圖像",

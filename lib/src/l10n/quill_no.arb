@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Materiale",
     "color": "Farge",
+    "lineheight": "Linjehøyde",
     "savedUsingTheNetwork": "Lagret ved hjelp av nettverket",
     "pleaseEnterTextForYourLink": "Vennligst skriv inn tekst for lenken din (for eksempel 'Lær mer')",
     "pleaseEnterTheLinkURL": "Vennligst skriv inn lenkens URL (for eksempel 'https://example.com')",

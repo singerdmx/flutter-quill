@@ -42,6 +42,7 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
+> [!NOTE]
 > If you are viewing this page from [pub.dev](https://pub.dev/) page, then you
 > might have some issues with opening some links, open it in the GitHub repo instead.
 
@@ -97,6 +98,7 @@ dependencies:
     ref: v<latest-version-here>
 ```
 
+> [!TIP]
 > Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement
 > of the library.
 > Your input and insights are valuable in shaping a stable and reliable version for all the developers. Thank you for
@@ -114,46 +116,42 @@ Before using the package, we must inform you the package uses the following plug
 
 All of them don't require any platform-specific setup.
 
+> [!NOTE]
 > Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved
-> to [FlutterQuill Extensions], to use rich text pasting, support pasting images, and gif files, take a look
+> to [FlutterQuill Extensions], to use rich text pasting, support pasting images, and gif files from external apps or websites, take a look
 > at `flutter_quill_extensions` Readme.
 
 ## 🚀 Usage
 
-First, you need to instantiate a controller
+Instantiate a controller:
 
 ```dart
 QuillController _controller = QuillController.basic();
 ```
 
-And then use the `QuillEditor`, `QuillToolbar` widgets,
-connect the `QuillController` to them
+Use the `QuillEditor`, and `QuillToolbar` widgets,
+and attach the `QuillController` to them:
 
 ```dart
 QuillToolbar.simple(
-  configurations: QuillSimpleToolbarConfigurations(
-    controller: _controller,
-    sharedConfigurations: const QuillSharedConfigurations(
-      locale: Locale('de'),
-    ),
-  ),
+  configurations: QuillSimpleToolbarConfigurations(controller: _controller),
 ),
 Expanded(
   child: QuillEditor.basic(
-    configurations: QuillEditorConfigurations(
-      controller: _controller,
-      readOnly: false,
-      sharedConfigurations: const QuillSharedConfigurations(
-        locale: Locale('de'),
-      ),
-    ),
+    configurations: QuillEditorConfigurations(controller: _controller),
   ),
 )
 ```
 
-Depending on your use case, you might want to dispose of the `_controller` in `dispose` method
+Dispose of the `QuillController` in the `dispose` method:
 
-in most cases, it's better to.
+```dart
+@override
+void dispose() {
+  _controller.dispose();
+  super.dispose();
+}
+```
 
 Check out [Sample Page] for more advanced usage.
 
@@ -248,33 +246,37 @@ of [FlutterQuill Extensions]
 
 ## 🔄 Conversion to HTML
 
-Having your document stored in Quill Delta format is sometimes not enough. Often you'll need to convert
-it to other formats such as HTML to publish it, or send an email.
+> [!CAUTION]
+> **Converting HTML or Markdown to Delta is highly experimental and shouldn't be used for production applications**, while the current implementation we have internally is far from perfect, it could improved however **it will likely not work as expected**, due to differences between **HTML** and **Delta**, see this [Quill JS Comment #311458570](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.<br>
+> We only use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
+previously breaks the styles, while the current implementation is not designed for converting a **full Document** from other formats to **Delta**, it provides a better user experience and doesn't have many downsides.
+>
+> The support for converting HTML to **Quill Delta** is quite experimental and used internally when
+pasting HTML content from the clipboard to the Quill Document.
+>
+> Converting **Delta** from/to **HTML** is not a standard feature in [Quill JS](https://github.com/slab/quill) or [FlutterQuill].
 
-**Note**: This package supports converting from HTML back to Quill delta but it's experimental and used internally when
-pasting HTML content from the clipboard to the Quill Editor
+> [!IMPORTANT]
+> Converting **HTML** to **Delta** usually won't work as expected, we highly recommend storing the **Document** as **Delta JSON**
+in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML, CSV, etc...)
+>
+> Converting between **HTML** and **Delta** JSON is generally not recommended due to their structural and functional differences.
+>
+> Sometimes you might want to convert between **HTML** and **Delta** for specific use cases:
+> 
+> 1. **Migration**: If you're using an existing system that stores the data in HTML and want to convert the document data to **Delta**.
+> 2. **Sharing**: For example, if you want to share the Document **Delta** somewhere or send it as an email.
+> 3. **Save as**: If your app has a feature that allows converting Documents to other formats.
+> 4. **Rich text pasting**: If you copy some content from websites or apps, and want to paste it into the app.
+> 5. **SEO**: In case you want to use HTML for SEO support.
 
-You have two options:
+The following packages can be used:
 
-1. Using [quill_html_converter](./quill_html_converter/) to convert to HTML, the package can convert the Quill delta to
-   HTML well
-   (it uses [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html)), it is just a handy extension
-   to do it more quickly
-2. Another option is to use
-   [vsc_quill_delta_to_html](https://pub.dev/packages/vsc_quill_delta_to_html) to convert your document
+1. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
    to HTML.
-   This package has full support for all Quill operations—including images, videos, formulas,
-   tables, and mentions.
-   Conversion can be performed in vanilla Dart (i.e., server-side or CLI) or in Flutter.
-   It is a complete Dart part of the popular and
-   mature [quill-delta-to-html](https://www.npmjs.com/package/quill-delta-to-html)
-   Typescript/Javascript package.
-   this package doesn't convert the HTML back to Quill Delta as far as we know
-
-
-> **Converting to Delta from Markdown and HTML is highly experimental and shouldn't be used for production applications**, while the current implementation is far from perfect, it could improved a lot however **it will likely not work as expected**, due to differences between HTML and Delta, see this [comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more info.<br>
-> We use it **internally** as it is more suitable for our specific use case, copying content from external websites and pasting it into the editor 
-previously breaks the styles, while the current implementation is not ready, it provides a better user experience and doesn't have many downsides.
+2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML** to **Delta**.
+3. [`flutter_quill_to_pdf`](https://pub.dev/packages/flutter_quill_to_pdf): To convert **Delta** To **PDF**.
+4. [`markdown_quill`](https://pub.dev/packages/markdown_quill): To convert **Markdown** To **Delta** and vice versa.
 
 ## 🌐 Translation
 

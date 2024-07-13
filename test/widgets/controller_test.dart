@@ -372,6 +372,7 @@ void main() {
             'blockquote' => Attribute.blockQuote,
             'indent' => Attribute.indentL2,
             'direction' => Attribute.rtl,
+            'line-height' => LineHeightAttribute.lineHeightNormal,
             String() => throw UnimplementedError(key)
           };
 

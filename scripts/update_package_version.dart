@@ -14,8 +14,6 @@ final _packages = [
   './dart_quill_delta',
   './flutter_quill_extensions',
   './flutter_quill_test',
-  './quill_html_converter',
-  './quill_pdf_converter',
 ];
 
 const _usage = 'Usage: ./script <version>';

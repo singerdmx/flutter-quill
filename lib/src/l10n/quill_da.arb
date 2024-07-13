@@ -69,6 +69,7 @@
     "hex": "Hex",
     "material": "Materiale",
     "color": "Farve",
+    "lineheight": "altezza della linea",
     "pleaseEnterAValidVideoURL": "Angiv en gyldig video-URL",
     "photo": "Foto",
     "image": "Billede",

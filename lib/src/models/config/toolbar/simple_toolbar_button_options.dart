@@ -16,6 +16,7 @@ import 'buttons/search_configurations.dart';
 import 'buttons/select_alignment_configurations.dart';
 import 'buttons/select_header_style_buttons_configurations.dart';
 import 'buttons/select_header_style_dropdown_button_configurations.dart';
+import 'buttons/select_line_height_style_dropdown_button_configurations.dart';
 import 'buttons/toggle_check_list_configurations.dart';
 import 'buttons/toggle_style_configurations.dart';
 
@@ -72,6 +73,8 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
         const QuillToolbarSelectHeaderStyleButtonsOptions(),
     this.selectHeaderStyleDropdownButton =
         const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
+    this.selectLineHeightStyleDropdownButton =
+        const QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
     this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
     this.customButtons = const QuillToolbarCustomButtonOptions(),
@@ -130,6 +133,9 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
   /// can customize it and you also have child builder
   final QuillToolbarSelectHeaderStyleDropdownButtonOptions
       selectHeaderStyleDropdownButton;
+
+  final QuillToolbarSelectLineHeightStyleDropdownButtonOptions
+      selectLineHeightStyleDropdownButton;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
   final QuillToolbarLinkStyleButton2Options linkStyle2;
