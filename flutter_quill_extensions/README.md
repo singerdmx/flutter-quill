@@ -19,6 +19,7 @@ Check [Flutter Quill](https://github.com/singerdmx/flutter-quill) for details of
     - [📦 Embed Blocks](#-embed-blocks)
     - [🔍 Element properties](#-element-properties)
     - [🔧 Custom Element properties](#-custom-element-properties)
+    - [📝 Rich Text Paste Feature](#-rich-text-paste-feature)
     - [🖼️ Image Assets](#️-image-assets)
     - [🎯 Drag and drop feature](#-drag-and-drop-feature)
   - [💡 Features](#-features)
@@ -72,8 +73,8 @@ The package uses the following plugins:
    Android, iOS, and macOS, we must inform you that you can't pick photos using the camera on a desktop so make sure to
    handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow
    this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux)
-5. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, is used to
-   support copying images and pasting them into the editor then you must set up it, open the page in pub.dev, and read
+5. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
+   support copying images and pasting them into editor, it's also required to support rich text pasting feature on non-web platforms, open the page in pub.dev and read
    the `README.md` or click on this [link](https://pub.dev/packages/super_clipboard#android-support) to get the
    instructions.
 
@@ -96,44 +97,29 @@ The minSdkVersion is `23` as `super_clipboard` requires it
 
 ## 🚀 Usage
 
-Start using the package in 3 steps:
+Be sure to follow the [Installation](#installation) section.
 
-1. Be sure to follow the [Installation](#installation) section.
-2. This package already includes `super_clipboard` and will be used internally in this package, to use it
-   in `flutter_quill`, call this function before using any of the widgets or functionalities
+Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar`.
 
-    ```dart
-    FlutterQuillExtensions.useSuperClipboardPlugin();
-    ```
+**Quill Toolbar**:
+```dart
+QuillToolbar(
+  configurations: QuillToolbarConfigurations(
+    embedButtons: FlutterQuillEmbeds.toolbarButtons(),
+  ),
+),
+```
 
-   `super_clipboard` is a comprehensive plugin that provides many clipboard features for reading and writing rich text,
-   images and other formats.
-
-   Executing this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown,
-   support for GIF files, and other formats.
-
-3. Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar` with the
-   values provided by this repository.
-
-   **Quill Toolbar**:
-    ```dart
-    QuillToolbar(
-      configurations: QuillToolbarConfigurations(
-        embedButtons: FlutterQuillEmbeds.toolbarButtons(),
-      ),
+**Quill Editor**:
+```dart
+Expanded(
+  child: QuillEditor.basic(
+    configurations: QuillEditorConfigurations(
+      embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
     ),
-    ```
-
-   **Quill Editor**
-    ```dart
-    Expanded(
-      child: QuillEditor.basic(
-        configurations: QuillEditorConfigurations(
-          embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
-        ),
-      ),
-    )
-    ```
+  ),
+)
+```
 
 ## ⚙️ Configurations
 
@@ -181,6 +167,50 @@ Define flutterAlignment` as follows:
 ```
 
 This works for all platforms except Web
+
+### 📝 Rich Text Paste Feature
+
+The Rich Text Pasting feature requires native code to access
+the `Clipboard` data as HTML, the plugin `super_clipboard` is required on all platforms except Web.
+
+This package already includes `super_clipboard` and will be used internally in this package, to use it
+in `flutter_quill`, call this function before using any of the widgets or functionalities:
+
+```dart
+FlutterQuillExtensions.useSuperClipboardPlugin();
+```
+
+`super_clipboard` is a comprehensive plugin that provides many clipboard features for reading and writing rich text,
+images and other formats.
+
+Executing this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown,
+support for GIF files, and other formats.
+
+> [!IMPORTANT]
+> On web platforms, you can only get the HTML from `Clipboard` on the
+> `paste` event, `super_clipboard`, or any plugin is not required.
+> The paste feature will not work using the standard paste hotkey logic.
+> As such, you will be unable to use the **Rich Text Paste Feature** on a button or in the web app itself.
+> So you might want to either display a dialog when pressing the paste button that explains the limitation and shows the hotkey they need to press in order to paste or develop an extension for the browser that bypasses this limitation similarly to **Google Docs** and provide a link to install the browser extension.
+> See [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) for more details.
+
+
+To register the `paste` event:
+
+```dart
+import 'package:web/web.dart';
+
+EventStreamProviders.pasteEvent.forTarget(web.document).listen((e) {
+  final html = e.clipboardData?.getData('text/html');
+  // Convert the HTML to Delta and paste it into the editor
+});
+```
+
+Don't forget to cancel the `StreamSubscription` when no longer needed.
+
+> [!NOTE]
+> We're still planning on how this should be implemented in
+> [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998).
 
 ### 🖼️ Image Assets
 
