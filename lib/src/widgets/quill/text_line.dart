@@ -67,7 +67,11 @@ class _TextLineState extends State<TextLine> {
     if (_metaOrControlPressed != newValue) {
       setState(() {
         _metaOrControlPressed = newValue;
-        _richTextKey = UniqueKey();
+        _linkRecognizers
+        ..forEach((key, value) {
+          value.dispose();
+        })
+        ..clear();
       });
     }
   }
