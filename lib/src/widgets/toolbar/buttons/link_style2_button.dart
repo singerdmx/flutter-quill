@@ -7,7 +7,6 @@ import '../../../../extensions.dart'
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../l10n/widgets/localizations.dart';
-import '../../../models/documents/attribute.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
 import '../../../models/themes/quill_icon_theme.dart';
 import '../../others/link.dart';
@@ -134,7 +133,7 @@ class _QuillToolbarLinkStyleButton2State
         ),
       );
     }
-    final isToggled = _getLinkAttributeValue() != null;
+    final isToggled = QuillTextLink.isSelected(controller);
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(
@@ -177,13 +176,6 @@ class _QuillToolbarLinkStyleButton2State
     if (textLink != null) {
       textLink.submit(widget.controller);
     }
-  }
-
-  String? _getLinkAttributeValue() {
-    return widget.controller
-        .getSelectionStyle()
-        .attributes[Attribute.link.key]
-        ?.value;
   }
 
   void _didChangeSelection() {
@@ -427,55 +419,4 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
   void _removeLink() =>
       Navigator.pop(context, QuillTextLink(_text.trim(), null));
-}
-
-/// Contains information about text URL.
-class QuillTextLink {
-  QuillTextLink(
-    this.text,
-    this.link,
-  );
-
-  final String text;
-  final String? link;
-
-  static QuillTextLink prepare(QuillController controller) {
-    final link =
-        controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
-    final index = controller.selection.start;
-
-    String? text;
-    if (link != null) {
-      // text should be the link's corresponding text, not selection
-      final leaf = controller.document.querySegmentLeafNode(index).leaf;
-      if (leaf != null) {
-        text = leaf.toPlainText();
-      }
-    }
-
-    final len = controller.selection.end - index;
-    text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
-
-    return QuillTextLink(text, link);
-  }
-
-  void submit(QuillController controller) {
-    var index = controller.selection.start;
-    var length = controller.selection.end - index;
-    final linkValue =
-        controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
-
-    if (linkValue != null) {
-      // text should be the link's corresponding text, not selection
-      final leaf = controller.document.querySegmentLeafNode(index).leaf;
-      if (leaf != null) {
-        final range = getLinkRange(leaf);
-        index = range.start;
-        length = range.end - range.start;
-      }
-    }
-    controller
-      ..replaceText(index, length, text, null)
-      ..formatText(index, text.length, LinkAttribute(link));
-  }
 }

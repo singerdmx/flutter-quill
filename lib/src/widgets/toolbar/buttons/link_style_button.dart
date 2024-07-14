@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../extensions/quill_configurations_ext.dart';
 import '../../../l10n/extensions/localizations.dart';
 import '../../../l10n/widgets/localizations.dart';
-import '../../../models/documents/attribute.dart';
 import '../../../models/rules/insert.dart';
 import '../../../models/structs/link_dialog_action.dart';
 import '../../../models/themes/quill_dialog_theme.dart';
@@ -77,7 +76,7 @@ class QuillToolbarLinkStyleButtonState
 
   @override
   Widget build(BuildContext context) {
-    final isToggled = _getLinkAttributeValue() != null;
+    final isToggled = QuillTextLink.isSelected(controller);
 
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
@@ -111,64 +110,26 @@ class QuillToolbarLinkStyleButtonState
   }
 
   Future<void> _openLinkDialog(BuildContext context) async {
-    final value = await showDialog<_TextLink>(
+    final initialTextLink = QuillTextLink.prepare(widget.controller);
+
+    final textLink = await showDialog<QuillTextLink>(
       context: context,
       barrierColor: dialogBarrierColor,
       builder: (_) {
-        final link = _getLinkAttributeValue();
-        final index = controller.selection.start;
-
-        String? text;
-        if (link != null) {
-          // text should be the link's corresponding text, not selection
-          final leaf = controller.document.querySegmentLeafNode(index).leaf;
-          if (leaf != null) {
-            text = leaf.toPlainText();
-          }
-        }
-
-        final len = controller.selection.end - index;
-        text ??= len == 0 ? '' : controller.document.getPlainText(index, len);
         return FlutterQuillLocalizationsWidget(
           child: _LinkDialog(
             dialogTheme: options.dialogTheme,
-            link: link,
-            text: text,
+            text: initialTextLink.text,
+            link: initialTextLink.link,
             linkRegExp: linkRegExp,
             action: options.linkDialogAction,
           ),
         );
       },
     );
-    if (value == null) {
-      return;
+    if (textLink != null) {
+      textLink.submit(widget.controller);
     }
-    _linkSubmitted(value);
-  }
-
-  String? _getLinkAttributeValue() {
-    return controller.getSelectionStyle().attributes[Attribute.link.key]?.value;
-  }
-
-  void _linkSubmitted(_TextLink value) {
-    var index = controller.selection.start;
-    var length = controller.selection.end - index;
-    if (_getLinkAttributeValue() != null) {
-      // text should be the link's corresponding text, not selection
-      final leaf = controller.document.querySegmentLeafNode(index).leaf;
-      if (leaf != null) {
-        final range = getLinkRange(leaf);
-        index = range.start;
-        length = range.end - range.start;
-      }
-    }
-    controller
-      ..replaceText(index, length, value.text, null)
-      ..formatText(
-        index,
-        value.text.length,
-        LinkAttribute(value.link),
-      );
   }
 }
 
@@ -318,16 +279,6 @@ class _LinkDialogState extends State<_LinkDialog> {
   }
 
   void _applyLink() {
-    Navigator.pop(context, _TextLink(_text.trim(), _link.trim()));
+    Navigator.pop(context, QuillTextLink(_text.trim(), _link.trim()));
   }
-}
-
-class _TextLink {
-  _TextLink(
-    this.text,
-    this.link,
-  );
-
-  final String text;
-  final String link;
 }

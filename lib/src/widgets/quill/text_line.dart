@@ -17,7 +17,6 @@ import '../../utils/platform.dart';
 import '../others/box.dart';
 import '../others/delegate.dart';
 import '../others/keyboard_listener.dart';
-import '../others/link.dart';
 import '../others/proxy.dart';
 import '../others/text_selection.dart';
 
