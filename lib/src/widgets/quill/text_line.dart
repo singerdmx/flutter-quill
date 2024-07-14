@@ -68,10 +68,10 @@ class _TextLineState extends State<TextLine> {
       setState(() {
         _metaOrControlPressed = newValue;
         _linkRecognizers
-        ..forEach((key, value) {
-          value.dispose();
-        })
-        ..clear();
+          ..forEach((key, value) {
+            value.dispose();
+          })
+          ..clear();
       });
     }
   }
