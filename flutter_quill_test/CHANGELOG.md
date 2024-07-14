@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.17
+
+* Feat(config): added option to disable automatic list conversion by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2011
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.16...v9.5.17
+
 ## 9.5.16
 
 * chore: drop support for HTML, PDF, and Markdown converting functions by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/1997
