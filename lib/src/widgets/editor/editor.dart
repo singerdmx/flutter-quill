@@ -236,6 +236,8 @@ class QuillEditorState extends State<QuillEditor>
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
+              enableMarkdownStyleConversion:
+                  configurations.enableMarkdownStyleConversion,
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,
               readOnly: configurations.readOnly,

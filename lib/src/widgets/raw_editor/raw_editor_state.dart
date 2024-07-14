@@ -785,10 +785,12 @@ class QuillRawEditorState extends EditorState
 
     const olKeyPhrase = '1.';
     const ulKeyPhrase = '-';
+    final enableMdConversion =
+        widget.configurations.enableMarkdownStyleConversion;
 
-    if (text.value == olKeyPhrase) {
+    if (text.value == olKeyPhrase && enableMdConversion) {
       _updateSelectionForKeyPhrase(olKeyPhrase, Attribute.ol);
-    } else if (text.value == ulKeyPhrase) {
+    } else if (text.value == ulKeyPhrase && enableMdConversion) {
       _updateSelectionForKeyPhrase(ulKeyPhrase, Attribute.ul);
     } else {
       return KeyEventResult.ignored;

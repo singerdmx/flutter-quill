@@ -53,6 +53,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
+    this.enableMarkdownStyleConversion = true,
     this.embedBuilders,
     this.unknownEmbedBuilder,
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
@@ -126,6 +127,13 @@ class QuillEditorConfigurations extends Equatable {
   /// by default it will by true
   final bool scrollable;
   final double scrollBottomInset;
+
+  /// Configuration to enable or disable automatic Markdown style conversions.
+  ///
+  /// This setting controls the behavior of input. Specifically, when enabled,
+  /// entering '1.' followed by a space or '-' followed by a space
+  /// will automatically convert the input into a Markdown list format.
+  final bool enableMarkdownStyleConversion;
 
   /// Additional space around the content of this editor.
   /// by default will be [EdgeInsets.zero]
@@ -385,6 +393,7 @@ class QuillEditorConfigurations extends Equatable {
     bool? checkBoxReadOnly,
     bool? disableClipboard,
     bool? scrollable,
+    bool? enableMarkdownStyleConversion,
     double? scrollBottomInset,
     EdgeInsetsGeometry? padding,
     bool? autoFocus,
@@ -439,6 +448,8 @@ class QuillEditorConfigurations extends Equatable {
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
       padding: padding ?? this.padding,
+      enableMarkdownStyleConversion:
+          enableMarkdownStyleConversion ?? this.enableMarkdownStyleConversion,
       autoFocus: autoFocus ?? this.autoFocus,
       isOnTapOutsideEnabled:
           isOnTapOutsideEnabled ?? this.isOnTapOutsideEnabled,
