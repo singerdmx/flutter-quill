@@ -67,6 +67,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
+    this.enableMarkdownStyleConversion = true,
     this.onTapOutside,
     this.keyboardAppearance,
     this.enableInteractiveSelection = true,
@@ -99,6 +100,8 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;
+
+  final bool enableMarkdownStyleConversion;
 
   /// Whether the text can be changed.
   ///
