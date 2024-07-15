@@ -1384,6 +1384,13 @@ class RenderEditor extends RenderEditableContainerBox
     );
   }
 
+  /// Returns the TextPosition after moving by the vertical offset.
+  TextPosition getTextPositionMoveVertical(
+      TextPosition position, double verticalOffset) {
+    final caretOfs = localToGlobal(_getOffsetForCaret(position));
+    return getPositionForOffset(caretOfs.translate(0, verticalOffset));
+  }
+
   /// Returns the TextPosition above the given offset into the text.
   ///
   /// If the offset is already on the first line, the offset of the first
@@ -1434,11 +1441,10 @@ class RenderEditor extends RenderEditableContainerBox
     var newPosition = child.getPositionBelow(localPosition);
 
     if (newPosition == null) {
-      // There was no text above in the current child, check the direct
-      // sibling.
+      // There was no text below in the current child, check the direct sibling.
       final sibling = childAfter(child);
       if (sibling == null) {
-        // reached beginning of the document, move to the
+        // reached end of the document, move to the
         // last character
         newPosition = TextPosition(offset: document.length - 1);
       } else {
@@ -1500,6 +1506,11 @@ class QuillVerticalCaretMovementRun implements Iterator<TextPosition> {
   bool movePrevious() {
     _currentTextPosition = _editor.getTextPositionAbove(_currentTextPosition);
     return true;
+  }
+
+  void moveVertical(double verticalOffset) {
+    _currentTextPosition = _editor.getTextPositionMoveVertical(
+        _currentTextPosition, verticalOffset);
   }
 }
 
@@ -1568,7 +1579,6 @@ class RenderEditableContainerBox extends RenderBox
 
   RenderEditableBox childAtPosition(TextPosition position) {
     assert(firstChild != null);
-
     final targetNode = container.queryChild(position.offset, false).node;
 
     var targetChild = firstChild;
@@ -1578,6 +1588,8 @@ class RenderEditableContainerBox extends RenderBox
       }
       final newChild = childAfter(targetChild);
       if (newChild == null) {
+        //  At start of document fails to find the position
+        targetChild = childAtOffset(const Offset(0, 0));
         break;
       }
       targetChild = newChild;

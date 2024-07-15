@@ -607,3 +607,97 @@ class NavigateToDocumentBoundaryAction
     );
   }
 }
+
+/// An [Action] that scrolls the Quill editor scroll bar by the amount configured
+/// in the [ScrollIntent] given to it.
+///
+/// The default for a [ScrollIntent.type] set to [ScrollIncrementType.page] is 80% of the
+/// size of the scroll window, and for [ScrollIncrementType.line], 50 logical pixels.
+/// Modelled on 'class ScrollAction' in flutter's scrollable_helpers.dart
+class QuillEditorScrollAction extends ContextAction<ScrollIntent> {
+  QuillEditorScrollAction(this.state);
+
+  final QuillRawEditorState state;
+
+  @override
+  void invoke(ScrollIntent intent, [BuildContext? context]) {
+    final sc = state.scrollController;
+    final increment = switch (intent.type) {
+      ScrollIncrementType.line => 50.0,
+      ScrollIncrementType.page => 0.8 * sc.position.viewportDimension,
+    };
+    sc.position.moveTo(
+      sc.position.pixels +
+          (intent.direction == AxisDirection.down ? increment : -increment),
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
+  }
+}
+
+/// An [Action] that moves the caret by a page.
+///
+/// The default movement is 80% of the size of the scroll window.
+/// Modelled on 'class _UpdateTextSelectionVerticallyAction' in flutter's editable_text.dart
+class QuillEditorUpdateTextSelectionToAdjacentPageAction<
+    T extends DirectionalCaretMovementIntent> extends ContextAction<T> {
+  QuillEditorUpdateTextSelectionToAdjacentPageAction(this.state);
+
+  final QuillRawEditorState state;
+
+  QuillVerticalCaretMovementRun? _verticalMovementRun;
+  TextSelection? _runSelection;
+
+  void stopCurrentVerticalRunIfSelectionChanges() {
+    final runSelection = _runSelection;
+    if (runSelection == null) {
+      assert(_verticalMovementRun == null);
+      return;
+    }
+    _runSelection = state.textEditingValue.selection;
+    final currentSelection = state.controller.selection;
+    final continueCurrentRun = currentSelection.isValid &&
+        currentSelection.isCollapsed &&
+        currentSelection.baseOffset == runSelection.baseOffset &&
+        currentSelection.extentOffset == runSelection.extentOffset;
+    if (!continueCurrentRun) {
+      _verticalMovementRun = null;
+      _runSelection = null;
+    }
+  }
+
+  @override
+  void invoke(T intent, [BuildContext? context]) {
+    assert(state.textEditingValue.selection.isValid);
+
+    final collapseSelection = intent.collapseSelection ||
+        !state.widget.configurations.selectionEnabled;
+    final value = state.textEditingValue;
+    if (!value.selection.isValid) {
+      return;
+    }
+
+    final currentRun = state.renderEditor
+        .startVerticalCaretMovement(state.renderEditor.selection.extent);
+
+    final pageOffset = 0.8 * state.scrollController.position.viewportDimension;
+    currentRun.moveVertical(intent.forward ? pageOffset : -pageOffset);
+    final newExtent = currentRun.current;
+    final newSelection = collapseSelection
+        ? TextSelection.fromPosition(newExtent)
+        : value.selection.extendTo(newExtent);
+
+    Actions.invoke(
+      context!,
+      UpdateSelectionIntent(
+          value, newSelection, SelectionChangedCause.keyboard),
+    );
+    if (state.textEditingValue.selection == newSelection) {
+      _verticalMovementRun = currentRun;
+      _runSelection = newSelection;
+    }
+  }
+
+  @override
+  bool get isActionEnabled => state.textEditingValue.selection.isValid;
+}
