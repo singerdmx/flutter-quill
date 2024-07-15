@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.19
+
+* fixed #1835 Embed Reloads on Cmd Key Press by @li8607 in https://github.com/singerdmx/flutter-quill/pull/2013
+
+## New Contributors
+* @li8607 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2013
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.18...v9.5.19
+
 ## 9.5.18
 
 * Refactor: Moved core link button functions to link.dart by @Alspb in https://github.com/singerdmx/flutter-quill/pull/2008
