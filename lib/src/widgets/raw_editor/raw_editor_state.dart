@@ -713,6 +713,30 @@ class QuillRawEditorState extends EditorState
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
             ): const ScrollToDocumentBoundaryIntent(forward: true),
+
+            //  Arrow key scrolling
+            SingleActivator(
+              LogicalKeyboardKey.arrowUp,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollIntent(direction: AxisDirection.up),
+            SingleActivator(
+              LogicalKeyboardKey.arrowDown,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollIntent(direction: AxisDirection.down),
+            SingleActivator(
+              LogicalKeyboardKey.pageUp,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollIntent(
+                direction: AxisDirection.up, type: ScrollIncrementType.page),
+            SingleActivator(
+              LogicalKeyboardKey.pageDown,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const ScrollIntent(
+                direction: AxisDirection.down, type: ScrollIncrementType.page),
           }, {
             ...?widget.configurations.customShortcuts
           }),
@@ -1624,6 +1648,10 @@ class QuillRawEditorState extends EditorState
       QuillEditorUpdateTextSelectionToAdjacentLineAction<
           ExtendSelectionVerticallyToAdjacentLineIntent>(this);
 
+  late final _adjacentPageAction =
+      QuillEditorUpdateTextSelectionToAdjacentPageAction<
+          ExtendSelectionVerticallyToAdjacentPageIntent>(this);
+
   late final QuillEditorToggleTextStyleAction _formatSelectionAction =
       QuillEditorToggleTextStyleAction(this);
 
@@ -1697,7 +1725,11 @@ class QuillRawEditorState extends EditorState
     QuillEditorApplyHeaderIntent: _applyHeaderAction,
     QuillEditorApplyCheckListIntent: _applyCheckListAction,
     QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this),
-    ScrollToDocumentBoundaryIntent: NavigateToDocumentBoundaryAction(this)
+    ScrollToDocumentBoundaryIntent: NavigateToDocumentBoundaryAction(this),
+
+    //  Paging and scrolling
+    ExtendSelectionVerticallyToAdjacentPageIntent: _adjacentPageAction,
+    ScrollIntent: QuillEditorScrollAction(this),
   };
 
   @override

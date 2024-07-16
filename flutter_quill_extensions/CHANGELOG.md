@@ -4,6 +4,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.21
+
+* Fix: Key actions not being handled by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2025
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.20...v9.5.21
+
+## 9.5.20
+
+* Remove useless delta_x_test by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2017
+* Update flutter_quill_delta_from_html package on pubspec.yaml by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2018
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.19...v9.5.20
+
 ## 9.5.19
 
 * fixed #1835 Embed Reloads on Cmd Key Press by @li8607 in https://github.com/singerdmx/flutter-quill/pull/2013
