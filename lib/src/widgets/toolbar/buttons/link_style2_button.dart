@@ -288,7 +288,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
         ? Theme.of(context)
             .elevatedButtonTheme
             .style
-            ?.copyWith(fixedSize: WidgetStatePropertyAll(widget.buttonSize))
+            ?.copyWith(fixedSize: MaterialStatePropertyAll(widget.buttonSize))
         : widget.dialogTheme?.buttonStyle;
 
     final isWrappable = widget.dialogTheme?.isWrappable ?? false;

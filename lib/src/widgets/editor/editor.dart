@@ -292,6 +292,7 @@ class QuillEditorState extends State<QuillEditor>
               onScribbleActivated: configurations.onScribbleActivated,
               scribbleAreaInsets: configurations.scribbleAreaInsets,
               readOnlyMouseCursor: configurations.readOnlyMouseCursor,
+              magnifierConfiguration: configurations.magnifierConfiguration,
             ),
           ),
         ),
@@ -418,6 +419,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         SelectionChangedCause.longPress,
       );
     }
+    editor?.updateMagnifier(details.globalPosition);
   }
 
   bool _isPositionSelected(TapUpDetails details) {
@@ -557,6 +559,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         Feedback.forLongPress(_state.context);
       }
     }
+    editor?.showMagnifier(details.globalPosition);
   }
 
   @override
@@ -575,6 +578,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     }
+    editor?.hideMagnifier();
     super.onSingleLongTapEnd(details);
   }
 }

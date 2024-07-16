@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart'
     show
         AnimationController,
@@ -84,4 +86,10 @@ abstract class EditorState extends State<QuillRawEditor>
   bool showToolbar();
 
   void requestKeyboard();
+
+  void showMagnifier(Offset positionToShow);
+
+  void updateMagnifier(Offset positionToShow);
+
+  void hideMagnifier();
 }

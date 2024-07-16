@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List;
 import 'package:flutter/material.dart'
     show
@@ -86,6 +87,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.onScribbleActivated,
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
+    this.magnifierConfiguration,
   });
 
   /// Controls the document being edited.
@@ -333,6 +335,8 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// Optional insets for the scribble area.
   final EdgeInsets? scribbleAreaInsets;
+
+  final TextMagnifierConfiguration? magnifierConfiguration;
 
   @override
   List<Object?> get props => [
