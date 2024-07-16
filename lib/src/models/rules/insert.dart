@@ -568,7 +568,8 @@ class PreserveInlineStylesRule extends InsertRule {
       if (prevData.endsWith('\n')) {
         /// If current line is empty get attributes from a prior line
         final currLine = itr.next();
-        final currData = currLine.data is String ? currLine.data as String : null;
+        final currData =
+            currLine.data is String ? currLine.data as String : null;
         if (currData != null && (currData.isEmpty || currData[0] == '\n')) {
           if (prevData.trimRight().isEmpty) {
             final back =
