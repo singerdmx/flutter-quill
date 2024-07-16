@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.22
+
+* Fix outdated contributor guide link on PR template by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2027
+* Fix(rule): PreserveInlineStyleRule assume the type of the operation data and throw stacktrace by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2028
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.21...v9.5.22
+
 ## 9.5.21
 
 * Fix: Key actions not being handled by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2025
