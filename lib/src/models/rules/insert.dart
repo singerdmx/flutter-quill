@@ -568,17 +568,19 @@ class PreserveInlineStylesRule extends InsertRule {
       if (prevData.endsWith('\n')) {
         /// If current line is empty get attributes from a prior line
         final currLine = itr.next();
-        final currData = currLine.data as String?;
-        if (currData != null && (currData.isEmpty || currData[0] == '\n')) {
-          if (prevData.trimRight().isEmpty) {
-            final back =
-                DeltaIterator(documentDelta).skip(index - prevData.length);
-            if (back != null && back.data is String) {
-              prev = back;
+        if (currLine.data is String) {
+          final currData = currLine.data as String?;
+          if (currData != null && (currData.isEmpty || currData[0] == '\n')) {
+            if (prevData.trimRight().isEmpty) {
+              final back =
+                  DeltaIterator(documentDelta).skip(index - prevData.length);
+              if (back != null && back.data is String) {
+                prev = back;
+              }
             }
+          } else {
+            prev = currLine;
           }
-        } else {
-          prev = currLine;
         }
       }
     }
