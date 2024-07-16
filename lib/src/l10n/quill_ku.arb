@@ -87,5 +87,14 @@
   "pasteAPhotoUsingALink": "لینکی وێنەیەک دابنێ",
   "pickAVideoFromYourGallery": "ڤیدیۆیەک لە گەلەرییەکەتەوە هەڵبژێرە",
   "recordAVideoUsingYourCamera": "بە بەکارهێنانی کامێراکەت ڤیدیۆیەک تۆمار بکە",
-  "pasteAVideoUsingALink": "لینکی ڤیدیۆیەک دابنێ"
+  "pasteAVideoUsingALink": "لینکی ڤیدیۆیەک دابنێ",
+  "alignJustify": "جوانکردن",
+  "theImageHasBeenSavedAt": "وێنەکە پاشەکەوت کرایە نێو",
+  "caseSensitive": "هسەتیاری پیتی گەورە و بچووک",
+  "wholeWord": "گشت ووشەکان",
+  "close": "دایخە",
+  "searchSettings": "بە ناو ئامادەکارییەکاندا بگەڕێ",
+  "cut": "بڕین",
+  "paste": "دانان",
+  "insertTable": "دانانی خشتە"
 }

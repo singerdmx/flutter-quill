@@ -329,30 +329,6 @@
     "insertTable"
   ],
 
-  "ku": [
-    "alignJustify",
-    "theImageHasBeenSavedAt",
-    "caseSensitive",
-    "wholeWord",
-    "close",
-    "searchSettings",
-    "cut",
-    "paste",
-    "insertTable"
-  ],
-
-  "ku_CKB": [
-    "alignJustify",
-    "theImageHasBeenSavedAt",
-    "caseSensitive",
-    "wholeWord",
-    "close",
-    "searchSettings",
-    "cut",
-    "paste",
-    "insertTable"
-  ],
-
   "ms": [
     "alignJustify",
     "normal",
