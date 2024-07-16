@@ -924,7 +924,13 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   TextPosition? getPositionAbove(TextPosition position) {
-    return _getPosition(position, -0.5);
+    /// Move up by fraction of the default font height, larger font sizes need larger offset
+    for (var offset = -0.5;; offset -= 0.25) {
+      final pos = _getPosition(position, offset);
+      if (pos != position || offset <= -2.0) {
+        return pos;
+      }
+    }
   }
 
   @override
