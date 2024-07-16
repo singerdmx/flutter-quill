@@ -1726,8 +1726,7 @@ class QuillRawEditorState extends EditorState
     ScrollToDocumentBoundaryIntent: NavigateToDocumentBoundaryAction(this),
 
     //  Paging and scrolling
-    ExtendSelectionVerticallyToAdjacentPageIntent:
-        _makeOverridable(_adjacentPageAction),
+    ExtendSelectionVerticallyToAdjacentPageIntent: _adjacentPageAction,
     ScrollIntent: QuillEditorScrollAction(this),
   };
 
