@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.5.23
+
+* add untranslated Kurdish keys by @Xoshbin in https://github.com/singerdmx/flutter-quill/pull/2029
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.22...v9.5.23
+
 ## 9.5.22
 
 * Fix outdated contributor guide link on PR template by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2027
