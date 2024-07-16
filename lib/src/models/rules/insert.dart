@@ -570,8 +570,7 @@ class PreserveInlineStylesRule extends InsertRule {
         final currLine = itr.next();
         final currData =
             currLine.data is String ? currLine.data as String : null;
-        if (currData != null &&
-            (currData.isEmpty || currData.startsWith(RegExp('^\n')))) {
+        if (currData?.isEmpty == true || currData?.startsWith('\n') == true) {
           if (prevData.trimRight().isEmpty) {
             final back =
                 DeltaIterator(documentDelta).skip(index - prevData.length);
