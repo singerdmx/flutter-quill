@@ -1257,7 +1257,6 @@ class QuillRawEditorState extends EditorState
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
     assert(!hasConnection);
     _selectionOverlay?.dispose();
-    print('selection overlay disposed');
     _selectionOverlay = null;
     controller.removeListener(_didChangeTextEditingValueListener);
     widget.configurations.focusNode.removeListener(_handleFocusChanged);
