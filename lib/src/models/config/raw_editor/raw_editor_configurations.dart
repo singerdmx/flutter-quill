@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List;
 import 'package:flutter/material.dart'
     show
         AdaptiveTextSelectionToolbar,
         PointerDownEvent,
         TextCapitalization,
-        TextInputAction;
+        TextInputAction,
+        TextMagnifierConfiguration;
 import 'package:flutter/widgets.dart'
     show
         Action,
