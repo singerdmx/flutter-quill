@@ -2,7 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
-import 'package:flutter/foundation.dart' show ValueListenable;
+import 'package:flutter/foundation.dart'
+    show ValueListenable, defaultTargetPlatform;
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -297,6 +298,7 @@ class QuillEditorState extends State<QuillEditor>
               onScribbleActivated: configurations.onScribbleActivated,
               scribbleAreaInsets: configurations.scribbleAreaInsets,
               readOnlyMouseCursor: configurations.readOnlyMouseCursor,
+              magnifierConfiguration: configurations.magnifierConfiguration,
             ),
           ),
         ),
@@ -423,6 +425,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         SelectionChangedCause.longPress,
       );
     }
+    editor?.updateMagnifier(details.globalPosition);
   }
 
   bool _isPositionSelected(TapUpDetails details) {
@@ -562,6 +565,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
         Feedback.forLongPress(_state.context);
       }
     }
+
+    _showMagnifierIfSupportedByPlatform(details.globalPosition);
   }
 
   @override
@@ -580,7 +585,26 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     }
+    _hideMagnifierIfSupportedByPlatform();
     super.onSingleLongTapEnd(details);
+  }
+
+  void _showMagnifierIfSupportedByPlatform(Offset positionToShow) {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.iOS:
+        editor?.showMagnifier(positionToShow);
+      default:
+    }
+  }
+
+  void _hideMagnifierIfSupportedByPlatform() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.iOS:
+        editor?.hideMagnifier();
+      default:
+    }
   }
 }
 

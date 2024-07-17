@@ -918,7 +918,13 @@ class QuillRawEditorState extends EditorState
     final oldSelection = controller.selection;
     controller.updateSelection(selection, ChangeSource.local);
 
+    if (_selectionOverlay == null) {
+      _selectionOverlay = _createSelectionOverlay();
+    } else {
+      _selectionOverlay!.update(textEditingValue);
+    }
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
+    _selectionOverlay?.showHandles();
 
     if (!_keyboardVisible) {
       // This will show the keyboard for all selection changes on the
@@ -1279,6 +1285,7 @@ class QuillRawEditorState extends EditorState
 
   @override
   void dispose() {
+    hideMagnifier();
     closeConnectionIfNeeded();
     _keyboardVisibilitySubscription?.cancel();
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
@@ -1374,31 +1381,34 @@ class QuillRawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (!_hasFocus || textEditingValue.selection.isCollapsed) {
-        _selectionOverlay!.dispose();
-        _selectionOverlay = null;
-      } else {
+      if (_hasFocus) {
         _selectionOverlay!.update(textEditingValue);
       }
     } else if (_hasFocus) {
-      _selectionOverlay = EditorTextSelectionOverlay(
-        value: textEditingValue,
-        context: context,
-        debugRequiredFor: widget,
-        startHandleLayerLink: _startHandleLayerLink,
-        endHandleLayerLink: _endHandleLayerLink,
-        renderObject: renderEditor,
-        selectionCtrls: widget.configurations.selectionCtrls,
-        selectionDelegate: this,
-        clipboardStatus: _clipboardStatus,
-        contextMenuBuilder: widget.configurations.contextMenuBuilder == null
-            ? null
-            : (context) =>
-                widget.configurations.contextMenuBuilder!(context, this),
-      );
+      _selectionOverlay = _createSelectionOverlay();
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
     }
+  }
+
+  EditorTextSelectionOverlay _createSelectionOverlay() {
+    return EditorTextSelectionOverlay(
+      value: textEditingValue,
+      context: context,
+      debugRequiredFor: widget,
+      startHandleLayerLink: _startHandleLayerLink,
+      endHandleLayerLink: _endHandleLayerLink,
+      renderObject: renderEditor,
+      selectionCtrls: widget.configurations.selectionCtrls,
+      selectionDelegate: this,
+      clipboardStatus: _clipboardStatus,
+      contextMenuBuilder: widget.configurations.contextMenuBuilder == null
+          ? null
+          : (context) =>
+              widget.configurations.contextMenuBuilder!(context, this),
+      magnifierConfiguration: widget.configurations.magnifierConfiguration ??
+          TextMagnifier.adaptiveMagnifierConfiguration,
+    );
   }
 
   void _handleFocusChanged() {
@@ -1777,4 +1787,24 @@ class QuillRawEditorState extends EditorState
 
   @override
   bool get shareEnabled => false;
+
+  @override
+  void hideMagnifier() {
+    if (_selectionOverlay == null) return;
+    _selectionOverlay?.hideMagnifier();
+  }
+
+  @override
+  void showMagnifier(ui.Offset positionToShow) {
+    if (_selectionOverlay == null) return;
+    final position = renderEditor.getPositionForOffset(positionToShow);
+    _selectionOverlay?.showMagnifier(position, positionToShow, renderEditor);
+  }
+
+  @override
+  void updateMagnifier(ui.Offset positionToShow) {
+    _updateOrDisposeSelectionOverlayIfNeeded();
+    final position = renderEditor.getPositionForOffset(positionToShow);
+    _selectionOverlay?.updateMagnifier(position, positionToShow, renderEditor);
+  }
 }

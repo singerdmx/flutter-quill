@@ -5,7 +5,8 @@ import 'package:flutter/material.dart'
         AdaptiveTextSelectionToolbar,
         PointerDownEvent,
         TextCapitalization,
-        TextInputAction;
+        TextInputAction,
+        TextMagnifierConfiguration;
 import 'package:flutter/widgets.dart'
     show
         Action,
@@ -87,6 +88,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.onScribbleActivated,
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
+    this.magnifierConfiguration,
   });
 
   /// Controls the document being edited.
@@ -336,6 +338,8 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// Optional insets for the scribble area.
   final EdgeInsets? scribbleAreaInsets;
+
+  final TextMagnifierConfiguration? magnifierConfiguration;
 
   @override
   List<Object?> get props => [
