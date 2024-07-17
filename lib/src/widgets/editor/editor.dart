@@ -2,7 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
-import 'package:flutter/foundation.dart' show ValueListenable;
+import 'package:flutter/foundation.dart'
+    show ValueListenable, defaultTargetPlatform;
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -559,7 +560,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
         Feedback.forLongPress(_state.context);
       }
     }
-    editor?.showMagnifier(details.globalPosition);
+
+    _showMagnifierIfSupportedByPlatform(details.globalPosition);
   }
 
   @override
@@ -578,8 +580,26 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     }
-    editor?.hideMagnifier();
+    _hideMagnifierIfSupportedByPlatform();
     super.onSingleLongTapEnd(details);
+  }
+
+  void _showMagnifierIfSupportedByPlatform(Offset positionToShow) {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.iOS:
+        editor?.showMagnifier(positionToShow);
+      default:
+    }
+  }
+
+  void _hideMagnifierIfSupportedByPlatform() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.iOS:
+        editor?.hideMagnifier();
+      default:
+    }
   }
 }
 
