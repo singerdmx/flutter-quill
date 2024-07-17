@@ -1753,6 +1753,8 @@ class QuillRawEditorState extends EditorState
 
   @override
   void showMagnifier(ui.Offset positionToShow) {
+    if (defaultTargetPlatform != TargetPlatform.iOS &&
+        defaultTargetPlatform != TargetPlatform.android) return;
     if (_selectionOverlay == null) return;
     final position = renderEditor.getPositionForOffset(positionToShow);
     _selectionOverlay?.showMagnifier(position, positionToShow, renderEditor);
