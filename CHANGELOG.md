@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 9.6.0
+
+* [feature] : quill add magnifier by @demoYang in https://github.com/singerdmx/flutter-quill/pull/2026
+
+## New Contributors
+* @demoYang made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2026
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.5.23...v9.6.0
+
 ## 9.5.23
 
 * add untranslated Kurdish keys by @Xoshbin in https://github.com/singerdmx/flutter-quill/pull/2029
