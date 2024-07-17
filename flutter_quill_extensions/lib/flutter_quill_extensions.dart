@@ -1,7 +1,7 @@
 library flutter_quill_extensions;
 
 // ignore: implementation_imports
-import 'package:flutter_quill/src/services/clipboard/clipboard_service_provider.dart';
+import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import 'package:meta/meta.dart' show immutable;
 
 import 'services/clipboard/super_clipboard_service.dart';
@@ -37,6 +37,9 @@ export 'models/config/video/editor/video_configurations.dart';
 export 'models/config/video/editor/video_web_configurations.dart';
 export 'models/config/video/toolbar/video_configurations.dart';
 export 'utils/utils.dart';
+
+// TODO: Refactor flutter_quill_extensions to match the structure of flutter_quill
+//  Also avoid exposing all APIs as public. Use `src` as directory name
 
 @immutable
 class FlutterQuillExtensions {

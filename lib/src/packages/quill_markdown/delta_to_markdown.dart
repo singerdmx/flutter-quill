@@ -1,9 +1,16 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:collection/collection.dart';
-import '../../../flutter_quill.dart';
+import 'package:collection/collection.dart' show IterableExtension;
+
 import '../../../quill_delta.dart';
+import '../../document/attribute.dart';
+import '../../document/document.dart';
+import '../../document/nodes/block.dart';
+import '../../document/nodes/embeddable.dart';
+import '../../document/nodes/leaf.dart';
+import '../../document/nodes/line.dart';
+import '../../document/nodes/node.dart';
 import './custom_quill_attributes.dart';
 import './utils.dart';
 

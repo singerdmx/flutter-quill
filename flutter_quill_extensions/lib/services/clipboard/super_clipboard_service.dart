@@ -3,7 +3,8 @@ import 'dart:convert' show utf8;
 
 import 'package:flutter/foundation.dart';
 // ignore: implementation_imports
-import 'package:flutter_quill/src/services/clipboard/clipboard_service.dart';
+import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service.dart';
+
 import 'package:super_clipboard/super_clipboard.dart';
 
 /// Implementation based on https://pub.dev/packages/super_clipboard
