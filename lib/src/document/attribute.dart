@@ -4,6 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart' show immutable;
 import 'package:quiver/core.dart';
 
+import 'custom_attributes.dart';
+export 'custom_attributes.dart';
+
 enum AttributeScope {
   inline, // refer to https://quilljs.com/docs/formats/#inline
   block, // refer to https://quilljs.com/docs/formats/#block
@@ -352,27 +355,6 @@ class PlaceholderAttribute extends Attribute<bool> {
 class HeaderAttribute extends Attribute<int?> {
   const HeaderAttribute({int? level})
       : super('header', AttributeScope.block, level);
-}
-
-/// This attribute represents the space between text lines. The line height can be
-/// adjusted using predefined constants or custom values
-///
-/// The attribute at the json looks like: "attributes":{"line-height": 1.5 }
-class LineHeightAttribute extends Attribute<double?> {
-  const LineHeightAttribute({double? lineHeight})
-      : super('line-height', AttributeScope.block, lineHeight);
-
-  static const Attribute<double?> lineHeightNormal =
-      LineHeightAttribute(lineHeight: 1);
-
-  static const Attribute<double?> lineHeightTight =
-      LineHeightAttribute(lineHeight: 1.15);
-
-  static const Attribute<double?> lineHeightOneAndHalf =
-      LineHeightAttribute(lineHeight: 1.5);
-
-  static const Attribute<double?> lineHeightDouble =
-      LineHeightAttribute(lineHeight: 2);
 }
 
 class IndentAttribute extends Attribute<int?> {
