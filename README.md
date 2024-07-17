@@ -107,7 +107,7 @@ dependencies:
 
 ## 🛠 Platform Specific Configurations
 
-Before using the package, we must inform you the package uses the following plugins:
+The `flutter_quill` package uses the following plugins:
 
 1. [`url_launcher`](https://pub.dev/packages/url_launcher) to open links.
 2. [`device_info_plus`](https://pub.dev/packages/device_info_plus) to view info about the current device.

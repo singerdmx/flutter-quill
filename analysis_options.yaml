@@ -12,7 +12,6 @@ linter:
     avoid_empty_else: true
     avoid_escaping_inner_quotes: true
     avoid_print: true
-    avoid_redundant_argument_values: true
     avoid_types_on_closure_parameters: true
     avoid_void_async: true
     cascade_invocations: true

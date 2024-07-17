@@ -39,8 +39,6 @@ void main() {
           matchRoot: true,
         );
         expect(builtinFinder, findsOneWidget);
-        // final builtinButton =
-        //     builtinFinder.evaluate().first.widget as QuillToolbarIconButton;
 
         final customFinder = find.descendant(
             of: find.byType(QuillToolbar),
@@ -48,10 +46,6 @@ void main() {
                 widget is QuillToolbarIconButton && widget.tooltip == tooltip),
             matchRoot: true);
         expect(customFinder, findsOneWidget);
-        // final customButton =
-        //     customFinder.evaluate().first.widget as QuillToolbarIconButton;
-
-        // expect(customButton.fillColor, equals(builtinButton.fillColor));
       });
     });
 
@@ -62,10 +56,8 @@ void main() {
       setUp(() {
         controller = QuillController.basic();
         editor = QuillEditor.basic(
-          // ignore: avoid_redundant_argument_values
           configurations: QuillEditorConfigurations(
             controller: controller,
-            // ignore: avoid_redundant_argument_values
           ),
         );
       });
@@ -150,10 +142,8 @@ void main() {
             home: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
-              // ignore: avoid_redundant_argument_values
               configurations: QuillEditorConfigurations(
                 controller: controller,
-                // ignore: avoid_redundant_argument_values
                 autoFocus: true,
                 expands: true,
               ),
