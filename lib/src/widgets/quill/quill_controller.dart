@@ -1,9 +1,12 @@
+import 'dart:async' show StreamSubscription;
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:meta/meta.dart';
+import 'package:web/web.dart' as web;
 
 import '../../../flutter_quill.dart';
 import '../../../quill_delta.dart';
@@ -27,7 +30,20 @@ class QuillController extends ChangeNotifier {
     this.readOnly = false,
     this.editorFocusNode,
   })  : _document = document,
-        _selection = selection;
+        _selection = selection {
+    if (kIsWeb) {
+      _webPasteEventSubscription = web.EventStreamProviders.pasteEvent
+          .forTarget(web.window.document)
+          .listen((e) {
+        // TODO: See if we can support markdown as well
+        final html = e.clipboardData?.getData('text/html');
+        if (html == null) {
+          return;
+        }
+        _pasteHTML(html: html);
+      });
+    }
+  }
 
   factory QuillController.basic(
       {QuillControllerConfigurations configurations =
@@ -97,8 +113,8 @@ class QuillController extends ChangeNotifier {
 
   bool ignoreFocusOnTextChange = false;
 
-  /// Skip requestKeyboard being called in
-  /// RawEditorState#_didChangeTextEditingValue
+  /// Skip requestKeyboard being called
+  /// in [QuillRawEditorState._didChangeTextEditingValue]
   bool skipRequestKeyboard = false;
 
   /// True when this [QuillController] instance has been disposed.
@@ -113,6 +129,13 @@ class QuillController extends ChangeNotifier {
         text: document.toPlainText(),
         selection: selection,
       );
+
+  /// Paste event for the web.
+  ///
+  /// Will be `null` for non-web platforms.
+  ///
+  /// See: https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event
+  StreamSubscription? _webPasteEventSubscription;
 
   /// Only attributes applied to all characters within this range are
   /// included in the result.
@@ -431,6 +454,8 @@ class QuillController extends ChangeNotifier {
     }
 
     _isDisposed = true;
+
+    _webPasteEventSubscription?.cancel();
     super.dispose();
   }
 
@@ -566,11 +591,21 @@ class QuillController extends ChangeNotifier {
     );
   }
 
-  /// Return true if can paste using HTML
-  Future<bool> _pasteHTML() async {
+  /// Paste the HTML into the document from [html] if not null, otherwise
+  /// will read it from the Clipboard in case the [ClipboardServiceProvider.instance]
+  /// support it on the current platform.
+  ///
+  /// The argument [html] allow to override the HTML that's being pasted,
+  /// mainly to support pasting HTML on the web in [_webPasteEventSubscription].
+  ///
+  /// Return `true` if can paste or have pasted using HTML.
+  Future<bool> _pasteHTML({String? html}) async {
     final clipboardService = ClipboardServiceProvider.instance;
 
     Future<String?> getHTML() async {
+      if (html != null) {
+        return html;
+      }
       if (await clipboardService.canProvideHtmlTextFromFile()) {
         return await clipboardService.getHtmlTextFromFile();
       }
@@ -593,7 +628,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// Return true if can paste using Markdown
+  /// Return `true` if can paste or have pasted using Markdown.
   Future<bool> _pasteMarkdown() async {
     final clipboardService = ClipboardServiceProvider.instance;
 

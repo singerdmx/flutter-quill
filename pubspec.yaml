@@ -53,6 +53,8 @@ dependencies:
 
   flutter_colorpicker: ^1.1.0
 
+  web: ^0.5.1
+
   # For converting HTML to Quill delta
   flutter_quill_delta_from_html: ^1.3.12
   markdown: ^7.2.1

@@ -540,10 +540,7 @@ class QuillRawEditorState extends EditorState
             maxHeight: widget.configurations.maxHeight ?? double.infinity,
           );
 
-    // Please notice that this change will make the check fixed
-    // so if we ovveride the platform in material app theme data
-    // it will not depend on it and doesn't change here but I don't think
-    // we need to
+    // TODO: Review this and decide if we should for macOS on the browser or not
     final isDesktopMacOS = isMacOS(supportWeb: true);
 
     return TextFieldTapRegion(

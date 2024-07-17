@@ -412,5 +412,8 @@ void main() {
             reason: 'line 1 extends into line3 which is not block');
       }
     });
+
+    // TODO: Implement this, check of kIsWeb is not testable in QuillController
+    test('the paste event should be not null on web', () {});
   });
 }

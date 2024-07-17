@@ -4,14 +4,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kIsWeb, visibleForTesting;
 
-/// If you want to override the [kIsWeb] use [overrideIsWeb] but it's only
-/// for testing
-bool isWeb({
-  @visibleForTesting bool? overrideIsWeb,
-}) {
-  return overrideIsWeb ?? kIsWeb;
-}
-
 /// [supportWeb] is a parameter that ask you if we should care about web support
 /// if the value is true then we will return the result no matter if we are
 /// on web or using a native app to run the flutter app
@@ -126,6 +118,16 @@ Future<bool> isIOSSimulator({
     return !iosInfo.isPhysicalDevice;
   }
   return false;
+}
+
+// TODO: This is only used for tests, we might remove it or keep it
+
+/// If you want to override the [kIsWeb] use [overrideIsWeb] but it's only
+/// for testing
+bool isWeb({
+  @visibleForTesting bool? overrideIsWeb,
+}) {
+  return overrideIsWeb ?? kIsWeb;
 }
 
 bool isFlutterTest({

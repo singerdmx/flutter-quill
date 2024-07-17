@@ -24,10 +24,8 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: QuillEditor.basic(
-            // ignore: avoid_redundant_argument_values
             configurations: QuillEditorConfigurations(
               controller: controller,
-              // ignore: avoid_redundant_argument_values
             ),
           ),
         ),
@@ -45,16 +43,15 @@ void main() {
             focusNode: FocusNode(),
             scrollController: ScrollController(),
             configurations: QuillEditorConfigurations(
-              controller: controller,
-              // ignore: avoid_redundant_argument_values
-              autoFocus: true,
-              expands: true,
               contentInsertionConfiguration: ContentInsertionConfiguration(
                 onContentInserted: (content) {
                   latestUri = content.uri;
                 },
                 allowedMimeTypes: <String>['image/gif'],
               ),
+              autoFocus: true,
+              expands: true,
+              controller: controller,
             ),
           ),
         ),
@@ -116,10 +113,8 @@ void main() {
           home: QuillEditor(
             focusNode: FocusNode(),
             scrollController: ScrollController(),
-            // ignore: avoid_redundant_argument_values
             configurations: QuillEditorConfigurations(
               controller: controller,
-              // ignore: avoid_redundant_argument_values
               autoFocus: true,
               expands: true,
               contextMenuBuilder: customBuilder,

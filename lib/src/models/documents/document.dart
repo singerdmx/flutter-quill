@@ -59,6 +59,7 @@ class Document {
   final StreamController<DocChange> documentChangeObserver =
       StreamController.broadcast();
 
+  // TODO: See why we made this public when it was private field
   final History history = History();
 
   /// Stream of [DocChange]s applied to this document.
