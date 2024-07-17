@@ -154,8 +154,6 @@ abstract base class Leaf extends Node {
   }
 
   /// Splits this leaf node at [index] and returns new node.
-  ///import '../style.dart';
-
   /// If this is the last node in its list and [index] equals this node's
   /// length then this method returns `null` as there is nothing left to split.
   /// If there is another leaf node after this one and [index] equals this
