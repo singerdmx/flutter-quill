@@ -58,14 +58,13 @@ You will need a GitHub account as well as Git installed and configured with your
     cp pubspec_overrides.yaml.disabled pubspec_overrides.yaml
     ```
    or save some time with the following script:
-    <!-- TODO: We should update this script to dart instead -->
     ```
-    ./scripts/enable_local_dev.sh
+    dart ./scripts/enable_local_dev.dart
     ```
 8. Test them in the [example](./example) and add changes in there if necessary
 9. Run the following script if possible
-   ```
-   ./scripts/before_push.sh
+   ```shell
+   dart ./scripts/before_push.dart
    ```
 10. When you are done sending your pull request, run:
     ```

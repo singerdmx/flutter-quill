@@ -7,14 +7,11 @@ import 'dart:io' show File, exit;
 import 'package:path/path.dart' as path;
 import 'package:yaml_edit/yaml_edit.dart' show YamlEditor;
 
+import 'packages.dart';
+
 /// The list of the packages that which will be used to update the `CHANGELOG.md`
 /// and the version in the `pubspec.yaml` for all the packages
-final _packages = [
-  './',
-  './dart_quill_delta',
-  './flutter_quill_extensions',
-  './flutter_quill_test',
-];
+const _packagesToUpdate = repoPackages;
 
 const _usage = 'Usage: ./script <version>';
 const _versionContentFileName = 'versionContent.md';
@@ -85,7 +82,7 @@ Future<void> main(List<String> args) async {
       ..write('$versionContent\n\n');
   });
 
-  for (final packagePath in _packages) {
+  for (final packagePath in _packagesToUpdate) {
     await _updatePubspecYamlFile(
       pubspecYamlPath: '$packagePath/pubspec.yaml',
       newVersion: passedVersion,

@@ -25,7 +25,7 @@ jobs:
         run: flutter --version
 
       - name: 🚧 Enable local development environment (use the local packages)
-        run: ./scripts/enable_local_dev.sh
+        run: dart ./scripts/enable_local_dev.dart
 
       - name: 📥 Install Flutter dependencies
         run: flutter pub get
