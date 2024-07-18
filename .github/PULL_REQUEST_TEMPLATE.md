@@ -24,7 +24,13 @@ Replace this paragraph with a list of issues related to this PR from the [issue 
 
 ## Type of Change
 
-<!--- Put an x in all the boxes that apply: -->
+<!--- 
+
+Put an x in all the boxes that apply:
+
+- [x] **Example:**
+
+-->
 
 - [ ] ✨ **New feature:** Adds new functionality without breaking existing features.
 - [ ] 🛠️ **Bug fix:** Resolves an issue without altering current behavior.
