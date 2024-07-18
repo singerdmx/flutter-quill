@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter/foundation.dart' show immutable;
 
 import '../../document/nodes/leaf.dart';
 import '../../document/nodes/line.dart';

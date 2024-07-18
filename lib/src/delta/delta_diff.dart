@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui' show TextDirection;
 
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter/foundation.dart' show immutable;
 
 import '../../quill_delta.dart';
 import '../document/attribute.dart';

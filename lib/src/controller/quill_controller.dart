@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart' as html_parser;
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' show experimental;
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';

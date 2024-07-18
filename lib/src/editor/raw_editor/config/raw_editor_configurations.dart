@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart' show Brightness, Uint8List;
+import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart'
     show
         AdaptiveTextSelectionToolbar,
@@ -26,7 +26,6 @@ import 'package:flutter/widgets.dart'
         Widget,
         MouseCursor,
         SystemMouseCursors;
-import 'package:meta/meta.dart' show immutable;
 
 import '../../../controller/quill_controller.dart';
 import '../../../editor/embed/embed_editor_builder.dart';

@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter/widgets.dart' show immutable;
 
 import '../../quill_delta.dart';
 import '../common/extensions/uri_ext.dart';

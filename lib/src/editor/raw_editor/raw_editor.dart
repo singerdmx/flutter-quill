@@ -8,8 +8,8 @@ import 'package:flutter/widgets.dart'
         State,
         StatefulWidget,
         TextSelectionDelegate,
-        Widget;
-import 'package:meta/meta.dart' show immutable;
+        Widget,
+        immutable;
 
 import '../../common/structs/offset_value.dart';
 import '../editor.dart';

@@ -1,5 +1,4 @@
-import 'package:meta/meta.dart';
-
+import 'package:flutter/foundation.dart' show immutable;
 import 'clipboard_service.dart';
 import 'default_clipboard_service.dart';
 

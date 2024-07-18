@@ -1,7 +1,7 @@
-import 'dart:collection';
+import 'dart:collection' show LinkedHashSet, LinkedHashMap;
 
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:quiver/core.dart';
 
 import 'custom_attributes.dart';

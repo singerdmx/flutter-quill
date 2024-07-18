@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart' show Widget;
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter/widgets.dart' show Widget, immutable;
 
 @immutable
 class LinkDialogAction {

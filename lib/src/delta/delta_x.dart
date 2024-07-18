@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:markdown/markdown.dart' as md;
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' show experimental;
+
 import '../../markdown_quill.dart';
 import '../../quill_delta.dart';
 
