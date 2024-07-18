@@ -4,6 +4,10 @@ Thank you for contributing.
 
 Provide a description of your changes below and a general summary in the title.
 
+Consider reading the Contributor Guide: https://github.com/singerdmx/flutter-quill/blob/master/CONTRIBUTING.md.
+
+The changes of `CHANGELOG.md` and package version in `pubspec.yaml` are automated.
+
 -->
 
 ## Description
@@ -36,8 +40,9 @@ Put an x in all the boxes that apply:
 - [ ] 🛠️ **Bug fix:** Resolves an issue without altering current behavior.
 - [ ] 🧹 **Code refactor:** Code restructuring that does not affect behavior.
 - [ ] ❌ **Breaking change:** Alters existing functionality and requires updates.
+- [ ] 🧪 **Tests:** Adds new tests or modifies existing tests.
 - [ ] 📝 **Documentation:** Updates or additions to documentation.
-- [ ] 🗑️ **Chore:** Routine tasks, tests, or maintenance.
+- [ ] 🗑️ **Chore:** Routine tasks, or maintenance.
 - [ ] ✅ **Build configuration change:** Changes to build or deploy processes.
 
 ## Suggestions

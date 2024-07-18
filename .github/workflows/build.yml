@@ -24,11 +24,11 @@ jobs:
       - name: 🔍 Verify Flutter installation
         run: flutter --version
 
-      - name: 🚧 Enable local development environment (use the local packages)
-        run: ./scripts/enable_local_dev.sh
-
       - name: 📥 Install Flutter dependencies
         run: flutter pub get
+
+      - name: 🚧 Enable local development environment (use the local packages)
+        run: dart ./scripts/enable_local_dev.dart
 
       - name: 🌐 Build Flutter Web Application
         run: flutter build web --release --verbose --dart-define=CI=true
@@ -47,56 +47,3 @@ jobs:
       - name: 🐧 Build Flutter Linux Desktop Application
         run: flutter build linux --release --verbose --dart-define=CI=true
         working-directory: ./example
-
-        # build_windows:
-        #   name: Build Windows App
-        #   runs-on: windows-latest
-
-        #   steps:
-        #       - uses: actions/checkout@v4
-        #       - uses: subosito/flutter-action@v2
-        #         with:
-        #           channel: 'stable'
-        #           cache: true
-
-        #       - name: Check flutter version
-        #         run: flutter --version
-
-        #       # Sh scripts is not supported on windows
-        #       - name: Enable Local Dev
-        #         run: ./scripts/enable_local_dev.sh
-
-        #       - name: Install dependencies
-        #         run: flutter pub get
-
-        #       - name: Flutter build windows
-        #         run: flutter build windows --release --verbose --dart-define=CI=true
-        #         working-directory: ./example
-
-        # build_macOS:
-        #   name: Build macOS App
-        #   runs-on: macos-latest
-
-        #   steps:
-        #       - uses: actions/checkout@v4
-        #       - uses: subosito/flutter-action@v2
-        #         with:
-        #           channel: 'stable'
-        #           cache: true
-
-        #       - name: Check flutter version
-        #         run: flutter --version
-
-        #       - name: Enable Local Dev
-        #         run: ./scripts/enable_local_dev.sh
-
-        #       - name: Install dependencies
-        #         run: flutter pub get
-
-  #       - name: Flutter build macOS
-  #         run: flutter build macos --release --verbose --dart-define=CI=true
-  #         working-directory: ./example
-
-  #       - name: Flutter build iOS
-  #         run: flutter build ios --release --verbose --dart-define=CI=true
-  #         working-directory: ./example
