@@ -24,11 +24,11 @@ jobs:
       - name: 🔍 Verify Flutter installation
         run: flutter --version
 
-      - name: 🚧 Enable local development environment (use the local packages)
-        run: dart ./scripts/enable_local_dev.dart
-
       - name: 📥 Install Flutter dependencies
         run: flutter pub get
+
+      - name: 🚧 Enable local development environment (use the local packages)
+        run: dart ./scripts/enable_local_dev.dart
 
       - name: 🌐 Build Flutter Web Application
         run: flutter build web --release --verbose --dart-define=CI=true
