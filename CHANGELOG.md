@@ -4,6 +4,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.1
+
+This release is identical to [10.0.0](https://github.com/singerdmx/flutter-quill/releases/tag/v10.0.0) with a fix that addresses issue #2034 by requiring `10.0.0` as the minimum version for quill related dependencies.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v10.0.1
+
 ## 10.0.0
 
 * refactor: restructure project into modular architecture for flutter_quill by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2032
