@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.0
+
+* refactor: restructure project into modular architecture for flutter_quill by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2032
+* chore: update GitHub PR template by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2033
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v9.6.0...v10.0.0
+
 ## 9.6.0
 
 * [feature] : quill add magnifier by @demoYang in https://github.com/singerdmx/flutter-quill/pull/2026
