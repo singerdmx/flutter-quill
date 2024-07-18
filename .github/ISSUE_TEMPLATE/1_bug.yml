@@ -18,19 +18,10 @@ body:
   - type: input
     attributes:
       label: Flutter Quill version
-      description: Please tell us which version of `flutter_quill` that you are using.
-      placeholder: For example 9.0.0
+      description: The version of the project for the packages (e.g., `flutter_quill` and `flutter_quill_extensions`)
+      placeholder: (e.g., 10.0.0)
     validations:
       required: false
-  # - type: textarea
-  #   attributes:
-  #     label: Other Flutter Quill packages versions
-  #     description: If you are using any other packages like `flutter_quill_extensions` or `flutter_quill_test` please mention the versions here
-  #     placeholder: |
-  #       flutter_quill_extensions: ^0.6.10
-  #       flutter_quill_test: ^0.0.5
-  #   validations:
-  #     required: false
   - type: textarea
     attributes:
       label: Steps to reproduce
@@ -71,12 +62,16 @@ body:
 
         </details>
     validations:
-      required: true
+      required: false
   - type: textarea
     attributes:
-      label: Screenshots or Video
+      label: Additional Context
       description: |
-        Upload any screenshots or video of the bug if applicable.
+        Include additional information such as Screenshots or Logs if needed.
+
+        If the logs are too large to be uploaded to GitHub, you may upload
+        them as a `txt` file or use online tools like https://pastebin.com to
+        share it.
       value: |
         <details>
         <summary>Screenshots / Video demonstration</summary>
@@ -84,24 +79,8 @@ body:
         [Upload media here]
 
         </details>
-    validations:
-      required: false
-  - type: textarea
-    attributes:
-      label: Logs
-      description: |
-        Include the full logs of the commands you are running between the lines
-        with the backticks below. If you are running any `flutter` commands,
-        please include the output of running them with `--verbose`; for example,
-        the output of running `flutter --verbose create foo`.
 
-        If the logs are too large to be uploaded to GitHub, you may upload
-        them as a `txt` file or use online tools like https://pastebin.com to
-        share it.
 
-        Note: Please do not upload screenshots of text. Instead, use code blocks
-        or the above mentioned ways to upload logs.
-      value: |
         <details><summary>Logs</summary>
 
         ```console
