@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.2
+
+* chore(scripts): migrate the scripts from sh to dart by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2036
+* Have the ability to create custom rules, closes #1162 by @Guillergood in https://github.com/singerdmx/flutter-quill/pull/2040
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.1...v10.0.2
+
 ## 10.0.1
 
 This release is identical to [10.0.0](https://github.com/singerdmx/flutter-quill/releases/tag/v10.0.0) with a fix that addresses issue #2034 by requiring `10.0.0` as the minimum version for quill related dependencies.
