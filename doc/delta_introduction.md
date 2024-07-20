@@ -150,8 +150,8 @@ And we want to apply bold formatting to the word "world." The `Retain` operation
 
 This Delta is interpreted as follows:
 
-- **{ "retain": 7 }**: Retains the first **7** characters ("Hello, ").
-- **{ "retain": 5**, "attributes": { "bold": true } }: Retains the next **5** characters ("world") and applies the bold attribute.
+- `{ "retain": 7 }`: Retains the first **7** characters ("Hello, ").
+- `{ "retain": 5, "attributes": { "bold": true } }`: Retains the next **5** characters ("world") and applies the bold attribute.
 
 ### Applications of Retain
 
@@ -191,8 +191,8 @@ Example 1: Transformation with Deletions
 
 Deltas to combine:
 
-- Delta A: [{insert: "Flutter"}, {retain: 3}, {insert: "Quill"}]
-- Delta B: [{retain: 6}, {delete: 4}, {insert: "Editor"}]
+- Delta A: `[{insert: "Flutter"}, {retain: 3}, {insert: "Quill"}`]
+- Delta B: `[{retain: 6}, {delete: 4}, {insert: "Editor"}`]
 
 ```dart
 
