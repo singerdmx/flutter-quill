@@ -191,8 +191,8 @@ Example 1: Transformation with Deletions
 
 Deltas to combine:
 
-- Delta A: `[{insert: "Flutter"}, {retain: 3}, {insert: "Quill"}`]
-- Delta B: `[{retain: 6}, {delete: 4}, {insert: "Editor"}`]
+- **Delta A**: `[{insert: "Flutter"}, {retain: 3}, {insert: "Quill"}]`
+- **Delta B**: `[{retain: 6}, {delete: 4}, {insert: "Editor"}]`
 
 ```dart
 
@@ -222,8 +222,8 @@ Example 2: Complex Transformation
 
 Deltas to combine:
 
-- Delta A: [{insert: "Hello World"}]
-- Delta B: [{retain: 6}, {delete: 5}, {insert: "Flutter"}]
+- **Delta A**: `[{insert: "Hello World"}]`
+- **Delta B**: `[{retain: 6}, {delete: 5}, {insert: "Flutter"}]`
 
 ```dart
 import 'package:flutter_quill/dart_quill_delta.dart' as quill;
