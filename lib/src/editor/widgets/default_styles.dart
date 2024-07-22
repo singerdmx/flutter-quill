@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/vertical_spacing.dart';
 import '../../common/utils/platform.dart';
 import '../../document/attribute.dart';
@@ -36,6 +37,7 @@ class QuillStyles extends InheritedWidget {
 class DefaultTextBlockStyle {
   const DefaultTextBlockStyle(
     this.style,
+    this.horizontalSpacing,
     this.verticalSpacing,
     this.lineSpacing,
     this.decoration,
@@ -43,6 +45,9 @@ class DefaultTextBlockStyle {
 
   /// Base text style for a text block.
   final TextStyle style;
+
+  /// Horizontal spacing around a text block.
+  final HorizontalSpacing horizontalSpacing;
 
   /// Vertical spacing around a text block.
   final VerticalSpacing verticalSpacing;
@@ -151,6 +156,7 @@ class InlineCodeStyle {
 class DefaultListBlockStyle extends DefaultTextBlockStyle {
   const DefaultListBlockStyle(
     super.style,
+    super.horizontalSpacing,
     super.verticalSpacing,
     super.lineSpacing,
     super.decoration,
@@ -238,7 +244,8 @@ class DefaultStyles {
       height: 1.15,
       decoration: TextDecoration.none,
     );
-    const baseSpacing = VerticalSpacing(6, 0);
+    const baseHorizontalSpacing = HorizontalSpacing(0, 0);
+    const baseVerticalSpacing = VerticalSpacing(6, 0);
     String fontFamily;
     if (isAppleOS(platform: themeData.platform, supportWeb: true)) {
       fontFamily = 'Menlo';
@@ -262,6 +269,7 @@ class DefaultStyles {
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none,
           ),
+          baseHorizontalSpacing,
           const VerticalSpacing(16, 0),
           const VerticalSpacing(0, 0),
           null),
@@ -274,6 +282,7 @@ class DefaultStyles {
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.none,
           ),
+          baseHorizontalSpacing,
           const VerticalSpacing(8, 0),
           const VerticalSpacing(0, 0),
           null),
@@ -286,6 +295,7 @@ class DefaultStyles {
           fontWeight: FontWeight.bold,
           decoration: TextDecoration.none,
         ),
+        baseHorizontalSpacing,
         const VerticalSpacing(8, 0),
         const VerticalSpacing(0, 0),
         null,
@@ -299,6 +309,7 @@ class DefaultStyles {
           fontWeight: FontWeight.bold,
           decoration: TextDecoration.none,
         ),
+        baseHorizontalSpacing,
         const VerticalSpacing(6, 0),
         const VerticalSpacing(0, 0),
         null,
@@ -312,6 +323,7 @@ class DefaultStyles {
           fontWeight: FontWeight.bold,
           decoration: TextDecoration.none,
         ),
+        baseHorizontalSpacing,
         const VerticalSpacing(6, 0),
         const VerticalSpacing(0, 0),
         null,
@@ -325,36 +337,42 @@ class DefaultStyles {
           fontWeight: FontWeight.bold,
           decoration: TextDecoration.none,
         ),
+        baseHorizontalSpacing,
         const VerticalSpacing(4, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
       lineHeightNormal: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 1.15),
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
       lineHeightTight: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 1.30),
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
       lineHeightOneAndHalf: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 1.55),
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
       lineHeightDouble: DefaultTextBlockStyle(
         baseStyle.copyWith(height: 2),
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
       paragraph: DefaultTextBlockStyle(
         baseStyle,
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
@@ -403,19 +421,22 @@ class DefaultStyles {
             height: 1.5,
             color: Colors.grey.withOpacity(0.6),
           ),
+          baseHorizontalSpacing,
           const VerticalSpacing(0, 0),
           const VerticalSpacing(0, 0),
           null),
       lists: DefaultListBlockStyle(
         baseStyle,
-        baseSpacing,
+        baseHorizontalSpacing,
+        baseVerticalSpacing,
         const VerticalSpacing(0, 6),
         null,
         null,
       ),
       quote: DefaultTextBlockStyle(
         TextStyle(color: baseStyle.color!.withOpacity(0.6)),
-        baseSpacing,
+        baseHorizontalSpacing,
+        baseVerticalSpacing,
         const VerticalSpacing(6, 2),
         BoxDecoration(
           border: Border(
@@ -430,7 +451,8 @@ class DefaultStyles {
             fontSize: 13,
             height: 1.15,
           ),
-          baseSpacing,
+          baseHorizontalSpacing,
+          baseVerticalSpacing,
           const VerticalSpacing(0, 0),
           BoxDecoration(
             color: Colors.grey.shade50,
@@ -438,18 +460,21 @@ class DefaultStyles {
           )),
       indent: DefaultTextBlockStyle(
         baseStyle,
-        baseSpacing,
+        baseHorizontalSpacing,
+        baseVerticalSpacing,
         const VerticalSpacing(0, 6),
         null,
       ),
       align: DefaultTextBlockStyle(
         baseStyle,
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,
       ),
       leading: DefaultTextBlockStyle(
         baseStyle,
+        baseHorizontalSpacing,
         const VerticalSpacing(0, 0),
         const VerticalSpacing(0, 0),
         null,

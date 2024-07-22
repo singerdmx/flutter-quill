@@ -51,6 +51,7 @@ class MyQuillEditor extends StatelessWidget {
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
+            const HorizontalSpacing(0, 0),
             const VerticalSpacing(16, 0),
             const VerticalSpacing(0, 0),
             null,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../../common/structs/horizontal_spacing.dart';
 import '../../../common/structs/vertical_spacing.dart';
 import '../../../common/utils/font.dart';
 import '../../../controller/quill_controller.dart';
@@ -61,6 +62,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.controller,
     required this.textDirection,
     required this.scrollBottomInset,
+    required this.horizontalSpacing,
     required this.verticalSpacing,
     required this.textSelection,
     required this.color,
@@ -86,6 +88,7 @@ class EditableTextBlock extends StatelessWidget {
   final QuillController controller;
   final TextDirection textDirection;
   final double scrollBottomInset;
+  final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
   final TextSelection textSelection;
   final Color color;
@@ -113,7 +116,8 @@ class EditableTextBlock extends StatelessWidget {
     return _EditableBlock(
       block: block,
       textDirection: textDirection,
-      padding: verticalSpacing,
+      horizontalSpacing: horizontalSpacing,
+      verticalSpacing: verticalSpacing,
       scrollBottomInset: scrollBottomInset,
       decoration:
           _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
@@ -304,7 +308,7 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  double _getIndentWidth(BuildContext context, int count) {
+  HorizontalSpacing _getIndentWidth(BuildContext context, int count) {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = block.style.attributes;
@@ -316,7 +320,7 @@ class EditableTextBlock extends StatelessWidget {
     }
 
     if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return fontSize + extraIndent;
+      return HorizontalSpacing(fontSize + extraIndent, 0);
     }
 
     var baseIndent = 0.0;
@@ -330,7 +334,7 @@ class EditableTextBlock extends StatelessWidget {
       }
     }
 
-    return baseIndent + extraIndent;
+    return HorizontalSpacing(baseIndent + extraIndent, 0);
   }
 
   VerticalSpacing _getSpacingForLine(
@@ -715,7 +719,8 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
   const _EditableBlock(
       {required this.block,
       required this.textDirection,
-      required this.padding,
+      required this.horizontalSpacing,
+      required this.verticalSpacing,
       required this.scrollBottomInset,
       required this.decoration,
       required this.contentPadding,
@@ -723,13 +728,17 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
 
   final Block block;
   final TextDirection textDirection;
-  final VerticalSpacing padding;
+  final HorizontalSpacing horizontalSpacing;
+  final VerticalSpacing verticalSpacing;
   final double scrollBottomInset;
   final Decoration decoration;
   final EdgeInsets? contentPadding;
 
-  EdgeInsets get _padding =>
-      EdgeInsets.only(top: padding.top, bottom: padding.bottom);
+  EdgeInsets get _padding => EdgeInsets.only(
+      left: horizontalSpacing.left,
+      right: horizontalSpacing.right,
+      top: verticalSpacing.top,
+      bottom: verticalSpacing.bottom);
 
   EdgeInsets get _contentPadding => contentPadding ?? EdgeInsets.zero;
 

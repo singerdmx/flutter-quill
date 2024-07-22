@@ -602,7 +602,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.line,
       this.leading,
       this.body,
-      this.indentWidth,
+      this.horizontalSpacing,
       this.verticalSpacing,
       this.textDirection,
       this.textSelection,
@@ -616,7 +616,7 @@ class EditableTextLine extends RenderObjectWidget {
   final Line line;
   final Widget? leading;
   final Widget body;
-  final double indentWidth;
+  final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
   final TextDirection textDirection;
   final TextSelection textSelection;
@@ -666,7 +666,8 @@ class EditableTextLine extends RenderObjectWidget {
 
   EdgeInsetsGeometry _getPadding() {
     return EdgeInsetsDirectional.only(
-        start: indentWidth,
+        start: horizontalSpacing.left,
+        end: horizontalSpacing.right,
         top: verticalSpacing.top,
         bottom: verticalSpacing.bottom);
   }
