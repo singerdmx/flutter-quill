@@ -98,6 +98,6 @@ QuillEditor.basic(
 );
 ```
 
-Then, voilá, it should look as:
+Then, it should look as:
 
 ![HighlightAttr applied on the Quill Editor](https://github.com/user-attachments/assets/89c7bda5-f0de-4832-bcaa-8e0ccbe9be18)
