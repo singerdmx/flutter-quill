@@ -4,6 +4,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.4
+
+* Add ability to set up horizontal spacing for block style by @dimkanovikov in https://github.com/singerdmx/flutter-quill/pull/2051
+* add catalan language by @spilioio in https://github.com/singerdmx/flutter-quill/pull/2054
+
+## New Contributors
+* @dimkanovikov made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2051
+* @spilioio made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2054
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.3...v10.0.4
+
 ## 10.0.3
 
 * doc(Delta): more documentation about Delta by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2042
