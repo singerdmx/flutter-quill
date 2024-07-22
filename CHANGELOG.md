@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.3
+
+* doc(Delta): more documentation about Delta by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2042
+* doc(attribute): added documentation about Attribute class and how create one by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2048
+* if magnifier removes toolbar, restore it when it is hidden by @mtallenca in https://github.com/singerdmx/flutter-quill/pull/2049
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.2...v10.0.3
+
 ## 10.0.2
 
 * chore(scripts): migrate the scripts from sh to dart by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2036
