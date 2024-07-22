@@ -8,6 +8,7 @@ import 'package:meta/meta.dart' show experimental;
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
 import '../common/structs/offset_value.dart';
+import '../common/utils/embeds.dart';
 import '../delta/delta_diff.dart';
 import '../delta/delta_x.dart';
 import '../document/attribute.dart';
@@ -515,6 +516,12 @@ class QuillController extends ChangeNotifier {
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 
+    final pasteUsingInternalImageSuccess = await _pasteInternalImage();
+    if (pasteUsingInternalImageSuccess) {
+      updateEditor?.call();
+      return true;
+    }
+
     final pasteUsingHtmlSuccess = await _pasteHTML();
     if (pasteUsingHtmlSuccess) {
       updateEditor?.call();
@@ -572,6 +579,34 @@ class QuillController extends ChangeNotifier {
       deltaFromClipboard,
       TextSelection.collapsed(offset: selection.end),
     );
+  }
+
+  /// Return true if can paste internal image
+  Future<bool> _pasteInternalImage() async {
+    final copiedImageUrl = _copiedImageUrl;
+    if (copiedImageUrl != null) {
+      final index = selection.baseOffset;
+      final length = selection.extentOffset - index;
+      replaceText(
+        index,
+        length,
+        BlockEmbed.image(copiedImageUrl.url),
+        null,
+      );
+      if (copiedImageUrl.styleString.isNotEmpty) {
+        formatText(
+          getEmbedNode(this, index + 1).offset,
+          1,
+          StyleAttribute(copiedImageUrl.styleString),
+        );
+      }
+      _copiedImageUrl = null;
+      await Clipboard.setData(
+        const ClipboardData(text: ''),
+      );
+      return true;
+    }
+    return false;
   }
 
   /// Return true if can paste using HTML

@@ -558,35 +558,43 @@ class PreserveInlineStylesRule extends InsertRule {
 
     final documentDelta = document.toDelta();
     final itr = DeltaIterator(documentDelta);
+    len ??= 0;
     var prev = itr.skip(len == 0 ? index : index + 1);
+    var excludeLinkAtLineStart = false;
 
-    if (prev == null || prev.data is! String) return null;
-
-    /// Trap for simple insertions at start of line
+    /// Process simple insertions at start of line
     if (len == 0) {
-      final prevData = prev.data as String;
-      if (prevData.endsWith('\n')) {
-        /// If current line is empty get attributes from a prior line
-        final currLine = itr.next();
-        final currData =
-            currLine.data is String ? currLine.data as String : null;
-        if (currData?.isEmpty == true || currData?.startsWith('\n') == true) {
-          if (prevData.trimRight().isEmpty) {
-            final back =
-                DeltaIterator(documentDelta).skip(index - prevData.length);
-            if (back != null && back.data is String) {
-              prev = back;
+      final currLine = itr.next();
+
+      /// Trap for previous is not text with attributes
+      if (prev?.data is! String) {
+        prev = currLine;
+        excludeLinkAtLineStart = true;
+      } else {
+        final prevData = prev!.data as String;
+        if (prevData.endsWith('\n')) {
+          /// If current line is empty get attributes from a prior line
+          final currData =
+              currLine.data is String ? currLine.data as String : null;
+          if (currData?.startsWith('\n') == true) {
+            if (prevData.trimRight().isEmpty) {
+              final back =
+                  DeltaIterator(documentDelta).skip(index - prevData.length);
+              if (back != null && back.data is String) {
+                prev = back;
+              }
             }
+          } else {
+            prev = currLine;
+            excludeLinkAtLineStart = true;
           }
-        } else {
-          prev = currLine;
         }
       }
     }
 
     final attributes = <String, dynamic>{};
-    if (prev.attributes != null) {
-      for (final entry in prev.attributes!.entries) {
+    if (prev?.attributes != null) {
+      for (final entry in prev!.attributes!.entries) {
         if (Attribute.inlineKeys.contains(entry.key)) {
           attributes[entry.key] = entry.value;
         }
@@ -596,29 +604,12 @@ class PreserveInlineStylesRule extends InsertRule {
       return null;
     }
 
-    final text = data;
-    if (attributes.isEmpty || !attributes.containsKey(Attribute.link.key)) {
-      return Delta()
-        ..retain(index + (len ?? 0))
-        ..insert(text, attributes);
+    if (excludeLinkAtLineStart) {
+      attributes.remove(Attribute.link.key);
     }
-
-    attributes.remove(Attribute.link.key);
-    final delta = Delta()
-      ..retain(index + (len ?? 0))
-      ..insert(text, attributes.isEmpty ? null : attributes);
-    final next = itr.next();
-
-    final nextAttributes = next.attributes ?? const <String, dynamic>{};
-    if (!nextAttributes.containsKey(Attribute.link.key)) {
-      return delta;
-    }
-    if (attributes[Attribute.link.key] == nextAttributes[Attribute.link.key]) {
-      return Delta()
-        ..retain(index + (len ?? 0))
-        ..insert(text, attributes);
-    }
-    return delta;
+    return Delta()
+      ..retain(index + len)
+      ..insert(data, attributes.isEmpty ? null : attributes);
   }
 }
 
