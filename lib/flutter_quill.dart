@@ -1,5 +1,6 @@
 library flutter_quill;
 
+export 'src/common/structs/horizontal_spacing.dart';
 export 'src/common/structs/image_url.dart';
 export 'src/common/structs/offset_value.dart';
 export 'src/common/structs/optional_size.dart';

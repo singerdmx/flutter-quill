@@ -20,6 +20,7 @@ import 'package:flutter/services.dart'
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
 
+import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
 import '../../common/utils/cast.dart';
@@ -1011,6 +1012,7 @@ class QuillRawEditorState extends EditorState
           controller: controller,
           textDirection: getDirectionOfNode(node),
           scrollBottomInset: widget.configurations.scrollBottomInset,
+          horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
           verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
           textSelection: controller.selection,
           color: widget.configurations.selectionColor,
@@ -1069,7 +1071,7 @@ class QuillRawEditorState extends EditorState
         node,
         null,
         textLine,
-        0,
+        _getHorizontalSpacingForLine(node, _styles),
         _getVerticalSpacingForLine(node, _styles),
         _textDirection,
         controller.selection,
@@ -1079,6 +1081,39 @@ class QuillRawEditorState extends EditorState
         MediaQuery.devicePixelRatioOf(context),
         _cursorCont);
     return editableTextLine;
+  }
+
+  HorizontalSpacing _getHorizontalSpacingForLine(
+    Line line,
+    DefaultStyles? defaultStyles,
+  ) {
+    final attrs = line.style.attributes;
+    if (attrs.containsKey(Attribute.header.key)) {
+      int level;
+      if (attrs[Attribute.header.key]!.value is double) {
+        level = attrs[Attribute.header.key]!.value.toInt();
+      } else {
+        level = attrs[Attribute.header.key]!.value;
+      }
+      switch (level) {
+        case 1:
+          return defaultStyles!.h1!.horizontalSpacing;
+        case 2:
+          return defaultStyles!.h2!.horizontalSpacing;
+        case 3:
+          return defaultStyles!.h3!.horizontalSpacing;
+        case 4:
+          return defaultStyles!.h4!.horizontalSpacing;
+        case 5:
+          return defaultStyles!.h5!.horizontalSpacing;
+        case 6:
+          return defaultStyles!.h6!.horizontalSpacing;
+        default:
+          throw ArgumentError('Invalid level $level');
+      }
+    }
+
+    return defaultStyles!.paragraph!.horizontalSpacing;
   }
 
   VerticalSpacing _getVerticalSpacingForLine(
@@ -1112,6 +1147,23 @@ class QuillRawEditorState extends EditorState
     }
 
     return defaultStyles!.paragraph!.verticalSpacing;
+  }
+
+  HorizontalSpacing _getHorizontalSpacingForBlock(
+      Block node, DefaultStyles? defaultStyles) {
+    final attrs = node.style.attributes;
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return defaultStyles!.quote!.horizontalSpacing;
+    } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+      return defaultStyles!.code!.horizontalSpacing;
+    } else if (attrs.containsKey(Attribute.indent.key)) {
+      return defaultStyles!.indent!.horizontalSpacing;
+    } else if (attrs.containsKey(Attribute.list.key)) {
+      return defaultStyles!.lists!.horizontalSpacing;
+    } else if (attrs.containsKey(Attribute.align.key)) {
+      return defaultStyles!.align!.horizontalSpacing;
+    }
+    return const HorizontalSpacing(0, 0);
   }
 
   VerticalSpacing _getVerticalSpacingForBlock(
