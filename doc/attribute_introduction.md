@@ -14,8 +14,8 @@ The attributes has an Scope that limit where start and end the `Attribute`. The 
 enum AttributeScope {
   inline, // just the selected text will apply the attribute (like: bold, italic or strike)
   block, // all the paragraph will apply the attribute (like: Header, Alignment or CodeBlock)
-  embeds, // the attr will be taked as a different part of any paragraph or line working as a block (By now not works as an inline)
-  ignore, // there are attribute that can be applied, but, on Retain operations will be ignored
+  embeds, // the attr will be taked as a different part of any paragraph or line, working as a block (By now not works as an inline)
+  ignore, // the attribute can be applied, but on Retain operations will be ignored
 }
 ```
 
