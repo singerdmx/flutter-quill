@@ -181,6 +181,7 @@ class EditorTextSelectionOverlay {
 
   /// A copy/paste toolbar.
   OverlayEntry? toolbar;
+  bool _restoreToolbar = false;
 
   TextSelection get _selection => value.selection;
 
@@ -411,8 +412,12 @@ class EditorTextSelectionOverlay {
   void _showMagnifier(MagnifierInfo initialMagnifierInfo) {
     // 隐藏toolbar
     if (toolbar != null) {
+      _restoreToolbar = true;
       hideToolbar();
+    } else {
+      _restoreToolbar = false;
     }
+
     // 更新 magnifierInfo
     _magnifierInfo.value = initialMagnifierInfo;
 
@@ -456,6 +461,10 @@ class EditorTextSelectionOverlay {
       return;
     }
     _magnifierController.hide();
+    if (_restoreToolbar) {
+      _restoreToolbar = false;
+      showToolbar();
+    }
   }
 
   // build magnifier info
