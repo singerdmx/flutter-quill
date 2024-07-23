@@ -299,6 +299,7 @@ class QuillEditorState extends State<QuillEditor>
               scribbleAreaInsets: configurations.scribbleAreaInsets,
               readOnlyMouseCursor: configurations.readOnlyMouseCursor,
               magnifierConfiguration: configurations.magnifierConfiguration,
+              textInputAction: configurations.textInputAction,
             ),
           ),
         ),
