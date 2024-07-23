@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.5
+
+* Add tests for PreserveInlineStylesRule and fix link editing. Other minor fixes. by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2058
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.4...v10.0.5
+
 ## 10.0.4
 
 * Add ability to set up horizontal spacing for block style by @dimkanovikov in https://github.com/singerdmx/flutter-quill/pull/2051
