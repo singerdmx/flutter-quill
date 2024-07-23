@@ -11,7 +11,6 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
     show
         Clipboard,
-        ClipboardData,
         HardwareKeyboard,
         KeyDownEvent,
         LogicalKeyboardKey,
@@ -24,7 +23,6 @@ import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
 import '../../common/utils/cast.dart';
-import '../../common/utils/embeds.dart';
 import '../../common/utils/platform.dart';
 import '../../controller/quill_controller.dart';
 import '../../delta/delta_diff.dart';
@@ -152,31 +150,6 @@ class QuillRawEditorState extends EditorState
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
     if (controller.readOnly) {
-      return;
-    }
-
-    // When image copied internally in the editor
-    final copiedImageUrl = controller.copiedImageUrl;
-    if (copiedImageUrl != null) {
-      final index = textEditingValue.selection.baseOffset;
-      final length = textEditingValue.selection.extentOffset - index;
-      controller.replaceText(
-        index,
-        length,
-        BlockEmbed.image(copiedImageUrl.url),
-        null,
-      );
-      if (copiedImageUrl.styleString.isNotEmpty) {
-        controller.formatText(
-          getEmbedNode(controller, index + 1).offset,
-          1,
-          StyleAttribute(copiedImageUrl.styleString),
-        );
-      }
-      controller.copiedImageUrl = null;
-      await Clipboard.setData(
-        const ClipboardData(text: ''),
-      );
       return;
     }
 
@@ -909,6 +882,7 @@ class QuillRawEditorState extends EditorState
       for (final attr in style.values) {
         controller.formatSelection(attr);
       }
+      controller.formatSelection(attribute);
     }
   }
 
