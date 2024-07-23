@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.6
+
+* fix: textInputAction is not set when creating QuillRawEditorConfiguration by @huandu in https://github.com/singerdmx/flutter-quill/pull/2057
+
+## New Contributors
+* @huandu made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2057
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.5...v10.0.6
+
 ## 10.0.5
 
 * Add tests for PreserveInlineStylesRule and fix link editing. Other minor fixes. by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2058
