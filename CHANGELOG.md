@@ -4,6 +4,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.9
+
+* Fix: manual checking of directionality by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2063
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.8...v10.0.9
+
+## 10.0.8
+
+* feat: add callback to handle performAction by @huandu in https://github.com/singerdmx/flutter-quill/pull/2061
+* fix: Invalid selection when tapping placeholder text by @huandu in https://github.com/singerdmx/flutter-quill/pull/2062
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.7...v10.0.8
+
+## 10.0.7
+
+* Fix: RTL issues by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2060
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.6...v10.0.7
+
 ## 10.0.6
 
 * fix: textInputAction is not set when creating QuillRawEditorConfiguration by @huandu in https://github.com/singerdmx/flutter-quill/pull/2057
