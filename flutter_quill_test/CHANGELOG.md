@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.7
+
+* Fix: RTL issues by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2060
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.6...v10.0.7
+
 ## 10.0.6
 
 * fix: textInputAction is not set when creating QuillRawEditorConfiguration by @huandu in https://github.com/singerdmx/flutter-quill/pull/2057
