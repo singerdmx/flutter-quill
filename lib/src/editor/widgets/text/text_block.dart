@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 
 import '../../../common/structs/horizontal_spacing.dart';
 import '../../../common/structs/vertical_spacing.dart';
+import '../../../common/utils/directionality.dart';
 import '../../../common/utils/font.dart';
 import '../../../controller/quill_controller.dart';
 import '../../../delta/delta_diff.dart';
@@ -134,6 +135,15 @@ class EditableTextBlock extends StatelessWidget {
       Block node, DefaultStyles? defaultStyles) {
     final attrs = block.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
+      // Verify if the direction is RTL and avoid passing the decoration
+      // to the left when need to be on right side
+      if(textDirection == TextDirection.rtl){
+        return defaultStyles!.quote!.decoration?.copyWith(
+          border: Border(
+            right: BorderSide(width: 4, color: Colors.grey.shade300),
+          ),
+        );
+      }
       return defaultStyles!.quote!.decoration;
     }
     if (attrs.containsKey(Attribute.codeBlock.key)) {
@@ -184,7 +194,14 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
       );
-      final nodeTextDirection = getDirectionOfNode(line);
+      var nodeTextDirection = getDirectionOfNode(line);
+      // verify if the direction from nodeTextDirection is the default direction 
+      // and watch if the system language is a RTL language and avoid putting
+      // to the edge of the left side any checkbox or list point/number if is a
+      // RTL language
+      if(nodeTextDirection == TextDirection.ltr && isRTL(context)){
+        nodeTextDirection = TextDirection.rtl; 
+      }
       children.add(
         Directionality(
           textDirection: nodeTextDirection,

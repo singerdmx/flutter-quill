@@ -23,6 +23,7 @@ import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
 import '../../common/utils/cast.dart';
+import '../../common/utils/directionality.dart';
 import '../../common/utils/platform.dart';
 import '../../controller/quill_controller.dart';
 import '../../delta/delta_diff.dart';
@@ -975,16 +976,23 @@ class QuillRawEditorState extends EditorState
       }
 
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
-
+      var nodeTextDirection = getDirectionOfNode(node);
+      // verify if the direction from nodeTextDirection is the default direction 
+      // and watch if the system language is a RTL language and avoid putting
+      // to the edge of the left side any checkbox or list point/number if is a
+      // RTL language
+      if(nodeTextDirection == TextDirection.ltr && isRTL(context)){
+        nodeTextDirection = TextDirection.rtl; 
+      }
       if (node is Line) {
         final editableTextLine = _getEditableTextLineFromNode(node, context);
         result.add(Directionality(
-            textDirection: getDirectionOfNode(node), child: editableTextLine));
+            textDirection: nodeTextDirection, child: editableTextLine));
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
           block: node,
           controller: controller,
-          textDirection: getDirectionOfNode(node),
+          textDirection: nodeTextDirection,
           scrollBottomInset: widget.configurations.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
           verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
@@ -1011,7 +1019,7 @@ class QuillRawEditorState extends EditorState
         );
         result.add(
           Directionality(
-            textDirection: getDirectionOfNode(node),
+            textDirection: nodeTextDirection,
             child: editableTextBlock,
           ),
         );
