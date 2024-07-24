@@ -17,6 +17,7 @@ import '../document/nodes/embeddable.dart';
 import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
+import '../editor/config/editor_configurations.dart';
 import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import 'quill_controller_configurations.dart';
 
@@ -485,6 +486,9 @@ class QuillController extends ChangeNotifier {
   /// Used to give focus to the editor following a toolbar action
   FocusNode? editorFocusNode;
 
+  /// Used to access embedBuilders for clipboard output
+  QuillEditorConfigurations? editorConfigurations;
+
   ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;
 
@@ -495,7 +499,12 @@ class QuillController extends ChangeNotifier {
 
   bool clipboardSelection(bool copy) {
     copiedImageUrl = null;
-    _pastePlainText = getPlainText();
+
+    /// Get the text for the selected region and expand the content of Embedded objects.
+    _pastePlainText = document.getPlainText(
+        selection.start, selection.end - selection.start, editorConfigurations);
+
+    /// Get the internal representation so it can be pasted into a QuillEditor with style retained.
     _pasteStyleAndEmbed = getAllIndividualSelectionStylesAndEmbed();
 
     if (!selection.isCollapsed) {
