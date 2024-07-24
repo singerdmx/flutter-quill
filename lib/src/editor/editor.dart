@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../common/utils/platform.dart';
+import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/container.dart' as container_node;
 import '../document/nodes/leaf.dart';
@@ -984,6 +985,13 @@ class RenderEditor extends RenderEditableContainerBox
       start: localWord.start + nodeOffset,
       end: localWord.end + nodeOffset,
     );
+
+    // Don't change selection if the selected word is a placeholder.
+    if (child.container.style.attributes
+        .containsKey(Attribute.placeholder.key)) {
+      return;
+    }
+
     if (position.offset - word.start <= 1 && word.end != position.offset) {
       _handleSelectionChange(
         TextSelection.collapsed(offset: word.start),
