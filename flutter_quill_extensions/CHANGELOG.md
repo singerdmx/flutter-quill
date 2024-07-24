@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.9
+
+* Fix: manual checking of directionality by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2063
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.8...v10.0.9
+
 ## 10.0.8
 
 * feat: add callback to handle performAction by @huandu in https://github.com/singerdmx/flutter-quill/pull/2061
