@@ -23,7 +23,6 @@ import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
 import '../../common/utils/cast.dart';
-import '../../common/utils/directionality.dart';
 import '../../common/utils/platform.dart';
 import '../../controller/quill_controller.dart';
 import '../../delta/delta_diff.dart';
@@ -981,7 +980,8 @@ class QuillRawEditorState extends EditorState
       // and watch if the system language is a RTL language and avoid putting
       // to the edge of the left side any checkbox or list point/number if is a
       // RTL language
-      if (nodeTextDirection == TextDirection.ltr && isRTL(context)) {
+      if (nodeTextDirection == TextDirection.ltr &&
+          _textDirection == TextDirection.rtl) {
         nodeTextDirection = TextDirection.rtl;
       }
       if (node is Line) {

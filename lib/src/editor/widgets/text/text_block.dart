@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 
 import '../../../common/structs/horizontal_spacing.dart';
 import '../../../common/structs/vertical_spacing.dart';
-import '../../../common/utils/directionality.dart';
 import '../../../common/utils/font.dart';
 import '../../../controller/quill_controller.dart';
 import '../../../delta/delta_diff.dart';
@@ -199,7 +198,8 @@ class EditableTextBlock extends StatelessWidget {
       // and watch if the system language is a RTL language and avoid putting
       // to the edge of the left side any checkbox or list point/number if is a
       // RTL language
-      if (nodeTextDirection == TextDirection.ltr && isRTL(context)) {
+      if (nodeTextDirection == TextDirection.ltr &&
+          textDirection == TextDirection.rtl) {
         nodeTextDirection = TextDirection.rtl;
       }
       children.add(
