@@ -977,12 +977,12 @@ class QuillRawEditorState extends EditorState
 
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
       var nodeTextDirection = getDirectionOfNode(node);
-      // verify if the direction from nodeTextDirection is the default direction 
+      // verify if the direction from nodeTextDirection is the default direction
       // and watch if the system language is a RTL language and avoid putting
       // to the edge of the left side any checkbox or list point/number if is a
       // RTL language
-      if(nodeTextDirection == TextDirection.ltr && isRTL(context)){
-        nodeTextDirection = TextDirection.rtl; 
+      if (nodeTextDirection == TextDirection.ltr && isRTL(context)) {
+        nodeTextDirection = TextDirection.rtl;
       }
       if (node is Line) {
         final editableTextLine = _getEditableTextLineFromNode(node, context);
