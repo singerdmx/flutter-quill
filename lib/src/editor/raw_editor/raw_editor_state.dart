@@ -980,7 +980,8 @@ class QuillRawEditorState extends EditorState
       // and watch if the system language is a RTL language and avoid putting
       // to the edge of the left side any checkbox or list point/number if is a
       // RTL language
-      if (nodeTextDirection == TextDirection.ltr && _textDirection == TextDirection.rtl) {
+      if (nodeTextDirection == TextDirection.ltr &&
+          _textDirection == TextDirection.rtl) {
         nodeTextDirection = TextDirection.rtl;
       }
       if (node is Line) {
