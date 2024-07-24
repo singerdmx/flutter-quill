@@ -212,7 +212,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   @override
   void performAction(TextInputAction action) {
-    // no-op
+    widget.configurations.onPerformAction?.call(action);
   }
 
   @override

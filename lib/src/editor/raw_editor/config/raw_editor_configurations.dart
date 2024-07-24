@@ -89,6 +89,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.magnifierConfiguration,
+    this.onPerformAction,
   });
 
   /// Controls the document being edited.
@@ -340,6 +341,9 @@ class QuillRawEditorConfigurations extends Equatable {
   final EdgeInsets? scribbleAreaInsets;
 
   final TextMagnifierConfiguration? magnifierConfiguration;
+
+  /// Called when a text input action is performed.
+  final void Function(TextInputAction action)? onPerformAction;
 
   @override
   List<Object?> get props => [
