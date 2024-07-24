@@ -81,6 +81,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onScribbleActivated,
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
+    this.onPerformAction,
   });
 
   final QuillSharedConfigurations sharedConfigurations;
@@ -374,6 +375,9 @@ class QuillEditorConfigurations extends Equatable {
   /// Optional insets for the scribble area.
   final EdgeInsets? scribbleAreaInsets;
 
+  /// Called when a text input action is performed.
+  final void Function(TextInputAction action)? onPerformAction;
+
   @override
   List<Object?> get props => [
         placeholder,
@@ -437,6 +441,7 @@ class QuillEditorConfigurations extends Equatable {
     bool? enableScribble,
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
+    void Function(TextInputAction action)? onPerformAction,
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
@@ -503,6 +508,7 @@ class QuillEditorConfigurations extends Equatable {
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
+      onPerformAction: onPerformAction ?? this.onPerformAction,
     );
   }
 }
