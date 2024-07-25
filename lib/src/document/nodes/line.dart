@@ -527,7 +527,10 @@ base class Line extends QuillContainer<Leaf?> {
       // returning Embed.kObjectReplacementCharacter for the buffer
       final action = provider.getCopyCutAction(embed.type);
       final data = action.call(embed.data);
-      if (data is String && data != Embed.kObjectReplacementCharacter) {
+      // This conditional avoid an issue where the plain data copied
+      // to the clipboard, when it is pasted on the editor
+      // the content has a unexpected behaviors
+      if (data != Embed.kObjectReplacementCharacter) {
         buffer.write(data);
         return remaining;
       } else {
