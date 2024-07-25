@@ -174,16 +174,28 @@ class QuillEditorState extends State<QuillEditor>
   @override
   void initState() {
     super.initState();
-    widget.configurations.controller.editorFocusNode ??= widget.focusNode;
-    if (configurations.autoFocus) {
-      widget.configurations.controller.editorFocusNode?.requestFocus();
-    }
+
     _editorKey = configurations.editorKey ?? GlobalKey<EditorState>();
     _selectionGestureDetectorBuilder =
         _QuillEditorSelectionGestureDetectorBuilder(
       this,
       configurations.detectWordBoundary,
     );
+
+    final focusNode =
+        widget.configurations.controller.editorFocusNode ?? widget.focusNode;
+    widget.configurations.controller.editorFocusNode = focusNode;
+
+    if (configurations.autoFocus) {
+      focusNode.requestFocus();
+    }
+
+    // Hide toolbar when the editor loses focus.
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus) {
+        _editorKey.currentState?.hideToolbar();
+      }
+    });
   }
 
   @override
