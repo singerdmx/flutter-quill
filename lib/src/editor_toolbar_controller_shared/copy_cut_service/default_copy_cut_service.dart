@@ -8,7 +8,7 @@ import 'copy_cut_service.dart';
 /// flutter quill plugins
 class DefaultCopyCutService extends CopyCutService {
   @override
-  CopyCutAction? getCopyCutAction(String type) {
+  CopyCutAction getCopyCutAction(String type) {
     return (data) => Embed.kObjectReplacementCharacter;
   }
 }

@@ -9,5 +9,5 @@ abstract class CopyCutService {
   /// Get the CopyCutAction by the type
   /// of the embeddable (this type is decided by
   /// the property type of that class)
-  CopyCutAction? getCopyCutAction(String type);
+  CopyCutAction getCopyCutAction(String type);
 }
