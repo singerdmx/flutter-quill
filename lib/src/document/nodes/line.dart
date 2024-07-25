@@ -526,12 +526,12 @@ base class Line extends QuillContainer<Leaf?> {
       // By default getCopyCutAction just return the same operation
       // returning Embed.kObjectReplacementCharacter for the buffer
       final action = provider.getCopyCutAction(embed.type);
-      final data = action?.call(embed.data);
+      final data = action.call(embed.data);
       if (data is String && data != Embed.kObjectReplacementCharacter) {
         buffer.write(data);
         return remaining;
       } else {
-        buffer.write(action?.call(data));
+        buffer.write(action.call(data));
       }
       return remaining - node.length;
     }
