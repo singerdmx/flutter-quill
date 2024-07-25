@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import '../../../../quill_delta.dart';
 import '../../common/structs/offset_value.dart';
 import '../../editor/embed/embed_editor_builder.dart';
+import '../../editor_toolbar_controller_shared/copy_cut_service/copy_cut_service_provider.dart';
 import '../attribute.dart';
 import '../style.dart';
 import 'block.dart';
@@ -520,7 +521,21 @@ base class Line extends QuillContainer<Leaf?> {
   int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining) {
     final text = node.toPlainText();
     if (text == Embed.kObjectReplacementCharacter) {
-      buffer.write(Embed.kObjectReplacementCharacter);
+      final embed = node.value as Embeddable;
+      final provider = CopyCutServiceProvider.instance;
+      // By default getCopyCutAction just return the same operation
+      // returning Embed.kObjectReplacementCharacter for the buffer
+      final action = provider.getCopyCutAction(embed.type);
+      final data = action.call(embed.data);
+      // This conditional avoid an issue where the plain data copied
+      // to the clipboard, when it is pasted on the editor
+      // the content has a unexpected behaviors
+      if (data != Embed.kObjectReplacementCharacter) {
+        buffer.write(data);
+        return remaining;
+      } else {
+        buffer.write(action.call(data));
+      }
       return remaining - node.length;
     }
 
