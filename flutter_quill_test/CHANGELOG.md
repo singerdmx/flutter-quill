@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.0
+
+* Feat: support for customize copy and cut Embeddables to Clipboard by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2067
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.10...v10.1.0
+
 ## 10.0.10
 
 * fix: Hide selection toolbar if editor loses focus by @huandu in https://github.com/singerdmx/flutter-quill/pull/2066
