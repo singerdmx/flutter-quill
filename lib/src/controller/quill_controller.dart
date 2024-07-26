@@ -477,10 +477,13 @@ class QuillController extends ChangeNotifier {
 
   /// Clipboard caches last copy to allow paste with styles. Static to allow paste between multiple instances of editor.
   static String _pastePlainText = '';
+  static Delta _pasteDelta = Delta();
   static List<OffsetValue> _pasteStyleAndEmbed = <OffsetValue>[];
 
   String get pastePlainText => _pastePlainText;
+  Delta get pasteDelta => _pasteDelta;
   List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
+
   bool readOnly;
 
   /// Used to give focus to the editor following a toolbar action
@@ -506,6 +509,9 @@ class QuillController extends ChangeNotifier {
 
     /// Get the internal representation so it can be pasted into a QuillEditor with style retained.
     _pasteStyleAndEmbed = getAllIndividualSelectionStylesAndEmbed();
+
+    /// Get the deltas for the selection so they can be pasted into a QuillEditor with styles and embeds retained.
+    _pasteDelta = document.toDelta().slice(selection.start, selection.end);
 
     if (!selection.isCollapsed) {
       Clipboard.setData(ClipboardData(text: _pastePlainText));
@@ -547,27 +553,13 @@ class QuillController extends ChangeNotifier {
     // See https://github.com/flutter/flutter/issues/11427
     final plainTextClipboardData =
         await Clipboard.getData(Clipboard.kTextPlain);
-    if (plainTextClipboardData != null) {
-      final lines = plainTextClipboardData.text!.split('\n');
-      for (var i = 0; i < lines.length; ++i) {
-        final line = lines[i];
-        if (line.isNotEmpty) {
-          replaceTextWithEmbeds(
-            selection.start,
-            selection.end - selection.start,
-            line,
-            TextSelection.collapsed(offset: selection.start + line.length),
-          );
-        }
-        if (i != lines.length - 1) {
-          document.insert(selection.extentOffset, '\n');
-          _updateSelection(
-            TextSelection.collapsed(
-              offset: selection.extentOffset + 1,
-            ),
-            insertNewline: true,
-          );
-        }
+    if (plainTextClipboardData?.text != null) {
+
+      /// Internal copy-paste preserves styles and embeds
+      if ( plainTextClipboardData!.text == _pastePlainText && _pastePlainText.isNotEmpty && _pasteDelta.isNotEmpty ) {
+        replaceText(selection.start, selection.end - selection.start, _pasteDelta, TextSelection.collapsed(offset: selection.end));
+      } else {
+        replaceText(selection.start, selection.end - selection.start, plainTextClipboardData.text, TextSelection.collapsed(offset: selection.end + plainTextClipboardData.text!.length));
       }
       updateEditor?.call();
       return true;
