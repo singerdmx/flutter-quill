@@ -104,8 +104,8 @@ Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEdi
 
 **Quill Toolbar**:
 ```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
+QuillToolbar.simple(
+  configurations: QuillSimpleToolbarConfigurations(
     embedButtons: FlutterQuillEmbeds.toolbarButtons(),
   ),
 ),
