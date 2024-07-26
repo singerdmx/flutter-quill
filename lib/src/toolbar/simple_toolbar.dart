@@ -280,7 +280,7 @@ class QuillSimpleToolbar extends StatelessWidget
         final buttons = groups[i];
 
         if (buttons.isNotEmpty) {
-          if (i > 0 && buttons.isNotEmpty) {
+          if (buttonsAll.isNotEmpty) {
             buttonsAll.add(divider);
           }
           buttonsAll.addAll(buttons);
