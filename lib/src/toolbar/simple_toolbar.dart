@@ -281,10 +281,9 @@ class QuillSimpleToolbar extends StatelessWidget
 
         if (buttons.isNotEmpty) {
           if (i > 0 && buttons.isNotEmpty) {
-            buttonsAll
-              ..add(divider)
-              ..addAll(buttons);
+            buttonsAll.add(divider);
           }
+          buttonsAll.addAll(buttons);
         }
       }
 
