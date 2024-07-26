@@ -40,18 +40,24 @@ class QuillController extends ChangeNotifier {
         _selection = selection;
 
   factory QuillController.basic(
-      {QuillControllerConfigurations configurations =
-          const QuillControllerConfigurations(),
-      FocusNode? editorFocusNode}) {
-    return QuillController(
-      configurations: configurations,
-      editorFocusNode: editorFocusNode,
-      document: Document(),
-      selection: const TextSelection.collapsed(offset: 0),
-    );
-  }
+          {QuillControllerConfigurations configurations =
+              const QuillControllerConfigurations(),
+          FocusNode? editorFocusNode}) =>
+      QuillController(
+        configurations: configurations,
+        editorFocusNode: editorFocusNode,
+        document: Document(),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
 
   final QuillControllerConfigurations configurations;
+
+  /// Local copy of editor configurations enables fail-safe setting from editor _initState method
+  QuillEditorConfigurations? _editorConfigurations;
+  QuillEditorConfigurations? get editorConfigurations =>
+      configurations.editorConfigurations ?? _editorConfigurations;
+  set editorConfigurations(QuillEditorConfigurations? value) =>
+      _editorConfigurations = value;
 
   /// Document managed by this controller.
   Document _document;
@@ -403,7 +409,8 @@ class QuillController extends ChangeNotifier {
     }
 
     textSelection = selection.copyWith(
-      baseOffset: delta.transformPosition(selection.baseOffset, force: false),
+      baseOffset:
+          delta.transformPosition(selection.baseOffset, force: false),
       extentOffset: delta.transformPosition(
         selection.extentOffset,
         force: false,
@@ -489,9 +496,6 @@ class QuillController extends ChangeNotifier {
   /// Used to give focus to the editor following a toolbar action
   FocusNode? editorFocusNode;
 
-  /// Used to access embedBuilders for clipboard output
-  QuillEditorConfigurations? editorConfigurations;
-
   ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;
 
@@ -553,14 +557,7 @@ class QuillController extends ChangeNotifier {
     // See https://github.com/flutter/flutter/issues/11427
     final plainTextClipboardData =
         await Clipboard.getData(Clipboard.kTextPlain);
-    if (plainTextClipboardData?.text != null) {
-
-      /// Internal copy-paste preserves styles and embeds
-      if ( plainTextClipboardData!.text == _pastePlainText && _pastePlainText.isNotEmpty && _pasteDelta.isNotEmpty ) {
-        replaceText(selection.start, selection.end - selection.start, _pasteDelta, TextSelection.collapsed(offset: selection.end));
-      } else {
-        replaceText(selection.start, selection.end - selection.start, plainTextClipboardData.text, TextSelection.collapsed(offset: selection.end + plainTextClipboardData.text!.length));
-      }
+    if (pasteUsingPlainOrDelta(plainTextClipboardData?.text)) {
       updateEditor?.call();
       return true;
     }
@@ -570,6 +567,28 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
+    return false;
+  }
+
+  /// Internal method to allow unit testing
+  bool pasteUsingPlainOrDelta(String? clipboardText) {
+    if (clipboardText != null) {
+      /// Internal copy-paste preserves styles and embeds
+      if (clipboardText == _pastePlainText &&
+          _pastePlainText.isNotEmpty &&
+          _pasteDelta.isNotEmpty) {
+        replaceText(selection.start, selection.end - selection.start,
+            _pasteDelta, TextSelection.collapsed(offset: selection.end));
+      } else {
+        replaceText(
+            selection.start,
+            selection.end - selection.start,
+            clipboardText,
+            TextSelection.collapsed(
+                offset: selection.end + clipboardText.length));
+      }
+      return true;
+    }
     return false;
   }
 

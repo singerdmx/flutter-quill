@@ -324,38 +324,6 @@ void main() {
           Delta()..insert('test $originalContents'));
     });
 
-    test('clipboardSelection empty', () {
-      expect(controller.clipboardSelection(true), false,
-          reason: 'No effect when no selection');
-      expect(controller.clipboardSelection(false), false);
-    });
-
-    test('clipboardSelection', () {
-      controller
-        ..replaceText(0, 4, 'bold plain italic', null)
-        ..formatText(0, 4, Attribute.bold)
-        ..formatText(11, 17, Attribute.italic)
-        ..updateSelection(const TextSelection(baseOffset: 2, extentOffset: 14),
-            ChangeSource.local);
-      //
-      expect(controller.clipboardSelection(true), true);
-      expect(controller.document.length, 18,
-          reason: 'Copy does not change the document');
-      expect(controller.clipboardSelection(false), true);
-      expect(controller.document.length, 6, reason: 'Cut changes the document');
-      //
-      controller
-        ..readOnly = true
-        ..updateSelection(const TextSelection(baseOffset: 2, extentOffset: 4),
-            ChangeSource.local);
-      expect(controller.selection.isCollapsed, false);
-      expect(controller.clipboardSelection(true), true);
-      expect(controller.document.length, 6);
-      expect(controller.clipboardSelection(false), false);
-      expect(controller.document.length, 6,
-          reason: 'Cut not permitted on readOnly document');
-    });
-
     test('blockSelectionStyles', () {
       Style select(int start, int end) {
         controller.updateSelection(

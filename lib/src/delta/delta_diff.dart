@@ -71,8 +71,8 @@ int getPositionDelta(Delta user, Delta actual) {
     }
     if (userOperation.key == actualOperation.key) {
       /// Insertions must update diff allowing for type mismatch of Operation
-      if ( userOperation.key == Operation.insertKey) {
-        if ( userOperation.data is Delta && actualOperation.data is String ) {
+      if (userOperation.key == Operation.insertKey) {
+        if (userOperation.data is Delta && actualOperation.data is String) {
           diff += actualOperation.length!;
         }
       }
