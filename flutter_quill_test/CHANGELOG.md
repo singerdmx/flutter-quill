@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.2
+
+* Fix Multiline paste with attributes and embeds by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2074
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.1...v10.1.2
+
 ## 10.1.1
 
 * Toolbar dividers fixes + Docs updates by @troyanskiy in https://github.com/singerdmx/flutter-quill/pull/2071
