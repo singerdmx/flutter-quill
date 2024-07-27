@@ -50,9 +50,10 @@ dependencies:
 ```yaml
 dependencies:
   flutter_quill_extensions:
-    git: https://github.com/singerdmx/flutter-quill.git
-    path: flutter_quill_extensions
-    ref: v<latest-version-here>
+    git: 
+      url: https://github.com/singerdmx/flutter-quill.git
+      ref: v<latest-version-here>
+      path: flutter_quill_extensions
 ```
 
 ## 🛠 Platform Specific Configurations
@@ -103,8 +104,8 @@ Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEdi
 
 **Quill Toolbar**:
 ```dart
-QuillToolbar(
-  configurations: QuillToolbarConfigurations(
+QuillToolbar.simple(
+  configurations: QuillSimpleToolbarConfigurations(
     embedButtons: FlutterQuillEmbeds.toolbarButtons(),
   ),
 ),
