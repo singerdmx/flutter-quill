@@ -4,6 +4,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.1
+
+* Toolbar dividers fixes + Docs updates by @troyanskiy in https://github.com/singerdmx/flutter-quill/pull/2071
+
+## New Contributors
+* @troyanskiy made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2071
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.0...v10.1.1
+
+## 10.1.0
+
+* Feat: support for customize copy and cut Embeddables to Clipboard by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2067
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.10...v10.1.0
+
+## 10.0.10
+
+* fix: Hide selection toolbar if editor loses focus by @huandu in https://github.com/singerdmx/flutter-quill/pull/2066
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.0.9...v10.0.10
+
 ## 10.0.9
 
 * Fix: manual checking of directionality by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2063
