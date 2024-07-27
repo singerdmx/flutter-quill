@@ -409,8 +409,7 @@ class QuillController extends ChangeNotifier {
     }
 
     textSelection = selection.copyWith(
-      baseOffset:
-          delta.transformPosition(selection.baseOffset, force: false),
+      baseOffset: delta.transformPosition(selection.baseOffset, force: false),
       extentOffset: delta.transformPosition(
         selection.extentOffset,
         force: false,
