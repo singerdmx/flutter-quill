@@ -6,6 +6,7 @@ import '../../quill_delta.dart';
 import '../common/structs/offset_value.dart';
 import '../common/structs/segment_leaf_node.dart';
 import '../delta/delta_x.dart';
+import '../editor/config/editor_configurations.dart';
 import '../editor/embed/embed_editor_builder.dart';
 import '../rules/rule.dart';
 import 'attribute.dart';
@@ -239,9 +240,9 @@ class Document {
   }
 
   /// Returns plain text within the specified text range.
-  String getPlainText(int index, int len) {
+  String getPlainText(int index, int len, [QuillEditorConfigurations? config]) {
     final res = queryChild(index);
-    return (res.node as Line).getPlainText(res.offset, len);
+    return (res.node as Line).getPlainText(res.offset, len, config);
   }
 
   /// Returns [Line] located at specified character [offset].

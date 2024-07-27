@@ -1,6 +1,15 @@
+import '../editor/config/editor_configurations.dart';
+
 class QuillControllerConfigurations {
   const QuillControllerConfigurations(
-      {this.onClipboardPaste, this.requireScriptFontFeatures = false});
+      {this.editorConfigurations,
+      this.onClipboardPaste,
+      this.requireScriptFontFeatures = false});
+
+  /// Provides central access to editor configurations required for controller actions
+  ///
+  /// Future: will be changed to 'required final'
+  final QuillEditorConfigurations? editorConfigurations;
 
   /// Callback when the user pastes and data has not already been processed
   ///

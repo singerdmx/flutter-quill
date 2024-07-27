@@ -70,19 +70,18 @@ int getPositionDelta(Delta user, Delta actual) {
       );
     }
     if (userOperation.key == actualOperation.key) {
+      /// Insertions must update diff allowing for type mismatch of Operation
+      if (userOperation.key == Operation.insertKey) {
+        if (userOperation.data is Delta && actualOperation.data is String) {
+          diff += actualOperation.length!;
+        }
+      }
       continue;
     } else if (userOperation.isInsert && actualOperation.isRetain) {
       diff -= userOperation.length!;
     } else if (userOperation.isDelete && actualOperation.isRetain) {
       diff += userOperation.length!;
     } else if (userOperation.isRetain && actualOperation.isInsert) {
-      String? operationTxt = '';
-      if (actualOperation.data is String) {
-        operationTxt = actualOperation.data as String?;
-      }
-      if (operationTxt!.startsWith('\n')) {
-        continue;
-      }
       diff += actualOperation.length!;
     }
   }
