@@ -4,7 +4,9 @@ import 'package:collection/collection.dart';
 
 import '../../../../quill_delta.dart';
 import '../../common/structs/offset_value.dart';
+import '../../editor/config/editor_configurations.dart';
 import '../../editor/embed/embed_editor_builder.dart';
+import '../../editor_toolbar_controller_shared/copy_cut_service/copy_cut_service_provider.dart';
 import '../attribute.dart';
 import '../style.dart';
 import 'block.dart';
@@ -511,17 +513,40 @@ base class Line extends QuillContainer<Leaf?> {
   }
 
   /// Returns plain text within the specified text range.
-  String getPlainText(int offset, int len) {
+  String getPlainText(int offset, int len,
+      [QuillEditorConfigurations? config]) {
     final plainText = StringBuffer();
-    _getPlainText(offset, len, plainText);
+    _getPlainText(offset, len, plainText, config);
     return plainText.toString();
   }
 
-  int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining) {
-    final text = node.toPlainText();
+  int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining,
+      QuillEditorConfigurations? config) {
+    final text =
+        node.toPlainText(config?.embedBuilders, config?.unknownEmbedBuilder);
     if (text == Embed.kObjectReplacementCharacter) {
-      buffer.write(Embed.kObjectReplacementCharacter);
+      final embed = node.value as Embeddable;
+      final provider = CopyCutServiceProvider.instance;
+      // By default getCopyCutAction just return the same operation
+      // returning Embed.kObjectReplacementCharacter for the buffer
+      final action = provider.getCopyCutAction(embed.type);
+      final data = action.call(embed.data);
+      // This conditional avoid an issue where the plain data copied
+      // to the clipboard, when it is pasted on the editor
+      // the content has a unexpected behaviors
+      if (data != Embed.kObjectReplacementCharacter) {
+        buffer.write(data);
+        return remaining;
+      } else {
+        buffer.write(action.call(data));
+      }
       return remaining - node.length;
+    }
+
+    /// Text for clipboard will expand the content of Embed nodes
+    if (node is Embed && config != null) {
+      buffer.write(text);
+      return remaining - 1;
     }
 
     final end = math.min(offset + remaining, text.length);
@@ -529,7 +554,8 @@ base class Line extends QuillContainer<Leaf?> {
     return remaining - (end - offset);
   }
 
-  int _getPlainText(int offset, int len, StringBuffer plainText) {
+  int _getPlainText(int offset, int len, StringBuffer plainText,
+      QuillEditorConfigurations? config) {
     var len0 = len;
     final data = queryChild(offset, false);
     var node = data.node as Leaf?;
@@ -540,11 +566,12 @@ base class Line extends QuillContainer<Leaf?> {
         plainText.write('\n');
         len0 -= 1;
       } else {
-        len0 = _getNodeText(node, plainText, offset - node.offset, len0);
+        len0 =
+            _getNodeText(node, plainText, offset - node.offset, len0, config);
 
         while (!node!.isLast && len0 > 0) {
           node = node.next as Leaf;
-          len0 = _getNodeText(node, plainText, 0, len0);
+          len0 = _getNodeText(node, plainText, 0, len0, config);
         }
 
         if (len0 > 0) {
@@ -555,7 +582,7 @@ base class Line extends QuillContainer<Leaf?> {
       }
 
       if (len0 > 0 && nextLine != null) {
-        len0 = nextLine!._getPlainText(0, len0, plainText);
+        len0 = nextLine!._getPlainText(0, len0, plainText, config);
       }
     }
 

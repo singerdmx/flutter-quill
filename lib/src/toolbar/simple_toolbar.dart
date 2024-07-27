@@ -23,34 +23,6 @@ class QuillSimpleToolbar extends StatelessWidget
   Widget build(BuildContext context) {
     final theEmbedButtons = configurations.embedButtons;
 
-    final isButtonGroupShown = [
-      configurations.showFontFamily ||
-          configurations.showFontSize ||
-          configurations.showBoldButton ||
-          configurations.showItalicButton ||
-          configurations.showSmallButton ||
-          configurations.showUnderLineButton ||
-          configurations.showLineHeightButton ||
-          configurations.showStrikeThrough ||
-          configurations.showInlineCode ||
-          configurations.showColorButton ||
-          configurations.showBackgroundColorButton ||
-          configurations.showClearFormat ||
-          theEmbedButtons?.isNotEmpty == true,
-      configurations.showLeftAlignment ||
-          configurations.showCenterAlignment ||
-          configurations.showRightAlignment ||
-          configurations.showJustifyAlignment ||
-          configurations.showDirection,
-      configurations.showHeaderStyle,
-      configurations.showListNumbers ||
-          configurations.showListBullets ||
-          configurations.showListCheck ||
-          configurations.showCodeBlock,
-      configurations.showQuote || configurations.showIndent,
-      configurations.showLink || configurations.showSearchButton
-    ];
-
     List<Widget> childrenBuilder(BuildContext context) {
       final toolbarConfigurations =
           context.requireQuillSimpleToolbarConfigurations;
@@ -68,251 +40,232 @@ class QuillSimpleToolbar extends StatelessWidget
             space: configurations.sectionDividerSpace,
           ));
 
-      return [
-        if (configurations.showUndo)
-          QuillToolbarHistoryButton(
-            isUndo: true,
-            options: toolbarConfigurations.buttonOptions.undoHistory,
-            controller: globalController,
-          ),
-        if (configurations.showRedo)
-          QuillToolbarHistoryButton(
-            isUndo: false,
-            options: toolbarConfigurations.buttonOptions.redoHistory,
-            controller: globalController,
-          ),
-        if (configurations.showFontFamily)
-          QuillToolbarFontFamilyButton(
-            options: toolbarConfigurations.buttonOptions.fontFamily,
-            controller: globalController,
-          ),
-        if (configurations.showFontSize)
-          QuillToolbarFontSizeButton(
-            options: toolbarConfigurations.buttonOptions.fontSize,
-            controller: globalController,
-          ),
-        if (configurations.showBoldButton)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.bold,
-            options: toolbarConfigurations.buttonOptions.bold,
-            controller: globalController,
-          ),
-        if (configurations.showItalicButton)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.italic,
-            options: toolbarConfigurations.buttonOptions.italic,
-            controller: globalController,
-          ),
-        if (configurations.showUnderLineButton)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.underline,
-            options: toolbarConfigurations.buttonOptions.underLine,
-            controller: globalController,
-          ),
-        if (configurations.showStrikeThrough)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.strikeThrough,
-            options: toolbarConfigurations.buttonOptions.strikeThrough,
-            controller: globalController,
-          ),
-        if (configurations.showInlineCode)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.inlineCode,
-            options: toolbarConfigurations.buttonOptions.inlineCode,
-            controller: globalController,
-          ),
-        if (configurations.showSubscript)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.subscript,
-            options: toolbarConfigurations.buttonOptions.subscript,
-            controller: globalController,
-          ),
-        if (configurations.showSuperscript)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.superscript,
-            options: toolbarConfigurations.buttonOptions.superscript,
-            controller: globalController,
-          ),
-        if (configurations.showSmallButton)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.small,
-            options: toolbarConfigurations.buttonOptions.small,
-            controller: globalController,
-          ),
-        if (configurations.showColorButton)
-          QuillToolbarColorButton(
-            controller: globalController,
-            isBackground: false,
-            options: toolbarConfigurations.buttonOptions.color,
-          ),
-        if (configurations.showBackgroundColorButton)
-          QuillToolbarColorButton(
-            options: toolbarConfigurations.buttonOptions.backgroundColor,
-            controller: globalController,
-            isBackground: true,
-          ),
-        if (configurations.showClearFormat)
-          QuillToolbarClearFormatButton(
-            controller: globalController,
-            options: toolbarConfigurations.buttonOptions.clearFormat,
-          ),
-        if (theEmbedButtons != null)
-          for (final builder in theEmbedButtons)
-            builder(
-                globalController,
-                globalIconSize ?? kDefaultIconSize,
-                context.quillToolbarBaseButtonOptions?.iconTheme,
-                configurations.dialogTheme),
-        if (configurations.showDividers &&
-            isButtonGroupShown[0] &&
-            (isButtonGroupShown[1] ||
-                isButtonGroupShown[2] ||
-                isButtonGroupShown[3] ||
-                isButtonGroupShown[4] ||
-                isButtonGroupShown[5]))
-          divider,
-        if (configurations.showAlignmentButtons)
-          QuillToolbarSelectAlignmentButtons(
-            controller: globalController,
-            options: toolbarConfigurations.buttonOptions.selectAlignmentButtons
-                .copyWith(
-              showLeftAlignment: configurations.showLeftAlignment,
-              showCenterAlignment: configurations.showCenterAlignment,
-              showRightAlignment: configurations.showRightAlignment,
-              showJustifyAlignment: configurations.showJustifyAlignment,
+      final groups = [
+        [
+          if (configurations.showUndo)
+            QuillToolbarHistoryButton(
+              isUndo: true,
+              options: toolbarConfigurations.buttonOptions.undoHistory,
+              controller: globalController,
             ),
-          ),
-        if (configurations.showDirection)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.rtl,
-            options: toolbarConfigurations.buttonOptions.direction,
-            controller: globalController,
-          ),
-        if (configurations.showDividers &&
-            isButtonGroupShown[1] &&
-            (isButtonGroupShown[2] ||
-                isButtonGroupShown[3] ||
-                isButtonGroupShown[4] ||
-                isButtonGroupShown[5]))
-          divider,
-        if (configurations.showLineHeightButton)
-          QuillToolbarSelectLineHeightStyleDropdownButton(
-            controller: globalController,
-            options: toolbarConfigurations
-                .buttonOptions.selectLineHeightStyleDropdownButton,
-          ),
-        if (configurations.showHeaderStyle) ...[
-          if (configurations.headerStyleType.isOriginal)
-            QuillToolbarSelectHeaderStyleDropdownButton(
+          if (configurations.showRedo)
+            QuillToolbarHistoryButton(
+              isUndo: false,
+              options: toolbarConfigurations.buttonOptions.redoHistory,
+              controller: globalController,
+            ),
+          if (configurations.showFontFamily)
+            QuillToolbarFontFamilyButton(
+              options: toolbarConfigurations.buttonOptions.fontFamily,
+              controller: globalController,
+            ),
+          if (configurations.showFontSize)
+            QuillToolbarFontSizeButton(
+              options: toolbarConfigurations.buttonOptions.fontSize,
+              controller: globalController,
+            ),
+          if (configurations.showBoldButton)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.bold,
+              options: toolbarConfigurations.buttonOptions.bold,
+              controller: globalController,
+            ),
+          if (configurations.showItalicButton)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.italic,
+              options: toolbarConfigurations.buttonOptions.italic,
+              controller: globalController,
+            ),
+          if (configurations.showUnderLineButton)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.underline,
+              options: toolbarConfigurations.buttonOptions.underLine,
+              controller: globalController,
+            ),
+          if (configurations.showStrikeThrough)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.strikeThrough,
+              options: toolbarConfigurations.buttonOptions.strikeThrough,
+              controller: globalController,
+            ),
+          if (configurations.showInlineCode)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.inlineCode,
+              options: toolbarConfigurations.buttonOptions.inlineCode,
+              controller: globalController,
+            ),
+          if (configurations.showSubscript)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.subscript,
+              options: toolbarConfigurations.buttonOptions.subscript,
+              controller: globalController,
+            ),
+          if (configurations.showSuperscript)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.superscript,
+              options: toolbarConfigurations.buttonOptions.superscript,
+              controller: globalController,
+            ),
+          if (configurations.showSmallButton)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.small,
+              options: toolbarConfigurations.buttonOptions.small,
+              controller: globalController,
+            ),
+          if (configurations.showColorButton)
+            QuillToolbarColorButton(
+              controller: globalController,
+              isBackground: false,
+              options: toolbarConfigurations.buttonOptions.color,
+            ),
+          if (configurations.showBackgroundColorButton)
+            QuillToolbarColorButton(
+              options: toolbarConfigurations.buttonOptions.backgroundColor,
+              controller: globalController,
+              isBackground: true,
+            ),
+          if (configurations.showClearFormat)
+            QuillToolbarClearFormatButton(
+              controller: globalController,
+              options: toolbarConfigurations.buttonOptions.clearFormat,
+            ),
+          if (theEmbedButtons != null)
+            for (final builder in theEmbedButtons)
+              builder(
+                  globalController,
+                  globalIconSize ?? kDefaultIconSize,
+                  context.quillToolbarBaseButtonOptions?.iconTheme,
+                  configurations.dialogTheme),
+        ],
+        [
+          if (configurations.showAlignmentButtons)
+            QuillToolbarSelectAlignmentButtons(
               controller: globalController,
               options: toolbarConfigurations
-                  .buttonOptions.selectHeaderStyleDropdownButton,
-            )
-          else
-            QuillToolbarSelectHeaderStyleButtons(
+                  .buttonOptions.selectAlignmentButtons
+                  .copyWith(
+                showLeftAlignment: configurations.showLeftAlignment,
+                showCenterAlignment: configurations.showCenterAlignment,
+                showRightAlignment: configurations.showRightAlignment,
+                showJustifyAlignment: configurations.showJustifyAlignment,
+              ),
+            ),
+          if (configurations.showDirection)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.rtl,
+              options: toolbarConfigurations.buttonOptions.direction,
               controller: globalController,
-              options:
-                  toolbarConfigurations.buttonOptions.selectHeaderStyleButtons,
             ),
         ],
-        if (configurations.showDividers &&
-            configurations.showHeaderStyle &&
-            isButtonGroupShown[2] &&
-            (isButtonGroupShown[3] ||
-                isButtonGroupShown[4] ||
-                isButtonGroupShown[5]))
-          divider,
-        if (configurations.showListNumbers)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.ol,
-            options: toolbarConfigurations.buttonOptions.listNumbers,
-            controller: globalController,
-          ),
-        if (configurations.showListBullets)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.ul,
-            options: toolbarConfigurations.buttonOptions.listBullets,
-            controller: globalController,
-          ),
-        if (configurations.showListCheck)
-          QuillToolbarToggleCheckListButton(
-            options: toolbarConfigurations.buttonOptions.toggleCheckList,
-            controller: globalController,
-          ),
-        if (configurations.showCodeBlock)
-          QuillToolbarToggleStyleButton(
-            attribute: Attribute.codeBlock,
-            options: toolbarConfigurations.buttonOptions.codeBlock,
-            controller: globalController,
-          ),
-        if (configurations.showDividers &&
-            isButtonGroupShown[3] &&
-            (isButtonGroupShown[4] || isButtonGroupShown[5])) ...[
-          divider,
+        [
+          if (configurations.showLineHeightButton)
+            QuillToolbarSelectLineHeightStyleDropdownButton(
+              controller: globalController,
+              options: toolbarConfigurations
+                  .buttonOptions.selectLineHeightStyleDropdownButton,
+            ),
+          if (configurations.showHeaderStyle) ...[
+            if (configurations.headerStyleType.isOriginal)
+              QuillToolbarSelectHeaderStyleDropdownButton(
+                controller: globalController,
+                options: toolbarConfigurations
+                    .buttonOptions.selectHeaderStyleDropdownButton,
+              )
+            else
+              QuillToolbarSelectHeaderStyleButtons(
+                controller: globalController,
+                options: toolbarConfigurations
+                    .buttonOptions.selectHeaderStyleButtons,
+              ),
+          ],
         ],
-        if (configurations.showQuote)
-          QuillToolbarToggleStyleButton(
-            options: toolbarConfigurations.buttonOptions.quote,
-            controller: globalController,
-            attribute: Attribute.blockQuote,
-          ),
-        if (configurations.showIndent)
-          QuillToolbarIndentButton(
-            controller: globalController,
-            isIncrease: true,
-            options: toolbarConfigurations.buttonOptions.indentIncrease,
-          ),
-        if (configurations.showIndent)
-          QuillToolbarIndentButton(
-            controller: globalController,
-            isIncrease: false,
-            options: toolbarConfigurations.buttonOptions.indentDecrease,
-          ),
-        if (configurations.showDividers &&
-            isButtonGroupShown[4] &&
-            isButtonGroupShown[5])
-          divider,
-        if (configurations.showLink)
-          toolbarConfigurations.linkStyleType.isOriginal
-              ? QuillToolbarLinkStyleButton(
+        [
+          if (configurations.showListNumbers)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.ol,
+              options: toolbarConfigurations.buttonOptions.listNumbers,
+              controller: globalController,
+            ),
+          if (configurations.showListBullets)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.ul,
+              options: toolbarConfigurations.buttonOptions.listBullets,
+              controller: globalController,
+            ),
+          if (configurations.showListCheck)
+            QuillToolbarToggleCheckListButton(
+              options: toolbarConfigurations.buttonOptions.toggleCheckList,
+              controller: globalController,
+            ),
+          if (configurations.showCodeBlock)
+            QuillToolbarToggleStyleButton(
+              attribute: Attribute.codeBlock,
+              options: toolbarConfigurations.buttonOptions.codeBlock,
+              controller: globalController,
+            ),
+        ],
+        [
+          if (configurations.showQuote)
+            QuillToolbarToggleStyleButton(
+              options: toolbarConfigurations.buttonOptions.quote,
+              controller: globalController,
+              attribute: Attribute.blockQuote,
+            ),
+          if (configurations.showIndent)
+            QuillToolbarIndentButton(
+              controller: globalController,
+              isIncrease: true,
+              options: toolbarConfigurations.buttonOptions.indentIncrease,
+            ),
+          if (configurations.showIndent)
+            QuillToolbarIndentButton(
+              controller: globalController,
+              isIncrease: false,
+              options: toolbarConfigurations.buttonOptions.indentDecrease,
+            ),
+        ],
+        [
+          if (configurations.showLink)
+            toolbarConfigurations.linkStyleType.isOriginal
+                ? QuillToolbarLinkStyleButton(
+                    controller: globalController,
+                    options: toolbarConfigurations.buttonOptions.linkStyle,
+                  )
+                : QuillToolbarLinkStyleButton2(
+                    controller: globalController,
+                    options: toolbarConfigurations.buttonOptions.linkStyle2,
+                  ),
+          if (configurations.showSearchButton)
+            switch (configurations.searchButtonType) {
+              SearchButtonType.legacy => QuillToolbarLegacySearchButton(
                   controller: globalController,
-                  options: toolbarConfigurations.buttonOptions.linkStyle,
-                )
-              : QuillToolbarLinkStyleButton2(
-                  controller: globalController,
-                  options: toolbarConfigurations.buttonOptions.linkStyle2,
+                  options: toolbarConfigurations.buttonOptions.search,
                 ),
-        if (configurations.showSearchButton)
-          switch (configurations.searchButtonType) {
-            SearchButtonType.legacy => QuillToolbarLegacySearchButton(
-                controller: globalController,
-                options: toolbarConfigurations.buttonOptions.search,
-              ),
-            SearchButtonType.modern => QuillToolbarSearchButton(
-                controller: globalController,
-                options: toolbarConfigurations.buttonOptions.search,
-              ),
-          },
-        if (configurations.showClipboardCut)
-          QuillToolbarClipboardButton(
-            options: toolbarConfigurations.buttonOptions.clipboardCut,
-            controller: globalController,
-            clipboardAction: ClipboardAction.cut,
-          ),
-        if (configurations.showClipboardCopy)
-          QuillToolbarClipboardButton(
-            options: toolbarConfigurations.buttonOptions.clipboardCopy,
-            controller: globalController,
-            clipboardAction: ClipboardAction.copy,
-          ),
-        if (configurations.showClipboardPaste)
-          QuillToolbarClipboardButton(
-            options: toolbarConfigurations.buttonOptions.clipboardPaste,
-            controller: globalController,
-            clipboardAction: ClipboardAction.paste,
-          ),
-        if (configurations.customButtons.isNotEmpty) ...[
-          if (configurations.showDividers) divider,
+              SearchButtonType.modern => QuillToolbarSearchButton(
+                  controller: globalController,
+                  options: toolbarConfigurations.buttonOptions.search,
+                ),
+            },
+          if (configurations.showClipboardCut)
+            QuillToolbarClipboardButton(
+              options: toolbarConfigurations.buttonOptions.clipboardCut,
+              controller: globalController,
+              clipboardAction: ClipboardAction.cut,
+            ),
+          if (configurations.showClipboardCopy)
+            QuillToolbarClipboardButton(
+              options: toolbarConfigurations.buttonOptions.clipboardCopy,
+              controller: globalController,
+              clipboardAction: ClipboardAction.copy,
+            ),
+          if (configurations.showClipboardPaste)
+            QuillToolbarClipboardButton(
+              options: toolbarConfigurations.buttonOptions.clipboardPaste,
+              controller: globalController,
+              clipboardAction: ClipboardAction.paste,
+            ),
+        ],
+        [
           for (final customButton in configurations.customButtons)
             QuillToolbarCustomButton(
               options: customButton,
@@ -320,6 +273,21 @@ class QuillSimpleToolbar extends StatelessWidget
             ),
         ],
       ];
+
+      final buttonsAll = <Widget>[];
+
+      for (var i = 0; i < groups.length; i++) {
+        final buttons = groups[i];
+
+        if (buttons.isNotEmpty) {
+          if (buttonsAll.isNotEmpty) {
+            buttonsAll.add(divider);
+          }
+          buttonsAll.addAll(buttons);
+        }
+      }
+
+      return buttonsAll;
     }
 
     return QuillSimpleToolbarProvider(
