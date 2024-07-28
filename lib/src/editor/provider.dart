@@ -2,15 +2,25 @@ import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
 import 'package:flutter/widgets.dart'
     show BuildContext, InheritedWidget, Widget;
 
+import '../controller/quill_controller.dart';
 import 'config/editor_configurations.dart';
 
 class QuillEditorProvider extends InheritedWidget {
-  const QuillEditorProvider({
+  QuillEditorProvider({
     required super.child,
-    required this.editorConfigurations,
+    /// Controller and configurations are required but should only be provided from one.
+    ///
+    /// Passing the controller as part of configurations is being deprecated and will be removed in the future.
+    /// Prefer: use controller and set QuillEditorConfigurations in the controller.
+    /// Current: use configurations and pass QuillController in constructor for configurations.
+    QuillController? controller,
+    @Deprecated('editorConfigurations are no longer needed and will be removed in future versions. Set configurations in the controller')
+    QuillEditorConfigurations? editorConfigurations,
     super.key,
-  });
+  }) : editorConfigurations = editorConfigurations ?? controller?.editorConfigurations ?? QuillEditorConfigurations(controller: controller!),
+        controller = controller ?? editorConfigurations?.controller ?? QuillController.basic();
 
+  final QuillController controller;
   final QuillEditorConfigurations editorConfigurations;
 
   @override
@@ -52,8 +62,9 @@ class QuillEditorProvider extends InheritedWidget {
     required QuillEditorProvider value,
     required Widget child,
   }) {
+    value.controller.editorConfigurations = value.editorConfigurations;
     return QuillEditorProvider(
-      editorConfigurations: value.editorConfigurations,
+      controller: value.controller,
       child: child,
     );
   }

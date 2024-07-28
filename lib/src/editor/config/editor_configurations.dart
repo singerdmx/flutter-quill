@@ -24,7 +24,8 @@ class QuillEditorConfigurations extends Equatable {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
-    required this.controller,
+    @Deprecated('controller should be passed directly to the editor - this parameter will be removed in future versions.')
+    this.controller,
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -86,7 +87,7 @@ class QuillEditorConfigurations extends Equatable {
 
   final QuillSharedConfigurations sharedConfigurations;
 
-  final QuillController controller;
+  final QuillController? controller;
 
   /// The text placeholder in the quill editor
   final String? placeholder;
@@ -97,7 +98,7 @@ class QuillEditorConfigurations extends Equatable {
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
   /// Defaults to `false`. Must not be `null`.
-  bool get readOnly => controller.readOnly;
+  bool get readOnly => controller?.readOnly != false;
 
   /// Override [readOnly] for checkbox.
   ///
@@ -381,7 +382,7 @@ class QuillEditorConfigurations extends Equatable {
   @override
   List<Object?> get props => [
         placeholder,
-        controller.readOnly,
+        controller?.readOnly,
       ];
 
   // We might use code generator like freezed but sometimes it can be limited

@@ -52,10 +52,14 @@ class QuillController extends ChangeNotifier {
 
   final QuillControllerConfigurations configurations;
 
-  /// Local copy of editor configurations enables fail-safe setting from editor _initState method
+  /// Editor configurations
+  ///
+  /// Global default can be set in QuillControllerConfigurations.
+  /// Can be overridden by setting in QuillEditor ctor.
+  /// Fail safe: returns a default editor configuration.
   QuillEditorConfigurations? _editorConfigurations;
-  QuillEditorConfigurations? get editorConfigurations =>
-      configurations.editorConfigurations ?? _editorConfigurations;
+  QuillEditorConfigurations get editorConfigurations =>
+      _editorConfigurations ?? configurations.editorConfigurations ?? const QuillEditorConfigurations();
   set editorConfigurations(QuillEditorConfigurations? value) =>
       _editorConfigurations = value;
 

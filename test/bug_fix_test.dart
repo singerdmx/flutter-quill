@@ -56,9 +56,7 @@ void main() {
       setUp(() {
         controller = QuillController.basic();
         editor = QuillEditor.basic(
-          configurations: QuillEditorConfigurations(
-            controller: controller,
-          ),
+          controller: controller,
         );
       });
 
@@ -142,8 +140,8 @@ void main() {
             home: QuillEditor(
               focusNode: FocusNode(),
               scrollController: ScrollController(),
-              configurations: QuillEditorConfigurations(
-                controller: controller,
+              controller: controller,
+              configurations: const QuillEditorConfigurations(
                 autoFocus: true,
                 expands: true,
               ),
