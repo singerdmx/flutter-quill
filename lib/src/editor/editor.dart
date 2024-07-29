@@ -121,11 +121,27 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
 }
 
 class QuillEditor extends StatefulWidget {
-
-//TODO - sample code
-  factory QuillEditor ({
+  /// Quick start guide:
+  ///
+  /// Instantiate a controller:
+  /// QuillController _controller = QuillController.basic();
+  ///
+  /// Connect the controller to the `QuillEditor` and `QuillSimpleToolbar` widgets.
+  /// QuillSimpleToolbar(
+  ///   controller: _controller,
+  ///   configurations: const QuillSimpleToolbarConfigurations(),
+  /// ),
+  /// Expanded(
+  ///   child: QuillEditor.basic(
+  ///     controller: _controller,
+  ///     configurations: const QuillEditorConfigurations(),
+  ///   ),
+  /// ),
+  ///
+  factory QuillEditor({
     required FocusNode focusNode,
     required ScrollController scrollController,
+
     /// Controller and configurations are required
     ///
     /// Prefer: use controller and pass QuillEditorConfigurations in constructor for controller (using QuillControllerConfigurations).
@@ -134,25 +150,31 @@ class QuillEditor extends StatefulWidget {
     QuillEditorConfigurations? configurations,
   }) {
     controller ??= configurations?.controller;
-    assert (controller != null, 'controller required. Provide controller directly (preferred) or indirectly through configurations (not recommended - will be removed in future versions).');
-    controller ??= QuillController(document: Document(), selection: const TextSelection.collapsed(offset: 0));
+    assert(controller != null,
+        'controller required. Provide controller directly (preferred) or indirectly through configurations (not recommended - will be removed in future versions).');
+    controller ??= QuillController(
+        document: Document(),
+        selection: const TextSelection.collapsed(offset: 0));
     //
     controller
       ..editorConfigurations = configurations
       ..editorFocusNode = focusNode;
     //
-    return QuillEditor._(focusNode:  focusNode, scrollController:  scrollController, controller: controller);
+    return QuillEditor._(
+        focusNode: focusNode,
+        scrollController: scrollController,
+        controller: controller);
   }
 
-  const QuillEditor._({
-    required this.focusNode,
-    required this.scrollController,
-    required this.controller
-  });
+  const QuillEditor._(
+      {required this.focusNode,
+      required this.scrollController,
+      required this.controller});
 
   factory QuillEditor.basic({
     /// The controller for the quill editor widget of flutter quill
     QuillController? controller,
+
     /// The configurations for the quill editor widget of flutter quill
     QuillEditorConfigurations? configurations,
     FocusNode? focusNode,
@@ -170,7 +192,8 @@ class QuillEditor extends StatefulWidget {
   final QuillController controller;
 
   /// The configurations for the quill editor widget of flutter quill
-  QuillEditorConfigurations get configurations => controller.editorConfigurations;
+  QuillEditorConfigurations get configurations =>
+      controller.editorConfigurations;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
@@ -259,7 +282,6 @@ class QuillEditorState extends State<QuillEditor>
     final child = FlutterQuillLocalizationsWidget(
       child: QuillEditorProvider(
         controller: controller,
-        editorConfigurations: configurations,
         child: QuillEditorBuilderWidget(
           builder: configurations.builder,
           child: QuillRawEditor(

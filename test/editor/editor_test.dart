@@ -27,8 +27,8 @@ void main() {
             controller: controller,
             // ignore: avoid_redundant_argument_values
             configurations: const QuillEditorConfigurations(
-              // ignore: avoid_redundant_argument_values
-            ),
+                // ignore: avoid_redundant_argument_values
+                ),
           ),
         ),
       );

@@ -19,6 +19,7 @@ import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_configurations.dart';
 import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
+import '../toolbar/config/simple_toolbar_configurations.dart';
 import 'quill_controller_configurations.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
@@ -59,9 +60,24 @@ class QuillController extends ChangeNotifier {
   /// Fail safe: returns a default editor configuration.
   QuillEditorConfigurations? _editorConfigurations;
   QuillEditorConfigurations get editorConfigurations =>
-      _editorConfigurations ?? configurations.editorConfigurations ?? const QuillEditorConfigurations();
+      _editorConfigurations ??
+      configurations.editorConfigurations ??
+      const QuillEditorConfigurations();
   set editorConfigurations(QuillEditorConfigurations? value) =>
       _editorConfigurations = value;
+
+  /// Toolbar configurations
+  ///
+  /// Global default can be set in QuillControllerConfigurations.
+  /// Can be overridden by setting in QuillSimpleToolbar ctor.
+  /// Fail safe: returns a default toolbar configuration.
+  QuillSimpleToolbarConfigurations? _toolbarConfigurations;
+  QuillSimpleToolbarConfigurations get toolbarConfigurations =>
+      _toolbarConfigurations ??
+      configurations.toolbarConfigurations ??
+      const QuillSimpleToolbarConfigurations();
+  set toolbarConfigurations(QuillSimpleToolbarConfigurations? value) =>
+      _toolbarConfigurations = value;
 
   /// Document managed by this controller.
   Document _document;

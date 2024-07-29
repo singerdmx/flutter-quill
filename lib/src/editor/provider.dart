@@ -8,17 +8,23 @@ import 'config/editor_configurations.dart';
 class QuillEditorProvider extends InheritedWidget {
   QuillEditorProvider({
     required super.child,
+
     /// Controller and configurations are required but should only be provided from one.
     ///
     /// Passing the controller as part of configurations is being deprecated and will be removed in the future.
     /// Prefer: use controller and set QuillEditorConfigurations in the controller.
     /// Current: use configurations and pass QuillController in constructor for configurations.
     QuillController? controller,
-    @Deprecated('editorConfigurations are no longer needed and will be removed in future versions. Set configurations in the controller')
+    @Deprecated(
+        'editorConfigurations are no longer needed and will be removed in future versions. Set configurations in the controller')
     QuillEditorConfigurations? editorConfigurations,
     super.key,
-  }) : editorConfigurations = editorConfigurations ?? controller?.editorConfigurations ?? QuillEditorConfigurations(controller: controller!),
-        controller = controller ?? editorConfigurations?.controller ?? QuillController.basic();
+  })  : editorConfigurations = editorConfigurations ??
+            controller?.editorConfigurations ??
+            const QuillEditorConfigurations(),
+        controller = controller ??
+            editorConfigurations?.controller ??
+            QuillController.basic();
 
   final QuillController controller;
   final QuillEditorConfigurations editorConfigurations;

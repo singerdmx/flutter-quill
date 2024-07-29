@@ -1,10 +1,11 @@
-import '../editor/config/editor_configurations.dart' show QuillEditorConfigurations;
-import '../toolbar/config/toolbar_configurations.dart';
+import '../editor/config/editor_configurations.dart'
+    show QuillEditorConfigurations;
+import '../toolbar/config/simple_toolbar_configurations.dart';
 
 class QuillControllerConfigurations {
   const QuillControllerConfigurations(
       {this.editorConfigurations,
-        this.toolbarConfigurations,
+      this.toolbarConfigurations,
       this.onClipboardPaste,
       this.requireScriptFontFeatures = false});
 
@@ -12,7 +13,7 @@ class QuillControllerConfigurations {
   ///
   /// Future: will be changed to 'required final'
   final QuillEditorConfigurations? editorConfigurations;
-  final QuillToolbarConfigurations? toolbarConfigurations;
+  final QuillSimpleToolbarConfigurations? toolbarConfigurations;
 
   /// Callback when the user pastes and data has not already been processed
   ///

@@ -33,7 +33,18 @@ class QuillScreen extends StatefulWidget {
 }
 
 class _QuillScreenState extends State<QuillScreen> {
-  final _controller = QuillController.basic();
+  /// Instantiate the controller
+  final _controller = QuillController.basic(
+    configurations: const QuillControllerConfigurations(
+
+        /// Set default editor configuration (Recommended if configuration will never change, but can be overridden when editor is built)
+        editorConfigurations:
+            QuillEditorConfigurations(padding: EdgeInsets.all(5)),
+
+        /// Set default toolbar configuration (Recommended if configuration will never change, but can be overridden when toolbar is built)
+        toolbarConfigurations: QuillSimpleToolbarConfigurations(
+            searchButtonType: SearchButtonType.modern)),
+  );
   final _editorFocusNode = FocusNode();
   final _editorScrollController = ScrollController();
   var _isReadOnly = false;
@@ -101,9 +112,13 @@ class _QuillScreenState extends State<QuillScreen> {
             builder: (context) {
               return Expanded(
                 child: MyQuillEditor(
+                  controller: _controller,
+
+                  /// configurations parameter:
+                  ///   Optional: if not provided will use the configuration set when the controller was instantiated.
+                  ///   Override: Provide parameter here to override the default configuration - useful if configuration will change.
                   configurations: QuillEditorConfigurations(
                     sharedConfigurations: _sharedConfigurations,
-                    controller: _controller,
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,

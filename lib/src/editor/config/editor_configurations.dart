@@ -24,7 +24,8 @@ class QuillEditorConfigurations extends Equatable {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
-    @Deprecated('controller should be passed directly to the editor - this parameter will be removed in future versions.')
+    @Deprecated(
+        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     this.controller,
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
@@ -446,6 +447,7 @@ class QuillEditorConfigurations extends Equatable {
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
+      // ignore: deprecated_member_use_from_same_package
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,

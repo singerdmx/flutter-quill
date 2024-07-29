@@ -98,10 +98,8 @@ Future<void> _addEditNote(BuildContext context, {Document? document}) async {
         ],
       ),
       content: QuillEditor.basic(
-        configurations: const QuillEditorConfigurations(
-          controller: quillEditorController,
-          readOnly: false,
-        ),
+        controller: quillEditorController,
+        configurations: const QuillEditorConfigurations(),
       ),
     ),
   );

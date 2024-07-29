@@ -19,10 +19,10 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: QuillSimpleToolbar(
-                configurations: QuillSimpleToolbarConfigurations(
-                  controller: controller,
+                controller: controller,
+                configurations: const QuillSimpleToolbarConfigurations(
                   showRedo: false,
-                  customButtons: const [
+                  customButtons: [
                     QuillToolbarCustomButtonOptions(
                       tooltip: tooltip,
                     )
