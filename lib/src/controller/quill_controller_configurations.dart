@@ -1,14 +1,16 @@
-import '../editor/config/editor_configurations.dart';
+import '../editor/config/editor_configurations.dart'
+    show QuillEditorConfigurations;
 
 class QuillControllerConfigurations {
   const QuillControllerConfigurations(
-      {this.editorConfigurations,
+      {@Deprecated(
+          'This parameter is not used and will be removed in future versions.')
+      this.editorConfigurations,
       this.onClipboardPaste,
       this.requireScriptFontFeatures = false});
 
-  /// Provides central access to editor configurations required for controller actions
-  ///
-  /// Future: will be changed to 'required final'
+  @Deprecated(
+      'This parameter is not used and will be removed in future versions.')
   final QuillEditorConfigurations? editorConfigurations;
 
   /// Callback when the user pastes and data has not already been processed

@@ -6,8 +6,8 @@ with:
 
 ```dart
 QuillToolbar.simple(
+  controller: _controller,
   configurations: QuillSimpleToolbarConfigurations(
-    controller: _controller,
     sharedConfigurations: const QuillSharedConfigurations(
       locale: Locale('de'),
     ),
@@ -15,8 +15,8 @@ QuillToolbar.simple(
 ),
 Expanded(
   child: QuillEditor.basic(
+    controller: _controller,
     configurations: QuillEditorConfigurations(
-      controller: _controller,
       sharedConfigurations: const QuillSharedConfigurations(
         locale: Locale('de'),
       ),

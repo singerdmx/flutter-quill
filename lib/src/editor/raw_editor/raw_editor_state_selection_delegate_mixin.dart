@@ -11,22 +11,21 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {
   @override
   TextEditingValue get textEditingValue {
-    return widget.configurations.controller.plainTextEditingValue;
+    return widget.controller.plainTextEditingValue;
   }
 
   set textEditingValue(TextEditingValue value) {
     final cursorPosition = value.selection.extentOffset;
-    final oldText = widget.configurations.controller.document.toPlainText();
+    final oldText = widget.controller.document.toPlainText();
     final newText = value.text;
     final diff = getDiff(oldText, newText, cursorPosition);
     if (diff.deleted == '' && diff.inserted == '') {
       // Only changing selection range
-      widget.configurations.controller
-          .updateSelection(value.selection, ChangeSource.local);
+      widget.controller.updateSelection(value.selection, ChangeSource.local);
       return;
     }
 
-    widget.configurations.controller.replaceTextWithEmbeds(
+    widget.controller.replaceTextWithEmbeds(
         diff.start, diff.deleted.length, diff.inserted, value.selection);
   }
 
