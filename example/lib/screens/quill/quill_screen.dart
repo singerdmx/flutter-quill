@@ -33,6 +33,7 @@ class QuillScreen extends StatefulWidget {
 }
 
 class _QuillScreenState extends State<QuillScreen> {
+  /// Instantiate the controller
   final _controller = QuillController.basic();
   final _editorFocusNode = FocusNode();
   final _editorScrollController = ScrollController();
@@ -101,9 +102,9 @@ class _QuillScreenState extends State<QuillScreen> {
             builder: (context) {
               return Expanded(
                 child: MyQuillEditor(
+                  controller: _controller,
                   configurations: QuillEditorConfigurations(
                     sharedConfigurations: _sharedConfigurations,
-                    controller: _controller,
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,

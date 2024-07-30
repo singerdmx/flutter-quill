@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.3
+
+* Move Controller outside of configurations data class by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2078
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.2...v10.1.3
+
 ## 10.1.2
 
 * Fix Multiline paste with attributes and embeds by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2074

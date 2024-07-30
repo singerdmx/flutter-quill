@@ -24,11 +24,11 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: QuillEditor.basic(
+            controller: controller,
             // ignore: avoid_redundant_argument_values
-            configurations: QuillEditorConfigurations(
-              controller: controller,
-              // ignore: avoid_redundant_argument_values
-            ),
+            configurations: const QuillEditorConfigurations(
+                // ignore: avoid_redundant_argument_values
+                ),
           ),
         ),
       );
@@ -44,8 +44,8 @@ void main() {
           home: QuillEditor(
             focusNode: FocusNode(),
             scrollController: ScrollController(),
+            controller: controller,
             configurations: QuillEditorConfigurations(
-              controller: controller,
               // ignore: avoid_redundant_argument_values
               autoFocus: true,
               expands: true,
@@ -116,9 +116,9 @@ void main() {
           home: QuillEditor(
             focusNode: FocusNode(),
             scrollController: ScrollController(),
+            controller: controller,
             // ignore: avoid_redundant_argument_values
             configurations: QuillEditorConfigurations(
-              controller: controller,
               // ignore: avoid_redundant_argument_values
               autoFocus: true,
               expands: true,
@@ -146,7 +146,8 @@ void main() {
         await tester.pumpWidget(
           MaterialApp(
             home: QuillEditor.basic(
-              configurations: QuillEditorConfigurations(controller: controller),
+              controller: controller,
+              configurations: const QuillEditorConfigurations(),
               focusNode: editorFocusNode,
             ),
           ),

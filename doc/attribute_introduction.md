@@ -85,8 +85,8 @@ On `QuillEditor` or `QuillEditorConfigurations` **doesn't exist** a param that l
 ##### The editor 
 ```dart
 QuillEditor.basic(
+      controller: controller,
       configurations: QuillEditorConfigurations(
-        controller: controller,
         customStyleBuilder: (Attribute<dynamic> attribute) {
           if (attribute.key.equals(highlightKey)) {
             return TextStyle(color: Colors.black, backgroundColor: Colors.yellow);

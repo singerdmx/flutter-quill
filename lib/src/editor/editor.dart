@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../common/utils/platform.dart';
+import '../controller/quill_controller.dart';
 import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/container.dart' as container_node;
@@ -120,36 +121,80 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
 }
 
 class QuillEditor extends StatefulWidget {
-  const QuillEditor({
-    required this.configurations,
-    required this.focusNode,
-    required this.scrollController,
-    super.key,
-  });
+  /// Quick start guide:
+  ///
+  /// Instantiate a controller:
+  /// QuillController _controller = QuillController.basic();
+  ///
+  /// Connect the controller to the `QuillEditor` and `QuillSimpleToolbar` widgets.
+  /// QuillSimpleToolbar(
+  ///   controller: _controller,
+  ///   configurations: const QuillSimpleToolbarConfigurations(),
+  /// ),
+  /// Expanded(
+  ///   child: QuillEditor.basic(
+  ///     controller: _controller,
+  ///     configurations: const QuillEditorConfigurations(),
+  ///   ),
+  /// ),
+  ///
+  factory QuillEditor({
+    required FocusNode focusNode,
+    required ScrollController scrollController,
+
+    /// Controller and configurations are required
+    ///
+    /// Prefer: use controller and pass QuillEditorConfigurations in constructor for controller (using QuillControllerConfigurations).
+    /// Backward compatibility: use configurations and pass QuillController in constructor for configurations. (Will be removed in future versions.)
+    QuillController? controller,
+    QuillEditorConfigurations? configurations,
+  }) {
+    // ignore: deprecated_member_use_from_same_package
+    controller ??= configurations?.controller;
+    assert(controller != null,
+        'controller required. Provide controller directly (preferred) or indirectly through configurations (not recommended - will be removed in future versions).');
+    controller ??= QuillController(
+        document: Document(),
+        selection: const TextSelection.collapsed(offset: 0));
+    //
+    controller
+      ..editorConfigurations = configurations
+      ..editorFocusNode = focusNode;
+    //
+    return QuillEditor._(
+        focusNode: focusNode,
+        scrollController: scrollController,
+        controller: controller);
+  }
+
+  const QuillEditor._(
+      {required this.focusNode,
+      required this.scrollController,
+      required this.controller});
 
   factory QuillEditor.basic({
+    /// The controller for the quill editor widget of flutter quill
+    QuillController? controller,
+
     /// The configurations for the quill editor widget of flutter quill
-    required QuillEditorConfigurations configurations,
+    QuillEditorConfigurations? configurations,
     FocusNode? focusNode,
     ScrollController? scrollController,
   }) {
     return QuillEditor(
       scrollController: scrollController ?? ScrollController(),
       focusNode: focusNode ?? FocusNode(),
-      configurations: configurations.copyWith(
-        textSelectionThemeData: configurations.textSelectionThemeData,
-        autoFocus: configurations.autoFocus,
-        expands: configurations.expands,
-        padding: configurations.padding,
-        keyboardAppearance: configurations.keyboardAppearance,
-        embedBuilders: configurations.embedBuilders,
-        editorKey: configurations.editorKey,
-      ),
+      controller: controller,
+      configurations: configurations?.copyWith(),
     );
   }
 
+  /// The controller for the quill editor widget of flutter quill
+  final QuillController controller;
+
   /// The configurations for the quill editor widget of flutter quill
-  final QuillEditorConfigurations configurations;
+  QuillEditorConfigurations get configurations =>
+      controller.editorConfigurations;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
@@ -167,9 +212,9 @@ class QuillEditorState extends State<QuillEditor>
   late EditorTextSelectionGestureDetectorBuilder
       _selectionGestureDetectorBuilder;
 
-  QuillEditorConfigurations get configurations {
-    return widget.configurations;
-  }
+  QuillController get controller => widget.controller;
+
+  QuillEditorConfigurations get configurations => widget.configurations;
 
   @override
   void initState() {
@@ -181,11 +226,7 @@ class QuillEditorState extends State<QuillEditor>
       configurations.detectWordBoundary,
     );
 
-    widget.configurations.controller.editorConfigurations ??=
-        widget.configurations;
-
-    final focusNode =
-        widget.configurations.controller.editorFocusNode ??= widget.focusNode;
+    final focusNode = widget.focusNode;
 
     if (configurations.autoFocus) {
       focusNode.requestFocus();
@@ -241,13 +282,13 @@ class QuillEditorState extends State<QuillEditor>
 
     final child = FlutterQuillLocalizationsWidget(
       child: QuillEditorProvider(
-        editorConfigurations: configurations,
+        controller: controller,
         child: QuillEditorBuilderWidget(
           builder: configurations.builder,
           child: QuillRawEditor(
             key: _editorKey,
+            controller: controller,
             configurations: QuillRawEditorConfigurations(
-              controller: configurations.controller,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
@@ -255,7 +296,7 @@ class QuillEditorState extends State<QuillEditor>
                   configurations.enableMarkdownStyleConversion,
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,
-              readOnly: configurations.readOnly,
+              readOnly: controller.readOnly,
               checkBoxReadOnly: configurations.checkBoxReadOnly,
               disableClipboard: configurations.disableClipboard,
               placeholder: configurations.placeholder,
@@ -445,19 +486,19 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   bool _isPositionSelected(TapUpDetails details) {
-    if (_state.configurations.controller.document.isEmpty()) {
+    if (_state.controller.document.isEmpty()) {
       return false;
     }
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);
-    final result = editor!.widget.configurations.controller.document
-        .querySegmentLeafNode(pos.offset);
+    final result =
+        editor!.widget.controller.document.querySegmentLeafNode(pos.offset);
     final line = result.line;
     if (line == null) {
       return false;
     }
     final segmentLeaf = result.leaf;
     if (segmentLeaf == null && line.length == 1) {
-      editor!.widget.configurations.controller.updateSelection(
+      editor!.widget.controller.updateSelection(
         TextSelection.collapsed(offset: pos.offset),
         ChangeSource.local,
       );
