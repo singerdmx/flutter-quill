@@ -23,7 +23,10 @@ class QuillRawEditor extends StatefulWidget {
     required this.configurations,
     controller,
     super.key,
-  })  : assert((controller ?? configurations.controller) != null),
+  })  :
+        // ignore: deprecated_member_use_from_same_package
+        assert((controller ?? configurations.controller) != null),
+        // ignore: deprecated_member_use_from_same_package
         controller = controller ?? configurations.controller,
         assert(
             configurations.maxHeight == null || configurations.maxHeight! > 0,

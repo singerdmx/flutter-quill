@@ -168,6 +168,7 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
 
   final Map<String, String>? fontFamilyValues;
 
+  @Deprecated('controller will be removed in future versions.')
   final QuillController? controller;
 
   /// By default it will be

@@ -1274,7 +1274,7 @@ class QuillRawEditorState extends EditorState
     _cursorCont.show.value = widget.configurations.showCursor;
     _cursorCont.style = widget.configurations.cursorStyle;
 
-    if (controller != oldWidget.configurations.controller) {
+    if (controller != oldWidget.controller) {
       oldWidget.controller.removeListener(_didChangeTextEditingValue);
       controller.addListener(_didChangeTextEditingValue);
       updateRemoteValueIfNeeded();

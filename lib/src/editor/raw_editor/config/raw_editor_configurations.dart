@@ -95,6 +95,7 @@ class QuillRawEditorConfigurations extends Equatable {
   });
 
   /// Controls the document being edited.
+  @Deprecated('controller will be removed in future versions.')
   final QuillController? controller;
 
   /// Controls whether this editor has keyboard focus.

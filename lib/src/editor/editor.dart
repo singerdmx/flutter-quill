@@ -149,6 +149,7 @@ class QuillEditor extends StatefulWidget {
     QuillController? controller,
     QuillEditorConfigurations? configurations,
   }) {
+    // ignore: deprecated_member_use_from_same_package
     controller ??= configurations?.controller;
     assert(controller != null,
         'controller required. Provide controller directly (preferred) or indirectly through configurations (not recommended - will be removed in future versions).');

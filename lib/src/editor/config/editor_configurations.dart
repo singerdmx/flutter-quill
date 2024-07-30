@@ -88,6 +88,7 @@ class QuillEditorConfigurations extends Equatable {
 
   final QuillSharedConfigurations sharedConfigurations;
 
+  @Deprecated('controller will be removed in future versions.')
   final QuillController? controller;
 
   /// The text placeholder in the quill editor
@@ -99,6 +100,7 @@ class QuillEditorConfigurations extends Equatable {
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
   /// Defaults to `false`. Must not be `null`.
+  // ignore: deprecated_member_use_from_same_package
   bool get readOnly => controller?.readOnly != false;
 
   /// Override [readOnly] for checkbox.
@@ -383,6 +385,7 @@ class QuillEditorConfigurations extends Equatable {
   @override
   List<Object?> get props => [
         placeholder,
+        // ignore: deprecated_member_use_from_same_package
         controller?.readOnly,
       ];
 

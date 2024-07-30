@@ -12,14 +12,11 @@ import 'simple_toolbar_provider.dart';
 class QuillSimpleToolbar extends StatelessWidget
     implements PreferredSizeWidget {
   factory QuillSimpleToolbar({
-    /// Controller and configurations are required
-    ///
-    /// Prefer: use controller and pass QuillEditorConfigurations in constructor for controller (using QuillControllerConfigurations).
-    /// Backward compatibility: use configurations and pass QuillController in constructor for configurations. (Will be removed in future versions.)
-    QuillSimpleToolbarConfigurations? configurations,
+    required QuillSimpleToolbarConfigurations? configurations,
     QuillController? controller,
     Key? key,
   }) {
+    // ignore: deprecated_member_use_from_same_package
     controller ??= configurations?.controller;
     assert(controller != null,
         'controller required. Provide controller directly (preferred) or indirectly through configurations (not recommended - will be removed in future versions).');

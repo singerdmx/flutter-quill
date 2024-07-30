@@ -55,27 +55,19 @@ class QuillController extends ChangeNotifier {
 
   /// Editor configurations
   ///
-  /// Global default can be set in QuillControllerConfigurations.
-  /// Can be overridden by setting in QuillEditor ctor.
-  /// Fail safe: returns a default editor configuration.
+  /// Caches configuration set in QuillEditor ctor.
   QuillEditorConfigurations? _editorConfigurations;
   QuillEditorConfigurations get editorConfigurations =>
-      _editorConfigurations ??
-      configurations.editorConfigurations ??
-      const QuillEditorConfigurations();
+      _editorConfigurations ?? const QuillEditorConfigurations();
   set editorConfigurations(QuillEditorConfigurations? value) =>
       _editorConfigurations = value;
 
   /// Toolbar configurations
   ///
-  /// Global default can be set in QuillControllerConfigurations.
-  /// Can be overridden by setting in QuillSimpleToolbar ctor.
-  /// Fail safe: returns a default toolbar configuration.
+  /// Caches configuration set in QuillSimpleToolbar ctor.
   QuillSimpleToolbarConfigurations? _toolbarConfigurations;
   QuillSimpleToolbarConfigurations get toolbarConfigurations =>
-      _toolbarConfigurations ??
-      configurations.toolbarConfigurations ??
-      const QuillSimpleToolbarConfigurations();
+      _toolbarConfigurations ?? const QuillSimpleToolbarConfigurations();
   set toolbarConfigurations(QuillSimpleToolbarConfigurations? value) =>
       _toolbarConfigurations = value;
 
