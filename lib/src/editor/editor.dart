@@ -286,8 +286,8 @@ class QuillEditorState extends State<QuillEditor>
           builder: configurations.builder,
           child: QuillRawEditor(
             key: _editorKey,
+            controller: controller,
             configurations: QuillRawEditorConfigurations(
-              controller: controller,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
@@ -489,15 +489,15 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return false;
     }
     final pos = renderEditor!.getPositionForOffset(details.globalPosition);
-    final result = editor!.widget.configurations.controller.document
-        .querySegmentLeafNode(pos.offset);
+    final result =
+        editor!.widget.controller.document.querySegmentLeafNode(pos.offset);
     final line = result.line;
     if (line == null) {
       return false;
     }
     final segmentLeaf = result.leaf;
     if (segmentLeaf == null && line.length == 1) {
-      editor!.widget.configurations.controller.updateSelection(
+      editor!.widget.controller.updateSelection(
         TextSelection.collapsed(offset: pos.offset),
         ChangeSource.local,
       );
