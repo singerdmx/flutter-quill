@@ -1145,7 +1145,7 @@ class QuillRawEditorState extends EditorState
     } else if (attrs.containsKey(Attribute.align.key)) {
       return defaultStyles!.align!.horizontalSpacing;
     }
-    return const HorizontalSpacing(0, 0);
+    return HorizontalSpacing.zero;
   }
 
   VerticalSpacing _getVerticalSpacingForBlock(
@@ -1162,7 +1162,7 @@ class QuillRawEditorState extends EditorState
     } else if (attrs.containsKey(Attribute.align.key)) {
       return defaultStyles!.align!.verticalSpacing;
     }
-    return const VerticalSpacing(0, 0);
+    return VerticalSpacing.zero;
   }
 
   void _didChangeTextEditingValueListener() {
