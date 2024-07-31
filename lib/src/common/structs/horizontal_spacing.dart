@@ -9,4 +9,6 @@ class HorizontalSpacing {
 
   final double left;
   final double right;
+
+  static const zero = HorizontalSpacing(0, 0);
 }

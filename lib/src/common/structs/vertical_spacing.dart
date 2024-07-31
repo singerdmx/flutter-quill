@@ -9,4 +9,6 @@ class VerticalSpacing {
 
   final double top;
   final double bottom;
+
+  static const zero = VerticalSpacing(0, 0);
 }
