@@ -4,6 +4,60 @@ import 'package:test/test.dart';
 
 void main() {
   group('collectStyle', () {
+    /// Lists and alignments have the same block attribute key but can have different values.
+    /// Changing the format value updates the document but must also update the toolbar button state
+    /// by ensuring the collectStyles method returns the attribute selected for the newly entered line.
+    test('Change block value type', () {
+      void doTest(Map<String, dynamic> start, Attribute attr,
+          Map<String, dynamic> change) {
+        /// Create a document with 2 lines of block attribute using [start]
+        /// Change the format of the last line using [attr] and verify [change]
+        final delta = Delta()
+          ..insert('A')
+          ..insert('\n', start)
+          ..insert('B')
+          ..insert('\n', start);
+        final document = Document.fromDelta(delta)
+
+          /// insert a newline
+          ..insert(3, '\n');
+
+        /// Verify inserted blank line and block type has not changed
+        expect(
+            document.toDelta(),
+            Delta()
+              ..insert('A')
+              ..insert('\n', start)
+              ..insert('B')
+              ..insert('\n\n', start));
+
+        /// Change format of last (empty) line
+        document.format(4, 0, attr);
+        expect(
+            document.toDelta(),
+            Delta()
+              ..insert('A')
+              ..insert('\n', start)
+              ..insert('B')
+              ..insert('\n', start)
+              ..insert('\n', change),
+            reason: 'document updated');
+
+        /// Verify that the reported style reflects the newly formatted state
+        expect(document.collectStyle(4, 0), Style.attr({attr.key: attr}),
+            reason: 'collectStyle reporting correct attribute');
+      }
+
+      doTest({'list': 'ordered'}, const ListAttribute('bullet'),
+          {'list': 'bullet'});
+      doTest({'list': 'checked'}, const ListAttribute('bullet'),
+          {'list': 'bullet'});
+      doTest({'align': 'center'}, const AlignAttribute('right'),
+          {'align': 'right'});
+      doTest({'align': 'left'}, const AlignAttribute('center'),
+          {'align': 'center'});
+    });
+
     /// Enter key inserts newline as plain text without inline styles.
     /// collectStyle needs to retrieve style of preceding line
     test('Simulate double enter key at end', () {
