@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.4
+
+* Fix: collectStyles for lists and alignments by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2082
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.3...v10.1.4
+
 ## 10.1.3
 
 * Move Controller outside of configurations data class by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2078
