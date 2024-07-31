@@ -192,17 +192,28 @@ class Document {
         res = queryChild(--index);
       }
       //
-      final style = (res.node as Line).collectStyle(res.offset, 0);
+      var style = (res.node as Line).collectStyle(res.offset, 0);
       final remove = <Attribute>{};
+      final add = <String, Attribute>{};
       for (final attr in style.attributes.values) {
         if (!Attribute.inlineKeys.contains(attr.key)) {
           if (!current.containsKey(attr.key)) {
             remove.add(attr);
+          } else {
+            /// Trap for type of block attribute is changing
+            final curAttr = current.attributes[attr.key];
+            if (curAttr!.value != attr.value) {
+              remove.add(attr);
+              add[curAttr.key] = curAttr;
+            }
           }
         }
       }
       if (remove.isNotEmpty) {
-        return style.removeAll(remove);
+        style = style.removeAll(remove);
+      }
+      if (add.isNotEmpty) {
+        style.attributes.addAll(add);
       }
       return style;
     }
