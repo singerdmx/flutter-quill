@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.6
+
+* fixed #1295 Double click to select text sometimes doesn't work. by @li8607 in https://github.com/singerdmx/flutter-quill/pull/2086
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.5...v10.1.6
+
 ## 10.1.5
 
 * ref: add `VerticalSpacing.zero` and `HorizontalSpacing.zero` named constants by @adil192 in https://github.com/singerdmx/flutter-quill/pull/2083
