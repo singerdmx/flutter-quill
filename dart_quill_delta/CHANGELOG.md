@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.5
+
+* ref: add `VerticalSpacing.zero` and `HorizontalSpacing.zero` named constants by @adil192 in https://github.com/singerdmx/flutter-quill/pull/2083
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.4...v10.1.5
+
 ## 10.1.4
 
 * Fix: collectStyles for lists and alignments by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2082
