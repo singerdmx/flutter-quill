@@ -1102,7 +1102,7 @@ class RenderEditor extends RenderEditableContainerBox
   TextSelection selectWordAtPosition(TextPosition position) {
     final word = getWordBoundary(position);
     // When long-pressing past the end of the text, we want a collapsed cursor.
-    if (position.offset >= word.end) {
+    if (position.offset > word.end) {
       return TextSelection.fromPosition(position);
     }
     return TextSelection(baseOffset: word.start, extentOffset: word.end);
