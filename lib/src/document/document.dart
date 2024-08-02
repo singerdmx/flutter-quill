@@ -250,10 +250,21 @@ class Document {
     return (res.node as Line).collectAllStylesWithOffsets(res.offset, len);
   }
 
+  /// Editor configurations
+  ///
+  /// Caches configuration set in QuillController.
+  /// Allows access to embedBuilders and search configurations
+  QuillEditorConfigurations? _editorConfigurations;
+  QuillEditorConfigurations get editorConfigurations =>
+      _editorConfigurations ?? const QuillEditorConfigurations();
+  set editorConfigurations(QuillEditorConfigurations? value) =>
+      _editorConfigurations = value;
+
   /// Returns plain text within the specified text range.
-  String getPlainText(int index, int len, [QuillEditorConfigurations? config]) {
+  String getPlainText(int index, int len, [bool includeEmbeds = false]) {
     final res = queryChild(index);
-    return (res.node as Line).getPlainText(res.offset, len, config);
+    return (res.node as Line).getPlainText(
+        res.offset, len, includeEmbeds ? editorConfigurations : null);
   }
 
   /// Returns [Line] located at specified character [offset].
@@ -276,13 +287,16 @@ class Document {
     bool caseSensitive = false,
     bool wholeWord = false,
   }) {
+    final searchEmbedContent = editorConfigurations.searchEmbedContent;
     final matches = <int>[];
     for (final node in _root.children) {
       if (node is Line) {
-        _searchLine(substring, caseSensitive, wholeWord, node, matches);
+        _searchLine(substring, caseSensitive, wholeWord, searchEmbedContent,
+            node, matches);
       } else if (node is Block) {
         for (final line in Iterable.castFrom<dynamic, Line>(node.children)) {
-          _searchLine(substring, caseSensitive, wholeWord, line, matches);
+          _searchLine(substring, caseSensitive, wholeWord, searchEmbedContent,
+              line, matches);
         }
       } else {
         throw StateError('Unreachable.');
@@ -295,6 +309,7 @@ class Document {
     String substring,
     bool caseSensitive,
     bool wholeWord,
+    bool searchEmbedContent,
     Line line,
     List<int> matches,
   ) {
@@ -311,6 +326,43 @@ class Document {
         break;
       }
       matches.add(index + line.documentOffset);
+    }
+    //
+    if (searchEmbedContent && line.hasEmbed) {
+      Node? node = line.children.first;
+      while (node != null) {
+        if (node is Embed) {
+          final ofs = node.offset;
+          EmbedBuilder? builder;
+          if (editorConfigurations.embedBuilders != null) {
+            // Find the builder for this embed
+            for (final b in editorConfigurations.embedBuilders!) {
+              if (b.key == node.value.type) {
+                builder = b;
+                break;
+              }
+            }
+          }
+          builder ??= editorConfigurations.unknownEmbedBuilder;
+          //  Get searchable text for this embed
+          var embedText = builder?.toPlainText(node);
+          if (editorConfigurations.searchEmbedRawData == true &&
+              (embedText == null ||
+                  embedText == Embed.kObjectReplacementCharacter)) {
+            embedText = node.value.data.toString();
+          }
+          if (embedText?.contains(searchExpression) == true) {
+            final documentOffset = line.documentOffset + ofs;
+            final index = matches.indexWhere((e) => e > documentOffset);
+            if (index < 0) {
+              matches.add(documentOffset);
+            } else {
+              matches.insert(index, documentOffset);
+            }
+          }
+        }
+        node = node.next;
+      }
     }
   }
 

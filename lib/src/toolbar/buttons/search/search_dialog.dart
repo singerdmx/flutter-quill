@@ -273,23 +273,39 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       return;
     }
     setState(() {
+      final currPos = _offsets.isNotEmpty ? _offsets[_index] : 0;
       _offsets = widget.controller.document.search(
         _text,
         caseSensitive: _caseSensitive,
         wholeWord: _wholeWord,
       );
       _index = 0;
+      if (_offsets.isNotEmpty) {
+        //  Select the next hit position
+        for (var n = 0; n < _offsets.length; n++) {
+          if (_offsets[n] >= currPos) {
+            _index = n;
+            break;
+          }
+        }
+        _moveToPosition();
+      }
     });
-    if (_offsets.isNotEmpty) {
-      _moveToPosition();
-    }
   }
 
   void _moveToPosition() {
+    final offset = _offsets[_index];
+    var len = _text.length;
+
+    /// Trap search hit within embed must only show selection of the embed
+    final leaf = widget.controller.queryNode(offset);
+    if (leaf is Embed) {
+      len = 1;
+    }
     widget.controller.updateSelection(
       TextSelection(
-        baseOffset: _offsets[_index],
-        extentOffset: _offsets[_index] + _text.length,
+        baseOffset: offset,
+        extentOffset: offset + len,
       ),
       ChangeSource.local,
     );
