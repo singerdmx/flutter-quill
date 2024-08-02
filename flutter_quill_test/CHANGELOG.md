@@ -4,6 +4,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.6
+
+* fixed #1295 Double click to select text sometimes doesn't work. by @li8607 in https://github.com/singerdmx/flutter-quill/pull/2086
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.5...v10.1.6
+
+## 10.1.5
+
+* ref: add `VerticalSpacing.zero` and `HorizontalSpacing.zero` named constants by @adil192 in https://github.com/singerdmx/flutter-quill/pull/2083
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.4...v10.1.5
+
+## 10.1.4
+
+* Fix: collectStyles for lists and alignments by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2082
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.3...v10.1.4
+
+## 10.1.3
+
+* Move Controller outside of configurations data class by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2078
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.2...v10.1.3
+
+## 10.1.2
+
+* Fix Multiline paste with attributes and embeds by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2074
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.1...v10.1.2
+
+## 10.1.1
+
+* Toolbar dividers fixes + Docs updates by @troyanskiy in https://github.com/singerdmx/flutter-quill/pull/2071
+
+## New Contributors
+* @troyanskiy made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2071
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.0...v10.1.1
+
 ## 10.1.0
 
 * Feat: support for customize copy and cut Embeddables to Clipboard by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2067

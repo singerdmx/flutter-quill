@@ -203,8 +203,12 @@ class MyQuillToolbar extends StatelessWidget {
           );
         }
         return QuillToolbar.simple(
+          controller: controller,
+
+          /// configurations parameter:
+          ///   Optional: if not provided will use the configuration set when the controller was instantiated.
+          ///   Override: Provide parameter here to override the default configuration - useful if configuration will change.
           configurations: QuillSimpleToolbarConfigurations(
-            controller: controller,
             showAlignmentButtons: true,
             multiRowsDisplay: true,
             fontFamilyValues: {

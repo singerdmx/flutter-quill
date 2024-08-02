@@ -94,8 +94,9 @@ dependencies:
 ```yaml
 dependencies:
   flutter_quill:
-    git: https://github.com/singerdmx/flutter-quill.git
-    ref: v<latest-version-here>
+    git: 
+      url: https://github.com/singerdmx/flutter-quill.git
+      ref: v<latest-version-here>
 ```
 
 > [!TIP]
@@ -129,16 +130,18 @@ Instantiate a controller:
 QuillController _controller = QuillController.basic();
 ```
 
-Use the `QuillEditor`, and `QuillToolbar` widgets,
+Use the `QuillEditor`, and `QuillSimpleToolbar` widgets,
 and attach the `QuillController` to them:
 
 ```dart
-QuillToolbar.simple(
-  configurations: QuillSimpleToolbarConfigurations(controller: _controller),
+QuillSimpleToolbar(
+  controller: _controller,
+  configurations: QuillSimpleToolbarConfigurations(),
 ),
 Expanded(
   child: QuillEditor.basic(
-    configurations: QuillEditorConfigurations(controller: _controller),
+    controller: _controller,
+    configurations: const QuillEditorConfigurations(),
   ),
 )
 ```

@@ -80,7 +80,9 @@ enum SearchButtonType {
 @immutable
 class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   const QuillSimpleToolbarConfigurations({
-    required this.controller,
+    @Deprecated(
+        'controller should be passed directly to the toolbar - this parameter will be removed in future versions.')
+    this.controller,
     super.sharedConfigurations,
     super.toolbarSectionSpacing = kToolbarSectionSpacing,
     super.toolbarIconAlignment = WrapAlignment.center,
@@ -166,7 +168,8 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
 
   final Map<String, String>? fontFamilyValues;
 
-  final QuillController controller;
+  @Deprecated('controller will be removed in future versions.')
+  final QuillController? controller;
 
   /// By default it will be
   /// ```dart

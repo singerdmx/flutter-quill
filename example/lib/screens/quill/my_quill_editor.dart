@@ -18,12 +18,14 @@ import 'embeds/timestamp_embed.dart';
 
 class MyQuillEditor extends StatelessWidget {
   const MyQuillEditor({
+    required this.controller,
     required this.configurations,
     required this.scrollController,
     required this.focusNode,
     super.key,
   });
 
+  final QuillController controller;
   final QuillEditorConfigurations configurations;
   final ScrollController scrollController;
   final FocusNode focusNode;
@@ -34,6 +36,7 @@ class MyQuillEditor extends StatelessWidget {
     return QuillEditor(
       scrollController: scrollController,
       focusNode: focusNode,
+      controller: controller,
       configurations: configurations.copyWith(
         elementOptions: const QuillEditorElementOptions(
           codeBlock: QuillEditorCodeBlockElementOptions(
@@ -51,9 +54,9 @@ class MyQuillEditor extends StatelessWidget {
               height: 1.15,
               fontWeight: FontWeight.w300,
             ),
-            const HorizontalSpacing(0, 0),
+            HorizontalSpacing.zero,
             const VerticalSpacing(16, 0),
-            const VerticalSpacing(0, 0),
+            VerticalSpacing.zero,
             null,
           ),
           sizeSmall: defaultTextStyle.style.copyWith(fontSize: 9),

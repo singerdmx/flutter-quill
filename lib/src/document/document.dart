@@ -6,6 +6,7 @@ import '../../quill_delta.dart';
 import '../common/structs/offset_value.dart';
 import '../common/structs/segment_leaf_node.dart';
 import '../delta/delta_x.dart';
+import '../editor/config/editor_configurations.dart';
 import '../editor/embed/embed_editor_builder.dart';
 import '../rules/rule.dart';
 import 'attribute.dart';
@@ -191,17 +192,28 @@ class Document {
         res = queryChild(--index);
       }
       //
-      final style = (res.node as Line).collectStyle(res.offset, 0);
+      var style = (res.node as Line).collectStyle(res.offset, 0);
       final remove = <Attribute>{};
+      final add = <String, Attribute>{};
       for (final attr in style.attributes.values) {
         if (!Attribute.inlineKeys.contains(attr.key)) {
           if (!current.containsKey(attr.key)) {
             remove.add(attr);
+          } else {
+            /// Trap for type of block attribute is changing
+            final curAttr = current.attributes[attr.key];
+            if (curAttr!.value != attr.value) {
+              remove.add(attr);
+              add[curAttr.key] = curAttr;
+            }
           }
         }
       }
       if (remove.isNotEmpty) {
-        return style.removeAll(remove);
+        style = style.removeAll(remove);
+      }
+      if (add.isNotEmpty) {
+        style.attributes.addAll(add);
       }
       return style;
     }
@@ -239,9 +251,9 @@ class Document {
   }
 
   /// Returns plain text within the specified text range.
-  String getPlainText(int index, int len) {
+  String getPlainText(int index, int len, [QuillEditorConfigurations? config]) {
     final res = queryChild(index);
-    return (res.node as Line).getPlainText(res.offset, len);
+    return (res.node as Line).getPlainText(res.offset, len, config);
   }
 
   /// Returns [Line] located at specified character [offset].

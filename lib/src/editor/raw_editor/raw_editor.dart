@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart'
         immutable;
 
 import '../../common/structs/offset_value.dart';
+import '../../controller/quill_controller.dart';
 import '../editor.dart';
 import '../widgets/text/text_selection.dart';
 import 'config/raw_editor_configurations.dart';
@@ -20,8 +21,14 @@ import 'raw_editor_state.dart';
 class QuillRawEditor extends StatefulWidget {
   QuillRawEditor({
     required this.configurations,
+    controller,
     super.key,
-  })  : assert(
+  })  :
+        // ignore: deprecated_member_use_from_same_package
+        assert((controller ?? configurations.controller) != null),
+        // ignore: deprecated_member_use_from_same_package
+        controller = controller ?? configurations.controller,
+        assert(
             configurations.maxHeight == null || configurations.maxHeight! > 0,
             'maxHeight cannot be null'),
         assert(
@@ -33,6 +40,7 @@ class QuillRawEditor extends StatefulWidget {
                 configurations.maxHeight! >= configurations.minHeight!,
             'maxHeight cannot be null');
 
+  final QuillController controller;
   final QuillRawEditorConfigurations configurations;
 
   @override

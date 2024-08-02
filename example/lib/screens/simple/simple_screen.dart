@@ -18,14 +18,14 @@ class _SimpleScreenState extends State<SimpleScreen> {
       body: Column(
         children: [
           QuillToolbar.simple(
-            configurations:
-                QuillSimpleToolbarConfigurations(controller: _controller),
+            controller: _controller,
+            configurations: const QuillSimpleToolbarConfigurations(),
           ),
           Expanded(
             child: QuillEditor.basic(
-              configurations: QuillEditorConfigurations(
-                controller: _controller,
-                padding: const EdgeInsets.all(16),
+              controller: _controller,
+              configurations: const QuillEditorConfigurations(
+                padding: EdgeInsets.all(16),
               ),
             ),
           ),
