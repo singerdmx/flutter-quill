@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.7
+
+* Feature/allow shortcut override by @InstrinsicAutomations in https://github.com/singerdmx/flutter-quill/pull/2089
+
+## New Contributors
+* @InstrinsicAutomations made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2089
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.6...v10.1.7
+
 ## 10.1.6
 
 * fixed #1295 Double click to select text sometimes doesn't work. by @li8607 in https://github.com/singerdmx/flutter-quill/pull/2086
