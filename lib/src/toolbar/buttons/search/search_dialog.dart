@@ -258,17 +258,21 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
   }
 
   void _findText() {
+    void clearSelection() {
+      widget.controller.updateSelection(
+        TextSelection(
+          baseOffset: widget.controller.selection.baseOffset,
+          extentOffset: widget.controller.selection.baseOffset,
+        ),
+        ChangeSource.local,
+      );
+    }
+
     if (_text.isEmpty) {
       setState(() {
         _offsets = [];
         _index = 0;
-        widget.controller.updateSelection(
-          TextSelection(
-            baseOffset: widget.controller.selection.baseOffset,
-            extentOffset: widget.controller.selection.baseOffset,
-          ),
-          ChangeSource.local,
-        );
+        clearSelection();
       });
       return;
     }
@@ -280,7 +284,9 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
         wholeWord: _wholeWord,
       );
       _index = 0;
-      if (_offsets.isNotEmpty) {
+      if (_offsets.isEmpty) {
+        clearSelection();
+      } else {
         //  Select the next hit position
         for (var n = 0; n < _offsets.length; n++) {
           if (_offsets[n] >= currPos) {

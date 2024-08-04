@@ -8,14 +8,13 @@ void main() {
     /// Changing the format value updates the document but must also update the toolbar button state
     /// by ensuring the collectStyles method returns the attribute selected for the newly entered line.
     test('Change block value type', () {
-      void doTest(Map<String, dynamic> start, Attribute attr,
-          Map<String, dynamic> change) {
+      void doTest(Map<String, dynamic> start, Attribute attr) {
         /// Create a document with 2 lines of block attribute using [start]
         /// Change the format of the last line using [attr] and verify [change]
         final delta = Delta()
           ..insert('A')
           ..insert('\n', start)
-          ..insert('B')
+          ..insert('B', {'bold': true})
           ..insert('\n', start);
         final document = Document.fromDelta(delta)
 
@@ -28,7 +27,7 @@ void main() {
             Delta()
               ..insert('A')
               ..insert('\n', start)
-              ..insert('B')
+              ..insert('B', {'bold': true})
               ..insert('\n\n', start));
 
         /// Change format of last (empty) line
@@ -38,24 +37,23 @@ void main() {
             Delta()
               ..insert('A')
               ..insert('\n', start)
-              ..insert('B')
+              ..insert('B', {'bold': true})
               ..insert('\n', start)
-              ..insert('\n', change),
+              ..insert('\n', {attr.key: attr.value}),
             reason: 'document updated');
 
         /// Verify that the reported style reflects the newly formatted state
-        expect(document.collectStyle(4, 0), Style.attr({attr.key: attr}),
+        expect(document.collectStyle(4, 0),
+            Style.attr({'bold': Attribute.bold, attr.key: attr}),
             reason: 'collectStyle reporting correct attribute');
       }
 
-      doTest({'list': 'ordered'}, const ListAttribute('bullet'),
-          {'list': 'bullet'});
-      doTest({'list': 'checked'}, const ListAttribute('bullet'),
-          {'list': 'bullet'});
-      doTest({'align': 'center'}, const AlignAttribute('right'),
-          {'align': 'right'});
-      doTest({'align': 'left'}, const AlignAttribute('center'),
-          {'align': 'center'});
+      doTest({'list': 'ordered'}, const ListAttribute('bullet'));
+      doTest({'list': 'checked'}, const ListAttribute('bullet'));
+      doTest({}, const ListAttribute('bullet'));
+      doTest({'align': 'center'}, const AlignAttribute('right'));
+      doTest({'align': 'left'}, const AlignAttribute('center'));
+      doTest({}, const AlignAttribute('center'));
     });
 
     /// Enter key inserts newline as plain text without inline styles.

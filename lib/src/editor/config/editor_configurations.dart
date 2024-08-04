@@ -15,6 +15,7 @@ import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
 import 'element_options.dart';
+import 'search_configurations.dart';
 
 export 'element_options.dart';
 
@@ -57,8 +58,7 @@ class QuillEditorConfigurations extends Equatable {
     this.enableMarkdownStyleConversion = true,
     this.embedBuilders,
     this.unknownEmbedBuilder,
-    this.searchEmbedContent = true,
-    this.searchEmbedRawData = false,
+    this.searchConfigurations = const QuillSearchConfigurations(),
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -283,13 +283,7 @@ class QuillEditorConfigurations extends Equatable {
   final CustomStyleBuilder? customStyleBuilder;
   final CustomRecognizerBuilder? customRecognizerBuilder;
 
-  /// Search options for embed objects - enable [searchEmbedContent], disable [searchEmbedRawData]
-  ///
-  /// [searchEmbedContent] enables searching within embed objects using the [EmbedBuilder.toPlainText] override to provide the searchable text. Default is true.
-  /// [searchEmbedRawData] enables searching the raw data of the embed object if [EmbedBuilder.toPlainText] is not overridden.
-  /// Default is false since the raw data is not usually visible to a user and it will not be obvious why the embed object was selected.
-  final bool searchEmbedContent;
-  final bool searchEmbedRawData;
+  final QuillSearchConfigurations searchConfigurations;
 
   /// Delegate function responsible for showing menu with link actions on
   /// mobile platforms (iOS, Android).
@@ -432,8 +426,7 @@ class QuillEditorConfigurations extends Equatable {
     ValueChanged<String>? onLaunchUrl,
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-    bool? searchEmbedContent,
-    bool? searchEmbedRawData,
+    QuillSearchConfigurations? searchConfigurations,
     CustomStyleBuilder? customStyleBuilder,
     CustomRecognizerBuilder? customRecognizerBuilder,
     LinkActionPickerDelegate? linkActionPickerDelegate,
@@ -493,8 +486,7 @@ class QuillEditorConfigurations extends Equatable {
       onLaunchUrl: onLaunchUrl ?? this.onLaunchUrl,
       embedBuilders: embedBuilders ?? this.embedBuilders,
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
-      searchEmbedContent: searchEmbedContent ?? this.searchEmbedContent,
-      searchEmbedRawData: searchEmbedRawData ?? this.searchEmbedRawData,
+      searchConfigurations: searchConfigurations ?? this.searchConfigurations,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
       customRecognizerBuilder:
           customRecognizerBuilder ?? this.customRecognizerBuilder,

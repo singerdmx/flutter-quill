@@ -217,6 +217,7 @@ The `QuillToolbar` and `QuillEditor` widgets let you customize a lot of things
 - [Font Size](./doc/configurations/font_size.md)
 - [Font Family](#font-family)
 - [Custom Toolbar buttons](./doc/configurations/custom_buttons.md)
+- [Search](./doc/configurations/search.md)
 
 ### 🖋 Font Family
 
