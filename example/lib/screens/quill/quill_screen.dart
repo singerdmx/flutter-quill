@@ -104,6 +104,9 @@ class _QuillScreenState extends State<QuillScreen> {
                 child: MyQuillEditor(
                   controller: _controller,
                   configurations: QuillEditorConfigurations(
+                    searchConfigurations: const QuillSearchConfigurations(
+                      searchEmbedMode: SearchEmbedMode.plainText,
+                    ),
                     sharedConfigurations: _sharedConfigurations,
                   ),
                   scrollController: _editorScrollController,

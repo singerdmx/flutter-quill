@@ -7,6 +7,7 @@ import '../common/structs/offset_value.dart';
 import '../common/structs/segment_leaf_node.dart';
 import '../delta/delta_x.dart';
 import '../editor/config/editor_configurations.dart';
+import '../editor/config/search_configurations.dart';
 import '../editor/embed/embed_editor_builder.dart';
 import '../rules/rule.dart';
 import 'attribute.dart';
@@ -191,31 +192,21 @@ class Document {
       while ((res.node as Line).length == 1 && index > 0) {
         res = queryChild(--index);
       }
-      //
-      var style = (res.node as Line).collectStyle(res.offset, 0);
-      final remove = <Attribute>{};
-      final add = <String, Attribute>{};
-      for (final attr in style.attributes.values) {
-        if (!Attribute.inlineKeys.contains(attr.key)) {
-          if (!current.containsKey(attr.key)) {
-            remove.add(attr);
-          } else {
-            /// Trap for type of block attribute is changing
-            final curAttr = current.attributes[attr.key];
-            if (curAttr!.value != attr.value) {
-              remove.add(attr);
-              add[curAttr.key] = curAttr;
-            }
-          }
+      // Get inline attributes from previous line
+      final prev = (res.node as Line).collectStyle(res.offset, 0);
+      final attributes = <String, Attribute>{};
+      for (final attr in prev.attributes.values) {
+        if (attr.scope == AttributeScope.inline) {
+          attributes[attr.key] = attr;
         }
       }
-      if (remove.isNotEmpty) {
-        style = style.removeAll(remove);
+      // Combine with block attributes from current line
+      for (final attr in current.attributes.values) {
+        if (attr.scope == AttributeScope.block) {
+          attributes[attr.key] = attr;
+        }
       }
-      if (add.isNotEmpty) {
-        style.attributes.addAll(add);
-      }
-      return style;
+      return Style.attr(attributes);
     }
     //
     final style = (res.node as Line).collectStyle(res.offset - 1, 0);
@@ -250,10 +241,23 @@ class Document {
     return (res.node as Line).collectAllStylesWithOffsets(res.offset, len);
   }
 
+  /// Editor configurations
+  ///
+  /// Caches configuration set in QuillController.
+  /// Allows access to embedBuilders and search configurations
+  QuillEditorConfigurations? _editorConfigurations;
+  QuillEditorConfigurations get editorConfigurations =>
+      _editorConfigurations ?? const QuillEditorConfigurations();
+  set editorConfigurations(QuillEditorConfigurations? value) =>
+      _editorConfigurations = value;
+  QuillSearchConfigurations get searchConfigurations =>
+      editorConfigurations.searchConfigurations;
+
   /// Returns plain text within the specified text range.
-  String getPlainText(int index, int len, [QuillEditorConfigurations? config]) {
+  String getPlainText(int index, int len, [bool includeEmbeds = false]) {
     final res = queryChild(index);
-    return (res.node as Line).getPlainText(res.offset, len, config);
+    return (res.node as Line).getPlainText(
+        res.offset, len, includeEmbeds ? editorConfigurations : null);
   }
 
   /// Returns [Line] located at specified character [offset].
@@ -279,10 +283,12 @@ class Document {
     final matches = <int>[];
     for (final node in _root.children) {
       if (node is Line) {
-        _searchLine(substring, caseSensitive, wholeWord, node, matches);
+        _searchLine(substring, caseSensitive, wholeWord,
+            searchConfigurations.searchEmbedMode, node, matches);
       } else if (node is Block) {
         for (final line in Iterable.castFrom<dynamic, Line>(node.children)) {
-          _searchLine(substring, caseSensitive, wholeWord, line, matches);
+          _searchLine(substring, caseSensitive, wholeWord,
+              searchConfigurations.searchEmbedMode, line, matches);
         }
       } else {
         throw StateError('Unreachable.');
@@ -295,6 +301,7 @@ class Document {
     String substring,
     bool caseSensitive,
     bool wholeWord,
+    SearchEmbedMode searchEmbedMode,
     Line line,
     List<int> matches,
   ) {
@@ -312,6 +319,47 @@ class Document {
       }
       matches.add(index + line.documentOffset);
     }
+    //
+    if (line.hasEmbed && searchEmbedMode != SearchEmbedMode.none) {
+      Node? node = line.children.first;
+      while (node != null) {
+        if (node is Embed) {
+          final ofs = node.offset;
+          final embedText = switch (searchEmbedMode) {
+            SearchEmbedMode.rawData => node.value.data.toString(),
+            SearchEmbedMode.plainText => _embedSearchText(node),
+            SearchEmbedMode.none => null,
+          };
+          //
+          if (embedText?.contains(searchExpression) == true) {
+            final documentOffset = line.documentOffset + ofs;
+            final index = matches.indexWhere((e) => e > documentOffset);
+            if (index < 0) {
+              matches.add(documentOffset);
+            } else {
+              matches.insert(index, documentOffset);
+            }
+          }
+        }
+        node = node.next;
+      }
+    }
+  }
+
+  String? _embedSearchText(Embed node) {
+    EmbedBuilder? builder;
+    if (editorConfigurations.embedBuilders != null) {
+      // Find the builder for this embed
+      for (final b in editorConfigurations.embedBuilders!) {
+        if (b.key == node.value.type) {
+          builder = b;
+          break;
+        }
+      }
+    }
+    builder ??= editorConfigurations.unknownEmbedBuilder;
+    //  Get searchable text for this embed
+    return builder?.toPlainText(node);
   }
 
   /// Given offset, find its leaf node in document
