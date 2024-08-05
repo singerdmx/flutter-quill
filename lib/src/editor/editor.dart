@@ -141,6 +141,7 @@ class QuillEditor extends StatefulWidget {
   factory QuillEditor({
     required FocusNode focusNode,
     required ScrollController scrollController,
+    Key? key,
 
     /// Controller and configurations are required
     ///
@@ -164,13 +165,15 @@ class QuillEditor extends StatefulWidget {
     return QuillEditor._(
         focusNode: focusNode,
         scrollController: scrollController,
-        controller: controller);
+        controller: controller,
+        key: key);
   }
 
   const QuillEditor._(
       {required this.focusNode,
       required this.scrollController,
-      required this.controller});
+      required this.controller,
+      super.key});
 
   factory QuillEditor.basic({
     /// The controller for the quill editor widget of flutter quill
