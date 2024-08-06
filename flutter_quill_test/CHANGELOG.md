@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.9
+
+* restore ability to pass in key to QuillEditor by @mtallenca in https://github.com/singerdmx/flutter-quill/pull/2093
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.8...v10.1.9
+
 ## 10.1.8
 
 * Enhancement: Search within Embed objects by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2090
