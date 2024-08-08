@@ -23,6 +23,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
 import '../../models/documents/attribute.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/block.dart';
+import '../../models/documents/nodes/container.dart' as quil_text;
 import '../../models/documents/nodes/embeddable.dart';
 import '../../models/documents/nodes/leaf.dart' as leaf;
 import '../../models/documents/nodes/line.dart';
@@ -948,75 +949,130 @@ class QuillRawEditorState extends EditorState
       });
     }
   }
-
+  
   List<Widget> _buildChildren(Document doc, BuildContext context) {
-    final result = <Widget>[];
-    final indentLevelCounts = <int, int>{};
-    // this need for several ordered list in document
-    // we need to reset indents Map, if list finished
-    // List finished when there is node without Attribute.ol in styles
-    // So in this case we set clearIndents=true and send it
-    // to the next EditableTextBlock
-    var prevNodeOl = false;
-    var clearIndents = false;
+  final result = <Widget>[];
+  final indentLevelCounts = <int, int>{};
+  var prevNodeOl = false;
+  var clearIndents = false;
 
-    for (final node in doc.root.children) {
-      final attrs = node.style.attributes;
+  for (final node in doc.root.children) {
+    final attrs = node.style.attributes;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol) {
-        clearIndents = true;
-      }
-
-      prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
-
-      if (node is Line) {
-        final editableTextLine = _getEditableTextLineFromNode(node, context);
-        result.add(Directionality(
-            textDirection: getDirectionOfNode(node), child: editableTextLine));
-      } else if (node is Block) {
-        final editableTextBlock = EditableTextBlock(
-          block: node,
-          controller: controller,
-          textDirection: getDirectionOfNode(node),
-          scrollBottomInset: widget.configurations.scrollBottomInset,
-          verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
-          textSelection: controller.selection,
-          color: widget.configurations.selectionColor,
-          styles: _styles,
-          enableInteractiveSelection:
-              widget.configurations.enableInteractiveSelection,
-          hasFocus: _hasFocus,
-          contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
-              : null,
-          embedBuilder: widget.configurations.embedBuilder,
-          linkActionPicker: _linkActionPicker,
-          onLaunchUrl: widget.configurations.onLaunchUrl,
-          cursorCont: _cursorCont,
-          indentLevelCounts: indentLevelCounts,
-          clearIndents: clearIndents,
-          onCheckboxTap: _handleCheckboxTap,
-          readOnly: widget.configurations.readOnly,
-          checkBoxReadOnly: widget.configurations.checkBoxReadOnly,
-          customStyleBuilder: widget.configurations.customStyleBuilder,
-          customLinkPrefixes: widget.configurations.customLinkPrefixes,
-        );
-        result.add(
-          Directionality(
-            textDirection: getDirectionOfNode(node),
-            child: editableTextBlock,
-          ),
-        );
-
-        clearIndents = false;
-      } else {
-        _dirty = false;
-        throw StateError('Unreachable.');
-      }
+    if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol) {
+      clearIndents = true;
     }
-    _dirty = false;
-    return result;
+
+    prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
+
+    Widget buildDraggableDots(Node node, Widget child) {
+      return Row(
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Draggable<Node>(
+              data: node,
+              feedback: Material(
+                child: Opacity(
+                  opacity: 0.7,
+                  child: child,
+                ),
+              ),
+              childWhenDragging: Container(
+                color: Colors.grey[300],
+                child: SizedBox(
+                  width: 20,
+                  height: 40,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Icon(Icons.drag_handle, color: Colors.grey),
+              ),
+            ),
+          ),
+          Expanded(
+            child: DragTarget<Node>(
+              onWillAccept: (incomingNode) {
+                return true; // Optional: Add conditions to determine where the node can be dropped.
+              },
+              onAccept: (incomingNode) {
+                _rearrangeNode(doc.root, incomingNode, node);
+              },
+              builder: (context, candidateData, rejectedData) {
+                return child;
+              },
+            ),
+          ),
+        ],
+      );
+    }
+
+    if (node is Line) {
+      final editableTextLine = _getEditableTextLineFromNode(node, context);
+      result.add(
+        Directionality(
+          textDirection: getDirectionOfNode(node),
+          child: buildDraggableDots(node, editableTextLine),
+        ),
+      );
+    } else if (node is Block) {
+      final editableTextBlock = EditableTextBlock(
+        block: node,
+        controller: controller,
+        textDirection: getDirectionOfNode(node),
+        scrollBottomInset: widget.configurations.scrollBottomInset,
+        verticalSpacing: _getVerticalSpacingForBlock(node, _styles),
+        textSelection: controller.selection,
+        color: widget.configurations.selectionColor,
+        styles: _styles,
+        enableInteractiveSelection:
+            widget.configurations.enableInteractiveSelection,
+        hasFocus: _hasFocus,
+        contentPadding: attrs.containsKey(Attribute.codeBlock.key)
+            ? const EdgeInsets.all(16)
+            : null,
+        embedBuilder: widget.configurations.embedBuilder,
+        linkActionPicker: _linkActionPicker,
+        onLaunchUrl: widget.configurations.onLaunchUrl,
+        cursorCont: _cursorCont,
+        indentLevelCounts: indentLevelCounts,
+        clearIndents: clearIndents,
+        onCheckboxTap: _handleCheckboxTap,
+        readOnly: widget.configurations.readOnly,
+        checkBoxReadOnly: widget.configurations.checkBoxReadOnly,
+        customStyleBuilder: widget.configurations.customStyleBuilder,
+        customLinkPrefixes: widget.configurations.customLinkPrefixes,
+      );
+      result.add(
+        Directionality(
+          textDirection: getDirectionOfNode(node),
+          child: buildDraggableDots(node, editableTextBlock),
+        ),
+      );
+
+      clearIndents = false;
+    } else {
+      _dirty = false;
+      throw StateError('Unreachable.');
+    }
   }
+  _dirty = false;
+  return result;
+}
+
+void _rearrangeNode(quil_text.QuillContainer<Node?> container, Node incomingNode, Node targetNode) {
+  // Remove the node from its original position
+  container.remove(incomingNode);
+
+ // Insert the incoming node before the target node
+  incomingNode.insertBefore(targetNode);
+
+
+  // Refresh the editor to reflect changes
+  setState(() {});
+}
+
 
   EditableTextLine _getEditableTextLineFromNode(
       Line node, BuildContext context) {
