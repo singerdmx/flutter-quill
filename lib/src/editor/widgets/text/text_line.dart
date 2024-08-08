@@ -445,7 +445,7 @@ class _TextLineState extends State<TextLine> {
         if (k == Attribute.underline.key || k == Attribute.strikeThrough.key) {
           var textColor = defaultStyles.color;
           if (color?.value is String) {
-            textColor = stringToColor(color?.value, textColor);
+            textColor = stringToColor(color?.value, textColor, defaultStyles);
           }
           res = _merge(res.copyWith(decorationColor: textColor),
               s!.copyWith(decorationColor: textColor));
@@ -499,7 +499,7 @@ class _TextLineState extends State<TextLine> {
     if (color != null && color.value != null) {
       var textColor = defaultStyles.color;
       if (color.value is String) {
-        textColor = stringToColor(color.value);
+        textColor = stringToColor(color.value, null, defaultStyles);
       }
       if (textColor != null) {
         res = res.merge(TextStyle(color: textColor));
@@ -508,7 +508,8 @@ class _TextLineState extends State<TextLine> {
 
     final background = nodeStyle.attributes[Attribute.background.key];
     if (background != null && background.value != null) {
-      final backgroundColor = stringToColor(background.value);
+      final backgroundColor =
+          stringToColor(background.value, null, defaultStyles);
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
     }
 
