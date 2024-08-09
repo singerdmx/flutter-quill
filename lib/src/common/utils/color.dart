@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
-Color stringToColor(String? s, [Color? originalColor]) {
+import '../../editor/widgets/default_styles.dart';
+
+Color stringToColor(String? s,
+    [Color? originalColor, DefaultStyles? defaultStyles]) {
+  final palette = defaultStyles?.palette;
+  if (s != null && palette != null) {
+    final maybeColor = palette[s];
+    if (maybeColor != null) {
+      return maybeColor;
+    }
+  }
+
   switch (s) {
     case 'transparent':
       return Colors.transparent;
