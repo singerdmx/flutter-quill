@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.1.10
+
+* Fix(example): image_cropper outdated version by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2100
+* Using dart.library.js_interop instead of dart.library.html by @h1376h in https://github.com/singerdmx/flutter-quill/pull/2103
+
+## New Contributors
+* @h1376h made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2103
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.9...v10.1.10
+
 ## 10.1.9
 
 * restore ability to pass in key to QuillEditor by @mtallenca in https://github.com/singerdmx/flutter-quill/pull/2093
