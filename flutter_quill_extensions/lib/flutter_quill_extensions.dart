@@ -35,8 +35,6 @@ export 'src/toolbar/video/models/video.dart';
 export 'src/toolbar/video/models/video_configurations.dart';
 export 'src/toolbar/video/video_button.dart';
 
-// TODO: Refactor flutter_quill_extensions to match the structure of flutter_quill
-
 @immutable
 class FlutterQuillExtensions {
   const FlutterQuillExtensions._();
