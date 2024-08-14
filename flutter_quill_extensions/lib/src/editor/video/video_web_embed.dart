@@ -5,7 +5,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart'
     show YoutubePlayer;
 
 import '../../common/utils/dart_ui/dart_ui_fake.dart'
-    if (dart.library.js_interop) '../../../utils/dart_ui/dart_ui_real.dart'
+    if (dart.library.js_interop) '../../common/utils/dart_ui/dart_ui_real.dart'
     as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';

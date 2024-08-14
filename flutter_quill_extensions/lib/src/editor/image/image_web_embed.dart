@@ -4,7 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
 
 import '../../common/utils/dart_ui/dart_ui_fake.dart'
-    if (dart.library.js_interop) '../../../utils/dart_ui/dart_ui_real.dart'
+    if (dart.library.js_interop) '../../common/utils/dart_ui/dart_ui_real.dart'
     as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
