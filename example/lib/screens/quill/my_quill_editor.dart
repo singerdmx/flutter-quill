@@ -9,7 +9,7 @@ import 'package:flutter_quill/extensions.dart'
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 // ignore: implementation_imports
-import 'package:flutter_quill_extensions/src/embeds/widgets/image.dart'
+import 'package:flutter_quill_extensions/src/editor/image/widgets/image.dart'
     show getImageProviderByImageSource, imageFileExtensions;
 import 'package:path/path.dart' as path;
 

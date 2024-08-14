@@ -2,23 +2,21 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as fq;
 import 'package:meta/meta.dart' show immutable;
 
-import 'embeds/image/editor/image_embed.dart';
-import 'embeds/image/editor/image_web_embed.dart';
-import 'embeds/image/toolbar/image_button.dart';
-import 'embeds/others/camera_button/camera_button.dart';
-import 'embeds/table/editor/table_embed.dart';
-import 'embeds/table/toolbar/table_button.dart';
-import 'embeds/video/editor/video_embed.dart';
-import 'embeds/video/editor/video_web_embed.dart';
-import 'embeds/video/toolbar/video_button.dart';
-import 'models/config/camera/camera_configurations.dart';
-import 'models/config/image/editor/image_configurations.dart';
-import 'models/config/image/toolbar/image_configurations.dart';
-import 'models/config/media/media_button_configurations.dart';
-import 'models/config/table/table_configurations.dart';
-import 'models/config/video/editor/video_configurations.dart';
-import 'models/config/video/editor/video_web_configurations.dart';
-import 'models/config/video/toolbar/video_configurations.dart';
+import 'editor/image/image_embed.dart';
+import 'editor/image/models/image_configurations.dart';
+import 'editor/table/table_embed.dart';
+import 'editor/video/models/video_configurations.dart';
+import 'editor/video/models/video_web_configurations.dart';
+import 'editor/video/video_embed.dart';
+import 'editor/video/video_web_embed.dart';
+import 'toolbar/camera/camera_button.dart';
+import 'toolbar/camera/models/camera_configurations.dart';
+import 'toolbar/image/image_button.dart';
+import 'toolbar/image/models/image_configurations.dart';
+import 'toolbar/table/models/table_configurations.dart';
+import 'toolbar/table/table_button.dart';
+import 'toolbar/video/models/video_configurations.dart';
+import 'toolbar/video/video_button.dart';
 
 @immutable
 class FlutterQuillEmbeds {
@@ -122,10 +120,6 @@ class FlutterQuillEmbeds {
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
     QuillToolbarTableButtonOptions? tableButtonOptions,
-    @Deprecated(
-      'Media button has been removed, the value of this parameter will be ignored',
-    )
-    QuillToolbarMediaButtonOptions? mediaButtonOptions,
   }) =>
       [
         if (imageButtonOptions != null)
