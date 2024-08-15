@@ -192,11 +192,12 @@ class Document {
       while ((res.node as Line).length == 1 && index > 0) {
         res = queryChild(--index);
       }
-      // Get inline attributes from previous line
+      // Get inline attributes from previous line (link does not cross line breaks)
       final prev = (res.node as Line).collectStyle(res.offset, 0);
       final attributes = <String, Attribute>{};
       for (final attr in prev.attributes.values) {
-        if (attr.scope == AttributeScope.inline) {
+        if (attr.scope == AttributeScope.inline &&
+            attr.key != Attribute.link.key) {
           attributes[attr.key] = attr;
         }
       }
@@ -211,13 +212,15 @@ class Document {
     //
     final style = (res.node as Line).collectStyle(res.offset - 1, 0);
     final linkAttribute = style.attributes[Attribute.link.key];
-    if ((linkAttribute != null) &&
-        (linkAttribute.value !=
-            (res.node as Line)
-                .collectStyle(res.offset, len)
-                .attributes[Attribute.link.key]
-                ?.value)) {
-      return style.removeAll({linkAttribute});
+    if (linkAttribute != null) {
+      if ((res.node!.length - 1 == res.offset) ||
+          (linkAttribute.value !=
+              (res.node as Line)
+                  .collectStyle(res.offset, len)
+                  .attributes[Attribute.link.key]
+                  ?.value)) {
+        return style.removeAll({linkAttribute});
+      }
     }
     return style;
   }

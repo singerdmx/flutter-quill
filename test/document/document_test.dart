@@ -4,6 +4,32 @@ import 'package:test/test.dart';
 
 void main() {
   group('collectStyle', () {
+    test('No selection', () {
+      final delta = Delta()
+        ..insert('plain\n')
+        ..insert('bold\n', <String, dynamic>{'bold': true})
+        ..insert('italic\n', <String, dynamic>{'italic': true});
+      final document = Document.fromDelta(delta);
+      //
+      expect(
+          document.getPlainText(0, document.length), 'plain\nbold\nitalic\n');
+      expect(document.length, 18);
+      //
+      for (var index = 0; index < 6; index++) {
+        expect(const Style(), document.collectStyle(index, 0));
+      }
+      //
+      for (var index = 6; index < 11; index++) {
+        expect(const Style.attr({'bold': Attribute.bold}),
+            document.collectStyle(index, 0));
+      }
+      //
+      for (var index = 11; index < document.length; index++) {
+        expect(const Style.attr({'italic': Attribute.italic}),
+            document.collectStyle(index, 0));
+      }
+    });
+
     /// Lists and alignments have the same block attribute key but can have different values.
     /// Changing the format value updates the document but must also update the toolbar button state
     /// by ensuring the collectStyles method returns the attribute selected for the newly entered line.
@@ -132,6 +158,28 @@ void main() {
           document.collectStyle(8, 3));
       //
       expect(const Style(), document.collectStyle(3, 3));
+    });
+
+    /// Links do not cross a line boundary
+    /// Enter key inserts newline as plain text without inline styles.
+    /// collectStyle needs to retrieve style of preceding line
+    test('Links and line boundaries', () {
+      final delta = Delta()
+        ..insert('A link ')
+        ..insert('home page', <String, dynamic>{'link': 'https://unknown.com'})
+        ..insert('\n\nplain\n');
+      final document = Document.fromDelta(delta);
+      //
+      const linkStyle =
+          Style.attr({'link': LinkAttribute('https://unknown.com')});
+      //
+      expect(document.collectStyle(15, 0), linkStyle, reason: 'Within Link');
+      expect(document.collectStyle(16, 0), const Style(),
+          reason: 'At end of link');
+      expect(document.collectStyle(17, 0), const Style(),
+          reason: 'start of blank line');
+      expect(document.collectStyle(18, 0), const Style(),
+          reason: 'start of blank line');
     });
   });
 }
