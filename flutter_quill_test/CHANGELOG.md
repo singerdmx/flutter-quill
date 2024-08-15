@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.2.0
+
+* refactor!: restructure project into modular architecture for flutter_quill_extensions by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2106
+* Fix: Link selection and editing by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2114
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.1.10...v10.2.0
+
 ## 10.1.10
 
 * Fix(example): image_cropper outdated version by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2100
