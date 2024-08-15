@@ -383,15 +383,34 @@ base class Line extends QuillContainer<Leaf?> {
         pos += node.length;
       }
     }
-    result = result.mergeAll(style);
+
+    /// Blank lines do not have style and must get the active style from prior line
+    if (isEmpty) {
+      var prevLine = previous;
+      while (prevLine is Block && prevLine.isNotEmpty) {
+        prevLine = prevLine.children.last;
+      }
+      if (prevLine is Line) {
+        result = result.mergeAll(prevLine.collectStyle(prevLine.length - 1, 1));
+      }
+    } else {
+      result = result.mergeAll(style);
+    }
     if (parent is Block) {
       final block = parent as Block;
       result = result.mergeAll(block.style);
     }
 
-    final remaining = len - local;
-    if (remaining > 0 && nextLine != null) {
-      final rest = nextLine!.collectStyle(0, remaining);
+    var remaining = len - local;
+    var nxt = nextLine;
+
+    /// Skip over empty lines that have no attributes
+    while (remaining > 0 && nxt != null && nxt.isEmpty) {
+      remaining--;
+      nxt = nxt.nextLine;
+    }
+    if (remaining > 0 && nxt != null) {
+      final rest = nxt.collectStyle(0, remaining);
       handle(rest);
     }
 

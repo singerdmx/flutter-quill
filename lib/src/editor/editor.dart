@@ -911,11 +911,22 @@ class RenderEditor extends RenderEditableContainerBox
 
     final extentNode = _container.queryChild(textSelection.end, false).node;
     RenderEditableBox? extentChild = baseChild;
-    while (extentChild != null) {
-      if (extentChild.container == extentNode) {
-        break;
+
+    /// Trap shortening the text of a link which can cause selection to extend off end of line
+    if (extentNode == null) {
+      while (true) {
+        final next = childAfter(extentChild);
+        if (next == null) {
+          break;
+        }
       }
-      extentChild = childAfter(extentChild);
+    } else {
+      while (extentChild != null) {
+        if (extentChild.container == extentNode) {
+          break;
+        }
+        extentChild = childAfter(extentChild);
+      }
     }
     assert(extentChild != null);
 
