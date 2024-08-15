@@ -136,7 +136,7 @@ and attach the `QuillController` to them:
 ```dart
 QuillSimpleToolbar(
   controller: _controller,
-  configurations: QuillSimpleToolbarConfigurations(),
+  configurations: const QuillSimpleToolbarConfigurations(),
 ),
 Expanded(
   child: QuillEditor.basic(

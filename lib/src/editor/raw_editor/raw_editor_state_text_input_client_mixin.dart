@@ -79,6 +79,19 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       _updateComposingRectIfNeeded();
       //update IME position for Macos
       _updateCaretRectIfNeeded();
+
+      /// Trap selection extends off end of document
+      if (_lastKnownRemoteTextEditingValue != null) {
+        if (_lastKnownRemoteTextEditingValue!.selection.end >
+            _lastKnownRemoteTextEditingValue!.text.length) {
+          _lastKnownRemoteTextEditingValue = _lastKnownRemoteTextEditingValue!
+              .copyWith(
+                  selection: _lastKnownRemoteTextEditingValue!.selection
+                      .copyWith(
+                          extentOffset:
+                              _lastKnownRemoteTextEditingValue!.text.length));
+        }
+      }
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
     }
     _textInputConnection!.show();
