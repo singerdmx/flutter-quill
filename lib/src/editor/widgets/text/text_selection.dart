@@ -428,7 +428,7 @@ class EditorTextSelectionOverlay {
     );
 
     if (builtMagnifier == null) return;
-    
+
     _magnifierController.show(
       context: context,
       below: magnifierConfiguration.shouldDisplayHandlesInMagnifier
