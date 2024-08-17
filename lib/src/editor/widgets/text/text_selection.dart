@@ -433,7 +433,7 @@ class EditorTextSelectionOverlay {
       context: context,
       below: magnifierConfiguration.shouldDisplayHandlesInMagnifier
           ? null
-          : _handles![0],
+          : _handles?.elementAtOrNull(0),
       builder: (_) => builtMagnifier,
     );
   }
