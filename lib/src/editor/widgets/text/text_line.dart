@@ -405,7 +405,8 @@ class _TextLineState extends State<TextLine> {
     }
 
     // verify is node is not link because we never need check a link word
-    if (!isLink) {
+    // and avoid to show highlighting when is only reading
+    if (!isLink && !widget.readOnly && !widget.line.style.attributes.containsKey('code-block')) {
       final service = SpellcheckerServiceProvider.instance;
       final spellcheckedSpans = service.fetchSpellchecker(textNode.value);
       if (spellcheckedSpans != null && spellcheckedSpans.isNotEmpty) {
