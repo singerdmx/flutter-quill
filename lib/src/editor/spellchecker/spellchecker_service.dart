@@ -6,9 +6,10 @@ abstract class SpellcheckerService {
   SpellcheckerService({required this.language});
 
   final String language;
+
   /// dispose all the resources used for SpellcheckerService
-  /// 
-  /// if [onlyPartial] is true just dispose a part of the SpellcheckerService 
+  ///
+  /// if [onlyPartial] is true just dispose a part of the SpellcheckerService
   /// (this comes from the implementation)
   ///
   /// if [onlyPartial] is false dispose all resources

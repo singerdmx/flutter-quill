@@ -404,7 +404,10 @@ class _TextLineState extends State<TextLine> {
       }
     }
 
-    if (!isLink && !widget.readOnly && !widget.line.style.attributes.containsKey('code-block') && !kIsWeb) {
+    if (!isLink &&
+        !widget.readOnly &&
+        !widget.line.style.attributes.containsKey('code-block') &&
+        !kIsWeb) {
       final service = SpellcheckerServiceProvider.instance;
       final spellcheckedSpans = service.fetchSpellchecker(textNode.value);
       if (spellcheckedSpans != null && spellcheckedSpans.isNotEmpty) {
