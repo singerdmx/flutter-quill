@@ -1,12 +1,8 @@
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 abstract class SpellcheckerService {
-  SpellcheckerService({
-    required this.language,
-  });
+  SpellcheckerService({required this.language});
 
   final String language;
-  List<SuggestionSpan>? getSuggestions(String text);
+  List<TextSpan>? fetchSpellchecker(String text);
 }
-
-
