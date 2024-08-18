@@ -43,8 +43,6 @@ class _QuillScreenState extends State<QuillScreen> {
   void initState() {
     super.initState();
     _controller.document = widget.args.document;
-    SpellcheckerServiceProvider.setInstance(
-        SimpleSpellCheckerImpl(language: 'en'));
   }
 
   @override

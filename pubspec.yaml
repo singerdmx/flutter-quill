@@ -45,7 +45,7 @@ dependencies:
   # Dart Packages
   intl: ^0.19.0
   dart_quill_delta: ^10.0.0
-  simple_spell_checker: ^1.0.4
+  simple_spell_checker: ^1.0.6
   collection: ^1.17.0
   quiver: ^3.2.1
   equatable: ^2.0.5
