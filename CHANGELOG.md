@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.3.0
+
+* Feat: Spellchecker for Flutter Quill by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2118
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.2.1...v10.3.0
+
 ## 10.2.1
 
 * Fix: context menu is visible even when selection is collapsed by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2116
