@@ -1,7 +1,7 @@
 library flutter_quill_extensions;
 
 // ignore: implementation_imports
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/src/editor/spellchecker/spellchecker_service_provider.dart';
 import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import 'package:meta/meta.dart' show immutable;
 
@@ -45,7 +45,7 @@ class FlutterQuillExtensions {
   /// override the default implementation of [SpellCheckerServiceProvider]
   /// to allow a `flutter quill` support a better check spelling
   ///
-  /// # !WARNING 
+  /// # !WARNING
   /// To avoid memory leaks, ensure to use [dispose()] method to
   /// close stream controllers that used by this custom implementation
   /// when them no longer needed
@@ -57,7 +57,8 @@ class FlutterQuillExtensions {
   ///SpellCheckerServiceProvider.dispose(onlyPartial: false);
   ///```
   static void useSpellCheckerService(String language) {
-    SpellCheckerServiceProvider.setNewCheckerService(SimpleSpellCheckerService(language: language));
+    SpellCheckerServiceProvider.setNewCheckerService(
+        SimpleSpellCheckerService(language: language));
   }
 
   /// Override default implementation of [ClipboardServiceProvider.instance]

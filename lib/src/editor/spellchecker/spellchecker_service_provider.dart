@@ -13,11 +13,11 @@ class SpellCheckerServiceProvider {
     _instance = service;
   }
 
-  static void dispose({bool onlyPartial = false}){
+  static void dispose({bool onlyPartial = false}) {
     _instance.dispose(onlyPartial: onlyPartial);
   }
 
-  static void setNewLanguageState({required String language}){
+  static void setNewLanguageState({required String language}) {
     assert(language.isNotEmpty);
     _instance.setNewLanguageState(language: language);
   }
