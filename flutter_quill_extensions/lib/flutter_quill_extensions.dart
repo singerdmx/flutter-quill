@@ -2,6 +2,7 @@ library flutter_quill_extensions;
 
 // ignore: implementation_imports
 import 'package:flutter_quill/src/editor/spellchecker/spellchecker_service_provider.dart';
+// ignore: implementation_imports
 import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import 'package:meta/meta.dart' show immutable;
 
