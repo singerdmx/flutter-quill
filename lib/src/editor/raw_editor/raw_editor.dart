@@ -100,4 +100,6 @@ abstract class EditorState extends State<QuillRawEditor>
   void updateMagnifier(Offset positionToShow);
 
   void hideMagnifier();
+
+  void toggleToolbar([bool hideHandles = true]);
 }
