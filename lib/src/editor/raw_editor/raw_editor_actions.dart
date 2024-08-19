@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../translations.dart';
 import '../../document/attribute.dart';
+import '../../document/style.dart';
 import '../../toolbar/buttons/link_style2_button.dart';
 import '../../toolbar/buttons/search/search_dialog.dart';
 import '../editor.dart';
@@ -38,42 +39,72 @@ class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
     final selection = state.textEditingValue.selection;
     assert(selection.isValid);
 
-    if (!selection.isCollapsed) {
+    Object? execute() {
+      if (!selection.isCollapsed) {
+        return Actions.invoke(
+          context!,
+          ReplaceTextIntent(
+              state.textEditingValue,
+              '',
+              _expandNonCollapsedRange(state.textEditingValue),
+              SelectionChangedCause.keyboard),
+        );
+      }
+
+      final textBoundary = getTextBoundariesForIntent(intent);
+      if (!textBoundary.textEditingValue.selection.isValid) {
+        return null;
+      }
+      if (!textBoundary.textEditingValue.selection.isCollapsed) {
+        return Actions.invoke(
+          context!,
+          ReplaceTextIntent(
+              state.textEditingValue,
+              '',
+              _expandNonCollapsedRange(textBoundary.textEditingValue),
+              SelectionChangedCause.keyboard),
+        );
+      }
+
       return Actions.invoke(
         context!,
         ReplaceTextIntent(
-            state.textEditingValue,
-            '',
-            _expandNonCollapsedRange(state.textEditingValue),
-            SelectionChangedCause.keyboard),
+          textBoundary.textEditingValue,
+          '',
+          textBoundary
+              .getTextBoundaryAt(textBoundary.textEditingValue.selection.base),
+          SelectionChangedCause.keyboard,
+        ),
       );
     }
 
-    final textBoundary = getTextBoundariesForIntent(intent);
-    if (!textBoundary.textEditingValue.selection.isValid) {
-      return null;
+    /// Backspace event needs to 'remember' the style of the deleted text.
+    /// Example: enter styled text, backspace to erase and reenter - expects to use the same style and not reset to default.
+    /// Also must handle situations where text is selected and deleted by backspace.
+    /// Note: This implementation is the same as that used by word processors.
+    /// Backspace events are handled differently from selection replacement or using the delete key.
+    Style? postStyle;
+    if (!intent.forward) {
+      final start = selection.start + (selection.isCollapsed ? 0 : 1);
+      var target = state.controller.document.collectStyle(start, 0);
+      if (start > 0) {
+        final style = state.controller.document.collectStyle(start - 1, 0);
+        for (final key in style.attributes.keys) {
+          if (Attribute.inlineKeys.contains(key)) {
+            if (!target.containsKey(key)) {
+              target = target.put(Attribute(key, AttributeScope.inline, null));
+            }
+          }
+        }
+      }
+      postStyle = target;
     }
-    if (!textBoundary.textEditingValue.selection.isCollapsed) {
-      return Actions.invoke(
-        context!,
-        ReplaceTextIntent(
-            state.textEditingValue,
-            '',
-            _expandNonCollapsedRange(textBoundary.textEditingValue),
-            SelectionChangedCause.keyboard),
-      );
+    //
+    final result = execute();
+    if (postStyle != null) {
+      state.controller.forceToggledStyle(postStyle);
     }
-
-    return Actions.invoke(
-      context!,
-      ReplaceTextIntent(
-        textBoundary.textEditingValue,
-        '',
-        textBoundary
-            .getTextBoundaryAt(textBoundary.textEditingValue.selection.base),
-        SelectionChangedCause.keyboard,
-      ),
-    );
+    return result;
   }
 
   @override
