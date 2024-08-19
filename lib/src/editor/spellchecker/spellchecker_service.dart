@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 /// A representation a custom SpellCheckService.
-abstract class SpellcheckerService {
-  SpellcheckerService({required this.language});
+abstract class SpellCheckerService<T> {
+  SpellCheckerService({required this.language});
 
   final String language;
 
@@ -15,10 +15,19 @@ abstract class SpellcheckerService {
   /// if [onlyPartial] is false dispose all resources
   void dispose({bool onlyPartial = false});
 
+  /// set a new language state used for SpellcheckerService
+  void setNewLanguageState({required String language});
+
+  /// set a new language state used for SpellcheckerService
+  void updateCustomLanguageIfExist({required T languageIdentifier});
+
+  /// set a new custom language for SpellcheckerService
+  void addCustomLanguage({required T languageIdentifier});
+
   /// Facilitates a spell check request.
   ///
   /// Returns a [List<TextSpan>] with all misspelled words divide from the right words.
-  List<TextSpan>? fetchSpellchecker(String text,
+  List<TextSpan>? checkSpelling(String text,
       {LongPressGestureRecognizer Function(String)?
           customLongPressRecognizerOnWrongSpan});
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:simple_spell_checker/simple_spell_checker.dart';
 
-import 'spellchecker_service.dart';
-
-/// SimpleSpellCheckerImpl is a simple spell checker for get
+/// SimpleSpellChecker is a simple spell checker for get
 /// all words divide on different objects if them are wrong or not
-class SimpleSpellCheckerImpl extends SpellcheckerService {
-  SimpleSpellCheckerImpl({required super.language})
+class SimpleSpellCheckerService
+    extends SpellCheckerService<LanguageIdentifier> {
+  SimpleSpellCheckerService({required super.language})
       : checker = SimpleSpellChecker(
           language: language,
           safeDictionaryLoad: true,
@@ -19,7 +19,7 @@ class SimpleSpellCheckerImpl extends SpellcheckerService {
   final SimpleSpellChecker checker;
 
   @override
-  List<TextSpan>? fetchSpellchecker(
+  List<TextSpan>? checkSpelling(
     String text, {
     LongPressGestureRecognizer Function(String word)?
         customLongPressRecognizerOnWrongSpan,
@@ -37,6 +37,23 @@ class SimpleSpellCheckerImpl extends SpellcheckerService {
       checker.disposeControllers();
       return;
     }
-    checker.dispose(closeDirectionary: true);
+    checker.dispose();
+  }
+
+  @override
+  void addCustomLanguage({required languageIdentifier}) {
+    checker
+      ..registerLanguage(languageIdentifier.language)
+      ..addCustomLanguage(languageIdentifier);
+  }
+
+  @override
+  void setNewLanguageState({required String language}) {
+    checker.setNewLanguageToState(language);
+  }
+
+  @override
+  void updateCustomLanguageIfExist({required languageIdentifier}) {
+    checker.updateCustomLanguageIfExist(languageIdentifier);
   }
 }

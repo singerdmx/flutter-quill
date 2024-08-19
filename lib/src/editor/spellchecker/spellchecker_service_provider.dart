@@ -3,17 +3,26 @@ import 'default_spellchecker_service.dart';
 import 'spellchecker_service.dart';
 
 @immutable
-class SpellcheckerServiceProvider {
-  const SpellcheckerServiceProvider._();
-  static SpellcheckerService _instance = DefaultSpellcheckerService();
+class SpellCheckerServiceProvider {
+  const SpellCheckerServiceProvider._();
+  static SpellCheckerService _instance = DefaultSpellCheckerService();
 
-  static SpellcheckerService get instance => _instance;
+  static SpellCheckerService get instance => _instance;
 
-  static void setInstance(SpellcheckerService service) {
+  static void setNewCheckerService(SpellCheckerService service) {
     _instance = service;
   }
 
-  static void setInstanceToDefault() {
-    _instance = DefaultSpellcheckerService();
+  static void dispose({bool onlyPartial = false}) {
+    _instance.dispose(onlyPartial: onlyPartial);
+  }
+
+  static void setNewLanguageState({required String language}) {
+    assert(language.isNotEmpty);
+    _instance.setNewLanguageState(language: language);
+  }
+
+  static void turnOffService() {
+    _instance = DefaultSpellCheckerService();
   }
 }
