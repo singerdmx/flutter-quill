@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart'
     show TextCapitalization, TextInputAction, TextSelectionThemeData;
 import 'package:flutter/widgets.dart';
@@ -244,11 +245,12 @@ class QuillEditorConfigurations extends Equatable {
 
   // Returns whether gesture is handled
   final bool Function(
-      TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
+          TapDragDownDetails details, TextPosition Function(Offset offset))?
+      onTapDown;
 
   // Returns whether gesture is handled
   final bool Function(
-      TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+      TapDragUpDetails details, TextPosition Function(Offset offset))? onTapUp;
 
   // Returns whether gesture is handled
   final bool Function(
