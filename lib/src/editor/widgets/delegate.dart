@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import '../../common/utils/platform.dart';
 import '../../document/attribute.dart';
 import '../../document/nodes/leaf.dart';
-import '../../widgets/editor/editor.dart';
+import '../editor.dart';
 import '../raw_editor/raw_editor.dart';
 import 'text/text_selection.dart';
 
@@ -254,7 +254,8 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onTapDown(TapDragDownDetails details) {
     if (!delegate.selectionEnabled) return;
-    renderEditor!.handleTapDown(details);
+    renderEditor!
+        .handleTapDown(TapDownDetails(globalPosition: details.globalPosition));
     final kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
         kind == PointerDeviceKind.touch ||
