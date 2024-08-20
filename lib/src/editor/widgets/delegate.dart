@@ -647,6 +647,10 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionStart(TapDragStartDetails details) {
     if (delegate.selectionEnabled == false) return;
+    // underline show open on ios and android,
+    // when has isCollapsed, show not reposonse to tapdarg gesture
+    // so that will not change texteditingvalue,
+    // and same issue to TextField, tap selection area, will lost selection,
     // if (editor?.textEditingValue.selection.isCollapsed == false) return;
 
     final kind = details.kind;
