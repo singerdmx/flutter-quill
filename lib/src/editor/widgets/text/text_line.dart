@@ -407,6 +407,7 @@ class _TextLineState extends State<TextLine> {
     if (!isLink &&
         !widget.readOnly &&
         !widget.line.style.attributes.containsKey('code-block') &&
+        !widget.line.style.attributes.containsKey('placeholder') &&
         !kIsWeb) {
       final service = SpellCheckerServiceProvider.instance;
       final spellcheckedSpans = service.checkSpelling(textNode.value);
