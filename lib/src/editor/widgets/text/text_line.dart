@@ -391,10 +391,8 @@ class _TextLineState extends State<TextLine> {
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
-
     final style =
         _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
-
     if (widget.controller.configurations.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
       if (nodeStyle.containsKey(Attribute.script.key)) {
@@ -403,6 +401,21 @@ class _TextLineState extends State<TextLine> {
           return _scriptSpan(textNode.value, attr == Attribute.superscript,
               style, defaultStyles);
         }
+      }
+    }
+
+    if (!isLink &&
+        !widget.readOnly &&
+        !widget.line.style.attributes.containsKey('code-block') &&
+        !kIsWeb) {
+      final service = SpellCheckerServiceProvider.instance;
+      final spellcheckedSpans = service.checkSpelling(textNode.value);
+      if (spellcheckedSpans != null && spellcheckedSpans.isNotEmpty) {
+        return TextSpan(
+          children: spellcheckedSpans,
+          style: style,
+          mouseCursor: null,
+        );
       }
     }
 

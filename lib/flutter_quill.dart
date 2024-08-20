@@ -24,6 +24,8 @@ export 'src/editor/raw_editor/config/raw_editor_configurations.dart';
 export 'src/editor/raw_editor/quill_single_child_scroll_view.dart';
 export 'src/editor/raw_editor/raw_editor.dart';
 export 'src/editor/raw_editor/raw_editor_state.dart';
+export 'src/editor/spellchecker/spellchecker_service.dart';
+export 'src/editor/spellchecker/spellchecker_service_provider.dart';
 export 'src/editor/style_widgets/style_widgets.dart';
 export 'src/editor/widgets/cursor.dart';
 export 'src/editor/widgets/default_styles.dart';

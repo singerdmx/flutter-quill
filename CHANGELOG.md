@@ -4,6 +4,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.3.1
+
+* Chore: Move spellchecker service to extensions by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2120
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.3.0...v10.3.1
+
+## 10.3.0
+
+* Feat: Spellchecker for Flutter Quill by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2118
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.2.1...v10.3.0
+
+## 10.2.1
+
+* Fix: context menu is visible even when selection is collapsed by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2116
+* Fix: unsafe operation while getting overlayEntry in text_selection by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2117
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.2.0...v10.2.1
+
 ## 10.2.0
 
 * refactor!: restructure project into modular architecture for flutter_quill_extensions by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2106
