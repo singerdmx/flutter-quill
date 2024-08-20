@@ -647,7 +647,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionStart(TapDragStartDetails details) {
     if (delegate.selectionEnabled == false) return;
-    if (editor?.textEditingValue.selection.isCollapsed == false) return;
+    // if (editor?.textEditingValue.selection.isCollapsed == false) return;
 
     final kind = details.kind;
     shouldShowSelectionToolbar = kind == null ||
@@ -755,7 +755,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onDragSelectionUpdate(TapDragUpdateDetails updateDetails) {
     if (delegate.selectionEnabled == false) return;
-    if (editor?.textEditingValue.selection.isCollapsed == false) return;
+    // if (editor?.textEditingValue.selection.isCollapsed == false) return;
     if (!_isShiftPressed) {
       // Adjust the drag start offset for possible viewport offset changes.
       final editableOffset =
@@ -965,7 +965,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onDragSelectionEnd(TapDragEndDetails details) {
-    if (editor?.textEditingValue.selection.isCollapsed == false) return;
+    // if (editor?.textEditingValue.selection.isCollapsed == false) return;
     renderEditor!.handleDragEnd(details);
     if (isDesktop(supportWeb: true) &&
         delegate.selectionEnabled &&
