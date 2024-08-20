@@ -15,10 +15,21 @@ import '../../quill/samples/quill_videos_sample.dart';
 import '../../settings/widgets/settings_screen.dart';
 import 'example_item.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static const routeName = '/home';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void dispose() {
+    SpellCheckerServiceProvider.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
