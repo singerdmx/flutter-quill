@@ -15,10 +15,21 @@ import '../../quill/samples/quill_videos_sample.dart';
 import '../../settings/widgets/settings_screen.dart';
 import 'example_item.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static const routeName = '/home';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void dispose() {
+    SpellCheckerServiceProvider.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +78,7 @@ class HomeScreen extends StatelessWidget {
                       Icons.home,
                       size: 50,
                     ),
-                    text:
-                        'If you want to see how the editor work with default content, '
+                    text: 'If you want to see how the editor work with default content, '
                         'see any samples or you are working on it',
                     onPressed: () => Navigator.of(context).pushNamed(
                       QuillScreen.routeName,
