@@ -124,6 +124,12 @@ class QuillController extends ChangeNotifier {
   /// It gets reset after each format action within the [document].
   Style toggledStyle = const Style();
 
+  /// [raw_editor_actions] handling of backspace event may need to force the style displayed in the toolbar
+  void forceToggledStyle(Style style) {
+    toggledStyle = style;
+    notifyListeners();
+  }
+
   bool ignoreFocusOnTextChange = false;
 
   /// Skip requestKeyboard being called in

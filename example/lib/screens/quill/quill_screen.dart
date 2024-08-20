@@ -3,13 +3,18 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
+    show
+        FlutterQuillEmbeds,
+        FlutterQuillExtensions,
+        QuillSharedExtensionsConfigurations;
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
 import '../shared/widgets/home_screen_button.dart';
 import 'my_quill_editor.dart';
 import 'my_quill_toolbar.dart';
+
+var _isActivatedSpellChecker = false;
 
 @immutable
 class QuillScreenArgs {
@@ -60,6 +65,24 @@ class _QuillScreenState extends State<QuillScreen> {
       appBar: AppBar(
         title: const Text('Flutter Quill'),
         actions: [
+          IconButton(
+            tooltip: 'Spell-checker',
+            onPressed: () {
+              if (!_isActivatedSpellChecker) {
+                FlutterQuillExtensions.useSpellCheckerService(
+                    Localizations.localeOf(context).languageCode);
+              } else {
+                SpellCheckerServiceProvider.dispose(onlyPartial: true);
+                SpellCheckerServiceProvider.turnOffService();
+              }
+              _isActivatedSpellChecker = !_isActivatedSpellChecker;
+              setState(() {});
+            },
+            icon: Icon(
+              Icons.document_scanner,
+              color: _isActivatedSpellChecker ? Colors.red : null,
+            ),
+          ),
           IconButton(
             tooltip: 'Share',
             onPressed: () {
