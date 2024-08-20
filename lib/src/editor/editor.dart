@@ -4,7 +4,13 @@ import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
 import 'package:flutter/foundation.dart'
     show ValueListenable, defaultTargetPlatform;
-import 'package:flutter/gestures.dart' show PointerDeviceKind;
+import 'package:flutter/gestures.dart'
+    show
+        PointerDeviceKind,
+        TapDragDownDetails,
+        TapDragEndDetails,
+        TapDragStartDetails,
+        TapDragUpDetails;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -488,7 +494,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     editor?.updateMagnifier(details.globalPosition);
   }
 
-  bool _isPositionSelected(TapUpDetails details) {
+  bool _isPositionSelected(TapDragUpDetails details) {
     if (_state.controller.document.isEmpty()) {
       return false;
     }
@@ -511,7 +517,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
-  void onTapDown(TapDownDetails details) {
+  void onTapDown(TapDragDownDetails details) {
     if (_state.configurations.onTapDown != null) {
       if (renderEditor != null &&
           _state.configurations.onTapDown!(
@@ -532,7 +538,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
-  void onSingleTapUp(TapUpDetails details) {
+  void onSingleTapUp(TapDragUpDetails details) {
     if (_state.configurations.onTapUp != null &&
         renderEditor != null &&
         _state.configurations.onTapUp!(
@@ -738,6 +744,7 @@ class RenderEditor extends RenderEditableContainerBox
   Document document;
   TextSelection selection;
   bool _hasFocus = false;
+  bool get hasFocus => _hasFocus;
   LayerLink _startHandleLayerLink;
   LayerLink _endHandleLayerLink;
 
@@ -944,11 +951,19 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   Offset? _lastTapDownPosition;
+  Offset? _lastSecondaryTapDownPosition;
+
+  Offset? get lastSecondaryTapDownPosition => _lastSecondaryTapDownPosition;
 
   // Used on Desktop (mouse and keyboard enabled platforms) as base offset
   // for extending selection, either with combination of `Shift` + Click or
   // by dragging
   TextSelection? _extendSelectionOrigin;
+
+  void handleSecondaryTapDown(TapDownDetails details) {
+    _lastTapDownPosition = details.globalPosition;
+    _lastSecondaryTapDownPosition = details.globalPosition;
+  }
 
   @override
   void handleTapDown(TapDownDetails details) {
@@ -957,7 +972,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   bool _isDragging = false;
 
-  void handleDragStart(DragStartDetails details) {
+  void handleDragStart(TapDragStartDetails details) {
     _isDragging = true;
 
     final newSelection = selectPositionAt(
@@ -970,7 +985,7 @@ class RenderEditor extends RenderEditableContainerBox
     _extendSelectionOrigin = newSelection;
   }
 
-  void handleDragEnd(DragEndDetails details) {
+  void handleDragEnd(TapDragEndDetails details) {
     _isDragging = false;
     onSelectionCompleted();
   }
