@@ -41,7 +41,7 @@ dependencies:
 
   # Plugins
   video_player: ^2.8.1
-  simple_spell_checker: ^1.0.9
+  simple_spell_checker: ^1.1.2
   youtube_player_flutter: ^9.0.1
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.15
