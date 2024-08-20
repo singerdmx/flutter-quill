@@ -4,6 +4,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.0
+
+* Copy TapAndPanGestureRecognizer from TextField by @demoYang in https://github.com/singerdmx/flutter-quill/pull/2128
+* enhance stringToColor with a custom defined palette from `DefaultStyles` by @vishna in https://github.com/singerdmx/flutter-quill/pull/2095
+* Feat: include spell checker for example app by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2127
+
+## New Contributors
+* @vishna made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2095
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.3.3...v10.4.0
+
+## 10.3.2
+
+* Fix: Loss of style when backspace by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2125
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.3.1...v10.3.2
+
 ## 10.3.1
 
 * Chore: Move spellchecker service to extensions by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2120

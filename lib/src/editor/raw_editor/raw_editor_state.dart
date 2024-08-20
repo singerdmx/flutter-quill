@@ -906,7 +906,7 @@ class QuillRawEditorState extends EditorState
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
     _selectionOverlay?.showHandles();
 
-    if (!_keyboardVisible) {
+    if (!_hasFocus) {
       // This will show the keyboard for all selection changes on the
       // editor, not just changes triggered by user gestures.
       requestKeyboard();
@@ -1419,11 +1419,11 @@ class QuillRawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (!_hasFocus || textEditingValue.selection.isCollapsed) {
-        _selectionOverlay?.dispose();
-        _selectionOverlay = null;
-      } else if (_hasFocus) {
+      if (_hasFocus) {
         _selectionOverlay!.update(textEditingValue);
+      } else {
+        _selectionOverlay!.dispose();
+        _selectionOverlay = null;
       }
     } else if (_hasFocus) {
       _selectionOverlay = _createSelectionOverlay();
@@ -1599,6 +1599,16 @@ class QuillRawEditorState extends EditorState
     _selectionOverlay!.update(textEditingValue);
     _selectionOverlay!.showToolbar();
     return true;
+  }
+
+  @override
+  void toggleToolbar([bool hideHandles = true]) {
+    final selectionOverlay = _selectionOverlay ??= _createSelectionOverlay();
+    if (selectionOverlay.handlesVisible) {
+      hideToolbar(hideHandles);
+    } else {
+      showToolbar();
+    }
   }
 
   void _replaceText(ReplaceTextIntent intent) {
@@ -1835,15 +1845,19 @@ class QuillRawEditorState extends EditorState
 
   @override
   void showMagnifier(ui.Offset positionToShow) {
+    if (_hasFocus == false) return;
     if (_selectionOverlay == null) return;
     final position = renderEditor.getPositionForOffset(positionToShow);
-    _selectionOverlay?.showMagnifier(position, positionToShow, renderEditor);
+    if (_selectionOverlay!.magnifierIsVisible) {
+      _selectionOverlay!
+          .updateMagnifier(position, positionToShow, renderEditor);
+    } else {
+      _selectionOverlay!.showMagnifier(position, positionToShow, renderEditor);
+    }
   }
 
   @override
   void updateMagnifier(ui.Offset positionToShow) {
-    _updateOrDisposeSelectionOverlayIfNeeded();
-    final position = renderEditor.getPositionForOffset(positionToShow);
-    _selectionOverlay?.updateMagnifier(position, positionToShow, renderEditor);
+    showMagnifier(positionToShow);
   }
 }

@@ -200,6 +200,7 @@ class DefaultStyles {
     this.sizeSmall,
     this.sizeLarge,
     this.sizeHuge,
+    this.palette,
   });
 
   final DefaultTextBlockStyle? h1;
@@ -235,6 +236,9 @@ class DefaultStyles {
   final DefaultTextBlockStyle? indent;
   final DefaultTextBlockStyle? align;
   final DefaultTextBlockStyle? leading;
+
+  /// Custom palette of colors
+  final Map<String, Color>? palette;
 
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);
@@ -518,6 +522,7 @@ class DefaultStyles {
       sizeSmall: other.sizeSmall ?? sizeSmall,
       sizeLarge: other.sizeLarge ?? sizeLarge,
       sizeHuge: other.sizeHuge ?? sizeHuge,
+      palette: other.palette ?? palette,
     );
   }
 }
