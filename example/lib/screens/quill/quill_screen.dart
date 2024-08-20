@@ -3,7 +3,10 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show FlutterQuillEmbeds, FlutterQuillExtensions, QuillSharedExtensionsConfigurations;
+    show
+        FlutterQuillEmbeds,
+        FlutterQuillExtensions,
+        QuillSharedExtensionsConfigurations;
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
@@ -66,7 +69,8 @@ class _QuillScreenState extends State<QuillScreen> {
             tooltip: 'Spell-checker',
             onPressed: () {
               if (!_isActivatedSpellChecker) {
-                FlutterQuillExtensions.useSpellCheckerService(Localizations.localeOf(context).languageCode);
+                FlutterQuillExtensions.useSpellCheckerService(
+                    Localizations.localeOf(context).languageCode);
               } else {
                 SpellCheckerServiceProvider.dispose(onlyPartial: true);
                 SpellCheckerServiceProvider.turnOffService();
@@ -147,7 +151,8 @@ class _QuillScreenState extends State<QuillScreen> {
     return const QuillSharedConfigurations(
       // locale: Locale('en'),
       extraConfigurations: {
-        QuillSharedExtensionsConfigurations.key: QuillSharedExtensionsConfigurations(
+        QuillSharedExtensionsConfigurations.key:
+            QuillSharedExtensionsConfigurations(
           assetsPrefix: 'assets', // Defaults to assets
         ),
       },

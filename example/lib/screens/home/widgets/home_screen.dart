@@ -78,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Icons.home,
                       size: 50,
                     ),
-                    text: 'If you want to see how the editor work with default content, '
+                    text:
+                        'If you want to see how the editor work with default content, '
                         'see any samples or you are working on it',
                     onPressed: () => Navigator.of(context).pushNamed(
                       QuillScreen.routeName,
