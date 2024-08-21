@@ -28,4 +28,10 @@ class DefaultSpellCheckerService extends SpellCheckerService<Object?> {
 
   @override
   void updateCustomLanguageIfExist({languageIdentifier}) {}
+
+  @override
+  bool isServiceActive() => false;
+
+  @override
+  void toggleChecker() {}
 }

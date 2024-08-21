@@ -32,6 +32,12 @@ class SimpleSpellCheckerService
   }
 
   @override
+  void toggleChecker() => checker.toggleChecker();
+
+  @override
+  bool isServiceActive() => checker.isCheckerActive();
+
+  @override
   void dispose({bool onlyPartial = false}) {
     if (onlyPartial) {
       checker.disposeControllers();
