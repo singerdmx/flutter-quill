@@ -34,5 +34,6 @@ abstract class SpellCheckerService<T> {
   ///
   /// Returns a [List<TextSpan>] with all misspelled words divide from the right words.
   List<TextSpan>? checkSpelling(String text,
-      {LongPressGestureRecognizer Function(String)? customLongPressRecognizerOnWrongSpan});
+      {LongPressGestureRecognizer Function(String)?
+          customLongPressRecognizerOnWrongSpan});
 }
