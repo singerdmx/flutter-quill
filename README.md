@@ -336,7 +336,8 @@ One use of this would be having the opportunity to **activate and deactivate** t
 
 ```dart
  SpellCheckerServiceProvider.toggleState();
- isActivatedSpellChecker = SpellCheckerServiceProvider.isServiceActive();
+ // use isServiceActive to get the state of the service
+ SpellCheckerServiceProvider.isServiceActive();
  setState(() {});
 ```
 
