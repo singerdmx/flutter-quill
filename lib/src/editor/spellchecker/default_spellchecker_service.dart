@@ -14,8 +14,7 @@ class DefaultSpellCheckerService extends SpellCheckerService<Object?> {
   @override
   List<TextSpan>? checkSpelling(
     String text, {
-    LongPressGestureRecognizer Function(String p1)?
-        customLongPressRecognizerOnWrongSpan,
+    LongPressGestureRecognizer Function(String p1)? customLongPressRecognizerOnWrongSpan,
   }) {
     return null;
   }
@@ -28,4 +27,10 @@ class DefaultSpellCheckerService extends SpellCheckerService<Object?> {
 
   @override
   void updateCustomLanguageIfExist({languageIdentifier}) {}
+
+  @override
+  bool isServiceActive() => false;
+
+  @override
+  void toggleChecker() {}
 }

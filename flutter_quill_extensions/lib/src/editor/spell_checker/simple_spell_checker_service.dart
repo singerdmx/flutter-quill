@@ -5,8 +5,7 @@ import 'package:simple_spell_checker/simple_spell_checker.dart';
 
 /// SimpleSpellChecker is a simple spell checker for get
 /// all words divide on different objects if them are wrong or not
-class SimpleSpellCheckerService
-    extends SpellCheckerService<LanguageIdentifier> {
+class SimpleSpellCheckerService extends SpellCheckerService<LanguageIdentifier> {
   SimpleSpellCheckerService({required super.language})
       : checker = SimpleSpellChecker(
           language: language,
@@ -21,15 +20,19 @@ class SimpleSpellCheckerService
   @override
   List<TextSpan>? checkSpelling(
     String text, {
-    LongPressGestureRecognizer Function(String word)?
-        customLongPressRecognizerOnWrongSpan,
+    LongPressGestureRecognizer Function(String word)? customLongPressRecognizerOnWrongSpan,
   }) {
     return checker.check(
       text,
-      customLongPressRecognizerOnWrongSpan:
-          customLongPressRecognizerOnWrongSpan,
+      customLongPressRecognizerOnWrongSpan: customLongPressRecognizerOnWrongSpan,
     );
   }
+
+  @override
+  void toggleChecker() => checker.toggleChecker();
+
+  @override
+  bool isServiceActive() => checker.isCheckerActive();
 
   @override
   void dispose({bool onlyPartial = false}) {

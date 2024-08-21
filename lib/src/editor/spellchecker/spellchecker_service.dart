@@ -7,6 +7,12 @@ abstract class SpellCheckerService<T> {
 
   final String language;
 
+  /// Decide if the service should be activate or deactivate
+  /// without dispose the service
+  void toggleChecker();
+
+  bool isServiceActive();
+
   /// dispose all the resources used for SpellcheckerService
   ///
   /// if [onlyPartial] is true just dispose a part of the SpellcheckerService
@@ -28,6 +34,5 @@ abstract class SpellCheckerService<T> {
   ///
   /// Returns a [List<TextSpan>] with all misspelled words divide from the right words.
   List<TextSpan>? checkSpelling(String text,
-      {LongPressGestureRecognizer Function(String)?
-          customLongPressRecognizerOnWrongSpan});
+      {LongPressGestureRecognizer Function(String)? customLongPressRecognizerOnWrongSpan});
 }
