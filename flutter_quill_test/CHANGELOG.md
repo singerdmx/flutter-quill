@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.1
+
+* Chore: improve Spell checker API to the example by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2133
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.0...v10.4.1
+
 ## 10.4.0
 
 * Copy TapAndPanGestureRecognizer from TextField by @demoYang in https://github.com/singerdmx/flutter-quill/pull/2128

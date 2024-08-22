@@ -14,7 +14,7 @@ import '../shared/widgets/home_screen_button.dart';
 import 'my_quill_editor.dart';
 import 'my_quill_toolbar.dart';
 
-var _isActivatedSpellChecker = false;
+var _isSpellcheckerActive = false;
 
 @immutable
 class QuillScreenArgs {
@@ -61,6 +61,11 @@ class _QuillScreenState extends State<QuillScreen> {
   @override
   Widget build(BuildContext context) {
     _controller.readOnly = _isReadOnly;
+    if (!_isSpellcheckerActive) {
+      _isSpellcheckerActive = true;
+      FlutterQuillExtensions.useSpellCheckerService(
+          Localizations.localeOf(context).languageCode);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Quill'),
@@ -68,19 +73,14 @@ class _QuillScreenState extends State<QuillScreen> {
           IconButton(
             tooltip: 'Spell-checker',
             onPressed: () {
-              if (!_isActivatedSpellChecker) {
-                FlutterQuillExtensions.useSpellCheckerService(
-                    Localizations.localeOf(context).languageCode);
-              } else {
-                SpellCheckerServiceProvider.dispose(onlyPartial: true);
-                SpellCheckerServiceProvider.turnOffService();
-              }
-              _isActivatedSpellChecker = !_isActivatedSpellChecker;
+              SpellCheckerServiceProvider.toggleState();
               setState(() {});
             },
             icon: Icon(
               Icons.document_scanner,
-              color: _isActivatedSpellChecker ? Colors.red : null,
+              color: SpellCheckerServiceProvider.isServiceActive()
+                  ? Colors.red.withOpacity(0.5)
+                  : null,
             ),
           ),
           IconButton(

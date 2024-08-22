@@ -308,7 +308,7 @@ A spell checker is a software tool or feature integrated into various text proce
 * **Portuguese** - `pt` (may contain errors or missing words)
 * **Swedish** - `sv` (may contain errors or missing words)
 
-_**Note**: **If you have knowledge about any of these available languages or the unsupported ones**, you can make a pull request to add support or add words that are not currently in [simple_spell_checker](https://github.com/CatHood0/simple_spell_checker)_.
+_**Note**: If you have knowledge about any of these available languages or the unsupported ones, you can make a pull request to add support or add words that are not currently in [simple_spell_checker](https://github.com/CatHood0/simple_spell_checker)_.
 
 In order to activate this functionality you can use the following code:
 
@@ -324,7 +324,8 @@ When you no longer need to have the Spell checker activated you can simply use `
 // dispose all service and it cannot be used after this
 SpellCheckerServiceProvider.dispose();
 ```
-If what we want is to **temporarily deactivate the service** without deleting the values that are already stored in it, we can set `onlyPartial` to `true` so that it only closes the internal `streams` and prevents the dictionaries and values already registered from being reset.
+
+If what we want is to **close the StreamControllers** without deleting the values that are already stored in it, we can set `onlyPartial` to `true`.
 
 ```dart
 // it can be still used by the editor
@@ -334,16 +335,10 @@ SpellCheckerServiceProvider.dispose(onlyPartial: true);
 One use of this would be having the opportunity to **activate and deactivate** the service when we want, we can see this in the example that we have in this package, in which you can see that on each screen, we have a button that dynamically activates and deactivates the service. To do this is pretty simple:
 
 ```dart
-final bool _isActivatedSpellChecker = false;
-if (!_isActivatedSpellChecker) {
-    FlutterQuillExtensions.useSpellCheckerService(Localizations.localeOf(context).languageCode);
-} else {
-    // close the internal streams without completely closing the service
-    SpellCheckerServiceProvider.dispose(onlyPartial: true);
-    // since onlyPartial is true then we must manually disable the service for it to take effect in the UI
-    SpellCheckerServiceProvider.turnOffService();
-}
-_isActivatedSpellChecker = !_isActivatedSpellChecker;
+ SpellCheckerServiceProvider.toggleState();
+ // use isServiceActive to get the state of the service
+ SpellCheckerServiceProvider.isServiceActive();
+ setState(() {});
 ```
 
 Open this [page](https://pub.dev/packages/simple_spell_checker) for more information.
