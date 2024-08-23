@@ -184,7 +184,7 @@ class EditableTextBlock extends StatelessWidget {
           linkActionPicker: linkActionPicker,
           onLaunchUrl: onLaunchUrl,
           customLinkPrefixes: customLinkPrefixes,
-	  customRecognizerBuilder: customRecognizerBuilder,
+          customRecognizerBuilder: customRecognizerBuilder,
         ),
         _getIndentWidth(context, count),
         _getSpacingForLine(line, index, count, defaultStyles),
