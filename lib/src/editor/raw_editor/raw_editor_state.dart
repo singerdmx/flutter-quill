@@ -1019,6 +1019,7 @@ class QuillRawEditorState extends EditorState
           onCheckboxTap: _handleCheckboxTap,
           readOnly: widget.configurations.readOnly,
           checkBoxReadOnly: widget.configurations.checkBoxReadOnly,
+          customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );

@@ -77,6 +77,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.clearIndents,
     required this.onCheckboxTap,
     required this.readOnly,
+    required this.customRecognizerBuilder,
     this.checkBoxReadOnly,
     this.onLaunchUrl,
     this.customStyleBuilder,
@@ -99,6 +100,7 @@ class EditableTextBlock extends StatelessWidget {
   final EmbedsBuilder embedBuilder;
   final LinkActionPicker linkActionPicker;
   final ValueChanged<String>? onLaunchUrl;
+  final CustomRecognizerBuilder? customRecognizerBuilder;
   final CustomStyleBuilder? customStyleBuilder;
   final CursorCont cursorCont;
   final Map<int, int> indentLevelCounts;
@@ -182,6 +184,7 @@ class EditableTextBlock extends StatelessWidget {
           linkActionPicker: linkActionPicker,
           onLaunchUrl: onLaunchUrl,
           customLinkPrefixes: customLinkPrefixes,
+	  customRecognizerBuilder: customRecognizerBuilder,
         ),
         _getIndentWidth(context, count),
         _getSpacingForLine(line, index, count, defaultStyles),
