@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.3
+
+* Chore: update simple_spell_checker package by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2139
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.2...v10.4.3
+
 ## 10.4.2
 
 * Revert "fix: Double click to select text sometimes doesn't work. ([#2086](https://github.com/singerdmx/flutter-quill/pull/2086))
