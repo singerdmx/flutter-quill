@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.4
+
+* fix custom recognizer builder not being passed to editabletextblock by @jezell in https://github.com/singerdmx/flutter-quill/pull/2143
+* fix null reference exception when dragging selection on non scrollable selection by @jezell in https://github.com/singerdmx/flutter-quill/pull/2144
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.3...v10.4.4
+
 ## 10.4.3
 
 * Chore: update simple_spell_checker package by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2139
