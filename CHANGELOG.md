@@ -4,6 +4,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.2
+
+* Revert "fix: Double click to select text sometimes doesn't work. ([#2086](https://github.com/singerdmx/flutter-quill/pull/2086))
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.1...v10.4.2
+
 ## 10.4.1
 
 * Chore: improve Spell checker API to the example by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2133
