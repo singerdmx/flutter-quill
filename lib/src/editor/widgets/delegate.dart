@@ -762,8 +762,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     // if (editor?.textEditingValue.selection.isCollapsed == false) return;
     if (!_isShiftPressed) {
       // Adjust the drag start offset for possible viewport offset changes.
-      final editableOffset =
-          Offset(0, renderEditor!.offset!.pixels - _dragStartViewportOffset);
+      final editableOffset = Offset(
+          0, (renderEditor!.offset?.pixels ?? 0) - _dragStartViewportOffset);
       final scrollableOffset =
           Offset(0, _scrollPosition - _dragStartScrollOffset);
       final dragStartGlobalPosition =
