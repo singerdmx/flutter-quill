@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.5
+
+* chore!: move spell checker to example by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2145
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.4...v10.4.5
+
 ## 10.4.4
 
 * fix custom recognizer builder not being passed to editabletextblock by @jezell in https://github.com/singerdmx/flutter-quill/pull/2143
