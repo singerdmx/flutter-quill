@@ -14,18 +14,28 @@ It's implemented using the package `simple_spell_checker` in the [Example](../ex
 * Multilingual Support: Many spell checkers support multiple languages, making it easier for users to write accurately in different languages.
 
 > [!IMPORTANT]
-> The spell checker usually does not work as expected in most cases. **Many translations are not supported** such as: `Chinese`, `Japanese`, `Korean`, `Hebrew`, `Arabic`, `Russian`, etc. For now it is a purely **experimental** feature that may have **code that will be modified** in future versions.
+> The spell checker usually does not work as expected in most cases. **Many translations are not supported** such as: `Chinese`, `Japanese`, etc. For now it is a purely **experimental** feature that may have **code that will be modified** in future versions.
 
 ### The translations supported so far are:
 
-* **German** - `de` (may contain errors or missing words)
-* **English** - `en` (currently adding missing translations)
-* **Spanish** - `es` (currently adding missing translations)
-* **French** - `fr` (may contain errors or missing words)
-* **Italian** - `it` (currently adding missing translations)
-* **Norwegian** - `no` (may contain errors or missing words)
-* **Portuguese** - `pt` (may contain errors or missing words)
-* **Swedish** - `sv` (may contain errors or missing words)
+* German - `de`, `de-ch` 
+* English - `en`, `en-gb`
+* Spanish - `es`
+* Catalan - `ca`
+* Arabic - `ar`
+* Danish - `da`
+* French - `fr`
+* Bulgarian - `bg`
+* Dutch - `nl`
+* Korean - `ko`
+* Estonian - `et`
+* Hebrew - `he`
+* Slovak - `sk`
+* Italian - `it`
+* Norwegian - `no`
+* Portuguese - `pt`
+* Swedish - `sv`
+* Russian - `ru`
 
 _**Note**: If you have knowledge about any of these available languages or the unsupported ones, you can make a pull request to add support or add words that are not currently in [simple_spell_checker](https://github.com/CatHood0/simple_spell_checker)_.
 
