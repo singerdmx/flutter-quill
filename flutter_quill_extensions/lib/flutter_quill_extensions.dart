@@ -1,12 +1,9 @@
 library flutter_quill_extensions;
 
 // ignore: implementation_imports
-import 'package:flutter_quill/src/editor/spellchecker/spellchecker_service_provider.dart';
-// ignore: implementation_imports
 import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import 'src/editor/spell_checker/simple_spell_checker_service.dart';
 import 'src/editor_toolbar_controller_shared/clipboard/super_clipboard_service.dart';
 
 export 'src/common/extensions/controller_ext.dart';
@@ -16,6 +13,7 @@ export 'src/editor/image/image_embed_types.dart';
 export 'src/editor/image/image_web_embed.dart';
 export 'src/editor/image/models/image_configurations.dart';
 export 'src/editor/image/models/image_web_configurations.dart';
+// TODO: Remove Simple Spell Checker Service
 export 'src/editor/spell_checker/simple_spell_checker_service.dart';
 export 'src/editor/table/table_cell_embed.dart';
 export 'src/editor/table/table_embed.dart';
@@ -43,23 +41,18 @@ export 'src/toolbar/video/video_button.dart';
 class FlutterQuillExtensions {
   const FlutterQuillExtensions._();
 
-  /// override the default implementation of [SpellCheckerServiceProvider]
-  /// to allow a `flutter quill` support a better check spelling
-  ///
-  /// # !WARNING
-  /// To avoid memory leaks, ensure to use [dispose()] method to
-  /// close stream controllers that used by this custom implementation
-  /// when them no longer needed
-  ///
-  /// Example:
-  ///
-  ///```dart
-  ///// set partial true if you only need to close the controllers
-  ///SpellCheckerServiceProvider.dispose(onlyPartial: false);
-  ///```
+  @Deprecated(
+    '''
+    Spell checker feature has been removed from the package to make it optional and 
+    reduce bundle size. See issue https://github.com/singerdmx/flutter-quill/issues/2142
+    for more details.
+
+    Calling this function will no longer activate the feature.
+    ''',
+  )
   static void useSpellCheckerService(String language) {
-    SpellCheckerServiceProvider.setNewCheckerService(
-        SimpleSpellCheckerService(language: language));
+    // This feature has been removed from the package.
+    // See https://github.com/singerdmx/flutter-quill/issues/2142
   }
 
   /// Override default implementation of [ClipboardServiceProvider.instance]
