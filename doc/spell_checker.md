@@ -16,6 +16,9 @@ It's implemented using the package `simple_spell_checker` in the [Example](../ex
 * Enhanced Professionalism: Correctly spelled words contribute to the overall professionalism of documents, which is crucial in academic, business, and formal writing.
 * Multilingual Support: Many spell checkers support multiple languages, making it easier for users to write accurately in different languages.
 
+> [!IMPORTANT]
+> The spell checker usually does not work as expected in most cases. For now it is a purely **experimental** feature that may have **code that will be modified** in future versions.
+
 ### The translations supported so far are:
 
 * German - `de`, `de-ch` 
