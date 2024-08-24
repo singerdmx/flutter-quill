@@ -7,7 +7,7 @@ While spell-checking is not a feature that's implemented into the project, it ca
 It's implemented using the package `simple_spell_checker` in the [Example](../example/).
 
 > [!NOTE]
-> `simple_spell_checker` is a client-side dependency that works without an internet connection, so, it could weigh more than expected due to each of the dictionaries. As mentioned below, it supports a very wide variety of languages which can have a file of up to 300.000 words (this being just one language).
+> [`simple_spell_checker`](https://pub.dev/packages/simple_spell_checker) is a client-side dependency that works without an internet connection, so, it could weigh more than expected due to each of the dictionaries. As mentioned below, it supports a very wide variety of languages which can have a file of up to 300.000 words (this being just one language).
 
 ### Benefits of a spell checker include:
 
