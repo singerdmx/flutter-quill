@@ -43,6 +43,7 @@ import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
+import 'builders/builder_configuration.dart';
 import 'quill_single_child_scroll_view.dart';
 import 'raw_editor.dart';
 import 'raw_editor_actions.dart';
@@ -997,6 +998,7 @@ class QuillRawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
           block: node,
           controller: controller,
+          customLeadingBlockBuilder: widget.configurations.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.configurations.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
@@ -1043,31 +1045,47 @@ class QuillRawEditorState extends EditorState
 
   EditableTextLine _getEditableTextLineFromNode(
       Line node, BuildContext context) {
+    final lineConfiguration = InlineBuilderConfiguration(
+      textDirection: _textDirection,
+      onLaunchUrl: widget.configurations.onLaunchUrl,
+      linkActionPicker: _linkActionPicker,
+      embedBuilder: widget.configurations.embedBuilder,
+      node: node,
+      customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
+      customStyleBuilder: widget.configurations.customStyleBuilder,
+      customLinkPrefixes: widget.configurations.customLinkPrefixes,
+      devicePixelRatioOf: MediaQuery.devicePixelRatioOf(context),
+      readOnly: widget.configurations.readOnly,
+      styles: _styles!,
+    );
     final textLine = TextLine(
       line: node,
-      textDirection: _textDirection,
-      embedBuilder: widget.configurations.embedBuilder,
-      customStyleBuilder: widget.configurations.customStyleBuilder,
-      customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
-      styles: _styles!,
-      readOnly: widget.configurations.readOnly,
+      textDirection: lineConfiguration.textDirection,
+      embedBuilder: lineConfiguration.embedBuilder,
+      customStyleBuilder: lineConfiguration.customStyleBuilder,
+      customRecognizerBuilder: lineConfiguration.customRecognizerBuilder,
+      styles: lineConfiguration.styles!,
+      readOnly: lineConfiguration.readOnly,
       controller: controller,
-      linkActionPicker: _linkActionPicker,
-      onLaunchUrl: widget.configurations.onLaunchUrl,
-      customLinkPrefixes: widget.configurations.customLinkPrefixes,
+      onLaunchUrl: lineConfiguration.onLaunchUrl,
+      linkActionPicker: lineConfiguration.linkActionPicker,
+      customLinkPrefixes: lineConfiguration.customLinkPrefixes,
     );
+    // TODO: we need to verify if the custom text line builder have its child [TextLine]
+    final customTextLine = widget.configurations.customTextLineNodeBuilder
+        ?.call(node, textLine, lineConfiguration);
     final editableTextLine = EditableTextLine(
         node,
         null,
-        textLine,
+        customTextLine ?? textLine,
         _getHorizontalSpacingForLine(node, _styles),
         _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
+        lineConfiguration.textDirection,
         controller.selection,
         widget.configurations.selectionColor,
         widget.configurations.enableInteractiveSelection,
         _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
+        lineConfiguration.devicePixelRatioOf,
         _cursorCont);
     return editableTextLine;
   }

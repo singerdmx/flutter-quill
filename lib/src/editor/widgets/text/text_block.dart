@@ -13,6 +13,7 @@ import '../../../toolbar/base_toolbar.dart';
 import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
 import '../../provider.dart';
+import '../../raw_editor/builders/utils.dart';
 import '../../style_widgets/bullet_point.dart';
 import '../../style_widgets/checkbox_point.dart';
 import '../../style_widgets/number_point.dart';
@@ -82,6 +83,7 @@ class EditableTextBlock extends StatelessWidget {
     this.onLaunchUrl,
     this.customStyleBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.customLeadingBlockBuilder,
     super.key,
   });
 
@@ -94,6 +96,7 @@ class EditableTextBlock extends StatelessWidget {
   final TextSelection textSelection;
   final Color color;
   final DefaultStyles? styles;
+  final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
   final bool enableInteractiveSelection;
   final bool hasFocus;
   final EdgeInsets? contentPadding;
@@ -265,8 +268,70 @@ class EditableTextBlock extends StatelessWidget {
     // final textAlign = line.style.attributes[Attribute.align.key]?.value != null
     //     ? getTextAlign(line.style.attributes[Attribute.align.key]?.value)
     //     : null;
+    final attribute =
+        attrs[Attribute.list.key] ?? attrs[Attribute.codeBlock.key];
+    if (attribute != null && customLeadingBlockBuilder != null) {
+      final isUnordered = attribute == Attribute.ul;
+      final isOrdered = attribute == Attribute.ol;
+      final isCheck =
+          attribute == Attribute.checked || attribute == Attribute.unchecked;
+      final isCodeBlock = attribute == Attribute.codeBlock;
+      final leadingBlockNodeBuilder = customLeadingBlockBuilder?.call(
+        line,
+        LeadingConfigurations(
+          attribute: attribute,
+          attrs: attrs,
+          indentLevelCounts: indentLevelCounts,
+          index: isOrdered || isCodeBlock ? index : null,
+          count: count,
+          enabled: !isCheck ? null : !(checkBoxReadOnly ?? readOnly),
+          style: isOrdered
+              ? defaultStyles.leading!.style.copyWith(
+                  fontSize: size,
+                  color: context.quillEditorElementOptions?.orderedList
+                              .useTextColorForDot ==
+                          true
+                      ? fontColor
+                      : null,
+                )
+              : isUnordered
+                  ? defaultStyles.leading!.style.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size,
+                      color: context.quillEditorElementOptions?.unorderedList
+                                  .useTextColorForDot ==
+                              true
+                          ? fontColor
+                          : null,
+                    )
+                  : isCheck
+                      ? null
+                      : defaultStyles.code!.style.copyWith(
+                          color:
+                              defaultStyles.code!.style.color!.withOpacity(0.4),
+                        ),
+          width: isOrdered || isCodeBlock
+              ? _numberPointWidth(fontSize, count)
+              : isUnordered
+                  ? fontSize * 2
+                  : null,
+          padding: isOrdered || isUnordered
+              ? fontSize / 2
+              : isCodeBlock
+                  ? fontSize
+                  : null,
+          lineSize: isCheck ? fontSize : null,
+          uiBuilder: isCheck ? defaultStyles.lists?.checkboxUIBuilder : null,
+          value: attribute == Attribute.checked,
+          onCheckboxTap: (value) => onCheckboxTap(line.documentOffset, value),
+        ),
+      );
+      if (leadingBlockNodeBuilder != null) {
+        return leadingBlockNodeBuilder;
+      }
+    }
 
-    if (attrs[Attribute.list.key] == Attribute.ol) {
+    if (attribute == Attribute.ol) {
       return QuillEditorNumberPoint(
         index: index,
         indentLevelCounts: indentLevelCounts,
@@ -285,7 +350,7 @@ class EditableTextBlock extends StatelessWidget {
       );
     }
 
-    if (attrs[Attribute.list.key] == Attribute.ul) {
+    if (attribute == Attribute.ul) {
       return QuillEditorBulletPoint(
         style: defaultStyles.leading!.style.copyWith(
           fontWeight: FontWeight.bold,
@@ -301,8 +366,7 @@ class EditableTextBlock extends StatelessWidget {
       );
     }
 
-    if (attrs[Attribute.list.key] == Attribute.checked ||
-        attrs[Attribute.list.key] == Attribute.unchecked) {
+    if (attribute == Attribute.checked || attribute == Attribute.unchecked) {
       return QuillEditorCheckboxPoint(
         size: fontSize,
         value: attrs[Attribute.list.key] == Attribute.checked,
