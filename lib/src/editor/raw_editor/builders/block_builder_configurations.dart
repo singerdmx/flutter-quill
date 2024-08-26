@@ -3,19 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../common/structs/horizontal_spacing.dart';
 import '../../../common/structs/vertical_spacing.dart';
 import '../../../document/nodes/block.dart';
-import '../../../document/nodes/leaf.dart';
-import '../../../document/nodes/line.dart';
-import '../../../document/nodes/node.dart';
-import '../../embed/embed_editor_builder.dart';
 import '../../widgets/cursor.dart';
-import '../../widgets/link.dart';
-import 'base_builder_configuration.dart';
+import 'config/base_builder_configuration.dart';
 
 typedef CheckBoxTapHandler = Function(int offset, bool value);
-typedef LaunchURL = void Function(String);
-typedef LinkActionPicker = Future<LinkMenuAction> Function(Node);
+
 /// TODO: implement this configurations for block lines
-class BlockBuilderConfiguration extends BuilderConfiguration<Block> {
+class BlockBuilderConfiguration extends BaseBuilderConfiguration<Block> {
   BlockBuilderConfiguration({
     required this.selectionColor,
     required this.verticalSpacing,
@@ -48,24 +42,4 @@ class BlockBuilderConfiguration extends BuilderConfiguration<Block> {
   final bool hasFocus;
   final bool enableInteractiveSelection;
   final bool? checkBoxReadOnly;
-}
-
-class InlineBuilderConfiguration extends BuilderConfiguration<Line> {
-  InlineBuilderConfiguration({
-    required super.textDirection,
-    required this.onLaunchUrl,
-    required this.linkActionPicker,
-    required this.embedBuilder,
-    required super.node,
-    required super.customRecognizerBuilder,
-    required super.customStyleBuilder,
-    required super.customLinkPrefixes,
-    required super.readOnly,
-    required super.styles,
-    required this.devicePixelRatioOf,
-  });
-  final double devicePixelRatioOf;
-  final LaunchURL? onLaunchUrl;
-  final LinkActionPicker linkActionPicker;
-  final EmbedBuilder Function(Embed) embedBuilder;
 }

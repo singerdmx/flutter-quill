@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../document/nodes/node.dart';
-import '../../widgets/default_styles.dart';
-import '../../widgets/delegate.dart';
+import '../../../../document/nodes/node.dart';
+import '../../../widgets/default_styles.dart';
+import '../../../widgets/delegate.dart';
 
 /// The base class for the configurations of the custom nodes builders
-abstract class BuilderConfiguration<T extends Node> {
-  BuilderConfiguration({
+abstract class BaseBuilderConfiguration<T extends Node> {
+  BaseBuilderConfiguration({
     required this.textDirection,
     required this.node,
     required this.customRecognizerBuilder,

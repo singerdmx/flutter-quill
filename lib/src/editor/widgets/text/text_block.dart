@@ -13,12 +13,11 @@ import '../../../toolbar/base_toolbar.dart';
 import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
 import '../../provider.dart';
+import '../../raw_editor/builders/config/leading_configurations.dart';
 import '../../raw_editor/builders/utils.dart';
-import '../../style_widgets/bullet_point.dart';
-import '../../style_widgets/checkbox_point.dart';
-import '../../style_widgets/number_point.dart';
 import '../box.dart';
 import '../cursor.dart';
+import '../default_leading_components/leading_components.dart';
 import '../default_styles.dart';
 import '../delegate.dart';
 import '../link.dart';
@@ -270,124 +269,84 @@ class EditableTextBlock extends StatelessWidget {
     //     : null;
     final attribute =
         attrs[Attribute.list.key] ?? attrs[Attribute.codeBlock.key];
-    if (attribute != null && customLeadingBlockBuilder != null) {
-      final isUnordered = attribute == Attribute.ul;
-      final isOrdered = attribute == Attribute.ol;
-      final isCheck =
-          attribute == Attribute.checked || attribute == Attribute.unchecked;
-      final isCodeBlock = attribute == Attribute.codeBlock;
-      final leadingBlockNodeBuilder = customLeadingBlockBuilder?.call(
-        line,
-        LeadingConfigurations(
-          attribute: attribute,
-          attrs: attrs,
-          indentLevelCounts: indentLevelCounts,
-          index: isOrdered || isCodeBlock ? index : null,
-          count: count,
-          enabled: !isCheck ? null : !(checkBoxReadOnly ?? readOnly),
-          style: isOrdered
+    final isUnordered = attribute == Attribute.ul;
+    final isOrdered = attribute == Attribute.ol;
+    final isCheck =
+        attribute == Attribute.checked || attribute == Attribute.unchecked;
+    final isCodeBlock = attrs.containsKey(Attribute.codeBlock.key);
+    if (attribute == null) return null;
+    final leadingConfigurations = LeadingConfigurations(
+      attribute: attribute,
+      attrs: attrs,
+      indentLevelCounts: indentLevelCounts,
+      index: isOrdered || isCodeBlock ? index : null,
+      count: count,
+      enabled: !isCheck ? null : !(checkBoxReadOnly ?? readOnly),
+      style: isOrdered
+          ? defaultStyles.leading!.style.copyWith(
+              fontSize: size,
+              color: context.quillEditorElementOptions?.orderedList
+                          .useTextColorForDot ==
+                      true
+                  ? fontColor
+                  : null,
+            )
+          : isUnordered
               ? defaultStyles.leading!.style.copyWith(
+                  fontWeight: FontWeight.bold,
                   fontSize: size,
-                  color: context.quillEditorElementOptions?.orderedList
+                  color: context.quillEditorElementOptions?.unorderedList
                               .useTextColorForDot ==
                           true
                       ? fontColor
                       : null,
                 )
-              : isUnordered
-                  ? defaultStyles.leading!.style.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: size,
-                      color: context.quillEditorElementOptions?.unorderedList
-                                  .useTextColorForDot ==
-                              true
-                          ? fontColor
-                          : null,
-                    )
-                  : isCheck
-                      ? null
-                      : defaultStyles.code!.style.copyWith(
-                          color:
-                              defaultStyles.code!.style.color!.withOpacity(0.4),
-                        ),
-          width: isOrdered || isCodeBlock
-              ? _numberPointWidth(fontSize, count)
-              : isUnordered
-                  ? fontSize * 2
-                  : null,
-          padding: isOrdered || isUnordered
-              ? fontSize / 2
-              : isCodeBlock
-                  ? fontSize
-                  : null,
-          lineSize: isCheck ? fontSize : null,
-          uiBuilder: isCheck ? defaultStyles.lists?.checkboxUIBuilder : null,
-          value: attribute == Attribute.checked,
-          onCheckboxTap: (value) => onCheckboxTap(line.documentOffset, value),
-        ),
+              : isCheck
+                  ? null
+                  : defaultStyles.code!.style.copyWith(
+                      color: defaultStyles.code!.style.color!.withOpacity(0.4),
+                    ),
+      width: isOrdered || isCodeBlock
+          ? _numberPointWidth(fontSize, count)
+          : isUnordered
+              ? fontSize * 2
+              : null,
+      padding: isOrdered || isUnordered
+          ? fontSize / 2
+          : isCodeBlock
+              ? fontSize
+              : null,
+      lineSize: isCheck ? fontSize : null,
+      uiBuilder: isCheck ? defaultStyles.lists?.checkboxUIBuilder : null,
+      value: attribute == Attribute.checked,
+      onCheckboxTap: !isCheck
+          ? (value) {}
+          : (value) => onCheckboxTap(line.documentOffset, value),
+    );
+    if (customLeadingBlockBuilder != null) {
+      final leadingBlockNodeBuilder = customLeadingBlockBuilder?.call(
+        line,
+        leadingConfigurations,
       );
       if (leadingBlockNodeBuilder != null) {
         return leadingBlockNodeBuilder;
       }
     }
 
-    if (attribute == Attribute.ol) {
-      return QuillEditorNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles.leading!.style.copyWith(
-          fontSize: size,
-          color: context.quillEditorElementOptions?.orderedList
-                      .useTextColorForDot ==
-                  true
-              ? fontColor
-              : null,
-        ),
-        attrs: attrs,
-        width: _numberPointWidth(fontSize, count),
-        padding: fontSize / 2,
-      );
+    if (isOrdered) {
+      return numberPointLeading(leadingConfigurations);
     }
 
-    if (attribute == Attribute.ul) {
-      return QuillEditorBulletPoint(
-        style: defaultStyles.leading!.style.copyWith(
-          fontWeight: FontWeight.bold,
-          fontSize: size,
-          color: context.quillEditorElementOptions?.unorderedList
-                      .useTextColorForDot ==
-                  true
-              ? fontColor
-              : null,
-        ),
-        width: fontSize * 2,
-        padding: fontSize / 2,
-      );
+    if (isUnordered) {
+      return bulletPointLeading(leadingConfigurations);
     }
 
-    if (attribute == Attribute.checked || attribute == Attribute.unchecked) {
-      return QuillEditorCheckboxPoint(
-        size: fontSize,
-        value: attrs[Attribute.list.key] == Attribute.checked,
-        enabled: !(checkBoxReadOnly ?? readOnly),
-        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
-      );
+    if (isCheck) {
+      return checkboxLeading(leadingConfigurations);
     }
-    if (attrs.containsKey(Attribute.codeBlock.key) &&
+    if (isCodeBlock &&
         context.requireQuillEditorElementOptions.codeBlock.enableLineNumbers) {
-      return QuillEditorNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles.code!.style
-            .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: _numberPointWidth(fontSize, count),
-        attrs: attrs,
-        padding: fontSize,
-        withDot: false,
-      );
+      return codeBlockLineNumberLeading(leadingConfigurations);
     }
     return null;
   }

@@ -43,7 +43,7 @@ import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
-import 'builders/builder_configuration.dart';
+import 'builders/inline_builder_configurations.dart';
 import 'quill_single_child_scroll_view.dart';
 import 'raw_editor.dart';
 import 'raw_editor_actions.dart';
@@ -976,7 +976,7 @@ class QuillRawEditorState extends EditorState
     for (final node in doc.root.children) {
       final attrs = node.style.attributes;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol) {
+      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol || attrs.isEmpty) {
         clearIndents = true;
       }
 
