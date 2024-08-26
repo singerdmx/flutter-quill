@@ -27,7 +27,6 @@ class QuillEditorConfigurations extends Equatable {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
-    // ignore: deprecated_member_use_from_same_package
     @Deprecated(
         'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     this.controller,
@@ -471,6 +470,7 @@ class QuillEditorConfigurations extends Equatable {
           customTextLineNodeBuilder ?? this.customTextLineNodeBuilder,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
+      // ignore: deprecated_member_use_from_same_package
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
