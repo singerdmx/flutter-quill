@@ -976,7 +976,8 @@ class QuillRawEditorState extends EditorState
     for (final node in doc.root.children) {
       final attrs = node.style.attributes;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol || attrs.isEmpty) {
+      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol ||
+          attrs.isEmpty) {
         clearIndents = true;
       }
 
