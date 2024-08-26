@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.6
+
+* Handle null child query by @jezell in https://github.com/singerdmx/flutter-quill/pull/2151
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.5...v10.4.6
+
 ## 10.4.5
 
 * chore!: move spell checker to example by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2145
