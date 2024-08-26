@@ -182,6 +182,9 @@ class Document {
   /// Special case of no-selection at start of empty line: gets inline style(s) from preceding non-empty line.
   Style collectStyle(int index, int len) {
     var res = queryChild(index);
+    if (res.node == null) {
+      return const Style();
+    }
     if (len > 0) {
       return (res.node as Line).collectStyle(res.offset, len);
     }
