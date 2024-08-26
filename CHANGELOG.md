@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.7
+
+* Fix: Unable to scroll 2nd editor window by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2152
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.6...v10.4.7
+
 ## 10.4.6
 
 * Handle null child query by @jezell in https://github.com/singerdmx/flutter-quill/pull/2151
