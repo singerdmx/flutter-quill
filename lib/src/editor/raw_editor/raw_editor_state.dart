@@ -1068,8 +1068,11 @@ class QuillRawEditorState extends EditorState
       customLinkPrefixes: lineConfiguration.customLinkPrefixes,
     );
     // TODO: we need to verify if the custom text line builder have its child [TextLine]
-    final customTextLine = widget.configurations.customTextLineNodeBuilder
+    var customTextLine = widget.configurations.customTextLineNodeBuilder
         ?.call(node, textLine, lineConfiguration);
+    if (customTextLine != null) {
+      customTextLine = CustomTextProxy(customTextLine);
+    }
     final editableTextLine = EditableTextLine(
         node,
         null,
