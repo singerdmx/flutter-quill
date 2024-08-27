@@ -440,35 +440,31 @@ class QuillRawEditorState extends EditorState
         textStyle: _styles!.paragraph!.style,
         padding: baselinePadding,
         child: _scribbleFocusable(
-          QuillSingleChildScrollView(
+          SingleChildScrollView(
             controller: _scrollController,
             physics: widget.configurations.scrollPhysics,
-            viewportBuilder: (_, offset) => CompositedTransformTarget(
-              link: _toolbarLayerLink,
-              child: MouseRegion(
-                cursor: widget.configurations.readOnly
-                    ? widget.configurations.readOnlyMouseCursor
-                    : SystemMouseCursors.text,
-                child: QuillRawEditorMultiChildRenderObject(
-                  key: _editorKey,
-                  offset: offset,
-                  document: doc,
-                  selection: controller.selection,
-                  hasFocus: _hasFocus,
-                  scrollable: widget.configurations.scrollable,
-                  textDirection: _textDirection,
-                  startHandleLayerLink: _startHandleLayerLink,
-                  endHandleLayerLink: _endHandleLayerLink,
-                  onSelectionChanged: _handleSelectionChanged,
-                  onSelectionCompleted: _handleSelectionCompleted,
-                  scrollBottomInset: widget.configurations.scrollBottomInset,
-                  padding: widget.configurations.padding,
-                  maxContentWidth: widget.configurations.maxContentWidth,
-                  cursorController: _cursorCont,
-                  floatingCursorDisabled:
-                      widget.configurations.floatingCursorDisabled,
-                  children: _buildChildren(doc, context),
-                ),
+            child: MouseRegion(
+              cursor: widget.configurations.readOnly
+                  ? widget.configurations.readOnlyMouseCursor
+                  : SystemMouseCursors.text,
+              child: QuillRawEditorMultiChildRenderObject(
+                key: _editorKey,
+                document: doc,
+                selection: controller.selection,
+                hasFocus: _hasFocus,
+                scrollable: widget.configurations.scrollable,
+                textDirection: _textDirection,
+                startHandleLayerLink: _startHandleLayerLink,
+                endHandleLayerLink: _endHandleLayerLink,
+                onSelectionChanged: _handleSelectionChanged,
+                onSelectionCompleted: _handleSelectionCompleted,
+                scrollBottomInset: widget.configurations.scrollBottomInset,
+                padding: widget.configurations.padding,
+                maxContentWidth: widget.configurations.maxContentWidth,
+                cursorController: _cursorCont,
+                floatingCursorDisabled:
+                    widget.configurations.floatingCursorDisabled,
+                children: _buildChildren(doc, context),
               ),
             ),
           ),
