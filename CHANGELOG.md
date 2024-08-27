@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.8
+
+* Fix: direction has no opposite effect if the language is rtl by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2154
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.7...v10.4.8
+
 ## 10.4.7
 
 * Fix: Unable to scroll 2nd editor window by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2152
