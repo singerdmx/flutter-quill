@@ -36,7 +36,7 @@ import '../../../editor/widgets/default_styles.dart';
 import '../../../editor/widgets/delegate.dart';
 import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
-import '../builders/utils.dart';
+import '../builders/leading_block_builder.dart';
 
 @immutable
 class QuillRawEditorConfigurations extends Equatable {
@@ -94,7 +94,6 @@ class QuillRawEditorConfigurations extends Equatable {
     this.magnifierConfiguration,
     this.onPerformAction,
     this.customLeadingBuilder,
-    this.customTextLineNodeBuilder,
   });
 
   /// Controls the document being edited.
@@ -106,7 +105,6 @@ class QuillRawEditorConfigurations extends Equatable {
   final ScrollController scrollController;
   final bool scrollable;
   final double scrollBottomInset;
-  final TextLineNodeBuilder? customTextLineNodeBuilder;
   final LeadingBlockNodeBuilder? customLeadingBuilder;
 
   /// Additional space around the editor contents.

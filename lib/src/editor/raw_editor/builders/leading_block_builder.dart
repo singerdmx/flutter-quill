@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../document/attribute.dart';
-import '../../../style_widgets/checkbox_point.dart';
+import '../../../document/attribute.dart';
+import '../../../document/nodes/node.dart';
+import '../../style_widgets/checkbox_point.dart';
+
+typedef LeadingBlockNodeBuilder = Widget? Function(Node, LeadingConfigurations);
 
 class LeadingConfigurations {
   LeadingConfigurations({

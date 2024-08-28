@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../raw_editor/builders/config/leading_configurations.dart';
+import '../../raw_editor/builders/leading_block_builder.dart';
 import '../../style_widgets/style_widgets.dart';
 
 Widget checkboxLeading(LeadingConfigurations config) =>

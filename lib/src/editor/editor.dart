@@ -300,8 +300,6 @@ class QuillEditorState extends State<QuillEditor>
             configurations: QuillRawEditorConfigurations(
               customLeadingBuilder:
                   widget.configurations.customLeadingBlockBuilder,
-              customTextLineNodeBuilder:
-                  widget.configurations.customTextLineNodeBuilder,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,

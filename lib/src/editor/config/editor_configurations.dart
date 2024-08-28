@@ -11,7 +11,7 @@ import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../editor_builder.dart';
 import '../embed/embed_editor_builder.dart';
-import '../raw_editor/builders/utils.dart';
+import '../raw_editor/builders/leading_block_builder.dart';
 import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
@@ -88,13 +88,11 @@ class QuillEditorConfigurations extends Equatable {
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
-    this.customTextLineNodeBuilder,
     this.customLeadingBlockBuilder,
   });
 
   final QuillSharedConfigurations sharedConfigurations;
 
-  final TextLineNodeBuilder? customTextLineNodeBuilder;
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
 
   @Deprecated('controller will be removed in future versions.')
@@ -451,7 +449,6 @@ class QuillEditorConfigurations extends Equatable {
     ContentInsertionConfiguration? contentInsertionConfiguration,
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
-    TextLineNodeBuilder? customTextLineNodeBuilder,
     LeadingBlockNodeBuilder? customLeadingBlockBuilder,
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
@@ -466,8 +463,6 @@ class QuillEditorConfigurations extends Equatable {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
       // ignore: deprecated_member_use_from_same_package
-      customTextLineNodeBuilder:
-          customTextLineNodeBuilder ?? this.customTextLineNodeBuilder,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       // ignore: deprecated_member_use_from_same_package
