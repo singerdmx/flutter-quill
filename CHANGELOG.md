@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.4.9
+
+* fix floating cursor not disappearing after scroll end by @vishna in https://github.com/singerdmx/flutter-quill/pull/2163
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.8...v10.4.9
+
 ## 10.4.8
 
 * Fix: direction has no opposite effect if the language is rtl by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2154
