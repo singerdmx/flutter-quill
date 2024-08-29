@@ -6,6 +6,7 @@ import '../../common/utils/platform.dart';
 import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../style_widgets/checkbox_point.dart';
+import 'text/text_block.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
@@ -160,10 +161,15 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
     super.verticalSpacing,
     super.lineSpacing,
     super.decoration,
-    this.checkboxUIBuilder,
-  );
+    this.checkboxUIBuilder, {
+    this.indentWidthBuilder = TextBlockUtils.defaultIndentWidthBuilder,
+    this.numberPointWidthBuilder =
+        TextBlockUtils.defaultNumberPointWidthBuilder,
+  });
 
   final QuillCheckboxBuilder? checkboxUIBuilder;
+  final LeadingBlockIndentWidth indentWidthBuilder;
+  final LeadingBlockNumberPointWidth numberPointWidthBuilder;
 }
 
 @immutable

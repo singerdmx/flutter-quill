@@ -157,6 +157,12 @@ class EditableTextBlock extends StatelessWidget {
   List<Widget> _buildChildren(BuildContext context,
       Map<int, int> indentLevelCounts, bool clearIndents) {
     final defaultStyles = QuillStyles.getStyles(context, false);
+    final numberPointWidthBuilder =
+        defaultStyles?.lists?.numberPointWidthBuilder ??
+            TextBlockUtils.defaultNumberPointWidthBuilder;
+    final indentWidthBuilder = defaultStyles?.lists?.indentWidthBuilder ??
+        TextBlockUtils.defaultIndentWidthBuilder;
+
     final count = block.children.length;
     final children = <Widget>[];
     if (clearIndents) {
@@ -187,7 +193,7 @@ class EditableTextBlock extends StatelessWidget {
           customLinkPrefixes: customLinkPrefixes,
           customRecognizerBuilder: customRecognizerBuilder,
         ),
-        _getIndentWidth(context, count),
+        indentWidthBuilder(block, context, count, numberPointWidthBuilder),
         _getSpacingForLine(line, index, count, defaultStyles),
         textDirection,
         textSelection,
@@ -208,20 +214,6 @@ class EditableTextBlock extends StatelessWidget {
     return children.toList(growable: false);
   }
 
-  double _numberPointWidth(double fontSize, int count) {
-    final length = '$count'.length;
-    switch (length) {
-      case 1:
-      case 2:
-        return fontSize * 2;
-      default:
-        // 3 -> 2.5
-        // 4 -> 3
-        // 5 -> 3.5
-        return fontSize * (length - (length - 2) / 2);
-    }
-  }
-
   Widget? _buildLeading({
     required BuildContext context,
     required Line line,
@@ -232,6 +224,9 @@ class EditableTextBlock extends StatelessWidget {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = line.style.attributes;
+    final numberPointWidthBuilder =
+        defaultStyles.lists?.numberPointWidthBuilder ??
+            TextBlockUtils.defaultNumberPointWidthBuilder;
 
     // Of the color button
     final fontColor =
@@ -298,9 +293,9 @@ class EditableTextBlock extends StatelessWidget {
                       color: defaultStyles.code!.style.color!.withOpacity(0.4),
                     ),
       width: isOrdered || isCodeBlock
-          ? _numberPointWidth(fontSize, count)
+          ? numberPointWidthBuilder(fontSize, count)
           : isUnordered
-              ? fontSize * 2
+              ? numberPointWidthBuilder(fontSize, 1) // same as fontSize * 2
               : null,
       padding: isOrdered || isUnordered
           ? fontSize / 2
@@ -340,35 +335,6 @@ class EditableTextBlock extends StatelessWidget {
       return codeBlockLineNumberLeading(leadingConfigurations);
     }
     return null;
-  }
-
-  HorizontalSpacing _getIndentWidth(BuildContext context, int count) {
-    final defaultStyles = QuillStyles.getStyles(context, false)!;
-    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
-    final attrs = block.style.attributes;
-
-    final indent = attrs[Attribute.indent.key];
-    var extraIndent = 0.0;
-    if (indent != null && indent.value != null) {
-      extraIndent = fontSize * indent.value;
-    }
-
-    if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return HorizontalSpacing(fontSize + extraIndent, 0);
-    }
-
-    var baseIndent = 0.0;
-
-    if (attrs.containsKey(Attribute.list.key)) {
-      baseIndent = fontSize * 2;
-      if (attrs[Attribute.list.key] == Attribute.ol) {
-        baseIndent = _numberPointWidth(fontSize, count);
-      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
-        baseIndent = _numberPointWidth(fontSize, count);
-      }
-    }
-
-    return HorizontalSpacing(baseIndent + extraIndent, 0);
   }
 
   VerticalSpacing _getSpacingForLine(
@@ -798,5 +764,65 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
       ..setPadding(_padding)
       ..decoration = decoration
       ..contentPadding = _contentPadding;
+  }
+}
+
+typedef LeadingBlockIndentWidth = HorizontalSpacing Function(
+    Block block,
+    BuildContext context,
+    int count,
+    LeadingBlockNumberPointWidth numberPointWidthDelegate);
+
+typedef LeadingBlockNumberPointWidth = double Function(
+    double fontSize, int count);
+
+class TextBlockUtils {
+  TextBlockUtils._();
+
+  static HorizontalSpacing defaultIndentWidthBuilder(
+      Block block,
+      BuildContext context,
+      int count,
+      LeadingBlockNumberPointWidth numberPointWidthBuilder) {
+    final defaultStyles = QuillStyles.getStyles(context, false)!;
+    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
+    final attrs = block.style.attributes;
+
+    final indent = attrs[Attribute.indent.key];
+    var extraIndent = 0.0;
+    if (indent != null && indent.value != null) {
+      extraIndent = fontSize * indent.value;
+    }
+
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return HorizontalSpacing(fontSize + extraIndent, 0);
+    }
+
+    var baseIndent = 0.0;
+
+    if (attrs.containsKey(Attribute.list.key)) {
+      baseIndent = fontSize * 2;
+      if (attrs[Attribute.list.key] == Attribute.ol) {
+        baseIndent = numberPointWidthBuilder(fontSize, count);
+      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+        baseIndent = numberPointWidthBuilder(fontSize, count);
+      }
+    }
+
+    return HorizontalSpacing(baseIndent + extraIndent, 0);
+  }
+
+  static double defaultNumberPointWidthBuilder(double fontSize, int count) {
+    final length = '$count'.length;
+    switch (length) {
+      case 1:
+      case 2:
+        return fontSize * 2;
+      default:
+        // 3 -> 2.5
+        // 4 -> 3
+        // 5 -> 3.5
+        return fontSize * (length - (length - 2) / 2);
+    }
   }
 }
