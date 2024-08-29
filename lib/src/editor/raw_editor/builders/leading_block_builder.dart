@@ -5,6 +5,13 @@ import '../../style_widgets/checkbox_point.dart';
 
 typedef LeadingBlockNodeBuilder = Widget? Function(Node, LeadingConfigurations);
 
+/// This class contains all necessary values
+/// to build the leading for lists and codeblocks
+///
+/// If you want to customize the number point of the codeblock
+/// please, take care about it, because the default
+/// implementation uses the same leading of
+/// ordered list to show lines with correct format
 class LeadingConfigurations {
   LeadingConfigurations({
     required this.attribute,
@@ -34,7 +41,7 @@ class LeadingConfigurations {
   final double? width;
   final double? padding;
 
-  /// these values are used if the leading is from a check list
+  // these values are used if the leading is from a check list
   final QuillCheckboxBuilder? uiBuilder;
   final double? lineSize;
   final bool? enabled;
