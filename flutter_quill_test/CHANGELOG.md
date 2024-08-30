@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.0
+
+* Feat: custom leading builder by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2146
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.4.9...v10.5.0
+
 ## 10.4.9
 
 * fix floating cursor not disappearing after scroll end by @vishna in https://github.com/singerdmx/flutter-quill/pull/2163
