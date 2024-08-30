@@ -970,7 +970,8 @@ class QuillRawEditorState extends EditorState
     for (final node in doc.root.children) {
       final attrs = node.style.attributes;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol) {
+      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol ||
+          attrs.isEmpty) {
         clearIndents = true;
       }
 
@@ -984,6 +985,7 @@ class QuillRawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
           block: node,
           controller: controller,
+          customLeadingBlockBuilder: widget.configurations.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.configurations.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),

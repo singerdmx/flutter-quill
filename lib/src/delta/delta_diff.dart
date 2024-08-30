@@ -96,5 +96,5 @@ TextDirection getDirectionOfNode(Node node, [TextDirection? currentDirection]) {
   } else if (direction == Attribute.rtl) {
     return TextDirection.rtl;
   }
-  return TextDirection.ltr;
+  return currentDirection ?? TextDirection.ltr;
 }

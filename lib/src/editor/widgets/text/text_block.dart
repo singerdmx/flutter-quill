@@ -13,16 +13,16 @@ import '../../../toolbar/base_toolbar.dart';
 import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
 import '../../provider.dart';
-import '../../style_widgets/bullet_point.dart';
-import '../../style_widgets/checkbox_point.dart';
-import '../../style_widgets/number_point.dart';
+import '../../raw_editor/builders/leading_block_builder.dart';
 import '../box.dart';
 import '../cursor.dart';
+import '../default_leading_components/leading_components.dart';
 import '../default_styles.dart';
 import '../delegate.dart';
 import '../link.dart';
 import 'text_line.dart';
 import 'text_selection.dart';
+import 'utils/text_block_utils.dart';
 
 const List<int> arabianRomanNumbers = [
   1000,
@@ -82,6 +82,7 @@ class EditableTextBlock extends StatelessWidget {
     this.onLaunchUrl,
     this.customStyleBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.customLeadingBlockBuilder,
     super.key,
   });
 
@@ -94,6 +95,7 @@ class EditableTextBlock extends StatelessWidget {
   final TextSelection textSelection;
   final Color color;
   final DefaultStyles? styles;
+  final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
   final bool enableInteractiveSelection;
   final bool hasFocus;
   final EdgeInsets? contentPadding;
@@ -156,6 +158,12 @@ class EditableTextBlock extends StatelessWidget {
   List<Widget> _buildChildren(BuildContext context,
       Map<int, int> indentLevelCounts, bool clearIndents) {
     final defaultStyles = QuillStyles.getStyles(context, false);
+    final numberPointWidthBuilder =
+        defaultStyles?.lists?.numberPointWidthBuilder ??
+            TextBlockUtils.defaultNumberPointWidthBuilder;
+    final indentWidthBuilder = defaultStyles?.lists?.indentWidthBuilder ??
+        TextBlockUtils.defaultIndentWidthBuilder;
+
     final count = block.children.length;
     final children = <Widget>[];
     if (clearIndents) {
@@ -186,7 +194,7 @@ class EditableTextBlock extends StatelessWidget {
           customLinkPrefixes: customLinkPrefixes,
           customRecognizerBuilder: customRecognizerBuilder,
         ),
-        _getIndentWidth(context, count),
+        indentWidthBuilder(block, context, count, numberPointWidthBuilder),
         _getSpacingForLine(line, index, count, defaultStyles),
         textDirection,
         textSelection,
@@ -207,20 +215,6 @@ class EditableTextBlock extends StatelessWidget {
     return children.toList(growable: false);
   }
 
-  double _numberPointWidth(double fontSize, int count) {
-    final length = '$count'.length;
-    switch (length) {
-      case 1:
-      case 2:
-        return fontSize * 2;
-      default:
-        // 3 -> 2.5
-        // 4 -> 3
-        // 5 -> 3.5
-        return fontSize * (length - (length - 2) / 2);
-    }
-  }
-
   Widget? _buildLeading({
     required BuildContext context,
     required Line line,
@@ -231,6 +225,9 @@ class EditableTextBlock extends StatelessWidget {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = line.style.attributes;
+    final numberPointWidthBuilder =
+        defaultStyles.lists?.numberPointWidthBuilder ??
+            TextBlockUtils.defaultNumberPointWidthBuilder;
 
     // Of the color button
     final fontColor =
@@ -257,96 +254,88 @@ class EditableTextBlock extends StatelessWidget {
     // final textAlign = line.style.attributes[Attribute.align.key]?.value != null
     //     ? getTextAlign(line.style.attributes[Attribute.align.key]?.value)
     //     : null;
-
-    if (attrs[Attribute.list.key] == Attribute.ol) {
-      return QuillEditorNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles.leading!.style.copyWith(
-          fontSize: size,
-          color: context.quillEditorElementOptions?.orderedList
-                      .useTextColorForDot ==
-                  true
-              ? fontColor
+    final attribute =
+        attrs[Attribute.list.key] ?? attrs[Attribute.codeBlock.key];
+    final isUnordered = attribute == Attribute.ul;
+    final isOrdered = attribute == Attribute.ol;
+    final isCheck =
+        attribute == Attribute.checked || attribute == Attribute.unchecked;
+    final isCodeBlock = attrs.containsKey(Attribute.codeBlock.key);
+    if (attribute == null) return null;
+    final leadingConfigurations = LeadingConfigurations(
+      attribute: attribute,
+      attrs: attrs,
+      indentLevelCounts: indentLevelCounts,
+      index: isOrdered || isCodeBlock ? index : null,
+      count: count,
+      enabled: !isCheck ? null : !(checkBoxReadOnly ?? readOnly),
+      style: isOrdered
+          ? defaultStyles.leading!.style.copyWith(
+              fontSize: size,
+              color: context.quillEditorElementOptions?.orderedList
+                          .useTextColorForDot ==
+                      true
+                  ? fontColor
+                  : null,
+            )
+          : isUnordered
+              ? defaultStyles.leading!.style.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: size,
+                  color: context.quillEditorElementOptions?.unorderedList
+                              .useTextColorForDot ==
+                          true
+                      ? fontColor
+                      : null,
+                )
+              : isCheck
+                  ? null
+                  : defaultStyles.code!.style.copyWith(
+                      color: defaultStyles.code!.style.color!.withOpacity(0.4),
+                    ),
+      width: isOrdered || isCodeBlock
+          ? numberPointWidthBuilder(fontSize, count)
+          : isUnordered
+              ? numberPointWidthBuilder(fontSize, 1) // same as fontSize * 2
               : null,
-        ),
-        attrs: attrs,
-        width: _numberPointWidth(fontSize, count),
-        padding: fontSize / 2,
-      );
-    }
-
-    if (attrs[Attribute.list.key] == Attribute.ul) {
-      return QuillEditorBulletPoint(
-        style: defaultStyles.leading!.style.copyWith(
-          fontWeight: FontWeight.bold,
-          fontSize: size,
-          color: context.quillEditorElementOptions?.unorderedList
-                      .useTextColorForDot ==
-                  true
-              ? fontColor
+      padding: isOrdered || isUnordered
+          ? fontSize / 2
+          : isCodeBlock
+              ? fontSize
               : null,
-        ),
-        width: fontSize * 2,
-        padding: fontSize / 2,
+      lineSize: isCheck ? fontSize : null,
+      uiBuilder: isCheck ? defaultStyles.lists?.checkboxUIBuilder : null,
+      value: attribute == Attribute.checked,
+      onCheckboxTap: !isCheck
+          ? (value) {}
+          : (value) => onCheckboxTap(line.documentOffset, value),
+    );
+    if (customLeadingBlockBuilder != null) {
+      final leadingBlockNodeBuilder = customLeadingBlockBuilder?.call(
+        line,
+        leadingConfigurations,
       );
-    }
-
-    if (attrs[Attribute.list.key] == Attribute.checked ||
-        attrs[Attribute.list.key] == Attribute.unchecked) {
-      return QuillEditorCheckboxPoint(
-        size: fontSize,
-        value: attrs[Attribute.list.key] == Attribute.checked,
-        enabled: !(checkBoxReadOnly ?? readOnly),
-        onChanged: (checked) => onCheckboxTap(line.documentOffset, checked),
-        uiBuilder: defaultStyles.lists?.checkboxUIBuilder,
-      );
-    }
-    if (attrs.containsKey(Attribute.codeBlock.key) &&
-        context.requireQuillEditorElementOptions.codeBlock.enableLineNumbers) {
-      return QuillEditorNumberPoint(
-        index: index,
-        indentLevelCounts: indentLevelCounts,
-        count: count,
-        style: defaultStyles.code!.style
-            .copyWith(color: defaultStyles.code!.style.color!.withOpacity(0.4)),
-        width: _numberPointWidth(fontSize, count),
-        attrs: attrs,
-        padding: fontSize,
-        withDot: false,
-      );
-    }
-    return null;
-  }
-
-  HorizontalSpacing _getIndentWidth(BuildContext context, int count) {
-    final defaultStyles = QuillStyles.getStyles(context, false)!;
-    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
-    final attrs = block.style.attributes;
-
-    final indent = attrs[Attribute.indent.key];
-    var extraIndent = 0.0;
-    if (indent != null && indent.value != null) {
-      extraIndent = fontSize * indent.value;
-    }
-
-    if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return HorizontalSpacing(fontSize + extraIndent, 0);
-    }
-
-    var baseIndent = 0.0;
-
-    if (attrs.containsKey(Attribute.list.key)) {
-      baseIndent = fontSize * 2;
-      if (attrs[Attribute.list.key] == Attribute.ol) {
-        baseIndent = _numberPointWidth(fontSize, count);
-      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
-        baseIndent = _numberPointWidth(fontSize, count);
+      if (leadingBlockNodeBuilder != null) {
+        return leadingBlockNodeBuilder;
       }
     }
 
-    return HorizontalSpacing(baseIndent + extraIndent, 0);
+    if (isOrdered) {
+      return numberPointLeading(leadingConfigurations);
+    }
+
+    if (isUnordered) {
+      return bulletPointLeading(leadingConfigurations);
+    }
+
+    if (isCheck) {
+      return checkboxLeading(leadingConfigurations);
+    }
+    if (isCodeBlock &&
+        context.requireQuillEditorElementOptions.codeBlock.enableLineNumbers) {
+      return codeBlockLineNumberLeading(leadingConfigurations);
+    }
+    return null;
   }
 
   VerticalSpacing _getSpacingForLine(
