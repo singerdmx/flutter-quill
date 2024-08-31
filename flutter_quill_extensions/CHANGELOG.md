@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.2
+
+* fix(toolbar): regard showDividers in simple toolbar by @realth000 in https://github.com/singerdmx/flutter-quill/pull/2172
+
+## New Contributors
+* @realth000 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2172
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.1...v10.5.2
+
 ## 10.5.1
 
 * fix drag selection extension (does not start at tap location if you are dragging quickly by @jezell in https://github.com/singerdmx/flutter-quill/pull/2170
