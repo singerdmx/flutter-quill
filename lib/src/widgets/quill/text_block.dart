@@ -15,6 +15,7 @@ import '../others/default_styles.dart';
 import '../others/delegate.dart';
 import '../others/link.dart';
 import '../others/text_selection.dart';
+import '../raw_editor/custom_qa_render.dart';
 import '../style_widgets/bullet_point.dart';
 import '../style_widgets/checkbox_point.dart';
 import '../style_widgets/number_point.dart';
@@ -140,139 +141,108 @@ class EditableTextBlock extends StatelessWidget {
     return null;
   }
 
-  List<Widget> _buildChildren(BuildContext context,
-      Map<int, int> indentLevelCounts, bool clearIndents) {
+  List<Widget> _buildChildren(BuildContext context, Map<int, int> indentLevelCounts, bool clearIndents) {
     final defaultStyles = QuillStyles.getStyles(context, false);
     final count = block.children.length;
     final children = <Widget>[];
+
     if (clearIndents) {
       indentLevelCounts.clear();
     }
+
     var index = 0;
 
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
 
-      // Handle QA Block specifically
-      if (block.style.attributes.containsKey(Attribute.qaBlock.key)) {
-        final qaBlockStyle = defaultStyles!.qaBlock!;
-        children.add(
-          Container(
-            padding: EdgeInsets.only(
-              top: qaBlockStyle.verticalSpacing.top,
-              bottom: qaBlockStyle.verticalSpacing.bottom,
-            ),
-            decoration: qaBlockStyle.decoration,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Question Section
-                Text(
-                  'Question:',
-                  style: qaBlockStyle.style.copyWith(fontWeight: FontWeight.bold),
-                ),
-                EditableTextLine(
-                  line,
-                  null,
-                  TextLine(
-                    line: line,
-                    textDirection: textDirection,
-                    embedBuilder: embedBuilder,
-                    customStyleBuilder: customStyleBuilder,
-                    styles: styles!,
-                    readOnly: readOnly,
-                    controller: controller,
-                    linkActionPicker: linkActionPicker,
-                    onLaunchUrl: onLaunchUrl,
-                    customLinkPrefixes: customLinkPrefixes,
-                  ),
-                  _getIndentWidth(context, count),
-                  _getSpacingForLine(line, index, count, defaultStyles),
-                  textDirection,
-                  textSelection,
-                  color,
-                  enableInteractiveSelection,
-                  hasFocus,
-                  MediaQuery.devicePixelRatioOf(context),
-                  cursorCont,
-                ),
-                Divider(color: Colors.grey), // Divider between Question and Answer
+      Widget editableTextLine = EditableTextLine(
+        line,
+        _buildLeading(
+          context: context,
+          line: line,
+          index: index,
+          indentLevelCounts: indentLevelCounts,
+          count: count,
+        ),
+        TextLine(
+          line: line,
+          textDirection: textDirection,
+          embedBuilder: embedBuilder,
+          customStyleBuilder: customStyleBuilder,
+          styles: styles!,
+          readOnly: readOnly,
+          controller: controller,
+          linkActionPicker: linkActionPicker,
+          onLaunchUrl: onLaunchUrl,
+          customLinkPrefixes: customLinkPrefixes,
+        ),
+        _getIndentWidth(context, count),
+        _getSpacingForLine(line, index, count, defaultStyles),
+        textDirection,
+        textSelection,
+        color,
+        enableInteractiveSelection,
+        hasFocus,
+        MediaQuery.devicePixelRatioOf(context),
+        cursorCont,
+      );
 
-                // Answer Section
-                Text(
-                  'Answer:',
-                  style: qaBlockStyle.style.copyWith(fontWeight: FontWeight.bold),
-                ),
-                EditableTextLine(
-                  line,
-                  null,
-                  TextLine(
-                    line: line,
-                    textDirection: textDirection,
-                    embedBuilder: embedBuilder,
-                    customStyleBuilder: customStyleBuilder,
-                    styles: styles!,
-                    readOnly: readOnly,
-                    controller: controller,
-                    linkActionPicker: linkActionPicker,
-                    onLaunchUrl: onLaunchUrl,
-                    customLinkPrefixes: customLinkPrefixes,
-                  ),
-                  _getIndentWidth(context, count),
-                  _getSpacingForLine(line, index, count, defaultStyles),
-                  textDirection,
-                  textSelection,
-                  color,
-                  enableInteractiveSelection,
-                  hasFocus,
-                  MediaQuery.devicePixelRatioOf(context),
-                  cursorCont,
-                ),
-              ],
-            ),
-          ),
-        );
-      } else {
-        final editableTextLine = EditableTextLine(
-          line,
-          _buildLeading(
-            context: context,
-            line: line,
-            index: index,
-            indentLevelCounts: indentLevelCounts,
-            count: count,
-          ),
-          TextLine(
-            line: line,
-            textDirection: textDirection,
-            embedBuilder: embedBuilder,
-            customStyleBuilder: customStyleBuilder,
-            styles: styles!,
-            readOnly: readOnly,
-            controller: controller,
-            linkActionPicker: linkActionPicker,
-            onLaunchUrl: onLaunchUrl,
-            customLinkPrefixes: customLinkPrefixes,
-          ),
-          _getIndentWidth(context, count),
-          _getSpacingForLine(line, index, count, defaultStyles),
-          textDirection,
-          textSelection,
-          color,
-          enableInteractiveSelection,
-          hasFocus,
-          MediaQuery.devicePixelRatioOf(context),
-          cursorCont,
-        );
-        final nodeTextDirection = getDirectionOfNode(line);
+      final nodeTextDirection = getDirectionOfNode(line);
+      children.add(
+        Directionality(
+          textDirection: nodeTextDirection,
+          child: editableTextLine,
+        ),
+      );
+
+      // Check if the current line is a QA Block and needs a separator
+      if (line.style.containsKey(Attribute.qaBlock.key)) {
         children.add(
           Directionality(
             textDirection: nodeTextDirection,
-            child: editableTextLine,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.1),
+                border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                children: [
+                  QABlockSeparator(), // Custom widget for separator
+                  EditableTextLine(
+                    line,
+                    null,
+                    TextLine(
+                      line: line,
+                      textDirection: textDirection,
+                      embedBuilder: embedBuilder,
+                      customStyleBuilder: customStyleBuilder,
+                      styles: styles!,
+                      readOnly: readOnly,
+                      controller: controller,
+                      linkActionPicker: linkActionPicker,
+                      onLaunchUrl: onLaunchUrl,
+                      customLinkPrefixes: customLinkPrefixes,
+                    ),
+                    _getIndentWidth(context, count),
+                    _getSpacingForLine(line, index, count, defaultStyles),
+                    textDirection,
+                    textSelection,
+                    color,
+                    enableInteractiveSelection,
+                    hasFocus,
+                    MediaQuery.devicePixelRatioOf(context),
+                    cursorCont,
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       }
     }
+
     return children.toList(growable: false);
   }
 
