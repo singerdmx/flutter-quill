@@ -190,6 +190,7 @@ class DefaultStyles {
     this.sizeSmall,
     this.sizeLarge,
     this.sizeHuge,
+    this.qaBlock,
   });
 
   final DefaultTextBlockStyle? h1;
@@ -221,6 +222,7 @@ class DefaultStyles {
   final DefaultTextBlockStyle? indent;
   final DefaultTextBlockStyle? align;
   final DefaultTextBlockStyle? leading;
+  final DefaultTextBlockStyle? qaBlock;
 
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);
@@ -391,6 +393,22 @@ class DefaultStyles {
             ),
           ),
         ),
+
+        qaBlock: DefaultTextBlockStyle(
+          baseStyle.copyWith(
+            fontSize: 16,
+            color: themeData.colorScheme.onSurface.withOpacity(0.8),
+            fontWeight: FontWeight.normal,
+          ),
+          const VerticalSpacing(8, 8),
+          const VerticalSpacing(0, 0),
+          BoxDecoration(
+            border: Border.all(color: themeData.colorScheme.onSurface.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(8.0),
+            color: themeData.colorScheme.surface.withOpacity(0.05),
+          ),
+        ),
+
         code: DefaultTextBlockStyle(
             TextStyle(
               color: Colors.blue.shade900.withOpacity(0.9),

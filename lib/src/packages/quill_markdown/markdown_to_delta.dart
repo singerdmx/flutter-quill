@@ -78,6 +78,7 @@ class MarkdownToDelta extends Converter<String, Delta>
     'h1': (_) => [Attribute.h1],
     'h2': (_) => [Attribute.h2],
     'h3': (_) => [Attribute.h3],
+    'qa-block': (_) => [Attribute.qaBlock],  // Added QABlockAttribute here
   };
 
   final _elementToInlineAttr = <String, ElementToAttributeConvertor>{
@@ -100,6 +101,7 @@ class MarkdownToDelta extends Converter<String, Delta>
   final _activeBlockAttributes = Queue<List<Attribute<dynamic>>>();
   final _topLevelNodes = <md.Node>[];
   bool _isInBlockQuote = false;
+  bool _isInQABlock = false;
   bool _isInCodeblock = false;
   bool _justPreviousBlockExit = false;
   String? _lastTag;
@@ -200,6 +202,10 @@ class MarkdownToDelta extends Converter<String, Delta>
       _listItemIndent++;
     }
 
+    if (tag == 'qa-block') {
+      _isInQABlock = true;
+    }
+
     return true;
   }
 
@@ -221,6 +227,10 @@ class MarkdownToDelta extends Converter<String, Delta>
 
     if (tag == 'blockquote') {
       _isInBlockQuote = false;
+    }
+
+    if (tag == 'qa-block') {
+      _isInQABlock = false;
     }
 
     if (tag == 'pre') {

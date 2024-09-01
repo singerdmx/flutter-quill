@@ -128,6 +128,9 @@ class EditableTextBlock extends StatelessWidget {
   BoxDecoration? _getDecorationForBlock(
       Block node, DefaultStyles? defaultStyles) {
     final attrs = block.style.attributes;
+    if (attrs.containsKey(Attribute.qaBlock.key)) {
+      return defaultStyles!.qaBlock!.decoration;  // Add QA block decoration
+    }
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return defaultStyles!.quote!.decoration;
     }
@@ -146,46 +149,129 @@ class EditableTextBlock extends StatelessWidget {
       indentLevelCounts.clear();
     }
     var index = 0;
+
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
-      final editableTextLine = EditableTextLine(
-        line,
-        _buildLeading(
-          context: context,
-          line: line,
-          index: index,
-          indentLevelCounts: indentLevelCounts,
-          count: count,
-        ),
-        TextLine(
-          line: line,
-          textDirection: textDirection,
-          embedBuilder: embedBuilder,
-          customStyleBuilder: customStyleBuilder,
-          styles: styles!,
-          readOnly: readOnly,
-          controller: controller,
-          linkActionPicker: linkActionPicker,
-          onLaunchUrl: onLaunchUrl,
-          customLinkPrefixes: customLinkPrefixes,
-        ),
-        _getIndentWidth(context, count),
-        _getSpacingForLine(line, index, count, defaultStyles),
-        textDirection,
-        textSelection,
-        color,
-        enableInteractiveSelection,
-        hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        cursorCont,
-      );
-      final nodeTextDirection = getDirectionOfNode(line);
-      children.add(
-        Directionality(
-          textDirection: nodeTextDirection,
-          child: editableTextLine,
-        ),
-      );
+
+      // Handle QA Block specifically
+      if (block.style.attributes.containsKey(Attribute.qaBlock.key)) {
+        final qaBlockStyle = defaultStyles!.qaBlock!;
+        children.add(
+          Container(
+            padding: EdgeInsets.only(
+              top: qaBlockStyle.verticalSpacing.top,
+              bottom: qaBlockStyle.verticalSpacing.bottom,
+            ),
+            decoration: qaBlockStyle.decoration,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Question Section
+                Text(
+                  'Question:',
+                  style: qaBlockStyle.style.copyWith(fontWeight: FontWeight.bold),
+                ),
+                EditableTextLine(
+                  line,
+                  null,
+                  TextLine(
+                    line: line,
+                    textDirection: textDirection,
+                    embedBuilder: embedBuilder,
+                    customStyleBuilder: customStyleBuilder,
+                    styles: styles!,
+                    readOnly: readOnly,
+                    controller: controller,
+                    linkActionPicker: linkActionPicker,
+                    onLaunchUrl: onLaunchUrl,
+                    customLinkPrefixes: customLinkPrefixes,
+                  ),
+                  _getIndentWidth(context, count),
+                  _getSpacingForLine(line, index, count, defaultStyles),
+                  textDirection,
+                  textSelection,
+                  color,
+                  enableInteractiveSelection,
+                  hasFocus,
+                  MediaQuery.devicePixelRatioOf(context),
+                  cursorCont,
+                ),
+                Divider(color: Colors.grey), // Divider between Question and Answer
+
+                // Answer Section
+                Text(
+                  'Answer:',
+                  style: qaBlockStyle.style.copyWith(fontWeight: FontWeight.bold),
+                ),
+                EditableTextLine(
+                  line,
+                  null,
+                  TextLine(
+                    line: line,
+                    textDirection: textDirection,
+                    embedBuilder: embedBuilder,
+                    customStyleBuilder: customStyleBuilder,
+                    styles: styles!,
+                    readOnly: readOnly,
+                    controller: controller,
+                    linkActionPicker: linkActionPicker,
+                    onLaunchUrl: onLaunchUrl,
+                    customLinkPrefixes: customLinkPrefixes,
+                  ),
+                  _getIndentWidth(context, count),
+                  _getSpacingForLine(line, index, count, defaultStyles),
+                  textDirection,
+                  textSelection,
+                  color,
+                  enableInteractiveSelection,
+                  hasFocus,
+                  MediaQuery.devicePixelRatioOf(context),
+                  cursorCont,
+                ),
+              ],
+            ),
+          ),
+        );
+      } else {
+        final editableTextLine = EditableTextLine(
+          line,
+          _buildLeading(
+            context: context,
+            line: line,
+            index: index,
+            indentLevelCounts: indentLevelCounts,
+            count: count,
+          ),
+          TextLine(
+            line: line,
+            textDirection: textDirection,
+            embedBuilder: embedBuilder,
+            customStyleBuilder: customStyleBuilder,
+            styles: styles!,
+            readOnly: readOnly,
+            controller: controller,
+            linkActionPicker: linkActionPicker,
+            onLaunchUrl: onLaunchUrl,
+            customLinkPrefixes: customLinkPrefixes,
+          ),
+          _getIndentWidth(context, count),
+          _getSpacingForLine(line, index, count, defaultStyles),
+          textDirection,
+          textSelection,
+          color,
+          enableInteractiveSelection,
+          hasFocus,
+          MediaQuery.devicePixelRatioOf(context),
+          cursorCont,
+        );
+        final nodeTextDirection = getDirectionOfNode(line);
+        children.add(
+          Directionality(
+            textDirection: nodeTextDirection,
+            child: editableTextLine,
+          ),
+        );
+      }
     }
     return children.toList(growable: false);
   }

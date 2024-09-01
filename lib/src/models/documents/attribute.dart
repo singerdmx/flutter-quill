@@ -53,6 +53,7 @@ class Attribute<T> extends Equatable {
     Attribute.script.key: Attribute.script,
     Attribute.image.key: Attribute.image,
     Attribute.video.key: Attribute.video,
+    Attribute.qaBlock.key: Attribute.qaBlock,
   });
 
   static const BoldAttribute bold = BoldAttribute();
@@ -97,6 +98,8 @@ class Attribute<T> extends Equatable {
 
   static const BlockQuoteAttribute blockQuote = BlockQuoteAttribute();
 
+  static const QABlockAttribute qaBlock = QABlockAttribute('qa');
+
   static const DirectionAttribute direction = DirectionAttribute(null);
 
   static const WidthAttribute width = WidthAttribute(null);
@@ -133,6 +136,7 @@ class Attribute<T> extends Equatable {
     Attribute.list.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
+    Attribute.qaBlock.key,
     Attribute.indent.key,
     Attribute.direction.key,
   });
@@ -142,6 +146,7 @@ class Attribute<T> extends Equatable {
     Attribute.align.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
+    Attribute.qaBlock.key,
     Attribute.indent.key,
     Attribute.direction.key,
   });
@@ -151,6 +156,7 @@ class Attribute<T> extends Equatable {
     Attribute.list.key,
     Attribute.codeBlock.key,
     Attribute.blockQuote.key,
+    Attribute.qaBlock.key,
   });
 
   static final Set<String> embedKeys = {
@@ -356,6 +362,11 @@ class CodeBlockAttribute extends Attribute<bool> {
 
 class BlockQuoteAttribute extends Attribute<bool> {
   const BlockQuoteAttribute() : super('blockquote', AttributeScope.block, true);
+}
+
+class QABlockAttribute extends Attribute<String?> {
+  const QABlockAttribute(String? val)
+      : super('qa-block', AttributeScope.block, val);
 }
 
 class DirectionAttribute extends Attribute<String?> {
