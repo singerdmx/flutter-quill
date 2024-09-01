@@ -970,20 +970,13 @@ class QuillRawEditorState extends EditorState
     for (final node in doc.root.children) {
       final attrs = node.style.attributes;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol) {
+      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol ||
+          attrs.isEmpty) {
         clearIndents = true;
       }
 
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
-      var nodeTextDirection = getDirectionOfNode(node);
-      // verify if the direction from nodeTextDirection is the default direction
-      // and watch if the system language is a RTL language and avoid putting
-      // to the edge of the left side any checkbox or list point/number if is a
-      // RTL language
-      if (nodeTextDirection == TextDirection.ltr &&
-          _textDirection == TextDirection.rtl) {
-        nodeTextDirection = TextDirection.rtl;
-      }
+      final nodeTextDirection = getDirectionOfNode(node, _textDirection);
       if (node is Line) {
         final editableTextLine = _getEditableTextLineFromNode(node, context);
         result.add(Directionality(
@@ -992,6 +985,7 @@ class QuillRawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
           block: node,
           controller: controller,
+          customLeadingBlockBuilder: widget.configurations.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.configurations.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),

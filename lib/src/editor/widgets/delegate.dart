@@ -206,7 +206,11 @@ class EditorTextSelectionGestureDetectorBuilder {
     assert(renderEditor?.selection.baseOffset != null);
 
     final tappedPosition = renderEditor!.getPositionForOffset(offset);
-    final selection = renderEditor!.selection;
+    final selection = switch (cause) {
+      SelectionChangedCause.drag => _dragStartSelection!,
+      _ => renderEditor!.selection
+    };
+
     final nextSelection = selection.copyWith(
       extentOffset: tappedPosition.offset,
     );
@@ -691,7 +695,7 @@ class EditorTextSelectionGestureDetectorBuilder {
           switch (details.kind) {
             case PointerDeviceKind.mouse:
             case PointerDeviceKind.trackpad:
-              renderEditor?.selectPositionAt(
+              _dragStartSelection = renderEditor?.selectPositionAt(
                 from: details.globalPosition,
                 cause: SelectionChangedCause.drag,
               );
@@ -704,7 +708,7 @@ class EditorTextSelectionGestureDetectorBuilder {
               assert(_dragBeganOnPreviousSelection != null);
               if (renderEditor?.hasFocus == true &&
                   _dragBeganOnPreviousSelection!) {
-                renderEditor?.selectPositionAt(
+                _dragStartSelection = renderEditor?.selectPositionAt(
                   from: details.globalPosition,
                   cause: SelectionChangedCause.drag,
                 );
@@ -717,7 +721,7 @@ class EditorTextSelectionGestureDetectorBuilder {
           switch (details.kind) {
             case PointerDeviceKind.mouse:
             case PointerDeviceKind.trackpad:
-              renderEditor?.selectPositionAt(
+              _dragStartSelection = renderEditor?.selectPositionAt(
                 from: details.globalPosition,
                 cause: SelectionChangedCause.drag,
               );
@@ -728,7 +732,7 @@ class EditorTextSelectionGestureDetectorBuilder {
               // For Android, Fucshia, and iOS platforms, a touch drag
               // does not initiate unless the editable has focus.
               if (renderEditor?.hasFocus == true) {
-                renderEditor?.selectPositionAt(
+                _dragStartSelection = renderEditor?.selectPositionAt(
                   from: details.globalPosition,
                   cause: SelectionChangedCause.drag,
                 );
@@ -739,7 +743,7 @@ class EditorTextSelectionGestureDetectorBuilder {
         case TargetPlatform.linux:
         case TargetPlatform.macOS:
         case TargetPlatform.windows:
-          renderEditor?.selectPositionAt(
+          _dragStartSelection = renderEditor?.selectPositionAt(
             from: details.globalPosition,
             cause: SelectionChangedCause.drag,
           );

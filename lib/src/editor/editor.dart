@@ -298,6 +298,8 @@ class QuillEditorState extends State<QuillEditor>
             key: _editorKey,
             controller: controller,
             configurations: QuillRawEditorConfigurations(
+              customLeadingBuilder:
+                  widget.configurations.customLeadingBlockBuilder,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
@@ -1465,6 +1467,7 @@ class RenderEditor extends RenderEditableContainerBox
       _floatingCursorRect = null;
       _cursorController.setFloatingCursorTextPosition(null);
     }
+    markNeedsPaint();
   }
 
   void _paintFloatingCursor(PaintingContext context, Offset offset) {
