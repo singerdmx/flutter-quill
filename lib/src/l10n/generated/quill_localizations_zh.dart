@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Chinese (`zh`).
 class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsZh([super.locale = 'zh']);
+  FlutterQuillLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
   String get pasteLink => '粘贴链接';
@@ -235,10 +237,10 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => '保存图像时发生错误';
 
   @override
-  String get pleaseEnterTextForYourLink => "如'了解更多'";
+  String get pleaseEnterTextForYourLink => '如\'了解更多\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "如'https://example.com'";
+  String get pleaseEnterTheLinkURL => '如\'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => '请输入有效的图像URL';
@@ -525,10 +527,10 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
   String get errorWhileSavingImage => '保存图像时发生错误';
 
   @override
-  String get pleaseEnterTextForYourLink => "如'了解更多'";
+  String get pleaseEnterTextForYourLink => '如\'了解更多\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "如'https://example.com'";
+  String get pleaseEnterTheLinkURL => '如\'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => '请输入有效的图像URL';
@@ -773,10 +775,10 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
   String get errorWhileSavingImage => '保存圖像時發生錯誤';
 
   @override
-  String get pleaseEnterTextForYourLink => "例如，'了解更多'";
+  String get pleaseEnterTextForYourLink => '例如，\'了解更多\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "例如，'https://example.com'";
+  String get pleaseEnterTheLinkURL => '例如，\'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => '請輸入有效的圖像URL';
