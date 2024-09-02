@@ -35,12 +35,15 @@ import 'quill_localizations_sk.dart';
 import 'quill_localizations_sr.dart';
 import 'quill_localizations_sv.dart';
 import 'quill_localizations_sw.dart';
+import 'quill_localizations_th.dart';
 import 'quill_localizations_tk.dart';
 import 'quill_localizations_tr.dart';
 import 'quill_localizations_uk.dart';
 import 'quill_localizations_ur.dart';
 import 'quill_localizations_vi.dart';
 import 'quill_localizations_zh.dart';
+
+// ignore_for_file: type=lint
 
 /// Callers can lookup localized strings with an instance of FlutterQuillLocalizations
 /// returned by `FlutterQuillLocalizations.of(context)`.
@@ -161,6 +164,7 @@ abstract class FlutterQuillLocalizations {
     Locale('sr'),
     Locale('sv'),
     Locale('sw'),
+    Locale('th'),
     Locale('tk'),
     Locale('tr'),
     Locale('uk'),
@@ -796,6 +800,7 @@ class _FlutterQuillLocalizationsDelegate
         'sr',
         'sv',
         'sw',
+        'th',
         'tk',
         'tr',
         'uk',
@@ -917,6 +922,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsSv();
     case 'sw':
       return FlutterQuillLocalizationsSw();
+    case 'th':
+      return FlutterQuillLocalizationsTh();
     case 'tk':
       return FlutterQuillLocalizationsTk();
     case 'tr':

@@ -4,6 +4,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.5
+
+* Fix text selection handles when scroll mobile by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2176
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.4...v10.5.5
+
+## 10.5.4
+
+* Add Thai (th) localization by @silkyland in https://github.com/singerdmx/flutter-quill/pull/2175
+
+## New Contributors
+* @silkyland made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2175
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.3...v10.5.4
+
+## 10.5.3
+
+* Fix: Assertion Failure in line.dart When Editing Text with Block-Level Attributes by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2174
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.2...v10.5.3
+
 ## 10.5.2
 
 * fix(toolbar): regard showDividers in simple toolbar by @realth000 in https://github.com/singerdmx/flutter-quill/pull/2172
