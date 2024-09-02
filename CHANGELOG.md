@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.5
+
+* Fix text selection handles when scroll mobile by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2176
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.4...v10.5.5
+
 ## 10.5.4
 
 * Add Thai (th) localization by @silkyland in https://github.com/singerdmx/flutter-quill/pull/2175
