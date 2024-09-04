@@ -269,30 +269,35 @@ class EditableTextBlock extends StatelessWidget {
       index: isOrdered || isCodeBlock ? index : null,
       count: count,
       enabled: !isCheck ? null : !(checkBoxReadOnly ?? readOnly),
-      style: isOrdered
-          ? defaultStyles.leading!.style.copyWith(
-              fontSize: size,
-              color: context.quillEditorElementOptions?.orderedList
-                          .useTextColorForDot ==
-                      true
-                  ? fontColor
-                  : null,
-            )
-          : isUnordered
-              ? defaultStyles.leading!.style.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: size,
-                  color: context.quillEditorElementOptions?.unorderedList
-                              .useTextColorForDot ==
-                          true
-                      ? fontColor
-                      : null,
-                )
-              : isCheck
-                  ? null
-                  : defaultStyles.code!.style.copyWith(
-                      color: defaultStyles.code!.style.color!.withOpacity(0.4),
-                    ),
+      style: () {
+        if (isOrdered) {
+          return defaultStyles.leading!.style.copyWith(
+            fontSize: size,
+            color: context.quillEditorElementOptions?.orderedList
+                        .useTextColorForDot ==
+                    true
+                ? fontColor
+                : null,
+          );
+        }
+        if (isUnordered) {
+          return defaultStyles.leading!.style.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: size,
+            color: context.quillEditorElementOptions?.unorderedList
+                        .useTextColorForDot ==
+                    true
+                ? fontColor
+                : null,
+          );
+        }
+        if (isCheck) {
+          return null;
+        }
+        return defaultStyles.code!.style.copyWith(
+          color: defaultStyles.code!.style.color!.withOpacity(0.4),
+        );
+      }(),
       width: isOrdered || isCodeBlock
           ? numberPointWidthBuilder(fontSize, count)
           : isUnordered
