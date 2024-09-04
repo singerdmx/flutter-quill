@@ -43,7 +43,7 @@ dependencies:
   # For picking quill document files
   file_picker: ^8.0.0+1
   # For sharing text
-  share_plus: ^8.0.2
+  share_plus: ^10.0.2
   google_fonts: ^6.2.1
 
 dependency_overrides:
