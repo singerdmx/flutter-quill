@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.6
+
+* chore(deps): update super_clipboard to 0.8.20 in flutter_quill_extensions by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2181
+* Update quill_screen.dart, i chaged the logic for showing a lock when … by @rightpossible in https://github.com/singerdmx/flutter-quill/pull/2183
+
+## New Contributors
+* @rightpossible made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2183
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.5...v10.5.6
+
 ## 10.5.5
 
 * Fix text selection handles when scroll mobile by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2176
