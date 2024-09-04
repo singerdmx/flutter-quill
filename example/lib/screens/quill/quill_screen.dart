@@ -138,7 +138,7 @@ class _QuillScreenState extends State<QuillScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(_isReadOnly ? Icons.lock : Icons.edit),
+        child: Icon(!_isReadOnly ? Icons.lock : Icons.edit),
         onPressed: () => setState(() => _isReadOnly = !_isReadOnly),
       ),
     );
