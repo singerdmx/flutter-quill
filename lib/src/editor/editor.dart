@@ -305,6 +305,7 @@ class QuillEditorState extends State<QuillEditor>
               scrollable: configurations.scrollable,
               enableMarkdownStyleConversion:
                   configurations.enableMarkdownStyleConversion,
+              enableAlwaysIndentOnTab: configurations.enableAlwaysIndentOnTab,
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,
               readOnly: controller.readOnly,
