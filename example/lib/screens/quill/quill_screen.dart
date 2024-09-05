@@ -3,18 +3,14 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show
-        FlutterQuillEmbeds,
-        FlutterQuillExtensions,
-        QuillSharedExtensionsConfigurations;
+    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
+import '../../spell_checker/spell_checker.dart';
 import '../shared/widgets/home_screen_button.dart';
 import 'my_quill_editor.dart';
 import 'my_quill_toolbar.dart';
-
-var _isActivatedSpellChecker = false;
 
 @immutable
 class QuillScreenArgs {
@@ -43,6 +39,7 @@ class _QuillScreenState extends State<QuillScreen> {
   final _editorFocusNode = FocusNode();
   final _editorScrollController = ScrollController();
   var _isReadOnly = false;
+  var _isSpellcheckerActive = false;
 
   @override
   void initState() {
@@ -61,6 +58,11 @@ class _QuillScreenState extends State<QuillScreen> {
   @override
   Widget build(BuildContext context) {
     _controller.readOnly = _isReadOnly;
+    if (!_isSpellcheckerActive) {
+      _isSpellcheckerActive = true;
+      SpellChecker.useSpellCheckerService(
+          Localizations.localeOf(context).languageCode);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Quill'),
@@ -68,19 +70,14 @@ class _QuillScreenState extends State<QuillScreen> {
           IconButton(
             tooltip: 'Spell-checker',
             onPressed: () {
-              if (!_isActivatedSpellChecker) {
-                FlutterQuillExtensions.useSpellCheckerService(
-                    Localizations.localeOf(context).languageCode);
-              } else {
-                SpellCheckerServiceProvider.dispose(onlyPartial: true);
-                SpellCheckerServiceProvider.turnOffService();
-              }
-              _isActivatedSpellChecker = !_isActivatedSpellChecker;
+              SpellCheckerServiceProvider.toggleState();
               setState(() {});
             },
             icon: Icon(
               Icons.document_scanner,
-              color: _isActivatedSpellChecker ? Colors.red : null,
+              color: SpellCheckerServiceProvider.isServiceActive()
+                  ? Colors.red.withOpacity(0.5)
+                  : null,
             ),
           ),
           IconButton(
@@ -141,7 +138,7 @@ class _QuillScreenState extends State<QuillScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(_isReadOnly ? Icons.lock : Icons.edit),
+        child: Icon(!_isReadOnly ? Icons.lock : Icons.edit),
         onPressed: () => setState(() => _isReadOnly = !_isReadOnly),
       ),
     );

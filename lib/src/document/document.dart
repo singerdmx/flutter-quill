@@ -182,6 +182,9 @@ class Document {
   /// Special case of no-selection at start of empty line: gets inline style(s) from preceding non-empty line.
   Style collectStyle(int index, int len) {
     var res = queryChild(index);
+    if (res.node == null) {
+      return const Style();
+    }
     if (len > 0) {
       return (res.node as Line).collectStyle(res.offset, len);
     }
@@ -267,11 +270,13 @@ class Document {
   ChildQuery queryChild(int offset) {
     // TODO: prevent user from moving caret after last line-break.
     final res = _root.queryChild(offset, true);
+    if (res.node == null) {
+      return res;
+    }
     if (res.node is Line) {
       return res;
     }
-    final block = res.node
-        as Block; // TODO: Can be nullable, handle this case to avoid cast exception
+    final block = res.node as Block;
     return block.queryChild(res.offset, true);
   }
 

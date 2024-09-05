@@ -88,10 +88,13 @@ int getPositionDelta(Delta user, Delta actual) {
   return diff;
 }
 
-TextDirection getDirectionOfNode(Node node) {
+TextDirection getDirectionOfNode(Node node, [TextDirection? currentDirection]) {
   final direction = node.style.attributes[Attribute.direction.key];
-  if (direction == Attribute.rtl) {
+  // If it is RTL, then create the opposite direction
+  if (currentDirection == TextDirection.rtl && direction == Attribute.rtl) {
+    return TextDirection.ltr;
+  } else if (direction == Attribute.rtl) {
     return TextDirection.rtl;
   }
-  return TextDirection.ltr;
+  return currentDirection ?? TextDirection.ltr;
 }

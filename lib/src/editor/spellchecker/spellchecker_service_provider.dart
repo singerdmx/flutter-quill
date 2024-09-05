@@ -17,6 +17,14 @@ class SpellCheckerServiceProvider {
     _instance.dispose(onlyPartial: onlyPartial);
   }
 
+  static void toggleState() {
+    _instance.toggleChecker();
+  }
+
+  static bool isServiceActive() {
+    return _instance.isServiceActive();
+  }
+
   static void setNewLanguageState({required String language}) {
     assert(language.isNotEmpty);
     _instance.setNewLanguageState(language: language);

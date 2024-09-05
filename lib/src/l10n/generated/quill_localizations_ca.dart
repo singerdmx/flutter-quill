@@ -1,14 +1,16 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Catalan Valencian (`ca`).
 class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsCa([super.locale = 'ca']);
+  FlutterQuillLocalizationsCa([String locale = 'ca']) : super(locale);
 
   @override
   String get pasteLink => 'Enganxa un enllaç';
 
   @override
-  String get ok => "D'acord";
+  String get ok => 'D\'acord';
 
   @override
   String get selectColor => 'Selecciona el color';
@@ -119,7 +121,7 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
   String get clearFormat => 'Neteja format';
 
   @override
-  String get alignLeft => "Alinea a l'esquerra";
+  String get alignLeft => 'Alinea a l\'esquerra';
 
   @override
   String get alignCenter => 'Alinea al centre';
@@ -131,7 +133,7 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
   String get alignJustify => 'Justifica';
 
   @override
-  String get justifyWinWidth => "Justifica l'amplada de la finestra";
+  String get justifyWinWidth => 'Justifica l\'amplada de la finestra';
 
   @override
   String get textDirection => 'Direcció del text';
@@ -185,10 +187,10 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
   String get insertURL => 'Insereix URL';
 
   @override
-  String get visitLink => "Visita l'enllaç";
+  String get visitLink => 'Visita l\'enllaç';
 
   @override
-  String get enterLink => "Introdueix l'enllaç";
+  String get enterLink => 'Introdueix l\'enllaç';
 
   @override
   String get enterMedia => 'Introdueix mitjans';
@@ -215,7 +217,7 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
   String get findText => 'Troba text';
 
   @override
-  String get moveToPreviousOccurrence => "Mou-te a l'ocurrència anterior";
+  String get moveToPreviousOccurrence => 'Mou-te a l\'ocurrència anterior';
 
   @override
   String get moveToNextOccurrence => 'Mou-te a la següent ocurrència';
@@ -224,11 +226,11 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Desat utilitzant la xarxa';
 
   @override
-  String get savedUsingLocalStorage => "Desat en l'emmagatzematge local";
+  String get savedUsingLocalStorage => 'Desat en l\'emmagatzematge local';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return "La imatge s'ha desat a: $imagePath";
+    return 'La imatge s\'ha desat a: $imagePath';
   }
 
   @override
@@ -236,15 +238,15 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Si us plau, introdueix un text per al teu enllaç (p. ex., 'Saber més')";
+      'Si us plau, introdueix un text per al teu enllaç (p. ex., \'Saber més\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Si us plau, introdueix l'URL de l'enllaç (p. ex., 'https://example.com')";
+      'Si us plau, introdueix l\'URL de l\'enllaç (p. ex., \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>
-      "Si us plau, introdueix un URL d'imatge vàlid";
+      'Si us plau, introdueix un URL d\'imatge vàlid';
 
   @override
   String get pleaseEnterAValidVideoURL =>

@@ -43,7 +43,6 @@ import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
-import 'quill_single_child_scroll_view.dart';
 import 'raw_editor.dart';
 import 'raw_editor_actions.dart';
 import 'raw_editor_render_object.dart';
@@ -436,43 +435,44 @@ class QuillRawEditorState extends EditorState
       final baselinePadding =
           EdgeInsets.only(top: _styles!.paragraph!.verticalSpacing.top);
       child = BaselineProxy(
-        textStyle: _styles!.paragraph!.style,
-        padding: baselinePadding,
-        child: _scribbleFocusable(
-          QuillSingleChildScrollView(
-            controller: _scrollController,
-            physics: widget.configurations.scrollPhysics,
-            viewportBuilder: (_, offset) => CompositedTransformTarget(
-              link: _toolbarLayerLink,
-              child: MouseRegion(
-                cursor: widget.configurations.readOnly
-                    ? widget.configurations.readOnlyMouseCursor
-                    : SystemMouseCursors.text,
-                child: QuillRawEditorMultiChildRenderObject(
-                  key: _editorKey,
-                  offset: offset,
-                  document: doc,
-                  selection: controller.selection,
-                  hasFocus: _hasFocus,
-                  scrollable: widget.configurations.scrollable,
-                  textDirection: _textDirection,
-                  startHandleLayerLink: _startHandleLayerLink,
-                  endHandleLayerLink: _endHandleLayerLink,
-                  onSelectionChanged: _handleSelectionChanged,
-                  onSelectionCompleted: _handleSelectionCompleted,
-                  scrollBottomInset: widget.configurations.scrollBottomInset,
-                  padding: widget.configurations.padding,
-                  maxContentWidth: widget.configurations.maxContentWidth,
-                  cursorController: _cursorCont,
-                  floatingCursorDisabled:
-                      widget.configurations.floatingCursorDisabled,
-                  children: _buildChildren(doc, context),
+          textStyle: _styles!.paragraph!.style,
+          padding: baselinePadding,
+          child: _scribbleFocusable(
+            SingleChildScrollView(
+              controller: _scrollController,
+              physics: widget.configurations.scrollPhysics,
+              child: CompositedTransformTarget(
+                link: _toolbarLayerLink,
+                child: MouseRegion(
+                  cursor: widget.configurations.readOnly
+                      ? widget.configurations.readOnlyMouseCursor
+                      : SystemMouseCursors.text,
+                  child: QuillRawEditorMultiChildRenderObject(
+                    key: _editorKey,
+                    offset: _scrollController.hasClients
+                        ? _scrollController.position
+                        : null,
+                    document: doc,
+                    selection: controller.selection,
+                    hasFocus: _hasFocus,
+                    scrollable: widget.configurations.scrollable,
+                    textDirection: _textDirection,
+                    startHandleLayerLink: _startHandleLayerLink,
+                    endHandleLayerLink: _endHandleLayerLink,
+                    onSelectionChanged: _handleSelectionChanged,
+                    onSelectionCompleted: _handleSelectionCompleted,
+                    scrollBottomInset: widget.configurations.scrollBottomInset,
+                    padding: widget.configurations.padding,
+                    maxContentWidth: widget.configurations.maxContentWidth,
+                    cursorController: _cursorCont,
+                    floatingCursorDisabled:
+                        widget.configurations.floatingCursorDisabled,
+                    children: _buildChildren(doc, context),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      );
+          ));
     } else {
       child = _scribbleFocusable(
         CompositedTransformTarget(
@@ -506,7 +506,6 @@ class QuillRawEditorState extends EditorState
         ),
       );
     }
-
     final constraints = widget.configurations.expands
         ? const BoxConstraints.expand()
         : BoxConstraints(
@@ -975,20 +974,13 @@ class QuillRawEditorState extends EditorState
     for (final node in doc.root.children) {
       final attrs = node.style.attributes;
 
-      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol) {
+      if (prevNodeOl && attrs[Attribute.list.key] != Attribute.ol ||
+          attrs.isEmpty) {
         clearIndents = true;
       }
 
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
-      var nodeTextDirection = getDirectionOfNode(node);
-      // verify if the direction from nodeTextDirection is the default direction
-      // and watch if the system language is a RTL language and avoid putting
-      // to the edge of the left side any checkbox or list point/number if is a
-      // RTL language
-      if (nodeTextDirection == TextDirection.ltr &&
-          _textDirection == TextDirection.rtl) {
-        nodeTextDirection = TextDirection.rtl;
-      }
+      final nodeTextDirection = getDirectionOfNode(node, _textDirection);
       if (node is Line) {
         final editableTextLine = _getEditableTextLineFromNode(node, context);
         result.add(Directionality(
@@ -997,6 +989,7 @@ class QuillRawEditorState extends EditorState
         final editableTextBlock = EditableTextBlock(
           block: node,
           controller: controller,
+          customLeadingBlockBuilder: widget.configurations.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.configurations.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
@@ -1019,6 +1012,8 @@ class QuillRawEditorState extends EditorState
           onCheckboxTap: _handleCheckboxTap,
           readOnly: widget.configurations.readOnly,
           checkBoxReadOnly: widget.configurations.checkBoxReadOnly,
+          customRecognizerBuilder:
+              widget.configurations.customRecognizerBuilder,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );

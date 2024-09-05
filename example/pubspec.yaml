@@ -22,6 +22,7 @@ dependencies:
   equatable: ^2.0.5
   cross_file: ^0.3.4
   cached_network_image: ^3.3.1
+  simple_spell_checker: ^1.2.1
 
   # Bloc libraries
   bloc: ^8.1.4
@@ -38,11 +39,17 @@ dependencies:
   image_cropper: ^8.0.1
   path_provider: ^2.1.2
   # For drag and drop feature
-  desktop_drop: ^0.4.4
+  # Switch to the pub.dev version after https://github.com/MixinNetwork/flutter-plugins/pull/351
+  # is published
+  desktop_drop:
+    git:
+      url: https://github.com/MixinNetwork/flutter-plugins.git
+      path: packages/desktop_drop
+      ref: 0d1ce578abddd171b309b15847bd6e4f9163881e
   # For picking quill document files
   file_picker: ^8.0.0+1
   # For sharing text
-  share_plus: ^8.0.2
+  share_plus: ^10.0.2
   google_fonts: ^6.2.1
 
 dependency_overrides:
