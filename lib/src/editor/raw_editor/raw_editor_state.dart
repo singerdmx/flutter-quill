@@ -809,8 +809,12 @@ class QuillRawEditorState extends EditorState
       if (widget.configurations.readOnly) {
         return KeyEventResult.ignored;
       }
-      controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
-      _moveCursor(1);
+      if (widget.configurations.enableAlwaysIndentOnTab) {
+        controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
+      } else {
+        controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
+        _moveCursor(1);
+      }
       return KeyEventResult.handled;
     }
 
