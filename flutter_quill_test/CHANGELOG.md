@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.7
+
+* chore(example): downgrade Kotlin from 1.9.24 to 1.7.10 by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2185
+* style: refactor build leading function style, width, and padding parameters for custom node leading builder by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2182
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.6...v10.5.7
+
 ## 10.5.6
 
 * chore(deps): update super_clipboard to 0.8.20 in flutter_quill_extensions by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2181
