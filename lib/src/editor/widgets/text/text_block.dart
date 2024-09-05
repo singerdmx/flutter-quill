@@ -269,40 +269,53 @@ class EditableTextBlock extends StatelessWidget {
       index: isOrdered || isCodeBlock ? index : null,
       count: count,
       enabled: !isCheck ? null : !(checkBoxReadOnly ?? readOnly),
-      style: isOrdered
-          ? defaultStyles.leading!.style.copyWith(
-              fontSize: size,
-              color: context.quillEditorElementOptions?.orderedList
-                          .useTextColorForDot ==
-                      true
-                  ? fontColor
-                  : null,
-            )
-          : isUnordered
-              ? defaultStyles.leading!.style.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: size,
-                  color: context.quillEditorElementOptions?.unorderedList
-                              .useTextColorForDot ==
-                          true
-                      ? fontColor
-                      : null,
-                )
-              : isCheck
-                  ? null
-                  : defaultStyles.code!.style.copyWith(
-                      color: defaultStyles.code!.style.color!.withOpacity(0.4),
-                    ),
-      width: isOrdered || isCodeBlock
-          ? numberPointWidthBuilder(fontSize, count)
-          : isUnordered
-              ? numberPointWidthBuilder(fontSize, 1) // same as fontSize * 2
-              : null,
-      padding: isOrdered || isUnordered
-          ? fontSize / 2
-          : isCodeBlock
-              ? fontSize
-              : null,
+      style: () {
+        if (isOrdered) {
+          return defaultStyles.leading!.style.copyWith(
+            fontSize: size,
+            color: context.quillEditorElementOptions?.orderedList
+                        .useTextColorForDot ==
+                    true
+                ? fontColor
+                : null,
+          );
+        }
+        if (isUnordered) {
+          return defaultStyles.leading!.style.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: size,
+            color: context.quillEditorElementOptions?.unorderedList
+                        .useTextColorForDot ==
+                    true
+                ? fontColor
+                : null,
+          );
+        }
+        if (isCheck) {
+          return null;
+        }
+        return defaultStyles.code!.style.copyWith(
+          color: defaultStyles.code!.style.color!.withOpacity(0.4),
+        );
+      }(),
+      width: () {
+        if (isOrdered || isCodeBlock) {
+          return numberPointWidthBuilder(fontSize, count);
+        }
+        if (isUnordered) {
+          return numberPointWidthBuilder(fontSize, 1); // same as fontSize * 2
+        }
+        return null;
+      }(),
+      padding: () {
+        if (isOrdered || isUnordered) {
+          return fontSize / 2;
+        }
+        if (isCodeBlock) {
+          return fontSize;
+        }
+        return null;
+      }(),
       lineSize: isCheck ? fontSize : null,
       uiBuilder: isCheck ? defaultStyles.lists?.checkboxUIBuilder : null,
       value: attribute == Attribute.checked,
