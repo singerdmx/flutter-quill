@@ -77,12 +77,6 @@ class SettingsScreen extends StatelessWidget {
                         actions: [
                           AppDialogAction(
                             onPressed: () => Navigator.of(context).pop(null),
-                            options: const DialogActionOptions(
-                              cupertinoDialogActionOptions:
-                                  CupertinoDialogActionOptions(
-                                isDefaultAction: true,
-                              ),
-                            ),
                             child: const Text('Cancel'),
                           ),
                         ],
