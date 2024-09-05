@@ -307,11 +307,15 @@ class EditableTextBlock extends StatelessWidget {
         }
         return null;
       }(),
-      padding: isOrdered || isUnordered
-          ? fontSize / 2
-          : isCodeBlock
-              ? fontSize
-              : null,
+      padding: () {
+        if (isOrdered || isUnordered) {
+          return fontSize / 2;
+        }
+        if (isCodeBlock) {
+          return fontSize;
+        }
+        return null;
+      }(),
       lineSize: isCheck ? fontSize : null,
       uiBuilder: isCheck ? defaultStyles.lists?.checkboxUIBuilder : null,
       value: attribute == Attribute.checked,
