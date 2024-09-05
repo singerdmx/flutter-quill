@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.8
+
+* Feat: Add configuration option to always indent on TAB key press by @agata in https://github.com/singerdmx/flutter-quill/pull/2187
+
+## New Contributors
+* @agata made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2187
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.7...v10.5.8
+
 ## 10.5.7
 
 * chore(example): downgrade Kotlin from 1.9.24 to 1.7.10 by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2185
