@@ -298,11 +298,15 @@ class EditableTextBlock extends StatelessWidget {
           color: defaultStyles.code!.style.color!.withOpacity(0.4),
         );
       }(),
-      width: isOrdered || isCodeBlock
-          ? numberPointWidthBuilder(fontSize, count)
-          : isUnordered
-              ? numberPointWidthBuilder(fontSize, 1) // same as fontSize * 2
-              : null,
+      width: () {
+        if (isOrdered || isCodeBlock) {
+          return numberPointWidthBuilder(fontSize, count);
+        }
+        if (isUnordered) {
+          return numberPointWidthBuilder(fontSize, 1); // same as fontSize * 2
+        }
+        return null;
+      }(),
       padding: isOrdered || isUnordered
           ? fontSize / 2
           : isCodeBlock
