@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 // Android
 
 @pragma('vm:platform-const-if', !kDebugMode)
-bool get isAndroidApp =>
-    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+bool get isAndroid => defaultTargetPlatform == TargetPlatform.android;
+
+@pragma('vm:platform-const-if', !kDebugMode)
+bool get isAndroidApp => !kIsWeb && isAndroid;
 
 // iOS
 
@@ -17,7 +19,7 @@ bool get isAndroidApp =>
 bool get isIos => defaultTargetPlatform == TargetPlatform.iOS;
 
 @pragma('vm:platform-const-if', !kDebugMode)
-bool get isIosApp => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+bool get isIosApp => !kIsWeb && isIos;
 
 Future<bool> isIOSSimulator() async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
@@ -43,10 +45,7 @@ bool get isMobile =>
     defaultTargetPlatform == TargetPlatform.android;
 
 @pragma('vm:platform-const-if', !kDebugMode)
-bool get isMobileApp =>
-    !kIsWeb &&
-    (defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android);
+bool get isMobileApp => !kIsWeb && isMobile;
 
 // Destkop
 
@@ -57,16 +56,15 @@ bool get isDesktop =>
     defaultTargetPlatform == TargetPlatform.windows;
 
 @pragma('vm:platform-const-if', !kDebugMode)
-bool get isDesktopApp =>
-    !kIsWeb &&
-    (defaultTargetPlatform == TargetPlatform.linux ||
-        defaultTargetPlatform == TargetPlatform.macOS ||
-        defaultTargetPlatform == TargetPlatform.windows);
+bool get isDesktopApp => !kIsWeb && isDesktop;
 
 // macOS
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isMacOS => defaultTargetPlatform == TargetPlatform.macOS;
+
+@pragma('vm:platform-const-if', !kDebugMode)
+bool get isMacOSApp => !kIsWeb && isMacOS;
 
 // AppleOS
 
@@ -76,10 +74,7 @@ bool get isAppleOS =>
     defaultTargetPlatform == TargetPlatform.macOS;
 
 @pragma('vm:platform-const-if', !kDebugMode)
-bool get isAppleOSApp =>
-    !kIsWeb &&
-    (defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.macOS);
+bool get isAppleOSApp => !kIsWeb && isAppleOS;
 
 // Keyboard
 
