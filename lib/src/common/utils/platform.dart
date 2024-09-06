@@ -88,8 +88,9 @@ bool get isKeyboardOS =>
     isDesktop || defaultTargetPlatform == TargetPlatform.fuchsia;
 
 extension PlatformThemeCheckExtension on ThemeData {
-  bool get isMaterial => platform == TargetPlatform.android;
-  bool get isCupertino => platform == TargetPlatform.iOS;
+  bool get isMaterial => !isCupertino;
+  bool get isCupertino =>
+      {TargetPlatform.iOS, TargetPlatform.macOS}.contains(platform);
 }
 
 /// Should check if [kIsWeb] is `false` before checking if
