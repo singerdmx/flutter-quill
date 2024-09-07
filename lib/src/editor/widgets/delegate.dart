@@ -975,7 +975,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   void onDragSelectionEnd(TapDragEndDetails details) {
     // if (editor?.textEditingValue.selection.isCollapsed == false) return;
     renderEditor!.handleDragEnd(details);
-    if (isDesktop(supportWeb: true) &&
+    if (isDesktop &&
         delegate.selectionEnabled &&
         checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
       // added to show selection copy/paste toolbar after drag to select

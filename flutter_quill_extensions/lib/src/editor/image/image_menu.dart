@@ -168,7 +168,7 @@ class ImageOptionsMenu extends StatelessWidget {
                     localizations.savedUsingLocalStorage,
                 };
 
-                if (isDesktop(supportWeb: false)) {
+                if (isDesktopApp) {
                   message = localizations.theImageHasBeenSavedAt(imageSource);
                 }
 

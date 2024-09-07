@@ -256,12 +256,7 @@ class DefaultStyles {
     );
     const baseHorizontalSpacing = HorizontalSpacing(0, 0);
     const baseVerticalSpacing = VerticalSpacing(6, 0);
-    String fontFamily;
-    if (isAppleOS(platform: themeData.platform, supportWeb: true)) {
-      fontFamily = 'Menlo';
-    } else {
-      fontFamily = 'Roboto Mono';
-    }
+    final fontFamily = themeData.isCupertino ? 'Menlo' : 'Roboto Mono';
 
     final inlineCodeStyle = TextStyle(
       fontSize: 14,
