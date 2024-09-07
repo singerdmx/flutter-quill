@@ -21,7 +21,7 @@ class SelectCameraActionDialog extends StatelessWidget {
                 context.loc.takeAPhotoUsingYourCamera,
               ),
               leading: const Icon(Icons.photo_sharp),
-              enabled: !isDesktop(supportWeb: false),
+              enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(CameraAction.image),
             ),
             ListTile(
@@ -30,7 +30,7 @@ class SelectCameraActionDialog extends StatelessWidget {
                 context.loc.recordAVideoUsingYourCamera,
               ),
               leading: const Icon(Icons.camera),
-              enabled: !isDesktop(supportWeb: false),
+              enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(CameraAction.video),
             ),
           ],

@@ -111,7 +111,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     final searchBarAtBottom = (searchBarAlignment == Alignment.bottomCenter) ||
         (searchBarAlignment == Alignment.bottomLeft) ||
         (searchBarAlignment == Alignment.bottomRight);
-    final addBottomPadding = searchBarAtBottom && isMobile(supportWeb: true);
+    final addBottomPadding = searchBarAtBottom && isMobile;
     var matchShown = '';
     if (_text.isNotEmpty) {
       if (_offsets.isEmpty) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' show isDesktop;
+import 'package:flutter_quill/extensions.dart' show isDesktopApp;
 import 'package:flutter_quill/translations.dart';
 
 import 'models/video.dart';
@@ -27,7 +27,7 @@ class SelectVideoSourceDialog extends StatelessWidget {
               title: Text(context.loc.camera),
               subtitle: Text(context.loc.recordAVideoUsingYourCamera),
               leading: const Icon(Icons.camera),
-              enabled: !isDesktop(supportWeb: false),
+              enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
             ),
             ListTile(

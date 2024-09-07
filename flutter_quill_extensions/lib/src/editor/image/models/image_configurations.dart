@@ -1,7 +1,7 @@
 import 'dart:io' show File;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/extensions.dart';
-import 'package:meta/meta.dart' show immutable;
 
 import '../image_embed_types.dart';
 
@@ -108,11 +108,11 @@ class QuillEditorImageEmbedConfigurations {
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
     return (imageUrl) async {
-      if (isWeb()) {
+      if (kIsWeb) {
         return;
       }
 
-      final mobile = isMobile(supportWeb: false);
+      final mobile = isMobileApp;
       // If the platform is not mobile, return void;
       // Since the mobile OS gives us a copy of the image
 
