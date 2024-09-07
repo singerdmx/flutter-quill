@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.9
+
+* chore: improve platform check by using constants and defaultTargetPlatform by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2188
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.8...v10.5.9
+
 ## 10.5.8
 
 * Feat: Add configuration option to always indent on TAB key press by @agata in https://github.com/singerdmx/flutter-quill/pull/2187
