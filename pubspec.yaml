@@ -61,7 +61,8 @@ dependencies:
   # Plugins
   url_launcher: ^6.2.4
   flutter_keyboard_visibility: ^6.0.0
-  device_info_plus: ^10.0.1
+  quill_native_bridge:
+    path: ./quill_native_bridge
 
 dev_dependencies:
   flutter_lints: ^4.0.0
