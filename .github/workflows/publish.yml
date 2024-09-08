@@ -107,3 +107,7 @@ jobs:
       - name: 📤 Publish flutter_quill_test
         run: flutter pub publish --force
         working-directory: ./flutter_quill_test/
+
+      - name: 📤 Publish quill_native_bridge
+        run: flutter pub publish --force
+        working-directory: ./quill_native_bridge/
