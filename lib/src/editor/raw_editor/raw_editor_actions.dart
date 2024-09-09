@@ -96,6 +96,19 @@ class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
             }
           }
         }
+      } else {
+        /// Backspace at start of empty line should remove any block attributes
+        final nextStyle = state.controller.getSelectionStyle();
+        if (state.controller.document.getPlainText(start, 1) == '\n') {
+          if (nextStyle.attributes.values
+              .any((a) => a.scope == AttributeScope.block)) {
+            for (final attr in nextStyle.values
+                .where((a) => a.scope == AttributeScope.block)) {
+              state.controller.formatSelection(Attribute.clone(attr, null));
+              target.attributes.removeWhere((k, v) => k == attr.key);
+            }
+          }
+        }
       }
       postStyle = target;
     }
