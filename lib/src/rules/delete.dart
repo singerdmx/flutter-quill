@@ -89,6 +89,34 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
       ..retain(index)
       ..delete(len);
 
+    // Check if the previous line is empty
+    final prevItr = DeltaIterator(document.toDelta())..skip(index - 1);
+    final prevOp = prevItr.next(1);
+    if (prevOp.data == '\n') {
+      // Check if the current block is at the start and not empty
+      final currentBlockItr = DeltaIterator(document.toDelta())..skip(index);
+      var currentBlockOp = currentBlockItr.next(1);
+      final isBlockStart = currentBlockOp.data == '\n';
+      var isBlockNotEmpty = false;
+
+      while (currentBlockItr.hasNext) {
+        currentBlockOp = currentBlockItr.next();
+        if (currentBlockOp.data is String &&
+            (currentBlockOp.data as String).contains('\n')) {
+          break;
+        }
+        if (currentBlockOp.data is String &&
+            (currentBlockOp.data as String).trim().isNotEmpty) {
+          isBlockNotEmpty = true;
+        }
+      }
+
+      if (isBlockStart && isBlockNotEmpty) {
+        // Previous line is empty, skip the merge
+        return delta;
+      }
+    }
+
     while (itr.hasNext) {
       op = itr.next();
       final text = op.data is String ? (op.data as String?)! : '';
