@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.12
+
+* Fix: Backspace remove block attributes at start by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2200
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.11...v10.5.12
+
 ## 10.5.11
 
 * Enhancement: Backspace handling at the start of blocks in delete rules by @agata in https://github.com/singerdmx/flutter-quill/pull/2199
