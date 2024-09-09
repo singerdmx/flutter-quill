@@ -206,7 +206,8 @@ class Document {
       }
       // Combine with block attributes from current line (exclude headers which apply only to the active line)
       for (final attr in current.attributes.values) {
-        if (attr.scope == AttributeScope.block && attr.key != Attribute.header.key) {
+        if (attr.scope == AttributeScope.block &&
+            attr.key != Attribute.header.key) {
           attributes[attr.key] = attr;
         }
       }
