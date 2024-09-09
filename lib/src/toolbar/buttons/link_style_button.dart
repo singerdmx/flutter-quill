@@ -81,11 +81,13 @@ class QuillToolbarLinkStyleButtonState
     final childBuilder =
         options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
+      final textLink = QuillTextLink.prepare(controller);
       return childBuilder(
         options,
         QuillToolbarLinkStyleButtonExtraOptions(
           context: context,
           controller: controller,
+          textLink: textLink,
           onPressed: () {
             _openLinkDialog(context);
             afterButtonPressed?.call();

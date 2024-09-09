@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../../editor/widgets/link.dart';
 import '../../theme/quill_dialog_theme.dart';
 import '../base_button_configurations.dart';
 
@@ -8,8 +9,10 @@ class QuillToolbarLinkStyleButton2ExtraOptions
   const QuillToolbarLinkStyleButton2ExtraOptions({
     required super.controller,
     required super.context,
+    required this.textLink,
     required super.onPressed,
   });
+  final QuillTextLink textLink;
 }
 
 class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<

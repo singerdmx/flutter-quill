@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart' show Color;
 
+import '../../../editor/widgets/link.dart';
 import '../../base_toolbar.dart';
 import '../../structs/link_dialog_action.dart';
 import '../../theme/quill_dialog_theme.dart';
@@ -9,8 +10,10 @@ class QuillToolbarLinkStyleButtonExtraOptions
   const QuillToolbarLinkStyleButtonExtraOptions({
     required super.controller,
     required super.context,
+    required this.textLink,
     required super.onPressed,
   });
+  final QuillTextLink textLink;
 }
 
 class QuillToolbarLinkStyleButtonOptions extends QuillToolbarBaseButtonOptions<
