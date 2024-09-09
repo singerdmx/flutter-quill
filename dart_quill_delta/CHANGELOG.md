@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.10
+
+* Allow backspace at start of document to remove block style and header style by @agata in https://github.com/singerdmx/flutter-quill/pull/2198
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.9...v10.5.10
+
 ## 10.5.9
 
 * chore: improve platform check by using constants and defaultTargetPlatform by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2188
