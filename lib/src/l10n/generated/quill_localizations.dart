@@ -869,7 +869,7 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
     case 'bg':
       return FlutterQuillLocalizationsBg();
     case 'el':
-      return FlutterQuillLocalizationsEL();
+      return FlutterQuillLocalizationsEl();
     case 'bn':
       return FlutterQuillLocalizationsBn();
     case 'ca':

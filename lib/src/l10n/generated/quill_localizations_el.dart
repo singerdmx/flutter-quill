@@ -3,8 +3,8 @@ import 'quill_localizations.dart';
 // ignore_for_file: type=lint
 
 /// The translations for English (`el`).
-class FlutterQuillLocalizationsEL extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEL([String locale = 'el']) : super(locale);
+class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
+  FlutterQuillLocalizationsEl([String locale = 'el']) : super(locale);
 
   @override
   String get pasteLink => 'Επικόλληση συνδέσμου';
