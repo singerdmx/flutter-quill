@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.13
+
+* Revert "Fix: Allow backspace at start of document to remove block style and header style by @agata in https://github.com/singerdmx/flutter-quill/pull/2201
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.12...v10.5.13
+
 ## 10.5.12
 
 * Fix: Backspace remove block attributes at start by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2200
