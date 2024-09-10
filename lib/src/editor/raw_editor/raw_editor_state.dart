@@ -761,11 +761,6 @@ class QuillRawEditorState extends EditorState
       return _handleSpaceKey(event);
     }
 
-    // Handles removing styles when pressing the backspace key at the beginning of the document.
-    if (event.logicalKey == LogicalKeyboardKey.backspace) {
-      return _handleBackspaceKey(event);
-    }
-
     return KeyEventResult.ignored;
   }
 
@@ -799,49 +794,6 @@ class QuillRawEditorState extends EditorState
       return KeyEventResult.ignored;
     }
 
-    return KeyEventResult.handled;
-  }
-
-  KeyEventResult _handleBackspaceKey(KeyEvent event) {
-    final child =
-        controller.document.queryChild(controller.selection.baseOffset);
-    if (child.node == null) {
-      return KeyEventResult.ignored;
-    }
-
-    if (child.node == null) {
-      return KeyEventResult.ignored;
-    }
-
-    // Only process when the backspace key is pressed at the beginning of the document.
-    if (controller.selection.baseOffset != 0) {
-      return KeyEventResult.ignored;
-    }
-
-    // Blocks and headers are targeted.
-    final node = child.node!;
-    final parent = node.parent;
-    if (parent == null && (parent is Block || parent is Root)) {
-      return KeyEventResult.ignored;
-    }
-
-    // Remove the parent's style.
-    // Block attributes are removed.
-    final style = parent!.style;
-    if (style.isNotEmpty) {
-      for (final attr in style.values) {
-        controller.formatSelection(Attribute.clone(attr, null));
-      }
-    }
-
-    // Remove the first child's style.
-    // Header attributes are removed.
-    final firstChildStyle = parent.first?.style;
-    if (firstChildStyle != null) {
-      for (final attr in firstChildStyle.values) {
-        controller.formatSelection(Attribute.clone(attr, null));
-      }
-    }
     return KeyEventResult.handled;
   }
 
