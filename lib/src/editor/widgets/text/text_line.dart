@@ -130,6 +130,11 @@ class _TextLineState extends State<TextLine> {
     super.dispose();
   }
 
+  /// Check if this line contains the placeholder attribute
+  bool get isPlaceholderLine =>
+      widget.line.toDelta().first.attributes?.containsKey('placeholder') ??
+      false;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -325,6 +330,16 @@ class _TextLineState extends State<TextLine> {
         textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
 
     textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
+
+    if (isPlaceholderLine) {
+      final oldStyle = textStyle;
+      textStyle = defaultStyles.placeHolder!.style;
+      textStyle = textStyle.merge(oldStyle.copyWith(
+        color: textStyle.color,
+        backgroundColor: textStyle.backgroundColor,
+        background: textStyle.background,
+      ));
+    }
 
     return textStyle;
   }

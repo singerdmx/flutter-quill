@@ -1,5 +1,5 @@
 import 'dart:async' show StreamSubscription;
-import 'dart:convert' show jsonDecode;
+import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
@@ -404,9 +404,22 @@ class QuillRawEditorState extends EditorState
     var doc = controller.document;
     if (doc.isEmpty() && widget.configurations.placeholder != null) {
       final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
+      // we use this to show the current block attribute applied to the first line even if this line
+      // is empty (is most for show cases)
+      final blockAttributesWithoutContent =
+          doc.root.children.firstOrNull?.toDelta().first.attributes;
+      // we use this to check if it has code block attribute to add '//' to give to the users
+      // the feeling of this is really a block of code
+      final isCodeBlock =
+          blockAttributesWithoutContent?.containsKey('code-block') ?? false;
+      //  We add the block attributes at the same time of the placeholder to let the editor show them without remove
+      // the placeholder (that is really unconfortable when all is empty)
+      final blockAttrInsertion = blockAttributesWithoutContent == null
+          ? ''
+          : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
       doc = Document.fromJson(
         jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]',
+          '[{"attributes":{"placeholder":true},"insert":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
         ),
       );
     }
