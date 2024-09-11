@@ -4,6 +4,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.15-dev.0
+
+Introduce `quill_native_bridge` which is an internal plugin to use by `flutter_quill` to access platform APIs.
+
+For now, the only functionality it supports is to check whatever the iOS app is running on iOS simulator without requiring [`device_info_plus`](pub.dev/packages/device_info_plus) as a dependency.
+
+> [!NOTE]
+> `quill_native_bridge` is a plugin for internal use and should not be used in production applications
+> as breaking changes can happen and can removed at any time.
+
+For more details and discussion see #2194.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.14...v10.5.15-dev.0
+
 ## 10.5.14
 
 * chore(localization): add Greek language support by @DKalathas in https://github.com/singerdmx/flutter-quill/pull/2206
