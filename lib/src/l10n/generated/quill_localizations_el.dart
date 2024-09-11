@@ -245,7 +245,8 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
       'Παρακαλώ εισάγετε το URL του συνδέσμου (π.χ., \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL => 'Παρακαλώ εισάγετε έγκυρο URL εικόνας';
+  String get pleaseEnterAValidImageURL =>
+      'Παρακαλώ εισάγετε έγκυρο URL εικόνας';
 
   @override
   String get pleaseEnterAValidVideoURL => 'Παρακαλώ εισάγετε έγκυρο URL βίντεο';
@@ -270,22 +271,27 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get insertImage => 'Εισαγωγή εικόνας';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Επιλέξτε φωτογραφία από τη γκαλερί σας';
+  String get pickAPhotoFromYourGallery =>
+      'Επιλέξτε φωτογραφία από τη γκαλερί σας';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Τραβήξτε φωτογραφία με την κάμερά σας';
+  String get takeAPhotoUsingYourCamera =>
+      'Τραβήξτε φωτογραφία με την κάμερά σας';
 
   @override
-  String get pasteAPhotoUsingALink => 'Επικολλήστε μια φωτογραφία χρησιμοποιώντας έναν σύνδεσμο';
+  String get pasteAPhotoUsingALink =>
+      'Επικολλήστε μια φωτογραφία χρησιμοποιώντας έναν σύνδεσμο';
 
   @override
   String get pickAVideoFromYourGallery => 'Επιλέξτε βίντεο από τη γκαλερί σας';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Καταγράψτε βίντεο με την κάμερά σας';
+  String get recordAVideoUsingYourCamera =>
+      'Καταγράψτε βίντεο με την κάμερά σας';
 
   @override
-  String get pasteAVideoUsingALink => 'Επικολλήστε ένα βίντεο χρησιμοποιώντας έναν σύνδεσμο';
+  String get pasteAVideoUsingALink =>
+      'Επικολλήστε ένα βίντεο χρησιμοποιώντας έναν σύνδεσμο';
 
   @override
   String get close => 'Κλείσιμο';
@@ -301,5 +307,4 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Εισαγωγή πίνακα';
-
 }
