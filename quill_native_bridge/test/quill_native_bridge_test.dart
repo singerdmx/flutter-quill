@@ -13,16 +13,14 @@ class MockQuillNativeBridgePlatform
 }
 
 void main() {
-  final initialPlatform =
-      QuillNativeBridgePlatform.instance;
+  final initialPlatform = QuillNativeBridgePlatform.instance;
 
   test('$MethodChannelQuillNativeBridge is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelQuillNativeBridge>());
   });
 
   test('isIOSSimulator', () async {
-    final fakePlatform =
-        MockQuillNativeBridgePlatform();
+    final fakePlatform = MockQuillNativeBridgePlatform();
     QuillNativeBridgePlatform.instance = fakePlatform;
 
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
