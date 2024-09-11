@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.14
+
+* chore(localization): add Greek language support by @DKalathas in https://github.com/singerdmx/flutter-quill/pull/2206
+
+## New Contributors
+* @DKalathas made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2206
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.13...v10.5.14
+
 ## 10.5.13
 
 * Revert "Fix: Allow backspace at start of document to remove block style and header style by @agata in https://github.com/singerdmx/flutter-quill/pull/2201
