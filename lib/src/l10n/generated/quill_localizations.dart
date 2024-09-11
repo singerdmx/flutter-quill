@@ -12,6 +12,7 @@ import 'quill_localizations_ca.dart';
 import 'quill_localizations_cs.dart';
 import 'quill_localizations_da.dart';
 import 'quill_localizations_de.dart';
+import 'quill_localizations_el.dart';
 import 'quill_localizations_en.dart';
 import 'quill_localizations_es.dart';
 import 'quill_localizations_fa.dart';
@@ -778,6 +779,7 @@ class _FlutterQuillLocalizationsDelegate
         'da',
         'de',
         'en',
+        'el',
         'es',
         'fa',
         'fr',
@@ -866,6 +868,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsAr();
     case 'bg':
       return FlutterQuillLocalizationsBg();
+    case 'el':
+      return FlutterQuillLocalizationsEl();
     case 'bn':
       return FlutterQuillLocalizationsBn();
     case 'ca':
