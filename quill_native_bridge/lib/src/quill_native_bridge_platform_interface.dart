@@ -24,6 +24,7 @@ abstract class QuillNativeBridgePlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// Check if the app is running on [iOS Simulator](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device).
   Future<bool> isIOSSimulator() {
     throw UnimplementedError('isIOSSimulator() has not been implemented.');
   }
