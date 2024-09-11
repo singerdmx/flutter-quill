@@ -76,10 +76,10 @@ You can join our [Slack Group] for discussion.
 
 <br>
 
-<img src="./example/assets/images/screenshot_1.png" width="250" alt="Screenshot 1">
-<img src="./example/assets/images/screenshot_2.png" width="250" alt="Screenshot 2">
-<img src="./example/assets/images/screenshot_3.png" width="250" alt="Screenshot 3">
-<img src="./example/assets/images/screenshot_4.png" width="250" alt="Screenshot 4">
+<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_1.png?raw=true" width="250" alt="Screenshot 1">
+<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_2.png?raw=true" width="250" alt="Screenshot 2">
+<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_3.png?raw=true" width="250" alt="Screenshot 3">
+<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_4.png?raw=true" width="250" alt="Screenshot 4">
 
 </details>
 
