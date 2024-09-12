@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.16
+
+* chore: remove device_info_plus and add quill_native_bridge to access platform specific APIs by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2194
+* Not show/update/hiden mangnifier when manifier config is disbale by @demoYang in https://github.com/singerdmx/flutter-quill/pull/2212
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.14...v10.5.16
+
 ## 10.5.15-dev.0
 
 Introduce `quill_native_bridge` which is an internal plugin to use by `flutter_quill` to access platform APIs.
@@ -14,7 +22,7 @@ For now, the only functionality it supports is to check whatever the iOS app is 
 > `quill_native_bridge` is a plugin for internal use and should not be used in production applications
 > as breaking changes can happen and can removed at any time.
 
-For more details and discussion see #2194.
+For more details and discussion see [#2194](https://github.com/singerdmx/flutter-quill/pull/2194).
 
 **Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.14...v10.5.15-dev.0
 
