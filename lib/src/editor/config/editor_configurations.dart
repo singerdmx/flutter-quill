@@ -58,6 +58,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
     this.enableMarkdownStyleConversion = true,
+    this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
     this.unknownEmbedBuilder,
     this.searchConfigurations = const QuillSearchConfigurations(),
@@ -145,6 +146,16 @@ class QuillEditorConfigurations extends Equatable {
   /// entering '1.' followed by a space or '-' followed by a space
   /// will automatically convert the input into a Markdown list format.
   final bool enableMarkdownStyleConversion;
+
+  /// Enables always indenting when the TAB key is pressed.
+  ///
+  /// When set to true, pressing the TAB key will always insert an indentation
+  /// regardless of the context. If set to false, the TAB key will only indent
+  /// when the cursor is at the beginning of a list item. In other cases, it will
+  /// insert a tab character.
+  ///
+  /// Defaults to false. Must not be null.
+  final bool enableAlwaysIndentOnTab;
 
   /// Additional space around the content of this editor.
   /// by default will be [EdgeInsets.zero]
@@ -412,6 +423,7 @@ class QuillEditorConfigurations extends Equatable {
     bool? disableClipboard,
     bool? scrollable,
     bool? enableMarkdownStyleConversion,
+    bool? enableAlwaysIndentOnTab,
     double? scrollBottomInset,
     EdgeInsetsGeometry? padding,
     bool? autoFocus,
@@ -474,6 +486,8 @@ class QuillEditorConfigurations extends Equatable {
       padding: padding ?? this.padding,
       enableMarkdownStyleConversion:
           enableMarkdownStyleConversion ?? this.enableMarkdownStyleConversion,
+      enableAlwaysIndentOnTab:
+          enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,
       autoFocus: autoFocus ?? this.autoFocus,
       isOnTapOutsideEnabled:
           isOnTapOutsideEnabled ?? this.isOnTapOutsideEnabled,

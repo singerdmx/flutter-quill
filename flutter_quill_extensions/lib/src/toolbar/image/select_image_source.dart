@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' show isDesktop;
+import 'package:flutter_quill/extensions.dart' show isDesktopApp;
 import 'package:flutter_quill/translations.dart';
 
 import '../../editor/image/image_embed_types.dart';
@@ -29,7 +29,7 @@ class SelectImageSourceDialog extends StatelessWidget {
                 context.loc.takeAPhotoUsingYourCamera,
               ),
               leading: const Icon(Icons.camera),
-              enabled: !isDesktop(supportWeb: false),
+              enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
             ),
             ListTile(

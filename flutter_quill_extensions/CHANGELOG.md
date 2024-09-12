@@ -4,6 +4,81 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.15-dev.0
+
+Introduce `quill_native_bridge` which is an internal plugin to use by `flutter_quill` to access platform APIs.
+
+For now, the only functionality it supports is to check whatever the iOS app is running on iOS simulator without requiring [`device_info_plus`](pub.dev/packages/device_info_plus) as a dependency.
+
+> [!NOTE]
+> `quill_native_bridge` is a plugin for internal use and should not be used in production applications
+> as breaking changes can happen and can removed at any time.
+
+For more details and discussion see #2194.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.14...v10.5.15-dev.0
+
+## 10.5.14
+
+* chore(localization): add Greek language support by @DKalathas in https://github.com/singerdmx/flutter-quill/pull/2206
+
+## New Contributors
+* @DKalathas made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2206
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.13...v10.5.14
+
+## 10.5.13
+
+* Revert "Fix: Allow backspace at start of document to remove block style and header style by @agata in https://github.com/singerdmx/flutter-quill/pull/2201
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.12...v10.5.13
+
+## 10.5.12
+
+* Fix: Backspace remove block attributes at start by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2200
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.11...v10.5.12
+
+## 10.5.11
+
+* Enhancement: Backspace handling at the start of blocks in delete rules by @agata in https://github.com/singerdmx/flutter-quill/pull/2199
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.10...v10.5.11
+
+## 10.5.10
+
+* Allow backspace at start of document to remove block style and header style by @agata in https://github.com/singerdmx/flutter-quill/pull/2198
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.9...v10.5.10
+
+## 10.5.9
+
+* chore: improve platform check by using constants and defaultTargetPlatform by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2188
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.8...v10.5.9
+
+## 10.5.8
+
+* Feat: Add configuration option to always indent on TAB key press by @agata in https://github.com/singerdmx/flutter-quill/pull/2187
+
+## New Contributors
+* @agata made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2187
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.7...v10.5.8
+
+## 10.5.7
+
+* chore(example): downgrade Kotlin from 1.9.24 to 1.7.10 by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2185
+* style: refactor build leading function style, width, and padding parameters for custom node leading builder by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2182
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.6...v10.5.7
+
 ## 10.5.6
 
 * chore(deps): update super_clipboard to 0.8.20 in flutter_quill_extensions by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2181
