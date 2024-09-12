@@ -404,16 +404,16 @@ class QuillRawEditorState extends EditorState
     var doc = controller.document;
     if (doc.isEmpty() && widget.configurations.placeholder != null) {
       final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
-      // we use this to show the current block attribute applied to the first line even if this line
-      // is empty (is most for show cases)
+      // get current block attributes applied to the first line even if it 
+      // is empty 
       final blockAttributesWithoutContent =
           doc.root.children.firstOrNull?.toDelta().first.attributes;
-      // we use this to check if it has code block attribute to add '//' to give to the users
+      // check if it has code block attribute to add '//' to give to the users
       // the feeling of this is really a block of code
       final isCodeBlock =
           blockAttributesWithoutContent?.containsKey('code-block') ?? false;
-      //  We add the block attributes at the same time of the placeholder to let the editor show them without remove
-      // the placeholder (that is really unconfortable when all is empty)
+      // we add the block attributes at the same time as the placeholder to allow the editor to display them without removing 
+      // the placeholder (this is really awkward when everything is empty)
       final blockAttrInsertion = blockAttributesWithoutContent == null
           ? ''
           : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
