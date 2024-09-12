@@ -382,18 +382,21 @@ class EditorTextSelectionOverlay {
   }
 
   void _onHandleDragStart(DragStartDetails details, TextPosition position) {
+    if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
     if (defaultTargetPlatform != TargetPlatform.iOS &&
         defaultTargetPlatform != TargetPlatform.android) return;
     showMagnifier(position, details.globalPosition, renderObject);
   }
 
   void _onHandleDragUpdate(DragUpdateDetails details, TextPosition position) {
+    if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
     if (defaultTargetPlatform != TargetPlatform.iOS &&
         defaultTargetPlatform != TargetPlatform.android) return;
     updateMagnifier(position, details.globalPosition, renderObject);
   }
 
   void _onHandleDragEnd(DragEndDetails details) {
+    if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
     if (defaultTargetPlatform != TargetPlatform.iOS &&
         defaultTargetPlatform != TargetPlatform.android) return;
     hideMagnifier();
