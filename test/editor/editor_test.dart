@@ -25,10 +25,7 @@ void main() {
         MaterialApp(
           home: QuillEditor.basic(
             controller: controller,
-            // ignore: avoid_redundant_argument_values
-            configurations: const QuillEditorConfigurations(
-                // ignore: avoid_redundant_argument_values
-                ),
+            configurations: const QuillEditorConfigurations(),
           ),
         ),
       );
@@ -46,7 +43,6 @@ void main() {
             scrollController: ScrollController(),
             controller: controller,
             configurations: QuillEditorConfigurations(
-              // ignore: avoid_redundant_argument_values
               autoFocus: true,
               expands: true,
               contentInsertionConfiguration: ContentInsertionConfiguration(
@@ -117,9 +113,7 @@ void main() {
             focusNode: FocusNode(),
             scrollController: ScrollController(),
             controller: controller,
-            // ignore: avoid_redundant_argument_values
             configurations: QuillEditorConfigurations(
-              // ignore: avoid_redundant_argument_values
               autoFocus: true,
               expands: true,
               contextMenuBuilder: customBuilder,
