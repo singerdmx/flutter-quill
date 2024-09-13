@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.18
+
+* feat(web): rich text paste from Clipboard using HTML by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2009
+* revert: disable rich text paste feature on web as a workaround by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2221
+* refactor: moved shortcuts and onKeyEvents to its own file by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2223
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.17...v10.5.18
+
 ## 10.5.17
 
 * feat(l10n): localize all untranslated.json by @erdnx in https://github.com/singerdmx/flutter-quill/pull/2217
