@@ -5,6 +5,7 @@ import 'dart:async' show StreamSubscription;
 import 'package:web/web.dart';
 
 import '../quill_controller.dart';
+// ignore: unused_import
 import '../quill_controller_rich_paste.dart';
 
 /// Paste event for the web.
@@ -23,7 +24,9 @@ extension QuillControllerWeb on QuillController {
       if (html == null) {
         return;
       }
-      pasteHTML(html: html);
+      // TODO: Temporarily disable the rich text pasting feature as a workaround
+      //    due to issue https://github.com/singerdmx/flutter-quill/issues/2220
+      // pasteHTML(html: html);
     });
   }
 
