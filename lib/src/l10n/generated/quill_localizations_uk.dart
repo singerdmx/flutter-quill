@@ -130,7 +130,7 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get alignRight => 'Вирівняти праворуч';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Вирівняти по ширині';
 
   @override
   String get justifyWinWidth => 'Вирівняти за шириною вікна';
@@ -231,7 +231,7 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Зображення збережено за адресою: $imagePath';
   }
 
   @override
@@ -262,10 +262,10 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
       'Чутливість до регістру та пошук цілих слів';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Чутливість до регістру';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Слово повністю';
 
   @override
   String get insertImage => 'Вставити зображення';
@@ -292,17 +292,17 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get pasteAVideoUsingALink => 'Вставте відео, використовуючи посилання';
 
   @override
-  String get close => 'Close';
+  String get close => 'Закрити';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Налаштування пошуку';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Вирізати';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Вставити';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Вставити таблицю';
 }
