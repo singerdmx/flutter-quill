@@ -431,6 +431,9 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
   String get alignRight => 'Align right';
 
   @override
+  String get alignJustify => 'Justify text';
+
+  @override
   String get justifyWinWidth => 'Justify win width';
 
   @override
@@ -438,6 +441,27 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
 
   @override
   String get headerStyle => 'Header style';
+
+  @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Heading 1';
+
+  @override
+  String get heading2 => 'Heading 2';
+
+  @override
+  String get heading3 => 'Heading 3';
+
+  @override
+  String get heading4 => 'Heading 4';
+
+  @override
+  String get heading5 => 'Heading 5';
+
+  @override
+  String get heading6 => 'Heading 6';
 
   @override
   String get numberedList => 'Numbered list';
@@ -506,6 +530,11 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
   String get savedUsingLocalStorage => 'Saved using the local storage';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'The image has been saved at: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
@@ -533,5 +562,44 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
       'Case sensitivity and whole word search';
 
   @override
+  String get caseSensitive => 'Case sensitive';
+
+  @override
+  String get wholeWord => 'Whole word';
+
+  @override
   String get insertImage => 'Insert Image';
+
+  @override
+  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+
+  @override
+  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+
+  @override
+  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+
+  @override
+  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+
+  @override
+  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+
+  @override
+  String get pasteAVideoUsingALink => 'Paste a video using a link';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get searchSettings => 'Search settings';
+
+  @override
+  String get cut => 'Cut';
+
+  @override
+  String get paste => 'Paste';
+
+  @override
+  String get insertTable => 'Insert table';
 }

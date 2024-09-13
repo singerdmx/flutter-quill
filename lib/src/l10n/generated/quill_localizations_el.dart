@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for English (`el`).
+/// The translations for Modern Greek (`el`).
 class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsEl([String locale = 'el']) : super(locale);
 
@@ -16,7 +16,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get selectColor => 'Επιλογή χρώματος';
 
   @override
-  String get gallery => 'Γκαλερί';
+  String get gallery => 'Συλλογή';
 
   @override
   String get link => 'Σύνδεσμος';
@@ -34,7 +34,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get save => 'Αποθήκευση';
 
   @override
-  String get zoom => 'Ζουμ';
+  String get zoom => 'Μεγέθυνση';
 
   @override
   String get saved => 'Αποθηκεύτηκε';
@@ -64,7 +64,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get huge => 'Τεράστιο';
 
   @override
-  String get clear => 'Καθαρισμός';
+  String get clear => 'Εκκαθάριση';
 
   @override
   String get font => 'Γραμματοσειρά';
@@ -82,16 +82,16 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get undo => 'Αναίρεση';
 
   @override
-  String get redo => 'Ακύρωση αναίρεσης';
+  String get redo => 'Επανάληψη';
 
   @override
-  String get fontFamily => 'Οικογένεια γραμματοσειρών';
+  String get fontFamily => 'Οικογένεια γραμματοσειράς';
 
   @override
   String get fontSize => 'Μέγεθος γραμματοσειράς';
 
   @override
-  String get bold => 'Έντονα';
+  String get bold => 'Έντονο';
 
   @override
   String get subscript => 'Δείκτης κάτω';
@@ -106,7 +106,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get underline => 'Υπογράμμιση';
 
   @override
-  String get strikeThrough => 'Διαγραφή';
+  String get strikeThrough => 'Διακριτή γραμμή';
 
   @override
   String get inlineCode => 'Ενσωματωμένος κώδικας';
@@ -118,7 +118,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get backgroundColor => 'Χρώμα φόντου';
 
   @override
-  String get clearFormat => 'Καθαρισμός μορφοποίησης';
+  String get clearFormat => 'Εκκαθάριση μορφοποίησης';
 
   @override
   String get alignLeft => 'Στοίχιση αριστερά';
@@ -133,34 +133,34 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get alignJustify => 'Πλήρης στοίχιση';
 
   @override
-  String get justifyWinWidth => 'Στοίχιση σε πλάτος παραθύρου';
+  String get justifyWinWidth => 'Πλήρης στοίχιση πλάτους παραθύρου';
 
   @override
   String get textDirection => 'Κατεύθυνση κειμένου';
 
   @override
-  String get headerStyle => 'Στυλ κεφαλίδας';
+  String get headerStyle => 'Στυλ επικεφαλίδας';
 
   @override
   String get normal => 'Κανονικό';
 
   @override
-  String get heading1 => 'Κεφαλίδα 1';
+  String get heading1 => 'Επικεφαλίδα 1';
 
   @override
-  String get heading2 => 'Κεφαλίδα 2';
+  String get heading2 => 'Επικεφαλίδα 2';
 
   @override
-  String get heading3 => 'Κεφαλίδα 3';
+  String get heading3 => 'Επικεφαλίδα 3';
 
   @override
-  String get heading4 => 'Κεφαλίδα 4';
+  String get heading4 => 'Επικεφαλίδα 4';
 
   @override
-  String get heading5 => 'Κεφαλίδα 5';
+  String get heading5 => 'Επικεφαλίδα 5';
 
   @override
-  String get heading6 => 'Κεφαλίδα 6';
+  String get heading6 => 'Επικεφαλίδα 6';
 
   @override
   String get numberedList => 'Αριθμημένη λίστα';
@@ -169,7 +169,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get bulletList => 'Λίστα με κουκκίδες';
 
   @override
-  String get checkedList => 'Ελεγμένη λίστα';
+  String get checkedList => 'Λίστα ελέγχου';
 
   @override
   String get codeBlock => 'Μπλοκ κώδικα';
@@ -187,13 +187,13 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get insertURL => 'Εισαγωγή URL';
 
   @override
-  String get visitLink => 'Επισκεφθείτε τον σύνδεσμο';
+  String get visitLink => 'Επίσκεψη συνδέσμου';
 
   @override
   String get enterLink => 'Εισαγωγή συνδέσμου';
 
   @override
-  String get enterMedia => 'Εισαγωγή πολυμέσων';
+  String get enterMedia => 'Εισαγωγή μέσων';
 
   @override
   String get edit => 'Επεξεργασία';
@@ -202,7 +202,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get apply => 'Εφαρμογή';
 
   @override
-  String get hex => 'Hex';
+  String get hex => 'Εξαδικό';
 
   @override
   String get material => 'Υλικό';
@@ -217,10 +217,10 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get findText => 'Εύρεση κειμένου';
 
   @override
-  String get moveToPreviousOccurrence => 'Μετάβαση στην προηγούμενη εμφάνιση';
+  String get moveToPreviousOccurrence => 'Μετακίνηση στην προηγούμενη εμφάνιση';
 
   @override
-  String get moveToNextOccurrence => 'Μετάβαση στην επόμενη εμφάνιση';
+  String get moveToNextOccurrence => 'Μετακίνηση στην επόμενη εμφάνιση';
 
   @override
   String get savedUsingTheNetwork => 'Αποθηκεύτηκε μέσω του δικτύου';
@@ -238,18 +238,17 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Παρακαλώ εισάγετε κείμενο για τον σύνδεσμό σας (π.χ., \'Μάθετε περισσότερα\')';
+      'Εισαγάγετε κείμενο για τον σύνδεσμό σας (π.χ., \'Μάθετε περισσότερα\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Παρακαλώ εισάγετε το URL του συνδέσμου (π.χ., \'https://example.com\')';
+      'Εισαγάγετε το URL του συνδέσμου (π.χ., \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Παρακαλώ εισάγετε έγκυρο URL εικόνας';
+  String get pleaseEnterAValidImageURL => 'Εισαγάγετε έγκυρο URL εικόνας';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Παρακαλώ εισάγετε έγκυρο URL βίντεο';
+  String get pleaseEnterAValidVideoURL => 'Εισαγάγετε έγκυρο URL βίντεο';
 
   @override
   String get photo => 'Φωτογραφία';
@@ -259,10 +258,10 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Ευαισθησία πεζών/κεφαλαίων και αναζήτηση ολόκληρης λέξης';
+      'Διαχωρισμός πεζών-κεφαλαίων και αναζήτηση ολόκληρης λέξης';
 
   @override
-  String get caseSensitive => 'Ευαισθησία πεζών/κεφαλαίων';
+  String get caseSensitive => 'Διαχωρισμός πεζών-κεφαλαίων';
 
   @override
   String get wholeWord => 'Ολόκληρη λέξη';
@@ -272,26 +271,26 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
 
   @override
   String get pickAPhotoFromYourGallery =>
-      'Επιλέξτε φωτογραφία από τη γκαλερί σας';
+      'Επιλέξτε φωτογραφία από τη συλλογή σας';
 
   @override
   String get takeAPhotoUsingYourCamera =>
-      'Τραβήξτε φωτογραφία με την κάμερά σας';
+      'Τραβήξτε φωτογραφία χρησιμοποιώντας την κάμερα σας';
 
   @override
   String get pasteAPhotoUsingALink =>
-      'Επικολλήστε μια φωτογραφία χρησιμοποιώντας έναν σύνδεσμο';
+      'Επικολλήστε φωτογραφία χρησιμοποιώντας έναν σύνδεσμο';
 
   @override
-  String get pickAVideoFromYourGallery => 'Επιλέξτε βίντεο από τη γκαλερί σας';
+  String get pickAVideoFromYourGallery => 'Επιλέξτε βίντεο από τη συλλογή σας';
 
   @override
   String get recordAVideoUsingYourCamera =>
-      'Καταγράψτε βίντεο με την κάμερά σας';
+      'Καταγράψτε βίντεο χρησιμοποιώντας την κάμερα σας';
 
   @override
   String get pasteAVideoUsingALink =>
-      'Επικολλήστε ένα βίντεο χρησιμοποιώντας έναν σύνδεσμο';
+      'Επικολλήστε βίντεο χρησιμοποιώντας έναν σύνδεσμο';
 
   @override
   String get close => 'Κλείσιμο';

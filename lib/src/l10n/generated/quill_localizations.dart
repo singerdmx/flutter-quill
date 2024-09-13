@@ -138,6 +138,7 @@ abstract class FlutterQuillLocalizations {
     Locale('cs'),
     Locale('da'),
     Locale('de'),
+    Locale('el'),
     Locale('en'),
     Locale('en', 'US'),
     Locale('es'),
@@ -778,8 +779,8 @@ class _FlutterQuillLocalizationsDelegate
         'cs',
         'da',
         'de',
-        'en',
         'el',
+        'en',
         'es',
         'fa',
         'fr',
@@ -868,8 +869,6 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsAr();
     case 'bg':
       return FlutterQuillLocalizationsBg();
-    case 'el':
-      return FlutterQuillLocalizationsEl();
     case 'bn':
       return FlutterQuillLocalizationsBn();
     case 'ca':
@@ -880,6 +879,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsDa();
     case 'de':
       return FlutterQuillLocalizationsDe();
+    case 'el':
+      return FlutterQuillLocalizationsEl();
     case 'en':
       return FlutterQuillLocalizationsEn();
     case 'es':

@@ -87,5 +87,14 @@
   "pasteAPhotoUsingALink": "Klistra in ett foto med en länk",
   "pickAVideoFromYourGallery": "Välj en video från ditt galleri",
   "recordAVideoUsingYourCamera": "Spela in en video med din kamera",
-  "pasteAVideoUsingALink": "Klistra in en video med en länk"
+  "pasteAVideoUsingALink": "Klistra in en video med en länk",
+  "alignJustify": "Justera text",
+  "theImageHasBeenSavedAt": "Bilden har sparats på: {imagePath}",
+  "caseSensitive": "Skilja mellan versaler och gemener",
+  "wholeWord": "Hela ord",
+  "close": "Stäng",
+  "searchSettings": "Sökinställningar",
+  "cut": "Klipp ut",
+  "paste": "Klistra in",
+  "insertTable": "Infoga tabell"
 }
