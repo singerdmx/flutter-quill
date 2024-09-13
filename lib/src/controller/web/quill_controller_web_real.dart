@@ -23,7 +23,9 @@ extension QuillControllerWeb on QuillController {
       if (html == null) {
         return;
       }
-      pasteHTML(html: html);
+      // TODO: Temporarily disable the rich text pasting feature as a workaround
+      //    due to issue https://github.com/singerdmx/flutter-quill/issues/2220
+      // pasteHTML(html: html);
     });
   }
 
