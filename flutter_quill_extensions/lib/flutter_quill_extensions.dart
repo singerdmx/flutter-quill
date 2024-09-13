@@ -26,6 +26,7 @@ export 'src/editor/video/video_web_embed.dart';
 export 'src/editor_toolbar_shared/shared_configurations.dart';
 export 'src/flutter_quill_embeds.dart';
 export 'src/toolbar/camera/camera_button.dart';
+export 'src/toolbar/camera/camera_types.dart';
 export 'src/toolbar/camera/models/camera_configurations.dart';
 export 'src/toolbar/formula/formula_button.dart';
 export 'src/toolbar/formula/models/formula_configurations.dart';
