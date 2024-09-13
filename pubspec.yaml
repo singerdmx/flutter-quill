@@ -50,6 +50,7 @@ dependencies:
   equatable: ^2.0.5
   meta: ^1.10.0
   html: ^0.15.4
+  web: ^1.0.0
 
   flutter_colorpicker: ^1.1.0
 
