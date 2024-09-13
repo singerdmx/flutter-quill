@@ -5,6 +5,7 @@ import 'dart:async' show StreamSubscription;
 import 'package:web/web.dart';
 
 import '../quill_controller.dart';
+// ignore: unused_import
 import '../quill_controller_rich_paste.dart';
 
 /// Paste event for the web.
