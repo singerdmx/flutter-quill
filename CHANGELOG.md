@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.17
+
+* feat(l10n): localize all untranslated.json by @erdnx in https://github.com/singerdmx/flutter-quill/pull/2217
+* Fix: Block Attributes are not displayed if the editor is empty by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2210
+
+## New Contributors
+* @erdnx made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2217
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.16...v10.5.17
+
 ## 10.5.16
 
 * chore: remove device_info_plus and add quill_native_bridge to access platform specific APIs by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2194
