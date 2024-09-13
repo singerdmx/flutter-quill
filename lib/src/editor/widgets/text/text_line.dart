@@ -130,6 +130,11 @@ class _TextLineState extends State<TextLine> {
     super.dispose();
   }
 
+  /// Check if this line contains the placeholder attribute
+  bool get isPlaceholderLine =>
+      widget.line.toDelta().first.attributes?.containsKey('placeholder') ??
+      false;
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -326,6 +331,16 @@ class _TextLineState extends State<TextLine> {
 
     textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
 
+    if (isPlaceholderLine) {
+      final oldStyle = textStyle;
+      textStyle = defaultStyles.placeHolder!.style;
+      textStyle = textStyle.merge(oldStyle.copyWith(
+        color: textStyle.color,
+        backgroundColor: textStyle.backgroundColor,
+        background: textStyle.background,
+      ));
+    }
+
     return textStyle;
   }
 
@@ -408,7 +423,8 @@ class _TextLineState extends State<TextLine> {
         !widget.readOnly &&
         !widget.line.style.attributes.containsKey('code-block') &&
         !widget.line.style.attributes.containsKey('placeholder') &&
-        !kIsWeb) {
+        !kIsWeb &&
+        !isPlaceholderLine) {
       final service = SpellCheckerServiceProvider.instance;
       final spellcheckedSpans = service.checkSpelling(textNode.value);
       if (spellcheckedSpans != null && spellcheckedSpans.isNotEmpty) {
