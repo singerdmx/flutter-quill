@@ -58,7 +58,7 @@ You can join our [Slack Group] for discussion.
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Conversion to HTML](#-conversion-to-html)
 - [📝 Spelling checker](#-spelling-checker)
-- [✂️ Shorcut events](#-shorcut-events)
+- [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
 - [🤝 Contributing](#-contributing)
@@ -293,11 +293,12 @@ It's implemented using the package `simple_spell_checker` in the [Example](./exa
 
 Take a look at [Spelling Checker](./doc/spell_checker.md) page for more info.
 
-## Shortcut events
+## ✂️ Shortcut events
 
 We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfigurations` to add more functionality to our editor. 
 
-> ![NOTE]
+> [!NOTE]
+>
 > You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents` 
 
 #### CharacterShortcutEvent class
