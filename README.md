@@ -344,7 +344,7 @@ At this point, nothing magic will happen after typing `*xxx*`.
    <summary>Tap to show/hide the example without shortcuts</summary>
    <br>
    <img src="https://github.com/user-attachments/assets/c08a3fdf-021d-4bde-b1b1-ef44c9793533" width="800px" alt="Editor without shortcuts gif">
-</details/
+</details>
 
 To implement our shortcut event we will create a `CharacterShortcutEvent` instance to handle an asterisk input.
 
@@ -355,7 +355,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter/material.dart';
 
 // [handleFormatByWrappingWithSingleCharacter] is a example function that contains 
-// the necessary logic to replace underscore characters and apply correctly the 
+// the necessary logic to replace asterisk characters and apply correctly the 
 // style to the wrapped text
 
 enum SingleCharacterFormatStyle {
