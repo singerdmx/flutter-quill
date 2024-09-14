@@ -1,21 +1,14 @@
-# Contributing
+# 🌱 Contributing
 
-First of all, we would like to thank you for your time and efforts on this project, we appreciate it
-
-You can see tutorials online on how to contribute to any open source project, it's a simple process, and you can do it
-even if you are not Git expert, simply start by forking the repository, clone it, create a new branch, make your
-changes and commit them, then push the branch to your fork, and you will get link to send a PR to the upstream
-repository
+First, we would like to thank you for your time and efforts on this project, we appreciate it
 
 If you don't have anything specific in mind to improve or fix, you can take a look at the issues tab or take a look at
-the todos of the project, they all start with `TODO:` so you can search in your IDE or use the todos tab in the IDE
-
-You can also check the [Todo](./doc/todo.md) list or the issues if you want to
+the todos of the project, they all start with `TODO:` so you can search in your IDE or use the todos tab in the IDE.
 
 > Make sure to not edit the `CHANGELOG.md` or the version in `pubspec.yaml` for any of the packages, CI will automate
 > this process.
 
-## Requirements
+## 📋 Development Prerequisites
 
 - [Flutter SDK](https://docs.flutter.dev/get-started/install), which can be installed by following the instructions the
   provided link, also make sure to add it to your path so `flutter --version` and `dart --version` work
@@ -23,74 +16,18 @@ You can also check the [Todo](./doc/todo.md) list or the issues if you want to
   or [Android Studio](https://developer.android.com/studio) (with Dart and Flutter plugins) or
   use [VS Code](https://code.visualstudio.com/) (with Dart and flutter extensions)
 
-## Test your changes 🧪
+## 🧪 Test your changes
 
-Make sure you have the [Requirement](#requirements) installed and configured correctly
+Make sure you have the [Requirement](#-development-prerequisites) installed and configured correctly
 
 To test your changes:
 
 1. Go to the [Example project](./example/) in [main.dart](./example/lib/main.dart) and run the project either by using
    your IDE or `flutter run`
-2. Make sure to read the [Development Notes](./doc/development_notes.md) if you made certain changes
+2. Make sure to read the [Development Notes](#development-notes) if you made certain changes
    or [Translations Page](./doc/translation.md) if you made changes to the translations of the package
 
-## Steps to contributing
-
-You will need a GitHub account as well as Git installed and configured with your GitHub account on your machine
-
-1. Fork the repository in GitHub
-2. clone the forked repository using `git`
-3. Add the `upstream` repository using:
-    ```
-    git remote add upstream git@github.com:singerdmx/flutter-quill.git
-    ```
-4. Open the project with your favorite IDE, usually, we prefer to use Jetbrains IDEs, but
-   since [VS Code](https://code.visualstudio.com) is more used and has more support for Dart, then we suggest using it
-   if you want to.
-5. Create a new git branch and switch to it using `git checkout -b`
-6. Make your changes
-7. If you are working on changes that depend on different libraries in the same repo, then in that directory
-   copy `pubspec_overrides.yaml.disabled` which exists in all the packages (`flutter_quill_test`
-   and `flutter_quill_extensions` etc...)
-   to `pubspec_overrides.yaml` which will be ignored by `.gitignore` and will be used by dart pub to override the
-   libraries
-    ```
-    cp pubspec_overrides.yaml.disabled pubspec_overrides.yaml
-    ```
-   or save some time with the following script:
-    ```
-    dart ./scripts/enable_local_dev.dart
-    ```
-8. Test them in the [example](./example) and add changes in there if necessary
-9. Run the following script if possible
-   ```shell
-   dart ./scripts/before_push.dart
-   ```
-10. When you are done sending your pull request, run:
-    ```
-    git add .
-    git commit -m "Your commit message"
-    git push origin <your-branch-name>
-    ```
-    this will push the new branch to your forked repository
-
-11. Now you can send your pull request either by following the link that you will get in the command line or open your
-    forked repository. You will find an option to send the pull request, you can also
-    open the [Pull Requests](https://github.com/singerdmx/flutter-quill) tab and send new pull request
-
-12. Now, wait for the review, and we might ask you to make more changes, then run:
-
-```
-git add .
-git commit -m "Your new commit message"
-git push origin your-branch-name
-```
-
-Thank you for your time and efforts in open-source projects!!
-
 ## Guidelines 📝
-
-<!-- TODO: Update the guidelines -->
 
 1. **Code Style and Formatting**:
 
@@ -117,13 +54,14 @@ Thank you for your time and efforts in open-source projects!!
    Use pull requests and code reviews to discuss proposed changes and improvements.
 6. **Versioning and Releases**:
 
-   Try to follow semantic versioning for releases (https://semver.org/) when possible.
+   Follow semantic versioning for releases (https://semver.org/).
    Clearly document release notes and changes for each version.
-   Please notice for now we might introduce breaking changes in non-major version but will always provide migration
-   guide in each release info and in [Migration guide](./doc/migration.md)
+
+   For now, we might introduce breaking changes in a non-major version but will always provide a migration
+   guide in each release info.
 7. **Consistency**:
 
-   Adhere to a consistent coding style throughout the project for improves readability and maintainability
+   Adhere to a consistent coding style throughout the project for improvement readability and maintainability
 8. **Meaningful Names**:
 
    Use descriptive variable, class, and function names that clearly convey their purpose.
@@ -131,6 +69,26 @@ Thank you for your time and efforts in open-source projects!!
 
    Try to write tests (Widget or Unit tests or other types or tests) when possible
 
-## Development Notes
+## 📝 Development Notes
 
-Please read the [Development Notes](./doc/development_notes.md) as they might be important while development
+- When updating the translations or localizations in the app, please take a look at the [Translation](./translation.md)
+  page as it has important notes to work.
+  If you also add a feature that adds new localizations, then you need it
+  to the instructions of it in order for the translations to take effect
+- We use the same package version and `CHANGELOG.md` for all the packages, for
+  more [details](https://github.com/singerdmx/flutter-quill/pull/1878), the process is automated. We have a script that
+  will do the following:
+    1. Generate the `CHANGELOG.md` files by `CHANGELOG_JSON.json` (source of data) and then paste them into all the
+       packages we have (overwrite), you don't need to
+       manually change/update any of the mentioned files above, once a new GitHub release published, the CI will take
+       the release notes from the release, pass the info to the
+       script, the release notes can be auto-generated by GitHub using a button, a descriptive PRs title would help but
+       you don't have to since we can change it at any time.
+    2. The script require the new version as an argument, you don't need to run the script manually, when a maintainer
+       create a new tag and publish a new GitHub release, the publishing workflow will extract the new version from the
+       tag
+       name, run the script (pass the extracted version as an argument), commit the changes and push them into the
+       repository, the script will update the `version` property for all the packages so the `flutter pub publish` will
+       use the new version for each package correctly.
+
+  the script will be used the CI and no need to run it manually

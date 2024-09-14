@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.5.19
+
+* fix: properties other than 'style' for custom inline code styles (such as 'backgroundColor') were not being applied correctly by @agata in https://github.com/singerdmx/flutter-quill/pull/2226
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.18...v10.5.19
+
 ## 10.5.18
 
 * feat(web): rich text paste from Clipboard using HTML by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2009
