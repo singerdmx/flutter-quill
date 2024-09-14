@@ -341,7 +341,7 @@ At this point, nothing magic will happen after typing `*xxx*`.
 <details>
    <summary>Tap to show/hide the example without shortcuts</summary>
    <br>
-   <img src="https://github.com/CatHood0/resources/blob/Main/flutter_quill/document_without_shortcut.gif" width="800px" alt="Editor without shortcuts gif">
+   <img src="https://github.com/user-attachments/assets/c08a3fdf-021d-4bde-b1b1-ef44c9793533" width="800px" alt="Editor without shortcuts gif">
 </details/
 
 To implement our shortcut event we will create a `CharacterShortcutEvent` instance to handle an asterisk input.
@@ -410,7 +410,7 @@ CharacterShortcutEvent asteriskToItalicStyleEvent = CharacterShortcutEvent(
 <details>
    <summary>Tap to show/hide the example with shortcuts</summary>
    <br>
-   <img src="https://github.com/CatHood0/resources/blob/Main/flutter_quill/document_with_shortcut.gif" width="800px" alt="Editor with shortcuts gif">
+   <img src="https://github.com/user-attachments/assets/4cb660fe-7227-4ee4-96cd-d2ee0ae601c8" width="800px" alt="Editor with shortcuts gif">
 </details>
 
 ## 🌐 Translation
