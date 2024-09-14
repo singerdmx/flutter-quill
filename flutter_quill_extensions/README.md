@@ -86,8 +86,7 @@ the [Flutter macOS Networking documentation](https://docs.flutter.dev/data-and-b
 
 ## 🚀 Usage
 
-Be sure to follow the [Installation](#installation) section.
-
+Once you follow the [Installation](#-installation) section.
 Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar`.
 
 **Quill Toolbar**:
