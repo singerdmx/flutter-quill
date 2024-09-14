@@ -15,7 +15,7 @@ bool handleFormatByWrappingWithSingleCharacter({
   required String character,
   required SingleCharacterFormatStyle formatStyle,
 }) {
-  assert(character.length == 1);
+  assert(character.length == 1, "Expected 1 char, got ${character.length}.");
   final selection = controller.selection;
   // If the selection is not collapsed or the cursor is at the first two index range, we don't need to format it.
   // We should return false to let the IME handle it.
