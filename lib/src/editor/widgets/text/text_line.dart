@@ -642,6 +642,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.hasFocus,
       this.devicePixelRatio,
       this.cursorCont,
+      this.inlineCodeStyle,
       {super.key});
 
   final Line line;
@@ -656,6 +657,7 @@ class EditableTextLine extends RenderObjectWidget {
   final bool hasFocus;
   final double devicePixelRatio;
   final CursorCont cursorCont;
+  final InlineCodeStyle inlineCodeStyle;
 
   @override
   RenderObjectElement createElement() {
@@ -664,7 +666,6 @@ class EditableTextLine extends RenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final defaultStyles = DefaultStyles.getInstance(context);
     return RenderEditableTextLine(
         line,
         textDirection,
@@ -675,13 +676,12 @@ class EditableTextLine extends RenderObjectWidget {
         _getPadding(),
         color,
         cursorCont,
-        defaultStyles.inlineCode!);
+        inlineCodeStyle);
   }
 
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextLine renderObject) {
-    final defaultStyles = DefaultStyles.getInstance(context);
     renderObject
       ..setLine(line)
       ..setPadding(_getPadding())
@@ -692,7 +692,7 @@ class EditableTextLine extends RenderObjectWidget {
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
-      ..setInlineCodeStyle(defaultStyles.inlineCode!);
+      ..setInlineCodeStyle(inlineCodeStyle);
   }
 
   EdgeInsetsGeometry _getPadding() {
