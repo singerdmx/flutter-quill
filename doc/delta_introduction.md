@@ -1,10 +1,14 @@
 # What is Delta?
 
-`Delta` is a structured format used to represent text editing operations consistently and efficiently. It is especially useful in collaborative editors where multiple users may be editing the same document simultaneously.
+`Delta` is a structured format used to represent text editing operations consistently and efficiently.
+It is especially useful in collaborative editors where multiple users may be editing the same document simultaneously.
 
 ## How does Delta work?
 
-`Delta` consists of a list of operations. Each operation describes a change in the document's content. The operations can be of three types: insertion (`insert`), deletion (`delete`), and retention (`retain`). These operations are combined to describe any change in the document's state.
+`Delta` consists of a list of operations.
+Each operation describes a change in the document's content.
+The operations can be of three types: insertion (`insert`), deletion (`delete`), and retention (`retain`).
+These operations are combined to describe any change in the document's state.
 
 You can import `Delta` and `Operation` class using:
 
@@ -14,11 +18,15 @@ import 'package:flutter_quill/dart_quill_delta.dart';
 
 # What is a `Operation`?
 
-Operations are the actions performed on the document to modify its content. Each operation can be an insertion, deletion, or retention, and is executed sequentially to transform the document's state.
+Operations are the actions performed on the document to modify its content.
+Each operation can be an insertion,
+deletion, or retention, and is executed sequentially to transform the document's state.
 
 ## How Do `Operations` Work?
 
-`Operations` are applied in the order they are defined in the `Delta`. Starting with the initial state of the `Document`, the operations are applied one by one, updating the document's state at each step.
+`Operations` are applied in the order they are defined in the `Delta`.
+Starting with the initial state of the
+`Document`, the operations are applied one by one, updating the document's state at each step.
 
 Example of a `Operation` Code:
 
@@ -58,7 +66,9 @@ void main() {
 
 ## 2. Deletion (`Delete`)
 
-In Quill, operations are a way to represent changes to the editor's content. Each operation has a type and a set of properties that indicate what has changed and how.`Delete` operations are a specific type of operation that is used to remove content from the editor.
+In Quill, operations are a way to represent changes to the editor's content. Each operation has a type and a set of
+properties that indicate what has changed and how.`Delete` operations are a specific type of operation that is used to
+remove content from the editor.
 
 ## Delete Operations
 
@@ -83,7 +93,7 @@ Let's say you have the following content in the editor:
 "Hello, world!"
 ```
 
-And you want to remove the word "world". The corresponding Delete operation could be:
+And you want to remove the word "world". The corresponding to Delete operation could be:
 
 ```dart
 Delta()
@@ -95,11 +105,16 @@ Here the first **7** characters are being retained ("Hello, ") and then 6 charac
 
 ### Behavior of Delete Operations
 
-**Text Deletion**: The `Delete` operation removes text in the editor document. The characters removed are those that are in the range specified by the operation.
+**Text Deletion**: The `Delete` operation removes text in the editor document. The characters removed are those that are
+in the range specified by the operation.
 
-**Combination with retain**: The `Delete` operation is often combined with the retain operation to specify which part of the content should remain intact and which part should be removed. For example, if you want to delete a specific section of text, you can use retain to keep the text before and after the section to be deleted.
+**Combination with retain**: The `Delete` operation is often combined with the retain operation to specify which part of
+the content should remain intact and which part should be removed. For example, if you want to delete a specific section
+of a text, you can use retaining to keep the text before and after the section to be deleted.
 
-**Range Calculation**: When a `Delete` operation is applied, the range of text to be deleted is calculated based on the value of retain and delete. It is important to understand how retain and delete are combined to perform correct deletion.
+**Range Calculation**: When a `Delete` operation is applied, the range of text to be deleted is calculated based on the
+value of retaining and delete. It is important to understand how retain and delete are combined to perform correct
+deletion.
 
 Example of `Delete` operation using `QuillController`
 
@@ -125,7 +140,8 @@ In this example, the current content of the editor is updated to reflect the rem
 
 ## 3. Retention (`Retain`)
 
-`Retain` operations are particularly important because they allow you to apply attributes to specific parts of the content without modifying the content itself. A Retain operation consists of two parts:
+`Retain` operations are particularly important because they allow you to apply attributes to specific parts of the
+content without modifying the content itself. A Retain operation consists of two parts:
 
 - **Index**: The length of the content to retain unchanged.
 - **Attributes**: An optional object containing the attributes to apply.
@@ -138,7 +154,9 @@ Suppose we have the following content in an editor:
 "Hello world"
 ```
 
-And we want to apply bold formatting to the word "world." The `Retain` operation would be represented in a `Delta` as follows:
+And we want to apply bold formatting to the word "world."
+The `Retain` operation would be represented in a `Delta` as
+follows:
 
 ```dart
 [
@@ -151,15 +169,18 @@ And we want to apply bold formatting to the word "world." The `Retain` operation
 This Delta is interpreted as follows:
 
 - `{ "retain": 7 }`: Retains the first **7** characters ("Hello, ").
-- `{ "retain": 5, "attributes": { "bold": true } }`: Retains the next **5** characters ("world") and applies the bold attribute.
+- `{ "retain": 5, "attributes": { "bold": true } }`: Retains the next **5** characters ("world") and applies the bold
+  attribute.
 
 ### Applications of Retain
 
 Retain operations are useful for various tasks in document editing, such as:
 
-- **Text Formatting**: Applying styles (bold, italic, underline, etc.) to specific segments without altering the content.
+- **Text Formatting**: Applying styles (bold, italic, underline, etc.) to specific segments without altering the
+  content.
 - **Annotations**: Adding metadata or annotations to specific sections of text.
-- **Content Preservation**: Ensuring that certain parts of the document remain unchanged during complex editing operations.
+- **Content Preservation**: Ensuring that certain parts of the document remain unchanged during complex editing
+  operations.
 
 Using Directly `Delta` class:
 
@@ -185,9 +206,10 @@ void main() {
 
 # Transformations
 
-Transformations are used to combine two Deltas and produce a third Delta that represents the combination of both operations.
+Transformations are used to combine two Deltas and produce a third Delta that represents the combination of both
+operations.
 
-Example 1: Transformation with Deletions 
+Example 1: Transformation with Deletions
 
 Deltas to combine:
 
@@ -249,4 +271,9 @@ void main() {
 
 # Why Use Delta Instead of Another Format?
 
-Delta offers a structured and efficient way to represent changes in text documents, especially in collaborative environments. Its operation-based design allows for easy synchronization, transformation, and conflict handling, which is essential for real-time text editing applications. Other formats may not provide the same level of granularity and control over edits and transformations.
+Delta offers a structured and efficient way to represent changes in text documents, especially in collaborative
+environments.
+Its operation-based design allows for easy synchronization, transformation, and conflict handling, which
+is essential for real-time text editing applications.
+Other formats may not provide the same level of granularity and
+control over edits and transformations.
