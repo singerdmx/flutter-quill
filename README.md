@@ -356,7 +356,7 @@ import 'package:flutter/material.dart';
 
 // [handleFormatByWrappingWithSingleCharacter] is a example function that contains 
 // the necessary logic to replace asterisk characters and apply correctly the 
-// style to the wrapped text
+// style to the text around them 
 
 enum SingleCharacterFormatStyle {
   code,
