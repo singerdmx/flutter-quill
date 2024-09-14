@@ -1,5 +1,5 @@
 import 'dart:async' show StreamSubscription;
-import 'dart:convert' show jsonDecode;
+import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
@@ -9,20 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
-    show
-        Clipboard,
-        HardwareKeyboard,
-        KeyDownEvent,
-        LogicalKeyboardKey,
-        SystemChannels,
-        TextInputControl;
+    show Clipboard, HardwareKeyboard, SystemChannels, TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
 
 import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
-import '../../common/utils/cast.dart';
 import '../../common/utils/platform.dart';
 import '../../controller/quill_controller.dart';
 import '../../delta/delta_diff.dart';
@@ -30,14 +23,13 @@ import '../../document/attribute.dart';
 import '../../document/document.dart';
 import '../../document/nodes/block.dart';
 import '../../document/nodes/embeddable.dart';
-import '../../document/nodes/leaf.dart' as leaf;
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
 import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../editor.dart';
 import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
-import '../widgets/keyboard_listener.dart';
+import '../widgets/keyboard_service_widget.dart';
 import '../widgets/link.dart';
 import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
@@ -404,9 +396,22 @@ class QuillRawEditorState extends EditorState
     var doc = controller.document;
     if (doc.isEmpty() && widget.configurations.placeholder != null) {
       final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
+      // get current block attributes applied to the first line even if it
+      // is empty
+      final blockAttributesWithoutContent =
+          doc.root.children.firstOrNull?.toDelta().first.attributes;
+      // check if it has code block attribute to add '//' to give to the users
+      // the feeling of this is really a block of code
+      final isCodeBlock =
+          blockAttributesWithoutContent?.containsKey('code-block') ?? false;
+      // we add the block attributes at the same time as the placeholder to allow the editor to display them without removing
+      // the placeholder (this is really awkward when everything is empty)
+      final blockAttrInsertion = blockAttributesWithoutContent == null
+          ? ''
+          : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
       doc = Document.fromJson(
         jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]',
+          '[{"attributes":{"placeholder":true},"insert":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
         ),
       );
     }
@@ -513,8 +518,6 @@ class QuillRawEditorState extends EditorState
             maxHeight: widget.configurations.maxHeight ?? double.infinity,
           );
 
-    final isDesktopMacOS = isMacOS;
-
     return TextFieldTapRegion(
       enabled: widget.configurations.isOnTapOutsideEnabled,
       onTapOutside: (event) {
@@ -527,367 +530,22 @@ class QuillRawEditorState extends EditorState
       },
       child: QuillStyles(
         data: _styles!,
-        child: Shortcuts(
-          /// Merge with widget.configurations.customShortcuts
-          /// first to allow user's defined shortcuts to take
-          /// priority when activation triggers are the same
-          shortcuts: mergeMaps<ShortcutActivator, Intent>(
-            {...?widget.configurations.customShortcuts},
-            {
-              // shortcuts added for Desktop platforms.
-              const SingleActivator(
-                LogicalKeyboardKey.escape,
-              ): const HideSelectionToolbarIntent(),
-              SingleActivator(
-                LogicalKeyboardKey.keyZ,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const UndoTextIntent(SelectionChangedCause.keyboard),
-              SingleActivator(
-                LogicalKeyboardKey.keyY,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const RedoTextIntent(SelectionChangedCause.keyboard),
-
-              // Selection formatting.
-              SingleActivator(
-                LogicalKeyboardKey.keyB,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ToggleTextStyleIntent(Attribute.bold),
-              SingleActivator(
-                LogicalKeyboardKey.keyU,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ToggleTextStyleIntent(Attribute.underline),
-              SingleActivator(
-                LogicalKeyboardKey.keyI,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ToggleTextStyleIntent(Attribute.italic),
-              SingleActivator(
-                LogicalKeyboardKey.keyS,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const ToggleTextStyleIntent(Attribute.strikeThrough),
-              SingleActivator(
-                LogicalKeyboardKey.backquote,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ToggleTextStyleIntent(Attribute.inlineCode),
-              SingleActivator(
-                LogicalKeyboardKey.tilde,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const ToggleTextStyleIntent(Attribute.codeBlock),
-              SingleActivator(
-                LogicalKeyboardKey.keyB,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const ToggleTextStyleIntent(Attribute.blockQuote),
-              SingleActivator(
-                LogicalKeyboardKey.keyK,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyLinkIntent(),
-
-              // Lists
-              SingleActivator(
-                LogicalKeyboardKey.keyL,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const ToggleTextStyleIntent(Attribute.ul),
-              SingleActivator(
-                LogicalKeyboardKey.keyO,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const ToggleTextStyleIntent(Attribute.ol),
-              SingleActivator(
-                LogicalKeyboardKey.keyC,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const QuillEditorApplyCheckListIntent(),
-
-              // Indents
-              SingleActivator(
-                LogicalKeyboardKey.keyM,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const IndentSelectionIntent(true),
-              SingleActivator(
-                LogicalKeyboardKey.keyM,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-                shift: true,
-              ): const IndentSelectionIntent(false),
-
-              // Headers
-              SingleActivator(
-                LogicalKeyboardKey.digit1,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.h1),
-              SingleActivator(
-                LogicalKeyboardKey.digit2,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.h2),
-              SingleActivator(
-                LogicalKeyboardKey.digit3,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.h3),
-              SingleActivator(
-                LogicalKeyboardKey.digit4,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.h4),
-              SingleActivator(
-                LogicalKeyboardKey.digit5,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.h5),
-              SingleActivator(
-                LogicalKeyboardKey.digit6,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.h6),
-              SingleActivator(
-                LogicalKeyboardKey.digit0,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorApplyHeaderIntent(Attribute.header),
-
-              SingleActivator(
-                LogicalKeyboardKey.keyG,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const QuillEditorInsertEmbedIntent(Attribute.image),
-
-              SingleActivator(
-                LogicalKeyboardKey.keyF,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const OpenSearchIntent(),
-
-              // Navigate to the start or end of the document
-              SingleActivator(
-                LogicalKeyboardKey.home,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ScrollToDocumentBoundaryIntent(forward: false),
-              SingleActivator(
-                LogicalKeyboardKey.end,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ScrollToDocumentBoundaryIntent(forward: true),
-
-              //  Arrow key scrolling
-              SingleActivator(
-                LogicalKeyboardKey.arrowUp,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ScrollIntent(direction: AxisDirection.up),
-              SingleActivator(
-                LogicalKeyboardKey.arrowDown,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ScrollIntent(direction: AxisDirection.down),
-              SingleActivator(
-                LogicalKeyboardKey.pageUp,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ScrollIntent(
-                  direction: AxisDirection.up, type: ScrollIncrementType.page),
-              SingleActivator(
-                LogicalKeyboardKey.pageDown,
-                control: !isDesktopMacOS,
-                meta: isDesktopMacOS,
-              ): const ScrollIntent(
-                  direction: AxisDirection.down,
-                  type: ScrollIncrementType.page),
-            },
-          ),
-          child: Actions(
-            actions: mergeMaps<Type, Action<Intent>>(_actions, {
-              ...?widget.configurations.customActions,
-            }),
-            child: Focus(
-              focusNode: widget.configurations.focusNode,
-              onKeyEvent: _onKeyEvent,
-              child: QuillKeyboardListener(
-                child: Container(
-                  constraints: constraints,
-                  child: child,
-                ),
-              ),
-            ),
-          ),
+        child: QuillKeyboardServiceWidget(
+          actions: _actions,
+          constraints: constraints,
+          focusNode: widget.configurations.focusNode,
+          controller: controller,
+          readOnly: widget.configurations.readOnly,
+          enableAlwaysIndentOnTab:
+              widget.configurations.enableAlwaysIndentOnTab,
+          enableMdConversion:
+              widget.configurations.enableMarkdownStyleConversion,
+          customShortcuts: widget.configurations.customShortcuts,
+          customActions: widget.configurations.customActions,
+          child: child,
         ),
       ),
     );
-  }
-
-  KeyEventResult _onKeyEvent(node, KeyEvent event) {
-    // Don't handle key if there is a meta key pressed.
-    if (HardwareKeyboard.instance.isAltPressed ||
-        HardwareKeyboard.instance.isControlPressed ||
-        HardwareKeyboard.instance.isMetaPressed) {
-      return KeyEventResult.ignored;
-    }
-
-    if (event is! KeyDownEvent) {
-      return KeyEventResult.ignored;
-    }
-    // Handle indenting blocks when pressing the tab key.
-    if (event.logicalKey == LogicalKeyboardKey.tab) {
-      return _handleTabKey(event);
-    }
-
-    // Don't handle key if there is an active selection.
-    if (controller.selection.baseOffset != controller.selection.extentOffset) {
-      return KeyEventResult.ignored;
-    }
-
-    // Handle inserting lists when space is pressed following
-    // a list initiating phrase.
-    if (event.logicalKey == LogicalKeyboardKey.space) {
-      return _handleSpaceKey(event);
-    }
-
-    return KeyEventResult.ignored;
-  }
-
-  KeyEventResult _handleSpaceKey(KeyEvent event) {
-    final child =
-        controller.document.queryChild(controller.selection.baseOffset);
-    if (child.node == null) {
-      return KeyEventResult.ignored;
-    }
-
-    final line = child.node as Line?;
-    if (line == null) {
-      return KeyEventResult.ignored;
-    }
-
-    final text = castOrNull<leaf.QuillText>(line.first);
-    if (text == null) {
-      return KeyEventResult.ignored;
-    }
-
-    const olKeyPhrase = '1.';
-    const ulKeyPhrase = '-';
-    final enableMdConversion =
-        widget.configurations.enableMarkdownStyleConversion;
-
-    if (text.value == olKeyPhrase && enableMdConversion) {
-      _updateSelectionForKeyPhrase(olKeyPhrase, Attribute.ol);
-    } else if (text.value == ulKeyPhrase && enableMdConversion) {
-      _updateSelectionForKeyPhrase(ulKeyPhrase, Attribute.ul);
-    } else {
-      return KeyEventResult.ignored;
-    }
-
-    return KeyEventResult.handled;
-  }
-
-  KeyEventResult _handleTabKey(KeyEvent event) {
-    final child =
-        controller.document.queryChild(controller.selection.baseOffset);
-
-    KeyEventResult insertTabCharacter() {
-      if (widget.configurations.readOnly) {
-        return KeyEventResult.ignored;
-      }
-      if (widget.configurations.enableAlwaysIndentOnTab) {
-        controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
-      } else {
-        controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
-        _moveCursor(1);
-      }
-      return KeyEventResult.handled;
-    }
-
-    if (controller.selection.baseOffset != controller.selection.extentOffset) {
-      if (child.node == null || child.node!.parent == null) {
-        return KeyEventResult.handled;
-      }
-      final parentBlock = child.node!.parent!;
-      if (parentBlock.style.containsKey(Attribute.ol.key) ||
-          parentBlock.style.containsKey(Attribute.ul.key) ||
-          parentBlock.style.containsKey(Attribute.checked.key)) {
-        controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
-      }
-      return KeyEventResult.handled;
-    }
-
-    if (child.node == null) {
-      return insertTabCharacter();
-    }
-
-    final node = child.node!;
-
-    final parent = node.parent;
-    if (parent == null || parent is! Block) {
-      return insertTabCharacter();
-    }
-
-    if (node is! Line || (node.isNotEmpty && node.first is! leaf.QuillText)) {
-      return insertTabCharacter();
-    }
-
-    final parentBlock = parent;
-    if (parentBlock.style.containsKey(Attribute.ol.key) ||
-        parentBlock.style.containsKey(Attribute.ul.key) ||
-        parentBlock.style.containsKey(Attribute.checked.key)) {
-      if (node.isNotEmpty &&
-          (node.first as leaf.QuillText).value.isNotEmpty &&
-          controller.selection.base.offset > node.documentOffset) {
-        return insertTabCharacter();
-      }
-      controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
-      return KeyEventResult.handled;
-    }
-
-    if (node.isNotEmpty && (node.first as leaf.QuillText).value.isNotEmpty) {
-      return insertTabCharacter();
-    }
-
-    return insertTabCharacter();
-  }
-
-  void _moveCursor(int chars) {
-    final selection = controller.selection;
-    controller.updateSelection(
-        controller.selection.copyWith(
-            baseOffset: selection.baseOffset + chars,
-            extentOffset: selection.baseOffset + chars),
-        ChangeSource.local);
-  }
-
-  void _updateSelectionForKeyPhrase(String phrase, Attribute attribute) {
-    controller.replaceText(controller.selection.baseOffset - phrase.length,
-        phrase.length, '\n', null);
-    _moveCursor(-phrase.length);
-    controller
-      ..formatSelection(attribute)
-      // Remove the added newline.
-      ..replaceText(controller.selection.baseOffset + 1, 1, '', null);
-    //
-    final style =
-        controller.document.collectStyle(controller.selection.baseOffset, 0);
-    if (style.isNotEmpty) {
-      for (final attr in style.values) {
-        controller.formatSelection(attr);
-      }
-      controller.formatSelection(attribute);
-    }
   }
 
   void _handleSelectionChanged(

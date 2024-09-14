@@ -130,7 +130,7 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
   String get alignRight => 'Zarovnať vpravo';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Zarovnať do bloku';
 
   @override
   String get justifyWinWidth => 'Zarovnať na šírku okna';
@@ -263,10 +263,10 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
       'Citlivosť na veľkosť písmen a vyhľadávanie celých slov';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Rozlišovať veľké a malé písmená';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Celé slovo';
 
   @override
   String get insertImage => 'Vložiť obrázok';
@@ -292,17 +292,17 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
   String get pasteAVideoUsingALink => 'Vložiť video pomocou odkazu';
 
   @override
-  String get close => 'Close';
+  String get close => 'Zatvoriť';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Nastavenia vyhľadávania';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Vystrihnúť';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Vložiť';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Vložiť tabuľku';
 }

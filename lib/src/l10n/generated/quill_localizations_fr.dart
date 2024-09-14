@@ -130,7 +130,7 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get alignRight => 'Aligner à droite';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Justifier le texte';
 
   @override
   String get justifyWinWidth => 'Justifier';
@@ -231,7 +231,7 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'L\'image a été sauvegardée à : $imagePath';
   }
 
   @override
@@ -263,10 +263,10 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
       'Sensibilité à la casse et recherche de mots entiers';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Respecter la casse';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Mot entier';
 
   @override
   String get insertImage => 'Insérer une image';
@@ -294,17 +294,17 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get pasteAVideoUsingALink => 'Coller une vidéo à l\'aide d\'un lien';
 
   @override
-  String get close => 'Close';
+  String get close => 'Fermer';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Paramètres de recherche';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Couper';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Coller';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Insérer un tableau';
 }
