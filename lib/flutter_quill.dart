@@ -21,6 +21,7 @@ export 'src/editor/editor.dart';
 export 'src/editor/embed/embed_editor_builder.dart';
 export 'src/editor/provider.dart';
 export 'src/editor/raw_editor/builders/leading_block_builder.dart';
+export 'src/editor/raw_editor/config/events/events.dart';
 export 'src/editor/raw_editor/config/raw_editor_configurations.dart';
 export 'src/editor/raw_editor/quill_single_child_scroll_view.dart';
 export 'src/editor/raw_editor/raw_editor.dart';

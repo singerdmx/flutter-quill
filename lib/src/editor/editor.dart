@@ -295,13 +295,14 @@ class QuillEditorState extends State<QuillEditor>
             key: _editorKey,
             controller: controller,
             configurations: QuillRawEditorConfigurations(
+              characterShortcutEvents:
+                  widget.configurations.characterShortcutEvents,
+              spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
               customLeadingBuilder:
                   widget.configurations.customLeadingBlockBuilder,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
-              enableMarkdownStyleConversion:
-                  configurations.enableMarkdownStyleConversion,
               enableAlwaysIndentOnTab: configurations.enableAlwaysIndentOnTab,
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,

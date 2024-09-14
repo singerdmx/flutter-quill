@@ -65,6 +65,7 @@ You can join our [Slack Group] for discussion.
     - [🔗 Links](#-links-2)
   - [🔄 Conversion to HTML](#-conversion-to-html)
   - [📝 Spelling checker](#-spelling-checker)
+  - [   Shorcut events](#-shorcut-events)
   - [🌐 Translation](#-translation)
   - [🧪 Testing](#-testing)
   - [👥 Contributors](#-contributors)
@@ -290,6 +291,127 @@ While spell-checking is not a feature that's implemented into the project, it ca
 It's implemented using the package `simple_spell_checker` in the [Example](./example/).
 
 Take a look at [Spelling Checker](./doc/spell_checker.md) page for more info.
+
+## Shortcut events
+
+We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfigurations` to add more functionality to our editor. 
+
+> ![NOTE]
+> You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents` 
+
+#### CharacterShortcutEvent class
+
+This is a class that contains a handler that will be executed while the user type characters into the editor.
+
+#### SpaceShortcutEvent class
+
+This is a class that contains a handler that will be executed when space key is pressed.
+
+### Example 
+
+We will use a simple example to illustrate how to quickly add a `CharacterShortcutEvent` event.
+
+In this example, text that starts and ends with an asterisk ( * ) character will be rendered in italics for emphasis. So typing `*xxx*` will automatically be converted into _`xxx`_.
+
+Let's start with a empty document:
+
+```dart
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter/material.dart';
+
+class AsteriskToItalicStyle extends StatelessWidget {
+  const AsteriskToItalicStyle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return QuillEditor(
+      scrollController: <your_scrollController>,
+      focusNode: <your_focusNode>,
+      controller: <your_controller>,
+      configurations: QuillEditorConfigurations(
+        characterShortcutEvents: [],
+      ),
+    );
+  }
+}
+```
+
+At this point, nothing magic will happen after typing `*xxx*`.
+
+<details>
+   <summary>Tap to show/hide the example without shortcuts</summary>
+   <br>
+   <img src="https://github.com/CatHood0/resources/blob/Main/flutter_quill/document_without_shortcut.gif" width="800px" alt="Editor without shortcuts gif">
+</details/
+
+To implement our shortcut event we will create a `CharacterShortcutEvent` instance to handle an asterisk input.
+
+We need to define key and character in a `CharacterShortcutEvent` object to customize hotkeys. We recommend using the description of your event as a key. For example, if the asterisk `*` is defined to make text italic, the key can be 'Asterisk to italic'.
+
+```dart
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter/material.dart';
+
+// [handleFormatByWrappingWithSingleCharacter] is a example function that contains 
+// the necessary logic to replace underscore characters and apply correctly the 
+// style to the wrapped text
+
+enum SingleCharacterFormatStyle {
+  code,
+  italic,
+  strikethrough,
+}
+
+CharacterShortcutEvent asteriskToItalicStyleEvent = CharacterShortcutEvent(
+  key: 'Asterisk to italic',
+  character: '*',
+  handler: (QuillController controller) => handleFormatByWrappingWithSingleCharacter(
+    controller: controller,
+    character: '*',
+    formatStyle: SingleCharacterFormatStyle.italic,
+  ),
+);
+```
+
+Now our 'asterisk handler' function is done and the only task left is to inject it into the `QuillEditorConfigurations`.
+
+```dart
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter/material.dart';
+
+class AsteriskToItalicStyle extends StatelessWidget {
+  const AsteriskToItalicStyle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return QuillEditor(
+      scrollController: <your_scrollController>,
+      focusNode: <your_focusNode>,
+      controller: <your_controller>,
+      configurations: QuillEditorConfigurations(
+        characterShortcutEvents: [
+           asteriskToItalicStyleEvent,
+        ],
+      ),
+    );
+  }
+}
+
+CharacterShortcutEvent asteriskToItalicStyleEvent = CharacterShortcutEvent(
+  key: 'Asterisk to italic',
+  character: '*',
+  handler: (QuillController controller) => handleFormatByWrappingWithSingleCharacter(
+    controller: controller,
+    character: '*',
+    formatStyle: SingleCharacterFormatStyle.italic,
+  ),
+);
+```
+<details>
+   <summary>Tap to show/hide the example with shortcuts</summary>
+   <br>
+   <img src="https://github.com/CatHood0/resources/blob/Main/flutter_quill/document_with_shortcut.gif" width="800px" alt="Editor with shortcuts gif">
+</details>
 
 ## 🌐 Translation
 
