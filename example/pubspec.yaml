@@ -61,6 +61,8 @@ dependency_overrides:
     path: ../dart_quill_delta
   flutter_quill_test:
     path: ../flutter_quill_test
+  quill_native_bridge:
+    path: ../quill_native_bridge
 
 
 dev_dependencies:
