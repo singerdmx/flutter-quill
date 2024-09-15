@@ -80,7 +80,7 @@ bool handleFormatByWrappingWithDoubleCharacter({
     style = const BoldAttribute();
   } else if (formatStyle case DoubleCharacterFormatStyle.strikethrough) {
     style = const StrikeThroughAttribute();
-  } 
+  }
   // 1. delete all the *[char]
   // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
   final deletionDelta = Delta()

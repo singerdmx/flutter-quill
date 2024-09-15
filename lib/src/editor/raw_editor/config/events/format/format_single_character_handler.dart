@@ -85,7 +85,7 @@ bool handleFormatByWrappingWithSingleCharacter({
     style = const StrikeThroughAttribute();
   } else if (formatStyle case SingleCharacterFormatStyle.code) {
     style = const InlineCodeAttribute();
-  } 
+  }
   // 1. delete all the *[char]
   // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
   final deletionDelta = Delta()

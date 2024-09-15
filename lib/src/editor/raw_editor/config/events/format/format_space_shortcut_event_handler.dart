@@ -14,7 +14,8 @@ bool handleFormatBlockStyleBySpaceEvent({
   required String character,
   required BlockFormatStyle formatStyle,
 }) {
-  assert(character.trim().isNotEmpty && character != '\n', 'Expected character that cannot be empty, a whitespace or a new line. Got $character');
+  assert(character.trim().isNotEmpty && character != '\n',
+      'Expected character that cannot be empty, a whitespace or a new line. Got $character');
   if (formatStyle == BlockFormatStyle.todo) {
     _updateSelectionForKeyPhrase(character, Attribute.unchecked, controller);
     return true;

@@ -3,11 +3,12 @@ import 'package:meta/meta.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../../document/nodes/leaf.dart';
 
-typedef SpaceShortcutEventHandler = bool Function(QuillText node, QuillController controller);
+typedef SpaceShortcutEventHandler = bool Function(
+    QuillText node, QuillController controller);
 
 /// Defines the implementation of shortcut events for space key calls.
 @immutable
-class SpaceShortcutEvent extends Equatable{
+class SpaceShortcutEvent extends Equatable {
   SpaceShortcutEvent({
     required this.character,
     required this.handler,
@@ -32,7 +33,8 @@ class SpaceShortcutEvent extends Equatable{
   }
 
   @override
-  String toString() => 'SpaceShortcutEvent(character: $character, handler: $handler)';
+  String toString() =>
+      'SpaceShortcutEvent(character: $character, handler: $handler)';
 
   @override
   List<Object?> get props => [character, handler];
