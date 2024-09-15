@@ -9,8 +9,8 @@ enum SingleCharacterFormatStyle {
   strikethrough,
 }
 
+// for demonstration purpose, the following comments use * to represent the character from the parameter [char].
 bool handleFormatByWrappingWithSingleCharacter({
-  // for demonstration purpose, the following comments use * to represent the character from the parameter [char].
   required QuillController controller,
   required String character,
   required SingleCharacterFormatStyle formatStyle,
@@ -18,7 +18,6 @@ bool handleFormatByWrappingWithSingleCharacter({
   assert(character.length == 1, 'Expected 1 char, got ${character.length}.');
   final selection = controller.selection;
   // If the selection is not collapsed or the cursor is at the first two index range, we don't need to format it.
-  // We should return false to let the IME handle it.
   if (!selection.isCollapsed || selection.end < 2) {
     return false;
   }
@@ -29,8 +28,7 @@ bool handleFormatByWrappingWithSingleCharacter({
     return false;
   }
 
-  // The plainText should have at least 4 characters,like **a* or **a*.
-  // The last char in the plainText should be *[char]. Otherwise, we don't need to format it.
+  // The plainText should have at least 2 characters, like *a.
   if (plainText.length < 2) {
     return false;
   }
@@ -79,7 +77,6 @@ bool handleFormatByWrappingWithSingleCharacter({
     return false;
   }
 
-  // To minimize errors, retrieve the format style from an enum that is specific to single chars.
   late final Attribute? style;
 
   if (formatStyle case SingleCharacterFormatStyle.italic) {
@@ -90,7 +87,7 @@ bool handleFormatByWrappingWithSingleCharacter({
     style = const InlineCodeAttribute();
   }
   // 1. delete all the *[char]
-  // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
+  // 2. update the style of the text surrounded by the *[char] to a formatted text style
   final deletionDelta = Delta()
     ..retain(lastCharIndex) // get all text before chars
     ..delete(1) // delete both start char

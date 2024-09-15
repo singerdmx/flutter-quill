@@ -19,7 +19,6 @@ bool handleFormatByWrappingWithDoubleCharacter({
   assert(character.length == 1, 'Expected 1 char, got ${character.length}');
   final selection = controller.selection;
   // if the selection is not collapsed or the cursor is at the first three index range, we don't need to format it.
-  // we should return false to let the IME handle it.
   if (!selection.isCollapsed || selection.end < 4) {
     return false;
   }
@@ -73,7 +72,6 @@ bool handleFormatByWrappingWithDoubleCharacter({
   // final offsetOfTextInsideWrapperCharsLeft = thirdLastCharIndex + (secondLastCharIndex - (thirdLastCharIndex - 1));
   // final offsetOfTextInsideWrapperCharsRight = lastCharIndex - 1;
 
-  // To minimize errors, retrieve the format style from an enum that is specific to double characters.
   late final Attribute? style;
 
   if (formatStyle case DoubleCharacterFormatStyle.bold) {
@@ -82,7 +80,7 @@ bool handleFormatByWrappingWithDoubleCharacter({
     style = const StrikeThroughAttribute();
   }
   // 1. delete all the *[char]
-  // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
+  // 2. update the style of the text surrounded by the double *[char] to formatted text style 
   final deletionDelta = Delta()
     ..retain(thirdLastCharIndex) // get all text before double chars
     ..delete(2) // delete both start double char
