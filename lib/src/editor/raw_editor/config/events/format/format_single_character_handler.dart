@@ -49,7 +49,10 @@ bool handleFormatByWrappingWithSingleCharacter({
       break;
     }
   }
-
+  
+  // We check this because we don't know is the text that we are trying 
+  // to detect, is at the start of the document (this is because by some weird
+  // reason, the for never detects the character)
   if (plainText[0] == character) {
     lastCharIndex = _toSafeInteger(lastCharIndex);
   }
@@ -76,7 +79,7 @@ bool handleFormatByWrappingWithSingleCharacter({
     return false;
   }
 
-  // To minimize errors, retrieve the format style from an enum that is specific to double characters.
+  // To minimize errors, retrieve the format style from an enum that is specific to single chars.
   late final Attribute? style;
 
   if (formatStyle case SingleCharacterFormatStyle.italic) {
@@ -89,15 +92,15 @@ bool handleFormatByWrappingWithSingleCharacter({
   // 1. delete all the *[char]
   // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
   final deletionDelta = Delta()
-    ..retain(lastCharIndex) // get all text before double chars
-    ..delete(1) // delete both start double char
+    ..retain(lastCharIndex) // get all text before chars
+    ..delete(1) // delete both start char
     ..retain(
         (selection.end - 2) - (lastCharIndex - 1),
         style == null
             ? null
             : {
                 style.key: style.value
-              }); // retain the text before last double chars and apply the styles
+              }); // retain the text before that the new char that we type on keyboard 
 
   controller
     ..compose(
