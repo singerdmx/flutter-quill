@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.6.0
+
+* docs: cleanup the docs, remove outdated resources, general changes by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2227
+* Feat: customizable character and space shortcut events by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2228
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.19...v10.6.0
+
 ## 10.5.19
 
 * fix: properties other than 'style' for custom inline code styles (such as 'backgroundColor') were not being applied correctly by @agata in https://github.com/singerdmx/flutter-quill/pull/2226
