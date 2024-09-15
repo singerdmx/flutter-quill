@@ -12,6 +12,7 @@ import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../editor_builder.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
+import '../raw_editor/config/events/events.dart';
 import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
@@ -33,6 +34,8 @@ class QuillEditorConfigurations extends Equatable {
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
+    this.characterShortcutEvents = const [],
+    this.spaceShortcutEvents = const [],
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
@@ -57,6 +60,8 @@ class QuillEditorConfigurations extends Equatable {
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
+    @Deprecated(
+        'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases.')
     this.enableMarkdownStyleConversion = true,
     this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
@@ -102,6 +107,52 @@ class QuillEditorConfigurations extends Equatable {
   /// The text placeholder in the quill editor
   final String? placeholder;
 
+  /// Contains all the events that will be handled when
+  /// the exact characters satifies the condition. This mean
+  /// if you press asterisk key, if you have a `CharacterShortcutEvent` with
+  /// the asterisk then that event will be handled
+  ///
+  /// Supported by:
+  ///
+  ///    - Web
+  ///    - Desktop
+  /// ### Example
+  ///```dart
+  /// // you can get also the default implemented shortcuts
+  /// // calling [standardSpaceShorcutEvents]
+  ///final defaultShorcutsImplementation =
+  ///               List.from([...standardCharactersShortcutEvents])
+  ///
+  ///final boldFormat = CharacterShortcutEvent(
+  ///   key: 'Shortcut event that will format current wrapped text in asterisk'
+  ///   character: '*',
+  ///   handler: (controller) {...your implementation}
+  ///);
+  ///```
+  final List<CharacterShortcutEvent> characterShortcutEvents;
+
+  /// Contains all the events that will be handled when
+  /// space key is pressed
+  ///
+  /// Supported by:
+  ///
+  ///    - Web
+  ///    - Desktop
+  ///
+  /// ### Example
+  ///```dart
+  /// // you can get also the default implemented shortcuts
+  /// // calling [standardSpaceShorcutEvents]
+  ///final defaultShorcutsImplementation =
+  ///       List.from([...standardSpaceShorcutEvents])
+  ///
+  ///final spaceBulletList = SpaceShortcutEvent(
+  ///   character: '-',
+  ///   handler: (QuillText textNode, controller) {...your implementation}
+  ///);
+  ///```
+  final List<SpaceShortcutEvent> spaceShortcutEvents;
+
   /// Whether the text can be changed.
   ///
   /// When this is set to `true`, the text cannot be modified
@@ -145,6 +196,10 @@ class QuillEditorConfigurations extends Equatable {
   /// This setting controls the behavior of input. Specifically, when enabled,
   /// entering '1.' followed by a space or '-' followed by a space
   /// will automatically convert the input into a Markdown list format.
+  ///
+  /// ## !This functionality now does not work because was replaced by a more advanced using [SpaceShortcutEvent] and [CharacterShortcutEvent] classes
+  @Deprecated(
+      'enableMarkdownStyleConversion is no longer used and will be removed in future releases. Use space/char shortcut events instead.')
   final bool enableMarkdownStyleConversion;
 
   /// Enables always indenting when the TAB key is pressed.
@@ -450,6 +505,8 @@ class QuillEditorConfigurations extends Equatable {
     LinkActionPickerDelegate? linkActionPickerDelegate,
     bool? floatingCursorDisabled,
     TextSelectionControls? textSelectionControls,
+    List<CharacterShortcutEvent>? characterShortcutEvents,
+    List<SpaceShortcutEvent>? spaceShortcutEvents,
     Future<String?> Function(Uint8List imageBytes)? onImagePaste,
     Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
@@ -483,8 +540,13 @@ class QuillEditorConfigurations extends Equatable {
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
+      characterShortcutEvents:
+          characterShortcutEvents ?? this.characterShortcutEvents,
+      spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
       padding: padding ?? this.padding,
+      // ignore: deprecated_member_use_from_same_package
       enableMarkdownStyleConversion:
+          // ignore: deprecated_member_use_from_same_package
           enableMarkdownStyleConversion ?? this.enableMarkdownStyleConversion,
       enableAlwaysIndentOnTab:
           enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,

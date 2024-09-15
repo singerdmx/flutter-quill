@@ -37,6 +37,7 @@ import '../../../editor/widgets/delegate.dart';
 import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
 import '../builders/leading_block_builder.dart';
+import 'events/events.dart';
 
 @immutable
 class QuillRawEditorConfigurations extends Equatable {
@@ -49,6 +50,8 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.selectionCtrls,
     required this.embedBuilder,
     required this.autoFocus,
+    required this.characterShortcutEvents,
+    required this.spaceShortcutEvents,
     @Deprecated(
         'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     this.controller,
@@ -71,6 +74,8 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
+    @Deprecated(
+        'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases')
     this.enableMarkdownStyleConversion = true,
     this.enableAlwaysIndentOnTab = false,
     this.onTapOutside,
@@ -108,9 +113,57 @@ class QuillRawEditorConfigurations extends Equatable {
   final double scrollBottomInset;
   final LeadingBlockNodeBuilder? customLeadingBuilder;
 
+  /// Contains all the events that will be handled when
+  /// the exact characters satifies the condition. This mean
+  /// if you press asterisk key, if you have a `CharacterShortcutEvent` with
+  /// the asterisk then that event will be handled
+  ///
+  /// Supported by:
+  ///
+  ///    - Web
+  ///    - Desktop
+  /// ### Example
+  ///```dart
+  /// // you can get also the default implemented shortcuts
+  /// // calling [standardSpaceShorcutEvents]
+  ///final defaultShorcutsImplementation =
+  ///               List.from([...standardCharactersShortcutEvents])
+  ///
+  ///final boldFormat = CharacterShortcutEvent(
+  ///   key: 'Shortcut event that will format current wrapped text in asterisk'
+  ///   character: '*',
+  ///   handler: (controller) {...your implementation}
+  ///);
+  ///```
+  final List<CharacterShortcutEvent> characterShortcutEvents;
+
+  /// Contains all the events that will be handled when
+  /// space key is pressed
+  ///
+  /// Supported by:
+  ///
+  ///    - Web
+  ///    - Desktop
+  ///
+  /// ### Example
+  ///```dart
+  /// // you can get also the default implemented shortcuts
+  /// // calling [standardSpaceShorcutEvents]
+  ///final defaultShorcutsImplementation =
+  ///       List.from([...standardSpaceShorcutEvents])
+  ///
+  ///final spaceBulletList = SpaceShortcutEvent(
+  ///   character: '-',
+  ///   handler: (QuillText textNode, controller) {...your implementation}
+  ///);
+  ///```
+  final List<SpaceShortcutEvent> spaceShortcutEvents;
+
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;
 
+  @Deprecated(
+      'enableMarkdownStyleConversion is no longer used and will be removed in future releases. Use space/char shortcut events instead.')
   final bool enableMarkdownStyleConversion;
 
   /// Enables always indenting when the TAB key is pressed.

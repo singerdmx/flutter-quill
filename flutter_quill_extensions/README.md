@@ -1,44 +1,33 @@
 # Flutter Quill Extensions
 
-An extensions for [flutter_quill](https://pub.dev/packages/flutter_quill)
-to support embedding widgets like images, formulas, videos, tables and more.
+An extension for [flutter_quill](https://pub.dev/packages/flutter_quill)
+to support embedding widgets images, formulas, videos, and tables.
 
-Check [Flutter Quill](https://github.com/singerdmx/flutter-quill) for details of use.
-
-> The support for tables is currently limited and under development, more are changes expected to arrive. We are actively working on enhancing its functionality and usability. We appreciate your feedback as it is invaluable in helping us refine and expand this feature.
+> The support for tables is currently limited and underdevelopment, more changes are expected to arrive. We are actively
+> working on enhancing its functionality and usability. We appreciate your feedback as it is invaluable in helping us
+> refine and expand this feature.
 
 ## 📚 Table of Contents
 
-- [Flutter Quill Extensions](#flutter-quill-extensions)
-  - [📚 Table of Contents](#-table-of-contents)
-  - [📝 About](#-about)
-  - [📦 Installation](#-installation)
-  - [🛠 Platform Specific Configurations](#-platform-specific-configurations)
-  - [🚀 Usage](#-usage)
-  - [⚙️ Configurations](#️-configurations)
-    - [📦 Embed Blocks](#-embed-blocks)
-    - [🔍 Element properties](#-element-properties)
-    - [🔧 Custom Element properties](#-custom-element-properties)
-    - [📝 Rich Text Paste Feature](#-rich-text-paste-feature)
-    - [🖼️ Image Assets](#️-image-assets)
-    - [🎯 Drag and drop feature](#-drag-and-drop-feature)
-  - [💡 Features](#-features)
-  - [🤝 Contributing](#-contributing)
-  - [🌟 Acknowledgments](#-acknowledgments)
+- [📝 About](#-about)
+- [📦 Installation](#-installation)
+- [🛠 Platform Specific Configurations](#-platform-specific-configurations)
+- [🚀 Usage](#-usage)
+- [⚙️ Configurations](#-configurations)
+- [🤝 Contributing](#-contributing)
 
 ## 📝 About
 
-Flutter Quill is a rich editor text.
-It'd allow you to customize a lot of things,
-it has custom embed builders that allow you to render custom widgets in the editor <br>
+[`flutter_quill`](https://pub.dev/packages/flutter_quill) is a rich editor text.
+It has custom embed builders that allow you to render custom widgets in the editor <br>
 
 This is an extension to extend its functionalities by adding more features like images, videos, and more
 
 ## 📦 Installation
 
-Before starting using this package, please make sure to install
-[flutter_quill](https://github.com/singerdmx/flutter-quill) package first and follow
-its usage instructions.
+Follow the usage instructions of [`flutter_quill`](https://github.com/singerdmx/flutter-quill).
+
+Add the `flutter_quill_extensions` dependency to your project:
 
 ```yaml
 dependencies:
@@ -50,7 +39,7 @@ dependencies:
 ```yaml
 dependencies:
   flutter_quill_extensions:
-    git: 
+    git:
       url: https://github.com/singerdmx/flutter-quill.git
       ref: v<latest-version-here>
       path: flutter_quill_extensions
@@ -60,49 +49,48 @@ dependencies:
 
 The package uses the following plugins:
 
-1. [`gal`](https://github.com/natsuk4ze/gal) plugin to save images.
-   For this to work, you need to add the appropriate configurations
-   See <https://github.com/natsuk4ze/gal#-get-started> to add the needed lines.
-2. [`image_picker`](https://pub.dev/packages/image_picker) plugin for picking images so please make sure to follow the
-   instructions
-3. [`youtube_player_flutter`](https://pub.dev/packages/youtube_player_flutter) plugin which
-   uses [`flutter_inappwebview`](https://pub.dev/packages/flutter_inappwebview) which has a requirement on web, please
-   follow this [link](https://pub.dev/packages/flutter_inappwebview#installation) to set up the support for web
-4. [`image_picker`](https://pub.dev/packages/image_picker) which also
-   requires some configurations, follow this [link](https://pub.dev/packages/image_picker#installation).
-   It's needed for
-   Android, iOS, and macOS, we must inform you that you can't pick photos using the camera on a desktop so make sure to
-   handle that if you plan on adding support for the desktop, this may change in the future, and for more info follow
-   this [link](https://pub.dev/packages/image_picker#windows-macos-and-linux)
-5. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
-   support copying images and pasting them into editor, it's also required to support rich text pasting feature on non-web platforms, open the page in pub.dev and read
-   the `README.md` or click on this [link](https://pub.dev/packages/super_clipboard#android-support) to get the
+1. [`gal`](https://github.com/natsuk4ze/gal) to save images.
+   Ensure to follow the [Get Started](https://github.com/natsuk4ze/gal#-get-started) guide as it requires
+   platform-specific setup.
+2. [`image_picker`](https://pub.dev/packages/image_picker) for picking images.
+   See the [Installation](https://pub.dev/packages/image_picker#installation) section.
+3. [`youtube_player_flutter`](https://pub.dev/packages/youtube_player_flutter) which
+   uses [`flutter_inappwebview`](https://pub.dev/packages/flutter_inappwebview) which has a requirement setup on web.
+   See the [Installation - Web support](https://pub.dev/packages/flutter_inappwebview#installation---web-support).
+4. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
+   support copying images and pasting them into editor, it's also required to support rich text pasting feature on
+   non-web platforms, Open the [Android Support](https://pub.dev/packages/super_clipboard#android-support) page for
    instructions.
+   The `minSdkVersion` for **Android** is `23` as `super_clipboard` requires it
 
-The minSdkVersion is `23` as `super_clipboard` requires it
+### Loading Images from the Internet
 
+#### Android
 
-> For loading the image from the internet <br> <br>
-> **Android**: you need to add permissions in `AndroidManifest.xml`, Follow
-> this [Android Guide](https://developer.android.com/training/basics/network-ops/connecting)
-> or [Flutter Networking](https://docs.flutter.dev/data-and-backend/networking#android) for more info, the internet
-> permission is included by default only for debugging, you need to follow this link to add it to the release version
-> too. you should allow loading images and videos only for the `https` protocol but if you want HTTP too then you need
-> to
-> Configure your Android application to accept `http` in the release mode, follow
-> this [Android Cleartext / Plaintext HTTP](https://developer.android.com/privacy-and-security/risks/cleartext) page for
-> more info. <br> <br>
-> **macOS**: you need to include a key in your `Info.plist`, follow
-> this [link](https://docs.flutter.dev/data-and-backend/networking#macos) to add the required configurations
->
+1. Add the necessary permissions to your `AndroidManifest.xml`. For detailed instructions, refer to
+   the [Android Guide](https://developer.android.com/training/basics/network-ops/connecting)
+   or [Flutter Networking](https://docs.flutter.dev/data-and-backend/networking#android). Note that internet permission
+   is included by default only for debugging; you must explicitly add it for release versions.
+
+2. To restrict image and video loading to HTTPS only, configure your app accordingly.
+   If you need to support HTTP, you must adjust your app settings for release mode. Consult
+   the [Android Cleartext / Plaintext HTTP](https://developer.android.com/privacy-and-security/risks/cleartext-communications)
+   guide
+   for more information.
+
+#### macOS
+
+Include a key in your `Info.plist` file to enable internet access.
+For detailed steps, follow the instructions in
+the [Flutter macOS Networking documentation](https://docs.flutter.dev/data-and-backend/networking#macos).
 
 ## 🚀 Usage
 
-Be sure to follow the [Installation](#installation) section.
-
+Once you follow the [Installation](#-installation) section.
 Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEditor` and `QuillToolbar`.
 
 **Quill Toolbar**:
+
 ```dart
 QuillToolbar.simple(
   configurations: QuillSimpleToolbarConfigurations(
@@ -112,6 +100,7 @@ QuillToolbar.simple(
 ```
 
 **Quill Editor**:
+
 ```dart
 Expanded(
   child: QuillEditor.basic(
@@ -126,13 +115,11 @@ Expanded(
 
 ### 📦 Embed Blocks
 
-As of version [flutter_quill](https://pub.dev/packages/flutter_quill) `6.0.x`, embed blocks are not provided by default
-as part of Flutter Quill.
-Instead, it provides an interface for all the users to provide their implementations for embed
-blocks.
-Implementations for image, video, and formula embed blocks are proved in this package
+[Flutter_quill](https://pub.dev/packages/flutter_quill) provides an interface for all the users to provide their
+implementations for embed blocks.
+Implementations for image, video, and formula embed blocks are proved in this package.
 
-The instructions for using the embed blocks are in the [Usage](#-usage) section
+The instructions for using the embed blocks are in the [Usage](#-usage) section.
 
 ### 🔍 Element properties
 
@@ -167,7 +154,7 @@ Define flutterAlignment` as follows:
 }
 ```
 
-This works for all platforms except Web
+This works only for non-web platforms.
 
 ### 📝 Rich Text Paste Feature
 
@@ -184,7 +171,7 @@ FlutterQuillExtensions.useSuperClipboardPlugin();
 `super_clipboard` is a comprehensive plugin that provides many clipboard features for reading and writing rich text,
 images and other formats.
 
-Executing this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown,
+Calling this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown,
 support for GIF files, and other formats.
 
 > [!IMPORTANT]
@@ -192,22 +179,10 @@ support for GIF files, and other formats.
 > `paste` event, `super_clipboard`, or any plugin is not required.
 > The paste feature will not work using the standard paste hotkey logic.
 > As such, you will be unable to use the **Rich Text Paste Feature** on a button or in the web app itself.
-> So you might want to either display a dialog when pressing the paste button that explains the limitation and shows the hotkey they need to press in order to paste or develop an extension for the browser that bypasses this limitation similarly to **Google Docs** and provide a link to install the browser extension.
+> So you might want to either display a dialog when pressing the paste button that explains the limitation and shows the
+> hotkey they need to press in order to paste or develop an extension for the browser that bypasses this limitation
+> similarly to **Google Docs** and provide a link to install the browser extension.
 > See [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) for more details.
-
-
-To register the `paste` event:
-
-```dart
-import 'package:web/web.dart';
-
-EventStreamProviders.pasteEvent.forTarget(web.document).listen((e) {
-  final html = e.clipboardData?.getData('text/html');
-  // Convert the HTML to Delta and paste it into the editor
-});
-```
-
-Don't forget to cancel the `StreamSubscription` when no longer needed.
 
 > [!NOTE]
 > We're still planning on how this should be implemented in
@@ -233,7 +208,7 @@ QuillEditor.basic(
 );
 ```
 
-This info is needed by the package to check if its asset image to use the `AssetImage` provider
+This info is necessary for the package to check if its asset image to use the `AssetImage` provider.
 
 ### 🎯 Drag and drop feature
 
@@ -314,31 +289,11 @@ OnDragDoneCallback get _onDragDone {
   }
 ```
 
-## 💡 Features
-
-```markdown
-## Features
-
-— Easy to use and customizable
-
-- Rich text, images and other formats
-- Useful utilities and widgets
-```
-
 ## 🤝 Contributing
 
-We welcome contributions!
+We greatly appreciate your time and effort.
 
-Please follow these guidelines when contributing to our project. See [CONTRIBUTING.md](../CONTRIBUTING.md) for more
-details.
+To keep the project consistent and maintainable, we have a few guidelines that we ask all contributors to follow.
+These guidelines help ensure that everyone can understand and work with the code easier.
 
-## 🌟 Acknowledgments
-
-- Thanks to the [Flutter Team](https://flutter.dev/)
-- Thanks to the welcoming community, the volunteers who helped along the journey, developers, contributors
-  and contributors who put time and effort into everything including making all the libraries, tools, and the
-  information we rely on
-
-We are incredibly grateful to many individuals and organizations who have played a
-role in the project. This includes the welcoming community, dedicated volunteers, talented developers and
-contributors, and the creators of the open-source tools we rely on.
+See [Contributing](../CONTRIBUTING.md) for more details.
