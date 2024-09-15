@@ -50,7 +50,7 @@ bool handleFormatByWrappingWithSingleCharacter({
     }
   }
   
-  // We check this because we don't know is the text that we are trying 
+  // We check this because we don't know if the text that we are trying 
   // to detect, is at the start of the document (this is because by some weird
   // reason, the for never detects the character)
   if (plainText[0] == character) {
