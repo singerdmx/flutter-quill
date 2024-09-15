@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' show MethodChannel;
 
 import 'quill_native_bridge_platform_interface.dart';
 
@@ -28,5 +28,26 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       return true;
     }());
     return isSimulator ?? false;
+  }
+
+  @override
+  Future<String?> getClipboardHTML() async {
+    assert(() {
+      if (kIsWeb) {
+        throw FlutterError(
+          'getClipboardHTML() method should be only called on non-web platforms.',
+        );
+      }
+      const supportedPlatforms = {TargetPlatform.android, TargetPlatform.iOS};
+      if (!supportedPlatforms.contains(defaultTargetPlatform)) {
+        throw FlutterError(
+          'getClipboardHTML() currently only supports Android and iOS.',
+        );
+      }
+      return true;
+    }());
+    final htmlText =
+        await methodChannel.invokeMethod<String?>('getClipboardHTML');
+    return htmlText;
   }
 }

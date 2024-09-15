@@ -25,7 +25,10 @@ abstract class QuillNativeBridgePlatform extends PlatformInterface {
   }
 
   /// Check if the app is running on [iOS Simulator](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device).
-  Future<bool> isIOSSimulator() {
-    throw UnimplementedError('isIOSSimulator() has not been implemented.');
-  }
+  Future<bool> isIOSSimulator() =>
+      throw UnimplementedError('isIOSSimulator() has not been implemented.');
+
+  /// Return the clipboard content as HTML for **non-web platforms**
+  Future<String?> getClipboardHTML() =>
+      throw UnimplementedError('getClipboardHTML() has not been implemented.');
 }

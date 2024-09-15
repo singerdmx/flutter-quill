@@ -16,6 +16,14 @@ public class QuillNativeBridgePlugin: NSObject, FlutterPlugin {
       #else
         result(false)
       #endif
+    case "getClipboardHTML":
+      let pasteboard = UIPasteboard.general
+      if let htmlData = pasteboard.data(forPasteboardType: "public.html") {
+        let html = String(data: htmlData, encoding: .utf8)
+        result(html)
+      } else {
+        result(nil)
+      }
     default:
       result(FlutterMethodNotImplemented)
     }

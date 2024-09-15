@@ -10,6 +10,11 @@ class MockQuillNativeBridgePlatform
     implements QuillNativeBridgePlatform {
   @override
   Future<bool> isIOSSimulator() async => false;
+
+  @override
+  Future<String?> getClipboardHTML() async {
+    return '<center>Invalid HTML</center>';
+  }
 }
 
 void main() {
@@ -19,11 +24,18 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelQuillNativeBridge>());
   });
 
-  test('isIOSSimulator', () async {
-    final fakePlatform = MockQuillNativeBridgePlatform();
-    QuillNativeBridgePlatform.instance = fakePlatform;
+  final fakePlatform = MockQuillNativeBridgePlatform();
+  QuillNativeBridgePlatform.instance = fakePlatform;
 
+  test('isIOSSimulator', () async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
     expect(await QuillNativeBridge.isIOSSimulator(), false);
+  });
+
+  test('getClipboardHTML()', () async {
+    expect(
+      await QuillNativeBridgePlatform.instance.getClipboardHTML(),
+      '<center>Invalid HTML</center>',
+    );
   });
 }

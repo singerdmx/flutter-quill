@@ -23,5 +23,8 @@ dev_dependencies:
 flutter:
   plugin:
     platforms:
+      android:
+        package: dev.flutterquill.quill_native_bridge
+        pluginClass: QuillNativeBridgePlugin
       ios:
         pluginClass: QuillNativeBridgePlugin
