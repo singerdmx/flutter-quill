@@ -30,7 +30,7 @@ class AsteriskToItalicStyle extends StatelessWidget {
 At this point, nothing magic will happen after typing `*xxx*`.
 
 <p align="center">
-   <img src="https://github.com/user-attachments/assets/c08a3fdf-021d-4bde-b1b1-ef44c9793533" width="800px" alt="Editor without shortcuts gif">
+   <img src="https://github.com/user-attachments/assets/c9ab15ec-2ada-4a84-96e8-55e6145e7925" width="800px" alt="Editor without shortcuts gif">
 </p>
 
 To implement our shortcut event we will create a `CharacterShortcutEvent` instance to handle an asterisk input.
