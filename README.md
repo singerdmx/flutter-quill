@@ -58,10 +58,12 @@ You can join our [Slack Group] for discussion.
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Conversion to HTML](#-conversion-to-html)
 - [📝 Spelling checker](#-spelling-checker)
+- [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
 - [🤝 Contributing](#-contributing)
 - [📜 Acknowledgments](#-acknowledgments)
+
 
 ## 📸 Screenshots
 
@@ -289,6 +291,16 @@ While spell-checking is not a feature that's implemented into the project, it ca
 It's implemented using the package `simple_spell_checker` in the [Example](./example/).
 
 Take a look at [Spelling Checker](./doc/spell_checker.md) page for more info.
+
+## ✂️ Shortcut events
+
+We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfigurations` to add more functionality to our editor. 
+
+> [!NOTE]
+>
+> You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents` 
+
+To see an example of this, you can check [customizing_shortcuts](./doc/customizing_shortcuts.md)
 
 ## 🌐 Translation
 

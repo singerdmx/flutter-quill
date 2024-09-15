@@ -532,14 +532,14 @@ class QuillRawEditorState extends EditorState
         data: _styles!,
         child: QuillKeyboardServiceWidget(
           actions: _actions,
+          characterEvents: widget.configurations.characterShortcutEvents,
+          spaceEvents: widget.configurations.spaceShortcutEvents,
           constraints: constraints,
           focusNode: widget.configurations.focusNode,
           controller: controller,
           readOnly: widget.configurations.readOnly,
           enableAlwaysIndentOnTab:
               widget.configurations.enableAlwaysIndentOnTab,
-          enableMdConversion:
-              widget.configurations.enableMarkdownStyleConversion,
           customShortcuts: widget.configurations.customShortcuts,
           customActions: widget.configurations.customActions,
           child: child,
