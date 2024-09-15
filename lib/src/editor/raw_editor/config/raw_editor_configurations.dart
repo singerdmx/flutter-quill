@@ -50,10 +50,10 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.selectionCtrls,
     required this.embedBuilder,
     required this.autoFocus,
-    @Deprecated(
-        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
+    @Deprecated(
+        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     this.controller,
     this.showCursor = true,
     this.scrollable = true,
