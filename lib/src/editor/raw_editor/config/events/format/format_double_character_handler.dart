@@ -16,7 +16,7 @@ bool handleFormatByWrappingWithDoubleCharacter({
   required String character,
   required DoubleCharacterFormatStyle formatStyle,
 }) {
-  assert(character.length == 1);
+  assert(character.length == 1, 'Expected 1 char, got ${character.length}');
   final selection = controller.selection;
   // if the selection is not collapsed or the cursor is at the first three index range, we don't need to format it.
   // we should return false to let the IME handle it.

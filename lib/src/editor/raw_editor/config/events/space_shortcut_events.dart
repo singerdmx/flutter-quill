@@ -1,23 +1,21 @@
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../../document/nodes/leaf.dart';
 
-typedef SpaceShortcutEventHandler = bool Function(
-    QuillText node, QuillController controller);
+typedef SpaceShortcutEventHandler = bool Function(QuillText node, QuillController controller);
 
 /// Defines the implementation of shortcut events for space key calls.
-class SpaceShortcutEvent {
+@immutable
+class SpaceShortcutEvent extends Equatable{
   SpaceShortcutEvent({
     required this.character,
     required this.handler,
-  }) : assert(character != '\n' && character.trim().isNotEmpty);
+  }) : assert(character != '\n' && character.trim().isNotEmpty,
+            'character that cannot be empty, a whitespace or a new line. Ensure that you are passing a not empty character');
 
-  String character;
+  final String character;
   final SpaceShortcutEventHandler handler;
-
-  void updateCharacter(String newCharacter) {
-    assert(character != '\n' && character.trim().isNotEmpty);
-    character = newCharacter;
-  }
 
   bool execute(QuillText node, QuillController controller) {
     return handler(node, controller);
@@ -34,18 +32,8 @@ class SpaceShortcutEvent {
   }
 
   @override
-  String toString() =>
-      'SpaceShortcutEvent(character: $character, handler: $handler)';
+  String toString() => 'SpaceShortcutEvent(character: $character, handler: $handler)';
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is SpaceShortcutEvent &&
-        other.character == character &&
-        other.handler == handler;
-  }
-
-  @override
-  int get hashCode => character.hashCode ^ handler.hashCode;
+  List<Object?> get props => [character, handler];
 }
