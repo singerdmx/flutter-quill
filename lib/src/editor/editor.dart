@@ -1060,7 +1060,8 @@ class RenderEditor extends RenderEditableContainerBox
 
     // Don't change selection if the selected word is a placeholder.
     if (child.container.style.attributes
-        .containsKey(Attribute.placeholder.key)) {
+        .containsKey(Attribute.placeholder.key) || child.container.style.attributes
+        .containsKey(Attribute.transparent.key)) {
       return;
     }
 
