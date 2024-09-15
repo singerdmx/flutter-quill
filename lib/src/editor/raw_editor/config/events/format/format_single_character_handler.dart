@@ -47,8 +47,8 @@ bool handleFormatByWrappingWithSingleCharacter({
       break;
     }
   }
-  
-  // We check this because we don't know if the text that we are trying 
+
+  // We check this because we don't know if the text that we are trying
   // to detect, is at the start of the document (this is because by some weird
   // reason, the for never detects the character)
   if (plainText[0] == character) {
@@ -97,7 +97,7 @@ bool handleFormatByWrappingWithSingleCharacter({
             ? null
             : {
                 style.key: style.value
-              }); // retain the text before that the new char that we type on keyboard 
+              }); // retain the text before that the new char that we type on keyboard
 
   controller
     ..compose(

@@ -80,7 +80,7 @@ bool handleFormatByWrappingWithDoubleCharacter({
     style = const StrikeThroughAttribute();
   }
   // 1. delete all the *[char]
-  // 2. update the style of the text surrounded by the double *[char] to formatted text style 
+  // 2. update the style of the text surrounded by the double *[char] to formatted text style
   final deletionDelta = Delta()
     ..retain(thirdLastCharIndex) // get all text before double chars
     ..delete(2) // delete both start double char
