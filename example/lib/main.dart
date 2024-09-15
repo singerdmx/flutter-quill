@@ -30,7 +30,8 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
-  FlutterQuillExtensions.useSuperClipboardPlugin();
+  // TODO: https://github.com/singerdmx/flutter-quill/pull/2230 and related issues
+  // FlutterQuillExtensions.useSuperClipboardPlugin();
   runApp(const MyApp());
 }
 

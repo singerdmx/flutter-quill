@@ -1,20 +1,17 @@
 import 'package:flutter/services.dart' show Clipboard, Uint8List;
+import 'package:quill_native_bridge/quill_native_bridge.dart'
+    show QuillNativeBridge;
 
+import '../../common/utils/platform.dart';
 import 'clipboard_service.dart';
 
-/// Default implementation using only internal flutter plugins
+/// Default implementation
 class DefaultClipboardService implements ClipboardService {
   @override
-  Future<bool> canProvideHtmlText() async {
-    return false;
-  }
+  Future<bool> canProvideHtmlText() async => isAndroidApp || isIosApp;
 
   @override
-  Future<String?> getHtmlText() {
-    throw UnsupportedError(
-      'DefaultClipboardService does not support retrieving HTML text.',
-    );
-  }
+  Future<String?> getHtmlText() => QuillNativeBridge.getClipboardHTML();
 
   @override
   Future<bool> canProvideHtmlTextFromFile() async {
