@@ -77,23 +77,15 @@ bool handleFormatByWrappingWithSingleCharacter({
   }
 
   // To minimize errors, retrieve the format style from an enum that is specific to double characters.
-  final Attribute? style;
+  late final Attribute? style;
 
-  switch (formatStyle) {
-    case SingleCharacterFormatStyle.italic:
-      style = const ItalicAttribute();
-      break;
-    case SingleCharacterFormatStyle.strikethrough:
-      style = const StrikeThroughAttribute();
-      break;
-    case SingleCharacterFormatStyle.code:
-      style = const InlineCodeAttribute();
-      break;
-    default:
-      style = null;
-      assert(false, 'Invalid format style');
-  }
-
+  if (formatStyle case SingleCharacterFormatStyle.italic) {
+    style = const ItalicAttribute();
+  } else if (formatStyle case SingleCharacterFormatStyle.strikethrough) {
+    style = const StrikeThroughAttribute();
+  } else if (formatStyle case SingleCharacterFormatStyle.code) {
+    style = const InlineCodeAttribute();
+  } 
   // 1. delete all the *[char]
   // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
   final deletionDelta = Delta()

@@ -74,20 +74,13 @@ bool handleFormatByWrappingWithDoubleCharacter({
   // final offsetOfTextInsideWrapperCharsRight = lastCharIndex - 1;
 
   // To minimize errors, retrieve the format style from an enum that is specific to double characters.
-  final Attribute? style;
+  late final Attribute? style;
 
-  switch (formatStyle) {
-    case DoubleCharacterFormatStyle.bold:
-      style = const BoldAttribute();
-      break;
-    case DoubleCharacterFormatStyle.strikethrough:
-      style = const StrikeThroughAttribute();
-      break;
-    default:
-      style = null;
-      assert(false, 'Invalid format style');
-  }
-
+  if (formatStyle case DoubleCharacterFormatStyle.bold) {
+    style = const BoldAttribute();
+  } else if (formatStyle case DoubleCharacterFormatStyle.strikethrough) {
+    style = const StrikeThroughAttribute();
+  } 
   // 1. delete all the *[char]
   // 2. update the style of the text surrounded by the double *[char] to [formatStyle]
   final deletionDelta = Delta()
