@@ -64,10 +64,10 @@ class Buttons extends StatelessWidget {
               );
               return;
             }
-            if (!{TargetPlatform.android, TargetPlatform.iOS}
+            if (!QuillNativeBridge.supportedHtmlClipboardPlatforms
                 .contains(defaultTargetPlatform)) {
               scaffoldMessenger.showText(
-                'Currently, this functionality is only supported on Android and iOS.',
+                'Currently, this functionality is only supported on Android, iOS and macOS.',
               );
               return;
             }

@@ -1,14 +1,16 @@
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/services.dart' show Clipboard, Uint8List;
 import 'package:quill_native_bridge/quill_native_bridge.dart'
     show QuillNativeBridge;
 
-import '../../common/utils/platform.dart';
 import 'clipboard_service.dart';
 
 /// Default implementation
 class DefaultClipboardService implements ClipboardService {
   @override
-  Future<bool> canProvideHtmlText() async => isAndroidApp || isIosApp;
+  Future<bool> canProvideHtmlText() async =>
+      QuillNativeBridge.supportedHtmlClipboardPlatforms
+          .contains(defaultTargetPlatform);
 
   @override
   Future<String?> getHtmlText() => QuillNativeBridge.getClipboardHTML();

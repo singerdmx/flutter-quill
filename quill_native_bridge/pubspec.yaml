@@ -28,3 +28,5 @@ flutter:
         pluginClass: QuillNativeBridgePlugin
       ios:
         pluginClass: QuillNativeBridgePlugin
+      macos:
+        pluginClass: QuillNativeBridgePlugin

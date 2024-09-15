@@ -8,7 +8,6 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalWidgetsLocalizations;
 import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:flutter_quill/translations.dart' show FlutterQuillLocalizations;
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart'
     show HydratedBloc, HydratedStorage;
 import 'package:path_provider/path_provider.dart'

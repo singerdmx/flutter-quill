@@ -1,5 +1,7 @@
 library;
 
+import 'package:flutter/foundation.dart';
+
 import 'src/quill_native_bridge_platform_interface.dart';
 
 class QuillNativeBridge {
@@ -12,6 +14,18 @@ class QuillNativeBridge {
   static Future<bool> isIOSSimulator() =>
       QuillNativeBridgePlatform.instance.isIOSSimulator();
 
+  /// Experimental and might removed in future releases.
+  ///
+  /// For now we do plan on removing this property once all non-web platforms
+  /// are supported.
+  ///
+  /// Available to avoid hardcoding.
+  static const Set<TargetPlatform> supportedHtmlClipboardPlatforms = {
+    TargetPlatform.android,
+    TargetPlatform.iOS,
+    TargetPlatform.macOS
+  };
+
   /// Return the clipboard content as HTML for **non-web platforms**.
   ///
   /// Doesn't support web, should use
@@ -23,7 +37,7 @@ class QuillNativeBridge {
   /// Returns `null` if the HTML content is not available or if the user has not granted
   /// permission for pasting (on some platforms such as iOS).
   ///
-  /// Currently only supports **Android** and **iOS**.
+  /// Currently only supports **Android**, **iOS** and **macOS**.
   static Future<String?> getClipboardHTML() =>
       QuillNativeBridgePlatform.instance.getClipboardHTML();
 }
