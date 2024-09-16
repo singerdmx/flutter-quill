@@ -33,7 +33,7 @@ class QuillNativeBridgePlugin : FlutterPlugin, MethodCallHandler {
 
                 val clipData = clipboard.primaryClip
 
-                if (clipData == null) {
+                if (clipData == null || clipData.itemCount <= 0) {
                     result.success(null)
                     return
                 }
