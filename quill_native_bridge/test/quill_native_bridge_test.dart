@@ -15,6 +15,13 @@ class MockQuillNativeBridgePlatform
   Future<String?> getClipboardHTML() async {
     return '<center>Invalid HTML</center>';
   }
+
+  var imageHasCopied = false;
+
+  @override
+  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+    imageHasCopied = true;
+  }
 }
 
 void main() {
@@ -36,6 +43,19 @@ void main() {
     expect(
       await QuillNativeBridgePlatform.instance.getClipboardHTML(),
       '<center>Invalid HTML</center>',
+    );
+  });
+
+  test('copyImageToClipboard()', () async {
+    expect(
+      fakePlatform.imageHasCopied,
+      false,
+    );
+    await QuillNativeBridgePlatform.instance
+        .copyImageToClipboard(Uint8List.fromList([]));
+    expect(
+      fakePlatform.imageHasCopied,
+      true,
     );
   });
 }

@@ -6,6 +6,11 @@ repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
 documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/
 
+platforms:
+  android:
+  ios:
+  macos:
+
 environment:
   sdk: ^3.5.1
   flutter: '>=3.3.0'

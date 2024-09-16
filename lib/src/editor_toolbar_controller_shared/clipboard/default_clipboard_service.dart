@@ -9,7 +9,7 @@ import 'clipboard_service.dart';
 class DefaultClipboardService implements ClipboardService {
   @override
   Future<bool> canProvideHtmlText() async =>
-      QuillNativeBridge.supportedHtmlClipboardPlatforms
+      QuillNativeBridge.supportedClipboardPlatforms
           .contains(defaultTargetPlatform);
 
   @override

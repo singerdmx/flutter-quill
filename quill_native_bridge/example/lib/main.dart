@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+import 'package:flutter/services.dart'
+    show Clipboard, ClipboardData, rootBundle;
 import 'package:quill_native_bridge/quill_native_bridge.dart';
 
 void main() {
@@ -64,7 +65,7 @@ class Buttons extends StatelessWidget {
               );
               return;
             }
-            if (!QuillNativeBridge.supportedHtmlClipboardPlatforms
+            if (!QuillNativeBridge.supportedClipboardPlatforms
                 .contains(defaultTargetPlatform)) {
               scaffoldMessenger.showText(
                 'Currently, this functionality is only supported on Android, iOS and macOS.',
@@ -86,6 +87,33 @@ class Buttons extends StatelessWidget {
           },
           child: const Text('Get HTML from Clipboard'),
         ),
+        ElevatedButton(
+          onPressed: () async {
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
+            if (kIsWeb) {
+              scaffoldMessenger.showText(
+                "Can't copy an image to the Clipboard on the  web.",
+              );
+              return;
+            }
+            if (!QuillNativeBridge.supportedClipboardPlatforms
+                .contains(defaultTargetPlatform)) {
+              scaffoldMessenger.showText(
+                'Currently, this functionality is only supported on Android, iOS and macOS.',
+              );
+              return;
+            }
+            final imageBytes =
+                (await rootBundle.load('assets/flutter-quill.png'))
+                    .buffer
+                    .asUint8List();
+            await QuillNativeBridge.copyImageToClipboard(imageBytes);
+            scaffoldMessenger.showText(
+              'Image has been copied to the clipboard.',
+            );
+          },
+          child: const Text('Copy Image to Clipboard'),
+        )
       ],
     );
   }
