@@ -105,14 +105,52 @@ dependencies:
 
 The `flutter_quill` package uses the following plugins:
 
-1. [`url_launcher`](https://pub.dev/packages/url_launcher) to open links.
-2. [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) to access platform-specific APIs for the
+1. [`url_launcher`](https://pub.dev/packages/url_launcher): to open links.
+2. [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge): to access platform-specific APIs for the
    editor.
-3. [`flutter_keyboard_visibility`](https://pub.dev/packages/flutter_keyboard_visibility) to listen for keyboard
+3. [`flutter_keyboard_visibility`](https://pub.dev/packages/flutter_keyboard_visibility): to listen for keyboard
    visibility
    changes.
 
-All of them don't require any platform-specific setup.
+### Android Configuration for `quill_native_bridge`
+
+To support copying images to the clipboard, you need to configure your Android project.
+If not set up, a warning will appear in the log during debug mode only.
+
+> [!TIP]
+> This is only required on **Android** for this optional feature.
+
+**1. Update `AndroidManifest.xml`**
+
+Open `your_project/android/app/src/main/AndroidManifest.xml` and add the following inside the `<application>` tag:
+
+```xml
+<manifest>
+    <application>
+        ...
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        ...
+    </application>
+</manifest>
+```
+
+**2. Create `file_paths.xml`**
+
+Create the file `your_project/android/app/src/main/res/xml/file_paths.xml` with the following content:
+
+```xml
+<paths>
+    <cache-path name="cache" path="." />
+</paths>
+```
 
 > [!NOTE]
 > Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved
