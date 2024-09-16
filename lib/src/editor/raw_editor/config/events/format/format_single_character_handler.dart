@@ -33,9 +33,13 @@ bool handleFormatByWrappingWithSingleCharacter({
     return false;
   }
 
+  final isSoftInsert =
+      controller.editorConfigurations.softKeyboardShortcutSupport;
+  final caretPosition = selection.end - (isSoftInsert ? 2 : 1);
+
   var lastCharIndex = -1;
   // found the nearest using the caret position as base
-  for (var i = selection.end - 1; i > 0; i--) {
+  for (var i = caretPosition; i > 0; i--) {
     // If we found characters that satifies our handler, and it founds
     // a new line, then, need to cancel the handler
     // because bold (and common styles from markdown) cannot
@@ -74,6 +78,12 @@ bool handleFormatByWrappingWithSingleCharacter({
   if ((character == '*' || character == '_' || character == '~') &&
       (lastCharIndex >= 1) &&
       (plainText[lastCharIndex - 1] == character)) {
+    return false;
+  }
+
+  // this gets triggered for e.g. '**', meaning we would try to format empty string
+  // therefore wrongly removing '**'
+  if (isSoftInsert && lastCharIndex == caretPosition) {
     return false;
   }
 

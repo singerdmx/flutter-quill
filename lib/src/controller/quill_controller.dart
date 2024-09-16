@@ -17,6 +17,7 @@ import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_configurations.dart';
+import '../editor/raw_editor/config/events/soft_keyboard_shortcut_support.dart';
 import '../toolbar/config/simple_toolbar_configurations.dart';
 import 'quill_controller_configurations.dart';
 import 'quill_controller_rich_paste.dart';
@@ -44,6 +45,8 @@ class QuillController extends ChangeNotifier {
     if (kIsWeb) {
       initializeWebPasteEvent();
     }
+
+    _maybeEnableSoftKeyboard();
   }
 
   factory QuillController.basic(
@@ -57,6 +60,25 @@ class QuillController extends ChangeNotifier {
         selection: const TextSelection.collapsed(offset: 0),
       );
 
+  void _maybeEnableSoftKeyboard() {
+    if (editorConfigurations.softKeyboardShortcutSupport) {
+      if (_softKeyboardShortcutSupport == null) {
+        _softKeyboardShortcutSupport = QuillSoftKeyboardShortcutSupport(
+          controller: this,
+          spaceEvents: editorConfigurations.spaceShortcutEvents,
+          characterEvents: editorConfigurations.characterShortcutEvents,
+        );
+        addListener(_softKeyboardShortcutSupport!.onNewChar);
+      }
+    } else {
+      final existingOnNewChar = _softKeyboardShortcutSupport?.onNewChar;
+      if (existingOnNewChar != null) {
+        removeListener(existingOnNewChar);
+        _softKeyboardShortcutSupport = null;
+      }
+    }
+  }
+
   final QuillControllerConfigurations configurations;
 
   /// Editor configurations
@@ -65,8 +87,10 @@ class QuillController extends ChangeNotifier {
   QuillEditorConfigurations? _editorConfigurations;
   QuillEditorConfigurations get editorConfigurations =>
       _editorConfigurations ?? const QuillEditorConfigurations();
-  set editorConfigurations(QuillEditorConfigurations? value) =>
-      _editorConfigurations = document.editorConfigurations = value;
+  set editorConfigurations(QuillEditorConfigurations? value) {
+    _editorConfigurations = document.editorConfigurations = value;
+    _maybeEnableSoftKeyboard();
+  }
 
   /// Toolbar configurations
   ///
@@ -79,6 +103,8 @@ class QuillController extends ChangeNotifier {
 
   /// Document managed by this controller.
   Document _document;
+
+  QuillSoftKeyboardShortcutSupport? _softKeyboardShortcutSupport;
 
   Document get document => _document;
 
@@ -369,6 +395,7 @@ class QuillController extends ChangeNotifier {
     });
   }
 
+  // FIXME attribute should be non-nullable
   void formatText(
     int index,
     int len,
@@ -473,6 +500,11 @@ class QuillController extends ChangeNotifier {
 
   @override
   void dispose() {
+    final onNewChar = _softKeyboardShortcutSupport?.onNewChar;
+    if (onNewChar != null) {
+      removeListener(onNewChar);
+    }
+
     if (!_isDisposed) {
       document.close();
     }

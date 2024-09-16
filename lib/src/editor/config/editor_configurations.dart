@@ -95,6 +95,7 @@ class QuillEditorConfigurations extends Equatable {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     this.customLeadingBlockBuilder,
+    this.softKeyboardShortcutSupport = false,
   });
 
   final QuillSharedConfigurations sharedConfigurations;
@@ -458,6 +459,9 @@ class QuillEditorConfigurations extends Equatable {
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
 
+  /// Simulates key presses by calculating diff between deltas
+  final bool softKeyboardShortcutSupport;
+
   @override
   List<Object?> get props => [
         placeholder,
@@ -528,6 +532,7 @@ class QuillEditorConfigurations extends Equatable {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? softKeyboardShortcutSupport,
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
@@ -606,6 +611,8 @@ class QuillEditorConfigurations extends Equatable {
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,
+      softKeyboardShortcutSupport:
+          softKeyboardShortcutSupport ?? this.softKeyboardShortcutSupport,
     );
   }
 }

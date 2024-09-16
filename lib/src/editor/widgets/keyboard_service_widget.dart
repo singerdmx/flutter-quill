@@ -71,6 +71,10 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
   }
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
+    if (controller.editorConfigurations.softKeyboardShortcutSupport) {
+      return KeyEventResult.ignored;
+    }
+
     // Don't handle key if there is a meta key pressed.
     if (HardwareKeyboard.instance.isAltPressed ||
         HardwareKeyboard.instance.isControlPressed ||

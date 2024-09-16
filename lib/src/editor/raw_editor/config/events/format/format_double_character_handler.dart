@@ -34,9 +34,13 @@ bool handleFormatByWrappingWithDoubleCharacter({
     return false;
   }
 
+  final isSoftInsert =
+      controller.editorConfigurations.softKeyboardShortcutSupport;
+  final caretPosition = selection.end - (isSoftInsert ? 2 : 1);
+
   // find all the index of *[char]
   var charIndexList = <int>[];
-  for (var i = selection.end - 1; i > 0; i--) {
+  for (var i = caretPosition; i > 0; i--) {
     // If we found characters that satifies our handler, and it founds
     // a new line, then, need to cancel the handler
     // because bold (and common styles from markdown) cannot
