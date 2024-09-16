@@ -88,15 +88,12 @@ class ImageOptionsMenu extends StatelessWidget {
             title: Text(context.loc.copy),
             onTap: () async {
               final navigator = Navigator.of(context);
-              final imageNode =
-                  getEmbedNode(controller, controller.selection.start).value;
-              final image = imageNode.value.data;
               controller.copiedImageUrl = ImageUrl(
-                image,
+                imageSource,
                 getImageStyleString(controller),
               );
 
-              final data = await convertImageToUint8List(image);
+              final data = await convertImageToUint8List(imageSource);
               final clipboard = SystemClipboard.instance;
               if (data != null) {
                 final item = DataWriterItem()..add(Formats.png(data));
