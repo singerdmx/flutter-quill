@@ -20,6 +20,11 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.1.8
 
+  # For web only
+  flutter_web_plugins:
+    sdk: flutter
+  web: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,3 +40,6 @@ flutter:
         pluginClass: QuillNativeBridgePlugin
       macos:
         pluginClass: QuillNativeBridgePlugin
+      web:
+        pluginClass: QuillNativeBridgeWeb
+        fileName: src/web/quill_native_bridge_web.dart

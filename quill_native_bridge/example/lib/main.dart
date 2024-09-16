@@ -90,16 +90,9 @@ class Buttons extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
-            if (kIsWeb) {
+            if (!QuillNativeBridge.isCopyingImageToClipboardSupported) {
               scaffoldMessenger.showText(
-                "Can't copy an image to the Clipboard on the  web.",
-              );
-              return;
-            }
-            if (!QuillNativeBridge.supportedClipboardPlatforms
-                .contains(defaultTargetPlatform)) {
-              scaffoldMessenger.showText(
-                'Currently, this functionality is only supported on Android, iOS and macOS.',
+                'Currently, this functionality is only supported on Android, iOS, macOS and Web.',
               );
               return;
             }

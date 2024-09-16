@@ -95,8 +95,7 @@ class DefaultClipboardService implements ClipboardService {
 
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
-    if (!QuillNativeBridge.supportedClipboardPlatforms
-        .contains(defaultTargetPlatform)) {
+    if (!QuillNativeBridge.isCopyingImageToClipboardSupported) {
       assert(() {
         debugPrint(
           'Copying an image to the clipboard is currently not supported on ${defaultTargetPlatform.name}',

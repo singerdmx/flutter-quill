@@ -99,7 +99,7 @@ class ImageOptionsMenu extends StatelessWidget {
 
               final imageBytes = await _loadImageBytesFromImageProvider();
               if (imageBytes != null) {
-                ClipboardServiceProvider.instance
+                await ClipboardServiceProvider.instance
                     .copyImageToClipboard(imageBytes);
               }
             },

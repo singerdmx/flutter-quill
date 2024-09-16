@@ -1,6 +1,7 @@
 library;
 
-import 'package:flutter/foundation.dart' show TargetPlatform, Uint8List;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, Uint8List, defaultTargetPlatform, kIsWeb;
 
 import 'src/quill_native_bridge_platform_interface.dart';
 
@@ -16,7 +17,7 @@ class QuillNativeBridge {
   static Future<bool> isIOSSimulator() =>
       QuillNativeBridgePlatform.instance.isIOSSimulator();
 
-  /// Experimental and might removed in future releases.
+  /// **Experimental** and might removed in future releases.
   ///
   /// For now we do plan on removing this property once all non-web platforms
   /// are supported.
@@ -43,14 +44,20 @@ class QuillNativeBridge {
   static Future<String?> getClipboardHTML() =>
       QuillNativeBridgePlatform.instance.getClipboardHTML();
 
-  /// Copy the [imageBytes] to Clipboard to be pasted on other apps for **non-web platforms**.
+  /// **Experimental** and might removed in future releases.
+  ///
+  /// Available to avoid hardcoding.
+  static bool get isCopyingImageToClipboardSupported =>
+      kIsWeb || supportedClipboardPlatforms.contains(defaultTargetPlatform);
+
+  /// Copy the [imageBytes] to Clipboard to be pasted on other apps.
   ///
   /// Require modifying `AndroidManifest.xml` to work on **Android**.
   /// Otherwise, you will get a warning available only on debug-builds.
   /// See: https://github.com/singerdmx/flutter-quill#-platform-specific-configurations
   ///
   ///
-  /// Currently only supports **Android**, **iOS** and **macOS**.
+  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
   static Future<void> copyImageToClipboard(Uint8List imageBytes) =>
       QuillNativeBridgePlatform.instance.copyImageToClipboard(imageBytes);
 }

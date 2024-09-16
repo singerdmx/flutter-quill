@@ -33,7 +33,7 @@ abstract class QuillNativeBridgePlatform extends PlatformInterface {
   Future<String?> getClipboardHTML() =>
       throw UnimplementedError('getClipboardHTML() has not been implemented.');
 
-  /// Copy the [imageBytes] to Clipboard to be pasted on other apps for **non-web platforms**.
+  /// Copy the [imageBytes] to Clipboard to be pasted on other apps.
   Future<void> copyImageToClipboard(Uint8List imageBytes) =>
       throw UnimplementedError(
         'copyImageToClipboard() has not been implemented.',

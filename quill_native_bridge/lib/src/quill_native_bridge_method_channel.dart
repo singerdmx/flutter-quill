@@ -55,16 +55,9 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
     assert(() {
-      // TODO: Update this check later
-      if (kIsWeb) {
+      if (!QuillNativeBridge.isCopyingImageToClipboardSupported) {
         throw FlutterError(
-          'copyImageToClipboard() method should be only called on non-web platforms.',
-        );
-      }
-      if (!QuillNativeBridge.supportedClipboardPlatforms
-          .contains(defaultTargetPlatform)) {
-        throw FlutterError(
-          'copyImageToClipboard() currently only supports Android, iOS and macOS.',
+          'copyImageToClipboard() currently only supports Android, iOS, macOS and Web.',
         );
       }
       return true;
