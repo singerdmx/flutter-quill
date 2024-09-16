@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'package:flutter/foundation.dart' show debugPrint, defaultTargetPlatform;
 import 'package:flutter/services.dart' show Clipboard, Uint8List;
 import 'package:quill_native_bridge/quill_native_bridge.dart'
     show QuillNativeBridge;
@@ -91,5 +91,20 @@ class DefaultClipboardService implements ClipboardService {
   Future<bool> canPaste() async {
     final plainText = await getPlainText();
     return plainText != null;
+  }
+
+  @override
+  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+    if (!QuillNativeBridge.supportedClipboardPlatforms
+        .contains(defaultTargetPlatform)) {
+      assert(() {
+        debugPrint(
+          'Copying an image to the clipboard is currently not supported on ${defaultTargetPlatform.name}',
+        );
+        return true;
+      }());
+      return;
+    }
+    await QuillNativeBridge.copyImageToClipboard(imageBytes);
   }
 }

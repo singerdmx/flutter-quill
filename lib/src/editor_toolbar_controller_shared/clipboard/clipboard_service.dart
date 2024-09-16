@@ -41,4 +41,6 @@ abstract class ClipboardService {
   Future<Uint8List> getGifFileAsBytes();
 
   Future<bool> canPaste();
+
+  Future<void> copyImageToClipboard(Uint8List imageBytes);
 }

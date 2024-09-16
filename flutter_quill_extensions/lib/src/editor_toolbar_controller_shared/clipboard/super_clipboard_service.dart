@@ -175,4 +175,14 @@ class SuperClipboardService implements ClipboardService {
     final availablePlatformFormats = reader.platformFormats;
     return availablePlatformFormats.isNotEmpty;
   }
+
+  @override
+  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+    final clipboard = SystemClipboard.instance;
+    if (clipboard == null) {
+      return;
+    }
+    final item = DataWriterItem()..add(Formats.png(imageBytes));
+    await clipboard.write([item]);
+  }
 }

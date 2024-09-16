@@ -1,8 +1,6 @@
 library flutter_quill_extensions;
 
-// ignore: implementation_imports
-import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
-import 'package:meta/meta.dart' show immutable;
+import 'package:flutter_quill/extensions.dart' show ClipboardServiceProvider;
 
 import 'src/editor_toolbar_controller_shared/clipboard/super_clipboard_service.dart';
 
@@ -38,9 +36,8 @@ export 'src/toolbar/video/models/video.dart';
 export 'src/toolbar/video/models/video_configurations.dart';
 export 'src/toolbar/video/video_button.dart';
 
-@immutable
 class FlutterQuillExtensions {
-  const FlutterQuillExtensions._();
+  FlutterQuillExtensions._();
 
   @Deprecated(
     '''

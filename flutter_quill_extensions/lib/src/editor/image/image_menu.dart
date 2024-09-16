@@ -1,11 +1,13 @@
+import 'dart:async' show Completer;
+import 'dart:ui' as ui;
+
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, Uint8List;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/translations.dart';
-import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/string.dart';
@@ -24,6 +26,7 @@ class ImageOptionsMenu extends StatelessWidget {
     required this.imageSize,
     required this.isReadOnly,
     required this.imageSaverService,
+    required this.imageProvider,
     super.key,
   });
 
@@ -33,6 +36,7 @@ class ImageOptionsMenu extends StatelessWidget {
   final ElementSize imageSize;
   final bool isReadOnly;
   final ImageSaverService imageSaverService;
+  final ImageProvider imageProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -87,19 +91,17 @@ class ImageOptionsMenu extends StatelessWidget {
             leading: const Icon(Icons.copy_all_outlined),
             title: Text(context.loc.copy),
             onTap: () async {
-              final navigator = Navigator.of(context);
+              Navigator.of(context).pop();
               controller.copiedImageUrl = ImageUrl(
                 imageSource,
                 getImageStyleString(controller),
               );
 
-              final data = await convertImageToUint8List(imageSource);
-              final clipboard = SystemClipboard.instance;
-              if (data != null) {
-                final item = DataWriterItem()..add(Formats.png(data));
-                await clipboard?.write([item]);
+              final imageBytes = await loadImageBytesFromImageProviders();
+              if (imageBytes != null) {
+                ClipboardServiceProvider.instance
+                    .copyImageToClipboard(imageBytes);
               }
-              navigator.pop();
             },
           ),
           if (!isReadOnly)
@@ -195,5 +197,24 @@ class ImageOptionsMenu extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // TODO: This will load the image again, in case it was network image
+  //  then it will send a GET request each time to load the image.
+  Future<Uint8List?> loadImageBytesFromImageProviders() async {
+    final stream = imageProvider.resolve(ImageConfiguration.empty);
+    final completer = Completer<ui.Image>();
+
+    ImageStreamListener? listener;
+    listener = ImageStreamListener((info, _) {
+      completer.complete(info.image);
+      stream.removeListener(listener!);
+    });
+
+    stream.addListener(listener);
+
+    final image = await completer.future;
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData?.buffer.asUint8List();
   }
 }
