@@ -97,7 +97,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 getImageStyleString(controller),
               );
 
-              final imageBytes = await loadImageBytesFromImageProviders();
+              final imageBytes = await _loadImageBytesFromImageProvider();
               if (imageBytes != null) {
                 ClipboardServiceProvider.instance
                     .copyImageToClipboard(imageBytes);
@@ -201,7 +201,7 @@ class ImageOptionsMenu extends StatelessWidget {
 
   // TODO: This will load the image again, in case it was network image
   //  then it will send a GET request each time to load the image.
-  Future<Uint8List?> loadImageBytesFromImageProviders() async {
+  Future<Uint8List?> _loadImageBytesFromImageProvider() async {
     final stream = imageProvider.resolve(ImageConfiguration.empty);
     final completer = Completer<ui.Image>();
 

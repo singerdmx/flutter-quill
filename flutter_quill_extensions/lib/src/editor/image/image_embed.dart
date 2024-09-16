@@ -54,7 +54,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         QuillSharedExtensionsConfigurations.get(context: context)
             .imageSaverService;
     return GestureDetector(
-      onTap: () async {
+      onTap: () {
         final onImageClicked = configurations.onImageClicked;
         if (onImageClicked != null) {
           onImageClicked(imageSource);
