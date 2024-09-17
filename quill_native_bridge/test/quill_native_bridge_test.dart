@@ -22,6 +22,11 @@ class MockQuillNativeBridgePlatform
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
     imageHasCopied = true;
   }
+
+  @override
+  Future<Uint8List?> getClipboardImage() async {
+    return Uint8List.fromList([0, 2, 1]);
+  }
 }
 
 void main() {
@@ -56,6 +61,13 @@ void main() {
     expect(
       fakePlatform.imageHasCopied,
       true,
+    );
+  });
+
+  test('copyImageToClipboard()', () async {
+    expect(
+      await QuillNativeBridgePlatform.instance.getClipboardImage(),
+      Uint8List.fromList([0, 2, 1]),
     );
   });
 }

@@ -35,6 +35,10 @@ public class QuillNativeBridgePlugin: NSObject, FlutterPlugin {
       } else {
           result(FlutterError(code: "IMAGE_BYTES_REQUIRED", message: "Image bytes are required to copy the image to the clipboard.", details: nil))
       }
+    case "getClipboardImage":
+      let image = UIPasteboard.general.image
+      let data = image?.pngData()
+      result(data)
     default:
       result(FlutterMethodNotImplemented)
     }

@@ -8,6 +8,8 @@ void main() {
   runApp(const MyApp());
 }
 
+const _flutterQuillAssetImage = 'assets/flutter-quill.png';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -34,6 +36,11 @@ class Buttons extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Image.asset(
+          _flutterQuillAssetImage,
+          width: 300,
+        ),
+        const SizedBox(height: 50),
         ElevatedButton(
           onPressed: () async {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -65,8 +72,7 @@ class Buttons extends StatelessWidget {
               );
               return;
             }
-            if (!QuillNativeBridge.supportedClipboardPlatforms
-                .contains(defaultTargetPlatform)) {
+            if (!QuillNativeBridge.isClipboardOperationsSupported) {
               scaffoldMessenger.showText(
                 'Currently, this functionality is only supported on Android, iOS and macOS.',
               );
@@ -90,23 +96,71 @@ class Buttons extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
-            if (!QuillNativeBridge.isCopyingImageToClipboardSupported) {
+            if (!QuillNativeBridge.isClipboardOperationsSupported) {
               scaffoldMessenger.showText(
                 'Currently, this functionality is only supported on Android, iOS, macOS and Web.',
               );
               return;
             }
-            final imageBytes =
-                (await rootBundle.load('assets/flutter-quill.png'))
-                    .buffer
-                    .asUint8List();
+            final imageBytes = (await rootBundle.load(_flutterQuillAssetImage))
+                .buffer
+                .asUint8List();
             await QuillNativeBridge.copyImageToClipboard(imageBytes);
+
+            // Not widely supported but some apps copy the image as a text:
+            // final file = File(
+            //   '${Directory.systemTemp.path}/clipboard-image.png',
+            // );
+            // await file.create(recursive: true);
+            // await file.writeAsBytes(imageBytes);
+            // Clipboard.setData(
+            //   ClipboardData(
+            //     // Currently the Android plugin doesn't support content://
+            //     text: 'file://${file.absolute.path}',
+            //   ),
+            // );
+
             scaffoldMessenger.showText(
               'Image has been copied to the clipboard.',
             );
           },
           child: const Text('Copy Image to Clipboard'),
-        )
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
+            // TODO: Update this check if web supported or not
+            if (kIsWeb) {
+              scaffoldMessenger.showText(
+                'Retrieving image from the clipboard is currently not supported.',
+              );
+              return;
+            }
+            if (!QuillNativeBridge.isClipboardOperationsSupported) {
+              scaffoldMessenger.showText(
+                'Currently, this functionality is only supported on Android, iOS, and macOS.',
+              );
+              return;
+            }
+            final imageBytes = await QuillNativeBridge.getClipboardImage();
+            if (imageBytes == null) {
+              scaffoldMessenger.showText(
+                'The image is not available on the clipboard.',
+              );
+              return;
+            }
+            if (!context.mounted) {
+              return;
+            }
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Image.memory(imageBytes),
+              ),
+            );
+          },
+          child: const Text('Retrive Image from Clipboard'),
+        ),
       ],
     );
   }

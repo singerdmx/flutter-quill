@@ -2,14 +2,13 @@ import 'dart:async' show Completer;
 import 'dart:convert' show utf8;
 
 import 'package:flutter/foundation.dart';
-// ignore: implementation_imports
-import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service.dart';
+import 'package:flutter_quill/extensions.dart' show ClipboardService;
 
 import 'package:super_clipboard/super_clipboard.dart';
 
-/// Implementation based on https://pub.dev/packages/super_clipboard
-class SuperClipboardService implements ClipboardService {
-  /// Null if the Clipboard API is not supported on this platform
+/// Implementation using the https://pub.dev/packages/super_clipboard plugin.
+class SuperClipboardService extends ClipboardService {
+  /// [Null] if the Clipboard API is not supported on this platform
   /// https://pub.dev/packages/super_clipboard#usage
   SystemClipboard? _getSuperClipboard() {
     return SystemClipboard.instance;
@@ -74,106 +73,49 @@ class SuperClipboardService implements ClipboardService {
   }
 
   @override
-  Future<bool> canProvideHtmlText() {
-    return _canProvide(format: Formats.htmlText);
-  }
-
-  @override
-  Future<String?> getHtmlText() {
+  Future<String?> getHtmlText() async {
+    if (!(await _canProvide(format: Formats.htmlText))) {
+      return null;
+    }
     return _provideSimpleValueFormatAsString(format: Formats.htmlText);
   }
 
   @override
-  Future<bool> canProvideHtmlTextFromFile() {
-    return _canProvide(format: Formats.htmlFile);
-  }
-
-  @override
-  Future<String?> getHtmlTextFromFile() {
-    return _provideFileAsString(format: Formats.htmlFile);
-  }
-
-  @override
-  Future<bool> canProvideMarkdownText() async {
-    // Formats.markdownText or Formats.mdText does not exist yet in super_clipboard
-    return false;
-  }
-
-  @override
-  Future<String?> getMarkdownText() async {
-    // Formats.markdownText or Formats.mdText does not exist yet in super_clipboard
-    throw UnsupportedError(
-      'SuperClipboardService does not support retrieving image files.',
-    );
-  }
-
-  @override
-  Future<bool> canProvideMarkdownTextFromFile() async {
-    // Formats.md is for markdown files
-    return _canProvide(format: Formats.md);
-  }
-
-  @override
-  Future<String?> getMarkdownTextFromFile() async {
-    // Formats.md is for markdown files
-    return _provideFileAsString(format: Formats.md);
-  }
-
-  @override
-  Future<bool> canProvidePlainText() {
-    return _canProvide(format: Formats.plainText);
-  }
-
-  @override
-  Future<String?> getPlainText() {
-    return _provideSimpleValueFormatAsString(format: Formats.plainText);
-  }
-
-  /// This will need to be updated if [getImageFileAsBytes] updated.
-  /// Notice that even if the copied image is JPEG, it still can be provided
-  /// as PNG, will handle JPEG check in case this info is incorrect.
-  @override
-  Future<bool> canProvideImageFile() async {
-    final canProvidePngFile = await _canProvide(format: Formats.png);
-    if (canProvidePngFile) {
-      return true;
+  Future<String?> getHtmlFile() async {
+    if (!(await _canProvide(format: Formats.htmlFile))) {
+      return null;
     }
-    final canProvideJpegFile = await _canProvide(format: Formats.jpeg);
-    if (canProvideJpegFile) {
-      return true;
-    }
-    return false;
+    return await _provideFileAsString(format: Formats.htmlFile);
   }
 
-  /// This will need to be updated if [canProvideImageFile] updated.
   @override
-  Future<Uint8List> getImageFileAsBytes() async {
+  Future<Uint8List?> getGifFile() async {
+    if (!(await _canProvide(format: Formats.gif))) {
+      return null;
+    }
+    return await _provideFileAsBytes(format: Formats.gif);
+  }
+
+  @override
+  Future<Uint8List?> getImageFile() async {
     final canProvidePngFile = await _canProvide(format: Formats.png);
     if (canProvidePngFile) {
       return _provideFileAsBytes(format: Formats.png);
     }
-    return _provideFileAsBytes(format: Formats.jpeg);
-  }
-
-  @override
-  Future<bool> canProvideGifFile() {
-    return _canProvide(format: Formats.gif);
-  }
-
-  @override
-  Future<Uint8List> getGifFileAsBytes() {
-    return _provideFileAsBytes(format: Formats.gif);
-  }
-
-  @override
-  Future<bool> canPaste() async {
-    final clipboard = _getSuperClipboard();
-    if (clipboard == null) {
-      return false;
+    final canProvideJpegFile = await _canProvide(format: Formats.jpeg);
+    if (canProvideJpegFile) {
+      return _provideFileAsBytes(format: Formats.jpeg);
     }
-    final reader = await clipboard.read();
-    final availablePlatformFormats = reader.platformFormats;
-    return availablePlatformFormats.isNotEmpty;
+    return null;
+  }
+
+  @override
+  Future<String?> getMarkdownFile() async {
+    // Formats.md is for markdown files
+    if (!(await _canProvide(format: Formats.md))) {
+      return null;
+    }
+    return await _provideFileAsString(format: Formats.md);
   }
 
   @override
@@ -184,5 +126,16 @@ class SuperClipboardService implements ClipboardService {
     }
     final item = DataWriterItem()..add(Formats.png(imageBytes));
     await clipboard.write([item]);
+  }
+
+  @override
+  Future<bool> get hasClipboardContent async {
+    final clipboard = _getSuperClipboard();
+    if (clipboard == null) {
+      return false;
+    }
+    final reader = await clipboard.read();
+    final availablePlatformFormats = reader.platformFormats;
+    return availablePlatformFormats.isNotEmpty;
   }
 }

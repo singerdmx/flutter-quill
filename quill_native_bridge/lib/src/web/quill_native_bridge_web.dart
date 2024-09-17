@@ -22,6 +22,8 @@ import '../quill_native_bridge_platform_interface.dart';
 ///
 /// ```console
 /// Assertion failed: "Platform interfaces must not be implemented with `implements`"
+///
+/// See https://github.com/flutter/flutter/issues/127396
 /// ```
 class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
   QuillNativeBridgeWeb._();
@@ -41,6 +43,7 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
       {'image/png': blob}.jsify() as JSObject,
     );
 
+    // TODO: Will cause issue on Firefox as Clipboard API is not supported, fallback to Clipboard events.
     await window.navigator.clipboard
         .write([clipboardItem].jsify() as ClipboardItems)
         .toDart;
@@ -48,6 +51,8 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
 
   // TODO: This web implementation doesn't work on firefox.
   //  Related: https://github.com/singerdmx/flutter-quill/issues/2220
+
+  // TODO: Need a method to check if Clipboard API is supported (which is not on Firefox)
 
   // @override
   // Future<String?> getClipboardHTML() async {

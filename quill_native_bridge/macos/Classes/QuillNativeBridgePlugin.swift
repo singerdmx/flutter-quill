@@ -19,18 +19,42 @@ public class QuillNativeBridgePlugin: NSObject, FlutterPlugin {
           result(nil)
       }
     case "copyImageToClipboard":
-      if let data = call.arguments as? FlutterStandardTypedData {
-      if let image = NSImage(data: data.data) {
-          let pasteboard = NSPasteboard.general
-          pasteboard.clearContents()
-          pasteboard.setData(image.tiffRepresentation!, forType: .png)
-          result(nil)
-      } else {
-          result(FlutterError(code: "INVALID_IMAGE", message: "Unable to create NSImage from image bytes.", details: nil))
+        guard let data = call.arguments as? FlutterStandardTypedData else {
+            result(FlutterError(code: "IMAGE_BYTES_REQUIRED", message: "Image bytes are required to copy the image to the clipboard.", details: nil))
+            return
+        }
+
+        guard let image = NSImage(data: data.data) else {
+            result(FlutterError(code: "INVALID_IMAGE", message: "Unable to create NSImage from image bytes.", details: nil))
+            return
+        }
+
+        guard let tiffData = image.tiffRepresentation else {
+            result(FlutterError(code: "INVALID_IMAGE", message: "Unable to get TIFF representation from NSImage.", details: nil))
+            return
+        }
+
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setData(tiffData, forType: .png)
+        result(nil)
+
+    case "getClipboardImage":
+      let pasteboard = NSPasteboard.general
+
+      // TODO: This can return null when copying an image from other apps (e.g Telegram, Apple notes), seems to work
+      // with macOS screenshot and Google Chrome, fix this issue later
+      guard let image = pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage else {
+        result(nil)
+        return
       }
-      } else {
-          result(FlutterError(code: "IMAGE_BYTES_REQUIRED", message: "Image bytes are required to copy the image to the clipboard.", details: nil))
-      }
+        if let tiffData = image.tiffRepresentation,
+           let bitmap = NSBitmapImageRep(data: tiffData),
+           let pngData = bitmap.representation(using: .png, properties: [:]) {
+            result(pngData)
+        } else {
+            result(nil)
+        }
     default:
       result(FlutterMethodNotImplemented)
     }

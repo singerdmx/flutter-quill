@@ -39,8 +39,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
           'getClipboardHTML() method should be only called on non-web platforms.',
         );
       }
-      if (!QuillNativeBridge.supportedClipboardPlatforms
-          .contains(defaultTargetPlatform)) {
+      if (!QuillNativeBridge.isClipboardOperationsSupported) {
         throw FlutterError(
           'getClipboardHTML() currently only supports Android, iOS and macOS.',
         );
@@ -55,7 +54,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
     assert(() {
-      if (!QuillNativeBridge.isCopyingImageToClipboardSupported) {
+      if (!QuillNativeBridge.isClipboardOperationsSupported) {
         throw FlutterError(
           'copyImageToClipboard() currently only supports Android, iOS, macOS and Web.',
         );
@@ -81,5 +80,13 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       }
       rethrow;
     }
+  }
+
+  @override
+  Future<Uint8List?> getClipboardImage() async {
+    final imageBytes = await methodChannel.invokeMethod<Uint8List?>(
+      'getClipboardImage',
+    );
+    return imageBytes;
   }
 }

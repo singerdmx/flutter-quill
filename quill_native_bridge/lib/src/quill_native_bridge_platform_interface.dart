@@ -38,4 +38,8 @@ abstract class QuillNativeBridgePlatform extends PlatformInterface {
       throw UnimplementedError(
         'copyImageToClipboard() has not been implemented.',
       );
+
+  /// Return the copied image from the Clipboard.
+  Future<Uint8List?> getClipboardImage() =>
+      throw UnimplementedError('getClipboardImage() has not been implemented.');
 }

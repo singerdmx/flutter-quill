@@ -8,6 +8,7 @@ export 'src/common/utils/platform.dart';
 export 'src/common/utils/string.dart';
 export 'src/common/utils/widgets.dart';
 export 'src/document/nodes/leaf.dart';
+export 'src/editor_toolbar_controller_shared/clipboard/clipboard_service.dart';
 export 'src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 export 'src/rules/delete.dart';
 export 'src/rules/format.dart';
