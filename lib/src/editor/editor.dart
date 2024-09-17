@@ -33,6 +33,7 @@ import 'widgets/box.dart';
 import 'widgets/cursor.dart';
 import 'widgets/delegate.dart';
 import 'widgets/float_cursor.dart';
+import 'widgets/text/text_line.dart';
 import 'widgets/text/text_selection.dart';
 
 /// Base interface for editable render objects.
@@ -1097,6 +1098,9 @@ class RenderEditor extends RenderEditableContainerBox
   }) {
     final fromPosition = getPositionForOffset(from);
     final toPosition = to == null ? null : getPositionForOffset(to);
+    final child =  childAtPosition(toPosition ?? fromPosition);
+    print(child as RenderEditableTextLine);
+    print(child.line);
 
     var baseOffset = fromPosition.offset;
     var extentOffset = fromPosition.offset;

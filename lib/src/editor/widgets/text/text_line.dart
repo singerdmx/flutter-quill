@@ -296,6 +296,9 @@ class _TextLineState extends State<TextLine> {
     }
     if (nodes.isEmpty && kIsWeb && addWebNodeIfNeeded) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
+    } else if(nodes.isEmpty && widget.line.style.containsKey('header')){
+      lineStyle = lineStyle.copyWith(color: defaultStyles.placeHolder?.style.color);
+      nodes = LinkedList<Node>()..add(leaf.QuillText('Header Placeholder'));
     }
 
     final isComposingRangeOutOfLine = !widget.composingRange.isValid ||
