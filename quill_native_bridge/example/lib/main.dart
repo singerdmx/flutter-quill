@@ -8,7 +8,7 @@ void main() {
   runApp(const MyApp());
 }
 
-const _flutterQuillAssetImage = 'assets/flutter-quill.png';
+const _kFlutterQuillAssetImage = 'assets/flutter-quill.png';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -37,7 +37,7 @@ class Buttons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          _flutterQuillAssetImage,
+          _kFlutterQuillAssetImage,
           width: 300,
         ),
         const SizedBox(height: 50),
@@ -102,7 +102,7 @@ class Buttons extends StatelessWidget {
               );
               return;
             }
-            final imageBytes = (await rootBundle.load(_flutterQuillAssetImage))
+            final imageBytes = (await rootBundle.load(_kFlutterQuillAssetImage))
                 .buffer
                 .asUint8List();
             await QuillNativeBridge.copyImageToClipboard(imageBytes);
