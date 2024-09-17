@@ -266,6 +266,9 @@ class _TextLineState extends State<TextLine> {
   ) {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
+    } else if(nodes.isEmpty && widget.line.style.containsKey('header')){
+      lineStyle = lineStyle.copyWith(color: defaultStyles.placeHolder?.style.color);
+      nodes = LinkedList<Node>()..add(leaf.QuillText('Header Placeholder'));
     }
     final children = nodes
         .map((node) =>

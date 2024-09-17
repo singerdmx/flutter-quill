@@ -32,6 +32,7 @@ import 'widgets/box.dart';
 import 'widgets/cursor.dart';
 import 'widgets/delegate.dart';
 import 'widgets/float_cursor.dart';
+import 'widgets/text/text_line.dart';
 import 'widgets/text/text_selection.dart';
 
 /// Base interface for editable render objects.
@@ -1060,8 +1061,7 @@ class RenderEditor extends RenderEditableContainerBox
 
     // Don't change selection if the selected word is a placeholder.
     if (child.container.style.attributes
-        .containsKey(Attribute.placeholder.key) || child.container.style.attributes
-        .containsKey(Attribute.transparent.key)) {
+        .containsKey(Attribute.placeholder.key)) {
       return;
     }
 
@@ -1087,6 +1087,9 @@ class RenderEditor extends RenderEditableContainerBox
   }) {
     final fromPosition = getPositionForOffset(from);
     final toPosition = to == null ? null : getPositionForOffset(to);
+    final child =  childAtPosition(toPosition ?? fromPosition);
+    print(child as RenderEditableTextLine);
+    print(child.line);
 
     var baseOffset = fromPosition.offset;
     var extentOffset = fromPosition.offset;
@@ -1448,6 +1451,7 @@ class RenderEditor extends RenderEditableContainerBox
           child.getCaretPrototype(child.globalToLocalPosition(textPosition));
       _floatingCursorRect =
           sizeAdjustment.inflateRect(caretPrototype).shift(boundedOffset);
+
       _cursorController
           .setFloatingCursorTextPosition(_floatingCursorTextPosition);
     } else {
