@@ -46,7 +46,7 @@ class Buttons extends StatelessWidget {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
             if (kIsWeb) {
               scaffoldMessenger.showText(
-                "Can't check if the device is simulator on web.",
+                "Can't check if the device is iOS simulator on the web.",
               );
               return;
             }
@@ -68,13 +68,13 @@ class Buttons extends StatelessWidget {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
             if (kIsWeb) {
               scaffoldMessenger.showText(
-                "Can't get the HTML content from Clipboard on web without paste event on web.",
+                'Retriving HTML from the Clipboard is currently not supported on the web.',
               );
               return;
             }
             if (!QuillNativeBridge.isClipboardOperationsSupported) {
               scaffoldMessenger.showText(
-                'Currently, this functionality is only supported on Android, iOS and macOS.',
+                'Getting HTML from the Clipboard is not supported on ${defaultTargetPlatform.name}',
               );
               return;
             }
@@ -96,9 +96,15 @@ class Buttons extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
+            if (kIsWeb) {
+              scaffoldMessenger.showText(
+                'Copying an image to the clipboard is currently not supported on web.',
+              );
+              return;
+            }
             if (!QuillNativeBridge.isClipboardOperationsSupported) {
               scaffoldMessenger.showText(
-                'Currently, this functionality is only supported on Android, iOS, macOS and Web.',
+                'Copying an image to the Clipboard is not supported on ${defaultTargetPlatform.name}',
               );
               return;
             }
@@ -129,16 +135,15 @@ class Buttons extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             final scaffoldMessenger = ScaffoldMessenger.of(context);
-            // TODO: Update this check if web supported or not
             if (kIsWeb) {
               scaffoldMessenger.showText(
-                'Retrieving image from the clipboard is currently not supported.',
+                'Retriving an image from the clipboard is currently not supported on web.',
               );
               return;
             }
             if (!QuillNativeBridge.isClipboardOperationsSupported) {
               scaffoldMessenger.showText(
-                'Currently, this functionality is only supported on Android, iOS, and macOS.',
+                'Retriving an image from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
               );
               return;
             }
