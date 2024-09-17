@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.6.2
+
+* Fix: QuillToolbarToggleStyleButton Switching failure by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2234
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.1...v10.6.2
+
 ## 10.6.1
 
 * Chore: update `flutter_quill_delta_from_html` to remove exception calls by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2232
