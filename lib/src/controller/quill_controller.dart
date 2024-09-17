@@ -395,7 +395,7 @@ class QuillController extends ChangeNotifier {
     });
   }
 
-  // FIXME attribute should be non-nullable
+  // TODO: Attribute should be non-nullable, fix later
   void formatText(
     int index,
     int len,

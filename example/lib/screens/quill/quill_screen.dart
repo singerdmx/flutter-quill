@@ -1,7 +1,7 @@
 import 'dart:convert' show jsonEncode;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
     show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
@@ -131,9 +131,7 @@ class _QuillScreenState extends State<QuillScreen> {
                       searchEmbedMode: SearchEmbedMode.plainText,
                     ),
                     sharedConfigurations: _sharedConfigurations,
-                    softKeyboardShortcutSupport:
-                        defaultTargetPlatform == TargetPlatform.android ||
-                            defaultTargetPlatform == TargetPlatform.iOS,
+                    softKeyboardShortcutSupport: isAndroidApp || isIosApp,
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,
