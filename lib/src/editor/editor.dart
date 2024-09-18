@@ -297,7 +297,9 @@ class QuillEditorState extends State<QuillEditor>
             controller: controller,
             configurations: QuillRawEditorConfigurations(
               placeholderBuilder: PlaceholderBuilder(
-                  builders: widget.configurations.placeholderBuilder),
+                configuration:
+                    widget.configurations.placeholderComponentsConfiguration,
+              ),
               characterShortcutEvents:
                   widget.configurations.characterShortcutEvents,
               spaceShortcutEvents: widget.configurations.spaceShortcutEvents,

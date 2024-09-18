@@ -1,31 +1,54 @@
 // This file is only for internal use
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'
-    show Expanded, Row, Text, TextDirection, TextStyle, TextWidthBasis, Widget;
-import '../../../../document/attribute.dart' show Attribute;
+    show
+        Expanded,
+        Row,
+        Text,
+        TextDirection,
+        TextStyle,
+        TextWidthBasis,
+        Widget,
+        immutable;
+import '../../../../document/attribute.dart' show Attribute, AttributeScope;
 import '../../../../document/nodes/line.dart';
 import 'placeholder_configuration.dart';
+
+/// This is the black list of the keys that cannot be 
+/// used or permitted by the builder
+final List<String> _blackList = List.unmodifiable(<String>[
+  Attribute.align.key,
+  Attribute.direction.key,
+  Attribute.lineHeight.key,
+  Attribute.indent.key,
+  ...Attribute.inlineKeys,
+  ...Attribute.ignoreKeys,
+]);
 
 @immutable
 class PlaceholderBuilder {
   const PlaceholderBuilder({
-    required this.builders,
+    required this.configuration,
   });
 
-  final Map<String, PlaceholderConfigurationBuilder> builders;
+  final PlaceholderComponentsConfiguration configuration;
+
+  Map<String, PlaceholderConfigurationBuilder> get builders =>
+      configuration.builders;
+  Set<String>? get customBlockAttributesKeys =>
+      configuration.customBlockAttributesKeys;
 
   /// Check if this node need to show a placeholder
   (bool, String) shouldShowPlaceholder(Line node) {
     if (builders.isEmpty) return (false, '');
     var shouldShow = false;
     var key = '';
-    // by now, we limit the available keys to show placeholder
-    // to 'header', 'list', 'code-block' and 'blockquote'
-    //
-    //TODO: we should take a look to let users add custom attributes
-    // keys to let them show placeholder on their own blocks
-    for (final exclusiveKey in Attribute.exclusiveBlockKeys) {
-      if (node.style.containsKey(exclusiveKey)) {
+    for (final exclusiveKey in <dynamic>{
+      ...Attribute.exclusiveBlockKeys,
+      ...?customBlockAttributesKeys
+    }) {
+      if (node.style.containsKey(exclusiveKey) &&
+          node.style.attributes[exclusiveKey]?.scope == AttributeScope.block && 
+          !_blackList.contains(exclusiveKey)) {
         shouldShow = true;
         key = exclusiveKey;
         break;

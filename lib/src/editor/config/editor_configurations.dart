@@ -37,7 +37,8 @@ class QuillEditorConfigurations extends Equatable {
     this.padding = EdgeInsets.zero,
     this.characterShortcutEvents = const [],
     this.spaceShortcutEvents = const [],
-    this.placeholderBuilder = const {},
+    this.placeholderComponentsConfiguration =
+        const PlaceholderComponentsConfiguration(builders: {}),
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
@@ -157,17 +158,14 @@ class QuillEditorConfigurations extends Equatable {
 
   /// Whether the line is empty, this let us add a placeholder
   ///
-  /// _By now this is limited to the following block attributes:_
-  /// _`header`, `list`, `code-block`, `blockquote`. Other attributes_
-  /// _will be ignored_
-  ///
   /// ### Example
   ///
   /// Assume that you want to show only a placeholder text for the header items,
-  /// so, we only need to configure `placeholderBuilder` like:
+  /// so, we only need to configure `placeholderComponentsConfiguration` like:
   ///
   ///```dart
-  ///final defaultPlaceholderBuilder = <String, PlaceholderConfigurationBuilder>{
+  ///final configuration = PlaceholderComponentsConfiguration(
+  ///  builders: <String, PlaceholderConfigurationBuilder>{
   ///   Attribute.header.key: (Attribute attr, style) {
   ///     final values = [30, 27, 22];
   ///     final level = attr.value as int?;
@@ -178,9 +176,13 @@ class QuillEditorConfigurations extends Equatable {
   ///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
   ///       );
   ///   },
-  ///},
+  /// },
+  /// // if you use custom attribute keys into the `builders` param, them you will need to implement that
+  /// // here too
+  /// customBlockAttributesKeys: null,
+  ///),
   ///```
-  final Map<String, PlaceholderConfigurationBuilder> placeholderBuilder;
+  final PlaceholderComponentsConfiguration placeholderComponentsConfiguration;
 
   /// Whether the text can be changed.
   ///
@@ -548,7 +550,7 @@ class QuillEditorConfigurations extends Equatable {
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
     LeadingBlockNodeBuilder? customLeadingBlockBuilder,
-    Map<String, PlaceholderConfigurationBuilder>? placeholderBuilder,
+    PlaceholderComponentsConfiguration? placeholderComponentsConfiguration,
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
     QuillEditorBuilder? builder,
@@ -561,7 +563,8 @@ class QuillEditorConfigurations extends Equatable {
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
-      placeholderBuilder: placeholderBuilder ?? this.placeholderBuilder,
+      placeholderComponentsConfiguration: placeholderComponentsConfiguration ??
+          this.placeholderComponentsConfiguration,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       // ignore: deprecated_member_use_from_same_package
