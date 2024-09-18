@@ -64,8 +64,7 @@ class QuillController extends ChangeNotifier {
       );
 
   void _maybeEnableSoftKeyboard() {
-    assert(isAndroidApp || isIosApp,
-        'softKeyboardShortcutSupport should only be used on Android/iOS');
+    QuillSoftKeyboardShortcutSupport.assertSupported();
     if (editorConfigurations.softKeyboardShortcutSupport) {
       if (_softKeyboardShortcutSupport == null) {
         _softKeyboardShortcutSupport = QuillSoftKeyboardShortcutSupport(

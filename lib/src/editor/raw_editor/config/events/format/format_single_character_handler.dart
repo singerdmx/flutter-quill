@@ -1,8 +1,8 @@
 import '../../../../../../quill_delta.dart';
-import '../../../../../common/utils/platform.dart';
 import '../../../../../controller/quill_controller.dart';
 import '../../../../../document/attribute.dart';
 import '../../../../../document/document.dart';
+import '../soft_keyboard_shortcut_support.dart';
 
 enum SingleCharacterFormatStyle {
   code,
@@ -37,8 +37,7 @@ bool handleFormatByWrappingWithSingleCharacter({
   final usesSoftKeyboardShortcut =
       controller.editorConfigurations.softKeyboardShortcutSupport;
   if (usesSoftKeyboardShortcut) {
-    assert(isAndroidApp || isIosApp,
-        'softKeyboardShortcutSupport should only be used on Android/iOS');
+    QuillSoftKeyboardShortcutSupport.assertSupported();
   }
   final caretPosition = selection.end - (usesSoftKeyboardShortcut ? 2 : 1);
 

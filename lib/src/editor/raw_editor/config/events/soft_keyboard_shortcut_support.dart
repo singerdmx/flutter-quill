@@ -1,6 +1,6 @@
-import 'package:dart_quill_delta/dart_quill_delta.dart';
-
+import '../../../../../quill_delta.dart';
 import '../../../../common/utils/cast.dart';
+import '../../../../common/utils/platform.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../../document/attribute.dart';
 import '../../../../document/nodes/leaf.dart' as leaf;
@@ -79,5 +79,11 @@ class QuillSoftKeyboardShortcutSupport {
     }
 
     return null;
+  }
+
+  /// helper method that should indicate wrong use of this class
+  static void assertSupported() {
+    assert(isAndroidApp || isIosApp,
+        'softKeyboardShortcutSupport should only be used on Android/iOS');
   }
 }
