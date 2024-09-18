@@ -332,7 +332,8 @@ class CursorPainter {
       canvas.drawRRect(caretRRect, paint);
     }
     // we need to make these checks to avoid use this painter unnecessarily
-    if (cursorPlaceholderConfiguration != null && cursorPlaceholderConfiguration.show &&
+    if (cursorPlaceholderConfiguration != null &&
+        cursorPlaceholderConfiguration.show &&
         cursorPlaceholderConfiguration.paragraphPlaceholderText
             .trim()
             .isNotEmpty) {

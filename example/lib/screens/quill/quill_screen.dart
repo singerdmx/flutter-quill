@@ -134,8 +134,8 @@ class _QuillScreenState extends State<QuillScreen> {
                           final values = [32, 30, 24, 22, 18, 16];
                           final level = attr.value as int?;
                           if (level == null) return null;
-                          final fontSize = values[
-                              (level - 1 <= 0 ? 0 : level - 1)];
+                          final fontSize =
+                              values[(level - 1 <= 0 ? 0 : level - 1)];
                           return PlaceholderArguments(
                             placeholderText: 'Header $level',
                             style: TextStyle(fontSize: fontSize.toDouble())

@@ -781,7 +781,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   TextSelection textSelection;
   Color color;
   bool enableInteractiveSelection;
-  CursorParagrahPlaceholderConfiguration? cursorParagrahPlaceholderConfiguration;
+  CursorParagrahPlaceholderConfiguration?
+      cursorParagrahPlaceholderConfiguration;
   bool hasFocus = false;
   double devicePixelRatio;
   EdgeInsetsGeometry padding;
