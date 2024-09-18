@@ -268,7 +268,7 @@ class _TextLineState extends State<TextLine> {
     TextStyle lineStyle,
   ) {
     var addWebNodeIfNeeded = false;
-    if (nodes.isEmpty && widget.placeholderBuilder.builder.isNotEmpty) {
+    if (nodes.isEmpty && widget.placeholderBuilder.builders.isNotEmpty) {
       final (shouldShowNode, attrKey) =
           widget.placeholderBuilder.shouldShowPlaceholder(widget.line);
       if (shouldShowNode) {

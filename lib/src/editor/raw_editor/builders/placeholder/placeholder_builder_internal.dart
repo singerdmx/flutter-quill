@@ -9,14 +9,14 @@ import 'placeholder_configuration.dart';
 @immutable
 class PlaceholderBuilder {
   const PlaceholderBuilder({
-    required this.builder,
+    required this.builders,
   });
 
-  final Map<String, PlaceholderConfigurationBuilder> builder;
+  final Map<String, PlaceholderConfigurationBuilder> builders;
 
   /// Check if this node need to show a placeholder
   (bool, String) shouldShowPlaceholder(Line node) {
-    if (builder.isEmpty) return (false, '');
+    if (builders.isEmpty) return (false, '');
     var shouldShow = false;
     var key = '';
     // by now, we limit the available keys to show placeholder
@@ -41,9 +41,9 @@ class PlaceholderBuilder {
     required TextStyle lineStyle,
     required TextDirection textDirection,
   }) {
-    if (builder.isEmpty) return null;
+    if (builders.isEmpty) return null;
     final configuration =
-        builder[blockAttribute.key]?.call(blockAttribute, lineStyle);
+        builders[blockAttribute.key]?.call(blockAttribute, lineStyle);
     // we return a row because this widget takes the whole width and makes possible
     // select the block correctly (without this the block line cannot be selected correctly)
     return configuration == null
