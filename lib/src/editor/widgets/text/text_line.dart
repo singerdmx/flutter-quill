@@ -289,7 +289,7 @@ class _TextLineState extends State<TextLine> {
           return TextSpan(children: [widgetSpan], style: lineStyle);
         }
       }
-      // if the [placeholderWidget] is null or shouldShowNode is false
+      // if the [placeholderWidget] is null or [shouldShowNode] is false
       // then this line will be executed and avoid non add 
       // the needed node when the line is empty
       addWebNodeIfNeeded = true;
@@ -452,7 +452,7 @@ class _TextLineState extends State<TextLine> {
         }
       }
     }
-    if (!isLink && placeholderWidget != null) {
+    if (placeholderWidget != null) {
       return WidgetSpan(child: placeholderWidget);
     }
 
