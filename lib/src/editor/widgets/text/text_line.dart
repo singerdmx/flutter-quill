@@ -722,7 +722,7 @@ class EditableTextLine extends RenderObjectWidget {
         cursorCont,
         inlineCodeStyle,
         composingRange,
-        composingColor
+        composingColor,
         cursorParagrahPlaceholderConfiguration);
   }
 
