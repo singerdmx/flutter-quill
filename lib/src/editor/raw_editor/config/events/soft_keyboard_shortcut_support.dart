@@ -8,6 +8,8 @@ import '../../../../document/nodes/line.dart';
 import 'character_shortcuts_events.dart';
 import 'space_shortcut_events.dart';
 
+part 'soft_keyboard_shortcut_support_internal.dart';
+
 /// Provides space/character event emulation on platforms that are not
 /// equipped with hardware keyboard (e.g. Android/iOS).
 ///
@@ -78,72 +80,4 @@ class QuillSoftKeyboardShortcutSupport {
 
     return null;
   }
-}
-
-extension _QuillControllerExt on QuillController {
-  void removeLastChar({bool? endFormatting}) {
-    final selection = this.selection;
-    final baseOffset = selection.baseOffset;
-    this
-      ..moveCursorToPosition(baseOffset - 1)
-      ..replaceText(baseOffset - 1, 1, '', null);
-
-    if (endFormatting != null) {
-      final style = getSelectionStyle();
-      style.attributes.forEach((key, attr) {
-        formatText(
-          selection.start,
-          selection.end - selection.start,
-          Attribute.clone(attr, null),
-        );
-      });
-    }
-  }
-}
-
-bool _handleSpaceKey(
-  QuillController controller,
-  List<SpaceShortcutEvent> spaceEvents,
-) {
-  final baseOffset = controller.selection.baseOffset;
-  final child = controller.document.queryChild(controller.selection.baseOffset);
-  if (child.node == null) {
-    return false;
-  }
-
-  final line = child.node as Line?;
-  if (line == null) {
-    return false;
-  }
-
-  final text = castOrNull<leaf.QuillText>(line.first);
-  if (text == null) {
-    return false;
-  }
-
-  var effectiveTextValue = text.value;
-
-  final documentOffset = text.documentOffset;
-  if (baseOffset > documentOffset + 1) {
-    try {
-      effectiveTextValue =
-          text.value.substring(0, baseOffset - documentOffset - 1);
-    } catch (_) {
-      return false;
-    }
-  }
-
-  if (spaceEvents.isNotEmpty) {
-    for (final spaceEvent in spaceEvents) {
-      if (spaceEvent.character == effectiveTextValue) {
-        final executed = spaceEvent.execute(text, controller);
-        if (executed) return true;
-      }
-    }
-    return false;
-  } else if (spaceEvents.isEmpty) {
-    return false;
-  }
-
-  return false;
 }
