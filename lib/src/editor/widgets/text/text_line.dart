@@ -290,10 +290,10 @@ class _TextLineState extends State<TextLine> {
         }
       }
       // if the [placeholderWidget] is null or [shouldShowNode] is false
-      // then this line will be executed and avoid non add 
+      // then this line will be executed and avoid non add
       // the needed node when the line is empty
       addWebNodeIfNeeded = true;
-    } 
+    }
     if (nodes.isEmpty && kIsWeb && addWebNodeIfNeeded) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
