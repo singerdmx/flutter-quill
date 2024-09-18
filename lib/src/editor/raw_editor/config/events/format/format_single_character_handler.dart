@@ -1,4 +1,5 @@
 import '../../../../../../quill_delta.dart';
+import '../../../../../common/utils/platform.dart';
 import '../../../../../controller/quill_controller.dart';
 import '../../../../../document/attribute.dart';
 import '../../../../../document/document.dart';
@@ -33,9 +34,13 @@ bool handleFormatByWrappingWithSingleCharacter({
     return false;
   }
 
-  final isSoftInsert =
+  final usesSoftKeyboardShortcut =
       controller.editorConfigurations.softKeyboardShortcutSupport;
-  final caretPosition = selection.end - (isSoftInsert ? 2 : 1);
+  if (usesSoftKeyboardShortcut) {
+    assert(isAndroidApp || isIosApp,
+        'softKeyboardShortcutSupport should only be used on Android/iOS');
+  }
+  final caretPosition = selection.end - (usesSoftKeyboardShortcut ? 2 : 1);
 
   var lastCharIndex = -1;
   // found the nearest using the caret position as base
@@ -83,7 +88,7 @@ bool handleFormatByWrappingWithSingleCharacter({
 
   // this gets triggered for e.g. '**', meaning we would try to format empty string
   // therefore wrongly removing '**'
-  if (isSoftInsert && lastCharIndex == caretPosition) {
+  if (usesSoftKeyboardShortcut && lastCharIndex == caretPosition) {
     return false;
   }
 

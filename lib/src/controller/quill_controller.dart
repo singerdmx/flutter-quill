@@ -9,6 +9,7 @@ import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
 import '../common/structs/offset_value.dart';
 import '../common/utils/embeds.dart';
+import '../common/utils/platform.dart';
 import '../delta/delta_diff.dart';
 import '../document/attribute.dart';
 import '../document/document.dart';
@@ -46,7 +47,9 @@ class QuillController extends ChangeNotifier {
       initializeWebPasteEvent();
     }
 
-    _maybeEnableSoftKeyboard();
+    if (isAndroidApp || isIosApp) {
+      _maybeEnableSoftKeyboard();
+    }
   }
 
   factory QuillController.basic(
@@ -61,6 +64,8 @@ class QuillController extends ChangeNotifier {
       );
 
   void _maybeEnableSoftKeyboard() {
+    assert(isAndroidApp || isIosApp,
+        'softKeyboardShortcutSupport should only be used on Android/iOS');
     if (editorConfigurations.softKeyboardShortcutSupport) {
       if (_softKeyboardShortcutSupport == null) {
         _softKeyboardShortcutSupport = QuillSoftKeyboardShortcutSupport(
@@ -89,7 +94,10 @@ class QuillController extends ChangeNotifier {
       _editorConfigurations ?? const QuillEditorConfigurations();
   set editorConfigurations(QuillEditorConfigurations? value) {
     _editorConfigurations = document.editorConfigurations = value;
-    _maybeEnableSoftKeyboard();
+
+    if (isAndroidApp || isIosApp) {
+      _maybeEnableSoftKeyboard();
+    }
   }
 
   /// Toolbar configurations
@@ -503,6 +511,7 @@ class QuillController extends ChangeNotifier {
     final onNewChar = _softKeyboardShortcutSupport?.onNewChar;
     if (onNewChar != null) {
       removeListener(onNewChar);
+      _softKeyboardShortcutSupport = null;
     }
 
     if (!_isDisposed) {

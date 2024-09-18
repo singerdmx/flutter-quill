@@ -72,6 +72,8 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
     if (controller.editorConfigurations.softKeyboardShortcutSupport) {
+      assert(isAndroidApp || isIosApp,
+          'softKeyboardShortcutSupport should only be used on Android/iOS');
       return KeyEventResult.ignored;
     }
 

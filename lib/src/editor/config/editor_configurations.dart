@@ -460,6 +460,7 @@ class QuillEditorConfigurations extends Equatable {
   final void Function(TextInputAction action)? onPerformAction;
 
   /// Simulates key presses by calculating diff between deltas
+  /// should only be used in Android/iOS apps
   final bool softKeyboardShortcutSupport;
 
   @override
