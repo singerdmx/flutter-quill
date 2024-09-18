@@ -15,7 +15,8 @@ import 'placeholder_configuration.dart';
 
 /// This is the black list of the keys that cannot be
 /// used or permitted by the builder
-final List<String> _blackList = List.unmodifiable(<String>[
+// ignore: unnecessary_late
+late final List<String> _blackList = List.unmodifiable(<String>[
   Attribute.align.key,
   Attribute.direction.key,
   Attribute.lineHeight.key,
