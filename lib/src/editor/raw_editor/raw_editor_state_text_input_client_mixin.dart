@@ -97,9 +97,19 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.show();
   }
 
+  TextRange _getComposingRange() {
+    if (_lastKnownRemoteTextEditingValue != null &&
+        _lastKnownRemoteTextEditingValue?.composing.isValid == true) {
+      return _lastKnownRemoteTextEditingValue!.composing;
+    } else if (textEditingValue.composing.isValid == true) {
+      return textEditingValue.composing;
+    } else {
+      return widget.controller.selection;
+    }
+  }
+
   void _updateComposingRectIfNeeded() {
-    final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
-        textEditingValue.composing;
+    final composingRange = _getComposingRange();
     if (hasConnection) {
       assert(mounted);
       final offset = composingRange.isValid ? composingRange.start : 0;
