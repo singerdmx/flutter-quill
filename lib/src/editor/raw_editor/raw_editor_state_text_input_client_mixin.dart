@@ -2,7 +2,7 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/animation.dart' show Curves;
 import 'package:flutter/cupertino.dart' show CupertinoTheme;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
@@ -15,7 +15,22 @@ import 'raw_editor.dart';
 mixin RawEditorStateTextInputClientMixin on EditorState
     implements TextInputClient {
   TextInputConnection? _textInputConnection;
-  TextEditingValue? _lastKnownRemoteTextEditingValue;
+  TextEditingValue? __lastKnownRemoteTextEditingValue;
+
+  set _lastKnownRemoteTextEditingValue(TextEditingValue? value) {
+    __lastKnownRemoteTextEditingValue = value;
+    if (composingRange.value != value?.composing) {
+      composingRange.value = value?.composing ?? TextRange.empty;
+    }
+  }
+
+  TextEditingValue? get _lastKnownRemoteTextEditingValue =>
+      __lastKnownRemoteTextEditingValue;
+
+  /// The range of text that is currently being composed.
+  final ValueNotifier<TextRange> composingRange = ValueNotifier<TextRange>(
+    TextRange.empty,
+  );
 
   /// Whether to create an input connection with the platform for text editing
   /// or not.
@@ -97,9 +112,19 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.show();
   }
 
+  TextRange _getComposingRange() {
+    if (_lastKnownRemoteTextEditingValue != null &&
+        _lastKnownRemoteTextEditingValue?.composing.isValid == true) {
+      return _lastKnownRemoteTextEditingValue!.composing;
+    } else if (textEditingValue.composing.isValid == true) {
+      return textEditingValue.composing;
+    } else {
+      return widget.controller.selection;
+    }
+  }
+
   void _updateComposingRectIfNeeded() {
-    final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
-        textEditingValue.composing;
+    final composingRange = _getComposingRange();
     if (hasConnection) {
       assert(mounted);
       final offset = composingRange.isValid ? composingRange.start : 0;

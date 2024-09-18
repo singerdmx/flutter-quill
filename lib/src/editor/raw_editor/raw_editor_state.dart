@@ -677,6 +677,7 @@ class QuillRawEditorState extends EditorState
               widget.configurations.customRecognizerBuilder,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
+          composingRange: composingRange.value,
         );
         result.add(
           Directionality(
@@ -725,7 +726,10 @@ class QuillRawEditorState extends EditorState
         MediaQuery.devicePixelRatioOf(context),
         _cursorCont,
         _styles!.inlineCode!,
-        widget.configurations.cursorParagrahPlaceholderConfiguration);
+        composingRange.value,
+        _styles!.paragraph!.style.color!,
+        widget.configurations.cursorParagrahPlaceholderConfiguration,
+    );
     return editableTextLine;
   }
 
@@ -854,6 +858,9 @@ class QuillRawEditorState extends EditorState
     // Floating cursor
     _floatingCursorResetController = AnimationController(vsync: this);
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
+
+    // listen to composing range changes
+    composingRange.addListener(_onComposingRangeChanged);
 
     if (isKeyboardOS) {
       _keyboardVisible = true;
@@ -992,6 +999,7 @@ class QuillRawEditorState extends EditorState
     controller.removeListener(_didChangeTextEditingValueListener);
     widget.configurations.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
+    composingRange.removeListener(_onComposingRangeChanged);
     if (_clipboardStatus != null) {
       _clipboardStatus!
         ..removeListener(_onChangedClipboardStatus)
@@ -1002,6 +1010,13 @@ class QuillRawEditorState extends EditorState
 
   void _updateSelectionOverlayForScroll() {
     _selectionOverlay?.updateForScroll();
+  }
+
+  void _onComposingRangeChanged() {
+    if (!mounted) {
+      return;
+    }
+    _markNeedsBuild();
   }
 
   /// Marks the editor as dirty and trigger a rebuild.
