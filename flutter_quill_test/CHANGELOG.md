@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.6.3
+
+* Fix: Resolved issue with broken IME composing rect in Windows desktop by @agata in https://github.com/singerdmx/flutter-quill/pull/2239
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.2...v10.6.3
+
 ## 10.6.2
 
 * Fix: QuillToolbarToggleStyleButton Switching failure by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2234
