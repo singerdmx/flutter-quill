@@ -296,6 +296,8 @@ class QuillEditorState extends State<QuillEditor>
             key: _editorKey,
             controller: controller,
             configurations: QuillRawEditorConfigurations(
+              cursorParagrahPlaceholderConfiguration:
+                  widget.configurations.cursorParagrahPlaceholderConfiguration,
               placeholderBuilder: PlaceholderBuilder(
                 configuration:
                     widget.configurations.placeholderComponentsConfiguration,

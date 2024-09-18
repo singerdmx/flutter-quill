@@ -36,6 +36,7 @@ import '../../../editor/widgets/default_styles.dart';
 import '../../../editor/widgets/delegate.dart';
 import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
+import '../../widgets/cursor_configuration/cursor_configuration.dart';
 import '../builders/leading_block_builder.dart';
 import '../builders/placeholder/placeholder_builder_internal.dart';
 import 'events/events.dart';
@@ -56,6 +57,7 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.placeholderBuilder,
     @Deprecated(
         'controller should be passed directly to the editor - this parameter will be removed in future versions.')
+    required this.cursorParagrahPlaceholderConfiguration,
     this.controller,
     this.showCursor = true,
     this.scrollable = true,
@@ -164,6 +166,10 @@ class QuillRawEditorConfigurations extends Equatable {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+  /// This argument configure how will be showed the placeholder at right or left of the cursor
+  final CursorParagrahPlaceholderConfiguration
+      cursorParagrahPlaceholderConfiguration;
 
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;

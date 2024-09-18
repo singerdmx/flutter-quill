@@ -680,6 +680,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.devicePixelRatio,
       this.cursorCont,
       this.inlineCodeStyle,
+      this.cursorParagrahPlaceholderConfiguration,
       {super.key});
 
   final Line line;
@@ -687,6 +688,8 @@ class EditableTextLine extends RenderObjectWidget {
   final Widget body;
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
+  final CursorParagrahPlaceholderConfiguration
+      cursorParagrahPlaceholderConfiguration;
   final TextDirection textDirection;
   final TextSelection textSelection;
   final Color color;
@@ -713,7 +716,8 @@ class EditableTextLine extends RenderObjectWidget {
         _getPadding(),
         color,
         cursorCont,
-        inlineCodeStyle);
+        inlineCodeStyle,
+        cursorParagrahPlaceholderConfiguration);
   }
 
   @override
@@ -725,6 +729,8 @@ class EditableTextLine extends RenderObjectWidget {
       ..setTextDirection(textDirection)
       ..setTextSelection(textSelection)
       ..setColor(color)
+      ..setCursorParagraphPlaceholderConfiguration(
+          cursorParagrahPlaceholderConfiguration)
       ..setEnableInteractiveSelection(enableInteractiveSelection)
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
@@ -756,6 +762,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.cursorParagrahPlaceholderConfiguration,
   );
 
   RenderBox? _leading;
@@ -765,6 +772,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   TextSelection textSelection;
   Color color;
   bool enableInteractiveSelection;
+  CursorParagrahPlaceholderConfiguration cursorParagrahPlaceholderConfiguration;
   bool hasFocus = false;
   double devicePixelRatio;
   EdgeInsetsGeometry padding;
@@ -790,6 +798,15 @@ class RenderEditableTextLine extends RenderEditableBox {
       return;
     }
     cursorCont = c;
+    markNeedsLayout();
+  }
+
+  void setCursorParagraphPlaceholderConfiguration(
+      CursorParagrahPlaceholderConfiguration c) {
+    if (cursorParagrahPlaceholderConfiguration == c) {
+      return;
+    }
+    cursorParagrahPlaceholderConfiguration = c;
     markNeedsLayout();
   }
 
@@ -1399,6 +1416,9 @@ class RenderEditableTextLine extends RenderEditableBox {
       effectiveOffset,
       position,
       lineHasEmbed,
+      line,
+      cursorParagrahPlaceholderConfiguration,
+      textDirection,
     );
   }
 

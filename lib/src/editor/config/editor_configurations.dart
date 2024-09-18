@@ -15,6 +15,7 @@ import '../raw_editor/builders/leading_block_builder.dart';
 import '../raw_editor/builders/placeholder/placeholder_configuration.dart';
 import '../raw_editor/config/events/events.dart';
 import '../raw_editor/raw_editor.dart';
+import '../widgets/cursor_configuration/cursor_configuration.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
@@ -39,6 +40,9 @@ class QuillEditorConfigurations extends Equatable {
     this.spaceShortcutEvents = const [],
     this.placeholderComponentsConfiguration =
         const PlaceholderComponentsConfiguration(builders: {}),
+    this.cursorParagrahPlaceholderConfiguration =
+        const CursorParagrahPlaceholderConfiguration(
+            paragraphPlaceholderText: '', style: TextStyle(), show: false),
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
@@ -183,6 +187,10 @@ class QuillEditorConfigurations extends Equatable {
   ///),
   ///```
   final PlaceholderComponentsConfiguration placeholderComponentsConfiguration;
+
+  /// This argument configure how will be showed the placeholder at right or left of the cursor
+  final CursorParagrahPlaceholderConfiguration
+      cursorParagrahPlaceholderConfiguration;
 
   /// Whether the text can be changed.
   ///
@@ -554,6 +562,8 @@ class QuillEditorConfigurations extends Equatable {
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
     QuillEditorBuilder? builder,
+    CursorParagrahPlaceholderConfiguration?
+        cursorParagrahPlaceholderConfiguration,
     TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
@@ -563,6 +573,9 @@ class QuillEditorConfigurations extends Equatable {
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
+      cursorParagrahPlaceholderConfiguration:
+          cursorParagrahPlaceholderConfiguration ??
+              this.cursorParagrahPlaceholderConfiguration,
       placeholderComponentsConfiguration: placeholderComponentsConfiguration ??
           this.placeholderComponentsConfiguration,
       customLeadingBlockBuilder:

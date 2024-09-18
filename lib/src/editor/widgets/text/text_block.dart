@@ -17,6 +17,7 @@ import '../../raw_editor/builders/leading_block_builder.dart';
 import '../../raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import '../box.dart';
 import '../cursor.dart';
+import '../cursor_configuration/cursor_configuration.dart';
 import '../default_leading_components/leading_components.dart';
 import '../default_styles.dart';
 import '../delegate.dart';
@@ -80,6 +81,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.readOnly,
     required this.customRecognizerBuilder,
     required this.placeholderBuilder,
+    required this.cursorParagrahPlaceholderConfiguration,
     this.checkBoxReadOnly,
     this.onLaunchUrl,
     this.customStyleBuilder,
@@ -95,6 +97,8 @@ class EditableTextBlock extends StatelessWidget {
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
   final PlaceholderBuilder placeholderBuilder;
+  final CursorParagrahPlaceholderConfiguration
+      cursorParagrahPlaceholderConfiguration;
   final TextSelection textSelection;
   final Color color;
   final DefaultStyles? styles;
@@ -208,6 +212,7 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
         styles!.inlineCode!,
+        cursorParagrahPlaceholderConfiguration,
       );
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
       children.add(

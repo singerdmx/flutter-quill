@@ -31,6 +31,7 @@ export 'src/editor/spellchecker/spellchecker_service.dart';
 export 'src/editor/spellchecker/spellchecker_service_provider.dart';
 export 'src/editor/style_widgets/style_widgets.dart';
 export 'src/editor/widgets/cursor.dart';
+export 'src/editor/widgets/cursor_configuration/cursor_configuration.dart';
 export 'src/editor/widgets/default_styles.dart';
 export 'src/editor/widgets/link.dart';
 export 'src/editor/widgets/text/utils/text_block_utils.dart';

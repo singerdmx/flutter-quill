@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../../common/utils/platform.dart';
+import '../../document/nodes/line.dart';
 import 'box.dart';
+import 'cursor_configuration/cursor_configuration.dart';
 
 /// Style properties of editing cursor.
 class CursorStyle {
@@ -252,6 +254,7 @@ class CursorPainter {
   final Rect prototype;
   final Color color;
   final double devicePixelRatio;
+  TextPainter? placeholderPainter;
 
   /// Paints cursor on [canvas] at specified [position].
   /// [offset] is global top left (x, y) of text line
@@ -261,6 +264,9 @@ class CursorPainter {
     Offset offset,
     TextPosition position,
     bool lineHasEmbed,
+    Line node,
+    CursorParagrahPlaceholderConfiguration cursorPlaceholderConfiguration,
+    TextDirection textDirection,
   ) {
     // relative (x, y) to global offset
     var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
@@ -325,6 +331,31 @@ class CursorPainter {
       final caretRRect = RRect.fromRectAndRadius(caretRect, style.radius!);
       canvas.drawRRect(caretRRect, paint);
     }
+    // we need to make these checks to avoid use this painter unnecessarily
+    if (cursorPlaceholderConfiguration.show &&
+        cursorPlaceholderConfiguration.paragraphPlaceholderText
+            .trim()
+            .isNotEmpty) {
+      if (_isNodeInline(node) && node.isEmpty) {
+        placeholderPainter ??= TextPainter(
+          text: TextSpan(
+            text: cursorPlaceholderConfiguration.paragraphPlaceholderText,
+            style: cursorPlaceholderConfiguration.style,
+          ),
+          textDirection: textDirection,
+        );
+        placeholderPainter!
+          ..layout()
+          ..paint(canvas, offset + Offset(3.5, (style.height ?? 2) / 2));
+      }
+    }
+  }
+
+  bool _isNodeInline(Line node) {
+    for (final attr in node.style.attributes.values) {
+      if (!attr.isInline) return false;
+    }
+    return true;
   }
 
   Offset _getPixelPerfectCursorOffset(

@@ -124,6 +124,9 @@ class _QuillScreenState extends State<QuillScreen> {
                 child: MyQuillEditor(
                   controller: _controller,
                   configurations: QuillEditorConfigurations(
+                    cursorParagrahPlaceholderConfiguration:
+                        CursorParagrahPlaceholderConfiguration
+                            .withPlaceholder(),
                     placeholderComponentsConfiguration:
                         PlaceholderComponentsConfiguration(
                       builders: {
