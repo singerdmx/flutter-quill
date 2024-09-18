@@ -267,9 +267,8 @@ class _TextLineState extends State<TextLine> {
     LinkedList<Node> nodes,
     TextStyle lineStyle,
   ) {
-    if (nodes.isEmpty && kIsWeb) {
-      nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
-    } else if (nodes.isEmpty) {
+    var addWebNodeIfNeeded = false;
+    if (nodes.isEmpty && widget.placeholderBuilder.builder.isNotEmpty) {
       final (shouldShowNode, attrKey) =
           widget.placeholderBuilder.shouldShowPlaceholder(widget.line);
       if (shouldShowNode) {
@@ -290,6 +289,13 @@ class _TextLineState extends State<TextLine> {
           return TextSpan(children: [widgetSpan], style: lineStyle);
         }
       }
+      // if the [placeholderWidget] is null or shouldShowNode is false
+      // then this line will be executed and avoid non add 
+      // the needed node when the line is empty
+      addWebNodeIfNeeded = true;
+    } 
+    if (nodes.isEmpty && kIsWeb && addWebNodeIfNeeded) {
+      nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
     final children = nodes
         .map((node) =>
