@@ -25,7 +25,6 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/embeddable.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
-import '../../document/style.dart';
 import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../editor.dart';
 import '../widgets/cursor.dart';
@@ -647,6 +646,7 @@ class QuillRawEditorState extends EditorState
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
           block: node,
+          placeholderBuilder: widget.configurations.placeholderBuilder,
           controller: controller,
           customLeadingBlockBuilder: widget.configurations.customLeadingBuilder,
           textDirection: nodeTextDirection,
@@ -699,6 +699,7 @@ class QuillRawEditorState extends EditorState
       line: node,
       textDirection: _textDirection,
       embedBuilder: widget.configurations.embedBuilder,
+      placeholderBuilder: widget.configurations.placeholderBuilder,
       customStyleBuilder: widget.configurations.customStyleBuilder,
       customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
       styles: _styles!,

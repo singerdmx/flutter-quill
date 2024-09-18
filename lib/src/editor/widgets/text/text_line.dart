@@ -16,6 +16,7 @@ import '../../../common/utils/font.dart';
 import '../../../common/utils/platform.dart';
 import '../../../document/nodes/container.dart' as container_node;
 import '../../../document/nodes/leaf.dart' as leaf;
+import '../../raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import '../box.dart';
 import '../delegate.dart';
 import '../keyboard_listener.dart';
@@ -31,6 +32,7 @@ class TextLine extends StatefulWidget {
     required this.controller,
     required this.onLaunchUrl,
     required this.linkActionPicker,
+    required this.placeholderBuilder,
     this.textDirection,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -40,6 +42,7 @@ class TextLine extends StatefulWidget {
 
   final Line line;
   final TextDirection? textDirection;
+  final PlaceholderBuilder placeholderBuilder;
   final EmbedsBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
@@ -266,9 +269,27 @@ class _TextLineState extends State<TextLine> {
   ) {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
-    } else if(nodes.isEmpty && widget.line.style.containsKey('header')){
-      lineStyle = lineStyle.copyWith(color: defaultStyles.placeHolder?.style.color);
-      nodes = LinkedList<Node>()..add(leaf.QuillText('Header Placeholder'));
+    } else if (nodes.isEmpty) {
+      final (shouldShowNode, attrKey) =
+          widget.placeholderBuilder.shouldShowPlaceholder(widget.line);
+      if (shouldShowNode) {
+        final style = _getInlineTextStyle(
+            const Style(), defaultStyles, widget.line.style, false);
+        final placeholderWidget = widget.placeholderBuilder.build(
+          blockAttribute: widget.line.style.attributes[attrKey]!,
+          lineStyle: lineStyle.merge(style),
+          textDirection: widget.textDirection ?? Directionality.of(context),
+        );
+        if (placeholderWidget != null) {
+          final widgetSpan = _getTextSpanFromNode(
+            defaultStyles,
+            leaf.QuillText(),
+            widget.line.style,
+            placeholderWidget: placeholderWidget,
+          );
+          return TextSpan(children: [widgetSpan], style: lineStyle);
+        }
+      }
     }
     final children = nodes
         .map((node) =>
@@ -404,7 +425,11 @@ class _TextLineState extends State<TextLine> {
   }
 
   InlineSpan _getTextSpanFromNode(
-      DefaultStyles defaultStyles, Node node, Style lineStyle) {
+    DefaultStyles defaultStyles,
+    Node node,
+    Style lineStyle, {
+    Widget? placeholderWidget,
+  }) {
     final textNode = node as leaf.QuillText;
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
@@ -420,6 +445,9 @@ class _TextLineState extends State<TextLine> {
               style, defaultStyles);
         }
       }
+    }
+    if (!isLink && placeholderWidget != null) {
+      return WidgetSpan(child: placeholderWidget);
     }
 
     if (!isLink &&

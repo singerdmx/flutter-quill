@@ -88,8 +88,6 @@ class Attribute<T> extends Equatable {
   static const BackgroundAttribute background = BackgroundAttribute(null);
 
   static const PlaceholderAttribute placeholder = PlaceholderAttribute();
-  
-  static const TransparentAttribute transparent = TransparentAttribute();
 
   static const HeaderAttribute header = HeaderAttribute();
 
@@ -352,12 +350,6 @@ class BackgroundAttribute extends Attribute<String?> {
 class PlaceholderAttribute extends Attribute<bool> {
   const PlaceholderAttribute()
       : super('placeholder', AttributeScope.inline, true);
-}
-
-/// This is custom attribute for hint
-class TransparentAttribute extends Attribute<bool> {
-  const TransparentAttribute()
-      : super('transparent', AttributeScope.ignore, true);
 }
 
 class HeaderAttribute extends Attribute<int?> {

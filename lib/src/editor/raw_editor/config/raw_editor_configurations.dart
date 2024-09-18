@@ -37,6 +37,7 @@ import '../../../editor/widgets/delegate.dart';
 import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
 import '../builders/leading_block_builder.dart';
+import '../builders/placeholder/placeholder_builder_internal.dart';
 import 'events/events.dart';
 
 @immutable
@@ -52,6 +53,7 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.autoFocus,
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
+    required this.placeholderBuilder,
     @Deprecated(
         'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     this.controller,
@@ -136,6 +138,10 @@ class QuillRawEditorConfigurations extends Equatable {
   ///);
   ///```
   final List<CharacterShortcutEvent> characterShortcutEvents;
+
+  /// Contains all necessary logic to build the placeholder
+  /// given for the devs
+  final PlaceholderBuilder placeholderBuilder;
 
   /// Contains all the events that will be handled when
   /// space key is pressed

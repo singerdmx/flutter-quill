@@ -124,6 +124,26 @@ class _QuillScreenState extends State<QuillScreen> {
                 child: MyQuillEditor(
                   controller: _controller,
                   configurations: QuillEditorConfigurations(
+                    placeholderBuilder: {
+                      Attribute.header.key: (Attribute attr, style) {
+                        final values = [30, 27, 22];
+                        final level = attr.value as int?;
+                        if (level == null) return null;
+                        final fontSize = values[
+                            (level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
+                        return PlaceholderConfiguration(
+                          placeholderText: 'Header $level',
+                          style: TextStyle(fontSize: fontSize.toDouble())
+                              .merge(style.copyWith(color: Colors.grey)),
+                        );
+                      },
+                      Attribute.list.key: (Attribute attr, style) {
+                        return PlaceholderConfiguration(
+                          placeholderText: 'List item',
+                          style: style.copyWith(color: Colors.grey),
+                        );
+                      },
+                    },
                     characterShortcutEvents: standardCharactersShortcutEvents,
                     spaceShortcutEvents: standardSpaceShorcutEvents,
                     searchConfigurations: const QuillSearchConfigurations(

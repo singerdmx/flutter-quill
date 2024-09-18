@@ -26,13 +26,13 @@ import 'config/editor_configurations.dart';
 import 'editor_builder.dart';
 import 'embed/embed_editor_builder.dart';
 import 'provider.dart';
+import 'raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import 'raw_editor/config/raw_editor_configurations.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
 import 'widgets/cursor.dart';
 import 'widgets/delegate.dart';
 import 'widgets/float_cursor.dart';
-import 'widgets/text/text_line.dart';
 import 'widgets/text/text_selection.dart';
 
 /// Base interface for editable render objects.
@@ -296,6 +296,8 @@ class QuillEditorState extends State<QuillEditor>
             key: _editorKey,
             controller: controller,
             configurations: QuillRawEditorConfigurations(
+              placeholderBuilder: PlaceholderBuilder(
+                  builder: widget.configurations.placeholderBuilder),
               characterShortcutEvents:
                   widget.configurations.characterShortcutEvents,
               spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
@@ -1087,9 +1089,6 @@ class RenderEditor extends RenderEditableContainerBox
   }) {
     final fromPosition = getPositionForOffset(from);
     final toPosition = to == null ? null : getPositionForOffset(to);
-    final child =  childAtPosition(toPosition ?? fromPosition);
-    print(child as RenderEditableTextLine);
-    print(child.line);
 
     var baseOffset = fromPosition.offset;
     var extentOffset = fromPosition.offset;
