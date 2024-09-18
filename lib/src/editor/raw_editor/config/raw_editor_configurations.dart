@@ -55,9 +55,9 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
     required this.placeholderBuilder,
+    this.cursorParagrahPlaceholderConfiguration,
     @Deprecated(
         'controller should be passed directly to the editor - this parameter will be removed in future versions.')
-    required this.cursorParagrahPlaceholderConfiguration,
     this.controller,
     this.showCursor = true,
     this.scrollable = true,
@@ -168,7 +168,7 @@ class QuillRawEditorConfigurations extends Equatable {
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
   /// This argument configure how will be showed the placeholder at right or left of the cursor
-  final CursorParagrahPlaceholderConfiguration
+  final CursorParagrahPlaceholderConfiguration?
       cursorParagrahPlaceholderConfiguration;
 
   /// Additional space around the editor contents.

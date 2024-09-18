@@ -97,7 +97,7 @@ class EditableTextBlock extends StatelessWidget {
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
   final PlaceholderBuilder placeholderBuilder;
-  final CursorParagrahPlaceholderConfiguration
+  final CursorParagrahPlaceholderConfiguration?
       cursorParagrahPlaceholderConfiguration;
   final TextSelection textSelection;
   final Color color;

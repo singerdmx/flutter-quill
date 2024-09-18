@@ -40,9 +40,7 @@ class QuillEditorConfigurations extends Equatable {
     this.spaceShortcutEvents = const [],
     this.placeholderComponentsConfiguration =
         const PlaceholderComponentsConfiguration(builders: {}),
-    this.cursorParagrahPlaceholderConfiguration =
-        const CursorParagrahPlaceholderConfiguration(
-            paragraphPlaceholderText: '', style: TextStyle(), show: false),
+    this.cursorParagrahPlaceholderConfiguration,
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
@@ -189,7 +187,7 @@ class QuillEditorConfigurations extends Equatable {
   final PlaceholderComponentsConfiguration placeholderComponentsConfiguration;
 
   /// This argument configure how will be showed the placeholder at right or left of the cursor
-  final CursorParagrahPlaceholderConfiguration
+  final CursorParagrahPlaceholderConfiguration?
       cursorParagrahPlaceholderConfiguration;
 
   /// Whether the text can be changed.

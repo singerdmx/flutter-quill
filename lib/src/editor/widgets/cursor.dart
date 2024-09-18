@@ -265,7 +265,7 @@ class CursorPainter {
     TextPosition position,
     bool lineHasEmbed,
     Line node,
-    CursorParagrahPlaceholderConfiguration cursorPlaceholderConfiguration,
+    CursorParagrahPlaceholderConfiguration? cursorPlaceholderConfiguration,
     TextDirection textDirection,
   ) {
     // relative (x, y) to global offset
@@ -332,7 +332,7 @@ class CursorPainter {
       canvas.drawRRect(caretRRect, paint);
     }
     // we need to make these checks to avoid use this painter unnecessarily
-    if (cursorPlaceholderConfiguration.show &&
+    if (cursorPlaceholderConfiguration != null && cursorPlaceholderConfiguration.show &&
         cursorPlaceholderConfiguration.paragraphPlaceholderText
             .trim()
             .isNotEmpty) {
