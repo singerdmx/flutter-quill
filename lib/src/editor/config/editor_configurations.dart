@@ -172,7 +172,7 @@ class QuillEditorConfigurations extends Equatable {
   ///     final values = [30, 27, 22];
   ///     final level = attr.value as int?;
   ///     if (level == null) return null;
-  ///       final fontSize = values[values[level - 1]];
+  ///       final fontSize = values[level - 1];
   ///       return PlaceholderConfiguration(
   ///         placeholderText: 'Header $level',
   ///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
