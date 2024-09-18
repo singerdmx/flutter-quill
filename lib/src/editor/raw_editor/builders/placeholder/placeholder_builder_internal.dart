@@ -13,7 +13,7 @@ import '../../../../document/attribute.dart' show Attribute, AttributeScope;
 import '../../../../document/nodes/line.dart';
 import 'placeholder_configuration.dart';
 
-/// This is the black list of the keys that cannot be 
+/// This is the black list of the keys that cannot be
 /// used or permitted by the builder
 final List<String> _blackList = List.unmodifiable(<String>[
   Attribute.align.key,
@@ -47,7 +47,7 @@ class PlaceholderBuilder {
       ...?customBlockAttributesKeys
     }) {
       if (node.style.containsKey(exclusiveKey) &&
-          node.style.attributes[exclusiveKey]?.scope == AttributeScope.block && 
+          node.style.attributes[exclusiveKey]?.scope == AttributeScope.block &&
           !_blackList.contains(exclusiveKey)) {
         shouldShow = true;
         key = exclusiveKey;
