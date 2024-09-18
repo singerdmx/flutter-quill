@@ -643,6 +643,8 @@ class EditableTextLine extends RenderObjectWidget {
       this.devicePixelRatio,
       this.cursorCont,
       this.inlineCodeStyle,
+      this.composingRange,
+      this.composingColor,
       {super.key});
 
   final Line line;
@@ -658,6 +660,8 @@ class EditableTextLine extends RenderObjectWidget {
   final double devicePixelRatio;
   final CursorCont cursorCont;
   final InlineCodeStyle inlineCodeStyle;
+  final TextRange composingRange;
+  final Color composingColor;
 
   @override
   RenderObjectElement createElement() {
@@ -676,7 +680,9 @@ class EditableTextLine extends RenderObjectWidget {
         _getPadding(),
         color,
         cursorCont,
-        inlineCodeStyle);
+        inlineCodeStyle,
+        composingRange,
+        composingColor);
   }
 
   @override
@@ -692,7 +698,8 @@ class EditableTextLine extends RenderObjectWidget {
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
-      ..setInlineCodeStyle(inlineCodeStyle);
+      ..setInlineCodeStyle(inlineCodeStyle)
+      ..setComposingRange(composingRange);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -719,6 +726,8 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.composingRange,
+    this.composingColor,
   );
 
   RenderBox? _leading;
@@ -737,6 +746,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   List<TextBox>? _selectedRects;
   late Rect _caretPrototype;
   InlineCodeStyle inlineCodeStyle;
+  TextRange composingRange;
+  Color composingColor;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
   Iterable<RenderBox> get _children sync* {
@@ -849,6 +860,12 @@ class RenderEditableTextLine extends RenderEditableBox {
   void setInlineCodeStyle(InlineCodeStyle newStyle) {
     if (inlineCodeStyle == newStyle) return;
     inlineCodeStyle = newStyle;
+    markNeedsLayout();
+  }
+
+  void setComposingRange(TextRange newComposingRange) {
+    if (composingRange == newComposingRange) return;
+    composingRange = newComposingRange;
     markNeedsLayout();
   }
 
@@ -1334,6 +1351,11 @@ class RenderEditableTextLine extends RenderEditableBox {
 
         _paintSelection(context, effectiveOffset);
       }
+
+      // Paints an underline to indicate the text being composed by the IME.
+      if (composingRange.isValid) {
+        _paintComposing(context);
+      }
     }
   }
 
@@ -1363,6 +1385,34 @@ class RenderEditableTextLine extends RenderEditableBox {
       position,
       lineHasEmbed,
     );
+  }
+
+  // Paints a line below the composing text.
+  void _paintComposing(PaintingContext context) {
+    assert(composingRange.isValid);
+    final composingStart = composingRange.start - line.documentOffset;
+    final composingEnd = composingRange.end - line.documentOffset;
+    if (composingStart < 0 || composingEnd < 0) {
+      return;
+    }
+    final composingRects = _body!.getBoxesForSelection(
+      TextSelection(
+        baseOffset: composingStart,
+        extentOffset: composingEnd,
+      ),
+    );
+    final paint = Paint()
+      ..color = composingColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+    for (final box in composingRects) {
+      final rect = box.toRect();
+      context.canvas.drawLine(
+        rect.bottomLeft.translate(0, -5),
+        rect.bottomRight.translate(0, -5),
+        paint,
+      );
+    }
   }
 
   @override
