@@ -131,14 +131,14 @@ class _QuillScreenState extends State<QuillScreen> {
                         if (level == null) return null;
                         final fontSize = values[
                             (level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
-                        return PlaceholderConfiguration(
+                        return PlaceholderArguments(
                           placeholderText: 'Header $level',
                           style: TextStyle(fontSize: fontSize.toDouble())
                               .merge(style.copyWith(color: Colors.grey)),
                         );
                       },
                       Attribute.list.key: (Attribute attr, style) {
-                        return PlaceholderConfiguration(
+                        return PlaceholderArguments(
                           placeholderText: 'List item',
                           style: style.copyWith(color: Colors.grey),
                         );

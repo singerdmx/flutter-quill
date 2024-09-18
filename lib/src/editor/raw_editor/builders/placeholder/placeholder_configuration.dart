@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart' show TextStyle, immutable;
 import '../../../../document/attribute.dart';
 
-typedef PlaceholderConfigurationBuilder = PlaceholderConfiguration? Function(
+typedef PlaceholderConfigurationBuilder = PlaceholderArguments? Function(
     Attribute, TextStyle);
 
 @immutable
-
-/// Represents the configurations that builds how will
-/// be displayed the placeholder text
-class PlaceholderConfiguration {
-  const PlaceholderConfiguration({
+/// Represents the arguments that builds the text that will
+/// be displayed
+class PlaceholderArguments {
+  const PlaceholderArguments({
     required this.placeholderText,
     required this.style,
   });
