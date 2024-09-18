@@ -97,7 +97,7 @@ class EditableTextBlock extends StatelessWidget {
   final double scrollBottomInset;
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
-  final PlaceholderBuilder placeholderBuilder;
+  final PlaceholderBuilder? placeholderBuilder;
   final CursorParagrahPlaceholderConfiguration?
       cursorParagrahPlaceholderConfiguration;
   final TextSelection textSelection;

@@ -38,8 +38,7 @@ class QuillEditorConfigurations extends Equatable {
     this.padding = EdgeInsets.zero,
     this.characterShortcutEvents = const [],
     this.spaceShortcutEvents = const [],
-    this.placeholderComponentsConfiguration =
-        const PlaceholderComponentsConfiguration(builders: {}),
+    this.placeholderComponentsConfiguration,
     this.cursorParagrahPlaceholderConfiguration,
     this.autoFocus = false,
     this.expands = false,
@@ -160,6 +159,8 @@ class QuillEditorConfigurations extends Equatable {
 
   /// Whether the line is empty, this let us add a placeholder
   ///
+  /// _Note: these placeholders are limited only to lines with block styles_
+  ///
   /// ### Example
   ///
   /// Assume that you want to show only a placeholder text for the header items,
@@ -184,7 +185,7 @@ class QuillEditorConfigurations extends Equatable {
   /// customBlockAttributesKeys: null,
   ///),
   ///```
-  final PlaceholderComponentsConfiguration placeholderComponentsConfiguration;
+  final PlaceholderComponentsConfiguration? placeholderComponentsConfiguration;
 
   /// This argument configure how will be showed the placeholder at right or left of the cursor
   final CursorParagrahPlaceholderConfiguration?
