@@ -10,6 +10,8 @@ import '../../document/document.dart';
 import '../../document/nodes/block.dart';
 import '../../document/nodes/leaf.dart' as leaf;
 import '../../document/nodes/line.dart';
+import '../raw_editor/config/events/character_shortcuts_events.dart';
+import '../raw_editor/config/events/space_shortcut_events.dart';
 import 'default_single_activator_actions.dart';
 import 'keyboard_listener.dart';
 
@@ -22,7 +24,8 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
     required this.controller,
     required this.readOnly,
     required this.enableAlwaysIndentOnTab,
-    required this.enableMdConversion,
+    required this.characterEvents,
+    required this.spaceEvents,
     this.customShortcuts,
     this.customActions,
     super.key,
@@ -30,8 +33,9 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
 
   final bool readOnly;
   final bool enableAlwaysIndentOnTab;
-  final bool enableMdConversion;
   final QuillController controller;
+  final List<CharacterShortcutEvent> characterEvents;
+  final List<SpaceShortcutEvent> spaceEvents;
   final Map<ShortcutActivator, Intent>? customShortcuts;
   final Map<Type, Action<Intent>>? customActions;
   final Map<Type, Action<Intent>> actions;
@@ -74,22 +78,38 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
       return KeyEventResult.ignored;
     }
 
+    final isTab = event.logicalKey == LogicalKeyboardKey.tab;
+    final isSpace = event.logicalKey == LogicalKeyboardKey.space;
+    final containsSelection =
+        controller.selection.baseOffset != controller.selection.extentOffset;
+    if (!isTab && !isSpace && event.character != '\n' && !containsSelection) {
+      for (final charEvents in characterEvents) {
+        if (event.character != null &&
+            event.character == charEvents.character) {
+          final executed = charEvents.execute(controller);
+          if (executed) {
+            return KeyEventResult.handled;
+          }
+        }
+      }
+    }
+
     if (event is! KeyDownEvent) {
       return KeyEventResult.ignored;
     }
     // Handle indenting blocks when pressing the tab key.
-    if (event.logicalKey == LogicalKeyboardKey.tab) {
+    if (isTab) {
       return _handleTabKey(event);
     }
 
     // Don't handle key if there is an active selection.
-    if (controller.selection.baseOffset != controller.selection.extentOffset) {
+    if (containsSelection) {
       return KeyEventResult.ignored;
     }
 
     // Handle inserting lists when space is pressed following
     // a list initiating phrase.
-    if (event.logicalKey == LogicalKeyboardKey.space) {
+    if (isSpace) {
       return _handleSpaceKey(event);
     }
 
@@ -113,14 +133,15 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
       return KeyEventResult.ignored;
     }
 
-    const olKeyPhrase = '1.';
-    const ulKeyPhrase = '-';
-
-    if (text.value == olKeyPhrase && enableMdConversion) {
-      _updateSelectionForKeyPhrase(olKeyPhrase, Attribute.ol);
-    } else if (text.value == ulKeyPhrase && enableMdConversion) {
-      _updateSelectionForKeyPhrase(ulKeyPhrase, Attribute.ul);
-    } else {
+    if (spaceEvents.isNotEmpty) {
+      for (final spaceEvent in spaceEvents) {
+        if (spaceEvent.character == text.value) {
+          final executed = spaceEvent.execute(text, controller);
+          if (executed) return KeyEventResult.handled;
+        }
+      }
+      return KeyEventResult.ignored;
+    } else if (spaceEvents.isEmpty) {
       return KeyEventResult.ignored;
     }
 
@@ -139,7 +160,14 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
         controller.indentSelection(!HardwareKeyboard.instance.isShiftPressed);
       } else {
         controller.replaceText(controller.selection.baseOffset, 0, '\t', null);
-        _moveCursor(1);
+        final selection = controller.selection;
+        controller.updateSelection(
+          controller.selection.copyWith(
+            baseOffset: selection.baseOffset + 1,
+            extentOffset: selection.baseOffset + 1,
+          ),
+          ChangeSource.local,
+        );
       }
       return KeyEventResult.handled;
     }
@@ -190,33 +218,5 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
     }
 
     return insertTabCharacter();
-  }
-
-  void _moveCursor(int chars) {
-    final selection = controller.selection;
-    controller.updateSelection(
-        controller.selection.copyWith(
-            baseOffset: selection.baseOffset + chars,
-            extentOffset: selection.baseOffset + chars),
-        ChangeSource.local);
-  }
-
-  void _updateSelectionForKeyPhrase(String phrase, Attribute attribute) {
-    controller.replaceText(controller.selection.baseOffset - phrase.length,
-        phrase.length, '\n', null);
-    _moveCursor(-phrase.length);
-    controller
-      ..formatSelection(attribute)
-      // Remove the added newline.
-      ..replaceText(controller.selection.baseOffset + 1, 1, '', null);
-    //
-    final style =
-        controller.document.collectStyle(controller.selection.baseOffset, 0);
-    if (style.isNotEmpty) {
-      for (final attr in style.values) {
-        controller.formatSelection(attr);
-      }
-      controller.formatSelection(attribute);
-    }
   }
 }

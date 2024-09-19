@@ -58,10 +58,12 @@ You can join our [Slack Group] for discussion.
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Conversion to HTML](#-conversion-to-html)
 - [📝 Spelling checker](#-spelling-checker)
+- [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
 - [🤝 Contributing](#-contributing)
 - [📜 Acknowledgments](#-acknowledgments)
+
 
 ## 📸 Screenshots
 
@@ -316,9 +318,8 @@ work as expected**, due to differences between **HTML** and **Delta**, see
 The following packages can be used:
 
 1. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
-   to HTML.
-2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To Convert **HTML** to *
-   *Delta**.
+   to **HTML**.
+2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To convert **HTML** to **Delta**.
 3. [`flutter_quill_to_pdf`](https://pub.dev/packages/flutter_quill_to_pdf): To convert **Delta** To **PDF**.
 4. [`markdown_quill`](https://pub.dev/packages/markdown_quill): To convert **Markdown** To **Delta** and vice versa.
 
@@ -329,6 +330,16 @@ While spell-checking is not a feature that's implemented into the project, it ca
 It's implemented using the package `simple_spell_checker` in the [Example](./example/).
 
 Take a look at [Spelling Checker](./doc/spell_checker.md) page for more info.
+
+## ✂️ Shortcut events
+
+We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfigurations` to add more functionality to our editor. 
+
+> [!NOTE]
+>
+> You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents` 
+
+To see an example of this, you can check [customizing_shortcuts](./doc/customizing_shortcuts.md)
 
 ## 🌐 Translation
 

@@ -31,6 +31,7 @@ class TextLine extends StatefulWidget {
     required this.controller,
     required this.onLaunchUrl,
     required this.linkActionPicker,
+    required this.composingRange,
     this.textDirection,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -49,6 +50,7 @@ class TextLine extends StatefulWidget {
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
+  final TextRange composingRange;
 
   @override
   State<TextLine> createState() => _TextLineState();
@@ -267,12 +269,68 @@ class _TextLineState extends State<TextLine> {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
-    final children = nodes
-        .map((node) =>
-            _getTextSpanFromNode(defaultStyles, node, widget.line.style))
-        .toList(growable: false);
+
+    final isComposingRangeOutOfLine = !widget.composingRange.isValid ||
+        widget.composingRange.isCollapsed ||
+        (widget.composingRange.start < widget.line.documentOffset ||
+            widget.composingRange.end >
+                widget.line.documentOffset + widget.line.length);
+
+    if (isComposingRangeOutOfLine) {
+      final children = nodes
+          .map((node) =>
+              _getTextSpanFromNode(defaultStyles, node, widget.line.style))
+          .toList(growable: false);
+      return TextSpan(children: children, style: lineStyle);
+    }
+
+    final children = nodes.expand((node) {
+      final child =
+          _getTextSpanFromNode(defaultStyles, node, widget.line.style);
+      final isNodeInComposingRange =
+          node.documentOffset <= widget.composingRange.start &&
+              widget.composingRange.end <= node.documentOffset + node.length;
+      if (isNodeInComposingRange) {
+        return _splitAndApplyComposingStyle(node, child);
+      } else {
+        return [child];
+      }
+    }).toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
+  }
+
+  // split the text nodes into composing and non-composing nodes
+  // and apply the composing style to the composing nodes
+  List<InlineSpan> _splitAndApplyComposingStyle(Node node, InlineSpan child) {
+    assert(widget.composingRange.isValid && !widget.composingRange.isCollapsed);
+
+    final composingStart = widget.composingRange.start - node.documentOffset;
+    final composingEnd = widget.composingRange.end - node.documentOffset;
+    final text = child.toPlainText();
+
+    final textBefore = text.substring(0, composingStart);
+    final textComposing = text.substring(composingStart, composingEnd);
+    final textAfter = text.substring(composingEnd);
+
+    final composingStyle = child.style
+            ?.merge(const TextStyle(decoration: TextDecoration.underline)) ??
+        const TextStyle(decoration: TextDecoration.underline);
+
+    return [
+      TextSpan(
+        text: textBefore,
+        style: child.style,
+      ),
+      TextSpan(
+        text: textComposing,
+        style: composingStyle,
+      ),
+      TextSpan(
+        text: textAfter,
+        style: child.style,
+      ),
+    ];
   }
 
   TextStyle _getLineStyle(DefaultStyles defaultStyles) {

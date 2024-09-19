@@ -375,9 +375,7 @@ class QuillController extends ChangeNotifier {
     Attribute? attribute, {
     bool shouldNotifyListeners = true,
   }) {
-    if (len == 0 &&
-        attribute!.isInline &&
-        attribute.key != Attribute.link.key) {
+    if (len == 0 && attribute!.key != Attribute.link.key) {
       // Add the attribute to our toggledStyle.
       // It will be used later upon insertion.
       toggledStyle = toggledStyle.put(attribute);
@@ -603,7 +601,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// Internal method to allow unit testing
+  @visibleForTesting
   bool pasteUsingPlainOrDelta(String? clipboardText) {
     if (clipboardText != null) {
       /// Internal copy-paste preserves styles and embeds

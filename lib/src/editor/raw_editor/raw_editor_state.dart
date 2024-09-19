@@ -532,14 +532,14 @@ class QuillRawEditorState extends EditorState
         data: _styles!,
         child: QuillKeyboardServiceWidget(
           actions: _actions,
+          characterEvents: widget.configurations.characterShortcutEvents,
+          spaceEvents: widget.configurations.spaceShortcutEvents,
           constraints: constraints,
           focusNode: widget.configurations.focusNode,
           controller: controller,
           readOnly: widget.configurations.readOnly,
           enableAlwaysIndentOnTab:
               widget.configurations.enableAlwaysIndentOnTab,
-          enableMdConversion:
-              widget.configurations.enableMarkdownStyleConversion,
           customShortcuts: widget.configurations.customShortcuts,
           customActions: widget.configurations.customActions,
           child: child,
@@ -674,6 +674,7 @@ class QuillRawEditorState extends EditorState
               widget.configurations.customRecognizerBuilder,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
+          composingRange: composingRange.value,
         );
         result.add(
           Directionality(
@@ -706,6 +707,7 @@ class QuillRawEditorState extends EditorState
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.configurations.onLaunchUrl,
       customLinkPrefixes: widget.configurations.customLinkPrefixes,
+      composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
         node,
@@ -850,6 +852,9 @@ class QuillRawEditorState extends EditorState
     _floatingCursorResetController = AnimationController(vsync: this);
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
 
+    // listen to composing range changes
+    composingRange.addListener(_onComposingRangeChanged);
+
     if (isKeyboardOS) {
       _keyboardVisible = true;
     } else if (!kIsWeb && isFlutterTest) {
@@ -987,6 +992,7 @@ class QuillRawEditorState extends EditorState
     controller.removeListener(_didChangeTextEditingValueListener);
     widget.configurations.focusNode.removeListener(_handleFocusChanged);
     _cursorCont.dispose();
+    composingRange.removeListener(_onComposingRangeChanged);
     if (_clipboardStatus != null) {
       _clipboardStatus!
         ..removeListener(_onChangedClipboardStatus)
@@ -997,6 +1003,13 @@ class QuillRawEditorState extends EditorState
 
   void _updateSelectionOverlayForScroll() {
     _selectionOverlay?.updateForScroll();
+  }
+
+  void _onComposingRangeChanged() {
+    if (!mounted) {
+      return;
+    }
+    _markNeedsBuild();
   }
 
   /// Marks the editor as dirty and trigger a rebuild.

@@ -4,6 +4,49 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.6.5
+
+* Refine IME composing range styling by applying underline as text style by @agata in https://github.com/singerdmx/flutter-quill/pull/2244
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.4...v10.6.5
+
+## 10.6.4
+
+* fix: the composing text did not show an underline during IME conversion by @agata in https://github.com/singerdmx/flutter-quill/pull/2242
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.3...v10.6.4
+
+## 10.6.3
+
+* Fix: Resolved issue with broken IME composing rect in Windows desktop by @agata in https://github.com/singerdmx/flutter-quill/pull/2239
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.2...v10.6.3
+
+## 10.6.2
+
+* Fix: QuillToolbarToggleStyleButton Switching failure by @AtlasAutocode in https://github.com/singerdmx/flutter-quill/pull/2234
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.1...v10.6.2
+
+## 10.6.1
+
+* Chore: update `flutter_quill_delta_from_html` to remove exception calls by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2232
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.0...v10.6.1
+
+## 10.6.0
+
+* docs: cleanup the docs, remove outdated resources, general changes by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2227
+* Feat: customizable character and space shortcut events by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2228
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.5.19...v10.6.0
+
 ## 10.5.19
 
 * fix: properties other than 'style' for custom inline code styles (such as 'backgroundColor') were not being applied correctly by @agata in https://github.com/singerdmx/flutter-quill/pull/2226
