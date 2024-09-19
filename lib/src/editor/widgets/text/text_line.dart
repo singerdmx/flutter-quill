@@ -282,7 +282,7 @@ class _TextLineState extends State<TextLine> {
       if (placeholderWidget != null) {
         final widgetSpan = _getTextSpanFromNode(
           defaultStyles,
-          leaf.QuillText(),
+          leaf.QuillText(''),
           widget.line.style,
           placeholderWidget: placeholderWidget,
         );
@@ -453,7 +453,7 @@ class _TextLineState extends State<TextLine> {
       }
     }
     if (placeholderWidget != null) {
-      return WidgetSpan(child: placeholderWidget);
+      return WidgetSpan(child: placeholderWidget, style: style);
     }
 
     if (!isLink &&
