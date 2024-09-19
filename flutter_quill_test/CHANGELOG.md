@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.6.5
+
+* Refine IME composing range styling by applying underline as text style by @agata in https://github.com/singerdmx/flutter-quill/pull/2244
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.4...v10.6.5
+
 ## 10.6.4
 
 * fix: the composing text did not show an underline during IME conversion by @agata in https://github.com/singerdmx/flutter-quill/pull/2242
