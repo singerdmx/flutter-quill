@@ -5,7 +5,6 @@ import '../../../../controller/quill_controller.dart';
 import '../../../../document/attribute.dart';
 import '../../../../document/nodes/leaf.dart' as leaf;
 import '../../../../document/nodes/line.dart';
-import 'character_shortcuts_events.dart';
 import 'space_shortcut_events.dart';
 
 part 'soft_keyboard_shortcut_support_internal.dart';
@@ -16,41 +15,36 @@ part 'soft_keyboard_shortcut_support_internal.dart';
 /// Emulation is based on diff between delta, so it happens after the change
 /// is committed to the document rather than on key press.
 class QuillSoftKeyboardShortcutSupport {
-  QuillSoftKeyboardShortcutSupport({
-    required QuillController controller,
-    required List<SpaceShortcutEvent> spaceEvents,
-    required List<CharacterShortcutEvent> characterEvents,
-  })  : _controller = controller,
-        _spaceEvents = spaceEvents,
-        _characterEvents = characterEvents;
+  QuillSoftKeyboardShortcutSupport._();
 
-  final List<SpaceShortcutEvent> _spaceEvents;
-  final List<CharacterShortcutEvent> _characterEvents;
-  final QuillController _controller;
+  static bool onNewChar(Delta diffDelta, QuillController controller) {
+    assert(isSupported, assertMessage);
 
-  bool onNewChar(Delta diffDelta) {
+    final spaceEvents = controller.editorConfigurations.spaceShortcutEvents;
+    final characterEvents =
+        controller.editorConfigurations.characterShortcutEvents;
     final containsSelection =
-        _controller.selection.baseOffset != _controller.selection.extentOffset;
+        controller.selection.baseOffset != controller.selection.extentOffset;
 
     final keyPressed = _lastSingleChar(diffDelta);
     if (keyPressed == ' ') {
       final result = _handleSpaceKey(
-        _controller,
-        _spaceEvents,
+        controller,
+        spaceEvents,
       );
 
       if (result) {
-        _controller.removeLastChar();
+        controller.removeLastChar();
 
         return true;
       }
     } else if (keyPressed != null && keyPressed != '\n' && !containsSelection) {
-      for (final charEvents in _characterEvents) {
+      for (final charEvents in characterEvents) {
         if (keyPressed == charEvents.character) {
-          final executed = charEvents.execute(_controller);
+          final executed = charEvents.execute(controller);
 
           if (executed) {
-            _controller.removeLastChar(endFormatting: true);
+            controller.removeLastChar(endFormatting: true);
 
             return true;
           }

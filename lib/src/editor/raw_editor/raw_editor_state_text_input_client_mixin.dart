@@ -213,7 +213,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
       widget.controller.updateSelection(value.selection, ChangeSource.local);
     } else {
-      widget.controller.replaceText(
+      widget.controller.replaceTextInternal(
         diff.start,
         diff.deleted.length,
         diff.inserted,

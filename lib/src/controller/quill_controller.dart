@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart' show experimental;
+import 'package:meta/meta.dart' show experimental, internal;
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
@@ -46,8 +46,9 @@ class QuillController extends ChangeNotifier {
       initializeWebPasteEvent();
     }
 
-    if (QuillSoftKeyboardShortcutSupport.isSupported) {
-      _maybeEnableSoftKeyboard();
+    if (editorConfigurations.softKeyboardShortcutSupport) {
+      assert(QuillSoftKeyboardShortcutSupport.isSupported,
+          QuillSoftKeyboardShortcutSupport.assertMessage);
     }
   }
 
@@ -62,20 +63,6 @@ class QuillController extends ChangeNotifier {
         selection: const TextSelection.collapsed(offset: 0),
       );
 
-  void _maybeEnableSoftKeyboard() {
-    assert(QuillSoftKeyboardShortcutSupport.isSupported,
-        QuillSoftKeyboardShortcutSupport.assertMessage);
-    if (editorConfigurations.softKeyboardShortcutSupport) {
-      _softKeyboardShortcutSupport ??= QuillSoftKeyboardShortcutSupport(
-        controller: this,
-        spaceEvents: editorConfigurations.spaceShortcutEvents,
-        characterEvents: editorConfigurations.characterShortcutEvents,
-      );
-    } else {
-      _softKeyboardShortcutSupport = null;
-    }
-  }
-
   final QuillControllerConfigurations configurations;
 
   /// Editor configurations
@@ -87,8 +74,9 @@ class QuillController extends ChangeNotifier {
   set editorConfigurations(QuillEditorConfigurations? value) {
     _editorConfigurations = document.editorConfigurations = value;
 
-    if (QuillSoftKeyboardShortcutSupport.isSupported) {
-      _maybeEnableSoftKeyboard();
+    if (editorConfigurations.softKeyboardShortcutSupport) {
+      assert(QuillSoftKeyboardShortcutSupport.isSupported,
+          QuillSoftKeyboardShortcutSupport.assertMessage);
     }
   }
 
@@ -103,8 +91,6 @@ class QuillController extends ChangeNotifier {
 
   /// Document managed by this controller.
   Document _document;
-
-  QuillSoftKeyboardShortcutSupport? _softKeyboardShortcutSupport;
 
   Document get document => _document;
 
@@ -315,6 +301,25 @@ class QuillController extends ChangeNotifier {
     TextSelection? textSelection, {
     bool ignoreFocus = false,
     bool shouldNotifyListeners = true,
+  }) {
+    replaceTextInternal(
+      index,
+      len,
+      data,
+      textSelection,
+      ignoreFocus: ignoreFocus,
+      shouldNotifyListeners: shouldNotifyListeners,
+    );
+  }
+
+  @internal
+  void replaceTextInternal(
+    int index,
+    int len,
+    Object? data,
+    TextSelection? textSelection, {
+    bool ignoreFocus = false,
+    bool shouldNotifyListeners = true,
     bool isInputClient = false,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
@@ -387,11 +392,10 @@ class QuillController extends ChangeNotifier {
 
     if (delta != null &&
         isNewCharDelta &&
-        _softKeyboardShortcutSupport != null &&
         editorConfigurations.softKeyboardShortcutSupport) {
       assert(QuillSoftKeyboardShortcutSupport.isSupported,
           QuillSoftKeyboardShortcutSupport.assertMessage);
-      _softKeyboardShortcutSupport!.onNewChar(delta);
+      QuillSoftKeyboardShortcutSupport.onNewChar(delta, this);
     }
   }
 
