@@ -461,6 +461,7 @@ class QuillEditorConfigurations extends Equatable {
 
   /// Simulates key presses by calculating diff between deltas
   /// should only be used in Android/iOS apps
+  @experimental
   final bool softKeyboardShortcutSupport;
 
   @override
@@ -533,7 +534,7 @@ class QuillEditorConfigurations extends Equatable {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
-    bool? softKeyboardShortcutSupport,
+    @experimental bool? softKeyboardShortcutSupport,
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,

@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart' show experimental, internal;
+import 'package:meta/meta.dart' show experimental;
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
@@ -301,26 +301,7 @@ class QuillController extends ChangeNotifier {
     TextSelection? textSelection, {
     bool ignoreFocus = false,
     bool shouldNotifyListeners = true,
-  }) {
-    replaceTextInternal(
-      index,
-      len,
-      data,
-      textSelection,
-      ignoreFocus: ignoreFocus,
-      shouldNotifyListeners: shouldNotifyListeners,
-    );
-  }
-
-  @internal
-  void replaceTextInternal(
-    int index,
-    int len,
-    Object? data,
-    TextSelection? textSelection, {
-    bool ignoreFocus = false,
-    bool shouldNotifyListeners = true,
-    bool isInputClient = false,
+    @experimental bool isInputClient = false,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
 
