@@ -195,6 +195,7 @@ class EditableTextBlock extends StatelessWidget {
           onLaunchUrl: onLaunchUrl,
           customLinkPrefixes: customLinkPrefixes,
           customRecognizerBuilder: customRecognizerBuilder,
+          composingRange: composingRange,
         ),
         indentWidthBuilder(block, context, count, numberPointWidthBuilder),
         _getSpacingForLine(line, index, count, defaultStyles),
@@ -206,8 +207,6 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
         styles!.inlineCode!,
-        composingRange,
-        styles!.paragraph!.style.color!,
       );
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
       children.add(
