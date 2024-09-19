@@ -46,25 +46,6 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Code sample
-      description: |
-        Please create a minimal reproducible sample that shows the problem
-        and attach it below between the lines with the backticks.
-
-        Alternatively, you can use https://dartpad.dev/ or create a public GitHub
-        repository to share your sample.
-      value: |
-        <details><summary>Code sample</summary>
-
-        ```dart
-        [Paste your code here]
-        ```
-
-        </details>
-    validations:
-      required: false
-  - type: textarea
-    attributes:
       label: Additional Context
       description: |
         Include additional information such as Screenshots or Logs if needed.
