@@ -28,42 +28,37 @@ class QuillSoftKeyboardShortcutSupport {
   final List<CharacterShortcutEvent> _characterEvents;
   final QuillController _controller;
 
-  Delta? lastDelta;
-  void onNewChar() {
-    final currentDelta = _controller.document.toDelta();
+  bool onNewChar(Delta diffDelta) {
     final containsSelection =
         _controller.selection.baseOffset != _controller.selection.extentOffset;
-    if (lastDelta != null) {
-      final diffDelta = lastDelta!.diff(currentDelta);
-      final keyPressed = _lastSingleChar(diffDelta);
-      if (keyPressed == ' ') {
-        final result = _handleSpaceKey(
-          _controller,
-          _spaceEvents,
-        );
 
-        if (result) {
-          _controller.removeLastChar();
-          lastDelta = _controller.document.toDelta();
-          return;
-        }
-      } else if (keyPressed != null &&
-          keyPressed != '\n' &&
-          !containsSelection) {
-        for (final charEvents in _characterEvents) {
-          if (keyPressed == charEvents.character) {
-            final executed = charEvents.execute(_controller);
+    final keyPressed = _lastSingleChar(diffDelta);
+    if (keyPressed == ' ') {
+      final result = _handleSpaceKey(
+        _controller,
+        _spaceEvents,
+      );
 
-            if (executed) {
-              _controller.removeLastChar(endFormatting: true);
-              lastDelta = _controller.document.toDelta();
-              return;
-            }
+      if (result) {
+        _controller.removeLastChar();
+
+        return true;
+      }
+    } else if (keyPressed != null && keyPressed != '\n' && !containsSelection) {
+      for (final charEvents in _characterEvents) {
+        if (keyPressed == charEvents.character) {
+          final executed = charEvents.execute(_controller);
+
+          if (executed) {
+            _controller.removeLastChar(endFormatting: true);
+
+            return true;
           }
         }
       }
     }
-    lastDelta = currentDelta;
+
+    return false;
   }
 
   static String? _lastSingleChar(Delta diff) {

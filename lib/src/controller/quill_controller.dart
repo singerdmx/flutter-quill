@@ -66,20 +66,13 @@ class QuillController extends ChangeNotifier {
     assert(QuillSoftKeyboardShortcutSupport.isSupported,
         QuillSoftKeyboardShortcutSupport.assertMessage);
     if (editorConfigurations.softKeyboardShortcutSupport) {
-      if (_softKeyboardShortcutSupport == null) {
-        _softKeyboardShortcutSupport = QuillSoftKeyboardShortcutSupport(
-          controller: this,
-          spaceEvents: editorConfigurations.spaceShortcutEvents,
-          characterEvents: editorConfigurations.characterShortcutEvents,
-        );
-        addListener(_softKeyboardShortcutSupport!.onNewChar);
-      }
+      _softKeyboardShortcutSupport ??= QuillSoftKeyboardShortcutSupport(
+        controller: this,
+        spaceEvents: editorConfigurations.spaceShortcutEvents,
+        characterEvents: editorConfigurations.characterShortcutEvents,
+      );
     } else {
-      final existingOnNewChar = _softKeyboardShortcutSupport?.onNewChar;
-      if (existingOnNewChar != null) {
-        removeListener(existingOnNewChar);
-        _softKeyboardShortcutSupport = null;
-      }
+      _softKeyboardShortcutSupport = null;
     }
   }
 
@@ -322,6 +315,7 @@ class QuillController extends ChangeNotifier {
     TextSelection? textSelection, {
     bool ignoreFocus = false,
     bool shouldNotifyListeners = true,
+    bool isInputClient = false,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
 
@@ -331,8 +325,12 @@ class QuillController extends ChangeNotifier {
 
     Delta? delta;
     Style? style;
+    var isNewCharDelta = false;
     if (len > 0 || data is! String || data.isNotEmpty) {
       delta = document.replace(index, len, data);
+      if (isInputClient && len == 0 && data is String && data.length == 1) {
+        isNewCharDelta = true;
+      }
 
       /// Remove block styles as they can only be attached to line endings
       style = Style.attr(Map<String, Attribute>.fromEntries(toggledStyle
@@ -386,6 +384,15 @@ class QuillController extends ChangeNotifier {
       notifyListeners();
     }
     ignoreFocusOnTextChange = false;
+
+    if (delta != null &&
+        isNewCharDelta &&
+        _softKeyboardShortcutSupport != null &&
+        editorConfigurations.softKeyboardShortcutSupport) {
+      assert(QuillSoftKeyboardShortcutSupport.isSupported,
+          QuillSoftKeyboardShortcutSupport.assertMessage);
+      _softKeyboardShortcutSupport!.onNewChar(delta);
+    }
   }
 
   /// Called in two cases:
@@ -507,12 +514,6 @@ class QuillController extends ChangeNotifier {
 
   @override
   void dispose() {
-    final onNewChar = _softKeyboardShortcutSupport?.onNewChar;
-    if (onNewChar != null) {
-      removeListener(onNewChar);
-      _softKeyboardShortcutSupport = null;
-    }
-
     if (!_isDisposed) {
       document.close();
     }

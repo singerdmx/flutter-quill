@@ -218,6 +218,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         diff.deleted.length,
         diff.inserted,
         value.selection,
+        isInputClient: true,
       );
     }
   }
