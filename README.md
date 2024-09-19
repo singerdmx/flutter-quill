@@ -114,11 +114,12 @@ The `flutter_quill` package uses the following plugins:
 
 ### Android Configuration for `quill_native_bridge`
 
-To support copying images to the clipboard, you need to configure your Android project.
+To support copying images to the clipboard to be accessed by other apps, you need to configure your Android project.
 If not set up, a warning will appear in the log during debug mode only.
 
 > [!TIP]
 > This is only required on **Android** for this optional feature.
+> You should be able to copy images and paste them inside the editor without any additional configuration.
 
 **1. Update `AndroidManifest.xml`**
 
