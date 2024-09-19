@@ -4,7 +4,7 @@ final MagnifierController _magnifierController = MagnifierController();
 
 /// Restore the selection context menu after the magnifier is dismissed.
 /// Fix: https://github.com/singerdmx/flutter-quill/issues/2046
-bool _restoreToolbar = false;
+bool _restoreToolbarAfterMagnifier = false;
 
 extension EditorTextSelectionOverlayMagnifierExt on EditorTextSelectionOverlay {
   // build magnifier info
@@ -44,10 +44,10 @@ extension EditorTextSelectionOverlayMagnifierExt on EditorTextSelectionOverlay {
   void _showMagnifier(MagnifierInfo initialMagnifierInfo) {
     // Hide toolbar
     if (toolbar != null) {
-      _restoreToolbar = true;
+      _restoreToolbarAfterMagnifier = true;
       hideToolbar();
     } else {
-      _restoreToolbar = false;
+      _restoreToolbarAfterMagnifier = false;
     }
 
     // Update magnifier Info
@@ -108,8 +108,8 @@ extension EditorTextSelectionOverlayMagnifierExt on EditorTextSelectionOverlay {
       return;
     }
     _magnifierController.hide();
-    if (_restoreToolbar) {
-      _restoreToolbar = false;
+    if (_restoreToolbarAfterMagnifier) {
+      _restoreToolbarAfterMagnifier = false;
       showToolbar();
     }
   }
