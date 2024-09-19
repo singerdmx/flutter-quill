@@ -34,6 +34,8 @@ import 'widgets/delegate.dart';
 import 'widgets/float_cursor.dart';
 import 'widgets/text/text_selection.dart';
 
+part './magnifier/quill_editor_magnifier_ext.dart';
+
 /// Base interface for editable render objects.
 abstract class RenderAbstractEditor implements TextLayoutMetrics {
   TextSelection selectWordAtPosition(TextPosition position);
