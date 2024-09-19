@@ -32,6 +32,7 @@ class TextLine extends StatefulWidget {
     required this.controller,
     required this.onLaunchUrl,
     required this.linkActionPicker,
+    required this.composingRange,
     this.placeholderBuilder,
     this.textDirection,
     this.customStyleBuilder,
@@ -52,6 +53,7 @@ class TextLine extends StatefulWidget {
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
+  final TextRange composingRange;
 
   @override
   State<TextLine> createState() => _TextLineState();
@@ -297,12 +299,68 @@ class _TextLineState extends State<TextLine> {
     if (nodes.isEmpty && kIsWeb && addWebNodeIfNeeded) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
-    final children = nodes
-        .map((node) =>
-            _getTextSpanFromNode(defaultStyles, node, widget.line.style))
-        .toList(growable: false);
+
+    final isComposingRangeOutOfLine = !widget.composingRange.isValid ||
+        widget.composingRange.isCollapsed ||
+        (widget.composingRange.start < widget.line.documentOffset ||
+            widget.composingRange.end >
+                widget.line.documentOffset + widget.line.length);
+
+    if (isComposingRangeOutOfLine) {
+      final children = nodes
+          .map((node) =>
+              _getTextSpanFromNode(defaultStyles, node, widget.line.style))
+          .toList(growable: false);
+      return TextSpan(children: children, style: lineStyle);
+    }
+
+    final children = nodes.expand((node) {
+      final child =
+          _getTextSpanFromNode(defaultStyles, node, widget.line.style);
+      final isNodeInComposingRange =
+          node.documentOffset <= widget.composingRange.start &&
+              widget.composingRange.end <= node.documentOffset + node.length;
+      if (isNodeInComposingRange) {
+        return _splitAndApplyComposingStyle(node, child);
+      } else {
+        return [child];
+      }
+    }).toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
+  }
+
+  // split the text nodes into composing and non-composing nodes
+  // and apply the composing style to the composing nodes
+  List<InlineSpan> _splitAndApplyComposingStyle(Node node, InlineSpan child) {
+    assert(widget.composingRange.isValid && !widget.composingRange.isCollapsed);
+
+    final composingStart = widget.composingRange.start - node.documentOffset;
+    final composingEnd = widget.composingRange.end - node.documentOffset;
+    final text = child.toPlainText();
+
+    final textBefore = text.substring(0, composingStart);
+    final textComposing = text.substring(composingStart, composingEnd);
+    final textAfter = text.substring(composingEnd);
+
+    final composingStyle = child.style
+            ?.merge(const TextStyle(decoration: TextDecoration.underline)) ??
+        const TextStyle(decoration: TextDecoration.underline);
+
+    return [
+      TextSpan(
+        text: textBefore,
+        style: child.style,
+      ),
+      TextSpan(
+        text: textComposing,
+        style: composingStyle,
+      ),
+      TextSpan(
+        text: textAfter,
+        style: child.style,
+      ),
+    ];
   }
 
   TextStyle _getLineStyle(DefaultStyles defaultStyles) {
@@ -680,8 +738,6 @@ class EditableTextLine extends RenderObjectWidget {
       this.devicePixelRatio,
       this.cursorCont,
       this.inlineCodeStyle,
-      this.composingRange,
-      this.composingColor,
       this.cursorParagrahPlaceholderConfiguration,
       {super.key});
 
@@ -700,8 +756,6 @@ class EditableTextLine extends RenderObjectWidget {
   final double devicePixelRatio;
   final CursorCont cursorCont;
   final InlineCodeStyle inlineCodeStyle;
-  final TextRange composingRange;
-  final Color composingColor;
 
   @override
   RenderObjectElement createElement() {
@@ -721,8 +775,6 @@ class EditableTextLine extends RenderObjectWidget {
         color,
         cursorCont,
         inlineCodeStyle,
-        composingRange,
-        composingColor,
         cursorParagrahPlaceholderConfiguration);
   }
 
@@ -741,8 +793,7 @@ class EditableTextLine extends RenderObjectWidget {
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
-      ..setInlineCodeStyle(inlineCodeStyle)
-      ..setComposingRange(composingRange);
+      ..setInlineCodeStyle(inlineCodeStyle);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -769,8 +820,6 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
-    this.composingRange,
-    this.composingColor,
     this.cursorParagrahPlaceholderConfiguration,
   );
 
@@ -792,8 +841,6 @@ class RenderEditableTextLine extends RenderEditableBox {
   List<TextBox>? _selectedRects;
   late Rect _caretPrototype;
   InlineCodeStyle inlineCodeStyle;
-  TextRange composingRange;
-  Color composingColor;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
   Iterable<RenderBox> get _children sync* {
@@ -915,12 +962,6 @@ class RenderEditableTextLine extends RenderEditableBox {
   void setInlineCodeStyle(InlineCodeStyle newStyle) {
     if (inlineCodeStyle == newStyle) return;
     inlineCodeStyle = newStyle;
-    markNeedsLayout();
-  }
-
-  void setComposingRange(TextRange newComposingRange) {
-    if (composingRange == newComposingRange) return;
-    composingRange = newComposingRange;
     markNeedsLayout();
   }
 
@@ -1406,11 +1447,6 @@ class RenderEditableTextLine extends RenderEditableBox {
 
         _paintSelection(context, effectiveOffset);
       }
-
-      // Paints an underline to indicate the text being composed by the IME.
-      if (composingRange.isValid) {
-        _paintComposing(context);
-      }
     }
   }
 
@@ -1443,34 +1479,6 @@ class RenderEditableTextLine extends RenderEditableBox {
       cursorParagrahPlaceholderConfiguration,
       textDirection,
     );
-  }
-
-  // Paints a line below the composing text.
-  void _paintComposing(PaintingContext context) {
-    assert(composingRange.isValid);
-    final composingStart = composingRange.start - line.documentOffset;
-    final composingEnd = composingRange.end - line.documentOffset;
-    if (composingStart < 0 || composingEnd < 0) {
-      return;
-    }
-    final composingRects = _body!.getBoxesForSelection(
-      TextSelection(
-        baseOffset: composingStart,
-        extentOffset: composingEnd,
-      ),
-    );
-    final paint = Paint()
-      ..color = composingColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    for (final box in composingRects) {
-      final rect = box.toRect();
-      context.canvas.drawLine(
-        rect.bottomLeft.translate(0, -5),
-        rect.bottomRight.translate(0, -5),
-        paint,
-      );
-    }
   }
 
   @override

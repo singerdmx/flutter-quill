@@ -711,6 +711,7 @@ class QuillRawEditorState extends EditorState
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.configurations.onLaunchUrl,
       customLinkPrefixes: widget.configurations.customLinkPrefixes,
+      composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
       node,
@@ -726,8 +727,6 @@ class QuillRawEditorState extends EditorState
       MediaQuery.devicePixelRatioOf(context),
       _cursorCont,
       _styles!.inlineCode!,
-      composingRange.value,
-      _styles!.paragraph!.style.color!,
       widget.configurations.cursorParagrahPlaceholderConfiguration,
     );
     return editableTextLine;
