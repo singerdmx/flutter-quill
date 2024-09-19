@@ -81,9 +81,11 @@ class QuillSoftKeyboardShortcutSupport {
     return null;
   }
 
-  /// helper method that should indicate wrong use of this class
-  static void assertSupported() {
-    assert(isAndroidApp || isIosApp,
-        'softKeyboardShortcutSupport should only be used on Android/iOS');
-  }
+  /// this class should only be used on mobile devices to emulate space/character
+  /// key press events
+  static bool get isSupported => isAndroidApp || isIosApp;
+
+  /// shared assert message
+  static const assertMessage =
+      'softKeyboardShortcutSupport should only be used on Android/iOS';
 }

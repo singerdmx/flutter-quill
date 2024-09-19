@@ -9,7 +9,6 @@ import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
 import '../common/structs/offset_value.dart';
 import '../common/utils/embeds.dart';
-import '../common/utils/platform.dart';
 import '../delta/delta_diff.dart';
 import '../document/attribute.dart';
 import '../document/document.dart';
@@ -47,7 +46,7 @@ class QuillController extends ChangeNotifier {
       initializeWebPasteEvent();
     }
 
-    if (isAndroidApp || isIosApp) {
+    if (QuillSoftKeyboardShortcutSupport.isSupported) {
       _maybeEnableSoftKeyboard();
     }
   }
@@ -64,7 +63,8 @@ class QuillController extends ChangeNotifier {
       );
 
   void _maybeEnableSoftKeyboard() {
-    QuillSoftKeyboardShortcutSupport.assertSupported();
+    assert(QuillSoftKeyboardShortcutSupport.isSupported,
+        QuillSoftKeyboardShortcutSupport.assertMessage);
     if (editorConfigurations.softKeyboardShortcutSupport) {
       if (_softKeyboardShortcutSupport == null) {
         _softKeyboardShortcutSupport = QuillSoftKeyboardShortcutSupport(
@@ -94,7 +94,7 @@ class QuillController extends ChangeNotifier {
   set editorConfigurations(QuillEditorConfigurations? value) {
     _editorConfigurations = document.editorConfigurations = value;
 
-    if (isAndroidApp || isIosApp) {
+    if (QuillSoftKeyboardShortcutSupport.isSupported) {
       _maybeEnableSoftKeyboard();
     }
   }

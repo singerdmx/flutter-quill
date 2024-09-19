@@ -38,7 +38,8 @@ bool handleFormatByWrappingWithDoubleCharacter({
   final usesSoftKeyboardShortcut =
       controller.editorConfigurations.softKeyboardShortcutSupport;
   if (usesSoftKeyboardShortcut) {
-    QuillSoftKeyboardShortcutSupport.assertSupported();
+    assert(QuillSoftKeyboardShortcutSupport.isSupported,
+        QuillSoftKeyboardShortcutSupport.assertMessage);
   }
   final caretPosition = selection.end - (usesSoftKeyboardShortcut ? 2 : 1);
 
