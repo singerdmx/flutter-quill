@@ -27,6 +27,11 @@ class MockQuillNativeBridgePlatform
   Future<Uint8List?> getClipboardImage() async {
     return Uint8List.fromList([0, 2, 1]);
   }
+
+  @override
+  Future<Uint8List?> getClipboardGif() async {
+    return Uint8List.fromList([0, 1, 0]);
+  }
 }
 
 void main() {
@@ -64,10 +69,17 @@ void main() {
     );
   });
 
-  test('copyImageToClipboard()', () async {
+  test('getClipboardImage()', () async {
     expect(
       await QuillNativeBridgePlatform.instance.getClipboardImage(),
       Uint8List.fromList([0, 2, 1]),
+    );
+  });
+
+  test('getClipboardGif()', () async {
+    expect(
+      await QuillNativeBridgePlatform.instance.getClipboardGif(),
+      Uint8List.fromList([0, 1, 0]),
     );
   });
 }

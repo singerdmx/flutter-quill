@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart' show Uint8List;
 import 'package:quill_native_bridge/quill_native_bridge.dart'
-    show QuillNativeBridge;
+    show QuillNativeBridge, QuillNativeBridgePlatformFeature;
 
 import 'clipboard_service.dart';
 
@@ -8,7 +8,7 @@ import 'clipboard_service.dart';
 class DefaultClipboardService extends ClipboardService {
   @override
   Future<String?> getHtmlText() async {
-    if (!QuillNativeBridge.isClipboardOperationsSupported) {
+    if (QuillNativeBridgePlatformFeature.getClipboardHTML.isUnsupported) {
       return null;
     }
     return await QuillNativeBridge.getClipboardHTML();
@@ -16,7 +16,7 @@ class DefaultClipboardService extends ClipboardService {
 
   @override
   Future<Uint8List?> getImageFile() async {
-    if (!QuillNativeBridge.isClipboardOperationsSupported) {
+    if (QuillNativeBridgePlatformFeature.getClipboardImage.isUnsupported) {
       return null;
     }
     return await QuillNativeBridge.getClipboardImage();
@@ -24,7 +24,7 @@ class DefaultClipboardService extends ClipboardService {
 
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
-    if (!QuillNativeBridge.isClipboardOperationsSupported) {
+    if (QuillNativeBridgePlatformFeature.copyImageToClipboard.isUnsupported) {
       return;
     }
     await QuillNativeBridge.copyImageToClipboard(imageBytes);
@@ -32,7 +32,10 @@ class DefaultClipboardService extends ClipboardService {
 
   @override
   Future<Uint8List?> getGifFile() async {
-    return null;
+    if (QuillNativeBridgePlatformFeature.getClipboardGif.isUnsupported) {
+      return null;
+    }
+    return QuillNativeBridge.getClipboardGif();
   }
 
   @override

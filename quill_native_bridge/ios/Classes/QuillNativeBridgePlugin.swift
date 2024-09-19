@@ -39,6 +39,9 @@ public class QuillNativeBridgePlugin: NSObject, FlutterPlugin {
       let image = UIPasteboard.general.image
       let data = image?.pngData()
       result(data)
+    case "getClipboardGif":
+      let data = UIPasteboard.general.data(forPasteboardType: "com.compuserve.gif")
+      result(data)
     default:
       result(FlutterMethodNotImplemented)
     }

@@ -11,7 +11,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   @override
   Future<bool> isIOSSimulator() async {
     assert(() {
-      if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
+      if (QuillNativeBridgePlatformFeature.isIOSSimulator.isUnsupported) {
         throw FlutterError(
           'isIOSSimulator() method should be called only on iOS.',
         );
@@ -34,14 +34,9 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   @override
   Future<String?> getClipboardHTML() async {
     assert(() {
-      if (kIsWeb) {
+      if (QuillNativeBridgePlatformFeature.getClipboardHTML.isUnsupported) {
         throw FlutterError(
-          'getClipboardHTML() method should be only called on non-web platforms.',
-        );
-      }
-      if (!QuillNativeBridge.isClipboardOperationsSupported) {
-        throw FlutterError(
-          'getClipboardHTML() currently only supports Android, iOS and macOS.',
+          'getClipboardHTML() is currently not supported on $defaultTargetPlatform.',
         );
       }
       return true;
@@ -54,9 +49,9 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
     assert(() {
-      if (!QuillNativeBridge.isClipboardOperationsSupported) {
+      if (QuillNativeBridgePlatformFeature.copyImageToClipboard.isUnsupported) {
         throw FlutterError(
-          'copyImageToClipboard() currently only supports Android, iOS, macOS and Web.',
+          'copyImageToClipboard() is currently not supported on $defaultTargetPlatform.',
         );
       }
       return true;
@@ -74,7 +69,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
           'to support copying images to the clipboard on Android.\n'
           "If you're interested in this feature, refer to https://github.com/singerdmx/flutter-quill#-platform-specific-configurations\n"
           'This message will only shown in debug mode.\n'
-          'More details: ${e.message}',
+          'Platform details: ${e.toString()}',
         );
         return;
       }
@@ -82,11 +77,84 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
     }
   }
 
+  // TODO: getClipboardImage() should not return gif files on macOS and iOS, same as Android impl
+
   @override
   Future<Uint8List?> getClipboardImage() async {
-    final imageBytes = await methodChannel.invokeMethod<Uint8List?>(
-      'getClipboardImage',
+    assert(() {
+      if (QuillNativeBridgePlatformFeature.getClipboardImage.isUnsupported) {
+        throw FlutterError(
+          'getClipboardImage() is currently not supported on $defaultTargetPlatform.',
+        );
+      }
+      return true;
+    }());
+    try {
+      final imageBytes = await methodChannel.invokeMethod<Uint8List?>(
+        'getClipboardImage',
+      );
+      return imageBytes;
+    } on PlatformException catch (e) {
+      if ((kDebugMode && defaultTargetPlatform == TargetPlatform.android) &&
+          (e.code == 'FILE_READ_PERMISSION_DENIED' ||
+              e.code == 'FILE_NOT_FOUND')) {
+        _printAndroidClipboardImageAccessKnownIssue(e);
+        return null;
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Uint8List?> getClipboardGif() async {
+    assert(() {
+      if (QuillNativeBridgePlatformFeature.getClipboardGif.isUnsupported) {
+        throw FlutterError(
+          'getClipboardGif() is currently not supported on $defaultTargetPlatform.',
+        );
+      }
+      return true;
+    }());
+    try {
+      final gifBytes = await methodChannel.invokeMethod<Uint8List?>(
+        'getClipboardGif',
+      );
+      return gifBytes;
+    } on PlatformException catch (e) {
+      if ((kDebugMode && defaultTargetPlatform == TargetPlatform.android) &&
+          (e.code == 'FILE_READ_PERMISSION_DENIED' ||
+              e.code == 'FILE_NOT_FOUND')) {
+        _printAndroidClipboardImageAccessKnownIssue(e);
+        return null;
+      }
+      rethrow;
+    }
+  }
+
+  /// Should be only used internally for [getClipboardGif] and [getClipboardImage]
+  /// for **Android only**.
+  ///
+  /// This issue can be caused by `SecurityException` or `FileNotFoundException`
+  /// from Android side.
+  ///
+  /// See [#2243](https://github.com/singerdmx/flutter-quill/issues/2243) for more details.
+  void _printAndroidClipboardImageAccessKnownIssue(PlatformException e) {
+    assert(
+      defaultTargetPlatform == TargetPlatform.android,
+      '_printAndroidClipboardImageAccessKnownIssue() should be only used for Android.',
     );
-    return imageBytes;
+    assert(
+      kDebugMode,
+      '_printAndroidClipboardImageAccessKnownIssue() should be only called in debug mode',
+    );
+    if (kDebugMode) {
+      debugPrint(
+        'Could not retrieve the image from clipbaord as the app no longer have access to the image.\n'
+        'This can happen on app restart or lifecycle changes.\n'
+        'This is known issue on Android and this message will be only shown in debug mode.\n'
+        'Refer to https://github.com/singerdmx/flutter-quill/issues/2243 for discussion.\n'
+        'Platform details: ${e.toString()}',
+      );
+    }
   }
 }

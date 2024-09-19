@@ -3,10 +3,15 @@ library;
 import 'package:flutter/foundation.dart'
     show TargetPlatform, Uint8List, defaultTargetPlatform, kIsWeb;
 
+import 'quill_native_bridge.dart';
 import 'src/quill_native_bridge_platform_interface.dart';
+
+export 'src/platform_feature.dart';
 
 /// An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 /// package to access platform-specific APIs.
+///
+/// See [QuillNativeBridgePlatformFeature] to check whatever if a feature is supported.
 class QuillNativeBridge {
   QuillNativeBridge._();
 
@@ -16,18 +21,6 @@ class QuillNativeBridge {
   /// is [TargetPlatform.iOS] and [kIsWeb] is `false`.
   static Future<bool> isIOSSimulator() =>
       QuillNativeBridgePlatform.instance.isIOSSimulator();
-
-  /// **Experimental** and might removed in future releases.
-  ///
-  /// For now we do plan on removing this property once all non-web platforms
-  /// are supported.
-  ///
-  /// Available to avoid hardcoding.
-  static const Set<TargetPlatform> _supportedClipboardPlatforms = {
-    TargetPlatform.android,
-    TargetPlatform.iOS,
-    TargetPlatform.macOS
-  };
 
   /// Return HTML from the Clipboard for **non-web platforms**.
   ///
@@ -43,12 +36,6 @@ class QuillNativeBridge {
   /// Currently only supports **Android**, **iOS** and **macOS**.
   static Future<String?> getClipboardHTML() =>
       QuillNativeBridgePlatform.instance.getClipboardHTML();
-
-  /// **Experimental** and might removed in future releases.
-  ///
-  /// Available to avoid hardcoding.
-  static bool get isClipboardOperationsSupported =>
-      _supportedClipboardPlatforms.contains(defaultTargetPlatform);
 
   /// Copy the [imageBytes] to Clipboard to be pasted on other apps.
   ///
@@ -66,4 +53,10 @@ class QuillNativeBridge {
   /// Currently only supports **Android**, **iOS**, **macOS**.
   static Future<Uint8List?> getClipboardImage() =>
       QuillNativeBridgePlatform.instance.getClipboardImage();
+
+  /// Return the copied gif from the Clipboard.
+  ///
+  /// Currently only supports **Android**, **iOS**.
+  static Future<Uint8List?> getClipboardGif() =>
+      QuillNativeBridgePlatform.instance.getClipboardGif();
 }

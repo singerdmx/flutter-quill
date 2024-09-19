@@ -55,6 +55,10 @@ public class QuillNativeBridgePlugin: NSObject, FlutterPlugin {
         } else {
             result(nil)
         }
+    case "getClipboardGif":
+    // TODO: Add support for getClipboardGif() on macOS if possible
+    let availableTypes = NSPasteboard.general.types
+    result(FlutterError(code: "GIF_UNSUPPORTED", message: "Gif image is not supported on macOS. Available types: \(String(describing: availableTypes))", details: nil))
     default:
       result(FlutterMethodNotImplemented)
     }
