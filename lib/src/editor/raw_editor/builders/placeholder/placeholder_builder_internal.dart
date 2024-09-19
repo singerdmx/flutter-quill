@@ -1,6 +1,14 @@
 // This file is only for internal use
 import 'package:flutter/material.dart'
-    show Expanded, Row, Text, TextDirection, TextStyle, TextWidthBasis, Widget, immutable;
+    show
+        Expanded,
+        Row,
+        Text,
+        TextDirection,
+        TextStyle,
+        TextWidthBasis,
+        Widget,
+        immutable;
 import 'package:meta/meta.dart';
 import '../../../../document/attribute.dart' show Attribute, AttributeScope;
 import '../../../../document/nodes/line.dart';
@@ -26,8 +34,10 @@ class PlaceholderBuilder {
 
   final PlaceholderComponentsConfiguration configuration;
 
-  Map<String, PlaceholderConfigurationBuilder> get builders => configuration.builders;
-  Set<String>? get customBlockAttributesKeys => configuration.customBlockAttributesKeys;
+  Map<String, PlaceholderConfigurationBuilder> get builders =>
+      configuration.builders;
+  Set<String>? get customBlockAttributesKeys =>
+      configuration.customBlockAttributesKeys;
 
   /// Check if this node need to show a placeholder
   @experimental
@@ -35,7 +45,10 @@ class PlaceholderBuilder {
     if (builders.isEmpty || _validateCombinableStyles(node)) return (false, '');
     var shouldShow = false;
     var key = '';
-    for (final exclusiveKey in <dynamic>{...Attribute.exclusiveBlockKeys, ...?customBlockAttributesKeys}) {
+    for (final exclusiveKey in <dynamic>{
+      ...Attribute.exclusiveBlockKeys,
+      ...?customBlockAttributesKeys
+    }) {
       if (node.style.containsKey(exclusiveKey) &&
           node.style.attributes[exclusiveKey]?.scope == AttributeScope.block &&
           !_blackList.contains(exclusiveKey)) {
@@ -49,7 +62,7 @@ class PlaceholderBuilder {
     return (node.isEmpty && shouldShow, key);
   }
 
-  /// We use this to validate if the node contains 
+  /// We use this to validate if the node contains
   /// styles that can be combined with other block styles
   @experimental
   bool _validateCombinableStyles(Line node) {
@@ -72,7 +85,8 @@ class PlaceholderBuilder {
     required TextDirection textDirection,
   }) {
     if (builders.isEmpty) return null;
-    final configuration = builders[blockAttribute.key]?.call(blockAttribute, lineStyle);
+    final configuration =
+        builders[blockAttribute.key]?.call(blockAttribute, lineStyle);
     // we return a row because this widget takes the whole width and makes possible
     // select the block correctly (without this the block line cannot be selected correctly)
     return configuration == null || configuration.placeholderText.trim().isEmpty

@@ -270,27 +270,29 @@ class _TextLineState extends State<TextLine> {
     TextStyle lineStyle,
   ) {
     var addWebNodeIfNeeded = widget.placeholderBuilder == null;
-    if (widget.placeholderBuilder != null && nodes.isEmpty && widget.placeholderBuilder!.builders.isNotEmpty) {
-    final (shouldShowNode, attrKey) =
-        widget.placeholderBuilder!.shouldShowPlaceholder(widget.line);
-    if (shouldShowNode) {
-      final style = _getInlineTextStyle(
-          const Style(), defaultStyles, widget.line.style, false);
-      final placeholderWidget = widget.placeholderBuilder!.build(
-        blockAttribute: widget.line.style.attributes[attrKey]!,
-        lineStyle: lineStyle.merge(style),
-        textDirection: widget.textDirection ?? Directionality.of(context),
-      );
-      if (placeholderWidget != null) {
-        final widgetSpan = _getTextSpanFromNode(
-          defaultStyles,
-          leaf.QuillText(''),
-          widget.line.style,
-          placeholderWidget: placeholderWidget,
+    if (widget.placeholderBuilder != null &&
+        nodes.isEmpty &&
+        widget.placeholderBuilder!.builders.isNotEmpty) {
+      final (shouldShowNode, attrKey) =
+          widget.placeholderBuilder!.shouldShowPlaceholder(widget.line);
+      if (shouldShowNode) {
+        final style = _getInlineTextStyle(
+            const Style(), defaultStyles, widget.line.style, false);
+        final placeholderWidget = widget.placeholderBuilder!.build(
+          blockAttribute: widget.line.style.attributes[attrKey]!,
+          lineStyle: lineStyle.merge(style),
+          textDirection: widget.textDirection ?? Directionality.of(context),
         );
-        return TextSpan(children: [widgetSpan], style: lineStyle);
+        if (placeholderWidget != null) {
+          final widgetSpan = _getTextSpanFromNode(
+            defaultStyles,
+            leaf.QuillText(''),
+            widget.line.style,
+            placeholderWidget: placeholderWidget,
+          );
+          return TextSpan(children: [widgetSpan], style: lineStyle);
+        }
       }
-    }
       // if the [placeholderWidget] is null or [shouldShowNode] is false
       // then this line will be executed and avoid non add
       // the needed node when the line is empty
