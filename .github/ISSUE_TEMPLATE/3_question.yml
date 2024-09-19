@@ -1,7 +1,7 @@
 name: Ask a question
 description: |
   If you have any questions, feel free to ask
-labels: 'help wanted'
+labels: 'question'
 body:
   - type: markdown
     attributes:
