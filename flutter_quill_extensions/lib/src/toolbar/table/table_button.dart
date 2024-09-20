@@ -5,6 +5,8 @@ import 'package:flutter_quill/translations.dart';
 import '../../common/utils/quill_table_utils.dart';
 import 'models/table_configurations.dart';
 
+@Deprecated(
+    'QuillToolbarTableButton will no longer be used by now and will be removed in future releases')
 class QuillToolbarTableButton extends StatelessWidget {
   const QuillToolbarTableButton({
     required this.controller,

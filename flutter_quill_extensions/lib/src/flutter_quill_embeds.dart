@@ -13,7 +13,6 @@ import 'toolbar/camera/models/camera_configurations.dart';
 import 'toolbar/image/image_button.dart';
 import 'toolbar/image/models/image_configurations.dart';
 import 'toolbar/table/models/table_configurations.dart';
-import 'toolbar/table/table_button.dart';
 import 'toolbar/video/models/video_configurations.dart';
 import 'toolbar/video/video_button.dart';
 
@@ -121,6 +120,8 @@ class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
+    @Deprecated(
+        'tableButtonOptions will no longer used by now, and probably will be removed in future releases.')
     QuillToolbarTableButtonOptions? tableButtonOptions,
   }) =>
       [
@@ -141,12 +142,6 @@ class FlutterQuillEmbeds {
               QuillToolbarCameraButton(
                 controller: controller,
                 options: cameraButtonOptions,
-              ),
-        if (tableButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarTableButton(
-                controller: controller,
-                options: tableButtonOptions,
               ),
       ];
 }
