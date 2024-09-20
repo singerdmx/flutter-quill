@@ -47,8 +47,13 @@ class QuillController extends ChangeNotifier {
     }
 
     if (editorConfigurations.softKeyboardShortcutSupport) {
-      assert(QuillSoftKeyboardShortcutSupport.isSupported,
-          QuillSoftKeyboardShortcutSupport.assertMessage);
+      assert(() {
+        if (editorConfigurations.softKeyboardShortcutSupport) {
+          assert(QuillSoftKeyboardShortcutSupport.isSupported,
+              QuillSoftKeyboardShortcutSupport.assertMessage);
+        }
+        return true;
+      }());
     }
   }
 
@@ -74,10 +79,13 @@ class QuillController extends ChangeNotifier {
   set editorConfigurations(QuillEditorConfigurations? value) {
     _editorConfigurations = document.editorConfigurations = value;
 
-    if (editorConfigurations.softKeyboardShortcutSupport) {
-      assert(QuillSoftKeyboardShortcutSupport.isSupported,
-          QuillSoftKeyboardShortcutSupport.assertMessage);
-    }
+    assert(() {
+      if (editorConfigurations.softKeyboardShortcutSupport) {
+        assert(QuillSoftKeyboardShortcutSupport.isSupported,
+            QuillSoftKeyboardShortcutSupport.assertMessage);
+      }
+      return true;
+    }());
   }
 
   /// Toolbar configurations
@@ -374,8 +382,13 @@ class QuillController extends ChangeNotifier {
     if (delta != null &&
         isNewCharDelta &&
         editorConfigurations.softKeyboardShortcutSupport) {
-      assert(QuillSoftKeyboardShortcutSupport.isSupported,
-          QuillSoftKeyboardShortcutSupport.assertMessage);
+      assert(() {
+        if (editorConfigurations.softKeyboardShortcutSupport) {
+          assert(QuillSoftKeyboardShortcutSupport.isSupported,
+              QuillSoftKeyboardShortcutSupport.assertMessage);
+        }
+        return true;
+      }());
       QuillSoftKeyboardShortcutSupport.onNewChar(delta, this);
     }
   }

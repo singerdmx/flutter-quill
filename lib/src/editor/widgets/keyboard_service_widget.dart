@@ -11,6 +11,7 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/leaf.dart' as leaf;
 import '../../document/nodes/line.dart';
 import '../raw_editor/config/events/character_shortcuts_events.dart';
+import '../raw_editor/config/events/soft_keyboard_shortcut_support.dart';
 import '../raw_editor/config/events/space_shortcut_events.dart';
 import 'default_single_activator_actions.dart';
 import 'keyboard_listener.dart';
@@ -72,8 +73,8 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
     if (controller.editorConfigurations.softKeyboardShortcutSupport) {
-      assert(isAndroidApp || isIosApp,
-          'softKeyboardShortcutSupport should only be used on Android/iOS');
+      assert(QuillSoftKeyboardShortcutSupport.isSupported,
+          QuillSoftKeyboardShortcutSupport.assertMessage);
       return KeyEventResult.ignored;
     }
 

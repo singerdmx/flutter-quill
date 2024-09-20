@@ -36,10 +36,13 @@ bool handleFormatByWrappingWithSingleCharacter({
 
   final usesSoftKeyboardShortcut =
       controller.editorConfigurations.softKeyboardShortcutSupport;
-  if (usesSoftKeyboardShortcut) {
-    assert(QuillSoftKeyboardShortcutSupport.isSupported,
-        QuillSoftKeyboardShortcutSupport.assertMessage);
-  }
+  assert(() {
+    if (usesSoftKeyboardShortcut) {
+      assert(QuillSoftKeyboardShortcutSupport.isSupported,
+          QuillSoftKeyboardShortcutSupport.assertMessage);
+    }
+    return true;
+  }());
   final caretPosition = selection.end - (usesSoftKeyboardShortcut ? 2 : 1);
 
   var lastCharIndex = -1;

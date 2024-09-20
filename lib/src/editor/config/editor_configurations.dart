@@ -95,7 +95,7 @@ class QuillEditorConfigurations extends Equatable {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     this.customLeadingBlockBuilder,
-    this.softKeyboardShortcutSupport = false,
+    @experimental this.softKeyboardShortcutSupport = false,
   });
 
   final QuillSharedConfigurations sharedConfigurations;

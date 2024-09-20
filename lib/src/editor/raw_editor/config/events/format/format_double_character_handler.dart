@@ -37,10 +37,13 @@ bool handleFormatByWrappingWithDoubleCharacter({
 
   final usesSoftKeyboardShortcut =
       controller.editorConfigurations.softKeyboardShortcutSupport;
-  if (usesSoftKeyboardShortcut) {
-    assert(QuillSoftKeyboardShortcutSupport.isSupported,
-        QuillSoftKeyboardShortcutSupport.assertMessage);
-  }
+  assert(() {
+    if (usesSoftKeyboardShortcut) {
+      assert(QuillSoftKeyboardShortcutSupport.isSupported,
+          QuillSoftKeyboardShortcutSupport.assertMessage);
+    }
+    return true;
+  }());
   final caretPosition = selection.end - (usesSoftKeyboardShortcut ? 2 : 1);
 
   // find all the index of *[char]
