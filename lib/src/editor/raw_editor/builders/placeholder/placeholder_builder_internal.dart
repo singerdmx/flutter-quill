@@ -29,6 +29,7 @@ late final List<String> _blackList = List.unmodifiable(<String>[
 ]);
 
 @experimental
+@internal
 @immutable
 class PlaceholderBuilder {
   const PlaceholderBuilder({
@@ -44,6 +45,7 @@ class PlaceholderBuilder {
 
   /// Check if this node need to show a placeholder
   @experimental
+  @internal
   (bool, String) shouldShowPlaceholder(Line node) {
     if (builders.isEmpty) return (false, '');
     var shouldShow = false;
@@ -72,12 +74,13 @@ class PlaceholderBuilder {
   /// Before use this, we should always use [shouldShowPlaceholder] to avoid
   /// show any placeholder where is not needed
   @experimental
+  @internal
   WidgetSpan? build({
     required Attribute blockAttribute,
     required TextStyle lineStyle,
     required TextDirection textDirection,
-    required StrutStyle strutStyle,
     required TextAlign align,
+    StrutStyle? strutStyle,
   }) {
     if (builders.isEmpty) return null;
     final configuration =
@@ -105,7 +108,7 @@ class PlaceholderBuilder {
     // of the line when it is aligned at the left side instead appears at the middle
     // if the line is centered)
     //
-    // # !Note:
+    // Note:
     // this code is subject to changes because we need to get a better solution
     // to this implementation
     return WidgetSpan(
