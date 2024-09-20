@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart'
 /// The features/methods provided by the plugin
 enum QuillNativeBridgePlatformFeature {
   isIOSSimulator(hasWebSupport: false),
-  getClipboardHTML(hasWebSupport: false),
-  copyImageToClipboard(hasWebSupport: false),
-  getClipboardImage(hasWebSupport: false),
+  getClipboardHTML(hasWebSupport: true),
+  copyImageToClipboard(hasWebSupport: true),
+  getClipboardImage(hasWebSupport: true),
   getClipboardGif(hasWebSupport: false);
 
   const QuillNativeBridgePlatformFeature({required this.hasWebSupport});
@@ -44,13 +44,13 @@ enum QuillNativeBridgePlatformFeature {
     return switch (this) {
       QuillNativeBridgePlatformFeature.isIOSSimulator =>
         !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS,
-      QuillNativeBridgePlatformFeature.getClipboardHTML => !kIsWeb &&
+      QuillNativeBridgePlatformFeature.getClipboardHTML => kIsWeb ||
           {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
               .contains(defaultTargetPlatform),
-      QuillNativeBridgePlatformFeature.copyImageToClipboard => !kIsWeb &&
+      QuillNativeBridgePlatformFeature.copyImageToClipboard => kIsWeb ||
           {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
               .contains(defaultTargetPlatform),
-      QuillNativeBridgePlatformFeature.getClipboardImage => !kIsWeb &&
+      QuillNativeBridgePlatformFeature.getClipboardImage => kIsWeb ||
           {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
               .contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.getClipboardGif => !kIsWeb &&

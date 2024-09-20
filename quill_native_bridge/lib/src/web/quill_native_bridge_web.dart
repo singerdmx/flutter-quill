@@ -8,15 +8,16 @@
 
 import 'dart:js_interop';
 
-import 'package:flutter/foundation.dart' show Uint8List;
+import 'package:flutter/foundation.dart' show Uint8List, debugPrint;
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:web/web.dart';
 
 import '../quill_native_bridge_platform_interface.dart';
+import 'clipboard_api_support_unsafe.dart';
 
 /// A web implementation of the [QuillNativeBridgePlatform].
 ///
-/// **Experimental** and can be removed.
+/// **Highly Experimental** and can be removed.
 ///
 /// Should extends [QuillNativeBridgePlatform] and not implements it as error will arise:
 ///
@@ -34,6 +35,13 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
 
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+    if (isClipbaordApiUnsupported) {
+      throw UnsupportedError(
+        'Could not copy image to the clipboard.\n'
+        'The Clipboard API is not supported on ${window.navigator.userAgent}.\n'
+        'Should fallback to Clipboard events.',
+      );
+    }
     final blob = Blob(
       [imageBytes.toJS].jsify() as JSArray<Blob>,
       BlobPropertyBag(type: 'image/png'),
@@ -43,27 +51,65 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
       {'image/png': blob}.jsify() as JSObject,
     );
 
-    // TODO: Will cause issue on Firefox as Clipboard API is not supported, fallback to Clipboard events.
     await window.navigator.clipboard
         .write([clipboardItem].jsify() as ClipboardItems)
         .toDart;
   }
 
-  // TODO: This web implementation doesn't work on firefox.
-  //  Related: https://github.com/singerdmx/flutter-quill/issues/2220
+  @override
+  Future<String?> getClipboardHTML() async {
+    if (isClipbaordApiUnsupported) {
+      throw UnsupportedError(
+        'Could not retrieve HTML from the clipboard.\n'
+        'The Clipboard API is not supported on ${window.navigator.userAgent}.\n'
+        'Should fallback to Clipboard events.',
+      );
+    }
+    const kMimeTextHtml = 'text/html';
+    final clipboardItems =
+        (await window.navigator.clipboard.read().toDart).toDart;
+    for (final item in clipboardItems) {
+      if (item.types.toDart.contains(kMimeTextHtml.toJS)) {
+        final html = await item.getType(kMimeTextHtml).toDart;
+        return (await html.text().toDart).toDart;
+      }
+    }
+    return null;
+  }
 
-  // TODO: Need a method to check if Clipboard API is supported (which is not on Firefox)
+  @override
+  Future<Uint8List?> getClipboardImage() async {
+    if (isClipbaordApiUnsupported) {
+      throw UnsupportedError(
+        'Could not retrieve image from the clipboard.\n'
+        'The Clipboard API is not supported on ${window.navigator.userAgent}.\n'
+        'Should fallback to Clipboard events.',
+      );
+    }
+    const kMimeImagePng = 'image/png';
+    final clipboardItems =
+        (await window.navigator.clipboard.read().toDart).toDart;
+    for (final item in clipboardItems) {
+      if (item.types.toDart.contains(kMimeImagePng.toJS)) {
+        final blob = await item.getType(kMimeImagePng).toDart;
+        final arrayBuffer = await blob.arrayBuffer().toDart;
+        return arrayBuffer.toDart.asUint8List();
+      }
+    }
+    return null;
+  }
 
-  // @override
-  // Future<String?> getClipboardHTML() async {
-  //   final clipboardData =
-  //       (await window.navigator.clipboard.read().toDart).toDart;
-  //   for (final item in clipboardData) {
-  //     if (item.types.toDart.contains('text/html'.toJS)) {
-  //       final html = await item.getType('text/html').toDart;
-  //       return (await html.text().toDart).toDart;
-  //     }
-  //   }
-  //   return null;
-  // }
+  @override
+  Future<Uint8List?> getClipboardGif() {
+    assert(() {
+      debugPrint(
+        'Retrieving gif image from the clipboard is unsupported regardless of the browser.\n'
+        'Refer to https://github.com/singerdmx/flutter-quill/issues/2229 for discussion.',
+      );
+      return true;
+    }());
+    throw UnsupportedError(
+      'Retrieving gif image from the clipboard is unsupported regardless of the browser.',
+    );
+  }
 }
