@@ -4,7 +4,6 @@ import 'package:meta/meta.dart' show immutable;
 
 import 'editor/image/image_embed.dart';
 import 'editor/image/models/image_configurations.dart';
-import 'editor/table/table_embed.dart';
 import 'editor/video/models/video_configurations.dart';
 import 'editor/video/models/video_web_configurations.dart';
 import 'editor/video/video_embed.dart';
@@ -62,7 +61,10 @@ class FlutterQuillEmbeds {
         QuillEditorVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
-      QuillEditorTableEmbedBuilder(),
+      // We disable the table feature is in experimental phase
+      // and it does not work as we expect
+      // https://github.com/singerdmx/flutter-quill/pull/2238#pullrequestreview-2312706901
+      // QuillEditorTableEmbedBuilder(),
     ];
   }
 
