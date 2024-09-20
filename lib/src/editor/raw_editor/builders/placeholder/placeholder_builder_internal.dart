@@ -3,9 +3,15 @@ import 'package:flutter/material.dart'
     show
         Align,
         Alignment,
+        CrossAxisAlignment,
+        Expanded,
+        MainAxisAlignment,
+        PlaceholderAlignment,
+        Row,
         StrutStyle,
         Text,
         TextAlign,
+        TextBaseline,
         TextDirection,
         TextStyle,
         TextWidthBasis,
@@ -98,11 +104,11 @@ class PlaceholderBuilder {
       textAlign: align,
       textWidthBasis: TextWidthBasis.longestLine,
     );
-    // we use [Align] widget to take whole the available width
+    // we use [Row] widget with [Expanded] to take whole the available width
     // when the line has not defined an alignment.
     //
     // this behavior is different when the align is left or justify, because
-    // if we align to the center (example) the line, align as we say, will take the whole
+    // if we align the line to the center (example), row will take the whole
     // width, creating a visual unexpected behavior where the caret being putted
     // at the offset 0 (you can think this like the caret appears at the first char
     // of the line when it is aligned at the left side instead appears at the middle
@@ -113,11 +119,14 @@ class PlaceholderBuilder {
     // to this implementation
     return WidgetSpan(
       style: lineStyle,
-      child: align != TextAlign.left && align != TextAlign.justify
+      child: align == TextAlign.end || align == TextAlign.center
           ? textWidget
-          : Align(
-              alignment: Alignment.centerLeft,
-              child: textWidget,
+          : Row(
+              children: [
+                Expanded(
+                  child: textWidget,
+                ),
+              ],
             ),
     );
   }
