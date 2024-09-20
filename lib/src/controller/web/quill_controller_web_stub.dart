@@ -12,7 +12,7 @@ extension QuillControllerWeb on QuillController {
     );
   }
 
-  void closeWebPasteEvent() {
+  void cancelWebPasteEvent() {
     throw UnsupportedError(
       'The closeWebPasteEvent() method should be called only on web.',
     );

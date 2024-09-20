@@ -10,7 +10,8 @@ import '../quill_controller_rich_paste.dart';
 
 /// Paste event for the web.
 ///
-/// Will be `null` for non-web platforms.
+/// Will be `null` when [QuillControllerWeb.initializeWebPasteEvent] was not called
+/// or the subscription was canceled due to calling [QuillControllerWeb.cancelWebPasteEvent]
 ///
 /// See: https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event
 StreamSubscription? _webPasteEventSubscription;
@@ -30,7 +31,7 @@ extension QuillControllerWeb on QuillController {
     });
   }
 
-  void closeWebPasteEvent() {
+  void cancelWebPasteEvent() {
     _webPasteEventSubscription?.cancel();
     _webPasteEventSubscription = null;
   }
