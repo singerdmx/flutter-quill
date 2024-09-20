@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.6.6
+
+* Bug fix: Removing check not allowing spell check on web by @joeserhtf in https://github.com/singerdmx/flutter-quill/pull/2252
+
+## New Contributors
+* @joeserhtf made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2252
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.5...v10.6.6
+
 ## 10.6.5
 
 * Refine IME composing range styling by applying underline as text style by @agata in https://github.com/singerdmx/flutter-quill/pull/2244
