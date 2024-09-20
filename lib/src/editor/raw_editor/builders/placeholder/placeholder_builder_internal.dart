@@ -83,8 +83,9 @@ class PlaceholderBuilder {
     final configuration =
         builders[blockAttribute.key]?.call(blockAttribute, lineStyle);
     // we don't need to add a placeholder that is null or contains a empty text
-    if (configuration == null || configuration.placeholderText.trim().isEmpty)
+    if (configuration == null || configuration.placeholderText.trim().isEmpty) {
       return null;
+    }
     final textWidget = Text(
       configuration.placeholderText,
       style: configuration.style,
