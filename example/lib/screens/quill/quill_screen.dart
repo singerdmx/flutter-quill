@@ -70,11 +70,13 @@ class _QuillScreenState extends State<QuillScreen> {
           IconButton(
             tooltip: 'Spell-checker',
             onPressed: () {
+              // ignore: deprecated_member_use
               SpellCheckerServiceProvider.toggleState();
               setState(() {});
             },
             icon: Icon(
               Icons.document_scanner,
+              // ignore: deprecated_member_use
               color: SpellCheckerServiceProvider.isServiceActive()
                   ? Colors.red.withOpacity(0.5)
                   : null,

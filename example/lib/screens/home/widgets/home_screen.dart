@@ -27,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
+    // ignore: deprecated_member_use
     SpellCheckerServiceProvider.dispose();
     super.dispose();
   }
