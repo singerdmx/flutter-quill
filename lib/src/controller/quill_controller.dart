@@ -477,7 +477,7 @@ class QuillController extends ChangeNotifier {
 
     _isDisposed = true;
     if (kIsWeb) {
-      closeWebPasteEvent();
+      cancelWebPasteEvent();
     }
     super.dispose();
   }
