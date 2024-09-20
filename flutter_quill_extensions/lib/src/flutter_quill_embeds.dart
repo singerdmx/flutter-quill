@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as fq;
-import 'package:meta/meta.dart' show immutable;
+import 'package:meta/meta.dart' show experimental, immutable;
 
 import 'editor/image/image_embed.dart';
 import 'editor/image/models/image_configurations.dart';
@@ -120,6 +120,7 @@ class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
+    @experimental
     @Deprecated(
         'tableButtonOptions will no longer used by now, and probably will be removed in future releases.')
     QuillToolbarTableButtonOptions? tableButtonOptions,
