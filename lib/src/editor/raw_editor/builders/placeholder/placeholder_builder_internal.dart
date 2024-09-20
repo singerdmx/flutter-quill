@@ -26,6 +26,7 @@ late final List<String> _blackList = List.unmodifiable(<String>[
   ...Attribute.ignoreKeys,
 ]);
 
+@experimental 
 @immutable
 class PlaceholderBuilder {
   const PlaceholderBuilder({
@@ -42,7 +43,7 @@ class PlaceholderBuilder {
   /// Check if this node need to show a placeholder
   @experimental
   (bool, String) shouldShowPlaceholder(Line node) {
-    if (builders.isEmpty || _validateCombinableStyles(node)) return (false, '');
+    if (builders.isEmpty) return (false, '');
     var shouldShow = false;
     var key = '';
     for (final exclusiveKey in <dynamic>{
@@ -60,22 +61,6 @@ class PlaceholderBuilder {
     // we return if should show placeholders and the key of the attr that matches to get it directly
     // avoiding an unnecessary traverse into the attributes of the node
     return (node.isEmpty && shouldShow, key);
-  }
-
-  /// We use this to validate if the node contains
-  /// styles that can be combined with other block styles
-  @experimental
-  bool _validateCombinableStyles(Line node) {
-    for (final exclusiveKey in [
-      Attribute.indent.key,
-      Attribute.align.key,
-      Attribute.lineHeight.key,
-    ]) {
-      if (node.style.containsKey(exclusiveKey)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   @experimental
