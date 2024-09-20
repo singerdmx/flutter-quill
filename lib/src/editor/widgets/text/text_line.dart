@@ -276,21 +276,17 @@ class _TextLineState extends State<TextLine> {
       final (shouldShowNode, attrKey) =
           widget.placeholderBuilder!.shouldShowPlaceholder(widget.line);
       if (shouldShowNode) {
-        final style = _getInlineTextStyle(
-            const Style(), defaultStyles, widget.line.style, false);
+        final style = lineStyle.merge(_getInlineTextStyle(
+            const Style(), defaultStyles, widget.line.style, false));
         final placeholderWidget = widget.placeholderBuilder!.build(
           blockAttribute: widget.line.style.attributes[attrKey]!,
-          lineStyle: lineStyle.merge(style),
+          lineStyle: style,
           textDirection: widget.textDirection ?? Directionality.of(context),
+          align: _getTextAlign(),
+          strutStyle: StrutStyle.fromTextStyle(style),
         );
         if (placeholderWidget != null) {
-          final widgetSpan = _getTextSpanFromNode(
-            defaultStyles,
-            leaf.QuillText(''),
-            widget.line.style,
-            placeholderWidget: placeholderWidget,
-          );
-          return TextSpan(children: [widgetSpan], style: lineStyle);
+          return TextSpan(children: [placeholderWidget], style: lineStyle);
         }
       }
       // if the [placeholderWidget] is null or [shouldShowNode] is false
@@ -491,17 +487,14 @@ class _TextLineState extends State<TextLine> {
   }
 
   InlineSpan _getTextSpanFromNode(
-    DefaultStyles defaultStyles,
-    Node node,
-    Style lineStyle, {
-    Widget? placeholderWidget,
-  }) {
+      DefaultStyles defaultStyles, Node node, Style lineStyle) {
     final textNode = node as leaf.QuillText;
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
     final style =
         _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
+
     if (widget.controller.configurations.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
       if (nodeStyle.containsKey(Attribute.script.key)) {
@@ -511,9 +504,6 @@ class _TextLineState extends State<TextLine> {
               style, defaultStyles);
         }
       }
-    }
-    if (placeholderWidget != null) {
-      return WidgetSpan(child: placeholderWidget, style: style);
     }
 
     if (!isLink &&

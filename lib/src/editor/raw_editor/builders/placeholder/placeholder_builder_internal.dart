@@ -1,13 +1,20 @@
 // This file is only for internal use
 import 'package:flutter/material.dart'
     show
+        Align,
+        Alignment,
+        CrossAxisAlignment,
         Expanded,
+        MainAxisAlignment,
         Row,
+        StrutStyle,
         Text,
+        TextAlign,
+        TextBaseline,
         TextDirection,
         TextStyle,
         TextWidthBasis,
-        Widget,
+        WidgetSpan,
         immutable;
 import 'package:meta/meta.dart';
 import '../../../../document/attribute.dart' show Attribute, AttributeScope;
@@ -26,7 +33,7 @@ late final List<String> _blackList = List.unmodifiable(<String>[
   ...Attribute.ignoreKeys,
 ]);
 
-@experimental 
+@experimental
 @immutable
 class PlaceholderBuilder {
   const PlaceholderBuilder({
@@ -63,33 +70,56 @@ class PlaceholderBuilder {
     return (node.isEmpty && shouldShow, key);
   }
 
+  /// Build is similar to build method from any widget but
+  /// this only has the responsability of create a WidgetSpan to be showed
+  /// by the line when the node is empty
+  ///
+  /// Before use this, we should always use [shouldShowPlaceholder] to avoid
+  /// show any placeholder where is not needed
   @experimental
-  Widget? build({
+  WidgetSpan? build({
     required Attribute blockAttribute,
     required TextStyle lineStyle,
     required TextDirection textDirection,
+    required StrutStyle strutStyle,
+    required TextAlign align,
   }) {
     if (builders.isEmpty) return null;
     final configuration =
         builders[blockAttribute.key]?.call(blockAttribute, lineStyle);
-    // we return a row because this widget takes the whole width and makes possible
-    // select the block correctly (without this the block line cannot be selected correctly)
-    return configuration == null || configuration.placeholderText.trim().isEmpty
-        ? null
-        : Row(
-            children: [
-              // expanded let us add text as large as possible without breaks
-              // the horizontal view
-              Expanded(
-                child: Text(
-                  configuration.placeholderText,
-                  style: configuration.style,
-                  textDirection: textDirection,
-                  softWrap: true,
-                  textWidthBasis: TextWidthBasis.longestLine,
-                ),
-              ),
-            ],
-          );
+    // we don't need to add a placeholder that is null or contains a empty text
+    if (configuration == null || configuration.placeholderText.trim().isEmpty)
+      return null;
+    final textWidget = Text(
+      configuration.placeholderText,
+      style: configuration.style,
+      textDirection: textDirection,
+      softWrap: true,
+      strutStyle: strutStyle,
+      textAlign: align,
+      textWidthBasis: TextWidthBasis.longestLine,
+    );
+    // we use [Align] widget to take whole the available width
+    // when the line has not defined an alignment.
+    //
+    // this behavior is different when the align is left or justify, because
+    // if we align to the center (example) the line, align as we say, will take the whole
+    // width, creating a visual unexpected behavior where the caret being putted
+    // at the offset 0 (you can think this like the caret appears at the first char
+    // of the line when it is aligned at the left side instead appears at the middle
+    // if the line is centered)
+    //
+    // # !Note:
+    // this code is subject to changes because we need to get a better solution
+    // to this implementation
+    return WidgetSpan(
+      style: lineStyle,
+      child: align != TextAlign.left && align != TextAlign.justify
+          ? textWidget
+          : Align(
+              alignment: Alignment.centerLeft,
+              child: textWidget,
+            ),
+    );
   }
 }
