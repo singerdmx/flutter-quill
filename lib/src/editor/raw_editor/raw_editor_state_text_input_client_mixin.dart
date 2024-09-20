@@ -7,6 +7,7 @@ import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 
+import '../../controller/quill_controller.dart' show ReplaceTextSource;
 import '../../delta/delta_diff.dart';
 import '../../document/document.dart';
 import '../editor.dart';
@@ -218,7 +219,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         diff.deleted.length,
         diff.inserted,
         value.selection,
-        isInputClient: true,
+        source: ReplaceTextSource.inputClient,
       );
     }
   }

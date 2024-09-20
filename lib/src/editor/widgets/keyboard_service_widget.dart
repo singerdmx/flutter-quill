@@ -11,7 +11,6 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/leaf.dart' as leaf;
 import '../../document/nodes/line.dart';
 import '../raw_editor/config/events/character_shortcuts_events.dart';
-import '../raw_editor/config/events/soft_keyboard_shortcut_support.dart';
 import '../raw_editor/config/events/space_shortcut_events.dart';
 import 'default_single_activator_actions.dart';
 import 'keyboard_listener.dart';
@@ -72,12 +71,6 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
   }
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
-    if (controller.editorConfigurations.softKeyboardShortcutSupport) {
-      assert(QuillSoftKeyboardShortcutSupport.isSupported,
-          QuillSoftKeyboardShortcutSupport.assertMessage);
-      return KeyEventResult.ignored;
-    }
-
     // Don't handle key if there is a meta key pressed.
     if (HardwareKeyboard.instance.isAltPressed ||
         HardwareKeyboard.instance.isControlPressed ||

@@ -1,7 +1,7 @@
-import '../../../../../../quill_delta.dart';
-import '../../../../../controller/quill_controller.dart';
-import '../../../../../document/attribute.dart';
-import '../../../../../document/document.dart';
+import '../../../../../../../quill_delta.dart';
+import '../../../../../../controller/quill_controller.dart';
+import '../../../../../../document/attribute.dart';
+import '../../../../../../document/document.dart';
 
 enum SingleCharacterFormatStyle {
   code,
@@ -10,7 +10,7 @@ enum SingleCharacterFormatStyle {
 }
 
 // for demonstration purpose, the following comments use * to represent the character from the parameter [char].
-bool handleFormatByWrappingWithSingleCharacter({
+bool softKeyboardHandleFormatByWrappingWithSingleCharacter({
   required QuillController controller,
   required String character,
   required SingleCharacterFormatStyle formatStyle,
@@ -35,7 +35,8 @@ bool handleFormatByWrappingWithSingleCharacter({
 
   var lastCharIndex = -1;
   // found the nearest using the caret position as base
-  for (var i = selection.end - 1; i > 0; i--) {
+  final caretPosition = selection.end - 2;
+  for (var i = caretPosition; i > 0; i--) {
     // If we found characters that satifies our handler, and it founds
     // a new line, then, need to cancel the handler
     // because bold (and common styles from markdown) cannot
@@ -74,6 +75,12 @@ bool handleFormatByWrappingWithSingleCharacter({
   if ((character == '*' || character == '_' || character == '~') &&
       (lastCharIndex >= 1) &&
       (plainText[lastCharIndex - 1] == character)) {
+    return false;
+  }
+
+  // this gets triggered for e.g. '**', meaning we would try to format empty string
+  // therefore wrongly removing '**'
+  if (lastCharIndex == caretPosition) {
     return false;
   }
 

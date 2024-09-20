@@ -1,7 +1,7 @@
-import '../../../../../../quill_delta.dart';
-import '../../../../../controller/quill_controller.dart';
-import '../../../../../document/attribute.dart';
-import '../../../../../document/document.dart';
+import '../../../../../../../quill_delta.dart';
+import '../../../../../../controller/quill_controller.dart';
+import '../../../../../../document/attribute.dart';
+import '../../../../../../document/document.dart';
 
 // We currently have only one format style is triggered by double characters.
 // **abc** or __abc__ -> bold abc
@@ -10,7 +10,7 @@ enum DoubleCharacterFormatStyle {
   strikethrough, // ~~
 }
 
-bool handleFormatByWrappingWithDoubleCharacter({
+bool softKeyboardHandleFormatByWrappingWithDoubleCharacter({
   // for demonstration purpose, the following comments use * to represent the character from the parameter [char].
   required QuillController controller,
   required String character,
@@ -36,7 +36,8 @@ bool handleFormatByWrappingWithDoubleCharacter({
 
   // find all the index of *[char]
   var charIndexList = <int>[];
-  for (var i = selection.end - 1; i > 0; i--) {
+  final caretPosition = selection.end - 2;
+  for (var i = caretPosition; i > 0; i--) {
     // If we found characters that satifies our handler, and it founds
     // a new line, then, need to cancel the handler
     // because bold (and common styles from markdown) cannot

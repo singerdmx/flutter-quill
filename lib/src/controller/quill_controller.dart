@@ -17,7 +17,6 @@ import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_configurations.dart';
-import '../editor/raw_editor/config/events/soft_keyboard_shortcut_support.dart';
 import '../toolbar/config/simple_toolbar_configurations.dart';
 import 'quill_controller_configurations.dart';
 import 'quill_controller_rich_paste.dart';
@@ -26,6 +25,10 @@ import 'web/quill_controller_web_stub.dart'
     if (dart.library.html) 'web/quill_controller_web_real.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
+
+@experimental
+typedef ReplacedTextCallback = void Function(
+    int index, int len, Object? data, Delta? delta, ReplaceTextSource source);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
 
 class QuillController extends ChangeNotifier {
@@ -44,16 +47,6 @@ class QuillController extends ChangeNotifier {
         _selection = selection {
     if (kIsWeb) {
       initializeWebPasteEvent();
-    }
-
-    if (editorConfigurations.softKeyboardShortcutSupport) {
-      assert(() {
-        if (editorConfigurations.softKeyboardShortcutSupport) {
-          assert(QuillSoftKeyboardShortcutSupport.isSupported,
-              QuillSoftKeyboardShortcutSupport.assertMessage);
-        }
-        return true;
-      }());
     }
   }
 
@@ -76,17 +69,8 @@ class QuillController extends ChangeNotifier {
   QuillEditorConfigurations? _editorConfigurations;
   QuillEditorConfigurations get editorConfigurations =>
       _editorConfigurations ?? const QuillEditorConfigurations();
-  set editorConfigurations(QuillEditorConfigurations? value) {
-    _editorConfigurations = document.editorConfigurations = value;
-
-    assert(() {
-      if (editorConfigurations.softKeyboardShortcutSupport) {
-        assert(QuillSoftKeyboardShortcutSupport.isSupported,
-            QuillSoftKeyboardShortcutSupport.assertMessage);
-      }
-      return true;
-    }());
-  }
+  set editorConfigurations(QuillEditorConfigurations? value) =>
+      _editorConfigurations = document.editorConfigurations = value;
 
   /// Toolbar configurations
   ///
@@ -138,6 +122,21 @@ class QuillController extends ChangeNotifier {
   /// Custom [replaceText] handler
   /// Return false to ignore the event
   ReplaceTextCallback? onReplaceText;
+
+  final _onReplacedTextCallbacks = <ReplacedTextCallback>[];
+
+  /// called whenever [replaceText] completes
+  @experimental
+  void addOnReplacedText(ReplacedTextCallback callback) {
+    if (!_onReplacedTextCallbacks.contains(callback)) {
+      _onReplacedTextCallbacks.add(callback);
+    }
+  }
+
+  @experimental
+  void removeOnReplacedText(ReplacedTextCallback callback) {
+    _onReplacedTextCallbacks.remove(callback);
+  }
 
   /// Custom delete handler
   DeleteCallback? onDelete;
@@ -309,7 +308,7 @@ class QuillController extends ChangeNotifier {
     TextSelection? textSelection, {
     bool ignoreFocus = false,
     bool shouldNotifyListeners = true,
-    @experimental @internal bool isInputClient = false,
+    @experimental ReplaceTextSource source = ReplaceTextSource.unspecified,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
 
@@ -319,12 +318,8 @@ class QuillController extends ChangeNotifier {
 
     Delta? delta;
     Style? style;
-    var isNewCharDelta = false;
     if (len > 0 || data is! String || data.isNotEmpty) {
       delta = document.replace(index, len, data);
-      if (isInputClient && len == 0 && data is String && data.length == 1) {
-        isNewCharDelta = true;
-      }
 
       /// Remove block styles as they can only be attached to line endings
       style = Style.attr(Map<String, Attribute>.fromEntries(toggledStyle
@@ -379,17 +374,8 @@ class QuillController extends ChangeNotifier {
     }
     ignoreFocusOnTextChange = false;
 
-    if (delta != null &&
-        isNewCharDelta &&
-        editorConfigurations.softKeyboardShortcutSupport) {
-      assert(() {
-        if (editorConfigurations.softKeyboardShortcutSupport) {
-          assert(QuillSoftKeyboardShortcutSupport.isSupported,
-              QuillSoftKeyboardShortcutSupport.assertMessage);
-        }
-        return true;
-      }());
-      QuillSoftKeyboardShortcutSupport.onNewChar(delta, this);
+    for (final callback in _onReplacedTextCallbacks) {
+      callback(index, len, data, delta, source);
     }
   }
 
@@ -750,4 +736,15 @@ class QuillController extends ChangeNotifier {
     }
     return sb.toString();
   }
+}
+
+@experimental
+class ReplaceTextSource {
+  const ReplaceTextSource(this.name);
+
+  final String name;
+
+  @internal
+  static const inputClient = ReplaceTextSource('inputClient');
+  static const unspecified = ReplaceTextSource('unspecified');
 }

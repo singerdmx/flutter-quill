@@ -41,15 +41,23 @@ class _QuillScreenState extends State<QuillScreen> {
   final _editorScrollController = ScrollController();
   var _isReadOnly = false;
   var _isSpellcheckerActive = false;
+  QuillSoftKeyboardShortcutSupport? _softKeyboardShortcutSupport;
 
   @override
   void initState() {
     super.initState();
     _controller.document = widget.args.document;
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS)) {
+      _softKeyboardShortcutSupport = QuillSoftKeyboardShortcutSupport()
+        ..attachTo(_controller);
+    }
   }
 
   @override
   void dispose() {
+    _softKeyboardShortcutSupport?.detach();
     _controller.dispose();
     _editorFocusNode.dispose();
     _editorScrollController.dispose();
@@ -125,15 +133,17 @@ class _QuillScreenState extends State<QuillScreen> {
                 child: MyQuillEditor(
                   controller: _controller,
                   configurations: QuillEditorConfigurations(
-                    characterShortcutEvents: standardCharactersShortcutEvents,
-                    spaceShortcutEvents: standardSpaceShorcutEvents,
+                    characterShortcutEvents:
+                        _softKeyboardShortcutSupport == null
+                            ? standardCharactersShortcutEvents
+                            : [],
+                    spaceShortcutEvents: _softKeyboardShortcutSupport == null
+                        ? standardSpaceShorcutEvents
+                        : [],
                     searchConfigurations: const QuillSearchConfigurations(
                       searchEmbedMode: SearchEmbedMode.plainText,
                     ),
                     sharedConfigurations: _sharedConfigurations,
-                    softKeyboardShortcutSupport: !kIsWeb &&
-                        (defaultTargetPlatform == TargetPlatform.android ||
-                            defaultTargetPlatform == TargetPlatform.iOS),
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,
