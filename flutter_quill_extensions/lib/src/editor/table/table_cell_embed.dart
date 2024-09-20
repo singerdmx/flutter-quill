@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
+@experimental
 class TableCellWidget extends StatefulWidget {
   const TableCellWidget({
     required this.cellId,
