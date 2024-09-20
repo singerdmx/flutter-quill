@@ -286,7 +286,7 @@ class _TextLineState extends State<TextLine> {
           strutStyle: StrutStyle.fromTextStyle(style),
         );
         if (placeholderWidget != null) {
-          return TextSpan(children: [placeholderWidget], style: lineStyle);
+          return TextSpan(children: [placeholderWidget], style: style);
         }
       }
       // if the [placeholderWidget] is null or [shouldShowNode] is false
