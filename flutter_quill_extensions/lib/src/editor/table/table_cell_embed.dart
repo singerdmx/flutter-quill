@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 @experimental
+@Deprecated('TableCellWidget will no longer used and it will be removed in future releases')
 class TableCellWidget extends StatefulWidget {
   const TableCellWidget({
     required this.cellId,

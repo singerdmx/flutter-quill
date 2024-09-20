@@ -9,6 +9,7 @@ import 'table_cell_embed.dart';
 import 'table_models.dart';
 
 @experimental
+@Deprecated('CustomTableEmbed will no longer used and it will be removed in future releases')
 class CustomTableEmbed extends CustomBlockEmbed {
   const CustomTableEmbed(String value) : super(tableType, value);
 
@@ -45,7 +46,9 @@ class QuillEditorTableEmbedBuilder extends EmbedBuilder {
   }
 }
 
-@Deprecated('TableWidget will no longer used and it will be removed in future releases')
+@experimental
+@Deprecated(
+    'TableWidget will no longer used and it will be removed in future releases')
 class TableWidget extends StatefulWidget {
   const TableWidget({
     required this.tableData,

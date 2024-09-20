@@ -8,7 +8,7 @@ import 'models/table_configurations.dart';
 
 @experimental
 @Deprecated(
-    'QuillToolbarTableButton will no longer be used by now and will be removed in future releases')
+    'QuillToolbarTableButton will no longer used and will be removed in future releases')
 class QuillToolbarTableButton extends StatelessWidget {
   const QuillToolbarTableButton({
     required this.controller,
