@@ -4,10 +4,12 @@ import 'dart:convert' show utf8;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill_internal.dart'
     show ClipboardService;
+import 'package:meta/meta.dart' show experimental;
 
 import 'package:super_clipboard/super_clipboard.dart';
 
 /// Implementation using the https://pub.dev/packages/super_clipboard plugin.
+@experimental
 class SuperClipboardService extends ClipboardService {
   /// [Null] if the Clipboard API is not supported on this platform
   /// https://pub.dev/packages/super_clipboard#usage

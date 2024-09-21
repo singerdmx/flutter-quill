@@ -1,6 +1,9 @@
+import 'package:meta/meta.dart' show experimental;
+
 import 'clipboard_service.dart';
 import 'default_clipboard_service.dart';
 
+@experimental
 class ClipboardServiceProvider {
   ClipboardServiceProvider._();
   static ClipboardService _instance = DefaultClipboardService();

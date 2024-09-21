@@ -1,10 +1,13 @@
 import 'package:flutter/services.dart' show Uint8List;
+import 'package:meta/meta.dart' show experimental;
 import 'package:quill_native_bridge/quill_native_bridge.dart'
     show QuillNativeBridge, QuillNativeBridgePlatformFeature;
 
 import 'clipboard_service.dart';
 
-/// Default implementation
+/// Default implementation of [ClipboardService] to support rich clipboard
+/// operations.
+@experimental
 class DefaultClipboardService extends ClipboardService {
   @override
   Future<String?> getHtmlText() async {

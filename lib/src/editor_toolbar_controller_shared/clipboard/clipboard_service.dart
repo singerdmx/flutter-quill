@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:flutter/services.dart' show Clipboard;
+import 'package:meta/meta.dart' show experimental;
 
-/// An abstraction to make it easy to provide different implementations
+/// A more rich abstraction of Flutter [Clipboard] to support images, rich text
+/// and more clipboard operations.
+@experimental
 abstract class ClipboardService {
   /// Return HTML from the Clipboard.
   Future<String?> getHtmlText();
