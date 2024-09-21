@@ -1,6 +1,6 @@
 # 🪶 Quill Native Bridge
 
-The web implementation of [`quill_native_bridge`](../quill_native_bridge/).
+The web implementation of [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge).
 
 ## ⚙️ Usage
 
