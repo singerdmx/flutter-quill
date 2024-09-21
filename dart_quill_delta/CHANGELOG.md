@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.3
+
+- Deprecate `FlutterQuillExtensions` in `flutter_quill_extensions`
+- Update the minimum version of `flutter_quill` and `super_clipboard` in `flutter_quill_extensions` to avoid using deprecated code.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.2...v10.7.3
+
 ## 10.7.2
 
 ## What's Changed
