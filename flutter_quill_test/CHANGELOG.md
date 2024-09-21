@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.0
+
+* Chore: deprecate embed table feature by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2254
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.6...v10.7.0
+
 ## 10.6.6
 
 * Bug fix: Removing check not allowing spell check on web by @joeserhtf in https://github.com/singerdmx/flutter-quill/pull/2252
