@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../extensions.dart';
 import '../../../flutter_quill.dart';
+import '../../common/utils/widgets.dart';
 import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
