@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.4
+
+* chore: remove pubspec_overrides.yaml and pubspec_overrides.yaml.disabled by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2262
+* ci: remove quill_native_bridge from automated publishing workflow by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2263
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.3...v10.7.4
+
 ## 10.7.3
 
 - Deprecate `FlutterQuillExtensions` in `flutter_quill_extensions`
