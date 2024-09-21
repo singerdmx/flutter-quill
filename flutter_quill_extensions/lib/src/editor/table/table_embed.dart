@@ -9,7 +9,8 @@ import 'table_cell_embed.dart';
 import 'table_models.dart';
 
 @experimental
-@Deprecated('CustomTableEmbed will no longer used and it will be removed in future releases')
+@Deprecated(
+    'CustomTableEmbed will no longer used and it will be removed in future releases')
 class CustomTableEmbed extends CustomBlockEmbed {
   const CustomTableEmbed(String value) : super(tableType, value);
 
@@ -223,6 +224,7 @@ class _TableWidgetState extends State<TableWidget> {
         if (key != 'id') {
           final columnId = key;
           final data = value;
+          // ignore: deprecated_member_use_from_same_package
           rowCells.add(TableCellWidget(
             cellId: rowKey,
             onTap: (node) {
