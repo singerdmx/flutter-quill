@@ -3,6 +3,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'quill_native_bridge_method_channel.dart';
 
+/// **Experimental** as breaking changes can occur
 abstract class QuillNativeBridgePlatform extends PlatformInterface {
   /// Constructs a QuillNativeBridgePlatform.
   QuillNativeBridgePlatform() : super(token: _token);

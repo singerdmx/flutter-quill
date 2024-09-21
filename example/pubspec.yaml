@@ -62,7 +62,7 @@ dependency_overrides:
   flutter_quill_test:
     path: ../flutter_quill_test
   quill_native_bridge:
-    path: ../quill_native_bridge
+    path: ../quill_native_bridge/quill_native_bridge
 
 
 dev_dependencies:

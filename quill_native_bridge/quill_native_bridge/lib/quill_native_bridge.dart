@@ -3,10 +3,11 @@ library;
 import 'package:flutter/foundation.dart'
     show TargetPlatform, Uint8List, defaultTargetPlatform, kIsWeb;
 
-import 'quill_native_bridge.dart';
+import 'src/platform_feature.dart';
 import 'src/quill_native_bridge_platform_interface.dart';
 
 export 'src/platform_feature.dart';
+export 'src/quill_native_bridge_platform_interface.dart';
 
 /// An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 /// package to access platform-specific APIs.

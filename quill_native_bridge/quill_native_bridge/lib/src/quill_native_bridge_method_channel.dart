@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
-import '../quill_native_bridge.dart';
+import 'platform_feature.dart';
 import 'quill_native_bridge_platform_interface.dart';
 
 class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
