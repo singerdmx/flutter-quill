@@ -10,6 +10,9 @@ typedef OnGenerateNewFileNameCallback = String Function(
   String fileExt,
 );
 
+@Deprecated(
+  'QuillImageUtilities is no longer supported an will be removed in future releases.',
+)
 class QuillImageUtilities {
   const QuillImageUtilities({
     required this.document,
