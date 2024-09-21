@@ -4,5 +4,4 @@ const repoPackages = [
   './dart_quill_delta',
   './flutter_quill_extensions',
   './flutter_quill_test',
-  './quill_native_bridge'
 ];
