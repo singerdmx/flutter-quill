@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+
+@experimental
 class TableModel {
   TableModel({required this.columns, required this.rows});
 
@@ -42,6 +45,7 @@ class TableModel {
   }
 }
 
+@experimental
 class ColumnModel {
   ColumnModel({required this.id, required this.position});
 
@@ -62,6 +66,7 @@ class ColumnModel {
   }
 }
 
+@experimental
 class RowModel {
   // Key is column ID, value is cell content
 

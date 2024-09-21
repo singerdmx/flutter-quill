@@ -302,7 +302,6 @@ class MyQuillToolbar extends StatelessWidget {
                       : onImageInsert,
                 ),
               ),
-              tableButtonOptions: const QuillToolbarTableButtonOptions(),
             ),
           ),
         );
