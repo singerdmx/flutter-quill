@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.1
+
+* chore: deprecate markdown_quill export, ignore warnings by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2256
+* chore: deprecate spell checker service by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2255
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.0...v10.7.1
+
 ## 10.7.0
 
 * Chore: deprecate embed table feature by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2254
