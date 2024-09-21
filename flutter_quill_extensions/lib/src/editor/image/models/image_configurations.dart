@@ -1,7 +1,7 @@
 import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_quill/extensions.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart';
 
 import '../image_embed_types.dart';
 

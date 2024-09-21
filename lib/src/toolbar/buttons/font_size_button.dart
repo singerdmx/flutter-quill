@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../extensions.dart';
 import '../../common/utils/font.dart';
+import '../../common/utils/widgets.dart';
 import '../../document/attribute.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
