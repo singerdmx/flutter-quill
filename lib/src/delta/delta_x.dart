@@ -3,6 +3,7 @@ import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart
 import 'package:markdown/markdown.dart' as md;
 import 'package:meta/meta.dart' show experimental;
 
+// ignore: deprecated_member_use_from_same_package
 import '../../markdown_quill.dart';
 import '../../quill_delta.dart';
 
