@@ -20,8 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.1.8
-  quill_native_bridge_web:
-    path: ../quill_native_bridge_web
+  quill_native_bridge_web: ^0.0.1-dev.0
 
 dev_dependencies:
   flutter_test:
