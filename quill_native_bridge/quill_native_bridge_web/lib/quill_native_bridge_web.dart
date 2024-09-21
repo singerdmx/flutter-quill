@@ -43,7 +43,7 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
     );
 
     final clipboardItem = ClipboardItem(
-      {'image/png': blob}.jsify() as JSObject,
+      {'image/png'.toJS: blob}.jsify() as JSObject,
     );
 
     await window.navigator.clipboard.write([clipboardItem].toJS).toDart;
