@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
+@experimental
+@Deprecated(
+    'TableCellWidget will no longer used and it will be removed in future releases')
 class TableCellWidget extends StatefulWidget {
   const TableCellWidget({
     required this.cellId,
@@ -18,6 +22,7 @@ class TableCellWidget extends StatefulWidget {
   State<TableCellWidget> createState() => _TableCellWidgetState();
 }
 
+// ignore: deprecated_member_use_from_same_package
 class _TableCellWidgetState extends State<TableCellWidget> {
   late final TextEditingController controller;
   late final FocusNode node;
