@@ -27,9 +27,6 @@ jobs:
       - name: 📥 Install Flutter dependencies
         run: flutter pub get
 
-      - name: 🚧 Enable local development environment (use the local packages)
-        run: dart ./scripts/enable_local_dev.dart
-
       - name: 📦 Install dart_quill_delta dependencies
         run: flutter pub get -C dart_quill_delta
       

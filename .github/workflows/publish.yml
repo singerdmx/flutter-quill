@@ -40,9 +40,6 @@ jobs:
 
       - name: 📥 Install Flutter dependencies
         run: flutter pub get
-
-      - name: 🚧 Enable local development environment (use the local packages)
-        run: dart ./scripts/enable_local_dev.dart
       
       # This is needed in order for the authentication to success
       # dart pub token add https://pub.dev --env-var PUB_TOKEN
