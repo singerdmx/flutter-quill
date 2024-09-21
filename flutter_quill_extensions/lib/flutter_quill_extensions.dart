@@ -2,7 +2,7 @@ library flutter_quill_extensions;
 
 // ignore: implementation_imports
 import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
-import 'package:meta/meta.dart' show immutable;
+import 'package:meta/meta.dart' show experimental;
 
 import 'src/editor_toolbar_controller_shared/clipboard/super_clipboard_service.dart';
 
@@ -38,9 +38,12 @@ export 'src/toolbar/video/models/video.dart';
 export 'src/toolbar/video/models/video_configurations.dart';
 export 'src/toolbar/video/video_button.dart';
 
-@immutable
+@Deprecated(
+  'Should not be used as will removed soon in future releases.',
+)
+@experimental
 class FlutterQuillExtensions {
-  const FlutterQuillExtensions._();
+  FlutterQuillExtensions._();
 
   @Deprecated(
     '''
@@ -51,6 +54,7 @@ class FlutterQuillExtensions {
     Calling this function will no longer activate the feature.
     ''',
   )
+  @experimental
   static void useSpellCheckerService(String language) {
     // This feature has been removed from the package.
     // See https://github.com/singerdmx/flutter-quill/issues/2142
@@ -59,6 +63,11 @@ class FlutterQuillExtensions {
   /// Override default implementation of [ClipboardServiceProvider.instance]
   /// to allow `flutter_quill` package to use `super_clipboard` plugin
   /// to support rich text features, gif and images.
+  @Deprecated(
+    'Should not be used anymore as super_clipboard will moved outside of flutter_quill_extensions soon.\n'
+    'A replacement is being made in https://github.com/singerdmx/flutter-quill/pull/2230',
+  )
+  @experimental
   static void useSuperClipboardPlugin() {
     ClipboardServiceProvider.setInstance(SuperClipboardService());
   }
