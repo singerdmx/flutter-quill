@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
+import 'package:flutter_quill/flutter_quill_internal.dart';
 import 'package:flutter_quill/translations.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
