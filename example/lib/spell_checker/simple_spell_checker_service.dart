@@ -4,8 +4,13 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:simple_spell_checker/simple_spell_checker.dart';
 
 /// SimpleSpellChecker is a simple spell checker for get
-/// all words divide on different objects if them are wrong or not
+/// all words divide on different objects if them are wrong or not.
+///
+/// **Important**: A breaking change is planned and this shouldn't be used
+/// for new applications. A replacement will arrive soon.
+/// See: https://github.com/singerdmx/flutter-quill/issues/2246
 class SimpleSpellCheckerService
+    // ignore: deprecated_member_use
     extends SpellCheckerService<LanguageIdentifier> {
   SimpleSpellCheckerService({required super.language})
       : checker = SimpleSpellChecker(

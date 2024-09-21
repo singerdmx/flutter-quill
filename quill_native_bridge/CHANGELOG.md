@@ -4,6 +4,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.3
+
+- Deprecate `FlutterQuillExtensions` in `flutter_quill_extensions`
+- Update the minimum version of `flutter_quill` and `super_clipboard` in `flutter_quill_extensions` to avoid using deprecated code.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.2...v10.7.3
+
+## 10.7.2
+
+## What's Changed
+* chore: deprecate flutter_quill/extensions.dart by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2258
+
+This is a minor release introduced to upload a new version of `flutter_quill` and `flutter_quill_extensions` to update the minimum required to avoid using deprecated code in `flutter_quill_extensions`.
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.1...v10.7.2
+
+## 10.7.1
+
+* chore: deprecate markdown_quill export, ignore warnings by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2256
+* chore: deprecate spell checker service by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2255
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.0...v10.7.1
+
+## 10.7.0
+
+* Chore: deprecate embed table feature by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2254
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.6...v10.7.0
+
+## 10.6.6
+
+* Bug fix: Removing check not allowing spell check on web by @joeserhtf in https://github.com/singerdmx/flutter-quill/pull/2252
+
+## New Contributors
+* @joeserhtf made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2252
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.6.5...v10.6.6
+
 ## 10.6.5
 
 * Refine IME composing range styling by applying underline as text style by @agata in https://github.com/singerdmx/flutter-quill/pull/2244

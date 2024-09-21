@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' show isDesktopApp;
+import 'package:flutter_quill/flutter_quill_internal.dart' show isDesktopApp;
 import 'package:flutter_quill/translations.dart';
 
 import '../../editor/image/image_embed_types.dart';

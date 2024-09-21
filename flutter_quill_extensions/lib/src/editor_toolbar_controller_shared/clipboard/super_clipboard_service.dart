@@ -2,7 +2,8 @@ import 'dart:async' show Completer;
 import 'dart:convert' show utf8;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_quill/extensions.dart' show ClipboardService;
+import 'package:flutter_quill/flutter_quill_internal.dart'
+    show ClipboardService;
 
 import 'package:super_clipboard/super_clipboard.dart';
 

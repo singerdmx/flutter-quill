@@ -325,11 +325,8 @@ The following packages can be used:
 
 ## 📝 Spelling checker
 
-While spell-checking is not a feature that's implemented into the project, it can be used using external dependencies.
-
-It's implemented using the package `simple_spell_checker` in the [Example](./example/).
-
-Take a look at [Spelling Checker](./doc/spell_checker.md) page for more info.
+This feature is currently not implemented and is being planned. Refer to [#2246](https://github.com/singerdmx/flutter-quill/issues/2246)
+for discussion.
 
 ## ✂️ Shortcut events
 

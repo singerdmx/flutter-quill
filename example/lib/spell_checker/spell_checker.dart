@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter_quill/flutter_quill.dart';
 
 import 'simple_spell_checker_service.dart';

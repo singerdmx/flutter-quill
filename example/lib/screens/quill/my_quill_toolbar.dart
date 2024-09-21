@@ -3,8 +3,8 @@ import 'dart:io' as io show File;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -302,7 +302,6 @@ class MyQuillToolbar extends StatelessWidget {
                       : onImageInsert,
                 ),
               ),
-              tableButtonOptions: const QuillToolbarTableButtonOptions(),
             ),
           ),
         );

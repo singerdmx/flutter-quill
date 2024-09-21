@@ -1,7 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 /// A representation a custom SpellCheckService.
+@Deprecated(
+  'A breaking change is being planned for the SpellCheckerService.\n'
+  "A replacement doesn't exist yet but should arrive soon."
+  'See https://github.com/singerdmx/flutter-quill/issues/2246 for more details.',
+)
+@experimental
 abstract class SpellCheckerService<T> {
   SpellCheckerService({required this.language});
 

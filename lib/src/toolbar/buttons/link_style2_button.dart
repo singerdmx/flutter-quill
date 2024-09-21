@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-import '../../../extensions.dart'
-    show UtilityWidgets, AutoFormatMultipleLinksRule;
+import '../../common/utils/widgets.dart';
 import '../../controller/quill_controller.dart';
 import '../../editor/widgets/link.dart';
 import '../../editor_toolbar_shared/quill_configurations_ext.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../../l10n/widgets/localizations.dart';
+import '../../rules/insert.dart';
 import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 import '../simple_toolbar_provider.dart';
