@@ -38,7 +38,7 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
       );
     }
     final blob = Blob(
-      [imageBytes.toJS].jsify() as JSArray<Blob>,
+      [imageBytes.toJS].toJS,
       BlobPropertyBag(type: 'image/png'),
     );
 
@@ -46,9 +46,7 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
       {'image/png': blob}.jsify() as JSObject,
     );
 
-    await window.navigator.clipboard
-        .write([clipboardItem].jsify() as ClipboardItems)
-        .toDart;
+    await window.navigator.clipboard.write([clipboardItem].toJS).toDart;
   }
 
   @override
