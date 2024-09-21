@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.2
+
+## What's Changed
+* chore: deprecate flutter_quill/extensions.dart by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2258
+
+This is a minor release introduced to upload a new version of `flutter_quill` and `flutter_quill_extensions` to update the minimum required to avoid using deprecated code in `flutter_quill_extensions`.
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.1...v10.7.2
+
 ## 10.7.1
 
 * chore: deprecate markdown_quill export, ignore warnings by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2256
