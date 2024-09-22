@@ -1,2 +1,2 @@
 const String kHtmlMimeType = 'text/html';
-const String kImagePngMimeType = 'text/png';
+const String kImagePngMimeType = 'image/png';
