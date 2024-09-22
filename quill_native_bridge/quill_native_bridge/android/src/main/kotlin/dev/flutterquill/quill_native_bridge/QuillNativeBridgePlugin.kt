@@ -38,19 +38,16 @@ class QuillNativeBridgePlugin : FlutterPlugin, MethodCallHandler {
                     return
                 }
 
-                val clipData = clipboard.primaryClip
+                val primaryClipData = clipboard.primaryClip
 
-                if (clipData == null || clipData.itemCount <= 0) {
+                if (primaryClipData == null || primaryClipData.itemCount == 0) {
                     result.success(null)
                     return
                 }
 
-                val item = clipData.getItemAt(0)
+                val item = primaryClipData.getItemAt(0)
 
-                if (item.text == null || clipboard.primaryClipDescription?.hasMimeType(
-                        ClipDescription.MIMETYPE_TEXT_HTML
-                    ) == false
-                ) {
+                if (!primaryClipData.description.hasMimeType(ClipDescription.MIMETYPE_TEXT_HTML)) {
                     result.success(null)
                     return
                 }
@@ -59,7 +56,7 @@ class QuillNativeBridgePlugin : FlutterPlugin, MethodCallHandler {
                 if (htmlText == null) {
                     result.error(
                         "HTML_TEXT_NULL",
-                        "Expected the HTML Text from Clipboard to be not null",
+                        "Expected the HTML Text from the Clipboard to be not null",
                         null
                     )
                     return
@@ -79,7 +76,8 @@ class QuillNativeBridgePlugin : FlutterPlugin, MethodCallHandler {
                 }
 
                 try {
-                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip = ClipData.newHtmlText("HTML", html, html)
                     clipboard.setPrimaryClip(clip)
                 } catch (e: Exception) {
