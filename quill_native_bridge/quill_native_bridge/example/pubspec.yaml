@@ -23,6 +23,8 @@ dev_dependencies:
 
   flutter_lints: ^4.0.0
 
+  image_compare: ^1.1.2
+
 flutter:
   uses-material-design: true
   assets:
