@@ -9,9 +9,7 @@ import 'package:quill_native_bridge/quill_native_bridge.dart';
 import 'package:web/web.dart';
 
 import 'src/clipboard_api_support_unsafe.dart';
-
-// TODO: Reorder the methods in QuillNativeBridgeWeb to match the order of QuillNativeBridgePlatform
-//      and cleanup the code here, extract constants and improve the name
+import 'src/mime_types_constants.dart';
 
 /// A web implementation of the [QuillNativeBridgePlatform].
 ///
@@ -32,27 +30,6 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
-    if (isClipbaordApiUnsupported) {
-      throw UnsupportedError(
-        'Could not copy image to the clipboard.\n'
-        'The Clipboard API is not supported on ${window.navigator.userAgent}.\n'
-        'Should fallback to Clipboard events.',
-      );
-    }
-    final blob = Blob(
-      [imageBytes.toJS].toJS,
-      BlobPropertyBag(type: 'image/png'),
-    );
-
-    final clipboardItem = ClipboardItem(
-      {'image/png'.toJS: blob}.jsify() as JSObject,
-    );
-
-    await window.navigator.clipboard.write([clipboardItem].toJS).toDart;
-  }
-
-  @override
   Future<String?> getClipboardHTML() async {
     if (isClipbaordApiUnsupported) {
       throw UnsupportedError(
@@ -61,12 +38,11 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
         'Should fallback to Clipboard events.',
       );
     }
-    const kMimeTextHtml = 'text/html';
     final clipboardItems =
         (await window.navigator.clipboard.read().toDart).toDart;
     for (final item in clipboardItems) {
-      if (item.types.toDart.contains(kMimeTextHtml.toJS)) {
-        final html = await item.getType(kMimeTextHtml).toDart;
+      if (item.types.toDart.contains(kHtmlMimeType.toJS)) {
+        final html = await item.getType(kHtmlMimeType).toDart;
         return (await html.text().toDart).toDart;
       }
     }
@@ -82,11 +58,31 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
         'Should fallback to Clipboard events.',
       );
     }
-    const kMimeHtml = 'text/html';
-    final blob = Blob([html.toJS].toJS, BlobPropertyBag(type: kMimeHtml));
+    final blob = Blob([html.toJS].toJS, BlobPropertyBag(type: kHtmlMimeType));
     final clipboardItem = ClipboardItem(
-      {kMimeHtml.toJS: blob}.jsify() as JSObject,
+      {kHtmlMimeType.toJS: blob}.jsify() as JSObject,
     );
+    await window.navigator.clipboard.write([clipboardItem].toJS).toDart;
+  }
+
+  @override
+  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+    if (isClipbaordApiUnsupported) {
+      throw UnsupportedError(
+        'Could not copy image to the clipboard.\n'
+        'The Clipboard API is not supported on ${window.navigator.userAgent}.\n'
+        'Should fallback to Clipboard events.',
+      );
+    }
+    final blob = Blob(
+      [imageBytes.toJS].toJS,
+      BlobPropertyBag(type: kImagePngMimeType),
+    );
+
+    final clipboardItem = ClipboardItem(
+      {kImagePngMimeType.toJS: blob}.jsify() as JSObject,
+    );
+
     await window.navigator.clipboard.write([clipboardItem].toJS).toDart;
   }
 
@@ -99,12 +95,11 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
         'Should fallback to Clipboard events.',
       );
     }
-    const kMimeImagePng = 'image/png';
     final clipboardItems =
         (await window.navigator.clipboard.read().toDart).toDart;
     for (final item in clipboardItems) {
-      if (item.types.toDart.contains(kMimeImagePng.toJS)) {
-        final blob = await item.getType(kMimeImagePng).toDart;
+      if (item.types.toDart.contains(kImagePngMimeType.toJS)) {
+        final blob = await item.getType(kImagePngMimeType).toDart;
         final arrayBuffer = await blob.arrayBuffer().toDart;
         return arrayBuffer.toDart.asUint8List();
       }
