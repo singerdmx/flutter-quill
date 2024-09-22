@@ -37,7 +37,7 @@ jobs:
         run: flutter pub get -C flutter_quill_test
 
       - name: 📦 Install quill_native_bridge dependencies
-        run: flutter pub get -C quill_native_bridge
+        run: flutter pub get -C quill_native_bridge/quill_native_bridge
 
       - name: 🔍 Run Flutter analysis
         run: flutter analyze
