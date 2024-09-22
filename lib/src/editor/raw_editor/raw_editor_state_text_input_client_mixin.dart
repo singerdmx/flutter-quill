@@ -113,8 +113,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   }
 
   void _updateComposingRectIfNeeded() {
-    final composingRange = _lastKnownRemoteTextEditingValue?.composing ?? 
-                            textEditingValue.composing;
+    final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
+        textEditingValue.composing;
     if (hasConnection) {
       assert(mounted);
       final offset = composingRange.isValid ? composingRange.start : 0;
