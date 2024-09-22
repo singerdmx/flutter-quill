@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart' show Uint8List, rootBundle;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_compare/image_compare.dart';
 import 'package:integration_test/integration_test.dart';
@@ -48,15 +47,25 @@ void main() {
   });
 
   group('getClipboardHTML and copyHTMLToClipbaord', () {
-    // TODO: copyHTMLToClipbaord() is missing.
-    // const htmlToCopy =
-    //     '<div class="container"><h1>Test Document</h1><p>This is a <strong>sample</strong> paragraph with <a href="https://example.com">a link</a> and some <span style="color:red;">red text</span>.</p><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><footer>Footer content here</footer></div>';
-    // QuillNativeBridge.copyHTMLToClipboard(htmlToCopy);
-    // final clipboardHTML = QuillNativeBridge.getClipboardHTML();
-    // expect(htmlToCopy, clipboardHTML);
-  });
-}
+    test('copying HTML to the clipboard should make it accessible', () async {
+      const htmlToCopy =
+          '<div class="container"><h1>Test Document</h1><p>This is a <strong>sample</strong> paragraph with <a href="https://example.com">a link</a> and some <span style="color:red;">red text</span>.</p><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><footer>Footer content here</footer></div>';
+      await QuillNativeBridge.copyHTMLToClipboard(htmlToCopy);
+      final clipboardHTML = await QuillNativeBridge.getClipboardHTML();
+      expect(htmlToCopy, clipboardHTML);
+    });
 
-Future<Uint8List> loadAssetImage(String assetPath) async {
-  return (await rootBundle.load(assetPath)).buffer.asUint8List();
+    test('copying HTML should return the HTML that was recently copied',
+        () async {
+      const html1 = '<pre style="font-family: monospace;">HTML</pre>';
+      const html2 = '<div style="border: 1px solid;">HTML Div</div>';
+
+      await QuillNativeBridge.copyHTMLToClipboard(html1);
+      await QuillNativeBridge.copyHTMLToClipboard(html2);
+
+      final clipboardHTML = await QuillNativeBridge.getClipboardHTML();
+      expect(clipboardHTML, isNot(html1));
+      expect(clipboardHTML, html2);
+    });
+  });
 }

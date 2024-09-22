@@ -18,6 +18,15 @@ public class QuillNativeBridgePlugin: NSObject, FlutterPlugin {
       } else {
           result(nil)
       }
+    case "copyHTMLToClipboard":
+      guard let html = call.arguments as? String else {
+        result(FlutterError(code: "HTML_REQUIRED", message: "HTML is required to copy the HTML to the clipboard.", details: nil))
+        return
+      }
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+      pasteboard.setString(html, forType: .html)
+      result(nil)
     case "copyImageToClipboard":
         guard let data = call.arguments as? FlutterStandardTypedData else {
             result(FlutterError(code: "IMAGE_BYTES_REQUIRED", message: "Image bytes are required to copy the image to the clipboard.", details: nil))

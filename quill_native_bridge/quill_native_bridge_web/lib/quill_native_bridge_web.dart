@@ -10,6 +10,9 @@ import 'package:web/web.dart';
 
 import 'src/clipboard_api_support_unsafe.dart';
 
+// TODO: Reorder the methods in QuillNativeBridgeWeb to match the order of QuillNativeBridgePlatform
+//      and cleanup the code here, extract constants and improve the name
+
 /// A web implementation of the [QuillNativeBridgePlatform].
 ///
 /// **Highly Experimental** and can be removed.
@@ -68,6 +71,23 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
       }
     }
     return null;
+  }
+
+  @override
+  Future<void> copyHTMLToClipboard(String html) async {
+    if (isClipbaordApiUnsupported) {
+      throw UnsupportedError(
+        'Could not copy HTML to the clipboard.\n'
+        'The Clipboard API is not supported on ${window.navigator.userAgent}.\n'
+        'Should fallback to Clipboard events.',
+      );
+    }
+    const kMimeHtml = 'text/html';
+    final blob = Blob([html.toJS].toJS, BlobPropertyBag(type: kMimeHtml));
+    final clipboardItem = ClipboardItem(
+      {kMimeHtml.toJS: blob}.jsify() as JSObject,
+    );
+    await window.navigator.clipboard.write([clipboardItem].toJS).toDart;
   }
 
   @override

@@ -9,6 +9,10 @@ import 'src/quill_native_bridge_platform_interface.dart';
 export 'src/platform_feature.dart';
 export 'src/quill_native_bridge_platform_interface.dart';
 
+// TODO: Support description of methods here is outdated with QuillNativeBridgePlatformFeature
+//    web support has been added recently and still not updated.
+//    Remove 'non-web platforms', 'Doesn't support web' and anything related.
+
 /// An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 /// package to access platform-specific APIs.
 ///
@@ -37,6 +41,12 @@ class QuillNativeBridge {
   /// Currently only supports **Android**, **iOS** and **macOS**.
   static Future<String?> getClipboardHTML() =>
       QuillNativeBridgePlatform.instance.getClipboardHTML();
+
+  /// Copy the [html] to the clipboard to be pasted on other apps.
+  ///
+  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
+  static Future<void> copyHTMLToClipboard(String html) =>
+      QuillNativeBridgePlatform.instance.copyHTMLToClipboard(html);
 
   /// Copy the [imageBytes] to Clipboard to be pasted on other apps.
   ///

@@ -67,6 +67,33 @@ class QuillNativeBridgePlugin : FlutterPlugin, MethodCallHandler {
                 result.success(htmlText)
             }
 
+            "copyHTMLToClipboard" -> {
+                val html = call.arguments as? String
+                if (html == null) {
+                    result.error(
+                        "HTML_REQUIRED",
+                        "HTML is required to copy the HTML to the clipboard.",
+                        null
+                    )
+                    return
+                }
+
+                try {
+                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newHtmlText("HTML", html, html)
+                    clipboard.setPrimaryClip(clip)
+                } catch (e: Exception) {
+                    result.error(
+                        "COULD_NOT_COPY_HTML_TO_CLIPBOARD",
+                        "Unknown error while copying the HTML to the clipboard: ${e.message}",
+                        e.toString()
+                    )
+                    return
+                }
+
+                result.success(null)
+            }
+
             "copyImageToClipboard" -> {
                 val imageBytes = call.arguments as? ByteArray
                 if (imageBytes == null) {

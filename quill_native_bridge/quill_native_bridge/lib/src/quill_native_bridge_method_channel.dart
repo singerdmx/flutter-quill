@@ -47,6 +47,22 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   }
 
   @override
+  Future<void> copyHTMLToClipboard(String html) async {
+    assert(() {
+      if (QuillNativeBridgePlatformFeature.copyHTMLToClipboard.isUnsupported) {
+        throw FlutterError(
+          'copyHTMLToClipboard() is currently not supported on $defaultTargetPlatform.',
+        );
+      }
+      return true;
+    }());
+    await methodChannel.invokeMethod<void>(
+      'copyHTMLToClipboard',
+      html,
+    );
+  }
+
+  @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
     assert(() {
       if (QuillNativeBridgePlatformFeature.copyImageToClipboard.isUnsupported) {

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart'
 enum QuillNativeBridgePlatformFeature {
   isIOSSimulator(hasWebSupport: false),
   getClipboardHTML(hasWebSupport: true),
+  copyHTMLToClipboard(hasWebSupport: true),
   copyImageToClipboard(hasWebSupport: true),
   getClipboardImage(hasWebSupport: true),
   getClipboardGif(hasWebSupport: false);
@@ -45,6 +46,9 @@ enum QuillNativeBridgePlatformFeature {
       QuillNativeBridgePlatformFeature.isIOSSimulator =>
         !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS,
       QuillNativeBridgePlatformFeature.getClipboardHTML => kIsWeb ||
+          {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
+              .contains(defaultTargetPlatform),
+      QuillNativeBridgePlatformFeature.copyHTMLToClipboard => kIsWeb ||
           {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
               .contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.copyImageToClipboard => kIsWeb ||
