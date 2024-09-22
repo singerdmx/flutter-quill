@@ -38,7 +38,7 @@ class QuillToolbarBaseButtonExtraOptions extends Equatable {
 }
 
 /// The [T] is the options for the button, usually should refresnce itself
-/// it's used in [childBuilder] so the developer can custmize this when using it
+/// it's used in [childBuilder] so the developer can customize this when using it
 /// The [I] is extra options for the button, usually for it's state
 @immutable
 class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
@@ -90,7 +90,7 @@ class QuillToolbarBaseButtonOptions<T, I> extends Equatable {
   /// Use custom theme
   final QuillIconTheme? iconTheme;
 
-  /// If you want to dispaly a differnet widget based using a builder
+  /// If you want to display a different widget based using a builder
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 
   @override
