@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart' as services
+    show Clipboard, ClipboardData;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_compare/image_compare.dart';
 import 'package:integration_test/integration_test.dart';
@@ -67,5 +69,57 @@ void main() {
       expect(clipboardHTML, isNot(html1));
       expect(clipboardHTML, html2);
     });
+    // TODO: See if there is a need for writing a similar test for getClipboardImage
+    test(
+      'getClipboardHTML should return the HTML content after copying HTML, '
+      'and should no longer return HTML once an image (or any non-HTML item) '
+      'has been copied to the clipboard after that.',
+      () async {
+        const html = '<pre style="font-family: monospace;">HTML</pre>';
+
+        // Copy HTML to clipboard before copying an image
+
+        await QuillNativeBridge.copyHTMLToClipboard(html);
+
+        expect(
+          await QuillNativeBridge.getClipboardHTML(),
+          html,
+        );
+
+        // Image clipboard item
+        final imageBytes = await loadAssetImage(kFlutterQuillAssetImage);
+        await QuillNativeBridge.copyImageToClipboard(imageBytes);
+
+        expect(
+          await QuillNativeBridge.getClipboardHTML(),
+          null,
+        );
+
+        // Copy HTML to clipboard before copying plain text
+
+        await QuillNativeBridge.copyHTMLToClipboard(html);
+
+        expect(
+          await QuillNativeBridge.getClipboardHTML(),
+          html,
+        );
+
+        // Plain text clipboard item
+        const plainTextExample = 'Flutter Quill';
+        services.Clipboard.setData(
+          const services.ClipboardData(text: plainTextExample),
+        );
+        expect(
+          (await services.Clipboard.getData(services.Clipboard.kTextPlain))
+              ?.text,
+          plainTextExample,
+        );
+
+        expect(
+          await QuillNativeBridge.getClipboardHTML(),
+          null,
+        );
+      },
+    );
   });
 }
