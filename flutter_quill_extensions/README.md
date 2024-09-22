@@ -1,7 +1,7 @@
 # Flutter Quill Extensions
 
 An extension for [flutter_quill](https://pub.dev/packages/flutter_quill)
-to support embedding widgets images, formulas, videos.
+to support embedding widgets images, formulas, and videos.
 
 ## 📚 Table of Contents
 
