@@ -9,10 +9,6 @@ import 'src/quill_native_bridge_platform_interface.dart';
 export 'src/platform_feature.dart';
 export 'src/quill_native_bridge_platform_interface.dart';
 
-// TODO: Support description of methods here is outdated with QuillNativeBridgePlatformFeature
-//    web support has been added recently and still not updated.
-//    Remove 'non-web platforms', 'Doesn't support web' and anything related.
-
 /// An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 /// package to access platform-specific APIs.
 ///
@@ -22,27 +18,31 @@ class QuillNativeBridge {
 
   /// Check if the app is running on [iOS Simulator](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device).
   ///
-  /// This function should only be called when [defaultTargetPlatform]
+  /// Should only be called when [defaultTargetPlatform]
   /// is [TargetPlatform.iOS] and [kIsWeb] is `false`.
   static Future<bool> isIOSSimulator() =>
       QuillNativeBridgePlatform.instance.isIOSSimulator();
 
-  /// Return HTML from the Clipboard for **non-web platforms**.
+  /// Return HTML from the Clipboard.
   ///
-  /// Doesn't support web, should use
-  /// [paste_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event)
-  /// instead.
+  /// **Important for web**: If [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+  /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
+  /// such as the [paste_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event).
   ///
   /// The HTML can be platform-dependent.
   ///
   /// Returns `null` if the HTML content is not available or if the user has not granted
   /// permission for pasting (on some platforms such as iOS).
   ///
-  /// Currently only supports **Android**, **iOS** and **macOS**.
+  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
   static Future<String?> getClipboardHTML() =>
       QuillNativeBridgePlatform.instance.getClipboardHTML();
 
   /// Copy the [html] to the clipboard to be pasted on other apps.
+  ///
+  /// **Important for web**: If [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+  /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
+  /// such as the [copy_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event).
   ///
   /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
   static Future<void> copyHTMLToClipboard(String html) =>
@@ -54,14 +54,22 @@ class QuillNativeBridge {
   /// Otherwise, you will get a warning available only on debug-builds.
   /// See: https://github.com/singerdmx/flutter-quill#-platform-specific-configurations
   ///
+  /// **Important for web**: If [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+  /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
+  /// such as the [copy_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event).
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS**.
+  ///
+  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
   static Future<void> copyImageToClipboard(Uint8List imageBytes) =>
       QuillNativeBridgePlatform.instance.copyImageToClipboard(imageBytes);
 
   /// Return the copied image from the Clipboard.
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS**.
+  /// **Important for web**: If [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+  /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
+  /// such as the [paste_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event).
+  ///
+  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
   static Future<Uint8List?> getClipboardImage() =>
       QuillNativeBridgePlatform.instance.getClipboardImage();
 
