@@ -1,6 +1,13 @@
 # 🌱 Contributing
 
-First, we would like to thank you for your time and efforts on this project, we appreciate it
+First, we would like to thank you for your time and efforts on this project, we appreciate it.
+
+> [!IMPORTANT]
+> At this time, we prioritize bug fixes and code quality improvements over new features. 
+> Please refrain from submitting large changes to add new features, as they might
+> not be merged, and exceptions may made.
+> We encourage you to create an issue or reach out beforehand, 
+> explaining your proposed changes and their rationale for a higher chance of acceptance. Thank you!
 
 If you don't have anything specific in mind to improve or fix, you can take a look at the issues tab or take a look at
 the todos of the project, they all start with `TODO:` so you can search in your IDE or use the todos tab in the IDE.

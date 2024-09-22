@@ -1,11 +1,7 @@
 # Flutter Quill Extensions
 
 An extension for [flutter_quill](https://pub.dev/packages/flutter_quill)
-to support embedding widgets images, formulas, videos, and tables.
-
-> The support for tables is currently limited and underdevelopment, more changes are expected to arrive. We are actively
-> working on enhancing its functionality and usability. We appreciate your feedback as it is invaluable in helping us
-> refine and expand this feature.
+to support embedding widgets images, formulas, and videos.
 
 ## 📚 Table of Contents
 

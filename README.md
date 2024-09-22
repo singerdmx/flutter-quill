@@ -353,6 +353,13 @@ Notice that currently, the support for testing is limited.
 
 ## 🤝 Contributing
 
+> [!IMPORTANT]
+> At this time, we prioritize bug fixes and code quality improvements over new features. 
+> Please refrain from submitting large changes to add new features, as they might
+> not be merged, and exceptions may made.
+> We encourage you to create an issue or reach out beforehand, 
+> explaining your proposed changes and their rationale for a higher chance of acceptance. Thank you!
+
 We greatly appreciate your time and effort.
 
 To keep the project consistent and maintainable, we have a few guidelines that we ask all contributors to follow.
