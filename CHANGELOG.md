@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.5
+
+* fix(ci): add flutter pub get step for quill_native_bridge by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2265
+* revert: "Resolved issue with broken IME composing rect in Windows desktop" by @CatHood0 in https://github.com/singerdmx/flutter-quill/pull/2266
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.4...v10.7.5
+
 ## 10.7.4
 
 * chore: remove pubspec_overrides.yaml and pubspec_overrides.yaml.disabled by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2262
