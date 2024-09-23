@@ -3,7 +3,18 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'quill_native_bridge_method_channel.dart';
 
-/// **Experimental** as breaking changes can occur
+/// **Experimental** as breaking changes can occur.
+///
+/// Platform implementations should extend this class rather than implement it
+/// as newly added methods are not considered to be breaking
+/// changes. Extending this class (using `extends`) ensures that the subclass
+/// will get the default implementation, while platform implementations that
+/// `implements` this interface will be broken by newly added
+/// [QuillNativeBridgePlatform] methods.
+///
+/// See [Flutter #127396](https://github.com/flutter/flutter/issues/127396)
+/// and [plugin_platform_interface](https://pub.dev/packages/plugin_platform_interface)
+/// for more details.
 abstract class QuillNativeBridgePlatform extends PlatformInterface {
   /// Constructs a QuillNativeBridgePlatform.
   QuillNativeBridgePlatform() : super(token: _token);

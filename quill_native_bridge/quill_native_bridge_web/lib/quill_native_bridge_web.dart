@@ -19,9 +19,10 @@ import 'src/mime_types_constants.dart';
 ///
 /// ```console
 /// Assertion failed: "Platform interfaces must not be implemented with `implements`"
-///
-/// See https://github.com/flutter/flutter/issues/127396
 /// ```
+///
+/// See [Flutter #127396](https://github.com/flutter/flutter/issues/127396)
+/// and [QuillNativeBridgePlatform] for more details.
 class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
   QuillNativeBridgeWeb._();
 
