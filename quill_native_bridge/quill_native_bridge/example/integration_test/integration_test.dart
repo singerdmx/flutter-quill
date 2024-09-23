@@ -121,5 +121,32 @@ void main() {
         );
       },
     );
+
+    // Some platforms such as windows might include comments/description
+    // that can make the HTML invalid
+    test(
+      'should return valid HTML that can be parsed',
+      () async {
+        const exampleHtml = '<div style="border: 1px solid;">HTML Div</div>';
+
+        await QuillNativeBridge.copyHTMLToClipboard(exampleHtml);
+        final clipboardHtml = await QuillNativeBridge.getClipboardHTML();
+
+        if (clipboardHtml == null) {
+          fail(
+            'Html has been copied to the clipboard and expected to be not null.',
+          );
+        }
+
+        bool isHTML(String str) {
+          final htmlRegExp =
+              RegExp('<[^>]*>', multiLine: true, caseSensitive: false);
+          return htmlRegExp.hasMatch(str) && str.startsWith('<');
+        }
+
+        expect(isHTML(clipboardHtml), true);
+        expect(isHTML('Invalid<html></html>'), false);
+      },
+    );
   });
 }

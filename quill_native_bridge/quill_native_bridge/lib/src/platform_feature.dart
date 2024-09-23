@@ -46,8 +46,12 @@ enum QuillNativeBridgePlatformFeature {
       QuillNativeBridgePlatformFeature.isIOSSimulator =>
         !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS,
       QuillNativeBridgePlatformFeature.getClipboardHTML => kIsWeb ||
-          {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
-              .contains(defaultTargetPlatform),
+          {
+            TargetPlatform.android,
+            TargetPlatform.iOS,
+            TargetPlatform.macOS,
+            TargetPlatform.windows,
+          }.contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.copyHTMLToClipboard => kIsWeb ||
           {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
               .contains(defaultTargetPlatform),

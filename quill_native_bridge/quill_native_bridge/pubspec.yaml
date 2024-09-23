@@ -21,6 +21,8 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.1.8
   quill_native_bridge_web: ^0.0.1-dev.0
+  quill_native_bridge_windows:
+    path: ../quill_native_bridge_windows
 
 dev_dependencies:
   flutter_test:
@@ -39,3 +41,5 @@ flutter:
         pluginClass: QuillNativeBridgePlugin
       web:
         default_package: quill_native_bridge_web
+      windows:
+        default_package: quill_native_bridge_windows

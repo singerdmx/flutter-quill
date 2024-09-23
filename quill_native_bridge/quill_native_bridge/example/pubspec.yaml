@@ -16,6 +16,8 @@ dependency_overrides:
     path: ../
   quill_native_bridge_web:
     path: ../../quill_native_bridge_web
+  quill_native_bridge_windows:
+    path: ../../quill_native_bridge_windows
 
 dev_dependencies:
   integration_test:

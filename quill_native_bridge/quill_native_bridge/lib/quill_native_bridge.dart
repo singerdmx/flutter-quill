@@ -34,7 +34,7 @@ class QuillNativeBridge {
   /// Returns `null` if the HTML content is not available or if the user has not granted
   /// permission for pasting (on some platforms such as iOS).
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
+  /// Currently only supports **Android**, **iOS**, **macOS**, **Windows** and **Web**.
   static Future<String?> getClipboardHTML() =>
       QuillNativeBridgePlatform.instance.getClipboardHTML();
 
