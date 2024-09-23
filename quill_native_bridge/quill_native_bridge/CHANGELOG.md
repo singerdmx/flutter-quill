@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.5
+
+- Highly experimental changes in https://github.com/singerdmx/flutter-quill/pull/2230 (WIP). Not intended for public use as breaking changes will occur. Not stable yet.
+
 ## 10.7.5-dev.0
 
 - Move the plugin platform interface `QuillNativeBridgePlatform` to [quill_native_bridge_platform_interface](https://pub.dev/packages/quill_native_bridge_platform_interface).
