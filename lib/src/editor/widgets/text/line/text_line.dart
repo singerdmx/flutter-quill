@@ -11,6 +11,7 @@ import '../../../../common/utils/font.dart';
 import '../../../../common/utils/platform.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../../document/attribute.dart';
+import '../../../../document/nodes/embeddable.dart';
 import '../../../../document/nodes/leaf.dart' as leaf;
 import '../../../../document/nodes/line.dart';
 import '../../../../document/nodes/node.dart';
@@ -149,9 +150,9 @@ class _TextLineState extends State<TextLine> {
       // Single child embeds can be expanded
       var embed = widget.line.children.single as leaf.Embed;
       // Creates correct node for custom embed
-      if (embed.value.type == leaf.BlockEmbed.customType) {
+      if (embed.value.type == BlockEmbed.customType) {
         embed = leaf.Embed(
-          leaf.CustomBlockEmbed.fromJsonString(embed.value.data),
+          CustomBlockEmbed.fromJsonString(embed.value.data),
         );
       }
       final embedBuilder = widget.embedBuilder(embed);
@@ -210,13 +211,12 @@ class _TextLineState extends State<TextLine> {
           textNodes = LinkedList<Node>();
         }
         // Creates correct node for custom embed
-        if (child.value.type == leaf.BlockEmbed.customType) {
-          child =
-              leaf.Embed(leaf.CustomBlockEmbed.fromJsonString(child.value.data))
-                ..applyStyle(child.style);
+        if (child.value.type == BlockEmbed.customType) {
+          child = leaf.Embed(CustomBlockEmbed.fromJsonString(child.value.data))
+            ..applyStyle(child.style);
         }
 
-        if (child.value.type == leaf.BlockEmbed.formulaType) {
+        if (child.value.type == BlockEmbed.formulaType) {
           lineStyle = lineStyle.merge(_getInlineTextStyle(
             child.style,
             widget.styles,
