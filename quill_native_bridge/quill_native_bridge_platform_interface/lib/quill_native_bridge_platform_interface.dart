@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'quill_native_bridge_method_channel.dart';
+import 'src/quill_native_bridge_method_channel.dart';
 
 /// **Experimental** as breaking changes can occur.
 ///

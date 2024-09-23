@@ -4,7 +4,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:quill_native_bridge/quill_native_bridge.dart';
+import 'package:quill_native_bridge_platform_interface/quill_native_bridge_platform_interface.dart';
 import 'package:win32/win32.dart';
 
 import 'src/html_cleaner.dart';

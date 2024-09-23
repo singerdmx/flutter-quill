@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  quill_native_bridge: ^10.7.4
+  quill_native_bridge_platform_interface: ^0.0.1-dev.0
   win32: ^5.5.4
   ffi: ^2.1.3
 

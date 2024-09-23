@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quill_native_bridge/src/quill_native_bridge_method_channel.dart';
+import 'package:quill_native_bridge_platform_interface/src/quill_native_bridge_method_channel.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

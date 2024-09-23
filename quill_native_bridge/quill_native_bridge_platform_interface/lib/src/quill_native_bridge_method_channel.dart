@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
+import '../quill_native_bridge_platform_interface.dart';
 import 'platform_feature.dart';
-import 'quill_native_bridge_platform_interface.dart';
 
+/// A default [QuillNativeBridgePlatform] implementation backed by a platform
+/// channel.
 class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('quill_native_bridge');

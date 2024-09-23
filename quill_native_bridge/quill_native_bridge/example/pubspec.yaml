@@ -14,6 +14,8 @@ dependencies:
 dependency_overrides:
   quill_native_bridge:
     path: ../
+  quill_native_bridge_platform_interface:
+    path: ../../quill_native_bridge_platform_interface
   quill_native_bridge_web:
     path: ../../quill_native_bridge_web
   quill_native_bridge_windows:

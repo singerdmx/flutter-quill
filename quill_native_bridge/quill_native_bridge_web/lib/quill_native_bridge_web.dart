@@ -5,7 +5,7 @@ import 'dart:js_interop';
 
 import 'package:flutter/foundation.dart' show Uint8List, debugPrint;
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:quill_native_bridge/quill_native_bridge.dart';
+import 'package:quill_native_bridge_platform_interface/quill_native_bridge_platform_interface.dart';
 import 'package:web/web.dart';
 
 import 'src/clipboard_api_support_unsafe.dart';

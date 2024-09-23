@@ -16,7 +16,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   web: ^1.0.0
-  quill_native_bridge: ^10.7.4
+  quill_native_bridge_platform_interface: ^0.0.1-dev.0
 
 dev_dependencies:
   flutter_test:
