@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-
-import '../../../document/nodes/node.dart';
-import '../../editor.dart';
+import '../../../../document/nodes/node.dart';
+import '../../../editor.dart';
+import 'drag_text_selection.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;
@@ -21,36 +21,6 @@ TextSelection localSelection(Node node, TextSelection selection, fromParent) {
 /// The text position that a give selection handle manipulates. Dragging the
 /// [start] handle always moves the [start]/[baseOffset] of the selection.
 enum _TextSelectionHandlePosition { start, end }
-
-/// internal use, used to get drag direction information
-class DragTextSelection extends TextSelection {
-  const DragTextSelection({
-    super.affinity,
-    super.baseOffset = 0,
-    super.extentOffset = 0,
-    super.isDirectional,
-    this.first = true,
-  });
-
-  final bool first;
-
-  @override
-  DragTextSelection copyWith({
-    int? baseOffset,
-    int? extentOffset,
-    TextAffinity? affinity,
-    bool? isDirectional,
-    bool? first,
-  }) {
-    return DragTextSelection(
-      baseOffset: baseOffset ?? this.baseOffset,
-      extentOffset: extentOffset ?? this.extentOffset,
-      affinity: affinity ?? this.affinity,
-      isDirectional: isDirectional ?? this.isDirectional,
-      first: first ?? this.first,
-    );
-  }
-}
 
 /// An object that manages a pair of text selection handles.
 ///

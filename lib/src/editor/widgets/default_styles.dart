@@ -6,7 +6,7 @@ import '../../common/utils/platform.dart';
 import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../style_widgets/checkbox_point.dart';
-import 'text/utils/text_block_utils.dart';
+import 'text/block_line/utils/text_block_utils.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
