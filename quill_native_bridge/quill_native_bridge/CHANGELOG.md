@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.6
+
+- Highly experimental changes in https://github.com/singerdmx/flutter-quill/pull/2230 (WIP). Not intended for public use as breaking changes will occur. Not stable yet.
+- Update `quill_native_bridge_web`
+
 ## 10.7.5
 
 - Highly experimental changes in https://github.com/singerdmx/flutter-quill/pull/2230 (WIP). Not intended for public use as breaking changes will occur. Not stable yet.
