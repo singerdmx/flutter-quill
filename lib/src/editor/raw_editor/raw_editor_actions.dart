@@ -268,6 +268,77 @@ class QuillEditorExtendSelectionOrCaretPositionAction extends ContextAction<
       state.textEditingValue.selection.isValid;
 }
 
+// TODO: Don't merge yet until this TODO is removed.
+//  Need to document this, improve it and write some basic tests and more.
+
+// TODO: It's very likely ExpandSelectionToDocumentBoundaryAction and the others need to be renamed
+//  for consistency
+
+// TODO: Outside of this PR: Might need to update the naming of all actions and
+//  intents, also we might consider a prefix to ensure that those are library specific
+
+// TODO: Address this: https://github.com/singerdmx/flutter-quill/pull/1937/files#diff-4ca8ac7670828836c0dd5f424be4951cffc142fbe1ccca390a86c89e986d5095R705-R715
+
+class ExpandSelectionToDocumentBoundaryAction
+    extends ContextAction<ExpandSelectionToDocumentBoundaryIntent> {
+  ExpandSelectionToDocumentBoundaryAction(this.state);
+
+  final QuillRawEditorState state;
+
+  @override
+  Object? invoke(ExpandSelectionToDocumentBoundaryIntent intent,
+      [BuildContext? context]) {
+    final currentSelection = state.controller.selection;
+    final documentLength = state.controller.document.length;
+
+    final newSelection = intent.forward
+        ? currentSelection.copyWith(
+            baseOffset: currentSelection.baseOffset,
+            extentOffset: documentLength,
+          )
+        : currentSelection.copyWith(
+            baseOffset: currentSelection.baseOffset,
+            extentOffset: 0,
+          );
+    return Actions.invoke(
+      context ?? (throw StateError('BuildContext should not be null.')),
+      UpdateSelectionIntent(
+        state.textEditingValue,
+        newSelection,
+        SelectionChangedCause.keyboard,
+      ),
+    );
+  }
+}
+
+// TODO: Same for ExpandSelectionToLineBreakIntent (see TODOs of ExpandSelectionToDocumentBoundaryAction)
+
+class ExpandSelectionToLineBreakAction
+    extends ContextAction<ExpandSelectionToLineBreakIntent> {
+  ExpandSelectionToLineBreakAction(this.state);
+
+  final QuillRawEditorState state;
+  @override
+  Object? invoke(ExpandSelectionToLineBreakIntent intent,
+      [BuildContext? context]) {
+    final text = state.controller.plainTextEditingValue.text;
+
+    final currentSelection = state.controller.selection;
+
+    // TODO: Will be implemented soon, should not merge or review yet.
+    throw UnimplementedError();
+
+    // return Actions.invoke(
+    //   context ?? (throw StateError('BuildContext should not be null.')),
+    //   UpdateSelectionIntent(
+    //     state.textEditingValue,
+    //     newSelection,
+    //     SelectionChangedCause.keyboard,
+    //   ),
+    // );
+  }
+}
+
 class QuillEditorUpdateTextSelectionToAdjacentLineAction<
     T extends DirectionalCaretMovementIntent> extends ContextAction<T> {
   QuillEditorUpdateTextSelectionToAdjacentLineAction(this.state);
@@ -626,6 +697,9 @@ class QuillEditorInsertEmbedIntent extends Intent {
 
   final Attribute type;
 }
+
+// TODO: Double check the fix/feature https://github.com/singerdmx/flutter-quill/pull/1937
+//  document the change if doesn't need any changes.
 
 class NavigateToDocumentBoundaryAction
     extends ContextAction<ScrollToDocumentBoundaryIntent> {

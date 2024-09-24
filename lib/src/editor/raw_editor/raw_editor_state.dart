@@ -1432,6 +1432,10 @@ class QuillRawEditorState extends EditorState
     ExtendSelectionToNextWordBoundaryOrCaretLocationIntent: _makeOverridable(
         QuillEditorExtendSelectionOrCaretPositionAction(
             this, _nextWordBoundary)),
+    ExpandSelectionToDocumentBoundaryIntent:
+        _makeOverridable(ExpandSelectionToDocumentBoundaryAction(this)),
+    ExpandSelectionToLineBreakIntent:
+        _makeOverridable(ExpandSelectionToLineBreakAction(this)),
 
     // Copy Paste
     SelectAllTextIntent: _makeOverridable(QuillEditorSelectAllAction(this)),
