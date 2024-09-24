@@ -18,6 +18,8 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - quill_native_bridge (0.0.1):
+    - FlutterMacOS
   - share_plus (0.0.1):
     - FlutterMacOS
   - sqflite (0.0.3):
@@ -40,6 +42,7 @@ DEPENDENCIES:
   - gal (from `Flutter/ephemeral/.symlinks/plugins/gal/darwin`)
   - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
+  - quill_native_bridge (from `Flutter/ephemeral/.symlinks/plugins/quill_native_bridge/macos`)
   - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/darwin`)
   - super_native_extensions (from `Flutter/ephemeral/.symlinks/plugins/super_native_extensions/macos`)
@@ -67,6 +70,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
+  quill_native_bridge:
+    :path: Flutter/ephemeral/.symlinks/plugins/quill_native_bridge/macos
   share_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/share_plus/macos
   sqflite:
@@ -88,6 +93,7 @@ SPEC CHECKSUMS:
   irondash_engine_context: da62996ee25616d2f01bbeb85dc115d813359478
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  quill_native_bridge: 1a3a4bfab7cbe4ed0232a17d8aae201a3ce6d302
   share_plus: 36537c04ce0c3e3f5bd297ce4318b6d5ee5fd6cf
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   super_native_extensions: 85efee3a7495b46b04befcfc86ed12069264ebf3
