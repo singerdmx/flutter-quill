@@ -53,7 +53,7 @@ String stripWin32HtmlDescription(String html) {
 
   for (final line in lines) {
     // Stop processing when reaching the start of actual HTML content
-    if (line.startsWith('<html>')) {
+    if (line.toLowerCase().startsWith('<html>')) {
       break;
     }
 
