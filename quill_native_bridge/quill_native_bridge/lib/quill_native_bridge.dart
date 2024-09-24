@@ -36,7 +36,7 @@ class QuillNativeBridge {
   /// Returns `null` if the HTML content is not available or if the user has not granted
   /// permission for pasting (on some platforms such as iOS).
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS**, **Windows** and **Web**.
+  /// Currently only supports **Android**, **iOS**, **macOS**, **Windows**, **Linux**, and the **Web**.
   static Future<String?> getClipboardHTML() => _platform.getClipboardHTML();
 
   /// Copy the [html] to the clipboard to be pasted on other apps.
@@ -45,7 +45,7 @@ class QuillNativeBridge {
   /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
   /// such as the [copy_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event).
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
+  /// Currently only supports **Android**, **iOS**, **macOS**, **Linux**, and the **Web**.
   static Future<void> copyHTMLToClipboard(String html) =>
       _platform.copyHTMLToClipboard(html);
 
@@ -60,7 +60,7 @@ class QuillNativeBridge {
   /// such as the [copy_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event).
   ///
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
+  /// Currently only supports **Android**, **iOS**, **macOS**, **Linux**, and the **Web**.
   static Future<void> copyImageToClipboard(Uint8List imageBytes) =>
       _platform.copyImageToClipboard(imageBytes);
 
@@ -70,7 +70,7 @@ class QuillNativeBridge {
   /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
   /// such as the [paste_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event).
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS** and **Web**.
+  /// Currently only supports **Android**, **iOS**, **macOS**, **Linux**, and the **Web**.
   static Future<Uint8List?> getClipboardImage() =>
       _platform.getClipboardImage();
 

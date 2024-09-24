@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:quill_native_bridge/quill_native_bridge.dart'
     show QuillNativeBridge, QuillNativeBridgePlatformFeature;
 
@@ -119,7 +118,7 @@ class Buttons extends StatelessWidget {
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
-                ? 'Retriving HTML from the Clipboard is currently not supported on the web.'
+                ? 'Retrieving HTML from the Clipboard is currently not supported on the web.'
                 : 'Getting HTML from the Clipboard is not supported on ${defaultTargetPlatform.name}',
           );
           return;
@@ -134,7 +133,6 @@ class Buttons extends StatelessWidget {
         scaffoldMessenger.showText(
           'HTML from the clipboard: $result',
         );
-        await Clipboard.setData(ClipboardData(text: result));
         debugPrint('HTML from the clipboard: $result');
         break;
       case QuillNativeBridgePlatformFeature.copyHTMLToClipboard:
@@ -167,7 +165,7 @@ class Buttons extends StatelessWidget {
           );
           return;
         }
-        final imageBytes = await loadAssetImage(kFlutterQuillAssetImage);
+        final imageBytes = await loadAssetFile(kFlutterQuillAssetImage);
         await QuillNativeBridge.copyImageToClipboard(imageBytes);
 
         // Not widely supported but some apps copy the image as a text:
@@ -191,8 +189,8 @@ class Buttons extends StatelessWidget {
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
-                ? 'Retriving an image from the clipboard is currently not supported on web.'
-                : 'Retriving an image from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
+                ? 'Retrieving an image from the clipboard is currently not supported on web.'
+                : 'Retrieving an image from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
           );
           return;
         }
@@ -217,8 +215,8 @@ class Buttons extends StatelessWidget {
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
-                ? 'Retriving a gif from the clipboard is currently not supported on web.'
-                : 'Retriving a gif from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
+                ? 'Retrieving a gif from the clipboard is currently not supported on web.'
+                : 'Retrieving a gif from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
           );
           return;
         }

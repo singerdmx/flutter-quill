@@ -1,0 +1,4 @@
+# TODO: Remove this file completely once https://github.com/singerdmx/flutter-quill/pull/2230 is complete before publishing
+dependency_overrides:
+  quill_native_bridge_platform_interface:
+    path: ../quill_native_bridge_platform_interface

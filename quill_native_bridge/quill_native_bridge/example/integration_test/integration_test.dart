@@ -13,7 +13,7 @@ void main() {
     test('copying images to the clipboard should make them accessible',
         () async {
       Future<void> verifyImageCopiedToClipboard(String assetPath) async {
-        final imageBytes = await loadAssetImage(assetPath);
+        final imageBytes = await loadAssetFile(assetPath);
         await QuillNativeBridge.copyImageToClipboard(imageBytes);
         final clipboardImageBytes = await QuillNativeBridge.getClipboardImage();
         final pixelMismatchPercentage =
@@ -30,8 +30,8 @@ void main() {
     test(
       'copying an image should return the image that was recently copied',
       () async {
-        final imageBytes = await loadAssetImage(kFlutterQuillAssetImage);
-        final imageBytes2 = await loadAssetImage(kQuillJsRichTextEditor);
+        final imageBytes = await loadAssetFile(kFlutterQuillAssetImage);
+        final imageBytes2 = await loadAssetFile(kQuillJsRichTextEditor);
 
         await QuillNativeBridge.copyImageToClipboard(imageBytes);
         await QuillNativeBridge.copyImageToClipboard(imageBytes2);
@@ -87,7 +87,7 @@ void main() {
         );
 
         // Image clipboard item
-        final imageBytes = await loadAssetImage(kFlutterQuillAssetImage);
+        final imageBytes = await loadAssetFile(kFlutterQuillAssetImage);
         await QuillNativeBridge.copyImageToClipboard(imageBytes);
 
         expect(

@@ -51,16 +51,29 @@ enum QuillNativeBridgePlatformFeature {
             TargetPlatform.iOS,
             TargetPlatform.macOS,
             TargetPlatform.windows,
+            TargetPlatform.linux,
           }.contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.copyHTMLToClipboard => kIsWeb ||
-          {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
-              .contains(defaultTargetPlatform),
+          {
+            TargetPlatform.android,
+            TargetPlatform.iOS,
+            TargetPlatform.macOS,
+            TargetPlatform.linux,
+          }.contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.copyImageToClipboard => kIsWeb ||
-          {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
-              .contains(defaultTargetPlatform),
+          {
+            TargetPlatform.android,
+            TargetPlatform.iOS,
+            TargetPlatform.macOS,
+            TargetPlatform.linux,
+          }.contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.getClipboardImage => kIsWeb ||
-          {TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.macOS}
-              .contains(defaultTargetPlatform),
+          {
+            TargetPlatform.android,
+            TargetPlatform.iOS,
+            TargetPlatform.macOS,
+            TargetPlatform.linux,
+          }.contains(defaultTargetPlatform),
       QuillNativeBridgePlatformFeature.getClipboardGif => !kIsWeb &&
           {TargetPlatform.android, TargetPlatform.iOS}
               .contains(defaultTargetPlatform),
