@@ -49,13 +49,6 @@ class QuillRawEditorState extends EditorState
         TickerProviderStateMixin<QuillRawEditor>,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
-  QuillRawEditorState() {
-    _shortcutActions = EditorKeyboardShortcutsActions(
-      rawEditorState: this,
-      context: context,
-    );
-  }
-
   late final EditorKeyboardShortcutsActions _shortcutActions;
 
   final GlobalKey _editorKey = GlobalKey();
@@ -841,6 +834,11 @@ class QuillRawEditorState extends EditorState
   @override
   void initState() {
     super.initState();
+    _shortcutActions = EditorKeyboardShortcutsActions(
+      rawEditorState: this,
+      context: context,
+    );
+
     if (_clipboardStatus != null) {
       _clipboardStatus!.addListener(_onChangedClipboardStatus);
     }
