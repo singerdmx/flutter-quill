@@ -33,10 +33,35 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
     final videoUrl = node.value.data;
-    if (isYouTubeUrl(videoUrl)) {
+
+    final customVideoBuilder = configurations.customVideoBuilder;
+    if (customVideoBuilder != null) {
+      final videoWidget = customVideoBuilder(videoUrl, readOnly);
+      if (videoWidget != null) {
+        return videoWidget;
+      }
+    }
+
+    // ignore: deprecated_member_use_from_same_package
+    if (isYouTubeUrl(videoUrl) && !configurations.ignoreYouTubeSupport) {
+      assert(() {
+        debugPrint(
+          "It seems that you're loading a youtube video URL.\n"
+          'Loading YouTube videos is no longer built-in feature as part of flutter_quill_extensions.\n'
+          'This message will only appear in development mode. See https://github.com/singerdmx/flutter-quill/issues/2284\n'
+          'Consider using the experimental property `QuillEditorVideoEmbedConfigurations.customVideoBuilder` in your configuration.\n'
+          'This message will only included in development mode.\n',
+        );
+        return true;
+      }());
+
+      /// Will be removed soon in future releases
+
+      // ignore: deprecated_member_use_from_same_package
       return YoutubeVideoApp(
         videoUrl: videoUrl,
         readOnly: readOnly,
+        // ignore: deprecated_member_use_from_same_package
         youtubeVideoSupportMode: configurations.youtubeVideoSupportMode,
       );
     }

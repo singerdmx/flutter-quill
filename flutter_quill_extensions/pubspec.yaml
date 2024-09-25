@@ -37,11 +37,11 @@ dependencies:
 
   flutter_quill: ^10.7.2
   photo_view: ^0.15.0
+  # TODO: Remove youtube_explode_dart
   youtube_explode_dart: ^2.2.1
 
   # Plugins
   video_player: ^2.8.1
-  youtube_player_flutter: ^9.0.1
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.22
   gal: ^2.3.0
