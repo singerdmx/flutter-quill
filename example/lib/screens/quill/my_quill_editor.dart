@@ -129,7 +129,7 @@ class MyQuillEditor extends StatelessWidget {
                   ),
                   videoEmbedConfigurations: QuillEditorVideoEmbedConfigurations(
                     customVideoBuilder: (videoUrl, readOnly) {
-                      // Check for YouTube Video URL and return your
+                      // Example: Check for YouTube Video URL and return your
                       // YouTube video widget here.
 
                       // Otherwise return null to fallback to the defualt logic
