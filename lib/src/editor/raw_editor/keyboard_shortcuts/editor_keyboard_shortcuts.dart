@@ -52,8 +52,10 @@ class EditorKeyboardShortcuts extends StatelessWidget {
       /// Merge with widget.configurations.customShortcuts
       /// first to allow user's defined shortcuts to take
       /// priority when activation triggers are the same
-      shortcuts: mergeMaps<ShortcutActivator, Intent>({...?customShortcuts},
-          {...defaultSinlgeActivatorIntents(isDesktopMacOS)}),
+      shortcuts: mergeMaps<ShortcutActivator, Intent>(
+        {...?customShortcuts},
+        {...defaultSinlgeActivatorIntents(isDesktopMacOS)},
+      ),
       child: Actions(
         actions: mergeMaps<Type, Action<Intent>>(actions, {
           ...?customActions,
