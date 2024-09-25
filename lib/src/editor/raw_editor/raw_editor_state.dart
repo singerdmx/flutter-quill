@@ -49,7 +49,7 @@ class QuillRawEditorState extends EditorState
         TickerProviderStateMixin<QuillRawEditor>,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
-  late final EditorKeyboardShortcutsActionsManager _shortcutActions;
+  late final EditorKeyboardShortcutsActionsManager _shortcutActionsManager;
 
   final GlobalKey _editorKey = GlobalKey();
 
@@ -532,7 +532,7 @@ class QuillRawEditorState extends EditorState
       child: QuillStyles(
         data: _styles!,
         child: EditorKeyboardShortcuts(
-          actions: _shortcutActions.actions,
+          actions: _shortcutActionsManager.actions,
           characterEvents: widget.configurations.characterShortcutEvents,
           spaceEvents: widget.configurations.spaceShortcutEvents,
           constraints: constraints,
@@ -834,7 +834,7 @@ class QuillRawEditorState extends EditorState
   @override
   void initState() {
     super.initState();
-    _shortcutActions = EditorKeyboardShortcutsActionsManager(
+    _shortcutActionsManager = EditorKeyboardShortcutsActionsManager(
       rawEditorState: this,
       context: context,
     );
@@ -1053,7 +1053,7 @@ class QuillRawEditorState extends EditorState
       }
     }
 
-    _shortcutActions.adjacentLineAction
+    _shortcutActionsManager.adjacentLineAction
         .stopCurrentVerticalRunIfSelectionChanges();
   }
 
