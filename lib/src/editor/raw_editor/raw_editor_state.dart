@@ -34,7 +34,7 @@ import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
-import 'keyboard_shortcuts/editor_keyboard_shortcut_actions.dart';
+import 'keyboard_shortcuts/editor_keyboard_shortcut_actions_manager.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
 import 'raw_editor.dart';
 import 'raw_editor_render_object.dart';
@@ -49,7 +49,7 @@ class QuillRawEditorState extends EditorState
         TickerProviderStateMixin<QuillRawEditor>,
         RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
-  late final EditorKeyboardShortcutsActions _shortcutActions;
+  late final EditorKeyboardShortcutsActionsManager _shortcutActions;
 
   final GlobalKey _editorKey = GlobalKey();
 
@@ -834,7 +834,7 @@ class QuillRawEditorState extends EditorState
   @override
   void initState() {
     super.initState();
-    _shortcutActions = EditorKeyboardShortcutsActions(
+    _shortcutActions = EditorKeyboardShortcutsActionsManager(
       rawEditorState: this,
       context: context,
     );

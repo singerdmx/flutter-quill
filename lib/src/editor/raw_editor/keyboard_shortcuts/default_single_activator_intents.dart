@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../../../common/utils/platform.dart';
 import '../../../document/attribute.dart';
-import '../raw_editor_actions.dart';
+import 'editor_keyboard_shortcut_actions.dart';
 
 final _isDesktopMacOS = isMacOS;
 
