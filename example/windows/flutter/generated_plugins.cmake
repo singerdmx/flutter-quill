@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_drop
   file_selector_windows
-  flutter_inappwebview_windows
   gal
   irondash_engine_context
   share_plus

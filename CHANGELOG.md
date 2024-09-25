@@ -4,6 +4,116 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.0
+
+> [!CAUTION]
+> This release can be breaking change for `flutter_quill_extensions` users as it remove the built-in support for loading YouTube videos
+
+If you're using [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) then this release, can be a breaking change for you if you load videos in the editor and expect YouTube videos to be supported, [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter) and [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) are no longer dependencies of the extensions package, which are used to support loading YouTube Iframe videos on non-web platforms, more details about the discussion and reasons in [#2286](https://github.com/singerdmx/flutter-quill/pull/2286) and [#2284](https://github.com/singerdmx/flutter-quill/issues/2284).
+
+We have added an experimental property that gives you more flexibility and control about the implementation you want to use for loading videos.
+
+> [!WARNING]
+> It's likely to experience some common issues while implementing this feature, especially on desktop platforms as the support for [flutter_inappwebview_windows](https://pub.dev/packages/flutter_inappwebview_windows) and [flutter_inappwebview_macos](https://pub.dev/packages/flutter_inappwebview_macos) before 2 days. Some of the issues are in the Flutter Quill editor.
+
+If you want loading YouTube videos to be a feature again with the latest version of Flutter Quill, you can use an existing plugin or package, or implement your own solution. For example, you might use [`youtube_video_player`](https://pub.dev/packages/youtube_video_player) or [`youtube_player_flutter`](https://pub.dev/packages/youtube_player_flutter), which was previously used in [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions).
+
+Here’s an example setup using `youtube_player_flutter`:
+
+```shell
+flutter pub add youtube_player_flutter
+```
+
+Example widget configuration:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+class YoutubeVideoPlayer extends StatefulWidget {
+  const YoutubeVideoPlayer({required this.videoUrl, super.key});
+
+  final String videoUrl;
+
+  @override
+  State<YoutubeVideoPlayer> createState() => _YoutubeVideoPlayerState();
+}
+
+class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
+  late final YoutubePlayerController _youtubePlayerController;
+  @override
+  void initState() {
+    super.initState();
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ??
+          (throw StateError('Expect a valid video URL')),
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return YoutubePlayer(
+      controller: _youtubePlayerController,
+      showVideoProgressIndicator: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    _youtubePlayerController.dispose();
+    super.dispose();
+  }
+}
+
+```
+
+Then, integrate it with `QuillEditorVideoEmbedConfigurations`
+
+```dart
+FlutterQuillEmbeds.editorBuilders(
+      videoEmbedConfigurations: QuillEditorVideoEmbedConfigurations(
+        customVideoBuilder: (videoUrl, readOnly) {
+          // Example: Check for YouTube Video URL and return your
+          // YouTube video widget here.
+          bool isYouTubeUrl(String videoUrl) {
+            try {
+              final uri = Uri.parse(videoUrl);
+              return uri.host == 'www.youtube.com' ||
+                  uri.host == 'youtube.com' ||
+                  uri.host == 'youtu.be' ||
+                  uri.host == 'www.youtu.be';
+            } catch (_) {
+              return false;
+            }
+          }
+
+          if (isYouTubeUrl(videoUrl)) {
+            return YoutubeVideoPlayer(
+              videoUrl: videoUrl,
+            );
+          }
+
+          // Return null to fallback to the default logic
+          return null;
+        },
+        ignoreYouTubeSupport: true,
+      ),
+);
+```
+
+> [!NOTE]
+> This example illustrates a basic approach, additional adjustments might be necessary to meet your specific needs. YouTube video support is no longer included in this project. Keep in mind that `customVideoBuilder` is experimental and can change without being considered as breaking change. More details in [breaking changes](https://github.com/singerdmx/flutter-quill#-breaking-changes) section.
+
+[`super_clipboard`](https://pub.dev/packages/super_clipboard) will also no longer a dependency of `flutter_quill_extensions` once [PR #2230](https://github.com/singerdmx/flutter-quill/pull/2230) is ready.
+
+We're looking forward to your feedback.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.7...v10.8.0
+
 ## 10.7.7
 
 This version is nearly identical to `10.7.6` with a build failure bug fix in [#2283](https://github.com/singerdmx/flutter-quill/pull/2283) related to unmerged change in [#2230](https://github.com/singerdmx/flutter-quill/pull/2230)
