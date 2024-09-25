@@ -59,6 +59,7 @@ You can join our [Slack Group] for discussion.
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Conversion to HTML](#-conversion-to-html)
 - [📝 Spelling checker](#-spelling-checker)
+- [📝 Rich Text Paste](#-rich-text-paste)
 - [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
@@ -157,10 +158,9 @@ Create the file `your_project/android/app/src/main/res/xml/file_paths.xml` with 
 ```
 
 > [!NOTE]
-> Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved
-> to [FlutterQuill Extensions], to use rich text pasting, support pasting images, and gif files from external apps or
-> websites, take a look
-> at `flutter_quill_extensions` Readme.
+> [super_clipboard](https://pub.dev/packages/super_clipboard) is no longer required
+> in recent versions of Flutter Quill in `flutter_quill` or `flutter_quill_extensions`.
+> `quill_native_bridge` is a plugin provide clipboard operations functionality for `flutter_quill`.
 
 ## 🚀 Usage
 
@@ -345,6 +345,21 @@ The following packages can be used:
 
 This feature is currently not implemented and is being planned. Refer to [#2246](https://github.com/singerdmx/flutter-quill/issues/2246)
 for discussion.
+
+## 📝 Rich Text Paste
+
+The Rich Text Pasting feature requires platform code to access HTML from
+the system clipboard, [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) 
+is a plugin to provide this functionality.
+
+Rich clipboard operations are currently experimental and might be removed in future releases.
+
+<!-- TODO: Provide a clean way to disable each feature and document it in here -->
+
+> [!IMPORTANT]
+> Currently this feature is not supported on the web.
+> [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [Issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
+ for more details
 
 ## ✂️ Shortcut events
 
