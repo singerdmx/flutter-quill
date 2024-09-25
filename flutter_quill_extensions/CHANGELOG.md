@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.7
+
+This version is nearly identical to `10.7.6` with a build failure bug fix in [#2283](https://github.com/singerdmx/flutter-quill/pull/2283) related to unmerged change in [#2230](https://github.com/singerdmx/flutter-quill/pull/2230)
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.6...v10.7.7
+
 ## 10.7.6
 
 * Code Comments Typo fixes by @Luismi74 in https://github.com/singerdmx/flutter-quill/pull/2267
