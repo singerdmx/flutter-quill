@@ -13,9 +13,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
-// TODO: Extract what can be extracted outside of ClipboardImageHandler for other method channels
-
-object ClipboardImageHandler {
+object ClipboardReadImageHandler {
     private const val MIME_TYPE_IMAGE_ALL = "image/*"
     private const val MIME_TYPE_IMAGE_PNG = "image/png"
     private const val MIME_TYPE_IMAGE_JPEG = "image/jpeg"
