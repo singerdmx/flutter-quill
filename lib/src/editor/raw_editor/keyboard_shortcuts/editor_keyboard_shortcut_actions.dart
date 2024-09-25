@@ -268,19 +268,6 @@ class QuillEditorExtendSelectionOrCaretPositionAction extends ContextAction<
       state.textEditingValue.selection.isValid;
 }
 
-// TODO: Don't merge yet until this TODO is removed.
-//  Need to document this, improve it and write some basic tests and more.
-
-// TODO: It's very likely ExpandSelectionToDocumentBoundaryAction and the others need to be renamed
-//  for consistency
-
-// TODO: Outside of this PR: Might need to update the naming of all actions and
-//  intents, also we might consider a prefix to ensure that those are library specific
-
-// TODO: Address this: https://github.com/singerdmx/flutter-quill/pull/1937/files#diff-4ca8ac7670828836c0dd5f424be4951cffc142fbe1ccca390a86c89e986d5095R705-R715
-
-// TODO: Update the docs of ExpandSelectionToDocumentBoundaryAction and ExpandSelectionToLineBreakAction later
-
 /// Expands the selection to the start/end of the document.
 ///
 /// This matches macOS behavior and differs from [ExpandSelectionToLineBreakIntent].
