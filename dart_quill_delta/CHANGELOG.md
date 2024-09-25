@@ -4,6 +4,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.7.6
+
+* Code Comments Typo fixes by @Luismi74 in https://github.com/singerdmx/flutter-quill/pull/2267
+* docs: add important note for contributors before introducing new features by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2269
+* docs(readme): add 'Breaking Changes' section by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2275
+* Fix: Resolved issue with broken IME composing rect in Windows desktop(re-implementation) by @agata in https://github.com/singerdmx/flutter-quill/pull/2282
+
+## New Contributors
+* @Luismi74 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2267
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.5...v10.7.6
+
 ## 10.7.5
 
 * fix(ci): add flutter pub get step for quill_native_bridge by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2265
