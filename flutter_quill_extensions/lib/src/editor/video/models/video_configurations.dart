@@ -7,7 +7,13 @@ import 'youtube_video_support_mode.dart';
 class QuillEditorVideoEmbedConfigurations {
   const QuillEditorVideoEmbedConfigurations({
     this.onVideoInit,
-    // ignore: deprecated_member_use_from_same_package
+    @Deprecated(
+      'Loading youtube videos is no longer built-in feature of flutter_quill_extensions.\n'
+      'See https://github.com/singerdmx/flutter-quill/issues/2284.\n'
+      'Try to use the experimental `customVideoBuilder` property to implement\n'
+      'your own YouTube logic using packages such as '
+      'https://pub.dev/packages/youtube_video_player or https://pub.dev/packages/youtube_player_flutter',
+    )
     this.youtubeVideoSupportMode = YoutubeVideoSupportMode.disabled,
     this.ignoreYouTubeSupport = false,
     this.customVideoBuilder,
