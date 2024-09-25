@@ -1314,16 +1314,24 @@ class QuillRawEditorState extends EditorState
     // TODO: implement didChangeInputControl
   }
 
+  /// macOS-specific method that should not be called on other platforms.
+  /// This method interacts with the `NSStandardKeyBindingResponding` protocol
+  /// from Cocoa, which is available only on macOS systems.
   @override
   void performSelector(String selectorName) {
+    assert(
+      isMacOSApp,
+      'Should call performSelector() only on macOS desktop platform.',
+    );
     final intent = intentForMacOSSelector(selectorName);
-
-    if (intent != null) {
-      final primaryContext = primaryFocus?.context;
-      if (primaryContext != null) {
-        Actions.invoke(primaryContext, intent);
-      }
+    if (intent == null) {
+      return;
     }
+    final primaryContext = primaryFocus?.context;
+    if (primaryContext == null) {
+      return;
+    }
+    Actions.invoke(primaryContext, intent);
   }
 
   @override
