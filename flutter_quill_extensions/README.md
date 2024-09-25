@@ -50,10 +50,7 @@ The package uses the following plugins:
    platform-specific setup.
 2. [`image_picker`](https://pub.dev/packages/image_picker) for picking images.
    See the [Installation](https://pub.dev/packages/image_picker#installation) section.
-3. [`youtube_player_flutter`](https://pub.dev/packages/youtube_player_flutter) which
-   uses [`flutter_inappwebview`](https://pub.dev/packages/flutter_inappwebview) which has a requirement setup on web.
-   See the [Installation - Web support](https://pub.dev/packages/flutter_inappwebview#installation---web-support).
-4. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
+3. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
    support copying images and pasting them into editor, it's also required to support rich text pasting feature on
    non-web platforms, Open the [Android Support](https://pub.dev/packages/super_clipboard#android-support) page for
    instructions.

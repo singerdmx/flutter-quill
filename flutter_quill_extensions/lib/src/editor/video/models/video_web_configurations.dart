@@ -7,5 +7,6 @@ class QuillEditorWebVideoEmbedConfigurations {
     this.constraints,
   });
 
+  @Deprecated('This property is no longer used.')
   final BoxConstraints? constraints;
 }
