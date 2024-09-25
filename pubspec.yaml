@@ -62,7 +62,7 @@ dependencies:
   # Plugins
   url_launcher: ^6.2.4
   flutter_keyboard_visibility: ^6.0.0
-  quill_native_bridge: '>=0.0.1-alpha.0 <=10.5.14'
+  quill_native_bridge: '>=10.5.14 <=10.6.2'
 
 dev_dependencies:
   flutter_lints: ^4.0.0
