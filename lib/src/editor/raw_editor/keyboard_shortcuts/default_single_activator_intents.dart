@@ -152,18 +152,6 @@ Map<SingleActivator, Intent> defaultSinlgeActivatorIntents() {
       meta: _isDesktopMacOS,
     ): const OpenSearchIntent(),
 
-    // Navigate to the start or end of the document
-    SingleActivator(
-      LogicalKeyboardKey.home,
-      control: !_isDesktopMacOS,
-      meta: _isDesktopMacOS,
-    ): const ScrollToDocumentBoundaryIntent(forward: false),
-    SingleActivator(
-      LogicalKeyboardKey.end,
-      control: !_isDesktopMacOS,
-      meta: _isDesktopMacOS,
-    ): const ScrollToDocumentBoundaryIntent(forward: true),
-
     //  Arrow key scrolling
     SingleActivator(
       LogicalKeyboardKey.arrowUp,
