@@ -29,12 +29,12 @@ import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provi
 import '../editor.dart';
 import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
-import '../widgets/keyboard_service_widget.dart';
 import '../widgets/link.dart';
 import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
+import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
 import 'raw_editor.dart';
 import 'raw_editor_actions.dart';
 import 'raw_editor_render_object.dart';
@@ -530,7 +530,7 @@ class QuillRawEditorState extends EditorState
       },
       child: QuillStyles(
         data: _styles!,
-        child: QuillKeyboardServiceWidget(
+        child: EditorKeyboardShortcuts(
           actions: _actions,
           characterEvents: widget.configurations.characterShortcutEvents,
           spaceEvents: widget.configurations.spaceShortcutEvents,
