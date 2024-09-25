@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 import '../../../common/utils/cast.dart';
-import '../../../common/utils/platform.dart';
 import '../../../controller/quill_controller.dart';
 import '../../../document/attribute.dart';
 import '../../../document/document.dart';
