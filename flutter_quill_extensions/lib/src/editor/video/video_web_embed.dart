@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:universal_html/html.dart' as html;
-import 'package:youtube_player_flutter/youtube_player_flutter.dart'
-    show YoutubePlayer;
 
 import '../../common/utils/dart_ui/dart_ui_fake.dart'
     if (dart.library.js_interop) '../../common/utils/dart_ui/dart_ui_real.dart'
@@ -10,6 +8,7 @@ import '../../common/utils/dart_ui/dart_ui_fake.dart'
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
 import 'models/video_web_configurations.dart';
+import 'youtube_video_url.dart';
 
 class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebVideoEmbedBuilder({
@@ -34,8 +33,10 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
     TextStyle textStyle,
   ) {
     var videoUrl = node.value.data;
+    // ignore: deprecated_member_use_from_same_package
     if (isYouTubeUrl(videoUrl)) {
-      final youtubeID = YoutubePlayer.convertUrlToId(videoUrl);
+      // ignore: deprecated_member_use_from_same_package
+      final youtubeID = convertVideoUrlToId(videoUrl);
       if (youtubeID != null) {
         videoUrl = 'https://www.youtube.com/embed/$youtubeID';
       }
