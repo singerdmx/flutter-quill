@@ -279,6 +279,13 @@ class QuillEditorExtendSelectionOrCaretPositionAction extends ContextAction<
 
 // TODO: Address this: https://github.com/singerdmx/flutter-quill/pull/1937/files#diff-4ca8ac7670828836c0dd5f424be4951cffc142fbe1ccca390a86c89e986d5095R705-R715
 
+// TODO: Update the docs of ExpandSelectionToDocumentBoundaryAction and ExpandSelectionToLineBreakAction later
+
+/// Expands the selection to the start/end of the document.
+///
+/// This matches macOS behavior and differs from [ExpandSelectionToLineBreakIntent].
+///
+/// See: [ExpandSelectionToDocumentBoundaryIntent].
 class ExpandSelectionToDocumentBoundaryAction
     extends ContextAction<ExpandSelectionToDocumentBoundaryIntent> {
   ExpandSelectionToDocumentBoundaryAction(this.state);
@@ -293,11 +300,9 @@ class ExpandSelectionToDocumentBoundaryAction
 
     final newSelection = intent.forward
         ? currentSelection.copyWith(
-            baseOffset: currentSelection.baseOffset,
             extentOffset: documentLength,
           )
         : currentSelection.copyWith(
-            baseOffset: currentSelection.baseOffset,
             extentOffset: 0,
           );
     return Actions.invoke(
@@ -313,6 +318,11 @@ class ExpandSelectionToDocumentBoundaryAction
 
 // TODO: Same for ExpandSelectionToLineBreakIntent (see TODOs of ExpandSelectionToDocumentBoundaryAction)
 
+/// Extends the selection to the next/previous line break (`\n`).
+///
+/// This behavior is standard on macOS.
+///
+/// See: [ExpandSelectionToLineBreakIntent]
 class ExpandSelectionToLineBreakAction
     extends ContextAction<ExpandSelectionToLineBreakIntent> {
   ExpandSelectionToLineBreakAction(this.state);
@@ -321,21 +331,47 @@ class ExpandSelectionToLineBreakAction
   @override
   Object? invoke(ExpandSelectionToLineBreakIntent intent,
       [BuildContext? context]) {
+    // Plain text of the document (needed to find line breaks)
     final text = state.controller.plainTextEditingValue.text;
 
     final currentSelection = state.controller.selection;
 
-    // TODO: Will be implemented soon, should not merge or review yet.
-    throw UnimplementedError();
+    // Calculate the next or previous line break based on direction
+    final searchStartOffset = currentSelection.extentOffset;
 
-    // return Actions.invoke(
-    //   context ?? (throw StateError('BuildContext should not be null.')),
-    //   UpdateSelectionIntent(
-    //     state.textEditingValue,
-    //     newSelection,
-    //     SelectionChangedCause.keyboard,
-    //   ),
-    // );
+    final targetLineBreak = () {
+      if (intent.forward) {
+        final nextLineBreak = text.indexOf('\n', searchStartOffset);
+        final noNextLineBreak = nextLineBreak == -1;
+        return noNextLineBreak ? text.length : nextLineBreak + 1;
+      }
+
+      // Backward
+
+      // Ensure (searchStartOffset - 1) is not negative to avoid [RangeError]
+      final safePreviousSearchOffset =
+          (searchStartOffset > 0) ? (searchStartOffset - 1) : 0;
+
+      final previousLineBreak =
+          text.lastIndexOf('\n', safePreviousSearchOffset);
+
+      final noPreviousLineBreak = previousLineBreak == -1;
+      return noPreviousLineBreak ? 0 : previousLineBreak;
+    }();
+
+    // Create a new selection, extending it to the line break was found
+    final newSelection = currentSelection.copyWith(
+      extentOffset: targetLineBreak,
+    );
+
+    return Actions.invoke(
+      context ?? (throw StateError('BuildContext should not be null.')),
+      UpdateSelectionIntent(
+        state.textEditingValue,
+        newSelection,
+        SelectionChangedCause.keyboard,
+      ),
+    );
   }
 }
 
