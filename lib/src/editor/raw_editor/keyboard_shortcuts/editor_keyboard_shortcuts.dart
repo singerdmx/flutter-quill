@@ -57,9 +57,10 @@ class EditorKeyboardShortcuts extends StatelessWidget {
         {...defaultSinlgeActivatorIntents(isDesktopMacOS)},
       ),
       child: Actions(
-        actions: mergeMaps<Type, Action<Intent>>(actions, {
-          ...?customActions,
-        }),
+        actions: mergeMaps<Type, Action<Intent>>(
+          actions,
+          {...?customActions},
+        ),
         child: Focus(
           focusNode: focusNode,
           onKeyEvent: _onKeyEvent,
