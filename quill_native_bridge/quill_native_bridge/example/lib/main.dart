@@ -50,7 +50,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.getClipboardHTML,
+            QuillNativeBridgePlatformFeature.getClipboardHtml,
             context: context,
           ),
           label: const Text('Get HTML from Clipboard'),
@@ -58,7 +58,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.copyHTMLToClipboard,
+            QuillNativeBridgePlatformFeature.copyHtmlToClipboard,
             context: context,
           ),
           label: const Text('Copy HTML to Clipboard'),
@@ -114,7 +114,7 @@ class Buttons extends StatelessWidget {
             ? "You're running the app on iOS simulator"
             : "You're running the app on real iOS device.");
         break;
-      case QuillNativeBridgePlatformFeature.getClipboardHTML:
+      case QuillNativeBridgePlatformFeature.getClipboardHtml:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -123,7 +123,7 @@ class Buttons extends StatelessWidget {
           );
           return;
         }
-        final result = await QuillNativeBridge.getClipboardHTML();
+        final result = await QuillNativeBridge.getClipboardHtml();
         if (result == null) {
           scaffoldMessenger.showText(
             'The HTML is not available on the clipboard.',
@@ -135,7 +135,7 @@ class Buttons extends StatelessWidget {
         );
         debugPrint('HTML from the clipboard: $result');
         break;
-      case QuillNativeBridgePlatformFeature.copyHTMLToClipboard:
+      case QuillNativeBridgePlatformFeature.copyHtmlToClipboard:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -151,7 +151,7 @@ class Buttons extends StatelessWidget {
           <span style="color:red;">Red text</span>
           <span style="background-color:yellow;">Highlighted text</span>
         ''';
-        await QuillNativeBridge.copyHTMLToClipboard(html);
+        await QuillNativeBridge.copyHtmlToClipboard(html);
         scaffoldMessenger.showText(
           'HTML copied to the clipboard: $html',
         );

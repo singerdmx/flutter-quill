@@ -48,13 +48,13 @@ void main() {
     );
   });
 
-  group('getClipboardHTML and copyHTMLToClipbaord', () {
+  group('getClipboardHtml and copyHtmlToClipbaord', () {
     test('copying HTML to the clipboard should make it accessible', () async {
       const htmlToCopy =
           '<div class="container"><h1>Test Document</h1><p>This is a <strong>sample</strong> paragraph with <a href="https://example.com">a link</a> and some <span style="color:red;">red text</span>.</p><ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul><footer>Footer content here</footer></div>';
-      await QuillNativeBridge.copyHTMLToClipboard(htmlToCopy);
-      final clipboardHTML = await QuillNativeBridge.getClipboardHTML();
-      expect(htmlToCopy, clipboardHTML);
+      await QuillNativeBridge.copyHtmlToClipboard(htmlToCopy);
+      final clipboardHtml = await QuillNativeBridge.getClipboardHtml();
+      expect(htmlToCopy, clipboardHtml);
     });
 
     test('copying HTML should return the HTML that was recently copied',
@@ -62,16 +62,16 @@ void main() {
       const html1 = '<pre style="font-family: monospace;">HTML</pre>';
       const html2 = '<div style="border: 1px solid;">HTML Div</div>';
 
-      await QuillNativeBridge.copyHTMLToClipboard(html1);
-      await QuillNativeBridge.copyHTMLToClipboard(html2);
+      await QuillNativeBridge.copyHtmlToClipboard(html1);
+      await QuillNativeBridge.copyHtmlToClipboard(html2);
 
-      final clipboardHTML = await QuillNativeBridge.getClipboardHTML();
-      expect(clipboardHTML, isNot(html1));
-      expect(clipboardHTML, html2);
+      final clipboardHtml = await QuillNativeBridge.getClipboardHtml();
+      expect(clipboardHtml, isNot(html1));
+      expect(clipboardHtml, html2);
     });
     // TODO: See if there is a need for writing a similar test for getClipboardImage
     test(
-      'getClipboardHTML should return the HTML content after copying HTML, '
+      'getClipboardHtml should return the HTML content after copying HTML, '
       'and should no longer return HTML once an image (or any non-HTML item) '
       'has been copied to the clipboard after that.',
       () async {
@@ -79,10 +79,10 @@ void main() {
 
         // Copy HTML to clipboard before copying an image
 
-        await QuillNativeBridge.copyHTMLToClipboard(html);
+        await QuillNativeBridge.copyHtmlToClipboard(html);
 
         expect(
-          await QuillNativeBridge.getClipboardHTML(),
+          await QuillNativeBridge.getClipboardHtml(),
           html,
         );
 
@@ -91,16 +91,16 @@ void main() {
         await QuillNativeBridge.copyImageToClipboard(imageBytes);
 
         expect(
-          await QuillNativeBridge.getClipboardHTML(),
+          await QuillNativeBridge.getClipboardHtml(),
           null,
         );
 
         // Copy HTML to clipboard before copying plain text
 
-        await QuillNativeBridge.copyHTMLToClipboard(html);
+        await QuillNativeBridge.copyHtmlToClipboard(html);
 
         expect(
-          await QuillNativeBridge.getClipboardHTML(),
+          await QuillNativeBridge.getClipboardHtml(),
           html,
         );
 
@@ -116,7 +116,7 @@ void main() {
         );
 
         expect(
-          await QuillNativeBridge.getClipboardHTML(),
+          await QuillNativeBridge.getClipboardHtml(),
           null,
         );
       },
@@ -129,8 +129,8 @@ void main() {
       () async {
         const exampleHtml = '<div style="border: 1px solid;">HTML Div</div>';
 
-        await QuillNativeBridge.copyHTMLToClipboard(exampleHtml);
-        final clipboardHtml = await QuillNativeBridge.getClipboardHTML();
+        await QuillNativeBridge.copyHtmlToClipboard(exampleHtml);
+        final clipboardHtml = await QuillNativeBridge.getClipboardHtml();
 
         if (clipboardHtml == null) {
           fail(

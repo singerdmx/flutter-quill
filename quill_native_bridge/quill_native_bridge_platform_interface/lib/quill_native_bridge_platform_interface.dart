@@ -41,14 +41,13 @@ abstract class QuillNativeBridgePlatform extends PlatformInterface {
   Future<bool> isIOSSimulator() =>
       throw UnimplementedError('isIOSSimulator() has not been implemented.');
 
-  // TODO: rename getClipboardHTML() and their related usages to getClipboardHtml()
   /// Return HTML from the Clipboard.
-  Future<String?> getClipboardHTML() =>
-      throw UnimplementedError('getClipboardHTML() has not been implemented.');
+  Future<String?> getClipboardHtml() =>
+      throw UnimplementedError('getClipboardHtml() has not been implemented.');
 
   /// Copy the [html] to the clipboard to be pasted on other apps.
-  Future<void> copyHTMLToClipboard(String html) => throw UnimplementedError(
-      'copyHTMLToClipboard() has not been implemented.');
+  Future<void> copyHtmlToClipboard(String html) => throw UnimplementedError(
+      'copyHtmlToClipboard() has not been implemented.');
 
   /// Copy the [imageBytes] to Clipboard to be pasted on other apps.
   Future<void> copyImageToClipboard(Uint8List imageBytes) =>

@@ -11,14 +11,14 @@ class MockQuillNativeBridgePlatform
   Future<bool> isIOSSimulator() async => false;
 
   @override
-  Future<String?> getClipboardHTML() async {
+  Future<String?> getClipboardHtml() async {
     return '<center>Invalid HTML</center>';
   }
 
   String? primaryHTMLClipbaord;
 
   @override
-  Future<void> copyHTMLToClipboard(String html) async {
+  Future<void> copyHtmlToClipboard(String html) async {
     primaryHTMLClipbaord = html;
   }
 
@@ -55,9 +55,9 @@ void main() {
     expect(await QuillNativeBridgePlatform.instance.isIOSSimulator(), false);
   });
 
-  test('getClipboardHTML()', () async {
+  test('getClipboardHtml()', () async {
     expect(
-      await QuillNativeBridgePlatform.instance.getClipboardHTML(),
+      await QuillNativeBridgePlatform.instance.getClipboardHtml(),
       '<center>Invalid HTML</center>',
     );
   });
@@ -75,13 +75,13 @@ void main() {
     );
   });
 
-  test('copyHTMLToClipboard()', () async {
+  test('copyHtmlToClipboard()', () async {
     const html = '<pre>HTML</pre>';
     expect(
       fakePlatform.primaryHTMLClipbaord,
       null,
     );
-    await QuillNativeBridgePlatform.instance.copyHTMLToClipboard(html);
+    await QuillNativeBridgePlatform.instance.copyHtmlToClipboard(html);
     expect(
       fakePlatform.primaryHTMLClipbaord,
       html,

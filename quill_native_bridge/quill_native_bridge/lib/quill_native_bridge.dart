@@ -37,7 +37,7 @@ class QuillNativeBridge {
   /// permission for pasting (on some platforms such as iOS).
   ///
   /// Currently only supports **Android**, **iOS**, **macOS**, **Windows**, **Linux**, and the **Web**.
-  static Future<String?> getClipboardHTML() => _platform.getClipboardHTML();
+  static Future<String?> getClipboardHtml() => _platform.getClipboardHtml();
 
   /// Copy the [html] to the clipboard to be pasted on other apps.
   ///
@@ -46,8 +46,8 @@ class QuillNativeBridge {
   /// such as the [copy_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event).
   ///
   /// Currently only supports **Android**, **iOS**, **macOS**, **Linux**, and the **Web**.
-  static Future<void> copyHTMLToClipboard(String html) =>
-      _platform.copyHTMLToClipboard(html);
+  static Future<void> copyHtmlToClipboard(String html) =>
+      _platform.copyHtmlToClipboard(html);
 
   /// Copy the [imageBytes] to Clipboard to be pasted on other apps.
   ///

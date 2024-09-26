@@ -11,10 +11,10 @@ import 'clipboard_service.dart';
 class DefaultClipboardService extends ClipboardService {
   @override
   Future<String?> getHtmlText() async {
-    if (QuillNativeBridgePlatformFeature.getClipboardHTML.isUnsupported) {
+    if (QuillNativeBridgePlatformFeature.getClipboardHtml.isUnsupported) {
       return null;
     }
-    return await QuillNativeBridge.getClipboardHTML();
+    return await QuillNativeBridge.getClipboardHtml();
   }
 
   @override

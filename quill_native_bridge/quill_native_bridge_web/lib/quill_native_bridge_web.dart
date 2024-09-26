@@ -31,7 +31,7 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<String?> getClipboardHTML() async {
+  Future<String?> getClipboardHtml() async {
     if (isClipbaordApiUnsupported) {
       throw UnsupportedError(
         'Could not retrieve HTML from the clipboard.\n'
@@ -51,7 +51,7 @@ class QuillNativeBridgeWeb extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<void> copyHTMLToClipboard(String html) async {
+  Future<void> copyHtmlToClipboard(String html) async {
     if (isClipbaordApiUnsupported) {
       throw UnsupportedError(
         'Could not copy HTML to the clipboard.\n'

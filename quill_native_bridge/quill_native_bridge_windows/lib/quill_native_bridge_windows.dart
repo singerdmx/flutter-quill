@@ -45,7 +45,7 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   static const _kHtmlFormatName = 'HTML Format';
 
   @override
-  Future<String?> getClipboardHTML() async {
+  Future<String?> getClipboardHtml() async {
     if (OpenClipboard(NULL) == FALSE) {
       assert(false, 'Unknown error while opening the clipboard.');
       return null;

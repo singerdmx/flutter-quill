@@ -62,32 +62,32 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   }
 
   @override
-  Future<String?> getClipboardHTML() async {
+  Future<String?> getClipboardHtml() async {
     assert(() {
-      if (QuillNativeBridgePlatformFeature.getClipboardHTML.isUnsupported) {
+      if (QuillNativeBridgePlatformFeature.getClipboardHtml.isUnsupported) {
         throw FlutterError(
-          'getClipboardHTML() is currently not supported on $defaultTargetPlatform.',
+          'getClipboardHtml() is currently not supported on $defaultTargetPlatform.',
         );
       }
       return true;
     }());
     final htmlText =
-        await _methodChannel.invokeMethod<String?>('getClipboardHTML');
+        await _methodChannel.invokeMethod<String?>('getClipboardHtml');
     return htmlText;
   }
 
   @override
-  Future<void> copyHTMLToClipboard(String html) async {
+  Future<void> copyHtmlToClipboard(String html) async {
     assert(() {
-      if (QuillNativeBridgePlatformFeature.copyHTMLToClipboard.isUnsupported) {
+      if (QuillNativeBridgePlatformFeature.copyHtmlToClipboard.isUnsupported) {
         throw FlutterError(
-          'copyHTMLToClipboard() is currently not supported on $defaultTargetPlatform.',
+          'copyHtmlToClipboard() is currently not supported on $defaultTargetPlatform.',
         );
       }
       return true;
     }());
     await _methodChannel.invokeMethod<void>(
-      'copyHTMLToClipboard',
+      'copyHtmlToClipboard',
       html,
     );
   }

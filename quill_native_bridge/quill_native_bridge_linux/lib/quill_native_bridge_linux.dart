@@ -63,7 +63,7 @@ class QuillNativeBridgeLinux extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<String?> getClipboardHTML() async {
+  Future<String?> getClipboardHtml() async {
     final xclipFile = await extractBinaryFromAsset(kXclipAssetFile);
     try {
       // TODO: Write a test case where copying an image and then retrieving HTML
@@ -102,7 +102,7 @@ class QuillNativeBridgeLinux extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<void> copyHTMLToClipboard(String html) async {
+  Future<void> copyHtmlToClipboard(String html) async {
     final xclipFile = await extractBinaryFromAsset(kXclipAssetFile);
 
     try {

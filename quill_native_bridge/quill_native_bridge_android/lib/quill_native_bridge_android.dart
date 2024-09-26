@@ -36,10 +36,10 @@ class QuillNativeBridgeAndroid extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<String?> getClipboardHTML() async => _hostApi.getClipboardHtml();
+  Future<String?> getClipboardHtml() async => _hostApi.getClipboardHtml();
 
   @override
-  Future<void> copyHTMLToClipboard(String html) =>
+  Future<void> copyHtmlToClipboard(String html) =>
       _hostApi.copyHtmlToClipboard(html);
 
   @override
