@@ -4,16 +4,16 @@ import QuillNativeBridgeApi
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
 class QuillNativeBridgePlugin : FlutterPlugin {
-    private var quillNativeBridge: QuillNativeBridgeApi? = null
+    private var api: QuillNativeBridgeApi? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        quillNativeBridge = QuillNativeBridge(binding.applicationContext)
-        requireNotNull(quillNativeBridge) { "A new instance of $QuillNativeBridgeApi was created that appeared to be null" }
-        QuillNativeBridgeApi.setUp(binding.binaryMessenger, quillNativeBridge)
+        api = QuillNativeBridgeImpl(binding.applicationContext)
+        requireNotNull(api) { "A new instance of $QuillNativeBridgeApi was created that appeared to be null" }
+        QuillNativeBridgeApi.setUp(binding.binaryMessenger, api)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        QuillNativeBridgeApi.setUp(binding.binaryMessenger, quillNativeBridge)
-        quillNativeBridge = null
+        QuillNativeBridgeApi.setUp(binding.binaryMessenger, api)
+        api = null
     }
 }

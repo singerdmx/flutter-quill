@@ -11,7 +11,7 @@ import file_selector_macos
 import gal
 import irondash_engine_context
 import path_provider_foundation
-import quill_native_bridge
+import quill_native_bridge_macos
 import share_plus
 import sqflite
 import super_native_extensions

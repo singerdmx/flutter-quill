@@ -69,6 +69,10 @@ dependency_overrides:
     path: ../quill_native_bridge/quill_native_bridge_linux
   quill_native_bridge_android:
     path: ../quill_native_bridge/quill_native_bridge_android
+  quill_native_bridge_ios:
+    path: ../quill_native_bridge/quill_native_bridge_ios
+  quill_native_bridge_macos:
+    path: ../quill_native_bridge/quill_native_bridge_macos
 
 
 dev_dependencies:

@@ -6,7 +6,7 @@ import dev.flutterquill.quill_native_bridge.clipboard.ClipboardReadImageHandler
 import dev.flutterquill.quill_native_bridge.clipboard.ClipboardRichTextHandler
 import dev.flutterquill.quill_native_bridge.clipboard.ClipboardWriteImageHandler
 
-class QuillNativeBridge(private val context: Context) : QuillNativeBridgeApi {
+class QuillNativeBridgeImpl(private val context: Context) : QuillNativeBridgeApi {
     override fun getClipboardHtml(): String? = ClipboardRichTextHandler.getClipboardHtml(context)
 
     override fun copyHtmlToClipboard(html: String) =
