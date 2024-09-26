@@ -1,14 +1,36 @@
+import 'dart:io' as io show Platform;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
 import '../quill_native_bridge_platform_interface.dart';
 import 'platform_feature.dart';
 
+const _methodChannel = MethodChannel('quill_native_bridge');
+
 /// A default [QuillNativeBridgePlatform] implementation backed by a platform
 /// channel.
 class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
+  /// For tests only
   @visibleForTesting
-  final methodChannel = const MethodChannel('quill_native_bridge');
+  MethodChannel get testMethodChannel {
+    assert(() {
+      if (kIsWeb) {
+        throw StateError(
+          'Could not check if this was a test on web. Method channel should'
+          'be only accessed for tests outside of $MethodChannelQuillNativeBridge',
+        );
+      }
+      if (!io.Platform.environment.containsKey('FLUTTER_TEST')) {
+        throw StateError(
+          'The method channel should be only accessed in tests when used '
+          'outside of $MethodChannelQuillNativeBridge',
+        );
+      }
+      return true;
+    }());
+    return _methodChannel;
+  }
 
   @override
   Future<bool> isIOSSimulator() async {
@@ -21,7 +43,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       return true;
     }());
     final isSimulator =
-        await methodChannel.invokeMethod<bool>('isIOSSimulator');
+        await _methodChannel.invokeMethod<bool>('isIOSSimulator');
     assert(() {
       if (isSimulator == null) {
         throw FlutterError(
@@ -44,7 +66,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       return true;
     }());
     final htmlText =
-        await methodChannel.invokeMethod<String?>('getClipboardHTML');
+        await _methodChannel.invokeMethod<String?>('getClipboardHTML');
     return htmlText;
   }
 
@@ -58,7 +80,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       }
       return true;
     }());
-    await methodChannel.invokeMethod<void>(
+    await _methodChannel.invokeMethod<void>(
       'copyHTMLToClipboard',
       html,
     );
@@ -75,7 +97,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       return true;
     }());
     try {
-      await methodChannel.invokeMethod<void>(
+      await _methodChannel.invokeMethod<void>(
         'copyImageToClipboard',
         imageBytes,
       );
@@ -108,7 +130,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       return true;
     }());
     try {
-      final imageBytes = await methodChannel.invokeMethod<Uint8List?>(
+      final imageBytes = await _methodChannel.invokeMethod<Uint8List?>(
         'getClipboardImage',
       );
       return imageBytes;
@@ -134,7 +156,7 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
       return true;
     }());
     try {
-      final gifBytes = await methodChannel.invokeMethod<Uint8List?>(
+      final gifBytes = await _methodChannel.invokeMethod<Uint8List?>(
         'getClipboardGif',
       );
       return gifBytes;
