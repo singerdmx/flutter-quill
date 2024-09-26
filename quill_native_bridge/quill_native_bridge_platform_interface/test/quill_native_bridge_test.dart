@@ -2,11 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:quill_native_bridge_platform_interface/quill_native_bridge_platform_interface.dart';
+import 'package:quill_native_bridge_platform_interface/src/platform_feature.dart';
 import 'package:quill_native_bridge_platform_interface/src/quill_native_bridge_method_channel.dart';
 
 class MockQuillNativeBridgePlatform
     with MockPlatformInterfaceMixin
     implements QuillNativeBridgePlatform {
+  @override
+  Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
+    return false;
+  }
+
   @override
   Future<bool> isIOSSimulator() async => false;
 

@@ -45,6 +45,26 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   static const _kHtmlFormatName = 'HTML Format';
 
   @override
+  Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
+    switch (feature) {
+      case QuillNativeBridgeFeature.isIOSSimulator:
+        return false;
+      case QuillNativeBridgeFeature.getClipboardHtml:
+        return true;
+      case QuillNativeBridgeFeature.copyHtmlToClipboard:
+      case QuillNativeBridgeFeature.copyImageToClipboard:
+      case QuillNativeBridgeFeature.getClipboardImage:
+      case QuillNativeBridgeFeature.getClipboardGif:
+        return false;
+      // Without this default check, adding new item to the enum will be a breaking change
+      default:
+        throw UnimplementedError(
+          'Checking if `${feature.name}` is supported on Windows is not covered.',
+        );
+    }
+  }
+
+  @override
   Future<String?> getClipboardHtml() async {
     if (OpenClipboard(NULL) == FALSE) {
       assert(false, 'Unknown error while opening the clipboard.');

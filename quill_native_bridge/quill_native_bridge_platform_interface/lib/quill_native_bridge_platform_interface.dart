@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import 'src/platform_feature.dart';
 import 'src/quill_native_bridge_method_channel.dart';
+
+export 'src/platform_feature.dart';
 
 /// **Experimental** as breaking changes can occur.
 ///
@@ -36,6 +39,23 @@ abstract class QuillNativeBridgePlatform extends PlatformInterface {
     PlatformInterface.verify(instance, _token);
     _instance = instance;
   }
+
+  /// Checks if the specified [feature] is supported in the current implementation.
+  ///
+  /// Will verify if this is supported in the platform itself:
+  ///
+  /// - If [feature] is supported on **Android API 21** (as an example) and the
+  /// current Android API is `19` then will return `false`
+  /// - If [feature] is supported on the web if Clipboard API (as another example)
+  /// available in the current browser, and the current browser doesn't support it,
+  /// will return `false` too. For this specific example, you will need
+  /// to fallback to **Clipboard events** on **Firefox** or browsers that doesn't
+  /// support **Clipboard API**.
+  ///
+  /// Always check the docs of the method you're calling to see if there
+  /// are special notes.
+  Future<bool> isSupported(QuillNativeBridgeFeature feature) =>
+      throw UnimplementedError('isSupported() has not been implemented.');
 
   /// Check if the app is running on [iOS Simulator](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device).
   Future<bool> isIOSSimulator() =>

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:quill_native_bridge/quill_native_bridge.dart'
-    show QuillNativeBridge, QuillNativeBridgePlatformFeature;
+    show QuillNativeBridge, QuillNativeBridgeFeature;
 
 import 'assets.dart';
 
@@ -42,7 +42,7 @@ class Buttons extends StatelessWidget {
         const SizedBox(height: 50),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.isIOSSimulator,
+            QuillNativeBridgeFeature.isIOSSimulator,
             context: context,
           ),
           label: const Text('Is iOS Simulator'),
@@ -50,7 +50,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.getClipboardHtml,
+            QuillNativeBridgeFeature.getClipboardHtml,
             context: context,
           ),
           label: const Text('Get HTML from Clipboard'),
@@ -58,7 +58,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.copyHtmlToClipboard,
+            QuillNativeBridgeFeature.copyHtmlToClipboard,
             context: context,
           ),
           label: const Text('Copy HTML to Clipboard'),
@@ -66,7 +66,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.copyImageToClipboard,
+            QuillNativeBridgeFeature.copyImageToClipboard,
             context: context,
           ),
           label: const Text('Copy Image to Clipboard'),
@@ -74,7 +74,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.getClipboardImage,
+            QuillNativeBridgeFeature.getClipboardImage,
             context: context,
           ),
           label: const Text('Retrieve Image from Clipboard'),
@@ -82,7 +82,7 @@ class Buttons extends StatelessWidget {
         ),
         ElevatedButton.icon(
           onPressed: () => _onButtonClick(
-            QuillNativeBridgePlatformFeature.getClipboardGif,
+            QuillNativeBridgeFeature.getClipboardGif,
             context: context,
           ),
           label: const Text('Retrieve Gif from Clipboard'),
@@ -93,14 +93,16 @@ class Buttons extends StatelessWidget {
   }
 
   Future<void> _onButtonClick(
-    QuillNativeBridgePlatformFeature platformFeature, {
+    QuillNativeBridgeFeature feature, {
     required BuildContext context,
   }) async {
-    final isFeatureUnsupported = platformFeature.isUnsupported;
-    final isFeatureWebUnsupported = !platformFeature.hasWebSupport && kIsWeb;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    switch (platformFeature) {
-      case QuillNativeBridgePlatformFeature.isIOSSimulator:
+
+    final isFeatureUnsupported =
+        !(await QuillNativeBridge.isSupported(feature));
+    final isFeatureWebUnsupported = isFeatureUnsupported && kIsWeb;
+    switch (feature) {
+      case QuillNativeBridgeFeature.isIOSSimulator:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -114,7 +116,7 @@ class Buttons extends StatelessWidget {
             ? "You're running the app on iOS simulator"
             : "You're running the app on real iOS device.");
         break;
-      case QuillNativeBridgePlatformFeature.getClipboardHtml:
+      case QuillNativeBridgeFeature.getClipboardHtml:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -135,7 +137,7 @@ class Buttons extends StatelessWidget {
         );
         debugPrint('HTML from the clipboard: $result');
         break;
-      case QuillNativeBridgePlatformFeature.copyHtmlToClipboard:
+      case QuillNativeBridgeFeature.copyHtmlToClipboard:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -156,7 +158,7 @@ class Buttons extends StatelessWidget {
           'HTML copied to the clipboard: $html',
         );
         break;
-      case QuillNativeBridgePlatformFeature.copyImageToClipboard:
+      case QuillNativeBridgeFeature.copyImageToClipboard:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -185,7 +187,7 @@ class Buttons extends StatelessWidget {
           'Image has been copied to the clipboard.',
         );
         break;
-      case QuillNativeBridgePlatformFeature.getClipboardImage:
+      case QuillNativeBridgeFeature.getClipboardImage:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
@@ -211,7 +213,7 @@ class Buttons extends StatelessWidget {
           ),
         );
         break;
-      case QuillNativeBridgePlatformFeature.getClipboardGif:
+      case QuillNativeBridgeFeature.getClipboardGif:
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported

@@ -6,11 +6,9 @@ import 'package:flutter/services.dart' show MethodChannel;
 import '../quill_native_bridge_platform_interface.dart';
 import 'platform_feature.dart';
 
-// TODO: This was only for iOS, Android, and macOS, now it's no longer needed
-//  for Android, will be no longer used for iOS and macOS either soon.
-
-// TODO: Platform-specific check like if this is supported should be removed from
-//  here as discussed in https://github.com/singerdmx/flutter-quill/pull/2230
+// TODO: This class is no longer used for implementations that use method channel.
+//  Instead each platform (e.g. Android) have their own implementation which might
+//  or might not use method channel, might remove this class completely
 
 const _methodChannel = MethodChannel('quill_native_bridge');
 
@@ -39,9 +37,18 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
   }
 
   @override
+  Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
+    final isSupported = await _methodChannel.invokeMethod<bool?>(
+      'isSupported',
+      feature.name,
+    );
+    return isSupported ?? false;
+  }
+
+  @override
   Future<bool> isIOSSimulator() async {
     assert(() {
-      if (QuillNativeBridgePlatformFeature.isIOSSimulator.isUnsupported) {
+      if (defaultTargetPlatform != TargetPlatform.iOS || kIsWeb) {
         throw FlutterError(
           'isIOSSimulator() method should be called only on iOS.',
         );
@@ -63,14 +70,6 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
 
   @override
   Future<String?> getClipboardHtml() async {
-    assert(() {
-      if (QuillNativeBridgePlatformFeature.getClipboardHtml.isUnsupported) {
-        throw FlutterError(
-          'getClipboardHtml() is currently not supported on $defaultTargetPlatform.',
-        );
-      }
-      return true;
-    }());
     final htmlText =
         await _methodChannel.invokeMethod<String?>('getClipboardHtml');
     return htmlText;
@@ -78,14 +77,6 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
 
   @override
   Future<void> copyHtmlToClipboard(String html) async {
-    assert(() {
-      if (QuillNativeBridgePlatformFeature.copyHtmlToClipboard.isUnsupported) {
-        throw FlutterError(
-          'copyHtmlToClipboard() is currently not supported on $defaultTargetPlatform.',
-        );
-      }
-      return true;
-    }());
     await _methodChannel.invokeMethod<void>(
       'copyHtmlToClipboard',
       html,
@@ -94,14 +85,6 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
 
   @override
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
-    assert(() {
-      if (QuillNativeBridgePlatformFeature.copyImageToClipboard.isUnsupported) {
-        throw FlutterError(
-          'copyImageToClipboard() is currently not supported on $defaultTargetPlatform.',
-        );
-      }
-      return true;
-    }());
     await _methodChannel.invokeMethod<void>(
       'copyImageToClipboard',
       imageBytes,
@@ -112,14 +95,6 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
 
   @override
   Future<Uint8List?> getClipboardImage() async {
-    assert(() {
-      if (QuillNativeBridgePlatformFeature.getClipboardImage.isUnsupported) {
-        throw FlutterError(
-          'getClipboardImage() is currently not supported on $defaultTargetPlatform.',
-        );
-      }
-      return true;
-    }());
     final imageBytes = await _methodChannel.invokeMethod<Uint8List?>(
       'getClipboardImage',
     );
@@ -128,14 +103,6 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
 
   @override
   Future<Uint8List?> getClipboardGif() async {
-    assert(() {
-      if (QuillNativeBridgePlatformFeature.getClipboardGif.isUnsupported) {
-        throw FlutterError(
-          'getClipboardGif() is currently not supported on $defaultTargetPlatform.',
-        );
-      }
-      return true;
-    }());
     final gifBytes = await _methodChannel.invokeMethod<Uint8List?>(
       'getClipboardGif',
     );
