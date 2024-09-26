@@ -1,5 +1,6 @@
 package dev.flutterquill.quill_native_bridge.clipboard
 
+import FlutterError
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,7 +10,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import androidx.core.graphics.decodeBitmap
-import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
@@ -121,25 +121,19 @@ object ClipboardReadImageHandler {
     fun getClipboardImage(
         context: Context,
         imageType: ImageType,
-        result: MethodChannel.Result,
-    ) {
-        val primaryClipData = getPrimaryClip(context) ?: kotlin.run {
-            result.success(null)
-            return
-        }
+    ): ByteArray? {
+        val primaryClipData = getPrimaryClip(context) ?: return null
+
         val imageUri = getImageUri(
             clipData = primaryClipData,
             imageType = imageType,
-        )
-        if (imageUri == null) {
-            result.success(null)
-            return
-        }
+        ) ?: return null
+
         try {
             imageUri.readOrThrow(context)
         } catch (e: Exception) {
             when (e) {
-                is SecurityException -> result.error(
+                is SecurityException -> throw FlutterError(
                     "FILE_READ_PERMISSION_DENIED",
                     "An image exists on the clipboard, but the app no longer " +
                             "has permission to access it. This may be due to the app's " +
@@ -147,26 +141,26 @@ object ClipboardReadImageHandler {
                     e.toString(),
                 )
 
-                is FileNotFoundException -> result.error(
+                is FileNotFoundException -> throw FlutterError(
                     "FILE_NOT_FOUND",
                     "The image file can't be found, the provided URI could not be opened: ${e.message}",
                     e.toString()
                 )
 
-                else -> result.error(
+                else -> throw FlutterError(
                     "UNKNOWN_ERROR_READING_FILE",
                     "An unknown occurred while reading the image file URI: ${e.message}",
                     e.toString()
                 )
             }
-            return
         }
-        when (imageType) {
+        val imageBytes = when (imageType) {
             ImageType.Png, ImageType.Jpeg,
-            ImageType.AnyExceptGif -> getClipboardImageAsPng(context, result, imageUri)
+            ImageType.AnyExceptGif -> getClipboardImageAsPng(context, imageUri)
 
-            ImageType.Gif -> getClipboardGif(context, result, imageUri)
+            ImageType.Gif -> getClipboardGif(context, imageUri)
         }
+        return imageBytes
     }
 
     /**
@@ -175,9 +169,8 @@ object ClipboardReadImageHandler {
      * */
     private fun getClipboardImageAsPng(
         context: Context,
-        result: MethodChannel.Result,
         imageUri: Uri
-    ) {
+    ): ByteArray {
         val bitmap = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 // Api 29 and above (use a newer API)
@@ -194,12 +187,11 @@ object ClipboardReadImageHandler {
                 }
             }
         } catch (e: Exception) {
-            result.error(
+            throw FlutterError(
                 "COULD_NOT_DECODE_IMAGE",
                 "Could not decode bitmap from Uri: ${e.message}",
                 e.toString(),
             )
-            return
         }
 
         val imageBytes = ByteArrayOutputStream().use { outputStream ->
@@ -213,33 +205,30 @@ object ClipboardReadImageHandler {
                     outputStream
                 )
             if (!compressedSuccessfully) {
-                result.error(
+                throw FlutterError(
                     "COULD_NOT_COMPRESS_IMAGE",
                     "Unknown error while compressing the image",
                     null,
                 )
-                return
             }
             outputStream.toByteArray()
         }
-        result.success(imageBytes)
+        return imageBytes
     }
 
     private fun getClipboardGif(
         context: Context,
-        result: MethodChannel.Result,
         imageUri: Uri
-    ) {
+    ): ByteArray {
         try {
             val imageBytes = uriToByteArray(context, imageUri)
-            result.success(imageBytes)
+            return imageBytes
         } catch (e: Exception) {
-            result.error(
+            throw FlutterError(
                 "COULD_NOT_CONVERT_URI_TO_BYTES",
                 "Could not convert Image URI to ByteArray: ${e.message}",
                 e.toString(),
             )
-            return
         }
     }
 

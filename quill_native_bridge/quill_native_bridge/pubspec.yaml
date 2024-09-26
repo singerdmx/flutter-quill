@@ -21,6 +21,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  quill_native_bridge_android: ^0.0.1-dev.0
   quill_native_bridge_platform_interface: ^0.0.1-dev.0
   quill_native_bridge_web: ^0.0.1-dev.1
   quill_native_bridge_windows: ^0.0.1-dev.0
@@ -35,8 +36,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: dev.flutterquill.quill_native_bridge
-        pluginClass: QuillNativeBridgePlugin
+        default_package: quill_native_bridge_android
       ios:
         pluginClass: QuillNativeBridgePlugin
       macos:

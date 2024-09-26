@@ -6,3 +6,5 @@ dependency_overrides:
     path: ../quill_native_bridge_windows
   quill_native_bridge_linux:
     path: ../quill_native_bridge_linux
+  quill_native_bridge_android:
+    path: ../quill_native_bridge_android
