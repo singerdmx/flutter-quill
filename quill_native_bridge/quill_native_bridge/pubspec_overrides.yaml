@@ -12,3 +12,5 @@ dependency_overrides:
     path: ../quill_native_bridge_ios
   quill_native_bridge_macos:
     path: ../quill_native_bridge_macos
+  quill_native_bridge_platform_interface:
+    path: ../quill_native_bridge_platform_interface
