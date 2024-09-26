@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Hebrew (`he`).
 class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHe([super.locale = 'he']);
+  FlutterQuillLocalizationsHe([String locale = 'he']) : super(locale);
 
   @override
   String get pasteLink => 'הדבק את הלינק';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get alignRight => 'יישור לימין';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'justify';
 
   @override
   String get justifyWinWidth => 'יישור לרוחב החלון';
@@ -140,25 +142,25 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get headerStyle => 'סגנון הכותרת';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'רגיל';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'כותרת 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'כותרת 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'כותרת 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'כותרת 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'כותרת 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'כותרת 6';
 
   @override
   String get numberedList => 'רשימה ממוספרת';
@@ -228,7 +230,7 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'התמונה נשמרה ב: $imagePath';
   }
 
   @override
@@ -236,11 +238,11 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "אנא הזן טקסט לקישור שלך (לדוגמה, 'מידע נוסף')";
+      'אנא הזן טקסט לקישור שלך (לדוגמה, \'מידע נוסף\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "אנא הזן את כתובת ה-URL של הקישור (לדוגמה, 'https://example.com')";
+      'אנא הזן את כתובת ה-URL של הקישור (לדוגמה, \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'אנא הזן כתובת URL תקינה של תמונה';
@@ -259,44 +261,44 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
       'רגישות לאותות רישיות וחיפוש לפי מילה שלמה';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'מבחין בין רישיות לקטנות';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'מילה שלמה';
 
   @override
   String get insertImage => 'הכנס תמונה';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'בחר תמונה מהגלריה שלך';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'צלם תמונה באמצעות המצלמה שלך';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'הדבק תמונה באמצעות קישור';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'בחר סרטון מהגלריה שלך';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'קלט סרטון באמצעות המצלמה שלך';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'הדבק סרטון באמצעות קישור';
 
   @override
-  String get close => 'Close';
+  String get close => 'סגור';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'הגדרות חיפוש';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'גזור';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'הדבק';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'הוסף טבלה';
 }

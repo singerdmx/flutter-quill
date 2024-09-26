@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Norwegian (`no`).
 class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNo([super.locale = 'no']);
+  FlutterQuillLocalizationsNo([String locale = 'no']) : super(locale);
 
   @override
   String get pasteLink => 'Lim inn lenke';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
   String get alignRight => 'Høyrejuster';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Juster tekst';
 
   @override
   String get justifyWinWidth => 'Rettferdiggjør bredden';
@@ -143,22 +145,22 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Overskrift 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Overskrift 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Overskrift 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Overskrift 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Overskrift 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Overskrift 6';
 
   @override
   String get numberedList => 'Nummerert liste';
@@ -228,7 +230,7 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Bildet er lagret på: $imagePath';
   }
 
   @override
@@ -236,11 +238,11 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Vennligst skriv inn tekst for lenken din (for eksempel 'Lær mer')";
+      'Vennligst skriv inn tekst for lenken din (for eksempel \'Lær mer\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Vennligst skriv inn lenkens URL (for eksempel 'https://example.com')";
+      'Vennligst skriv inn lenkens URL (for eksempel \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>
@@ -261,44 +263,44 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
       'Stor/liten bokstavfølsomhet og helordsøk';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Sakens følsomhet';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Hele ord';
 
   @override
   String get insertImage => 'Sett inn bilde';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Velg et bilde fra galleriet ditt';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Ta et bilde med kameraet ditt';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Lim inn et bilde med en lenke';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Velg en video fra galleriet ditt';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Ta opp en video med kameraet ditt';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Lim inn en video med en lenke';
 
   @override
-  String get close => 'Close';
+  String get close => 'Lukk';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Søkinnstillinger';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Klipp';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Lim inn';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Sett inn tabell';
 }

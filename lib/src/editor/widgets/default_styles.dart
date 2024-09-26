@@ -6,6 +6,7 @@ import '../../common/utils/platform.dart';
 import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../style_widgets/checkbox_point.dart';
+import 'text/utils/text_block_utils.dart';
 
 class QuillStyles extends InheritedWidget {
   const QuillStyles({
@@ -160,10 +161,15 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
     super.verticalSpacing,
     super.lineSpacing,
     super.decoration,
-    this.checkboxUIBuilder,
-  );
+    this.checkboxUIBuilder, {
+    this.indentWidthBuilder = TextBlockUtils.defaultIndentWidthBuilder,
+    this.numberPointWidthBuilder =
+        TextBlockUtils.defaultNumberPointWidthBuilder,
+  });
 
   final QuillCheckboxBuilder? checkboxUIBuilder;
+  final LeadingBlockIndentWidth indentWidthBuilder;
+  final LeadingBlockNumberPointWidth numberPointWidthBuilder;
 }
 
 @immutable
@@ -250,12 +256,7 @@ class DefaultStyles {
     );
     const baseHorizontalSpacing = HorizontalSpacing(0, 0);
     const baseVerticalSpacing = VerticalSpacing(6, 0);
-    String fontFamily;
-    if (isAppleOS(platform: themeData.platform, supportWeb: true)) {
-      fontFamily = 'Menlo';
-    } else {
-      fontFamily = 'Roboto Mono';
-    }
+    final fontFamily = themeData.isCupertino ? 'Menlo' : 'Roboto Mono';
 
     final inlineCodeStyle = TextStyle(
       fontSize: 14,

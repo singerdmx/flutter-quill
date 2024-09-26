@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Swahili (`sw`).
 class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsSw([super.locale = 'sw']);
+  FlutterQuillLocalizationsSw([String locale = 'sw']) : super(locale);
 
   @override
   String get pasteLink => 'Bandika Kiungo';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get alignRight => 'Pangilia Kulia';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Panga sawa';
 
   @override
   String get justifyWinWidth => 'Kuhalalisha Upana wa Ushindi';
@@ -140,25 +142,25 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get headerStyle => 'Mtindo wa Mada';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Kawaida';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Kichwa 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Kichwa 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Kichwa 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Kichwa 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Kichwa 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Kichwa 6';
 
   @override
   String get numberedList => 'Orodha ya Nambari';
@@ -228,17 +230,17 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Picha imehifadhiwa kwenye: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => 'Hitilafu Wakati wa Kuhifadhi Picha';
 
   @override
-  String get pleaseEnterTextForYourLink => "Kwa mfano, 'Jifunze zaidi'";
+  String get pleaseEnterTextForYourLink => 'Kwa mfano, \'Jifunze zaidi\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "Kwa mfano, 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'Kwa mfano, \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL =>
@@ -258,44 +260,47 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
       'Uwiano wa herufi kubwa na ndogo na utafutaji wa neno zima';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Jitambulishe kwa herufi kubwa na ndogo';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Neno zima';
 
   @override
   String get insertImage => 'Weka Picha';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery =>
+      'Chagua picha kutoka kwenye galleri yako';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Piga picha kwa kutumia kamera yako';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Pasta picha kwa kutumia kiungo';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery =>
+      'Chagua video kutoka kwenye galleri yako';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera =>
+      'Record video kwa kutumia kamera yako';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Pasta video kwa kutumia kiungo';
 
   @override
-  String get close => 'Close';
+  String get close => 'Funga';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Mipangilio ya utafutaji';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Katakata';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Bandika';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Ingiza jedwali';
 }

@@ -3,10 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
+import 'package:meta/meta.dart';
 import '../../common/utils/quill_table_utils.dart';
 import 'table_cell_embed.dart';
 import 'table_models.dart';
 
+@experimental
+@Deprecated(
+    'CustomTableEmbed will no longer used and it will be removed in future releases')
 class CustomTableEmbed extends CustomBlockEmbed {
   const CustomTableEmbed(String value) : super(tableType, value);
 
@@ -20,6 +24,7 @@ class CustomTableEmbed extends CustomBlockEmbed {
 
 //Embed builder
 
+@experimental
 class QuillEditorTableEmbedBuilder extends EmbedBuilder {
   @override
   String get key => 'table';
@@ -34,6 +39,7 @@ class QuillEditorTableEmbedBuilder extends EmbedBuilder {
     TextStyle textStyle,
   ) {
     final tableData = node.value.data;
+    // ignore: deprecated_member_use_from_same_package
     return TableWidget(
       tableData: tableData,
       controller: controller,
@@ -41,6 +47,9 @@ class QuillEditorTableEmbedBuilder extends EmbedBuilder {
   }
 }
 
+@experimental
+@Deprecated(
+    'TableWidget will no longer used and it will be removed in future releases')
 class TableWidget extends StatefulWidget {
   const TableWidget({
     required this.tableData,
@@ -54,6 +63,7 @@ class TableWidget extends StatefulWidget {
   State<TableWidget> createState() => _TableWidgetState();
 }
 
+// ignore: deprecated_member_use_from_same_package
 class _TableWidgetState extends State<TableWidget> {
   TableModel _tableModel = TableModel(columns: {}, rows: {});
   String _selectedColumnId = '';
@@ -214,6 +224,7 @@ class _TableWidgetState extends State<TableWidget> {
         if (key != 'id') {
           final columnId = key;
           final data = value;
+          // ignore: deprecated_member_use_from_same_package
           rowCells.add(TableCellWidget(
             cellId: rowKey,
             onTap: (node) {

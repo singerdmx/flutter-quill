@@ -39,11 +39,17 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
       end > limit && oldText[end - 1] == newText[end + delta - 1];
       end--) {}
   var start = 0;
+  //TODO: we need to improve this part because this loop has a lot of unsafe index operations
   for (final startLimit = cursorPosition - math.max(0, delta);
-      start < startLimit && oldText[start] == newText[start];
+      start < startLimit &&
+          (start > oldText.length - 1 ? '' : oldText[start]) ==
+              (start > newText.length - 1 ? '' : newText[start]);
       start++) {}
   final deleted = (start >= end) ? '' : oldText.substring(start, end);
-  final inserted = newText.substring(start, end + delta);
+  // we need to make the check if the start is major than the end because if we directly get the
+  // new inserted text without checking first, this will always throw an error since this is an unsafe op
+  final inserted =
+      (start >= end + delta) ? '' : newText.substring(start, end + delta);
   return Diff(
     start: start,
     deleted: deleted,
@@ -88,10 +94,13 @@ int getPositionDelta(Delta user, Delta actual) {
   return diff;
 }
 
-TextDirection getDirectionOfNode(Node node) {
+TextDirection getDirectionOfNode(Node node, [TextDirection? currentDirection]) {
   final direction = node.style.attributes[Attribute.direction.key];
-  if (direction == Attribute.rtl) {
+  // If it is RTL, then create the opposite direction
+  if (currentDirection == TextDirection.rtl && direction == Attribute.rtl) {
+    return TextDirection.ltr;
+  } else if (direction == Attribute.rtl) {
     return TextDirection.rtl;
   }
-  return TextDirection.ltr;
+  return currentDirection ?? TextDirection.ltr;
 }

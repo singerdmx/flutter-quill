@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Turkish (`tr`).
 class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsTr([super.locale = 'tr']);
+  FlutterQuillLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
   String get pasteLink => 'Bağlantıyı Yapıştır';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
   String get alignRight => 'Sağa Hizala';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Yasla';
 
   @override
   String get justifyWinWidth => 'Kenarlara Hizala';
@@ -143,22 +145,22 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Başlık 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Başlık 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Başlık 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Başlık 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Başlık 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Başlık 6';
 
   @override
   String get numberedList => 'Numaralı Liste';
@@ -228,24 +230,24 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Resim şu adreste kaydedildi: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
   String get pleaseEnterAValidVideoURL =>
-      "Lütfen geçerli bir video URL'si girin";
+      'Lütfen geçerli bir video URL\'si girin';
 
   @override
   String get photo => 'Fotoğraf';
@@ -258,44 +260,46 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
       'Büyük/küçük harf hassasiyeti ve tam kelime arama';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Büyük/küçük harf duyarlı';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Tam kelime';
 
   @override
   String get insertImage => 'Görüntü ekle';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Galeriğinizden fotoğraf seçin';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Kameranızla fotoğraf çekin';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink =>
+      'Bir bağlantı kullanarak fotoğraf yapıştırın';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Galeriğinizden video seçin';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Kameranızla video kaydedin';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink =>
+      'Bir bağlantı kullanarak video yapıştırın';
 
   @override
-  String get close => 'Close';
+  String get close => 'Kapat';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Arama ayarları';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Kes';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Yapıştır';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Tablo ekle';
 }

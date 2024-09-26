@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Danish (`da`).
 class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsDa([super.locale = 'da']);
+  FlutterQuillLocalizationsDa([String locale = 'da']) : super(locale);
 
   @override
   String get pasteLink => 'Indsæt link';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Juster tekst';
 
   @override
   String get justifyWinWidth => 'Justify win width';
@@ -143,22 +145,22 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Overskrift 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Overskrift 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Overskrift 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Overskrift 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Overskrift 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Overskrift 6';
 
   @override
   String get numberedList => 'Numbered list';
@@ -228,17 +230,17 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Billedet er gemt på: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -257,44 +259,44 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
       'Stor- og småbogstavsfølsomhed samt helordsøgning';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Store og små bogstaver';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Hele ord';
 
   @override
   String get insertImage => 'Indsæt billede';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Vælg et billede fra dit galleri';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Tag et billede med dit kamera';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Indsæt et billede ved hjælp af et link';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Vælg en video fra dit galleri';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Optag en video med dit kamera';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Indsæt en video ved hjælp af et link';
 
   @override
-  String get close => 'Close';
+  String get close => 'Luk';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Søgeindstillinger';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Klip';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Sæt ind';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Indsæt tabel';
 }

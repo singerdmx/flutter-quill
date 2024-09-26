@@ -200,7 +200,8 @@ RawEditorStateTextInputClientMixin
         - CompositedTransformTarget - Hooks the custom widget into the mechanics of layout rendering and calculation of dimensions (Flutter).
         - Why CompositedTransformTarget? - Because Quill uses a custom renderer to render the document (for performance reasons)
 
-    - If not expanded (meaning scrollable) it wraps the _editor with BaselineProxy QuillSingleChildScrollView and CompositedTransformTarget
+    - If not expanded (meaning scrollable) it wraps the _editor with BaselineProxy, SingleChildScrollView and CompositedTransformTarget. 
+      [CompositedTransformTarget] is needed to allow selection handle overlays to track the selected text.
       Since [SingleChildScrollView] does not implement `computeDistanceToActualBaseline` it prevents the editor from providing its baseline metrics.
       To address this issue we wrap the scroll view with [BaselineProxy] which mimics the editor's baseline.
       This implies that the first line has no styles applied to it.

@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Vietnamese (`vi`).
 class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsVi([super.locale = 'vi']);
+  FlutterQuillLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
   String get pasteLink => 'Chèn liên kết';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
   String get alignRight => 'Căn phải';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Căn chỉnh đều';
 
   @override
   String get justifyWinWidth => 'Căn đều chiều rộng';
@@ -140,25 +142,25 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
   String get headerStyle => 'Kiểu tiêu đề';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Bình thường';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Tiêu đề 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Tiêu đề 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Tiêu đề 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Tiêu đề 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Tiêu đề 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Tiêu đề 6';
 
   @override
   String get numberedList => 'Danh sách có số';
@@ -228,7 +230,7 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Hình ảnh đã được lưu tại: $imagePath';
   }
 
   @override
@@ -236,11 +238,11 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: 'Tìm hiểu thêm')";
+      'Vui lòng nhập văn bản cho liên kết của bạn (ví dụ: \'Tìm hiểu thêm\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Vui lòng nhập URL của liên kết (ví dụ: 'https://example.com')";
+      'Vui lòng nhập URL của liên kết (ví dụ: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Vui lòng nhập URL hình ảnh hợp lệ';
@@ -259,44 +261,44 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
       'Độ nhạy cảm chữ hoa/chữ thường và tìm kiếm toàn bộ từ';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Nhạy cảm với chữ hoa/thường';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Từ đầy đủ';
 
   @override
   String get insertImage => 'Chèn hình ảnh';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Chọn ảnh từ thư viện của bạn';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Chụp ảnh bằng camera của bạn';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Dán ảnh bằng liên kết';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Chọn video từ thư viện của bạn';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Ghi video bằng camera của bạn';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Dán video bằng liên kết';
 
   @override
-  String get close => 'Close';
+  String get close => 'Đóng';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Cài đặt tìm kiếm';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Cắt';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Dán';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Chèn bảng';
 }

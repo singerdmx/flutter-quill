@@ -1,0 +1,27 @@
+name: quill_native_bridge
+description: "An internal plugin for flutter_quill package to access platform-specific APIs"
+version: 10.7.3
+homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/
+repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/
+issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
+documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/
+
+environment:
+  sdk: ^3.5.1
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  plugin:
+    platforms:
+      ios:
+        pluginClass: QuillNativeBridgePlugin

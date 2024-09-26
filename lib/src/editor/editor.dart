@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
 import 'package:flutter/foundation.dart'
-    show ValueListenable, defaultTargetPlatform;
+    show ValueListenable, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/gestures.dart'
     show
         PointerDeviceKind,
@@ -263,10 +263,7 @@ class QuillEditorState extends State<QuillEditor>
     Color selectionColor;
     Radius? cursorRadius;
 
-    if (isAppleOS(
-      platform: theme.platform,
-      supportWeb: true,
-    )) {
+    if (theme.isCupertino) {
       final cupertinoTheme = CupertinoTheme.of(context);
       textSelectionControls = cupertinoTextSelectionControls;
       paintCursorAboveText = true;
@@ -298,11 +295,15 @@ class QuillEditorState extends State<QuillEditor>
             key: _editorKey,
             controller: controller,
             configurations: QuillRawEditorConfigurations(
+              characterShortcutEvents:
+                  widget.configurations.characterShortcutEvents,
+              spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
+              customLeadingBuilder:
+                  widget.configurations.customLeadingBlockBuilder,
               focusNode: widget.focusNode,
               scrollController: widget.scrollController,
               scrollable: configurations.scrollable,
-              enableMarkdownStyleConversion:
-                  configurations.enableMarkdownStyleConversion,
+              enableAlwaysIndentOnTab: configurations.enableAlwaysIndentOnTab,
               scrollBottomInset: configurations.scrollBottomInset,
               padding: configurations.padding,
               readOnly: controller.readOnly,
@@ -314,10 +315,7 @@ class QuillEditorState extends State<QuillEditor>
                   ? (configurations.contextMenuBuilder ??
                       QuillRawEditorConfigurations.defaultContextMenuBuilder)
                   : null,
-              showSelectionHandles: isMobile(
-                platform: theme.platform,
-                supportWeb: true,
-              ),
+              showSelectionHandles: isMobile,
               showCursor: configurations.showCursor ?? true,
               cursorStyle: CursorStyle(
                 color: cursorColor,
@@ -379,7 +377,7 @@ class QuillEditorState extends State<QuillEditor>
           )
         : child;
 
-    if (isWeb()) {
+    if (kIsWeb) {
       // Intercept RawKeyEvent on Web to prevent it from propagating to parents
       // that might interfere with the editor key behavior, such as
       // SingleChildScrollView. Thanks to @wliumelb for the workaround.
@@ -475,11 +473,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return;
     }
 
-    final platform = Theme.of(_state.context).platform;
-    if (isAppleOS(
-      platform: platform,
-      supportWeb: true,
-    )) {
+    if (Theme.of(_state.context).isCupertino) {
       renderEditor!.selectPositionAt(
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
@@ -552,9 +546,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
     try {
       if (delegate.selectionEnabled && !_isPositionSelected(details)) {
-        final platform = Theme.of(_state.context).platform;
-        if (isAppleOS(platform: platform, supportWeb: true) ||
-            isDesktop(platform: platform, supportWeb: true)) {
+        if (isAppleOS || isDesktop) {
           // added isDesktop() to enable extend selection in Windows platform
           switch (details.kind) {
             case PointerDeviceKind.mouse:
@@ -617,11 +609,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
     }
 
     if (delegate.selectionEnabled) {
-      final platform = Theme.of(_state.context).platform;
-      if (isAppleOS(
-        platform: platform,
-        supportWeb: true,
-      )) {
+      if (Theme.of(_state.context).isCupertino) {
         renderEditor!.selectPositionAt(
           from: details.globalPosition,
           cause: SelectionChangedCause.longPress,
@@ -1131,7 +1119,7 @@ class RenderEditor extends RenderEditableContainerBox
   TextSelection selectWordAtPosition(TextPosition position) {
     final word = getWordBoundary(position);
     // When long-pressing past the end of the text, we want a collapsed cursor.
-    if (position.offset > word.end) {
+    if (position.offset >= word.end) {
       return TextSelection.fromPosition(position);
     }
     return TextSelection(baseOffset: word.start, extentOffset: word.end);
@@ -1465,6 +1453,7 @@ class RenderEditor extends RenderEditableContainerBox
       _floatingCursorRect = null;
       _cursorController.setFloatingCursorTextPosition(null);
     }
+    markNeedsPaint();
   }
 
   void _paintFloatingCursor(PaintingContext context, Offset offset) {

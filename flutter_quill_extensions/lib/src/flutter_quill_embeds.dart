@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as fq;
-import 'package:meta/meta.dart' show immutable;
+import 'package:meta/meta.dart' show experimental, immutable;
 
 import 'editor/image/image_embed.dart';
 import 'editor/image/models/image_configurations.dart';
-import 'editor/table/table_embed.dart';
 import 'editor/video/models/video_configurations.dart';
 import 'editor/video/models/video_web_configurations.dart';
 import 'editor/video/video_embed.dart';
@@ -14,7 +13,6 @@ import 'toolbar/camera/models/camera_configurations.dart';
 import 'toolbar/image/image_button.dart';
 import 'toolbar/image/models/image_configurations.dart';
 import 'toolbar/table/models/table_configurations.dart';
-import 'toolbar/table/table_button.dart';
 import 'toolbar/video/models/video_configurations.dart';
 import 'toolbar/video/video_button.dart';
 
@@ -62,7 +60,10 @@ class FlutterQuillEmbeds {
         QuillEditorVideoEmbedBuilder(
           configurations: videoEmbedConfigurations,
         ),
-      QuillEditorTableEmbedBuilder(),
+      // We disable the table feature is in experimental phase
+      // and it does not work as we expect
+      // https://github.com/singerdmx/flutter-quill/pull/2238#pullrequestreview-2312706901
+      // QuillEditorTableEmbedBuilder(),
     ];
   }
 
@@ -119,6 +120,9 @@ class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
+    @experimental
+    @Deprecated(
+        'tableButtonOptions will no longer used by now, and probably will be removed in future releases.')
     QuillToolbarTableButtonOptions? tableButtonOptions,
   }) =>
       [
@@ -139,12 +143,6 @@ class FlutterQuillEmbeds {
               QuillToolbarCameraButton(
                 controller: controller,
                 options: cameraButtonOptions,
-              ),
-        if (tableButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarTableButton(
-                controller: controller,
-                options: tableButtonOptions,
               ),
       ];
 }

@@ -30,6 +30,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+  // ignore: deprecated_member_use
   FlutterQuillExtensions.useSuperClipboardPlugin();
   runApp(const MyApp());
 }

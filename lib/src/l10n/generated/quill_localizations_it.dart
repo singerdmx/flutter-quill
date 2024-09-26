@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Italian (`it`).
 class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsIt([super.locale = 'it']);
+  FlutterQuillLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
   String get pasteLink => 'Incolla un collegamento';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get alignRight => 'Allinea a destra';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Giustifica il testo';
 
   @override
   String get justifyWinWidth => 'Giustifica per larghezza finestra';
@@ -140,25 +142,25 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get headerStyle => 'Stile intestazione';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Normale';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Intestazione 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Intestazione 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Intestazione 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Intestazione 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Intestazione 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Intestazione 6';
 
   @override
   String get numberedList => 'Elenco numerato';
@@ -215,10 +217,10 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get findText => 'Trova testo';
 
   @override
-  String get moveToPreviousOccurrence => "Vai all'occorrenza precedente";
+  String get moveToPreviousOccurrence => 'Vai all\'occorrenza precedente';
 
   @override
-  String get moveToNextOccurrence => "Vai all'occorrenza successiva";
+  String get moveToNextOccurrence => 'Vai all\'occorrenza successiva';
 
   @override
   String get savedUsingTheNetwork => 'Salvato utilizzando la rete';
@@ -229,20 +231,20 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'L\'immagine è stata salvata in: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage =>
-      "Errore durante il salvataggio dell'immagine";
+      'Errore durante il salvataggio dell\'immagine';
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Inserisci un testo per il tuo link (ad esempio, 'Per saperne di più')";
+      'Inserisci un testo per il tuo link (ad esempio, \'Per saperne di più\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Inserisci l'URL del link (ad esempio, 'https://example.com')";
+      'Inserisci l\'URL del link (ad esempio, \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Inserisci un URL di immagine valido';
@@ -261,44 +263,46 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
       'Sensibilità maiuscole/minuscole e ricerca di parole intere';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Rispetta maiuscole e minuscole';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Parola intera';
 
   @override
   String get insertImage => 'Inserisci immagine';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Scegli una foto dalla tua galleria';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera =>
+      'Scatta una foto con la tua fotocamera';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Incolla una foto utilizzando un link';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Scegli un video dalla tua galleria';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera =>
+      'Registra un video con la tua fotocamera';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Incolla un video utilizzando un link';
 
   @override
-  String get close => 'Close';
+  String get close => 'Chiudi';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Impostazioni di ricerca';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Taglia';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Incolla';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Inserisci tabella';
 }

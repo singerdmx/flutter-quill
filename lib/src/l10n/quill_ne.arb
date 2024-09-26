@@ -97,5 +97,13 @@
   "pasteAPhotoUsingALink": "लिङ्क प्रयोग गरेर फोटो टाँस्नुहोस्",
   "pickAVideoFromYourGallery": "आफ्नो ग्यालरीबाट भिडियो छान्नुहोस्",
   "recordAVideoUsingYourCamera": "आफ्नो क्यामेरा प्रयोग गरेर भिडियो रेकर्ड गर्नुहोस्",
-  "pasteAVideoUsingALink": "लिङ्क प्रयोग गरेर भिडियो टाँस्नुहोस्"
+  "pasteAVideoUsingALink": "लिङ्क प्रयोग गरेर भिडियो टाँस्नुहोस्",
+  "alignJustify": "सही संरेखण",
+  "caseSensitive": "वर्ण केस संवेदनशील",
+  "wholeWord": "पूरा शब्द",
+  "close": "बन्द गर्नुहोस्",
+  "searchSettings": "खोज सेटिङ",
+  "cut": "काट्नुहोस्",
+  "paste": "पेस्ट गर्नुहोस्",
+  "insertTable": "तालिका समावेश गर्नुहोस्"
 }

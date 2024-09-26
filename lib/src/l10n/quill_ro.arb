@@ -87,5 +87,14 @@
   "pasteAPhotoUsingALink": "Lipește o fotografie folosind un link",
   "pickAVideoFromYourGallery": "Alege un video din galeria ta",
   "recordAVideoUsingYourCamera": "Înregistrează un video folosind camera ta",
-  "pasteAVideoUsingALink": "Lipește un video folosind un link"
+  "pasteAVideoUsingALink": "Lipește un video folosind un link",
+  "alignJustify": "Justificare",
+  "theImageHasBeenSavedAt": "Imaginea a fost salvată la: {imagePath}",
+  "caseSensitive": "Sensibilitate la majuscule și minuscule",
+  "wholeWord": "Cuvânt întreg",
+  "close": "Închide",
+  "searchSettings": "Setări de căutare",
+  "cut": "Tăia",
+  "paste": "Lipire",
+  "insertTable": "Inserare tabel"
 }

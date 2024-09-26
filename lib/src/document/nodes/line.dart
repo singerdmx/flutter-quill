@@ -144,11 +144,10 @@ base class Line extends QuillContainer<Leaf?> {
       _format(style);
     } else {
       // Otherwise forward to children as it's an inline format update.
-      assert(style.values.every((attr) =>
-          attr.scope == AttributeScope.inline ||
-          attr.scope == AttributeScope.ignore));
-      assert(index + local != length);
-      super.retain(index, local, style);
+      final attr = <String, Attribute>{}..addEntries(style.attributes.entries
+          .where((a) => a.value.scope != AttributeScope.block));
+      assert(index + local != length, 'Not at line end');
+      super.retain(index, local, Style.attr(attr));
     }
 
     final remain = len - local;

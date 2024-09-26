@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../extensions.dart';
 import '../../controller/quill_controller.dart';
 import '../../document/nodes/leaf.dart' as leaf;
+import '../../document/nodes/leaf.dart';
 
 abstract class EmbedBuilder {
   const EmbedBuilder();

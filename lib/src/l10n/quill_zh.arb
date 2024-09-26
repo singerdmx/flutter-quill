@@ -87,5 +87,14 @@
   "pasteAPhotoUsingALink": "从链接获取图片",
   "pickAVideoFromYourGallery": "从相册选取视频",
   "recordAVideoUsingYourCamera": "使用相机录制",
-  "pasteAVideoUsingALink": "从链接获取视频"
+  "pasteAVideoUsingALink": "从链接获取视频",
+  "alignJustify": "两端对齐",
+  "theImageHasBeenSavedAt": "图片已保存到: {imagePath}",
+  "caseSensitive": "区分大小写",
+  "wholeWord": "完整单词",
+  "close": "关闭",
+  "searchSettings": "搜索设置",
+  "cut": "剪切",
+  "paste": "粘贴",
+  "insertTable": "插入表格"
 }

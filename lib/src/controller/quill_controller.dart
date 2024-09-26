@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
-import 'package:html/parser.dart' as html_parser;
 import 'package:meta/meta.dart' show experimental;
 
 import '../../quill_delta.dart';
@@ -10,7 +10,6 @@ import '../common/structs/image_url.dart';
 import '../common/structs/offset_value.dart';
 import '../common/utils/embeds.dart';
 import '../delta/delta_diff.dart';
-import '../delta/delta_x.dart';
 import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/embeddable.dart';
@@ -18,9 +17,12 @@ import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_configurations.dart';
-import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../toolbar/config/simple_toolbar_configurations.dart';
 import 'quill_controller_configurations.dart';
+import 'quill_controller_rich_paste.dart';
+
+import 'web/quill_controller_web_stub.dart'
+    if (dart.library.html) 'web/quill_controller_web_real.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -38,7 +40,11 @@ class QuillController extends ChangeNotifier {
     this.readOnly = false,
     this.editorFocusNode,
   })  : _document = document,
-        _selection = selection;
+        _selection = selection {
+    if (kIsWeb) {
+      initializeWebPasteEvent();
+    }
+  }
 
   factory QuillController.basic(
           {QuillControllerConfigurations configurations =
@@ -132,8 +138,8 @@ class QuillController extends ChangeNotifier {
 
   bool ignoreFocusOnTextChange = false;
 
-  /// Skip requestKeyboard being called in
-  /// RawEditorState#_didChangeTextEditingValue
+  /// Skip requestKeyboard being called
+  /// in [QuillRawEditorState._didChangeTextEditingValue]
   bool skipRequestKeyboard = false;
 
   /// True when this [QuillController] instance has been disposed.
@@ -291,19 +297,25 @@ class QuillController extends ChangeNotifier {
     }
 
     Delta? delta;
+    Style? style;
     if (len > 0 || data is! String || data.isNotEmpty) {
       delta = document.replace(index, len, data);
-      var shouldRetainDelta = toggledStyle.isNotEmpty &&
+
+      /// Remove block styles as they can only be attached to line endings
+      style = Style.attr(Map<String, Attribute>.fromEntries(toggledStyle
+          .attributes.entries
+          .where((a) => a.value.scope != AttributeScope.block)));
+      var shouldRetainDelta = style.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
       if (shouldRetainDelta &&
-          toggledStyle.isNotEmpty &&
+          style.isNotEmpty &&
           delta.length == 2 &&
           delta.last.data == '\n') {
         // if all attributes are inline, shouldRetainDelta should be false
         final anyAttributeNotInline =
-            toggledStyle.values.any((attr) => !attr.isInline);
+            style.values.any((attr) => !attr.isInline);
         if (!anyAttributeNotInline) {
           shouldRetainDelta = false;
         }
@@ -311,7 +323,7 @@ class QuillController extends ChangeNotifier {
       if (shouldRetainDelta) {
         final retainDelta = Delta()
           ..retain(index)
-          ..retain(data is String ? data.length : 1, toggledStyle.toJson());
+          ..retain(data is String ? data.length : 1, style.toJson());
         document.compose(retainDelta, ChangeSource.local);
       }
     }
@@ -363,9 +375,7 @@ class QuillController extends ChangeNotifier {
     Attribute? attribute, {
     bool shouldNotifyListeners = true,
   }) {
-    if (len == 0 &&
-        attribute!.isInline &&
-        attribute.key != Attribute.link.key) {
+    if (len == 0 && attribute!.key != Attribute.link.key) {
       // Add the attribute to our toggledStyle.
       // It will be used later upon insertion.
       toggledStyle = toggledStyle.put(attribute);
@@ -466,6 +476,9 @@ class QuillController extends ChangeNotifier {
     }
 
     _isDisposed = true;
+    if (kIsWeb) {
+      cancelWebPasteEvent();
+    }
     super.dispose();
   }
 
@@ -559,13 +572,13 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
-    final pasteUsingHtmlSuccess = await _pasteHTML();
+    final pasteUsingHtmlSuccess = await pasteHTML();
     if (pasteUsingHtmlSuccess) {
       updateEditor?.call();
       return true;
     }
 
-    final pasteUsingMarkdownSuccess = await _pasteMarkdown();
+    final pasteUsingMarkdownSuccess = await pasteMarkdown();
     if (pasteUsingMarkdownSuccess) {
       updateEditor?.call();
       return true;
@@ -588,7 +601,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// Internal method to allow unit testing
+  @visibleForTesting
   bool pasteUsingPlainOrDelta(String? clipboardText) {
     if (clipboardText != null) {
       /// Internal copy-paste preserves styles and embeds
@@ -608,15 +621,6 @@ class QuillController extends ChangeNotifier {
       return true;
     }
     return false;
-  }
-
-  void _pasteUsingDelta(Delta deltaFromClipboard) {
-    replaceText(
-      selection.start,
-      selection.end - selection.start,
-      deltaFromClipboard,
-      TextSelection.collapsed(offset: selection.end),
-    );
   }
 
   /// Return true if can paste internal image
@@ -642,59 +646,6 @@ class QuillController extends ChangeNotifier {
       await Clipboard.setData(
         const ClipboardData(text: ''),
       );
-      return true;
-    }
-    return false;
-  }
-
-  /// Return true if can paste using HTML
-  Future<bool> _pasteHTML() async {
-    final clipboardService = ClipboardServiceProvider.instance;
-
-    Future<String?> getHTML() async {
-      if (await clipboardService.canProvideHtmlTextFromFile()) {
-        return await clipboardService.getHtmlTextFromFile();
-      }
-      if (await clipboardService.canProvideHtmlText()) {
-        return await clipboardService.getHtmlText();
-      }
-      return null;
-    }
-
-    final htmlText = await getHTML();
-    if (htmlText != null) {
-      final htmlBody = html_parser.parse(htmlText).body?.outerHtml;
-      // ignore: deprecated_member_use_from_same_package
-      final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? htmlText);
-
-      _pasteUsingDelta(deltaFromClipboard);
-
-      return true;
-    }
-    return false;
-  }
-
-  /// Return true if can paste using Markdown
-  Future<bool> _pasteMarkdown() async {
-    final clipboardService = ClipboardServiceProvider.instance;
-
-    Future<String?> getMarkdown() async {
-      if (await clipboardService.canProvideMarkdownTextFromFile()) {
-        return await clipboardService.getMarkdownTextFromFile();
-      }
-      if (await clipboardService.canProvideMarkdownText()) {
-        return await clipboardService.getMarkdownText();
-      }
-      return null;
-    }
-
-    final markdownText = await getMarkdown();
-    if (markdownText != null) {
-      // ignore: deprecated_member_use_from_same_package
-      final deltaFromClipboard = DeltaX.fromMarkdown(markdownText);
-
-      _pasteUsingDelta(deltaFromClipboard);
-
       return true;
     }
     return false;

@@ -7,8 +7,10 @@ import 'package:flutter/widgets.dart';
 /// Very similar to [SingleChildView] but with a [ViewportBuilder] argument
 /// instead of a [Widget]
 ///
-/// Useful when child needs [ViewportOffset] (e.g. [RenderEditor])
+/// Useful when child needs [ViewportOffset] ([RenderEditor] no longer uses this class!)
 /// see: [SingleChildScrollView]
+@Deprecated(
+    'This class is no longer being used and will be removed in future versions. If you disagree, please open an issue.')
 class QuillSingleChildScrollView extends StatelessWidget {
   /// Creates a box in which a single widget can be scrolled.
   const QuillSingleChildScrollView({

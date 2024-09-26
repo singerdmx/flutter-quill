@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Portuguese (`pt`).
 class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsPt([super.locale = 'pt']);
+  FlutterQuillLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
   String get pasteLink => 'Colar um link';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Justificar texto';
 
   @override
   String get justifyWinWidth => 'Justify win width';
@@ -143,22 +145,22 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get normal => 'Normal';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Título 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Título 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Título 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Título 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Título 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Título 6';
 
   @override
   String get numberedList => 'Numbered list';
@@ -229,17 +231,17 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'A imagem foi salva em: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => 'Erro a gravar imagem';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -259,46 +261,46 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
       'Sensibilidade a maiúsculas e minúsculas e pesquisa de palavras inteiras';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Distinguir maiúsculas e minúsculas';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Palavra inteira';
 
   @override
   String get insertImage => 'Inserir imagem';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Escolha uma foto da sua galeria';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Tire uma foto com a sua câmera';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Cole uma foto usando um link';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Escolha um vídeo da sua galeria';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Grave um vídeo com a sua câmera';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Cole um vídeo usando um link';
 
   @override
-  String get close => 'Close';
+  String get close => 'Fechar';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Configurações de pesquisa';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Cortar';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Colar';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Inserir tabela';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -429,6 +431,9 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get alignRight => 'Texto à direita';
 
   @override
+  String get alignJustify => 'Justificar';
+
+  @override
   String get justifyWinWidth => 'Justificado';
 
   @override
@@ -436,6 +441,27 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
 
   @override
   String get headerStyle => 'Estilo de cabeçalho';
+
+  @override
+  String get normal => 'Normal';
+
+  @override
+  String get heading1 => 'Cabeçalho 1';
+
+  @override
+  String get heading2 => 'Cabeçalho 2';
+
+  @override
+  String get heading3 => 'Cabeçalho 3';
+
+  @override
+  String get heading4 => 'Cabeçalho 4';
+
+  @override
+  String get heading5 => 'Cabeçalho 5';
+
+  @override
+  String get heading6 => 'Cabeçalho 6';
 
   @override
   String get numberedList => 'Numeração';
@@ -504,13 +530,18 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get savedUsingLocalStorage => 'Saved using the local storage';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return 'A imagem foi salva em: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
+  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -530,5 +561,44 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
       'Sensibilidade a maiúsculas e minúsculas e pesquisa de palavras inteiras';
 
   @override
+  String get caseSensitive => 'Distinção entre maiúsculas e minúsculas';
+
+  @override
+  String get wholeWord => 'Palavra inteira';
+
+  @override
   String get insertImage => 'Inserir imagem';
+
+  @override
+  String get pickAPhotoFromYourGallery => 'Escolha uma foto da sua galeria';
+
+  @override
+  String get takeAPhotoUsingYourCamera => 'Tire uma foto usando sua câmera';
+
+  @override
+  String get pasteAPhotoUsingALink => 'Cole uma foto usando um link';
+
+  @override
+  String get pickAVideoFromYourGallery => 'Escolha um vídeo da sua galeria';
+
+  @override
+  String get recordAVideoUsingYourCamera => 'Grave um vídeo usando sua câmera';
+
+  @override
+  String get pasteAVideoUsingALink => 'Cole um vídeo usando um link';
+
+  @override
+  String get close => 'Fechar';
+
+  @override
+  String get searchSettings => 'Configurações de pesquisa';
+
+  @override
+  String get cut => 'Cortar';
+
+  @override
+  String get paste => 'Colar';
+
+  @override
+  String get insertTable => 'Inserir tabela';
 }

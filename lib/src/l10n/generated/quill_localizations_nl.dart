@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Dutch Flemish (`nl`).
 class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNl([super.locale = 'nl']);
+  FlutterQuillLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
   String get pasteLink => 'Plak een link';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
   String get alignRight => 'Align right';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Uitvullen';
 
   @override
   String get justifyWinWidth => 'Justify win width';
@@ -140,25 +142,25 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
   String get headerStyle => 'Header style';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Normaal';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Kop 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Kop 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Kop 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Kop 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Kop 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Kop 6';
 
   @override
   String get numberedList => 'Numbered list';
@@ -228,7 +230,7 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'De afbeelding is opgeslagen op: $imagePath';
   }
 
   @override
@@ -236,11 +238,11 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Voer tekst in voor uw link (bijvoorbeeld 'Meer weten')";
+      'Voer tekst in voor uw link (bijvoorbeeld \'Meer weten\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Voer de URL van de link in (bijvoorbeeld 'https://example.com')";
+      'Voer de URL van de link in (bijvoorbeeld \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>
@@ -261,44 +263,44 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
       'Hoofdlettergevoeligheid en volledig woord zoeken';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Hoofdlettergevoelig';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Heel woord';
 
   @override
   String get insertImage => 'Afbeelding invoegen';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Kies een foto uit je galerij';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Maak een foto met je camera';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Plak een foto met een link';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Kies een video uit je galerij';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Maak een video met je camera';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Plak een video met een link';
 
   @override
-  String get close => 'Close';
+  String get close => 'Sluiten';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Zoekinstellingen';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Knippen';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Plakken';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Tabel invoegen';
 }

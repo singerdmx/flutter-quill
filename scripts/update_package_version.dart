@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert' show jsonDecode, jsonEncode;
+import 'dart:convert' show JsonEncoder, jsonDecode;
 import 'dart:io' show File, exit;
 
 // ignore: depend_on_referenced_packages
@@ -116,7 +116,12 @@ Future<void> _replaceVersion({
       ..clear()
       ..addAll(newMap);
   }
-  await sourceChangeLogFile.writeAsString(jsonEncode(sourceChangeLog));
+
+  // Create a JsonEncoder with 4 spaces of indentation
+  final spaces = ' ' * 4;
+  final encoder = JsonEncoder.withIndent(spaces);
+
+  await sourceChangeLogFile.writeAsString(encoder.convert(sourceChangeLog));
 }
 
 /// Update the [pubspecYamlPath] file to update the `version` property from [newVersion]

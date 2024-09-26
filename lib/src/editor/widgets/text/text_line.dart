@@ -31,6 +31,7 @@ class TextLine extends StatefulWidget {
     required this.controller,
     required this.onLaunchUrl,
     required this.linkActionPicker,
+    required this.composingRange,
     this.textDirection,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -49,6 +50,7 @@ class TextLine extends StatefulWidget {
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
+  final TextRange composingRange;
 
   @override
   State<TextLine> createState() => _TextLineState();
@@ -86,7 +88,7 @@ class _TextLineState extends State<TextLine> {
 
     // Desktop platforms (macOS, Linux, Windows):
     // only allow Meta (Control) + Click combinations
-    if (isDesktop(supportWeb: false)) {
+    if (isDesktopApp) {
       return _metaOrControlPressed;
     }
     // Mobile platforms (ios, android): always allow but we install a
@@ -129,6 +131,11 @@ class _TextLineState extends State<TextLine> {
       ..clear();
     super.dispose();
   }
+
+  /// Check if this line contains the placeholder attribute
+  bool get isPlaceholderLine =>
+      widget.line.toDelta().first.attributes?.containsKey('placeholder') ??
+      false;
 
   @override
   Widget build(BuildContext context) {
@@ -262,12 +269,68 @@ class _TextLineState extends State<TextLine> {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
-    final children = nodes
-        .map((node) =>
-            _getTextSpanFromNode(defaultStyles, node, widget.line.style))
-        .toList(growable: false);
+
+    final isComposingRangeOutOfLine = !widget.composingRange.isValid ||
+        widget.composingRange.isCollapsed ||
+        (widget.composingRange.start < widget.line.documentOffset ||
+            widget.composingRange.end >
+                widget.line.documentOffset + widget.line.length);
+
+    if (isComposingRangeOutOfLine) {
+      final children = nodes
+          .map((node) =>
+              _getTextSpanFromNode(defaultStyles, node, widget.line.style))
+          .toList(growable: false);
+      return TextSpan(children: children, style: lineStyle);
+    }
+
+    final children = nodes.expand((node) {
+      final child =
+          _getTextSpanFromNode(defaultStyles, node, widget.line.style);
+      final isNodeInComposingRange =
+          node.documentOffset <= widget.composingRange.start &&
+              widget.composingRange.end <= node.documentOffset + node.length;
+      if (isNodeInComposingRange) {
+        return _splitAndApplyComposingStyle(node, child);
+      } else {
+        return [child];
+      }
+    }).toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
+  }
+
+  // split the text nodes into composing and non-composing nodes
+  // and apply the composing style to the composing nodes
+  List<InlineSpan> _splitAndApplyComposingStyle(Node node, InlineSpan child) {
+    assert(widget.composingRange.isValid && !widget.composingRange.isCollapsed);
+
+    final composingStart = widget.composingRange.start - node.documentOffset;
+    final composingEnd = widget.composingRange.end - node.documentOffset;
+    final text = child.toPlainText();
+
+    final textBefore = text.substring(0, composingStart);
+    final textComposing = text.substring(composingStart, composingEnd);
+    final textAfter = text.substring(composingEnd);
+
+    final composingStyle = child.style
+            ?.merge(const TextStyle(decoration: TextDecoration.underline)) ??
+        const TextStyle(decoration: TextDecoration.underline);
+
+    return [
+      TextSpan(
+        text: textBefore,
+        style: child.style,
+      ),
+      TextSpan(
+        text: textComposing,
+        style: composingStyle,
+      ),
+      TextSpan(
+        text: textAfter,
+        style: child.style,
+      ),
+    ];
   }
 
   TextStyle _getLineStyle(DefaultStyles defaultStyles) {
@@ -325,6 +388,16 @@ class _TextLineState extends State<TextLine> {
         textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
 
     textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
+
+    if (isPlaceholderLine) {
+      final oldStyle = textStyle;
+      textStyle = defaultStyles.placeHolder!.style;
+      textStyle = textStyle.merge(oldStyle.copyWith(
+        color: textStyle.color,
+        backgroundColor: textStyle.backgroundColor,
+        background: textStyle.background,
+      ));
+    }
 
     return textStyle;
   }
@@ -408,7 +481,8 @@ class _TextLineState extends State<TextLine> {
         !widget.readOnly &&
         !widget.line.style.attributes.containsKey('code-block') &&
         !widget.line.style.attributes.containsKey('placeholder') &&
-        !kIsWeb) {
+        !isPlaceholderLine) {
+      // ignore: deprecated_member_use_from_same_package
       final service = SpellCheckerServiceProvider.instance;
       final spellcheckedSpans = service.checkSpelling(textNode.value);
       if (spellcheckedSpans != null && spellcheckedSpans.isNotEmpty) {
@@ -541,7 +615,7 @@ class _TextLineState extends State<TextLine> {
     }
 
     if (isLink && canLaunchLinks) {
-      if (isDesktop(supportWeb: true) || widget.readOnly) {
+      if (isDesktop || widget.readOnly) {
         _linkRecognizers[segment] = TapGestureRecognizer()
           ..onTap = () => _tapNodeLink(segment);
       } else {
@@ -626,6 +700,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.hasFocus,
       this.devicePixelRatio,
       this.cursorCont,
+      this.inlineCodeStyle,
       {super.key});
 
   final Line line;
@@ -640,6 +715,7 @@ class EditableTextLine extends RenderObjectWidget {
   final bool hasFocus;
   final double devicePixelRatio;
   final CursorCont cursorCont;
+  final InlineCodeStyle inlineCodeStyle;
 
   @override
   RenderObjectElement createElement() {
@@ -648,7 +724,6 @@ class EditableTextLine extends RenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    final defaultStyles = DefaultStyles.getInstance(context);
     return RenderEditableTextLine(
         line,
         textDirection,
@@ -659,13 +734,12 @@ class EditableTextLine extends RenderObjectWidget {
         _getPadding(),
         color,
         cursorCont,
-        defaultStyles.inlineCode!);
+        inlineCodeStyle);
   }
 
   @override
   void updateRenderObject(
       BuildContext context, covariant RenderEditableTextLine renderObject) {
-    final defaultStyles = DefaultStyles.getInstance(context);
     renderObject
       ..setLine(line)
       ..setPadding(_getPadding())
@@ -676,7 +750,7 @@ class EditableTextLine extends RenderObjectWidget {
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
-      ..setInlineCodeStyle(defaultStyles.inlineCode!);
+      ..setInlineCodeStyle(inlineCodeStyle);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -1016,9 +1090,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   /// of the cursor for iOS is approximate and obtained through an eyeball
   /// comparison.
   void _computeCaretPrototype() {
-    // If the cursor is taller only on iOS and not AppleOS then we should check
-    // only for iOS instead of AppleOS (macOS for example)
-    if (isIOS(supportWeb: true)) {
+    if (isIos) {
       _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
     } else {
       _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);

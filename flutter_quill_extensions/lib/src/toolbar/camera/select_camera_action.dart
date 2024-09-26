@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart';
 import 'package:flutter_quill/translations.dart';
 
 import 'camera_types.dart';
@@ -21,7 +21,7 @@ class SelectCameraActionDialog extends StatelessWidget {
                 context.loc.takeAPhotoUsingYourCamera,
               ),
               leading: const Icon(Icons.photo_sharp),
-              enabled: !isDesktop(supportWeb: false),
+              enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(CameraAction.image),
             ),
             ListTile(
@@ -30,7 +30,7 @@ class SelectCameraActionDialog extends StatelessWidget {
                 context.loc.recordAVideoUsingYourCamera,
               ),
               leading: const Icon(Icons.camera),
-              enabled: !isDesktop(supportWeb: false),
+              enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(CameraAction.video),
             ),
           ],

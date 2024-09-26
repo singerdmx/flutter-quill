@@ -1,14 +1,21 @@
 # What is an `Attribute`
 
-An `attribute` is a property or characteristic that can be applied to text or a section of text within the editor to change its appearance or behavior. Attributes allow the user to style the text in various ways.
+An `attribute` is a property or characteristic that can be applied to text or a section of text within the editor to
+change its appearance or behavior.
+Attributes allow the user to style the text in various ways.
 
 # How do attributes work?
 
-An Attribute is applied to selected segments of text in the editor. Each attribute has an identifier and a value that determines how it should be applied to the text. For example, to apply bold to a text, an attribute with the identifier "bold" is used. When text is selected and an attribute is applied, the editor updates the visual representation of the text in real time.
+An Attribute is applied to selected segments of text in the editor. Each attribute has an identifier and a value that
+determines how it should be applied to the text. For example, to apply bold to a text, an attribute with the
+identifier "bold" is used. When a text is selected and an attribute is applied, the editor updates the visual
+representation of the text in real time.
 
 # Scope of an `Attribute`
 
-The attributes has an Scope that limit where start and end the `Attribute`. The Scope is called as `AttributeScope`. It has these options to be selected:
+The attributes have a Scope that limit where start and end the `Attribute`.
+The Scope is called as `AttributeScope`.
+It has these options to be selected:
 
 ```dart
 enum AttributeScope {
@@ -38,15 +45,17 @@ class Attribute<T> {
 }
 ```
 
-The key of any `Attribute` must be **unique** to avoid any conflict with the default implementations. 
+The key of any `Attribute` must be **unique** to avoid any conflict with the default implementations.
 
 #### Why `Attribute` class contains a **Generic** as a value
 
-This is the same reason why we can create `Block` styles, `Inline` styles and `Custom` styles. Having a **Generic** type value let us define any value as we want to recognize them later and apply it.
+This is the same reason why we can create `Block` styles, `Inline` styles and `Custom` styles. Having a **Generic** type
+value let us define any value as we want to recognize them later and apply it.
 
 ### Example of an default attribute
 
 ##### Inline Scope:
+
 ```dart
 class BoldAttribute extends Attribute<bool> {
   const BoldAttribute() : super('bold', AttributeScope.inline, true);
@@ -61,7 +70,9 @@ class HeaderAttribute extends Attribute<int?> {
       : super('header', AttributeScope.block, level);
 }
 ```
-If you want to see an example of an embed implementation you can see it [here](https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_embed_blocks.md)
+
+If you want to see an example of an embed implementation you can see
+it [here](https://github.com/singerdmx/flutter-quill/blob/master/doc/custom_embed_blocks.md)
 
 ### Example of a Custom Inline `Attribute`
 
@@ -78,11 +89,14 @@ class HighlightAttr extends Attribute<bool?> {
 }
 ```
 
-##### Where should we add this `HighlightAttr`? 
+##### Where should we add this `HighlightAttr`?
 
-On `QuillEditor` or `QuillEditorConfigurations` **doesn't exist** a param that let us pass our `Attribute` implementations. To make this more easy, we can use just `customStyleBuilder` param from `QuillEditorConfigurations`, that let us define a function to return a `TextStyle`. With this, we can define now our `HighlightAttr`
+On `QuillEditor` or `QuillEditorConfigurations` **doesn't exist** a param that let us pass our `Attribute`
+implementations. To make this more easy, we can use just `customStyleBuilder` param from `QuillEditorConfigurations`,
+that let us define a function to return a `TextStyle`. With this, we can define now our `HighlightAttr`
 
-##### The editor 
+##### The editor
+
 ```dart
 QuillEditor.basic(
       controller: controller,

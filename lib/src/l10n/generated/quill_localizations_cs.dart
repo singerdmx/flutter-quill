@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Czech (`cs`).
 class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsCs([super.locale = 'cs']);
+  FlutterQuillLocalizationsCs([String locale = 'cs']) : super(locale);
 
   @override
   String get pasteLink => 'Vložit odkaz';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get alignRight => 'Zarovnat vpravo';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Zarovnat do bloku';
 
   @override
   String get justifyWinWidth => 'Zarovnat do bloku';
@@ -236,11 +238,11 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Zadejte text pro váš odkaz (např., 'Dozvědět se více')";
+      'Zadejte text pro váš odkaz (např., \'Dozvědět se více\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Zadejte URL odkazu (např., 'https://example.com')";
+      'Zadejte URL odkazu (např., \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Zadejte platnou URL adresu obrázku';
@@ -259,10 +261,10 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
       'Citlivost na velká a malá písmena a vyhledávání celého slova';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Rozlišovat velikost písmen';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Celé slovo';
 
   @override
   String get insertImage => 'Vložit obrázek';
@@ -286,17 +288,17 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
   String get pasteAVideoUsingALink => 'Vložit video pomocí odkazu';
 
   @override
-  String get close => 'Close';
+  String get close => 'Zavřít';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Nastavení hledání';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Vyjmout';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Vložit';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Vložit tabulku';
 }

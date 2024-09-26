@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Turkmen (`tk`).
 class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsTk([super.locale = 'tk']);
+  FlutterQuillLocalizationsTk([String locale = 'tk']) : super(locale);
 
   @override
   String get pasteLink => 'Baglanyşygy goýuň';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get alignRight => 'Saga deňleşdir';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'Düzgünlyä';
 
   @override
   String get justifyWinWidth => 'Justify win width';
@@ -140,25 +142,25 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get headerStyle => 'Sözbaşy stili';
 
   @override
-  String get normal => 'Normal';
+  String get normal => 'Halklaýyn';
 
   @override
-  String get heading1 => 'Heading 1';
+  String get heading1 => 'Başlyk 1';
 
   @override
-  String get heading2 => 'Heading 2';
+  String get heading2 => 'Başlyk 2';
 
   @override
-  String get heading3 => 'Heading 3';
+  String get heading3 => 'Başlyk 3';
 
   @override
-  String get heading4 => 'Heading 4';
+  String get heading4 => 'Başlyk 4';
 
   @override
-  String get heading5 => 'Heading 5';
+  String get heading5 => 'Başlyk 5';
 
   @override
-  String get heading6 => 'Heading 6';
+  String get heading6 => 'Başlyk 6';
 
   @override
   String get numberedList => 'Sanly sanaw';
@@ -228,7 +230,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'Surat şu ýerde saklandy: $imagePath';
   }
 
   @override
@@ -257,44 +259,44 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
       'Iňkisar we iň oňg söz gözleýinç';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'Yazgy käbirlik';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'Doly söz';
 
   @override
   String get insertImage => 'Surat goş';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Pick a photo from your gallery';
+  String get pickAPhotoFromYourGallery => 'Galereýadan surat saýla';
 
   @override
-  String get takeAPhotoUsingYourCamera => 'Take a photo using your camera';
+  String get takeAPhotoUsingYourCamera => 'Kameranyňyzy ulanyp surat çek';
 
   @override
-  String get pasteAPhotoUsingALink => 'Paste a photo using a link';
+  String get pasteAPhotoUsingALink => 'Baglanyşyk ulanyp surat goý';
 
   @override
-  String get pickAVideoFromYourGallery => 'Pick a video from your gallery';
+  String get pickAVideoFromYourGallery => 'Galereýadan wideo saýla';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Record a video using your camera';
+  String get recordAVideoUsingYourCamera => 'Kameranyňyzy ulanyp wideo ýaz';
 
   @override
-  String get pasteAVideoUsingALink => 'Paste a video using a link';
+  String get pasteAVideoUsingALink => 'Baglanyşyk ulanyp wideo goý';
 
   @override
-  String get close => 'Close';
+  String get close => 'Ýap';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'Gözleg sazlamalary';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'Kes';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Goý';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'Jadwal goş';
 }

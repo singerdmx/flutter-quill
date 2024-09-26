@@ -1,5 +1,0 @@
-dependency_overrides:
-  flutter_quill_test:
-    path: ./flutter_quill_test
-  dart_quill_delta:
-    path: ./dart_quill_delta

@@ -1,17 +1,15 @@
-import 'package:flutter/foundation.dart' show TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, debugDefaultTargetPlatformOverride;
 import 'package:flutter_quill/src/common/utils/platform.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Test platform checking logic', () {
-    var platform = TargetPlatform.linux;
-    test('Check isDesktop()', () {
-      platform = TargetPlatform.android;
+    debugDefaultTargetPlatformOverride = TargetPlatform.linux;
+    test('Check isDesktop', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
       expect(
-        isDesktop(
-          platform: platform,
-          supportWeb: true,
-        ),
+        isDesktop,
         false,
       );
 
@@ -20,41 +18,23 @@ void main() {
         TargetPlatform.linux,
         TargetPlatform.windows
       ]) {
+        debugDefaultTargetPlatformOverride = desktopPlatform;
         expect(
-          isDesktop(
-            supportWeb: false,
-            overrideIsWeb: false,
-            platform: desktopPlatform,
-          ),
+          isDesktopApp,
           true,
         );
 
+        debugDefaultTargetPlatformOverride = null;
         expect(
-          isDesktop(
-            supportWeb: false,
-            overrideIsWeb: true,
-            platform: desktopPlatform,
-          ),
+          isDesktopApp,
           false,
-        );
-
-        expect(
-          isDesktop(
-            supportWeb: true,
-            overrideIsWeb: true,
-            platform: desktopPlatform,
-          ),
-          true,
         );
       }
     });
-    test('Check isMobile()', () {
-      platform = TargetPlatform.macOS;
+    test('Check isMobile', () {
+      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
       expect(
-        isMobile(
-          platform: platform,
-          supportWeb: true,
-        ),
+        isMobile,
         false,
       );
 
@@ -62,95 +42,19 @@ void main() {
         TargetPlatform.android,
         TargetPlatform.iOS,
       ]) {
+        debugDefaultTargetPlatformOverride = mobilePlatform;
         expect(
-          isMobile(
-            platform: mobilePlatform,
-            supportWeb: false,
-            overrideIsWeb: false,
-          ),
+          isMobile,
           true,
         );
 
+        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+
         expect(
-          isMobile(
-            platform: mobilePlatform,
-            supportWeb: false,
-            overrideIsWeb: true,
-          ),
+          isMobile,
           false,
-        );
-
-        expect(
-          isMobile(
-            supportWeb: true,
-            overrideIsWeb: true,
-            platform: mobilePlatform,
-          ),
-          true,
         );
       }
     });
-    test(
-      'Check supportWeb parameter when using desktop platform on web',
-      () {
-        platform = TargetPlatform.macOS;
-        expect(
-          isDesktop(
-            platform: platform,
-            supportWeb: true,
-          ),
-          true,
-        );
-        expect(
-          isDesktop(
-            platform: platform,
-            supportWeb: false,
-            overrideIsWeb: false,
-          ),
-          true,
-        );
-
-        expect(
-          isDesktop(
-            platform: platform,
-            supportWeb: false,
-            overrideIsWeb: true,
-          ),
-          false,
-        );
-      },
-    );
-
-    test(
-      'Check supportWeb parameter when using mobile platform on web',
-      () {
-        platform = TargetPlatform.android;
-        expect(
-          isMobile(
-            platform: platform,
-            supportWeb: true,
-            overrideIsWeb: true,
-          ),
-          true,
-        );
-        expect(
-          isMobile(
-            platform: platform,
-            supportWeb: false,
-            overrideIsWeb: false,
-          ),
-          true,
-        );
-
-        expect(
-          isMobile(
-            platform: platform,
-            supportWeb: false,
-            overrideIsWeb: true,
-          ),
-          false,
-        );
-      },
-    );
   });
 }

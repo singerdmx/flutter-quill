@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Chinese (`zh`).
 class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsZh([super.locale = 'zh']);
+  FlutterQuillLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
   String get pasteLink => '粘贴链接';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get alignRight => '右对齐';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => '两端对齐';
 
   @override
   String get justifyWinWidth => '两端对齐';
@@ -228,17 +230,17 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return '图片已保存到: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => '保存图像时发生错误';
 
   @override
-  String get pleaseEnterTextForYourLink => "如'了解更多'";
+  String get pleaseEnterTextForYourLink => '如\'了解更多\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "如'https://example.com'";
+  String get pleaseEnterTheLinkURL => '如\'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => '请输入有效的图像URL';
@@ -256,10 +258,10 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get caseSensitivityAndWholeWordSearch => '区分大小写和整词搜索';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => '区分大小写';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => '完整单词';
 
   @override
   String get insertImage => '插入图像';
@@ -283,19 +285,19 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
   String get pasteAVideoUsingALink => '从链接获取视频';
 
   @override
-  String get close => 'Close';
+  String get close => '关闭';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => '搜索设置';
 
   @override
-  String get cut => 'Cut';
+  String get cut => '剪切';
 
   @override
-  String get paste => 'Paste';
+  String get paste => '粘贴';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => '插入表格';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -426,6 +428,9 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
   String get alignRight => '右对齐';
 
   @override
+  String get alignJustify => '两端对齐';
+
+  @override
   String get justifyWinWidth => '两端对齐';
 
   @override
@@ -522,13 +527,18 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
   String get savedUsingLocalStorage => '使用本地存储保存';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return '图片已保存到: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => '保存图像时发生错误';
 
   @override
-  String get pleaseEnterTextForYourLink => "如'了解更多'";
+  String get pleaseEnterTextForYourLink => '如\'了解更多\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "如'https://example.com'";
+  String get pleaseEnterTheLinkURL => '如\'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => '请输入有效的图像URL';
@@ -544,6 +554,12 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
 
   @override
   String get caseSensitivityAndWholeWordSearch => '区分大小写和整词搜索';
+
+  @override
+  String get caseSensitive => '区分大小写';
+
+  @override
+  String get wholeWord => '完整单词';
 
   @override
   String get insertImage => '插入图像';
@@ -565,6 +581,21 @@ class FlutterQuillLocalizationsZhCn extends FlutterQuillLocalizationsZh {
 
   @override
   String get pasteAVideoUsingALink => '从链接获取视频';
+
+  @override
+  String get close => '关闭';
+
+  @override
+  String get searchSettings => '搜索设置';
+
+  @override
+  String get cut => '剪切';
+
+  @override
+  String get paste => '粘贴';
+
+  @override
+  String get insertTable => '插入表格';
 }
 
 /// The translations for Chinese, as used in Hong Kong (`zh_HK`).
@@ -695,6 +726,9 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
   String get alignRight => '右對齊';
 
   @override
+  String get alignJustify => '兩端對齊';
+
+  @override
   String get justifyWinWidth => '兩端對齊';
 
   @override
@@ -702,6 +736,27 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
 
   @override
   String get headerStyle => '標題樣式';
+
+  @override
+  String get normal => '正常';
+
+  @override
+  String get heading1 => '標題 1';
+
+  @override
+  String get heading2 => '標題 2';
+
+  @override
+  String get heading3 => '標題 3';
+
+  @override
+  String get heading4 => '標題 4';
+
+  @override
+  String get heading5 => '標題 5';
+
+  @override
+  String get heading6 => '標題 6';
 
   @override
   String get numberedList => '有序列表';
@@ -770,13 +825,18 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
   String get savedUsingLocalStorage => '使用本地存儲保存';
 
   @override
+  String theImageHasBeenSavedAt(String imagePath) {
+    return '圖片已儲存於: $imagePath';
+  }
+
+  @override
   String get errorWhileSavingImage => '保存圖像時發生錯誤';
 
   @override
-  String get pleaseEnterTextForYourLink => "例如，'了解更多'";
+  String get pleaseEnterTextForYourLink => '例如，\'了解更多\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "例如，'https://example.com'";
+  String get pleaseEnterTheLinkURL => '例如，\'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => '請輸入有效的圖像URL';
@@ -794,5 +854,44 @@ class FlutterQuillLocalizationsZhHk extends FlutterQuillLocalizationsZh {
   String get caseSensitivityAndWholeWordSearch => '區分大小寫和整詞搜索';
 
   @override
+  String get caseSensitive => '區分大小寫';
+
+  @override
+  String get wholeWord => '完整字詞';
+
+  @override
   String get insertImage => '插入圖像';
+
+  @override
+  String get pickAPhotoFromYourGallery => '從相簿中選擇照片';
+
+  @override
+  String get takeAPhotoUsingYourCamera => '使用相機拍攝照片';
+
+  @override
+  String get pasteAPhotoUsingALink => '使用連結貼上照片';
+
+  @override
+  String get pickAVideoFromYourGallery => '從相簿中選擇影片';
+
+  @override
+  String get recordAVideoUsingYourCamera => '使用相機錄製影片';
+
+  @override
+  String get pasteAVideoUsingALink => '使用連結貼上影片';
+
+  @override
+  String get close => '關閉';
+
+  @override
+  String get searchSettings => '搜尋設定';
+
+  @override
+  String get cut => '剪切';
+
+  @override
+  String get paste => '貼上';
+
+  @override
+  String get insertTable => '插入表格';
 }

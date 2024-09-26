@@ -3,18 +3,14 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show
-        FlutterQuillEmbeds,
-        FlutterQuillExtensions,
-        QuillSharedExtensionsConfigurations;
+    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
+import '../../spell_checker/spell_checker.dart';
 import '../shared/widgets/home_screen_button.dart';
 import 'my_quill_editor.dart';
 import 'my_quill_toolbar.dart';
-
-var _isSpellcheckerActive = false;
 
 @immutable
 class QuillScreenArgs {
@@ -43,6 +39,7 @@ class _QuillScreenState extends State<QuillScreen> {
   final _editorFocusNode = FocusNode();
   final _editorScrollController = ScrollController();
   var _isReadOnly = false;
+  var _isSpellcheckerActive = false;
 
   @override
   void initState() {
@@ -63,7 +60,7 @@ class _QuillScreenState extends State<QuillScreen> {
     _controller.readOnly = _isReadOnly;
     if (!_isSpellcheckerActive) {
       _isSpellcheckerActive = true;
-      FlutterQuillExtensions.useSpellCheckerService(
+      SpellChecker.useSpellCheckerService(
           Localizations.localeOf(context).languageCode);
     }
     return Scaffold(
@@ -73,11 +70,13 @@ class _QuillScreenState extends State<QuillScreen> {
           IconButton(
             tooltip: 'Spell-checker',
             onPressed: () {
+              // ignore: deprecated_member_use
               SpellCheckerServiceProvider.toggleState();
               setState(() {});
             },
             icon: Icon(
               Icons.document_scanner,
+              // ignore: deprecated_member_use
               color: SpellCheckerServiceProvider.isServiceActive()
                   ? Colors.red.withOpacity(0.5)
                   : null,
@@ -127,6 +126,8 @@ class _QuillScreenState extends State<QuillScreen> {
                 child: MyQuillEditor(
                   controller: _controller,
                   configurations: QuillEditorConfigurations(
+                    characterShortcutEvents: standardCharactersShortcutEvents,
+                    spaceShortcutEvents: standardSpaceShorcutEvents,
                     searchConfigurations: const QuillSearchConfigurations(
                       searchEmbedMode: SearchEmbedMode.plainText,
                     ),
@@ -141,7 +142,7 @@ class _QuillScreenState extends State<QuillScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(_isReadOnly ? Icons.lock : Icons.edit),
+        child: Icon(!_isReadOnly ? Icons.lock : Icons.edit),
         onPressed: () => setState(() => _isReadOnly = !_isReadOnly),
       ),
     );

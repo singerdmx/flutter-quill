@@ -1,8 +1,10 @@
 import 'quill_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Arabic (`ar`).
 class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsAr([super.locale = 'ar']);
+  FlutterQuillLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
   String get pasteLink => 'نسخ الرابط';
@@ -128,7 +130,7 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get alignRight => 'محاذاة اليمين';
 
   @override
-  String get alignJustify => 'Align justify';
+  String get alignJustify => 'محاذاة النص';
 
   @override
   String get justifyWinWidth => 'تبرير مع العرض';
@@ -228,17 +230,17 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'The image has been saved at: $imagePath';
+    return 'تم حفظ الصورة في: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => 'حدث خطأ أثناء حفظ الصورة';
 
   @override
-  String get pleaseEnterTextForYourLink => "مثال: 'تعلم المزيد'";
+  String get pleaseEnterTextForYourLink => 'مثال: \'تعلم المزيد\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "مثال: 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'مثال: \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL => 'الرجاء إدخال عنوان URL صحيح للصورة';
@@ -257,10 +259,10 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
       'حالة الحساسية والبحث عن كلمة كاملة';
 
   @override
-  String get caseSensitive => 'Case sensitive';
+  String get caseSensitive => 'حساسية الحالة';
 
   @override
-  String get wholeWord => 'Whole word';
+  String get wholeWord => 'كلمة كاملة';
 
   @override
   String get insertImage => 'إدراج صورة';
@@ -284,17 +286,17 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get pasteAVideoUsingALink => 'لصق فيديو باستخدام رابط';
 
   @override
-  String get close => 'Close';
+  String get close => 'إغلاق';
 
   @override
-  String get searchSettings => 'Search settings';
+  String get searchSettings => 'إعدادات البحث';
 
   @override
-  String get cut => 'Cut';
+  String get cut => 'قص';
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'لصق';
 
   @override
-  String get insertTable => 'Insert table';
+  String get insertTable => 'إدراج جدول';
 }
