@@ -17,7 +17,7 @@ enum QuillNativeBridgePlatformFeature {
   /// **Note**: This doesn't check whatever if the web browser support this
   /// specific feature.
   ///
-  /// For example the **Clipboard API** is not supported on **Firefox**
+  /// For example the **Clipboard API** might not be supported on **Firefox**
   /// but is supported on the web itself in general, the [hasWebSupport]
   /// will return `true`.
   ///
@@ -26,9 +26,6 @@ enum QuillNativeBridgePlatformFeature {
   /// to fallback to **Clipboard events** on **Firefox** or browsers that doesn't
   /// support **Clipboard API**.
   final bool hasWebSupport;
-
-  // Note: the [hasWebSupport] need to be manually updated to be in sync with
-  // [isSupported]
 
   /// Verify whether a specific feature is supported by the plugin for the [TargetPlatform].
   ///
@@ -42,41 +39,41 @@ enum QuillNativeBridgePlatformFeature {
   /// Always check the docs of the method you're calling to see if there
   /// are special notes.
   bool get isSupported {
+    if (kIsWeb) {
+      return hasWebSupport;
+    }
     return switch (this) {
       QuillNativeBridgePlatformFeature.isIOSSimulator =>
         !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS,
-      QuillNativeBridgePlatformFeature.getClipboardHTML => kIsWeb ||
-          {
-            TargetPlatform.android,
-            TargetPlatform.iOS,
-            TargetPlatform.macOS,
-            TargetPlatform.windows,
-            TargetPlatform.linux,
-          }.contains(defaultTargetPlatform),
-      QuillNativeBridgePlatformFeature.copyHTMLToClipboard => kIsWeb ||
-          {
-            TargetPlatform.android,
-            TargetPlatform.iOS,
-            TargetPlatform.macOS,
-            TargetPlatform.linux,
-          }.contains(defaultTargetPlatform),
-      QuillNativeBridgePlatformFeature.copyImageToClipboard => kIsWeb ||
-          {
-            TargetPlatform.android,
-            TargetPlatform.iOS,
-            TargetPlatform.macOS,
-            TargetPlatform.linux,
-          }.contains(defaultTargetPlatform),
-      QuillNativeBridgePlatformFeature.getClipboardImage => kIsWeb ||
-          {
-            TargetPlatform.android,
-            TargetPlatform.iOS,
-            TargetPlatform.macOS,
-            TargetPlatform.linux,
-          }.contains(defaultTargetPlatform),
-      QuillNativeBridgePlatformFeature.getClipboardGif => !kIsWeb &&
-          {TargetPlatform.android, TargetPlatform.iOS}
-              .contains(defaultTargetPlatform),
+      QuillNativeBridgePlatformFeature.getClipboardHTML => {
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+          TargetPlatform.macOS,
+          TargetPlatform.windows,
+          TargetPlatform.linux,
+        }.contains(defaultTargetPlatform),
+      QuillNativeBridgePlatformFeature.copyHTMLToClipboard => {
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+          TargetPlatform.macOS,
+          TargetPlatform.linux,
+        }.contains(defaultTargetPlatform),
+      QuillNativeBridgePlatformFeature.copyImageToClipboard => {
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+          TargetPlatform.macOS,
+          TargetPlatform.linux,
+        }.contains(defaultTargetPlatform),
+      QuillNativeBridgePlatformFeature.getClipboardImage => {
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+          TargetPlatform.macOS,
+          TargetPlatform.linux,
+        }.contains(defaultTargetPlatform),
+      QuillNativeBridgePlatformFeature.getClipboardGif => {
+          TargetPlatform.android,
+          TargetPlatform.iOS
+        }.contains(defaultTargetPlatform),
     };
   }
 
