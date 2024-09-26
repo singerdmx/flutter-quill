@@ -30,7 +30,7 @@ class QuillNativeBridgeAndroid extends QuillNativeBridgePlatform {
   static void registerWith() {
     assert(
       defaultTargetPlatform == TargetPlatform.android && !kIsWeb,
-      'QuillNativeBridgeAndroid should be only used for Android.',
+      '$QuillNativeBridgeAndroid should be only used for Android.',
     );
     QuillNativeBridgePlatform.instance = QuillNativeBridgeAndroid._();
   }
