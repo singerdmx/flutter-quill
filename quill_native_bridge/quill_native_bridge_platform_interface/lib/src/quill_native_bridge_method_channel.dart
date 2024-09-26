@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show MethodChannel;
 
 import '../quill_native_bridge_platform_interface.dart';
-import 'platform_feature.dart';
 
 // TODO: This class is no longer used for implementations that use method channel.
 //  Instead each platform (e.g. Android) have their own implementation which might
