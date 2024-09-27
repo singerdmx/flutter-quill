@@ -29,21 +29,6 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
     QuillNativeBridgePlatform.instance = QuillNativeBridgeWindows._();
   }
 
-  // TODO: Cleanup this code here
-
-  // TODO: Improve error handling by throwing exception
-  //  instead of using assert, should have a proper way of handling
-  //  errors regardless of this implementation.
-
-  // TODO: Throw exception and always close the clipboard at once
-  //  regardless of the result
-
-  // TODO: Test Clipboard operations with other windows apps and
-  //  see if this implementation causing issues
-
-  /// From [HTML Clipboard Format](https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format).
-  static const _kHtmlFormatName = 'HTML Format';
-
   @override
   Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
     switch (feature) {
@@ -64,6 +49,21 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
     }
   }
 
+  // TODO: Cleanup this code here
+
+  // TODO: Improve error handling by throwing exception
+  //  instead of using assert, should have a proper way of handling
+  //  errors regardless of this implementation.
+
+  // TODO: Throw exception and always close the clipboard at once
+  //  regardless of the result
+
+  // TODO: Test Clipboard operations with other windows apps and
+  //  see if this implementation causing issues
+
+  /// From [HTML Clipboard Format](https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format).
+  static const _kHtmlFormatName = 'HTML Format';
+
   @override
   Future<String?> getClipboardHtml() async {
     if (OpenClipboard(NULL) == FALSE) {
@@ -71,49 +71,48 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
       return null;
     }
 
-    final htmlFormatPointer = _kHtmlFormatName.toNativeUtf16();
-    final htmlFormatId = RegisterClipboardFormat(htmlFormatPointer);
-    calloc.free(htmlFormatPointer);
+    try {
+      final htmlFormatPointer = _kHtmlFormatName.toNativeUtf16();
+      final htmlFormatId = RegisterClipboardFormat(htmlFormatPointer);
+      calloc.free(htmlFormatPointer);
 
-    if (htmlFormatId == 0) {
+      if (htmlFormatId == 0) {
+        assert(false, 'Failed to register clipboard HTML format.');
+        return null;
+      }
+
+      if (IsClipboardFormatAvailable(htmlFormatId) == FALSE) {
+        return null;
+      }
+
+      final clipboardDataHandle = GetClipboardData(htmlFormatId);
+      if (clipboardDataHandle == NULL) {
+        assert(false, 'Failed to get clipboard data.');
+        return null;
+      }
+
+      final clipboardDataPointer = Pointer.fromAddress(clipboardDataHandle);
+      final lockedMemoryPointer = GlobalLock(clipboardDataPointer);
+      if (lockedMemoryPointer == nullptr) {
+        assert(
+          false,
+          'Failed to lock global memory. Error code: ${GetLastError()}',
+        );
+        return null;
+      }
+
+      final windowsHtmlWithMetadata =
+          lockedMemoryPointer.cast<Utf8>().toDartString();
+      GlobalUnlock(clipboardDataPointer);
+
+      // Strip comments at the start of the HTML as they can cause
+      // issues while parsing the HTML
+
+      final cleanedHtml = stripWin32HtmlDescription(windowsHtmlWithMetadata);
+
+      return cleanedHtml;
+    } finally {
       CloseClipboard();
-      assert(false, 'Failed to register clipboard HTML format.');
-      return null;
     }
-
-    if (IsClipboardFormatAvailable(htmlFormatId) == FALSE) {
-      CloseClipboard();
-      return null;
-    }
-
-    final clipboardDataHandle = GetClipboardData(htmlFormatId);
-    if (clipboardDataHandle == NULL) {
-      CloseClipboard();
-      assert(false, 'Failed to get clipboard data.');
-      return null;
-    }
-
-    final clipboardDataPointer = Pointer.fromAddress(clipboardDataHandle);
-    final lockedMemoryPointer = GlobalLock(clipboardDataPointer);
-    if (lockedMemoryPointer == nullptr) {
-      CloseClipboard();
-      assert(
-        false,
-        'Failed to lock global memory. Error code: ${GetLastError()}',
-      );
-      return null;
-    }
-
-    final windowsHtmlWithMetadata =
-        lockedMemoryPointer.cast<Utf8>().toDartString();
-    GlobalUnlock(clipboardDataPointer);
-    CloseClipboard();
-
-    // Strip comments at the start of the HTML as they can cause
-    // issues while parsing the HTML
-
-    final cleanedHtml = stripWin32HtmlDescription(windowsHtmlWithMetadata);
-
-    return cleanedHtml;
   }
 }
