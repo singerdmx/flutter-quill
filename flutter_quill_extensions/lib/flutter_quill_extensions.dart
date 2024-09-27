@@ -1,4 +1,4 @@
-library flutter_quill_extensions;
+library;
 
 import 'package:flutter_quill/flutter_quill_internal.dart'
     show ClipboardServiceProvider;
