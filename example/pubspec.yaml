@@ -27,7 +27,6 @@ dependencies:
   # Bloc libraries
   bloc: ^8.1.4
   flutter_bloc: ^8.1.5
-  hydrated_bloc: ^9.1.5
 
   # Freezed
   freezed_annotation: ^2.4.1
@@ -57,8 +56,6 @@ dependency_overrides:
     path: ../
   flutter_quill_extensions:
     path: ../flutter_quill_extensions
-  dart_quill_delta:
-    path: ../dart_quill_delta
   flutter_quill_test:
     path: ../flutter_quill_test
   quill_native_bridge:

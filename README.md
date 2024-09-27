@@ -112,9 +112,8 @@ The `flutter_quill` package uses the following plugins:
 1. [`url_launcher`](https://pub.dev/packages/url_launcher): to open links.
 2. [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge): to access platform-specific APIs for the
    editor.
-3. [`flutter_keyboard_visibility`](https://pub.dev/packages/flutter_keyboard_visibility): to listen for keyboard
-   visibility
-   changes.
+3. [`flutter_keyboard_visibility_temp_fork`](https://pub.dev/packages/flutter_keyboard_visibility_temp_fork) to listen for keyboard
+   visibility changes.
 
 ### Android Configuration for `quill_native_bridge`
 

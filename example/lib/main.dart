@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'
@@ -8,10 +7,6 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalWidgetsLocalizations;
 import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:flutter_quill/translations.dart' show FlutterQuillLocalizations;
-import 'package:hydrated_bloc/hydrated_bloc.dart'
-    show HydratedBloc, HydratedStorage;
-import 'package:path_provider/path_provider.dart'
-    show getApplicationDocumentsDirectory;
 
 import 'screens/home/widgets/home_screen.dart';
 import 'screens/quill/quill_screen.dart';
@@ -24,11 +19,6 @@ import 'screens/settings/widgets/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getApplicationDocumentsDirectory(),
-  );
   // TODO: https://github.com/singerdmx/flutter-quill/pull/2230 and related issues
   // FlutterQuillExtensions.useSuperClipboardPlugin();
   runApp(const MyApp());
