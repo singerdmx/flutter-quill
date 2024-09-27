@@ -1,4 +1,8 @@
 // TODO: This might be removed from here or moved to quill_native_bridge
+//  commented in https://github.com/singerdmx/flutter-quill/pull/2293
+//  removed due to bug https://github.com/singerdmx/flutter-quill/issues/2220
+//  added to solve https://github.com/singerdmx/flutter-quill/issues/1998#issuecomment-2361599854
+
 
 // This file should not be exported as the APIs in it are meant for internal usage only
 
@@ -22,7 +26,6 @@
 //   void initializeWebPasteEvent() {
 //     _webPasteEventSubscription =
 //         EventStreamProviders.pasteEvent.forTarget(window.document).listen((e) {
-//       // TODO: See if we can support markdown paste
 //       final html = e.clipboardData?.getData('text/html');
 //       if (html == null) {
 //         return;
