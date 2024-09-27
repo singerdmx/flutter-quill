@@ -1,4 +1,4 @@
-library flutter_quill;
+library;
 
 export 'src/common/structs/horizontal_spacing.dart';
 export 'src/common/structs/image_url.dart';
