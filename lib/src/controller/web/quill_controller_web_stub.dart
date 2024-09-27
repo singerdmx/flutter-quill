@@ -1,4 +1,4 @@
-// See quill_controller_web_real.dart if you want to know why this is not removed yet 
+// See quill_controller_web_real.dart if you want to know why this is not removed yet
 // will be addressed in future releases.
 
 // // This file should not be exported as the APIs in it are meant for internal usage only
