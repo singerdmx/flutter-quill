@@ -55,9 +55,6 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   //  instead of using assert, should have a proper way of handling
   //  errors regardless of this implementation.
 
-  // TODO: Throw exception and always close the clipboard at once
-  //  regardless of the result
-
   // TODO: Test Clipboard operations with other windows apps and
   //  see if this implementation causing issues
 
