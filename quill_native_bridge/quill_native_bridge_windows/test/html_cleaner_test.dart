@@ -26,7 +26,7 @@ EndFragment:0000000598
 </html>
 ''';
         final strippedHtml =
-            stripWin32HtmlDescription(windowsClipboardHtmlExample);
+            stripWindowsHtmlDescriptionHeaders(windowsClipboardHtmlExample);
         expect(
           strippedHtml,
           expectedHtml,
@@ -44,7 +44,7 @@ EndFragment:0000000598
 </body>
 </html>''';
 
-      expect(stripWin32HtmlDescription(cleanHtml), equals(cleanHtml));
+      expect(stripWindowsHtmlDescriptionHeaders(cleanHtml), equals(cleanHtml));
     });
   });
 }

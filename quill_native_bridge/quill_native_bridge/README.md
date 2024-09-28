@@ -9,7 +9,7 @@ An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 |--------------------------|------|---------|-------|---------|-------|-------|
 | **isIOSSimulator**        | ✅   | ⚪      | ⚪    | ⚪      | ⚪    | ⚪    |
 | **getClipboardHtml**      | ✅   | ✅      | ✅    | ✅      | ✅    | ✅    |
-| **copyHtmlToClipboard**   | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
+| **copyHtmlToClipboard**   | ✅   | ✅      | ✅    | ✅      | ✅    | ✅    |
 | **copyImageToClipboard**  | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
 | **getClipboardImage**     | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
 | **getClipboardGif**       | ✅   | ✅      | ⚪    | ⚪      | ⚪    | ⚪    |

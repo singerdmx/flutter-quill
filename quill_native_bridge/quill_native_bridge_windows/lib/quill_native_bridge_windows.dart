@@ -9,6 +9,7 @@ import 'package:win32/win32.dart';
 
 import 'src/clipboard_html_format.dart';
 import 'src/html_cleaner.dart';
+import 'src/html_formatter.dart';
 
 /// A Windows implementation of the [QuillNativeBridgePlatform].
 ///
@@ -32,12 +33,13 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
 
   @override
   Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
+    // TODO: Extract supported features in Set (do the same for other packages)
     switch (feature) {
       case QuillNativeBridgeFeature.isIOSSimulator:
         return false;
       case QuillNativeBridgeFeature.getClipboardHtml:
-        return true;
       case QuillNativeBridgeFeature.copyHtmlToClipboard:
+        return true;
       case QuillNativeBridgeFeature.copyImageToClipboard:
       case QuillNativeBridgeFeature.getClipboardImage:
       case QuillNativeBridgeFeature.getClipboardGif:
@@ -59,6 +61,9 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   // TODO: Test Clipboard operations with other windows apps and
   //  see if this implementation causing issues
 
+  // TODO: Might extract low-level implementation of the clipboard outside of this class
+
+  /// Refer to [Windows GetClipboardData() docs](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipboarddata)
   @override
   Future<String?> getClipboardHtml() async {
     if (OpenClipboard(NULL) == FALSE) {
@@ -98,14 +103,88 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
           lockedMemoryPointer.cast<Utf8>().toDartString();
       GlobalUnlock(clipboardDataPointer);
 
-      // Strip comments at the start of the HTML as they can cause
+      // Strip comments/headers at the start of the HTML as they can cause
       // issues while parsing the HTML
 
-      final cleanedHtml = stripWin32HtmlDescription(windowsHtmlWithMetadata);
+      final cleanedHtml =
+          stripWindowsHtmlDescriptionHeaders(windowsHtmlWithMetadata);
 
       return cleanedHtml;
     } finally {
       CloseClipboard();
+    }
+  }
+
+  /// Refer to [Windows SetClipboardData() docs](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setclipboarddata)
+  @override
+  Future<void> copyHtmlToClipboard(String html) async {
+    if (OpenClipboard(NULL) == FALSE) {
+      assert(false, 'Unknown error while opening the clipboard.');
+      return;
+    }
+
+    final windowsClipboardHtml = constructWindowsHtmlDescriptionHeaders(html);
+    final htmlPointer = windowsClipboardHtml.toNativeUtf8();
+
+    try {
+      if (EmptyClipboard() == FALSE) {
+        assert(false, 'Failed to empty the clipboard.');
+        return;
+      }
+
+      final htmlFormatId = cfHtml;
+
+      if (htmlFormatId == null) {
+        assert(false, 'Failed to register clipboard HTML format.');
+        return;
+      }
+
+      final unitSize = sizeOf<Uint8>();
+      final htmlSize = (htmlPointer.length + 1) * unitSize;
+
+      final globalMemoryHandle =
+          GlobalAlloc(GLOBAL_ALLOC_FLAGS.GMEM_MOVEABLE, htmlSize);
+      if (globalMemoryHandle == nullptr) {
+        assert(false, 'Failed to allocate memory for the clipboard content.');
+        return;
+      }
+
+      final lockedMemoryPointer = GlobalLock(globalMemoryHandle);
+      if (lockedMemoryPointer == nullptr) {
+        GlobalFree(globalMemoryHandle);
+        assert(
+          false,
+          'Failed to lock global memory. Error code: ${GetLastError()}',
+        );
+        return;
+      }
+
+      final targetMemoryPointer = lockedMemoryPointer.cast<Uint8>();
+
+      final sourcePointer = htmlPointer.cast<Uint8>();
+
+      // Copy HTML data byte by byte
+      for (var i = 0; i < htmlPointer.length; i++) {
+        targetMemoryPointer[i] = (sourcePointer + i).value;
+      }
+      (targetMemoryPointer + htmlPointer.length).value = NULL;
+
+      // TODO: Handle errors here, check Win32 docs regarding GlobalUnlock() and SetClipboardData()
+      //  to see any potential issues
+
+      // According to Windows docs in https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setclipboarddata#parameters
+      // Should not unlock when SetClipboardData() success
+
+      if (SetClipboardData(htmlFormatId, lockedMemoryPointer.address) == NULL) {
+        GlobalUnlock(lockedMemoryPointer);
+        assert(
+          false,
+          'Failed to set the clipboard data: ${GetLastError()}',
+        );
+      }
+    } finally {
+      CloseClipboard();
+      calloc.free(htmlPointer);
     }
   }
 }

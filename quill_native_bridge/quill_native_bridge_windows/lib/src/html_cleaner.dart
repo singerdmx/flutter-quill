@@ -1,5 +1,10 @@
-/// [HTML Clipboard Format](https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format)
-const _kWindowsMetadataHtmlKeys = {
+// Used to clean and remove HTML description headers
+// when retrieving HTML from the windows clipboard which are
+// usually not needed and can cause issues when parsing the HTML.
+
+/// See [HTML Clipboard Description Headers](https://learn.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format#description-headers-and-offsets)
+/// for more details.
+const _kWindowsDescriptionHeaders = {
   'Version',
   'StartHTML',
   'EndHTML',
@@ -9,7 +14,7 @@ const _kWindowsMetadataHtmlKeys = {
   'EndSelection'
 };
 
-/// Remove the leading description from Windows clipboard HTML.
+/// Remove the leading description headers from Windows clipboard HTML.
 ///
 /// This function targets specific metadata keys that precede the actual HTML content:
 /// - `Version`
@@ -45,7 +50,9 @@ const _kWindowsMetadataHtmlKeys = {
 ///
 /// Refer to [HTML Clipboard Format](https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format)
 /// for details.
-String stripWin32HtmlDescription(String html) {
+String stripWindowsHtmlDescriptionHeaders(String html) {
+  // TODO: Using string indices can be more efficient and more minimal
+  //  to implement using index indexOf() and substring()
   // Can contains dirty lines
   final lines = html.split('\n');
 
@@ -57,9 +64,9 @@ String stripWin32HtmlDescription(String html) {
       break;
     }
 
-    final isWindowsHtmlMetadata = _kWindowsMetadataHtmlKeys
+    final isWindowsHtmlDescriptionHeader = _kWindowsDescriptionHeaders
         .any((metadataKey) => line.startsWith('$metadataKey:'));
-    if (isWindowsHtmlMetadata) {
+    if (isWindowsHtmlDescriptionHeader) {
       cleanedLines.remove(line);
       continue;
     }

@@ -61,7 +61,7 @@ class QuillNativeBridge {
   /// is not supported on the web browser, should fallback to [Clipboard Events](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent)
   /// such as the [copy_event](https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event).
   ///
-  /// Currently only supports **Android**, **iOS**, **macOS**, **Linux**, and the **Web**.
+  /// Currently only supports **Android**, **iOS**, **macOS**, **Linux**, **Windows** and the **Web**.
   static Future<void> copyHtmlToClipboard(String html) =>
       _platform.copyHtmlToClipboard(html);
 
