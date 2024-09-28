@@ -7,6 +7,7 @@ import 'package:ffi/ffi.dart';
 import 'package:quill_native_bridge_platform_interface/quill_native_bridge_platform_interface.dart';
 import 'package:win32/win32.dart';
 
+import 'src/clipboard_html_format.dart';
 import 'src/html_cleaner.dart';
 
 /// A Windows implementation of the [QuillNativeBridgePlatform].
@@ -58,9 +59,6 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   // TODO: Test Clipboard operations with other windows apps and
   //  see if this implementation causing issues
 
-  /// From [HTML Clipboard Format](https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format).
-  static const _kHtmlFormatName = 'HTML Format';
-
   @override
   Future<String?> getClipboardHtml() async {
     if (OpenClipboard(NULL) == FALSE) {
@@ -69,11 +67,9 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
     }
 
     try {
-      final htmlFormatPointer = TEXT(_kHtmlFormatName);
-      final htmlFormatId = RegisterClipboardFormat(htmlFormatPointer);
-      free(htmlFormatPointer);
+      final htmlFormatId = cfHtml;
 
-      if (htmlFormatId == 0) {
+      if (htmlFormatId == null) {
         assert(false, 'Failed to register clipboard HTML format.');
         return null;
       }
