@@ -7,10 +7,10 @@ An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 
 | Feature                  | iOS  | Android | macOS | Windows | Linux | Web   |
 |--------------------------|------|---------|-------|---------|-------|-------|
-| **isIOSSimulator**        | ✅   | ❌      | ❌    | ❌      | ❌    | ❌    |
+| **isIOSSimulator**        | ✅   | ⚪      | ⚪    | ⚪      | ⚪    | ⚪    |
 | **getClipboardHtml**      | ✅   | ✅      | ✅    | ✅      | ✅    | ✅    |
 | **copyHtmlToClipboard**   | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
 | **copyImageToClipboard**  | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
 | **getClipboardImage**     | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
-| **getClipboardGif**       | ✅   | ✅      | ❌    | ❌      | ❌    | ❌    |
+| **getClipboardGif**       | ✅   | ✅      | ⚪    | ⚪      | ⚪    | ⚪    |
 
