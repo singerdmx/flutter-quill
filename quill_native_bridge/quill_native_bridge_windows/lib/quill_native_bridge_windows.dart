@@ -69,9 +69,9 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
     }
 
     try {
-      final htmlFormatPointer = _kHtmlFormatName.toNativeUtf16();
+      final htmlFormatPointer = TEXT(_kHtmlFormatName);
       final htmlFormatId = RegisterClipboardFormat(htmlFormatPointer);
-      calloc.free(htmlFormatPointer);
+      free(htmlFormatPointer);
 
       if (htmlFormatId == 0) {
         assert(false, 'Failed to register clipboard HTML format.');
