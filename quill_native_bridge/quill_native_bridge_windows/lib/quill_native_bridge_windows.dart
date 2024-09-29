@@ -174,15 +174,18 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
       // Add a null terminator for HTML (necessary for proper string handling)
       (targetMemoryPointer + htmlPointer.length).value = NULL;
 
-      // TODO: Handle errors here, check Win32 docs regarding GlobalUnlock() and SetClipboardData()
-      //  to see any potential issues
-
       // According to Windows docs in https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setclipboarddata#parameters
-      // Should not unlock when SetClipboardData() success
+      // Should not call GlobalFree() when SetClipboardData() success
+      // as the Windows clipboard takes ownership of the memory.
+
+      // TODO: Should we unlock clipboardMemoryHandle (GlobalAlloc) instead of lockedMemoryPointer (GlobalLock)?
+      // According to https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalunlock
+      // It's likely that clipboardMemoryHandle what needs to be unlocked
+      GlobalUnlock(lockedMemoryPointer);
 
       if (SetClipboardData(htmlFormatId, clipboardMemoryHandle.address) ==
           NULL) {
-        GlobalUnlock(lockedMemoryPointer);
+        GlobalFree(clipboardMemoryHandle);
         assert(
           false,
           'Failed to set the clipboard data: ${GetLastError()}',
