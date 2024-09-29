@@ -29,6 +29,9 @@ android {
         namespace = "dev.flutterquill.quill_native_bridge"
     }
 
+    // Using outdated compileSdk can prevent apps
+    // from build using newer API
+    // https://github.com/flutter/flutter/issues/63533
     compileSdk = 34
 
     compileOptions {
