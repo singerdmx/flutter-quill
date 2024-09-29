@@ -52,7 +52,10 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   @override
   Future<String?> getClipboardHtml() async {
     if (OpenClipboard(NULL) == FALSE) {
-      assert(false, 'Unknown error while opening the clipboard.');
+      assert(
+        false,
+        'Unknown error while opening the clipboard. Error code: ${GetLastError()}',
+      );
       return null;
     }
 
@@ -70,7 +73,10 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
 
       final clipboardDataHandle = GetClipboardData(htmlFormatId);
       if (clipboardDataHandle == NULL) {
-        assert(false, 'Failed to get clipboard data.');
+        assert(
+          false,
+          'Failed to get clipboard data. Error code: ${GetLastError()}',
+        );
         return null;
       }
 
@@ -104,7 +110,10 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   @override
   Future<void> copyHtmlToClipboard(String html) async {
     if (OpenClipboard(NULL) == FALSE) {
-      assert(false, 'Unknown error while opening the clipboard.');
+      assert(
+        false,
+        'Unknown error while opening the clipboard. Error code: ${GetLastError()}',
+      );
       return;
     }
 
@@ -113,14 +122,20 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
 
     try {
       if (EmptyClipboard() == FALSE) {
-        assert(false, 'Failed to empty the clipboard.');
+        assert(
+          false,
+          'Failed to empty the clipboard. Error code: ${GetLastError()}',
+        );
         return;
       }
 
       final htmlFormatId = cfHtml;
 
       if (htmlFormatId == null) {
-        assert(false, 'Failed to register clipboard HTML format.');
+        assert(
+          false,
+          'Failed to register clipboard HTML format. Error code: ${GetLastError()}',
+        );
         return;
       }
 
@@ -130,7 +145,10 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
       final globalMemoryHandle =
           GlobalAlloc(GLOBAL_ALLOC_FLAGS.GMEM_MOVEABLE, htmlSize);
       if (globalMemoryHandle == nullptr) {
-        assert(false, 'Failed to allocate memory for the clipboard content.');
+        assert(
+          false,
+          'Failed to allocate memory for the clipboard content. Error code: ${GetLastError()}',
+        );
         return;
       }
 
