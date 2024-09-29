@@ -2,7 +2,8 @@
 
 An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill) package to access platform-specific APIs.
 
-> [!NOTE]
+> **NOTE**
+>
 > **Internal Use Only**: Exclusively for `flutter_quill`. Breaking changes may occur.
 
 | Feature                  | iOS  | Android | macOS | Windows | Linux | Web   |
@@ -16,13 +17,16 @@ An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 
 ## 🔧 Platform Configuration
 
-To support copying images to the clipboard to be accessed by other apps, you need to configure your Android project.
+To support copying images to the system clipboard on **Android**. A platform configuration setup is required.
 If not set up, a warning will appear in the log during debug mode only
 if `copyImageToClipboard` was called without configuring the Android project.
+An exception with less details will be thrown in production mode.
 
 > **IMPORTANT**
-> This is only required on **Android** platform for this feature.
-> Should be able to use other features on **Android** if `copyImageToClipboard` is not being used.
+>
+> This configuration is required on **Android** platform for using `copyImageToClipboard`.
+> Other features on Android will work without it if this method isn't used.
+> For more information, refer to the [Android FileProvider documentation](https://developer.android.com/reference/androidx/core/content/FileProvider).
 
 **1. Update `AndroidManifest.xml`**
 

@@ -71,6 +71,8 @@ class QuillNativeBridgeAndroid extends QuillNativeBridgePlatform {
     try {
       await _hostApi.copyImageToClipboard(imageBytes);
     } on PlatformException catch (e) {
+      // TODO: Update the link, issue and related info if this plugin
+      //  moved outside of flutter-quill repo
       if (kDebugMode && e.code == 'ANDROID_MANIFEST_NOT_CONFIGURED') {
         debugPrint(
           'It looks like your AndroidManifest.xml is not configured properly '
