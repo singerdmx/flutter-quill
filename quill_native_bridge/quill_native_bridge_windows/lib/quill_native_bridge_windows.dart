@@ -32,25 +32,10 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
-    // TODO: Extract supported features in Set (do the same for other packages)
-    switch (feature) {
-      case QuillNativeBridgeFeature.isIOSSimulator:
-        return false;
-      case QuillNativeBridgeFeature.getClipboardHtml:
-      case QuillNativeBridgeFeature.copyHtmlToClipboard:
-        return true;
-      case QuillNativeBridgeFeature.copyImageToClipboard:
-      case QuillNativeBridgeFeature.getClipboardImage:
-      case QuillNativeBridgeFeature.getClipboardGif:
-        return false;
-      // Without this default check, adding new item to the enum will be a breaking change
-      default:
-        throw UnimplementedError(
-          'Checking if `${feature.name}` is supported on Windows is not covered.',
-        );
-    }
-  }
+  Future<bool> isSupported(QuillNativeBridgeFeature feature) async => {
+        QuillNativeBridgeFeature.getClipboardHtml,
+        QuillNativeBridgeFeature.copyHtmlToClipboard,
+      }.contains(feature);
 
   // TODO: Cleanup this code here
 

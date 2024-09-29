@@ -35,24 +35,12 @@ class QuillNativeBridgeMacOS extends QuillNativeBridgePlatform {
   }
 
   @override
-  Future<bool> isSupported(QuillNativeBridgeFeature feature) async {
-    switch (feature) {
-      case QuillNativeBridgeFeature.isIOSSimulator:
-        return false;
-      case QuillNativeBridgeFeature.getClipboardHtml:
-      case QuillNativeBridgeFeature.copyHtmlToClipboard:
-      case QuillNativeBridgeFeature.copyImageToClipboard:
-      case QuillNativeBridgeFeature.getClipboardImage:
-        return true;
-      case QuillNativeBridgeFeature.getClipboardGif:
-        return false;
-      // Without this default check, adding new item to the enum will be a breaking change
-      default:
-        throw UnimplementedError(
-          'Checking if `${feature.name}` is supported on macOS is not covered.',
-        );
-    }
-  }
+  Future<bool> isSupported(QuillNativeBridgeFeature feature) async => {
+        QuillNativeBridgeFeature.getClipboardHtml,
+        QuillNativeBridgeFeature.copyHtmlToClipboard,
+        QuillNativeBridgeFeature.copyImageToClipboard,
+        QuillNativeBridgeFeature.getClipboardImage
+      }.contains(feature);
 
   @override
   Future<bool> isIOSSimulator() => throw UnsupportedError(
