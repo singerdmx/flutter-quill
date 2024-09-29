@@ -178,10 +178,7 @@ class QuillNativeBridgeWindows extends QuillNativeBridgePlatform {
       // Should not call GlobalFree() when SetClipboardData() success
       // as the Windows clipboard takes ownership of the memory.
 
-      // TODO: Should we unlock clipboardMemoryHandle (GlobalAlloc) instead of lockedMemoryPointer (GlobalLock)?
-      // According to https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalunlock
-      // It's likely that clipboardMemoryHandle what needs to be unlocked
-      GlobalUnlock(lockedMemoryPointer);
+      GlobalUnlock(clipboardMemoryHandle);
 
       if (SetClipboardData(htmlFormatId, clipboardMemoryHandle.address) ==
           NULL) {
