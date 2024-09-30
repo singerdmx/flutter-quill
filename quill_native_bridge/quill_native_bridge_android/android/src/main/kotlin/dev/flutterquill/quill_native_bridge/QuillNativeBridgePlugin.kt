@@ -1,6 +1,6 @@
 package dev.flutterquill.quill_native_bridge
 
-import QuillNativeBridgeApi
+import dev.flutterquill.quill_native_bridge.generated.QuillNativeBridgeApi
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 
 class QuillNativeBridgePlugin : FlutterPlugin {

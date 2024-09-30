@@ -6,6 +6,9 @@ import 'package:pigeon/pigeon.dart';
   // Kotlin conventions: https://kotlinlang.org/docs/coding-conventions.html#source-file-names
   kotlinOut:
       'android/src/main/kotlin/dev/flutterquill/quill_native_bridge/generated/GeneratedMessages.kt',
+  kotlinOptions: KotlinOptions(
+    package: 'dev.flutterquill.quill_native_bridge.generated',
+  ),
   dartPackageName: 'quill_native_bridge_android',
 ))
 @HostApi()

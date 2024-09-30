@@ -1,6 +1,5 @@
 package dev.flutterquill.quill_native_bridge.clipboard
 
-import FlutterError
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import androidx.core.content.FileProvider
+import dev.flutterquill.quill_native_bridge.generated.FlutterError
 import java.io.File
 
 object ClipboardWriteImageHandler {
