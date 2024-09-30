@@ -15,13 +15,14 @@ PlatformException _createConnectionError(String channelName) {
   );
 }
 
-
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is int) {
       buffer.putUint8(4);
+      // TODO: Workaround to https://github.com/flutter/packages/pull/7735
+      // ignore: cascade_invocations
       buffer.putInt64(value);
     } else {
       super.writeValue(buffer, value);
@@ -41,9 +42,11 @@ class QuillNativeBridgeApi {
   /// Constructor for [QuillNativeBridgeApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  QuillNativeBridgeApi({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
+  QuillNativeBridgeApi(
+      {BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
       : pigeonVar_binaryMessenger = binaryMessenger,
-        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+        pigeonVar_messageChannelSuffix =
+            messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
   final BinaryMessenger? pigeonVar_binaryMessenger;
 
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
@@ -51,8 +54,10 @@ class QuillNativeBridgeApi {
   final String pigeonVar_messageChannelSuffix;
 
   Future<String?> getClipboardHtml() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.getClipboardHtml$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.getClipboardHtml$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
@@ -73,8 +78,10 @@ class QuillNativeBridgeApi {
   }
 
   Future<void> copyHtmlToClipboard(String html) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.copyHtmlToClipboard$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.copyHtmlToClipboard$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
@@ -95,8 +102,10 @@ class QuillNativeBridgeApi {
   }
 
   Future<Uint8List?> getClipboardImage() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.getClipboardImage$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.getClipboardImage$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
@@ -117,8 +126,10 @@ class QuillNativeBridgeApi {
   }
 
   Future<void> copyImageToClipboard(Uint8List imageBytes) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.copyImageToClipboard$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.copyImageToClipboard$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
@@ -139,8 +150,10 @@ class QuillNativeBridgeApi {
   }
 
   Future<Uint8List?> getClipboardGif() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.getClipboardGif$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.quill_native_bridge_android.QuillNativeBridgeApi.getClipboardGif$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
