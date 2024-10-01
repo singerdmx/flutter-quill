@@ -89,7 +89,7 @@
   },
   "errorWhileSavingImage": "Hiba a kép mentése közben",
   "pleaseEnterTextForYourLink": "Kérjük, írja be a link szövegét (pl. „További információ”).",
-  "pleaseEnterTheLinkURL": "Kérjük, írja be a link link URL-t (pl. 'https://example.com')",
+  "pleaseEnterTheLinkURL": "Kérjük, írja be a link URL-t (pl. 'https://example.com')",
   "pleaseEnterAValidImageURL": "Kérjük, adjon meg egy érvényes kép URL-t",
   "pleaseEnterAValidVideoURL": "Kérjük, adjon meg egy érvényes videó URL-t",
   "photo": "Fénykép",
