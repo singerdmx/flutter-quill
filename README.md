@@ -159,7 +159,7 @@ Create the file `your_project/android/app/src/main/res/xml/file_paths.xml` with 
 > [!NOTE]
 > [super_clipboard](https://pub.dev/packages/super_clipboard) is no longer required
 > in recent versions of Flutter Quill in `flutter_quill` or `flutter_quill_extensions`.
-> `quill_native_bridge` is a plugin provide clipboard operations functionality for `flutter_quill`.
+> [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) is a plugin that provide clipboard operations functionality for `flutter_quill`.
 
 ## 🚀 Usage
 
