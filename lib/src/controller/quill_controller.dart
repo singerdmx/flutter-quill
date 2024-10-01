@@ -551,7 +551,7 @@ class QuillController extends ChangeNotifier {
   }
 
   /// Returns whether paste operation was handled here.
-  /// updateEditor is called if paste operation was successful.
+  /// [updateEditor] is called if paste operation was successful.
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 
@@ -612,7 +612,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// Return true if can paste internal image
+  /// Return `true` if can paste internal image
   Future<bool> _pasteInternalImage() async {
     final copiedImageUrl = _copiedImageUrl;
     if (copiedImageUrl != null) {
