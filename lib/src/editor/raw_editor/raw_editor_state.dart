@@ -10,7 +10,7 @@ import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart'
     show Clipboard, HardwareKeyboard, SystemChannels, TextInputControl;
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
+import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart'
     show KeyboardVisibilityController;
 
 import '../../common/structs/horizontal_spacing.dart';
