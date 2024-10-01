@@ -1,4 +1,4 @@
-library flutter_quill_extensions;
+library;
 
 // ignore: implementation_imports
 import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';

@@ -4,6 +4,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.1
+
+- This release fixes the compilation issue when building the project with [Flutter/Wasm](https://docs.flutter.dev/platform-integration/web/wasm) target on the web. Also, update the conditional import check to avoid using `dart.library.html`:
+
+  ```dart
+  import 'web/quill_controller_web_stub.dart'
+      if (dart.library.html) 'web/quill_controller_web_real.dart';
+  ```
+  
+  To fix critical bugs that prevent using the editor on Wasm.
+  
+  > Flutter/Wasm is stable as of [Flutter 3.22](https://medium.com/flutter/whats-new-in-flutter-3-22-fbde6c164fe3) though it's likely that you might experience some issues when using this new target, if you experienced any issues related to Wasm support related to Flutter Quill, feel free to [open an issue](https://github.com/singerdmx/flutter-quill/issues).
+  
+  Issue #1889 is fixed by temporarily replacing the plugin [flutter_keyboard_visibility](https://pub.dev/packages/flutter_keyboard_visibility) with [flutter_keyboard_visibility_temp_fork](https://pub.dev/packages/flutter_keyboard_visibility_temp_fork) since `flutter_keyboard_visibility` depend on `dart:html`. Also updated the `compileSdkVersion` to `34` instead of `31` as a workaround to [Flutter #63533](https://github.com/flutter/flutter/issues/63533).
+
+- Support for Hungarian (hu) localization was added by @G-Greg in https://github.com/singerdmx/flutter-quill/pull/2291.
+- [dart_quill_delta](https://pub.dev/packages/dart_quill_delta/) has been moved to [FlutterQuill/dart-quill-delta](https://github.com/FlutterQuill/dart-quill-delta) (outside of this repo) and they have separated version now.
+
+
+## New Contributors
+* @G-Greg made their first contribution at https://github.com/singerdmx/flutter-quill/pull/2291
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.0...v10.8.1
+
 ## 10.8.0
 
 > [!CAUTION]
