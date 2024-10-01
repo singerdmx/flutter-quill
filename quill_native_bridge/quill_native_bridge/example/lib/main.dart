@@ -251,8 +251,8 @@ class Buttons extends StatelessWidget {
         if (isFeatureUnsupported) {
           scaffoldMessenger.showText(
             isFeatureWebUnsupported
-                ? 'Retrieving a gif from the clipboard is currently not supported on web.'
-                : 'Retrieving a gif from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
+                ? 'Retrieving files from the clipboard is currently not supported on web.'
+                : 'Retrieving files from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
           );
           return;
         }
@@ -262,7 +262,7 @@ class Buttons extends StatelessWidget {
           return;
         }
         scaffoldMessenger.showText(
-          'Files from the clipboard: ${files.toString()}',
+          '${files.length} Files from the clipboard: ${files.toString()}',
         );
         debugPrint('Files from the clipboard: $files');
         break;

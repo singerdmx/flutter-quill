@@ -97,7 +97,7 @@ class QuillNativeBridge {
 
   /// Return the file paths from the Clipboard.
   ///
-  /// Currently only supports **macOS**.
+  /// Currently only supports **macOS** and **Linux**.
   static Future<List<String>> getClipboardFiles() =>
       _platform.getClipboardFiles();
 }

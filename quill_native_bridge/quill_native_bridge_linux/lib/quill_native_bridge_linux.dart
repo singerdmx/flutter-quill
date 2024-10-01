@@ -37,7 +37,8 @@ class QuillNativeBridgeLinux extends QuillNativeBridgePlatform {
         QuillNativeBridgeFeature.getClipboardHtml,
         QuillNativeBridgeFeature.copyHtmlToClipboard,
         QuillNativeBridgeFeature.copyImageToClipboard,
-        QuillNativeBridgeFeature.getClipboardImage
+        QuillNativeBridgeFeature.getClipboardImage,
+        QuillNativeBridgeFeature.getClipboardFiles,
       }.contains(feature);
 
   // TODO: Improve error handling
@@ -204,9 +205,47 @@ class QuillNativeBridgeLinux extends QuillNativeBridgePlatform {
         false,
         'Unknown error while retrieving image from the clipboard. Exit code: ${result.exitCode}. Error output $processErrorOutput',
       );
+      return null;
     } finally {
       await xclipFile.delete();
     }
-    return null;
+  }
+
+  @override
+  Future<List<String>> getClipboardFiles() async {
+    final xclipFile = await extractBinaryFromAsset(kXclipAssetFile);
+    try {
+      final hasFilesInClipboard = await _hasClipboardItemOfType(
+        mimeType: kUriListMimeType,
+        xclipFilePath: xclipFile.path,
+      );
+      if (!hasFilesInClipboard) {
+        return [];
+      }
+      final result = await Process.run(
+        xclipFile.path,
+        ['-selection', 'clipboard', '-t', kUriListMimeType, '-o'],
+      );
+      if (result.exitCode == 0) {
+        final output = result.stdout as String?;
+        if (output == null) return [];
+        return output.trim().split('\n').map((fileUriPath) {
+          // Necessary to remove percent-encoded characters and `file://`
+          return Uri.parse(fileUriPath).toFilePath().trim();
+        }).toList();
+      }
+      final processErrorOutput = result.stderr.toString().trim();
+      if (processErrorOutput
+          .startsWith('Error: target $kUriListMimeType not available')) {
+        return [];
+      }
+      assert(
+        false,
+        'Unknown error while retrieving image from the clipboard. Exit code: ${result.exitCode}. Error output $processErrorOutput',
+      );
+      return [];
+    } finally {
+      await xclipFile.delete();
+    }
   }
 }
