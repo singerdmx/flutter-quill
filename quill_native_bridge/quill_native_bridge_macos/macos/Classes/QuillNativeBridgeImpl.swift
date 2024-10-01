@@ -47,4 +47,11 @@ class QuillNativeBridgeImpl: QuillNativeBridgeApi  {
         let availableTypes = NSPasteboard.general.types
         throw PigeonError(code: "GIF_UNSUPPORTED", message: "Gif image is not supported on macOS. Available types: \(String(describing: availableTypes))", details: nil)
     }
+    
+    func getClipboardFiles() throws -> [String] {
+        guard let urlList = NSPasteboard.general.readObjects(forClasses: [NSURL.self], options: nil) as? [NSURL] else {
+            return []
+        }
+        return urlList.compactMap { url in url.path }
+    }
 }

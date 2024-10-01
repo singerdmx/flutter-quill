@@ -1,4 +1,6 @@
-import 'package:flutter/services.dart' show Uint8List;
+import 'dart:io' as io;
+
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart' show experimental;
 import 'package:quill_native_bridge/quill_native_bridge.dart'
     show QuillNativeBridge, QuillNativeBridgeFeature;
@@ -45,13 +47,33 @@ class DefaultClipboardService extends ClipboardService {
     return QuillNativeBridge.getClipboardGif();
   }
 
+  Future<String?> _getClipboardFile({required String fileExtension}) async {
+    if (kIsWeb) {
+      // TODO: Can't read file with dart:io on the Web
+      return null;
+    }
+    final filePaths = await QuillNativeBridge.getClipboardFiles();
+    final filePath = filePaths.firstWhere(
+      (filePath) => filePath.endsWith('.$fileExtension'),
+      orElse: () => '',
+    );
+    if (filePath.isEmpty) {
+      // Could not find an item
+      return null;
+    }
+    final fileText = await io.File(filePath).readAsString();
+    return fileText;
+  }
+
   @override
   Future<String?> getHtmlFile() async {
-    return null;
+    final htmlFileText = await _getClipboardFile(fileExtension: 'html');
+    return htmlFileText;
   }
 
   @override
   Future<String?> getMarkdownFile() async {
-    return null;
+    final htmlFileText = await _getClipboardFile(fileExtension: 'md');
+    return htmlFileText;
   }
 }

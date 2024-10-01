@@ -88,6 +88,14 @@ class Buttons extends StatelessWidget {
           label: const Text('Retrieve Gif from Clipboard'),
           icon: const Icon(Icons.gif),
         ),
+        ElevatedButton.icon(
+          onPressed: () => _onButtonClick(
+            QuillNativeBridgeFeature.getClipboardFiles,
+            context: context,
+          ),
+          label: const Text('Retrieve Files from Clipboard'),
+          icon: const Icon(Icons.file_open),
+        ),
       ],
     );
   }
@@ -238,6 +246,25 @@ class Buttons extends StatelessWidget {
             child: Image.memory(gifBytes),
           ),
         );
+        break;
+      case QuillNativeBridgeFeature.getClipboardFiles:
+        if (isFeatureUnsupported) {
+          scaffoldMessenger.showText(
+            isFeatureWebUnsupported
+                ? 'Retrieving a gif from the clipboard is currently not supported on web.'
+                : 'Retrieving a gif from the clipboard is currently not supported on ${defaultTargetPlatform.name}.',
+          );
+          return;
+        }
+        final files = await QuillNativeBridge.getClipboardFiles();
+        if (files.isEmpty) {
+          scaffoldMessenger.showText('There are no files on the clipboard.');
+          return;
+        }
+        scaffoldMessenger.showText(
+          'Files from the clipboard: ${files.toString()}',
+        );
+        debugPrint('Files from the clipboard: $files');
         break;
     }
   }

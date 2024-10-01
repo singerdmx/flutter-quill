@@ -15,4 +15,7 @@ abstract class QuillNativeBridgeApi {
   Uint8List? getClipboardImage();
   void copyImageToClipboard(Uint8List imageBytes);
   Uint8List? getClipboardGif();
+
+  // File
+  List<String> getClipboardFiles();
 }

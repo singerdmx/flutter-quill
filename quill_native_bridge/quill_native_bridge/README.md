@@ -14,6 +14,7 @@ An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 | **copyImageToClipboard**  | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
 | **getClipboardImage**     | ✅   | ✅      | ✅    | ❌      | ✅    | ✅    |
 | **getClipboardGif**       | ✅   | ✅      | ⚪    | ⚪      | ⚪    | ⚪    |
+| **getClipboardFiles**     | ⚪   | ⚪      | ✅    | ❌      | ❌    | ❌    |
 
 ## 🔧 Platform Configuration
 

@@ -39,7 +39,8 @@ class QuillNativeBridgeMacOS extends QuillNativeBridgePlatform {
         QuillNativeBridgeFeature.getClipboardHtml,
         QuillNativeBridgeFeature.copyHtmlToClipboard,
         QuillNativeBridgeFeature.copyImageToClipboard,
-        QuillNativeBridgeFeature.getClipboardImage
+        QuillNativeBridgeFeature.getClipboardImage,
+        QuillNativeBridgeFeature.getClipboardFiles,
       }.contains(feature);
 
   @override
@@ -63,4 +64,7 @@ class QuillNativeBridgeMacOS extends QuillNativeBridgePlatform {
 
   @override
   Future<Uint8List?> getClipboardGif() => _hostApi.getClipboardGif();
+
+  @override
+  Future<List<String>> getClipboardFiles() => _hostApi.getClipboardFiles();
 }

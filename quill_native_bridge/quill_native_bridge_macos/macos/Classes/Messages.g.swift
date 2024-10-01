@@ -91,6 +91,7 @@ protocol QuillNativeBridgeApi {
   func getClipboardImage() throws -> FlutterStandardTypedData?
   func copyImageToClipboard(imageBytes: FlutterStandardTypedData) throws
   func getClipboardGif() throws -> FlutterStandardTypedData?
+  func getClipboardFiles() throws -> [String]
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -167,6 +168,19 @@ class QuillNativeBridgeApiSetup {
       }
     } else {
       getClipboardGifChannel.setMessageHandler(nil)
+    }
+    let getClipboardFilesChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.quill_native_bridge_macos.QuillNativeBridgeApi.getClipboardFiles\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      getClipboardFilesChannel.setMessageHandler { _, reply in
+        do {
+          let result = try api.getClipboardFiles()
+          reply(wrapResult(result))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      getClipboardFilesChannel.setMessageHandler(nil)
     }
   }
 }

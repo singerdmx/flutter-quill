@@ -107,4 +107,12 @@ class MethodChannelQuillNativeBridge implements QuillNativeBridgePlatform {
     );
     return gifBytes;
   }
+
+  @override
+  Future<List<String>> getClipboardFiles() async {
+    final filePaths = await _methodChannel.invokeMethod<List<String>?>(
+      'getClipboardGif',
+    );
+    return filePaths ?? [];
+  }
 }

@@ -21,6 +21,7 @@ abstract class ClipboardService {
   /// Return Gif from the Clipboard.
   Future<Uint8List?> getGifFile();
 
+  // TODO: The `Clipboard` in `copyImageToClipboard` can be redundant
   /// Copy [imageBytes] to the system clipboard to paste on other apps.
   Future<void> copyImageToClipboard(Uint8List imageBytes);
 

@@ -43,6 +43,11 @@ class MockQuillNativeBridgePlatform
   Future<Uint8List?> getClipboardGif() async {
     return Uint8List.fromList([0, 1, 0]);
   }
+
+  @override
+  Future<List<String>> getClipboardFiles() async {
+    return ['/path/to/file.html', 'path/to/file.md'];
+  }
 }
 
 void main() {
@@ -104,6 +109,12 @@ void main() {
     expect(
       await QuillNativeBridgePlatform.instance.getClipboardGif(),
       Uint8List.fromList([0, 1, 0]),
+    );
+  });
+  test('getClipboardFiles()', () async {
+    expect(
+      await QuillNativeBridgePlatform.instance.getClipboardFiles(),
+      ['/path/to/file.html', 'path/to/file.md'],
     );
   });
 }

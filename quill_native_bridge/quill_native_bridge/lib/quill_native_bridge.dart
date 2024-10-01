@@ -94,4 +94,10 @@ class QuillNativeBridge {
   ///
   /// Currently only supports **Android**, **iOS**.
   static Future<Uint8List?> getClipboardGif() => _platform.getClipboardGif();
+
+  /// Return the file paths from the Clipboard.
+  ///
+  /// Currently only supports **macOS**.
+  static Future<List<String>> getClipboardFiles() =>
+      _platform.getClipboardFiles();
 }
