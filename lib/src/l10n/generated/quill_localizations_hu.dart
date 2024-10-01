@@ -242,7 +242,7 @@ class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Kérjük, írja be a link link URL-t (pl. \'https://example.com\')';
+      'Kérjük, írja be a link URL-t (pl. \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>
