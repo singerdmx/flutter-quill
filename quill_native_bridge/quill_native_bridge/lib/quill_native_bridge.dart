@@ -1,3 +1,5 @@
+/// An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
+/// package to access platform-specific APIs.
 library;
 
 import 'package:flutter/foundation.dart'
@@ -11,7 +13,7 @@ export 'package:quill_native_bridge_platform_interface/src/platform_feature.dart
 /// An internal plugin for [`flutter_quill`](https://pub.dev/packages/flutter_quill)
 /// package to access platform-specific APIs.
 ///
-/// See [QuillNativeBridgePlatformFeature] to check whatever if a feature is supported.
+/// See [QuillNativeBridgeFeature] to check whatever if a feature is supported.
 class QuillNativeBridge {
   QuillNativeBridge._();
 
