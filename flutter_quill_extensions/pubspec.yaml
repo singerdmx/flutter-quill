@@ -41,7 +41,10 @@ dependencies:
   youtube_explode_dart: ^2.2.1
 
   # Plugins
-  video_player: ^2.8.1
+  video_player: ^2.9.2
+  # TODO: A warning causing build failure https://github.com/flutter/packages/blob/4afc383a6db56cb969af5d8ad02a1a0220758b66/packages/video_player/video_player_android/android/build.gradle#L34
+  # Related https://github.com/flutter/packages/pull/7795
+  video_player_android: ^2.7.9
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.22
   gal: ^2.3.0
