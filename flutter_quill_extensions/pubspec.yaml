@@ -41,10 +41,7 @@ dependencies:
   youtube_explode_dart: ^2.2.1
 
   # Plugins
-  video_player: ^2.9.2
-  # TODO: A warning causing build failure due to usage of `-Werror` related to Java 8 support.
-  # Related https://github.com/flutter/packages/pull/7795
-  video_player_android: ^2.7.9
+  video_player: ^2.8.1
   url_launcher: ^6.2.1
   super_clipboard: ^0.8.22
   gal: ^2.3.0
