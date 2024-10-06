@@ -32,7 +32,8 @@ import 'widgets/box.dart';
 import 'widgets/cursor.dart';
 import 'widgets/delegate.dart';
 import 'widgets/float_cursor.dart';
-import 'widgets/text/text_selection.dart';
+import 'widgets/text/selection/drag_text_selection.dart';
+import 'widgets/text/selection/text_selection.dart';
 
 /// Base interface for editable render objects.
 abstract class RenderAbstractEditor implements TextLayoutMetrics {

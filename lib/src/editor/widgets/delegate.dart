@@ -10,7 +10,7 @@ import '../../document/attribute.dart';
 import '../../document/nodes/leaf.dart';
 import '../editor.dart';
 import '../raw_editor/raw_editor.dart';
-import 'text/text_selection.dart';
+import 'text/selection/text_selection.dart';
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
