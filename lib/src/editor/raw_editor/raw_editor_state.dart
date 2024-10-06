@@ -153,8 +153,8 @@ class QuillRawEditorState extends EditorState
 
     final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
-      if (await clipboardService.canProvideImageFile()) {
-        final imageBytes = await clipboardService.getImageFileAsBytes();
+      final imageBytes = await clipboardService.getImageFile();
+      if (imageBytes != null) {
         final imageUrl = await onImagePaste(imageBytes);
         if (imageUrl == null) {
           return;
@@ -171,8 +171,8 @@ class QuillRawEditorState extends EditorState
 
     final onGifPaste = widget.configurations.onGifPaste;
     if (onGifPaste != null) {
-      if (await clipboardService.canProvideGifFile()) {
-        final gifBytes = await clipboardService.getGifFileAsBytes();
+      final gifBytes = await clipboardService.getGifFile();
+      if (gifBytes != null) {
         final gifUrl = await onGifPaste(gifBytes);
         if (gifUrl == null) {
           return;

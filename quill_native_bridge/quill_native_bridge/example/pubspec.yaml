@@ -1,0 +1,45 @@
+name: quill_native_bridge_example
+description: "Demonstrates usage of the quill_native_bridge plugin."
+version: 1.0.0+1
+publish_to: 'none'
+
+environment:
+  sdk: ^3.5.2
+dependencies:
+  flutter:
+    sdk: flutter
+
+  quill_native_bridge: ^10.7.4
+
+dependency_overrides:
+  quill_native_bridge:
+    path: ../
+  quill_native_bridge_platform_interface:
+    path: ../../quill_native_bridge_platform_interface
+  quill_native_bridge_android:
+    path: ../../quill_native_bridge_android
+  quill_native_bridge_web:
+    path: ../../quill_native_bridge_web
+  quill_native_bridge_windows:
+    path: ../../quill_native_bridge_windows
+  quill_native_bridge_linux:
+    path: ../../quill_native_bridge_linux
+  quill_native_bridge_ios:
+    path: ../../quill_native_bridge_ios
+  quill_native_bridge_macos:
+    path: ../../quill_native_bridge_macos
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+  image_compare: ^1.1.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/

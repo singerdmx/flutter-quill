@@ -1,7 +1,7 @@
 library;
 
-// ignore: implementation_imports
-import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart'
+    show ClipboardServiceProvider;
 import 'package:meta/meta.dart' show experimental;
 
 import 'src/editor_toolbar_controller_shared/clipboard/super_clipboard_service.dart';

@@ -50,11 +50,6 @@ The package uses the following plugins:
    platform-specific setup.
 2. [`image_picker`](https://pub.dev/packages/image_picker) for picking images.
    See the [Installation](https://pub.dev/packages/image_picker#installation) section.
-3. [`super_clipboard`](https://pub.dev/packages/super_clipboard) which needs some setup on Android only, it's used to
-   support copying images and pasting them into editor, it's also required to support rich text pasting feature on
-   non-web platforms, Open the [Android Support](https://pub.dev/packages/super_clipboard#android-support) page for
-   instructions.
-   The `minSdkVersion` for **Android** is `23` as `super_clipboard` requires it
 
 ### Loading Images from the Internet
 
@@ -151,35 +146,8 @@ This works only for non-web platforms.
 
 ### 📝 Rich Text Paste Feature
 
-The Rich Text Pasting feature requires native code to access
-the `Clipboard` data as HTML, the plugin `super_clipboard` is required on all platforms except Web.
-
-This package already includes `super_clipboard` and will be used internally in this package, to use it
-in `flutter_quill`, call this function before using any of the widgets or functionalities:
-
-```dart
-FlutterQuillExtensions.useSuperClipboardPlugin();
-```
-
-`super_clipboard` is a comprehensive plugin that provides many clipboard features for reading and writing rich text,
-images and other formats.
-
-Calling this function will allow `flutter_quill` to use modern rich text features to paste HTML and Markdown,
-support for GIF files, and other formats.
-
-> [!IMPORTANT]
-> On web platforms, you can only get the HTML from `Clipboard` on the
-> `paste` event, `super_clipboard`, or any plugin is not required.
-> The paste feature will not work using the standard paste hotkey logic.
-> As such, you will be unable to use the **Rich Text Paste Feature** on a button or in the web app itself.
-> So you might want to either display a dialog when pressing the paste button that explains the limitation and shows the
-> hotkey they need to press in order to paste or develop an extension for the browser that bypasses this limitation
-> similarly to **Google Docs** and provide a link to install the browser extension.
-> See [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) for more details.
-
-> [!NOTE]
-> We're still planning on how this should be implemented in
-> [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998).
+The rich text paste feature is now supported directly in `flutter_quill` 
+as platform code is not bundled with the project.
 
 ### 🖼️ Image Assets
 

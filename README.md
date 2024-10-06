@@ -59,6 +59,7 @@ You can join our [Slack Group] for discussion.
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Conversion to HTML](#-conversion-to-html)
 - [📝 Spelling checker](#-spelling-checker)
+- [📝 Rich Text Paste](#-rich-text-paste)
 - [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
@@ -108,20 +109,57 @@ dependencies:
 
 The `flutter_quill` package uses the following plugins:
 
-1. [`url_launcher`](https://pub.dev/packages/url_launcher) to open links.
-2. [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) to access platform-specific APIs for the
+1. [`url_launcher`](https://pub.dev/packages/url_launcher): to open links.
+2. [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge): to access platform-specific APIs for the
    editor.
 3. [`flutter_keyboard_visibility_temp_fork`](https://pub.dev/packages/flutter_keyboard_visibility_temp_fork) to listen for keyboard
-   visibility
-   changes.
+   visibility changes.
 
-All of them don't require any platform-specific setup.
+### Android Configuration for `quill_native_bridge`
+
+To support copying images to the clipboard to be accessed by other apps, you need to configure your Android project.
+If not set up, a warning will appear in the log during debug mode only.
+
+> [!TIP]
+> This is only required on **Android** for this optional feature.
+> You should be able to copy images and paste them inside the editor without any additional configuration.
+
+**1. Update `AndroidManifest.xml`**
+
+Open `your_project/android/app/src/main/AndroidManifest.xml` and add the following inside the `<application>` tag:
+
+```xml
+<manifest>
+    <application>
+        ...
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        ...
+    </application>
+</manifest>
+```
+
+**2. Create `file_paths.xml`**
+
+Create the file `your_project/android/app/src/main/res/xml/file_paths.xml` with the following content:
+
+```xml
+<paths>
+    <cache-path name="cache" path="." />
+</paths>
+```
 
 > [!NOTE]
-> Starting from Flutter Quill `9.4.x`, [super_clipboard](https://pub.dev/packages/super_clipboard) has been moved
-> to [FlutterQuill Extensions], to use rich text pasting, support pasting images, and gif files from external apps or
-> websites, take a look
-> at `flutter_quill_extensions` Readme.
+> [super_clipboard](https://pub.dev/packages/super_clipboard) is no longer required
+> in recent versions of Flutter Quill in `flutter_quill` or `flutter_quill_extensions`.
+> [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) is a plugin that provide clipboard operations functionality for `flutter_quill`.
 
 ## 🚀 Usage
 
@@ -306,6 +344,21 @@ The following packages can be used:
 
 This feature is currently not implemented and is being planned. Refer to [#2246](https://github.com/singerdmx/flutter-quill/issues/2246)
 for discussion.
+
+## 📝 Rich Text Paste
+
+The Rich Text Pasting feature requires platform code to access HTML from
+the system clipboard, [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) 
+is a plugin to provide this functionality.
+
+Rich clipboard operations are currently experimental and might be removed in future releases.
+
+<!-- TODO: Provide a clean way to disable each feature and document it in here -->
+
+> [!IMPORTANT]
+> Currently this feature is not supported on the web.
+> [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [Issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
+ for more details
 
 ## ✂️ Shortcut events
 

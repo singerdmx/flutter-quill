@@ -29,8 +29,6 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    // assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
-
     final imageSource = standardizeImageUrl(node.value.data);
     final ((imageSize), margin, alignment) = getElementAttributes(
       node,
@@ -40,7 +38,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     final width = imageSize.width;
     final height = imageSize.height;
 
-    final image = getImageWidgetByImageSource(
+    final imageWidget = getImageWidgetByImageSource(
       context: context,
       imageSource,
       imageProviderBuilder: configurations.imageProviderBuilder,
@@ -72,6 +70,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
               imageSize: imageSize,
               isReadOnly: readOnly,
               imageSaverService: imageSaverService,
+              imageProvider: imageWidget.image,
             ),
           ),
         );
@@ -81,10 +80,10 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
           if (margin != null) {
             return Padding(
               padding: EdgeInsets.all(margin),
-              child: image,
+              child: imageWidget,
             );
           }
-          return image;
+          return imageWidget;
         },
       ),
     );

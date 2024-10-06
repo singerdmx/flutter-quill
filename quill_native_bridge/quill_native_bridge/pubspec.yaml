@@ -1,0 +1,51 @@
+name: quill_native_bridge
+description: "An internal plugin for flutter_quill package to access platform-specific APIs"
+version: 10.7.7
+homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge
+repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge
+issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
+documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge
+
+platforms:
+  android:
+  ios:
+  macos:
+  web:
+  linux:
+  windows:
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  quill_native_bridge_android: ^0.0.1-dev.1
+  quill_native_bridge_platform_interface: ^0.0.1-dev.2
+  quill_native_bridge_web: ^0.0.1-dev.2
+  quill_native_bridge_windows: ^0.0.1-dev.1
+  quill_native_bridge_linux: ^0.0.1-dev.1
+  quill_native_bridge_ios: ^0.0.1-dev.1
+  quill_native_bridge_macos: ^0.0.1-dev.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: quill_native_bridge_android
+      ios:
+        default_package: quill_native_bridge_ios
+      macos:
+        default_package: quill_native_bridge_macos
+      web:
+        default_package: quill_native_bridge_web
+      windows:
+        default_package: quill_native_bridge_windows
+      linux:
+        default_package: quill_native_bridge_linux

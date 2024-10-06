@@ -1,0 +1,27 @@
+name: quill_native_bridge_platform_interface
+description: "A common platform interface for the quill_native_bridge plugin."
+version: 0.0.1-dev.2
+homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge_platform_interface
+repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge_platform_interface
+issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
+documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge_platform_interface
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  plugin:
+    platforms:
+      ios:
+        pluginClass: QuillNativeBridgePlugin

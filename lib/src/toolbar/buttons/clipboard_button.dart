@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../flutter_quill.dart';
 import '../../common/utils/widgets.dart';
 import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
+import '../base_toolbar.dart';
+import '../simple_toolbar_provider.dart';
 
 enum ClipboardAction { cut, copy, paste }
 
@@ -28,7 +29,7 @@ class ClipboardMonitor {
 
   Future<void> _update(void Function() listener) async {
     final clipboardService = ClipboardServiceProvider.instance;
-    if (await clipboardService.canPaste()) {
+    if (await clipboardService.hasClipboardContent) {
       _canPaste = true;
       listener();
     }

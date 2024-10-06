@@ -1,0 +1,34 @@
+name: quill_native_bridge_linux
+description: "Linux implementation of the quill_native_bridge plugin."
+version: 0.0.1-dev.1
+homepage: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge_linux
+repository: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge_linux
+issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
+documentation: https://github.com/singerdmx/flutter-quill/tree/master/quill_native_bridge/quill_native_bridge_linux
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  quill_native_bridge_platform_interface: ^0.0.1-dev.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  crypto: ^3.0.5
+  yaml: ^3.1.2
+
+flutter:
+  assets:
+  - assets/xclip
+  plugin:
+    implements: quill_native_bridge
+    platforms:
+      linux:
+        pluginClass: none
+        dartPluginClass: QuillNativeBridgeLinux
+        fileName: quill_native_bridge_linux.dart
