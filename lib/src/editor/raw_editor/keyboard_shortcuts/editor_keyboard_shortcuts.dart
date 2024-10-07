@@ -1,22 +1,23 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
-import '../../common/utils/cast.dart';
-import '../../common/utils/platform.dart';
-import '../../controller/quill_controller.dart';
-import '../../document/attribute.dart';
-import '../../document/document.dart';
-import '../../document/nodes/block.dart';
-import '../../document/nodes/leaf.dart' as leaf;
-import '../../document/nodes/line.dart';
-import '../raw_editor/config/events/character_shortcuts_events.dart';
-import '../raw_editor/config/events/space_shortcut_events.dart';
-import 'default_single_activator_actions.dart';
-import 'keyboard_listener.dart';
+import '../../../common/utils/cast.dart';
+import '../../../controller/quill_controller.dart';
+import '../../../document/attribute.dart';
+import '../../../document/document.dart';
+import '../../../document/nodes/block.dart';
+import '../../../document/nodes/leaf.dart' as leaf;
+import '../../../document/nodes/line.dart';
+import '../../widgets/keyboard_listener.dart';
+import '../config/events/character_shortcuts_events.dart';
+import '../config/events/space_shortcut_events.dart';
+import 'default_single_activator_intents.dart';
 
-class QuillKeyboardServiceWidget extends StatelessWidget {
-  const QuillKeyboardServiceWidget({
+@internal
+class EditorKeyboardShortcuts extends StatelessWidget {
+  const EditorKeyboardShortcuts({
     required this.actions,
     required this.constraints,
     required this.focusNode,
@@ -45,17 +46,19 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktopMacOS = isMacOS;
     return Shortcuts(
       /// Merge with widget.configurations.customShortcuts
       /// first to allow user's defined shortcuts to take
       /// priority when activation triggers are the same
-      shortcuts: mergeMaps<ShortcutActivator, Intent>({...?customShortcuts},
-          {...defaultSinlgeActivatorActions(isDesktopMacOS)}),
+      shortcuts: mergeMaps<ShortcutActivator, Intent>(
+        {...?customShortcuts},
+        {...defaultSinlgeActivatorIntents()},
+      ),
       child: Actions(
-        actions: mergeMaps<Type, Action<Intent>>(actions, {
-          ...?customActions,
-        }),
+        actions: mergeMaps<Type, Action<Intent>>(
+          actions,
+          {...?customActions},
+        ),
         child: Focus(
           focusNode: focusNode,
           onKeyEvent: _onKeyEvent,
