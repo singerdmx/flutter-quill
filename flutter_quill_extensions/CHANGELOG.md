@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.2
+
+* Fixed minor typo in Hungarian (hu) localization by @G-Greg in https://github.com/singerdmx/flutter-quill/pull/2307
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.1...v10.8.2
+
 ## 10.8.1
 
 - This release fixes the compilation issue when building the project with [Flutter/Wasm](https://docs.flutter.dev/platform-integration/web/wasm) target on the web. Also, update the conditional import check to avoid using `dart.library.html`:
