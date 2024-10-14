@@ -63,7 +63,7 @@
             android:exported="true"
             android:grantUriPermissions="true" />
 
-        <!-- For `quill_native_bridge` plugin https://github.com/singerdmx/flutter-quill#-platform-specific-configurations -->
+        <!-- For `quill_native_bridge` plugin https://github.com/FlutterQuill/quill-native-bridge/tree/main/quill_native_bridge#-platform-configuration -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
