@@ -19,8 +19,6 @@ import 'screens/settings/widgets/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // TODO: https://github.com/singerdmx/flutter-quill/pull/2230 and related issues
-  // FlutterQuillExtensions.useSuperClipboardPlugin();
   runApp(const MyApp());
 }
 
