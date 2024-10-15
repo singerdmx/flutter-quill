@@ -347,17 +347,12 @@ for discussion.
 
 ## 📝 Rich Text Paste
 
-The Rich Text Pasting feature requires platform code to access HTML from
-the system clipboard, [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) 
-is a plugin to provide this functionality.
-
-Rich clipboard operations are currently experimental and might be removed in future releases.
-
-<!-- TODO: Provide a clean way to disable each feature and document it in here -->
+This feature allows the user to paste the content copied from other apps into the editor as rich text.
+The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) provides access to the system Clipboard.
 
 > [!IMPORTANT]
 > Currently this feature is not supported on the web.
-> [Issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [Issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
+> See [issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
  for more details
 
 ## ✂️ Shortcut events
