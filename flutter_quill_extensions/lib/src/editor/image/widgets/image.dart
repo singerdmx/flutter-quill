@@ -37,6 +37,7 @@ ImageProvider getImageProviderByImageSource(
   String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required String assetsPrefix,
+  required Map<String, String>? networkImageHeaders,
   required BuildContext context,
 }) {
   if (imageProviderBuilder != null) {
@@ -48,7 +49,7 @@ ImageProvider getImageProviderByImageSource(
   }
 
   if (isHttpBasedUrl(imageSource)) {
-    return NetworkImage(imageSource);
+    return NetworkImage(imageSource, headers: networkImageHeaders);
   }
 
   if (imageSource.startsWith(assetsPrefix)) {
@@ -57,7 +58,7 @@ ImageProvider getImageProviderByImageSource(
 
   // File image
   if (kIsWeb) {
-    return NetworkImage(imageSource);
+    return NetworkImage(imageSource, headers: networkImageHeaders);
   }
   return FileImage(File(imageSource));
 }
@@ -71,12 +72,14 @@ Image getImageWidgetByImageSource(
   double? width,
   double? height,
   AlignmentGeometry alignment = Alignment.center,
+  Map<String, String>? networkImageHeaders,
 }) {
   return Image(
     image: getImageProviderByImageSource(
       context: context,
       imageSource,
       imageProviderBuilder: imageProviderBuilder,
+      networkImageHeaders: networkImageHeaders,
       assetsPrefix: assetsPrefix,
     ),
     width: width,

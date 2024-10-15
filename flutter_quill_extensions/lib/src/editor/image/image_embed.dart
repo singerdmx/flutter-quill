@@ -50,6 +50,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       width: width,
       assetsPrefix: QuillSharedExtensionsConfigurations.get(context: context)
           .assetsPrefix,
+      networkImageHeaders: configurations.networkImageHeaders,
     );
 
     final imageSaverService =
