@@ -37,7 +37,7 @@ ImageProvider getImageProviderByImageSource(
   String imageSource, {
   required ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
   required String assetsPrefix,
-  required Map<String, String>? networkImageHeaders,
+  Map<String, String>? networkImageHeaders,
   required BuildContext context,
 }) {
   if (imageProviderBuilder != null) {
