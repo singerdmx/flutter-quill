@@ -30,7 +30,7 @@ class DefaultClipboardService extends ClipboardService {
   }
 
   @override
-  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+  Future<void> copyImage(Uint8List imageBytes) async {
     if (!(await QuillNativeBridge.isSupported(
         QuillNativeBridgeFeature.copyImageToClipboard))) {
       return;

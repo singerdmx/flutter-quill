@@ -122,7 +122,7 @@ class SuperClipboardService extends ClipboardService {
   }
 
   @override
-  Future<void> copyImageToClipboard(Uint8List imageBytes) async {
+  Future<void> copyImage(Uint8List imageBytes) async {
     final clipboard = SystemClipboard.instance;
     if (clipboard == null) {
       return;
