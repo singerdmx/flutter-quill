@@ -1,44 +1,32 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show Uint8List;
+import 'package:flutter/services.dart' show Clipboard;
+import 'package:meta/meta.dart' show experimental;
 
-/// An abstraction to make it easy to provide different implementations
-@immutable
+/// A more rich abstraction of Flutter [Clipboard] to support images, rich text
+/// and more clipboard operations.
+@experimental
 abstract class ClipboardService {
-  Future<bool> canProvideHtmlText();
-
-  /// Get Clipboard content as Html Text, this is platform specific and not the
-  /// same as [getPlainText] for two reasons:
-  /// 1. The user might want to paste Html text
-  /// 2. Copying Html text from other apps and use [getPlainText] will ignore
-  /// the Html content and provide it as text
+  /// Return HTML from the Clipboard.
   Future<String?> getHtmlText();
 
-  Future<bool> canProvideHtmlTextFromFile();
+  /// Return HTML text file from the Clipboard.
+  Future<String?> getHtmlFile();
 
-  /// Get the Html file in the Clipboard from the system
-  Future<String?> getHtmlTextFromFile();
+  /// Return the Markdown file in the Clipboard.
+  Future<String?> getMarkdownFile();
 
-  Future<bool> canProvideMarkdownText();
+  /// Return image from the Clipboard.
+  Future<Uint8List?> getImageFile();
 
-  /// Get Clipboard content as Markdown Text, this is platform specific and not the
-  /// same as [getPlainText] for two reasons:
-  /// 1. The user might want to paste Markdown text
-  /// 2. Copying Markdown text from other apps and use [getPlainText] will ignore
-  /// the Markdown content and provide it as text
-  Future<String?> getMarkdownText();
+  /// Return Gif from the Clipboard.
+  Future<Uint8List?> getGifFile();
 
-  Future<bool> canProvideMarkdownTextFromFile();
+  /// Copy an image to the system clipboard to paste it on other apps.
+  Future<void> copyImage(Uint8List imageBytes);
 
-  /// Get the Markdown file in the Clipboard from the system
-  Future<String?> getMarkdownTextFromFile();
-
-  Future<bool> canProvidePlainText();
-  Future<String?> getPlainText();
-
-  Future<bool> canProvideImageFile();
-  Future<Uint8List> getImageFileAsBytes();
-
-  Future<bool> canProvideGifFile();
-  Future<Uint8List> getGifFileAsBytes();
-
-  Future<bool> canPaste();
+  /// If the Clipboard is not empty or has something to paste
+  Future<bool> get hasClipboardContent async {
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    return clipboardData != null;
+  }
 }
