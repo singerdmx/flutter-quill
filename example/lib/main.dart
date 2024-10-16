@@ -7,7 +7,6 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalWidgetsLocalizations;
 import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:flutter_quill/translations.dart' show FlutterQuillLocalizations;
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 import 'screens/home/widgets/home_screen.dart';
 import 'screens/quill/quill_screen.dart';
@@ -20,8 +19,6 @@ import 'screens/settings/widgets/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // ignore: deprecated_member_use
-  FlutterQuillExtensions.useSuperClipboardPlugin();
   runApp(const MyApp());
 }
 
