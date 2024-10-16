@@ -49,7 +49,7 @@ class DefaultClipboardService extends ClipboardService {
 
   Future<String?> _getClipboardFile({required String fileExtension}) async {
     if (kIsWeb) {
-      // TODO: Can't read file with dart:io on the Web
+      // TODO: Can't read file with dart:io on the Web (See related https://github.com/FlutterQuill/quill-native-bridge/issues/6)
       return null;
     }
     final filePaths = await QuillNativeBridge.getClipboardFiles();
