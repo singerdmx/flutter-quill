@@ -646,7 +646,10 @@ class QuillRawEditorState extends EditorState
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
           block: node,
+          placeholderBuilder: widget.configurations.placeholderBuilder,
           controller: controller,
+          cursorParagrahPlaceholderConfiguration:
+              widget.configurations.cursorParagrahPlaceholderConfiguration,
           customLeadingBlockBuilder: widget.configurations.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.configurations.scrollBottomInset,
@@ -699,6 +702,7 @@ class QuillRawEditorState extends EditorState
       line: node,
       textDirection: _textDirection,
       embedBuilder: widget.configurations.embedBuilder,
+      placeholderBuilder: widget.configurations.placeholderBuilder,
       customStyleBuilder: widget.configurations.customStyleBuilder,
       customRecognizerBuilder: widget.configurations.customRecognizerBuilder,
       styles: _styles!,
@@ -710,19 +714,21 @@ class QuillRawEditorState extends EditorState
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
-        node,
-        null,
-        textLine,
-        _getHorizontalSpacingForLine(node, _styles),
-        _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
-        controller.selection,
-        widget.configurations.selectionColor,
-        widget.configurations.enableInteractiveSelection,
-        _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        _cursorCont,
-        _styles!.inlineCode!);
+      node,
+      null,
+      textLine,
+      _getHorizontalSpacingForLine(node, _styles),
+      _getVerticalSpacingForLine(node, _styles),
+      _textDirection,
+      controller.selection,
+      widget.configurations.selectionColor,
+      widget.configurations.enableInteractiveSelection,
+      _hasFocus,
+      MediaQuery.devicePixelRatioOf(context),
+      _cursorCont,
+      _styles!.inlineCode!,
+      widget.configurations.cursorParagrahPlaceholderConfiguration,
+    );
     return editableTextLine;
   }
 

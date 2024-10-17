@@ -26,6 +26,7 @@ import 'config/editor_configurations.dart';
 import 'editor_builder.dart';
 import 'embed/embed_editor_builder.dart';
 import 'provider.dart';
+import 'raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import 'raw_editor/config/raw_editor_configurations.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
@@ -286,6 +287,13 @@ class QuillEditorState extends State<QuillEditor>
     final showSelectionToolbar = configurations.enableInteractiveSelection &&
         configurations.enableSelectionToolbar;
 
+    final placeholderBuilder =
+        widget.configurations.placeholderComponentsConfiguration == null
+            ? null
+            : PlaceholderBuilder(
+                configuration:
+                    widget.configurations.placeholderComponentsConfiguration!);
+
     final child = FlutterQuillLocalizationsWidget(
       child: QuillEditorProvider(
         controller: controller,
@@ -295,6 +303,9 @@ class QuillEditorState extends State<QuillEditor>
             key: _editorKey,
             controller: controller,
             configurations: QuillRawEditorConfigurations(
+              cursorParagrahPlaceholderConfiguration:
+                  widget.configurations.cursorParagrahPlaceholderConfiguration,
+              placeholderBuilder: placeholderBuilder,
               characterShortcutEvents:
                   widget.configurations.characterShortcutEvents,
               spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
@@ -1447,6 +1458,7 @@ class RenderEditor extends RenderEditableContainerBox
           child.getCaretPrototype(child.globalToLocalPosition(textPosition));
       _floatingCursorRect =
           sizeAdjustment.inflateRect(caretPrototype).shift(boundedOffset);
+
       _cursorController
           .setFloatingCursorTextPosition(_floatingCursorTextPosition);
     } else {
