@@ -4,6 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.4
+
+- [Fixes an unhandled exception](https://github.com/singerdmx/flutter-quill/commit/8dd559b825030d29b30b32b353a08dcc13dc42b7) in case `getClipboardFiles()` wasn't supported
+- [Updates min version](https://github.com/singerdmx/flutter-quill/commit/49569e47b038c5f61b7521571c102cf5ad5a0e3f) of internal dependency `quill_native_bridge`
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.3...v10.8.4
+
 ## 10.8.3
 
 This release is identical to [v10.8.3-dev.0](https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.3-dev.0), mainly published to bump the minimum version of [flutter_quill](https://pub.dev/packages/flutter_quill) in [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) and to publish [quill-super-clipboard](https://github.com/FlutterQuill/quill-super-clipboard/).
