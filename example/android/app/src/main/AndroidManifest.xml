@@ -56,13 +56,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!--  For `super_clipboard` plugin https://pub.dev/packages/super_clipboard -->
-        <provider
-            android:name="com.superlist.super_native_extensions.DataProvider"
-            android:authorities="com.example.example.SuperClipboardDataProvider"
-            android:exported="true"
-            android:grantUriPermissions="true" />
-
         <!-- For `quill_native_bridge` plugin https://github.com/FlutterQuill/quill-native-bridge/tree/main/quill_native_bridge#-platform-configuration -->
         <provider
             android:name="androidx.core.content.FileProvider"
