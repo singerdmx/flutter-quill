@@ -4,6 +4,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.3
+
+This release is identical to [v10.8.3-dev.0](https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.3-dev.0), mainly published to bump the minimum version of [flutter_quill](https://pub.dev/packages/flutter_quill) in [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) and to publish [quill-super-clipboard](https://github.com/FlutterQuill/quill-super-clipboard/).
+
+A new identical release `10.9.0` will be published soon with a release description.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.2...v10.8.3
+
 ## 10.8.3-dev.0
 
 A non-pre-release version with this change will be published soon.
