@@ -4,6 +4,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.3-dev.0
+
+A non-pre-release version with this change will be published soon.
+
+* feat: Use quill_native_bridge as default impl in DefaultClipboardService, fix related bugs in the extensions package by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2230
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.2...v10.8.3-dev.0
+
 ## 10.8.2
 
 * Fixed minor typo in Hungarian (hu) localization by @G-Greg in https://github.com/singerdmx/flutter-quill/pull/2307
