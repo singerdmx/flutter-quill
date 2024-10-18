@@ -14,7 +14,7 @@ import 'package:flutter/widgets.dart'
 import '../../common/structs/offset_value.dart';
 import '../../controller/quill_controller.dart';
 import '../editor.dart';
-import '../widgets/text/text_selection.dart';
+import '../widgets/text/selection/text_selection.dart';
 import 'config/raw_editor_configurations.dart';
 import 'raw_editor_state.dart';
 
