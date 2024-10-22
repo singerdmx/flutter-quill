@@ -5,22 +5,17 @@ import '../../common/utils/widgets.dart';
 import '../../document/attribute.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
-import '../simple_toolbar_provider.dart';
+import '../simple_toolbar.dart';
 
 class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
     QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
   QuillToolbarFontSizeButton({
     required super.controller,
-    @Deprecated('Please use the default display text from the options')
-    this.defaultDisplayText,
     super.options = const QuillToolbarFontSizeButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? true),
         assert(options.initialValue == null ||
             (options.initialValue?.isNotEmpty ?? true));
-
-  final String? defaultDisplayText;
 
   @override
   QuillToolbarFontSizeButtonState createState() =>
@@ -36,7 +31,6 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
 
   Map<String, String> get rawItemsMap {
     final fontSizes = options.rawItemsMap ??
-        context.quillSimpleToolbarConfigurations?.fontSizesValues ??
         {
           context.loc.small: 'small',
           context.loc.large: 'large',
@@ -59,7 +53,6 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   String get _defaultDisplayText {
     return options.initialValue ??
         widget.options.defaultDisplayText ??
-        widget.defaultDisplayText ??
         context.loc.fontSize;
   }
 
@@ -98,9 +91,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final childBuilder = options.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -169,6 +160,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   }
 
   Widget _buildContent(BuildContext context) {
+    options.attribute;
     final hasFinalWidth = options.width != null;
     return Padding(
       padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),

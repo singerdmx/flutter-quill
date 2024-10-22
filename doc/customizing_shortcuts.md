@@ -15,9 +15,7 @@ class AsteriskToItalicStyle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuillEditor(
-      scrollController: <your_scrollController>,
-      focusNode: <your_focusNode>,
+    return QuillEditor.basic(
       controller: <your_controller>,
       configurations: QuillEditorConfigurations(
         characterShortcutEvents: [],
@@ -73,9 +71,7 @@ class AsteriskToItalicStyle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuillEditor(
-      scrollController: <your_scrollController>,
-      focusNode: <your_focusNode>,
+    return QuillEditor.basic(
       controller: <your_controller>,
       configurations: QuillEditorConfigurations(
         characterShortcutEvents: [

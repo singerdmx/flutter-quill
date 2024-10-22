@@ -4,13 +4,7 @@ import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
 import 'package:flutter/foundation.dart'
     show ValueListenable, defaultTargetPlatform, kIsWeb;
-import 'package:flutter/gestures.dart'
-    show
-        PointerDeviceKind,
-        TapDragDownDetails,
-        TapDragEndDetails,
-        TapDragStartDetails,
-        TapDragUpDetails;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -21,11 +15,8 @@ import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/container.dart' as container_node;
 import '../document/nodes/leaf.dart';
-import '../l10n/widgets/localizations.dart';
 import 'config/editor_configurations.dart';
-import 'editor_builder.dart';
 import 'embed/embed_editor_builder.dart';
-import 'provider.dart';
 import 'raw_editor/config/raw_editor_configurations.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
@@ -130,62 +121,48 @@ class QuillEditor extends StatefulWidget {
   /// Quick start guide:
   ///
   /// Instantiate a controller:
+  /// ```dart
   /// QuillController _controller = QuillController.basic();
+  /// ```
   ///
   /// Connect the controller to the `QuillEditor` and `QuillSimpleToolbar` widgets.
+  ///
+  /// ```dart
   /// QuillSimpleToolbar(
   ///   controller: _controller,
-  ///   configurations: const QuillSimpleToolbarConfigurations(),
   /// ),
   /// Expanded(
   ///   child: QuillEditor.basic(
   ///     controller: _controller,
-  ///     configurations: const QuillEditorConfigurations(),
   ///   ),
   /// ),
+  /// ```
   ///
   factory QuillEditor({
     required FocusNode focusNode,
     required ScrollController scrollController,
+    required QuillController controller,
     Key? key,
-
-    /// Controller and configurations are required
-    ///
-    /// Prefer: use controller and pass QuillEditorConfigurations in constructor for controller (using QuillControllerConfigurations).
-    /// Backward compatibility: use configurations and pass QuillController in constructor for configurations. (Will be removed in future versions.)
-    QuillController? controller,
     QuillEditorConfigurations? configurations,
   }) {
-    // ignore: deprecated_member_use_from_same_package
-    controller ??= configurations?.controller;
-    assert(controller != null,
-        'controller required. Provide controller directly (preferred) or indirectly through configurations (not recommended - will be removed in future versions).');
-    controller ??= QuillController(
-        document: Document(),
-        selection: const TextSelection.collapsed(offset: 0));
-    //
-    controller
-      ..editorConfigurations = configurations
-      ..editorFocusNode = focusNode;
-    //
+    controller.editorConfigurations = configurations;
     return QuillEditor._(
-        focusNode: focusNode,
-        scrollController: scrollController,
-        controller: controller,
-        key: key);
+      key: key,
+      focusNode: focusNode,
+      scrollController: scrollController,
+      controller: controller,
+    );
   }
 
-  const QuillEditor._(
-      {required this.focusNode,
-      required this.scrollController,
-      required this.controller,
-      super.key});
+  const QuillEditor._({
+    required this.focusNode,
+    required this.scrollController,
+    required this.controller,
+    super.key,
+  });
 
   factory QuillEditor.basic({
-    /// The controller for the quill editor widget of flutter quill
-    QuillController? controller,
-
-    /// The configurations for the quill editor widget of flutter quill
+    required QuillController controller,
     QuillEditorConfigurations? configurations,
     FocusNode? focusNode,
     ScrollController? scrollController,
@@ -194,7 +171,7 @@ class QuillEditor extends StatefulWidget {
       scrollController: scrollController ?? ScrollController(),
       focusNode: focusNode ?? FocusNode(),
       controller: controller,
-      configurations: configurations?.copyWith(),
+      configurations: configurations,
     );
   }
 
@@ -286,86 +263,75 @@ class QuillEditorState extends State<QuillEditor>
     final showSelectionToolbar = configurations.enableInteractiveSelection &&
         configurations.enableSelectionToolbar;
 
-    final child = FlutterQuillLocalizationsWidget(
-      child: QuillEditorProvider(
-        controller: controller,
-        child: QuillEditorBuilderWidget(
-          builder: configurations.builder,
-          child: QuillRawEditor(
-            key: _editorKey,
-            controller: controller,
-            configurations: QuillRawEditorConfigurations(
-              characterShortcutEvents:
-                  widget.configurations.characterShortcutEvents,
-              spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
-              customLeadingBuilder:
-                  widget.configurations.customLeadingBlockBuilder,
-              focusNode: widget.focusNode,
-              scrollController: widget.scrollController,
-              scrollable: configurations.scrollable,
-              enableAlwaysIndentOnTab: configurations.enableAlwaysIndentOnTab,
-              scrollBottomInset: configurations.scrollBottomInset,
-              padding: configurations.padding,
-              readOnly: controller.readOnly,
-              checkBoxReadOnly: configurations.checkBoxReadOnly,
-              disableClipboard: configurations.disableClipboard,
-              placeholder: configurations.placeholder,
-              onLaunchUrl: configurations.onLaunchUrl,
-              contextMenuBuilder: showSelectionToolbar
-                  ? (configurations.contextMenuBuilder ??
-                      QuillRawEditorConfigurations.defaultContextMenuBuilder)
-                  : null,
-              showSelectionHandles: isMobile,
-              showCursor: configurations.showCursor ?? true,
-              cursorStyle: CursorStyle(
-                color: cursorColor,
-                backgroundColor: Colors.grey,
-                width: 2,
-                radius: cursorRadius,
-                offset: cursorOffset,
-                paintAboveText:
-                    configurations.paintCursorAboveText ?? paintCursorAboveText,
-                opacityAnimates: cursorOpacityAnimates,
-              ),
-              textCapitalization: configurations.textCapitalization,
-              minHeight: configurations.minHeight,
-              maxHeight: configurations.maxHeight,
-              maxContentWidth: configurations.maxContentWidth,
-              customStyles: configurations.customStyles,
-              expands: configurations.expands,
-              autoFocus: configurations.autoFocus,
-              selectionColor: selectionColor,
-              selectionCtrls:
-                  configurations.textSelectionControls ?? textSelectionControls,
-              keyboardAppearance: configurations.keyboardAppearance,
-              enableInteractiveSelection:
-                  configurations.enableInteractiveSelection,
-              scrollPhysics: configurations.scrollPhysics,
-              embedBuilder: _getEmbedBuilder,
-              linkActionPickerDelegate: configurations.linkActionPickerDelegate,
-              customStyleBuilder: configurations.customStyleBuilder,
-              customRecognizerBuilder: configurations.customRecognizerBuilder,
-              floatingCursorDisabled: configurations.floatingCursorDisabled,
-              onImagePaste: configurations.onImagePaste,
-              onGifPaste: configurations.onGifPaste,
-              customShortcuts: configurations.customShortcuts,
-              customActions: configurations.customActions,
-              customLinkPrefixes: configurations.customLinkPrefixes,
-              isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,
-              onTapOutside: configurations.onTapOutside,
-              dialogTheme: configurations.dialogTheme,
-              contentInsertionConfiguration:
-                  configurations.contentInsertionConfiguration,
-              enableScribble: configurations.enableScribble,
-              onScribbleActivated: configurations.onScribbleActivated,
-              scribbleAreaInsets: configurations.scribbleAreaInsets,
-              readOnlyMouseCursor: configurations.readOnlyMouseCursor,
-              magnifierConfiguration: configurations.magnifierConfiguration,
-              textInputAction: configurations.textInputAction,
-              onPerformAction: configurations.onPerformAction,
-            ),
-          ),
+    final child = QuillRawEditor(
+      key: _editorKey,
+      controller: controller,
+      configurations: QuillRawEditorConfigurations(
+        characterShortcutEvents: widget.configurations.characterShortcutEvents,
+        spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
+        customLeadingBuilder: widget.configurations.customLeadingBlockBuilder,
+        focusNode: widget.focusNode,
+        scrollController: widget.scrollController,
+        scrollable: configurations.scrollable,
+        enableAlwaysIndentOnTab: configurations.enableAlwaysIndentOnTab,
+        scrollBottomInset: configurations.scrollBottomInset,
+        padding: configurations.padding,
+        readOnly: controller.readOnly,
+        checkBoxReadOnly: configurations.checkBoxReadOnly,
+        disableClipboard: configurations.disableClipboard,
+        placeholder: configurations.placeholder,
+        onLaunchUrl: configurations.onLaunchUrl,
+        contextMenuBuilder: showSelectionToolbar
+            ? (configurations.contextMenuBuilder ??
+                QuillRawEditorConfigurations.defaultContextMenuBuilder)
+            : null,
+        showSelectionHandles: isMobile,
+        showCursor: configurations.showCursor ?? true,
+        cursorStyle: CursorStyle(
+          color: cursorColor,
+          backgroundColor: Colors.grey,
+          width: 2,
+          radius: cursorRadius,
+          offset: cursorOffset,
+          paintAboveText:
+              configurations.paintCursorAboveText ?? paintCursorAboveText,
+          opacityAnimates: cursorOpacityAnimates,
         ),
+        textCapitalization: configurations.textCapitalization,
+        minHeight: configurations.minHeight,
+        maxHeight: configurations.maxHeight,
+        maxContentWidth: configurations.maxContentWidth,
+        customStyles: configurations.customStyles,
+        expands: configurations.expands,
+        autoFocus: configurations.autoFocus,
+        selectionColor: selectionColor,
+        selectionCtrls:
+            configurations.textSelectionControls ?? textSelectionControls,
+        keyboardAppearance: configurations.keyboardAppearance,
+        enableInteractiveSelection: configurations.enableInteractiveSelection,
+        scrollPhysics: configurations.scrollPhysics,
+        embedBuilder: _getEmbedBuilder,
+        linkActionPickerDelegate: configurations.linkActionPickerDelegate,
+        customStyleBuilder: configurations.customStyleBuilder,
+        customRecognizerBuilder: configurations.customRecognizerBuilder,
+        floatingCursorDisabled: configurations.floatingCursorDisabled,
+        onImagePaste: configurations.onImagePaste,
+        onGifPaste: configurations.onGifPaste,
+        customShortcuts: configurations.customShortcuts,
+        customActions: configurations.customActions,
+        customLinkPrefixes: configurations.customLinkPrefixes,
+        isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,
+        onTapOutside: configurations.onTapOutside,
+        dialogTheme: configurations.dialogTheme,
+        contentInsertionConfiguration:
+            configurations.contentInsertionConfiguration,
+        enableScribble: configurations.enableScribble,
+        onScribbleActivated: configurations.onScribbleActivated,
+        scribbleAreaInsets: configurations.scribbleAreaInsets,
+        readOnlyMouseCursor: configurations.readOnlyMouseCursor,
+        magnifierConfiguration: configurations.magnifierConfiguration,
+        textInputAction: configurations.textInputAction,
+        onPerformAction: configurations.onPerformAction,
       ),
     );
 

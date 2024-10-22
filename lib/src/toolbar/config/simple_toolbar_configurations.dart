@@ -1,14 +1,10 @@
-import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart'
-    show Axis, WrapAlignment, WrapCrossAlignment;
+import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
-import '../../controller/quill_controller.dart';
 import '../buttons/hearder_style/select_header_style_buttons.dart';
 import '../buttons/hearder_style/select_header_style_dropdown_button.dart';
 import '../buttons/link_style2_button.dart';
 import '../buttons/link_style_button.dart';
-import '../buttons/search/legacy/legacy_search_button.dart';
-import '../buttons/search/search_button.dart';
 import '../embed/embed_button_builder.dart';
 import '../theme/quill_dialog_theme.dart';
 import '../theme/quill_icon_theme.dart';
@@ -68,30 +64,17 @@ enum HeaderStyleType {
   bool get isButtons => this == HeaderStyleType.buttons;
 }
 
-enum SearchButtonType {
-  /// Will use [QuillToolbarSearchButton]
-  legacy,
-
-  /// Will use [QuillToolbarLegacySearchButton]
-  modern,
-}
-
 /// The configurations for the toolbar widget of flutter quill
 @immutable
 class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   const QuillSimpleToolbarConfigurations({
-    @Deprecated(
-        'controller should be passed directly to the toolbar - this parameter will be removed in future versions.')
-    this.controller,
     super.sharedConfigurations,
     super.toolbarSectionSpacing = kToolbarSectionSpacing,
     super.toolbarIconAlignment = WrapAlignment.center,
     super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
     super.buttonOptions = const QuillSimpleToolbarButtonOptions(),
     this.customButtons = const [],
-    this.fontFamilyValues,
     super.multiRowsDisplay = true,
-    this.fontSizesValues,
     this.showDividers = true,
     this.showFontFamily = true,
     this.showFontSize = true,
@@ -129,7 +112,6 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.showClipboardPaste = true,
     this.linkStyleType = LinkStyleType.original,
     this.headerStyleType = HeaderStyleType.original,
-    this.searchButtonType = SearchButtonType.modern,
 
     /// The decoration to use for the toolbar.
     super.decoration,
@@ -141,46 +123,26 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     // this.iconTheme,
     this.dialogTheme,
+    this.iconTheme,
     super.axis = Axis.horizontal,
     super.color,
     super.sectionDividerColor,
     super.sectionDividerSpace,
 
-    /// By default it will calculated based on the [globalIconSize] from
-    /// [base] in [QuillToolbarButtonOptions]
-    /// You can change it but the the change only apply if
-    /// the [multiRowsDisplay] is false, if [multiRowsDisplay] then the value
-    /// will be [kDefaultIconSize] * 2
+    /// The change only applies if [multiRowsDisplay] is `false`
     super.toolbarSize,
   }) : _toolbarSize = toolbarSize;
 
   final double? _toolbarSize;
 
-  /// The toolbar size, by default it will be `baseButtonOptions.iconSize * 2`
   @override
   double get toolbarSize {
     final alternativeToolbarSize = _toolbarSize;
     if (alternativeToolbarSize != null) {
       return alternativeToolbarSize;
     }
-    return (buttonOptions.base.iconSize ?? kDefaultIconSize) * 2;
+    return kDefaultIconSize * 2;
   }
-
-  final Map<String, String>? fontFamilyValues;
-
-  @Deprecated('controller will be removed in future versions.')
-  final QuillController? controller;
-
-  /// By default it will be
-  /// ```dart
-  /// {
-  ///   'Small'.i18n: 'small',
-  ///   'Large'.i18n: 'large',
-  ///   'Huge'.i18n: 'huge',
-  ///   'Clear'.loc: '0'
-  /// }
-  /// ```
-  final Map<String, String>? fontSizesValues;
 
   /// List of custom buttons
   final List<QuillToolbarCustomButtonOptions> customButtons;
@@ -228,11 +190,10 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
   /// Toolbar items to display for controls of embed blocks
   final List<EmbedButtonBuilder>? embedButtons;
 
-  // ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
-  // final QuillIconTheme? iconTheme;
+  @experimental
+  final QuillIconTheme? iconTheme;
 
-  ///The theme to use for the theming of the [LinkDialog()],
-  ///shown when embedding an image, for example
+  @experimental
   final QuillDialogTheme? dialogTheme;
 
   /// Defines which dialog is used for applying link attribute.
@@ -240,16 +201,4 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
 
   /// Defines which dialog is used for applying header attribute.
   final HeaderStyleType headerStyleType;
-
-  /// Define which button type should be used for the [showSearchButton]
-  final SearchButtonType searchButtonType;
-
-  @override
-  List<Object?> get props => [
-        buttonOptions,
-        multiRowsDisplay,
-        fontSizesValues,
-        toolbarSize,
-        axis,
-      ];
 }

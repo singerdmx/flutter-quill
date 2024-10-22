@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../document/attribute.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/stateless_base_button.dart';
-import '../base_toolbar.dart';
+import '../config/buttons/clear_format_configurations.dart';
+import 'quill_icon_button.dart';
 
 class QuillToolbarClearFormatButton extends QuillToolbarBaseButton {
   const QuillToolbarClearFormatButton({

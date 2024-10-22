@@ -7,13 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/flutter_quill_internal.dart';
-import 'package:flutter_quill/translations.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/string.dart';
 import '../../common/utils/utils.dart';
-import '../../editor_toolbar_shared/image_saver/s_image_saver.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
 import 'models/image_configurations.dart';
 import 'widgets/image.dart' show ImageTapWrapper, getImageStyleString;
 import 'widgets/image_resizer.dart' show ImageResizer;
@@ -25,7 +22,6 @@ class ImageOptionsMenu extends StatelessWidget {
     required this.imageSource,
     required this.imageSize,
     required this.isReadOnly,
-    required this.imageSaverService,
     required this.imageProvider,
     super.key,
   });
@@ -35,7 +31,6 @@ class ImageOptionsMenu extends StatelessWidget {
   final String imageSource;
   final ElementSize imageSize;
   final bool isReadOnly;
-  final ImageSaverService imageSaverService;
   final ImageProvider imageProvider;
 
   @override
@@ -56,32 +51,30 @@ class ImageOptionsMenu extends StatelessWidget {
                   context: context,
                   builder: (modalContext) {
                     final screenSize = MediaQuery.sizeOf(modalContext);
-                    return FlutterQuillLocalizationsWidget(
-                      child: ImageResizer(
-                        onImageResize: (width, height) {
-                          final res = getEmbedNode(
-                            controller,
-                            controller.selection.start,
-                          );
+                    return ImageResizer(
+                      onImageResize: (width, height) {
+                        final res = getEmbedNode(
+                          controller,
+                          controller.selection.start,
+                        );
 
-                          final attr = replaceStyleStringWithSize(
-                            getImageStyleString(controller),
-                            width: width,
-                            height: height,
+                        final attr = replaceStyleStringWithSize(
+                          getImageStyleString(controller),
+                          width: width,
+                          height: height,
+                        );
+                        controller
+                          ..skipRequestKeyboard = true
+                          ..formatText(
+                            res.offset,
+                            1,
+                            StyleAttribute(attr),
                           );
-                          controller
-                            ..skipRequestKeyboard = true
-                            ..formatText(
-                              res.offset,
-                              1,
-                              StyleAttribute(attr),
-                            );
-                        },
-                        imageWidth: imageSize.width,
-                        imageHeight: imageSize.height,
-                        maxWidth: screenSize.width,
-                        maxHeight: screenSize.height,
-                      ),
+                      },
+                      imageWidth: imageSize.width,
+                      imageHeight: imageSize.height,
+                      maxWidth: screenSize.width,
+                      maxHeight: screenSize.height,
                     );
                   },
                 );
@@ -145,7 +138,6 @@ class ImageOptionsMenu extends StatelessWidget {
 
                 final saveImageResult = await saveImage(
                   imageUrl: imageSource,
-                  imageSaverService: imageSaverService,
                 );
                 final imageSavedSuccessfully = saveImageResult.error == null;
 
@@ -184,9 +176,6 @@ class ImageOptionsMenu extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (_) => ImageTapWrapper(
-                  assetsPrefix:
-                      QuillSharedExtensionsConfigurations.get(context: context)
-                          .assetsPrefix,
                   imageUrl: imageSource,
                   configurations: configurations,
                 ),

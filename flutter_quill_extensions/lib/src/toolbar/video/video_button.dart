@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/translations.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 import '../../common/image_video_utils.dart';
-import '../../editor_toolbar_shared/image_picker/image_options.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
+
 import 'models/video.dart';
 import 'models/video_configurations.dart';
 import 'select_video_source.dart';
-
-// TODO: Add custom callback to validate the video link input
 
 class QuillToolbarVideoButton extends StatelessWidget {
   const QuillToolbarVideoButton({
@@ -23,41 +21,30 @@ class QuillToolbarVideoButton extends StatelessWidget {
   final QuillToolbarVideoButtonOptions options;
 
   double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return iconSize ?? kDefaultIconSize;
   }
 
   double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return options.iconTheme;
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.movie_creation;
+    return options.iconData ?? Icons.movie_creation;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        'Insert video';
-    // ('Insert video'.i18n);
+    // TODO: Add insert video translation
+    return options.tooltip ?? 'Insert video';
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -71,8 +58,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -108,13 +94,9 @@ class QuillToolbarVideoButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
-
     final onRequestPickVideo = options.videoConfigurations.onRequestPickVideo;
     if (onRequestPickVideo != null) {
-      final videoUrl = await onRequestPickVideo(context, imagePickerService);
+      final videoUrl = await onRequestPickVideo(context);
       if (videoUrl != null) {
         await options.videoConfigurations
             .onVideoInsertCallback(videoUrl, controller);
@@ -132,9 +114,9 @@ class QuillToolbarVideoButton extends StatelessWidget {
 
     final videoUrl = switch (imageSource) {
       InsertVideoSource.gallery =>
-        (await imagePickerService.pickVideo(source: ImageSource.gallery))?.path,
+        (await ImagePicker().pickVideo(source: ImageSource.gallery))?.path,
       InsertVideoSource.camera =>
-        (await imagePickerService.pickVideo(source: ImageSource.camera))?.path,
+        (await ImagePicker().pickVideo(source: ImageSource.camera))?.path,
       InsertVideoSource.link =>
         context.mounted ? await _typeLink(context) : null,
     };
@@ -152,11 +134,9 @@ class QuillToolbarVideoButton extends StatelessWidget {
   Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => FlutterQuillLocalizationsWidget(
-        child: TypeLinkDialog(
-          dialogTheme: options.dialogTheme,
-          linkType: LinkType.video,
-        ),
+      builder: (_) => TypeLinkDialog(
+        dialogTheme: options.dialogTheme,
+        linkType: LinkType.video,
       ),
     );
     return value;

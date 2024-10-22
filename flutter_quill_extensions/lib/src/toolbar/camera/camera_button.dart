@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart'
-    show
-        QuillController,
-        QuillIconTheme,
-        QuillSimpleToolbarExt,
-        QuillToolbarBaseButtonOptions,
-        QuillToolbarIconButton,
-        kDefaultIconSize,
-        kDefaultIconButtonFactor;
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart';
 
-import '../../editor_toolbar_shared/image_picker/image_options.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'camera_types.dart';
 import 'models/camera_configurations.dart';
 import 'select_camera_action.dart';
@@ -27,40 +18,29 @@ class QuillToolbarCameraButton extends StatelessWidget {
   final QuillToolbarCameraButtonOptions options;
 
   double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return iconSize ?? kDefaultIconSize;
   }
 
   double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return options.iconTheme;
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.photo_camera;
+    return options.iconData ?? Icons.photo_camera;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.camera;
+    return options.tooltip ?? context.loc.camera;
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -79,8 +59,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final iconData = _iconData(context);
     final iconButtonFactor = _iconButtonFactor(context);
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder;
 
     if (childBuilder != null) {
       childBuilder(
@@ -131,10 +110,6 @@ class QuillToolbarCameraButton extends StatelessWidget {
     BuildContext context,
     QuillController controller,
   ) async {
-    final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
-
     final cameraAction = await _getCameraAction(context);
 
     if (cameraAction == null) {
@@ -143,9 +118,8 @@ class QuillToolbarCameraButton extends StatelessWidget {
 
     switch (cameraAction) {
       case CameraAction.video:
-        final videoFile = await imagePickerService.pickVideo(
-          source: ImageSource.camera,
-        );
+        final videoFile =
+            await ImagePicker().pickVideo(source: ImageSource.camera);
         if (videoFile == null) {
           return;
         }
@@ -156,9 +130,8 @@ class QuillToolbarCameraButton extends StatelessWidget {
         await options.cameraConfigurations.onVideoInsertedCallback
             ?.call(videoFile.path);
       case CameraAction.image:
-        final imageFile = await imagePickerService.pickImage(
-          source: ImageSource.camera,
-        );
+        final imageFile =
+            await ImagePicker().pickImage(source: ImageSource.camera);
         if (imageFile == null) {
           return;
         }

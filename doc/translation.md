@@ -1,29 +1,7 @@
 # 🌍 Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the locale that is defined in
-your `WidgetsApp` for example `MaterialApp` which usually follows the system locally unless you set your own locale
-with:
-
-```dart
-QuillToolbar.simple(
-  controller: _controller,
-  configurations: QuillSimpleToolbarConfigurations(
-    sharedConfigurations: const QuillSharedConfigurations(
-      locale: Locale('de'),
-    ),
-  ),
-),
-Expanded(
-  child: QuillEditor.basic(
-    controller: _controller,
-    configurations: QuillEditorConfigurations(
-      sharedConfigurations: const QuillSharedConfigurations(
-        locale: Locale('de'),
-      ),
-    ),
-  ),
-)
-```
+your `WidgetsApp` for example `MaterialApp` which usually follows the system locally unless you set your own locale.
 
 ## 🌐 Supported Locales
 

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show Axis;
 
 import '../../../document/attribute.dart';
-import '../../base_toolbar.dart';
+import '../../simple_toolbar.dart';
 
 class QuillToolbarSelectHeaderStyleButtonsExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

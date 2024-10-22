@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart';
 import 'package:meta/meta.dart';
 
 import '../../common/utils/quill_table_utils.dart';
@@ -21,40 +21,29 @@ class QuillToolbarTableButton extends StatelessWidget {
   final QuillToolbarTableButtonOptions options;
 
   double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return iconSize ?? kDefaultIconSize;
   }
 
   double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return options.iconTheme;
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.table_chart;
+    return options.iconData ?? Icons.table_chart;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.insertTable;
+    return options.tooltip ?? context.loc.insertTable;
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -68,8 +57,7 @@ class QuillToolbarTableButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

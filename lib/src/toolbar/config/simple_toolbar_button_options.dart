@@ -1,8 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
-import 'base_button_configurations.dart';
 import 'buttons/clear_format_configurations.dart';
 import 'buttons/color_configurations.dart';
 import 'buttons/custom_button_configurations.dart';
@@ -40,9 +37,8 @@ export 'buttons/toggle_style_configurations.dart';
 
 /// The configurations for the buttons of the toolbar widget of flutter quill
 @immutable
-class QuillSimpleToolbarButtonOptions extends Equatable {
+class QuillSimpleToolbarButtonOptions {
   const QuillSimpleToolbarButtonOptions({
-    this.base = const QuillToolbarBaseButtonOptions(),
     this.undoHistory = const QuillToolbarHistoryButtonOptions(),
     this.redoHistory = const QuillToolbarHistoryButtonOptions(),
     this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
@@ -83,10 +79,6 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
     this.clipboardPaste = const QuillToolbarToggleStyleButtonOptions(),
   });
 
-  /// The base configurations for all the buttons which will apply to all
-  /// but if the options overrided in the spesefic button options
-  /// then it will use that instead
-  final QuillToolbarBaseButtonOptions base;
   final QuillToolbarHistoryButtonOptions undoHistory;
   final QuillToolbarHistoryButtonOptions redoHistory;
   final QuillToolbarFontFamilyButtonOptions fontFamily;
@@ -141,9 +133,4 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
   final QuillToolbarLinkStyleButton2Options linkStyle2;
 
   final QuillToolbarCustomButtonOptions customButtons;
-
-  @override
-  List<Object?> get props => [
-        base,
-      ];
 }

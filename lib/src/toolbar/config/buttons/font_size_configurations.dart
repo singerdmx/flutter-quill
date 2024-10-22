@@ -1,16 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/material.dart'
-    show ButtonStyle, Colors, PopupMenuEntry, ValueChanged;
-import 'package:flutter/widgets.dart'
-    show
-        Color,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        OutlinedBorder,
-        TextOverflow,
-        TextStyle;
+import 'package:flutter/material.dart';
 
 import '../../../document/attribute.dart';
 import '../../../editor_toolbar_controller_shared/quill_configurations.dart';
@@ -42,35 +30,27 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
     super.tooltip,
     this.padding,
     this.style,
-    @Deprecated('No longer used') this.width,
     this.initialValue,
     this.labelOverflow = TextOverflow.visible,
-    this.itemHeight,
-    this.itemPadding,
     this.defaultItemColor = Colors.red,
     super.childBuilder,
     this.shape,
     this.defaultDisplayText,
+    this.width,
   });
 
   final ButtonStyle? shape;
 
-  /// By default it will be [fontSizesValues] from [QuillSimpleToolbarConfigurations]
-  /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;
   final Attribute attribute;
   final EdgeInsetsGeometry? padding;
   final TextStyle? style;
-  final double? width;
   final String? initialValue;
   final TextOverflow labelOverflow;
-  @Deprecated('No longer used')
-  final double? itemHeight;
-  @Deprecated('No longer used')
-  final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
   final String? defaultDisplayText;
+  final double? width;
 
   QuillToolbarFontSizeButtonOptions copyWith({
     double? iconSize,
@@ -102,14 +82,8 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
       attribute: attribute ?? this.attribute,
       padding: padding ?? this.padding,
       style: style ?? this.style,
-      // ignore: deprecated_member_use_from_same_package
-      width: width ?? this.width,
       initialValue: initialValue ?? this.initialValue,
       labelOverflow: labelOverflow ?? this.labelOverflow,
-      // ignore: deprecated_member_use_from_same_package
-      itemHeight: itemHeight ?? this.itemHeight,
-      // ignore: deprecated_member_use_from_same_package
-      itemPadding: itemPadding ?? this.itemPadding,
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,
       tooltip: tooltip ?? super.tooltip,
       afterButtonPressed: afterButtonPressed ?? super.afterButtonPressed,

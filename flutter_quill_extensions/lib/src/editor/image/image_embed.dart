@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
-import 'package:flutter_quill/translations.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
 import 'image_menu.dart';
 import 'models/image_configurations.dart';
 import 'widgets/image.dart';
@@ -46,13 +44,8 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       alignment: alignment,
       height: height,
       width: width,
-      assetsPrefix: QuillSharedExtensionsConfigurations.get(context: context)
-          .assetsPrefix,
     );
 
-    final imageSaverService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imageSaverService;
     return GestureDetector(
       onTap: () {
         final onImageClicked = configurations.onImageClicked;
@@ -62,16 +55,13 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         }
         showDialog(
           context: context,
-          builder: (_) => FlutterQuillLocalizationsWidget(
-            child: ImageOptionsMenu(
-              controller: controller,
-              configurations: configurations,
-              imageSource: imageSource,
-              imageSize: imageSize,
-              isReadOnly: readOnly,
-              imageSaverService: imageSaverService,
-              imageProvider: imageWidget.image,
-            ),
+          builder: (_) => ImageOptionsMenu(
+            controller: controller,
+            configurations: configurations,
+            imageSource: imageSource,
+            imageSize: imageSize,
+            isReadOnly: readOnly,
+            imageProvider: imageWidget.image,
           ),
         );
       },

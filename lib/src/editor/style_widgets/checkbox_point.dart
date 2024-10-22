@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class QuillEditorCheckboxPoint extends StatefulWidget {
-  const QuillEditorCheckboxPoint({
+class QuillCheckboxPoint extends StatefulWidget {
+  const QuillCheckboxPoint({
     required this.size,
     required this.value,
     required this.enabled,
@@ -17,11 +17,10 @@ class QuillEditorCheckboxPoint extends StatefulWidget {
   final QuillCheckboxBuilder? uiBuilder;
 
   @override
-  QuillEditorCheckboxPointState createState() =>
-      QuillEditorCheckboxPointState();
+  QuillCheckboxPointState createState() => QuillCheckboxPointState();
 }
 
-class QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
+class QuillCheckboxPointState extends State<QuillCheckboxPoint> {
   @override
   Widget build(BuildContext context) {
     final uiBuilder = widget.uiBuilder;

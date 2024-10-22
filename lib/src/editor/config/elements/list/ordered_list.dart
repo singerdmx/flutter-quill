@@ -1,9 +1,8 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show Widget;
 
 @immutable
-class QuillEditorOrderedListElementOptions extends Equatable {
+class QuillEditorOrderedListElementOptions {
   const QuillEditorOrderedListElementOptions({
     this.useTextColorForDot = true,
     this.customWidget,
@@ -11,6 +10,4 @@ class QuillEditorOrderedListElementOptions extends Equatable {
 
   final bool useTextColorForDot;
   final Widget? customWidget;
-  @override
-  List<Object?> get props => [];
 }

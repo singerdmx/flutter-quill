@@ -1,33 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
-import 'package:flutter/material.dart'
-    show
-        AdaptiveTextSelectionToolbar,
-        PointerDownEvent,
-        TextCapitalization,
-        TextInputAction,
-        TextMagnifierConfiguration;
-import 'package:flutter/widgets.dart'
-    show
-        Action,
-        BuildContext,
-        Color,
-        ContentInsertionConfiguration,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        FocusNode,
-        Intent,
-        ScrollController,
-        ScrollPhysics,
-        ShortcutActivator,
-        TextFieldTapRegion,
-        TextSelectionControls,
-        ValueChanged,
-        Widget,
-        MouseCursor,
-        SystemMouseCursors;
+import 'package:flutter/material.dart';
 
-import '../../../controller/quill_controller.dart';
 import '../../../editor/embed/embed_editor_builder.dart';
 import '../../../editor/raw_editor/raw_editor.dart';
 import '../../../editor/raw_editor/raw_editor_state.dart';
@@ -52,9 +26,6 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.autoFocus,
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
-    @Deprecated(
-        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
-    this.controller,
     this.showCursor = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -74,9 +45,6 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
-    @Deprecated(
-        'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases')
-    this.enableMarkdownStyleConversion = true,
     this.enableAlwaysIndentOnTab = false,
     this.onTapOutside,
     this.keyboardAppearance,
@@ -101,10 +69,6 @@ class QuillRawEditorConfigurations extends Equatable {
     this.onPerformAction,
     this.customLeadingBuilder,
   });
-
-  /// Controls the document being edited.
-  @Deprecated('controller will be removed in future versions.')
-  final QuillController? controller;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
@@ -161,10 +125,6 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;
-
-  @Deprecated(
-      'enableMarkdownStyleConversion is no longer used and will be removed in future releases. Use space/char shortcut events instead.')
-  final bool enableMarkdownStyleConversion;
 
   /// Enables always indenting when the TAB key is pressed.
   ///

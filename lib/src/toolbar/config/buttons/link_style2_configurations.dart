@@ -25,7 +25,6 @@ class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
     this.linkColor,
     this.validationMessage,
     this.buttonSize,
-    this.dialogBarrierColor,
     this.childrenSpacing = 16.0,
     this.autovalidateMode = AutovalidateMode.disabled,
     super.iconData,
@@ -57,6 +56,4 @@ class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
 
   /// The size of dialog buttons.
   final Size? buttonSize;
-
-  final Color? dialogBarrierColor;
 }

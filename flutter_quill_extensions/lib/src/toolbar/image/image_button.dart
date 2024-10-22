@@ -1,13 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../common/image_video_utils.dart';
 import '../../editor/image/image_embed_types.dart';
-import '../../editor_toolbar_shared/image_picker/image_picker.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
 import 'models/image_configurations.dart';
 import 'select_image_source.dart';
 
@@ -23,40 +20,29 @@ class QuillToolbarImageButton extends StatelessWidget {
   final QuillToolbarImageButtonOptions options;
 
   double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return iconSize ?? kDefaultIconSize;
   }
 
   double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return options.iconTheme;
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.image;
+    return options.iconData ?? Icons.image;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.insertImage;
+    return options.tooltip ?? context.loc.insertImage;
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -70,8 +56,7 @@ class QuillToolbarImageButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -107,16 +92,11 @@ class QuillToolbarImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
-
     final onRequestPickImage =
         options.imageButtonConfigurations.onRequestPickImage;
     if (onRequestPickImage != null) {
       final imageUrl = await onRequestPickImage(
         context,
-        imagePickerService,
       );
       if (imageUrl != null) {
         await options.imageButtonConfigurations
@@ -134,15 +114,12 @@ class QuillToolbarImageButton extends StatelessWidget {
     }
 
     final imageUrl = switch (source) {
-      InsertImageSource.gallery => (await imagePickerService.pickImage(
-          source: ImageSource.gallery,
-        ))
-            ?.path,
-      InsertImageSource.link => await _typeLink(context),
-      InsertImageSource.camera => (await imagePickerService.pickImage(
-          source: ImageSource.camera,
-        ))
-            ?.path,
+      InsertImageSource.gallery =>
+        (await ImagePicker().pickImage(source: ImageSource.gallery))?.path,
+      InsertImageSource.link =>
+        context.mounted ? await _typeLink(context) : null,
+      InsertImageSource.camera =>
+        (await ImagePicker().pickImage(source: ImageSource.camera))?.path,
     };
     if (imageUrl == null) {
       return;
@@ -158,12 +135,10 @@ class QuillToolbarImageButton extends StatelessWidget {
   Future<String?> _typeLink(BuildContext context) async {
     final value = await showDialog<String>(
       context: context,
-      builder: (_) => FlutterQuillLocalizationsWidget(
-        child: TypeLinkDialog(
-          dialogTheme: options.dialogTheme,
-          linkRegExp: options.linkRegExp,
-          linkType: LinkType.image,
-        ),
+      builder: (_) => TypeLinkDialog(
+        dialogTheme: options.dialogTheme,
+        linkRegExp: options.linkRegExp,
+        linkType: LinkType.image,
       ),
     );
     return value;

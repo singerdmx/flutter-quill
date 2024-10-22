@@ -1,12 +1,11 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart'
     show Axis, Color, Decoration, WrapAlignment, WrapCrossAlignment;
 
 import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
-import '../base_toolbar.dart';
 import '../structs/link_dialog_action.dart';
+import 'simple_toolbar_configurations.dart';
 
-abstract class QuillSharedToolbarProperties extends Equatable {
+abstract class QuillSharedToolbarProperties {
   const QuillSharedToolbarProperties({
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.toolbarSize,

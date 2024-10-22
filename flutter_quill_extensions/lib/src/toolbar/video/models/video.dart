@@ -3,7 +3,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
 import '../../../common/extensions/controller_ext.dart';
-import '../../../editor_toolbar_shared/image_picker/s_image_picker.dart';
 
 /// When request picking an video, for example when the video button toolbar
 /// clicked, it should be null in case the user didn't choose any video or
@@ -14,7 +13,6 @@ import '../../../editor_toolbar_shared/image_picker/s_image_picker.dart';
 /// request the source for picking the video, from gallery, link or camera
 typedef OnRequestPickVideo = Future<String?> Function(
   BuildContext context,
-  ImagePickerService imagePickerService,
 );
 
 /// A callback will called when inserting a video in the editor

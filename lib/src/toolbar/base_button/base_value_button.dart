@@ -24,36 +24,22 @@ abstract class QuillToolbarCommonButtonState<
 
   QuillController get controller => widget.controller;
 
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions =>
-      context.quillToolbarBaseButtonOptions;
-
   String get defaultTooltip;
 
-  String get tooltip =>
-      options.tooltip ?? baseButtonExtraOptions?.tooltip ?? defaultTooltip;
+  String get tooltip => options.tooltip ?? defaultTooltip;
 
   IconData get defaultIconData;
 
-  IconData get iconData =>
-      options.iconData ??
-      context.quillToolbarBaseButtonOptions?.iconData ??
-      defaultIconData;
+  IconData get iconData => options.iconData ?? defaultIconData;
 
-  double get iconSize =>
-      options.iconSize ?? baseButtonExtraOptions?.iconSize ?? kDefaultIconSize;
+  double get iconSize => options.iconSize ?? kDefaultIconSize;
 
   double get iconButtonFactor =>
-      options.iconButtonFactor ??
-      baseButtonExtraOptions?.iconButtonFactor ??
-      kDefaultIconButtonFactor;
+      options.iconButtonFactor ?? kDefaultIconButtonFactor;
 
-  QuillIconTheme? get iconTheme =>
-      options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
+  QuillIconTheme? get iconTheme => options.iconTheme;
 
-  VoidCallback? get afterButtonPressed =>
-      options.afterButtonPressed ??
-      baseButtonExtraOptions?.afterButtonPressed ??
-      () => controller.editorFocusNode?.requestFocus();
+  VoidCallback? get afterButtonPressed => options.afterButtonPressed;
 }
 
 /// The [W] is the widget that creates this State

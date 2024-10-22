@@ -14,41 +14,30 @@ class QuillToolbarFormulaButton extends StatelessWidget {
   final QuillToolbarFormulaButtonOptions options;
 
   double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return iconSize ?? kDefaultIconSize;
   }
 
   double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return options.iconTheme;
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.functions;
+    return options.iconData ?? Icons.functions;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        'Insert formula';
-    // ('Insert formula'.i18n);
+    // TODO: Add insert formula translation
+    return options.tooltip ?? 'Insert formula';
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -64,8 +53,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

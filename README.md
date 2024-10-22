@@ -163,13 +163,29 @@ Create the file `your_project/android/app/src/main/res/xml/file_paths.xml` with 
 
 ## 🚀 Usage
 
+Add the localization delegate to your app widget:
+
+```dart
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+MaterialApp(
+  localizationsDelegates: const [
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    FlutterQuillLocalizations.delegate,
+  ]，
+);
+```
+
 Instantiate a controller:
 
 ```dart
 QuillController _controller = QuillController.basic();
 ```
 
-Use the `QuillEditor`, and `QuillSimpleToolbar` widgets,
+Use the `QuillEditor` and `QuillSimpleToolbar` widgets,
 and attach the `QuillController` to them:
 
 ```dart
@@ -376,7 +392,7 @@ Open this [page](./doc/translation.md) for more info
 
 Take a look at [flutter_quill_test](https://pub.dev/packages/flutter_quill_test) for testing.
 
-Notice that currently, the support for testing is limited.
+Currently, the support for testing is limited.
 
 ## 🤝 Contributing
 

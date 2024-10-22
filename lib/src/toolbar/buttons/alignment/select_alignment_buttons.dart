@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../controller/quill_controller.dart';
 import '../../../document/attribute.dart';
-import '../../base_toolbar.dart';
+import '../../config/simple_toolbar_button_options.dart';
+import '../toggle_style_button.dart';
 
 class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
   const QuillToolbarSelectAlignmentButtons({

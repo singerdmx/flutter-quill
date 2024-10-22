@@ -11,8 +11,7 @@ class QuillToolbarSearchButtonExtraOptions
   });
 }
 
-class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarBaseButtonOptions, QuillToolbarSearchButtonExtraOptions> {
+class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions {
   const QuillToolbarSearchButtonOptions({
     super.iconData,
     super.childBuilder,
@@ -22,15 +21,11 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions<
     this.dialogTheme,
     super.iconSize,
     super.iconButtonFactor,
-    this.dialogBarrierColor,
     this.customOnPressedCallback,
     this.searchBarAlignment,
   });
 
   final QuillDialogTheme? dialogTheme;
-
-  /// By default will be [dialogBarrierColor] from [QuillSharedConfigurations]
-  final Color? dialogBarrierColor;
 
   /// By default we will show simple search dialog ui
   /// you can pass value to this callback to change this
@@ -42,20 +37,3 @@ class QuillToolbarSearchButtonOptions extends QuillToolbarBaseButtonOptions<
 typedef QuillToolbarSearchButtonOnPressedCallback = Future<void> Function(
   QuillController controller,
 );
-
-// typedef QuillToolbarSearchButtonFindTextCallback = List<int> Function({
-//   required int index,
-//   required String text,
-//   required QuillController controller,
-//   required List<int> offsets,
-//   required bool wholeWord,
-//   required bool caseSensitive,
-//   bool moveToPosition,
-// });
-
-// typedef QuillToolbarSearchButtonMoveToPositionCallback = void Function({
-//   required int index,
-//   required String text,
-//   required QuillController controller,
-//   required List<int> offsets,
-// });

@@ -5,7 +5,8 @@ import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
+import '../config/buttons/toggle_check_list_configurations.dart';
+import 'toggle_style_button.dart';
 
 class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
     QuillToolbarToggleCheckListButtonOptions,
@@ -57,8 +58,7 @@ class QuillToolbarToggleCheckListButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = options.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

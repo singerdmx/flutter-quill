@@ -16,7 +16,6 @@ import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_configurations.dart';
-import '../toolbar/config/simple_toolbar_configurations.dart';
 import 'quill_controller_configurations.dart';
 import 'quill_controller_rich_paste.dart';
 
@@ -34,17 +33,15 @@ class QuillController extends ChangeNotifier {
     this.onSelectionCompleted,
     this.onSelectionChanged,
     this.readOnly = false,
-    this.editorFocusNode,
   })  : _document = document,
         _selection = selection;
 
-  factory QuillController.basic(
-          {QuillControllerConfigurations configurations =
-              const QuillControllerConfigurations(),
-          FocusNode? editorFocusNode}) =>
+  factory QuillController.basic({
+    QuillControllerConfigurations configurations =
+        const QuillControllerConfigurations(),
+  }) =>
       QuillController(
         configurations: configurations,
-        editorFocusNode: editorFocusNode,
         document: Document(),
         selection: const TextSelection.collapsed(offset: 0),
       );
@@ -59,15 +56,6 @@ class QuillController extends ChangeNotifier {
       _editorConfigurations ?? const QuillEditorConfigurations();
   set editorConfigurations(QuillEditorConfigurations? value) =>
       _editorConfigurations = document.editorConfigurations = value;
-
-  /// Toolbar configurations
-  ///
-  /// Caches configuration set in QuillSimpleToolbar ctor.
-  QuillSimpleToolbarConfigurations? _toolbarConfigurations;
-  QuillSimpleToolbarConfigurations get toolbarConfigurations =>
-      _toolbarConfigurations ?? const QuillSimpleToolbarConfigurations();
-  set toolbarConfigurations(QuillSimpleToolbarConfigurations? value) =>
-      _toolbarConfigurations = value;
 
   /// Document managed by this controller.
   Document _document;
@@ -511,10 +499,13 @@ class QuillController extends ChangeNotifier {
   Delta get pasteDelta => _pasteDelta;
   List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
 
+  /// Whether the text can be changed.
+  ///
+  /// When this is set to `true`, the text cannot be modified
+  /// by any shortcut or keyboard operation. The text is still selectable.
+  ///
+  /// Defaults to `false`. Must not be `null`.
   bool readOnly;
-
-  /// Used to give focus to the editor following a toolbar action
-  FocusNode? editorFocusNode;
 
   ImageUrl? _copiedImageUrl;
   ImageUrl? get copiedImageUrl => _copiedImageUrl;

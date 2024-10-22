@@ -5,8 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart'
         GlobalCupertinoLocalizations,
         GlobalMaterialLocalizations,
         GlobalWidgetsLocalizations;
-import 'package:flutter_quill/flutter_quill.dart' show Document;
-import 'package:flutter_quill/translations.dart' show FlutterQuillLocalizations;
+import 'package:flutter_quill/flutter_quill.dart';
 
 import 'screens/home/widgets/home_screen.dart';
 import 'screens/quill/quill_screen.dart';
@@ -59,10 +58,7 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
-              // Uncomment this line to use provide flutter quill localizations
-              // in your widgets app, otherwise the quill widgets will provide it
-              // internally:
-              // FlutterQuillLocalizations.delegate,
+              FlutterQuillLocalizations.delegate,
             ],
             supportedLocales: FlutterQuillLocalizations.supportedLocales,
             routes: {

@@ -5,7 +5,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
 import '../../common/extensions/controller_ext.dart';
-import '../../editor_toolbar_shared/image_picker/s_image_picker.dart';
 
 /// When request picking an image, for example when the image button toolbar
 /// clicked, it should be null in case the user didn't choose any image or
@@ -16,7 +15,6 @@ import '../../editor_toolbar_shared/image_picker/s_image_picker.dart';
 /// request the source for picking the image, from gallery, link or camera
 typedef OnRequestPickImage = Future<String?> Function(
   BuildContext context,
-  ImagePickerService imagePickerService,
 );
 
 /// A callback will called when inserting a image in the editor
@@ -75,7 +73,7 @@ typedef ImageEmbedBuilderOnRemovedCallback = Future<void> Function(
   String imageUrl,
 );
 
-typedef ImageEmbedBuilderProviderBuilder = ImageProvider Function(
+typedef ImageEmbedBuilderProviderBuilder = ImageProvider? Function(
   BuildContext context,
   String imageUrl,
 );

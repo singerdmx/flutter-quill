@@ -3,7 +3,7 @@ import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
-    show FlutterQuillEmbeds, QuillSharedExtensionsConfigurations;
+    show FlutterQuillEmbeds;
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
@@ -149,14 +149,6 @@ class _QuillScreenState extends State<QuillScreen> {
   }
 
   QuillSharedConfigurations get _sharedConfigurations {
-    return const QuillSharedConfigurations(
-      // locale: Locale('en'),
-      extraConfigurations: {
-        QuillSharedExtensionsConfigurations.key:
-            QuillSharedExtensionsConfigurations(
-          assetsPrefix: 'assets', // Defaults to assets
-        ),
-      },
-    );
+    return const QuillSharedConfigurations();
   }
 }

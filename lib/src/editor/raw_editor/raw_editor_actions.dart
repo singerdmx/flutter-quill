@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../translations.dart';
 import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../../toolbar/buttons/link_style2_button.dart';
@@ -507,10 +506,8 @@ class QuillEditorOpenSearchAction extends ContextAction<OpenSearchIntent> {
     await showDialog<String>(
       barrierColor: Colors.transparent,
       context: context,
-      builder: (_) => FlutterQuillLocalizationsWidget(
-        child: QuillToolbarSearchDialog(
-          controller: state.controller,
-        ),
+      builder: (_) => QuillToolbarSearchDialog(
+        controller: state.controller,
       ),
     );
   }

@@ -4,8 +4,8 @@ import '../../common/utils/widgets.dart';
 import '../../document/attribute.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
-import '../simple_toolbar_provider.dart';
+
+import '../simple_toolbar.dart';
 
 class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     QuillToolbarFontFamilyButtonOptions,
@@ -50,20 +50,18 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
   }
 
   Map<String, String> get rawItemsMap {
-    final rawItemsMap =
-        context.quillSimpleToolbarConfigurations?.fontFamilyValues ??
-            options.rawItemsMap ??
-            {
-              'Sans Serif': 'sans-serif',
-              'Serif': 'serif',
-              'Monospace': 'monospace',
-              'Ibarra Real Nova': 'ibarra-real-nova',
-              'SquarePeg': 'square-peg',
-              'Nunito': 'nunito',
-              'Pacifico': 'pacifico',
-              'Roboto Mono': 'roboto-mono',
-              context.loc.clear: 'Clear'
-            };
+    final rawItemsMap = options.rawItemsMap ??
+        {
+          'Sans Serif': 'sans-serif',
+          'Serif': 'serif',
+          'Monospace': 'monospace',
+          'Ibarra Real Nova': 'ibarra-real-nova',
+          'SquarePeg': 'square-peg',
+          'Nunito': 'nunito',
+          'Pacifico': 'pacifico',
+          'Roboto Mono': 'roboto-mono',
+          context.loc.clear: 'Clear'
+        };
     return rawItemsMap;
   }
 
@@ -95,9 +93,7 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final childBuilder = options.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -201,15 +197,12 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
               style: options.style ??
                   TextStyle(
                     fontSize: iconSize / 1.15,
-                    // color: iconTheme?.iconUnselectedFillColor ??
-                    //     theme.iconTheme.color,
                   ),
             ),
           ),
           Icon(
             Icons.arrow_drop_down,
             size: iconSize * iconButtonFactor,
-            // color: iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color,
           )
         ],
       ),

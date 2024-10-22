@@ -41,7 +41,7 @@ void main() {
         expect(builtinFinder, findsOneWidget);
 
         final customFinder = find.descendant(
-            of: find.byType(QuillToolbar),
+            of: find.byType(QuillSimpleToolbar),
             matching: find.byWidgetPredicate((widget) =>
                 widget is QuillToolbarIconButton && widget.tooltip == tooltip),
             matchRoot: true);
@@ -114,7 +114,7 @@ void main() {
         controller.formatSelection(Attribute.unchecked);
         editor.focusNode.unfocus();
         await tester.pump();
-        await tester.tap(find.byType(QuillEditorCheckboxPoint));
+        await tester.tap(find.byType(QuillCheckboxPoint));
         expect(tester.takeException(), isNull);
       });
     });

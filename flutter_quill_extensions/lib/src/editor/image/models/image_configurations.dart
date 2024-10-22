@@ -73,20 +73,20 @@ class QuillEditorImageEmbedConfigurations {
   ///
   final ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback;
 
-  /// [imageProviderBuilder] if you want to use custom image provider, please
-  /// pass a value to this property
-  /// By default we will use [NetworkImage] provider if the image url/path
-  /// is using http/https, if not then we will use [FileImage] provider
-  /// If you ovveride this make sure to handle the case where if the [imageUrl]
-  /// is in the local storage or it does exists in the system file
-  /// or use the same way we did it
+  /// Allows to override the default handling and fallback to the default if `null` was returned.
   ///
   /// Example of [imageProviderBuilder] customization:
   /// ```dart
   /// imageProviderBuilder: (imageUrl) async {
-  /// // Example of using cached_network_image package
-  /// // Don't forgot to check if that image is local or network one
-  /// return CachedNetworkImageProvider(imageUrl);
+  /// if (imageUrl.startsWith('assets/')) {
+  ///   // Supports Image assets
+  ///   return AssetImage(imageUrl);
+  /// }
+  /// if (imageUrl.startsWith('http')) {
+  ///   // Use https://pub.dev/packages/cached_network_image
+  ///   // for network images to cache them.
+  ///   return CachedNetworkImageProvider(imageUrl);
+  /// }
   /// }
   /// ```
   ///

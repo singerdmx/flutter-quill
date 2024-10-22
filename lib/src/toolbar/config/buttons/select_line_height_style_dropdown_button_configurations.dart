@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart'
     show IconData, TextStyle, ValueChanged, VoidCallback;
 
 import '../../../document/attribute.dart';
-import '../../base_toolbar.dart';
+
+import '../../simple_toolbar.dart';
 import '../../theme/quill_icon_theme.dart';
 
 class QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions

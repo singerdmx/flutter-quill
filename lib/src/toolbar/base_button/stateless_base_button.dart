@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../controller/quill_controller.dart';
 import '../config/simple_toolbar_configurations.dart';
-import '../simple_toolbar_provider.dart';
 import '../theme/quill_icon_theme.dart';
-
-// TODO: Use this later or remove it
 
 /// The [T] is the options for the button, usually should refresnce itself
 /// it's used in [childBuilder] so the developer can custmize this when using it
@@ -22,41 +19,29 @@ abstract class QuillToolbarBaseButton<T, I> extends StatelessWidget {
   final QuillController controller;
 
   double iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
     final iconSize = options?.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return iconSize ?? kDefaultIconSize;
   }
 
   double iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
     final iconButtonFactor = options?.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? afterButtonPressed(BuildContext context) {
-    return options?.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed ??
-        () => controller.editorFocusNode?.requestFocus();
+    return options?.afterButtonPressed;
   }
 
   QuillIconTheme? iconTheme(BuildContext context) {
-    return options?.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return options?.iconTheme;
   }
 
   IconData iconData(BuildContext context) {
-    return options?.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        getDefaultIconData(context);
+    return options?.iconData ?? getDefaultIconData(context);
   }
 
   String tooltip(BuildContext context) {
-    return options?.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        getDefaultTooltip(context);
+    return options?.tooltip ?? getDefaultTooltip(context);
   }
 
   abstract final IconData Function(BuildContext context) getDefaultIconData;

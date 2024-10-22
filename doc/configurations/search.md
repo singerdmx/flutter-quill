@@ -10,7 +10,7 @@ By default, the content of Embed objects are not searched.
 You can enable search by setting the [searchEmbedMode] in searchConfigurations:
 
 ```dart
-    MyQuillEditor(
+    QuillEditor.basic(
       controller: _controller,
       configurations: QuillEditorConfigurations(
         searchConfigurations: const QuillSearchConfigurations(

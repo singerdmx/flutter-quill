@@ -5,8 +5,7 @@ import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
-import '../simple_toolbar_provider.dart';
+import '../simple_toolbar.dart';
 import '../theme/quill_icon_theme.dart';
 
 typedef ToggleStyleButtonBuilder = Widget Function(
@@ -103,8 +102,7 @@ class QuillToolbarToggleStyleButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder ??
-        context.quillToolbarBaseButtonOptions?.childBuilder;
+    final childBuilder = options.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

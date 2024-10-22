@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart'
@@ -9,7 +8,6 @@ import 'package:meta/meta.dart' show experimental;
 import '../../controller/quill_controller.dart';
 import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
-import '../editor_builder.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
 import '../raw_editor/config/events/events.dart';
@@ -24,13 +22,10 @@ export 'element_options.dart';
 
 /// The configurations for the quill editor widget of flutter quill
 @immutable
-class QuillEditorConfigurations extends Equatable {
+class QuillEditorConfigurations {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
-    @Deprecated(
-        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
-    this.controller,
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -85,8 +80,6 @@ class QuillEditorConfigurations extends Equatable {
     this.contextMenuBuilder,
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
-    this.elementOptions = const QuillEditorElementOptions(),
-    this.builder,
     this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
     this.enableScribble = false,
@@ -100,9 +93,6 @@ class QuillEditorConfigurations extends Equatable {
   final QuillSharedConfigurations sharedConfigurations;
 
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
-
-  @Deprecated('controller will be removed in future versions.')
-  final QuillController? controller;
 
   /// The text placeholder in the quill editor
   final String? placeholder;
@@ -152,15 +142,6 @@ class QuillEditorConfigurations extends Equatable {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
-
-  /// Whether the text can be changed.
-  ///
-  /// When this is set to `true`, the text cannot be modified
-  /// by any shortcut or keyboard operation. The text is still selectable.
-  ///
-  /// Defaults to `false`. Must not be `null`.
-  // ignore: deprecated_member_use_from_same_package
-  bool get readOnly => controller?.readOnly != false;
 
   /// Override [readOnly] for checkbox.
   ///
@@ -434,11 +415,6 @@ class QuillEditorConfigurations extends Equatable {
   /// should we request keyboard focus??
   final bool requestKeyboardFocusOnCheckListChanged;
 
-  /// This is not complete yet and might changed
-  final QuillEditorElementOptions elementOptions;
-
-  final QuillEditorBuilder? builder;
-
   /// Currently this feature is experimental
   @experimental
   final TextMagnifierConfiguration? magnifierConfiguration;
@@ -457,17 +433,6 @@ class QuillEditorConfigurations extends Equatable {
 
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
-
-  @override
-  List<Object?> get props => [
-        placeholder,
-        // ignore: deprecated_member_use_from_same_package
-        controller?.readOnly,
-      ];
-
-  // We might use code generator like freezed but sometimes it can be limited
-  // instead whatever there is a change to the parameters in this class please
-  // regenerate this function using extension in vs code or plugin in intellij
 
   QuillEditorConfigurations copyWith({
     QuillSharedConfigurations? sharedConfigurations,
@@ -521,7 +486,6 @@ class QuillEditorConfigurations extends Equatable {
     LeadingBlockNodeBuilder? customLeadingBlockBuilder,
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
-    QuillEditorBuilder? builder,
     TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
@@ -533,8 +497,6 @@ class QuillEditorConfigurations extends Equatable {
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
-      // ignore: deprecated_member_use_from_same_package
-      controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
@@ -597,8 +559,6 @@ class QuillEditorConfigurations extends Equatable {
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
-      elementOptions: elementOptions ?? this.elementOptions,
-      builder: builder ?? this.builder,
       magnifierConfiguration:
           magnifierConfiguration ?? this.magnifierConfiguration,
       textInputAction: textInputAction ?? this.textInputAction,

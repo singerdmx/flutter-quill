@@ -9,10 +9,9 @@ import '../../../delta/delta_diff.dart';
 import '../../../document/attribute.dart';
 import '../../../document/nodes/block.dart';
 import '../../../document/nodes/line.dart';
-import '../../../toolbar/base_toolbar.dart';
+import '../../../editor_toolbar_shared/color.dart';
 import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
-import '../../provider.dart';
 import '../../raw_editor/builders/leading_block_builder.dart';
 import '../box.dart';
 import '../cursor.dart';
@@ -277,22 +276,14 @@ class EditableTextBlock extends StatelessWidget {
         if (isOrdered) {
           return defaultStyles.leading!.style.copyWith(
             fontSize: size,
-            color: context.quillEditorElementOptions?.orderedList
-                        .useTextColorForDot ==
-                    true
-                ? fontColor
-                : null,
+            color: fontColor,
           );
         }
         if (isUnordered) {
           return defaultStyles.leading!.style.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: size,
-            color: context.quillEditorElementOptions?.unorderedList
-                        .useTextColorForDot ==
-                    true
-                ? fontColor
-                : null,
+            color: fontColor,
           );
         }
         if (isCheck) {
@@ -348,8 +339,7 @@ class EditableTextBlock extends StatelessWidget {
     if (isCheck) {
       return checkboxLeading(leadingConfigurations);
     }
-    if (isCodeBlock &&
-        context.requireQuillEditorElementOptions.codeBlock.enableLineNumbers) {
+    if (isCodeBlock) {
       return codeBlockLineNumberLeading(leadingConfigurations);
     }
     return null;
