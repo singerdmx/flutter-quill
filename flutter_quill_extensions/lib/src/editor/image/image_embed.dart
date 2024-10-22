@@ -60,7 +60,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
             configurations: configurations,
             imageSource: imageSource,
             imageSize: imageSize,
-            isReadOnly: readOnly,
+            readOnly: readOnly,
             imageProvider: imageWidget.image,
           ),
         );

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/flutter_quill_internal.dart';
+import 'package:flutter_quill/internal.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart'
 
 import '../settings/cubit/settings_cubit.dart';
 import 'embeds/timestamp_embed.dart';
+import 'http_url.dart';
 
 class MyQuillToolbar extends StatelessWidget {
   const MyQuillToolbar({
@@ -75,7 +76,7 @@ class MyQuillToolbar extends StatelessWidget {
   }
 
   Future<void> onImageInsert(String image, QuillController controller) async {
-    if (kIsWeb || isHttpBasedUrl(image)) {
+    if (kIsWeb || isHttpUrl(image)) {
       controller.insertImageBlock(imageSource: image);
       return;
     }

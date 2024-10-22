@@ -2,12 +2,10 @@ import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/gestures.dart'
-    show GestureRecognizer, LongPressGestureRecognizer, TapGestureRecognizer;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart'
-    show BoxParentData, PipelineOwner, BoxHitTestResult, RenderObjectVisitor;
-import 'package:flutter/services.dart' show ClipboardData, Clipboard;
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher_string.dart' show launchUrlString;
 
 import '../../../../flutter_quill.dart';
@@ -474,23 +472,6 @@ class _TextLineState extends State<TextLine> {
           return _scriptSpan(textNode.value, attr == Attribute.superscript,
               style, defaultStyles);
         }
-      }
-    }
-
-    if (!isLink &&
-        !widget.readOnly &&
-        !widget.line.style.attributes.containsKey('code-block') &&
-        !widget.line.style.attributes.containsKey('placeholder') &&
-        !isPlaceholderLine) {
-      // ignore: deprecated_member_use_from_same_package
-      final service = SpellCheckerServiceProvider.instance;
-      final spellcheckedSpans = service.checkSpelling(textNode.value);
-      if (spellcheckedSpans != null && spellcheckedSpans.isNotEmpty) {
-        return TextSpan(
-          children: spellcheckedSpans,
-          style: style,
-          mouseCursor: null,
-        );
       }
     }
 

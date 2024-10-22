@@ -1,11 +1,9 @@
 import 'dart:async' show StreamController;
 
-import 'package:meta/meta.dart' show experimental;
-
 import '../../quill_delta.dart';
 import '../common/structs/offset_value.dart';
 import '../common/structs/segment_leaf_node.dart';
-import '../delta/delta_x.dart';
+
 import '../editor/config/editor_configurations.dart';
 import '../editor/config/search_configurations.dart';
 import '../editor/embed/embed_editor_builder.dart';
@@ -546,18 +544,6 @@ class Document {
     return delta.length == 1 &&
         delta.first.data == '\n' &&
         delta.first.key == 'insert';
-  }
-
-  /// Convert the HTML Raw string to [Document]
-  @experimental
-  @Deprecated(
-    '''
-    The experimental support for HTML conversion has been dropped and will be removed in future releases, 
-    consider using alternatives such as https://pub.dev/packages/flutter_quill_delta_from_html
-    ''',
-  )
-  static Document fromHtml(String html) {
-    return Document.fromDelta(DeltaX.fromHtml(html));
   }
 }
 

@@ -39,7 +39,7 @@ ImageProvider getImageProviderByImageSource(
     return MemoryImage(base64.decode(imageSource));
   }
 
-  if (isHttpBasedUrl(imageSource)) {
+  if (isHttpUrl(imageSource)) {
     return NetworkImage(imageSource);
   }
 

@@ -6,12 +6,13 @@ import 'package:desktop_drop/desktop_drop.dart' show DropTarget;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/flutter_quill_internal.dart';
+import 'package:flutter_quill/internal.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart' as path;
 
 import '../../extensions/scaffold_messenger.dart';
 import 'embeds/timestamp_embed.dart';
+import 'http_url.dart';
 
 class MyQuillEditor extends StatelessWidget {
   const MyQuillEditor({
@@ -111,7 +112,7 @@ class MyQuillEditor extends StatelessWidget {
 
                         // We will use it only if image from network
                         if (isAndroidApp || isIosApp || kIsWeb) {
-                          if (isHttpBasedUrl(imageUrl)) {
+                          if (isHttpUrl(imageUrl)) {
                             return CachedNetworkImageProvider(
                               imageUrl,
                             );
@@ -130,10 +131,12 @@ class MyQuillEditor extends StatelessWidget {
                         // Example: Check for YouTube Video URL and return your
                         // YouTube video widget here.
 
+                        // See https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.0
+                        // and https://github.com/singerdmx/flutter-quill/pull/2286
+
                         // Otherwise return null to fallback to the defualt logic
                         return null;
                       },
-                      ignoreYouTubeSupport: true,
                     ),
                   )),
             TimeStampEmbedBuilderWidget(),

@@ -11,7 +11,7 @@ bool isBase64(String str) {
   return base64RegExp.hasMatch(str);
 }
 
-bool isHttpBasedUrl(String url) {
+bool isHttpUrl(String url) {
   try {
     final uri = Uri.parse(url.trim());
     return uri.isScheme('HTTP') || uri.isScheme('HTTPS');
@@ -21,13 +21,9 @@ bool isHttpBasedUrl(String url) {
 }
 
 bool isImageBase64(String imageUrl) {
-  return !isHttpBasedUrl(imageUrl) && isBase64(imageUrl);
+  return !isHttpUrl(imageUrl) && isBase64(imageUrl);
 }
 
-@Deprecated(
-  'Will be removed in future releases. See https://github.com/singerdmx/flutter-quill/issues/2284'
-  ' and https://github.com/singerdmx/flutter-quill/issues/2276',
-)
 bool isYouTubeUrl(String videoUrl) {
   try {
     final uri = Uri.parse(videoUrl);

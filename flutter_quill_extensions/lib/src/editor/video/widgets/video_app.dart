@@ -6,7 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../flutter_quill_extensions.dart';
+import '../../../common/utils/utils.dart';
 
 /// Widget for playing back video
 /// Refer to https://github.com/flutter/plugins/tree/master/packages/video_player/video_player
@@ -38,7 +38,7 @@ class VideoAppState extends State<VideoApp> {
   void initState() {
     super.initState();
 
-    _controller = isHttpBasedUrl(widget.videoUrl)
+    _controller = isHttpUrl(widget.videoUrl)
         ? VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
         : VideoPlayerController.file(File(widget.videoUrl))
       ..initialize().then((_) {

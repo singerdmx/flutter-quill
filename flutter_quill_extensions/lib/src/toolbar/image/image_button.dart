@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/flutter_quill_internal.dart';
+import 'package:flutter_quill/internal.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../common/image_video_utils.dart';

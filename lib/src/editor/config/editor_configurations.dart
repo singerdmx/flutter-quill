@@ -55,9 +55,6 @@ class QuillEditorConfigurations {
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
-    @Deprecated(
-        'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases.')
-    this.enableMarkdownStyleConversion = true,
     this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
     this.unknownEmbedBuilder,
@@ -171,17 +168,6 @@ class QuillEditorConfigurations {
   /// by default it will by true
   final bool scrollable;
   final double scrollBottomInset;
-
-  /// Configuration to enable or disable automatic Markdown style conversions.
-  ///
-  /// This setting controls the behavior of input. Specifically, when enabled,
-  /// entering '1.' followed by a space or '-' followed by a space
-  /// will automatically convert the input into a Markdown list format.
-  ///
-  /// ## !This functionality now does not work because was replaced by a more advanced using [SpaceShortcutEvent] and [CharacterShortcutEvent] classes
-  @Deprecated(
-      'enableMarkdownStyleConversion is no longer used and will be removed in future releases. Use space/char shortcut events instead.')
-  final bool enableMarkdownStyleConversion;
 
   /// Enables always indenting when the TAB key is pressed.
   ///
@@ -506,10 +492,6 @@ class QuillEditorConfigurations {
           characterShortcutEvents ?? this.characterShortcutEvents,
       spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
       padding: padding ?? this.padding,
-      // ignore: deprecated_member_use_from_same_package
-      enableMarkdownStyleConversion:
-          // ignore: deprecated_member_use_from_same_package
-          enableMarkdownStyleConversion ?? this.enableMarkdownStyleConversion,
       enableAlwaysIndentOnTab:
           enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,
       autoFocus: autoFocus ?? this.autoFocus,

@@ -33,7 +33,6 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
     TextStyle textStyle,
   ) {
     var videoUrl = node.value.data;
-    // ignore: deprecated_member_use_from_same_package
     if (isYouTubeUrl(videoUrl)) {
       // ignore: deprecated_member_use_from_same_package
       final youtubeID = convertVideoUrlToId(videoUrl);

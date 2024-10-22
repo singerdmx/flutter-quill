@@ -6,7 +6,6 @@ import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/utils.dart';
 import 'models/video_configurations.dart';
 import 'widgets/video_app.dart';
-import 'widgets/youtube_video_app.dart';
 
 class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
   const QuillEditorVideoEmbedBuilder({
@@ -42,9 +41,8 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
       }
     }
 
-    // ignore: deprecated_member_use_from_same_package
-    if (isYouTubeUrl(videoUrl) && !configurations.ignoreYouTubeSupport) {
-      assert(() {
+    assert(() {
+      if (isYouTubeUrl(videoUrl)) {
         debugPrint(
           "It seems that you're loading a youtube video URL.\n"
           'Loading YouTube videos is no longer built-in feature as part of flutter_quill_extensions.\n'
@@ -52,19 +50,10 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
           'Consider using the experimental property `QuillEditorVideoEmbedConfigurations.customVideoBuilder` in your configuration.\n'
           'This message will only included in development mode.\n',
         );
-        return true;
-      }());
+      }
+      return true;
+    }());
 
-      /// Will be removed soon in future releases
-
-      // ignore: deprecated_member_use_from_same_package
-      return YoutubeVideoApp(
-        videoUrl: videoUrl,
-        readOnly: readOnly,
-        // ignore: deprecated_member_use_from_same_package
-        youtubeVideoSupportMode: configurations.youtubeVideoSupportMode,
-      );
-    }
     final ((elementSize), margin, alignment) = getElementAttributes(
       node,
       context,

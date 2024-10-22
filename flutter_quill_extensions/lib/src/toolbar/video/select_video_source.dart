@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill_internal.dart'
-    show LocalizationsExt, isDesktopApp;
+import 'package:flutter_quill/internal.dart';
 
 import 'models/video.dart';
 

@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart' show kIsWeb, Uint8List;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
-import 'package:flutter_quill/flutter_quill_internal.dart';
+import 'package:flutter_quill/internal.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/string.dart';
@@ -21,7 +21,7 @@ class ImageOptionsMenu extends StatelessWidget {
     required this.configurations,
     required this.imageSource,
     required this.imageSize,
-    required this.isReadOnly,
+    required this.readOnly,
     required this.imageProvider,
     super.key,
   });
@@ -30,7 +30,7 @@ class ImageOptionsMenu extends StatelessWidget {
   final QuillEditorImageEmbedConfigurations configurations;
   final String imageSource;
   final ElementSize imageSize;
-  final bool isReadOnly;
+  final bool readOnly;
   final ImageProvider imageProvider;
 
   @override
@@ -41,7 +41,7 @@ class ImageOptionsMenu extends StatelessWidget {
       child: SimpleDialog(
         title: Text(context.loc.image),
         children: [
-          if (!isReadOnly)
+          if (!readOnly)
             ListTile(
               title: Text(context.loc.resize),
               leading: const Icon(Icons.settings_outlined),
@@ -96,7 +96,7 @@ class ImageOptionsMenu extends StatelessWidget {
               }
             },
           ),
-          if (!isReadOnly)
+          if (!readOnly)
             ListTile(
               leading: Icon(
                 Icons.delete_forever_outlined,
