@@ -519,7 +519,7 @@ class QuillRawEditorState extends EditorState
           );
 
     return TextFieldTapRegion(
-      enabled: widget.configurations.isOnTapOutsideEnabled,
+      enabled: widget.configurations.onTapOutsideEnabled,
       onTapOutside: (event) {
         final onTapOutside = widget.configurations.onTapOutside;
         if (onTapOutside != null) {

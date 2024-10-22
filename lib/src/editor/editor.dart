@@ -163,7 +163,8 @@ class QuillEditor extends StatefulWidget {
     );
   }
 
-  /// The controller for the editor widget.
+  /// Controller object which establishes a link between a rich text document
+  /// and this editor.
   final QuillController controller;
 
   /// The configurations for the editor widget.
@@ -307,7 +308,7 @@ class QuillEditorState extends State<QuillEditor>
         customShortcuts: configurations.customShortcuts,
         customActions: configurations.customActions,
         customLinkPrefixes: configurations.customLinkPrefixes,
-        isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,
+        onTapOutsideEnabled: configurations.onTapOutsideEnabled,
         onTapOutside: configurations.onTapOutside,
         dialogTheme: configurations.dialogTheme,
         contentInsertionConfiguration:

@@ -37,15 +37,6 @@ class MyQuillEditor extends StatelessWidget {
         focusNode: focusNode,
         controller: controller,
         configurations: configurations.copyWith(
-          elementOptions: const QuillEditorElementOptions(
-            codeBlock: QuillEditorCodeBlockElementOptions(
-              enableLineNumbers: true,
-            ),
-            orderedList: QuillEditorOrderedListElementOptions(),
-            unorderedList: QuillEditorUnOrderedListElementOptions(
-              useTextColorForDot: true,
-            ),
-          ),
           customStyles: DefaultStyles(
             h1: DefaultTextBlockStyle(
               defaultTextStyle.style.copyWith(

@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart';
 
@@ -43,7 +45,7 @@ class QuillRawEditorConfigurations {
     this.customShortcuts,
     this.customActions,
     this.expands = false,
-    this.isOnTapOutsideEnabled = true,
+    this.onTapOutsideEnabled = true,
     this.enableAlwaysIndentOnTab = false,
     this.onTapOutside,
     this.keyboardAppearance,
@@ -279,18 +281,16 @@ class QuillRawEditorConfigurations {
   /// This setting is only honored on iOS devices.
   ///
   /// Defaults to Material/Cupertino App Brightness.
-  /// If you are using Custom widget app then we will use the system
-  /// theme mode as a default.
   ///
-  /// It will run using the following logic:
+  /// The keyboardd appearance will set using the following:
   ///
   /// ```dart
-  ///
   /// widget.configurations.keyboardAppearance ??
   /// CupertinoTheme.maybeBrightnessOf(context) ??
   /// Theme.of(context).brightness
-  ///
   /// ```
+  ///
+  /// See also: https://github.com/flutter/flutter/blob/06b9f7ba0bef2b5b44a643c73f4295a096de1202/packages/flutter/lib/src/services/text_input.dart#L621-L626
   final Brightness? keyboardAppearance;
 
   /// If true, then long-pressing this TextField will select text and show the
@@ -342,16 +342,21 @@ class QuillRawEditorConfigurations {
   /// See [https://api.flutter.dev/flutter/widgets/EditableText/contentInsertionConfiguration.html]
   final ContentInsertionConfiguration? contentInsertionConfiguration;
 
-  /// Whether the [onTapOutside] should be triggered or not
-  /// Defaults to `true`
-  /// it have default implementation, check [onTapOuside] for more
-  final bool isOnTapOutsideEnabled;
+  /// Whether the [onTapOutside] should be triggered or not.
+  ///
+  /// Defaults to `true`.
+  ///
+  /// See also: [onTapOutside].
+  final bool onTapOutsideEnabled;
 
-  /// This will run only when [isOnTapOutsideEnabled] is true
-  /// by default on desktop and web it will unfocus
-  /// on mobile it will only unFocus if the kind property of
-  /// event [PointerDownEvent] is [PointerDeviceKind.unknown]
-  /// you can override this to fit your needs
+  /// By default on non-mobile platforms, the editor will unfocus.
+  ///
+  /// On mobile platforms, it will only unfocus if the input kind in [PointerDownEvent.kind]
+  /// is [ui.PointerDeviceKind.unknown].
+  ///
+  /// By passing a non-null value, you will override the default behavior.
+  ///
+  /// See also: [onTapOutsideEnabled].
   final Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside;
 
   /// When there is a change the check list values

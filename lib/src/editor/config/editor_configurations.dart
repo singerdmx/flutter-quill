@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart'
@@ -5,26 +7,23 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
-import '../../controller/quill_controller.dart';
-
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
 import '../raw_editor/config/events/events.dart';
+import '../raw_editor/config/raw_editor_configurations.dart';
 import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
-import 'element_options.dart';
 import 'search_configurations.dart';
 
-export 'element_options.dart';
+// IMPORTANT For project authors: The QuillEditorConfigurations.copyWith()
+// should be manually updated each time we add or remove a property
 
-/// The configurations for the quill editor widget of flutter quill
+/// The configuration of the editor widget.
 @immutable
 class QuillEditorConfigurations {
-  /// Important note for the maintainers
-  /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -68,7 +67,7 @@ class QuillEditorConfigurations {
     this.customShortcuts,
     this.customActions,
     this.detectWordBoundary = true,
-    this.isOnTapOutsideEnabled = true,
+    this.onTapOutsideEnabled = true,
     this.onTapOutside,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
@@ -191,16 +190,21 @@ class QuillEditorConfigurations {
   /// Defaults to `false`. Cannot be `null`.
   final bool autoFocus;
 
-  /// Whether the [onTapOutside] should be triggered or not
-  /// Defaults to `true`
-  /// it have default implementation, check [onTapOutside] for more
-  final bool isOnTapOutsideEnabled;
+  /// Whether the [onTapOutside] should be triggered or not.
+  ///
+  /// Defaults to `true`.
+  ///
+  /// See also: [onTapOutside] and [QuillRawEditorConfigurations.onTapOutsideEnabled].
+  final bool onTapOutsideEnabled;
 
-  /// This will run only when [isOnTapOutsideEnabled] is true
-  /// by default on desktop and web it will un-focus
-  /// on mobile it will only unFocus if the kind property of
-  /// event [PointerDownEvent] is [PointerDeviceKind.unknown]
-  /// you can override this to fit your needs
+  /// By default on non-mobile platforms, the editor will unfocus.
+  ///
+  /// On mobile platforms, it will only unfocus if the input kind in [PointerDownEvent.kind]
+  /// is [ui.PointerDeviceKind.unknown].
+  ///
+  /// By passing a non-null value, you will override the default behavior.
+  ///
+  /// See also: [onTapOutsideEnabled] and [QuillRawEditorConfigurations.onTapOutside].
   final Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside;
 
   /// Whether to show cursor.
@@ -278,7 +282,18 @@ class QuillEditorConfigurations {
   ///
   /// This setting is only honored on iOS devices.
   ///
-  /// Defaults to [Brightness.light].
+  /// Defaults to Material/Cupertino App Brightness.
+  ///
+  /// The keyboardd appearance will set using the following:
+  ///
+  /// ```dart
+  /// widget.configurations.keyboardAppearance ??
+  /// CupertinoTheme.maybeBrightnessOf(context) ??
+  /// Theme.of(context).brightness
+  /// ```
+  ///
+  /// See also: https://github.com/flutter/flutter/blob/06b9f7ba0bef2b5b44a643c73f4295a096de1202/packages/flutter/lib/src/services/text_input.dart#L621-L626
+  /// and [QuillRawEditorConfigurations.keyboardAppearance]
   final Brightness keyboardAppearance;
 
   /// The [ScrollPhysics] to use when vertically scrolling the input.
@@ -419,22 +434,26 @@ class QuillEditorConfigurations {
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
 
+  // IMPORTANT For project authors: The copyWith()
+  // should be manually updated each time we add or remove a property
+
   QuillEditorConfigurations copyWith({
-    QuillController? controller,
+    LeadingBlockNodeBuilder? customLeadingBlockBuilder,
     String? placeholder,
-    bool? readOnly,
+    List<CharacterShortcutEvent>? characterShortcutEvents,
+    List<SpaceShortcutEvent>? spaceShortcutEvents,
     bool? checkBoxReadOnly,
     bool? disableClipboard,
     bool? scrollable,
-    bool? enableMarkdownStyleConversion,
-    bool? enableAlwaysIndentOnTab,
     double? scrollBottomInset,
+    bool? enableAlwaysIndentOnTab,
     EdgeInsetsGeometry? padding,
     bool? autoFocus,
-    bool? isOnTapOutsideEnabled,
+    bool? onTapOutsideEnabled,
     Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
     bool? showCursor,
     bool? paintCursorAboveText,
+    MouseCursor? readOnlyMouseCursor,
     bool? enableInteractiveSelection,
     bool? enableSelectionToolbar,
     double? minHeight,
@@ -448,14 +467,12 @@ class QuillEditorConfigurations {
     ValueChanged<String>? onLaunchUrl,
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-    QuillSearchConfigurations? searchConfigurations,
     CustomStyleBuilder? customStyleBuilder,
     CustomRecognizerBuilder? customRecognizerBuilder,
+    QuillSearchConfigurations? searchConfigurations,
     LinkActionPickerDelegate? linkActionPickerDelegate,
     bool? floatingCursorDisabled,
     TextSelectionControls? textSelectionControls,
-    List<CharacterShortcutEvent>? characterShortcutEvents,
-    List<SpaceShortcutEvent>? spaceShortcutEvents,
     Future<String?> Function(Uint8List imageBytes)? onImagePaste,
     Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
@@ -467,9 +484,7 @@ class QuillEditorConfigurations {
     ContentInsertionConfiguration? contentInsertionConfiguration,
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
-    LeadingBlockNodeBuilder? customLeadingBlockBuilder,
     bool? requestKeyboardFocusOnCheckListChanged,
-    QuillEditorElementOptions? elementOptions,
     TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
@@ -481,22 +496,22 @@ class QuillEditorConfigurations {
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,
+      characterShortcutEvents:
+          characterShortcutEvents ?? this.characterShortcutEvents,
+      spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
-      characterShortcutEvents:
-          characterShortcutEvents ?? this.characterShortcutEvents,
-      spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
-      padding: padding ?? this.padding,
       enableAlwaysIndentOnTab:
           enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,
+      padding: padding ?? this.padding,
       autoFocus: autoFocus ?? this.autoFocus,
-      isOnTapOutsideEnabled:
-          isOnTapOutsideEnabled ?? this.isOnTapOutsideEnabled,
+      onTapOutsideEnabled: onTapOutsideEnabled ?? this.onTapOutsideEnabled,
       onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
+      readOnlyMouseCursor: readOnlyMouseCursor ?? this.readOnlyMouseCursor,
       enableInteractiveSelection:
           enableInteractiveSelection ?? this.enableInteractiveSelection,
       enableSelectionToolbar:
@@ -512,10 +527,10 @@ class QuillEditorConfigurations {
       onLaunchUrl: onLaunchUrl ?? this.onLaunchUrl,
       embedBuilders: embedBuilders ?? this.embedBuilders,
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
-      searchConfigurations: searchConfigurations ?? this.searchConfigurations,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
       customRecognizerBuilder:
           customRecognizerBuilder ?? this.customRecognizerBuilder,
+      searchConfigurations: searchConfigurations ?? this.searchConfigurations,
       linkActionPickerDelegate:
           linkActionPickerDelegate ?? this.linkActionPickerDelegate,
       floatingCursorDisabled:
