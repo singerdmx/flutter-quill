@@ -380,14 +380,20 @@ class QuillEditorState extends State<QuillEditor>
   @override
   bool get selectionEnabled => configurations.enableInteractiveSelection;
 
-  void _requestKeyboard() {
-    final editorCurrentState = _editorKey.currentState;
-    if (editorCurrentState == null) {
-      throw ArgumentError.notNull(
-        'To request keyboard the editor key must not be null',
-      );
+  /// Throws [StateError] if [_editorKey] is not connected to [QuillRawEditor] correctly.
+  ///
+  /// See also: [Flutter currentState docs](https://github.com/flutter/flutter/blob/b8211b3d941f2dcaa2db22e4572b74ede620cced/packages/flutter/lib/src/widgets/framework.dart#L179-L181)
+  EditorState get _requireEditorCurrentState {
+    final currentState = _editorKey.currentState;
+    if (currentState == null) {
+      throw StateError(
+          'The $EditorState is null, ensure the $_editorKey is associated correctly with $QuillRawEditor.');
     }
-    editorCurrentState.requestKeyboard();
+    return currentState;
+  }
+
+  void _requestKeyboard() {
+    _requireEditorCurrentState.requestKeyboard();
   }
 }
 
