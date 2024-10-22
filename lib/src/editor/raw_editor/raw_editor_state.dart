@@ -1018,10 +1018,6 @@ class QuillRawEditorState extends EditorState
   /// state being in sync with the controller know they may be
   /// operating on stale data.
   void _markNeedsBuild() {
-    if (_dirty) {
-      // No need to rebuild if it is already dirty
-      return;
-    }
     setState(() {
       _dirty = true;
     });
