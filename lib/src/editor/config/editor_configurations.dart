@@ -29,8 +29,8 @@ class QuillEditorConfigurations {
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
-    this.characterShortcutEvents = const [],
-    this.spaceShortcutEvents = const [],
+    @experimental this.characterShortcutEvents = const [],
+    @experimental this.spaceShortcutEvents = const [],
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
@@ -116,6 +116,7 @@ class QuillEditorConfigurations {
   ///   handler: (controller) {...your implementation}
   ///);
   ///```
+  @experimental
   final List<CharacterShortcutEvent> characterShortcutEvents;
 
   /// Contains all the events that will be handled when
@@ -138,6 +139,7 @@ class QuillEditorConfigurations {
   ///   handler: (QuillText textNode, controller) {...your implementation}
   ///);
   ///```
+  @experimental
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
   /// Override [readOnly] for checkbox.

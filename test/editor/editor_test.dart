@@ -134,11 +134,13 @@ void main() {
     });
 
     testWidgets(
-      'make sure QuillEditorOpenSearchAction does not throw an exception',
+      'QuillEditorOpenSearchAction should not throw an exception when the required localization delegates are provided',
       (tester) async {
         final editorFocusNode = FocusNode();
         await tester.pumpWidget(
           MaterialApp(
+            localizationsDelegates:
+                FlutterQuillLocalizations.localizationsDelegates,
             home: QuillEditor.basic(
               controller: controller,
               configurations: const QuillEditorConfigurations(),

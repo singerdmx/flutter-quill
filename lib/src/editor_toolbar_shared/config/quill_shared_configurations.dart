@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show Color, Colors, Locale;
 
 import '../../editor/config/editor_configurations.dart'
@@ -9,7 +8,7 @@ import '../../toolbar/theme/quill_dialog_theme.dart';
 
 /// The shared configurations between [QuillEditorConfigurations] and
 /// [QuillSimpleToolbarConfigurations] so we don't duplicate things
-class QuillSharedConfigurations extends Equatable {
+class QuillSharedConfigurations {
   const QuillSharedConfigurations({
     this.dialogBarrierColor = Colors.black54,
     this.dialogTheme,
@@ -36,11 +35,4 @@ class QuillSharedConfigurations extends Equatable {
   /// Store custom configurations in here and use it in the widget tree.
   /// Useful for `flutter_quill_extensions` to store additional configurations.
   final Map<String, Object?> extraConfigurations;
-
-  @override
-  List<Object?> get props => [
-        dialogBarrierColor,
-        dialogTheme,
-        locale,
-      ];
 }

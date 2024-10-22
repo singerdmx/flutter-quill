@@ -158,7 +158,7 @@ Create the file `your_project/android/app/src/main/res/xml/file_paths.xml` with 
 
 > [!NOTE]
 > Starting with Flutter Quill `10.8.4`, [super_clipboard](https://pub.dev/packages/super_clipboard) is no longer required in `flutter_quill` or `flutter_quill_extensions`.
-> The new default is an internal plugin, [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge).
+> The new default is an internal plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge).
 > If you want to continue using `super_clipboard`, you can use the [quill_super_clipboard](https://pub.dev/packages/quill_super_clipboard) package (support may be discontinued).
 
 ## 🚀 Usage

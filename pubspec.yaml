@@ -47,7 +47,6 @@ dependencies:
   dart_quill_delta: ^10.0.0
   collection: ^1.17.0
   quiver: ^3.2.1
-  equatable: ^2.0.5
   meta: ^1.10.0
   html: ^0.15.4
 

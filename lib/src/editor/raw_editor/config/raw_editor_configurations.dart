@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ import '../builders/leading_block_builder.dart';
 import 'events/events.dart';
 
 @immutable
-class QuillRawEditorConfigurations extends Equatable {
+class QuillRawEditorConfigurations {
   const QuillRawEditorConfigurations({
     required this.focusNode,
     required this.scrollController,
@@ -374,10 +373,4 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
-
-  @override
-  List<Object?> get props => [
-        readOnly,
-        placeholder,
-      ];
 }

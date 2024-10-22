@@ -17,6 +17,8 @@ void main() {
 
         await tester.pumpWidget(
           MaterialApp(
+            localizationsDelegates:
+                FlutterQuillLocalizations.localizationsDelegates,
             home: Scaffold(
               body: QuillSimpleToolbar(
                 controller: controller,
