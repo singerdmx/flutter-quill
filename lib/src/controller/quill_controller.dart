@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart' show experimental;
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
@@ -69,21 +68,6 @@ class QuillController extends ChangeNotifier {
     // Prevent the selection from
     _selection = const TextSelection(baseOffset: 0, extentOffset: 0);
 
-    notifyListeners();
-  }
-
-  @experimental
-  void setContents(
-    Delta delta, {
-    ChangeSource changeSource = ChangeSource.local,
-  }) {
-    final newDocument = Document.fromDelta(delta);
-
-    final change = DocChange(_document.toDelta(), delta, changeSource);
-    newDocument.documentChangeObserver.add(change);
-    newDocument.history.handleDocChange(change);
-
-    _document = newDocument;
     notifyListeners();
   }
 
