@@ -343,7 +343,6 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   /// This pattern is used to match a links within a text segment.
   ///
   /// It works for the following testing URLs:
-  // www.google.com
   // http://google.com
   // https://www.google.com
   // http://beginner.example.edu/#act
@@ -364,9 +363,9 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   // URL generator tool (https://www.randomlists.com/urls) is used.
 
   static const _oneLineLinkPattern =
-      r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/.*)?$';
+      r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#].*)?$';
   static const _detectLinkPattern =
-      r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?(\/[^\s]*)?';
+      r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#][^\s]*)?';
 
   /// It requires a valid link in one link
   RegExp get oneLineLinkRegExp => RegExp(

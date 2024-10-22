@@ -286,4 +286,45 @@ void main() {
           reason: 'Insertion within link label updates label');
     });
   });
+
+  group('AutoFormatMultipleLinksRule', () {
+    const rule = AutoFormatMultipleLinksRule();
+
+    final validLinks = [
+      'http://google.com',
+      'https://www.google.com',
+      'http://beginner.example.edu/#act',
+      'http://beginner.example.edu#act',
+      'https://birth.example.net/beds/ants.php#bait',
+      'http://example.com/babies',
+      'https://www.example.com/',
+      'https://attack.example.edu/?acoustics=blade&bed=bed',
+      'https://attack.example.edu?acoustics=blade&bed=bed',
+      'http://basketball.example.com/',
+      'https://birthday.example.com/birthday',
+      'http://www.example.com/',
+      'https://example.com/addition/action',
+      'http://example.com/',
+      'https://bite.example.net/#adjustment',
+      'https://bite.example.net#adjustment',
+      'http://www.example.net/badge.php?bedroom=anger',
+      'https://brass.example.com/?anger=branch&actor=amusement#adjustment',
+      'https://brass.example.com?anger=branch&actor=amusement#adjustment',
+      'http://www.example.com/?action=birds&brass=apparatus',
+      'http://www.example.com?action=birds&brass=apparatus',
+      'https://example.net/',
+    ];
+
+    test('Insert link in text', () {
+      final delta = Delta()..insert('\n');
+      final document = Document.fromDelta(delta);
+
+      for (final link in validLinks) {
+        expect(
+          rule.apply(document, 0, data: link, len: 0),
+          Delta()..insert(link, {'link': link}),
+        );
+      }
+    });
+  });
 }
