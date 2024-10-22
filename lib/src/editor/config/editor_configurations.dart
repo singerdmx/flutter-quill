@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
 import '../../controller/quill_controller.dart';
-import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
+
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
@@ -26,7 +26,6 @@ class QuillEditorConfigurations {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
-    this.sharedConfigurations = const QuillSharedConfigurations(),
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     @experimental this.characterShortcutEvents = const [],
@@ -86,8 +85,6 @@ class QuillEditorConfigurations {
     this.onPerformAction,
     this.customLeadingBlockBuilder,
   });
-
-  final QuillSharedConfigurations sharedConfigurations;
 
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
 
@@ -423,7 +420,6 @@ class QuillEditorConfigurations {
   final void Function(TextInputAction action)? onPerformAction;
 
   QuillEditorConfigurations copyWith({
-    QuillSharedConfigurations? sharedConfigurations,
     QuillController? controller,
     String? placeholder,
     bool? readOnly,
@@ -482,7 +478,6 @@ class QuillEditorConfigurations {
     void Function(TextInputAction action)? onPerformAction,
   }) {
     return QuillEditorConfigurations(
-      sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,

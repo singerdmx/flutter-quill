@@ -6,10 +6,10 @@ import '../buttons/hearder_style/select_header_style_dropdown_button.dart';
 import '../buttons/link_style2_button.dart';
 import '../buttons/link_style_button.dart';
 import '../embed/embed_button_builder.dart';
+import '../structs/link_dialog_action.dart';
 import '../theme/quill_dialog_theme.dart';
 import '../theme/quill_icon_theme.dart';
 import 'simple_toolbar_button_options.dart';
-import 'toolbar_shared_configurations.dart';
 
 export '../buttons/search/search_dialog.dart';
 export 'base_button_configurations.dart';
@@ -66,15 +66,14 @@ enum HeaderStyleType {
 
 /// The configurations for the toolbar widget of flutter quill
 @immutable
-class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
+class QuillSimpleToolbarConfigurations {
   const QuillSimpleToolbarConfigurations({
-    super.sharedConfigurations,
-    super.toolbarSectionSpacing = kToolbarSectionSpacing,
-    super.toolbarIconAlignment = WrapAlignment.center,
-    super.toolbarIconCrossAlignment = WrapCrossAlignment.center,
-    super.buttonOptions = const QuillSimpleToolbarButtonOptions(),
+    this.toolbarSectionSpacing = kToolbarSectionSpacing,
+    this.toolbarIconAlignment = WrapAlignment.center,
+    this.toolbarIconCrossAlignment = WrapCrossAlignment.center,
+    this.buttonOptions = const QuillSimpleToolbarButtonOptions(),
     this.customButtons = const [],
-    super.multiRowsDisplay = true,
+    this.multiRowsDisplay = true,
     this.showDividers = true,
     this.showFontFamily = true,
     this.showFontSize = true,
@@ -114,28 +113,28 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
     this.headerStyleType = HeaderStyleType.original,
 
     /// The decoration to use for the toolbar.
-    super.decoration,
+    this.decoration,
 
     /// Toolbar items to display for controls of embed blocks
     this.embedButtons,
-    super.linkDialogAction,
+    this.linkDialogAction,
 
     ///The theme to use for the icons in the toolbar, uses type [QuillIconTheme]
     // this.iconTheme,
     this.dialogTheme,
     this.iconTheme,
-    super.axis = Axis.horizontal,
-    super.color,
-    super.sectionDividerColor,
-    super.sectionDividerSpace,
+    this.axis = Axis.horizontal,
+    this.color,
+    this.sectionDividerColor,
+    this.sectionDividerSpace,
 
     /// The change only applies if [multiRowsDisplay] is `false`
-    super.toolbarSize,
+    double? toolbarSize,
+    this.toolbarRunSpacing = 4,
   }) : _toolbarSize = toolbarSize;
 
   final double? _toolbarSize;
 
-  @override
   double get toolbarSize {
     final alternativeToolbarSize = _toolbarSize;
     if (alternativeToolbarSize != null) {
@@ -201,4 +200,41 @@ class QuillSimpleToolbarConfigurations extends QuillSharedToolbarProperties {
 
   /// Defines which dialog is used for applying header attribute.
   final HeaderStyleType headerStyleType;
+
+  final Axis axis;
+
+  final WrapAlignment toolbarIconAlignment;
+  final WrapCrossAlignment toolbarIconCrossAlignment;
+  final double toolbarRunSpacing;
+
+  /// Only works if [multiRowsDisplay] is `true`
+  final double toolbarSectionSpacing;
+
+  // Overrides the action in the _LinkDialog widget
+  final LinkDialogAction? linkDialogAction;
+
+  /// The color of the toolbar.
+  ///
+  /// Defaults to [ThemeData.canvasColor] of the current [Theme] if no color
+  /// is given.
+  final Color? color;
+
+  /// The color to use when painting the toolbar section divider.
+  ///
+  /// If this is null, then the [DividerThemeData.color] is used. If that is
+  /// also null, then [ThemeData.dividerColor] is used.
+  final Color? sectionDividerColor;
+
+  /// The space occupied by toolbar section divider.
+  final double? sectionDividerSpace;
+
+  /// If you want the toolbar to not be a multiple rows pass false
+  final bool multiRowsDisplay;
+
+  /// The decoration to use for the toolbar.
+  final Decoration? decoration;
+
+  /// If you want change spesefic buttons or all of them
+  /// then you came to the right place
+  final QuillSimpleToolbarButtonOptions buttonOptions;
 }

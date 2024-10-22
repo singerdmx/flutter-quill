@@ -107,7 +107,6 @@ class _QuillScreenState extends State<QuillScreen> {
                     searchConfigurations: const QuillSearchConfigurations(
                       searchEmbedMode: SearchEmbedMode.plainText,
                     ),
-                    sharedConfigurations: _sharedConfigurations,
                   ),
                   scrollController: _editorScrollController,
                   focusNode: _editorFocusNode,
@@ -123,9 +122,5 @@ class _QuillScreenState extends State<QuillScreen> {
             setState(() => _controller.readOnly = !_controller.readOnly),
       ),
     );
-  }
-
-  QuillSharedConfigurations get _sharedConfigurations {
-    return const QuillSharedConfigurations();
   }
 }
