@@ -14,7 +14,6 @@ import '../document/nodes/embeddable.dart';
 import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
-import '../editor/config/editor_configurations.dart';
 import 'quill_controller_configurations.dart';
 import 'quill_controller_rich_paste.dart';
 
@@ -47,15 +46,6 @@ class QuillController extends ChangeNotifier {
 
   final QuillControllerConfigurations configurations;
 
-  /// Editor configurations
-  ///
-  /// Caches configuration set in QuillEditor ctor.
-  QuillEditorConfigurations? _editorConfigurations;
-  QuillEditorConfigurations get editorConfigurations =>
-      _editorConfigurations ?? const QuillEditorConfigurations();
-  set editorConfigurations(QuillEditorConfigurations? value) =>
-      _editorConfigurations = document.editorConfigurations = value;
-
   /// Document managed by this controller.
   Document _document;
 
@@ -63,7 +53,6 @@ class QuillController extends ChangeNotifier {
 
   set document(Document doc) {
     _document = doc;
-    _document.editorConfigurations = editorConfigurations;
 
     // Prevent the selection from
     _selection = const TextSelection(baseOffset: 0, extentOffset: 0);

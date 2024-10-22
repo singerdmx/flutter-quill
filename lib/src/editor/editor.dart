@@ -138,36 +138,24 @@ class QuillEditor extends StatefulWidget {
   /// ),
   /// ```
   ///
-  factory QuillEditor({
-    required FocusNode focusNode,
-    required ScrollController scrollController,
-    required QuillController controller,
-    Key? key,
-    QuillEditorConfigurations? configurations,
-  }) {
-    controller.editorConfigurations = configurations;
-    return QuillEditor._(
-      key: key,
-      focusNode: focusNode,
-      scrollController: scrollController,
-      controller: controller,
-    );
-  }
-
-  const QuillEditor._({
+  const QuillEditor({
     required this.focusNode,
     required this.scrollController,
     required this.controller,
+    this.configurations = const QuillEditorConfigurations(),
     super.key,
   });
 
   factory QuillEditor.basic({
     required QuillController controller,
-    QuillEditorConfigurations? configurations,
+    Key? key,
+    QuillEditorConfigurations configurations =
+        const QuillEditorConfigurations(),
     FocusNode? focusNode,
     ScrollController? scrollController,
   }) {
     return QuillEditor(
+      key: key,
       scrollController: scrollController ?? ScrollController(),
       focusNode: focusNode ?? FocusNode(),
       controller: controller,
@@ -175,12 +163,11 @@ class QuillEditor extends StatefulWidget {
     );
   }
 
-  /// The controller for the quill editor widget of flutter quill
+  /// The controller for the editor widget.
   final QuillController controller;
 
-  /// The configurations for the quill editor widget of flutter quill
-  QuillEditorConfigurations get configurations =>
-      controller.editorConfigurations;
+  /// The configurations for the editor widget.
+  final QuillEditorConfigurations configurations;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
