@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
+import '../editor/raw_editor/raw_editor_state.dart';
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
@@ -91,8 +92,9 @@ class QuillController extends ChangeNotifier {
 
   bool ignoreFocusOnTextChange = false;
 
-  /// Skip requestKeyboard being called
-  /// in [QuillRawEditorState._didChangeTextEditingValue]
+  /// Skip the keyboard request in [QuillRawEditorState.requestKeyboard].
+  ///
+  /// See also: [QuillRawEditorState._didChangeTextEditingValue]
   bool skipRequestKeyboard = false;
 
   /// True when this [QuillController] instance has been disposed.

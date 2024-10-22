@@ -1019,7 +1019,7 @@ class QuillRawEditorState extends EditorState
   /// operating on stale data.
   void _markNeedsBuild() {
     if (_dirty) {
-      // No need to rebuilt if it already dirty
+      // No need to rebuild if it is already dirty
       return;
     }
     setState(() {
@@ -1217,7 +1217,6 @@ class QuillRawEditorState extends EditorState
   @override
   void requestKeyboard() {
     if (controller.skipRequestKeyboard) {
-      // and that just by one simple change
       controller.skipRequestKeyboard = false;
       return;
     }
