@@ -83,27 +83,9 @@ You can join our [Slack Group] for discussion.
 
 ## 📦 Installation
 
-```yaml
-dependencies:
-  flutter_quill: ^<latest-version-here>
+```shell
+flutter pub add flutter_quill
 ```
-
-<p align="center">OR</p>
-
-```yaml
-dependencies:
-  flutter_quill:
-    git:
-      url: https://github.com/singerdmx/flutter-quill.git
-      ref: v<latest-version-here>
-```
-
-> [!TIP]
-> Using the latest version and reporting any issues you encounter on GitHub will greatly contribute to the improvement
-> of the library.
-> Your input and insights are valuable in shaping a stable and reliable version for all the developers. Thank you for
-> being part of the open-source community!
->
 
 ## 🛠 Platform Setup
 
@@ -232,16 +214,8 @@ We recommend checking the `CHANGELOG.md` or release notes for each update to sta
 
 ## 🔤 Input / Output
 
-This library uses [Quill Delta](https://quilljs.com/docs/delta/)
-to represent the document content.
-The Delta format is a compact and versatile way to describe document changes.
-It consists of a series of operations, each representing an insertion, deletion,
-or formatting change within the document.
-
-> [!NOTE]
-> Don’t be confused by its name Delta—Deltas represents both documents and changes to documents.
-> If you think of Deltas as the instructions for going from one document to another,
-> the way Deltas represents a document is by expressing the instructions starting from an empty document.
+This library utilizes [Quill Delta](https://quilljs.com/docs/delta/) to represent document content.
+The Delta format is a compact and versatile method for describing document changes through a series of operations that denote insertions, deletions, or formatting changes.
 
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
@@ -264,10 +238,6 @@ _controller.document = Document.fromJson(json);
 
 - [Quill Delta](https://quilljs.com/docs/delta/)
 - [Quill Delta Formats](https://quilljs.com/docs/formats)
-- [Why Quill](https://quilljs.com/guides/why-quill/)
-- [Quill JS Configurations](https://quilljs.com/docs/configuration/)
-- [Quill JS Interactive Playground](https://quilljs.com/playground/)
-- [Quill JS GitHub repo](https://github.com/quilljs/quill)
 
 ## ⚙️ Configurations
 
@@ -312,41 +282,15 @@ of [FlutterQuill Extensions]
 ## 🔄 Conversion to HTML
 
 > [!CAUTION]
-> **Converting HTML or Markdown to Delta is highly experimental and shouldn't be used for production applications**,
-> while the current implementation we have internally is far from perfect, it could improved however **it will likely
-not
-work as expected**, due to differences between **HTML** and **Delta**, see
-> this [Quill JS Comment #311458570](https://github.com/slab/quill/issues/1551#issuecomment-311458570) for more
-> info.<br>
-> We only use it **internally** as it is more suitable for our specific use case, copying content from external websites
-> and pasting it into the editor
-> previously breaks the styles, while the current implementation is not designed for converting a **full Document** from
-> other formats to **Delta**, it provides a better user experience and doesn't have many downsides.
+> Converting **HTML** to **Delta** is generally not recommended due to structural and functional differences between HTML and Delta ([see this comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570)).
+> We highly recommend storing the **Document** as **Delta JSON**
+> in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML, CSV, etc...)
 >
-> The support for converting HTML to **Quill Delta** is quite experimental and used internally when
-> pasting HTML content from the clipboard to the Quill Document.
+> The support for converting HTML (from external websites and apps) to **Quill Delta** is used internally when
+> pasting HTML content from the clipboard to the document.
 >
 > Converting **Delta** from/to **HTML** is not a standard feature in [Quill JS](https://github.com/slab/quill)
 > or [FlutterQuill].
-
-> [!IMPORTANT]
-> Converting **HTML** to **Delta** usually won't work as expected, we highly recommend storing the **Document** as *
-*Delta JSON**
-> in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML,
-> CSV,
-> etc...)
->
-> Converting between **HTML** and **Delta** JSON is generally not recommended due to their structural and functional
-> differences.
->
-> Sometimes you might want to convert between **HTML** and **Delta** for specific use cases:
->
-> 1. **Migration**: If you're using an existing system that stores the data in HTML and want to convert the document
-     data to **Delta**.
-> 2. **Sharing**: For example, if you want to share the Document **Delta** somewhere or send it as an email.
-> 3. **Save as**: If your app has a feature that allows converting Documents to other formats.
-> 4. **Rich text pasting**: If you copy some content from websites or apps, and want to paste it into the app.
-> 5. **SEO**: In case you want to use HTML for SEO support.
 
 The following packages can be used:
 
@@ -355,6 +299,16 @@ The following packages can be used:
 2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To convert **HTML** to **Delta**.
 3. [`flutter_quill_to_pdf`](https://pub.dev/packages/flutter_quill_to_pdf): To convert **Delta** To **PDF**.
 4. [`markdown_quill`](https://pub.dev/packages/markdown_quill): To convert **Markdown** To **Delta** and vice versa.
+
+> [!TIP]
+> You might want to convert between **HTML** and **Delta** for some use cases:
+>
+> 1. **Migration**: If you're using an existing system that stores the data in HTML and want to convert the document
+     data to **Delta**.
+> 2. **Sharing**: For example, if you want to share the Document **Delta** somewhere or send it as an email.
+> 3. **Save as**: If your app has a feature that allows converting Documents to other formats.
+> 4. **Rich text pasting**: If you copy some content from websites or apps, and want to paste it into the app.
+> 5. **SEO**: In case you want to use HTML for SEO support.
 
 ## 📝 Spelling checker
 
@@ -373,7 +327,7 @@ The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge)
 
 ## ✂️ Shortcut events
 
-We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfig` to add more functionality to our editor. 
+We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfig` to add more functionality to the editor. 
 
 > [!NOTE]
 >
@@ -383,10 +337,10 @@ To see an example of this, you can check [customizing_shortcuts](./doc/customizi
 
 ## 🌐 Translation
 
-The package offers translations for the quill toolbar and editor, it will follow the system locale unless you set your
+The package offers translations for the toolbar and editor widgets, it will follow the system locale unless you set your
 own locale.
 
-Open this [page](./doc/translation.md) for more info
+See the [translation](./doc/translation.md) page for more info
 
 ## 🧪 Testing
 
