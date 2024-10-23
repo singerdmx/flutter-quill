@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../flutter_quill.dart';
 import '../controller/quill_controller.dart';
 import '../document/attribute.dart';
 import 'buttons/alignment/select_alignment_buttons.dart';
@@ -148,10 +149,13 @@ class QuillSimpleToolbar extends StatelessWidget
           if (embedButtons != null)
             for (final builder in embedButtons)
               builder(
-                controller,
-                kDefaultIconSize,
-                config.iconTheme,
-                config.dialogTheme,
+                context,
+                EmbedButtonContext(
+                  controller: controller,
+                  toolbarIconSize: kDefaultIconSize,
+                  iconTheme: config.iconTheme,
+                  dialogTheme: config.dialogTheme,
+                ),
               ),
         ],
         [

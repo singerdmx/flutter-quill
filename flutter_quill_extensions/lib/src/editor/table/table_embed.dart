@@ -32,17 +32,13 @@ class QuillEditorTableEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    final tableData = node.value.data;
+    final tableData = embedContext.node.value.data;
     // ignore: deprecated_member_use_from_same_package
     return TableWidget(
       tableData: tableData,
-      controller: controller,
+      controller: embedContext.controller,
     );
   }
 }

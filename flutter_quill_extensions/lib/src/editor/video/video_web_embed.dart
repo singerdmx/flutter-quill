@@ -26,13 +26,9 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    var videoUrl = node.value.data;
+    var videoUrl = embedContext.node.value.data;
     if (isYouTubeUrl(videoUrl)) {
       // ignore: deprecated_member_use_from_same_package
       final youtubeID = convertVideoUrlToId(videoUrl);
@@ -41,7 +37,8 @@ class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
       }
     }
 
-    final (height, width, margin, alignment) = getWebElementAttributes(node);
+    final (height, width, margin, alignment) =
+        getWebElementAttributes(embedContext.node);
 
     ui.PlatformViewRegistry().registerViewFactory(
       videoUrl,

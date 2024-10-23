@@ -25,13 +25,9 @@ class TestTimeStampEmbedBuilderWidget extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    return Text(node.value.data);
+    return Text(embedContext.node.value.data);
   }
 }
 
@@ -49,13 +45,9 @@ class TestUnknownEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    return Text(node.value.data);
+    return Text(embedContext.node.value.data);
   }
 }
 

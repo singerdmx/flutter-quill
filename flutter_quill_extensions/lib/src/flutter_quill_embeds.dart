@@ -127,21 +127,18 @@ class FlutterQuillEmbeds {
   }) =>
       [
         if (imageButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarImageButton(
-                controller: controller,
+          (context, embedContext) => QuillToolbarImageButton(
+                controller: embedContext.controller,
                 options: imageButtonOptions,
               ),
         if (videoButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarVideoButton(
-                controller: controller,
+          (context, embedContext) => QuillToolbarVideoButton(
+                controller: embedContext.controller,
                 options: videoButtonOptions,
               ),
         if (cameraButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarCameraButton(
-                controller: controller,
+          (context, embedContext) => QuillToolbarCameraButton(
+                controller: embedContext.controller,
                 options: cameraButtonOptions,
               ),
       ];

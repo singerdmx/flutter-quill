@@ -23,19 +23,15 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
     assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
 
-    final videoUrl = node.value.data;
+    final videoUrl = embedContext.node.value.data;
 
     final customVideoBuilder = config.customVideoBuilder;
     if (customVideoBuilder != null) {
-      final videoWidget = customVideoBuilder(videoUrl, readOnly);
+      final videoWidget = customVideoBuilder(videoUrl, embedContext.readOnly);
       if (videoWidget != null) {
         return videoWidget;
       }
@@ -55,7 +51,7 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
     }());
 
     final ((elementSize), margin, alignment) = getElementAttributes(
-      node,
+      embedContext.node,
       context,
     );
 
@@ -68,7 +64,7 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
       alignment: alignment,
       child: VideoApp(
         videoUrl: videoUrl,
-        readOnly: readOnly,
+        readOnly: embedContext.readOnly,
         onVideoInit: config.onVideoInit,
       ),
     );

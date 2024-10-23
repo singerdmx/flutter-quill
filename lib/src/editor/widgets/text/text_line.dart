@@ -155,11 +155,13 @@ class _TextLineState extends State<TextLine> {
         return EmbedProxy(
           embedBuilder.build(
             context,
-            widget.controller,
-            embed,
-            widget.readOnly,
-            false,
-            lineStyle,
+            EmbedContext(
+              controller: widget.controller,
+              node: embed,
+              readOnly: widget.readOnly,
+              inline: false,
+              textStyle: lineStyle,
+            ),
           ),
         );
       }
@@ -222,11 +224,13 @@ class _TextLineState extends State<TextLine> {
         final embedWidget = EmbedProxy(
           embedBuilder.build(
             context,
-            widget.controller,
-            child,
-            widget.readOnly,
-            true,
-            lineStyle,
+            EmbedContext(
+              controller: widget.controller,
+              node: child,
+              readOnly: widget.readOnly,
+              inline: true,
+              textStyle: lineStyle,
+            ),
           ),
         );
         final embed = embedBuilder.buildWidgetSpan(embedWidget);

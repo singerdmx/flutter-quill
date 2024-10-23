@@ -26,17 +26,14 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
     assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
 
-    final (height, width, margin, alignment) = getWebElementAttributes(node);
+    final (height, width, margin, alignment) =
+        getWebElementAttributes(embedContext.node);
 
-    var imageSource = node.value.data.toString();
+    var imageSource = embedContext.node.value.data.toString();
 
     // This logic make sure if the image is imageBase64 then
     // it make sure if the pattern is like

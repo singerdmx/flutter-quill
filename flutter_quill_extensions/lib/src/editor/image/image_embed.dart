@@ -21,15 +21,11 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    final imageSource = standardizeImageUrl(node.value.data);
+    final imageSource = standardizeImageUrl(embedContext.node.value.data);
     final ((imageSize), margin, alignment) = getElementAttributes(
-      node,
+      embedContext.node,
       context,
     );
 
@@ -56,11 +52,11 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
         showDialog(
           context: context,
           builder: (_) => ImageOptionsMenu(
-            controller: controller,
+            controller: embedContext.controller,
             config: config,
             imageSource: imageSource,
             imageSize: imageSize,
-            readOnly: readOnly,
+            readOnly: embedContext.readOnly,
             imageProvider: imageWidget.image,
           ),
         );

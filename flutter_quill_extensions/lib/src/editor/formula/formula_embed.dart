@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_quill/flutter_quill.dart'
-    show BlockEmbed, Embed, EmbedBuilder, QuillController;
+import 'package:flutter_quill/flutter_quill.dart';
+
+// TODO: Remove the formula embed
 
 class QuillEditorFormulaEmbedBuilder extends EmbedBuilder {
   const QuillEditorFormulaEmbedBuilder();
@@ -13,11 +14,7 @@ class QuillEditorFormulaEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
     throw UnsupportedError(
       'The formula EmbedBuilder is not supported for now.',

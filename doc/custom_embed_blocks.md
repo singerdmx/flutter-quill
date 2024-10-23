@@ -41,13 +41,9 @@ class NotesEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    final notes = NotesBlockEmbed(node.value.data).document;
+    final notes = NotesBlockEmbed(embedContext.node.value.data).document;
 
     return Material(
       color: Colors.transparent,
