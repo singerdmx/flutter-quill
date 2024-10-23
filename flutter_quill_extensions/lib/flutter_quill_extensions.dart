@@ -14,8 +14,6 @@ export 'src/flutter_quill_embeds.dart';
 export 'src/toolbar/camera/camera_button.dart';
 export 'src/toolbar/camera/camera_types.dart';
 export 'src/toolbar/camera/models/camera_config.dart';
-export 'src/toolbar/formula/formula_button.dart';
-export 'src/toolbar/formula/models/formula_configurations.dart';
 export 'src/toolbar/image/image_button.dart';
 export 'src/toolbar/image/models/image_config.dart';
 export 'src/toolbar/video/models/video.dart';

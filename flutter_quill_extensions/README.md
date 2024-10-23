@@ -1,7 +1,7 @@
 # Flutter Quill Extensions
 
 An extension for [flutter_quill](https://pub.dev/packages/flutter_quill)
-to support embedding widgets images, formulas, and videos.
+to support embedding widgets images, and videos.
 
 ## 📚 Table of Contents
 
@@ -46,10 +46,10 @@ dependencies:
 The package uses the following plugins:
 
 1. [`gal`](https://github.com/natsuk4ze/gal) to save images.
-   Ensure to follow the [Get Started](https://github.com/natsuk4ze/gal#-get-started) guide as it requires
-   platform-specific setup.
+   Ensure to follow the [gal setup](https://pub.dev/packages/gal#-get-started) guide as it requires platform-specific setup.
 2. [`image_picker`](https://pub.dev/packages/image_picker) for picking images.
-   See the [Installation](https://pub.dev/packages/image_picker#installation) section.
+   See the [image_picker installation](https://pub.dev/packages/image_picker#installation) section.
+3. [`video_player`](https://pub.dev/packages/video_player) for playing videos. See the [video_player setup](https://pub.dev/packages/video_player#setup) section.
 
 ### Loading Images from the Internet
 
@@ -103,9 +103,10 @@ Expanded(
 
 ### 📦 Embed Blocks
 
-[Flutter_quill](https://pub.dev/packages/flutter_quill) provides an interface for all the users to provide their
+The [flutter_quill](https://pub.dev/packages/flutter_quill) provides an interface for all the users to provide their
 implementations for embed blocks.
-Implementations for image, video, and formula embed blocks are proved in this package.
+
+Implementations for image, video embed blocks are provided in this package.
 
 The instructions for using the embed blocks are in the [Usage](#-usage) section.
 
