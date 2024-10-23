@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as fq;
-import 'package:meta/meta.dart' show experimental, immutable;
+import 'package:meta/meta.dart';
 
 import 'editor/image/image_embed.dart';
 import 'editor/image/models/image_config.dart';
@@ -12,7 +12,6 @@ import 'toolbar/camera/camera_button.dart';
 import 'toolbar/camera/models/camera_config.dart';
 import 'toolbar/image/image_button.dart';
 import 'toolbar/image/models/image_config.dart';
-import 'toolbar/table/models/table_config.dart';
 import 'toolbar/video/models/video_config.dart';
 import 'toolbar/video/video_button.dart';
 
@@ -120,10 +119,6 @@ class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
-    @experimental
-    @Deprecated(
-        'tableButtonOptions will no longer used by now, and probably will be removed in future releases.')
-    QuillToolbarTableButtonOptions? tableButtonOptions,
   }) =>
       [
         if (imageButtonOptions != null)
