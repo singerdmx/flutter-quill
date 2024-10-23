@@ -5,8 +5,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../common/image_video_utils.dart';
 
-import 'models/video.dart';
-import 'models/video_config.dart';
+import 'config/video.dart';
+import 'config/video_config.dart';
 import 'select_video_source.dart';
 
 class QuillToolbarVideoButton extends StatelessWidget {

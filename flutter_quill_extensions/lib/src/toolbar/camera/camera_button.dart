@@ -4,7 +4,7 @@ import 'package:flutter_quill/internal.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'camera_types.dart';
-import 'models/camera_config.dart';
+import 'config/camera_config.dart';
 import 'select_camera_action.dart';
 
 class QuillToolbarCameraButton extends StatelessWidget {

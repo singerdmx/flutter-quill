@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../common/image_video_utils.dart';
 import '../../editor/image/image_embed_types.dart';
-import 'models/image_config.dart';
+import 'config/image_config.dart';
 import 'select_image_source.dart';
 
 class QuillToolbarImageButton extends StatelessWidget {

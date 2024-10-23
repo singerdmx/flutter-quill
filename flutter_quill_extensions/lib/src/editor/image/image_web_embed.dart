@@ -8,7 +8,7 @@ import '../../common/utils/dart_ui/dart_ui_fake.dart'
     as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
-import 'models/image_web_config.dart';
+import 'config/image_web_config.dart';
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebImageEmbedBuilder({

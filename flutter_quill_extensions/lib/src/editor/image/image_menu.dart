@@ -11,7 +11,7 @@ import 'package:flutter_quill/internal.dart';
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/string.dart';
 import '../../common/utils/utils.dart';
-import 'models/image_config.dart';
+import 'config/image_config.dart';
 import 'widgets/image.dart' show ImageTapWrapper, getImageStyleString;
 import 'widgets/image_resizer.dart' show ImageResizer;
 

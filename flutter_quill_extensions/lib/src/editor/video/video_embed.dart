@@ -4,7 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/utils.dart';
-import 'models/video_config.dart';
+import 'config/video_config.dart';
 import 'widgets/video_app.dart';
 
 class QuillEditorVideoEmbedBuilder extends EmbedBuilder {

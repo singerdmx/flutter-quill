@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:meta/meta.dart' show immutable;
 
 import '../../editor/image/image_embed_types.dart';
-import '../video/models/video.dart';
+import '../video/config/video.dart';
 
 enum CameraAction {
   video,

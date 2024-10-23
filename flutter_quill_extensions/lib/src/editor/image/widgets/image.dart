@@ -8,7 +8,7 @@ import 'package:photo_view/photo_view.dart';
 
 import '../../../common/utils/utils.dart';
 import '../image_embed_types.dart';
-import '../models/image_config.dart';
+import '../config/image_config.dart';
 
 String getImageStyleString(QuillController controller) {
   final String? s = controller

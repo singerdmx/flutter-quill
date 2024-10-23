@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/internal.dart';
 
-import 'models/video.dart';
+import 'config/video.dart';
 
 class SelectVideoSourceDialog extends StatelessWidget {
   const SelectVideoSourceDialog({super.key});
