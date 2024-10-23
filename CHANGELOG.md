@@ -4,6 +4,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.5
+
+* fix: allow all correct URLs to be formatted by @orevial in https://github.com/singerdmx/flutter-quill/pull/2328
+* fix(macos): Implement actions for ExpandSelectionToDocumentBoundaryIntent and ExpandSelectionToLineBreakIntent to use keyboard shortcuts, unrelated cleanup to the bug fix. by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2279
+
+## New Contributors
+* @orevial made their first contribution at https://github.com/singerdmx/flutter-quill/pull/2328
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.4...v10.8.5
+
 ## 10.8.4
 
 - [Fixes an unhandled exception](https://github.com/singerdmx/flutter-quill/commit/8dd559b825030d29b30b32b353a08dcc13dc42b7) in case `getClipboardFiles()` wasn't supported
