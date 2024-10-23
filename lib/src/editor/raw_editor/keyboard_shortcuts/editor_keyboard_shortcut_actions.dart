@@ -303,8 +303,6 @@ class ExpandSelectionToDocumentBoundaryAction
   }
 }
 
-// TODO: Same for ExpandSelectionToLineBreakIntent (see TODOs of ExpandSelectionToDocumentBoundaryAction)
-
 /// Extends the selection to the next/previous line break (`\n`).
 ///
 /// This behavior is standard on macOS.
@@ -720,9 +718,6 @@ class QuillEditorInsertEmbedIntent extends Intent {
 
   final Attribute type;
 }
-
-// TODO: Double check the fix/feature https://github.com/singerdmx/flutter-quill/pull/1937
-//  document the change if doesn't need any changes.
 
 /// Navigate to the start or end of the document
 class NavigateToDocumentBoundaryAction
