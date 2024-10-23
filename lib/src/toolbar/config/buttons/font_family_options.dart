@@ -54,7 +54,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.defaultDisplayText,
   });
 
-  /// By default it will be [fontFamilyValues] from [QuillSimpleToolbarConfigurations]
+  /// By default it will be [fontFamilyValues] from [QuillSimpleToolbarConfig]
   /// You can override this if you want
   final Map<String, String>? rawItemsMap;
   final ValueChanged<String>? onSelected;

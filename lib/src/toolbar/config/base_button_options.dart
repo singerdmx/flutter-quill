@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show VoidCallback, immutable;
 import 'package:flutter/widgets.dart' show BuildContext, IconData, Widget;
 
 import '../../controller/quill_controller.dart';
-import '../../editor_toolbar_controller_shared/quill_configurations.dart'
+import '../../editor_toolbar_controller_shared/quill_config.dart'
     show kDefaultIconSize;
 import '../theme/quill_icon_theme.dart' show QuillIconTheme;
 

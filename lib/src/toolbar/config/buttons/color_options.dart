@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show Color;
 
 import '../../../controller/quill_controller.dart';
-import '../base_button_configurations.dart';
+import '../base_button_options.dart';
 
 class QuillToolbarColorButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

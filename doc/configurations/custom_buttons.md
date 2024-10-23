@@ -22,7 +22,7 @@ Each `QuillCustomButton` is used as part of the `customButtons` option as follow
 ```dart
 QuillSimpleToolbar(
   controller: _controller,
-  configurations: QuillSimpleToolbarConfigurations(
+  config: QuillSimpleToolbarConfig(
     customButtons: [
       QuillToolbarCustomButtonOptions(
         icon: const Icon(Icons.ac_unit),

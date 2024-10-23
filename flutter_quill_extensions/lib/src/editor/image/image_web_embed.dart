@@ -8,14 +8,14 @@ import '../../common/utils/dart_ui/dart_ui_fake.dart'
     as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
-import 'models/image_web_configurations.dart';
+import 'models/image_web_config.dart';
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebImageEmbedBuilder({
-    required this.configurations,
+    required this.config,
   });
 
-  final QuillEditorWebImageEmbedConfigurations configurations;
+  final QuillEditorWebImageEmbedConfig config;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -62,8 +62,8 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
     });
 
     return ConstrainedBox(
-      constraints: configurations.constraints ??
-          BoxConstraints.loose(const Size(200, 200)),
+      constraints:
+          config.constraints ?? BoxConstraints.loose(const Size(200, 200)),
       child: HtmlElementView(
         viewType: imageSource,
       ),

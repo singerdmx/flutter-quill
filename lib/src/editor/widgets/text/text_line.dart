@@ -464,7 +464,7 @@ class _TextLineState extends State<TextLine> {
         nodeStyle.attributes[Attribute.link.key]!.value != null;
     final style =
         _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
-    if (widget.controller.configurations.requireScriptFontFeatures == false &&
+    if (widget.controller.config.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
       if (nodeStyle.containsKey(Attribute.script.key)) {
         final attr = nodeStyle.attributes[Attribute.script.key];

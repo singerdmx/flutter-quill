@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../common/image_video_utils.dart';
 
 import 'models/video.dart';
-import 'models/video_configurations.dart';
+import 'models/video_config.dart';
 import 'select_video_source.dart';
 
 class QuillToolbarVideoButton extends StatelessWidget {
@@ -71,7 +71,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
           linkRegExp: options.linkRegExp,
           tooltip: options.tooltip,
           iconTheme: options.iconTheme,
-          videoConfigurations: options.videoConfigurations,
+          videoConfig: options.videoConfig,
         ),
         QuillToolbarVideoButtonExtraOptions(
           context: context,
@@ -94,14 +94,12 @@ class QuillToolbarVideoButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final onRequestPickVideo = options.videoConfigurations.onRequestPickVideo;
+    final onRequestPickVideo = options.videoConfig.onRequestPickVideo;
     if (onRequestPickVideo != null) {
       final videoUrl = await onRequestPickVideo(context);
       if (videoUrl != null) {
-        await options.videoConfigurations
-            .onVideoInsertCallback(videoUrl, controller);
-        await options.videoConfigurations.onVideoInsertedCallback
-            ?.call(videoUrl);
+        await options.videoConfig.onVideoInsertCallback(videoUrl, controller);
+        await options.videoConfig.onVideoInsertedCallback?.call(videoUrl);
       }
       return;
     }
@@ -125,9 +123,8 @@ class QuillToolbarVideoButton extends StatelessWidget {
     }
 
     if (videoUrl.trim().isNotEmpty) {
-      await options.videoConfigurations
-          .onVideoInsertCallback(videoUrl, controller);
-      await options.videoConfigurations.onVideoInsertedCallback?.call(videoUrl);
+      await options.videoConfig.onVideoInsertCallback(videoUrl, controller);
+      await options.videoConfig.onVideoInsertedCallback?.call(videoUrl);
     }
   }
 

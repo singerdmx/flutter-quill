@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 
 import '../../../document/attribute.dart';
-import '../../../editor_toolbar_controller_shared/quill_configurations.dart';
+import '../../../editor_toolbar_controller_shared/quill_config.dart';
 
 class QuillToolbarToggleCheckListButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

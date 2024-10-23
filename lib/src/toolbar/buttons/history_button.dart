@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../config/buttons/history_configurations.dart';
+import '../config/buttons/history_options.dart';
 import 'quill_icon_button.dart';
 
 typedef QuillToolbarHistoryBaseButton = QuillToolbarBaseButton<

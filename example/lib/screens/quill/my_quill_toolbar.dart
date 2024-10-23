@@ -212,7 +212,7 @@ class MyQuillToolbar extends StatelessWidget {
           /// configurations parameter:
           ///   Optional: if not provided will use the configuration set when the controller was instantiated.
           ///   Override: Provide parameter here to override the default configuration - useful if configuration will change.
-          configurations: QuillSimpleToolbarConfigurations(
+          config: QuillSimpleToolbarConfig(
             showAlignmentButtons: true,
             multiRowsDisplay: true,
             buttonOptions: QuillSimpleToolbarButtonOptions(
@@ -296,7 +296,7 @@ class MyQuillToolbar extends StatelessWidget {
             ],
             embedButtons: FlutterQuillEmbeds.toolbarButtons(
               imageButtonOptions: QuillToolbarImageButtonOptions(
-                imageButtonConfigurations: QuillToolbarImageConfigurations(
+                imageButtonConfig: QuillToolbarImageConfig(
                   onImageInsertCallback: isAndroidApp || isIosApp || kIsWeb
                       ? (image, controller) =>
                           onImageInsertWithCropping(image, controller, context)

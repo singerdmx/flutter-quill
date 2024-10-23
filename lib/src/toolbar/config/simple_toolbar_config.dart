@@ -12,22 +12,22 @@ import '../theme/quill_icon_theme.dart';
 import 'simple_toolbar_button_options.dart';
 
 export '../buttons/search/search_dialog.dart';
-export 'base_button_configurations.dart';
-export 'buttons/clear_format_configurations.dart';
-export 'buttons/color_configurations.dart';
-export 'buttons/custom_button_configurations.dart';
-export 'buttons/font_family_configurations.dart';
-export 'buttons/font_size_configurations.dart';
-export 'buttons/history_configurations.dart';
-export 'buttons/indent_configurations.dart';
-export 'buttons/link_style2_configurations.dart';
-export 'buttons/link_style_configurations.dart';
-export 'buttons/search_configurations.dart';
-export 'buttons/select_alignment_configurations.dart';
-export 'buttons/select_header_style_buttons_configurations.dart';
-export 'buttons/select_header_style_dropdown_button_configurations.dart';
-export 'buttons/toggle_check_list_configurations.dart';
-export 'buttons/toggle_style_configurations.dart';
+export 'base_button_options.dart';
+export 'buttons/clear_format_options.dart';
+export 'buttons/color_options.dart';
+export 'buttons/custom_button_options.dart';
+export 'buttons/font_family_options.dart';
+export 'buttons/font_size_options.dart';
+export 'buttons/history_options.dart';
+export 'buttons/indent_options.dart';
+export 'buttons/link_style2_options.dart';
+export 'buttons/link_style_options.dart';
+export 'buttons/search_options.dart';
+export 'buttons/select_alignment_options.dart';
+export 'buttons/select_header_style_buttons_options.dart';
+export 'buttons/select_header_style_dropdown_button_options.dart';
+export 'buttons/toggle_check_list_options.dart';
+export 'buttons/toggle_style_options.dart';
 export 'simple_toolbar_button_options.dart';
 
 /// The default size of the icon of a button.
@@ -66,8 +66,8 @@ enum HeaderStyleType {
 
 /// The configurations for the toolbar widget of flutter quill
 @immutable
-class QuillSimpleToolbarConfigurations {
-  const QuillSimpleToolbarConfigurations({
+class QuillSimpleToolbarConfig {
+  const QuillSimpleToolbarConfig({
     this.toolbarSectionSpacing = kToolbarSectionSpacing,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarIconCrossAlignment = WrapCrossAlignment.center,

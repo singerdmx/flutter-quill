@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' show immutable;
 
-import '../../../../flutter_quill.dart';
+import '../simple_toolbar_button_options.dart';
 
 @immutable
 class QuillToolbarHistoryButtonExtraOptions

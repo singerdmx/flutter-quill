@@ -4,15 +4,15 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/utils.dart';
-import 'models/video_configurations.dart';
+import 'models/video_config.dart';
 import 'widgets/video_app.dart';
 
 class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
   const QuillEditorVideoEmbedBuilder({
-    required this.configurations,
+    required this.config,
   });
 
-  final QuillEditorVideoEmbedConfigurations configurations;
+  final QuillEditorVideoEmbedConfig config;
 
   @override
   String get key => BlockEmbed.videoType;
@@ -33,7 +33,7 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
 
     final videoUrl = node.value.data;
 
-    final customVideoBuilder = configurations.customVideoBuilder;
+    final customVideoBuilder = config.customVideoBuilder;
     if (customVideoBuilder != null) {
       final videoWidget = customVideoBuilder(videoUrl, readOnly);
       if (videoWidget != null) {
@@ -69,7 +69,7 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
       child: VideoApp(
         videoUrl: videoUrl,
         readOnly: readOnly,
-        onVideoInit: configurations.onVideoInit,
+        onVideoInit: config.onVideoInit,
       ),
     );
   }

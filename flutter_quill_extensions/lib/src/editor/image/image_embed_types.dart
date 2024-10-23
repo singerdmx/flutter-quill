@@ -47,8 +47,8 @@ enum InsertImageSource {
 /// Configurations for dealing with images, on insert a image
 /// on request picking a image
 @immutable
-class QuillToolbarImageConfigurations {
-  const QuillToolbarImageConfigurations({
+class QuillToolbarImageConfig {
+  const QuillToolbarImageConfig({
     this.onRequestPickImage,
     this.onImageInsertedCallback,
     OnImageInsertCallback? onImageInsertCallback,

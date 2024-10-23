@@ -51,7 +51,7 @@ You can join our [Slack Group] for discussion.
 
 - [📸 Screenshots](#-screenshots)
 - [📦 Installation](#-installation)
-- [🛠 Platform Specific Configurations](#-platform-specific-configurations)
+- [🛠 Platform Setup](#-platform-setup)
 - [🚀 Usage](#-usage)
 - [💥 Breaking Changes](#-breaking-changes)
 - [🔤 Input / Output](#-input--output)
@@ -105,7 +105,7 @@ dependencies:
 > being part of the open-source community!
 >
 
-## 🛠 Platform Specific Configurations
+## 🛠 Platform Setup
 
 The `flutter_quill` package uses the following plugins:
 
@@ -191,12 +191,12 @@ and attach the `QuillController` to them:
 ```dart
 QuillSimpleToolbar(
   controller: _controller,
-  configurations: const QuillSimpleToolbarConfigurations(),
+  config: const QuillSimpleToolbarConfig(),
 ),
 Expanded(
   child: QuillEditor.basic(
     controller: _controller,
-    configurations: const QuillEditorConfigurations(),
+    config: const QuillEditorConfig(),
   ),
 )
 ```
@@ -373,7 +373,7 @@ The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge)
 
 ## ✂️ Shortcut events
 
-We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfigurations` to add more functionality to our editor. 
+We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfig` to add more functionality to our editor. 
 
 > [!NOTE]
 >

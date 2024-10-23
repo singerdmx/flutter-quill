@@ -5,7 +5,7 @@ import '../../document/attribute.dart';
 import '../../document/style.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../config/buttons/toggle_check_list_configurations.dart';
+import '../config/buttons/toggle_check_list_options.dart';
 import 'toggle_style_button.dart';
 
 class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<

@@ -3,14 +3,14 @@ import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
 
 import '../../common/utils/element_utils/element_utils.dart';
 import 'image_menu.dart';
-import 'models/image_configurations.dart';
+import 'models/image_config.dart';
 import 'widgets/image.dart';
 
 class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   QuillEditorImageEmbedBuilder({
-    required this.configurations,
+    required this.config,
   });
-  final QuillEditorImageEmbedConfigurations configurations;
+  final QuillEditorImageEmbedConfig config;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -39,8 +39,8 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     final imageWidget = getImageWidgetByImageSource(
       context: context,
       imageSource,
-      imageProviderBuilder: configurations.imageProviderBuilder,
-      imageErrorWidgetBuilder: configurations.imageErrorWidgetBuilder,
+      imageProviderBuilder: config.imageProviderBuilder,
+      imageErrorWidgetBuilder: config.imageErrorWidgetBuilder,
       alignment: alignment,
       height: height,
       width: width,
@@ -48,7 +48,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
 
     return GestureDetector(
       onTap: () {
-        final onImageClicked = configurations.onImageClicked;
+        final onImageClicked = config.onImageClicked;
         if (onImageClicked != null) {
           onImageClicked(imageSource);
           return;
@@ -57,7 +57,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
           context: context,
           builder: (_) => ImageOptionsMenu(
             controller: controller,
-            configurations: configurations,
+            config: config,
             imageSource: imageSource,
             imageSize: imageSize,
             readOnly: readOnly,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../raw_editor/builders/leading_block_builder.dart';
 import '../../style_widgets/style_widgets.dart';
 
-Widget checkboxLeading(LeadingConfigurations config) => QuillCheckboxPoint(
+Widget checkboxLeading(LeadingConfig config) => QuillCheckboxPoint(
       size: config.lineSize!,
       value: config.value,
       enabled: config.enabled!,

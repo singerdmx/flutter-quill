@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart' show GlobalKey, Widget;
 import 'package:meta/meta.dart' show experimental, immutable;
 
 @immutable
-class QuillEditorVideoEmbedConfigurations {
-  const QuillEditorVideoEmbedConfigurations({
+class QuillEditorVideoEmbedConfig {
+  const QuillEditorVideoEmbedConfig({
     this.onVideoInit,
     this.customVideoBuilder,
   });

@@ -9,7 +9,7 @@ Example:
 
 ```dart
 QuillSimpleToolbar(
-    configurations: const QuillSimpleToolbarConfigurations(
+    config: const QuillSimpleToolbarConfig(
       buttonOptions: QuillSimpleToolbarButtonOptions(
         fontSize: QuillToolbarFontSizeButtonOptions(
           rawItemsMap: {'Small': '8', 'Medium': '24.5', 'Large': '46'},
@@ -23,7 +23,7 @@ Font size can be cleared with a value of `0`, for example:
 
 ```dart
 QuillSimpleToolbar(
-    configurations: const QuillSimpleToolbarConfigurations(
+    config: const QuillSimpleToolbarConfig(
       buttonOptions: QuillSimpleToolbarButtonOptions(
         fontSize: QuillToolbarFontSizeButtonOptions(
           rawItemsMap: {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'},

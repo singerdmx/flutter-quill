@@ -101,10 +101,10 @@ class _QuillScreenState extends State<QuillScreen> {
               return Expanded(
                 child: MyQuillEditor(
                   controller: _controller,
-                  configurations: QuillEditorConfigurations(
+                  config: QuillEditorConfig(
                     characterShortcutEvents: standardCharactersShortcutEvents,
                     spaceShortcutEvents: standardSpaceShorcutEvents,
-                    searchConfigurations: const QuillSearchConfigurations(
+                    searchConfig: const QuillSearchConfig(
                       searchEmbedMode: SearchEmbedMode.plainText,
                     ),
                   ),

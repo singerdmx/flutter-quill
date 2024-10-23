@@ -8,7 +8,7 @@ import 'package:photo_view/photo_view.dart';
 
 import '../../../common/utils/utils.dart';
 import '../image_embed_types.dart';
-import '../models/image_configurations.dart';
+import '../models/image_config.dart';
 
 String getImageStyleString(QuillController controller) {
   final String? s = controller
@@ -111,12 +111,12 @@ String appendFileExtensionToImageUrl(String url) {
 class ImageTapWrapper extends StatelessWidget {
   const ImageTapWrapper({
     required this.imageUrl,
-    required this.configurations,
+    required this.config,
     super.key,
   });
 
   final String imageUrl;
-  final QuillEditorImageEmbedConfigurations configurations;
+  final QuillEditorImageEmbedConfig config;
 
   @override
   Widget build(BuildContext context) {
@@ -131,9 +131,9 @@ class ImageTapWrapper extends StatelessWidget {
               imageProvider: getImageProviderByImageSource(
                 context: context,
                 imageUrl,
-                imageProviderBuilder: configurations.imageProviderBuilder,
+                imageProviderBuilder: config.imageProviderBuilder,
               ),
-              errorBuilder: configurations.imageErrorWidgetBuilder,
+              errorBuilder: config.imageErrorWidgetBuilder,
               loadingBuilder: (context, event) {
                 return Container(
                   color: Colors.black,

@@ -265,7 +265,7 @@ class EditableTextBlock extends StatelessWidget {
         attribute == Attribute.checked || attribute == Attribute.unchecked;
     final isCodeBlock = attrs.containsKey(Attribute.codeBlock.key);
     if (attribute == null) return null;
-    final leadingConfigurations = LeadingConfigurations(
+    final leadingConfig = LeadingConfig(
       attribute: attribute,
       attrs: attrs,
       indentLevelCounts: indentLevelCounts,
@@ -321,7 +321,7 @@ class EditableTextBlock extends StatelessWidget {
     if (customLeadingBlockBuilder != null) {
       final leadingBlockNodeBuilder = customLeadingBlockBuilder?.call(
         line,
-        leadingConfigurations,
+        leadingConfig,
       );
       if (leadingBlockNodeBuilder != null) {
         return leadingBlockNodeBuilder;
@@ -329,18 +329,18 @@ class EditableTextBlock extends StatelessWidget {
     }
 
     if (isOrdered) {
-      return numberPointLeading(leadingConfigurations);
+      return numberPointLeading(leadingConfig);
     }
 
     if (isUnordered) {
-      return bulletPointLeading(leadingConfigurations);
+      return bulletPointLeading(leadingConfig);
     }
 
     if (isCheck) {
-      return checkboxLeading(leadingConfigurations);
+      return checkboxLeading(leadingConfig);
     }
     if (isCodeBlock) {
-      return codeBlockLineNumberLeading(leadingConfigurations);
+      return codeBlockLineNumberLeading(leadingConfig);
     }
     return null;
   }

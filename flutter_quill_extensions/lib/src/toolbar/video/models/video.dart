@@ -45,8 +45,8 @@ enum InsertVideoSource {
 /// Configurations for dealing with videos, on insert a video
 /// on request picking a video
 @immutable
-class QuillToolbarVideoConfigurations {
-  const QuillToolbarVideoConfigurations({
+class QuillToolbarVideoConfig {
+  const QuillToolbarVideoConfig({
     this.onRequestPickVideo,
     this.onVideoInsertedCallback,
     OnVideoInsertCallback? onVideoInsertCallback,

@@ -18,8 +18,8 @@ typedef OnRequestCameraActionCallback = Future<CameraAction?> Function(
 );
 
 @immutable
-class QuillToolbarCameraConfigurations {
-  const QuillToolbarCameraConfigurations({
+class QuillToolbarCameraConfig {
+  const QuillToolbarCameraConfig({
     this.onRequestCameraActionCallback,
     OnImageInsertCallback? onImageInsertCallback,
     this.onImageInsertedCallback,

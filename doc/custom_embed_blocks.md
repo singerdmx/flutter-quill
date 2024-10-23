@@ -99,7 +99,7 @@ Future<void> _addEditNote(BuildContext context, {Document? document}) async {
       ),
       content: QuillEditor.basic(
         controller: controller,
-        configurations: const QuillEditorConfigurations(),
+        config: const QuillEditorConfig(),
       ),
     ),
   );

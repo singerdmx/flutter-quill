@@ -25,7 +25,7 @@ void main() {
         MaterialApp(
           home: QuillEditor.basic(
             controller: controller,
-            configurations: const QuillEditorConfigurations(),
+            config: const QuillEditorConfig(),
           ),
         ),
       );
@@ -42,7 +42,7 @@ void main() {
             focusNode: FocusNode(),
             scrollController: ScrollController(),
             controller: controller,
-            configurations: QuillEditorConfigurations(
+            config: QuillEditorConfig(
               autoFocus: true,
               expands: true,
               contentInsertionConfiguration: ContentInsertionConfiguration(
@@ -113,7 +113,7 @@ void main() {
             focusNode: FocusNode(),
             scrollController: ScrollController(),
             controller: controller,
-            configurations: QuillEditorConfigurations(
+            config: QuillEditorConfig(
               autoFocus: true,
               expands: true,
               contextMenuBuilder: customBuilder,
@@ -143,7 +143,7 @@ void main() {
                 FlutterQuillLocalizations.localizationsDelegates,
             home: QuillEditor.basic(
               controller: controller,
-              configurations: const QuillEditorConfigurations(),
+              config: const QuillEditorConfig(),
               focusNode: editorFocusNode,
             ),
           ),

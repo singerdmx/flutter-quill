@@ -45,8 +45,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// - cmd/ctrl+c shortcut to copy.
   /// - cmd/ctrl+a to select all.
   /// - Changing the selection using a physical keyboard.
-  bool get shouldCreateInputConnection =>
-      kIsWeb || !widget.configurations.readOnly;
+  bool get shouldCreateInputConnection => kIsWeb || !widget.config.readOnly;
 
   /// Returns `true` if there is open input connection.
   bool get hasConnection =>
@@ -55,10 +54,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// Opens or closes input connection based on the current state of
   /// [focusNode] and [value].
   void openOrCloseConnection() {
-    if (widget.configurations.focusNode.hasFocus &&
-        widget.configurations.focusNode.consumeKeyboardToken()) {
+    if (widget.config.focusNode.hasFocus &&
+        widget.config.focusNode.consumeKeyboardToken()) {
       openConnectionIfNeeded();
-    } else if (!widget.configurations.focusNode.hasFocus) {
+    } else if (!widget.config.focusNode.hasFocus) {
       closeConnectionIfNeeded();
     }
   }
@@ -74,18 +73,16 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         this,
         TextInputConfiguration(
           inputType: TextInputType.multiline,
-          readOnly: widget.configurations.readOnly,
-          inputAction: widget.configurations.textInputAction,
-          enableSuggestions: !widget.configurations.readOnly,
-          keyboardAppearance: widget.configurations.keyboardAppearance ??
+          readOnly: widget.config.readOnly,
+          inputAction: widget.config.textInputAction,
+          enableSuggestions: !widget.config.readOnly,
+          keyboardAppearance: widget.config.keyboardAppearance ??
               CupertinoTheme.maybeBrightnessOf(context) ??
               Theme.of(context).brightness,
-          textCapitalization: widget.configurations.textCapitalization,
-          allowedMimeTypes:
-              widget.configurations.contentInsertionConfiguration == null
-                  ? const <String>[]
-                  : widget.configurations.contentInsertionConfiguration!
-                      .allowedMimeTypes,
+          textCapitalization: widget.config.textCapitalization,
+          allowedMimeTypes: widget.config.contentInsertionConfiguration == null
+              ? const <String>[]
+              : widget.config.contentInsertionConfiguration!.allowedMimeTypes,
         ),
       );
 
@@ -241,7 +238,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   @override
   void performAction(TextInputAction action) {
-    widget.configurations.onPerformAction?.call(action);
+    widget.config.onPerformAction?.call(action);
   }
 
   @override

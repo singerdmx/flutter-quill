@@ -1,5 +1,5 @@
-class QuillControllerConfigurations {
-  const QuillControllerConfigurations({
+class QuillControllerConfig {
+  const QuillControllerConfig({
     this.onClipboardPaste,
     this.requireScriptFontFeatures = false,
   });

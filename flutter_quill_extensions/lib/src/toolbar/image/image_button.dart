@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../common/image_video_utils.dart';
 import '../../editor/image/image_embed_types.dart';
-import 'models/image_configurations.dart';
+import 'models/image_config.dart';
 import 'select_image_source.dart';
 
 class QuillToolbarImageButton extends StatelessWidget {
@@ -69,7 +69,7 @@ class QuillToolbarImageButton extends StatelessWidget {
           iconTheme: options.iconTheme,
           linkRegExp: options.linkRegExp,
           tooltip: options.tooltip,
-          imageButtonConfigurations: options.imageButtonConfigurations,
+          imageButtonConfig: options.imageButtonConfig,
         ),
         QuillToolbarImageButtonExtraOptions(
           context: context,
@@ -92,17 +92,15 @@ class QuillToolbarImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final onRequestPickImage =
-        options.imageButtonConfigurations.onRequestPickImage;
+    final onRequestPickImage = options.imageButtonConfig.onRequestPickImage;
     if (onRequestPickImage != null) {
       final imageUrl = await onRequestPickImage(
         context,
       );
       if (imageUrl != null) {
-        await options.imageButtonConfigurations
+        await options.imageButtonConfig
             .onImageInsertCallback(imageUrl, controller);
-        await options.imageButtonConfigurations.onImageInsertedCallback
-            ?.call(imageUrl);
+        await options.imageButtonConfig.onImageInsertedCallback?.call(imageUrl);
       }
       return;
     }
@@ -125,10 +123,9 @@ class QuillToolbarImageButton extends StatelessWidget {
       return;
     }
     if (imageUrl.trim().isNotEmpty) {
-      await options.imageButtonConfigurations
+      await options.imageButtonConfig
           .onImageInsertCallback(imageUrl, controller);
-      await options.imageButtonConfigurations.onImageInsertedCallback
-          ?.call(imageUrl);
+      await options.imageButtonConfig.onImageInsertedCallback?.call(imageUrl);
     }
   }
 

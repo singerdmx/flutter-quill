@@ -5,7 +5,7 @@ import 'package:flutter_quill/internal.dart';
 import 'package:meta/meta.dart';
 
 import '../../common/utils/quill_table_utils.dart';
-import 'models/table_configurations.dart';
+import 'models/table_config.dart';
 
 @experimental
 @Deprecated(

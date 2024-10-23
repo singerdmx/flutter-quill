@@ -15,9 +15,9 @@ import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/container.dart' as container_node;
 import '../document/nodes/leaf.dart';
-import 'config/editor_configurations.dart';
+import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
-import 'raw_editor/config/raw_editor_configurations.dart';
+import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
 import 'widgets/cursor.dart';
@@ -142,15 +142,14 @@ class QuillEditor extends StatefulWidget {
     required this.focusNode,
     required this.scrollController,
     required this.controller,
-    this.configurations = const QuillEditorConfigurations(),
+    this.config = const QuillEditorConfig(),
     super.key,
   });
 
   factory QuillEditor.basic({
     required QuillController controller,
     Key? key,
-    QuillEditorConfigurations configurations =
-        const QuillEditorConfigurations(),
+    QuillEditorConfig config = const QuillEditorConfig(),
     FocusNode? focusNode,
     ScrollController? scrollController,
   }) {
@@ -159,7 +158,7 @@ class QuillEditor extends StatefulWidget {
       scrollController: scrollController ?? ScrollController(),
       focusNode: focusNode ?? FocusNode(),
       controller: controller,
-      configurations: configurations,
+      config: config,
     );
   }
 
@@ -168,7 +167,7 @@ class QuillEditor extends StatefulWidget {
   final QuillController controller;
 
   /// The configurations for the editor widget.
-  final QuillEditorConfigurations configurations;
+  final QuillEditorConfig config;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;
@@ -188,7 +187,7 @@ class QuillEditorState extends State<QuillEditor>
 
   QuillController get controller => widget.controller;
 
-  QuillEditorConfigurations get configurations => widget.configurations;
+  QuillEditorConfig get configurations => widget.config;
 
   @override
   void initState() {
@@ -254,10 +253,10 @@ class QuillEditorState extends State<QuillEditor>
     final child = QuillRawEditor(
       key: _editorKey,
       controller: controller,
-      configurations: QuillRawEditorConfigurations(
-        characterShortcutEvents: widget.configurations.characterShortcutEvents,
-        spaceShortcutEvents: widget.configurations.spaceShortcutEvents,
-        customLeadingBuilder: widget.configurations.customLeadingBlockBuilder,
+      config: QuillRawEditorConfig(
+        characterShortcutEvents: widget.config.characterShortcutEvents,
+        spaceShortcutEvents: widget.config.spaceShortcutEvents,
+        customLeadingBuilder: widget.config.customLeadingBlockBuilder,
         focusNode: widget.focusNode,
         scrollController: widget.scrollController,
         scrollable: configurations.scrollable,
@@ -271,7 +270,7 @@ class QuillEditorState extends State<QuillEditor>
         onLaunchUrl: configurations.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
             ? (configurations.contextMenuBuilder ??
-                QuillRawEditorConfigurations.defaultContextMenuBuilder)
+                QuillRawEditorConfig.defaultContextMenuBuilder)
             : null,
         showSelectionHandles: isMobile,
         showCursor: configurations.showCursor ?? true,

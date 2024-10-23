@@ -7,7 +7,7 @@ to support embedding widgets images, formulas, and videos.
 
 - [📝 About](#-about)
 - [📦 Installation](#-installation)
-- [🛠 Platform Specific Configurations](#-platform-specific-configurations)
+- [🛠 Platform Setup](#-platform-setup)
 - [🚀 Usage](#-usage)
 - [⚙️ Configurations](#-configurations)
 - [🤝 Contributing](#-contributing)
@@ -41,7 +41,7 @@ dependencies:
       path: flutter_quill_extensions
 ```
 
-## 🛠 Platform Specific Configurations
+## 🛠 Platform Setup
 
 The package uses the following plugins:
 
@@ -81,7 +81,7 @@ Set the `embedBuilders` and `embedToolbar` params in configurations of `QuillEdi
 
 ```dart
 QuillSimpleToolbar(
-  configurations: QuillSimpleToolbarConfigurations(
+  config: QuillSimpleToolbarConfig(
     embedButtons: FlutterQuillEmbeds.toolbarButtons(),
   ),
 ),
@@ -92,7 +92,7 @@ QuillSimpleToolbar(
 ```dart
 Expanded(
   child: QuillEditor.basic(
-    configurations: QuillEditorConfigurations(
+    config: QuillEditorConfig(
       embedBuilders: kIsWeb ? FlutterQuillEmbeds.editorWebBuilders() : FlutterQuillEmbeds.editorBuilders(),
     ),
   ),
@@ -150,8 +150,8 @@ To support loading image assets in the editor:
 
 ```dart
 FlutterQuillEmbeds.editorBuilders(
-    imageEmbedConfigurations:
-        QuillEditorImageEmbedConfigurations(
+    imageEmbedConfig:
+        QuillEditorImageEmbedConfig(
       imageProviderBuilder: (context, imageUrl) {
         if (imageUrl.startsWith('assets/')) {
           return AssetImage(imageUrl);

@@ -1,4 +1,4 @@
-import '../../../editor_toolbar_controller_shared/quill_configurations.dart';
+import '../../../editor_toolbar_controller_shared/quill_config.dart';
 
 class QuillToolbarClearFormatButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

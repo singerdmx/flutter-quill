@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 
 import '../../../../quill_delta.dart';
 import '../../common/structs/offset_value.dart';
-import '../../editor/config/editor_configurations.dart';
+import '../../editor/config/editor_config.dart';
 import '../../editor/embed/embed_editor_builder.dart';
 import '../../editor_toolbar_controller_shared/copy_cut_service/copy_cut_service_provider.dart';
 import '../attribute.dart';
@@ -531,15 +531,14 @@ base class Line extends QuillContainer<Leaf?> {
   }
 
   /// Returns plain text within the specified text range.
-  String getPlainText(int offset, int len,
-      [QuillEditorConfigurations? config]) {
+  String getPlainText(int offset, int len, [QuillEditorConfig? config]) {
     final plainText = StringBuffer();
     _getPlainText(offset, len, plainText, config);
     return plainText.toString();
   }
 
   int _getNodeText(Leaf node, StringBuffer buffer, int offset, int remaining,
-      QuillEditorConfigurations? config) {
+      QuillEditorConfig? config) {
     final text =
         node.toPlainText(config?.embedBuilders, config?.unknownEmbedBuilder);
     if (text == Embed.kObjectReplacementCharacter) {
@@ -572,8 +571,8 @@ base class Line extends QuillContainer<Leaf?> {
     return remaining - (end - offset);
   }
 
-  int _getPlainText(int offset, int len, StringBuffer plainText,
-      QuillEditorConfigurations? config) {
+  int _getPlainText(
+      int offset, int len, StringBuffer plainText, QuillEditorConfig? config) {
     var len0 = len;
     final data = queryChild(offset, false);
     var node = data.node as Leaf?;

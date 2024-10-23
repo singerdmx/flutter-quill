@@ -98,23 +98,23 @@ void main() {
       expect(document.search('2024'), [], reason: 'Does not search embeds');
 
       /// Test rawData mode
-      document.editorConfigurations = const QuillEditorConfigurations(
-          searchConfigurations: QuillSearchConfigurations(
-              searchEmbedMode: SearchEmbedMode.rawData));
+      document.editorConfig = const QuillEditorConfig(
+          searchConfig:
+              QuillSearchConfig(searchEmbedMode: SearchEmbedMode.rawData));
       expect(document.search('18'), [7], reason: 'raw data finds timeStamp');
       expect(document.search('d52'), [5], reason: 'raw data finds image');
       expect(document.search('08'), [5, 7],
           reason: 'raw data finds both embeds');
       //
-      document.editorConfigurations = const QuillEditorConfigurations(
-          searchConfigurations: QuillSearchConfigurations(
-              searchEmbedMode: SearchEmbedMode.plainText));
+      document.editorConfig = const QuillEditorConfig(
+          searchConfig:
+              QuillSearchConfig(searchEmbedMode: SearchEmbedMode.plainText));
       expect(document.search('2024'), [], reason: 'No embed builders');
 
       /// Test plainText mode
-      document.editorConfigurations = const QuillEditorConfigurations(
-        searchConfigurations: QuillSearchConfigurations(
-            searchEmbedMode: SearchEmbedMode.plainText),
+      document.editorConfig = const QuillEditorConfig(
+        searchConfig:
+            QuillSearchConfig(searchEmbedMode: SearchEmbedMode.plainText),
         embedBuilders: [
           TestTimeStampEmbedBuilderWidget(),
         ],
@@ -127,9 +127,9 @@ void main() {
           reason: 'image does not override toPlainText');
 
       /// Test unknownEmbedBuilder
-      document.editorConfigurations = const QuillEditorConfigurations(
-          searchConfigurations: QuillSearchConfigurations(
-              searchEmbedMode: SearchEmbedMode.plainText),
+      document.editorConfig = const QuillEditorConfig(
+          searchConfig:
+              QuillSearchConfig(searchEmbedMode: SearchEmbedMode.plainText),
           embedBuilders: [
             TestTimeStampEmbedBuilderWidget(),
           ],

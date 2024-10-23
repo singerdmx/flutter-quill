@@ -4,28 +4,26 @@ import '../../common/structs/offset_value.dart';
 import '../../controller/quill_controller.dart';
 import '../editor.dart';
 import '../widgets/text/text_selection.dart';
-import 'config/raw_editor_configurations.dart';
+import 'config/raw_editor_config.dart';
 import 'raw_editor_state.dart';
 
 class QuillRawEditor extends StatefulWidget {
   QuillRawEditor({
-    required this.configurations,
+    required this.config,
     required this.controller,
     super.key,
-  })  : assert(
-            configurations.maxHeight == null || configurations.maxHeight! > 0,
+  })  : assert(config.maxHeight == null || config.maxHeight! > 0,
             'maxHeight cannot be null'),
-        assert(
-            configurations.minHeight == null || configurations.minHeight! >= 0,
+        assert(config.minHeight == null || config.minHeight! >= 0,
             'minHeight cannot be null'),
         assert(
-            configurations.maxHeight == null ||
-                configurations.minHeight == null ||
-                configurations.maxHeight! >= configurations.minHeight!,
+            config.maxHeight == null ||
+                config.minHeight == null ||
+                config.maxHeight! >= config.minHeight!,
             'maxHeight cannot be null');
 
   final QuillController controller;
-  final QuillRawEditorConfigurations configurations;
+  final QuillRawEditorConfig config;
 
   @override
   State<StatefulWidget> createState() => QuillRawEditorState();

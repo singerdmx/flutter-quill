@@ -5,13 +5,13 @@ import 'package:flutter_quill/internal.dart';
 
 import '../image_embed_types.dart';
 
-/// [QuillEditorImageEmbedConfigurations] for desktop, mobile and
+/// [QuillEditorImageEmbedConfig] for desktop, mobile and
 ///  other platforms
 /// excluding web, it's configurations that is needed for the editor
 ///
 @immutable
-class QuillEditorImageEmbedConfigurations {
-  const QuillEditorImageEmbedConfigurations({
+class QuillEditorImageEmbedConfig {
+  const QuillEditorImageEmbedConfig({
     ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     this.shouldRemoveImageCallback,
     this.imageProviderBuilder,
@@ -36,7 +36,7 @@ class QuillEditorImageEmbedConfigurations {
   /// ```
   ///
   /// Default value if the passed value is null:
-  /// [QuillEditorImageEmbedConfigurations.defaultOnImageRemovedCallback]
+  /// [QuillEditorImageEmbedConfig.defaultOnImageRemovedCallback]
   ///
   /// so if you want to do nothing make sure to pass a empty callback
   /// instead of passing null as value
@@ -44,7 +44,7 @@ class QuillEditorImageEmbedConfigurations {
 
   ImageEmbedBuilderOnRemovedCallback get onImageRemovedCallback {
     return _onImageRemovedCallback ??
-        QuillEditorImageEmbedConfigurations.defaultOnImageRemovedCallback;
+        QuillEditorImageEmbedConfig.defaultOnImageRemovedCallback;
   }
 
   /// [shouldRemoveImageCallback] is a callback
@@ -143,14 +143,14 @@ class QuillEditorImageEmbedConfigurations {
     };
   }
 
-  QuillEditorImageEmbedConfigurations copyWith({
+  QuillEditorImageEmbedConfig copyWith({
     ImageEmbedBuilderOnRemovedCallback? onImageRemovedCallback,
     ImageEmbedBuilderWillRemoveCallback? shouldRemoveImageCallback,
     ImageEmbedBuilderProviderBuilder? imageProviderBuilder,
     ImageEmbedBuilderErrorWidgetBuilder? imageErrorWidgetBuilder,
     bool? forceUseMobileOptionMenuForImageClick,
   }) {
-    return QuillEditorImageEmbedConfigurations(
+    return QuillEditorImageEmbedConfig(
       onImageRemovedCallback: onImageRemovedCallback ?? _onImageRemovedCallback,
       shouldRemoveImageCallback:
           shouldRemoveImageCallback ?? this.shouldRemoveImageCallback,

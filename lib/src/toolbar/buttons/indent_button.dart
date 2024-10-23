@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../config/simple_toolbar_configurations.dart';
+import '../config/simple_toolbar_config.dart';
 import 'quill_icon_button.dart';
 
 typedef QuillToolbarIndentBaseButton = QuillToolbarBaseButton<

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show IconData, immutable;
 
 import '../../../document/attribute.dart';
-import '../base_button_configurations.dart';
+import '../base_button_options.dart';
 
 class QuillToolbarSelectAlignmentButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

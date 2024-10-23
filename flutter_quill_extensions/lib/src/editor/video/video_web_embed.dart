@@ -7,15 +7,15 @@ import '../../common/utils/dart_ui/dart_ui_fake.dart'
     as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
-import 'models/video_web_configurations.dart';
+import 'models/video_web_config.dart';
 import 'youtube_video_url.dart';
 
 class QuillEditorWebVideoEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebVideoEmbedBuilder({
-    required this.configurations,
+    required this.config,
   });
 
-  final QuillEditorWebVideoEmbedConfigurations configurations;
+  final QuillEditorWebVideoEmbedConfig config;
 
   @override
   String get key => BlockEmbed.videoType;

@@ -27,7 +27,7 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
     super.iconTheme,
     this.dialogTheme,
     this.linkRegExp,
-    this.imageButtonConfigurations = const QuillToolbarImageConfigurations(),
+    this.imageButtonConfig = const QuillToolbarImageConfig(),
   });
 
   final QuillDialogTheme? dialogTheme;
@@ -35,5 +35,5 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
   /// [imageLinkRegExp] is a regular expression to identify image links.
   final RegExp? linkRegExp;
 
-  final QuillToolbarImageConfigurations imageButtonConfigurations;
+  final QuillToolbarImageConfig imageButtonConfig;
 }

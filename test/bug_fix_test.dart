@@ -22,7 +22,7 @@ void main() {
             home: Scaffold(
               body: QuillSimpleToolbar(
                 controller: controller,
-                configurations: const QuillSimpleToolbarConfigurations(
+                config: const QuillSimpleToolbarConfig(
                   showRedo: false,
                   customButtons: [
                     QuillToolbarCustomButtonOptions(
@@ -143,7 +143,7 @@ void main() {
               focusNode: FocusNode(),
               scrollController: ScrollController(),
               controller: controller,
-              configurations: const QuillEditorConfigurations(
+              config: const QuillEditorConfig(
                 autoFocus: true,
                 expands: true,
               ),

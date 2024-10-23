@@ -4,8 +4,8 @@ import '../../quill_delta.dart';
 import '../common/structs/offset_value.dart';
 import '../common/structs/segment_leaf_node.dart';
 
-import '../editor/config/editor_configurations.dart';
-import '../editor/config/search_configurations.dart';
+import '../editor/config/editor_config.dart';
+import '../editor/config/search_config.dart';
 import '../editor/embed/embed_editor_builder.dart';
 import '../rules/rule.dart';
 import 'attribute.dart';
@@ -250,19 +250,17 @@ class Document {
   ///
   /// Caches configuration set in QuillController.
   /// Allows access to embedBuilders and search configurations
-  QuillEditorConfigurations? _editorConfigurations;
-  QuillEditorConfigurations get editorConfigurations =>
-      _editorConfigurations ?? const QuillEditorConfigurations();
-  set editorConfigurations(QuillEditorConfigurations? value) =>
-      _editorConfigurations = value;
-  QuillSearchConfigurations get searchConfigurations =>
-      editorConfigurations.searchConfigurations;
+  QuillEditorConfig? _editorConfig;
+  QuillEditorConfig get editorConfig =>
+      _editorConfig ?? const QuillEditorConfig();
+  set editorConfig(QuillEditorConfig? value) => _editorConfig = value;
+  QuillSearchConfig get searchConfig => editorConfig.searchConfig;
 
   /// Returns plain text within the specified text range.
   String getPlainText(int index, int len, [bool includeEmbeds = false]) {
     final res = queryChild(index);
-    return (res.node as Line).getPlainText(
-        res.offset, len, includeEmbeds ? editorConfigurations : null);
+    return (res.node as Line)
+        .getPlainText(res.offset, len, includeEmbeds ? editorConfig : null);
   }
 
   /// Returns [Line] located at specified character [offset].
@@ -291,11 +289,11 @@ class Document {
     for (final node in _root.children) {
       if (node is Line) {
         _searchLine(substring, caseSensitive, wholeWord,
-            searchConfigurations.searchEmbedMode, node, matches);
+            searchConfig.searchEmbedMode, node, matches);
       } else if (node is Block) {
         for (final line in Iterable.castFrom<dynamic, Line>(node.children)) {
           _searchLine(substring, caseSensitive, wholeWord,
-              searchConfigurations.searchEmbedMode, line, matches);
+              searchConfig.searchEmbedMode, line, matches);
         }
       } else {
         throw StateError('Unreachable.');
@@ -355,16 +353,16 @@ class Document {
 
   String? _embedSearchText(Embed node) {
     EmbedBuilder? builder;
-    if (editorConfigurations.embedBuilders != null) {
+    if (editorConfig.embedBuilders != null) {
       // Find the builder for this embed
-      for (final b in editorConfigurations.embedBuilders!) {
+      for (final b in editorConfig.embedBuilders!) {
         if (b.key == node.value.type) {
           builder = b;
           break;
         }
       }
     }
-    builder ??= editorConfigurations.unknownEmbedBuilder;
+    builder ??= editorConfig.unknownEmbedBuilder;
     //  Get searchable text for this embed
     return builder?.toPlainText(node);
   }

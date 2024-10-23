@@ -15,8 +15,8 @@ import '../builders/leading_block_builder.dart';
 import 'events/events.dart';
 
 @immutable
-class QuillRawEditorConfigurations {
-  const QuillRawEditorConfigurations({
+class QuillRawEditorConfig {
+  const QuillRawEditorConfig({
     required this.focusNode,
     required this.scrollController,
     required this.scrollBottomInset,

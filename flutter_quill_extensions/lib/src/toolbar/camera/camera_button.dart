@@ -4,7 +4,7 @@ import 'package:flutter_quill/internal.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'camera_types.dart';
-import 'models/camera_configurations.dart';
+import 'models/camera_config.dart';
 import 'select_camera_action.dart';
 
 class QuillToolbarCameraButton extends StatelessWidget {
@@ -70,7 +70,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
           iconButtonFactor: iconButtonFactor,
           iconTheme: options.iconTheme,
           tooltip: options.tooltip,
-          cameraConfigurations: options.cameraConfigurations,
+          cameraConfig: options.cameraConfig,
         ),
         QuillToolbarCameraButtonExtraOptions(
           controller: controller,
@@ -94,8 +94,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
   }
 
   Future<CameraAction?> _getCameraAction(BuildContext context) async {
-    final customCallback =
-        options.cameraConfigurations.onRequestCameraActionCallback;
+    final customCallback = options.cameraConfig.onRequestCameraActionCallback;
     if (customCallback != null) {
       return await customCallback(context);
     }
@@ -123,11 +122,11 @@ class QuillToolbarCameraButton extends StatelessWidget {
         if (videoFile == null) {
           return;
         }
-        await options.cameraConfigurations.onVideoInsertCallback(
+        await options.cameraConfig.onVideoInsertCallback(
           videoFile.path,
           controller,
         );
-        await options.cameraConfigurations.onVideoInsertedCallback
+        await options.cameraConfig.onVideoInsertedCallback
             ?.call(videoFile.path);
       case CameraAction.image:
         final imageFile =
@@ -135,11 +134,11 @@ class QuillToolbarCameraButton extends StatelessWidget {
         if (imageFile == null) {
           return;
         }
-        await options.cameraConfigurations.onImageInsertCallback(
+        await options.cameraConfig.onImageInsertCallback(
           imageFile.path,
           controller,
         );
-        await options.cameraConfigurations.onImageInsertedCallback
+        await options.cameraConfig.onImageInsertedCallback
             ?.call(imageFile.path);
     }
   }

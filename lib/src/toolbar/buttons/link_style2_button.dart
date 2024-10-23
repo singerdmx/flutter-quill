@@ -9,7 +9,7 @@ import '../../l10n/extensions/localizations_ext.dart';
 import '../../rules/insert.dart';
 import '../base_button/base_value_button.dart';
 
-import '../config/simple_toolbar_configurations.dart';
+import '../config/simple_toolbar_config.dart';
 import '../theme/quill_dialog_theme.dart';
 
 import 'quill_icon_button.dart';

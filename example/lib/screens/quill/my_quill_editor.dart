@@ -17,14 +17,14 @@ import 'http_url.dart';
 class MyQuillEditor extends StatelessWidget {
   const MyQuillEditor({
     required this.controller,
-    required this.configurations,
+    required this.config,
     required this.scrollController,
     required this.focusNode,
     super.key,
   });
 
   final QuillController controller;
-  final QuillEditorConfigurations configurations;
+  final QuillEditorConfig config;
   final ScrollController scrollController;
   final FocusNode focusNode;
 
@@ -36,7 +36,7 @@ class MyQuillEditor extends StatelessWidget {
         scrollController: scrollController,
         focusNode: focusNode,
         controller: controller,
-        configurations: configurations.copyWith(
+        config: config.copyWith(
           customStyles: DefaultStyles(
             h1: DefaultTextBlockStyle(
               defaultTextStyle.style.copyWith(
@@ -90,8 +90,7 @@ class MyQuillEditor extends StatelessWidget {
             ...(kIsWeb
                 ? FlutterQuillEmbeds.editorWebBuilders()
                 : FlutterQuillEmbeds.editorBuilders(
-                    imageEmbedConfigurations:
-                        QuillEditorImageEmbedConfigurations(
+                    imageEmbedConfig: QuillEditorImageEmbedConfig(
                       imageErrorWidgetBuilder: (context, error, stackTrace) {
                         return Text(
                           'Error while loading an image: ${error.toString()}',
@@ -116,8 +115,7 @@ class MyQuillEditor extends StatelessWidget {
                         return null;
                       },
                     ),
-                    videoEmbedConfigurations:
-                        QuillEditorVideoEmbedConfigurations(
+                    videoEmbedConfig: QuillEditorVideoEmbedConfig(
                       customVideoBuilder: (videoUrl, readOnly) {
                         // Example: Check for YouTube Video URL and return your
                         // YouTube video widget here.

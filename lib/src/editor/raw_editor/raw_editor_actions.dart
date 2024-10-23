@@ -121,8 +121,7 @@ class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
 
   @override
   bool get isActionEnabled =>
-      !state.widget.configurations.readOnly &&
-      state.textEditingValue.selection.isValid;
+      !state.widget.config.readOnly && state.textEditingValue.selection.isValid;
 }
 
 class QuillEditorUpdateTextSelectionAction<
@@ -139,8 +138,8 @@ class QuillEditorUpdateTextSelectionAction<
     final selection = state.textEditingValue.selection;
     assert(selection.isValid);
 
-    final collapseSelection = intent.collapseSelection ||
-        !state.widget.configurations.selectionEnabled;
+    final collapseSelection =
+        intent.collapseSelection || !state.widget.config.selectionEnabled;
     // Collapse to the logical start/end.
     TextSelection collapse(TextSelection selection) {
       assert(selection.isValid);
@@ -263,7 +262,7 @@ class QuillEditorExtendSelectionOrCaretPositionAction extends ContextAction<
 
   @override
   bool get isActionEnabled =>
-      state.widget.configurations.selectionEnabled &&
+      state.widget.config.selectionEnabled &&
       state.textEditingValue.selection.isValid;
 }
 
@@ -298,8 +297,8 @@ class QuillEditorUpdateTextSelectionToAdjacentLineAction<
   void invoke(T intent, [BuildContext? context]) {
     assert(state.textEditingValue.selection.isValid);
 
-    final collapseSelection = intent.collapseSelection ||
-        !state.widget.configurations.selectionEnabled;
+    final collapseSelection =
+        intent.collapseSelection || !state.widget.config.selectionEnabled;
     final value = state.textEditingValue;
     if (!value.selection.isValid) {
       return;
@@ -354,7 +353,7 @@ class QuillEditorSelectAllAction extends ContextAction<SelectAllTextIntent> {
   }
 
   @override
-  bool get isActionEnabled => state.widget.configurations.selectionEnabled;
+  bool get isActionEnabled => state.widget.config.selectionEnabled;
 }
 
 class QuillEditorCopySelectionAction
@@ -606,7 +605,7 @@ class QuillEditorApplyLinkAction extends Action<QuillEditorApplyLinkIntent> {
         return LinkStyleDialog(
           text: initialTextLink.text,
           link: initialTextLink.link,
-          dialogTheme: state.widget.configurations.dialogTheme,
+          dialogTheme: state.widget.config.dialogTheme,
         );
       },
     );
@@ -712,8 +711,8 @@ class QuillEditorUpdateTextSelectionToAdjacentPageAction<
   void invoke(T intent, [BuildContext? context]) {
     assert(state.textEditingValue.selection.isValid);
 
-    final collapseSelection = intent.collapseSelection ||
-        !state.widget.configurations.selectionEnabled;
+    final collapseSelection =
+        intent.collapseSelection || !state.widget.config.selectionEnabled;
     final value = state.textEditingValue;
     if (!value.selection.isValid) {
       return;

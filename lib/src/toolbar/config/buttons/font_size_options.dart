@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../document/attribute.dart';
-import '../../../editor_toolbar_controller_shared/quill_configurations.dart';
+import '../../../editor_toolbar_controller_shared/quill_config.dart';
 
 class QuillToolbarFontSizeButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

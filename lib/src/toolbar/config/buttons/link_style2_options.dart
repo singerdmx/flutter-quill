@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../theme/quill_dialog_theme.dart';
-import '../base_button_configurations.dart';
+import '../base_button_options.dart';
 
 class QuillToolbarLinkStyleButton2ExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {

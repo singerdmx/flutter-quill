@@ -12,8 +12,8 @@ enum SearchEmbedMode {
 
 /// The configurations for the quill editor widget of flutter quill
 @immutable
-class QuillSearchConfigurations {
-  const QuillSearchConfigurations({
+class QuillSearchConfig {
+  const QuillSearchConfig({
     this.searchEmbedMode = SearchEmbedMode.none,
   });
 
@@ -29,10 +29,10 @@ class QuillSearchConfigurations {
   /// [rememberLastSearch] - would recall the last search text used.
   /// [enableSearchHistory] - would allow selection of previous searches.
 
-  QuillSearchConfigurations copyWith({
+  QuillSearchConfig copyWith({
     SearchEmbedMode? searchEmbedMode,
   }) {
-    return QuillSearchConfigurations(
+    return QuillSearchConfig(
       searchEmbedMode: searchEmbedMode ?? this.searchEmbedMode,
     );
   }

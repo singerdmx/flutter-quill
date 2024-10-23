@@ -2,29 +2,27 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart'
-    show TextCapitalization, TextInputAction, TextSelectionThemeData;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
 
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
 import '../raw_editor/config/events/events.dart';
-import '../raw_editor/config/raw_editor_configurations.dart';
+import '../raw_editor/config/raw_editor_config.dart';
 import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
-import 'search_configurations.dart';
+import 'search_config.dart';
 
-// IMPORTANT For project authors: The QuillEditorConfigurations.copyWith()
+// IMPORTANT For project authors: The QuillEditorConfig.copyWith()
 // should be manually updated each time we add or remove a property
 
 /// The configuration of the editor widget.
 @immutable
-class QuillEditorConfigurations {
-  const QuillEditorConfigurations({
+class QuillEditorConfig {
+  const QuillEditorConfig({
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     @experimental this.characterShortcutEvents = const [],
@@ -56,7 +54,7 @@ class QuillEditorConfigurations {
     this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
     this.unknownEmbedBuilder,
-    this.searchConfigurations = const QuillSearchConfigurations(),
+    this.searchConfig = const QuillSearchConfig(),
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -194,7 +192,7 @@ class QuillEditorConfigurations {
   ///
   /// Defaults to `true`.
   ///
-  /// See also: [onTapOutside] and [QuillRawEditorConfigurations.onTapOutsideEnabled].
+  /// See also: [onTapOutside] and [QuillRawEditorConfig.onTapOutsideEnabled].
   final bool onTapOutsideEnabled;
 
   /// By default on non-mobile platforms, the editor will unfocus.
@@ -204,7 +202,7 @@ class QuillEditorConfigurations {
   ///
   /// By passing a non-null value, you will override the default behavior.
   ///
-  /// See also: [onTapOutsideEnabled] and [QuillRawEditorConfigurations.onTapOutside].
+  /// See also: [onTapOutsideEnabled] and [QuillRawEditorConfig.onTapOutside].
   final Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside;
 
   /// Whether to show cursor.
@@ -293,7 +291,7 @@ class QuillEditorConfigurations {
   /// ```
   ///
   /// See also: https://github.com/flutter/flutter/blob/06b9f7ba0bef2b5b44a643c73f4295a096de1202/packages/flutter/lib/src/services/text_input.dart#L621-L626
-  /// and [QuillRawEditorConfigurations.keyboardAppearance]
+  /// and [QuillRawEditorConfig.keyboardAppearance]
   final Brightness keyboardAppearance;
 
   /// The [ScrollPhysics] to use when vertically scrolling the input.
@@ -336,7 +334,7 @@ class QuillEditorConfigurations {
   final CustomStyleBuilder? customStyleBuilder;
   final CustomRecognizerBuilder? customRecognizerBuilder;
 
-  final QuillSearchConfigurations searchConfigurations;
+  final QuillSearchConfig searchConfig;
 
   /// Delegate function responsible for showing menu with link actions on
   /// mobile platforms (iOS, Android).
@@ -437,7 +435,7 @@ class QuillEditorConfigurations {
   // IMPORTANT For project authors: The copyWith()
   // should be manually updated each time we add or remove a property
 
-  QuillEditorConfigurations copyWith({
+  QuillEditorConfig copyWith({
     LeadingBlockNodeBuilder? customLeadingBlockBuilder,
     String? placeholder,
     List<CharacterShortcutEvent>? characterShortcutEvents,
@@ -469,7 +467,7 @@ class QuillEditorConfigurations {
     EmbedBuilder? unknownEmbedBuilder,
     CustomStyleBuilder? customStyleBuilder,
     CustomRecognizerBuilder? customRecognizerBuilder,
-    QuillSearchConfigurations? searchConfigurations,
+    QuillSearchConfig? searchConfig,
     LinkActionPickerDelegate? linkActionPickerDelegate,
     bool? floatingCursorDisabled,
     TextSelectionControls? textSelectionControls,
@@ -492,7 +490,7 @@ class QuillEditorConfigurations {
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
   }) {
-    return QuillEditorConfigurations(
+    return QuillEditorConfig(
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,
@@ -530,7 +528,7 @@ class QuillEditorConfigurations {
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
       customRecognizerBuilder:
           customRecognizerBuilder ?? this.customRecognizerBuilder,
-      searchConfigurations: searchConfigurations ?? this.searchConfigurations,
+      searchConfig: searchConfig ?? this.searchConfig,
       linkActionPickerDelegate:
           linkActionPickerDelegate ?? this.linkActionPickerDelegate,
       floatingCursorDisabled:

@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
-import '../editor/raw_editor/raw_editor_state.dart';
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
@@ -15,6 +14,7 @@ import '../document/nodes/embeddable.dart';
 import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
+import '../editor/raw_editor/raw_editor_state.dart';
 import 'quill_controller_configurations.dart';
 import 'quill_controller_rich_paste.dart';
 
@@ -25,7 +25,7 @@ class QuillController extends ChangeNotifier {
   QuillController({
     required Document document,
     required TextSelection selection,
-    this.configurations = const QuillControllerConfigurations(),
+    this.config = const QuillControllerConfig(),
     this.keepStyleOnNewLine = true,
     this.onReplaceText,
     this.onDelete,
@@ -36,16 +36,15 @@ class QuillController extends ChangeNotifier {
         _selection = selection;
 
   factory QuillController.basic({
-    QuillControllerConfigurations configurations =
-        const QuillControllerConfigurations(),
+    QuillControllerConfig config = const QuillControllerConfig(),
   }) =>
       QuillController(
-        configurations: configurations,
+        config: config,
         document: Document(),
         selection: const TextSelection.collapsed(offset: 0),
       );
 
-  final QuillControllerConfigurations configurations;
+  final QuillControllerConfig config;
 
   /// Document managed by this controller.
   Document _document;
@@ -548,7 +547,7 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
-    if (await configurations.onClipboardPaste?.call() == true) {
+    if (await config.onClipboardPaste?.call() == true) {
       updateEditor?.call();
       return true;
     }

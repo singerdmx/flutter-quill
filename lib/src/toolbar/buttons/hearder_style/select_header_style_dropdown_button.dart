@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../document/attribute.dart';
 import '../../../l10n/extensions/localizations_ext.dart';
 import '../../base_button/base_value_button.dart';
-import '../../config/buttons/select_header_style_dropdown_button_configurations.dart';
+import '../../config/buttons/select_header_style_dropdown_button_options.dart';
 
 import '../quill_icon_button.dart';
 

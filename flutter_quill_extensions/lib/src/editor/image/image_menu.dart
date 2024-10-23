@@ -11,14 +11,14 @@ import 'package:flutter_quill/internal.dart';
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/string.dart';
 import '../../common/utils/utils.dart';
-import 'models/image_configurations.dart';
+import 'models/image_config.dart';
 import 'widgets/image.dart' show ImageTapWrapper, getImageStyleString;
 import 'widgets/image_resizer.dart' show ImageResizer;
 
 class ImageOptionsMenu extends StatelessWidget {
   const ImageOptionsMenu({
     required this.controller,
-    required this.configurations,
+    required this.config,
     required this.imageSource,
     required this.imageSize,
     required this.readOnly,
@@ -27,7 +27,7 @@ class ImageOptionsMenu extends StatelessWidget {
   });
 
   final QuillController controller;
-  final QuillEditorImageEmbedConfigurations configurations;
+  final QuillEditorImageEmbedConfig config;
   final String imageSource;
   final ElementSize imageSize;
   final bool readOnly;
@@ -107,8 +107,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 Navigator.of(context).pop();
 
                 // Call the remove check callback if set
-                if (await configurations.shouldRemoveImageCallback
-                        ?.call(imageSource) ==
+                if (await config.shouldRemoveImageCallback?.call(imageSource) ==
                     false) {
                   return;
                 }
@@ -124,7 +123,7 @@ class ImageOptionsMenu extends StatelessWidget {
                   TextSelection.collapsed(offset: offset),
                 );
                 // Call the post remove callback if set
-                await configurations.onImageRemovedCallback.call(imageSource);
+                await config.onImageRemovedCallback.call(imageSource);
               },
             ),
           if (!kIsWeb)
@@ -177,7 +176,7 @@ class ImageOptionsMenu extends StatelessWidget {
               MaterialPageRoute(
                 builder: (_) => ImageTapWrapper(
                   imageUrl: imageSource,
-                  configurations: configurations,
+                  config: config,
                 ),
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../controller/quill_controller.dart';
-import '../config/simple_toolbar_configurations.dart';
+import '../config/simple_toolbar_config.dart';
 import '../theme/quill_icon_theme.dart';
 
 /// The [T] is the options for the button, usually should refresnce itself
