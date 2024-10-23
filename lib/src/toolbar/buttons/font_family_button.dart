@@ -12,16 +12,12 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     QuillToolbarFontFamilyButtonExtraOptions> {
   QuillToolbarFontFamilyButton({
     required super.controller,
-    @Deprecated('Please use the default display text from the options')
-    this.defaultDisplayText,
     super.options = const QuillToolbarFontFamilyButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
         assert(
           options.initialValue == null || options.initialValue!.isNotEmpty,
         );
-
-  final String? defaultDisplayText;
 
   @override
   QuillToolbarFontFamilyButtonState createState() =>
@@ -45,7 +41,6 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
   String get _defaultDisplayText {
     return options.initialValue ??
         widget.options.defaultDisplayText ??
-        widget.defaultDisplayText ??
         context.loc.font;
   }
 

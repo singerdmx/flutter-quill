@@ -10,9 +10,6 @@ class ClipboardServiceProvider {
 
   static ClipboardService get instance => _instance;
 
-  @Deprecated('instacne is a typo, use instance instead.')
-  static ClipboardService get instacne => instance;
-
   static void setInstance(ClipboardService service) {
     _instance = service;
   }

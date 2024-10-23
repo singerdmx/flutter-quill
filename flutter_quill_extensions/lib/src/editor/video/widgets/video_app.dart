@@ -14,10 +14,6 @@ class VideoApp extends StatefulWidget {
   const VideoApp({
     required this.videoUrl,
     required this.readOnly,
-    @Deprecated(
-      'The context is no longer required and will be removed on future releases',
-    )
-    BuildContext? context,
     super.key,
     this.onVideoInit,
   });
