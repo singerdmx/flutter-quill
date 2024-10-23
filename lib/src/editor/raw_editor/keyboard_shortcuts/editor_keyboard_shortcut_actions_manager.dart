@@ -191,7 +191,6 @@ class EditorKeyboardShortcutsActionsManager {
     IndentSelectionIntent: _indentSelectionAction,
     QuillEditorApplyHeaderIntent: _applyHeaderAction,
     QuillEditorApplyCheckListIntent: _applyCheckListAction,
-    // TODO: Double check and see if those and related should be overridable
     QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(rawEditorState),
     ScrollToDocumentBoundaryIntent:
         NavigateToDocumentBoundaryAction(rawEditorState),
