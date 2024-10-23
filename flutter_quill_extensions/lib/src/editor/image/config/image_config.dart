@@ -87,6 +87,9 @@ class QuillEditorImageEmbedConfig {
   ///   // for network images to cache them.
   ///   return CachedNetworkImageProvider(imageUrl);
   /// }
+  ///
+  /// // Return null to fallback to default handling
+  /// return null;
   /// }
   /// ```
   ///
