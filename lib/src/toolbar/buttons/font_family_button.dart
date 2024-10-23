@@ -14,7 +14,7 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     required super.controller,
     super.options = const QuillToolbarFontFamilyButtonOptions(),
     super.key,
-  })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
+  })  : assert(options.items?.isNotEmpty ?? (true)),
         assert(
           options.initialValue == null || options.initialValue!.isNotEmpty,
         );
@@ -44,8 +44,8 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
         context.loc.font;
   }
 
-  Map<String, String> get rawItemsMap {
-    final rawItemsMap = options.rawItemsMap ??
+  Map<String, String> get _items {
+    final fontFamilies = options.items ??
         {
           'Sans Serif': 'sans-serif',
           'Serif': 'serif',
@@ -57,11 +57,11 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
           'Roboto Mono': 'roboto-mono',
           context.loc.clear: 'Clear'
         };
-    return rawItemsMap;
+    return fontFamilies;
   }
 
   String? _getKeyName(String value) {
-    for (final entry in rawItemsMap.entries) {
+    for (final entry in _items.entries) {
       if (entry.value == value) {
         return entry.key;
       }
@@ -115,12 +115,9 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
       child: MenuAnchor(
         controller: _menuController,
         menuChildren: [
-          for (final MapEntry<String, String> fontFamily in rawItemsMap.entries)
+          for (final MapEntry<String, String> fontFamily in _items.entries)
             MenuItemButton(
               key: ValueKey(fontFamily.key),
-              // value: fontFamily.value,
-              // height: options.itemHeight ?? kMinInteractiveDimension,
-              // padding: options.itemPadding,
               onPressed: () {
                 final newValue = fontFamily.value;
                 final keyName = _getKeyName(newValue);

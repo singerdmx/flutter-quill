@@ -13,7 +13,7 @@ class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
     required super.controller,
     super.options = const QuillToolbarFontSizeButtonOptions(),
     super.key,
-  })  : assert(options.rawItemsMap?.isNotEmpty ?? true),
+  })  : assert(options.items?.isNotEmpty ?? true),
         assert(options.initialValue == null ||
             (options.initialValue?.isNotEmpty ?? true));
 
@@ -29,8 +29,8 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
     String> {
   final _menuController = MenuController();
 
-  Map<String, String> get rawItemsMap {
-    final fontSizes = options.rawItemsMap ??
+  Map<String, String> get _items {
+    final fontSizes = options.items ??
         {
           context.loc.small: 'small',
           context.loc.large: 'large',
@@ -66,7 +66,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   }
 
   String? _getKeyName(dynamic value) {
-    for (final entry in rawItemsMap.entries) {
+    for (final entry in _items.entries) {
       if (getFontSize(entry.value) == getFontSize(value)) {
         return entry.key;
       }
@@ -106,7 +106,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
     }
     return MenuAnchor(
       controller: _menuController,
-      menuChildren: rawItemsMap.entries.map((fontSize) {
+      menuChildren: _items.entries.map((fontSize) {
         return MenuItemButton(
           key: ValueKey(fontSize.key),
           onPressed: () {

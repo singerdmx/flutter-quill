@@ -12,7 +12,7 @@ QuillSimpleToolbar(
     config: const QuillSimpleToolbarConfig(
       buttonOptions: QuillSimpleToolbarButtonOptions(
         fontSize: QuillToolbarFontSizeButtonOptions(
-          rawItemsMap: {'Small': '8', 'Medium': '24.5', 'Large': '46'},
+          items: {'Small': '8', 'Medium': '24.5', 'Large': '46'},
         ),
       ),
     ),
@@ -26,7 +26,7 @@ QuillSimpleToolbar(
     config: const QuillSimpleToolbarConfig(
       buttonOptions: QuillSimpleToolbarButtonOptions(
         fontSize: QuillToolbarFontSizeButtonOptions(
-          rawItemsMap: {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'},
+          items: {'Small': '8', 'Medium': '24.5', 'Large': '46', 'Clear': '0'},
         ),
       ),
     ),

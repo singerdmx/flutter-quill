@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../document/attribute.dart';
 import '../../../editor_toolbar_controller_shared/quill_config.dart';
+import '../../buttons/font_size_button.dart';
 
 class QuillToolbarFontSizeButtonExtraOptions
     extends QuillToolbarBaseButtonExtraOptions {
@@ -23,7 +24,7 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   const QuillToolbarFontSizeButtonOptions({
     super.iconSize,
     super.iconButtonFactor,
-    this.rawItemsMap,
+    this.items,
     this.onSelected,
     this.attribute = Attribute.size,
     super.afterButtonPressed,
@@ -41,7 +42,19 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
 
   final ButtonStyle? shape;
 
-  final Map<String, String>? rawItemsMap;
+  /// Defaults to:
+  ///
+  /// ```dart
+  /// {
+  ///   context.loc.small: 'small',
+  ///   context.loc.large: 'large',
+  ///   context.loc.huge: 'huge',
+  ///   context.loc.clear: '0'
+  /// }
+  /// ```
+  ///
+  /// See also: [QuillToolbarFontSizeButtonState._items]
+  final Map<String, String>? items;
   final ValueChanged<String>? onSelected;
   final Attribute attribute;
   final EdgeInsetsGeometry? padding;
@@ -51,43 +64,4 @@ class QuillToolbarFontSizeButtonOptions extends QuillToolbarBaseButtonOptions<
   final Color? defaultItemColor;
   final String? defaultDisplayText;
   final double? width;
-
-  QuillToolbarFontSizeButtonOptions copyWith({
-    double? iconSize,
-    double? iconButtonFactor,
-    double? hoverElevation,
-    double? highlightElevation,
-    List<PopupMenuEntry<String>>? items,
-    Map<String, String>? rawItemsMap,
-    ValueChanged<String>? onSelected,
-    Attribute? attribute,
-    EdgeInsetsGeometry? padding,
-    TextStyle? style,
-    double? width,
-    String? initialValue,
-    TextOverflow? labelOverflow,
-    double? itemHeight,
-    EdgeInsets? itemPadding,
-    Color? defaultItemColor,
-    VoidCallback? afterButtonPressed,
-    String? tooltip,
-    OutlinedBorder? shape,
-    String? defaultDisplayText,
-  }) {
-    return QuillToolbarFontSizeButtonOptions(
-      iconSize: iconSize ?? this.iconSize,
-      iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
-      rawItemsMap: rawItemsMap ?? this.rawItemsMap,
-      onSelected: onSelected ?? this.onSelected,
-      attribute: attribute ?? this.attribute,
-      padding: padding ?? this.padding,
-      style: style ?? this.style,
-      initialValue: initialValue ?? this.initialValue,
-      labelOverflow: labelOverflow ?? this.labelOverflow,
-      defaultItemColor: defaultItemColor ?? this.defaultItemColor,
-      tooltip: tooltip ?? super.tooltip,
-      afterButtonPressed: afterButtonPressed ?? super.afterButtonPressed,
-      defaultDisplayText: defaultDisplayText ?? this.defaultDisplayText,
-    );
-  }
 }

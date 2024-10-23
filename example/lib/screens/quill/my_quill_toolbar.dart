@@ -217,7 +217,7 @@ class MyQuillToolbar extends StatelessWidget {
             multiRowsDisplay: true,
             buttonOptions: QuillSimpleToolbarButtonOptions(
               fontFamily: QuillToolbarFontFamilyButtonOptions(
-                rawItemsMap: {
+                items: {
                   'Amatic': GoogleFonts.amaticSc().fontFamily!,
                   'Annie': GoogleFonts.annieUseYourTelescope().fontFamily!,
                   'Formal': GoogleFonts.petitFormalScript().fontFamily!,
@@ -225,7 +225,7 @@ class MyQuillToolbar extends StatelessWidget {
                 },
               ),
               fontSize: const QuillToolbarFontSizeButtonOptions(
-                rawItemsMap: {
+                items: {
                   '14': '14.0',
                   '16': '16.0',
                   '18': '18.0',

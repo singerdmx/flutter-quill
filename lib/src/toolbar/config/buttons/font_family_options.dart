@@ -1,17 +1,8 @@
-import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/material.dart' show Colors, PopupMenuEntry;
-import 'package:flutter/widgets.dart'
-    show
-        Color,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        IconData,
-        TextOverflow,
-        TextStyle,
-        ValueChanged,
-        VoidCallback;
+import 'package:flutter/material.dart';
 
-import '../../../../flutter_quill.dart';
+import '../../../document/attribute.dart';
+import '../../buttons/font_family_button.dart';
+import '../base_button_options.dart';
 
 @immutable
 class QuillToolbarFontFamilyButtonExtraOptions
@@ -32,7 +23,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarFontFamilyButtonExtraOptions> {
   const QuillToolbarFontFamilyButtonOptions({
     this.attribute = Attribute.font,
-    this.rawItemsMap,
+    this.items,
     super.iconData,
     super.afterButtonPressed,
     super.tooltip,
@@ -54,9 +45,25 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
     this.defaultDisplayText,
   });
 
-  /// By default it will be [fontFamilyValues] from [QuillSimpleToolbarConfig]
-  /// You can override this if you want
-  final Map<String, String>? rawItemsMap;
+  /// Defaults to:
+  ///
+  ///
+  /// ```dart
+  /// {
+  ///  'Sans Serif': 'sans-serif',
+  ///  'Serif': 'serif',
+  ///  'Monospace': 'monospace',
+  ///  'Ibarra Real Nova': 'ibarra-real-nova',
+  ///  'SquarePeg': 'square-peg',
+  ///  'Nunito': 'nunito',
+  ///  'Pacifico': 'pacifico',
+  ///  'Roboto Mono': 'roboto-mono',
+  ///  context.loc.clear: 'Clear'
+  /// }
+  /// ```
+  ///
+  /// See also: [QuillToolbarFontFamilyButtonState._items]
+  final Map<String, String>? items;
   final ValueChanged<String>? onSelected;
   final Attribute attribute;
 
@@ -71,52 +78,4 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
   final EdgeInsets? itemPadding;
   final Color? defaultItemColor;
   final String? defaultDisplayText;
-
-  QuillToolbarFontFamilyButtonOptions copyWith({
-    List<PopupMenuEntry<String>>? items,
-    Map<String, String>? rawItemsMap,
-    ValueChanged<String>? onSelected,
-    Attribute? attribute,
-    EdgeInsetsGeometry? padding,
-    TextStyle? style,
-    double? width,
-    String? initialValue,
-    TextOverflow? labelOverflow,
-    bool? renderFontFamilies,
-    bool? overrideTooltipByFontFamily,
-    double? itemHeight,
-    EdgeInsets? itemPadding,
-    Color? defaultItemColor,
-    double? iconSize,
-    double? iconButtonFactor,
-    IconData? iconData,
-    VoidCallback? afterButtonPressed,
-    String? tooltip,
-    QuillIconTheme? iconTheme,
-    String? defaultDisplayText,
-  }) {
-    return QuillToolbarFontFamilyButtonOptions(
-      attribute: attribute ?? this.attribute,
-      rawItemsMap: rawItemsMap ?? this.rawItemsMap,
-      iconData: iconData ?? this.iconData,
-      afterButtonPressed: afterButtonPressed ?? this.afterButtonPressed,
-      tooltip: tooltip ?? this.tooltip,
-      iconTheme: iconTheme ?? this.iconTheme,
-      onSelected: onSelected ?? this.onSelected,
-      padding: padding ?? this.padding,
-      style: style ?? this.style,
-      width: width ?? this.width,
-      initialValue: initialValue ?? this.initialValue,
-      labelOverflow: labelOverflow ?? this.labelOverflow,
-      renderFontFamilies: renderFontFamilies ?? this.renderFontFamilies,
-      overrideTooltipByFontFamily:
-          overrideTooltipByFontFamily ?? this.overrideTooltipByFontFamily,
-      itemHeight: itemHeight ?? this.itemHeight,
-      itemPadding: itemPadding ?? this.itemPadding,
-      defaultItemColor: defaultItemColor ?? this.defaultItemColor,
-      iconSize: iconSize ?? this.iconSize,
-      iconButtonFactor: iconButtonFactor ?? this.iconButtonFactor,
-      defaultDisplayText: defaultDisplayText ?? this.defaultDisplayText,
-    );
-  }
 }
