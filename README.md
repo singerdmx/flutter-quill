@@ -223,7 +223,7 @@ as they may be altered even in minor versions.
 and [`@visibleForTesting`](https://api.flutter.dev/flutter/meta/visibleForTesting-constant.html) are not intended for
 public use and should be avoided entirely.
 
-- The `package:flutter_quill/flutter_quill_internal.dart` expose internal APIs
+- The `package:flutter_quill/internal.dart` expose internal APIs
 to be used by other related packages and should be avoided when possible.
 
 We make every effort to ensure internal APIs are not exported by default. Use experimental features at your own discretion.
