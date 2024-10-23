@@ -13,7 +13,7 @@ These operations are combined to describe any change in the document's state.
 You can import `Delta` and `Operation` class using:
 
 ```dart
-import 'package:flutter_quill/dart_quill_delta.dart';
+import 'package:flutter_quill/quill_delta.dart';
 ```
 
 # What is a `Operation`?
@@ -51,7 +51,7 @@ An insertion adds new content to the document. The `Insert` operation contains t
 Example of `Insert` operation:
 
 ```dart
-import 'package:flutter_quill/dart_quill_delta.dart';
+import 'package:flutter_quill/quill_delta.dart';
 
 void main() {
   // Create a Delta with a text insertion
@@ -120,7 +120,7 @@ Example of `Delete` operation using `QuillController`
 
 ```dart
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/dart_quill_delta.dart';
+import 'package:flutter_quill/quill_delta.dart';
 
 QuillController _quillController = QuillController(
     document: Document.fromJson([{'insert': 'Hello, world!'}]),
@@ -186,7 +186,7 @@ Using Directly `Delta` class:
 
 ```dart
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/dart_quill_delta.dart';
+import 'package:flutter_quill/quill_delta.dart';
 
 void main() {
   // Create a Delta that retains 10 characters
@@ -218,7 +218,7 @@ Deltas to combine:
 
 ```dart
 
-import 'package:flutter_quill/dart_quill_delta.dart' as quill;
+import 'package:flutter_quill/quill_delta.dart' as quill;
 
 void main() {
  // Defining Delta A
@@ -248,7 +248,7 @@ Deltas to combine:
 - **Delta B**: `[{retain: 6}, {delete: 5}, {insert: "Flutter"}]`
 
 ```dart
-import 'package:flutter_quill/dart_quill_delta.dart' as quill;
+import 'package:flutter_quill/quill_delta.dart' as quill;
 
 void main() {
 
