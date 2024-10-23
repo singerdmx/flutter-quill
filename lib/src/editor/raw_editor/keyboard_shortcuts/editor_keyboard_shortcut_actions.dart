@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../document/attribute.dart';
-import '../../document/style.dart';
-import '../../toolbar/buttons/link_style2_button.dart';
-import '../../toolbar/buttons/search/search_dialog.dart';
-import '../editor.dart';
-import '../widgets/link.dart';
-import 'raw_editor_state.dart';
-import 'raw_editor_text_boundaries.dart';
+import '../../../document/attribute.dart';
+import '../../../document/style.dart';
+import '../../../toolbar/buttons/link_style2_button.dart';
+import '../../../toolbar/buttons/search/search_dialog.dart';
+import '../../editor.dart';
+import '../../widgets/link.dart';
+import '../raw_editor_state.dart';
+import '../raw_editor_text_boundaries.dart';
 
 // -------------------------------  Text Actions -------------------------------
 class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
@@ -264,6 +264,98 @@ class QuillEditorExtendSelectionOrCaretPositionAction extends ContextAction<
   bool get isActionEnabled =>
       state.widget.config.selectionEnabled &&
       state.textEditingValue.selection.isValid;
+}
+
+/// Expands the selection to the start/end of the document.
+///
+/// This matches macOS behavior and differs from [ExpandSelectionToLineBreakIntent].
+///
+/// See: [ExpandSelectionToDocumentBoundaryIntent].
+class ExpandSelectionToDocumentBoundaryAction
+    extends ContextAction<ExpandSelectionToDocumentBoundaryIntent> {
+  ExpandSelectionToDocumentBoundaryAction(this.state);
+
+  final QuillRawEditorState state;
+
+  @override
+  Object? invoke(ExpandSelectionToDocumentBoundaryIntent intent,
+      [BuildContext? context]) {
+    final currentSelection = state.controller.selection;
+    final documentLength = state.controller.document.length;
+
+    final newSelection = intent.forward
+        ? currentSelection.copyWith(
+            extentOffset: documentLength,
+          )
+        : currentSelection.copyWith(
+            extentOffset: 0,
+          );
+    return Actions.invoke(
+      context ?? (throw StateError('BuildContext should not be null.')),
+      UpdateSelectionIntent(
+        state.textEditingValue,
+        newSelection,
+        SelectionChangedCause.keyboard,
+      ),
+    );
+  }
+}
+
+/// Extends the selection to the next/previous line break (`\n`).
+///
+/// This behavior is standard on macOS.
+///
+/// See: [ExpandSelectionToLineBreakIntent]
+class ExpandSelectionToLineBreakAction
+    extends ContextAction<ExpandSelectionToLineBreakIntent> {
+  ExpandSelectionToLineBreakAction(this.state);
+
+  final QuillRawEditorState state;
+  @override
+  Object? invoke(ExpandSelectionToLineBreakIntent intent,
+      [BuildContext? context]) {
+    // Plain text of the document (needed to find line breaks)
+    final text = state.controller.plainTextEditingValue.text;
+
+    final currentSelection = state.controller.selection;
+
+    // Calculate the next or previous line break based on direction
+    final searchStartOffset = currentSelection.extentOffset;
+
+    final targetLineBreak = () {
+      if (intent.forward) {
+        final nextLineBreak = text.indexOf('\n', searchStartOffset);
+        final noNextLineBreak = nextLineBreak == -1;
+        return noNextLineBreak ? text.length : nextLineBreak + 1;
+      }
+
+      // Backward
+
+      // Ensure (searchStartOffset - 1) is not negative to avoid [RangeError]
+      final safePreviousSearchOffset =
+          (searchStartOffset > 0) ? (searchStartOffset - 1) : 0;
+
+      final previousLineBreak =
+          text.lastIndexOf('\n', safePreviousSearchOffset);
+
+      final noPreviousLineBreak = previousLineBreak == -1;
+      return noPreviousLineBreak ? 0 : previousLineBreak;
+    }();
+
+    // Create a new selection, extending it to the line break was found
+    final newSelection = currentSelection.copyWith(
+      extentOffset: targetLineBreak,
+    );
+
+    return Actions.invoke(
+      context ?? (throw StateError('BuildContext should not be null.')),
+      UpdateSelectionIntent(
+        state.textEditingValue,
+        newSelection,
+        SelectionChangedCause.keyboard,
+      ),
+    );
+  }
 }
 
 class QuillEditorUpdateTextSelectionToAdjacentLineAction<
@@ -623,6 +715,7 @@ class QuillEditorInsertEmbedIntent extends Intent {
   final Attribute type;
 }
 
+/// Navigate to the start or end of the document
 class NavigateToDocumentBoundaryAction
     extends ContextAction<ScrollToDocumentBoundaryIntent> {
   NavigateToDocumentBoundaryAction(this.state);
