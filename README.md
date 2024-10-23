@@ -87,6 +87,16 @@ You can join our [Slack Group] for discussion.
 flutter pub add flutter_quill
 ```
 
+<p align="center">OR</p>
+
+```yaml
+dependencies:
+  flutter_quill:
+    git:
+      url: https://github.com/singerdmx/flutter-quill.git
+      ref: v<latest-version-here>
+```
+
 ## 🛠 Platform Setup
 
 The `flutter_quill` package uses the following plugins:
