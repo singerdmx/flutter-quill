@@ -150,6 +150,7 @@ class QuillTextLink {
 Future<LinkMenuAction> _showCupertinoLinkMenu(
     BuildContext context, String link) async {
   final result = await showCupertinoModalPopup<LinkMenuAction>(
+    useRootNavigator: false,
     context: context,
     builder: (ctx) {
       return CupertinoActionSheet(
