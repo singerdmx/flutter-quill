@@ -15,7 +15,7 @@ import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
-import 'quill_controller_configurations.dart';
+import 'quill_controller_config.dart';
 import 'quill_controller_rich_paste.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
