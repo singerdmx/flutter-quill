@@ -12,8 +12,10 @@ import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../editor_builder.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
+import '../raw_editor/builders/placeholder/placeholder_configuration.dart';
 import '../raw_editor/config/events/events.dart';
 import '../raw_editor/raw_editor.dart';
+import '../widgets/cursor_configuration/cursor_configuration.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
@@ -36,6 +38,8 @@ class QuillEditorConfigurations extends Equatable {
     this.padding = EdgeInsets.zero,
     this.characterShortcutEvents = const [],
     this.spaceShortcutEvents = const [],
+    this.placeholderComponentsConfiguration,
+    this.cursorParagrahPlaceholderConfiguration,
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
@@ -152,6 +156,40 @@ class QuillEditorConfigurations extends Equatable {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+  /// Whether the line is empty, this let us add a placeholder
+  ///
+  /// _Note: these placeholders are limited only to lines with block styles_
+  ///
+  /// ### Example
+  ///
+  /// Assume that you want to show only a placeholder text for the header items,
+  /// so, we only need to configure `placeholderComponentsConfiguration` like:
+  ///
+  ///```dart
+  ///final configuration = PlaceholderComponentsConfiguration(
+  ///  builders: <String, PlaceholderConfigurationBuilder>{
+  ///   Attribute.header.key: (Attribute attr, style) {
+  ///     final values = [30, 27, 22];
+  ///     final level = attr.value as int?;
+  ///     if (level == null) return null;
+  ///       final fontSize = values[level - 1];
+  ///       return PlaceholderArguments(
+  ///         placeholderText: 'Header $level',
+  ///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
+  ///       );
+  ///   },
+  /// },
+  /// // if you use custom attribute keys into the `builders` param, them you will need to implement that
+  /// // here too
+  /// customBlockAttributesKeys: null,
+  ///),
+  ///```
+  final PlaceholderComponentsConfiguration? placeholderComponentsConfiguration;
+
+  /// This argument configure how will be showed the placeholder at right or left of the cursor
+  final CursorParagrahPlaceholderConfiguration?
+      cursorParagrahPlaceholderConfiguration;
 
   /// Whether the text can be changed.
   ///
@@ -519,9 +557,12 @@ class QuillEditorConfigurations extends Equatable {
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
     LeadingBlockNodeBuilder? customLeadingBlockBuilder,
+    PlaceholderComponentsConfiguration? placeholderComponentsConfiguration,
     bool? requestKeyboardFocusOnCheckListChanged,
     QuillEditorElementOptions? elementOptions,
     QuillEditorBuilder? builder,
+    CursorParagrahPlaceholderConfiguration?
+        cursorParagrahPlaceholderConfiguration,
     TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
@@ -531,6 +572,11 @@ class QuillEditorConfigurations extends Equatable {
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
+      cursorParagrahPlaceholderConfiguration:
+          cursorParagrahPlaceholderConfiguration ??
+              this.cursorParagrahPlaceholderConfiguration,
+      placeholderComponentsConfiguration: placeholderComponentsConfiguration ??
+          this.placeholderComponentsConfiguration,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       // ignore: deprecated_member_use_from_same_package

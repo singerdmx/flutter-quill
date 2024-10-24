@@ -14,8 +14,10 @@ import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
 import '../../provider.dart';
 import '../../raw_editor/builders/leading_block_builder.dart';
+import '../../raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import '../box.dart';
 import '../cursor.dart';
+import '../cursor_configuration/cursor_configuration.dart';
 import '../default_leading_components/leading_components.dart';
 import '../default_styles.dart';
 import '../delegate.dart';
@@ -78,6 +80,8 @@ class EditableTextBlock extends StatelessWidget {
     required this.onCheckboxTap,
     required this.readOnly,
     required this.customRecognizerBuilder,
+    required this.placeholderBuilder,
+    required this.cursorParagrahPlaceholderConfiguration,
     required this.composingRange,
     this.checkBoxReadOnly,
     this.onLaunchUrl,
@@ -93,6 +97,9 @@ class EditableTextBlock extends StatelessWidget {
   final double scrollBottomInset;
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
+  final PlaceholderBuilder? placeholderBuilder;
+  final CursorParagrahPlaceholderConfiguration?
+      cursorParagrahPlaceholderConfiguration;
   final TextSelection textSelection;
   final Color color;
   final DefaultStyles? styles;
@@ -187,6 +194,7 @@ class EditableTextBlock extends StatelessWidget {
           line: line,
           textDirection: textDirection,
           embedBuilder: embedBuilder,
+          placeholderBuilder: placeholderBuilder,
           customStyleBuilder: customStyleBuilder,
           styles: styles!,
           readOnly: readOnly,
@@ -207,6 +215,7 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
         styles!.inlineCode!,
+        cursorParagrahPlaceholderConfiguration,
       );
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
       children.add(

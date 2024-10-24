@@ -16,6 +16,7 @@ import '../../../common/utils/font.dart';
 import '../../../common/utils/platform.dart';
 import '../../../document/nodes/container.dart' as container_node;
 import '../../../document/nodes/leaf.dart' as leaf;
+import '../../raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import '../box.dart';
 import '../delegate.dart';
 import '../keyboard_listener.dart';
@@ -32,6 +33,7 @@ class TextLine extends StatefulWidget {
     required this.onLaunchUrl,
     required this.linkActionPicker,
     required this.composingRange,
+    this.placeholderBuilder,
     this.textDirection,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -41,6 +43,7 @@ class TextLine extends StatefulWidget {
 
   final Line line;
   final TextDirection? textDirection;
+  final PlaceholderBuilder? placeholderBuilder;
   final EmbedsBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
@@ -266,7 +269,32 @@ class _TextLineState extends State<TextLine> {
     LinkedList<Node> nodes,
     TextStyle lineStyle,
   ) {
-    if (nodes.isEmpty && kIsWeb) {
+    var addWebNodeIfNeeded = widget.placeholderBuilder == null;
+    if (widget.placeholderBuilder != null &&
+        nodes.isEmpty &&
+        widget.placeholderBuilder!.builders.isNotEmpty) {
+      final (shouldShowNode, attrKey) =
+          widget.placeholderBuilder!.shouldShowPlaceholder(widget.line);
+      if (shouldShowNode) {
+        final style = lineStyle.merge(_getInlineTextStyle(
+            const Style(), defaultStyles, widget.line.style, false));
+        final placeholderWidget = widget.placeholderBuilder!.build(
+          blockAttribute: widget.line.style.attributes[attrKey]!,
+          lineStyle: style,
+          textDirection: widget.textDirection ?? Directionality.of(context),
+          align: _getTextAlign(),
+          strutStyle: StrutStyle.fromTextStyle(style),
+        );
+        if (placeholderWidget != null) {
+          return TextSpan(children: [placeholderWidget], style: style);
+        }
+      }
+      // if the [placeholderWidget] is null or [shouldShowNode] is false
+      // then this line will be executed and avoid non add
+      // the needed node when the line is empty
+      addWebNodeIfNeeded = true;
+    }
+    if (nodes.isEmpty && kIsWeb && addWebNodeIfNeeded) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
 
@@ -466,6 +494,7 @@ class _TextLineState extends State<TextLine> {
         nodeStyle.attributes[Attribute.link.key]!.value != null;
     final style =
         _getInlineTextStyle(nodeStyle, defaultStyles, lineStyle, isLink);
+
     if (widget.controller.configurations.requireScriptFontFeatures == false &&
         textNode.value.isNotEmpty) {
       if (nodeStyle.containsKey(Attribute.script.key)) {
@@ -701,6 +730,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.devicePixelRatio,
       this.cursorCont,
       this.inlineCodeStyle,
+      this.cursorParagrahPlaceholderConfiguration,
       {super.key});
 
   final Line line;
@@ -708,6 +738,8 @@ class EditableTextLine extends RenderObjectWidget {
   final Widget body;
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
+  final CursorParagrahPlaceholderConfiguration?
+      cursorParagrahPlaceholderConfiguration;
   final TextDirection textDirection;
   final TextSelection textSelection;
   final Color color;
@@ -734,7 +766,8 @@ class EditableTextLine extends RenderObjectWidget {
         _getPadding(),
         color,
         cursorCont,
-        inlineCodeStyle);
+        inlineCodeStyle,
+        cursorParagrahPlaceholderConfiguration);
   }
 
   @override
@@ -746,6 +779,8 @@ class EditableTextLine extends RenderObjectWidget {
       ..setTextDirection(textDirection)
       ..setTextSelection(textSelection)
       ..setColor(color)
+      ..setCursorParagraphPlaceholderConfiguration(
+          cursorParagrahPlaceholderConfiguration)
       ..setEnableInteractiveSelection(enableInteractiveSelection)
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
@@ -777,6 +812,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.cursorParagrahPlaceholderConfiguration,
   );
 
   RenderBox? _leading;
@@ -786,6 +822,8 @@ class RenderEditableTextLine extends RenderEditableBox {
   TextSelection textSelection;
   Color color;
   bool enableInteractiveSelection;
+  CursorParagrahPlaceholderConfiguration?
+      cursorParagrahPlaceholderConfiguration;
   bool hasFocus = false;
   double devicePixelRatio;
   EdgeInsetsGeometry padding;
@@ -811,6 +849,15 @@ class RenderEditableTextLine extends RenderEditableBox {
       return;
     }
     cursorCont = c;
+    markNeedsLayout();
+  }
+
+  void setCursorParagraphPlaceholderConfiguration(
+      CursorParagrahPlaceholderConfiguration? c) {
+    if (cursorParagrahPlaceholderConfiguration == c) {
+      return;
+    }
+    cursorParagrahPlaceholderConfiguration = c;
     markNeedsLayout();
   }
 
@@ -1420,6 +1467,9 @@ class RenderEditableTextLine extends RenderEditableBox {
       effectiveOffset,
       position,
       lineHasEmbed,
+      line,
+      cursorParagrahPlaceholderConfiguration,
+      textDirection,
     );
   }
 
