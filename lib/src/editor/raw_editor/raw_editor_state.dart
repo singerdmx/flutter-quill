@@ -42,6 +42,8 @@ import 'raw_editor_state_selection_delegate_mixin.dart';
 import 'raw_editor_state_text_input_client_mixin.dart';
 import 'scribble_focusable.dart';
 
+part '../magnifier/quill_raw_editor_state_magnifier_ext.dart';
+
 class QuillRawEditorState extends EditorState
     with
         AutomaticKeepAliveClientMixin<QuillRawEditor>,
@@ -1121,8 +1123,7 @@ class QuillRawEditorState extends EditorState
           ? null
           : (context) =>
               widget.configurations.contextMenuBuilder!(context, this),
-      magnifierConfiguration: widget.configurations.magnifierConfiguration ??
-          TextMagnifier.adaptiveMagnifierConfiguration,
+      magnifierConfiguration: _magnifierConfiguration,
     );
   }
 
@@ -1347,26 +1348,13 @@ class QuillRawEditorState extends EditorState
   bool get shareEnabled => false;
 
   @override
-  void hideMagnifier() {
-    if (_selectionOverlay == null) return;
-    _selectionOverlay?.hideMagnifier();
-  }
+  void hideMagnifier() => _hideMagnifier();
 
   @override
-  void showMagnifier(ui.Offset positionToShow) {
-    if (_hasFocus == false) return;
-    if (_selectionOverlay == null) return;
-    final position = renderEditor.getPositionForOffset(positionToShow);
-    if (_selectionOverlay!.magnifierIsVisible) {
-      _selectionOverlay!
-          .updateMagnifier(position, positionToShow, renderEditor);
-    } else {
-      _selectionOverlay!.showMagnifier(position, positionToShow, renderEditor);
-    }
-  }
+  void showMagnifier(ui.Offset positionToShow) =>
+      _showMagnifier(positionToShow);
 
   @override
-  void updateMagnifier(ui.Offset positionToShow) {
-    showMagnifier(positionToShow);
-  }
+  void updateMagnifier(ui.Offset positionToShow) =>
+      _updateMagnifier(positionToShow);
 }

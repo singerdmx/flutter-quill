@@ -8,6 +8,8 @@ import 'package:flutter/scheduler.dart';
 import '../../../document/nodes/node.dart';
 import '../../editor.dart';
 
+part '../../magnifier/text_selection_magnifier_ext.dart';
+
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;
   assert(base <= selection.end && selection.start <= base + node.length - 1);
@@ -180,11 +182,8 @@ class EditorTextSelectionOverlay {
 
   /// A copy/paste toolbar.
   OverlayEntry? toolbar;
-  bool _restoreToolbar = false;
 
   TextSelection get _selection => value.selection;
-
-  final MagnifierController _magnifierController = MagnifierController();
 
   bool get magnifierIsVisible => _magnifierController.shown;
 
@@ -381,6 +380,10 @@ class EditorTextSelectionOverlay {
     markNeedsBuild();
   }
 
+  // TODO: Are those specific to the magnifier? Is this a feature specific to the native Android
+  //   and iOS apps (outside of the browser)? If yes, need to use isAndroidApp
+  //   and isIosApp, if no, use isAndroid and isIos for clarity
+
   void _onHandleDragStart(DragStartDetails details, TextPosition position) {
     if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
     if (defaultTargetPlatform != TargetPlatform.iOS &&
@@ -400,109 +403,6 @@ class EditorTextSelectionOverlay {
     if (defaultTargetPlatform != TargetPlatform.iOS &&
         defaultTargetPlatform != TargetPlatform.android) return;
     hideMagnifier();
-  }
-
-  void showMagnifier(
-      TextPosition position, Offset offset, RenderEditor editor) {
-    _showMagnifier(
-      _buildMagnifier(
-        currentTextPosition: position,
-        globalGesturePosition: offset,
-        renderEditable: editor,
-      ),
-    );
-  }
-
-  void _showMagnifier(MagnifierInfo initialMagnifierInfo) {
-    // 隐藏toolbar
-    if (toolbar != null) {
-      _restoreToolbar = true;
-      hideToolbar();
-    } else {
-      _restoreToolbar = false;
-    }
-
-    // 更新 magnifierInfo
-    _magnifierInfo.value = initialMagnifierInfo;
-
-    final builtMagnifier = magnifierConfiguration.magnifierBuilder(
-      context,
-      _magnifierController,
-      _magnifierInfo,
-    );
-
-    if (builtMagnifier == null) return;
-
-    _magnifierController.show(
-      context: context,
-      below: magnifierConfiguration.shouldDisplayHandlesInMagnifier
-          ? null
-          : _handles?.elementAtOrNull(0),
-      builder: (_) => builtMagnifier,
-    );
-  }
-
-  void updateMagnifier(
-      TextPosition position, Offset offset, RenderEditor editor) {
-    _updateMagnifier(
-      _buildMagnifier(
-        currentTextPosition: position,
-        globalGesturePosition: offset,
-        renderEditable: editor,
-      ),
-    );
-  }
-
-  void _updateMagnifier(MagnifierInfo magnifierInfo) {
-    if (_magnifierController.overlayEntry == null) {
-      return;
-    }
-    _magnifierInfo.value = magnifierInfo;
-  }
-
-  void hideMagnifier() {
-    if (_magnifierController.overlayEntry == null) {
-      return;
-    }
-    _magnifierController.hide();
-    if (_restoreToolbar) {
-      _restoreToolbar = false;
-      showToolbar();
-    }
-  }
-
-  // build magnifier info
-  MagnifierInfo _buildMagnifier(
-      {required RenderEditor renderEditable,
-      required Offset globalGesturePosition,
-      required TextPosition currentTextPosition}) {
-    final globalRenderEditableTopLeft =
-        renderEditable.localToGlobal(Offset.zero);
-    final localCaretRect =
-        renderEditable.getLocalRectForCaret(currentTextPosition);
-
-    final lineAtOffset = renderEditable.getLineAtOffset(currentTextPosition);
-    final positionAtEndOfLine = TextPosition(
-      offset: lineAtOffset.extentOffset,
-      affinity: TextAffinity.upstream,
-    );
-
-    // Default affinity is downstream.
-    final positionAtBeginningOfLine = TextPosition(
-      offset: lineAtOffset.baseOffset,
-    );
-
-    final lineBoundaries = Rect.fromPoints(
-      renderEditable.getLocalRectForCaret(positionAtBeginningOfLine).topCenter,
-      renderEditable.getLocalRectForCaret(positionAtEndOfLine).bottomCenter,
-    );
-
-    return MagnifierInfo(
-      fieldBounds: globalRenderEditableTopLeft & renderEditable.size,
-      globalGesturePosition: globalGesturePosition,
-      caretRect: localCaretRect.shift(globalRenderEditableTopLeft),
-      currentLineBoundaries: lineBoundaries.shift(globalRenderEditableTopLeft),
-    );
   }
 }
 

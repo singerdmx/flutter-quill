@@ -1,19 +1,9 @@
-import 'dart:ui' show Offset;
-
-import 'package:flutter/widgets.dart'
-    show
-        AnimationController,
-        BuildContext,
-        ScrollController,
-        State,
-        StatefulWidget,
-        TextSelectionDelegate,
-        Widget,
-        immutable;
+import 'package:flutter/widgets.dart';
 
 import '../../common/structs/offset_value.dart';
 import '../../controller/quill_controller.dart';
 import '../editor.dart';
+import '../magnifier/quill_magnifier_controller.dart';
 import '../widgets/text/text_selection.dart';
 import 'config/raw_editor_configurations.dart';
 import 'raw_editor_state.dart';
@@ -73,7 +63,7 @@ class QuillEditorGlyphHeights {
 /// Base interface for the editor state which defines contract used by
 /// various mixins.
 abstract class EditorState extends State<QuillRawEditor>
-    implements TextSelectionDelegate {
+    implements TextSelectionDelegate, QuillMagnifierController {
   ScrollController get scrollController;
 
   RenderEditor get renderEditor;
@@ -94,12 +84,6 @@ abstract class EditorState extends State<QuillRawEditor>
   bool showToolbar();
 
   void requestKeyboard();
-
-  void showMagnifier(Offset positionToShow);
-
-  void updateMagnifier(Offset positionToShow);
-
-  void hideMagnifier();
 
   void toggleToolbar([bool hideHandles = true]);
 }
