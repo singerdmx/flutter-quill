@@ -150,6 +150,7 @@ class QuillTextLink {
 Future<LinkMenuAction> _showCupertinoLinkMenu(
     BuildContext context, String link) async {
   final result = await showCupertinoModalPopup<LinkMenuAction>(
+    // Set useRootNavigator to false to fix https://github.com/singerdmx/flutter-quill/issues/1170
     useRootNavigator: false,
     context: context,
     builder: (ctx) {
