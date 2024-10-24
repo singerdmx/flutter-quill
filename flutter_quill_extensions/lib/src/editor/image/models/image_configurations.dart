@@ -17,6 +17,7 @@ class QuillEditorImageEmbedConfigurations {
     this.imageProviderBuilder,
     this.imageErrorWidgetBuilder,
     this.onImageClicked,
+    this.networkImageHeaders,
   }) : _onImageRemovedCallback = onImageRemovedCallback;
 
   /// [onImageRemovedCallback] is called when an image is
@@ -105,6 +106,28 @@ class QuillEditorImageEmbedConfigurations {
   /// By default will show `ImageOptionsMenu` dialog. If you want to handle what happens
   /// to the image when it's clicked, you can pass a callback to this property.
   final void Function(String imageSource)? onImageClicked;
+
+  /// Custom HTTP Headers to be used when fetching images from the network
+  /// This is useful when you want to add custom headers to the image request
+  /// For example, you can add an Authorization header to the request
+  /// to fetch images from a private server
+  /// ```dart
+  /// final headers = {
+  ///  'Authorization': 'Bearer $token',
+  /// };
+  /// ```
+  /// Then pass the headers to the configurations
+  /// ```dart
+  /// final imageConfigurations = QuillEditorImageEmbedConfigurations(
+  ///  networkImageHeaders: headers,
+  /// );
+  /// ```
+  /// The headers will be used when fetching images from the network
+  /// and will be passed to the `NetworkImage` provider
+  /// ```dart
+  /// final imageProvider = NetworkImage(imageUrl, headers: networkImageHeaders);
+  /// ```
+  final Map<String, String>? networkImageHeaders;
 
   static ImageEmbedBuilderOnRemovedCallback get defaultOnImageRemovedCallback {
     return (imageUrl) async {
