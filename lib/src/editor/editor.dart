@@ -138,13 +138,18 @@ class QuillEditor extends StatefulWidget {
   /// ),
   /// ```
   ///
-  const QuillEditor({
+  QuillEditor({
     required this.focusNode,
     required this.scrollController,
     required this.controller,
     this.config = const QuillEditorConfig(),
     super.key,
-  });
+  }) {
+    // Store editor config in the controller to pass them to the document to
+    // support search within embed objects https://github.com/singerdmx/flutter-quill/pull/2090.
+    // For internal use only, should not be exposed as a public API.
+    controller.editorConfig = config;
+  }
 
   factory QuillEditor.basic({
     required QuillController controller,

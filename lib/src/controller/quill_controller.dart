@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
 import '../../quill_delta.dart';
 import '../common/structs/image_url.dart';
@@ -14,6 +15,7 @@ import '../document/nodes/embeddable.dart';
 import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
+import '../editor/config/editor_config.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
 import 'quill_controller_config.dart';
 import 'quill_controller_rich_paste.dart';
@@ -51,8 +53,32 @@ class QuillController extends ChangeNotifier {
 
   Document get document => _document;
 
+  // Store editor config to pass them to the document to
+  // support search within embed objects https://github.com/singerdmx/flutter-quill/pull/2090.
+  // For internal use only, should not be exposed as a public API.
+  QuillEditorConfig? _editorConfig;
+
+  @visibleForTesting
+  @internal
+  QuillEditorConfig? get editorConfig => _editorConfig;
+  @internal
+  set editorConfig(QuillEditorConfig? value) {
+    _editorConfig = value;
+    _setDocumentSearchProperties();
+  }
+
+  // Pass required editor config to the document
+  // to support search within embed objects https://github.com/singerdmx/flutter-quill/pull/2090
+  void _setDocumentSearchProperties() {
+    _document
+      ..searchConfig = _editorConfig?.searchConfig
+      ..embedBuilders = _editorConfig?.embedBuilders
+      ..unknownEmbedBuilder = _editorConfig?.unknownEmbedBuilder;
+  }
+
   set document(Document doc) {
     _document = doc;
+    _setDocumentSearchProperties();
 
     // Prevent the selection from
     _selection = const TextSelection(baseOffset: 0, extentOffset: 0);

@@ -254,16 +254,28 @@ class Document {
   EmbedBuilder? _unknownEmbedBuilder;
   QuillSearchConfig? _searchConfig;
 
+  @visibleForTesting
   @internal
-  set searchConfig(QuillSearchConfig searchConfig) =>
+  Iterable<EmbedBuilder>? get embedBuilders => _embedBuilders;
+
+  @visibleForTesting
+  @internal
+  EmbedBuilder? get unknownEmbedBuilder => _unknownEmbedBuilder;
+
+  @visibleForTesting
+  @internal
+  QuillSearchConfig? get searchConfig => _searchConfig;
+
+  @internal
+  set searchConfig(QuillSearchConfig? searchConfig) =>
       _searchConfig = searchConfig;
 
   @internal
-  set embedBuilders(Iterable<EmbedBuilder> embedBuilders) =>
+  set embedBuilders(Iterable<EmbedBuilder>? embedBuilders) =>
       _embedBuilders = embedBuilders;
 
   @internal
-  set unknownEmbedBuilder(EmbedBuilder unknownEmbedBuilder) =>
+  set unknownEmbedBuilder(EmbedBuilder? unknownEmbedBuilder) =>
       _unknownEmbedBuilder = unknownEmbedBuilder;
 
   /// Returns plain text within the specified text range.
