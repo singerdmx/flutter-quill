@@ -97,6 +97,9 @@ dependencies:
       ref: v<latest-version-here>
 ```
 
+> [!TIP]
+> If you're using version `10.0.0`, see [the migration guide to migrate to `11.0.0`](https://github.com/singerdmx/flutter-quill/blob/master/doc/migration/10_to_11.md).
+
 ## 🛠 Platform Setup
 
 The `flutter_quill` package uses the following plugins:
