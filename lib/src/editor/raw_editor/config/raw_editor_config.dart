@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 import '../../../editor/embed/embed_editor_builder.dart';
 import '../../../editor/raw_editor/raw_editor.dart';
@@ -56,7 +57,7 @@ class QuillRawEditorConfig {
     this.customRecognizerBuilder,
     this.floatingCursorDisabled = false,
     this.onImagePaste,
-    this.onGifPaste,
+    @experimental this.onGifPaste,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
     this.contentInsertionConfiguration,
@@ -313,6 +314,8 @@ class QuillRawEditorConfig {
 
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
 
+  /// Supports **Android** and **iOS** only.
+  @experimental
   final Future<String?> Function(Uint8List imageBytes)? onGifPaste;
 
   /// Contains user-defined shortcuts map.

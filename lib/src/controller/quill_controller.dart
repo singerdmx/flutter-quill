@@ -546,6 +546,7 @@ class QuillController extends ChangeNotifier {
 
   /// Returns whether paste operation was handled here.
   /// [updateEditor] is called if paste operation was successful.
+  @experimental
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 

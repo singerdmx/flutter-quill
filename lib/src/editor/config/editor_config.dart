@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class QuillEditorConfig {
     this.floatingCursorDisabled = false,
     this.textSelectionControls,
     this.onImagePaste,
-    this.onGifPaste,
+    @experimental this.onGifPaste,
     this.customShortcuts,
     this.customActions,
     this.detectWordBoundary = true,
@@ -369,6 +370,9 @@ class QuillEditorConfig {
   /// Callback when the user pastes the given gif.
   ///
   /// Returns the url of the gif if the gif should be inserted.
+  ///
+  /// Supports **Android** and **iOS** only.
+  @experimental
   final Future<String?> Function(Uint8List imageBytes)? onGifPaste;
 
   /// Contains user-defined shortcuts map.
