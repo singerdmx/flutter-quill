@@ -18,7 +18,7 @@ import '../document/style.dart';
 import '../editor/config/editor_config.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
 import 'quill_controller_config.dart';
-import 'quill_controller_rich_paste.dart';
+import 'clipboard/quill_controller_rich_paste.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
@@ -550,20 +550,25 @@ class QuillController extends ChangeNotifier {
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 
-    final pasteUsingInternalImageSuccess = await _pasteInternalImage();
-    if (pasteUsingInternalImageSuccess) {
+    if (await config.onClipboardPaste?.call() == true) {
       updateEditor?.call();
       return true;
     }
 
-    final pasteUsingHtmlSuccess = await pasteHTML();
-    if (pasteUsingHtmlSuccess) {
+    final pasteInternalImageSuccess = await _pasteInternalImage();
+    if (pasteInternalImageSuccess) {
       updateEditor?.call();
       return true;
     }
 
-    final pasteUsingMarkdownSuccess = await pasteMarkdown();
-    if (pasteUsingMarkdownSuccess) {
+    final pasteHtmlSuccess = await pasteHTML();
+    if (pasteHtmlSuccess) {
+      updateEditor?.call();
+      return true;
+    }
+
+    final pasteMarkdownSuccess = await pasteMarkdown();
+    if (pasteMarkdownSuccess) {
       updateEditor?.call();
       return true;
     }
@@ -577,15 +582,11 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
-    if (await config.onClipboardPaste?.call() == true) {
-      updateEditor?.call();
-      return true;
-    }
-
     return false;
   }
 
   @visibleForTesting
+  @internal
   bool pasteUsingPlainOrDelta(String? clipboardText) {
     if (clipboardText != null) {
       /// Internal copy-paste preserves styles and embeds

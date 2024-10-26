@@ -3,10 +3,10 @@
 import 'package:flutter/widgets.dart' show TextSelection;
 import 'package:html/parser.dart' as html_parser;
 
-import '../../quill_delta.dart';
-import '../delta/delta_x.dart';
-import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
-import 'quill_controller.dart';
+import '../../../quill_delta.dart';
+import '../../delta/delta_x.dart';
+import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
+import '../quill_controller.dart';
 
 extension QuillControllerRichPaste on QuillController {
   /// Paste the HTML into the document from [html] if not null, otherwise
