@@ -54,7 +54,7 @@ class QuillEditorConfig {
     this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
     this.unknownEmbedBuilder,
-    this.searchConfig = const QuillSearchConfig(),
+    @experimental this.searchConfig = const QuillSearchConfig(),
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -334,6 +334,9 @@ class QuillEditorConfig {
   final CustomStyleBuilder? customStyleBuilder;
   final CustomRecognizerBuilder? customRecognizerBuilder;
 
+  /// See [search](https://github.com/singerdmx/flutter-quill/blob/master/doc/configurations/search.md)
+  /// page for docs.
+  @experimental
   final QuillSearchConfig searchConfig;
 
   /// Delegate function responsible for showing menu with link actions on

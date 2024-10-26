@@ -1,10 +1,11 @@
 import 'dart:async' show StreamController;
 
+import 'package:meta/meta.dart';
+
 import '../../quill_delta.dart';
 import '../common/structs/offset_value.dart';
 import '../common/structs/segment_leaf_node.dart';
 
-import '../editor/config/editor_config.dart';
 import '../editor/config/search_config.dart';
 import '../editor/embed/embed_editor_builder.dart';
 import '../rules/rule.dart';
@@ -246,21 +247,38 @@ class Document {
     return (res.node as Line).collectAllStylesWithOffsets(res.offset, len);
   }
 
-  /// Editor configurations
-  ///
-  /// Caches configuration set in QuillController.
-  /// Allows access to embedBuilders and search configurations
-  QuillEditorConfig? _editorConfig;
-  QuillEditorConfig get editorConfig =>
-      _editorConfig ?? const QuillEditorConfig();
-  set editorConfig(QuillEditorConfig? value) => _editorConfig = value;
-  QuillSearchConfig get searchConfig => editorConfig.searchConfig;
+  // Store properties that are set in the editor config
+  // to access them here to support search within embed objects.
+  // See https://github.com/singerdmx/flutter-quill/pull/2090
+  Iterable<EmbedBuilder>? _embedBuilders;
+  EmbedBuilder? _unknownEmbedBuilder;
+  QuillSearchConfig? _searchConfig;
+
+  @internal
+  set searchConfig(QuillSearchConfig searchConfig) =>
+      _searchConfig = searchConfig;
+
+  @internal
+  set embedBuilders(Iterable<EmbedBuilder> embedBuilders) =>
+      _embedBuilders = embedBuilders;
+
+  @internal
+  set unknownEmbedBuilder(EmbedBuilder unknownEmbedBuilder) =>
+      _unknownEmbedBuilder = unknownEmbedBuilder;
 
   /// Returns plain text within the specified text range.
-  String getPlainText(int index, int len, [bool includeEmbeds = false]) {
+  String getPlainText(
+    int index,
+    int len, {
+    @internal bool includeEmbeds = false,
+  }) {
     final res = queryChild(index);
-    return (res.node as Line)
-        .getPlainText(res.offset, len, includeEmbeds ? editorConfig : null);
+    return (res.node as Line).getPlainText(
+      res.offset,
+      len,
+      embedBuilders: includeEmbeds ? _embedBuilders : null,
+      unknownEmbedBuilder: includeEmbeds ? _unknownEmbedBuilder : null,
+    );
   }
 
   /// Returns [Line] located at specified character [offset].
@@ -288,12 +306,24 @@ class Document {
     final matches = <int>[];
     for (final node in _root.children) {
       if (node is Line) {
-        _searchLine(substring, caseSensitive, wholeWord,
-            searchConfig.searchEmbedMode, node, matches);
+        _searchLine(
+          substring,
+          caseSensitive,
+          wholeWord,
+          _searchConfig?.searchEmbedMode ?? SearchEmbedMode.none,
+          node,
+          matches,
+        );
       } else if (node is Block) {
         for (final line in Iterable.castFrom<dynamic, Line>(node.children)) {
-          _searchLine(substring, caseSensitive, wholeWord,
-              searchConfig.searchEmbedMode, line, matches);
+          _searchLine(
+            substring,
+            caseSensitive,
+            wholeWord,
+            _searchConfig?.searchEmbedMode ?? SearchEmbedMode.none,
+            line,
+            matches,
+          );
         }
       } else {
         throw StateError('Unreachable.');
@@ -353,16 +383,18 @@ class Document {
 
   String? _embedSearchText(Embed node) {
     EmbedBuilder? builder;
-    if (editorConfig.embedBuilders != null) {
+
+    final embedBuilders = _embedBuilders;
+    if (embedBuilders != null) {
       // Find the builder for this embed
-      for (final b in editorConfig.embedBuilders!) {
+      for (final b in embedBuilders) {
         if (b.key == node.value.type) {
           builder = b;
           break;
         }
       }
     }
-    builder ??= editorConfig.unknownEmbedBuilder;
+    builder ??= _unknownEmbedBuilder;
     //  Get searchable text for this embed
     return builder?.toPlainText(node);
   }

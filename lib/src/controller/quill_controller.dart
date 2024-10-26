@@ -494,7 +494,10 @@ class QuillController extends ChangeNotifier {
 
     /// Get the text for the selected region and expand the content of Embedded objects.
     _pastePlainText = document.getPlainText(
-        selection.start, selection.end - selection.start, true);
+      selection.start,
+      selection.end - selection.start,
+      includeEmbeds: true,
+    );
 
     /// Get the internal representation so it can be pasted into a QuillEditor with style retained.
     _pasteStyleAndEmbed = getAllIndividualSelectionStylesAndEmbed();
