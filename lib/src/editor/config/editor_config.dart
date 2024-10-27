@@ -421,7 +421,8 @@ class QuillEditorConfig {
   /// should we request keyboard focus??
   final bool requestKeyboardFocusOnCheckListChanged;
 
-  /// Currently this feature is experimental
+  /// This feature is currently experimental and only supported
+  /// on **Android** and **iOS**.
   @experimental
   final TextMagnifierConfiguration? magnifierConfiguration;
 

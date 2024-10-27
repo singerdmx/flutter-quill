@@ -17,6 +17,7 @@ import '../document/nodes/container.dart' as container_node;
 import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
+import 'magnifier/magnifier_platform_support.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
@@ -584,7 +585,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
     }
 
-    _showMagnifierIfSupportedByPlatform(details.globalPosition);
+    _showMagnifierIfSupported(details.globalPosition);
   }
 
   @override
@@ -603,25 +604,19 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     }
-    _hideMagnifierIfSupportedByPlatform();
+    _hideMagnifierIfSupported();
     super.onSingleLongTapEnd(details);
   }
 
-  void _showMagnifierIfSupportedByPlatform(Offset positionToShow) {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-      case TargetPlatform.iOS:
-        editor?.showMagnifier(positionToShow);
-      default:
+  void _showMagnifierIfSupported(Offset positionToShow) {
+    if (magnifierSupported) {
+      editor?.showMagnifier(positionToShow);
     }
   }
 
-  void _hideMagnifierIfSupportedByPlatform() {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-      case TargetPlatform.iOS:
-        editor?.hideMagnifier();
-      default:
+  void _hideMagnifierIfSupported() {
+    if (magnifierSupported) {
+      editor?.hideMagnifier();
     }
   }
 }

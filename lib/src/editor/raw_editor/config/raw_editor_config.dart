@@ -378,6 +378,8 @@ class QuillRawEditorConfig {
   /// Optional insets for the scribble area.
   final EdgeInsets? scribbleAreaInsets;
 
+  /// This feature is currently experimental and only supported
+  /// on **Android** and **iOS**.
   @experimental
   final TextMagnifierConfiguration? magnifierConfiguration;
 

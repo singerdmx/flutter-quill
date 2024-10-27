@@ -4,9 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:meta/meta.dart';
 
 import '../../../document/nodes/node.dart';
 import '../../editor.dart';
+import '../../magnifier/magnifier_platform_support.dart';
+
+part '../../magnifier/text_selection_magnifier_ext.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;
@@ -74,6 +78,7 @@ class EditorTextSelectionOverlay {
     this.onSelectionHandleTapped,
     this.dragStartBehavior = DragStartBehavior.start,
     this.handlesVisible = false,
+    @experimental
     this.magnifierConfiguration = TextMagnifierConfiguration.disabled,
   }) {
     // Clipboard status is only checked on first instance of
@@ -189,8 +194,10 @@ class EditorTextSelectionOverlay {
 
   final MagnifierController _magnifierController = MagnifierController();
 
-  bool get magnifierIsVisible => _magnifierController.shown;
+  @experimental
+  bool get isMagnifierVisible => _magnifierController.shown;
 
+  @experimental
   final TextMagnifierConfiguration magnifierConfiguration;
 
   final ValueNotifier<MagnifierInfo> _magnifierInfo =
@@ -386,126 +393,20 @@ class EditorTextSelectionOverlay {
 
   void _onHandleDragStart(DragStartDetails details, TextPosition position) {
     if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
-    if (defaultTargetPlatform != TargetPlatform.iOS &&
-        defaultTargetPlatform != TargetPlatform.android) return;
+    if (!magnifierSupported) return;
     showMagnifier(position, details.globalPosition, renderObject);
   }
 
   void _onHandleDragUpdate(DragUpdateDetails details, TextPosition position) {
     if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
-    if (defaultTargetPlatform != TargetPlatform.iOS &&
-        defaultTargetPlatform != TargetPlatform.android) return;
+    if (!magnifierSupported) return;
     updateMagnifier(position, details.globalPosition, renderObject);
   }
 
   void _onHandleDragEnd(DragEndDetails details) {
     if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
-    if (defaultTargetPlatform != TargetPlatform.iOS &&
-        defaultTargetPlatform != TargetPlatform.android) return;
+    if (!magnifierSupported) return;
     hideMagnifier();
-  }
-
-  void showMagnifier(
-      TextPosition position, Offset offset, RenderEditor editor) {
-    _showMagnifier(
-      _buildMagnifier(
-        currentTextPosition: position,
-        globalGesturePosition: offset,
-        renderEditable: editor,
-      ),
-    );
-  }
-
-  void _showMagnifier(MagnifierInfo initialMagnifierInfo) {
-    // 隐藏toolbar
-    if (toolbar != null) {
-      _restoreToolbarAfterMagnifier = true;
-      hideToolbar();
-    } else {
-      _restoreToolbarAfterMagnifier = false;
-    }
-
-    // 更新 magnifierInfo
-    _magnifierInfo.value = initialMagnifierInfo;
-
-    final builtMagnifier = magnifierConfiguration.magnifierBuilder(
-      context,
-      _magnifierController,
-      _magnifierInfo,
-    );
-
-    if (builtMagnifier == null) return;
-
-    _magnifierController.show(
-      context: context,
-      below: magnifierConfiguration.shouldDisplayHandlesInMagnifier
-          ? null
-          : _handles?.elementAtOrNull(0),
-      builder: (_) => builtMagnifier,
-    );
-  }
-
-  void updateMagnifier(
-      TextPosition position, Offset offset, RenderEditor editor) {
-    _updateMagnifier(
-      _buildMagnifier(
-        currentTextPosition: position,
-        globalGesturePosition: offset,
-        renderEditable: editor,
-      ),
-    );
-  }
-
-  void _updateMagnifier(MagnifierInfo magnifierInfo) {
-    if (_magnifierController.overlayEntry == null) {
-      return;
-    }
-    _magnifierInfo.value = magnifierInfo;
-  }
-
-  void hideMagnifier() {
-    if (_magnifierController.overlayEntry == null) {
-      return;
-    }
-    _magnifierController.hide();
-    if (_restoreToolbarAfterMagnifier) {
-      _restoreToolbarAfterMagnifier = false;
-      showToolbar();
-    }
-  }
-
-  // build magnifier info
-  MagnifierInfo _buildMagnifier(
-      {required RenderEditor renderEditable,
-      required Offset globalGesturePosition,
-      required TextPosition currentTextPosition}) {
-    final globalRenderEditableTopLeft =
-        renderEditable.localToGlobal(Offset.zero);
-    final localCaretRect =
-        renderEditable.getLocalRectForCaret(currentTextPosition);
-
-    final lineAtOffset = renderEditable.getLineAtOffset(currentTextPosition);
-    final positionAtEndOfLine = TextPosition(
-      offset: lineAtOffset.extentOffset,
-      affinity: TextAffinity.upstream,
-    );
-
-    // Default affinity is downstream.
-    final positionAtBeginningOfLine = TextPosition(
-      offset: lineAtOffset.baseOffset,
-    );
-
-    final lineBoundaries = Rect.fromPoints(
-      renderEditable.getLocalRectForCaret(positionAtBeginningOfLine).topCenter,
-      renderEditable.getLocalRectForCaret(positionAtEndOfLine).bottomCenter,
-    );
-
-    return MagnifierInfo(
-      fieldBounds: globalRenderEditableTopLeft & renderEditable.size,
-      globalGesturePosition: globalGesturePosition,
-      caretRect: localCaretRect.shift(globalRenderEditableTopLeft),
-      currentLineBoundaries: lineBoundaries.shift(globalRenderEditableTopLeft),
-    );
   }
 }
 

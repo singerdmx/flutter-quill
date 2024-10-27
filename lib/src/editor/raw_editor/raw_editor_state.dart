@@ -1344,7 +1344,7 @@ class QuillRawEditorState extends EditorState
     if (_hasFocus == false) return;
     if (_selectionOverlay == null) return;
     final position = renderEditor.getPositionForOffset(positionToShow);
-    if (_selectionOverlay!.magnifierIsVisible) {
+    if (_selectionOverlay!.isMagnifierVisible) {
       _selectionOverlay!
           .updateMagnifier(position, positionToShow, renderEditor);
     } else {
