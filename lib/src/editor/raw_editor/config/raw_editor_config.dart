@@ -69,7 +69,7 @@ class QuillRawEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.magnifierConfiguration,
     this.onPerformAction,
-    this.customLeadingBuilder,
+    @experimental this.customLeadingBuilder,
   });
 
   /// Controls whether this editor has keyboard focus.
@@ -77,6 +77,7 @@ class QuillRawEditorConfig {
   final ScrollController scrollController;
   final bool scrollable;
   final double scrollBottomInset;
+  @experimental
   final LeadingBlockNodeBuilder? customLeadingBuilder;
 
   /// Contains all the events that will be handled when

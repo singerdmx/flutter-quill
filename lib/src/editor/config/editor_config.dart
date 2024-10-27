@@ -81,9 +81,10 @@ class QuillEditorConfig {
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
-    this.customLeadingBlockBuilder,
+    @experimental this.customLeadingBlockBuilder,
   });
 
+  @experimental
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
 
   /// The text placeholder in the quill editor
