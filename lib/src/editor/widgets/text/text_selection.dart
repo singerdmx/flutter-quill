@@ -180,7 +180,10 @@ class EditorTextSelectionOverlay {
 
   /// A copy/paste toolbar.
   OverlayEntry? toolbar;
-  bool _restoreToolbar = false;
+
+  /// Restore the selection context menu after the magnifier is dismissed.
+  /// Fix: https://github.com/singerdmx/flutter-quill/issues/2046
+  bool _restoreToolbarAfterMagnifier = false;
 
   TextSelection get _selection => value.selection;
 
@@ -416,10 +419,10 @@ class EditorTextSelectionOverlay {
   void _showMagnifier(MagnifierInfo initialMagnifierInfo) {
     // 隐藏toolbar
     if (toolbar != null) {
-      _restoreToolbar = true;
+      _restoreToolbarAfterMagnifier = true;
       hideToolbar();
     } else {
-      _restoreToolbar = false;
+      _restoreToolbarAfterMagnifier = false;
     }
 
     // 更新 magnifierInfo
@@ -465,8 +468,8 @@ class EditorTextSelectionOverlay {
       return;
     }
     _magnifierController.hide();
-    if (_restoreToolbar) {
-      _restoreToolbar = false;
+    if (_restoreToolbarAfterMagnifier) {
+      _restoreToolbarAfterMagnifier = false;
       showToolbar();
     }
   }
