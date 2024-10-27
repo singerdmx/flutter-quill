@@ -369,7 +369,11 @@ class EditorTextSelectionOverlay {
 
   /// Builds the handles by inserting them into the [context]'s overlay.
   void showHandles() {
-    assert(_handles == null, 'Handles should be null.');
+    // TODO: Restore the assert and fix the issue or see why this change was made
+    // in https://github.com/singerdmx/flutter-quill/pull/2026/files#diff-ec5ab6cd2618a243ea6c82b62054455ec22ab981353b1cb50cac90b654430227L348
+    // Previously it was using assertation and now it returns without any error if _handles
+    // is not null
+    if (_handles != null) return;
     _handles = <OverlayEntry>[
       OverlayEntry(
           builder: (context) =>
