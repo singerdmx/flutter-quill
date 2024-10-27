@@ -74,7 +74,7 @@ class QuillEditorConfig {
     this.contextMenuBuilder,
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
-    this.magnifierConfiguration,
+    @experimental this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
     this.enableScribble = false,
     this.onScribbleActivated,

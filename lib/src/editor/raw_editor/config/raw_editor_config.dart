@@ -67,7 +67,7 @@ class QuillRawEditorConfig {
     this.onScribbleActivated,
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
-    this.magnifierConfiguration,
+    @experimental this.magnifierConfiguration,
     this.onPerformAction,
     @experimental this.customLeadingBuilder,
   });
@@ -378,6 +378,7 @@ class QuillRawEditorConfig {
   /// Optional insets for the scribble area.
   final EdgeInsets? scribbleAreaInsets;
 
+  @experimental
   final TextMagnifierConfiguration? magnifierConfiguration;
 
   /// Called when a text input action is performed.
