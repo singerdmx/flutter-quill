@@ -26,6 +26,7 @@ export 'buttons/search_options.dart';
 export 'buttons/select_alignment_options.dart';
 export 'buttons/select_header_style_buttons_options.dart';
 export 'buttons/select_header_style_dropdown_button_options.dart';
+export 'buttons/select_line_height_style_dropdown_button_options.dart';
 export 'buttons/toggle_check_list_options.dart';
 export 'buttons/toggle_style_options.dart';
 export 'simple_toolbar_button_options.dart';
