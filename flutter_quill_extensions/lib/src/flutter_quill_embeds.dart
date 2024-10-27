@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_quill/flutter_quill.dart' as fq;
 import 'package:meta/meta.dart';
 
-import 'editor/image/image_embed.dart';
 import 'editor/image/config/image_config.dart';
+import 'editor/image/image_embed.dart';
 import 'editor/video/config/video_config.dart';
 import 'editor/video/config/video_web_config.dart';
 import 'editor/video/video_embed.dart';
 import 'editor/video/video_web_embed.dart';
 import 'toolbar/camera/camera_button.dart';
 import 'toolbar/camera/config/camera_config.dart';
-import 'toolbar/image/image_button.dart';
 import 'toolbar/image/config/image_config.dart';
+import 'toolbar/image/image_button.dart';
 import 'toolbar/video/config/video_config.dart';
 import 'toolbar/video/video_button.dart';
 

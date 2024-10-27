@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../flutter_quill.dart';
 import '../controller/quill_controller.dart';
 import '../document/attribute.dart';
 import 'buttons/alignment/select_alignment_buttons.dart';
 import 'buttons/arrow_indicated_list_button.dart';
+import 'embed/embed_button_builder.dart';
 import 'simple_toolbar.dart';
 
 export 'buttons/alignment/select_alignment_button.dart';

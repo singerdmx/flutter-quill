@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
 
 import '../../common/utils/element_utils/element_utils.dart';
-import 'image_menu.dart';
 import 'config/image_config.dart';
+import 'image_menu.dart';
 import 'widgets/image.dart';
 
 class QuillEditorImageEmbedBuilder extends EmbedBuilder {

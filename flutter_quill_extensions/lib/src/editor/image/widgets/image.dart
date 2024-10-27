@@ -7,8 +7,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../../../common/utils/utils.dart';
-import '../image_embed_types.dart';
 import '../config/image_config.dart';
+import '../image_embed_types.dart';
 
 String getImageStyleString(QuillController controller) {
   final String? s = controller

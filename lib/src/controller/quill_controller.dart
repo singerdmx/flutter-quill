@@ -17,8 +17,8 @@ import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_config.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
-import 'quill_controller_config.dart';
 import 'clipboard/quill_controller_rich_paste.dart';
+import 'quill_controller_config.dart';
 
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
