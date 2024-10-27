@@ -100,3 +100,4 @@ jobs:
       - name: 📤 Publish flutter_quill_test
         run: flutter pub publish --force
         working-directory: ./flutter_quill_test/
+

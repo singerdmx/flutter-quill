@@ -4,9 +4,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## 11.0.0-dev.0
+## 11.0.0-dev.1
 
-* See the [migration guide](https://github.com/singerdmx/flutter-quill/blob/release/v11/doc/migration/10_to_11.md) to migrate from `10.0.0` to `11.0.0`
+This release is identical to [11.0.0-dev.0](https://github.com/singerdmx/flutter-quill/releases/tag/v11.0.0-dev.0), mainly published to update the min published version (from pub.dev) of `flutter_quill` in `flutter_quill_test` and `flutter_quill_extensions`.
+
+See the [migration guide](https://github.com/singerdmx/flutter-quill/blob/release/v11/doc/migration/10_to_11.md).
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.0...v11.0.0-dev.1
 
 ## 10.8.5
 
