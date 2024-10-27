@@ -4,6 +4,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 11.0.0-dev.0
+
+* See the [migration guide](https://github.com/singerdmx/flutter-quill/blob/release/v11/doc/migration/10_to_11.md) to migrate from `10.0.0` to `11.0.0`
+
 ## 10.8.5
 
 * fix: allow all correct URLs to be formatted by @orevial in https://github.com/singerdmx/flutter-quill/pull/2328
