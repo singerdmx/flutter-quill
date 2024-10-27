@@ -3,7 +3,6 @@ library;
 export 'src/common/structs/horizontal_spacing.dart';
 export 'src/common/structs/image_url.dart';
 export 'src/common/structs/offset_value.dart';
-export 'src/common/structs/optional_size.dart';
 export 'src/common/structs/vertical_spacing.dart';
 export 'src/common/utils/embeds.dart';
 export 'src/controller/quill_controller.dart';
