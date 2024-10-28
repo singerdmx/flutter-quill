@@ -25,7 +25,6 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/embeddable.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
-import '../../document/style.dart';
 import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../editor.dart';
 import '../widgets/cursor.dart';

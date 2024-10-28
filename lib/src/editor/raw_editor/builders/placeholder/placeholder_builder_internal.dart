@@ -78,8 +78,8 @@ class PlaceholderBuilder {
   WidgetSpan? build({
     required Attribute blockAttribute,
     required TextStyle lineStyle,
-    TextDirection? textDirection,
     required TextAlign align,
+    TextDirection? textDirection,
     StrutStyle? strutStyle,
   }) {
     if (builders.isEmpty) return null;
