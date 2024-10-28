@@ -281,7 +281,7 @@ class _TextLineState extends State<TextLine> {
         final placeholderWidget = widget.placeholderBuilder!.build(
           blockAttribute: widget.line.style.attributes[attrKey]!,
           lineStyle: style,
-          textDirection: widget.textDirection ?? Directionality.of(context),
+          textDirection: widget.textDirection,
           align: _getTextAlign(),
           strutStyle: StrutStyle.fromTextStyle(style),
         );

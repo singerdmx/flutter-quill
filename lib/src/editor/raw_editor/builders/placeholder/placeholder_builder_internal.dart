@@ -1,17 +1,11 @@
 // This file is only for internal use
 import 'package:flutter/material.dart'
     show
-        Align,
-        Alignment,
-        CrossAxisAlignment,
         Expanded,
-        MainAxisAlignment,
-        PlaceholderAlignment,
         Row,
         StrutStyle,
         Text,
         TextAlign,
-        TextBaseline,
         TextDirection,
         TextStyle,
         TextWidthBasis,
@@ -84,7 +78,7 @@ class PlaceholderBuilder {
   WidgetSpan? build({
     required Attribute blockAttribute,
     required TextStyle lineStyle,
-    required TextDirection textDirection,
+    TextDirection? textDirection,
     required TextAlign align,
     StrutStyle? strutStyle,
   }) {
