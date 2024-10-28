@@ -1,8 +1,6 @@
 import 'dart:io' show File;
 
-import 'package:cross_file/cross_file.dart';
-import 'package:flutter/foundation.dart' show Uint8List, immutable;
-import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show immutable;
 
 import '../../editor/image/widgets/image.dart';
 import '../../editor_toolbar_shared/image_saver/s_image_saver.dart';
@@ -25,6 +23,10 @@ bool isImageBase64(String imageUrl) {
   return !isHttpBasedUrl(imageUrl) && isBase64(imageUrl);
 }
 
+@Deprecated(
+  'Will be removed in future releases. See https://github.com/singerdmx/flutter-quill/issues/2284'
+  ' and https://github.com/singerdmx/flutter-quill/issues/2276',
+)
 bool isYouTubeUrl(String videoUrl) {
   try {
     final uri = Uri.parse(videoUrl);
@@ -45,23 +47,6 @@ class SaveImageResult {
 
   final String? error;
   final SaveImageResultMethod method;
-}
-
-Future<Uint8List?> convertImageToUint8List(String image) async {
-  if (isHttpBasedUrl(image)) {
-    final response = await http.get(Uri.parse(image));
-    if (response.statusCode == 200) {
-      return Uint8List.fromList(response.bodyBytes);
-    }
-    return null;
-  }
-  // TODO: Add support for all image providers like AssetImage
-  try {
-    final file = XFile(image);
-    return await file.readAsBytes();
-  } catch (e) {
-    return null;
-  }
 }
 
 Future<SaveImageResult> saveImage({

@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
@@ -21,9 +20,6 @@ import '../toolbar/config/simple_toolbar_configurations.dart';
 import 'quill_controller_configurations.dart';
 import 'quill_controller_rich_paste.dart';
 
-import 'web/quill_controller_web_stub.dart'
-    if (dart.library.html) 'web/quill_controller_web_real.dart';
-
 typedef ReplaceTextCallback = bool Function(int index, int len, Object? data);
 typedef DeleteCallback = void Function(int cursorPosition, bool forward);
 
@@ -40,11 +36,7 @@ class QuillController extends ChangeNotifier {
     this.readOnly = false,
     this.editorFocusNode,
   })  : _document = document,
-        _selection = selection {
-    if (kIsWeb) {
-      initializeWebPasteEvent();
-    }
-  }
+        _selection = selection;
 
   factory QuillController.basic(
           {QuillControllerConfigurations configurations =
@@ -476,9 +468,6 @@ class QuillController extends ChangeNotifier {
     }
 
     _isDisposed = true;
-    if (kIsWeb) {
-      cancelWebPasteEvent();
-    }
     super.dispose();
   }
 
@@ -562,7 +551,7 @@ class QuillController extends ChangeNotifier {
   }
 
   /// Returns whether paste operation was handled here.
-  /// updateEditor is called if paste operation was successful.
+  /// [updateEditor] is called if paste operation was successful.
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 
@@ -623,7 +612,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  /// Return true if can paste internal image
+  /// Return `true` if can paste internal image
   Future<bool> _pasteInternalImage() async {
     final copiedImageUrl = _copiedImageUrl;
     if (copiedImageUrl != null) {

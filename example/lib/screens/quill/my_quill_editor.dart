@@ -128,11 +128,14 @@ class MyQuillEditor extends StatelessWidget {
                     },
                   ),
                   videoEmbedConfigurations: QuillEditorVideoEmbedConfigurations(
-                    // Loading YouTube videos on Desktop is not supported yet
-                    // when using iframe platform view
-                    youtubeVideoSupportMode: isDesktopApp
-                        ? YoutubeVideoSupportMode.customPlayerWithDownloadUrl
-                        : YoutubeVideoSupportMode.iframeView,
+                    customVideoBuilder: (videoUrl, readOnly) {
+                      // Example: Check for YouTube Video URL and return your
+                      // YouTube video widget here.
+
+                      // Otherwise return null to fallback to the defualt logic
+                      return null;
+                    },
+                    ignoreYouTubeSupport: true,
                   ),
                 )),
           TimeStampEmbedBuilderWidget(),

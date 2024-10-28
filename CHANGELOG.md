@@ -4,6 +4,200 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.8.5
+
+* fix: allow all correct URLs to be formatted by @orevial in https://github.com/singerdmx/flutter-quill/pull/2328
+* fix(macos): Implement actions for ExpandSelectionToDocumentBoundaryIntent and ExpandSelectionToLineBreakIntent to use keyboard shortcuts, unrelated cleanup to the bug fix. by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2279
+
+## New Contributors
+* @orevial made their first contribution at https://github.com/singerdmx/flutter-quill/pull/2328
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.4...v10.8.5
+
+## 10.8.4
+
+- [Fixes an unhandled exception](https://github.com/singerdmx/flutter-quill/commit/8dd559b825030d29b30b32b353a08dcc13dc42b7) in case `getClipboardFiles()` wasn't supported
+- [Updates min version](https://github.com/singerdmx/flutter-quill/commit/49569e47b038c5f61b7521571c102cf5ad5a0e3f) of internal dependency `quill_native_bridge`
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.3...v10.8.4
+
+## 10.8.3
+
+This release is identical to [v10.8.3-dev.0](https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.3-dev.0), mainly published to bump the minimum version of [flutter_quill](https://pub.dev/packages/flutter_quill) in [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) and to publish [quill-super-clipboard](https://github.com/FlutterQuill/quill-super-clipboard/).
+
+A new identical release `10.9.0` will be published soon with a release description.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.2...v10.8.3
+
+## 10.8.3-dev.0
+
+A non-pre-release version with this change will be published soon.
+
+* feat: Use quill_native_bridge as default impl in DefaultClipboardService, fix related bugs in the extensions package by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2230
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.2...v10.8.3-dev.0
+
+## 10.8.2
+
+* Fixed minor typo in Hungarian (hu) localization by @G-Greg in https://github.com/singerdmx/flutter-quill/pull/2307
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.1...v10.8.2
+
+## 10.8.1
+
+- This release fixes the compilation issue when building the project with [Flutter/Wasm](https://docs.flutter.dev/platform-integration/web/wasm) target on the web. Also, update the conditional import check to avoid using `dart.library.html`:
+
+  ```dart
+  import 'web/quill_controller_web_stub.dart'
+      if (dart.library.html) 'web/quill_controller_web_real.dart';
+  ```
+  
+  To fix critical bugs that prevent using the editor on Wasm.
+  
+  > Flutter/Wasm is stable as of [Flutter 3.22](https://medium.com/flutter/whats-new-in-flutter-3-22-fbde6c164fe3) though it's likely that you might experience some issues when using this new target, if you experienced any issues related to Wasm support related to Flutter Quill, feel free to [open an issue](https://github.com/singerdmx/flutter-quill/issues).
+  
+  Issue #1889 is fixed by temporarily replacing the plugin [flutter_keyboard_visibility](https://pub.dev/packages/flutter_keyboard_visibility) with [flutter_keyboard_visibility_temp_fork](https://pub.dev/packages/flutter_keyboard_visibility_temp_fork) since `flutter_keyboard_visibility` depend on `dart:html`. Also updated the `compileSdkVersion` to `34` instead of `31` as a workaround to [Flutter #63533](https://github.com/flutter/flutter/issues/63533).
+
+- Support for Hungarian (hu) localization was added by @G-Greg in https://github.com/singerdmx/flutter-quill/pull/2291.
+- [dart_quill_delta](https://pub.dev/packages/dart_quill_delta/) has been moved to [FlutterQuill/dart-quill-delta](https://github.com/FlutterQuill/dart-quill-delta) (outside of this repo) and they have separated version now.
+
+
+## New Contributors
+* @G-Greg made their first contribution at https://github.com/singerdmx/flutter-quill/pull/2291
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.8.0...v10.8.1
+
+## 10.8.0
+
+> [!CAUTION]
+> This release can be breaking change for `flutter_quill_extensions` users as it remove the built-in support for loading YouTube videos
+
+If you're using [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions) then this release, can be a breaking change for you if you load videos in the editor and expect YouTube videos to be supported, [youtube_player_flutter](https://pub.dev/packages/youtube_player_flutter) and [flutter_inappwebview](https://pub.dev/packages/flutter_inappwebview) are no longer dependencies of the extensions package, which are used to support loading YouTube Iframe videos on non-web platforms, more details about the discussion and reasons in [#2286](https://github.com/singerdmx/flutter-quill/pull/2286) and [#2284](https://github.com/singerdmx/flutter-quill/issues/2284).
+
+We have added an experimental property that gives you more flexibility and control about the implementation you want to use for loading videos.
+
+> [!WARNING]
+> It's likely to experience some common issues while implementing this feature, especially on desktop platforms as the support for [flutter_inappwebview_windows](https://pub.dev/packages/flutter_inappwebview_windows) and [flutter_inappwebview_macos](https://pub.dev/packages/flutter_inappwebview_macos) before 2 days. Some of the issues are in the Flutter Quill editor.
+
+If you want loading YouTube videos to be a feature again with the latest version of Flutter Quill, you can use an existing plugin or package, or implement your own solution. For example, you might use [`youtube_video_player`](https://pub.dev/packages/youtube_video_player) or [`youtube_player_flutter`](https://pub.dev/packages/youtube_player_flutter), which was previously used in [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions).
+
+Here’s an example setup using `youtube_player_flutter`:
+
+```shell
+flutter pub add youtube_player_flutter
+```
+
+Example widget configuration:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+class YoutubeVideoPlayer extends StatefulWidget {
+  const YoutubeVideoPlayer({required this.videoUrl, super.key});
+
+  final String videoUrl;
+
+  @override
+  State<YoutubeVideoPlayer> createState() => _YoutubeVideoPlayerState();
+}
+
+class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
+  late final YoutubePlayerController _youtubePlayerController;
+  @override
+  void initState() {
+    super.initState();
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ??
+          (throw StateError('Expect a valid video URL')),
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return YoutubePlayer(
+      controller: _youtubePlayerController,
+      showVideoProgressIndicator: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    _youtubePlayerController.dispose();
+    super.dispose();
+  }
+}
+
+```
+
+Then, integrate it with `QuillEditorVideoEmbedConfigurations`
+
+```dart
+FlutterQuillEmbeds.editorBuilders(
+      videoEmbedConfigurations: QuillEditorVideoEmbedConfigurations(
+        customVideoBuilder: (videoUrl, readOnly) {
+          // Example: Check for YouTube Video URL and return your
+          // YouTube video widget here.
+          bool isYouTubeUrl(String videoUrl) {
+            try {
+              final uri = Uri.parse(videoUrl);
+              return uri.host == 'www.youtube.com' ||
+                  uri.host == 'youtube.com' ||
+                  uri.host == 'youtu.be' ||
+                  uri.host == 'www.youtu.be';
+            } catch (_) {
+              return false;
+            }
+          }
+
+          if (isYouTubeUrl(videoUrl)) {
+            return YoutubeVideoPlayer(
+              videoUrl: videoUrl,
+            );
+          }
+
+          // Return null to fallback to the default logic
+          return null;
+        },
+        ignoreYouTubeSupport: true,
+      ),
+);
+```
+
+> [!NOTE]
+> This example illustrates a basic approach, additional adjustments might be necessary to meet your specific needs. YouTube video support is no longer included in this project. Keep in mind that `customVideoBuilder` is experimental and can change without being considered as breaking change. More details in [breaking changes](https://github.com/singerdmx/flutter-quill#-breaking-changes) section.
+
+[`super_clipboard`](https://pub.dev/packages/super_clipboard) will also no longer a dependency of `flutter_quill_extensions` once [PR #2230](https://github.com/singerdmx/flutter-quill/pull/2230) is ready.
+
+We're looking forward to your feedback.
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.7...v10.8.0
+
+## 10.7.7
+
+This version is nearly identical to `10.7.6` with a build failure bug fix in [#2283](https://github.com/singerdmx/flutter-quill/pull/2283) related to unmerged change in [#2230](https://github.com/singerdmx/flutter-quill/pull/2230)
+
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.6...v10.7.7
+
+## 10.7.6
+
+* Code Comments Typo fixes by @Luismi74 in https://github.com/singerdmx/flutter-quill/pull/2267
+* docs: add important note for contributors before introducing new features by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2269
+* docs(readme): add 'Breaking Changes' section by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2275
+* Fix: Resolved issue with broken IME composing rect in Windows desktop(re-implementation) by @agata in https://github.com/singerdmx/flutter-quill/pull/2282
+
+## New Contributors
+* @Luismi74 made their first contribution in https://github.com/singerdmx/flutter-quill/pull/2267
+
+**Full Changelog**: https://github.com/singerdmx/flutter-quill/compare/v10.7.5...v10.7.6
+
 ## 10.7.5
 
 * fix(ci): add flutter pub get step for quill_native_bridge by @EchoEllet in https://github.com/singerdmx/flutter-quill/pull/2265

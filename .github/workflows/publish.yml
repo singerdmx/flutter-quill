@@ -92,10 +92,6 @@ jobs:
 
       - name: 📤 Publish flutter_quill
         run: flutter pub publish --force
-      
-      - name: 📤 Publish dart_quill_delta
-        run: flutter pub publish --force
-        working-directory: ./dart_quill_delta/
 
       - name: 📤 Publish flutter_quill_extensions
         run: flutter pub publish --force
