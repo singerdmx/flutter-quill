@@ -30,6 +30,10 @@ class QuillToolbarLinkStyleButton2 extends QuillToolbarLinkStyleBaseButton2 {
   QuillToolbarLinkStyleButton2({
     required super.controller,
     super.options = const QuillToolbarLinkStyleButton2Options(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   })  : assert(options.addLinkLabel == null ||
             (options.addLinkLabel?.isNotEmpty ?? true)),

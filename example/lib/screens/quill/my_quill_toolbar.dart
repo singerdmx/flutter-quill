@@ -19,12 +19,12 @@ import 'http_url.dart';
 class MyQuillToolbar extends StatelessWidget {
   const MyQuillToolbar({
     required this.controller,
-    required this.focusNode,
+    required this.editorFocusNode,
     super.key,
   });
 
   final QuillController controller;
-  final FocusNode focusNode;
+  final FocusNode editorFocusNode;
 
   Future<void> onImageInsertWithCropping(
     String image,
@@ -216,6 +216,14 @@ class MyQuillToolbar extends StatelessWidget {
             showAlignmentButtons: true,
             multiRowsDisplay: true,
             buttonOptions: QuillSimpleToolbarButtonOptions(
+              base: QuillToolbarBaseButtonOptions(
+                afterButtonPressed: () {
+                  if (isDesktop) {
+                    // https://github.com/singerdmx/flutter-quill/pull/1876
+                    editorFocusNode.requestFocus();
+                  }
+                },
+              ),
               fontFamily: QuillToolbarFontFamilyButtonOptions(
                 items: {
                   'Amatic': GoogleFonts.amaticSc().fontFamily!,

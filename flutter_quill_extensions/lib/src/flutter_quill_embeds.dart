@@ -125,16 +125,22 @@ class FlutterQuillEmbeds {
           (context, embedContext) => QuillToolbarImageButton(
                 controller: embedContext.controller,
                 options: imageButtonOptions,
+                // ignore: invalid_use_of_internal_member
+                baseOptions: embedContext.baseButtonOptions,
               ),
         if (videoButtonOptions != null)
           (context, embedContext) => QuillToolbarVideoButton(
                 controller: embedContext.controller,
                 options: videoButtonOptions,
+                // ignore: invalid_use_of_internal_member
+                baseOptions: embedContext.baseButtonOptions,
               ),
         if (cameraButtonOptions != null)
           (context, embedContext) => QuillToolbarCameraButton(
                 controller: embedContext.controller,
                 options: cameraButtonOptions,
+                // ignore: invalid_use_of_internal_member
+                baseOptions: embedContext.baseButtonOptions,
               ),
       ];
 }

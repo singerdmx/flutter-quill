@@ -5,6 +5,7 @@ import '../../../document/attribute.dart';
 import '../../../document/style.dart';
 import '../../../l10n/extensions/localizations_ext.dart';
 import '../../base_button/base_value_button.dart';
+import '../../config/base_button_options.dart';
 import '../../config/buttons/select_header_style_buttons_options.dart';
 import '../quill_icon_button.dart';
 
@@ -24,6 +25,10 @@ class QuillToolbarSelectHeaderStyleButtons
   const QuillToolbarSelectHeaderStyleButtons({
     required super.controller,
     super.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -95,7 +100,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
       fontSize: iconSize * 0.7,
     );
 
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
 
     final children = _attributes.map((attribute) {
       if (childBuilder != null) {

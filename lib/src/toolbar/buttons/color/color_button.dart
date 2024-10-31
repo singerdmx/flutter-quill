@@ -6,6 +6,7 @@ import '../../../document/style.dart';
 import '../../../editor_toolbar_shared/color.dart';
 import '../../../l10n/extensions/localizations_ext.dart';
 import '../../base_button/base_value_button.dart';
+import '../../config/base_button_options.dart';
 import '../../config/buttons/color_options.dart';
 import '../quill_icon_button.dart';
 import 'color_dialog.dart';
@@ -26,6 +27,10 @@ class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
     required super.controller,
     required this.isBackground,
     super.options = const QuillToolbarColorButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -126,7 +131,7 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
             ? stringToColor('#ffffff')
             : null;
 
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

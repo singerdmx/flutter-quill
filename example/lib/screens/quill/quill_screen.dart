@@ -94,7 +94,7 @@ class _QuillScreenState extends State<QuillScreen> {
           if (!_controller.readOnly)
             MyQuillToolbar(
               controller: _controller,
-              focusNode: _editorFocusNode,
+              editorFocusNode: _editorFocusNode,
             ),
           Builder(
             builder: (context) {

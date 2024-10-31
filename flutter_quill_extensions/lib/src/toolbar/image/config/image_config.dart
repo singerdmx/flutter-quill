@@ -35,5 +35,5 @@ class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
   /// [imageLinkRegExp] is a regular expression to identify image links.
   final RegExp? linkRegExp;
 
-  final QuillToolbarImageConfig imageButtonConfig;
+  final QuillToolbarImageConfig? imageButtonConfig;
 }

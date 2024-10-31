@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import '../../../common/extensions/controller_ext.dart';
-
 /// When request picking an video, for example when the video button toolbar
 /// clicked, it should be null in case the user didn't choose any video or
 /// any other reasons, and it should be the video file path as string that is
@@ -21,14 +19,6 @@ typedef OnVideoInsertCallback = Future<void> Function(
   String video,
   QuillController controller,
 );
-
-OnVideoInsertCallback defaultOnVideoInsertCallback() {
-  return (videoUrl, controller) async {
-    controller
-      ..skipRequestKeyboard = true
-      ..insertVideoBlock(videoUrl: videoUrl);
-  };
-}
 
 /// When a new video picked this callback will called and you might want to
 /// do some logic depending on your use case
@@ -49,16 +39,12 @@ class QuillToolbarVideoConfig {
   const QuillToolbarVideoConfig({
     this.onRequestPickVideo,
     this.onVideoInsertedCallback,
-    OnVideoInsertCallback? onVideoInsertCallback,
-  }) : _onVideoInsertCallback = onVideoInsertCallback;
+    this.onVideoInsertCallback,
+  });
 
   final OnRequestPickVideo? onRequestPickVideo;
 
   final OnVideoInsertedCallback? onVideoInsertedCallback;
 
-  final OnVideoInsertCallback? _onVideoInsertCallback;
-
-  OnVideoInsertCallback get onVideoInsertCallback {
-    return _onVideoInsertCallback ?? defaultOnVideoInsertCallback();
-  }
+  final OnVideoInsertCallback? onVideoInsertCallback;
 }

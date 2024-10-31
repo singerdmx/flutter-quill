@@ -21,28 +21,19 @@ typedef OnRequestCameraActionCallback = Future<CameraAction?> Function(
 class QuillToolbarCameraConfig {
   const QuillToolbarCameraConfig({
     this.onRequestCameraActionCallback,
-    OnImageInsertCallback? onImageInsertCallback,
+    this.onImageInsertCallback,
     this.onImageInsertedCallback,
     this.onVideoInsertedCallback,
-    OnVideoInsertCallback? onVideoInsertCallback,
-  })  : _onImageInsertCallback = onImageInsertCallback,
-        _onVideoInsertCallback = onVideoInsertCallback;
+    this.onVideoInsertCallback,
+  });
 
   final OnRequestCameraActionCallback? onRequestCameraActionCallback;
 
   final OnImageInsertedCallback? onImageInsertedCallback;
 
-  final OnImageInsertCallback? _onImageInsertCallback;
-
-  OnImageInsertCallback get onImageInsertCallback {
-    return _onImageInsertCallback ?? defaultOnImageInsertCallback();
-  }
+  final OnImageInsertCallback? onImageInsertCallback;
 
   final OnVideoInsertedCallback? onVideoInsertedCallback;
 
-  final OnVideoInsertCallback? _onVideoInsertCallback;
-
-  OnVideoInsertCallback get onVideoInsertCallback {
-    return _onVideoInsertCallback ?? defaultOnVideoInsertCallback();
-  }
+  final OnVideoInsertCallback? onVideoInsertCallback;
 }

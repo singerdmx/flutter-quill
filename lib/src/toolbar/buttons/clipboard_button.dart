@@ -36,11 +36,16 @@ class ClipboardMonitor {
 }
 
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton(
-      {required super.controller,
-      required this.clipboardAction,
-      super.options = const QuillToolbarToggleStyleButtonOptions(),
-      super.key});
+  QuillToolbarClipboardButton({
+    required super.controller,
+    required this.clipboardAction,
+    super.options = const QuillToolbarToggleStyleButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
+    super.key,
+  });
 
   final ClipboardAction clipboardAction;
 
@@ -112,7 +117,7 @@ class QuillToolbarClipboardButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

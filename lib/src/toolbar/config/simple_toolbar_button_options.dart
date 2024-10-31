@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show immutable;
 
+import 'base_button_options.dart';
 import 'buttons/clear_format_options.dart';
 import 'buttons/color_options.dart';
 import 'buttons/custom_button_options.dart';
@@ -39,6 +40,7 @@ export 'buttons/toggle_style_options.dart';
 @immutable
 class QuillSimpleToolbarButtonOptions {
   const QuillSimpleToolbarButtonOptions({
+    this.base = const QuillToolbarBaseButtonOptions(),
     this.undoHistory = const QuillToolbarHistoryButtonOptions(),
     this.redoHistory = const QuillToolbarHistoryButtonOptions(),
     this.fontFamily = const QuillToolbarFontFamilyButtonOptions(),
@@ -78,6 +80,10 @@ class QuillSimpleToolbarButtonOptions {
     this.clipboardCopy = const QuillToolbarToggleStyleButtonOptions(),
     this.clipboardPaste = const QuillToolbarToggleStyleButtonOptions(),
   });
+
+  /// The base options that will apply to all buttons,
+  /// will prefer the specific button options if set over the base.
+  final QuillToolbarBaseButtonOptions base;
 
   final QuillToolbarHistoryButtonOptions undoHistory;
   final QuillToolbarHistoryButtonOptions redoHistory;

@@ -3,103 +3,52 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import 'package:image_picker/image_picker.dart';
 
+import '../../common/default_video_insert.dart';
 import '../../common/image_video_utils.dart';
+import '../quill_simple_toolbar_api.dart';
 
 import 'config/video.dart';
 import 'config/video_config.dart';
 import 'select_video_source.dart';
 
-class QuillToolbarVideoButton extends StatelessWidget {
+// ignore: invalid_use_of_internal_member
+class QuillToolbarVideoButton extends QuillToolbarBaseButtonStateless {
   const QuillToolbarVideoButton({
-    required this.controller,
-    this.options = const QuillToolbarVideoButtonOptions(),
+    required super.controller,
+    QuillToolbarVideoButtonOptions? options,
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
-  });
+  })  : _options = options,
+        super(options: options);
 
-  final QuillController controller;
+  final QuillToolbarVideoButtonOptions? _options;
 
-  final QuillToolbarVideoButtonOptions options;
-
-  double _iconSize(BuildContext context) {
-    final iconSize = options.iconSize;
-    return iconSize ?? kDefaultIconSize;
-  }
-
-  double _iconButtonFactor(BuildContext context) {
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed;
-  }
-
-  QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme;
-  }
-
-  IconData _iconData(BuildContext context) {
-    return options.iconData ?? Icons.movie_creation;
-  }
-
-  String _tooltip(BuildContext context) {
-    // TODO: Add insert video translation
-    return options.tooltip ?? 'Insert video';
-  }
+  @override
+  QuillToolbarVideoButtonOptions? get options => _options;
 
   void _sharedOnPressed(BuildContext context) {
     _onPressedHandler(context);
-    _afterButtonPressed(context);
+    afterButtonPressed(context);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final tooltip = _tooltip(context);
-    final iconSize = _iconSize(context);
-    final iconButtonFactor = _iconButtonFactor(context);
-    final iconData = _iconData(context);
-    final childBuilder = options.childBuilder;
-
-    if (childBuilder != null) {
-      return childBuilder(
-        QuillToolbarVideoButtonOptions(
-          afterButtonPressed: _afterButtonPressed(context),
-          iconData: iconData,
-          dialogTheme: options.dialogTheme,
-          iconSize: options.iconSize,
-          iconButtonFactor: iconButtonFactor,
-          linkRegExp: options.linkRegExp,
-          tooltip: options.tooltip,
-          iconTheme: options.iconTheme,
-          videoConfig: options.videoConfig,
-        ),
-        QuillToolbarVideoButtonExtraOptions(
-          context: context,
-          controller: controller,
-          onPressed: () => _sharedOnPressed(context),
-        ),
-      );
-    }
-
-    return QuillToolbarIconButton(
-      icon: Icon(
-        iconData,
-        size: iconSize * iconButtonFactor,
-      ),
-      tooltip: tooltip,
-      isSelected: false,
-      onPressed: () => _sharedOnPressed(context),
-      iconTheme: _iconTheme(context),
+  Future<void> _handleVideoInsert(String videoUrl) async {
+    await handleVideoInsert(
+      videoUrl,
+      controller: controller,
+      onVideoInsertCallback: options?.videoConfig?.onVideoInsertCallback,
+      onVideoInsertedCallback: options?.videoConfig?.onVideoInsertedCallback,
     );
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final onRequestPickVideo = options.videoConfig.onRequestPickVideo;
+    final onRequestPickVideo = options?.videoConfig?.onRequestPickVideo;
     if (onRequestPickVideo != null) {
       final videoUrl = await onRequestPickVideo(context);
       if (videoUrl != null) {
-        await options.videoConfig.onVideoInsertCallback(videoUrl, controller);
-        await options.videoConfig.onVideoInsertedCallback?.call(videoUrl);
+        await _handleVideoInsert(videoUrl);
       }
       return;
     }
@@ -123,8 +72,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
     }
 
     if (videoUrl.trim().isNotEmpty) {
-      await options.videoConfig.onVideoInsertCallback(videoUrl, controller);
-      await options.videoConfig.onVideoInsertedCallback?.call(videoUrl);
+      _handleVideoInsert(videoUrl);
     }
   }
 
@@ -132,10 +80,55 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final value = await showDialog<String>(
       context: context,
       builder: (_) => TypeLinkDialog(
-        dialogTheme: options.dialogTheme,
+        dialogTheme: options?.dialogTheme,
         linkType: LinkType.video,
       ),
     );
     return value;
   }
+
+  @override
+  Widget buildButton(BuildContext context) {
+    return QuillToolbarIconButton(
+      icon: Icon(
+        iconData(context),
+        size: iconSize(context) * iconButtonFactor(context),
+      ),
+      tooltip: tooltip(context),
+      isSelected: false,
+      onPressed: () => _sharedOnPressed(context),
+      iconTheme: iconTheme(context),
+    );
+  }
+
+  @override
+  Widget? buildCustomChildBuilder(BuildContext context) {
+    return childBuilder?.call(
+      QuillToolbarVideoButtonOptions(
+        afterButtonPressed: afterButtonPressed(context),
+        iconData: iconData(context),
+        dialogTheme: options?.dialogTheme,
+        iconSize: iconSize(context),
+        iconButtonFactor: iconButtonFactor(context),
+        linkRegExp: options?.linkRegExp,
+        tooltip: tooltip(context),
+        iconTheme: options?.iconTheme,
+        videoConfig: options?.videoConfig,
+      ),
+      QuillToolbarVideoButtonExtraOptions(
+        context: context,
+        controller: controller,
+        onPressed: () => _sharedOnPressed(context),
+      ),
+    );
+  }
+
+  @override
+  IconData Function(BuildContext context) get getDefaultIconData =>
+      (context) => Icons.movie_creation;
+
+// TODO: Translate 'Insert video'
+  @override
+  String Function(BuildContext context) get getDefaultTooltip =>
+      (context) => 'Insert video';
 }

@@ -14,6 +14,10 @@ class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
   const QuillToolbarToggleCheckListButton({
     required super.controller,
     super.options = const QuillToolbarToggleCheckListButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -58,7 +62,7 @@ class QuillToolbarToggleCheckListButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -91,7 +95,7 @@ class QuillToolbarToggleCheckListButtonState
 
   void _toggleAttribute() {
     controller
-      ..skipRequestKeyboard = !options.isShouldRequestKeyboard
+      ..skipRequestKeyboard = !options.shouldRequestKeyboard
       ..formatSelection(
         currentValue
             ? Attribute.clone(Attribute.unchecked, null)

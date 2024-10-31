@@ -23,6 +23,10 @@ class QuillToolbarLinkStyleButton extends QuillToolbarLinkStyleBaseButton {
   const QuillToolbarLinkStyleButton({
     required super.controller,
     super.options = const QuillToolbarLinkStyleButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -64,15 +68,11 @@ class QuillToolbarLinkStyleButtonState
   @override
   IconData get defaultIconData => Icons.link;
 
-  RegExp? get linkRegExp {
-    return options.linkRegExp;
-  }
-
   @override
   Widget build(BuildContext context) {
     final isToggled = QuillTextLink.isSelected(controller);
 
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -109,7 +109,7 @@ class QuillToolbarLinkStyleButtonState
           dialogTheme: options.dialogTheme,
           text: initialTextLink.text,
           link: initialTextLink.link,
-          linkRegExp: linkRegExp,
+          linkRegExp: options.linkRegExp,
           action: options.linkDialogAction,
         );
       },

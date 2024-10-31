@@ -17,6 +17,10 @@ class QuillToolbarHistoryButton extends QuillToolbarHistoryBaseButton {
     required super.controller,
     required this.isUndo,
     super.options = const QuillToolbarHistoryButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -58,7 +62,7 @@ class QuillToolbarHistoryButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

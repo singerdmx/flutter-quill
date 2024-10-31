@@ -13,6 +13,10 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
   QuillToolbarFontFamilyButton({
     required super.controller,
     super.options = const QuillToolbarFontFamilyButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   })  : assert(options.items?.isNotEmpty ?? (true)),
         assert(
@@ -88,7 +92,7 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

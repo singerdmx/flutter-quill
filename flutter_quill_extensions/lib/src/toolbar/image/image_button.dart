@@ -3,104 +3,54 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/internal.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../common/default_image_insert.dart';
 import '../../common/image_video_utils.dart';
 import '../../editor/image/image_embed_types.dart';
+import '../quill_simple_toolbar_api.dart';
 import 'config/image_config.dart';
 import 'select_image_source.dart';
 
-class QuillToolbarImageButton extends StatelessWidget {
+// ignore: invalid_use_of_internal_member
+class QuillToolbarImageButton extends QuillToolbarBaseButtonStateless {
   const QuillToolbarImageButton({
-    required this.controller,
-    this.options = const QuillToolbarImageButtonOptions(),
+    required super.controller,
+    QuillToolbarImageButtonOptions? options,
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
-  });
+  })  : _options = options,
+        super(options: options);
 
-  final QuillController controller;
+  final QuillToolbarImageButtonOptions? _options;
 
-  final QuillToolbarImageButtonOptions options;
-
-  double _iconSize(BuildContext context) {
-    final iconSize = options.iconSize;
-    return iconSize ?? kDefaultIconSize;
-  }
-
-  double _iconButtonFactor(BuildContext context) {
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed;
-  }
-
-  QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme;
-  }
-
-  IconData _iconData(BuildContext context) {
-    return options.iconData ?? Icons.image;
-  }
-
-  String _tooltip(BuildContext context) {
-    return options.tooltip ?? context.loc.insertImage;
-  }
+  @override
+  QuillToolbarImageButtonOptions? get options => _options;
 
   void _sharedOnPressed(BuildContext context) {
     _onPressedHandler(context);
-    _afterButtonPressed(context);
+    afterButtonPressed(context);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final tooltip = _tooltip(context);
-    final iconSize = _iconSize(context);
-    final iconButtonFactor = _iconButtonFactor(context);
-    final iconData = _iconData(context);
-    final childBuilder = options.childBuilder;
-
-    if (childBuilder != null) {
-      return childBuilder(
-        QuillToolbarImageButtonOptions(
-          afterButtonPressed: _afterButtonPressed(context),
-          iconData: iconData,
-          iconSize: iconSize,
-          iconButtonFactor: iconButtonFactor,
-          dialogTheme: options.dialogTheme,
-          iconTheme: options.iconTheme,
-          linkRegExp: options.linkRegExp,
-          tooltip: options.tooltip,
-          imageButtonConfig: options.imageButtonConfig,
-        ),
-        QuillToolbarImageButtonExtraOptions(
-          context: context,
-          controller: controller,
-          onPressed: () => _sharedOnPressed(context),
-        ),
-      );
-    }
-
-    return QuillToolbarIconButton(
-      icon: Icon(
-        iconData,
-        size: iconButtonFactor * iconSize,
-      ),
-      tooltip: tooltip,
-      isSelected: false,
-      onPressed: () => _sharedOnPressed(context),
-      iconTheme: _iconTheme(context),
+  Future<void> _handleImageInsert(String imageUrl) async {
+    await handleImageInsert(
+      imageUrl,
+      controller: controller,
+      onImageInsertCallback: options?.imageButtonConfig?.onImageInsertCallback,
+      onImageInsertedCallback:
+          options?.imageButtonConfig?.onImageInsertedCallback,
     );
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    final onRequestPickImage = options.imageButtonConfig.onRequestPickImage;
+    final onRequestPickImage = options?.imageButtonConfig?.onRequestPickImage;
     if (onRequestPickImage != null) {
       final imageUrl = await onRequestPickImage(
         context,
       );
       if (imageUrl != null) {
-        await options.imageButtonConfig
-            .onImageInsertCallback(imageUrl, controller);
-        await options.imageButtonConfig.onImageInsertedCallback?.call(imageUrl);
+        await _handleImageInsert(imageUrl);
       }
       return;
     }
@@ -123,9 +73,7 @@ class QuillToolbarImageButton extends StatelessWidget {
       return;
     }
     if (imageUrl.trim().isNotEmpty) {
-      await options.imageButtonConfig
-          .onImageInsertCallback(imageUrl, controller);
-      await options.imageButtonConfig.onImageInsertedCallback?.call(imageUrl);
+      await _handleImageInsert(imageUrl);
     }
   }
 
@@ -133,11 +81,55 @@ class QuillToolbarImageButton extends StatelessWidget {
     final value = await showDialog<String>(
       context: context,
       builder: (_) => TypeLinkDialog(
-        dialogTheme: options.dialogTheme,
-        linkRegExp: options.linkRegExp,
+        dialogTheme: options?.dialogTheme,
+        linkRegExp: options?.linkRegExp,
         linkType: LinkType.image,
       ),
     );
     return value;
   }
+
+  @override
+  Widget buildButton(BuildContext context) {
+    return QuillToolbarIconButton(
+      icon: Icon(
+        iconData(context),
+        size: iconButtonFactor(context) * iconSize(context),
+      ),
+      tooltip: tooltip(context),
+      isSelected: false,
+      onPressed: () => _sharedOnPressed(context),
+      iconTheme: iconTheme(context),
+    );
+  }
+
+  @override
+  Widget? buildCustomChildBuilder(BuildContext context) {
+    return childBuilder?.call(
+      QuillToolbarImageButtonOptions(
+        afterButtonPressed: afterButtonPressed(context),
+        iconData: iconData(context),
+        iconSize: iconSize(context),
+        iconButtonFactor: iconButtonFactor(context),
+        dialogTheme: options?.dialogTheme,
+        iconTheme: options?.iconTheme,
+        linkRegExp: options?.linkRegExp,
+        tooltip: tooltip(context),
+        imageButtonConfig: options?.imageButtonConfig,
+      ),
+      QuillToolbarImageButtonExtraOptions(
+        context: context,
+        controller: controller,
+        onPressed: () => _sharedOnPressed(context),
+      ),
+    );
+  }
+
+  @override
+  IconData Function(BuildContext context) get getDefaultIconData =>
+      (context) => Icons.image;
+
+  @override
+  String Function(BuildContext context) get getDefaultTooltip =>
+      (context) => context.loc.insertImage;
 }

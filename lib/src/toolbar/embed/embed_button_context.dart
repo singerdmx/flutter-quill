@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../controller/quill_controller.dart';
+import '../../editor_toolbar_controller_shared/quill_config.dart';
 import '../theme/quill_dialog_theme.dart';
 import '../theme/quill_icon_theme.dart';
 import './embed_button_builder.dart';
@@ -20,6 +21,7 @@ class EmbedButtonContext {
     required this.toolbarIconSize,
     required this.iconTheme,
     required this.dialogTheme,
+    required this.baseButtonOptions,
   });
 
   /// The [QuillController] managing the editor's state.
@@ -27,4 +29,8 @@ class EmbedButtonContext {
   final double toolbarIconSize;
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
+
+  @internal
+  @experimental
+  final QuillToolbarBaseButtonOptions? baseButtonOptions;
 }

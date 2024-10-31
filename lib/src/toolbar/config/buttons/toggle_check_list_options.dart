@@ -23,7 +23,7 @@ class QuillToolbarToggleCheckListButtonOptions
     super.iconSize,
     super.iconButtonFactor,
     this.attribute = Attribute.unchecked,
-    this.isShouldRequestKeyboard = false,
+    this.shouldRequestKeyboard = false,
     super.iconTheme,
     super.tooltip,
     super.iconData,
@@ -33,8 +33,5 @@ class QuillToolbarToggleCheckListButtonOptions
 
   final Attribute attribute;
 
-  /// Should we request the keyboard when you press the toggle check list button
-  /// ? if true then we will request the keyboard, if false then we will not
-  /// but I think you already know that
-  final bool isShouldRequestKeyboard;
+  final bool shouldRequestKeyboard;
 }

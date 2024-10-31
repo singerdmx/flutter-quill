@@ -4,8 +4,6 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:meta/meta.dart' show immutable;
 
-import '../../common/extensions/controller_ext.dart';
-
 /// When request picking an image, for example when the image button toolbar
 /// clicked, it should be null in case the user didn't choose any image or
 /// any other reasons, and it should be the image file path as string that is
@@ -23,14 +21,6 @@ typedef OnImageInsertCallback = Future<void> Function(
   String image,
   QuillController controller,
 );
-
-OnImageInsertCallback defaultOnImageInsertCallback() {
-  return (imageUrl, controller) async {
-    controller
-      ..skipRequestKeyboard = true
-      ..insertImageBlock(imageSource: imageUrl);
-  };
-}
 
 /// When a new image picked this callback will called and you might want to
 /// do some logic depending on your use case
@@ -51,18 +41,14 @@ class QuillToolbarImageConfig {
   const QuillToolbarImageConfig({
     this.onRequestPickImage,
     this.onImageInsertedCallback,
-    OnImageInsertCallback? onImageInsertCallback,
-  }) : _onImageInsertCallback = onImageInsertCallback;
+    this.onImageInsertCallback,
+  });
 
   final OnRequestPickImage? onRequestPickImage;
 
   final OnImageInsertedCallback? onImageInsertedCallback;
 
-  final OnImageInsertCallback? _onImageInsertCallback;
-
-  OnImageInsertCallback get onImageInsertCallback {
-    return _onImageInsertCallback ?? defaultOnImageInsertCallback();
-  }
+  final OnImageInsertCallback? onImageInsertCallback;
 }
 
 typedef ImageEmbedBuilderWillRemoveCallback = Future<bool> Function(

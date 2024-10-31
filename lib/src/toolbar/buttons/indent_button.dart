@@ -17,6 +17,10 @@ class QuillToolbarIndentButton extends QuillToolbarIndentBaseButton {
     required super.controller,
     required this.isIncrease,
     super.options = const QuillToolbarIndentButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -44,7 +48,7 @@ class QuillToolbarIndentButtonState extends QuillToolbarIndentBaseButtonState {
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

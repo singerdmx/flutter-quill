@@ -14,7 +14,7 @@ class QuillToolbarCameraButtonExtraOptions
 class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
     QuillToolbarCameraButtonOptions, QuillToolbarCameraButtonExtraOptions> {
   const QuillToolbarCameraButtonOptions({
-    this.cameraConfig = const QuillToolbarCameraConfig(),
+    this.cameraConfig,
     super.iconSize,
     super.iconButtonFactor,
     super.iconData,
@@ -24,5 +24,5 @@ class QuillToolbarCameraButtonOptions extends QuillToolbarBaseButtonOptions<
     super.childBuilder,
   });
 
-  final QuillToolbarCameraConfig cameraConfig;
+  final QuillToolbarCameraConfig? cameraConfig;
 }

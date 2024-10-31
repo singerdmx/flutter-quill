@@ -12,6 +12,10 @@ class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
   QuillToolbarFontSizeButton({
     required super.controller,
     super.options = const QuillToolbarFontSizeButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   })  : assert(options.items?.isNotEmpty ?? true),
         assert(options.initialValue == null ||
@@ -91,7 +95,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -160,7 +164,6 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   }
 
   Widget _buildContent(BuildContext context) {
-    options.attribute;
     final hasFinalWidth = options.width != null;
     return Padding(
       padding: options.padding ?? const EdgeInsets.fromLTRB(10, 0, 0, 0),

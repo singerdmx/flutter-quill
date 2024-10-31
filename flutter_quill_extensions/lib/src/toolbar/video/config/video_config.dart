@@ -23,10 +23,10 @@ class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
     super.tooltip,
     super.iconTheme,
     super.childBuilder,
-    this.videoConfig = const QuillToolbarVideoConfig(),
+    this.videoConfig,
   });
 
   final RegExp? linkRegExp;
   final QuillDialogTheme? dialogTheme;
-  final QuillToolbarVideoConfig videoConfig;
+  final QuillToolbarVideoConfig? videoConfig;
 }

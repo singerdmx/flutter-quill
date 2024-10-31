@@ -24,6 +24,10 @@ class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
     required super.controller,
     required this.attribute,
     super.options = const QuillToolbarToggleStyleButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -102,7 +106,7 @@ class QuillToolbarToggleStyleButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

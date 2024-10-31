@@ -9,8 +9,16 @@ class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
   const QuillToolbarSelectAlignmentButtons({
     required this.controller,
     this.options = const QuillToolbarSelectAlignmentButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    this.baseOptions,
     super.key,
   });
+
+  final QuillToolbarBaseButtonOptions? baseOptions;
+
+  // TODO: This button doesn't support the base button option
 
   final QuillController controller;
   final QuillToolbarSelectAlignmentButtonOptions options;
@@ -31,6 +39,7 @@ class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: _attrbuites
           .map((e) => QuillToolbarToggleStyleButton(
+                baseOptions: baseOptions,
                 controller: controller,
                 attribute: e,
                 options: QuillToolbarToggleStyleButtonOptions(
