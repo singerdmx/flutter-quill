@@ -219,7 +219,6 @@ class MyQuillToolbar extends StatelessWidget {
               base: QuillToolbarBaseButtonOptions(
                 afterButtonPressed: () {
                   if (isDesktop) {
-                    // https://github.com/singerdmx/flutter-quill/pull/1876
                     editorFocusNode.requestFocus();
                   }
                 },
