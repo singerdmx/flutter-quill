@@ -37,6 +37,7 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   final bool readOnly;
   final bool enableAlwaysIndentOnTab;
   final QuillController controller;
+  @experimental
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
   final List<CharacterShortcutEvent> characterEvents;
   final List<SpaceShortcutEvent> spaceEvents;

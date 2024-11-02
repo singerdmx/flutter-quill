@@ -28,6 +28,7 @@ import 'package:flutter/widgets.dart'
         TextSelectionControls,
         ValueChanged,
         Widget;
+import 'package:meta/meta.dart';
 
 import '../../../controller/quill_controller.dart';
 import '../../../document/nodes/node.dart';
@@ -183,6 +184,7 @@ class QuillRawEditorConfigurations extends Equatable {
   ///   },
   ///)
   ///```
+  @experimental
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Additional space around the editor contents.

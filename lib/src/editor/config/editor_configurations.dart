@@ -175,6 +175,7 @@ class QuillEditorConfigurations extends Equatable {
   ///   },
   ///)
   ///```
+  @experimental
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Whether the text can be changed.
