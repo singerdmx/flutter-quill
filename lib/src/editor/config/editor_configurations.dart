@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
 import '../../controller/quill_controller.dart';
+import '../../document/nodes/node.dart';
 import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../editor_builder.dart';
@@ -60,6 +61,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
+    this.onKeyPressed,
     @Deprecated(
         'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases.')
     this.enableMarkdownStyleConversion = true,
@@ -152,6 +154,28 @@ class QuillEditorConfigurations extends Equatable {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+  /// A handler for keys that are pressed when the editor is focused.
+  ///
+  /// # Example:
+  /// assume that you want to avoid of the editor removes any character, then
+  /// you can try this:
+  ///
+  ///```dart
+  ///
+  ///configurations: QuillEditorConfigurations(
+  ///   onKeyPressed: (event, node) {
+  ///     if (event.logicalKey == LogicalKeyboardKey.backspace) {
+  ///         debugPrint('Hello there');
+  ///         return KeyEventResult.handled;
+  ///     }
+  ///     // if you already don't need add more conditions, you can return
+  ///     // null to let to the editor execute the other internal events
+  ///     return null;
+  ///   },
+  ///)
+  ///```
+  final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Whether the text can be changed.
   ///
@@ -484,6 +508,7 @@ class QuillEditorConfigurations extends Equatable {
     bool? autoFocus,
     bool? isOnTapOutsideEnabled,
     Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
+    KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed,
     bool? showCursor,
     bool? paintCursorAboveText,
     bool? enableInteractiveSelection,
@@ -539,6 +564,7 @@ class QuillEditorConfigurations extends Equatable {
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
+      onKeyPressed: onKeyPressed ?? this.onKeyPressed,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
       characterShortcutEvents:
           characterShortcutEvents ?? this.characterShortcutEvents,

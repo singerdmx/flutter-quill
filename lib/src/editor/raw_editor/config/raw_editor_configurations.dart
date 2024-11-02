@@ -17,17 +17,20 @@ import 'package:flutter/widgets.dart'
         EdgeInsetsGeometry,
         FocusNode,
         Intent,
+        KeyEvent,
+        KeyEventResult,
+        MouseCursor,
         ScrollController,
         ScrollPhysics,
         ShortcutActivator,
+        SystemMouseCursors,
         TextFieldTapRegion,
         TextSelectionControls,
         ValueChanged,
-        Widget,
-        MouseCursor,
-        SystemMouseCursors;
+        Widget;
 
 import '../../../controller/quill_controller.dart';
+import '../../../document/nodes/node.dart';
 import '../../../editor/embed/embed_editor_builder.dart';
 import '../../../editor/raw_editor/raw_editor.dart';
 import '../../../editor/raw_editor/raw_editor_state.dart';
@@ -74,6 +77,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
+    this.onKeyPressed,
     @Deprecated(
         'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases')
     this.enableMarkdownStyleConversion = true,
@@ -158,6 +162,28 @@ class QuillRawEditorConfigurations extends Equatable {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+  /// A handler for keys that are pressed when the editor is focused.
+  ///
+  /// # Example:
+  /// assume that you want to avoid of the editor removes any character, then
+  /// you can try this:
+  ///
+  ///```dart
+  ///
+  ///configurations: QuillEditorConfigurations(
+  ///   onKeyPressed: (event, node) {
+  ///     if (event.logicalKey == LogicalKeyboardKey.backspace) {
+  ///         debugPrint('Hello there');
+  ///         return KeyEventResult.handled;
+  ///     }
+  ///     // if you already don't need add more conditions, you can return
+  ///     // null to let to the editor execute the other internal events
+  ///     return null;
+  ///   },
+  ///)
+  ///```
+  final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;
