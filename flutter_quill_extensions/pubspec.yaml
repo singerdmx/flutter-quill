@@ -21,29 +21,37 @@ platforms:
   windows:
 
 environment:
-  sdk: '>=3.1.6 <4.0.0'
-  flutter: ">=3.16.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
 
+# The versions listed here indicate the minimum required for dependencies 
+# and do not affect those used in the client's application.
+# For more information, visit:
+# https://dart.dev/tools/pub/dependencies#version-constraints
+# https://docs.flutter.dev/packages-and-plugins/using-packages#conflict-resolution
+# https://dart.dev/tools/pub/versioning
+# https://dart.dev/guides/libraries/private-files#pubspec-lock
+# https://dart.dev/tools/pub/pubspec#sdk-constraints
 dependencies:
   flutter:
     sdk: flutter
 
   # Dart Packages
-  http: ^1.2.0
-  path: ^1.8.3
-  meta: ^1.10.0
+  http: ^1.0.0
+  path: ^1.8.0
+  meta: ^1.7.0
   universal_html: ^2.2.4
-  cross_file: ^0.3.3+6
+  cross_file: ^0.3.3+4
 
   flutter_quill: ^11.0.0-dev.1
   photo_view: ^0.15.0
 
   # Plugins
-  video_player: ^2.8.1
+  video_player: ^2.8.0
   url_launcher: ^6.2.1
   gal: ^2.3.0
   gal_linux: ^0.1.0
-  image_picker: ^1.0.4
+  image_picker: ^1.0.0
 
 dev_dependencies:
   flutter_test:
