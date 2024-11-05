@@ -139,6 +139,11 @@ class QuillRawEditorConfigurations extends Equatable {
 
   /// A handler for keys that are pressed when the editor is focused.
   ///
+  /// ### Supported by:
+  ///
+  ///     - Web
+  ///     - Desktop
+  ///
   /// # Example:
   /// assume that we want to avoid the user removes any **Embed Object**, then we can try:
   ///
@@ -160,7 +165,6 @@ class QuillRawEditorConfigurations extends Equatable {
   ///           // removes that [Embed Object]
   ///           return KeyEventResult.handled;
   ///       }
-  ///       return KeyEventResult.handled;
   ///     }
   ///     // Apply custom logic or return null to use default events
   ///     return null;
