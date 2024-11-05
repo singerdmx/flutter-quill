@@ -42,11 +42,6 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
-> [!NOTE]
-> If you are viewing this page from [pub.dev](https://pub.dev/) page, then you
-> might experience some issues with opening some links or
-> unsupported [GitHub alerts](https://github.com/orgs/community/discussions/16925)
-
 ## 📚 Table of contents
 
 - [📸 Screenshots](#-screenshots)
@@ -57,7 +52,7 @@ You can join our [Slack Group] for discussion.
 - [🔤 Input / Output](#-input--output)
 - [⚙️ Configurations](#️-configurations)
 - [📦 Embed Blocks](#-embed-blocks)
-- [🔄 Conversion to HTML](#-conversion-to-html)
+- [🔄 Delta Conversion](#-delta-conversion)
 - [📝 Spelling checker](#-spelling-checker)
 - [📝 Rich Text Paste](#-rich-text-paste)
 - [✂️ Shortcut events](#-shortcut-events)
@@ -233,13 +228,13 @@ The Delta format is a compact and versatile method for describing document chang
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
 
-To save a document as a JSON:
+To save the document as JSON:
 
 ```dart
 final json = jsonEncode(_controller.document.toDelta().toJson());
 ```
 
-To open the editor with an existing JSON representation that you've previously stored:
+To open an existing JSON representation that has been previously stored:
 
 ```dart
 final json = jsonDecode(r'{"insert":"hello\n"}');
@@ -292,26 +287,26 @@ of [FlutterQuill Extensions]
 - [Custom Embed Blocks](./doc/custom_embed_blocks.md)
 - [Custom Toolbar](./doc/custom_toolbar.md)
 
-## 🔄 Conversion to HTML
+## 🔄 Delta Conversion
 
 > [!CAUTION]
-> Converting **HTML** to **Delta** is generally not recommended due to structural and functional differences between HTML and Delta ([see this comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570)).
-> We highly recommend storing the **Document** as **Delta JSON**
-> in the database instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML, CSV, etc...)
->
-> The support for converting HTML (from external websites and apps) to **Quill Delta** is used internally when
-> pasting HTML content from the clipboard to the document.
+> Storing the **Delta** as **HTML** in the database to convert it back to **Delta** when
+> loading the document is not recommended due to the structural and functional differences between HTML and Delta ([see this comment](https://github.com/slab/quill/issues/1551#issuecomment-311458570)).
+> We recommend storing the **Document** as **Delta JSON**
+> instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML).
 >
 > Converting **Delta** from/to **HTML** is not a standard feature in [Quill JS](https://github.com/slab/quill)
 > or [FlutterQuill].
 
-The following packages can be used:
+Available Packages for Conversion
 
-1. [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html): To convert **Delta**
-   to **HTML**.
-2. [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html): To convert **HTML** to **Delta**.
-3. [`flutter_quill_to_pdf`](https://pub.dev/packages/flutter_quill_to_pdf): To convert **Delta** To **PDF**.
-4. [`markdown_quill`](https://pub.dev/packages/markdown_quill): To convert **Markdown** To **Delta** and vice versa.
+| Package | Description |
+| ------- | ----------- |
+| [`vsc_quill_delta_to_html`](https://pub.dev/packages/vsc_quill_delta_to_html) | Converts **Delta** to **HTML**. |
+| [`flutter_quill_delta_from_html`](https://pub.dev/packages/flutter_quill_delta_from_html) | Converts **HTML** to **Delta**. |
+| [`flutter_quill_to_pdf`](https://pub.dev/packages/flutter_quill_to_pdf) | Converts **Delta** to **PDF**. |
+| [`markdown_quill`](https://pub.dev/packages/markdown_quill) | Converts **Markdown** to **Delta** and vice versa. |
+| [`flutter_quill_delta_easy_parser`](https://pub.dev/packages/flutter_quill_delta_easy_parser) | Converts Quill **Delta** into a simplified document format, making it easier to manage and manipulate text attributes. |
 
 > [!TIP]
 > You might want to convert between **HTML** and **Delta** for some use cases:
@@ -336,7 +331,7 @@ The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge)
 > [!IMPORTANT]
 > Currently this feature is not supported on the web.
 > See [issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
- for more details
+ for more details.
 
 ## ✂️ Shortcut events
 
@@ -344,16 +339,16 @@ We can customize some Shorcut events, using the parameters `characterShortcutEve
 
 > [!NOTE]
 >
-> You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents` 
+> You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents`.
 
-To see an example of this, you can check [customizing_shortcuts](./doc/customizing_shortcuts.md)
+To see an example of this, refer to [shortcut events](./doc/customizing_shortcuts.md) page.
 
 ## 🌐 Translation
 
 The package offers translations for the toolbar and editor widgets, it will follow the system locale unless you set your
 own locale.
 
-See the [translation](./doc/translation.md) page for more info
+See the [translation](./doc/translation.md) page for more info.
 
 ## 🧪 Testing
 
