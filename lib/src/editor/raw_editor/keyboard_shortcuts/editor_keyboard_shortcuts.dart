@@ -78,11 +78,12 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   }
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
-    if (onKeyPressed != null) {
+    final onKey = onKeyPressed;
+    if (onKey != null) {
       // we need to found the current node what the user is on
       final node =
           controller.document.queryChild(controller.selection.baseOffset).node;
-      final result = onKeyPressed!.call(event, node);
+      final result = onKey.call(event, node);
       if (result != null) return result;
     }
     // Don't handle key if there is a meta key pressed.
