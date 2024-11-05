@@ -1,33 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
-import 'package:flutter/material.dart'
-    show
-        AdaptiveTextSelectionToolbar,
-        PointerDownEvent,
-        TextCapitalization,
-        TextInputAction,
-        TextMagnifierConfiguration;
-import 'package:flutter/widgets.dart'
-    show
-        Action,
-        BuildContext,
-        Color,
-        ContentInsertionConfiguration,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        FocusNode,
-        Intent,
-        KeyEvent,
-        KeyEventResult,
-        MouseCursor,
-        ScrollController,
-        ScrollPhysics,
-        ShortcutActivator,
-        SystemMouseCursors,
-        TextFieldTapRegion,
-        TextSelectionControls,
-        ValueChanged,
-        Widget;
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import '../../../controller/quill_controller.dart';
@@ -78,6 +51,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
+    @experimental
     this.onKeyPressed,
     @Deprecated(
         'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases')

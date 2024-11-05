@@ -61,6 +61,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
+    @experimental
     this.onKeyPressed,
     @Deprecated(
         'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases.')
