@@ -51,8 +51,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
-    @experimental
-    this.onKeyPressed,
+    @experimental this.onKeyPressed,
     @Deprecated(
         'Use space/char shortcut events instead - enableMarkdownStyleConversion will be removed in future releases')
     this.enableMarkdownStyleConversion = true,
@@ -147,7 +146,7 @@ class QuillRawEditorConfigurations extends Equatable {
   ///configurations: QuillEditorConfigurations(
   ///   onKeyPressed: (event, node) {
   ///     // Check if the node is a line or a block (you can add your custom type checking)
-  ///     if (event.logicalKey == LogicalKeyboardKey.backspace && 
+  ///     if (event.logicalKey == LogicalKeyboardKey.backspace &&
   ///         (node is Line || node is Block)) {
   ///       // We need to use [DeltaIterator] to go to the current position
   ///       // and jump directly before the position
