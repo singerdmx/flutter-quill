@@ -148,28 +148,26 @@ class QuillRawEditorConfigurations extends Equatable {
   /// assume that we want to avoid the user removes any **Embed Object**, then we can try:
   ///
   ///```dart
-  ///configurations: QuillEditorConfigurations(
-  ///   onKeyPressed: (event, node) {
-  ///     // Check if the node is a line or a block (you can add your custom type checking)
-  ///     if (event.logicalKey == LogicalKeyboardKey.backspace &&
-  ///         (node is Line || node is Block)) {
-  ///       // We need to use [DeltaIterator] to go to the current position
-  ///       // and jump directly before the position
-  ///       final iterator = DeltaIterator(_controller.document.toDelta())
-  ///             ..skip(_controller.selection.baseOffset - 1);
-  ///       // Get the current [Operation] where the caret is on
-  ///       final cur = iterator.next();
-  ///       // Check if the caret is on a Operation that is not text
-  ///       if (cur.data is! String && cur.data != null) {
-  ///           // If it is, then ignore this [KeyEvent] to avoid the user
-  ///           // removes that [Embed Object]
-  ///           return KeyEventResult.handled;
-  ///       }
+  ///onKeyPressed: (event, node) {
+  ///   // Check if the node is a line or a block (you can add your custom type checking)
+  ///   if (event.logicalKey == LogicalKeyboardKey.backspace &&
+  ///       (node is Line || node is Block)) {
+  ///     // We need to use [DeltaIterator] to go to the current position
+  ///     // and jump directly before the position
+  ///     final iterator = DeltaIterator(_controller.document.toDelta())
+  ///           ..skip(_controller.selection.baseOffset - 1);
+  ///     // Get the current [Operation] where the caret is on
+  ///     final cur = iterator.next();
+  ///     // Check if the caret is on a Operation that is not text
+  ///     if (cur.data is! String && cur.data != null) {
+  ///         // If it is, then ignore this [KeyEvent] to avoid the user
+  ///         // removes that [Embed Object]
+  ///         return KeyEventResult.handled;
   ///     }
-  ///     // Apply custom logic or return null to use default events
-  ///     return null;
-  ///   },
-  ///)
+  ///   }
+  ///   // Apply custom logic or return null to use default events
+  ///   return null;
+  ///},
   ///```
   @experimental
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
