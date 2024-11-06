@@ -176,8 +176,8 @@ class QuillEditorConfigurations extends Equatable {
   ///           ..skip(_controller.selection.baseOffset - 1);
   ///     // Get the current [Operation] where the caret is on
   ///     final cur = iterator.next();
-  ///     // Check if the caret is on a Operation that is not text
-  ///     if (cur.data is! String && cur.data != null) {
+  ///     final isOperationWithEmbed = cur.data is! String && cur.data != null;  
+  ///     if (isOperationWithEmbed) {
   ///         // If it is, then ignore this [KeyEvent] to avoid the user
   ///         // removes that [Embed Object]
   ///         return KeyEventResult.handled;
