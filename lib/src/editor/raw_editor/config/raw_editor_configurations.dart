@@ -98,7 +98,7 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   /// Supported by:
   ///
-  ///    - Web (Does not work on mobile devices)
+  ///    - Web
   ///    - Desktop
   ///
   /// ### Example
@@ -142,7 +142,7 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   /// ### Supported by:
   ///
-  ///     - Web
+  ///     - Web (Does not work on mobile devices)
   ///     - Desktop
   ///
   /// # Example:
