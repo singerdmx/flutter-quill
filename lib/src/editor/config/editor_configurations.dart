@@ -159,7 +159,7 @@ class QuillEditorConfigurations extends Equatable {
   ///
   /// ### Supported by:
   ///
-  ///     - Web
+  ///     - Web (Does not work on mobile devices)
   ///     - Desktop
   ///
   /// # Example:

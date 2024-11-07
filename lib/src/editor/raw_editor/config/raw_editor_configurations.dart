@@ -98,8 +98,9 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   /// Supported by:
   ///
-  ///    - Web
+  ///    - Web (Does not work on mobile devices)
   ///    - Desktop
+  ///
   /// ### Example
   ///```dart
   /// // you can get also the default implemented shortcuts
