@@ -163,7 +163,7 @@ class QuillEditorConfigurations extends Equatable {
   ///     - Desktop
   ///
   /// # Example:
-  /// assume that we want to avoid the user removes any **Embed Object**, then we can try:
+  /// To prevent the user from removing any **Embed Object**, try:
   ///
   ///```dart
   ///onKeyPressed: (event, node) {
@@ -174,12 +174,11 @@ class QuillEditorConfigurations extends Equatable {
   ///     // and jump directly before the position
   ///     final iterator = DeltaIterator(_controller.document.toDelta())
   ///           ..skip(_controller.selection.baseOffset - 1);
-  ///     // Get the current [Operation] where the caret is on
+  ///     // Get the [Operation] where the caret is on
   ///     final cur = iterator.next();
   ///     final isOperationWithEmbed = cur.data is! String && cur.data != null;  
   ///     if (isOperationWithEmbed) {
-  ///         // If it is, then ignore this [KeyEvent] to avoid the user
-  ///         // removes that [Embed Object]
+  ///         // Ignore this [KeyEvent] to prevent the user from removing the [Embed Object].
   ///         return KeyEventResult.handled;
   ///     }
   ///   }
