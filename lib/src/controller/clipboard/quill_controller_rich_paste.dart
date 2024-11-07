@@ -90,6 +90,7 @@ extension QuillControllerRichPaste on QuillController {
     replaceText(
       selection.start,
       selection.end - selection.start,
+      // Ensure to await to get Delta instead of Future<Delta>
       await deltaToPaste(clipboardDelta),
       TextSelection.collapsed(offset: selection.end),
     );
