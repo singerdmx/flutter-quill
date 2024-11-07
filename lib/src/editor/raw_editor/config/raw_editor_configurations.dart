@@ -158,7 +158,7 @@ class QuillRawEditorConfigurations extends Equatable {
   ///           ..skip(_controller.selection.baseOffset - 1);
   ///     // Get the [Operation] where the caret is on
   ///     final cur = iterator.next();
-  ///     final isOperationWithEmbed = cur.data is! String && cur.data != null;  
+  ///     final isOperationWithEmbed = cur.data is! String && cur.data != null;
   ///     if (isOperationWithEmbed) {
   ///         // Ignore this [KeyEvent] to prevent the user from removing the [Embed Object].
   ///         return KeyEventResult.handled;
