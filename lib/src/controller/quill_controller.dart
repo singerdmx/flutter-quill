@@ -582,7 +582,7 @@ class QuillController extends ChangeNotifier {
     final plainText = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
     if (plainText != null) {
       final plainTextToPaste = await getTextToPaste(plainText);
-      if (pasteUsingPlainOrDelta(plainTextToPaste,
+      if (pastePlainTextOrDelta(plainTextToPaste,
           pastePlainText: _pastePlainText, pasteDelta: _pasteDelta)) {
         updateEditor?.call();
         return true;

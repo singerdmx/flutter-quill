@@ -75,7 +75,7 @@ extension QuillControllerRichPaste on QuillController {
   }
 
   @visibleForTesting
-  Future<Delta> deltaToPaste(Delta clipboardDelta) async {
+  Future<Delta> getDeltaToPaste(Delta clipboardDelta) async {
     final onDeltaPaste = config.clipboardConfig?.onDeltaPaste;
     if (onDeltaPaste != null) {
       final delta = await onDeltaPaste(clipboardDelta);
@@ -90,8 +90,8 @@ extension QuillControllerRichPaste on QuillController {
     replaceText(
       selection.start,
       selection.end - selection.start,
-      // Ensure to await to get Delta instead of Future<Delta>
-      await deltaToPaste(clipboardDelta),
+      // Ensure to await to pass Delta instead of Future<Delta> since this accept Object
+      await getDeltaToPaste(clipboardDelta),
       TextSelection.collapsed(offset: selection.end),
     );
   }

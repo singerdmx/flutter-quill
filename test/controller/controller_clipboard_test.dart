@@ -35,14 +35,14 @@ void main() {
 
       final initialDelta = Delta()..insert('plain text\n', {'bold': true});
 
-      expect(await controller.deltaToPaste(initialDelta),
+      expect(await controller.getDeltaToPaste(initialDelta),
           initialDelta.compose(Delta()..insert('composed delta\n')));
 
       returnComposedDelta = false;
 
       final secondDelta = Delta()..insert('plain text\n', {'bold': true});
 
-      expect(await controller.deltaToPaste(secondDelta), secondDelta);
+      expect(await controller.getDeltaToPaste(secondDelta), secondDelta);
     });
 
     test('clipboardSelection empty', () {
@@ -82,7 +82,7 @@ void main() {
     QuillController controller,
     String? clipboardText,
   ) =>
-      controller.pasteUsingPlainOrDelta(
+      controller.pastePlainTextOrDelta(
         clipboardText,
         pasteDelta: controller.pasteDelta,
         pastePlainText: controller.pastePlainText,

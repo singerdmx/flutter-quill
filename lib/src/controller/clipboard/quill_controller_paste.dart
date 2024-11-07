@@ -9,7 +9,7 @@ import '../../../quill_delta.dart';
 
 extension QuillControllerPaste on QuillController {
   @internal
-  bool pasteUsingPlainOrDelta(
+  bool pastePlainTextOrDelta(
     String? clipboardText, {
     required String pastePlainText,
     required Delta pasteDelta,
