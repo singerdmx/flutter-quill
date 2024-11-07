@@ -17,6 +17,8 @@ import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_config.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
+import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
+import 'clipboard/quill_controller_paste.dart';
 import 'clipboard/quill_controller_rich_paste.dart';
 import 'quill_controller_config.dart';
 
@@ -504,7 +506,7 @@ class QuillController extends ChangeNotifier {
   /// When this is set to `true`, the text cannot be modified
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
-  /// Defaults to `false`. Must not be `null`.
+  /// Defaults to `false`.
   bool readOnly;
 
   ImageUrl? _copiedImageUrl;
@@ -550,7 +552,9 @@ class QuillController extends ChangeNotifier {
   Future<bool> clipboardPaste({void Function()? updateEditor}) async {
     if (readOnly || !selection.isValid) return true;
 
-    if (await config.onClipboardPaste?.call() == true) {
+    final clipboardConfig = config.clipboardConfig;
+
+    if (await clipboardConfig?.onClipboardPaste?.call() == true) {
       updateEditor?.call();
       return true;
     }
@@ -575,40 +579,63 @@ class QuillController extends ChangeNotifier {
 
     // Snapshot the input before using `await`.
     // See https://github.com/flutter/flutter/issues/11427
-    final plainTextClipboardData =
-        await Clipboard.getData(Clipboard.kTextPlain);
-    if (pasteUsingPlainOrDelta(plainTextClipboardData?.text)) {
-      updateEditor?.call();
-      return true;
-    }
-
-    return false;
-  }
-
-  @visibleForTesting
-  @internal
-  bool pasteUsingPlainOrDelta(String? clipboardText) {
-    if (clipboardText != null) {
-      /// Internal copy-paste preserves styles and embeds
-      if (clipboardText == _pastePlainText &&
-          _pastePlainText.isNotEmpty &&
-          _pasteDelta.isNotEmpty) {
-        replaceText(selection.start, selection.end - selection.start,
-            _pasteDelta, TextSelection.collapsed(offset: selection.end));
-      } else {
-        replaceText(
-            selection.start,
-            selection.end - selection.start,
-            clipboardText,
-            TextSelection.collapsed(
-                offset: selection.end + clipboardText.length));
+    final plainText = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
+    if (plainText != null) {
+      final plainTextToPaste = await getTextToPaste(plainText);
+      if (pasteUsingPlainOrDelta(plainTextToPaste,
+          pastePlainText: _pastePlainText, pasteDelta: _pasteDelta)) {
+        updateEditor?.call();
+        return true;
       }
-      return true;
     }
+
+    final clipboardService = ClipboardServiceProvider.instance;
+
+    final onImagePaste = clipboardConfig?.onImagePaste;
+    if (onImagePaste != null) {
+      final imageBytes = await clipboardService.getImageFile();
+
+      if (imageBytes != null) {
+        final imageUrl = await onImagePaste(imageBytes);
+        if (imageUrl != null) {
+          replaceText(
+            plainTextEditingValue.selection.end,
+            0,
+            BlockEmbed.image(imageUrl),
+            null,
+          );
+        }
+      }
+    }
+
+    final onGifPaste = clipboardConfig?.onGifPaste;
+    if (onGifPaste != null) {
+      final gifBytes = await clipboardService.getGifFile();
+      if (gifBytes != null) {
+        final gifUrl = await onGifPaste(gifBytes);
+        if (gifUrl != null) {
+          replaceText(
+            plainTextEditingValue.selection.end,
+            0,
+            BlockEmbed.image(gifUrl),
+            null,
+          );
+        }
+      }
+    }
+
+    final onUnprocessedPaste = clipboardConfig?.onUnprocessedPaste;
+    if (onUnprocessedPaste != null) {
+      if (await onUnprocessedPaste()) {
+        updateEditor?.call();
+        return true;
+      }
+    }
+
     return false;
   }
 
-  /// Return `true` if can paste internal image
+  /// Return `true` if can paste an internal image
   Future<bool> _pasteInternalImage() async {
     final copiedImageUrl = _copiedImageUrl;
     if (copiedImageUrl != null) {

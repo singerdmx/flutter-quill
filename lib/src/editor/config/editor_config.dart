@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
@@ -61,8 +60,6 @@ class QuillEditorConfig {
     this.customRecognizerBuilder,
     this.floatingCursorDisabled = false,
     this.textSelectionControls,
-    this.onImagePaste,
-    @experimental this.onGifPaste,
     this.customShortcuts,
     this.customActions,
     this.detectWordBoundary = true,
@@ -152,7 +149,7 @@ class QuillEditorConfig {
   /// when this is set to `true` clipboard can not be used
   /// this disables the clipboard notification for requesting permissions
   ///
-  /// Defaults to `false`. Must not be `null`.
+  /// Defaults to `false`.
   final bool disableClipboard;
 
   /// Whether this editor should create a scrollable container for its content.
@@ -363,19 +360,6 @@ class QuillEditorConfig {
   /// will be used
   final TextSelectionControls? textSelectionControls;
 
-  /// Callback when the user pastes the given image.
-  ///
-  /// Returns the url of the image if the image should be inserted.
-  final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
-
-  /// Callback when the user pastes the given gif.
-  ///
-  /// Returns the url of the gif if the gif should be inserted.
-  ///
-  /// Supports **Android** and **iOS** only.
-  @experimental
-  final Future<String?> Function(Uint8List imageBytes)? onGifPaste;
-
   /// Contains user-defined shortcuts map.
   ///
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
@@ -480,8 +464,6 @@ class QuillEditorConfig {
     LinkActionPickerDelegate? linkActionPickerDelegate,
     bool? floatingCursorDisabled,
     TextSelectionControls? textSelectionControls,
-    Future<String?> Function(Uint8List imageBytes)? onImagePaste,
-    Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
@@ -544,8 +526,6 @@ class QuillEditorConfig {
           floatingCursorDisabled ?? this.floatingCursorDisabled,
       textSelectionControls:
           textSelectionControls ?? this.textSelectionControls,
-      onImagePaste: onImagePaste ?? this.onImagePaste,
-      onGifPaste: onGifPaste ?? this.onGifPaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,

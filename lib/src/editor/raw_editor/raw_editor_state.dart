@@ -22,10 +22,8 @@ import '../../delta/delta_diff.dart';
 import '../../document/attribute.dart';
 import '../../document/document.dart';
 import '../../document/nodes/block.dart';
-import '../../document/nodes/embeddable.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
-import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../editor.dart';
 import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
@@ -148,44 +146,6 @@ class QuillRawEditorState extends EditorState
     if (await controller.clipboardPaste()) {
       bringIntoView(textEditingValue.selection.extent);
       return;
-    }
-
-    final clipboardService = ClipboardServiceProvider.instance;
-
-    final onImagePaste = widget.config.onImagePaste;
-    if (onImagePaste != null) {
-      final imageBytes = await clipboardService.getImageFile();
-      if (imageBytes != null) {
-        final imageUrl = await onImagePaste(imageBytes);
-        if (imageUrl == null) {
-          return;
-        }
-
-        controller.replaceText(
-          textEditingValue.selection.end,
-          0,
-          BlockEmbed.image(imageUrl),
-          null,
-        );
-      }
-    }
-
-    final onGifPaste = widget.config.onGifPaste;
-    if (onGifPaste != null) {
-      final gifBytes = await clipboardService.getGifFile();
-      if (gifBytes != null) {
-        final gifUrl = await onGifPaste(gifBytes);
-        if (gifUrl == null) {
-          return;
-        }
-
-        controller.replaceText(
-          textEditingValue.selection.end,
-          0,
-          BlockEmbed.image(gifUrl),
-          null,
-        );
-      }
     }
   }
 

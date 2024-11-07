@@ -1,7 +1,11 @@
+@internal
+library;
+
 // This file should not be exported as the APIs in it are meant for internal usage only
 
 import 'package:flutter/widgets.dart' show TextSelection;
 import 'package:html/parser.dart' as html_parser;
+import 'package:meta/meta.dart';
 
 import '../../../quill_delta.dart';
 import '../../delta/delta_x.dart';
@@ -13,17 +17,11 @@ extension QuillControllerRichPaste on QuillController {
   /// will read it from the Clipboard in case the [ClipboardServiceProvider.instance]
   /// support it on the current platform.
   ///
-  /// The argument [html] allow to override the HTML that's being pasted,
-  /// mainly to support pasting HTML on the web in [_webPasteEventSubscription].
-  ///
   /// Return `true` if can paste or have pasted using HTML.
-  Future<bool> pasteHTML({String? html}) async {
+  Future<bool> pasteHTML() async {
     final clipboardService = ClipboardServiceProvider.instance;
 
     Future<String?> getHTML() async {
-      if (html != null) {
-        return html;
-      }
       final clipboardHtmlText = await clipboardService.getHtmlText();
       if (clipboardHtmlText != null) {
         return clipboardHtmlText;
@@ -39,9 +37,9 @@ extension QuillControllerRichPaste on QuillController {
     if (htmlText != null) {
       final htmlBody = html_parser.parse(htmlText).body?.outerHtml;
       // ignore: deprecated_member_use_from_same_package
-      final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? htmlText);
+      final clipboardDelta = DeltaX.fromHtml(htmlBody ?? htmlText);
 
-      _pasteUsingDelta(deltaFromClipboard);
+      await _pasteDelta(clipboardDelta);
 
       return true;
     }
@@ -52,17 +50,11 @@ extension QuillControllerRichPaste on QuillController {
   /// will read it from the Clipboard in case the [ClipboardServiceProvider.instance]
   /// support it on the current platform.
   ///
-  /// The argument [markdown] allow to override the Markdown that's being pasted,
-  /// mainly to support pasting Markdown on the web in [_webPasteEventSubscription].
-  ///
   /// Return `true` if can paste or have pasted using Markdown.
-  Future<bool> pasteMarkdown({String? markdown}) async {
+  Future<bool> pasteMarkdown() async {
     final clipboardService = ClipboardServiceProvider.instance;
 
     Future<String?> getMarkdown() async {
-      if (markdown != null) {
-        return markdown;
-      }
       final clipboardMarkdownFile = await clipboardService.getMarkdownFile();
       if (clipboardMarkdownFile != null) {
         return clipboardMarkdownFile;
@@ -73,20 +65,32 @@ extension QuillControllerRichPaste on QuillController {
     final markdownText = await getMarkdown();
     if (markdownText != null) {
       // ignore: deprecated_member_use_from_same_package
-      final deltaFromClipboard = DeltaX.fromMarkdown(markdownText);
+      final clipboardDelta = DeltaX.fromMarkdown(markdownText);
 
-      _pasteUsingDelta(deltaFromClipboard);
+      await _pasteDelta(clipboardDelta);
 
       return true;
     }
     return false;
   }
 
-  void _pasteUsingDelta(Delta deltaFromClipboard) {
+  @visibleForTesting
+  Future<Delta> deltaToPaste(Delta clipboardDelta) async {
+    final onDeltaPaste = config.clipboardConfig?.onDeltaPaste;
+    if (onDeltaPaste != null) {
+      final delta = await onDeltaPaste(clipboardDelta);
+      if (delta != null) {
+        return delta;
+      }
+    }
+    return clipboardDelta;
+  }
+
+  Future<void> _pasteDelta(Delta clipboardDelta) async {
     replaceText(
       selection.start,
       selection.end - selection.start,
-      deltaFromClipboard,
+      await deltaToPaste(clipboardDelta),
       TextSelection.collapsed(offset: selection.end),
     );
   }

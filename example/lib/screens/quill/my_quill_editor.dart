@@ -1,5 +1,3 @@
-import 'dart:io' as io show Directory, File;
-
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 import 'package:desktop_drop/desktop_drop.dart' show DropTarget;
@@ -8,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/internal.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
-import 'package:path/path.dart' as path;
 
 import '../../extensions/scaffold_messenger.dart';
 import 'embeds/timestamp_embed.dart';
@@ -54,38 +51,6 @@ class MyQuillEditor extends StatelessWidget {
           scrollable: true,
           placeholder: 'Start writing your notes...',
           padding: const EdgeInsets.all(16),
-          onImagePaste: (imageBytes) async {
-            if (kIsWeb) {
-              return null;
-            }
-            // We will save it to system temporary files
-            final newFileName =
-                'imageFile-${DateTime.now().toIso8601String()}.png';
-            final newPath = path.join(
-              io.Directory.systemTemp.path,
-              newFileName,
-            );
-            final file = await io.File(
-              newPath,
-            ).writeAsBytes(imageBytes, flush: true);
-            return file.path;
-          },
-          onGifPaste: (gifBytes) async {
-            if (kIsWeb) {
-              return null;
-            }
-            // We will save it to system temporary files
-            final newFileName =
-                'gifFile-${DateTime.now().toIso8601String()}.gif';
-            final newPath = path.join(
-              io.Directory.systemTemp.path,
-              newFileName,
-            );
-            final file = await io.File(
-              newPath,
-            ).writeAsBytes(gifBytes, flush: true);
-            return file.path;
-          },
           embedBuilders: [
             ...(kIsWeb
                 ? FlutterQuillEmbeds.editorWebBuilders()

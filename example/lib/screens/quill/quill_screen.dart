@@ -1,9 +1,12 @@
 import 'dart:convert' show jsonEncode;
+import 'dart:io' as io show Directory, File;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
     show FlutterQuillEmbeds;
+import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
@@ -33,14 +36,52 @@ class QuillScreen extends StatefulWidget {
 }
 
 class _QuillScreenState extends State<QuillScreen> {
-  /// Instantiate the controller
-  final _controller = QuillController.basic();
+  late final QuillController _controller;
   final _editorFocusNode = FocusNode();
   final _editorScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _controller = QuillController.basic(
+      config: QuillControllerConfig(
+        clipboardConfig: QuillClipboardConfig(
+          onImagePaste: (imageBytes) async {
+            if (kIsWeb) {
+              return null;
+            }
+            // We will save it to system temporary files
+            final newFileName =
+                'imageFile-${DateTime.now().toIso8601String()}.png';
+            final newPath = path.join(
+              io.Directory.systemTemp.path,
+              newFileName,
+            );
+            final file = await io.File(
+              newPath,
+            ).writeAsBytes(imageBytes, flush: true);
+            return file.path;
+          },
+          onGifPaste: (gifBytes) async {
+            if (kIsWeb) {
+              return null;
+            }
+            // We will save it to system temporary files
+            final newFileName =
+                'gifFile-${DateTime.now().toIso8601String()}.gif';
+            final newPath = path.join(
+              io.Directory.systemTemp.path,
+              newFileName,
+            );
+            final file = await io.File(
+              newPath,
+            ).writeAsBytes(gifBytes, flush: true);
+            return file.path;
+          },
+        ),
+      ),
+    );
+
     _controller.document = widget.args.document;
   }
 

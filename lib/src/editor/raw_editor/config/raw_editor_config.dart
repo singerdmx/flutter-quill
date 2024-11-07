@@ -1,6 +1,5 @@
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart' show Brightness, Uint8List, immutable;
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -56,8 +55,6 @@ class QuillRawEditorConfig {
     this.customStyleBuilder,
     this.customRecognizerBuilder,
     this.floatingCursorDisabled = false,
-    this.onImagePaste,
-    @experimental this.onGifPaste,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
     this.contentInsertionConfiguration,
@@ -156,12 +153,13 @@ class QuillRawEditorConfig {
   /// Defaults to null.
   final bool? checkBoxReadOnly;
 
+  // TODO(EchoEllet): (11.0.0) Should move this property to QuillClipboardConfig? Also exist in QuillEditorConfig
   /// Disable Clipboard features
   ///
   /// when this is set to true clipboard can not be used
   /// this disables the clipboard notification for requesting permissions
   ///
-  /// Defaults to false. Must not be null.
+  /// Defaults to `false`.
   final bool disableClipboard;
 
   final String? placeholder;
@@ -312,12 +310,6 @@ class QuillRawEditorConfig {
   ///
   /// See [Scrollable.physics].
   final ScrollPhysics? scrollPhysics;
-
-  final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
-
-  /// Supports **Android** and **iOS** only.
-  @experimental
-  final Future<String?> Function(Uint8List imageBytes)? onGifPaste;
 
   /// Contains user-defined shortcuts map.
   ///

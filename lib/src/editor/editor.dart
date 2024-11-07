@@ -307,8 +307,6 @@ class QuillEditorState extends State<QuillEditor>
         customStyleBuilder: configurations.customStyleBuilder,
         customRecognizerBuilder: configurations.customRecognizerBuilder,
         floatingCursorDisabled: configurations.floatingCursorDisabled,
-        onImagePaste: configurations.onImagePaste,
-        onGifPaste: configurations.onGifPaste,
         customShortcuts: configurations.customShortcuts,
         customActions: configurations.customActions,
         customLinkPrefixes: configurations.customLinkPrefixes,
