@@ -51,7 +51,10 @@ dependencies:
   meta: ^1.10.0
   html: ^0.15.4
 
-  flutter_colorpicker: ^1.1.0
+  flutter_colorpicker:
+    git:
+      url: https://github.com/meetdabhioceanmtech/flutter_colorpicker.git
+      ref: b404485c991eada4ce57417a361d6418e938cbf4
 
   # For converting HTML to Quill delta
   flutter_quill_delta_from_html: ^1.4.1
