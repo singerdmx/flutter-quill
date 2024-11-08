@@ -73,7 +73,7 @@ The script above will generate Dart files from the Arb files to test the changes
 won't notice a difference.
 
 > 🔧 If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength`
-> variable in [scripts/ensure_translations_correct.dart](../scripts/ensure_translations_correct.dart) <br>
+> variable in [scripts/translations_check.dart](../scripts/translations_check.dart) <br>
 > Otherwise you don't need to update it.
 
 Then open a pull request so everyone can benefit from your translations!

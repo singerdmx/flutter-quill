@@ -153,7 +153,7 @@ class QuillRawEditorConfig {
   /// Defaults to null.
   final bool? checkBoxReadOnly;
 
-  // TODO(EchoEllet): (11.0.0) Should move this property to QuillClipboardConfig? Also exist in QuillEditorConfig
+  // TODO: (11.0.0) Should move this property to QuillClipboardConfig? Also exist in QuillEditorConfig
   /// Disable Clipboard features
   ///
   /// when this is set to true clipboard can not be used

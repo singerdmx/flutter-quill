@@ -1,0 +1,28 @@
+name: 🚀 Update GitHub Release Notes from CHANGELOG.md
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release-notes:
+    name: 📝 Publish Release Notes from Changelog
+    permissions:
+      # Required for updating GitHub release notes
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ✂️ Extract Release Notes from CHANGELOG.md
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+        with:
+          changelog_file: CHANGELOG.md
+
+      - name: 🖋️ Update Release Notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release edit ${{ github.event.release.tag_name }} --notes "${{ steps.extract-release-notes.outputs.release_notes }}"
