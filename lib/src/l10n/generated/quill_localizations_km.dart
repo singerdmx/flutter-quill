@@ -302,4 +302,7 @@ class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'បញ្ចូលតារាង';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
