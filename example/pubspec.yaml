@@ -1,0 +1,37 @@
+name: flutter_quill_example
+description: "Demonstrates how to use the flutter_quill package."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.0.0
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  flutter_quill: ^11.0.0-dev.4
+  flutter_quill_extensions: ^11.0.0-dev.3
+  path: ^1.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_quill_test: ^11.0.0-dev.2
+
+dependency_overrides:
+  flutter_quill:
+    path: ../
+  flutter_quill_extensions:
+    path: ../flutter_quill_extensions
+  flutter_quill_test:
+    path: ../flutter_quill_test
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

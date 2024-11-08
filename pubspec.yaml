@@ -14,13 +14,13 @@ topics:
   - quill
 
 screenshots:
-  - description: "Screenshot 1"
+  - description: "iOS Light Mode"
     path: example/assets/images/screenshot_1.png
-  - description: "Screenshot 2"
+  - description: "macOS Dark Mode"
     path: example/assets/images/screenshot_2.png
-  - description: "Screenshot 3"
+  - description: "Android Dark Mode Search Dialog"
     path: example/assets/images/screenshot_3.png
-  - description: "Screenshot 4"
+  - description: "Web Select Color Dialog"
     path: example/assets/images/screenshot_4.png
 
 platforms:

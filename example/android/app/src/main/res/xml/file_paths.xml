@@ -1,0 +1,4 @@
+<paths>
+    <!-- To support copying images to the system clipboard (optional): https://pub.dev/packages/quill_native_bridge -->
+    <cache-path name="cache" path="." />
+</paths>

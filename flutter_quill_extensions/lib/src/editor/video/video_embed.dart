@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
-import '../../common/utils/utils.dart';
 import 'config/video_config.dart';
 import 'widgets/video_app.dart';
 
@@ -25,8 +23,6 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
     BuildContext context,
     EmbedContext embedContext,
   ) {
-    assert(!kIsWeb, 'Please provide video EmbedBuilder for Web');
-
     final videoUrl = embedContext.node.value.data;
 
     final customVideoBuilder = config.customVideoBuilder;
@@ -36,19 +32,6 @@ class QuillEditorVideoEmbedBuilder extends EmbedBuilder {
         return videoWidget;
       }
     }
-
-    assert(() {
-      if (isYouTubeUrl(videoUrl)) {
-        debugPrint(
-          "It seems that you're loading a youtube video URL.\n"
-          'Loading YouTube videos is no longer built-in feature as part of flutter_quill_extensions.\n'
-          'This message will only appear in development mode. See https://github.com/singerdmx/flutter-quill/issues/2284\n'
-          'Consider using the experimental property `QuillEditorVideoEmbedConfigurations.customVideoBuilder` in your configuration.\n'
-          'This message will only included in development mode.\n',
-        );
-      }
-      return true;
-    }());
 
     final ((elementSize), margin, alignment) = getElementAttributes(
       embedContext.node,
