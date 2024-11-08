@@ -1,3 +1,3 @@
-library flutter_quill_test;
+library;
 
 export 'src/test/widget_tester_extension.dart';

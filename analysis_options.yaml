@@ -1,9 +1,5 @@
 include: package:flutter_lints/flutter.yaml
 
-analyzer:
-  errors:
-    undefined_prefixed_name: ignore
-    unsafe_html: ignore
 linter:
   rules:
     always_declare_return_types: true
@@ -33,3 +29,4 @@ linter:
     unnecessary_lambdas: true
     unnecessary_parenthesis: true
     unnecessary_string_interpolations: true
+    avoid_web_libraries_in_flutter: true

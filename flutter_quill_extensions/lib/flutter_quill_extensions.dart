@@ -1,7 +1,7 @@
-library flutter_quill_extensions;
+library;
 
-// ignore: implementation_imports
-import 'package:flutter_quill/src/editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
+import 'package:flutter_quill/flutter_quill_internal.dart'
+    show ClipboardServiceProvider;
 import 'package:meta/meta.dart' show experimental;
 
 import 'src/editor_toolbar_controller_shared/clipboard/super_clipboard_service.dart';
@@ -64,8 +64,11 @@ class FlutterQuillExtensions {
   /// to allow `flutter_quill` package to use `super_clipboard` plugin
   /// to support rich text features, gif and images.
   @Deprecated(
-    'Should not be used anymore as super_clipboard will moved outside of flutter_quill_extensions soon.\n'
-    'A replacement is being made in https://github.com/singerdmx/flutter-quill/pull/2230',
+    'The functionality of super_clipboard is now built-in in recent versions of flutter_quill.\n'
+    'To migrate, remove this function call and see '
+    'https://pub.dev/packages/quill_native_bridge#-platform-configuration (optional for copying images on Android) to use quill_native_bridge implementation (the new default).\n'
+    'Or if you want to use super_clipboard implementation (support might discontinued in newer versions), use the package https://pub.dev/packages/quill_super_clipboard\n'
+    'See https://github.com/singerdmx/flutter-quill/pull/2230 for more details.',
   )
   @experimental
   static void useSuperClipboardPlugin() {
