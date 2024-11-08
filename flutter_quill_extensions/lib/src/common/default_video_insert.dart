@@ -8,6 +8,7 @@ OnVideoInsertCallback _defaultOnVideoInsert() {
   return (imageUrl, controller) async {
     controller
       ..skipRequestKeyboard = true
+      // ignore: deprecated_member_use_from_same_package
       ..insertVideoBlock(videoUrl: imageUrl);
   };
 }
