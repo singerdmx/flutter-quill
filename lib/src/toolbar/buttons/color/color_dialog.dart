@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart'
-    show ColorPicker, MaterialPicker, colorToHex;
+import 'package:flutter_colorpicker/flutter_colorpicker.dart' show ColorPicker, MaterialPicker, colorToHex;
 
 import '../../../../translations.dart';
 import '../../../document/style.dart';
@@ -111,6 +110,8 @@ class ColorPickerDialogState extends State<ColorPickerDialog> {
                       selectedColor = color;
                       colorBoxSetState(() {});
                     },
+                    onApplyClicked: () {},
+                    colorPickerWidth: null,
                   ),
                 const SizedBox(
                   height: 10,
