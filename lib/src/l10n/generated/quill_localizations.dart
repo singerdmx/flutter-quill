@@ -23,6 +23,7 @@ import 'quill_localizations_hu.dart';
 import 'quill_localizations_id.dart';
 import 'quill_localizations_it.dart';
 import 'quill_localizations_ja.dart';
+import 'quill_localizations_km.dart';
 import 'quill_localizations_ko.dart';
 import 'quill_localizations_ku.dart';
 import 'quill_localizations_ms.dart';
@@ -151,6 +152,7 @@ abstract class FlutterQuillLocalizations {
     Locale('id'),
     Locale('it'),
     Locale('ja'),
+    Locale('km'),
     Locale('ko'),
     Locale('ku'),
     Locale('ku', 'CKB'),
@@ -798,6 +800,7 @@ class _FlutterQuillLocalizationsDelegate
         'id',
         'it',
         'ja',
+        'km',
         'ko',
         'ku',
         'ms',
@@ -910,6 +913,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsIt();
     case 'ja':
       return FlutterQuillLocalizationsJa();
+    case 'km':
+      return FlutterQuillLocalizationsKm();
     case 'ko':
       return FlutterQuillLocalizationsKo();
     case 'ku':
