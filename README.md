@@ -42,9 +42,17 @@ Check out our [Youtube Playlist] or [Code Introduction](./doc/code_introduction.
 to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
+<p>
+  <!-- TODO: Use the raw image URL from Github repo -->
+  <img src="./example/assets/images/screenshot_1.png"
+    alt="A screenshot of the iOS example app" height="400"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./example/assets/images/screenshot_4.png"
+   alt="A screenshot of the web example app" height="420" />
+</p>
+
 ## 📚 Table of contents
 
-- [📸 Screenshots](#-screenshots)
 - [📦 Installation](#-installation)
 - [🛠 Platform Setup](#-platform-setup)
 - [🚀 Usage](#-usage)
@@ -53,28 +61,12 @@ You can join our [Slack Group] for discussion.
 - [⚙️ Configurations](#️-configurations)
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Delta Conversion](#-delta-conversion)
-- [📝 Spelling checker](#-spelling-checker)
 - [📝 Rich Text Paste](#-rich-text-paste)
 - [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
 - [🤝 Contributing](#-contributing)
 - [📜 Acknowledgments](#-acknowledgments)
-
-
-## 📸 Screenshots
-
-<details>
-<summary>Tap to show/hide screenshots</summary>
-
-<br>
-
-<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_1.png?raw=true" width="250" alt="Screenshot 1">
-<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_2.png?raw=true" width="250" alt="Screenshot 2">
-<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_3.png?raw=true" width="250" alt="Screenshot 3">
-<img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_4.png?raw=true" width="250" alt="Screenshot 4">
-
-</details>
 
 ## 📦 Installation
 
@@ -318,15 +310,16 @@ Available Packages for Conversion
 > 4. **Rich text pasting**: If you copy some content from websites or apps, and want to paste it into the app.
 > 5. **SEO**: In case you want to use HTML for SEO support.
 
-## 📝 Spelling checker
-
-This feature is currently not implemented and is being planned. Refer to [#2246](https://github.com/singerdmx/flutter-quill/issues/2246)
-for discussion.
-
 ## 📝 Rich Text Paste
 
 This feature allows the user to paste the content copied from other apps into the editor as rich text.
 The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) provides access to the system Clipboard.
+
+<p>
+  <!-- TODO: Use the raw GIF image URL from Github repo -->
+  <img src="./example/assets/images/rich_text_paste.gif"
+    alt="An animated image of the rich text paste on macOS" width="600" />
+</p>
 
 > [!IMPORTANT]
 > Currently this feature is not supported on the web.
