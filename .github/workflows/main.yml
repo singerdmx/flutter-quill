@@ -55,3 +55,5 @@ jobs:
 
       - name: 🔍 Validate CHANGELOG.md format
         uses: zattoo/changelog@2.0.0
+        with:
+          token: ${{ github.token }}
