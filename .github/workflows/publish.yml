@@ -68,7 +68,3 @@ jobs:
 
       - name: 📤 Publish flutter_quill
         run: flutter pub publish --force
-
-      - name: 📤 Publish flutter_quill_extensions
-        run: flutter pub publish --force
-        working-directory: ./flutter_quill_extensions/
