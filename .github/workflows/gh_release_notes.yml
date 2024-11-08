@@ -20,7 +20,6 @@ jobs:
         uses: ffurrer2/extract-release-notes@v2
         with:
           changelog_file: CHANGELOG.md
-          release_notes_file: RELEASE_NOTES.md
 
       - name: 🖋️ Update Release Notes
         uses: irongut/EditRelease@v1.2.0
@@ -28,4 +27,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: ${{ github.event.release.id }}
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
-          files: "RELEASE_NOTES.md"
