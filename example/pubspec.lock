@@ -471,7 +471,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "11.0.0-dev.1"
+    version: "11.0.0-dev.2"
   flutter_quill_delta_from_html:
     dependency: transitive
     description:
@@ -486,14 +486,14 @@ packages:
       path: "../flutter_quill_extensions"
       relative: true
     source: path
-    version: "11.0.0-dev.1"
+    version: "11.0.0-dev.2"
   flutter_quill_test:
     dependency: "direct dev"
     description:
       path: "../flutter_quill_test"
       relative: true
     source: path
-    version: "11.0.0-dev.1"
+    version: "11.0.0-dev.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter

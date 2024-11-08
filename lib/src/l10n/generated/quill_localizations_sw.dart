@@ -303,4 +303,7 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Ingiza jedwali';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

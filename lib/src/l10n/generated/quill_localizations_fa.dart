@@ -302,4 +302,7 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'درج جدول';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

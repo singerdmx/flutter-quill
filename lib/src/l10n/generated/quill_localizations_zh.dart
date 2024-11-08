@@ -298,6 +298,9 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => '插入表格';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).

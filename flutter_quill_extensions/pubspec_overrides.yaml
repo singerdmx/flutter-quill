@@ -1,4 +1,0 @@
-# TODO: (11.0.0) removes this file after publishing flutter_quill
-dependency_overrides:
-  flutter_quill:
-    path: ../
