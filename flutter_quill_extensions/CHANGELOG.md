@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin from [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions).
 - **BREAKING**: The deprecated support for loading YouTube videos in `flutter_quill_extensions`.
 
-## [11.0.0-dev.2] - 2024-11-8
+## [11.0.0-dev.2] - 2024-11-08
 
 ### Changed
 

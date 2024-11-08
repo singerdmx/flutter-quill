@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The dependency [equatable](https://pub.dev/packages/equatable).
 - The experimental support for spell checking. See [#2246](https://github.com/singerdmx/flutter-quill/issues/2246).
 
-## [11.0.0-dev.2] - 2024-11-8
+## [11.0.0-dev.2] - 2024-11-08
 
 ### Changed
 

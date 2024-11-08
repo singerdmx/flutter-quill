@@ -1,6 +1,6 @@
 name: 📝 Changelog File Check
 
-# This workflow only validates if the CHANGELOG.md file was updated and doesn't validate it
+# This workflow only validates if the CHANGELOG.md file was updated and doesn't validate the format.
 
 on:
   pull_request:
