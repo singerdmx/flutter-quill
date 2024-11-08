@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/internal.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -127,8 +128,7 @@ class QuillToolbarVideoButton extends QuillToolbarBaseButtonStateless {
   IconData Function(BuildContext context) get getDefaultIconData =>
       (context) => Icons.movie_creation;
 
-// TODO: Translate 'Insert video'
   @override
   String Function(BuildContext context) get getDefaultTooltip =>
-      (context) => 'Insert video';
+      (context) => context.loc.insertVideo;
 }

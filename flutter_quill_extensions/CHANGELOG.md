@@ -25,6 +25,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin from [flutter_quill_extensions](https://pub.dev/packages/flutter_quill_extensions).
 - **BREAKING**: The deprecated support for loading YouTube videos in `flutter_quill_extensions`.
 
+### Added
+
+- `Insert video` string in `quill_en.arb` to support localization. Currently available **only in English**.
+
+## [11.0.0-dev.3] - 2024-11-08
+
+### Changed
+
+- Updates minimum supported [`flutter_quill`](https://pub.dev/packages/flutter_quill) version to `11.0.0-dev.3`.
+
 ## [11.0.0-dev.2] - 2024-11-08
 
 ### Changed
