@@ -150,11 +150,9 @@ class QuillRawEditorConfigurations extends Equatable {
   ///
   ///```dart
   ///onKeyPressed: (event, node) {
-  ///   // Check if the node is a line or a block (you can add your custom type checking)
   ///   if (event.logicalKey == LogicalKeyboardKey.backspace &&
   ///       (node is Line || node is Block)) {
-  ///     // We need to use [DeltaIterator] to go to the current position
-  ///     // and jump directly before the position
+  ///     // Use [DeltaIterator] to jump directly to the position before the current.
   ///     final iterator = DeltaIterator(_controller.document.toDelta())
   ///           ..skip(_controller.selection.baseOffset - 1);
   ///     // Get the [Operation] where the caret is on
