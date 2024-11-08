@@ -25,9 +25,8 @@ Follow the usage instructions of [`flutter_quill`](https://github.com/singerdmx/
 
 Add the `flutter_quill_extensions` dependency to your project:
 
-```yaml
-dependencies:
-  flutter_quill_extensions: ^<latest-version-here>
+```shell
+flutter pub add flutter_quill_extensions
 ```
 
 <p align="center">OR</p>
