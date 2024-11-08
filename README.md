@@ -56,7 +56,6 @@ You can join our [Slack Group] for discussion.
 - [📦 Installation](#-installation)
 - [🛠 Platform Setup](#-platform-setup)
 - [🚀 Usage](#-usage)
-- [💥 Breaking Changes](#-breaking-changes)
 - [🔤 Input / Output](#-input--output)
 - [⚙️ Configurations](#️-configurations)
 - [📦 Embed Blocks](#-embed-blocks)
@@ -195,7 +194,7 @@ void dispose() {
 
 Check out [Sample Page] for more advanced usage.
 
-## 💥 Breaking Changes
+### 💥 Breaking Changes
 
 - APIs marked with [`@experimental`](https://api.flutter.dev/flutter/meta/experimental-constant.html) 
 are subject to change or removal at any time and should be used with caution, 
@@ -399,4 +398,4 @@ See [Contributing](./CONTRIBUTING.md) for more details.
 
 [Slack Group]: https://join.slack.com/t/bulletjournal1024/shared_invite/zt-fys7t9hi-ITVU5PGDen1rNRyCjdcQ2g
 
-[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/screens/quill/quill_screen.dart
+[Sample Page]: https://github.com/singerdmx/flutter-quill/blob/master/example/lib/main.dart
