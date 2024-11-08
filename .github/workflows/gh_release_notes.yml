@@ -20,9 +20,12 @@ jobs:
         uses: ffurrer2/extract-release-notes@v2
         with:
           changelog_file: CHANGELOG.md
+          release_notes_file: RELEASE_NOTES.md
 
       - name: 🖋️ Update Release Notes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release edit ${{ github.event.release.tag_name }} --notes "${{ steps.extract-release-notes.outputs.release_notes }}"
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ github.event.release.id }}
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
+          files: "RELEASE_NOTES.md"
