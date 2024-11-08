@@ -13,6 +13,7 @@ class QuillClipboardConfig {
     @experimental this.onGifPaste,
     @experimental this.onDeltaPaste,
     @experimental this.onPlainTextPaste,
+    @experimental this.enableExternalRichPaste,
   });
 
   /// Callback to allow overriding the default clipboard paste handling.
@@ -76,4 +77,19 @@ class QuillClipboardConfig {
   /// Return modified text to override the pasted content, or `null` to use the default.
   @experimental
   final Future<String?> Function(String plainText)? onPlainTextPaste;
+
+  /// Determines if rich text pasting from external sources (system clipboard) is enabled.
+  ///
+  /// When enabled, rich text content from other apps can be pasted into the editor,
+  /// using platform APIs to access the system clipboard.
+  ///
+  /// Will convert the **HTML** (from the system clipboard) to [Delta]
+  /// and then paste it, use [onDeltaPaste] to customize the [Delta]
+  /// before pasting it.
+  ///
+  /// Defaults to `true`.
+  ///
+  /// See also: https://pub.dev/packages/flutter_quill#-rich-text-paste
+  @experimental
+  final bool? enableExternalRichPaste;
 }

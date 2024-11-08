@@ -565,16 +565,20 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
-    final pasteHtmlSuccess = await pasteHTML();
-    if (pasteHtmlSuccess) {
-      updateEditor?.call();
-      return true;
-    }
+    const enableExternalRichPasteDefault = true;
+    if (clipboardConfig?.enableExternalRichPaste ??
+        enableExternalRichPasteDefault) {
+      final pasteHtmlSuccess = await pasteHTML();
+      if (pasteHtmlSuccess) {
+        updateEditor?.call();
+        return true;
+      }
 
-    final pasteMarkdownSuccess = await pasteMarkdown();
-    if (pasteMarkdownSuccess) {
-      updateEditor?.call();
-      return true;
+      final pasteMarkdownSuccess = await pasteMarkdown();
+      if (pasteMarkdownSuccess) {
+        updateEditor?.call();
+        return true;
+      }
     }
 
     // Snapshot the input before using `await`.

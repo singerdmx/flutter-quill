@@ -40,15 +40,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final QuillController _controller;
-  final FocusNode _editorFocusNode = FocusNode();
-  final ScrollController _editorScrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = QuillController.basic(config: QuillControllerConfig(
+  final QuillController _controller = () {
+    return QuillController.basic(
+        config: QuillControllerConfig(
       clipboardConfig: QuillClipboardConfig(
+        enableExternalRichPaste: true,
         onImagePaste: (imageBytes) async {
           if (kIsWeb) {
             // Dart IO is unsupported on the web.
@@ -69,7 +65,13 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     ));
+  }();
+  final FocusNode _editorFocusNode = FocusNode();
+  final ScrollController _editorScrollController = ScrollController();
 
+  @override
+  void initState() {
+    super.initState();
     // Load document
     _controller.document = Document.fromJson(kQuillDefaultSample);
   }
