@@ -56,5 +56,6 @@ jobs:
       - name: 📥 Install cider
         run: dart pub global activate cider
 
+      # TODO: Need a more strict way to validate the format that uses https://keepachangelog.com/en/1.1.0/
       - name: 🔍 Validate CHANGELOG.md format
         run: $HOME/.pub-cache/bin/cider list CHANGELOG.md
