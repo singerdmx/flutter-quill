@@ -43,11 +43,10 @@ to take a detailed walkthrough of the code base.
 You can join our [Slack Group] for discussion.
 
 <p>
-  <!-- TODO: Use the raw image URL from Github repo -->
-  <img src="./example/assets/images/screenshot_1.png"
+  <img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_1.png?raw=true"
     alt="A screenshot of the iOS example app" height="400"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./example/assets/images/screenshot_4.png"
+  <img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/screenshot_4.png?raw=true"
    alt="A screenshot of the web example app" height="420" />
 </p>
 
@@ -315,8 +314,7 @@ This feature allows the user to paste the content copied from other apps into th
 The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) provides access to the system Clipboard.
 
 <p>
-  <!-- TODO: Use the raw GIF image URL from Github repo -->
-  <img src="./example/assets/images/rich_text_paste.gif"
+  <img src="https://github.com/singerdmx/flutter-quill/blob/master/example/assets/images/rich_text_paste.gif?raw=true"
     alt="An animated image of the rich text paste on macOS" width="600" />
 </p>
 
