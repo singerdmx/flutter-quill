@@ -71,7 +71,7 @@ jobs:
       # TODO: Might automate some changes of the CHANGELOG.md (outdated TODO)
 
       - name: 📝 Update package version in pubspec.yaml
-        run: dart ./update_pubspec_version.dart ./pubspec.yaml ${{ steps.extract_version.outputs.VERSION }}
+        run: dart ./scripts/update_pubspec_version.dart ./pubspec.yaml ${{ steps.extract_version.outputs.VERSION }}
 
       # - name: 📝 Update CHANGELOG.md to reflect the change
       #   uses: thomaseizinger/keep-a-changelog-new-release@v2
@@ -80,7 +80,7 @@ jobs:
       #     changelogPath: ./CHANGELOG.md
 
       - name: 📝 Update CHANGELOG.md to reflect the change
-        run: dart ./update_changelog_version.dart ./CHANGELOG.md ${{ steps.extract_version.outputs.VERSION }}
+        run: dart ./scripts/update_changelog_version.dart ./CHANGELOG.md ${{ steps.extract_version.outputs.VERSION }}
 
       - name: 📄 Print updated pubspec.yaml
         run: |
