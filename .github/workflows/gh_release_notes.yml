@@ -26,4 +26,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: ${{ github.event.release.id }}
+          # TODO: Since the version changes in CHANGELOG.md are automated, this won't the expected version, they will be committed on publish
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
