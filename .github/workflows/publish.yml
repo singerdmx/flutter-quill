@@ -19,6 +19,12 @@ jobs:
     steps:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
+        # Needed for commit and push changes
+        with:
+          # NOTE: This workflow run when pushing tags, checkout using the master branch.
+          # For more details, see: https://github.com/EndBug/add-and-commit/issues/656#issuecomment-2267654647
+          ref: master
+          fetch-depth: 0 # To get all tags
 
       - name: 📄 Upload LICENSE file to release assets
         uses: softprops/action-gh-release@v2
