@@ -31,6 +31,7 @@ import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/link.dart';
 import '../widgets/proxy.dart';
+import '../widgets/text/line/editable_text_line.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';

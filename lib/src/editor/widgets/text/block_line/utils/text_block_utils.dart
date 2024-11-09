@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../common/structs/horizontal_spacing.dart';
-import '../../../../document/attribute.dart';
-import '../../../../document/nodes/block.dart';
-import '../../default_styles.dart';
+import '../../../../../common/structs/horizontal_spacing.dart';
+import '../../../../../document/attribute.dart';
+import '../../../../../document/nodes/block.dart';
+import '../../../default_styles.dart';
 
 typedef LeadingBlockIndentWidth = HorizontalSpacing Function(
     Block block,
