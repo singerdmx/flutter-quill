@@ -9,8 +9,8 @@ First, we would like to thank you for your time and efforts on this project, we 
 > We encourage you to create an issue or reach out beforehand, 
 > explaining your proposed changes and their rationale for a higher chance of acceptance. Thank you!
 
-[!NOTE]  
-Updating the `CHANGELOG.md` is optional. If updated, follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format in the `Unreleased` section.  
+> [!NOTE]
+> Updating the `CHANGELOG.md` is optional. If updated, follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format in the `Unreleased` section.  
 The package version in `pubspec.yaml` should not be modified; this will be handled by a maintainer or CI.
 
 ## 📋 Development Prerequisites
