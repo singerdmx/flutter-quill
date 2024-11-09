@@ -62,7 +62,7 @@ class QuillToolbarIconButton extends StatelessWidget {
           : null,
       icon: icon,
       style: iconTheme?.iconButtonUnselectedData?.style,
-      visualDensity: 1 == 1 ? VisualDensity.comfortable : iconTheme?.iconButtonUnselectedData?.visualDensity,
+      visualDensity: iconTheme?.iconButtonUnselectedData?.visualDensity,
       iconSize: iconTheme?.iconButtonUnselectedData?.iconSize,
       padding: iconTheme?.iconButtonUnselectedData?.padding,
       alignment: iconTheme?.iconButtonUnselectedData?.alignment,

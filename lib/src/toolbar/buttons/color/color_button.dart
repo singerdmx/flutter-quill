@@ -137,20 +137,17 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
       );
     }
 
-    return Container(
-      color: Colors.red,
-      child: QuillToolbarIconButton(
-        tooltip: tooltip,
-        isSelected: false,
-        iconTheme: iconTheme,
-        icon: Icon(
-          iconData,
-          color: widget.isBackground ? iconColorBackground : iconColor,
-          size: iconSize * iconButtonFactor,
-        ),
-        onPressed: _showColorPicker,
-        afterPressed: afterButtonPressed,
+    return QuillToolbarIconButton(
+      tooltip: tooltip,
+      isSelected: false,
+      iconTheme: iconTheme,
+      icon: Icon(
+        iconData,
+        color: widget.isBackground ? iconColorBackground : iconColor,
+        size: iconSize * iconButtonFactor,
       ),
+      onPressed: _showColorPicker,
+      afterPressed: afterButtonPressed,
     );
   }
 
