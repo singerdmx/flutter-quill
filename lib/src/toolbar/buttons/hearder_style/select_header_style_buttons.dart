@@ -5,9 +5,7 @@ import '../../../document/attribute.dart';
 import '../../../document/style.dart';
 import '../../../l10n/extensions/localizations_ext.dart';
 import '../../base_button/base_value_button.dart';
-import '../../config/buttons/select_header_style_buttons_configurations.dart';
-import '../../provider.dart';
-import '../../simple_toolbar_provider.dart';
+import '../../config/buttons/select_header_style_buttons_options.dart';
 import '../quill_icon_button.dart';
 
 typedef QuillToolbarSelectHeaderStyleBaseButtons = QuillToolbarBaseButton<
@@ -26,6 +24,10 @@ class QuillToolbarSelectHeaderStyleButtons
   const QuillToolbarSelectHeaderStyleButtons({
     required super.controller,
     super.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -63,10 +65,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
   }
 
   Axis get axis {
-    return options.axis ??
-        context.quillSimpleToolbarConfigurations?.axis ??
-        context.quillToolbarConfigurations?.axis ??
-        Axis.horizontal;
+    return options.axis ?? Axis.horizontal;
   }
 
   void _sharedOnPressed(Attribute attribute) {
@@ -100,8 +99,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
       fontSize: iconSize * 0.7,
     );
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = this.childBuilder;
 
     final children = _attributes.map((attribute) {
       if (childBuilder != null) {

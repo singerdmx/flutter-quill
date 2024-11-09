@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../../raw_editor/builders/leading_block_builder.dart';
 import '../../style_widgets/style_widgets.dart';
 
-Widget numberPointLeading(LeadingConfigurations config) =>
-    QuillEditorNumberPoint(
+Widget numberPointLeading(LeadingConfig config) => QuillNumberPoint(
       index: config.getIndexNumberByIndent!,
       indentLevelCounts: config.indentLevelCounts,
       count: config.count,

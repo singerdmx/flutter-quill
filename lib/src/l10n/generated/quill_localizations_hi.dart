@@ -304,4 +304,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'तालिका सम्मिलित करें';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

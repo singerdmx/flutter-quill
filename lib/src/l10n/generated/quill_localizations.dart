@@ -762,6 +762,12 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Insert table'**
   String get insertTable;
+
+  /// No description provided for @insertVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert video'**
+  String get insertVideo;
 }
 
 class _FlutterQuillLocalizationsDelegate

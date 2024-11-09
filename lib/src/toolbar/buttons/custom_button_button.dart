@@ -1,50 +1,37 @@
 import 'package:flutter/material.dart';
 
 import '../../controller/quill_controller.dart';
-import '../base_toolbar.dart';
-import '../simple_toolbar_provider.dart';
-import '../theme/quill_icon_theme.dart';
+import '../base_button/base_button_options_resolver.dart';
+import '../config/base_button_options.dart';
+import '../config/buttons/custom_button_options.dart';
+import 'quill_icon_button.dart';
 
 class QuillToolbarCustomButton extends StatelessWidget {
   const QuillToolbarCustomButton({
     required this.controller,
     this.options = const QuillToolbarCustomButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    this.baseOptions,
     super.key,
   });
 
   final QuillController controller;
   final QuillToolbarCustomButtonOptions options;
+  final QuillToolbarBaseButtonOptions? baseOptions;
 
-  VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
-  }
+  void _onPressed(BuildContext context) => options.onPressed?.call();
 
-  QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  String? _tooltip(BuildContext context) {
-    return options.tooltip ?? baseButtonExtraOptions(context)?.tooltip;
-  }
-
-  void _onPressed(BuildContext context) {
-    options.onPressed?.call();
-    _afterButtonPressed(context)?.call();
-  }
+  QuillToolbarButtonOptionsResolver get _optionsResolver =>
+      QuillToolbarButtonOptionsResolver(
+        baseOptions: baseOptions,
+        specificOptions: options,
+      );
 
   @override
   Widget build(BuildContext context) {
-    final iconTheme = _iconTheme(context);
-    final tooltip = _tooltip(context);
-
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
-    final afterButtonPressed = _afterButtonPressed(context);
+    final childBuilder = _optionsResolver.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -52,7 +39,10 @@ class QuillToolbarCustomButton extends StatelessWidget {
         QuillToolbarCustomButtonExtraOptions(
           context: context,
           controller: controller,
-          onPressed: () => _onPressed(context),
+          onPressed: () {
+            _onPressed(context);
+            _optionsResolver.afterButtonPressed?.call();
+          },
         ),
       );
     }
@@ -60,10 +50,10 @@ class QuillToolbarCustomButton extends StatelessWidget {
     return QuillToolbarIconButton(
       icon: options.icon ?? const SizedBox.shrink(),
       isSelected: false,
-      tooltip: tooltip,
+      tooltip: _optionsResolver.tooltip,
       onPressed: () => _onPressed(context),
-      afterPressed: afterButtonPressed,
-      iconTheme: iconTheme,
+      afterPressed: _optionsResolver.afterButtonPressed,
+      iconTheme: _optionsResolver.iconTheme,
     );
   }
 }

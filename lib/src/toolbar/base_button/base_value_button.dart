@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 import '../../../flutter_quill.dart';
+import 'base_button_options_resolver.dart';
 
 /// The [T] is the options for the button
 /// The [E] is the extra options for the button
+@internal
 abstract class QuillToolbarBaseButton<
     T extends QuillToolbarBaseButtonOptions<T, E>,
     E extends QuillToolbarBaseButtonExtraOptions> extends StatefulWidget {
-  const QuillToolbarBaseButton(
-      {required this.controller, required this.options, super.key});
+  const QuillToolbarBaseButton({
+    required this.controller,
+    required this.options,
+    this.baseOptions,
+    super.key,
+  });
 
   final T options;
+
+  /// Shares common options between all buttons, prefer the [options]
+  /// over the [baseOptions].
+  final QuillToolbarBaseButtonOptions? baseOptions;
 
   final QuillController controller;
 }
@@ -24,36 +35,31 @@ abstract class QuillToolbarCommonButtonState<
 
   QuillController get controller => widget.controller;
 
-  QuillToolbarBaseButtonOptions? get baseButtonExtraOptions =>
-      context.quillToolbarBaseButtonOptions;
-
   String get defaultTooltip;
 
-  String get tooltip =>
-      options.tooltip ?? baseButtonExtraOptions?.tooltip ?? defaultTooltip;
+  String get tooltip => _optionsResolver.tooltip ?? defaultTooltip;
 
   IconData get defaultIconData;
 
-  IconData get iconData =>
-      options.iconData ??
-      context.quillToolbarBaseButtonOptions?.iconData ??
-      defaultIconData;
+  IconData get iconData => _optionsResolver.iconData ?? defaultIconData;
 
-  double get iconSize =>
-      options.iconSize ?? baseButtonExtraOptions?.iconSize ?? kDefaultIconSize;
+  double get iconSize => _optionsResolver.iconSize ?? kDefaultIconSize;
 
   double get iconButtonFactor =>
-      options.iconButtonFactor ??
-      baseButtonExtraOptions?.iconButtonFactor ??
-      kDefaultIconButtonFactor;
+      _optionsResolver.iconButtonFactor ?? kDefaultIconButtonFactor;
 
-  QuillIconTheme? get iconTheme =>
-      options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
+  QuillIconTheme? get iconTheme => _optionsResolver.iconTheme;
 
-  VoidCallback? get afterButtonPressed =>
-      options.afterButtonPressed ??
-      baseButtonExtraOptions?.afterButtonPressed ??
-      () => controller.editorFocusNode?.requestFocus();
+  VoidCallback? get afterButtonPressed => _optionsResolver.afterButtonPressed;
+
+  QuillToolbarButtonOptionsChildBuilder get childBuilder =>
+      _optionsResolver.childBuilder;
+
+  QuillToolbarButtonOptionsResolver get _optionsResolver =>
+      QuillToolbarButtonOptionsResolver(
+        baseOptions: widget.baseOptions,
+        specificOptions: options,
+      );
 }
 
 /// The [W] is the widget that creates this State

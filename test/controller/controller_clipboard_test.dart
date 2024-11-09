@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
+import 'package:flutter_quill/src/controller/clipboard/quill_controller_paste.dart';
+import 'package:flutter_quill/src/controller/clipboard/quill_controller_rich_paste.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -14,6 +16,33 @@ void main() {
       controller = QuillController.basic()
         ..compose(Delta()..insert(testDocumentContents),
             const TextSelection.collapsed(offset: 0), ChangeSource.local);
+    });
+
+    test(
+        'should prioritize delta from onDeltaPaste callback over parsed delta when pasting Delta',
+        () async {
+      var returnComposedDelta = true;
+
+      controller = QuillController.basic(
+          config: QuillControllerConfig(clipboardConfig: QuillClipboardConfig(
+        onDeltaPaste: (delta) async {
+          if (returnComposedDelta) {
+            return delta.compose(Delta()..insert('composed delta\n'));
+          }
+          return null;
+        },
+      )));
+
+      final initialDelta = Delta()..insert('plain text\n', {'bold': true});
+
+      expect(await controller.getDeltaToPaste(initialDelta),
+          initialDelta.compose(Delta()..insert('composed delta\n')));
+
+      returnComposedDelta = false;
+
+      final secondDelta = Delta()..insert('plain text\n', {'bold': true});
+
+      expect(await controller.getDeltaToPaste(secondDelta), secondDelta);
     });
 
     test('clipboardSelection empty', () {
@@ -49,6 +78,16 @@ void main() {
     });
   });
 
+  bool pasteUsingPlainOrDelta(
+    QuillController controller,
+    String? clipboardText,
+  ) =>
+      controller.pastePlainTextOrDelta(
+        clipboardText,
+        pasteDelta: controller.pasteDelta,
+        pastePlainText: controller.pastePlainText,
+      );
+
   group('paste', () {
     test('Plain', () async {
       final controller = QuillController.basic()
@@ -58,7 +97,7 @@ void main() {
             const TextSelection.collapsed(offset: 1), ChangeSource.local);
       //
       expect(controller.document.toPlainText(), '[]\n');
-      expect(controller.pasteUsingPlainOrDelta('insert'), true);
+      expect(pasteUsingPlainOrDelta(controller, 'insert'), true);
       expect(controller.document.toPlainText(), '[insert]\n');
     });
 
@@ -70,7 +109,7 @@ void main() {
             const TextSelection.collapsed(offset: 1), ChangeSource.local);
       //
       expect(controller.document.toPlainText(), '[]\n');
-      expect(controller.pasteUsingPlainOrDelta('1\n2\n3\n'), true);
+      expect(pasteUsingPlainOrDelta(controller, '1\n2\n3\n'), true);
       expect(controller.document.toPlainText(), '[1\n2\n3\n]\n');
     });
 
@@ -89,7 +128,7 @@ void main() {
         ..updateSelection(
             const TextSelection.collapsed(offset: 1), ChangeSource.local);
       //
-      expect(controller.pasteUsingPlainOrDelta('insert'), true,
+      expect(pasteUsingPlainOrDelta(controller, 'insert'), true,
           reason: 'External paste');
       expect(controller.document.toPlainText(), '[insert]\n');
     });
@@ -115,7 +154,7 @@ void main() {
         ..updateSelection(
             const TextSelection.collapsed(offset: 1), ChangeSource.local);
       //
-      expect(controller.pasteUsingPlainOrDelta('n te'), true,
+      expect(pasteUsingPlainOrDelta(controller, 'n te'), true,
           reason: 'Internal paste');
       expect(controller.document.toPlainText(), '[n te]\n');
       expect(
@@ -165,7 +204,7 @@ void main() {
         ..updateSelection(
             const TextSelection.collapsed(offset: 1), ChangeSource.local);
       //
-      expect(controller.pasteUsingPlainOrDelta(plainSelection), true,
+      expect(pasteUsingPlainOrDelta(controller, plainSelection), true,
           reason: 'Internal paste');
       expect(controller.document.toPlainText(), '[$plainSelection]\n');
       expect(

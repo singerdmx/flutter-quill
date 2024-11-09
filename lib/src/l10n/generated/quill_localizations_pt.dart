@@ -301,6 +301,9 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Inserir tabela';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

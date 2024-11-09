@@ -41,13 +41,9 @@ class NotesEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    final notes = NotesBlockEmbed(node.value.data).document;
+    final notes = NotesBlockEmbed(embedContext.node.value.data).document;
 
     return Material(
       color: Colors.transparent,
@@ -78,7 +74,7 @@ the `CustomBlockEmbed` inside of a `BlockEmbed.custom`).
 ```dart
 Future<void> _addEditNote(BuildContext context, {Document? document}) async {
   final isEditing = document != null;
-  final quillEditorController = QuillController(
+  final controller = QuillController(
     document: document ?? Document(),
     selection: const TextSelection.collapsed(offset: 0),
   );
@@ -98,16 +94,16 @@ Future<void> _addEditNote(BuildContext context, {Document? document}) async {
         ],
       ),
       content: QuillEditor.basic(
-        controller: quillEditorController,
-        configurations: const QuillEditorConfigurations(),
+        controller: controller,
+        config: const QuillEditorConfig(),
       ),
     ),
   );
 
-  if (quillEditorController.document.isEmpty()) return;
+  if (controller.document.isEmpty()) return;
 
   final block = BlockEmbed.custom(
-    NotesBlockEmbed.fromDocument(quillEditorController.document),
+    NotesBlockEmbed.fromDocument(controller.document),
   );
   final controller = _controller!;
   final index = controller.selection.baseOffset;

@@ -1,46 +1,44 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
-import 'base_button_configurations.dart';
-import 'buttons/clear_format_configurations.dart';
-import 'buttons/color_configurations.dart';
-import 'buttons/custom_button_configurations.dart';
-import 'buttons/font_family_configurations.dart';
-import 'buttons/font_size_configurations.dart';
-import 'buttons/history_configurations.dart';
-import 'buttons/indent_configurations.dart';
-import 'buttons/link_style2_configurations.dart';
-import 'buttons/link_style_configurations.dart';
-import 'buttons/search_configurations.dart';
-import 'buttons/select_alignment_configurations.dart';
-import 'buttons/select_header_style_buttons_configurations.dart';
-import 'buttons/select_header_style_dropdown_button_configurations.dart';
-import 'buttons/select_line_height_style_dropdown_button_configurations.dart';
-import 'buttons/toggle_check_list_configurations.dart';
-import 'buttons/toggle_style_configurations.dart';
+import 'base_button_options.dart';
+import 'buttons/clear_format_options.dart';
+import 'buttons/color_options.dart';
+import 'buttons/custom_button_options.dart';
+import 'buttons/font_family_options.dart';
+import 'buttons/font_size_options.dart';
+import 'buttons/history_options.dart';
+import 'buttons/indent_options.dart';
+import 'buttons/link_style2_options.dart';
+import 'buttons/link_style_options.dart';
+import 'buttons/search_options.dart';
+import 'buttons/select_alignment_options.dart';
+import 'buttons/select_header_style_buttons_options.dart';
+import 'buttons/select_header_style_dropdown_button_options.dart';
+import 'buttons/select_line_height_style_dropdown_button_options.dart';
+import 'buttons/toggle_check_list_options.dart';
+import 'buttons/toggle_style_options.dart';
 
 export '../buttons/search/search_dialog.dart';
-export 'base_button_configurations.dart';
-export 'buttons/clear_format_configurations.dart';
-export 'buttons/color_configurations.dart';
-export 'buttons/custom_button_configurations.dart';
-export 'buttons/font_family_configurations.dart';
-export 'buttons/font_size_configurations.dart';
-export 'buttons/history_configurations.dart';
-export 'buttons/indent_configurations.dart';
-export 'buttons/link_style2_configurations.dart';
-export 'buttons/link_style_configurations.dart';
-export 'buttons/search_configurations.dart';
-export 'buttons/select_alignment_configurations.dart';
-export 'buttons/select_header_style_buttons_configurations.dart';
-export 'buttons/select_header_style_dropdown_button_configurations.dart';
-export 'buttons/toggle_check_list_configurations.dart';
-export 'buttons/toggle_style_configurations.dart';
+export 'base_button_options.dart';
+export 'buttons/clear_format_options.dart';
+export 'buttons/color_options.dart';
+export 'buttons/custom_button_options.dart';
+export 'buttons/font_family_options.dart';
+export 'buttons/font_size_options.dart';
+export 'buttons/history_options.dart';
+export 'buttons/indent_options.dart';
+export 'buttons/link_style2_options.dart';
+export 'buttons/link_style_options.dart';
+export 'buttons/search_options.dart';
+export 'buttons/select_alignment_options.dart';
+export 'buttons/select_header_style_buttons_options.dart';
+export 'buttons/select_header_style_dropdown_button_options.dart';
+export 'buttons/toggle_check_list_options.dart';
+export 'buttons/toggle_style_options.dart';
 
 /// The configurations for the buttons of the toolbar widget of flutter quill
 @immutable
-class QuillSimpleToolbarButtonOptions extends Equatable {
+class QuillSimpleToolbarButtonOptions {
   const QuillSimpleToolbarButtonOptions({
     this.base = const QuillToolbarBaseButtonOptions(),
     this.undoHistory = const QuillToolbarHistoryButtonOptions(),
@@ -83,10 +81,10 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
     this.clipboardPaste = const QuillToolbarToggleStyleButtonOptions(),
   });
 
-  /// The base configurations for all the buttons which will apply to all
-  /// but if the options overrided in the spesefic button options
-  /// then it will use that instead
+  /// The base options that will apply to all buttons,
+  /// will prefer the specific button options if set over the base.
   final QuillToolbarBaseButtonOptions base;
+
   final QuillToolbarHistoryButtonOptions undoHistory;
   final QuillToolbarHistoryButtonOptions redoHistory;
   final QuillToolbarFontFamilyButtonOptions fontFamily;
@@ -141,9 +139,4 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
   final QuillToolbarLinkStyleButton2Options linkStyle2;
 
   final QuillToolbarCustomButtonOptions customButtons;
-
-  @override
-  List<Object?> get props => [
-        base,
-      ];
 }

@@ -1,69 +1,40 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!--  The camera and gps features will be used  -->
-    <!--  But it's not required to install the app -->
-    <uses-feature
-        android:name="android.hardware.location.gps"
-        android:required="false" />
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
 
     <application
+        android:label="flutter_quill_example"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Flutter Quill Example">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
-            android:hardwareAccelerated="true"
             android:launchMode="singleTop"
+            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-                android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme" />
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- For `image_cropper` plugin https://pub.dev/packages/image_cropper -->
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            tools:ignore="LockedOrientationActivity" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!--  For `super_clipboard` plugin https://pub.dev/packages/super_clipboard -->
-        <provider
-            android:name="com.superlist.super_native_extensions.DataProvider"
-            android:authorities="com.example.example.SuperClipboardDataProvider"
-            android:exported="true"
-            android:grantUriPermissions="true" />
-
-        <!-- For `quill_native_bridge` plugin https://github.com/FlutterQuill/quill-native-bridge/tree/main/quill_native_bridge#-platform-configuration -->
+        <!-- To support copying images to the system clipboard (optional): https://pub.dev/packages/quill_native_bridge -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -74,4 +45,15 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
 </manifest>

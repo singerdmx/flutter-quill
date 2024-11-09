@@ -158,17 +158,17 @@ Future<LinkMenuAction> _showCupertinoLinkMenu(
         title: Text(link),
         actions: [
           _CupertinoAction(
-            title: 'Open',
+            title: context.loc.open,
             icon: Icons.language_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.launch),
           ),
           _CupertinoAction(
-            title: 'Copy',
+            title: context.loc.copy,
             icon: Icons.copy_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.copy),
           ),
           _CupertinoAction(
-            title: 'Remove',
+            title: context.loc.remove,
             icon: Icons.link_off_sharp,
             onPressed: () => Navigator.of(context).pop(LinkMenuAction.remove),
           ),

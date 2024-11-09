@@ -1,47 +1,30 @@
-import 'dart:ui' show Offset;
-
-import 'package:flutter/widgets.dart'
-    show
-        AnimationController,
-        BuildContext,
-        ScrollController,
-        State,
-        StatefulWidget,
-        TextSelectionDelegate,
-        Widget,
-        immutable;
+import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
 import '../../common/structs/offset_value.dart';
 import '../../controller/quill_controller.dart';
 import '../editor.dart';
 import '../widgets/text/text_selection.dart';
-import 'config/raw_editor_configurations.dart';
+import 'config/raw_editor_config.dart';
 import 'raw_editor_state.dart';
 
 class QuillRawEditor extends StatefulWidget {
   QuillRawEditor({
-    required this.configurations,
-    controller,
+    required this.config,
+    required this.controller,
     super.key,
-  })  :
-        // ignore: deprecated_member_use_from_same_package
-        assert((controller ?? configurations.controller) != null),
-        // ignore: deprecated_member_use_from_same_package
-        controller = controller ?? configurations.controller,
-        assert(
-            configurations.maxHeight == null || configurations.maxHeight! > 0,
+  })  : assert(config.maxHeight == null || config.maxHeight! > 0,
             'maxHeight cannot be null'),
-        assert(
-            configurations.minHeight == null || configurations.minHeight! >= 0,
+        assert(config.minHeight == null || config.minHeight! >= 0,
             'minHeight cannot be null'),
         assert(
-            configurations.maxHeight == null ||
-                configurations.minHeight == null ||
-                configurations.maxHeight! >= configurations.minHeight!,
+            config.maxHeight == null ||
+                config.minHeight == null ||
+                config.maxHeight! >= config.minHeight!,
             'maxHeight cannot be null');
 
   final QuillController controller;
-  final QuillRawEditorConfigurations configurations;
+  final QuillRawEditorConfig config;
 
   @override
   State<StatefulWidget> createState() => QuillRawEditorState();
@@ -95,10 +78,13 @@ abstract class EditorState extends State<QuillRawEditor>
 
   void requestKeyboard();
 
+  @experimental
   void showMagnifier(Offset positionToShow);
 
+  @experimental
   void updateMagnifier(Offset positionToShow);
 
+  @experimental
   void hideMagnifier();
 
   void toggleToolbar([bool hideHandles = true]);

@@ -6,11 +6,6 @@ import 'leaf.dart';
 import 'line.dart';
 import 'node.dart';
 
-@Deprecated('Please use QuillContainer instead')
-
-/// For backward compatibility
-abstract base class Container<T extends Node?> extends QuillContainer<T> {}
-
 /// Container can accommodate other nodes.
 ///
 /// Delegates insert, retain and delete operations to children nodes. For each

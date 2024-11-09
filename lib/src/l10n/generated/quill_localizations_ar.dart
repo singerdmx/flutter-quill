@@ -299,4 +299,7 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'إدراج جدول';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

@@ -307,4 +307,7 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'টেবিল যোগ করুন';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
