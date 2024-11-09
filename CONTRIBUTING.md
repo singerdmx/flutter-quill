@@ -77,3 +77,4 @@ To test your changes:
 ## 📝 Development Notes
 
 - When updating the translations, refer to the [translation](./translation.md) page.
+- Package versioning is automated, PRs need to update `CHANGELOG.md` to add the changes in the `Unreleased` per [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
