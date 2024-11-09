@@ -27,8 +27,8 @@ class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
     required this.isBackground,
     this.colorPickerSize,
     this.dialogBoxBgColor,
-    this. applyButtonBgColo,
-    this.   cancleButtonBgColo,
+    this.applyButtonBgColo,
+    this.cancleButtonBgColo,
     super.options = const QuillToolbarColorButtonOptions(),
     super.key,
   });
@@ -125,8 +125,8 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
         QuillToolbarColorButtonExtraOptions(
           controller: controller,
           context: context,
-          onPressed: () {
-            _showColorPicker();
+          onPressed: () async {
+            await _showColorPicker();
             afterButtonPressed?.call();
           },
           iconColor: iconColor,
@@ -137,17 +137,20 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
       );
     }
 
-    return QuillToolbarIconButton(
-      tooltip: tooltip,
-      isSelected: false,
-      iconTheme: iconTheme,
-      icon: Icon(
-        iconData,
-        color: widget.isBackground ? iconColorBackground : iconColor,
-        size: iconSize * iconButtonFactor,
+    return Container(
+      color: Colors.red,
+      child: QuillToolbarIconButton(
+        tooltip: tooltip,
+        isSelected: false,
+        iconTheme: iconTheme,
+        icon: Icon(
+          iconData,
+          color: widget.isBackground ? iconColorBackground : iconColor,
+          size: iconSize * iconButtonFactor,
+        ),
+        onPressed: _showColorPicker,
+        afterPressed: afterButtonPressed,
       ),
-      onPressed: _showColorPicker,
-      afterPressed: afterButtonPressed,
     );
   }
 
