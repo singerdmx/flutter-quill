@@ -43,11 +43,11 @@
   "alignRight": "តម្រឹមស្តាំ",
   "alignJustify": "តម្រឹមសងខាង",
   "@alignJustify": {
-  "description": "តម្រឹមអត្ថបទលើទទឹងបង្អួចពេញ"
+    "description": "តម្រឹមអត្ថបទពេញផ្ទៃទាំងសងខាង"
   },
   "justifyWinWidth": "កំណត់ទទឹងឈ្នះ",
   "textDirection": "ទិសដៅអត្ថបទ",
-  "headerStyle": "រចនាប័ទ្មក្បាល",
+  "headerStyle": "រចនាប័ទ្មចំណងជើង",
   "normal": "ធម្មតា",
   "heading1": "ចំណងជើង ១",
   "heading2": "ចំណងជើង ២",
@@ -65,10 +65,10 @@
   "insertURL": "បញ្ចូល URL",
   "visitLink": "ចូលទៅកាន់តំណ",
   "enterLink": "បញ្ចូលតំណ",
-  "enterMedia": "បញ្ចូលប្រព័ន្ធផ្សព្វផ្សាយ",
+  "enterMedia": "បញ្ចូលមេឌា",
   "edit": "កែសម្រួល",
   "apply": "អនុវត្ត",
-  "hex": "Hex",
+  "hex": "គោលដប់ប្រាំមួយ",
   "material": "សម្ភារៈ",
   "color": "ពណ៌",
   "lineheight": "កម្ពស់បន្ទាត់",
@@ -90,8 +90,8 @@
   "errorWhileSavingImage": "កំហុសខណៈពេលរក្សាទុករូបភាព",
   "pleaseEnterTextForYourLink": "សូមបញ្ចូលអត្ថបទសម្រាប់តំណរបស់អ្នក (ឧ. 'ស្វែងយល់បន្ថែម')",
   "pleaseEnterTheLinkURL": "សូមបញ្ចូល URL តំណ (ឧ. 'https://example.com')",
-  "pleaseEnterAValidImageURL": "សូមបញ្ចូល URL រូបភាពត្រឹមត្រូវ",
-  "pleaseEnterAValidVideoURL": "សូមបញ្ចូល url វីដេអូត្រឹមត្រូវ",
+  "pleaseEnterAValidImageURL": "សូមបញ្ចូល URL រូបភាពដែលត្រឹមត្រូវ",
+  "pleaseEnterAValidVideoURL": "សូមបញ្ចូល url វីដេអូដែលត្រឹមត្រូវ",
   "photo": "រូបថត",
   "image": "រូបភាព",
   "caseSensitivityAndWholeWordSearch": "ករណីប្រកាន់អក្សរតូចធំ និងការស្វែងរកពាក្យទាំងមូល",
@@ -108,5 +108,6 @@
   "searchSettings": "ការកំណត់ស្វែងរក",
   "cut": "កាត់",
   "paste": "បិទភ្ជាប់",
-  "insertTable": "បញ្ចូលតារាង"
+  "insertTable": "បញ្ចូលតារាង",
+  "insertVideo": "បញ្ចូលវីដេអូ"
 }

@@ -139,7 +139,7 @@ class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
   String get textDirection => 'ទិសដៅអត្ថបទ';
 
   @override
-  String get headerStyle => 'រចនាប័ទ្មក្បាល';
+  String get headerStyle => 'រចនាប័ទ្មចំណងជើង';
 
   @override
   String get normal => 'ធម្មតា';
@@ -193,7 +193,7 @@ class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
   String get enterLink => 'បញ្ចូលតំណ';
 
   @override
-  String get enterMedia => 'បញ្ចូលប្រព័ន្ធផ្សព្វផ្សាយ';
+  String get enterMedia => 'បញ្ចូលមេឌា';
 
   @override
   String get edit => 'កែសម្រួល';
@@ -202,7 +202,7 @@ class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
   String get apply => 'អនុវត្ត';
 
   @override
-  String get hex => 'Hex';
+  String get hex => 'គោលដប់ប្រាំមួយ';
 
   @override
   String get material => 'សម្ភារៈ';
@@ -246,10 +246,10 @@ class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
       'សូមបញ្ចូល URL តំណ (ឧ. \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL => 'សូមបញ្ចូល URL រូបភាពត្រឹមត្រូវ';
+  String get pleaseEnterAValidImageURL => 'សូមបញ្ចូល URL រូបភាពដែលត្រឹមត្រូវ';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'សូមបញ្ចូល url វីដេអូត្រឹមត្រូវ';
+  String get pleaseEnterAValidVideoURL => 'សូមបញ្ចូល url វីដេអូដែលត្រឹមត្រូវ';
 
   @override
   String get photo => 'រូបថត';
