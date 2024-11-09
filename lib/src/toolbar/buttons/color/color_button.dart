@@ -11,12 +11,11 @@ import '../../config/buttons/color_configurations.dart';
 import '../quill_icon_button.dart';
 import 'color_dialog.dart';
 
-typedef QuillToolbarColorBaseButton = QuillToolbarBaseButton<
-    QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;
+typedef QuillToolbarColorBaseButton
+    = QuillToolbarBaseButton<QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;
 
 typedef QuillToolbarColorBaseButtonState<W extends QuillToolbarColorButton>
-    = QuillToolbarCommonButtonState<W, QuillToolbarColorButtonOptions,
-        QuillToolbarColorButtonExtraOptions>;
+    = QuillToolbarCommonButtonState<W, QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;
 
 /// Controls color styles.
 ///
@@ -26,12 +25,20 @@ class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
   const QuillToolbarColorButton({
     required super.controller,
     required this.isBackground,
+    this.colorPickerSize,
+    this.dialogBoxBgColor,
+    this. applyButtonBgColo,
+    this.   cancleButtonBgColo,
     super.options = const QuillToolbarColorButtonOptions(),
     super.key,
   });
 
   /// Is this background color button or font color
   final bool isBackground;
+  final Size? colorPickerSize;
+  final Color? dialogBoxBgColor;
+  final Color? applyButtonBgColo;
+  final Color? cancleButtonBgColo;
 
   @override
   QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
@@ -44,21 +51,16 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
   late bool _isWhiteBackground;
 
   @override
-  String get defaultTooltip =>
-      widget.isBackground ? context.loc.backgroundColor : context.loc.fontColor;
+  String get defaultTooltip => widget.isBackground ? context.loc.backgroundColor : context.loc.fontColor;
 
   Style get _selectionStyle => widget.controller.getSelectionStyle();
 
   void _didChangeEditingValue() {
     setState(() {
-      _isToggledColor =
-          _getIsToggledColor(widget.controller.getSelectionStyle().attributes);
-      _isToggledBackground = _getIsToggledBackground(
-          widget.controller.getSelectionStyle().attributes);
-      _isWhite = _isToggledColor &&
-          _selectionStyle.attributes['color']!.value == '#ffffff';
-      _isWhiteBackground = _isToggledBackground &&
-          _selectionStyle.attributes['background']!.value == '#ffffff';
+      _isToggledColor = _getIsToggledColor(widget.controller.getSelectionStyle().attributes);
+      _isToggledBackground = _getIsToggledBackground(widget.controller.getSelectionStyle().attributes);
+      _isWhite = _isToggledColor && _selectionStyle.attributes['color']!.value == '#ffffff';
+      _isWhiteBackground = _isToggledBackground && _selectionStyle.attributes['background']!.value == '#ffffff';
     });
   }
 
@@ -67,10 +69,8 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
     super.initState();
     _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
     _isToggledBackground = _getIsToggledBackground(_selectionStyle.attributes);
-    _isWhite = _isToggledColor &&
-        _selectionStyle.attributes['color']!.value == '#ffffff';
-    _isWhiteBackground = _isToggledBackground &&
-        _selectionStyle.attributes['background']!.value == '#ffffff';
+    _isWhite = _isToggledColor && _selectionStyle.attributes['color']!.value == '#ffffff';
+    _isWhiteBackground = _isToggledBackground && _selectionStyle.attributes['background']!.value == '#ffffff';
     widget.controller.addListener(_didChangeEditingValue);
   }
 
@@ -89,12 +89,9 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
       oldWidget.controller.removeListener(_didChangeEditingValue);
       widget.controller.addListener(_didChangeEditingValue);
       _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
-      _isToggledBackground =
-          _getIsToggledBackground(_selectionStyle.attributes);
-      _isWhite = _isToggledColor &&
-          _selectionStyle.attributes['color']!.value == '#ffffff';
-      _isWhiteBackground = _isToggledBackground &&
-          _selectionStyle.attributes['background']!.value == '#ffffff';
+      _isToggledBackground = _getIsToggledBackground(_selectionStyle.attributes);
+      _isWhite = _isToggledColor && _selectionStyle.attributes['color']!.value == '#ffffff';
+      _isWhiteBackground = _isToggledBackground && _selectionStyle.attributes['background']!.value == '#ffffff';
     }
   }
 
@@ -105,8 +102,7 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
   }
 
   @override
-  IconData get defaultIconData =>
-      widget.isBackground ? Icons.format_color_fill : Icons.color_lens;
+  IconData get defaultIconData => widget.isBackground ? Icons.format_color_fill : Icons.color_lens;
 
   @override
   Widget build(BuildContext context) {
@@ -114,21 +110,15 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
         ? stringToColor(_selectionStyle.attributes['color']!.value)
         : null;
 
-    final iconColorBackground =
-        _isToggledBackground && widget.isBackground && !_isWhiteBackground
-            ? stringToColor(_selectionStyle.attributes['background']!.value)
-            : null;
-
-    final fillColor = _isToggledColor && !widget.isBackground && _isWhite
-        ? stringToColor('#ffffff')
+    final iconColorBackground = _isToggledBackground && widget.isBackground && !_isWhiteBackground
+        ? stringToColor(_selectionStyle.attributes['background']!.value)
         : null;
-    final fillColorBackground =
-        _isToggledBackground && widget.isBackground && _isWhiteBackground
-            ? stringToColor('#ffffff')
-            : null;
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final fillColor = _isToggledColor && !widget.isBackground && _isWhite ? stringToColor('#ffffff') : null;
+    final fillColorBackground =
+        _isToggledBackground && widget.isBackground && _isWhiteBackground ? stringToColor('#ffffff') : null;
+
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -164,9 +154,7 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
   void _changeColor(BuildContext context, Color? color) {
     if (color == null) {
       widget.controller.formatSelection(
-        widget.isBackground
-            ? const BackgroundAttribute(null)
-            : const ColorAttribute(null),
+        widget.isBackground ? const BackgroundAttribute(null) : const ColorAttribute(null),
       );
       return;
     }
@@ -185,15 +173,18 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
     }
     showDialog<String>(
       context: context,
-      barrierColor: options.dialogBarrierColor ??
-          context.quillSharedConfigurations?.dialogBarrierColor ??
-          Colors.black54,
+      barrierColor:
+          options.dialogBarrierColor ?? context.quillSharedConfigurations?.dialogBarrierColor ?? Colors.black54,
       builder: (_) => FlutterQuillLocalizationsWidget(
         child: ColorPickerDialog(
           isBackground: widget.isBackground,
           onRequestChangeColor: _changeColor,
           isToggledColor: _isToggledColor,
           selectionStyle: _selectionStyle,
+          colorPickerSize: widget.colorPickerSize,
+          dialogBoxBgColor: widget.dialogBoxBgColor,
+          applyButtonBgColo: widget.applyButtonBgColo,
+          cancleButtonBgColo: widget.cancleButtonBgColo,
         ),
       ),
     );
