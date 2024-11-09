@@ -86,8 +86,10 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.output),
             tooltip: 'Print Delta JSON to log',
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('This is a snackbar')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content:
+                      Text('The JSON Delta has been printed to the console.')));
+              debugPrint(jsonEncode(_controller.document.toDelta().toJson()));
             },
           ),
         ],
