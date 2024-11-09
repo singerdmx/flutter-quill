@@ -108,5 +108,6 @@
   "searchSettings": "ការកំណត់ស្វែងរក",
   "cut": "កាត់",
   "paste": "បិទភ្ជាប់",
-  "insertTable": "បញ្ចូលតារាង"
+  "insertTable": "បញ្ចូលតារាង",
+  "insertVideo": "បញ្ចូលវីដេអូ"
 }
