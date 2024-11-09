@@ -1,5 +1,8 @@
 name: 🚀 Publish to pub.dev
 
+# Note: This workflow only publishes flutter_quill package, the flutter_quill_extensions 
+# need to be manually published.
+
 on:
   push:
     tags:
@@ -7,7 +10,7 @@ on:
 
 jobs:
   publish:
-    name: Publish the packages
+    name: Publish the flutter_quill package
     permissions:
       id-token: write
       # Required for uploading files to the release assets of GitHub.
@@ -59,9 +62,42 @@ jobs:
             exit 1
           fi
 
-      # TODO: Validate the tag, the version must match the one in pubspec.yaml
+      - name: 🏷️ Extract release tag
+        id: release_tag
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      # TODO: Might automate some changes of the CHANGELOG.md
+      # TODO: Validate the tag, the version must match the one in pubspec.yaml, publishing the package will throw an error
+
+      # TODO: Might automate some changes of the CHANGELOG.md (outdated TODO)
+
+      - name: 📝 Update package version in pubspec.yaml
+        run: dart ./update_pubspec_version.dart ./pubspec.yaml ${{ steps.extract_version.outputs.VERSION }}
+
+      # - name: 📝 Update CHANGELOG.md to reflect the change
+      #   uses: thomaseizinger/keep-a-changelog-new-release@v2
+      #   with:
+      #     tag: ${{ steps.release_tag.outputs.tag }}
+      #     changelogPath: ./CHANGELOG.md
+
+      - name: 📝 Update CHANGELOG.md to reflect the change
+        run: dart ./update_changelog_version.dart ./CHANGELOG.md ${{ steps.extract_version.outputs.VERSION }}
+
+      - name: 📄 Print updated pubspec.yaml
+        run: |
+          echo "===== 📜 pubspec.yaml ====="
+          cat pubspec.yaml | tee /dev/stderr
+          echo "==========================="
+
+      - name: 📝 Print updated CHANGELOG.md
+        run: |
+          echo "===== 📝 CHANGELOG.md ====="
+          cat CHANGELOG.md | tee /dev/stderr
+          echo "==========================="
+
+      - name: 💾 Commit updated version and CHANGELOG
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore(release): prepare to publish ${{ steps.extract_version.outputs.VERSION }}"
 
       - name: 🔄 Check if package is ready for publishing
         run: flutter pub publish --dry-run
