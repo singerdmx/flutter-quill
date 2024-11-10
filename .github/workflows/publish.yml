@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
+        # Force using the master branch to avoid detached HEAD to be able to push commit
         with:
           ref: master
 
