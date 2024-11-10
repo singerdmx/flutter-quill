@@ -18,8 +18,10 @@ const _targetChangelog = './CHANGELOG.md';
 
 const _confirmPublishOptionName = 'Y';
 
+const _mainGitRemote = 'origin';
+
 const _changelogAndPubspecRestoreMessage =
-    'ℹ️ Changes to CHANGELOG.md and pubspec.yaml have not been reverted.\n'
+    'ℹ️  Changes to CHANGELOG.md and pubspec.yaml have not been reverted.\n'
     'To revert them, run:\n'
     'git restore --staged $_targetChangelog $_targetPubspecYaml\n'
     'git restore $_targetChangelog $_targetPubspecYaml';
@@ -112,14 +114,14 @@ void main(List<String> args) {
     Process.runSync('git', ['push']);
 
     print('ℹ️ Pushing tag to remote...');
-    Process.runSync('git', ['push', 'origin', tagName]);
+    Process.runSync('git', ['push', _mainGitRemote, tagName]);
     print(
       '✅ The tag $tagName has been pushed. The GitHub workflow will handle the rest.\n'
       'For more details, check: https://github.com/singerdmx/flutter-quill/actions',
     );
   } catch (e) {
     print(
-      '❌ An error occurred during the publishing process: ${e.toString()}\n\n',
+      '❌ An error occurred during the publishing process: ${e.toString()}\n',
     );
     print(_changelogAndPubspecRestoreMessage);
   }
