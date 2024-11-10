@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../document/nodes/node.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
@@ -51,6 +52,7 @@ class QuillEditorConfig {
     this.onSingleLongTapStart,
     this.onSingleLongTapMoveUpdate,
     this.onSingleLongTapEnd,
+    @experimental this.onKeyPressed,
     this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
     this.unknownEmbedBuilder,
@@ -134,6 +136,38 @@ class QuillEditorConfig {
   ///```
   @experimental
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+  /// A handler for keys that are pressed when the editor is focused.
+  ///
+  /// ### Supported by:
+  ///
+  ///     - Web (Does not work on mobile devices)
+  ///     - Desktop
+  ///
+  /// # Example:
+  /// To prevent the user from removing any **Embed Object**, try:
+  ///
+  ///```dart
+  ///onKeyPressed: (event, node) {
+  ///   if (event.logicalKey == LogicalKeyboardKey.backspace &&
+  ///       (node is Line || node is Block)) {
+  ///     // Use [DeltaIterator] to jump directly to the position before the current.
+  ///     final iterator = DeltaIterator(_controller.document.toDelta())
+  ///           ..skip(_controller.selection.baseOffset - 1);
+  ///     // Get the [Operation] where the caret is on
+  ///     final cur = iterator.next();
+  ///     final isOperationWithEmbed = cur.data is! String && cur.data != null;
+  ///     if (isOperationWithEmbed) {
+  ///         // Ignore this [KeyEvent] to prevent the user from removing the [Embed Object].
+  ///         return KeyEventResult.handled;
+  ///     }
+  ///   }
+  ///   // Apply custom logic or return null to use default events
+  ///   return null;
+  ///},
+  ///```
+  @experimental
+  final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Override [readOnly] for checkbox.
   ///
@@ -442,6 +476,7 @@ class QuillEditorConfig {
     bool? autoFocus,
     bool? onTapOutsideEnabled,
     Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
+    KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed,
     bool? showCursor,
     bool? paintCursorAboveText,
     MouseCursor? readOnlyMouseCursor,
@@ -491,6 +526,7 @@ class QuillEditorConfig {
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
+      onKeyPressed: onKeyPressed ?? this.onKeyPressed,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
       enableAlwaysIndentOnTab:
           enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,
