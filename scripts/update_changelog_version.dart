@@ -4,10 +4,19 @@ import 'dart:io';
 
 import 'package:intl/intl.dart';
 
-// This script assumes your CHANGELOG.md format is based on https://keepachangelog.com/en/1.1.0/
+// NOTE for project authors: If this script causing issues, consider alternatives
+// such as https://github.com/thomaseizinger/keep-a-changelog-new-release:
+// - name: 🏷️ Extract release tag
+//   id: release_tag
+//   run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-const _usage =
-    'Usage: ./update_changelog_version.dart <version> <changelog-file-path>';
+// - name: 📝 Update CHANGELOG.md to reflect the change
+//   uses: thomaseizinger/keep-a-changelog-new-release@v2
+//   with:
+//     tag: ${{ steps.release_tag.outputs.tag }}
+//     changelogPath: ./CHANGELOG.md
+
+// This script assumes your CHANGELOG.md format is based on https://keepachangelog.com/en/1.1.0/
 
 /// [unreleased]: https://github.com/singerdmx/flutter-quill/compare/v6.0.0...HEAD
 const kUnreleasedReferenceLinkName = 'unreleased';
@@ -22,52 +31,39 @@ const kKeepAChangelogFormatLink = 'https://keepachangelog.com/en/1.1.0/';
 ///
 /// ### Limitations
 ///
-/// * The [updateVersionLinks] expects version tags to include the `v` prefix in the URLs.
+/// * The [_updateVersionLinks] expects version tags to include the `v` prefix in the URLs.
 /// For example, use `[2.0.0]: https://github.com/singerdmx/flutter-quill/compare/v1.0.0...v2.0.0`
 /// instead of `[2.0.0]: https://github.com/singerdmx/flutter-quill/compare/1.0.0...2.0.0`.
-/// * The [updateVersionLinks] expects the current version has previous version that's not the initial version.
+/// * The [_updateVersionLinks] expects the current version has previous version that's not the initial version.
 /// if you have at least 3 releases, this shouldn't be an issue.
-/// * The [updateVersionLinks] doesn't handle comments (<!-- -->) correctly.
-///
-/// This script will be used in CI workflow.
+/// * The [_updateVersionLinks] doesn't handle comments (<!-- -->) correctly.
 ///
 /// For a visual example, see: https://www.diffchecker.com/eAIScyop/
-void main(List<String> args) {
-  print('The passed args: $args');
-  if (args.isEmpty) {
-    print('Missing required arguments. $_usage');
+void updateChangelogVersion({
+  required String newVersion,
+  required String changelogFilePath,
+}) {
+  if (newVersion.isEmpty) {
+    print('The version is empty.');
     exit(1);
   }
-  if (args.length > 2) {
-    print('Too many arguments. $_usage');
+
+  if (changelogFilePath.isEmpty) {
+    print('The CHANGELOG file path is empty.');
     exit(1);
   }
-  if (args.length != 2) {
-    print('Should only pass 2 arguments. $_usage');
-    exit(1);
-  }
-  final version = args[0];
-  if (version.isEmpty) {
-    print('The version is empty. $_usage');
-    exit(1);
-  }
-  final changelogPath = args[1];
-  if (changelogPath.isEmpty) {
-    print('The CHANGELOG file path is empty. $_usage');
-    exit(1);
-  }
-  final changelogFile = File(changelogPath);
+  final changelogFile = File(changelogFilePath);
   if (!changelogFile.existsSync()) {
     print('The CHANGELOG file does not exist: ${changelogFile.absolute.path}');
     exit(1);
   }
-  updateChangelogFile(
+  _updateChangelogFile(
     changelogFile: changelogFile,
-    newVersion: version,
+    newVersion: newVersion,
   );
 }
 
-void updateChangelogFile({
+void _updateChangelogFile({
   required File changelogFile,
   required String newVersion,
 }) {
@@ -75,17 +71,17 @@ void updateChangelogFile({
 
   final newVersionFormattedDate =
       DateFormat('yyyy-MM-dd').format(DateTime.now());
-  final changelogWithUpdateLinks = updateVersionLinks(
+  final changelogWithUpdateLinks = _updateVersionLinks(
     changeLog: changelog,
     newVersion: newVersion,
   );
   final changelogWithUnreleasedReplacedByNewVersion =
-      replaceUnreleasedWithNewVersion(
+      _replaceUnreleasedWithNewVersion(
     changeLog: changelogWithUpdateLinks,
     newVersion: newVersion,
     newVersionFormattedDate: newVersionFormattedDate,
   );
-  final changelogWithNewUnreleased = addNewUnreleasedEntry(
+  final changelogWithNewUnreleased = _addNewUnreleasedEntry(
     changelog: changelogWithUnreleasedReplacedByNewVersion,
     newVersion: newVersion,
     newVersionFormattedDate: newVersionFormattedDate,
@@ -121,7 +117,7 @@ void updateChangelogFile({
 /// it is only used to copy the `11.0.0-dev.5` and replace the versions.
 ///
 /// For a more visual example, see: https://www.diffchecker.com/e5gH1Ldx/
-String updateVersionLinks({
+String _updateVersionLinks({
   required String changeLog,
   required String newVersion,
 }) {
@@ -151,7 +147,7 @@ String updateVersionLinks({
 
   final currentVersionRefLinkLine = lines[currentVersionRefLinkLineIndex];
   final currentVersion =
-      getVersionFromVersionRefLinkLine(currentVersionRefLinkLine);
+      _getVersionFromVersionRefLinkLine(currentVersionRefLinkLine);
 
   final unreleasedRefLinkLine = lines[unreleasedRefLinkLineIndex];
 
@@ -172,7 +168,7 @@ String updateVersionLinks({
 
   final twoVersionAgoRefLinkLine = lines[currentVersionRefLinkLineIndex - 1];
   final twoVersionAgo =
-      getVersionFromVersionRefLinkLine(twoVersionAgoRefLinkLine);
+      _getVersionFromVersionRefLinkLine(twoVersionAgoRefLinkLine);
 
   final newVersionRefLinkLine = currentVersionRefLinkLine
       .replaceFirst('[$currentVersion]', '[$newVersion]')
@@ -198,7 +194,7 @@ String updateVersionLinks({
 /// String version = getVersionFromVersionRefLinkLine(versionRefLinkLine);
 /// print(version);  // Output: '11.0.0-dev.5'
 /// ```
-String getVersionFromVersionRefLinkLine(String versionRefLinkLine) {
+String _getVersionFromVersionRefLinkLine(String versionRefLinkLine) {
   final version = versionRefLinkLine.substring(
     versionRefLinkLine.indexOf('[') + 1,
     versionRefLinkLine.indexOf(']'),
@@ -214,7 +210,7 @@ String getVersionFromVersionRefLinkLine(String versionRefLinkLine) {
 /// - ## [Unreleased]
 /// + ## [11.0.0] - 2023-09-29
 /// ```
-String replaceUnreleasedWithNewVersion({
+String _replaceUnreleasedWithNewVersion({
   required String changeLog,
   required String newVersion,
   required String newVersionFormattedDate,
@@ -251,7 +247,7 @@ String replaceUnreleasedWithNewVersion({
 }
 
 /// Adds an empty `Unreleased` entry at the start of the CHANGELOG, before the new version entry.
-String addNewUnreleasedEntry({
+String _addNewUnreleasedEntry({
   required String changelog,
   required String newVersion,
   required String newVersionFormattedDate,

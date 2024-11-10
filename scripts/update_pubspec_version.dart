@@ -4,49 +4,33 @@ import 'dart:io';
 
 import 'package:yaml_edit/yaml_edit.dart';
 
-const _usage =
-    'Usage: ./update_pubspec_version.dart <version> <pubspec-file-path>';
-
 /// Update the version in `pubspec.yaml` of a package.
-///
-/// This script will be used in CI workflow.
-Future<void> main(List<String> args) async {
-  print('The passed args: $args');
-  if (args.isEmpty) {
-    print('Missing required arguments. $_usage');
+Future<void> updatePubspecVersion({
+  required String newVersion,
+  required String pubspecFilePath,
+}) async {
+  if (newVersion.isEmpty) {
+    print('The version is empty.');
     exit(1);
   }
-  if (args.length > 2) {
-    print('Too many arguments. $_usage');
+
+  if (pubspecFilePath.isEmpty) {
+    print('The pubspec file path is empty.');
     exit(1);
   }
-  if (args.length != 2) {
-    print('Should only pass 2 arguments. $_usage');
-    exit(1);
-  }
-  final version = args[0];
-  if (version.isEmpty) {
-    print('The version is empty. $_usage');
-    exit(1);
-  }
-  final pubspecPath = args[1];
-  if (pubspecPath.isEmpty) {
-    print('The pubspec file path is empty. $_usage');
-    exit(1);
-  }
-  final pubspecFile = File(pubspecPath);
+  final pubspecFile = File(pubspecFilePath);
   if (!pubspecFile.existsSync()) {
     print('The pubspec file does not exist: ${pubspecFile.absolute.path}');
     exit(1);
   }
-  updatePubspecYamlFile(
+  _updatePubspecYamlFile(
     pubspecFile: pubspecFile,
-    newVersion: version,
+    newVersion: newVersion,
   );
 }
 
 /// Update the `pubspec.yaml` package version to [newVersion]
-void updatePubspecYamlFile({
+void _updatePubspecYamlFile({
   required File pubspecFile,
   required String newVersion,
 }) {
