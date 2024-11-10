@@ -15,7 +15,11 @@ jobs:
       - name: 📦 Checkout Repository
         uses: actions/checkout@v4
 
-      # TODO: Remove those two steps
+      # TODO: Remove those three steps
+
+      - name: 🏗️ Set up Dart environment
+        uses: dart-lang/setup-dart@v1
+
       # Extract version from the tag (handles the 'v' prefix)
       - name: 🏷️ Extract version from tag as pubspec.yaml version
         id: extract_version

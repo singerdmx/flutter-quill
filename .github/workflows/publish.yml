@@ -20,7 +20,7 @@ jobs:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
+          ref: master
 
       - name: 📄 Upload LICENSE file to release assets
         uses: softprops/action-gh-release@v2
