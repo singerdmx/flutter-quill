@@ -20,6 +20,9 @@ const _confirmPublishOptionName = 'Y';
 
 const _mainGitRemote = 'origin';
 
+const _githubRepoActionsLink =
+    'https://github.com/singerdmx/flutter-quill/actions';
+
 const _changelogAndPubspecRestoreMessage =
     'ℹ️  Changes to CHANGELOG.md and pubspec.yaml have not been reverted.\n'
     'To revert them, run:\n'
@@ -117,7 +120,7 @@ void main(List<String> args) {
     Process.runSync('git', ['push', _mainGitRemote, tagName]);
     print(
       '✅ The tag $tagName has been pushed. The GitHub workflow will handle the rest.\n'
-      'For more details, check: https://github.com/singerdmx/flutter-quill/actions',
+      'For more details, check: $_githubRepoActionsLink',
     );
   } catch (e) {
     print(
