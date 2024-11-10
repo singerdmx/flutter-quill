@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **[ci]** Improve the publishing workflow.
+
 ## [11.0.0-dev.6] - 2024-11-09
 
 > [!IMPORTANT]
