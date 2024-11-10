@@ -107,7 +107,7 @@ void main(List<String> args) {
 // Same as https://dart.dev/tools/pub/automated-publishing#configuring-a-github-action-workflow-for-publishing-to-pub-dev
 // but without the `v`.
 bool isValidVersion(String version) {
-  final regex = RegExp(r'^[0-9]+\.[0-9]+\.[0-9]+$');
+  final regex = RegExp(r'^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[0-9]+)?)?$');
   return regex.hasMatch(version);
 }
 
