@@ -2,8 +2,9 @@
 
 import 'dart:io';
 
-import './update_changelog_version.dart' as update_changelog_version;
-import './update_pubspec_version.dart' as update_pubspec_version;
+import './update_changelog_version.dart';
+import './update_pubspec_version.dart';
+import 'pubspec_version_check.dart';
 
 // NOTE: This script is for the maintainers.
 
@@ -51,11 +52,15 @@ void main(List<String> args) {
         'The Git working tree is not clean. Commit your changes and run again.');
     exit(1);
   }
-  update_pubspec_version.updatePubspecVersion(
+  updatePubspecVersion(
     newVersion: version,
     pubspecFilePath: _targetPubspecYaml,
   );
-  update_changelog_version.updateChangelogVersion(
+  checkPubspecVersion(
+    expectedVersion: version,
+    pubspecFilePath: _targetPubspecYaml,
+  );
+  updateChangelogVersion(
     newVersion: version,
     changelogFilePath: _targetChangelog,
   );
