@@ -3,10 +3,16 @@ name: 🚀 Update GitHub Release Notes from CHANGELOG.md
 on:
   release:
     types: [published]
+  workflow_run:
+    # Must match the workflow name in publish.yml
+    workflows: ["🚀 Publish to pub.dev"]
+    types:
+        - completed
 
 jobs:
   release-notes:
     name: 📝 Publish Release Notes from Changelog
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       # Required for updating GitHub release notes
       contents: write
@@ -14,17 +20,6 @@ jobs:
     steps:
       - name: 📦 Checkout Repository
         uses: actions/checkout@v4
-
-      # TODO: Remove those two steps
-      # Extract version from the tag (handles the 'v' prefix)
-      - name: 🏷️ Extract version from tag as pubspec.yaml version
-        id: extract_version
-        run: |
-          version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
-          echo "VERSION=${version}" >> $GITHUB_OUTPUT
-
-      - name: 📝 Update CHANGELOG.md locally to extract
-        run: dart ./scripts/update_changelog_version.dart ${{ steps.extract_version.outputs.VERSION }} ./CHANGELOG.md
 
       - name: ✂️ Extract Release Notes from CHANGELOG.md
         id: extract-release-notes
