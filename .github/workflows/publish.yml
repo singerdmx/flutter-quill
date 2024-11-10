@@ -4,8 +4,9 @@ name: 🚀 Publish to pub.dev
 # need to be manually published.
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
@@ -19,18 +20,7 @@ jobs:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.target_commitish }}
-
-      - name: 🔍 Validate tag pattern
-        env:
-          TAG_NAME: ${{ github.event.release.tag_name }}
-        run: |
-          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+.*$ ]]; then
-            echo "❌ The tag '$TAG_NAME' does not match the required pattern 'v[0-9]+.[0-9]+.[0-9]+.*'"
-            exit 1
-          else
-            echo "✅ Tag matches the required pattern."
-          fi
+          ref: ${{ github.ref }}
 
       - name: 📄 Upload LICENSE file to release assets
         uses: softprops/action-gh-release@v2
@@ -105,6 +95,12 @@ jobs:
       - name: 🔍 Verify if the package version matches the tag version
         run: dart ./scripts/pubspec_version_check.dart ${{ steps.extract_version.outputs.VERSION }} ./pubspec.yaml
 
+      - name: 🔄 Check if package is ready for publishing
+        run: flutter pub publish --dry-run
+
+      - name: 📤 Publish flutter_quill
+        run: flutter pub publish --force
+
       - name: 💾 Commit updated version and CHANGELOG
         id: auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -114,22 +110,3 @@ jobs:
       - name: 🔍 Verify changes made by the script
         if: steps.auto-commit-action.outputs.changes_detected == 'true'
         run: echo "✅ Changes have been committed."
-
-      - name: 🔄 Check if package is ready for publishing
-        run: flutter pub publish --dry-run
-
-      - name: 📤 Publish flutter_quill
-        run: flutter pub publish --force
-
-      - name: ✂️ Extract GitHub Release Notes from CHANGELOG.md
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v2
-        with:
-          changelog_file: CHANGELOG.md
-
-      - name: 🖋️ Update GitHub Release Notes
-        uses: irongut/EditRelease@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: ${{ github.event.release.id }}
-          body: ${{ steps.extract-release-notes.outputs.release_notes }}
