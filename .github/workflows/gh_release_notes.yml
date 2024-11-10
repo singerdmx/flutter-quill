@@ -15,10 +15,16 @@ jobs:
       - name: 📦 Checkout Repository
         uses: actions/checkout@v4
 
-      # TODO: Remove those three steps
+      # TODO: Remove those four steps
 
-      - name: 🏗️ Set up Dart environment
-        uses: dart-lang/setup-dart@v1
+      - name: 🛠️ Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: 📥 Install Flutter dependencies
+        run: flutter pub get
 
       # Extract version from the tag (handles the 'v' prefix)
       - name: 🏷️ Extract version from tag as pubspec.yaml version
