@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [11.0.0-dev.7] - 2024-11-10
+
 ### Changed
 
 - **[ci]** Improve the publishing workflow.
@@ -97,7 +99,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.6...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.7...HEAD
+[11.0.0-dev.7]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.6...v11.0.0-dev.7
 [11.0.0-dev.6]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.5...v11.0.0-dev.6
 [11.0.0-dev.5]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.4...v11.0.0-dev.5
 [11.0.0-dev.4]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.3...v11.0.0-dev.4
