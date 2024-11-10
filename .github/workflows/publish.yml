@@ -4,27 +4,31 @@ name: 🚀 Publish to pub.dev
 # need to be manually published.
 
 on:
-  push:
-    tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+*'
+  release:
+    types: [published]
 
 jobs:
   publish:
     name: Publish the flutter_quill package
     permissions:
       id-token: write
-      # Required for uploading files to the release assets of GitHub.
+      # Required for uploading the LICENSE and updating GitHub release notes
       contents: write
     runs-on: ubuntu-latest
     steps:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
-        # Needed for commit and push changes
-        with:
-          # NOTE: This workflow run when pushing tags, checkout using the master branch.
-          # For more details, see: https://github.com/EndBug/add-and-commit/issues/656#issuecomment-2267654647
-          ref: master
-          fetch-depth: 0 # To get all tags
+
+      - name: 🔍 Validate tag pattern
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ The tag '$TAG_NAME' does not match the required pattern 'v[0-9]+.[0-9]+.[0-9]+'"
+            exit 1
+          else
+            echo "✅ Tag matches the required pattern."
+          fi
 
       - name: 📄 Upload LICENSE file to release assets
         uses: softprops/action-gh-release@v2
@@ -60,7 +64,7 @@ jobs:
           version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
-      - name: ✅ Validate extracted version format (should be pubspec.yaml valid version)
+      - name: 🔍 Validate extracted version format (should be pubspec.yaml valid version)
         run: |
           version=${{ steps.extract_version.outputs.VERSION }}
           if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
@@ -73,8 +77,6 @@ jobs:
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       # TODO: Validate the tag, the version must match the one in pubspec.yaml, publishing the package will throw an error
-
-      # TODO: Might automate some changes of the CHANGELOG.md (outdated TODO)
 
       - name: 📝 Update package version in pubspec.yaml
         run: dart ./scripts/update_pubspec_version.dart ${{ steps.extract_version.outputs.VERSION }} ./pubspec.yaml
@@ -100,13 +102,34 @@ jobs:
           cat CHANGELOG.md | tee /dev/stderr
           echo "==========================="
 
+      - name: 🔍 Verify if the package version matches the tag version
+        run: dart ./scripts/pubspec_version_check.dart ${{ steps.extract_version.outputs.VERSION }} ./pubspec.yaml
+
       - name: 💾 Commit updated version and CHANGELOG
-        uses: EndBug/add-and-commit@v9
+        id: auto-commit-action
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          message: "chore(release): prepare to publish ${{ steps.extract_version.outputs.VERSION }}"
+          commit_message: "chore(release): prepare to publish ${{ steps.extract_version.outputs.VERSION }}"
+
+      - name: 🔍 Verify changes made by the script
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        run: echo "✅ Changes have been committed."
 
       - name: 🔄 Check if package is ready for publishing
         run: flutter pub publish --dry-run
 
       - name: 📤 Publish flutter_quill
         run: flutter pub publish --force
+
+      - name: ✂️ Extract GitHub Release Notes from CHANGELOG.md
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+        with:
+          changelog_file: CHANGELOG.md
+
+      - name: 🖋️ Update GitHub Release Notes
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ github.event.release.id }}
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
