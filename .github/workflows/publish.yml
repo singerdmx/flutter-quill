@@ -76,8 +76,6 @@ jobs:
         id: release_tag
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      # TODO: Validate the tag, the version must match the one in pubspec.yaml, publishing the package will throw an error
-
       - name: 📝 Update package version in pubspec.yaml
         run: dart ./scripts/update_pubspec_version.dart ${{ steps.extract_version.outputs.VERSION }} ./pubspec.yaml
 
