@@ -139,10 +139,7 @@ class QuillEditorConfig {
 
   /// A handler for keys that are pressed when the editor is focused.
   ///
-  /// ### Supported by:
-  ///
-  ///     - Web (Does not work on mobile devices)
-  ///     - Desktop
+  /// This feature is supported on **desktop devices only**.
   ///
   /// # Example:
   /// To prevent the user from removing any **Embed Object**, try:
