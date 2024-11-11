@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [11.0.0-dev.12] - 2024-11-11
+
 ### Changed
 
 - Mark `shouldNotifyListeners` as experimental in `QuillController.replaceText()`.
@@ -114,7 +116,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.11...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.12...HEAD
+[11.0.0-dev.12]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.11...v11.0.0-dev.12
 [11.0.0-dev.11]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.10...v11.0.0-dev.11
 [11.0.0-dev.10]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.6...v11.0.0-dev.10
 [11.0.0-dev.6]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.5...v11.0.0-dev.6
