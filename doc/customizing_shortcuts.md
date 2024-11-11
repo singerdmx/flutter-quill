@@ -1,5 +1,8 @@
 # Shortcut events
 
+> [!NOTE]
+> This feature is supported **only on desktop devices**.
+
 We will use a simple example to illustrate how to quickly add a `CharacterShortcutEvent` event.
 
 In this example, text that starts and ends with an asterisk ( * ) character will be rendered in italics for emphasis. So typing `*xxx*` will automatically be converted into _`xxx`_.

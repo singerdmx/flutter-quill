@@ -60,7 +60,6 @@ You can join our [Slack Group] for discussion.
 - [📦 Embed Blocks](#-embed-blocks)
 - [🔄 Delta Conversion](#-delta-conversion)
 - [📝 Rich Text Paste](#-rich-text-paste)
-- [✂️ Shortcut events](#-shortcut-events)
 - [🌐 Translation](#-translation)
 - [🧪 Testing](#-testing)
 - [🤝 Contributing](#-contributing)
@@ -244,16 +243,17 @@ The `QuillSimpleToolbar` and `QuillEditor` widgets are both customizable.
 
 ### 🔗 Links
 
-- [Using Custom App Widget](./doc/configurations/using_custom_app_widget.md)
-- [Localizations Setup](./doc/configurations/localizations_setup.md)
-- [Font Size](./doc/configurations/font_size.md)
-- [Font Family](#font-family)
-- [Custom Toolbar buttons](./doc/configurations/custom_buttons.md)
-- [Search](./doc/configurations/search.md)
+- [🛠️ Using Custom App Widget](./doc/configurations/using_custom_app_widget.md)
+- [🌍 Localizations Setup](./doc/configurations/localizations_setup.md)
+- [🔠 Font Size](./doc/configurations/font_size.md)
+- [🖋 Font Family](#-font-family)
+- [🔘 Custom Toolbar buttons](./doc/configurations/custom_buttons.md)
+- [🔍 Search](./doc/configurations/search.md)
+- [✂️ Shortcut events](./doc/customizing_shortcuts.md)
 
 ### 🖋 Font Family
 
-To use your own fonts, update your [Assets](./example/assets/fonts) folder and pass in `fontFamilyValues`.
+To use your own fonts, update your [Assets](./example/assets/fonts) directory and pass in `items` to `QuillToolbarFontFamilyButton`'s options.
 More details
 on [this commit](https://github.com/singerdmx/flutter-quill/commit/71d06f6b7be1b7b6dba2ea48e09fed0d7ff8bbaa),
 [this article](https://stackoverflow.com/questions/55075834/fontfamily-property-not-working-properly-in-flutter)
@@ -322,16 +322,6 @@ The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge)
 > Currently this feature is not supported on the web.
 > See [issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
  for more details.
-
-## ✂️ Shortcut events
-
-We can customize some Shorcut events, using the parameters `characterShortcutEvents` or `spaceShortcutEvents` from `QuillEditorConfig` to add more functionality to the editor. 
-
-> [!NOTE]
->
-> You can get all standard shortcuts using `standardCharactersShortcutEvents` or `standardSpaceShorcutEvents`.
-
-To see an example of this, refer to [shortcut events](./doc/customizing_shortcuts.md) page.
 
 ## 🌐 Translation
 
