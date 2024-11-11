@@ -250,6 +250,7 @@ The `QuillSimpleToolbar` and `QuillEditor` widgets are both customizable.
 - [🔘 Custom Toolbar buttons](./doc/configurations/custom_buttons.md)
 - [🔍 Search](./doc/configurations/search.md)
 - [✂️ Shortcut events](./doc/customizing_shortcuts.md)
+- [🎨 Custom Toolbar](./doc/custom_toolbar.md)
 
 ### 🖋 Font Family
 
@@ -263,19 +264,13 @@ and [this](https://www.flutterbeads.com/change-font-family-flutter/).
 
 The `flutter_quill` package provides an interface for all the users to provide their own implementations for embed
 blocks.
-Implementations for image, video, and
-formula embed blocks are proved in a separate
-package [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions).
+
+Refer to the [Custom Embed Blocks](./doc/custom_embed_blocks.md) for more details.
 
 ### 🛠️ Using the embed blocks from `flutter_quill_extensions`
 
-To see how to use the extension package, please take a look at the [README](./flutter_quill_extensions/README.md)
-of [FlutterQuill Extensions]
-
-### 🔗 Links
-
-- [Custom Embed Blocks](./doc/custom_embed_blocks.md)
-- [Custom Toolbar](./doc/custom_toolbar.md)
+The [`flutter_quill_extensions`][FlutterQuill Extensions]
+package provide implementations for image and video embed blocks.
 
 ## 🔄 Delta Conversion
 
@@ -286,7 +281,7 @@ of [FlutterQuill Extensions]
 > instead of other formats (e.g., HTML, Markdown, PDF, Microsoft Word, Google Docs, Apple Pages, XML).
 >
 > Converting **Delta** from/to **HTML** is not a standard feature in [Quill JS](https://github.com/slab/quill)
-> or [FlutterQuill].
+> or [Flutter Quill][FlutterQuill].
 
 Available Packages for Conversion
 
@@ -319,7 +314,7 @@ The plugin [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge)
 </p>
 
 > [!IMPORTANT]
-> Currently this feature is not supported on the web.
+> Currently this feature is unsupported on the web.
 > See [issue #1998](https://github.com/singerdmx/flutter-quill/issues/1998) and [issue #2220](https://github.com/singerdmx/flutter-quill/issues/2220)
  for more details.
 

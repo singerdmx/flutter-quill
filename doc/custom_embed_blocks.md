@@ -1,4 +1,4 @@
-# Custom Embed Blocks
+# 📦 Custom Embed Blocks
 
 Sometimes you want to add some custom content inside your text, custom widgets inside them.
 An example is adding
