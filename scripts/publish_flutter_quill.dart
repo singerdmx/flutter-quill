@@ -16,6 +16,10 @@ const _targetPubspecYaml = './pubspec.yaml';
 // The flutter_quill CHANGELOG
 const _targetChangelog = './CHANGELOG.md';
 
+const _exampleDirectory = './example';
+
+const _targetExamplePubspecLock = '$_exampleDirectory/pubspec.lock';
+
 const _confirmPublishOptionName = 'Y';
 
 const _mainGitRemote = 'origin';
@@ -26,8 +30,8 @@ const _githubRepoActionsLink =
 const _changelogAndPubspecRestoreMessage =
     'ℹ️  Changes to CHANGELOG.md and pubspec.yaml have not been reverted.\n'
     'To revert them, run:\n'
-    'git restore --staged $_targetChangelog $_targetPubspecYaml\n'
-    'git restore $_targetChangelog $_targetPubspecYaml';
+    'git restore --staged $_targetChangelog $_targetPubspecYaml $_targetExamplePubspecLock\n'
+    'git restore $_targetChangelog $_targetPubspecYaml $_targetExamplePubspecLock';
 
 void main(List<String> args) {
   print('➡️ Arguments provided: $args');
@@ -76,7 +80,16 @@ void main(List<String> args) {
   );
 
   try {
-    Process.runSync('git', ['add', _targetPubspecYaml, _targetChangelog]);
+    // To update pubspec.lock of the example
+    print(
+      'ℹ️ Running `flutter pub get` in the example directory to update `pubspec.lock`...',
+    );
+    Process.runSync('flutter', ['pub', 'get', '-C', _exampleDirectory]);
+
+    Process.runSync(
+      'git',
+      ['add', _targetPubspecYaml, _targetChangelog, _targetExamplePubspecLock],
+    );
 
     if (_isGitClean()) {
       print(
