@@ -29,6 +29,8 @@ class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
     this.dialogBoxBgColor,
     this.applyButtonBgColo,
     this.cancleButtonBgColo,
+    this.selectdeColor,
+    this.disSelectdeColor,
     super.options = const QuillToolbarColorButtonOptions(),
     super.key,
   });
@@ -39,7 +41,8 @@ class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
   final Color? dialogBoxBgColor;
   final Color? applyButtonBgColo;
   final Color? cancleButtonBgColo;
-
+  final Color? selectdeColor;
+  final Color? disSelectdeColor;
   @override
   QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
 }
@@ -107,12 +110,12 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
   @override
   Widget build(BuildContext context) {
     final iconColor = _isToggledColor && !widget.isBackground && !_isWhite
-        ? stringToColor(_selectionStyle.attributes['color']!.value)
-        : null;
+        ? widget.selectdeColor ?? stringToColor(_selectionStyle.attributes['color']!.value)
+        : widget.disSelectdeColor;
 
     final iconColorBackground = _isToggledBackground && widget.isBackground && !_isWhiteBackground
-        ? stringToColor(_selectionStyle.attributes['background']!.value)
-        : null;
+        ? widget.selectdeColor ?? stringToColor(_selectionStyle.attributes['background']!.value)
+        : widget.disSelectdeColor;
 
     final fillColor = _isToggledColor && !widget.isBackground && _isWhite ? stringToColor('#ffffff') : null;
     final fillColorBackground =
