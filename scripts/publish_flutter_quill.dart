@@ -69,6 +69,10 @@ Future<void> main(List<String> args) async {
         '❌ Git working directory is not clean. Commit all changes and try again.');
     exit(1);
   }
+
+  print(
+    'ℹ️ Checking if the version `$version` is already published on pub.dev...',
+  );
   if (await _isPackageVersionPublished(version)) {
     print(
         '❌ The version `$version` of the `$_packageName` package is already published on pub.dev.');
