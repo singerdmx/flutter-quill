@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `onKeyPressed` in `QuillEditorConfig` to customize key press handling in the editor [#2368](https://github.com/singerdmx/flutter-quill/pull/2368).
 
+### Changed
+
+- Improve `README.md`.
+
 ## [11.0.0-dev.10] - 2024-11-10
 
 ### Changed
