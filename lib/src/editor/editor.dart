@@ -261,6 +261,7 @@ class QuillEditorState extends State<QuillEditor>
       config: QuillRawEditorConfig(
         characterShortcutEvents: widget.config.characterShortcutEvents,
         spaceShortcutEvents: widget.config.spaceShortcutEvents,
+        onKeyPressed: widget.config.onKeyPressed,
         customLeadingBuilder: widget.config.customLeadingBlockBuilder,
         focusNode: widget.focusNode,
         scrollController: widget.scrollController,

@@ -491,6 +491,7 @@ class QuillRawEditorState extends EditorState
         data: _styles!,
         child: EditorKeyboardShortcuts(
           actions: _shortcutActionsManager.actions,
+          onKeyPressed: widget.config.onKeyPressed,
           characterEvents: widget.config.characterShortcutEvents,
           spaceEvents: widget.config.spaceShortcutEvents,
           constraints: constraints,

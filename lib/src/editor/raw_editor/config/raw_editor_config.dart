@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import '../../../document/nodes/node.dart';
 import '../../../editor/embed/embed_editor_builder.dart';
 import '../../../editor/raw_editor/raw_editor.dart';
 import '../../../editor/raw_editor/raw_editor_state.dart';
@@ -27,6 +28,7 @@ class QuillRawEditorConfig {
     required this.autoFocus,
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
+    @experimental this.onKeyPressed,
     this.showCursor = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -86,6 +88,7 @@ class QuillRawEditorConfig {
   ///
   ///    - Web
   ///    - Desktop
+  ///
   /// ### Example
   ///```dart
   /// // you can get also the default implemented shortcuts
@@ -122,6 +125,35 @@ class QuillRawEditorConfig {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+  /// A handler for keys that are pressed when the editor is focused.
+  ///
+  /// This feature is supported on **desktop devices only**.
+  ///
+  /// # Example:
+  /// To prevent the user from removing any **Embed Object**, try:
+  ///
+  ///```dart
+  ///onKeyPressed: (event, node) {
+  ///   if (event.logicalKey == LogicalKeyboardKey.backspace &&
+  ///       (node is Line || node is Block)) {
+  ///     // Use [DeltaIterator] to jump directly to the position before the current.
+  ///     final iterator = DeltaIterator(_controller.document.toDelta())
+  ///           ..skip(_controller.selection.baseOffset - 1);
+  ///     // Get the [Operation] where the caret is on
+  ///     final cur = iterator.next();
+  ///     final isOperationWithEmbed = cur.data is! String && cur.data != null;
+  ///     if (isOperationWithEmbed) {
+  ///         // Ignore this [KeyEvent] to prevent the user from removing the [Embed Object].
+  ///         return KeyEventResult.handled;
+  ///     }
+  ///   }
+  ///   // Apply custom logic or return null to use default events
+  ///   return null;
+  ///},
+  ///```
+  @experimental
+  final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Additional space around the editor contents.
   final EdgeInsetsGeometry padding;

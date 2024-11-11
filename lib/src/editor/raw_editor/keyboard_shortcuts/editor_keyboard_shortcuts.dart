@@ -10,6 +10,7 @@ import '../../../document/document.dart';
 import '../../../document/nodes/block.dart';
 import '../../../document/nodes/leaf.dart' as leaf;
 import '../../../document/nodes/line.dart';
+import '../../../document/nodes/node.dart';
 import '../../widgets/keyboard_listener.dart';
 import '../config/events/character_shortcuts_events.dart';
 import '../config/events/space_shortcut_events.dart';
@@ -27,6 +28,7 @@ class EditorKeyboardShortcuts extends StatelessWidget {
     required this.enableAlwaysIndentOnTab,
     required this.characterEvents,
     required this.spaceEvents,
+    this.onKeyPressed,
     this.customShortcuts,
     this.customActions,
     super.key,
@@ -35,6 +37,8 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   final bool readOnly;
   final bool enableAlwaysIndentOnTab;
   final QuillController controller;
+  @experimental
+  final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
   final List<CharacterShortcutEvent> characterEvents;
   final List<SpaceShortcutEvent> spaceEvents;
   final Map<ShortcutActivator, Intent>? customShortcuts;
@@ -74,6 +78,14 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   }
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
+    final onKey = onKeyPressed;
+    if (onKey != null) {
+      // Find the current node the user is on.
+      final node =
+          controller.document.queryChild(controller.selection.baseOffset).node;
+      final result = onKey.call(event, node);
+      if (result != null) return result;
+    }
     // Don't handle key if there is a meta key pressed.
     if (HardwareKeyboard.instance.isAltPressed ||
         HardwareKeyboard.instance.isControlPressed ||
