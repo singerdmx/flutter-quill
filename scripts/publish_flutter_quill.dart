@@ -36,12 +36,8 @@ void main(List<String> args) {
     print('❌ Missing required arguments. $_usage');
     exit(1);
   }
-  if (args.length > 1) {
+  if (args.length > 2) {
     print('❌ Too many arguments. $_usage');
-    exit(1);
-  }
-  if (args.length != 1) {
-    print('❌ Expected a single argument. $_usage');
     exit(1);
   }
   final version = args[0];
@@ -56,7 +52,7 @@ void main(List<String> args) {
     exit(1);
   }
   final confirmPublish =
-      args.elementAtOrNull(3) == '-$_confirmPublishOptionName';
+      args.elementAtOrNull(1) == '-$_confirmPublishOptionName';
   if (!_isValidVersion(version)) {
     print('❌ Invalid version format ($version).');
     exit(1);
