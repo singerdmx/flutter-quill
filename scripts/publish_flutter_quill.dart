@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import './update_changelog_version.dart';
 import './update_pubspec_version.dart';
@@ -27,13 +28,15 @@ const _mainGitRemote = 'origin';
 const _githubRepoActionsLink =
     'https://github.com/singerdmx/flutter-quill/actions';
 
+const _packageName = 'flutter_quill';
+
 const _changelogAndPubspecRestoreMessage =
     'ℹ️  Changes to CHANGELOG.md and pubspec.yaml have not been reverted.\n'
     'To revert them, run:\n'
     'git restore --staged $_targetChangelog $_targetPubspecYaml $_targetExamplePubspecLock\n'
     'git restore $_targetChangelog $_targetPubspecYaml $_targetExamplePubspecLock';
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
   print('➡️ Arguments provided: $args');
 
   if (args.isEmpty) {
@@ -64,6 +67,14 @@ void main(List<String> args) {
   if (!_isGitClean()) {
     print(
         '❌ Git working directory is not clean. Commit all changes and try again.');
+    exit(1);
+  }
+  if (await _isPackageVersionPublished(version)) {
+    print(
+        '❌ The version `$version` of the `$_packageName` package is already published on pub.dev.');
+    print(
+        '📦 Check the package page on pub.dev: https://pub.dev/packages/$_packageName/versions');
+    print('⚠️ Choose a different version and try again.');
     exit(1);
   }
   updatePubspecVersion(
@@ -150,4 +161,20 @@ bool _isGitClean() {
   final result = Process.runSync('git', ['status', '--porcelain']);
   // If the output is empty, the repository is clean
   return result.stdout.toString().trim().isEmpty;
+}
+
+/// Returns true if the specified [version] is already published on [pub.dev](https://pub.dev/).
+Future<bool> _isPackageVersionPublished(String version) async {
+  final url = 'https://pub.dev/api/packages/$_packageName/versions/$version';
+  final response = await http.get(Uri.parse(url));
+  switch (response.statusCode) {
+    case 200:
+      return true;
+    case 404:
+      return false;
+    default:
+      throw StateError(
+        'Unexpected response status code: ${response.statusCode}\nResponse Body: ${response.body}',
+      );
+  }
 }
