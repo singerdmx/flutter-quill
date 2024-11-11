@@ -270,7 +270,7 @@ class QuillController extends ChangeNotifier {
     Object? data,
     TextSelection? textSelection, {
     bool ignoreFocus = false,
-    bool shouldNotifyListeners = true,
+    @experimental bool shouldNotifyListeners = true,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
 
@@ -355,7 +355,7 @@ class QuillController extends ChangeNotifier {
     int index,
     int len,
     Attribute? attribute, {
-    bool shouldNotifyListeners = true,
+    @experimental bool shouldNotifyListeners = true,
   }) {
     if (len == 0 && attribute!.key != Attribute.link.key) {
       // Add the attribute to our toggledStyle.
@@ -379,7 +379,7 @@ class QuillController extends ChangeNotifier {
   }
 
   void formatSelection(Attribute? attribute,
-      {bool shouldNotifyListeners = true}) {
+      {@experimental bool shouldNotifyListeners = true}) {
     formatText(
       selection.start,
       selection.end - selection.start,
@@ -517,6 +517,7 @@ class QuillController extends ChangeNotifier {
     Clipboard.setData(const ClipboardData(text: ''));
   }
 
+  @experimental
   bool clipboardSelection(bool copy) {
     copiedImageUrl = null;
 
@@ -673,7 +674,7 @@ class QuillController extends ChangeNotifier {
     String insertedText,
     TextSelection? textSelection, {
     bool ignoreFocus = false,
-    bool shouldNotifyListeners = true,
+    @experimental bool shouldNotifyListeners = true,
   }) {
     final containsEmbed =
         insertedText.codeUnits.contains(Embed.kObjectReplacementInt);

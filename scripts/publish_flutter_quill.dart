@@ -167,7 +167,7 @@ bool _isGitClean() {
   return result.stdout.toString().trim().isEmpty;
 }
 
-/// Returns true if the specified [version] is already published on [pub.dev](https://pub.dev/).
+/// Returns `true` if the specified [version] is already published on [pub.dev](https://pub.dev/).
 Future<bool> _isPackageVersionPublished(String version) async {
   final url = 'https://pub.dev/api/packages/$_packageName/versions/$version';
   final response = await http.get(Uri.parse(url));

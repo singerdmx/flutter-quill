@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Mark `shouldNotifyListeners` as experimental in `QuillController.replaceText()`.
+- Mark the method `QuillController.clipboardSelection()` as experimental.
+
 ## [11.0.0-dev.11] - 2024-11-11
 
 ### Added
