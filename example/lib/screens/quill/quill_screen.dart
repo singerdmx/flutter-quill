@@ -7,7 +7,7 @@ import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'
 import 'package:share_plus/share_plus.dart' show Share;
 
 import '../../extensions/scaffold_messenger.dart';
-import '../../spell_checker/spell_checker.dart';
+// import '../../spell_checker/spell_checker.dart';
 import '../shared/widgets/home_screen_button.dart';
 import 'my_quill_editor.dart';
 import 'my_quill_toolbar.dart';
@@ -60,8 +60,8 @@ class _QuillScreenState extends State<QuillScreen> {
     _controller.readOnly = _isReadOnly;
     if (!_isSpellcheckerActive) {
       _isSpellcheckerActive = true;
-      SpellChecker.useSpellCheckerService(
-          Localizations.localeOf(context).languageCode);
+      // SpellChecker.useSpellCheckerService(
+      //     Localizations.localeOf(context).languageCode);
     }
     return Scaffold(
       appBar: AppBar(

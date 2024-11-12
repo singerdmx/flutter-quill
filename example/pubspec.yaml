@@ -22,7 +22,6 @@ dependencies:
   equatable: ^2.0.5
   cross_file: ^0.3.4
   cached_network_image: ^3.3.1
-  simple_spell_checker: 1.2.1
 
   # Bloc libraries
   bloc: ^8.1.4
@@ -62,7 +61,7 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
   build_runner: ^2.4.8
   flutter_gen_runner: ^5.4.0
 
