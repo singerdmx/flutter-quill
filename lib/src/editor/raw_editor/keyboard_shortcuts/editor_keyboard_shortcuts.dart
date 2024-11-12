@@ -26,6 +26,7 @@ class EditorKeyboardShortcuts extends StatelessWidget {
     required this.controller,
     required this.readOnly,
     required this.enableAlwaysIndentOnTab,
+    required this.isImeComposingActive,
     required this.characterEvents,
     required this.spaceEvents,
     this.onKeyPressed,
@@ -36,6 +37,7 @@ class EditorKeyboardShortcuts extends StatelessWidget {
 
   final bool readOnly;
   final bool enableAlwaysIndentOnTab;
+  final bool isImeComposingActive;
   final QuillController controller;
   @experimental
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
@@ -78,6 +80,10 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   }
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
+    // Don't handle key if IME is active.
+    if (isImeComposingActive) {
+      return KeyEventResult.ignored;
+    }
     final onKey = onKeyPressed;
     if (onKey != null) {
       // Find the current node the user is on.

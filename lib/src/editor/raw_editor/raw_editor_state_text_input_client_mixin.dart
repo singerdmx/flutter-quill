@@ -24,6 +24,15 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
   }
 
+  bool get isImeComposingActive {
+    final isComposingValid =
+        _lastKnownRemoteTextEditingValue?.composing.isValid ?? false;
+    final isSelectionValid =
+        _lastKnownRemoteTextEditingValue?.selection.isValid ?? false;
+
+    return isComposingValid && isSelectionValid;
+  }
+
   TextEditingValue? get _lastKnownRemoteTextEditingValue =>
       __lastKnownRemoteTextEditingValue;
 

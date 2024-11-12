@@ -499,6 +499,7 @@ class QuillRawEditorState extends EditorState
           controller: controller,
           readOnly: widget.config.readOnly,
           enableAlwaysIndentOnTab: widget.config.enableAlwaysIndentOnTab,
+          isImeComposingActive: isImeComposingActive,
           customShortcuts: widget.config.customShortcuts,
           customActions: widget.config.customActions,
           child: child,
