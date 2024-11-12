@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:meta/meta.dart' show immutable;
 
 import '../../editor/image/image_embed_types.dart';
-import '../video/models/video.dart';
+import '../video/config/video.dart';
 
 enum CameraAction {
   video,
@@ -18,31 +18,22 @@ typedef OnRequestCameraActionCallback = Future<CameraAction?> Function(
 );
 
 @immutable
-class QuillToolbarCameraConfigurations {
-  const QuillToolbarCameraConfigurations({
+class QuillToolbarCameraConfig {
+  const QuillToolbarCameraConfig({
     this.onRequestCameraActionCallback,
-    OnImageInsertCallback? onImageInsertCallback,
+    this.onImageInsertCallback,
     this.onImageInsertedCallback,
     this.onVideoInsertedCallback,
-    OnVideoInsertCallback? onVideoInsertCallback,
-  })  : _onImageInsertCallback = onImageInsertCallback,
-        _onVideoInsertCallback = onVideoInsertCallback;
+    this.onVideoInsertCallback,
+  });
 
   final OnRequestCameraActionCallback? onRequestCameraActionCallback;
 
   final OnImageInsertedCallback? onImageInsertedCallback;
 
-  final OnImageInsertCallback? _onImageInsertCallback;
-
-  OnImageInsertCallback get onImageInsertCallback {
-    return _onImageInsertCallback ?? defaultOnImageInsertCallback();
-  }
+  final OnImageInsertCallback? onImageInsertCallback;
 
   final OnVideoInsertedCallback? onVideoInsertedCallback;
 
-  final OnVideoInsertCallback? _onVideoInsertCallback;
-
-  OnVideoInsertCallback get onVideoInsertCallback {
-    return _onVideoInsertCallback ?? defaultOnVideoInsertCallback();
-  }
+  final OnVideoInsertCallback? onVideoInsertCallback;
 }

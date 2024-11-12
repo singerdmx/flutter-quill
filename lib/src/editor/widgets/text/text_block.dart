@@ -9,10 +9,9 @@ import '../../../delta/delta_diff.dart';
 import '../../../document/attribute.dart';
 import '../../../document/nodes/block.dart';
 import '../../../document/nodes/line.dart';
-import '../../../toolbar/base_toolbar.dart';
+import '../../../editor_toolbar_shared/color.dart';
 import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
-import '../../provider.dart';
 import '../../raw_editor/builders/leading_block_builder.dart';
 import '../box.dart';
 import '../cursor.dart';
@@ -266,7 +265,7 @@ class EditableTextBlock extends StatelessWidget {
         attribute == Attribute.checked || attribute == Attribute.unchecked;
     final isCodeBlock = attrs.containsKey(Attribute.codeBlock.key);
     if (attribute == null) return null;
-    final leadingConfigurations = LeadingConfigurations(
+    final leadingConfig = LeadingConfig(
       attribute: attribute,
       attrs: attrs,
       indentLevelCounts: indentLevelCounts,
@@ -277,22 +276,14 @@ class EditableTextBlock extends StatelessWidget {
         if (isOrdered) {
           return defaultStyles.leading!.style.copyWith(
             fontSize: size,
-            color: context.quillEditorElementOptions?.orderedList
-                        .useTextColorForDot ==
-                    true
-                ? fontColor
-                : null,
+            color: fontColor,
           );
         }
         if (isUnordered) {
           return defaultStyles.leading!.style.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: size,
-            color: context.quillEditorElementOptions?.unorderedList
-                        .useTextColorForDot ==
-                    true
-                ? fontColor
-                : null,
+            color: fontColor,
           );
         }
         if (isCheck) {
@@ -330,7 +321,7 @@ class EditableTextBlock extends StatelessWidget {
     if (customLeadingBlockBuilder != null) {
       final leadingBlockNodeBuilder = customLeadingBlockBuilder?.call(
         line,
-        leadingConfigurations,
+        leadingConfig,
       );
       if (leadingBlockNodeBuilder != null) {
         return leadingBlockNodeBuilder;
@@ -338,19 +329,18 @@ class EditableTextBlock extends StatelessWidget {
     }
 
     if (isOrdered) {
-      return numberPointLeading(leadingConfigurations);
+      return numberPointLeading(leadingConfig);
     }
 
     if (isUnordered) {
-      return bulletPointLeading(leadingConfigurations);
+      return bulletPointLeading(leadingConfig);
     }
 
     if (isCheck) {
-      return checkboxLeading(leadingConfigurations);
+      return checkboxLeading(leadingConfig);
     }
-    if (isCodeBlock &&
-        context.requireQuillEditorElementOptions.codeBlock.enableLineNumbers) {
-      return codeBlockLineNumberLeading(leadingConfigurations);
+    if (isCodeBlock) {
+      return codeBlockLineNumberLeading(leadingConfig);
     }
     return null;
   }

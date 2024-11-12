@@ -1,33 +1,23 @@
 name: 🚀 Publish to pub.dev
 
+# Note: This workflow only publishes flutter_quill package, the flutter_quill_extensions 
+# need to be manually published.
+
 on:
   push:
     tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
-    name: Publish the packages
+    name: Publish the flutter_quill package
     permissions:
-      id-token: write
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files to the repository.
-      # Also required for uploading files to the Release assets
-      contents: write
+      id-token: write # Required for authentication using OIDC to publish to pub.dev
+      contents: write # Required for creating a GitHub release and uploading the LICENSE file
     runs-on: ubuntu-latest
     steps:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
-        # Needed for commit and push changes
-        with:
-          # TODO: Try to not hardcode the branch name
-          ref: master
-          fetch-depth: 0 # To get all tags
-
-      - name: 📄 Upload LICENSE file to release assets
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: LICENSE
 
       - name: 🛠️ Set up Flutter
         uses: subosito/flutter-action@v2
@@ -50,8 +40,6 @@ jobs:
       # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
       #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
 
-      # Before publishing the new packages, update the version for all the packages first
-
       # Extract version from the tag (handles the 'v' prefix)
       - name: 🏷️ Extract version from tag as pubspec.yaml version
         id: extract_version
@@ -59,7 +47,7 @@ jobs:
           version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
-      - name: ✅ Validate extracted version format (should be pubspec.yaml valid version)
+      - name: 🔍 Validate extracted version format (should be pubspec.yaml valid version)
         run: |
           version=${{ steps.extract_version.outputs.VERSION }}
           if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
@@ -67,37 +55,23 @@ jobs:
             exit 1
           fi
 
-      - name: 🏷️ Extract release tag
-        id: release_tag
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-
-      - name: 📑 Fetch release notes from Github API and create a required file by the next step
-        run: dart ./scripts/create_version_content_from_github_release.dart "${{ github.repository }}" "${{ steps.release_tag.outputs.tag }}"
-
-      - name: 📝 Update version and CHANGELOG for all the packages
-        run: dart ./scripts/update_package_version.dart ${{ steps.extract_version.outputs.VERSION }}
-
-      - name: 💾 Commit updated version and CHANGELOG
-        id: auto-commit-action
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: ✂️ Extract Release Notes from CHANGELOG.md
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
         with:
-          commit_message: "chore(version): update to version ${{ steps.extract_version.outputs.VERSION }}"
+          changelog_file: CHANGELOG.md
+          release_notes_file: RELEASE_NOTES.md
 
-      - name: 🔍 Verify changes made by the script
-        if: steps.auto-commit-action.outputs.changes_detected == 'true'
-        run: echo "✅ Changes have been committed."
+      - name: 🚀 Create a GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "LICENSE"
+          bodyFile: "RELEASE_NOTES.md"
+          tag: ${{ github.ref_name }}
+          prerelease: ${{ contains(github.ref_name, '-') }}
 
       - name: 🔄 Check if package is ready for publishing
         run: flutter pub publish --dry-run
 
       - name: 📤 Publish flutter_quill
         run: flutter pub publish --force
-
-      - name: 📤 Publish flutter_quill_extensions
-        run: flutter pub publish --force
-        working-directory: ./flutter_quill_extensions/
-
-      - name: 📤 Publish flutter_quill_test
-        run: flutter pub publish --force
-        working-directory: ./flutter_quill_test/
-

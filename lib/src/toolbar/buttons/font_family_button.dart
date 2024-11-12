@@ -4,24 +4,24 @@ import '../../common/utils/widgets.dart';
 import '../../document/attribute.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
-import '../simple_toolbar_provider.dart';
+
+import '../simple_toolbar.dart';
 
 class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     QuillToolbarFontFamilyButtonOptions,
     QuillToolbarFontFamilyButtonExtraOptions> {
   QuillToolbarFontFamilyButton({
     required super.controller,
-    @Deprecated('Please use the default display text from the options')
-    this.defaultDisplayText,
     super.options = const QuillToolbarFontFamilyButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
-  })  : assert(options.rawItemsMap?.isNotEmpty ?? (true)),
+  })  : assert(options.items?.isNotEmpty ?? (true)),
         assert(
           options.initialValue == null || options.initialValue!.isNotEmpty,
         );
-
-  final String? defaultDisplayText;
 
   @override
   QuillToolbarFontFamilyButtonState createState() =>
@@ -45,30 +45,27 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
   String get _defaultDisplayText {
     return options.initialValue ??
         widget.options.defaultDisplayText ??
-        widget.defaultDisplayText ??
         context.loc.font;
   }
 
-  Map<String, String> get rawItemsMap {
-    final rawItemsMap =
-        context.quillSimpleToolbarConfigurations?.fontFamilyValues ??
-            options.rawItemsMap ??
-            {
-              'Sans Serif': 'sans-serif',
-              'Serif': 'serif',
-              'Monospace': 'monospace',
-              'Ibarra Real Nova': 'ibarra-real-nova',
-              'SquarePeg': 'square-peg',
-              'Nunito': 'nunito',
-              'Pacifico': 'pacifico',
-              'Roboto Mono': 'roboto-mono',
-              context.loc.clear: 'Clear'
-            };
-    return rawItemsMap;
+  Map<String, String> get _items {
+    final fontFamilies = options.items ??
+        {
+          'Sans Serif': 'sans-serif',
+          'Serif': 'serif',
+          'Monospace': 'monospace',
+          'Ibarra Real Nova': 'ibarra-real-nova',
+          'SquarePeg': 'square-peg',
+          'Nunito': 'nunito',
+          'Pacifico': 'pacifico',
+          'Roboto Mono': 'roboto-mono',
+          context.loc.clear: 'Clear'
+        };
+    return fontFamilies;
   }
 
   String? _getKeyName(String value) {
-    for (final entry in rawItemsMap.entries) {
+    for (final entry in _items.entries) {
       if (entry.value == value) {
         return entry.key;
       }
@@ -95,9 +92,7 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -124,12 +119,9 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
       child: MenuAnchor(
         controller: _menuController,
         menuChildren: [
-          for (final MapEntry<String, String> fontFamily in rawItemsMap.entries)
+          for (final MapEntry<String, String> fontFamily in _items.entries)
             MenuItemButton(
               key: ValueKey(fontFamily.key),
-              // value: fontFamily.value,
-              // height: options.itemHeight ?? kMinInteractiveDimension,
-              // padding: options.itemPadding,
               onPressed: () {
                 final newValue = fontFamily.value;
                 final keyName = _getKeyName(newValue);
@@ -201,15 +193,12 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
               style: options.style ??
                   TextStyle(
                     fontSize: iconSize / 1.15,
-                    // color: iconTheme?.iconUnselectedFillColor ??
-                    //     theme.iconTheme.color,
                   ),
             ),
           ),
           Icon(
             Icons.arrow_drop_down,
             size: iconSize * iconButtonFactor,
-            // color: iconTheme?.iconUnselectedFillColor ?? theme.iconTheme.color,
           )
         ],
       ),

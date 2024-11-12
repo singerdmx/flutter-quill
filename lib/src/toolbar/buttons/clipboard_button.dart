@@ -7,8 +7,7 @@ import '../../common/utils/widgets.dart';
 import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
-import '../simple_toolbar_provider.dart';
+import '../simple_toolbar.dart';
 
 enum ClipboardAction { cut, copy, paste }
 
@@ -37,11 +36,16 @@ class ClipboardMonitor {
 }
 
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton(
-      {required super.controller,
-      required this.clipboardAction,
-      super.options = const QuillToolbarToggleStyleButtonOptions(),
-      super.key});
+  QuillToolbarClipboardButton({
+    required super.controller,
+    required this.clipboardAction,
+    super.options = const QuillToolbarToggleStyleButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
+    super.key,
+  });
 
   final ClipboardAction clipboardAction;
 
@@ -113,8 +117,7 @@ class QuillToolbarClipboardButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder ??
-        context.quillToolbarBaseButtonOptions?.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

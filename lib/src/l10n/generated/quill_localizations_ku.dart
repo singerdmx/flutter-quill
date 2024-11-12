@@ -302,6 +302,9 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'دانانی خشتە';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
 
 /// The translations for Kurdish (`ku_CKB`).

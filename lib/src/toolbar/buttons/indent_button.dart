@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart' show QuillToolbarIconButton;
-import '../config/simple_toolbar_configurations.dart';
+import '../config/simple_toolbar_config.dart';
+import 'quill_icon_button.dart';
 
 typedef QuillToolbarIndentBaseButton = QuillToolbarBaseButton<
     QuillToolbarIndentButtonOptions, QuillToolbarIndentButtonExtraOptions>;
@@ -17,6 +17,10 @@ class QuillToolbarIndentButton extends QuillToolbarIndentBaseButton {
     required super.controller,
     required this.isIncrease,
     super.options = const QuillToolbarIndentButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -44,8 +48,7 @@ class QuillToolbarIndentButtonState extends QuillToolbarIndentBaseButtonState {
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = this.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -61,7 +64,6 @@ class QuillToolbarIndentButtonState extends QuillToolbarIndentBaseButtonState {
       );
     }
 
-    // final iconColor = iconTheme?.iconUnselectedFillColor;
     return QuillToolbarIconButton(
       tooltip: tooltip,
       icon: Icon(

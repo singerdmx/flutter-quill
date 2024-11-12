@@ -1,5 +1,8 @@
 # Shortcut events
 
+> [!NOTE]
+> This feature is supported **only on desktop devices**.
+
 We will use a simple example to illustrate how to quickly add a `CharacterShortcutEvent` event.
 
 In this example, text that starts and ends with an asterisk ( * ) character will be rendered in italics for emphasis. So typing `*xxx*` will automatically be converted into _`xxx`_.
@@ -15,11 +18,9 @@ class AsteriskToItalicStyle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuillEditor(
-      scrollController: <your_scrollController>,
-      focusNode: <your_focusNode>,
+    return QuillEditor.basic(
       controller: <your_controller>,
-      configurations: QuillEditorConfigurations(
+      config: QuillEditorConfig(
         characterShortcutEvents: [],
       ),
     );
@@ -62,7 +63,7 @@ CharacterShortcutEvent asteriskToItalicStyleEvent = CharacterShortcutEvent(
 );
 ```
 
-Now our 'asterisk handler' function is done and the only task left is to inject it into the `QuillEditorConfigurations`.
+Now our 'asterisk handler' function is done and the only task left is to inject it into the `QuillEditorConfig`.
 
 ```dart
 import 'package:flutter_quill/flutter_quill.dart';
@@ -73,11 +74,9 @@ class AsteriskToItalicStyle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuillEditor(
-      scrollController: <your_scrollController>,
-      focusNode: <your_focusNode>,
+    return QuillEditor.basic(
       controller: <your_controller>,
-      configurations: QuillEditorConfigurations(
+      config: QuillEditorConfig(
         characterShortcutEvents: [
            asteriskToItalicStyleEvent,
         ],

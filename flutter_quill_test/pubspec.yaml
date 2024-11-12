@@ -1,6 +1,6 @@
 name: flutter_quill_test
 description: Test utilities for flutter_quill which includes methods to simplify interacting with the editor in test cases.
-version: 10.8.5
+version: 11.0.0-dev.2
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_test/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_test/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
@@ -22,13 +22,13 @@ platforms:
   windows:
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_quill: ^10.0.0
+  flutter_quill: ^11.0.0-dev.1
   flutter_test:
     sdk: flutter
 
