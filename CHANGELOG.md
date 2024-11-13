@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Changed
+
+- Improve khmer localization [#2372](https://github.com/singerdmx/flutter-quill/pull/2372).
+
 ## [11.0.0-dev.12] - 2024-11-11
 
 ### Changed
