@@ -582,18 +582,6 @@ class QuillController extends ChangeNotifier {
       }
     }
 
-    // Snapshot the input before using `await`.
-    // See https://github.com/flutter/flutter/issues/11427
-    final plainText = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
-    if (plainText != null) {
-      final plainTextToPaste = await getTextToPaste(plainText);
-      if (pastePlainTextOrDelta(plainTextToPaste,
-          pastePlainText: _pastePlainText, pasteDelta: _pasteDelta)) {
-        updateEditor?.call();
-        return true;
-      }
-    }
-
     final clipboardService = ClipboardServiceProvider.instance;
 
     final onImagePaste = clipboardConfig?.onImagePaste;
@@ -609,6 +597,8 @@ class QuillController extends ChangeNotifier {
             BlockEmbed.image(imageUrl),
             null,
           );
+          updateEditor?.call();
+          return true;
         }
       }
     }
@@ -625,7 +615,23 @@ class QuillController extends ChangeNotifier {
             BlockEmbed.image(gifUrl),
             null,
           );
+          updateEditor?.call();
+          return true;
         }
+      }
+    }
+
+    // Only process plain text if no image/gif was pasted.
+    // Snapshot the input before using `await`.
+    // See https://github.com/flutter/flutter/issues/11427
+    final plainText = (await Clipboard.getData(Clipboard.kTextPlain))?.text;
+
+    if (plainText != null) {
+      final plainTextToPaste = await getTextToPaste(plainText);
+      if (pastePlainTextOrDelta(plainTextToPaste,
+          pastePlainText: _pastePlainText, pasteDelta: _pasteDelta)) {
+        updateEditor?.call();
+        return true;
       }
     }
 
