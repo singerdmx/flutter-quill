@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill_example/quill_delta_sample.dart';
+import 'package:flutter_quill_example/stabs/web_utils.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart' as path;
-import 'dart:html' as html;
 
 void main() => runApp(const MainApp());
 
@@ -48,13 +48,14 @@ class _HomePageState extends State<HomePage> {
         enableExternalRichPaste: true,
         onImagePaste: (imageBytes) async {
           if (kIsWeb) {
+            // Create a WebUtils instance
+            final WebUtils webUtils = WebUtils();
+
+            // Create a URL for the image
+            final imageUrl = webUtils.createImageUrl(imageBytes);
+
             // Create a Blob from the image bytes
-            final blob = html.Blob([imageBytes], 'image/png');
-
-            // Create a temporary URL for the blob
-            final url = html.Url.createObjectUrlFromBlob(blob);
-
-            return url;
+            return imageUrl;
           }
           // Save the image somewhere and return the image URL that will be
           // stored in the Quill Delta JSON (the document).
