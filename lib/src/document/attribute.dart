@@ -275,7 +275,6 @@ class Attribute<T> {
     return Attribute(origin.key, origin.scope, value);
   }
 
-  // This might not needed anymore because of equatable
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
