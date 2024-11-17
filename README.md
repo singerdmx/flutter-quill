@@ -217,24 +217,31 @@ The Delta format is a compact and versatile method for describing document chang
 * Use `_controller.document.toDelta()` to extract the deltas.
 * Use `_controller.document.toPlainText()` to extract plain text.
 
-To save the document as JSON:
+**To save the document**:
 
 ```dart
-final json = jsonEncode(_controller.document.toDelta().toJson());
+final String json = jsonEncode(_controller.document.toDelta().toJson());
+// Stores the JSON Quill Delta
 ```
 
-To open an existing JSON representation that has been previously stored:
+**To load the document**:
 
 ```dart
-final json = jsonDecode(r'{"insert":"hello\n"}');
+final String json = ...; // Load the previously stored JSON Quill Delta
 
-_controller.document = Document.fromJson(json);
+_controller.document = Document.fromJson(jsonDecode(json));
+```
+
+**To change the read-only mode**:
+
+```dart
+_controller.readOnly = true; // Or false to allow edit
 ```
 
 ### 🔗 Links
 
-- [Quill Delta](https://quilljs.com/docs/delta/)
-- [Quill Delta Formats](https://quilljs.com/docs/formats)
+- [🪶 Quill Delta](https://quilljs.com/docs/delta/)
+- [📜 Quill Delta Formats](https://quilljs.com/docs/formats)
 
 ## ⚙️ Configurations
 
