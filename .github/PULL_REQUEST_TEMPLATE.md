@@ -1,7 +1,8 @@
 <!-- 
 Briefly describe your changes and summarize in the title.
 Contributor Guide: https://github.com/singerdmx/flutter-quill/blob/master/CONTRIBUTING.md
-Package versioning is automated; add updates to `Unreleased` per [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
+Package versioning is automated.
+Add updates to `Unreleased` in `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 -->
 
 ## Description
