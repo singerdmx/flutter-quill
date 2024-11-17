@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:meta/meta.dart';
 import 'copy_cut_service.dart';
 import 'default_copy_cut_service.dart';
 
 @immutable
+@experimental
 abstract final class CopyCutServiceProvider {
   static CopyCutService _instance = DefaultCopyCutService();
 
