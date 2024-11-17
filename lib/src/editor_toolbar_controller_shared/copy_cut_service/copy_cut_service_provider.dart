@@ -3,8 +3,7 @@ import 'copy_cut_service.dart';
 import 'default_copy_cut_service.dart';
 
 @immutable
-class CopyCutServiceProvider {
-  const CopyCutServiceProvider._();
+abstract final class CopyCutServiceProvider {
   static CopyCutService _instance = DefaultCopyCutService();
 
   static CopyCutService get instance => _instance;
