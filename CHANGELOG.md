@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Improve pub topics in package metadata.
+- Update the minimum required version of the dependency [quill_native_bridge](https://pub.dev/packages/quill_native_bridge) from `10.7.9` to `10.7.11`.
 
 ## [11.0.0-dev.13] - 2024-11-17
 

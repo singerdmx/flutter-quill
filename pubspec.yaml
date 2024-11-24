@@ -60,7 +60,7 @@ dependencies:
   # Plugins
   url_launcher: ^6.2.1
   flutter_keyboard_visibility_temp_fork: ^0.1.1
-  quill_native_bridge: ^10.7.9
+  quill_native_bridge: ^10.7.11
 
 dev_dependencies:
   flutter_lints: ^5.0.0
