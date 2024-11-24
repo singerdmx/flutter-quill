@@ -17,14 +17,6 @@ screenshots:
   - description: "Web Select Color Dialog"
     path: example/assets/images/screenshot_4.png
 
-platforms:
-  android:
-  ios:
-  linux:
-  macos:
-  web:
-  windows:
-
 environment:
   sdk: '>=3.0.0 <4.0.0'
   flutter: ">=3.0.0"
