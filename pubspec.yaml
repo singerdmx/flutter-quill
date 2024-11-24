@@ -5,13 +5,7 @@ homepage: https://github.com/singerdmx/flutter-quill/
 repository: https://github.com/singerdmx/flutter-quill/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
 documentation: https://github.com/singerdmx/flutter-quill/
-
-topics:
-  - ui
-  - widgets
-  - widget
-  - rich-text-editor
-  - quill
+topics: [editor, text, rich-text-editor, quill, flutter-quill]
 
 screenshots:
   - description: "iOS Light Mode"

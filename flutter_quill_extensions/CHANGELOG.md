@@ -10,11 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [11.0.0-dev.4] - 2024-11-24
+
 > [!IMPORTANT]
 > See the [migration guide from 10.0.0 to 11.0.0](https://github.com/singerdmx/flutter-quill/blob/master/doc/migration/10_to_11.md) for the full breaking changes and migration. Ensure to read the [breaking behavior](https://github.com/singerdmx/flutter-quill/blob/master/doc/migration/10_to_11.md#-breaking-behavior) section to avoid unexpected changes.
 
 ### Changed
 
+- Improve pub topics in package metadata.
 - Update the minimum supported SDK version to **Flutter 3.0/Dart 3.0** for compatibility, fixing [#2347](https://github.com/singerdmx/flutter-quill/issues/2347).
 - Improve dependencies constraints for compatibility.
 - **BREAKING**: Update configuration class names to use the suffix `Config` instead of `Configurations`.
@@ -33,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updates minimum supported [`flutter_quill`](https://pub.dev/packages/flutter_quill) version to `11.0.0-dev.3`.
+- Update minimum supported [`flutter_quill`](https://pub.dev/packages/flutter_quill) version to `11.0.0-dev.3`.
 
 ## [11.0.0-dev.2] - 2024-11-08
 

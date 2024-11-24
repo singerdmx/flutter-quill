@@ -11,10 +11,10 @@ which include methods to simplify interacting with the editor in test cases.
 
 ## 💾 Installation
 
-Add the dependencies `flutter_test` and `flutter_quill_test`:
+Add the dependencies [`flutter_test`](https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html) and `flutter_quill_test`:
 
 ```shell
-flutter pub add dev:flutter_test
+flutter pub add 'dev:flutter_test:{"sdk":"flutter"}'
 flutter pub add dev:flutter_quill_test
 ```
 
