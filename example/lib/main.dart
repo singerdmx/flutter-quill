@@ -52,7 +52,8 @@ class _HomePageState extends State<HomePage> {
           }
           // Save the image somewhere and return the image URL that will be
           // stored in the Quill Delta JSON (the document).
-          final newFileName = 'image-file-${DateTime.now().toIso8601String()}.png';
+          final newFileName =
+              'image-file-${DateTime.now().toIso8601String()}.png';
           final newPath = path.join(
             io.Directory.systemTemp.path,
             newFileName,
@@ -85,8 +86,9 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.output),
             tooltip: 'Print Delta JSON to log',
             onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('The JSON Delta has been printed to the console.')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content:
+                      Text('The JSON Delta has been printed to the console.')));
               debugPrint(jsonEncode(_controller.document.toDelta().toJson()));
             },
           ),
@@ -125,8 +127,11 @@ class _HomePageState extends State<HomePage> {
                 buttonOptions: QuillSimpleToolbarButtonOptions(
                   base: QuillToolbarBaseButtonOptions(
                     afterButtonPressed: () {
-                      final isDesktop = {TargetPlatform.linux, TargetPlatform.windows, TargetPlatform.macOS}
-                          .contains(defaultTargetPlatform);
+                      final isDesktop = {
+                        TargetPlatform.linux,
+                        TargetPlatform.windows,
+                        TargetPlatform.macOS
+                      }.contains(defaultTargetPlatform);
                       if (isDesktop) {
                         _editorFocusNode.requestFocus();
                       }
@@ -142,35 +147,6 @@ class _HomePageState extends State<HomePage> {
                 controller: _controller,
                 config: QuillEditorConfig(
                   placeholder: 'Start writing your notes...',
-                  characterShortcutEvents: standardCharactersShortcutEvents,
-                  spaceShortcutEvents: standardSpaceShorcutEvents,
-                  cursorPlaceholderConfig: CursorPlaceholderConfig(
-                    text: 'Write something...',
-                    textStyle: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
-                    show: true,
-                    offset: Offset(3.5, 2) 
-                  ),
-                  placeholderComponentsConfiguration: PlaceholderConfig(
-                    builders: {
-                      Attribute.header.key: (Attribute attr, style) {
-                        final values = [30, 27, 22];
-                        final level = attr.value as int?;
-                        if (level == null) return null;
-                        final fontSize = values[(level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
-                        return PlaceholderTextBuilder(
-                          placeholderText: 'Header $level',
-                          style:
-                              TextStyle(fontSize: fontSize.toDouble()).merge(style.copyWith(color: Colors.grey)),
-                        );
-                      },
-                      Attribute.list.key: (Attribute attr, style) {
-                        return PlaceholderTextBuilder(
-                          placeholderText: 'List item',
-                          style: style.copyWith(color: Colors.grey),
-                        );
-                      },
-                    },
-                  ),
                   padding: const EdgeInsets.all(16),
                   embedBuilders: [
                     ...FlutterQuillEmbeds.editorBuilders(
@@ -217,7 +193,8 @@ class TimeStampEmbed extends Embeddable {
 
   static const String timeStampType = 'timeStamp';
 
-  static TimeStampEmbed fromDocument(Document document) => TimeStampEmbed(jsonEncode(document.toDelta().toJson()));
+  static TimeStampEmbed fromDocument(Document document) =>
+      TimeStampEmbed(jsonEncode(document.toDelta().toJson()));
 
   Document get document => Document.fromJson(jsonDecode(data));
 }
