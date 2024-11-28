@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart' show TextStyle, immutable;
 import '../../../../document/attribute.dart';
 
-typedef PlaceholderConfigurationBuilder = PlaceholderArguments? Function(
+typedef PlaceholderComponentBuilder = PlaceholderTextBuilder? Function(
     Attribute, TextStyle);
 
 @immutable
-class PlaceholderComponentsConfiguration {
-  const PlaceholderComponentsConfiguration({
+class PlaceholderConfig {
+  const PlaceholderConfig({
     required this.builders,
     this.customBlockAttributesKeys,
   });
 
-  factory PlaceholderComponentsConfiguration.base() {
-    return const PlaceholderComponentsConfiguration(builders: {});
+  factory PlaceholderConfig.base() {
+    return const PlaceholderConfig(builders: {});
   }
 
   /// These attributes are used with the default ones
   /// to let us add placeholder to custom block attributes
   final Set<String>? customBlockAttributesKeys;
-  final Map<String, PlaceholderConfigurationBuilder> builders;
+  final Map<String, PlaceholderComponentBuilder> builders;
 
-  PlaceholderComponentsConfiguration copyWith({
-    Map<String, PlaceholderConfigurationBuilder>? builders,
+  PlaceholderConfig copyWith({
+    Map<String, PlaceholderComponentBuilder>? builders,
     Set<String>? customBlockAttributesKeys,
   }) {
-    return PlaceholderComponentsConfiguration(
+    return PlaceholderConfig(
       builders: builders ?? this.builders,
       customBlockAttributesKeys:
           customBlockAttributesKeys ?? this.customBlockAttributesKeys,
@@ -34,10 +34,9 @@ class PlaceholderComponentsConfiguration {
 
 @immutable
 
-/// Represents the arguments that builds the text that will
-/// be displayed
-class PlaceholderArguments {
-  const PlaceholderArguments({
+/// Represents the text that will be displayed
+class PlaceholderTextBuilder {
+  const PlaceholderTextBuilder({
     required this.placeholderText,
     required this.style,
   });

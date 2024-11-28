@@ -1,16 +1,5 @@
 // This file is only for internal use
-import 'package:flutter/material.dart'
-    show
-        Expanded,
-        Row,
-        StrutStyle,
-        Text,
-        TextAlign,
-        TextDirection,
-        TextStyle,
-        TextWidthBasis,
-        WidgetSpan,
-        immutable;
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import '../../../../document/attribute.dart' show Attribute, AttributeScope;
 import '../../../../document/nodes/line.dart';
@@ -36,9 +25,9 @@ class PlaceholderBuilder {
     required this.configuration,
   });
 
-  final PlaceholderComponentsConfiguration configuration;
+  final PlaceholderConfig configuration;
 
-  Map<String, PlaceholderConfigurationBuilder> get builders =>
+  Map<String, PlaceholderComponentBuilder> get builders =>
       configuration.builders;
   Set<String>? get customBlockAttributesKeys =>
       configuration.customBlockAttributesKeys;

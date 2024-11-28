@@ -16,7 +16,6 @@ import '../../raw_editor/builders/leading_block_builder.dart';
 import '../../raw_editor/builders/placeholder/placeholder_builder_internal.dart';
 import '../box.dart';
 import '../cursor.dart';
-import '../cursor_configuration/cursor_configuration.dart';
 import '../default_leading_components/leading_components.dart';
 import '../default_styles.dart';
 import '../delegate.dart';

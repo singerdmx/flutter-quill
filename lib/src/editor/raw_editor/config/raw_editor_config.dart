@@ -135,8 +135,7 @@ class QuillRawEditorConfig {
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
   /// This argument configure how will be showed the placeholder at right or left of the cursor
-  final CursorParagrahPlaceholderConfiguration?
-      cursorParagrahPlaceholderConfiguration;
+  final CursorPlaceholderConfig? cursorParagrahPlaceholderConfiguration;
 
   /// A handler for keys that are pressed when the editor is focused.
   ///

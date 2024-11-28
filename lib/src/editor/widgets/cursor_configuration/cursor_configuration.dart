@@ -1,5 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
+const TextStyle _defaultPlaceholderStyle =
+    TextStyle(color: Colors.grey, fontStyle: FontStyle.italic);
 
 /// This class contains all necessary configurations
 /// to show the wanted placeholder at the level of the cursor
@@ -8,29 +10,24 @@ import 'package:flutter/material.dart';
 /// where if the line is empty and not contains any block style (like
 /// header, align, codeblock, etc), then will show a text
 /// like (assume that "|" is the cursor): "| start writing"
-
-const TextStyle _defaultPlaceholderStyle =
-    TextStyle(color: Colors.grey, fontStyle: FontStyle.italic);
-
 @immutable
-class CursorParagrahPlaceholderConfiguration extends Equatable {
-  const CursorParagrahPlaceholderConfiguration({
+class CursorPlaceholderConfig {
+  const CursorPlaceholderConfig({
     required this.paragraphPlaceholderText,
     required this.style,
     required this.show,
   });
 
-  factory CursorParagrahPlaceholderConfiguration.withPlaceholder(
-      {TextStyle? style}) {
-    return CursorParagrahPlaceholderConfiguration(
+  factory CursorPlaceholderConfig.basic({TextStyle? style}) {
+    return CursorPlaceholderConfig(
       paragraphPlaceholderText: 'Enter text...',
       style: style ?? _defaultPlaceholderStyle,
       show: true,
     );
   }
 
-  factory CursorParagrahPlaceholderConfiguration.noPlaceholder() {
-    return const CursorParagrahPlaceholderConfiguration(
+  factory CursorPlaceholderConfig.noPlaceholder() {
+    return const CursorPlaceholderConfig(
       paragraphPlaceholderText: '',
       style: TextStyle(),
       show: false,
@@ -48,5 +45,14 @@ class CursorParagrahPlaceholderConfiguration extends Equatable {
   final bool show;
 
   @override
-  List<Object?> get props => [paragraphPlaceholderText, style, show];
+  int get hashCode =>
+      paragraphPlaceholderText.hashCode ^ style.hashCode ^ show.hashCode;
+
+  @override
+  bool operator ==(covariant CursorPlaceholderConfig other) {
+    if (identical(this, other)) return true;
+    return other.show == show &&
+        other.paragraphPlaceholderText == paragraphPlaceholderText &&
+        other.style == style;
+  }
 }
