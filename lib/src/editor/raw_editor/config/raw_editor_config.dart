@@ -14,7 +14,7 @@ import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
 import '../../widgets/cursor_configuration/cursor_configuration.dart';
 import '../builders/leading_block_builder.dart';
-import '../builders/placeholder/placeholder_builder_internal.dart';
+import '../builders/placeholder/placeholder_builder.dart';
 import 'events/events.dart';
 
 @immutable

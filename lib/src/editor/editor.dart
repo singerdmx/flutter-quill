@@ -17,7 +17,7 @@ import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
 import 'magnifier/magnifier_platform_support.dart';
-import 'raw_editor/builders/placeholder/placeholder_builder_internal.dart';
+import 'raw_editor/builders/placeholder/placeholder_builder.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';

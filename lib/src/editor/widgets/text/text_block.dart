@@ -13,7 +13,7 @@ import '../../../editor_toolbar_shared/color.dart';
 import '../../editor.dart';
 import '../../embed/embed_editor_builder.dart';
 import '../../raw_editor/builders/leading_block_builder.dart';
-import '../../raw_editor/builders/placeholder/placeholder_builder_internal.dart';
+import '../../raw_editor/builders/placeholder/placeholder_builder.dart';
 import '../box.dart';
 import '../cursor.dart';
 import '../cursor_configuration/cursor_configuration.dart';
