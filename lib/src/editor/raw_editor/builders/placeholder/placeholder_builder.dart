@@ -7,8 +7,7 @@ import '../../../../document/attribute.dart' show Attribute, AttributeScope;
 import '../../../../document/nodes/line.dart';
 import 'placeholder_configuration.dart';
 
-/// This is the black list of the keys that cannot be
-/// used or permitted by the builder
+// The black list of the keys that can not be used or permitted by the builder.
 final List<String> _blackList = List.unmodifiable(<String>[
   Attribute.align.key,
   Attribute.direction.key,
