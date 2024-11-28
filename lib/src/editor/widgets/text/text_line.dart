@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher_string.dart' show launchUrlString;
 
 import '../../../../flutter_quill.dart';
+import '../../../common/extensions/nodes_ext.dart';
 import '../../../common/utils/color.dart';
 import '../../../common/utils/font.dart';
 import '../../../common/utils/platform.dart';
@@ -1444,12 +1445,13 @@ class RenderEditableTextLine extends RenderEditableBox {
             offset: textSelection.extentOffset - line.documentOffset,
             affinity: textSelection.base.affinity,
           );
+    final isNodeValid = line.isNodeInline() && line.isEmpty;
     _cursorPainter.paint(
       context.canvas,
       effectiveOffset,
       position,
       lineHasEmbed,
-      line,
+      isNodeValid,
       cursorPlaceholderConfig,
       textDirection,
     );

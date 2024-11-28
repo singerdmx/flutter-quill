@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 import '../../common/utils/platform.dart';
-import '../../document/nodes/line.dart';
 import 'box.dart';
 import 'cursor_configuration/cursor_configuration.dart';
 
@@ -264,7 +263,7 @@ class CursorPainter {
     Offset offset,
     TextPosition position,
     bool lineHasEmbed,
-    Line node,
+    bool isNodeValid,
     CursorPlaceholderConfig? cursorPlaceholderConfig,
     TextDirection textDirection,
   ) {
@@ -335,7 +334,7 @@ class CursorPainter {
     if (cursorPlaceholderConfig != null &&
         cursorPlaceholderConfig.show &&
         cursorPlaceholderConfig.text.trim().isNotEmpty) {
-      if (_isNodeInline(node) && node.isEmpty) {
+      if (isNodeValid) {
         final localOffset = cursorPlaceholderConfig.offset;
         if (localOffset == null) return;
         placeholderPainter ??= TextPainter(
@@ -350,13 +349,6 @@ class CursorPainter {
           ..paint(canvas, offset + localOffset);
       }
     }
-  }
-
-  bool _isNodeInline(Line node) {
-    for (final attr in node.style.attributes.values) {
-      if (!attr.isInline) return false;
-    }
-    return true;
   }
 
   Offset _getPixelPerfectCursorOffset(
