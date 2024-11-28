@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import '../../common/utils/platform.dart';
 import '../../document/nodes/line.dart';
 import 'box.dart';
+import 'cursor_configuration/cursor_configuration.dart';
 
 /// Style properties of editing cursor.
 class CursorStyle {
@@ -264,7 +265,7 @@ class CursorPainter {
     TextPosition position,
     bool lineHasEmbed,
     Line node,
-    CursorParagrahPlaceholderConfiguration? cursorPlaceholderConfiguration,
+    CursorPlaceholderConfig? cursorPlaceholderConfiguration,
     TextDirection textDirection,
   ) {
     // relative (x, y) to global offset
