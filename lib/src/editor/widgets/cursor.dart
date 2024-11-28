@@ -335,7 +335,8 @@ class CursorPainter {
         cursorPlaceholderConfig.show &&
         cursorPlaceholderConfig.text.trim().isNotEmpty) {
       if (isNodeValid) {
-        final localOffset = cursorPlaceholderConfig.offset ?? const Offset(0, 0);
+        final localOffset =
+            cursorPlaceholderConfig.offset ?? const Offset(0, 0);
         placeholderPainter ??= TextPainter(
           text: TextSpan(
             text: cursorPlaceholderConfig.text,
