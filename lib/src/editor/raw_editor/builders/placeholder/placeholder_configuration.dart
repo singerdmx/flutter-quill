@@ -32,7 +32,6 @@ class PlaceholderConfig {
   }
 }
 
-
 /// Represents the text that will be displayed
 @immutable
 class PlaceholderTextBuilder {
