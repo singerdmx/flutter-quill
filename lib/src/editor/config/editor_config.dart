@@ -29,7 +29,7 @@ class QuillEditorConfig {
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.placeholderComponentsConfiguration,
-    this.cursorParagrahPlaceholderConfiguration,
+    this.cursorPlaceholderConfig,
     @experimental this.characterShortcutEvents = const [],
     @experimental this.spaceShortcutEvents = const [],
     this.autoFocus = false,
@@ -172,7 +172,7 @@ class QuillEditorConfig {
   final PlaceholderConfig? placeholderComponentsConfiguration;
 
   /// This argument configure how will be showed the placeholder at right or left of the cursor
-  final CursorPlaceholderConfig? cursorParagrahPlaceholderConfiguration;
+  final CursorPlaceholderConfig? cursorPlaceholderConfig;
 
   /// A handler for keys that are pressed when the editor is focused.
   ///
@@ -544,7 +544,7 @@ class QuillEditorConfig {
     TextSelectionThemeData? textSelectionThemeData,
     PlaceholderConfig? placeholderComponentsConfiguration,
     bool? requestKeyboardFocusOnCheckListChanged,
-    CursorPlaceholderConfig? cursorParagrahPlaceholderConfiguration,
+    CursorPlaceholderConfig? cursorPlaceholderConfig,
     TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
@@ -553,9 +553,9 @@ class QuillEditorConfig {
     void Function(TextInputAction action)? onPerformAction,
   }) {
     return QuillEditorConfig(
-      cursorParagrahPlaceholderConfiguration:
-          cursorParagrahPlaceholderConfiguration ??
-              this.cursorParagrahPlaceholderConfiguration,
+      cursorPlaceholderConfig:
+          cursorPlaceholderConfig ??
+              this.cursorPlaceholderConfig,
       placeholderComponentsConfiguration: placeholderComponentsConfiguration ??
           this.placeholderComponentsConfiguration,
       customLeadingBlockBuilder:

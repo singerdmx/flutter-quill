@@ -31,7 +31,7 @@ class QuillRawEditorConfig {
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
     this.placeholderBuilder,
-    this.cursorParagrahPlaceholderConfiguration,
+    this.cursorPlaceholderConfig,
     @experimental this.onKeyPressed,
     this.showCursor = true,
     this.scrollable = true,
@@ -135,7 +135,7 @@ class QuillRawEditorConfig {
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
   /// This argument configure how will be showed the placeholder at right or left of the cursor
-  final CursorPlaceholderConfig? cursorParagrahPlaceholderConfiguration;
+  final CursorPlaceholderConfig? cursorPlaceholderConfig;
 
   /// A handler for keys that are pressed when the editor is focused.
   ///

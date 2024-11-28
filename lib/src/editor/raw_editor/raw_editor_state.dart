@@ -606,8 +606,8 @@ class QuillRawEditorState extends EditorState
           block: node,
           placeholderBuilder: widget.config.placeholderBuilder,
           controller: controller,
-          cursorParagrahPlaceholderConfiguration:
-              widget.config.cursorParagrahPlaceholderConfiguration,
+          cursorPlaceholderConfig:
+              widget.config.cursorPlaceholderConfig,
           customLeadingBlockBuilder: widget.config.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.config.scrollBottomInset,
@@ -683,7 +683,7 @@ class QuillRawEditorState extends EditorState
       MediaQuery.devicePixelRatioOf(context),
       _cursorCont,
       _styles!.inlineCode!,
-      widget.config.cursorParagrahPlaceholderConfiguration,
+      widget.config.cursorPlaceholderConfig,
     );
     return editableTextLine;
   }
