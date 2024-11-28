@@ -265,7 +265,7 @@ class CursorPainter {
     TextPosition position,
     bool lineHasEmbed,
     Line node,
-    CursorPlaceholderConfig? cursorPlaceholderConfiguration,
+    CursorPlaceholderConfig? cursorPlaceholderConfig,
     TextDirection textDirection,
   ) {
     // relative (x, y) to global offset
@@ -332,22 +332,24 @@ class CursorPainter {
       canvas.drawRRect(caretRRect, paint);
     }
     // we need to make these checks to avoid use this painter unnecessarily
-    if (cursorPlaceholderConfiguration != null &&
-        cursorPlaceholderConfiguration.show &&
-        cursorPlaceholderConfiguration.paragraphPlaceholderText
+    if (cursorPlaceholderConfig != null &&
+        cursorPlaceholderConfig.show &&
+        cursorPlaceholderConfig.text
             .trim()
             .isNotEmpty) {
       if (_isNodeInline(node) && node.isEmpty) {
+        final localOffset = cursorPlaceholderConfig.offset;
+        if(localOffset == null) return;
         placeholderPainter ??= TextPainter(
           text: TextSpan(
-            text: cursorPlaceholderConfiguration.paragraphPlaceholderText,
-            style: cursorPlaceholderConfiguration.style,
+            text: cursorPlaceholderConfig.text,
+            style: cursorPlaceholderConfig.textStyle,
           ),
           textDirection: textDirection,
         );
         placeholderPainter!
           ..layout()
-          ..paint(canvas, offset + Offset(3.5, (style.height ?? 2) / 2));
+          ..paint(canvas, offset + localOffset);
       }
     }
   }

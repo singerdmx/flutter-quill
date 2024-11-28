@@ -285,6 +285,7 @@ class _TextLineState extends State<TextLine> {
           lineStyle: style,
           textDirection: widget.textDirection,
           align: _getTextAlign(),
+          textScaler: MediaQuery.textScalerOf(context),
           strutStyle: StrutStyle.fromTextStyle(style),
         );
         if (placeholderWidget != null) {

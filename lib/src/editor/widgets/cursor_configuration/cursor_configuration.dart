@@ -13,46 +13,52 @@ const TextStyle _defaultPlaceholderStyle =
 @immutable
 class CursorPlaceholderConfig {
   const CursorPlaceholderConfig({
-    required this.paragraphPlaceholderText,
-    required this.style,
+    required this.text,
+    required this.textStyle,
     required this.show,
+    required this.offset,
   });
 
-  factory CursorPlaceholderConfig.basic({TextStyle? style}) {
+  factory CursorPlaceholderConfig.basic({TextStyle? textStyle}) {
     return CursorPlaceholderConfig(
-      paragraphPlaceholderText: 'Enter text...',
-      style: style ?? _defaultPlaceholderStyle,
+      text: 'Enter text...',
+      textStyle: textStyle ?? _defaultPlaceholderStyle,
       show: true,
+      offset: const Offset(3.5, 5),
     );
   }
 
   factory CursorPlaceholderConfig.noPlaceholder() {
     return const CursorPlaceholderConfig(
-      paragraphPlaceholderText: '',
-      style: TextStyle(),
+      text: '',
+      textStyle: TextStyle(),
       show: false,
+      offset: null,
     );
   }
 
   /// The text that will be showed at the right
   /// or left of the cursor
-  final String paragraphPlaceholderText;
+  final String text;
 
-  /// The style of the placeholder
-  final TextStyle style;
+  /// The textStyle of the placeholder
+  final TextStyle textStyle;
 
   /// Decides if the placeholder should be showed
   final bool show;
 
+  /// Decides the offset where will be painted the text 
+  final Offset? offset;
+
   @override
   int get hashCode =>
-      paragraphPlaceholderText.hashCode ^ style.hashCode ^ show.hashCode;
+      text.hashCode ^ textStyle.hashCode ^ show.hashCode ^ offset.hashCode;
 
   @override
   bool operator ==(covariant CursorPlaceholderConfig other) {
     if (identical(this, other)) return true;
     return other.show == show &&
-        other.paragraphPlaceholderText == paragraphPlaceholderText &&
-        other.style == style;
+        other.text == text &&
+        other.textStyle == textStyle && other.offset == offset;
   }
 }

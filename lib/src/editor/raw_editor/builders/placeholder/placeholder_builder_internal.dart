@@ -70,6 +70,7 @@ class PlaceholderBuilder {
     required TextAlign align,
     TextDirection? textDirection,
     StrutStyle? strutStyle,
+    TextScaler? textScaler,
   }) {
     if (builders.isEmpty) return null;
     final configuration =
@@ -78,6 +79,8 @@ class PlaceholderBuilder {
     if (configuration == null || configuration.placeholderText.trim().isEmpty) {
       return null;
     }
+    //TODO: solo en telefonos, este codigo es erroneo. Por qué? Ni idea. 
+    // Podria ser tema nativo, pero solucionemoslo como podamos
     final textWidget = Text(
       configuration.placeholderText,
       style: configuration.style,
@@ -85,6 +88,7 @@ class PlaceholderBuilder {
       softWrap: true,
       strutStyle: strutStyle,
       textAlign: align,
+      textScaler: textScaler,
       textWidthBasis: TextWidthBasis.longestLine,
     );
     // we use [Row] widget with [Expanded] to take whole the available width
