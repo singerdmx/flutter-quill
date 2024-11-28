@@ -606,8 +606,7 @@ class QuillRawEditorState extends EditorState
           block: node,
           placeholderBuilder: widget.config.placeholderBuilder,
           controller: controller,
-          cursorPlaceholderConfig:
-              widget.config.cursorPlaceholderConfig,
+          cursorPlaceholderConfig: widget.config.cursorPlaceholderConfig,
           customLeadingBlockBuilder: widget.config.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.config.scrollBottomInset,

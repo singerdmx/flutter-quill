@@ -334,12 +334,10 @@ class CursorPainter {
     // we need to make these checks to avoid use this painter unnecessarily
     if (cursorPlaceholderConfig != null &&
         cursorPlaceholderConfig.show &&
-        cursorPlaceholderConfig.text
-            .trim()
-            .isNotEmpty) {
+        cursorPlaceholderConfig.text.trim().isNotEmpty) {
       if (_isNodeInline(node) && node.isEmpty) {
         final localOffset = cursorPlaceholderConfig.offset;
-        if(localOffset == null) return;
+        if (localOffset == null) return;
         placeholderPainter ??= TextPainter(
           text: TextSpan(
             text: cursorPlaceholderConfig.text,

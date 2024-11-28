@@ -723,8 +723,7 @@ class EditableTextLine extends RenderObjectWidget {
   final Widget body;
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
-  final CursorPlaceholderConfig?
-      cursorPlaceholderConfig;
+  final CursorPlaceholderConfig? cursorPlaceholderConfig;
   final TextDirection textDirection;
   final TextSelection textSelection;
   final Color color;
@@ -765,8 +764,7 @@ class EditableTextLine extends RenderObjectWidget {
       ..setTextDirection(textDirection)
       ..setTextSelection(textSelection)
       ..setColor(color)
-      ..setCursorParagraphPlaceholderConfiguration(
-          cursorPlaceholderConfig)
+      ..setCursorParagraphPlaceholderConfiguration(cursorPlaceholderConfig)
       ..setEnableInteractiveSelection(enableInteractiveSelection)
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
@@ -808,8 +806,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   TextSelection textSelection;
   Color color;
   bool enableInteractiveSelection;
-  CursorPlaceholderConfig?
-      cursorPlaceholderConfig;
+  CursorPlaceholderConfig? cursorPlaceholderConfig;
   bool hasFocus = false;
   double devicePixelRatio;
   EdgeInsetsGeometry padding;
@@ -838,8 +835,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     markNeedsLayout();
   }
 
-  void setCursorParagraphPlaceholderConfiguration(
-      CursorPlaceholderConfig? c) {
+  void setCursorParagraphPlaceholderConfiguration(CursorPlaceholderConfig? c) {
     if (cursorPlaceholderConfig == c) {
       return;
     }

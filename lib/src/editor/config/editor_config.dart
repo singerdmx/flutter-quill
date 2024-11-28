@@ -554,8 +554,7 @@ class QuillEditorConfig {
   }) {
     return QuillEditorConfig(
       cursorPlaceholderConfig:
-          cursorPlaceholderConfig ??
-              this.cursorPlaceholderConfig,
+          cursorPlaceholderConfig ?? this.cursorPlaceholderConfig,
       placeholderComponentsConfiguration: placeholderComponentsConfiguration ??
           this.placeholderComponentsConfiguration,
       customLeadingBlockBuilder:

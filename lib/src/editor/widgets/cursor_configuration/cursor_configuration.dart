@@ -47,7 +47,7 @@ class CursorPlaceholderConfig {
   /// Decides if the placeholder should be showed
   final bool show;
 
-  /// Decides the offset where will be painted the text 
+  /// Decides the offset where will be painted the text
   final Offset? offset;
 
   @override
@@ -59,6 +59,7 @@ class CursorPlaceholderConfig {
     if (identical(this, other)) return true;
     return other.show == show &&
         other.text == text &&
-        other.textStyle == textStyle && other.offset == offset;
+        other.textStyle == textStyle &&
+        other.offset == offset;
   }
 }

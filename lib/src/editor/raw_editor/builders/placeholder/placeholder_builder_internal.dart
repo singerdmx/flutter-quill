@@ -79,8 +79,6 @@ class PlaceholderBuilder {
     if (configuration == null || configuration.placeholderText.trim().isEmpty) {
       return null;
     }
-    //TODO: solo en telefonos, este codigo es erroneo. Por qué? Ni idea. 
-    // Podria ser tema nativo, pero solucionemoslo como podamos
     final textWidget = Text(
       configuration.placeholderText,
       style: configuration.style,
