@@ -1,19 +1,15 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
-/// Extension functions on [QuillController]
-/// that make it easier to insert the embed blocks
-///
-/// and provide some other extra utilities
+@Deprecated('Invalid extension')
 extension QuillControllerExt on QuillController {
+  @Deprecated(
+      'Invalid extension property and will be removed, use selection.baseOffset instead')
   int get index => selection.baseOffset;
+  @Deprecated(
+      'Invalid extension property and will be removed, use selection.baseOffset instead')
   int get length => selection.extentOffset - index;
 
-  /// Insert image embed block, it requires the [imageSource]
-  ///
-  /// it could be local image on the system file
-  /// http image on the network
-  ///
-  /// image base 64
+  @Deprecated('Invalid extension method and will be removed.')
   void insertImageBlock({
     required String imageSource,
   }) {
@@ -28,13 +24,7 @@ extension QuillControllerExt on QuillController {
       ..moveCursorToPosition(index + 1);
   }
 
-  /// Insert video embed block, it requires the [videoUrl]
-  ///
-  /// it could be the video url directly (.mp4)
-  /// either locally on file system
-  /// or http video on the network
-  ///
-  /// it also supports youtube video url
+  @Deprecated('Invalid extension method and will be removed.')
   void insertVideoBlock({
     required String videoUrl,
   }) {

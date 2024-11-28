@@ -299,4 +299,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Jadwal goş';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

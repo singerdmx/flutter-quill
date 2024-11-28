@@ -1,6 +1,5 @@
 import 'dart:collection' show LinkedHashSet, LinkedHashMap;
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:quiver/core.dart';
 
@@ -15,7 +14,7 @@ enum AttributeScope {
 }
 
 @immutable
-class Attribute<T> extends Equatable {
+class Attribute<T> {
   const Attribute(
     this.key,
     this.scope,
@@ -276,7 +275,6 @@ class Attribute<T> extends Equatable {
     return Attribute(origin.key, origin.scope, value);
   }
 
-  // This might not needed anymore because of equatable
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -287,7 +285,6 @@ class Attribute<T> extends Equatable {
         value == typedOther.value;
   }
 
-  // This might not needed anymore because of equatable
   @override
   int get hashCode => hash3(key, scope, value);
 
@@ -295,9 +292,6 @@ class Attribute<T> extends Equatable {
   String toString() {
     return 'Attribute{key: $key, scope: $scope, value: $value}';
   }
-
-  @override
-  List<Object?> get props => [key, scope, value];
 }
 
 class BoldAttribute extends Attribute<bool> {

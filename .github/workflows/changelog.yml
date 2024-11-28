@@ -1,0 +1,19 @@
+name: 📝 Changelog File Check
+
+# This workflow only validates if the CHANGELOG.md file was updated and doesn't validate the format.
+
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
+    branches:
+      - master
+
+jobs:
+  changelog:
+    name: 🔍 Verify Changelog Modification
+    runs-on: ubuntu-latest
+    steps:
+      - name: ✅ Check if CHANGELOG.md was modified
+        uses: tarides/changelog-check-action@v2
+        with:
+          changelog: CHANGELOG.md

@@ -1,3 +1,8 @@
+@experimental
+library;
+
+import 'package:meta/meta.dart';
+
 // event classes
 export 'character_shortcuts_events.dart';
 export 'space_shortcut_events.dart';

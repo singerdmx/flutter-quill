@@ -28,7 +28,7 @@ void main() async {
 
   print('');
 
-  await runCommand('dart', ['./scripts/ensure_translations_correct.dart']);
+  await runCommand('dart', ['./scripts/translations_check.dart']);
 
   print('');
 

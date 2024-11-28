@@ -306,4 +306,7 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Εισαγωγή πίνακα';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

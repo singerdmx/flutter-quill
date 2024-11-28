@@ -1,16 +1,11 @@
 name: flutter_quill_extensions
 description: Embed extensions for flutter_quill including image, video, formula and etc.
-version: 10.8.5
+version: 11.0.0-dev.4
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
 documentation: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
-
-topics:
- - ui
- - widgets
- - widget
- - rich-text-editor
+topics: [editor, text, rich-text-editor, quill, flutter-quill]
 
 platforms:
   android:
@@ -21,32 +16,37 @@ platforms:
   windows:
 
 environment:
-  sdk: '>=3.1.6 <4.0.0'
-  flutter: ">=3.16.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
 
+# The versions listed here indicate the minimum required for dependencies 
+# and do not affect those used in the client's application.
+# For more information, visit:
+# https://dart.dev/tools/pub/dependencies#version-constraints
+# https://docs.flutter.dev/packages-and-plugins/using-packages#conflict-resolution
+# https://dart.dev/tools/pub/versioning
+# https://dart.dev/guides/libraries/private-files#pubspec-lock
+# https://dart.dev/tools/pub/pubspec#sdk-constraints
 dependencies:
   flutter:
     sdk: flutter
 
   # Dart Packages
-  http: ^1.2.0
-  path: ^1.8.3
-  meta: ^1.10.0
+  http: ^1.0.0
+  path: ^1.8.0
+  meta: ^1.7.0
   universal_html: ^2.2.4
-  cross_file: ^0.3.3+6
+  cross_file: ^0.3.3+4
 
-  flutter_quill: ^10.8.3
+  flutter_quill: ^11.0.0-dev.3
   photo_view: ^0.15.0
-  # TODO: Remove youtube_explode_dart
-  youtube_explode_dart: ^2.2.1
 
   # Plugins
-  video_player: ^2.8.1
+  video_player: ^2.8.0
   url_launcher: ^6.2.1
-  super_clipboard: ^0.8.22
   gal: ^2.3.0
   gal_linux: ^0.1.0
-  image_picker: ^1.0.4
+  image_picker: ^1.0.0
 
 dev_dependencies:
   flutter_test:

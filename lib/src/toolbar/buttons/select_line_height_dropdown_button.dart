@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../translations.dart';
 import '../../document/attribute.dart';
+import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
-import '../config/buttons/select_line_height_style_dropdown_button_configurations.dart';
-import '../simple_toolbar_provider.dart';
+import '../config/buttons/select_line_height_style_dropdown_button_options.dart';
 import '../theme/quill_icon_theme.dart';
+import 'quill_icon_button.dart';
 
 typedef QuillToolbarSelectLineHeightStyleDropdownBaseButton
     = QuillToolbarBaseButton<
@@ -26,6 +25,10 @@ class QuillToolbarSelectLineHeightStyleDropdownButton
     required super.controller,
     super.options =
         const QuillToolbarSelectLineHeightStyleDropdownButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -117,9 +120,7 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
 
   @override
   Widget build(BuildContext context) {
-    final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final childBuilder =
-        widget.options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         widget.options,

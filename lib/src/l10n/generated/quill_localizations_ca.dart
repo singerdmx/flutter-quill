@@ -303,4 +303,7 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Insereix taula';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

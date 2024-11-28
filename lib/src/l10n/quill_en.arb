@@ -108,5 +108,6 @@
   "searchSettings": "Search settings",
   "cut": "Cut",
   "paste": "Paste",
-  "insertTable": "Insert table"
+  "insertTable": "Insert table",
+  "insertVideo": "Insert video"
 }

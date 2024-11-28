@@ -1,63 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 import '../../controller/quill_controller.dart';
-import '../config/simple_toolbar_configurations.dart';
-import '../simple_toolbar_provider.dart';
+import '../config/simple_toolbar_config.dart';
 import '../theme/quill_icon_theme.dart';
-
-// TODO: Use this later or remove it
+import 'base_button_options_resolver.dart';
 
 /// The [T] is the options for the button, usually should refresnce itself
 /// it's used in [childBuilder] so the developer can custmize this when using it
 /// The [I] is extra options for the button, usually for it's state
-abstract class QuillToolbarBaseButton<T, I> extends StatelessWidget {
-  const QuillToolbarBaseButton({
+@internal
+abstract class QuillToolbarBaseButtonStateless<T, I> extends StatelessWidget {
+  const QuillToolbarBaseButtonStateless({
     required this.controller,
     super.key,
     this.options,
+    this.baseOptions,
   });
 
   final QuillToolbarBaseButtonOptions<T, I>? options;
 
+  final QuillToolbarBaseButtonOptions? baseOptions;
+
+  QuillToolbarButtonOptionsResolver get _optionsResolver =>
+      QuillToolbarButtonOptionsResolver(
+        baseOptions: baseOptions,
+        specificOptions: options,
+      );
+
   final QuillController controller;
 
   double iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
-    final iconSize = options?.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
+    return _optionsResolver.iconSize ?? kDefaultIconSize;
   }
 
   double iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
-    final iconButtonFactor = options?.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
+    return _optionsResolver.iconButtonFactor ?? kDefaultIconButtonFactor;
   }
 
   VoidCallback? afterButtonPressed(BuildContext context) {
-    return options?.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed ??
-        () => controller.editorFocusNode?.requestFocus();
+    return _optionsResolver.afterButtonPressed;
   }
 
   QuillIconTheme? iconTheme(BuildContext context) {
-    return options?.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
+    return _optionsResolver.iconTheme;
   }
 
   IconData iconData(BuildContext context) {
-    return options?.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        getDefaultIconData(context);
+    return _optionsResolver.iconData ?? getDefaultIconData(context);
   }
 
   String tooltip(BuildContext context) {
-    return options?.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        getDefaultTooltip(context);
+    return _optionsResolver.tooltip ?? getDefaultTooltip(context);
   }
+
+  QuillToolbarButtonOptionsChildBuilder get childBuilder =>
+      _optionsResolver.childBuilder;
 
   abstract final IconData Function(BuildContext context) getDefaultIconData;
   abstract final String Function(BuildContext context) getDefaultTooltip;
@@ -69,7 +67,7 @@ abstract class QuillToolbarBaseButton<T, I> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options?.childBuilder;
+    final childBuilder = _optionsResolver.childBuilder;
     if (childBuilder != null) {
       return buildCustomChildBuilder(context) ?? const SizedBox.shrink();
     }

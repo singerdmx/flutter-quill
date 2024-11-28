@@ -4,14 +4,10 @@ import 'clipboard_service.dart';
 import 'default_clipboard_service.dart';
 
 @experimental
-class ClipboardServiceProvider {
-  ClipboardServiceProvider._();
+abstract final class ClipboardServiceProvider {
   static ClipboardService _instance = DefaultClipboardService();
 
   static ClipboardService get instance => _instance;
-
-  @Deprecated('instacne is a typo, use instance instead.')
-  static ClipboardService get instacne => instance;
 
   static void setInstance(ClipboardService service) {
     _instance = service;

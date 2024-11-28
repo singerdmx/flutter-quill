@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' hide OptionalSize;
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
+import 'config/image_config.dart';
 import 'image_menu.dart';
-import 'models/image_configurations.dart';
 import 'widgets/image.dart';
 
 class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   QuillEditorImageEmbedBuilder({
-    required this.configurations,
+    required this.config,
   });
-  final QuillEditorImageEmbedConfigurations configurations;
+  final QuillEditorImageEmbedConfig config;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -23,15 +21,11 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
-    final imageSource = standardizeImageUrl(node.value.data);
+    final imageSource = standardizeImageUrl(embedContext.node.value.data);
     final ((imageSize), margin, alignment) = getElementAttributes(
-      node,
+      embedContext.node,
       context,
     );
 
@@ -41,37 +35,29 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     final imageWidget = getImageWidgetByImageSource(
       context: context,
       imageSource,
-      imageProviderBuilder: configurations.imageProviderBuilder,
-      imageErrorWidgetBuilder: configurations.imageErrorWidgetBuilder,
+      imageProviderBuilder: config.imageProviderBuilder,
+      imageErrorWidgetBuilder: config.imageErrorWidgetBuilder,
       alignment: alignment,
       height: height,
       width: width,
-      assetsPrefix: QuillSharedExtensionsConfigurations.get(context: context)
-          .assetsPrefix,
     );
 
-    final imageSaverService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imageSaverService;
     return GestureDetector(
       onTap: () {
-        final onImageClicked = configurations.onImageClicked;
+        final onImageClicked = config.onImageClicked;
         if (onImageClicked != null) {
           onImageClicked(imageSource);
           return;
         }
         showDialog(
           context: context,
-          builder: (_) => FlutterQuillLocalizationsWidget(
-            child: ImageOptionsMenu(
-              controller: controller,
-              configurations: configurations,
-              imageSource: imageSource,
-              imageSize: imageSize,
-              isReadOnly: readOnly,
-              imageSaverService: imageSaverService,
-              imageProvider: imageWidget.image,
-            ),
+          builder: (_) => ImageOptionsMenu(
+            controller: embedContext.controller,
+            config: config,
+            imageSource: imageSource,
+            imageSize: imageSize,
+            readOnly: embedContext.readOnly,
+            imageProvider: imageWidget.image,
           ),
         );
       },

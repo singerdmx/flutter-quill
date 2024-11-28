@@ -304,6 +304,9 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Inserare tabel';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
 
 /// The translations for Romanian Moldavian Moldovan, as used in Romania (`ro_RO`).

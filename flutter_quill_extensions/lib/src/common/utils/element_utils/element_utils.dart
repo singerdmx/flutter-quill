@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/widgets.dart' show Alignment, BuildContext;
 import 'package:flutter_quill/flutter_quill.dart' show Attribute, Node;
-import 'package:flutter_quill/flutter_quill_internal.dart';
+import 'package:flutter_quill/internal.dart';
 
 import 'element_shared_utils.dart';
 

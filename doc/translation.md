@@ -1,37 +1,15 @@
 # 🌍 Translation
 
 The package offers translations for the quill toolbar and editor, it will follow the locale that is defined in
-your `WidgetsApp` for example `MaterialApp` which usually follows the system locally unless you set your own locale
-with:
-
-```dart
-QuillToolbar.simple(
-  controller: _controller,
-  configurations: QuillSimpleToolbarConfigurations(
-    sharedConfigurations: const QuillSharedConfigurations(
-      locale: Locale('de'),
-    ),
-  ),
-),
-Expanded(
-  child: QuillEditor.basic(
-    controller: _controller,
-    configurations: QuillEditorConfigurations(
-      sharedConfigurations: const QuillSharedConfigurations(
-        locale: Locale('de'),
-      ),
-    ),
-  ),
-)
-```
+your `WidgetsApp` for example `MaterialApp` which usually follows the system locally unless you set your own locale.
 
 ## 🌐 Supported Locales
 
-Currently, translations are available for these 41 locales:
+Currently, translations are available for these 43 locales:
 
 * `ar`, `bg`, `bn`, `ca`, `cs`, `da`, `de`
 * `en`, `en_US`, `es`, `fa`, `fr`, `he`
-* `hi`, `id`, `it`, `ja`, `ko`, `ku`
+* `hi`, `id`, `it`, `ja`, `ko`, `km`, `ku`
 * `ms`, `ne`, `nl`, `no`, `pl`, `pt`
 * `pt_BR`, `ro`, `ro_RO`, `ru`, `sk`, `sr`
 * `sv`, `sw`, `th`, `tk`, `tr`, `uk`, `ur`
@@ -95,7 +73,7 @@ The script above will generate Dart files from the Arb files to test the changes
 won't notice a difference.
 
 > 🔧 If you added or removed translations in the template file, make sure to update `_expectedTranslationKeysLength`
-> variable in [scripts/ensure_translations_correct.dart](../scripts/ensure_translations_correct.dart) <br>
+> variable in [scripts/translations_check.dart](../scripts/translations_check.dart) <br>
 > Otherwise you don't need to update it.
 
 Then open a pull request so everyone can benefit from your translations!

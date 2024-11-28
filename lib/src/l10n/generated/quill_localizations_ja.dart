@@ -298,4 +298,7 @@ class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'テーブルを挿入';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

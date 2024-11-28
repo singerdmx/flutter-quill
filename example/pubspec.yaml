@@ -1,55 +1,27 @@
-name: example
-description: A demo for the Flutter Quill
+name: flutter_quill_example
+description: "Demonstrates how to use the flutter_quill package."
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: ^3.0.0
+  flutter: ">=3.10.0"
+
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.6
+  
+  flutter_quill: ^11.0.0-dev.4
+  flutter_quill_extensions: ^11.0.0-dev.3
+  path: ^1.9.0
 
-  # Flutter Quill Packages
-  flutter_quill: ^10.7.3
-  dart_quill_delta: ^10.7.3
-  flutter_quill_extensions: ^10.7.3
-  flutter_quill_test: ^10.7.3
-  # Dart Packages
-  path: ^1.8.3
-  equatable: ^2.0.5
-  cross_file: ^0.3.4
-  cached_network_image: ^3.3.1
-  simple_spell_checker: 1.2.1
-
-  # Bloc libraries
-  bloc: ^8.1.4
-  flutter_bloc: ^8.1.5
-
-  # Freezed
-  freezed_annotation: ^2.4.1
-
-  # Json
-  json_annotation: ^4.8.1
-
-  # Plugins
-  image_cropper: ^8.0.1
-  path_provider: ^2.1.2
-  # For drag and drop feature
-  # Switch to the pub.dev version after https://github.com/MixinNetwork/flutter-plugins/pull/351
-  # is published
-  desktop_drop:
-    git:
-      url: https://github.com/MixinNetwork/flutter-plugins.git
-      path: packages/desktop_drop
-      ref: 0d1ce578abddd171b309b15847bd6e4f9163881e
-  # For picking quill document files
-  file_picker: ^8.0.0+1
-  # For sharing text
-  share_plus: ^10.0.2
-  google_fonts: ^6.2.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_quill_test: ^11.0.0-dev.2
 
 dependency_overrides:
   flutter_quill:
@@ -59,47 +31,7 @@ dependency_overrides:
   flutter_quill_test:
     path: ../flutter_quill_test
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^5.0.0
-  build_runner: ^2.4.8
-  flutter_gen_runner: ^5.4.0
-
-  # Freezed
-  freezed: ^2.4.7
-  # Json
-  json_serializable: ^6.7.1
 flutter:
   uses-material-design: true
   assets:
-    - assets/
     - assets/images/
-  
-  fonts:
-    - family: monospace
-      fonts:
-        - asset: assets/fonts/MonoSpace.ttf
-    - family: serif
-      fonts:
-        - asset: assets/fonts/Serif.ttf
-    - family: sans-serif
-      fonts:
-        - asset: assets/fonts/SansSerif.ttf
-    - family: ibarra-real-nova
-      fonts:
-          - asset: assets/fonts/IbarraRealNova-Regular.ttf
-    - family: square-peg
-      fonts:
-        - asset: assets/fonts/SquarePeg-Regular.ttf
-    - family: nunito
-      fonts:
-        - asset: assets/fonts/Nunito-Regular.ttf
-    - family: pacifico
-      fonts:
-        - asset: assets/fonts/Pacifico-Regular.ttf
-    - family: roboto-mono
-      fonts:
-        - asset: assets/fonts/RobotoMono-Regular.ttf
-
-flutter_gen:

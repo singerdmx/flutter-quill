@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../common/utils/color.dart';
 import '../../../document/attribute.dart';
 import '../../../document/style.dart';
-import '../../../editor_toolbar_shared/quill_configurations_ext.dart';
+import '../../../editor_toolbar_shared/color.dart';
 import '../../../l10n/extensions/localizations_ext.dart';
-import '../../../l10n/widgets/localizations.dart';
 import '../../base_button/base_value_button.dart';
-import '../../config/buttons/color_configurations.dart';
+import '../../config/buttons/color_options.dart';
 import '../quill_icon_button.dart';
 import 'color_dialog.dart';
 
@@ -27,6 +26,10 @@ class QuillToolbarColorButton extends QuillToolbarColorBaseButton {
     required super.controller,
     required this.isBackground,
     super.options = const QuillToolbarColorButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -127,8 +130,7 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
             ? stringToColor('#ffffff')
             : null;
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = this.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -185,38 +187,12 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
     }
     showDialog<String>(
       context: context,
-      barrierColor: options.dialogBarrierColor ??
-          context.quillSharedConfigurations?.dialogBarrierColor ??
-          Colors.black54,
-      builder: (_) => FlutterQuillLocalizationsWidget(
-        child: ColorPickerDialog(
-          isBackground: widget.isBackground,
-          onRequestChangeColor: _changeColor,
-          isToggledColor: _isToggledColor,
-          selectionStyle: _selectionStyle,
-        ),
+      builder: (_) => ColorPickerDialog(
+        isBackground: widget.isBackground,
+        onRequestChangeColor: _changeColor,
+        isToggledColor: _isToggledColor,
+        selectionStyle: _selectionStyle,
       ),
     );
   }
-}
-
-Color hexToColor(String? hexString) {
-  if (hexString == null) {
-    return Colors.black;
-  }
-  final hexRegex = RegExp(r'([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$');
-
-  hexString = hexString.replaceAll('#', '');
-  if (!hexRegex.hasMatch(hexString)) {
-    return Colors.black;
-  }
-
-  final buffer = StringBuffer();
-  if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-  buffer.write(hexString);
-  return Color(int.tryParse(buffer.toString(), radix: 16) ?? 0xFF000000);
-}
-
-String colorToHex(Color color) {
-  return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();
 }

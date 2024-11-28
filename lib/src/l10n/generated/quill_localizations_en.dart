@@ -301,6 +301,9 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Insert table';
+
+  @override
+  String get insertVideo => 'Insert video';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

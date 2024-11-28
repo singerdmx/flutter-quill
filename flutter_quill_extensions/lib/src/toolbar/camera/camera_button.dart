@@ -1,122 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart'
-    show
-        QuillController,
-        QuillIconTheme,
-        QuillSimpleToolbarExt,
-        QuillToolbarBaseButtonOptions,
-        QuillToolbarIconButton,
-        kDefaultIconSize,
-        kDefaultIconButtonFactor;
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/internal.dart';
 
-import '../../editor_toolbar_shared/image_picker/image_options.dart';
-import '../../editor_toolbar_shared/shared_configurations.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../common/default_image_insert.dart';
+import '../../common/default_video_insert.dart';
+import '../quill_simple_toolbar_api.dart';
 import 'camera_types.dart';
-import 'models/camera_configurations.dart';
+import 'config/camera_config.dart';
 import 'select_camera_action.dart';
 
-class QuillToolbarCameraButton extends StatelessWidget {
+// ignore: invalid_use_of_internal_member
+class QuillToolbarCameraButton extends QuillToolbarBaseButtonStateless {
   const QuillToolbarCameraButton({
-    required this.controller,
-    this.options = const QuillToolbarCameraButtonOptions(),
+    required super.controller,
+    QuillToolbarCameraButtonOptions? options,
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
-  });
+  })  : _options = options,
+        super(options: options);
 
-  final QuillController controller;
-  final QuillToolbarCameraButtonOptions options;
+  final QuillToolbarCameraButtonOptions? _options;
 
-  double _iconSize(BuildContext context) {
-    final baseFontSize = baseButtonExtraOptions(context)?.iconSize;
-    final iconSize = options.iconSize;
-    return iconSize ?? baseFontSize ?? kDefaultIconSize;
-  }
-
-  double _iconButtonFactor(BuildContext context) {
-    final baseIconFactor = baseButtonExtraOptions(context)?.iconButtonFactor;
-    final iconButtonFactor = options.iconButtonFactor;
-    return iconButtonFactor ?? baseIconFactor ?? kDefaultIconButtonFactor;
-  }
-
-  VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
-  }
-
-  QuillIconTheme? _iconTheme(BuildContext context) {
-    return options.iconTheme ?? baseButtonExtraOptions(context)?.iconTheme;
-  }
-
-  QuillToolbarBaseButtonOptions? baseButtonExtraOptions(BuildContext context) {
-    return context.quillToolbarBaseButtonOptions;
-  }
-
-  IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.photo_camera;
-  }
-
-  String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.camera;
-  }
+  @override
+  QuillToolbarCameraButtonOptions? get options => _options;
 
   void _sharedOnPressed(BuildContext context) {
     _onPressedHandler(
       context,
       controller,
     );
-    _afterButtonPressed(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final iconTheme = _iconTheme(context);
-    final tooltip = _tooltip(context);
-    final iconSize = _iconSize(context);
-    final iconData = _iconData(context);
-    final iconButtonFactor = _iconButtonFactor(context);
-
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
-
-    if (childBuilder != null) {
-      childBuilder(
-        QuillToolbarCameraButtonOptions(
-          afterButtonPressed: _afterButtonPressed(context),
-          iconData: options.iconData,
-          iconSize: options.iconSize,
-          iconButtonFactor: iconButtonFactor,
-          iconTheme: options.iconTheme,
-          tooltip: options.tooltip,
-          cameraConfigurations: options.cameraConfigurations,
-        ),
-        QuillToolbarCameraButtonExtraOptions(
-          controller: controller,
-          context: context,
-          onPressed: () => _sharedOnPressed(context),
-        ),
-      );
-    }
-
-    return QuillToolbarIconButton(
-      icon: Icon(
-        iconData,
-        size: iconButtonFactor * iconSize,
-      ),
-      tooltip: tooltip,
-      isSelected: false,
-      // isDesktop(supportWeb: false) ? null :
-      onPressed: () => _sharedOnPressed(context),
-      iconTheme: iconTheme,
-    );
+    afterButtonPressed(context);
   }
 
   Future<CameraAction?> _getCameraAction(BuildContext context) async {
-    final customCallback =
-        options.cameraConfigurations.onRequestCameraActionCallback;
+    final customCallback = options?.cameraConfig?.onRequestCameraActionCallback;
     if (customCallback != null) {
       return await customCallback(context);
     }
@@ -131,10 +52,6 @@ class QuillToolbarCameraButton extends StatelessWidget {
     BuildContext context,
     QuillController controller,
   ) async {
-    final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
-
     final cameraAction = await _getCameraAction(context);
 
     if (cameraAction == null) {
@@ -143,31 +60,73 @@ class QuillToolbarCameraButton extends StatelessWidget {
 
     switch (cameraAction) {
       case CameraAction.video:
-        final videoFile = await imagePickerService.pickVideo(
-          source: ImageSource.camera,
-        );
+        final videoFile =
+            await ImagePicker().pickVideo(source: ImageSource.camera);
         if (videoFile == null) {
           return;
         }
-        await options.cameraConfigurations.onVideoInsertCallback(
+        await handleVideoInsert(
           videoFile.path,
-          controller,
+          controller: controller,
+          onVideoInsertCallback: options?.cameraConfig?.onVideoInsertCallback,
+          onVideoInsertedCallback:
+              options?.cameraConfig?.onVideoInsertedCallback,
         );
-        await options.cameraConfigurations.onVideoInsertedCallback
-            ?.call(videoFile.path);
       case CameraAction.image:
-        final imageFile = await imagePickerService.pickImage(
-          source: ImageSource.camera,
-        );
+        final imageFile =
+            await ImagePicker().pickImage(source: ImageSource.camera);
         if (imageFile == null) {
           return;
         }
-        await options.cameraConfigurations.onImageInsertCallback(
+        await handleImageInsert(
           imageFile.path,
-          controller,
+          controller: controller,
+          onImageInsertCallback: options?.cameraConfig?.onImageInsertCallback,
+          onImageInsertedCallback:
+              options?.cameraConfig?.onImageInsertedCallback,
         );
-        await options.cameraConfigurations.onImageInsertedCallback
-            ?.call(imageFile.path);
     }
   }
+
+  @override
+  Widget buildButton(BuildContext context) {
+    return QuillToolbarIconButton(
+      icon: Icon(
+        iconData(context),
+        size: iconButtonFactor(context) * iconSize(context),
+      ),
+      tooltip: tooltip(context),
+      isSelected: false,
+      onPressed: () => _sharedOnPressed(context),
+      iconTheme: iconTheme(context),
+    );
+  }
+
+  @override
+  Widget? buildCustomChildBuilder(BuildContext context) {
+    return childBuilder?.call(
+      QuillToolbarCameraButtonOptions(
+        afterButtonPressed: afterButtonPressed(context),
+        iconData: iconData(context),
+        iconSize: iconSize(context),
+        iconButtonFactor: iconButtonFactor(context),
+        iconTheme: options?.iconTheme,
+        tooltip: tooltip(context),
+        cameraConfig: options?.cameraConfig,
+      ),
+      QuillToolbarCameraButtonExtraOptions(
+        controller: controller,
+        context: context,
+        onPressed: () => _sharedOnPressed(context),
+      ),
+    );
+  }
+
+  @override
+  IconData Function(BuildContext context) get getDefaultIconData =>
+      (context) => Icons.photo_camera;
+
+  @override
+  String Function(BuildContext context) get getDefaultTooltip =>
+      (context) => context.loc.camera;
 }

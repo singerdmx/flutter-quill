@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Example</string>
+	<string>Flutter Quill Example</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>example</string>
+	<string>flutter_quill_example</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -45,13 +45,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need permission to the photo library in order for inserting images in the text editor</string>
 	<key>NSCameraUsageDescription</key>
-	<string>We need permission to the camera in order for takeing a photos and record videos in the text editor</string>
+	<string>Used to demonstrate flutter_quill package</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We don't really need that permission</string>
+	<string>Used to capture audio for flutter_quill package</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to demonstrate flutter_quill package</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need this permission for saving the images in the editor</string>
+	<string>Used to demonstrate flutter_quill package</string>
 </dict>
 </plist>

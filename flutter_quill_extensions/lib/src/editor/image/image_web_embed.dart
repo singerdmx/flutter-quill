@@ -8,14 +8,14 @@ import '../../common/utils/dart_ui/dart_ui_fake.dart'
     as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
-import 'models/image_web_configurations.dart';
+import 'config/image_web_config.dart';
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   const QuillEditorWebImageEmbedBuilder({
-    required this.configurations,
+    required this.config,
   });
 
-  final QuillEditorWebImageEmbedConfigurations configurations;
+  final QuillEditorWebImageEmbedConfig config;
 
   @override
   String get key => BlockEmbed.imageType;
@@ -26,17 +26,14 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
   @override
   Widget build(
     BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
+    EmbedContext embedContext,
   ) {
     assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
 
-    final (height, width, margin, alignment) = getWebElementAttributes(node);
+    final (height, width, margin, alignment) =
+        getWebElementAttributes(embedContext.node);
 
-    var imageSource = node.value.data.toString();
+    var imageSource = embedContext.node.value.data.toString();
 
     // This logic make sure if the image is imageBase64 then
     // it make sure if the pattern is like
@@ -62,8 +59,8 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
     });
 
     return ConstrainedBox(
-      constraints: configurations.constraints ??
-          BoxConstraints.loose(const Size(200, 200)),
+      constraints:
+          config.constraints ?? BoxConstraints.loose(const Size(200, 200)),
       child: HtmlElementView(
         viewType: imageSource,
       ),

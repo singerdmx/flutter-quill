@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-import '../base_toolbar.dart';
+import '../config/buttons/history_options.dart';
+import 'quill_icon_button.dart';
 
 typedef QuillToolbarHistoryBaseButton = QuillToolbarBaseButton<
     QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions>;
@@ -16,6 +17,10 @@ class QuillToolbarHistoryButton extends QuillToolbarHistoryBaseButton {
     required super.controller,
     required this.isUndo,
     super.options = const QuillToolbarHistoryButtonOptions(),
+
+    /// Shares common options between all buttons, prefer the [options]
+    /// over the [baseOptions].
+    super.baseOptions,
     super.key,
   });
 
@@ -57,8 +62,7 @@ class QuillToolbarHistoryButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = this.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

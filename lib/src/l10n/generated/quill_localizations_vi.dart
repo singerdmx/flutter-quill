@@ -301,4 +301,7 @@ class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Chèn bảng';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

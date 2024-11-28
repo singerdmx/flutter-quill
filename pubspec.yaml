@@ -1,73 +1,64 @@
 name: flutter_quill
 description: "A rich text editor built for Android, iOS, Web, and desktop platforms. It's the WYSIWYG editor and a Quill component for Flutter."
-version: 10.8.5
+version: 11.0.0-dev.14
 homepage: https://github.com/singerdmx/flutter-quill/
 repository: https://github.com/singerdmx/flutter-quill/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
 documentation: https://github.com/singerdmx/flutter-quill/
-
-topics:
-  - ui
-  - widgets
-  - widget
-  - rich-text-editor
-  - quill
+topics: [editor, text, rich-text-editor, quill, flutter-quill]
 
 screenshots:
-  - description: "Screenshot 1"
+  - description: "iOS Light Mode"
     path: example/assets/images/screenshot_1.png
-  - description: "Screenshot 2"
+  - description: "macOS Dark Mode"
     path: example/assets/images/screenshot_2.png
-  - description: "Screenshot 3"
+  - description: "Android Dark Mode Search Dialog"
     path: example/assets/images/screenshot_3.png
-  - description: "Screenshot 4"
+  - description: "Web Select Color Dialog"
     path: example/assets/images/screenshot_4.png
 
-platforms:
-  android:
-  ios:
-  linux:
-  macos:
-  web:
-  windows:
-
 environment:
-  sdk: ">=3.1.6 <4.0.0"
-  flutter: ">=3.19.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
 
+# The versions listed here indicate the minimum required for dependencies 
+# and do not affect those used in the client's application.
+# For more information, visit:
+# https://dart.dev/tools/pub/dependencies#version-constraints
+# https://docs.flutter.dev/packages-and-plugins/using-packages#conflict-resolution
+# https://dart.dev/tools/pub/versioning
+# https://dart.dev/guides/libraries/private-files#pubspec-lock
+# https://dart.dev/tools/pub/pubspec#sdk-constraints
 dependencies:
   flutter:
     sdk: flutter
-
   flutter_localizations:
     sdk: flutter
 
-  # Dart Packages
-  intl: ^0.19.0
   dart_quill_delta: ^10.0.0
   collection: ^1.17.0
-  quiver: ^3.2.1
-  equatable: ^2.0.5
-  meta: ^1.10.0
-  html: ^0.15.4
+  quiver: ^3.2.0
+  meta: ^1.7.0
+  html: ^0.15.0
+  intl: ^0.19.0
 
   flutter_colorpicker: ^1.1.0
 
   # For converting HTML to Quill delta
   flutter_quill_delta_from_html: ^1.4.1
-  markdown: ^7.2.1
-  charcode: ^1.3.1
+  markdown: ^7.1.0
+  charcode: ^1.3.0
 
   # Plugins
-  url_launcher: ^6.2.4
+  url_launcher: ^6.2.1
   flutter_keyboard_visibility_temp_fork: ^0.1.1
-  quill_native_bridge: ^10.7.9
+  quill_native_bridge: ^10.7.11
 
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_quill_test: ^10.0.0
+  flutter_quill_test: ^11.0.0-dev.1
   test: ^1.24.3
 
   # For scripts only

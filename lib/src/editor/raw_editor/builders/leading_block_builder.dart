@@ -3,7 +3,7 @@ import '../../../document/attribute.dart';
 import '../../../document/nodes/node.dart';
 import '../../style_widgets/checkbox_point.dart';
 
-typedef LeadingBlockNodeBuilder = Widget? Function(Node, LeadingConfigurations);
+typedef LeadingBlockNodeBuilder = Widget? Function(Node, LeadingConfig);
 
 /// This class contains all necessary values
 /// to build the leading for lists and codeblocks
@@ -12,8 +12,8 @@ typedef LeadingBlockNodeBuilder = Widget? Function(Node, LeadingConfigurations);
 /// please, take care about it, because the default
 /// implementation uses the same leading of
 /// ordered list to show lines with correct format
-class LeadingConfigurations {
-  LeadingConfigurations({
+class LeadingConfig {
+  LeadingConfig({
     required this.attribute,
     required this.indentLevelCounts,
     required this.count,

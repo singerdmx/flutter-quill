@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' show QuillDialogTheme;
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/internal.dart';
 
 import 'utils/patterns.dart';
 

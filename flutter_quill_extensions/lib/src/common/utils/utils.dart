@@ -1,16 +1,17 @@
 import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:gal/gal.dart';
+import 'package:http/http.dart' as http;
 
 import '../../editor/image/widgets/image.dart';
-import '../../editor_toolbar_shared/image_saver/s_image_saver.dart';
 import 'patterns.dart';
 
 bool isBase64(String str) {
   return base64RegExp.hasMatch(str);
 }
 
-bool isHttpBasedUrl(String url) {
+bool isHttpUrl(String url) {
   try {
     final uri = Uri.parse(url.trim());
     return uri.isScheme('HTTP') || uri.isScheme('HTTPS');
@@ -20,13 +21,9 @@ bool isHttpBasedUrl(String url) {
 }
 
 bool isImageBase64(String imageUrl) {
-  return !isHttpBasedUrl(imageUrl) && isBase64(imageUrl);
+  return !isHttpUrl(imageUrl) && isBase64(imageUrl);
 }
 
-@Deprecated(
-  'Will be removed in future releases. See https://github.com/singerdmx/flutter-quill/issues/2284'
-  ' and https://github.com/singerdmx/flutter-quill/issues/2276',
-)
 bool isYouTubeUrl(String videoUrl) {
   try {
     final uri = Uri.parse(videoUrl);
@@ -51,17 +48,16 @@ class SaveImageResult {
 
 Future<SaveImageResult> saveImage({
   required String imageUrl,
-  required ImageSaverService imageSaverService,
 }) async {
   final imageFile = File(imageUrl);
-  final hasPermission = await imageSaverService.hasAccess();
+  final hasPermission = await Gal.hasAccess();
   if (!hasPermission) {
-    await imageSaverService.requestAccess();
+    await Gal.requestAccess();
   }
   final imageExistsLocally = await imageFile.exists();
   if (!imageExistsLocally) {
     try {
-      await imageSaverService.saveImageFromNetwork(
+      await _saveImageFromNetwork(
         Uri.parse(appendFileExtensionToImageUrl(imageUrl)),
       );
       return const SaveImageResult(
@@ -74,17 +70,36 @@ Future<SaveImageResult> saveImage({
         method: SaveImageResultMethod.network,
       );
     }
+  } else {
+    try {
+      await _saveLocalImage(Uri.parse(imageUrl));
+      return const SaveImageResult(
+        error: null,
+        method: SaveImageResultMethod.localStorage,
+      );
+    } catch (e) {
+      return SaveImageResult(
+        error: e.toString(),
+        method: SaveImageResultMethod.localStorage,
+      );
+    }
   }
-  try {
-    await imageSaverService.saveLocalImage(imageUrl);
-    return const SaveImageResult(
-      error: null,
-      method: SaveImageResultMethod.localStorage,
-    );
-  } catch (e) {
-    return SaveImageResult(
-      error: e.toString(),
-      method: SaveImageResultMethod.localStorage,
-    );
+}
+
+Future<void> _saveImageFromNetwork(Uri imageUrl) async {
+  final response = await http.get(
+    imageUrl,
+  );
+  if (response.statusCode != 200) {
+    throw Exception('Response to $imageUrl is not successful.');
   }
+  final imageBytes = response.bodyBytes;
+  await Gal.putImageBytes(imageBytes,
+      name: imageUrl.pathSegments.isNotEmpty
+          ? imageUrl.pathSegments.last
+          : 'image');
+}
+
+Future<void> _saveLocalImage(Uri imageUrl) async {
+  await Gal.putImage(imageUrl.toString());
 }

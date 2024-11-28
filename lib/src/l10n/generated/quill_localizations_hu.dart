@@ -306,4 +306,7 @@ class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
 
   @override
   String get insertTable => 'Táblázat beszúrása';
+
+  @override
+  String get insertVideo => 'Insert video';
 }

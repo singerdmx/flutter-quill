@@ -1,12 +1,9 @@
-import 'package:flutter/widgets.dart' show Widget;
+import 'package:flutter/widgets.dart';
 
-import '../../controller/quill_controller.dart';
-import '../theme/quill_dialog_theme.dart';
-import '../theme/quill_icon_theme.dart';
+import 'embed_button_context.dart';
+export 'embed_button_context.dart';
 
 typedef EmbedButtonBuilder = Widget Function(
-  QuillController controller,
-  double toolbarIconSize,
-  QuillIconTheme? iconTheme,
-  QuillDialogTheme? dialogTheme,
+  BuildContext context,
+  EmbedButtonContext embedContext,
 );

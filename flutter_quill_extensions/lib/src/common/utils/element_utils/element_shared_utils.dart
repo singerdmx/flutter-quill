@@ -73,11 +73,9 @@ double? parseCssPropertyAsDouble(
         doubleValue = MediaQuery.textScalerOf(context).scale(doubleValue);
         break;
       case _CssUnit.rem:
-        // Not fully supported yet
         doubleValue = MediaQuery.textScalerOf(context).scale(doubleValue);
         break;
       case _CssUnit.invalid:
-        // Ignore
         doubleValue = null;
         break;
     }

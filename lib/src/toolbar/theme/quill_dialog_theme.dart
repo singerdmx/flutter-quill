@@ -1,13 +1,5 @@
 import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
-import 'package:flutter/material.dart'
-    show
-        BoxConstraints,
-        ButtonStyle,
-        Color,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        ShapeBorder,
-        TextStyle;
+import 'package:flutter/material.dart';
 
 /// Used to configure the dialog's look and feel.
 
