@@ -137,6 +137,7 @@ class QuillRawEditorConfig {
   /// This argument configure how will be showed the placeholder at right or left of the cursor
   final CursorParagrahPlaceholderConfiguration?
       cursorParagrahPlaceholderConfiguration;
+
   /// A handler for keys that are pressed when the editor is focused.
   ///
   /// This feature is supported on **desktop devices only**.
