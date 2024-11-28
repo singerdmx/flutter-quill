@@ -32,9 +32,9 @@ class PlaceholderConfig {
   }
 }
 
-@immutable
 
 /// Represents the text that will be displayed
+@immutable
 class PlaceholderTextBuilder {
   const PlaceholderTextBuilder({
     required this.placeholderText,

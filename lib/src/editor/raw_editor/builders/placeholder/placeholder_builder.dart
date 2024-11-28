@@ -1,4 +1,6 @@
-// This file is only for internal use
+@internal
+library;
+
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import '../../../../document/attribute.dart' show Attribute, AttributeScope;
@@ -7,8 +9,7 @@ import 'placeholder_configuration.dart';
 
 /// This is the black list of the keys that cannot be
 /// used or permitted by the builder
-// ignore: unnecessary_late
-late final List<String> _blackList = List.unmodifiable(<String>[
+final List<String> _blackList = List.unmodifiable(<String>[
   Attribute.align.key,
   Attribute.direction.key,
   Attribute.lineHeight.key,
@@ -18,7 +19,6 @@ late final List<String> _blackList = List.unmodifiable(<String>[
 ]);
 
 @experimental
-@internal
 @immutable
 class PlaceholderBuilder {
   const PlaceholderBuilder({
@@ -34,7 +34,6 @@ class PlaceholderBuilder {
 
   /// Check if this node need to show a placeholder
   @experimental
-  @internal
   (bool, String) shouldShowPlaceholder(Line node) {
     if (builders.isEmpty) return (false, '');
     var shouldShow = false;
@@ -63,7 +62,6 @@ class PlaceholderBuilder {
   /// Before use this, we should always use [shouldShowPlaceholder] to avoid
   /// show any placeholder where is not needed
   @experimental
-  @internal
   WidgetSpan? build({
     required Attribute blockAttribute,
     required TextStyle lineStyle,
