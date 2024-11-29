@@ -1,9 +1,21 @@
-import 'package:flutter/material.dart' show TextStyle, immutable;
+import 'package:flutter/material.dart'  show TextStyle;
+import 'package:meta/meta.dart' show experimental, immutable;
 import '../../../../document/attribute.dart';
 
 typedef PlaceholderComponentBuilder = PlaceholderTextBuilder? Function(
     Attribute, TextStyle);
 
+/// Configuration class for defining how placeholders are handled in the editor.
+///
+/// The `PlaceholderConfig` allows customization of placeholder behavior by
+/// providing builders for rendering specific components and defining custom 
+/// attribute keys that should be recognized during the placeholder build process.
+///
+/// - [builders]: A map associating placeholder keys with their respective 
+///   component builders, allowing custom rendering logic.
+/// - [customBlockAttributesKeys]: A set of additional attribute keys to include 
+///   in placeholder processing. By default, only predefined keys are considered.
+@experimental
 @immutable
 class PlaceholderConfig {
   const PlaceholderConfig({
@@ -15,8 +27,7 @@ class PlaceholderConfig {
     return const PlaceholderConfig(builders: {});
   }
 
-  /// These attributes are used with the default ones
-  /// to let us add placeholder to custom block attributes
+  /// Add custom keys here to include them in placeholder builds, as external keys are ignored by default.
   final Set<String>? customBlockAttributesKeys;
   final Map<String, PlaceholderComponentBuilder> builders;
 
@@ -36,10 +47,10 @@ class PlaceholderConfig {
 @immutable
 class PlaceholderTextBuilder {
   const PlaceholderTextBuilder({
-    required this.placeholderText,
+    required this.text,
     required this.style,
   });
 
-  final String placeholderText;
+  final String text;
   final TextStyle style;
 }

@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 const TextStyle _defaultPlaceholderStyle =
     TextStyle(color: Colors.grey, fontStyle: FontStyle.italic);
 
-/// This class contains all necessary configurations
-/// to show the wanted placeholder at the level of the cursor
+/// Configuration for displaying a placeholder near the cursor in a rich text editor.
 ///
-/// You can see this as some Rich Text Editors can contains a feature
-/// where if the line is empty and not contains any block style (like
-/// header, align, codeblock, etc), then will show a text
-/// like (assume that "|" is the cursor): "| start writing"
+/// The `CursorPlaceholderConfig` defines the appearance, position, and behavior 
+/// of a placeholder that is shown when a line is empty and the cursor is present.
+/// This feature mimics behavior in some rich text editors where placeholder text 
+/// (e.g., "Start writing...") appears as a prompt when no content is entered.
 @immutable
 class CursorPlaceholderConfig {
   const CursorPlaceholderConfig({
@@ -19,6 +18,11 @@ class CursorPlaceholderConfig {
     required this.offset,
   });
 
+  /// Creates a basic configuration for a cursor placeholder with default text and style.
+  ///
+  /// Parameters:
+  /// - [textStyle]: An optional custom style for the placeholder text.
+  ///   Defaults to [_defaultPlaceholderStyle] if not provided.
   factory CursorPlaceholderConfig.basic({TextStyle? textStyle}) {
     return CursorPlaceholderConfig(
       text: 'Enter text...',
@@ -37,17 +41,17 @@ class CursorPlaceholderConfig {
     );
   }
 
-  /// The text that will be showed at the right
+  /// this text that will be showed at the right
   /// or left of the cursor
   final String text;
 
-  /// The textStyle of the placeholder
+  /// this is the text style of the placeholder
   final TextStyle textStyle;
 
   /// Decides if the placeholder should be showed
   final bool show;
 
-  /// Decides the offset where will be painted the text
+  /// The offset position where the placeholder text will be rendered.
   final Offset? offset;
 
   @override

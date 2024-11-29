@@ -17,6 +17,14 @@ final List<String> _blackList = List.unmodifiable(<String>[
   ...Attribute.ignoreKeys,
 ]);
 
+/// A utility class for managing placeholder rendering logic in a document editor.
+///
+/// The `PlaceholderBuilder` is responsible for determining when a placeholder 
+/// should be displayed in an empty node and for constructing the corresponding 
+/// visual representation.
+///
+/// - [configuration]: An instance of [PlaceholderConfig] containing placeholder
+///   rendering rules and attribute customizations.
 @experimental
 @immutable
 class PlaceholderBuilder {
@@ -31,7 +39,14 @@ class PlaceholderBuilder {
   Set<String>? get customBlockAttributesKeys =>
       configuration.customBlockAttributesKeys;
 
-  /// Check if this node need to show a placeholder
+  /// Determines whether a given [Line] node should display a placeholder.
+  ///
+  /// This method checks if the node is empty and contains a block-level attribute
+  /// matching a builder key or custom attribute, excluding keys in the blacklist.
+  /// 
+  /// Returns a tuple:
+  /// - [bool]: Whether a placeholder should be shown.
+  /// - [String]: The key of the matching attribute, if applicable.
   @experimental
   (bool, String) shouldShowPlaceholder(Line node) {
     if (builders.isEmpty) return (false, '');
@@ -54,12 +69,11 @@ class PlaceholderBuilder {
     return (node.isEmpty && shouldShow, key);
   }
 
-  /// Build is similar to build method from any widget but
-  /// this only has the responsability of create a WidgetSpan to be showed
-  /// by the line when the node is empty
+  /// Constructs a [WidgetSpan] for rendering a placeholder in an empty line.
   ///
-  /// Before use this, we should always use [shouldShowPlaceholder] to avoid
-  /// show any placeholder where is not needed
+  /// This method creates a visual representation of the placeholder based on
+  /// the block attribute and style configurations provided. Use [shouldShowPlaceholder]
+  /// before invoking this method to ensure the placeholder is needed.
   @experimental
   WidgetSpan? build({
     required Attribute blockAttribute,
@@ -73,11 +87,11 @@ class PlaceholderBuilder {
     final configuration =
         builders[blockAttribute.key]?.call(blockAttribute, lineStyle);
     // we don't need to add a placeholder that is null or contains a empty text
-    if (configuration == null || configuration.placeholderText.trim().isEmpty) {
+    if (configuration == null || configuration.text.trim().isEmpty) {
       return null;
     }
     final textWidget = Text(
-      configuration.placeholderText,
+      configuration.text,
       style: configuration.style,
       textDirection: textDirection,
       softWrap: true,
@@ -86,19 +100,9 @@ class PlaceholderBuilder {
       textScaler: textScaler,
       textWidthBasis: TextWidthBasis.longestLine,
     );
-    // we use [Row] widget with [Expanded] to take whole the available width
-    // when the line has not defined an alignment.
-    //
-    // this behavior is different when the align is left or justify, because
-    // if we align the line to the center (example), row will take the whole
-    // width, creating a visual unexpected behavior where the caret being putted
-    // at the offset 0 (you can think this like the caret appears at the first char
-    // of the line when it is aligned at the left side instead appears at the middle
-    // if the line is centered)
-    //
-    // Note:
-    // this code is subject to changes because we need to get a better solution
-    // to this implementation
+
+    // Use a [Row] with [Expanded] for placeholders in lines without explicit alignment.
+    // This ensures the placeholder spans the full width, avoiding unexpected alignment issues.
     return WidgetSpan(
       style: lineStyle,
       child: align == TextAlign.end || align == TextAlign.center

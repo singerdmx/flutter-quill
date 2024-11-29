@@ -28,8 +28,8 @@ class QuillEditorConfig {
   const QuillEditorConfig({
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
-    this.placeholderComponentsConfiguration,
-    this.cursorPlaceholderConfig,
+    @experimental this.placeholderConfig,
+    @experimental this.cursorPlaceholderConfig,
     @experimental this.characterShortcutEvents = const [],
     @experimental this.spaceShortcutEvents = const [],
     this.autoFocus = false,
@@ -141,38 +141,39 @@ class QuillEditorConfig {
   @experimental
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
-  /// Whether the line is empty, this let us add a placeholder
-  ///
-  /// _Note: these placeholders are limited only to lines with block styles_
-  ///
-  /// ### Example
-  ///
-  /// Assume that you want to show only a placeholder text for the header items,
-  /// so, we only need to configure `placeholderComponentsConfiguration` like:
-  ///
-  ///```dart
-  ///final configuration = PlaceholderComponentsConfiguration(
-  ///  builders: <String, PlaceholderConfigurationBuilder>{
-  ///   Attribute.header.key: (Attribute attr, style) {
-  ///     final values = [30, 27, 22];
-  ///     final level = attr.value as int?;
-  ///     if (level == null) return null;
-  ///       final fontSize = values[level - 1];
-  ///       return PlaceholderArguments(
-  ///         placeholderText: 'Header $level',
-  ///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
-  ///       );
-  ///   },
-  /// },
-  /// // if you use custom attribute keys into the `builders` param, them you will need to implement that
-  /// // here too
-  /// customBlockAttributesKeys: null,
-  ///),
-  ///```
-  final PlaceholderConfig? placeholderComponentsConfiguration;
+/// Configuration for displaying placeholders in empty lines or near the cursor.
+///
+/// ### Example
+///
+/// To show a placeholder text specifically for header items:
+///
+/// ```dart
+/// final configuration = PlaceholderConfig(
+///   builders: <String, PlaceholderComponentBuilder>{
+///     Attribute.header.key: (Attribute attr, style) {
+///       final values = [30, 27, 22];
+///       final level = attr.value as int?;
+///       if (level == null) return null;
+///       final fontSize = values[(level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
+///       return PlaceholderTextBuilder(
+///         text: 'Header $level',
+///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
+///       );
+///     },
+///   },
+///   // If using custom attributes, register their keys here.
+///   customBlockAttributesKeys: null,
+/// );
+/// ```
+@experimental
+final PlaceholderConfig? placeholderConfig;
 
-  /// This argument configure how will be showed the placeholder at right or left of the cursor
-  final CursorPlaceholderConfig? cursorPlaceholderConfig;
+/// Configures how a placeholder is displayed relative to the cursor.
+///
+/// This argument specifies the appearance, style, and position of a placeholder
+/// shown at the cursor's location in an empty line.
+@experimental
+final CursorPlaceholderConfig? cursorPlaceholderConfig;
 
   /// A handler for keys that are pressed when the editor is focused.
   ///
@@ -542,7 +543,7 @@ class QuillEditorConfig {
     ContentInsertionConfiguration? contentInsertionConfiguration,
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
-    PlaceholderConfig? placeholderComponentsConfiguration,
+    PlaceholderConfig? placeholderConfig,
     bool? requestKeyboardFocusOnCheckListChanged,
     CursorPlaceholderConfig? cursorPlaceholderConfig,
     TextMagnifierConfiguration? magnifierConfiguration,
@@ -555,8 +556,8 @@ class QuillEditorConfig {
     return QuillEditorConfig(
       cursorPlaceholderConfig:
           cursorPlaceholderConfig ?? this.cursorPlaceholderConfig,
-      placeholderComponentsConfiguration: placeholderComponentsConfiguration ??
-          this.placeholderComponentsConfiguration,
+      placeholderConfig: placeholderConfig ??
+          this.placeholderConfig,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,
