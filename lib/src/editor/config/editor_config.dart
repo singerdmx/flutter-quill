@@ -9,9 +9,11 @@ import '../../document/nodes/node.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
+import '../raw_editor/builders/placeholder/placeholder_configuration.dart';
 import '../raw_editor/config/events/events.dart';
 import '../raw_editor/config/raw_editor_config.dart';
 import '../raw_editor/raw_editor.dart';
+import '../widgets/cursor_configuration/cursor_configuration.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
@@ -26,6 +28,8 @@ class QuillEditorConfig {
   const QuillEditorConfig({
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
+    @experimental this.placeholderConfig,
+    @experimental this.cursorPlaceholderConfig,
     @experimental this.characterShortcutEvents = const [],
     @experimental this.spaceShortcutEvents = const [],
     this.autoFocus = false,
@@ -136,6 +140,40 @@ class QuillEditorConfig {
   ///```
   @experimental
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
+/// Configuration for displaying placeholders in empty lines or near the cursor.
+///
+/// ### Example
+///
+/// To show a placeholder text specifically for header items:
+///
+/// ```dart
+/// final configuration = PlaceholderConfig(
+///   builders: <String, PlaceholderComponentBuilder>{
+///     Attribute.header.key: (Attribute attr, style) {
+///       final values = [30, 27, 22];
+///       final level = attr.value as int?;
+///       if (level == null) return null;
+///       final fontSize = values[(level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
+///       return PlaceholderTextBuilder(
+///         text: 'Header $level',
+///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
+///       );
+///     },
+///   },
+///   // If using custom attributes, register their keys here.
+///   customBlockAttributesKeys: null,
+/// );
+/// ```
+@experimental
+final PlaceholderConfig? placeholderConfig;
+
+/// Configures how a placeholder is displayed relative to the cursor.
+///
+/// This argument specifies the appearance, style, and position of a placeholder
+/// shown at the cursor's location in an empty line.
+@experimental
+final CursorPlaceholderConfig? cursorPlaceholderConfig;
 
   /// A handler for keys that are pressed when the editor is focused.
   ///
@@ -505,7 +543,9 @@ class QuillEditorConfig {
     ContentInsertionConfiguration? contentInsertionConfiguration,
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
+    PlaceholderConfig? placeholderConfig,
     bool? requestKeyboardFocusOnCheckListChanged,
+    CursorPlaceholderConfig? cursorPlaceholderConfig,
     TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
@@ -514,6 +554,10 @@ class QuillEditorConfig {
     void Function(TextInputAction action)? onPerformAction,
   }) {
     return QuillEditorConfig(
+      cursorPlaceholderConfig:
+          cursorPlaceholderConfig ?? this.cursorPlaceholderConfig,
+      placeholderConfig: placeholderConfig ??
+          this.placeholderConfig,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,

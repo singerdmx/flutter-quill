@@ -17,6 +17,7 @@ import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
 import 'magnifier/magnifier_platform_support.dart';
+import 'raw_editor/builders/placeholder/placeholder_builder.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
@@ -254,13 +255,20 @@ class QuillEditorState extends State<QuillEditor>
 
     final showSelectionToolbar = configurations.enableInteractiveSelection &&
         configurations.enableSelectionToolbar;
-
+    final placeholderBuilder =
+        widget.config.placeholderConfig == null
+            ? null
+            : PlaceholderBuilder(
+                configuration:
+                    widget.config.placeholderConfig!);
     final child = QuillRawEditor(
       key: _editorKey,
       controller: controller,
       config: QuillRawEditorConfig(
         characterShortcutEvents: widget.config.characterShortcutEvents,
         spaceShortcutEvents: widget.config.spaceShortcutEvents,
+        cursorPlaceholderConfig: widget.config.cursorPlaceholderConfig,
+        placeholderBuilder: placeholderBuilder,
         onKeyPressed: widget.config.onKeyPressed,
         customLeadingBuilder: widget.config.customLeadingBlockBuilder,
         focusNode: widget.focusNode,
@@ -1404,6 +1412,7 @@ class RenderEditor extends RenderEditableContainerBox
           child.getCaretPrototype(child.globalToLocalPosition(textPosition));
       _floatingCursorRect =
           sizeAdjustment.inflateRect(caretPrototype).shift(boundedOffset);
+
       _cursorController
           .setFloatingCursorTextPosition(_floatingCursorTextPosition);
     } else {

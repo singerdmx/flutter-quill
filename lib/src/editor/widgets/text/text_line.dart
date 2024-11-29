@@ -9,11 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher_string.dart' show launchUrlString;
 
 import '../../../../flutter_quill.dart';
+import '../../../common/extensions/nodes_ext.dart';
 import '../../../common/utils/color.dart';
 import '../../../common/utils/font.dart';
 import '../../../common/utils/platform.dart';
 import '../../../document/nodes/container.dart' as container_node;
 import '../../../document/nodes/leaf.dart' as leaf;
+import '../../raw_editor/builders/placeholder/placeholder_builder.dart';
 import '../box.dart';
 import '../delegate.dart';
 import '../keyboard_listener.dart';
@@ -30,6 +32,7 @@ class TextLine extends StatefulWidget {
     required this.onLaunchUrl,
     required this.linkActionPicker,
     required this.composingRange,
+    this.placeholderBuilder,
     this.textDirection,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -39,6 +42,7 @@ class TextLine extends StatefulWidget {
 
   final Line line;
   final TextDirection? textDirection;
+  final PlaceholderBuilder? placeholderBuilder;
   final EmbedsBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
@@ -268,7 +272,33 @@ class _TextLineState extends State<TextLine> {
     LinkedList<Node> nodes,
     TextStyle lineStyle,
   ) {
-    if (nodes.isEmpty && kIsWeb) {
+    var addWebNodeIfNeeded = widget.placeholderBuilder == null;
+    if (widget.placeholderBuilder != null &&
+        nodes.isEmpty &&
+        widget.placeholderBuilder!.builders.isNotEmpty) {
+      final (shouldShowNode, attrKey) =
+          widget.placeholderBuilder!.shouldShowPlaceholder(widget.line);
+      if (shouldShowNode) {
+        final style = lineStyle.merge(_getInlineTextStyle(
+            const Style(), defaultStyles, widget.line.style, false));
+        final placeholderWidget = widget.placeholderBuilder!.build(
+          blockAttribute: widget.line.style.attributes[attrKey]!,
+          lineStyle: style,
+          textDirection: widget.textDirection,
+          align: _getTextAlign(),
+          textScaler: MediaQuery.textScalerOf(context),
+          strutStyle: StrutStyle.fromTextStyle(style),
+        );
+        if (placeholderWidget != null) {
+          return TextSpan(children: [placeholderWidget], style: style);
+        }
+      }
+      // if the [placeholderWidget] is null or [shouldShowNode] is false
+      // then this line will be executed and avoid non add
+      // the needed node when the line is empty
+      addWebNodeIfNeeded = true;
+    }
+    if (nodes.isEmpty && kIsWeb && addWebNodeIfNeeded) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
 
@@ -686,6 +716,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.devicePixelRatio,
       this.cursorCont,
       this.inlineCodeStyle,
+      this.cursorPlaceholderConfig,
       {super.key});
 
   final Line line;
@@ -693,6 +724,7 @@ class EditableTextLine extends RenderObjectWidget {
   final Widget body;
   final HorizontalSpacing horizontalSpacing;
   final VerticalSpacing verticalSpacing;
+  final CursorPlaceholderConfig? cursorPlaceholderConfig;
   final TextDirection textDirection;
   final TextSelection textSelection;
   final Color color;
@@ -710,16 +742,18 @@ class EditableTextLine extends RenderObjectWidget {
   @override
   RenderObject createRenderObject(BuildContext context) {
     return RenderEditableTextLine(
-        line,
-        textDirection,
-        textSelection,
-        enableInteractiveSelection,
-        hasFocus,
-        devicePixelRatio,
-        _getPadding(),
-        color,
-        cursorCont,
-        inlineCodeStyle);
+      line,
+      textDirection,
+      textSelection,
+      enableInteractiveSelection,
+      hasFocus,
+      devicePixelRatio,
+      _getPadding(),
+      color,
+      cursorCont,
+      inlineCodeStyle,
+      cursorPlaceholderConfig,
+    );
   }
 
   @override
@@ -731,6 +765,7 @@ class EditableTextLine extends RenderObjectWidget {
       ..setTextDirection(textDirection)
       ..setTextSelection(textSelection)
       ..setColor(color)
+      ..setCursorParagraphPlaceholderConfiguration(cursorPlaceholderConfig)
       ..setEnableInteractiveSelection(enableInteractiveSelection)
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
@@ -762,6 +797,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.cursorPlaceholderConfig,
   );
 
   RenderBox? _leading;
@@ -771,6 +807,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   TextSelection textSelection;
   Color color;
   bool enableInteractiveSelection;
+  CursorPlaceholderConfig? cursorPlaceholderConfig;
   bool hasFocus = false;
   double devicePixelRatio;
   EdgeInsetsGeometry padding;
@@ -796,6 +833,14 @@ class RenderEditableTextLine extends RenderEditableBox {
       return;
     }
     cursorCont = c;
+    markNeedsLayout();
+  }
+
+  void setCursorParagraphPlaceholderConfiguration(CursorPlaceholderConfig? c) {
+    if (cursorPlaceholderConfig == c) {
+      return;
+    }
+    cursorPlaceholderConfig = c;
     markNeedsLayout();
   }
 
@@ -1400,11 +1445,15 @@ class RenderEditableTextLine extends RenderEditableBox {
             offset: textSelection.extentOffset - line.documentOffset,
             affinity: textSelection.base.affinity,
           );
+    final isNodeValid = line.isNodeInline() && line.isEmpty;
     _cursorPainter.paint(
       context.canvas,
       effectiveOffset,
       position,
       lineHasEmbed,
+      isNodeValid,
+      cursorPlaceholderConfig,
+      textDirection,
     );
   }
 

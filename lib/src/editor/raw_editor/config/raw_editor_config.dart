@@ -12,7 +12,9 @@ import '../../../editor/widgets/default_styles.dart';
 import '../../../editor/widgets/delegate.dart';
 import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
+import '../../widgets/cursor_configuration/cursor_configuration.dart';
 import '../builders/leading_block_builder.dart';
+import '../builders/placeholder/placeholder_builder.dart';
 import 'events/events.dart';
 
 @immutable
@@ -28,6 +30,8 @@ class QuillRawEditorConfig {
     required this.autoFocus,
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
+    @experimental this.placeholderBuilder,
+    @experimental this.cursorPlaceholderConfig,
     @experimental this.onKeyPressed,
     this.showCursor = true,
     this.scrollable = true,
@@ -104,6 +108,17 @@ class QuillRawEditorConfig {
   ///```
   final List<CharacterShortcutEvent> characterShortcutEvents;
 
+  /// Configuration for displaying placeholders in empty lines or near the cursor.
+  @experimental
+  final PlaceholderBuilder? placeholderBuilder;
+
+  /// Configures how a placeholder is displayed relative to the cursor.
+  ///
+  /// This argument specifies the appearance, style, and position of a placeholder
+  /// shown at the cursor's location in an empty line.
+  @experimental
+  final CursorPlaceholderConfig? cursorPlaceholderConfig;
+
   /// Contains all the events that will be handled when
   /// space key is pressed
   ///
@@ -125,6 +140,7 @@ class QuillRawEditorConfig {
   ///);
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
+
 
   /// A handler for keys that are pressed when the editor is focused.
   ///

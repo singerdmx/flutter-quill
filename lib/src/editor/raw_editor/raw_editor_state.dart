@@ -604,7 +604,9 @@ class QuillRawEditorState extends EditorState
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
           block: node,
+          placeholderBuilder: widget.config.placeholderBuilder,
           controller: controller,
+          cursorPlaceholderConfig: widget.config.cursorPlaceholderConfig,
           customLeadingBlockBuilder: widget.config.customLeadingBuilder,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.config.scrollBottomInset,
@@ -654,6 +656,7 @@ class QuillRawEditorState extends EditorState
     final textLine = TextLine(
       line: node,
       textDirection: _textDirection,
+      placeholderBuilder: widget.config.placeholderBuilder,
       embedBuilder: widget.config.embedBuilder,
       customStyleBuilder: widget.config.customStyleBuilder,
       customRecognizerBuilder: widget.config.customRecognizerBuilder,
@@ -666,19 +669,21 @@ class QuillRawEditorState extends EditorState
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
-        node,
-        null,
-        textLine,
-        _getHorizontalSpacingForLine(node, _styles),
-        _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
-        controller.selection,
-        widget.config.selectionColor,
-        widget.config.enableInteractiveSelection,
-        _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        _cursorCont,
-        _styles!.inlineCode!);
+      node,
+      null,
+      textLine,
+      _getHorizontalSpacingForLine(node, _styles),
+      _getVerticalSpacingForLine(node, _styles),
+      _textDirection,
+      controller.selection,
+      widget.config.selectionColor,
+      widget.config.enableInteractiveSelection,
+      _hasFocus,
+      MediaQuery.devicePixelRatioOf(context),
+      _cursorCont,
+      _styles!.inlineCode!,
+      widget.config.cursorPlaceholderConfig,
+    );
     return editableTextLine;
   }
 

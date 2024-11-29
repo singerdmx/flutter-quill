@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../common/utils/platform.dart';
 import 'box.dart';
+import 'cursor_configuration/cursor_configuration.dart';
 
 /// Style properties of editing cursor.
 class CursorStyle {
@@ -252,6 +253,7 @@ class CursorPainter {
   final Rect prototype;
   final Color color;
   final double devicePixelRatio;
+  TextPainter? placeholderPainter;
 
   /// Paints cursor on [canvas] at specified [position].
   /// [offset] is global top left (x, y) of text line
@@ -261,6 +263,9 @@ class CursorPainter {
     Offset offset,
     TextPosition position,
     bool lineHasEmbed,
+    bool isNodeValid,
+    CursorPlaceholderConfig? cursorPlaceholderConfig,
+    TextDirection textDirection,
   ) {
     // relative (x, y) to global offset
     var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
@@ -324,6 +329,25 @@ class CursorPainter {
     } else {
       final caretRRect = RRect.fromRectAndRadius(caretRect, style.radius!);
       canvas.drawRRect(caretRRect, paint);
+    }
+    // we need to make these checks to avoid use this painter unnecessarily
+    if (cursorPlaceholderConfig != null &&
+        cursorPlaceholderConfig.show &&
+        cursorPlaceholderConfig.text.trim().isNotEmpty) {
+      if (isNodeValid) {
+        final localOffset =
+            cursorPlaceholderConfig.offset ?? const Offset(0, 0);
+        placeholderPainter ??= TextPainter(
+          text: TextSpan(
+            text: cursorPlaceholderConfig.text,
+            style: cursorPlaceholderConfig.textStyle,
+          ),
+          textDirection: textDirection,
+        );
+        placeholderPainter!
+          ..layout()
+          ..paint(canvas, offset + localOffset);
+      }
     }
   }
 
