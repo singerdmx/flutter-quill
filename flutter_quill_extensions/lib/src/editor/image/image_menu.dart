@@ -157,23 +157,22 @@ class ImageOptionsMenu extends StatelessWidget {
               if (result == null) {
                 messenger.showSnackBar(SnackBar(
                     content: Text(
-                  localizations.errorWhileSavingImage,
+                  localizations.errorUnexpectedSavingImage,
                 )));
                 return;
               }
 
               if (kIsWeb) {
                 messenger.showSnackBar(SnackBar(
-                    content: Text(localizations.savedUsingTheNetwork)));
+                    content: Text(localizations.successImageDownloaded)));
                 return;
               }
 
               if (result.isGallerySave) {
-                // TODO(save-image): Improve all messages in here
                 messenger.showSnackBar(SnackBar(
-                  content: Text(localizations.saved),
+                  content: Text(localizations.successImageSavedGallery),
                   action: SnackBarAction(
-                    label: localizations.open,
+                    label: localizations.openGallery,
                     onPressed: () =>
                         QuillNativeProvider.instance.openGalleryApp(),
                   ),
@@ -190,10 +189,9 @@ class ImageOptionsMenu extends StatelessWidget {
 
                 messenger.showSnackBar(
                   SnackBar(
-                    content: Text(
-                        localizations.theImageHasBeenSavedAt(imageFilePath)),
+                    content: Text(localizations.successImageSaved),
                     action: SnackBarAction(
-                      label: localizations.open,
+                      label: localizations.openFileLocation,
                       onPressed: () => launchUrl(Uri.file(imageFilePath)),
                     ),
                   ),

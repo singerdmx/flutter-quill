@@ -79,20 +79,37 @@ void main() {
         );
       });
 
+      if (kIsWeb) {
+        testWidgets(
+          'shows a success message when the image downloaded on the web',
+          (tester) async {
+            mockSaveImageResult(const SaveImageResult(
+                imageFilePath: null, isGallerySave: false));
+
+            await pumpTargetWidget(tester);
+            await tapTargetWidget(tester);
+
+            final localizations =
+                tester.localizationsFromElement(ImageOptionsMenu);
+
+            expect(
+              find.text(localizations.successImageDownloaded),
+              findsOneWidget,
+            );
+          },
+        );
+      }
+
       testWidgets('shows error message when saving fails', (tester) async {
         mockSaveImageResult(null);
 
         await pumpTargetWidget(tester);
-
-        final saveButtonFinder = findTargetWidget();
-
-        await tester.tap(saveButtonFinder);
-        await tester.pump();
+        await tapTargetWidget(tester);
 
         final localizations = tester.localizationsFromElement(ImageOptionsMenu);
 
         expect(
-          find.text(localizations.errorWhileSavingImage),
+          find.text(localizations.errorUnexpectedSavingImage),
           findsOneWidget,
         );
 
@@ -117,19 +134,19 @@ void main() {
         final localizations = tester.localizationsFromElement(ImageOptionsMenu);
 
         expect(
-          find.text(localizations.saved),
+          find.text(localizations.successImageSavedGallery),
           findsOneWidget,
         );
 
         expect(
-          find.text(localizations.open),
+          find.text(localizations.openGallery),
           findsOneWidget,
         );
       });
 
       for (final desktopPlatform in TargetPlatformVariant.desktop().values) {
         testWidgets(
-            'shows saved file path and open desktop path on ${desktopPlatform.name}',
+            'shows saved success image and open file path action on ${desktopPlatform.name}',
             (tester) async {
           debugDefaultTargetPlatformOverride = desktopPlatform;
 
@@ -144,12 +161,12 @@ void main() {
               tester.localizationsFromElement(ImageOptionsMenu);
 
           expect(
-            find.text(localizations.theImageHasBeenSavedAt(savedImagePath)),
+            find.text(localizations.successImageSaved),
             findsOneWidget,
           );
 
           expect(
-            find.text(localizations.open),
+            find.text(localizations.openFileLocation),
             findsOneWidget,
           );
 

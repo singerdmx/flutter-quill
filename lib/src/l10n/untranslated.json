@@ -1,177 +1,450 @@
 {
   "ar": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "bg": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "bn": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ca": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "cs": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "da": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "de": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "el": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "en_US": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "es": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "fa": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "fr": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "he": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "hi": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "hu": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "id": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "it": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ja": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
+  ],
+
+  "km": [
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ko": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ku": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ku_CKB": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ms": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ne": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "nl": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "no": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "pl": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "pt": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "pt_BR": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ro": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ro_RO": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ru": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "sk": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "sr": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "sv": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "sw": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "th": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "tk": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "tr": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "uk": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "ur": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "vi": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "zh": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "zh_CN": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ],
 
   "zh_HK": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation"
   ]
 }

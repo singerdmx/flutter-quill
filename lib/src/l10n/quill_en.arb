@@ -109,5 +109,29 @@
   "cut": "Cut",
   "paste": "Paste",
   "insertTable": "Insert table",
-  "insertVideo": "Insert video"
+  "insertVideo": "Insert video",
+  "errorUnexpectedSavingImage": "An unexpected error occurred while saving the image. Please try again.",
+  "@errorUnexpectedSavingImage": {
+    "description": "A generic error message shown when an image cannot be saved due to an unknown issue."
+  },
+  "successImageSavedGallery": "Image saved to your gallery.",
+  "@successImageSavedGallery": {
+    "description": "Message shown on mobile when an image is successfully saved to the gallery."
+  },
+  "successImageSaved": "Image saved successfully.",
+  "@successImageSaved": {
+    "description": "Message shown on desktop when an image is successfully saved. The user is prompted to open the file location."
+  },
+  "successImageDownloaded": "Image downloaded successfully.",
+  "@successImageDownloaded": {
+    "description": "Message shown on web when an image is successfully downloaded."
+  },
+  "openGallery": "Open Gallery",
+  "@openGallery": {
+    "description": "Label for the button that opens the system gallery app."
+  },
+  "openFileLocation": "Open File Location",
+  "@openFileLocation": {
+    "description": "Label for the button that opens the file explorer to the file's location."
+  }
 }
