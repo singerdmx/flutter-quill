@@ -454,10 +454,10 @@ packages:
     dependency: transitive
     description:
       name: quill_native_bridge_android
-      sha256: "7d77c4aafe0daf73df01e996d0ac37a0401e19b92210ce5fce76cb064cf57b18"
+      sha256: b87f7baf2daa8255d7814b350c1add626bb799962d71f1be09f8002d8879b21e
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.1+1"
   quill_native_bridge_ios:
     dependency: transitive
     description:
