@@ -116,7 +116,8 @@ class GalleryImageSaveAccessDeniedException implements Exception {
 
   @override
   String toString() =>
-      message ?? 'Permission to save the image was denied or insufficient.';
+      message ??
+      'Permission to save the image to the gallery was denied or insufficient.';
 }
 
 ImageSaver _imageSaver = ImageSaver();
