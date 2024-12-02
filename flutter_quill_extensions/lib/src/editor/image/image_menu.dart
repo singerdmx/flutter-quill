@@ -1,17 +1,16 @@
-import 'dart:async' show Completer;
-import 'dart:ui' as ui;
-
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
-import 'package:flutter/foundation.dart' show kIsWeb, Uint8List;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/internal.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
 import '../../common/utils/string.dart';
-import '../../common/utils/utils.dart';
 import 'config/image_config.dart';
+import 'image_load_utils.dart';
+import 'image_save_utils.dart';
 import 'widgets/image.dart' show ImageTapWrapper, getImageStyleString;
 import 'widgets/image_resizer.dart' show ImageResizer;
 
@@ -23,6 +22,7 @@ class ImageOptionsMenu extends StatelessWidget {
     required this.imageSize,
     required this.readOnly,
     required this.imageProvider,
+    this.prefersGallerySave = true,
     super.key,
   });
 
@@ -32,6 +32,19 @@ class ImageOptionsMenu extends StatelessWidget {
   final ElementSize imageSize;
   final bool readOnly;
   final ImageProvider imageProvider;
+
+  // TODO(quill_native_bridge): Update this doc comment once saveImageToGallery()
+  //  is supported on Windows too (will be applicable like macOS). See https://pub.dev/packages/quill_native_bridge#-features
+  /// Determines if the image should be saved to the gallery instead of using the
+  /// system file save dialog for platforms that support both.
+  ///
+  /// Currently, the only platform where this applies is macOS.
+  ///
+  /// This is silently ignored on platforms that only support gallery save (Android and iOS)
+  /// or only image save.
+  ///
+  /// For more details, refer to [quill_native_bridge Saving images](https://pub.dev/packages/quill_native_bridge#-saving-images).
+  final bool prefersGallerySave;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +103,9 @@ class ImageOptionsMenu extends StatelessWidget {
                 getImageStyleString(controller),
               );
 
-              final imageBytes = await _loadImageBytesFromImageProvider();
+              final imageBytes = await ImageLoader.instance
+                  .loadImageBytesFromImageProvider(
+                      imageProvider: imageProvider);
               if (imageBytes != null) {
                 await ClipboardServiceProvider.instance.copyImage(imageBytes);
               }
@@ -126,48 +141,71 @@ class ImageOptionsMenu extends StatelessWidget {
                 await config.onImageRemovedCallback.call(imageSource);
               },
             ),
-          if (!kIsWeb)
-            ListTile(
-              leading: const Icon(Icons.save),
-              title: Text(context.loc.save),
-              onTap: () async {
-                final messenger = ScaffoldMessenger.of(context);
-                final localizations = context.loc;
-                Navigator.of(context).pop();
+          ListTile(
+            leading: const Icon(Icons.save),
+            title: Text(context.loc.save),
+            onTap: () async {
+              final messenger = ScaffoldMessenger.of(context);
+              final localizations = context.loc;
+              Navigator.of(context).pop();
 
-                final saveImageResult = await saveImage(
-                  imageUrl: imageSource,
-                );
-                final imageSavedSuccessfully = saveImageResult.error == null;
+              final result = await imageSaver.saveImage(
+                imageUrl: imageSource,
+                imageProvider: imageProvider,
+                prefersGallerySave: prefersGallerySave,
+              );
+              if (result == null) {
+                messenger.showSnackBar(SnackBar(
+                    content: Text(
+                  localizations.errorWhileSavingImage,
+                )));
+                return;
+              }
 
-                messenger.clearSnackBars();
+              if (kIsWeb) {
+                messenger.showSnackBar(SnackBar(
+                    content: Text(localizations.savedUsingTheNetwork)));
+                return;
+              }
 
-                if (!imageSavedSuccessfully) {
-                  messenger.showSnackBar(SnackBar(
-                      content: Text(
-                    localizations.errorWhileSavingImage,
-                  )));
+              if (result.isGallerySave) {
+                // TODO(save-image): Improve all messages in here
+                messenger.showSnackBar(SnackBar(
+                  content: Text(localizations.saved),
+                  action: SnackBarAction(
+                    label: localizations.open,
+                    onPressed: () =>
+                        QuillNativeProvider.instance.openGalleryApp(),
+                  ),
+                ));
+                return;
+              }
+
+              if (isDesktopApp) {
+                final imageFilePath = result.imageFilePath;
+                if (imageFilePath == null) {
+                  // User canceled the system save dialog.
                   return;
-                }
-
-                var message = switch (saveImageResult.method) {
-                  SaveImageResultMethod.network =>
-                    localizations.savedUsingTheNetwork,
-                  SaveImageResultMethod.localStorage =>
-                    localizations.savedUsingLocalStorage,
-                };
-
-                if (isDesktopApp) {
-                  message = localizations.theImageHasBeenSavedAt(imageSource);
                 }
 
                 messenger.showSnackBar(
                   SnackBar(
-                    content: Text(message),
+                    content: Text(
+                        localizations.theImageHasBeenSavedAt(imageFilePath)),
+                    action: SnackBarAction(
+                      label: localizations.open,
+                      onPressed: () => launchUrl(Uri.file(imageFilePath)),
+                    ),
                   ),
                 );
-              },
-            ),
+
+                return;
+              }
+
+              throw StateError(
+                  'Image save result is not handled on $defaultTargetPlatform');
+            },
+          ),
           ListTile(
             leading: const Icon(Icons.zoom_in),
             title: Text(context.loc.zoom),
@@ -184,24 +222,5 @@ class ImageOptionsMenu extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // TODO: This will load the image again, in case it was network image
-  //  then it will send a GET request each time to load the image.
-  Future<Uint8List?> _loadImageBytesFromImageProvider() async {
-    final stream = imageProvider.resolve(ImageConfiguration.empty);
-    final completer = Completer<ui.Image>();
-
-    ImageStreamListener? listener;
-    listener = ImageStreamListener((info, _) {
-      completer.complete(info.image);
-      stream.removeListener(listener!);
-    });
-
-    stream.addListener(listener);
-
-    final image = await completer.future;
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData?.buffer.asUint8List();
   }
 }

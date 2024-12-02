@@ -33,7 +33,6 @@ dependencies:
 
   # Dart Packages
   http: ^1.0.0
-  path: ^1.8.0
   meta: ^1.7.0
   universal_html: ^2.2.4
   cross_file: ^0.3.3+4
@@ -44,14 +43,13 @@ dependencies:
   # Plugins
   video_player: ^2.8.0
   url_launcher: ^6.2.1
-  gal: ^2.3.0
-  gal_linux: ^0.1.0
   image_picker: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true

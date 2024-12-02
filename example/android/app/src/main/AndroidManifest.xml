@@ -2,6 +2,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- To save images on Android 9 (API 28) and earlier -->
+    <!-- See: https://pub.dev/packages/quill_native_bridge#-saving-images-to-the-gallery -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
     <application
         android:label="flutter_quill_example"
         android:name="${applicationName}"

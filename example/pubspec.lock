@@ -250,22 +250,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  gal:
-    dependency: transitive
-    description:
-      name: gal
-      sha256: "54c9b72528efce7c66234f3b6dd01cb0304fd8af8196de15571d7bdddb940977"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  gal_linux:
-    dependency: transitive
-    description:
-      name: gal_linux
-      sha256: "0040d61843134cc5a93e4597080a86f2ba073217957e28b2a684b4d8b050873c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   html:
     dependency: transitive
     description:

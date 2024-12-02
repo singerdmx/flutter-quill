@@ -1,0 +1,235 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_extensions/src/common/utils/element_utils/element_utils.dart';
+import 'package:flutter_quill_extensions/src/editor/image/config/image_config.dart';
+import 'package:flutter_quill_extensions/src/editor/image/image_menu.dart';
+import 'package:flutter_quill_extensions/src/editor/image/image_save_utils.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
+import '../../../quill_test_app.dart';
+
+void main() {
+  group('$ImageOptionsMenu', () {
+    group('save image', () {
+      late MockImageSaver mockImageSaver;
+      final QuillController controller = FakeQuillController();
+
+      setUp(() {
+        mockImageSaver = MockImageSaver();
+        imageSaver = mockImageSaver;
+      });
+
+      setUpAll(() {
+        registerFallbackValue(FakeImageProvider());
+      });
+
+      Future<void> pumpTargetWidget(
+        WidgetTester tester, {
+        String imageSource = 'http://flutter-quill.org/image.png',
+        ImageProvider? imageProvider,
+        bool prefersGallerySave = false,
+      }) async {
+        await tester.pumpWidget(QuillTestApp.withScaffold(ImageOptionsMenu(
+          controller: controller,
+          config: const QuillEditorImageEmbedConfig(),
+          imageProvider: imageProvider ?? FakeImageProvider(),
+          imageSource: imageSource,
+          readOnly: true,
+          imageSize: const ElementSize(200, 300),
+          prefersGallerySave: prefersGallerySave,
+        )));
+      }
+
+      Finder findTargetWidget() {
+        final saveButtonFinder = find.widgetWithIcon(ListTile, Icons.save);
+        expect(saveButtonFinder, findsOneWidget);
+        return saveButtonFinder;
+      }
+
+      void mockSaveImageResult(SaveImageResult? result) => when(
+            () => mockImageSaver.saveImage(
+              imageUrl: any(named: 'imageUrl'),
+              imageProvider: any(named: 'imageProvider'),
+              prefersGallerySave: any(named: 'prefersGallerySave'),
+            ),
+          ).thenAnswer((_) async => result);
+
+      Future<void> tapTargetWidget(WidgetTester tester) async {
+        await tester.tap(findTargetWidget());
+        await tester.pump();
+      }
+
+      testWidgets('calls saveImage from $ImageSaver', (tester) async {
+        mockSaveImageResult(null);
+
+        await pumpTargetWidget(tester);
+
+        await tapTargetWidget(tester);
+
+        verify(
+          () => mockImageSaver.saveImage(
+            imageUrl: any(named: 'imageUrl'),
+            imageProvider: any(named: 'imageProvider'),
+            prefersGallerySave: any(named: 'prefersGallerySave'),
+          ),
+        );
+      });
+
+      testWidgets('shows error message when saving fails', (tester) async {
+        mockSaveImageResult(null);
+
+        await pumpTargetWidget(tester);
+
+        final saveButtonFinder = findTargetWidget();
+
+        await tester.tap(saveButtonFinder);
+        await tester.pump();
+
+        final localizations = tester.localizationsFromElement(ImageOptionsMenu);
+
+        expect(
+          find.text(localizations.errorWhileSavingImage),
+          findsOneWidget,
+        );
+
+        verify(
+          () => mockImageSaver.saveImage(
+            imageUrl: any(named: 'imageUrl'),
+            imageProvider: any(named: 'imageProvider'),
+            prefersGallerySave: any(named: 'prefersGallerySave'),
+          ),
+        );
+      });
+
+      testWidgets('shows saved and open gallery on gallery save',
+          (tester) async {
+        mockSaveImageResult(const SaveImageResult(
+            imageFilePath: 'path/to/file', isGallerySave: true));
+
+        await pumpTargetWidget(tester);
+
+        await tapTargetWidget(tester);
+
+        final localizations = tester.localizationsFromElement(ImageOptionsMenu);
+
+        expect(
+          find.text(localizations.saved),
+          findsOneWidget,
+        );
+
+        expect(
+          find.text(localizations.open),
+          findsOneWidget,
+        );
+      });
+
+      for (final desktopPlatform in TargetPlatformVariant.desktop().values) {
+        testWidgets(
+            'shows saved file path and open desktop path on ${desktopPlatform.name}',
+            (tester) async {
+          debugDefaultTargetPlatformOverride = desktopPlatform;
+
+          const savedImagePath = 'path/to/file';
+          mockSaveImageResult(const SaveImageResult(
+              imageFilePath: savedImagePath, isGallerySave: false));
+
+          await pumpTargetWidget(tester);
+          await tapTargetWidget(tester);
+
+          final localizations =
+              tester.localizationsFromElement(ImageOptionsMenu);
+
+          expect(
+            find.text(localizations.theImageHasBeenSavedAt(savedImagePath)),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text(localizations.open),
+            findsOneWidget,
+          );
+
+          debugDefaultTargetPlatformOverride = null;
+        });
+      }
+
+      for (final prefersGallerySave in {true, false}) {
+        testWidgets(
+            'passes the arguments correctly to saveImage from $ImageSaver when prefersGallerySave is $prefersGallerySave',
+            (tester) async {
+          mockSaveImageResult(
+            const SaveImageResult(imageFilePath: null, isGallerySave: true),
+          );
+
+          const imageUrl = 'http://flutter-quill.org/image.webp';
+          final imageProvider = AnotherFakeImageProvider();
+
+          await pumpTargetWidget(
+            tester,
+            imageSource: imageUrl,
+            prefersGallerySave: prefersGallerySave,
+            imageProvider: imageProvider,
+          );
+
+          await tapTargetWidget(tester);
+
+          verify(
+            () => mockImageSaver.saveImage(
+                imageUrl: imageUrl,
+                imageProvider: imageProvider,
+                prefersGallerySave: prefersGallerySave),
+          ).called(1);
+        });
+      }
+
+      testWidgets('throws $StateError when save result is not handled',
+          (tester) async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+
+        mockSaveImageResult(
+            const SaveImageResult(imageFilePath: null, isGallerySave: false));
+
+        Object? capturedException;
+
+        await runZonedGuarded(() async {
+          await pumpTargetWidget(tester);
+
+          await tapTargetWidget(tester);
+        }, (error, stackTrace) {
+          capturedException = error;
+        });
+
+        expect(
+            capturedException,
+            isA<StateError>().having(
+              (e) => e.message,
+              'message',
+              equals(
+                  'Image save result is not handled on $defaultTargetPlatform'),
+            ));
+
+        debugDefaultTargetPlatformOverride = null;
+      });
+    });
+  });
+}
+
+class MockImageSaver extends Mock implements ImageSaver {}
+
+class FakeQuillController extends Fake implements QuillController {}
+
+class FakeImageProvider extends ImageProvider {
+  @override
+  Future<Object> obtainKey(ImageConfiguration configuration) async =>
+      UnimplementedError('Fake implementation of $ImageProvider');
+}
+
+class AnotherFakeImageProvider extends ImageProvider {
+  @override
+  Future<Object> obtainKey(ImageConfiguration configuration) async =>
+      UnimplementedError('Another fake implementation of $ImageProvider');
+}
