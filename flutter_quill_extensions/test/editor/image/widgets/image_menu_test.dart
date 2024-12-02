@@ -58,6 +58,14 @@ void main() {
             ),
           ).thenAnswer((_) async => result);
 
+      void mockSaveImageThrows(Exception exception) => when(
+            () => mockImageSaver.saveImage(
+              imageUrl: any(named: 'imageUrl'),
+              imageProvider: any(named: 'imageProvider'),
+              prefersGallerySave: any(named: 'prefersGallerySave'),
+            ),
+          ).thenThrow(exception);
+
       Future<void> tapTargetWidget(WidgetTester tester) async {
         await tester.tap(findTargetWidget());
         await tester.pump();
@@ -99,6 +107,46 @@ void main() {
           },
         );
       }
+
+      testWidgets(
+          'shows permission denied message only when permission is denied',
+          (tester) async {
+        mockSaveImageThrows(GalleryImageSaveAccessDeniedException());
+
+        await pumpTargetWidget(tester);
+        await tapTargetWidget(tester);
+
+        final localizations = tester.localizationsFromElement(ImageOptionsMenu);
+
+        expect(
+          find.text(localizations.saveImagePermissionDenied),
+          findsOneWidget,
+        );
+        expect(
+          find.text(localizations.errorUnexpectedSavingImage),
+          findsNothing,
+        );
+        expect(
+          find.text(localizations.successImageDownloaded),
+          findsNothing,
+        );
+        expect(
+          find.text(localizations.successImageSavedGallery),
+          findsNothing,
+        );
+        expect(
+          find.text(localizations.successImageSaved),
+          findsNothing,
+        );
+        expect(
+          find.text(localizations.openFileLocation),
+          findsNothing,
+        );
+        expect(
+          find.text(localizations.openGallery),
+          findsNothing,
+        );
+      });
 
       testWidgets('shows error message when saving fails', (tester) async {
         mockSaveImageResult(null);

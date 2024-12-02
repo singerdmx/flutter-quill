@@ -804,6 +804,12 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Open File Location'**
   String get openFileLocation;
+
+  /// Message shown when the app is unable to save an image because a required permission was denied or skipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t save the image due to missing permission.'**
+  String get saveImagePermissionDenied;
 }
 
 class _FlutterQuillLocalizationsDelegate

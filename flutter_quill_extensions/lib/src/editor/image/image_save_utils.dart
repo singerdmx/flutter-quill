@@ -107,6 +107,18 @@ Future<bool> shouldSaveToGallery({required bool prefersGallerySave}) async {
   return supportsGallerySave && prefersGallerySave;
 }
 
+/// Thrown when the gallery image save operation is denied
+/// due to insufficient or denied permissions.
+class GalleryImageSaveAccessDeniedException implements Exception {
+  GalleryImageSaveAccessDeniedException([this.message]);
+
+  final String? message;
+
+  @override
+  String toString() =>
+      message ?? 'Permission to save the image was denied or insufficient.';
+}
+
 ImageSaver _imageSaver = ImageSaver();
 
 ImageSaver get imageSaver => _imageSaver;
@@ -115,7 +127,8 @@ ImageSaver get imageSaver => _imageSaver;
 set imageSaver(ImageSaver value) => _imageSaver = value;
 
 class ImageSaver {
-// Returns `null` on failure.
+  // Returns `null` on failure.
+  // Throws [GalleryImageSaveAccessDeniedException] in case permission was denied or insuffeicnet.
   Future<SaveImageResult?> saveImage({
     required String imageUrl,
     required ImageProvider imageProvider,
@@ -192,7 +205,7 @@ class ImageSaver {
             rethrow;
           }
 
-          return null;
+          throw GalleryImageSaveAccessDeniedException(e.toString());
         }
         rethrow;
       }

@@ -325,6 +325,10 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
 
   @override
   String get openFileLocation => 'Open File Location';
+
+  @override
+  String get saveImagePermissionDenied =>
+      'Couldn’t save the image due to missing permission.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

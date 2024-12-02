@@ -149,11 +149,21 @@ class ImageOptionsMenu extends StatelessWidget {
               final localizations = context.loc;
               Navigator.of(context).pop();
 
-              final result = await imageSaver.saveImage(
-                imageUrl: imageSource,
-                imageProvider: imageProvider,
-                prefersGallerySave: prefersGallerySave,
-              );
+              SaveImageResult? result;
+              try {
+                result = await imageSaver.saveImage(
+                  imageUrl: imageSource,
+                  imageProvider: imageProvider,
+                  prefersGallerySave: prefersGallerySave,
+                );
+              } on GalleryImageSaveAccessDeniedException {
+                messenger.showSnackBar(SnackBar(
+                    content: Text(
+                  localizations.saveImagePermissionDenied,
+                )));
+                return;
+              }
+
               if (result == null) {
                 messenger.showSnackBar(SnackBar(
                     content: Text(

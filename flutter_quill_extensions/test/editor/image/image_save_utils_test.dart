@@ -529,21 +529,28 @@ void main() {
       },
     );
 
-    test('returns null in case permission is denied', () async {
+    test(
+        'throws $GalleryImageSaveAccessDeniedException in case permission is denied',
+        () async {
       await mockShouldSaveToGallery(true);
 
       mockLoadImageBytesValue(Uint8List.fromList([1, 2, 2]));
 
+      final platformException = PlatformException(code: 'PERMISSION_DENIED');
       when(() => mockQuillNativeBridge.saveImageToGallery(any(),
-              options: any(named: 'options')))
-          .thenThrow(PlatformException(code: 'PERMISSION_DENIED'));
+          options: any(named: 'options'))).thenThrow(platformException);
 
-      final result = await imageSaver.saveImage(
-        imageProvider: FakeImageProvider(),
-        imageUrl: '/foo/bar',
-        prefersGallerySave: false,
+      await expectLater(
+        imageSaver.saveImage(
+          imageProvider: FakeImageProvider(),
+          imageUrl: '/foo/bar',
+          prefersGallerySave: false,
+        ),
+        throwsA(
+          isA<GalleryImageSaveAccessDeniedException>().having(
+              (e) => e.message, 'message', platformException.toString()),
+        ),
       );
-      expect(result, isNull);
     });
 
     test(

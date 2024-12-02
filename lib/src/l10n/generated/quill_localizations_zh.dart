@@ -322,6 +322,10 @@ class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
 
   @override
   String get openFileLocation => 'Open File Location';
+
+  @override
+  String get saveImagePermissionDenied =>
+      'Couldn’t save the image due to missing permission.';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).

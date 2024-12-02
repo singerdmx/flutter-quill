@@ -6,7 +6,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "bg": [
@@ -16,7 +17,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "bn": [
@@ -26,7 +28,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ca": [
@@ -36,7 +39,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "cs": [
@@ -46,7 +50,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "da": [
@@ -56,7 +61,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "de": [
@@ -66,7 +72,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "el": [
@@ -76,7 +83,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "en_US": [
@@ -86,7 +94,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "es": [
@@ -96,7 +105,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "fa": [
@@ -106,7 +116,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "fr": [
@@ -116,7 +127,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "he": [
@@ -126,7 +138,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "hi": [
@@ -136,7 +149,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "hu": [
@@ -146,7 +160,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "id": [
@@ -156,7 +171,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "it": [
@@ -166,7 +182,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ja": [
@@ -176,7 +193,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "km": [
@@ -185,7 +203,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ko": [
@@ -195,7 +214,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ku": [
@@ -205,7 +225,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ku_CKB": [
@@ -215,7 +236,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ms": [
@@ -225,7 +247,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ne": [
@@ -235,7 +258,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "nl": [
@@ -245,7 +269,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "no": [
@@ -255,7 +280,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "pl": [
@@ -265,7 +291,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "pt": [
@@ -275,7 +302,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "pt_BR": [
@@ -285,7 +313,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ro": [
@@ -295,7 +324,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ro_RO": [
@@ -305,7 +335,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ru": [
@@ -315,7 +346,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "sk": [
@@ -325,7 +357,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "sr": [
@@ -335,7 +368,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "sv": [
@@ -345,7 +379,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "sw": [
@@ -355,7 +390,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "th": [
@@ -365,7 +401,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "tk": [
@@ -375,7 +412,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "tr": [
@@ -385,7 +423,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "uk": [
@@ -395,7 +434,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "ur": [
@@ -405,7 +445,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "vi": [
@@ -415,7 +456,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "zh": [
@@ -425,7 +467,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "zh_CN": [
@@ -435,7 +478,8 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ],
 
   "zh_HK": [
@@ -445,6 +489,7 @@
     "successImageSaved",
     "successImageDownloaded",
     "openGallery",
-    "openFileLocation"
+    "openFileLocation",
+    "saveImagePermissionDenied"
   ]
 }
