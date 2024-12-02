@@ -81,7 +81,7 @@ void main() {
 
       if (kIsWeb) {
         testWidgets(
-          'shows a success message when the image downloaded on the web',
+          'shows a success message when the image is downloaded on the web.',
           (tester) async {
             mockSaveImageResult(const SaveImageResult(
                 imageFilePath: null, isGallerySave: false));
