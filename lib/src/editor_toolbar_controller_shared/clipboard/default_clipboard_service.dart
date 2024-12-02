@@ -2,7 +2,6 @@ import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart' show experimental;
-import 'package:quill_native_bridge/quill_native_bridge.dart';
 
 import '../../common/utils/quill_native_provider.dart';
 import 'clipboard_service.dart';
