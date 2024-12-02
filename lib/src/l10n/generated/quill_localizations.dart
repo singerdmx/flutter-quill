@@ -775,7 +775,7 @@ abstract class FlutterQuillLocalizations {
   /// **'An unexpected error occurred while saving the image. Please try again.'**
   String get errorUnexpectedSavingImage;
 
-  /// Message shown on mobile when an image is successfully saved to the gallery.
+  /// Message shown when an image is successfully saved to the system gallery.
   ///
   /// In en, this message translates to:
   /// **'Image saved to your gallery.'**
@@ -793,7 +793,7 @@ abstract class FlutterQuillLocalizations {
   /// **'Image downloaded successfully.'**
   String get successImageDownloaded;
 
-  /// Label for the button that opens the system gallery app.
+  /// Label for the button that opens the system gallery.
   ///
   /// In en, this message translates to:
   /// **'Open Gallery'**

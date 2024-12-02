@@ -116,7 +116,7 @@
   },
   "successImageSavedGallery": "Image saved to your gallery.",
   "@successImageSavedGallery": {
-    "description": "Message shown on mobile when an image is successfully saved to the gallery."
+    "description": "Message shown when an image is successfully saved to the system gallery."
   },
   "successImageSaved": "Image saved successfully.",
   "@successImageSaved": {
@@ -128,7 +128,7 @@
   },
   "openGallery": "Open Gallery",
   "@openGallery": {
-    "description": "Label for the button that opens the system gallery app."
+    "description": "Label for the button that opens the system gallery."
   },
   "openFileLocation": "Open File Location",
   "@openFileLocation": {
