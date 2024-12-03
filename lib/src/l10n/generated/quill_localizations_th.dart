@@ -327,6 +327,9 @@ class FlutterQuillLocalizationsTh extends FlutterQuillLocalizations {
   String get openFileLocation => 'Open File Location';
 
   @override
+  String get openFile => 'Open File';
+
+  @override
   String get saveImagePermissionDenied =>
-      'Couldn’t save the image due to missing permission.';
+      'Couldn’t save the image due to missing permission';
 }

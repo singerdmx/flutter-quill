@@ -330,8 +330,11 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
   String get openFileLocation => 'Open File Location';
 
   @override
+  String get openFile => 'Open File';
+
+  @override
   String get saveImagePermissionDenied =>
-      'Couldn’t save the image due to missing permission.';
+      'Couldn’t save the image due to missing permission';
 }
 
 /// The translations for Romanian Moldavian Moldovan, as used in Romania (`ro_RO`).

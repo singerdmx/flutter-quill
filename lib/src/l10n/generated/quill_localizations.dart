@@ -769,46 +769,52 @@ abstract class FlutterQuillLocalizations {
   /// **'Insert video'**
   String get insertVideo;
 
-  /// A generic error message shown when an image cannot be saved due to an unknown issue.
+  /// A generic error message shown when an image cannot be saved due to an unknown issue
   ///
   /// In en, this message translates to:
   /// **'An unexpected error occurred while saving the image. Please try again.'**
   String get errorUnexpectedSavingImage;
 
-  /// Message shown when an image is successfully saved to the system gallery.
+  /// Message shown when an image is successfully saved to the system gallery
   ///
   /// In en, this message translates to:
   /// **'Image saved to your gallery.'**
   String get successImageSavedGallery;
 
-  /// Message shown on desktop when an image is successfully saved. The user is prompted to open the file location.
+  /// Message shown on desktop when an image is successfully saved. The user is prompted to open the file location
   ///
   /// In en, this message translates to:
   /// **'Image saved successfully.'**
   String get successImageSaved;
 
-  /// Message shown on web when an image is successfully downloaded.
+  /// Message shown on web when an image is successfully downloaded
   ///
   /// In en, this message translates to:
   /// **'Image downloaded successfully.'**
   String get successImageDownloaded;
 
-  /// Label for the button that opens the system gallery.
+  /// Label for the button that opens the system gallery
   ///
   /// In en, this message translates to:
   /// **'Open Gallery'**
   String get openGallery;
 
-  /// Label for the button that opens the file explorer to the file's location.
+  /// Label for the button that opens the file explorer to the file's location
   ///
   /// In en, this message translates to:
   /// **'Open File Location'**
   String get openFileLocation;
 
-  /// Message shown when the app is unable to save an image because a required permission was denied or skipped.
+  /// Label for the button that opens the file
   ///
   /// In en, this message translates to:
-  /// **'Couldn’t save the image due to missing permission.'**
+  /// **'Open File'**
+  String get openFile;
+
+  /// Message shown when the app is unable to save an image because a required permission was denied or skipped
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t save the image due to missing permission'**
   String get saveImagePermissionDenied;
 }
 
