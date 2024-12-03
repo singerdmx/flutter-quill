@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Rewrite the image save functionality with support for all platforms [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
 
+### Removed
+
+- The following packages are no longer dependencies of `flutter_quill_extensions`:
+  * [path](https://pub.dev/packages/path)
+  * [http](https://pub.dev/packages/http)
+  * [cross_file](https://pub.dev/packages/cross_file)
+
 ## [11.0.0-dev.4] - 2024-11-24
 
 > [!IMPORTANT]
