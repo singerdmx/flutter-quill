@@ -11,6 +11,7 @@ library;
 import 'package:meta/meta.dart' show experimental;
 
 export 'src/common/utils/platform.dart';
+export 'src/common/utils/quill_native_provider.dart';
 export 'src/common/utils/string.dart';
 export 'src/common/utils/widgets.dart';
 export 'src/document/nodes/leaf.dart';

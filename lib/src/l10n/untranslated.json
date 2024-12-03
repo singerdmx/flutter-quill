@@ -1,177 +1,540 @@
 {
   "ar": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "bg": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "bn": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ca": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "cs": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "da": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "de": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "el": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "en_US": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "es": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "fa": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "fr": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "he": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "hi": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "hu": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "id": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "it": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ja": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
+  ],
+
+  "km": [
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ko": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ku": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ku_CKB": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ms": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ne": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "nl": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "no": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "pl": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "pt": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "pt_BR": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ro": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ro_RO": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ru": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "sk": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "sr": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "sv": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "sw": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "th": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "tk": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "tr": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "uk": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "ur": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "vi": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "zh": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "zh_CN": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ],
 
   "zh_HK": [
-    "insertVideo"
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ]
 }
