@@ -14,6 +14,22 @@ import '../../../quill_test_app.dart';
 
 void main() {
   group('$ImageOptionsMenu', () {
+    test('prefersGallerySave defaults to true', () {
+      final widget = ImageOptionsMenu(
+        controller: FakeQuillController(),
+        config: const QuillEditorImageEmbedConfig(),
+        imageProvider: FakeImageProvider(),
+        imageSource: 'imageSource',
+        readOnly: true,
+        imageSize: const ElementSize(200, 300),
+      );
+      expect(
+        widget.prefersGallerySave,
+        isTrue,
+        reason:
+            'The default of prefersGallerySave should be true for backward compatibility',
+      );
+    });
     group('save image', () {
       late MockImageSaver mockImageSaver;
       final QuillController controller = FakeQuillController();

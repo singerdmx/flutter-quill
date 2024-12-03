@@ -23,7 +23,7 @@ class ImageOptionsMenu extends StatelessWidget {
     required this.imageSize,
     required this.readOnly,
     required this.imageProvider,
-    this.prefersGallerySave = false,
+    this.prefersGallerySave = true,
     super.key,
   });
 
