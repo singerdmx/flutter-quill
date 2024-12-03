@@ -9,8 +9,9 @@ class ImageLoader {
 
   static ImageLoader get instance => _instance;
 
+  /// Allows overriding the instance for testing
   @visibleForTesting
-  static set instance(ImageLoader value) => _instance = value;
+  static set instance(ImageLoader newInstance) => _instance = newInstance;
 
   // TODO(performance): This will load the image again. In case
 //  this is a network image, then this will be inefficient.

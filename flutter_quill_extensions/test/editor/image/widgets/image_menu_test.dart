@@ -20,7 +20,7 @@ void main() {
 
       setUp(() {
         mockImageSaver = MockImageSaver();
-        imageSaver = mockImageSaver;
+        ImageSaver.instance = mockImageSaver;
       });
 
       setUpAll(() {

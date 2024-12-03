@@ -1,7 +1,11 @@
+@internal
+library;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/internal.dart';
+import 'package:meta/meta.dart';
 
 import '../../common/utils/file_path_utils.dart';
 import 'image_load_utils.dart';
@@ -120,14 +124,17 @@ class GalleryImageSaveAccessDeniedException implements Exception {
       'Permission to save the image to the gallery was denied or insufficient.';
 }
 
-ImageSaver _imageSaver = ImageSaver();
-
-ImageSaver get imageSaver => _imageSaver;
-
-@visibleForTesting
-set imageSaver(ImageSaver value) => _imageSaver = value;
-
 class ImageSaver {
+  ImageSaver._();
+
+  static ImageSaver _instance = ImageSaver._();
+
+  static ImageSaver get instance => _instance;
+
+  /// Allows overriding the instance for testing
+  @visibleForTesting
+  static set instance(ImageSaver newInstance) => _instance = newInstance;
+
   // Returns `null` on failure.
   // Throws [GalleryImageSaveAccessDeniedException] in case permission was denied or insuffeicnet.
   Future<SaveImageResult?> saveImage({
@@ -194,7 +201,7 @@ class ImageSaver {
         if (e.code == 'PERMISSION_DENIED') {
           // macOS imposes security restrictions when running the app
           // on sources other than Xcode or the macOS terminal, such as Android Studio or VS Code.
-          // This is not an issue in production. Returning null will indicate
+          // This is not an issue in production. Throwing [GalleryImageSaveAccessDeniedException] will indicate
           // that the user denied the permission, even though it will always deny the permission even if granted.
           // Make sure we don't handle that error (it has details) during development to avoid confusion.
           // For more details, see https://github.com/flutter/flutter/issues/134191#issuecomment-2506248266

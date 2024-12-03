@@ -335,10 +335,23 @@ void main() {
     });
   });
 
+  group('$ImageSaver', () {
+    test('default instance is $ImageSaver', () {
+      expect(ImageSaver.instance, isA<ImageSaver>());
+    });
+
+    test('set the instance correctly', () {
+      expect(ImageSaver.instance, isNot(isA<FakeImageSaver>()));
+
+      ImageSaver.instance = FakeImageSaver();
+      expect(ImageSaver.instance, isA<FakeImageSaver>());
+    });
+  });
+
   group('saveImage', () {
     late MockQuillNativeBridge mockQuillNativeBridge;
     late MockImageLoader mockImageLoader;
-    late ImageSaver imageSaver;
+    final imageSaver = ImageSaver.instance;
 
     void mockGallerySaveSupported(bool isSupported) =>
         when(() => mockQuillNativeBridge
@@ -377,8 +390,6 @@ void main() {
 
       mockImageLoader = MockImageLoader();
       ImageLoader.instance = mockImageLoader;
-
-      imageSaver = ImageSaver();
 
       mockGallerySaveSupported(false);
       mockImageSaveSupported(false);
@@ -810,4 +821,13 @@ class FakeImageProvider extends ImageProvider {
   @override
   Future<Object> obtainKey(ImageConfiguration configuration) async =>
       UnimplementedError('Fake implementation of $ImageProvider');
+}
+
+class FakeImageSaver implements ImageSaver {
+  @override
+  Future<SaveImageResult?> saveImage(
+          {required String imageUrl,
+          required ImageProvider<Object> imageProvider,
+          required bool prefersGallerySave}) =>
+      throw UnimplementedError('Fake implementation of $FakeImageSaver');
 }

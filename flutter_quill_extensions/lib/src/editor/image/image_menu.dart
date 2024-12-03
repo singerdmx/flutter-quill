@@ -151,7 +151,7 @@ class ImageOptionsMenu extends StatelessWidget {
 
               SaveImageResult? result;
               try {
-                result = await imageSaver.saveImage(
+                result = await ImageSaver.instance.saveImage(
                   imageUrl: imageSource,
                   imageProvider: imageProvider,
                   prefersGallerySave: prefersGallerySave,

@@ -11,9 +11,9 @@ abstract final class QuillNativeProvider {
 
   static QuillNativeBridge get instance => _instance;
 
-  /// Creates a static instance of [DefaultQuillNativeBridge], allowing it to be overridden in tests.
+  /// Allows overriding the instance for testing.
   /// Pass `null` to restore the default instance.
   @visibleForTesting
-  static set instance(QuillNativeBridge? value) =>
-      _instance = value ?? DefaultQuillNativeBridge();
+  static set instance(QuillNativeBridge? newInstance) =>
+      _instance = newInstance ?? DefaultQuillNativeBridge();
 }
