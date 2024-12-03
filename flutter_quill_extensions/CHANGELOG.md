@@ -17,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - The following packages are no longer dependencies of `flutter_quill_extensions`:
-  * [path](https://pub.dev/packages/path)
   * [http](https://pub.dev/packages/http)
   * [cross_file](https://pub.dev/packages/cross_file)
 

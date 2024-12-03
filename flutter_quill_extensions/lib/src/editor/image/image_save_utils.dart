@@ -6,39 +6,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/internal.dart';
 import 'package:meta/meta.dart';
+import 'package:path/path.dart' as p;
 
-import '../../common/utils/file_path_utils.dart';
 import 'image_load_utils.dart';
 
 const defaultImageFileExtension = 'png';
 
-String extractImageFileExtensionFromFileName(String? imageFileName) {
-  if (imageFileName == null || imageFileName.isEmpty) {
+// The [imageSourcePath] could be file, asset path or HTTP image URL.
+String extractImageFileExtensionFromImageSource(String? imageSourcePath) {
+  if (imageSourcePath == null || imageSourcePath.isEmpty) {
     return defaultImageFileExtension;
   }
 
-  if (!imageFileName.contains('.')) {
+  if (!imageSourcePath.contains('.')) {
     return defaultImageFileExtension;
   }
 
-  return imageFileName.split('.').lastOrNull ?? defaultImageFileExtension;
+  return p.extension(imageSourcePath).replaceFirst('.', '');
 }
 
-String? extractImageNameFromFileName(
-  String? imageFileName, {
-  required String imageFileExtension,
-}) {
-  if (imageFileName == null || imageFileName.isEmpty) {
+// The [imageSourcePath] could be file, asset path or HTTP image URL.
+String? extractImageNameFromImageSource(String? imageSourcePath) {
+  if (imageSourcePath == null || imageSourcePath.isEmpty) {
     return null;
   }
-  if (imageFileExtension.isEmpty) {
-    throw ArgumentError.value(
-      imageFileExtension,
-      'imageFileExtension',
-      'cannot be empty',
-    );
+  final uri = Uri.parse(imageSourcePath);
+  final pathWithoutQuery = uri.path;
+
+  final imageName = p.basenameWithoutExtension(pathWithoutQuery);
+  if (imageName.isEmpty) {
+    return null;
   }
-  return imageFileName.replaceFirst('.$imageFileExtension', '');
+  return imageName;
 }
 
 class SaveImageResult {
@@ -149,13 +148,9 @@ class ImageSaver {
       return true;
     }());
 
-    final imageFileName = extractFileNameFromUrl(imageUrl);
     final imageFileExtension =
-        extractImageFileExtensionFromFileName(imageFileName);
-    final imageName = extractImageNameFromFileName(
-      imageFileName,
-      imageFileExtension: imageFileExtension,
-    );
+        extractImageFileExtensionFromImageSource(imageUrl);
+    final imageName = extractImageNameFromImageSource(imageUrl);
 
     final imageBytes = await ImageLoader.instance
         .loadImageBytesFromImageProvider(imageProvider: imageProvider);

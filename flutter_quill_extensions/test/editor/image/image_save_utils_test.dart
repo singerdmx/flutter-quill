@@ -2,78 +2,202 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/internal.dart';
-import 'package:flutter_quill_extensions/src/common/utils/file_path_utils.dart';
 import 'package:flutter_quill_extensions/src/editor/image/image_load_utils.dart';
 import 'package:flutter_quill_extensions/src/editor/image/image_save_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-const testImageExtensions = {'png', 'jpeg', 'jpg', 'gif'};
+const testImageExtensions = {'png', 'jpeg', 'jpg', 'gif', 'webp'};
 
 void main() {
-  group('extractImageFileExtensionFromFileName', () {
+  group('extractImageFileExtensionFromImageSource', () {
     test('defaults to using png', () {
       expect(defaultImageFileExtension, equals('png'));
     });
 
     test('returns $defaultImageFileExtension when file name is null or empty',
         () {
-      expect(extractImageFileExtensionFromFileName(null),
+      expect(extractImageFileExtensionFromImageSource(null),
           equals(defaultImageFileExtension));
-      expect(extractImageFileExtensionFromFileName(''),
+      expect(extractImageFileExtensionFromImageSource(''),
           equals(defaultImageFileExtension));
     });
 
     test('returns $defaultImageFileExtension when file name does not have dot',
         () {
-      expect(extractImageFileExtensionFromFileName('imagepng'),
+      expect(extractImageFileExtensionFromImageSource('imagepng'),
           equals(defaultImageFileExtension));
-      expect(extractImageFileExtensionFromFileName('image png'),
+      expect(extractImageFileExtensionFromImageSource('image png'),
           equals(defaultImageFileExtension));
-      expect(extractImageFileExtensionFromFileName('image'),
+      expect(extractImageFileExtensionFromImageSource('image'),
           equals(defaultImageFileExtension));
-      expect(extractImageFileExtensionFromFileName('png'),
+      expect(extractImageFileExtensionFromImageSource('png'),
           equals(defaultImageFileExtension));
     });
 
     test('returns the file extension correctly', () {
       for (final fileExtension in testImageExtensions) {
-        expect(extractImageFileExtensionFromFileName('image.$fileExtension'),
+        expect(extractImageFileExtensionFromImageSource('image.$fileExtension'),
             equals(fileExtension));
       }
     });
   });
-  group('extractImageFileNameFromFileName', () {
+  group('extractImageNameFromImageSource', () {
     test(
         'returns the file name without the extension when a valid name is given',
         () {
-      expect(
-          extractImageNameFromFileName('image.jpg', imageFileExtension: 'jpg'),
-          'image');
+      expect(extractImageNameFromImageSource('image.jpg'), 'image');
     });
 
     test('returns null when the input is null or empty', () {
-      expect(extractImageNameFromFileName(null, imageFileExtension: 'jpg'),
-          isNull);
-      expect(
-          extractImageNameFromFileName('', imageFileExtension: 'jpg'), isNull);
+      expect(extractImageNameFromImageSource(null), isNull);
+      expect(extractImageNameFromImageSource(''), isNull);
     });
 
     test('returns the image name correctly', () {
       for (final fileExtension in testImageExtensions) {
         expect(
-            extractImageNameFromFileName('image.$fileExtension',
-                imageFileExtension: fileExtension),
-            'image');
+            extractImageNameFromImageSource('image.$fileExtension'), 'image');
       }
     });
 
-    test('throws $ArgumentError when image file extension input is empty', () {
-      expect(
-        () => extractImageNameFromFileName('image.png', imageFileExtension: ''),
-        throwsA(isA<ArgumentError>()
-            .having((e) => e.message, 'message', equals('cannot be empty'))),
-      );
+    group('HTTP URLs', () {
+      test('extracts image name from a HTTP URL correctly', () {
+        const imageName = 'image';
+        expect(
+          extractImageNameFromImageSource(
+              'https://example.com/path/to/file/$imageName.png'),
+          equals(imageName),
+        );
+      });
+
+      test('extracts image name from a URL with query parameters', () {
+        const imageName = 'quill_image';
+        expect(
+          extractImageNameFromImageSource(
+              'https://example.com/path/to/file/$imageName.png?version=1.2.3'),
+          equals(imageName),
+        );
+      });
+
+      test(
+          'extracts image name from a URL with query parameters and without extension',
+          () {
+        const imageName = 'quill_image';
+        expect(
+          extractImageNameFromImageSource(
+              'https://example.com/path/to/file/$imageName?version=1.2.3'),
+          equals(imageName),
+        );
+      });
+
+      test('extracts image name from a URL with query parameters', () {
+        const imageName = '2019-Metrology-Events.jpg';
+        expect(
+          extractImageNameFromImageSource(
+              'https://firebasestorage.googleapis.com/v0/b/eventat-4ba96.appspot.com/o/$imageName.jpg?alt=media&token=bfc47032-5173-4b3f-86bb-9659f46b362a'),
+          equals(imageName),
+        );
+      });
+
+      test('handles a HTTP URL with a trailing slash', () {
+        expect(
+          extractImageNameFromImageSource('https://example.com/path/to/file/'),
+          equals('file'),
+        );
+      });
+
+      test('handles a URL ending with a slash and no file name', () {
+        expect(
+          extractImageNameFromImageSource('https://example.com/path/to/'),
+          equals('to'),
+        );
+      });
+
+      test('handles a URL with multiple slashes in the path', () {
+        const imageName = 'ExampleImage';
+        expect(
+          extractImageNameFromImageSource(
+              'https://example.com/path/to/extra/level/$imageName.webp'),
+          equals(imageName),
+        );
+      });
+
+      test('returns null for URLs without any path components', () {
+        expect(
+          extractImageNameFromImageSource('https://example.com'),
+          isNull,
+        );
+      });
+
+      test('extracts image name from a URL with special characters', () {
+        const imageName = '2013-report-final_v2';
+        expect(
+          extractImageNameFromImageSource(
+              'https://example.com/files/$imageName'),
+          equals(imageName),
+        );
+      });
+    });
+
+    group('File paths', () {
+      test('extracts image name from a standard file path', () {
+        const imageName = 'ExampleImage';
+        expect(
+          extractImageNameFromImageSource('/path/to/file/$imageName.gif'),
+          equals(imageName),
+        );
+      });
+
+      test('returns null for a path that ends with a trailing slash', () {
+        const imageName = 'ExampleImage2';
+
+        expect(
+          extractImageNameFromImageSource('/path/to/file/$imageName.webp/'),
+          imageName,
+        );
+      });
+
+      test('returns null for an empty path', () {
+        expect(
+          extractImageNameFromImageSource(''),
+          isNull,
+        );
+      });
+
+      test('handles paths without a file name', () {
+        const imageName = 'emptyfolder';
+        expect(
+          extractImageNameFromImageSource('/path/to/$imageName/'),
+          equals(imageName),
+        );
+      });
+
+      test('extracts file name from a file path with special characters', () {
+        const imageName = '2015-report-final_v2';
+        expect(
+          extractImageNameFromImageSource('/path/to/file/$imageName.png'),
+          equals(imageName),
+        );
+      });
+
+      test(
+          'returns null for a path that is just a file name with no directories',
+          () {
+        const imageName = 'document';
+
+        expect(
+          extractImageNameFromImageSource('$imageName.png'),
+          equals(imageName),
+        );
+      });
+      test('handles paths that ends with a slash', () {
+        const imageName = 'Image';
+        expect(
+          extractImageNameFromImageSource('/path/to/file/$imageName.png/'),
+          equals(imageName),
+        );
+      });
     });
   });
 
@@ -686,73 +810,74 @@ void main() {
     test(
       'passes the arugments correctly to saveImageToGallery from $QuillNativeBridge',
       () async {
-        await mockShouldSaveToGallery(true);
+        for (final imageUrl in {
+          'path/to/file.png',
+          'http://flutter-quill.org/file.png'
+        }) {
+          await mockShouldSaveToGallery(true);
 
-        final imageBytes = Uint8List.fromList([1, 0, 1]);
-        mockLoadImageBytesValue(imageBytes);
+          final imageBytes = Uint8List.fromList([1, 0, 1]);
+          mockLoadImageBytesValue(imageBytes);
 
-        const imageUrl = 'path/to/file.png';
-        await imageSaver.saveImage(
-          imageProvider: FakeImageProvider(),
-          imageUrl: imageUrl,
-          prefersGallerySave: false,
-        );
+          await imageSaver.saveImage(
+            imageProvider: FakeImageProvider(),
+            imageUrl: imageUrl,
+            prefersGallerySave: false,
+          );
 
-        final imageFileName = extractFileNameFromUrl(imageUrl);
-        final imageFileExtension =
-            extractImageFileExtensionFromFileName(imageFileName);
-        final imageName = extractImageNameFromFileName(
-          imageFileName,
-          imageFileExtension: imageFileExtension,
-        );
+          final imageFileExtension =
+              extractImageFileExtensionFromImageSource(imageUrl);
+          final imageName = extractImageNameFromImageSource(imageUrl);
 
-        verify(
-          () => mockQuillNativeBridge.saveImageToGallery(
-            imageBytes,
-            options: GalleryImageSaveOptions(
-              name: imageName ?? getDefaultImageFileName(isGallerySave: true),
-              fileExtension: imageFileExtension,
-              albumName: null,
+          verify(
+            () => mockQuillNativeBridge.saveImageToGallery(
+              imageBytes,
+              options: GalleryImageSaveOptions(
+                name: imageName ?? getDefaultImageFileName(isGallerySave: true),
+                fileExtension: imageFileExtension,
+                albumName: null,
+              ),
             ),
-          ),
-        ).called(1);
+          ).called(1);
+        }
       },
     );
 
     test(
       'passes the arugments correctly to saveImage from $QuillNativeBridge',
       () async {
-        await mockShouldSaveToGallery(false);
+        for (final imageUrl in {
+          'path/to/file.png',
+          'http://flutter-quill.org/file.png'
+        }) {
+          await mockShouldSaveToGallery(false);
 
-        final imageBytes = Uint8List.fromList([1, 0, 1]);
-        mockLoadImageBytesValue(imageBytes);
+          final imageBytes = Uint8List.fromList([1, 0, 1]);
+          mockLoadImageBytesValue(imageBytes);
 
-        mockImageSaveSupported(true);
+          mockImageSaveSupported(true);
 
-        const imageUrl = 'path/to/file.png';
-        await imageSaver.saveImage(
-          imageProvider: FakeImageProvider(),
-          imageUrl: imageUrl,
-          prefersGallerySave: false,
-        );
+          await imageSaver.saveImage(
+            imageProvider: FakeImageProvider(),
+            imageUrl: imageUrl,
+            prefersGallerySave: false,
+          );
 
-        final imageFileName = extractFileNameFromUrl(imageUrl);
-        final imageFileExtension =
-            extractImageFileExtensionFromFileName(imageFileName);
-        final imageName = extractImageNameFromFileName(
-          imageFileName,
-          imageFileExtension: imageFileExtension,
-        );
+          final imageFileExtension =
+              extractImageFileExtensionFromImageSource(imageUrl);
+          final imageName = extractImageNameFromImageSource(imageUrl);
 
-        verify(
-          () => mockQuillNativeBridge.saveImage(
-            imageBytes,
-            options: ImageSaveOptions(
-              name: imageName ?? getDefaultImageFileName(isGallerySave: false),
-              fileExtension: imageFileExtension,
+          verify(
+            () => mockQuillNativeBridge.saveImage(
+              imageBytes,
+              options: ImageSaveOptions(
+                name:
+                    imageName ?? getDefaultImageFileName(isGallerySave: false),
+                fileExtension: imageFileExtension,
+              ),
             ),
-          ),
-        ).called(1);
+          ).called(1);
+        }
       },
     );
 
