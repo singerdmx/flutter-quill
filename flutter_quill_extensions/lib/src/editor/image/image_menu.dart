@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart'
     show ImageUrl, QuillController, StyleAttribute, getEmbedNode;
 import 'package:flutter_quill/internal.dart';
+import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/utils/element_utils/element_utils.dart';
@@ -22,7 +23,7 @@ class ImageOptionsMenu extends StatelessWidget {
     required this.imageSize,
     required this.readOnly,
     required this.imageProvider,
-    this.prefersGallerySave = true,
+    this.prefersGallerySave = false,
     super.key,
   });
 
@@ -200,10 +201,21 @@ class ImageOptionsMenu extends StatelessWidget {
                 messenger.showSnackBar(
                   SnackBar(
                     content: Text(localizations.successImageSaved),
-                    action: SnackBarAction(
-                      label: localizations.openFileLocation,
-                      onPressed: () => launchUrl(Uri.file(imageFilePath)),
-                    ),
+                    // On macOS the app only has access to the picked file from the system save
+                    // dialog and not the directory where it was saved.
+                    // Opening the directory of that file requires entitlements on macOS
+                    // See https://pub.dev/packages/url_launcher#macos-file-access-configuration
+                    // Open the saved image file instead of the directory
+                    action: defaultTargetPlatform == TargetPlatform.macOS
+                        ? SnackBarAction(
+                            label: localizations.openFile,
+                            onPressed: () => launchUrl(Uri.file(imageFilePath)),
+                          )
+                        : SnackBarAction(
+                            label: localizations.openFileLocation,
+                            onPressed: () => launchUrl(
+                                Uri.directory(p.dirname(imageFilePath))),
+                          ),
                   ),
                 );
 

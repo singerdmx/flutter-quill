@@ -143,6 +143,10 @@ void main() {
           findsNothing,
         );
         expect(
+          find.text(localizations.openFile),
+          findsNothing,
+        );
+        expect(
           find.text(localizations.openGallery),
           findsNothing,
         );
@@ -214,7 +218,9 @@ void main() {
           );
 
           expect(
-            find.text(localizations.openFileLocation),
+            find.text(defaultTargetPlatform == TargetPlatform.macOS
+                ? localizations.openFile
+                : localizations.openFileLocation),
             findsOneWidget,
           );
 
