@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 import '../../common/structs/offset_value.dart';
 import '../../controller/quill_controller.dart';
@@ -77,15 +76,4 @@ abstract class EditorState extends State<QuillRawEditor>
   bool showToolbar();
 
   void requestKeyboard();
-
-  @experimental
-  void showMagnifier(Offset positionToShow);
-
-  @experimental
-  void updateMagnifier(Offset positionToShow);
-
-  @experimental
-  void hideMagnifier();
-
-  void toggleToolbar([bool hideHandles = true]);
 }

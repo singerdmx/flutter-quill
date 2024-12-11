@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
-import 'package:flutter/foundation.dart' show ValueListenable, kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,7 +16,6 @@ import '../document/nodes/container.dart' as container_node;
 import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
-import 'magnifier/magnifier_platform_support.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
@@ -320,7 +319,6 @@ class QuillEditorState extends State<QuillEditor>
         onScribbleActivated: configurations.onScribbleActivated,
         scribbleAreaInsets: configurations.scribbleAreaInsets,
         readOnlyMouseCursor: configurations.readOnlyMouseCursor,
-        magnifierConfiguration: configurations.magnifierConfiguration,
         textInputAction: configurations.textInputAction,
         onPerformAction: configurations.onPerformAction,
       ),
@@ -448,7 +446,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
         SelectionChangedCause.longPress,
       );
     }
-    editor?.updateMagnifier(details.globalPosition);
   }
 
   bool _isPositionSelected(TapDragUpDetails details) {
@@ -582,8 +579,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
         Feedback.forLongPress(_state.context);
       }
     }
-
-    _showMagnifierIfSupported(details.globalPosition);
   }
 
   @override
@@ -602,20 +597,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     }
-    _hideMagnifierIfSupported();
     super.onSingleLongTapEnd(details);
-  }
-
-  void _showMagnifierIfSupported(Offset positionToShow) {
-    if (magnifierSupported) {
-      editor?.showMagnifier(positionToShow);
-    }
-  }
-
-  void _hideMagnifierIfSupported() {
-    if (magnifierSupported) {
-      editor?.hideMagnifier();
-    }
   }
 }
 

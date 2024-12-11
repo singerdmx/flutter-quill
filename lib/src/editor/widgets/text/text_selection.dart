@@ -4,13 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:meta/meta.dart';
 
 import '../../../document/nodes/node.dart';
 import '../../editor.dart';
-import '../../magnifier/magnifier_platform_support.dart';
-
-part '../../magnifier/text_selection_magnifier_ext.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;
@@ -78,8 +74,6 @@ class EditorTextSelectionOverlay {
     this.onSelectionHandleTapped,
     this.dragStartBehavior = DragStartBehavior.start,
     this.handlesVisible = false,
-    @experimental
-    this.magnifierConfiguration = TextMagnifierConfiguration.disabled,
   }) {
     // Clipboard status is only checked on first instance of
     // ClipboardStatusNotifier
@@ -186,22 +180,7 @@ class EditorTextSelectionOverlay {
   /// A copy/paste toolbar.
   OverlayEntry? toolbar;
 
-  /// Restore the selection context menu after the magnifier is dismissed.
-  /// Fix: https://github.com/singerdmx/flutter-quill/issues/2046
-  bool _restoreToolbarAfterMagnifier = false;
-
   TextSelection get _selection => value.selection;
-
-  final MagnifierController _magnifierController = MagnifierController();
-
-  @experimental
-  bool get isMagnifierVisible => _magnifierController.shown;
-
-  @experimental
-  final TextMagnifierConfiguration magnifierConfiguration;
-
-  final ValueNotifier<MagnifierInfo> _magnifierInfo =
-      ValueNotifier<MagnifierInfo>(MagnifierInfo.empty);
 
   void setHandlesVisible(bool visible) {
     if (handlesVisible == visible) {
@@ -272,9 +251,6 @@ class EditorTextSelectionOverlay {
           selection: _selection,
           selectionControls: selectionCtrls,
           position: position,
-          onHandleDragStart: _onHandleDragStart,
-          onHandleDragUpdate: _onHandleDragUpdate,
-          onHandleDragEnd: _onHandleDragEnd,
           dragStartBehavior: dragStartBehavior,
         ));
   }
@@ -362,16 +338,11 @@ class EditorTextSelectionOverlay {
   /// Final cleanup.
   void dispose() {
     hide();
-    _magnifierInfo.dispose();
   }
 
   /// Builds the handles by inserting them into the [context]'s overlay.
   void showHandles() {
-    // TODO: Restore the assert and fix the issue or see why this change was made
-    // in https://github.com/singerdmx/flutter-quill/pull/2026/files#diff-ec5ab6cd2618a243ea6c82b62054455ec22ab981353b1cb50cac90b654430227L348
-    // Previously it was using assertation and now it returns without any error if _handles
-    // is not null
-    if (_handles != null) return;
+    assert(_handles == null);
     _handles = <OverlayEntry>[
       OverlayEntry(
           builder: (context) =>
@@ -392,27 +363,7 @@ class EditorTextSelectionOverlay {
   void updateForScroll() {
     markNeedsBuild();
   }
-
-  void _onHandleDragStart(DragStartDetails details, TextPosition position) {
-    if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
-    if (!magnifierSupported) return;
-    showMagnifier(position, details.globalPosition, renderObject);
-  }
-
-  void _onHandleDragUpdate(DragUpdateDetails details, TextPosition position) {
-    if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
-    if (!magnifierSupported) return;
-    updateMagnifier(position, details.globalPosition, renderObject);
-  }
-
-  void _onHandleDragEnd(DragEndDetails details) {
-    if (magnifierConfiguration == TextMagnifierConfiguration.disabled) return;
-    if (!magnifierSupported) return;
-    hideMagnifier();
-  }
 }
-
-typedef DargHandleCallback<T> = void Function(T details, TextPosition position);
 
 /// This widget represents a single draggable text selection handle.
 class _TextSelectionHandleOverlay extends StatefulWidget {
@@ -425,9 +376,6 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
     required this.onSelectionHandleChanged,
     required this.onSelectionHandleTapped,
     required this.selectionControls,
-    required this.onHandleDragStart,
-    required this.onHandleDragUpdate,
-    required this.onHandleDragEnd,
     this.dragStartBehavior = DragStartBehavior.start,
   });
 
@@ -437,9 +385,6 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   final LayerLink endHandleLayerLink;
   final RenderEditor renderObject;
   final ValueChanged<TextSelection?> onSelectionHandleChanged;
-  final DargHandleCallback<DragStartDetails>? onHandleDragStart;
-  final DargHandleCallback<DragUpdateDetails>? onHandleDragUpdate;
-  final ValueChanged<DragEndDetails> onHandleDragEnd;
   final VoidCallback? onSelectionHandleTapped;
   final TextSelectionControls selectionControls;
   final DragStartBehavior dragStartBehavior;
@@ -503,18 +448,15 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleDragStart(DragStartDetails details) {
-    if (!widget.renderObject.attached) return;
     final textPosition = widget.position == _TextSelectionHandlePosition.start
         ? widget.selection.base
         : widget.selection.extent;
     final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
     _dragPosition = details.globalPosition + Offset(0, -handleSize.height);
-    widget.onHandleDragStart?.call(details, textPosition);
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (!widget.renderObject.attached) return;
     _dragPosition += details.delta;
     final position =
         widget.renderObject.getPositionForOffset(details.globalPosition);
@@ -548,17 +490,8 @@ class _TextSelectionHandleOverlayState
     if (newSelection.baseOffset >= newSelection.extentOffset) {
       return; // don't allow order swapping.
     }
-    widget.onSelectionHandleChanged(newSelection);
-    if (widget.position == _TextSelectionHandlePosition.start) {
-      widget.onHandleDragUpdate?.call(details, newSelection.base);
-    } else if (widget.position == _TextSelectionHandlePosition.end) {
-      widget.onHandleDragUpdate?.call(details, newSelection.extent);
-    }
-  }
 
-  void _handleDragEnd(DragEndDetails details) {
-    if (!widget.renderObject.attached) return;
-    widget.onHandleDragEnd.call(details);
+    widget.onSelectionHandleChanged(newSelection);
   }
 
   void _handleTap() {
@@ -639,7 +572,6 @@ class _TextSelectionHandleOverlayState
             dragStartBehavior: widget.dragStartBehavior,
             onPanStart: _handleDragStart,
             onPanUpdate: _handleDragUpdate,
-            onPanEnd: _handleDragEnd,
             onTap: _handleTap,
             child: Padding(
               padding: EdgeInsets.only(
