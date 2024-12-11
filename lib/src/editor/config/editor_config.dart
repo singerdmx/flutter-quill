@@ -72,7 +72,6 @@ class QuillEditorConfig {
     this.contextMenuBuilder,
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
-    @experimental this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
     this.enableScribble = false,
     this.onScribbleActivated,
@@ -434,11 +433,6 @@ class QuillEditorConfig {
   /// should we request keyboard focus??
   final bool requestKeyboardFocusOnCheckListChanged;
 
-  /// This feature is currently experimental and only supported
-  /// on **Android** and **iOS**.
-  @experimental
-  final TextMagnifierConfiguration? magnifierConfiguration;
-
   /// Default to [TextInputAction.newline]
   final TextInputAction textInputAction;
 
@@ -510,7 +504,6 @@ class QuillEditorConfig {
     GlobalKey<EditorState>? editorKey,
     TextSelectionThemeData? textSelectionThemeData,
     bool? requestKeyboardFocusOnCheckListChanged,
-    TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
     void Function()? onScribbleActivated,
@@ -579,8 +572,6 @@ class QuillEditorConfig {
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
-      magnifierConfiguration:
-          magnifierConfiguration ?? this.magnifierConfiguration,
       textInputAction: textInputAction ?? this.textInputAction,
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
