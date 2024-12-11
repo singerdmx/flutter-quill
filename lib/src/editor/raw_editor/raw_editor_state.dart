@@ -1204,14 +1204,6 @@ class QuillRawEditorState extends EditorState
     return true;
   }
 
-  void _replaceText(ReplaceTextIntent intent) {
-    userUpdateTextEditingValue(
-      intent.currentTextEditingValue
-          .replaced(intent.replacementRange, intent.replacementText),
-      intent.cause,
-    );
-  }
-
   @override
   bool get wantKeepAlive => widget.config.focusNode.hasFocus;
 
