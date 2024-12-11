@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
 
@@ -338,12 +337,11 @@ class QuillEditorConfig {
 
   // Returns whether gesture is handled
   final bool Function(
-          TapDragDownDetails details, TextPosition Function(Offset offset))?
-      onTapDown;
+      TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
 
   // Returns whether gesture is handled
   final bool Function(
-      TapDragUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+      TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
 
   // Returns whether gesture is handled
   final bool Function(
