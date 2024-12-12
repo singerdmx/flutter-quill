@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Avoid using deprecated APIs in Flutter 3.27.0.
-- Resolved analysis warnings for Flutter 3.27 and Dart 3.6.
+- Resolve analysis warnings for Flutter 3.27 and Dart 3.6.
 
 ## [11.0.0-dev.4] - 2024-11-24
 
