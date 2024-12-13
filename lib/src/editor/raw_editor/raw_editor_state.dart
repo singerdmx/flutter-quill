@@ -323,11 +323,6 @@ class QuillRawEditorState extends EditorState
       case TargetPlatform.windows:
         widget.config.focusNode.unfocus();
         break;
-      default:
-        throw UnsupportedError(
-          'The platform ${defaultTargetPlatform.name} is not supported in the'
-          ' _defaultOnTapOutside()',
-        );
     }
   }
 

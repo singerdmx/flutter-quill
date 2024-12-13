@@ -10,6 +10,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [11.0.0-dev.16] - 2024-12-13
+
+### Changed
+
+- Address warnings of `unreachable_switch_default` (introduced in Dart 3.6).
+
+## [11.0.0-dev.15] - 2024-12-13
+
+### Added
+
+- New localization strings for the image save functionality [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+
+### Changed
+
+- Rewrite the image save functionality for [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+- Migrate [quill_native_bridge](https://pub.dev/packages/quill_native_bridge) to `11.0.0` [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+- Avoid using deprecated APIs in Flutter 3.27.0 [#2416](https://github.com/singerdmx/flutter-quill/pull/2416):
+    - Migrate from `withOpacity` to `withValues` according to [Color wide gamut - Opacity migration](https://docs.flutter.dev/release/breaking-changes/wide-gamut-framework#opacity).
+    - Avoid using the deprecated `Color.value` getter.
+- Ignore `unreachable_switch_default` warning (introduced in Dart 3.6) [#2416](https://github.com/singerdmx/flutter-quill/pull/2416).
+- Update `intl` dependency to support versions `0.19.0` and `0.20.0` [#2416](https://github.com/singerdmx/flutter-quill/pull/2416).
+
+### Fixed
+
+- Avoid using [`url_launcher_string.dart`](https://pub.dev/documentation/url_launcher/latest/url_launcher_string/url_launcher_string-library.html) which is [**strongly discouraged**](https://pub.dev/packages/url_launcher#urls-not-handled-by-uri) [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+
 ## [11.0.0-dev.14] - 2024-11-24
 
 ### Changed
@@ -133,7 +159,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.14...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.16...HEAD
+[11.0.0-dev.16]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.15...v11.0.0-dev.16
+[11.0.0-dev.15]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.14...v11.0.0-dev.15
 [11.0.0-dev.14]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.13...v11.0.0-dev.14
 [11.0.0-dev.13]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.12...v11.0.0-dev.13
 [11.0.0-dev.12]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.11...v11.0.0-dev.12
