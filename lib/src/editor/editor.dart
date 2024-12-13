@@ -239,7 +239,7 @@ class QuillEditorState extends State<QuillEditor>
       cursorOpacityAnimates = true;
       cursorColor ??= selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
       selectionColor = selectionTheme.selectionColor ??
-          cupertinoTheme.primaryColor.withOpacity(0.40);
+          cupertinoTheme.primaryColor.withValues(alpha: 0.40);
       cursorRadius ??= const Radius.circular(2);
       cursorOffset = Offset(
           iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context), 0);
@@ -249,7 +249,7 @@ class QuillEditorState extends State<QuillEditor>
       cursorOpacityAnimates = false;
       cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
       selectionColor = selectionTheme.selectionColor ??
-          theme.colorScheme.primary.withOpacity(0.40);
+          theme.colorScheme.primary.withValues(alpha: 0.40);
     }
 
     final showSelectionToolbar = configurations.enableInteractiveSelection &&

@@ -1,5 +1,9 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+# TODO: Included for backward compatibility, remove when the minimum Dart SDK is 3.6.0
+  errors:
+    unreachable_switch_default: ignore
 linter:
   rules:
     always_declare_return_types: true

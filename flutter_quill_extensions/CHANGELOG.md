@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Ignore `unreachable_switch_default` warning (introduced in Dart 3.6).
+
 ## [11.0.0-dev.4] - 2024-11-24
 
 > [!IMPORTANT]
