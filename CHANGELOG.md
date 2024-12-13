@@ -10,13 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New localization strings for the image save functionality [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+
 ### Changed
 
+- Rewrite the image save functionality for [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+- Migrate [quill_native_bridge](https://pub.dev/packages/quill_native_bridge) to `11.0.0` [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
 - Avoid using deprecated APIs in Flutter 3.27.0:
     - Migrate from `withOpacity` to `withValues` according to [Color wide gamut - Opacity migration](https://docs.flutter.dev/release/breaking-changes/wide-gamut-framework#opacity).
     - Avoid using the deprecated `Color.value` getter.
 - Ignore `unreachable_switch_default` warning (introduced in Dart 3.6).
 - Update `intl` dependency to support versions `0.19.0` and `0.20.0`.
+
+### Fixed
+
+- Avoid using [`url_launcher_string.dart`](https://pub.dev/documentation/url_launcher/latest/url_launcher_string/url_launcher_string-library.html) which is [**strongly discouraged**](https://pub.dev/packages/url_launcher#urls-not-handled-by-uri) [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
 
 ## [11.0.0-dev.14] - 2024-11-24
 

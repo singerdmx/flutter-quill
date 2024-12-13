@@ -47,8 +47,12 @@ jobs:
       - name: 📦 Check if package is ready for publishing
         run: flutter pub publish --dry-run
 
-      - name: 🧪 Run Flutter tests
+      - name: 🧪 Run flutter_quill tests
         run: flutter test
+
+      - name: 🧪 Run flutter_quill_extensions tests
+        run: flutter test
+        working-directory: flutter_quill_extensions
 
       - name: 🔍 Check the translations
         run: dart ./scripts/translations_check.dart

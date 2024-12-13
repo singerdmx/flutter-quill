@@ -1,0 +1,4 @@
+dependency_overrides:
+# TODO(save-image): Remove this file after publishing flutter_quill and update min version
+  flutter_quill:
+    path: ../
