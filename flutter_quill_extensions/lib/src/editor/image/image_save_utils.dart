@@ -81,7 +81,7 @@ String getDefaultImageFileName({required bool isGallerySave}) {
   }
   if (defaultTargetPlatform == TargetPlatform.macOS ||
       defaultTargetPlatform == TargetPlatform.windows) {
-    // Windows and macOS system native save dialog handle name conflicts.
+    // Windows and macOS system native save dialog prompts the user to confirm file overwrite.
     return defaultImageFileNamePrefix;
   }
   final uniqueFileName =
@@ -134,8 +134,25 @@ class ImageSaver {
   @visibleForTesting
   static set instance(ImageSaver newInstance) => _instance = newInstance;
 
-  // Returns `null` on failure.
-  // Throws [GalleryImageSaveAccessDeniedException] in case permission was denied or insuffeicnet.
+  /// Saves an image to the user's device based on the platform:
+  ///
+  /// - **Web**: Downloads the image using the browser's download functionality.
+  /// - **Desktop**: Prompts the user to choose a location for the image using
+  /// native save dialog, defaulting to the user's `Pictures` directory. Or
+  /// saves the image to the gallery in case [prefersGallerySave] is `true` and
+  // TODO(quill_native_bridge): Update this doc comment once saveImageToGallery()
+  //  is supported on Windows too (will be applicable like macOS). See https://pub.dev/packages/quill_native_bridge#-features
+  /// the gallery is supported (currently only macOS is applicable).
+  /// - **Mobile**: Saves the image to the gallery, requesting permission if needed.
+  ///
+  /// The [imageUrl] could be file or network image URL and is used to extract
+  /// image file extension and the image name.
+  ///
+  /// The [imageProvider] is used to load the image bytes from using [ImageLoader].
+  ///
+  /// Returns `null` on failure.
+  ///
+  /// Throws [GalleryImageSaveAccessDeniedException] in case permission was denied or insuffeicnet.
   Future<SaveImageResult?> saveImage({
     required String imageUrl,
     required ImageProvider imageProvider,
