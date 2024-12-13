@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [11.0.0-dev.15] - 2024-12-13
+
 ### Added
 
 - New localization strings for the image save functionality [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
@@ -151,7 +153,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.14...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.15...HEAD
+[11.0.0-dev.15]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.14...v11.0.0-dev.15
 [11.0.0-dev.14]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.13...v11.0.0-dev.14
 [11.0.0-dev.13]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.12...v11.0.0-dev.13
 [11.0.0-dev.12]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.11...v11.0.0-dev.12
