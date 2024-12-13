@@ -12,8 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Avoid using deprecated APIs in Flutter 3.27.0.
-- Resolve analysis warnings for Flutter 3.27 and Dart 3.6.
+- Avoid using deprecated APIs in Flutter 3.27.0:
+    - Migrate from `withOpacity` to `withValues` according to [Color wide gamut - Opacity migration](https://docs.flutter.dev/release/breaking-changes/wide-gamut-framework#opacity).
+    - Avoid using the deprecated `Color.value` getter.
+- Ignore `unreachable_switch_default` warning (introduced in Dart 3.6).
 - Update `intl` dependency to support versions `0.19.0` and `0.20.0`.
 
 ## [11.0.0-dev.14] - 2024-11-24
