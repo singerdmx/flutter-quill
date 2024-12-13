@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Color Picker hex field not updating the selected value.
+
 ## [11.0.0-dev.16] - 2024-12-13
 
 ### Changed
