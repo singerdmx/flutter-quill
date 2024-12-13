@@ -1,6 +1,6 @@
 name: flutter_quill_extensions
 description: Embed extensions for flutter_quill to support loading images and videos
-version: 11.0.0-dev.4
+version: 11.0.0-dev.6
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
@@ -36,7 +36,7 @@ dependencies:
   universal_html: ^2.2.4
   path: ^1.8.0
 
-  flutter_quill: ^11.0.0-dev.3
+  flutter_quill: ^11.0.0-dev.15
   photo_view: ^0.15.0
 
   # Plugins
