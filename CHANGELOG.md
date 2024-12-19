@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The color picker dialog's hex field does not use the correct value of the selected text in the editor [#2415](https://github.com/singerdmx/flutter-quill/pull/2415).
+
 ## [11.0.0-dev.16] - 2024-12-13
 
 ### Changed
