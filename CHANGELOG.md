@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING**: Clipboard action buttons in `QuillSimpleToolbar` are now disabled by default. To enable them, set `showClipboardCut`, `showClipboardCopy`, and `showClipboardPaste` to `true` in `QuillSimpleToolbarConfig`.
+
 ## [11.0.0-dev.17] - 2024-12-19
 
 ### Fixed

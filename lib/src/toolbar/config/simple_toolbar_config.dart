@@ -107,9 +107,9 @@ class QuillSimpleToolbarConfig {
     this.showSearchButton = true,
     this.showSubscript = true,
     this.showSuperscript = true,
-    this.showClipboardCut = true,
-    this.showClipboardCopy = true,
-    this.showClipboardPaste = true,
+    this.showClipboardCut = false,
+    this.showClipboardCopy = false,
+    this.showClipboardPaste = false,
     this.linkStyleType = LinkStyleType.original,
     this.headerStyleType = HeaderStyleType.original,
 
