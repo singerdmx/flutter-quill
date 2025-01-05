@@ -29,7 +29,7 @@ class ClipboardMonitor {
 
     if (add) {
       _timer = Timer.periodic(
-        const Duration(seconds: 5),
+        const Duration(seconds: 1),
         (timer) => _update(listener),
       );
     } else {
