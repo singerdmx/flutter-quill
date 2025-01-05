@@ -61,8 +61,6 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
 
   final ClipboardAction clipboardAction;
 
-  final ClipboardMonitor _monitor = ClipboardMonitor();
-
   @override
   State<StatefulWidget> createState() => QuillToolbarClipboardButtonState();
 }
@@ -78,23 +76,7 @@ class QuillToolbarClipboardButtonState
       case ClipboardAction.copy:
         return !controller.selection.isCollapsed;
       case ClipboardAction.paste:
-        return !controller.readOnly && (kIsWeb || widget._monitor.canPaste);
-    }
-  }
-
-  void _listenClipboardStatus() => didChangeEditingValue();
-
-  @override
-  void addExtraListener() {
-    if (widget.clipboardAction == ClipboardAction.paste) {
-      widget._monitor.monitorClipboard(true, _listenClipboardStatus);
-    }
-  }
-
-  @override
-  void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
-    if (widget.clipboardAction == ClipboardAction.paste) {
-      oldWidget._monitor.monitorClipboard(false, _listenClipboardStatus);
+        return !controller.readOnly;
     }
   }
 
@@ -143,16 +125,17 @@ class QuillToolbarClipboardButtonState
     }
 
     return UtilityWidgets.maybeTooltip(
-        message: tooltip,
-        child: QuillToolbarIconButton(
-          icon: Icon(
-            iconData,
-            size: iconSize * iconButtonFactor,
-          ),
-          isSelected: false,
-          onPressed: currentValue ? _onPressed : null,
-          afterPressed: afterButtonPressed,
-          iconTheme: iconTheme,
-        ));
+      message: tooltip,
+      child: QuillToolbarIconButton(
+        icon: Icon(
+          iconData,
+          size: iconSize * iconButtonFactor,
+        ),
+        isSelected: false,
+        onPressed: currentValue ? _onPressed : null,
+        afterPressed: afterButtonPressed,
+        iconTheme: iconTheme,
+      ),
+    );
   }
 }
