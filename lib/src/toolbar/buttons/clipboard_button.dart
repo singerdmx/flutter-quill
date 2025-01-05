@@ -36,7 +36,7 @@ class ClipboardMonitor {
       _timer?.cancel();
     }
   }
-  
+
   Future<void> _update(void Function() listener) async {
     // If the clipboard is already being checked, return early.
     if (_isCheckingClipboard) {
