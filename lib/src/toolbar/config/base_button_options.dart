@@ -41,6 +41,7 @@ class QuillToolbarBaseButtonOptions<T, I> {
     this.afterButtonPressed,
     this.tooltip,
     this.iconTheme,
+    this.enableClipboardPaste,
     this.childBuilder,
   });
 
@@ -64,6 +65,11 @@ class QuillToolbarBaseButtonOptions<T, I> {
 
   /// Use custom theme
   final QuillIconTheme? iconTheme;
+
+  /// Disables the [ClipboardMonitor] of [QuillToolbarClipboardButton] if not null
+  /// If true or false, it will enable or disable the clipboard paste button
+  /// Only affects the clipboard paste button
+  final bool? enableClipboardPaste;
 
   /// If you want to display a different widget based using a builder
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;

@@ -29,5 +29,6 @@ class QuillToolbarToggleStyleButtonOptions
     super.afterButtonPressed,
     super.iconTheme,
     super.childBuilder,
+    super.enableClipboardPaste,
   });
 }

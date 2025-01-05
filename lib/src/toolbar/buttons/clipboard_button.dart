@@ -70,12 +70,6 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
     required this.clipboardAction,
     QuillToolbarClipboardButtonOptions? options,
 
-    // If null, uses in-built [ClipboardMonitor]
-    // If true, paste button is enabled (if true & not readonly)
-    // If false, paste button is disabled
-    final bool? canPaste,
-    this.enableClipboardPaste,
-
     /// Shares common options between all buttons, prefer the [options]
     /// over the [baseOptions].
     super.baseOptions,
@@ -88,8 +82,6 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
   final QuillToolbarClipboardButtonOptions? _options;
 
   final ClipboardAction clipboardAction;
-
-  final bool? enableClipboardPaste;
 
   @override
   State<StatefulWidget> createState() => QuillToolbarClipboardButtonState();
@@ -109,13 +101,12 @@ class QuillToolbarClipboardButtonState
         return !controller.selection.isCollapsed;
       case ClipboardAction.paste:
         return !controller.readOnly &&
-            (kIsWeb || (widget.enableClipboardPaste ?? _monitor.canPaste));
+            (kIsWeb ||
+                (widget.options.enableClipboardPaste ?? _monitor.canPaste));
     }
   }
 
-  void _listenClipboardStatus() {
-    didChangeEditingValue();
-  }
+  void _listenClipboardStatus() => didChangeEditingValue();
 
   @override
   void didUpdateWidget(QuillToolbarClipboardButton oldWidget) {
@@ -132,7 +123,7 @@ class QuillToolbarClipboardButtonState
     // If controller didn't change, but something else did (enableClipboardPaste)
     else if (widget.clipboardAction == ClipboardAction.paste) {
       // If enableClipboardPaste is not null, disable monitors
-      if (widget.enableClipboardPaste != null) {
+      if (widget.options.enableClipboardPaste != null) {
         _monitor.monitorClipboard(false, _listenClipboardStatus);
         currentValue = currentStateValue;
       } else {
@@ -146,7 +137,7 @@ class QuillToolbarClipboardButtonState
   @override
   void addExtraListener() {
     if (widget.clipboardAction == ClipboardAction.paste &&
-        widget.enableClipboardPaste == null) {
+        widget.options.enableClipboardPaste == null) {
       _monitor.monitorClipboard(true, _listenClipboardStatus);
     }
   }
@@ -154,7 +145,7 @@ class QuillToolbarClipboardButtonState
   @override
   void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
     if (widget.clipboardAction == ClipboardAction.paste &&
-        widget.enableClipboardPaste == null) {
+        widget.options.enableClipboardPaste == null) {
       _monitor.monitorClipboard(false, _listenClipboardStatus);
     }
   }
