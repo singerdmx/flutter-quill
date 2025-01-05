@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import '../../common/utils/widgets.dart';
-import '../../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
 import '../simple_toolbar.dart';
@@ -43,7 +42,7 @@ class ClipboardMonitor {
 
 @experimental
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton({
+  const QuillToolbarClipboardButton({
     required super.controller,
     required this.clipboardAction,
     QuillToolbarClipboardButtonOptions? options,
