@@ -36,7 +36,7 @@ class ClipboardMonitor {
       _timer?.cancel();
     }
   }
-
+  
   Future<void> _update(void Function() listener) async {
     // If the clipboard is already being checked, return early.
     if (_isCheckingClipboard) {
@@ -122,15 +122,19 @@ class QuillToolbarClipboardButtonState
     }
     // If controller didn't change, but something else did (enableClipboardPaste)
     else if (widget.clipboardAction == ClipboardAction.paste) {
-      // If enableClipboardPaste is not null, disable monitors
-      if (widget.options.enableClipboardPaste != null) {
-        _monitor.monitorClipboard(false, _listenClipboardStatus);
-        currentValue = currentStateValue;
+      // If enableClipboardPaste is null, check if clipboard monitor is active and enable it if not
+      if (widget.options.enableClipboardPaste == null) {
+        if (!(_monitor._timer?.isActive ?? false)) {
+          _monitor.monitorClipboard(true, _listenClipboardStatus);
+        }
       } else {
-        // Otherwise remove old listener and add a new one
-        _monitor.monitorClipboard(true, _listenClipboardStatus);
-        currentValue = currentStateValue;
+        // Otherwise check if the timer is active and disable it
+        if (_monitor._timer == null || _monitor._timer!.isActive) {
+          _monitor.monitorClipboard(false, _listenClipboardStatus);
+        }
       }
+
+      currentValue = currentStateValue;
     }
   }
 
