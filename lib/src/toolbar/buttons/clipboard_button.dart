@@ -22,31 +22,59 @@ class ClipboardMonitor {
   bool get canPaste => _canPaste;
   Timer? _timer;
 
+  bool _isCheckingClipboard = false;
+
   void monitorClipboard(bool add, void Function() listener) {
     if (kIsWeb) return;
+
     if (add) {
       _timer = Timer.periodic(
-          const Duration(seconds: 1), (timer) => _update(listener));
+        const Duration(seconds: 5),
+        (timer) => _update(listener),
+      );
     } else {
       _timer?.cancel();
     }
   }
 
   Future<void> _update(void Function() listener) async {
+    // If the clipboard is already being checked, return early.
+    if (_isCheckingClipboard) {
+      return;
+    }
+
+    // Prevent multiple clipboard checks at the same time.
+    _isCheckingClipboard = true;
+
+    // Initialize the clipboard service.
     final clipboardService = ClipboardServiceProvider.instance;
+
+    // Check if the clipboard has content.
     if (await clipboardService.hasClipboardContent) {
+      // If the clipboard has content, set the flag to true.
       _canPaste = true;
+
+      // Notify the listener that the clipboard has content.
       listener();
     }
+
+    // Prevent multiple clipboard checks at the same time.
+    _isCheckingClipboard = false;
   }
 }
 
 @experimental
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton({
+  const QuillToolbarClipboardButton({
     required super.controller,
     required this.clipboardAction,
     QuillToolbarClipboardButtonOptions? options,
+
+    // If null, uses in-built [ClipboardMonitor]
+    // If true, paste button is enabled (if true & not readonly)
+    // If false, paste button is disabled
+    final bool? canPaste,
+    this.enableClipboardPaste,
 
     /// Shares common options between all buttons, prefer the [options]
     /// over the [baseOptions].
@@ -61,7 +89,7 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
 
   final ClipboardAction clipboardAction;
 
-  final ClipboardMonitor _monitor = ClipboardMonitor();
+  final bool? enableClipboardPaste;
 
   @override
   State<StatefulWidget> createState() => QuillToolbarClipboardButtonState();
@@ -70,6 +98,8 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
 class QuillToolbarClipboardButtonState
     extends QuillToolbarToggleStyleBaseButtonState<
         QuillToolbarClipboardButton> {
+  final ClipboardMonitor _monitor = ClipboardMonitor();
+
   @override
   bool get currentStateValue {
     switch (widget.clipboardAction) {
@@ -78,23 +108,54 @@ class QuillToolbarClipboardButtonState
       case ClipboardAction.copy:
         return !controller.selection.isCollapsed;
       case ClipboardAction.paste:
-        return !controller.readOnly && (kIsWeb || widget._monitor.canPaste);
+        return !controller.readOnly &&
+            (kIsWeb || (widget.enableClipboardPaste ?? _monitor.canPaste));
     }
   }
 
-  void _listenClipboardStatus() => didChangeEditingValue();
+  void _listenClipboardStatus() {
+    didChangeEditingValue();
+  }
+
+  @override
+  void didUpdateWidget(QuillToolbarClipboardButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Default didUpdateWidget handler, otherwise simple flag change didn't stop the monitor
+    if (oldWidget.controller != controller) {
+      oldWidget.controller.removeListener(didChangeEditingValue);
+      removeExtraListener(oldWidget);
+      controller.addListener(didChangeEditingValue);
+      addExtraListener();
+      currentValue = currentStateValue;
+    }
+    // If controller didn't change, but something else did (enableClipboardPaste)
+    else if (widget.clipboardAction == ClipboardAction.paste) {
+      // If enableClipboardPaste is not null, disable monitors
+      if (widget.enableClipboardPaste != null) {
+        _monitor.monitorClipboard(false, _listenClipboardStatus);
+        currentValue = currentStateValue;
+      } else {
+        // Otherwise remove old listener and add a new one
+        _monitor.monitorClipboard(true, _listenClipboardStatus);
+        currentValue = currentStateValue;
+      }
+    }
+  }
 
   @override
   void addExtraListener() {
-    if (widget.clipboardAction == ClipboardAction.paste) {
-      widget._monitor.monitorClipboard(true, _listenClipboardStatus);
+    if (widget.clipboardAction == ClipboardAction.paste &&
+        widget.enableClipboardPaste == null) {
+      _monitor.monitorClipboard(true, _listenClipboardStatus);
     }
   }
 
   @override
   void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
-    if (widget.clipboardAction == ClipboardAction.paste) {
-      oldWidget._monitor.monitorClipboard(false, _listenClipboardStatus);
+    if (widget.clipboardAction == ClipboardAction.paste &&
+        widget.enableClipboardPaste == null) {
+      _monitor.monitorClipboard(false, _listenClipboardStatus);
     }
   }
 
@@ -143,16 +204,17 @@ class QuillToolbarClipboardButtonState
     }
 
     return UtilityWidgets.maybeTooltip(
-        message: tooltip,
-        child: QuillToolbarIconButton(
-          icon: Icon(
-            iconData,
-            size: iconSize * iconButtonFactor,
-          ),
-          isSelected: false,
-          onPressed: currentValue ? _onPressed : null,
-          afterPressed: afterButtonPressed,
-          iconTheme: iconTheme,
-        ));
+      message: tooltip,
+      child: QuillToolbarIconButton(
+        icon: Icon(
+          iconData,
+          size: iconSize * iconButtonFactor,
+        ),
+        isSelected: false,
+        onPressed: currentValue ? _onPressed : null,
+        afterPressed: afterButtonPressed,
+        iconTheme: iconTheme,
+      ),
+    );
   }
 }

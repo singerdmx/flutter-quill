@@ -307,6 +307,7 @@ class QuillSimpleToolbar extends StatelessWidget
               options: config.buttonOptions.clipboardPaste,
               controller: controller,
               clipboardAction: ClipboardAction.paste,
+              enableClipboardPaste: config.enableClipboardPaste,
             ),
         ],
         [

@@ -186,6 +186,11 @@ class QuillSimpleToolbarConfig {
   @experimental
   final bool showClipboardPaste;
 
+  /// If null, uses in-built [ClipboardMonitor]
+  /// If true, paste button is enabled (if true & not readonly)
+  /// If false, paste button is disabled
+  final bool? enableClipboardPaste;
+
   /// This activates a functionality that is only implemented in [flutter_quill] and is NOT originally
   /// used in the [Quill Js API]. So it could cause conflicts if you use this attribute with the original Delta format of Quill Js
   final bool showLineHeightButton;
