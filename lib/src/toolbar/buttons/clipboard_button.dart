@@ -43,22 +43,16 @@ class ClipboardMonitor {
       return;
     }
 
-    // Prevent multiple clipboard checks at the same time.
     _isCheckingClipboard = true;
 
-    // Initialize the clipboard service.
     final clipboardService = ClipboardServiceProvider.instance;
 
-    // Check if the clipboard has content.
     if (await clipboardService.hasClipboardContent) {
-      // If the clipboard has content, set the flag to true.
       _canPaste = true;
 
-      // Notify the listener that the clipboard has content.
       listener();
     }
 
-    // Prevent multiple clipboard checks at the same time.
     _isCheckingClipboard = false;
   }
 }

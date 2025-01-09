@@ -66,9 +66,11 @@ class QuillToolbarBaseButtonOptions<T, I> {
   /// Use custom theme
   final QuillIconTheme? iconTheme;
 
-  /// Disables the [ClipboardMonitor] of [QuillToolbarClipboardButton] if not null
-  /// If true or false, it will enable or disable the clipboard paste button
-  /// Only affects the clipboard paste button
+  /// Determines if the paste button is enabled. 
+  ///
+  /// Defaults to [ClipboardMonitor] in case of `null`, which will check if the clipboard has content to paste every second, and only then enable the button, indicating to the user that they can paste something.
+  ///
+  /// Set to `true` to always enable it even if the clipboard has no content to paste, which will do nothing on a press.
   final bool? enableClipboardPaste;
 
   /// If you want to display a different widget based using a builder
