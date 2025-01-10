@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Croatian (hr) language translation.
+
 ## [11.0.0-dev.18] - 2025-01-06
 
 ### Changed
