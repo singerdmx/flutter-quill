@@ -46,13 +46,16 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
   QuillToolbarClipboardButton({
     required super.controller,
     required this.clipboardAction,
-    super.options = const QuillToolbarToggleStyleButtonOptions(),
+    QuillToolbarClipboardButtonOptions? options,
 
     /// Shares common options between all buttons, prefer the [options]
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  });
+  })  : _options = options,
+        super(options: options ?? const QuillToolbarClipboardButtonOptions());
+
+  final QuillToolbarClipboardButtonOptions? _options;
 
   final ClipboardAction clipboardAction;
 
