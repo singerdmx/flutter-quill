@@ -116,16 +116,15 @@ class QuillToolbarClipboardButtonState
     }
     // The controller didn't change, but enableClipboardPaste did.
     else if (widget.clipboardAction == ClipboardAction.paste) {
-      // Check if the clipboard monitor is active and enable it if not.
-      if (widget.options.enableClipboardPaste == null) {
-        if (!(_monitor._timer?.isActive ?? false)) {
-          _monitor.monitorClipboard(true, _listenClipboardStatus);
-        }
-      } else {
-        // Otherwise check if the timer is active and disable it.
-        if (_monitor._timer == null || _monitor._timer!.isActive) {
-          _monitor.monitorClipboard(false, _listenClipboardStatus);
-        }
+      final isTimerActive = _monitor._timer?.isActive ?? false;
+
+      // Enable clipboard monitoring if not active and should be monitored.
+      if (shouldUseClipboardMonitor && !isTimerActive) {
+        _monitor.monitorClipboard(true, _listenClipboardStatus);
+      }
+      // Disable clipboard monitoring if active and should not be monitored.
+      else if (!shouldUseClipboardMonitor && isTimerActive) {
+        _monitor.monitorClipboard(false, _listenClipboardStatus);
       }
 
       currentValue = currentStateValue;
@@ -134,16 +133,14 @@ class QuillToolbarClipboardButtonState
 
   @override
   void addExtraListener() {
-    if (widget.clipboardAction == ClipboardAction.paste &&
-        widget.options.enableClipboardPaste == null) {
+    if (shouldUseClipboardMonitor) {
       _monitor.monitorClipboard(true, _listenClipboardStatus);
     }
   }
 
   @override
   void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
-    if (widget.clipboardAction == ClipboardAction.paste &&
-        widget.options.enableClipboardPaste == null) {
+    if (shouldUseClipboardMonitor) {
       _monitor.monitorClipboard(false, _listenClipboardStatus);
     }
   }
@@ -161,6 +158,11 @@ class QuillToolbarClipboardButtonState
         ClipboardAction.copy => Icons.copy_outlined,
         ClipboardAction.paste => Icons.paste_outlined,
       };
+
+  bool get shouldUseClipboardMonitor {
+    return widget.clipboardAction == ClipboardAction.paste &&
+        widget.options.enableClipboardPaste == null;
+  }
 
   void _onPressed() {
     switch (widget.clipboardAction) {
