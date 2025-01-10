@@ -119,11 +119,11 @@ class QuillToolbarClipboardButtonState
       final isTimerActive = _monitor._timer?.isActive ?? false;
 
       // Enable clipboard monitoring if not active and should be monitored.
-      if (shouldUseClipboardMonitor && !isTimerActive) {
+      if (_shouldUseClipboardMonitor && !isTimerActive) {
         _monitor.monitorClipboard(true, _listenClipboardStatus);
       }
       // Disable clipboard monitoring if active and should not be monitored.
-      else if (!shouldUseClipboardMonitor && isTimerActive) {
+      else if (!_shouldUseClipboardMonitor && isTimerActive) {
         _monitor.monitorClipboard(false, _listenClipboardStatus);
       }
 
@@ -133,14 +133,14 @@ class QuillToolbarClipboardButtonState
 
   @override
   void addExtraListener() {
-    if (shouldUseClipboardMonitor) {
+    if (_shouldUseClipboardMonitor) {
       _monitor.monitorClipboard(true, _listenClipboardStatus);
     }
   }
 
   @override
   void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
-    if (shouldUseClipboardMonitor) {
+    if (_shouldUseClipboardMonitor) {
       _monitor.monitorClipboard(false, _listenClipboardStatus);
     }
   }
@@ -159,7 +159,7 @@ class QuillToolbarClipboardButtonState
         ClipboardAction.paste => Icons.paste_outlined,
       };
 
-  bool get shouldUseClipboardMonitor {
+  bool get _shouldUseClipboardMonitor {
     return widget.clipboardAction == ClipboardAction.paste &&
         widget.options.enableClipboardPaste == null;
   }
