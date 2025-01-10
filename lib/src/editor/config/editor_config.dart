@@ -488,6 +488,12 @@ class QuillEditorConfig {
     Brightness? keyboardAppearance,
     ScrollPhysics? scrollPhysics,
     ValueChanged<String>? onLaunchUrl,
+    bool Function(
+            TapDragDownDetails details, TextPosition Function(Offset offset))?
+        onTapDown,
+    bool Function(
+            TapDragUpDetails details, TextPosition Function(Offset offset))?
+        onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
     CustomStyleBuilder? customStyleBuilder,
@@ -547,6 +553,8 @@ class QuillEditorConfig {
       keyboardAppearance: keyboardAppearance ?? this.keyboardAppearance,
       scrollPhysics: scrollPhysics ?? this.scrollPhysics,
       onLaunchUrl: onLaunchUrl ?? this.onLaunchUrl,
+      onTapUp: onTapUp ?? this.onTapUp,
+      onTapDown: onTapDown ?? this.onTapDown,
       embedBuilders: embedBuilders ?? this.embedBuilders,
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
