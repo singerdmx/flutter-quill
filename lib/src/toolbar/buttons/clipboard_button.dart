@@ -106,7 +106,7 @@ class QuillToolbarClipboardButtonState
   void didUpdateWidget(QuillToolbarClipboardButton oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Default didUpdateWidget handler, otherwise simple flag change didn't stop the monitor
+    // Default didUpdateWidget handler, otherwise simple flag change didn't stop the monitor.
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(didChangeEditingValue);
       removeExtraListener(oldWidget);
@@ -114,15 +114,15 @@ class QuillToolbarClipboardButtonState
       addExtraListener();
       currentValue = currentStateValue;
     }
-    // If controller didn't change, but something else did (enableClipboardPaste)
+    // The controller didn't change, but enableClipboardPaste did.
     else if (widget.clipboardAction == ClipboardAction.paste) {
-      // If enableClipboardPaste is null, check if clipboard monitor is active and enable it if not
+      // Check if the clipboard monitor is active and enable it if not.
       if (widget.options.enableClipboardPaste == null) {
         if (!(_monitor._timer?.isActive ?? false)) {
           _monitor.monitorClipboard(true, _listenClipboardStatus);
         }
       } else {
-        // Otherwise check if the timer is active and disable it
+        // Otherwise check if the timer is active and disable it.
         if (_monitor._timer == null || _monitor._timer!.isActive) {
           _monitor.monitorClipboard(false, _listenClipboardStatus);
         }
