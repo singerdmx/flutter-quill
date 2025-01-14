@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > The [previous `CHANGELOG.md`](https://github.com/singerdmx/flutter-quill/blob/master/doc/OLD_CHANGELOG.md) has been archived.
 
 ## [Unreleased]
+### Added
+- Added support for `BoxDecoration` in `DefaultTextBlockStyle` for the `header` attribute. This allows developers to customize headers with borders, background colors, and other styles using `BoxDecoration`. [#2429](https://github.com/singerdmx/flutter-quill/pull/2429).
 
 ## [11.0.0-dev.19] - 2025-01-10
 
