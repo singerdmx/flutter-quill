@@ -3,8 +3,8 @@ import 'dart:io' as io show Directory, File;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_example/quill_delta_sample.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:path/path.dart' as path;
@@ -146,6 +146,62 @@ class _HomePageState extends State<HomePage> {
                 config: QuillEditorConfig(
                   placeholder: 'Start writing your notes...',
                   padding: const EdgeInsets.all(16),
+                  customStyles: DefaultStyles(
+                    h1: DefaultTextBlockStyle(
+                        DefaultTextStyle.of(context).style.copyWith(
+                              fontSize: 34,
+                              color: DefaultTextStyle.of(context).style.color,
+                              letterSpacing: -0.5,
+                              height: 1.083,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                        HorizontalSpacing(16, 16),
+                        const VerticalSpacing(16, 16),
+                        VerticalSpacing.zero,
+                        BoxDecoration(
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.red,
+                          ),
+                        )),
+                    h2: DefaultTextBlockStyle(
+                        DefaultTextStyle.of(context).style.copyWith(
+                              fontSize: 30,
+                              color: DefaultTextStyle.of(context).style.color,
+                              letterSpacing: -0.8,
+                              height: 1.067,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                        HorizontalSpacing(8, 8),
+                        const VerticalSpacing(8, 8),
+                        VerticalSpacing.zero,
+                        BoxDecoration(
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.blue,
+                          ),
+                        )),
+                    h3: DefaultTextBlockStyle(
+                        DefaultTextStyle.of(context).style.copyWith(
+                              fontSize: 24,
+                              color: DefaultTextStyle.of(context).style.color,
+                              letterSpacing: -0.5,
+                              height: 1.083,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                        HorizontalSpacing(8, 8),
+                        const VerticalSpacing(8, 8),
+                        VerticalSpacing.zero,
+                        BoxDecoration(
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.green,
+                          ),
+                        )),
+                  ),
                   embedBuilders: [
                     ...FlutterQuillEmbeds.editorBuilders(
                       imageEmbedConfig: QuillEditorImageEmbedConfig(

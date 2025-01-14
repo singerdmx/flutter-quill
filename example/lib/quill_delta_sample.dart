@@ -9,6 +9,7 @@ const kQuillDefaultSample = [
       'style': 'width:500px; height:350px;'
     }
   },
+  {"insert": "\n"},
   {'insert': 'Flutter Quill'},
   {
     'attributes': {'header': 1},
