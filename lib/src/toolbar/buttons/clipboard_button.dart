@@ -71,8 +71,6 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
   })  : _options = options,
         super(options: options ?? const QuillToolbarClipboardButtonOptions());
 
-  // TODO: This field will be used by the PR: https://github.com/singerdmx/flutter-quill/pull/2427
-  // ignore: unused_field
   final QuillToolbarClipboardButtonOptions? _options;
 
   final ClipboardAction clipboardAction;
@@ -96,7 +94,7 @@ class QuillToolbarClipboardButtonState
       case ClipboardAction.paste:
         return !controller.readOnly &&
             (kIsWeb ||
-                (widget.options.enableClipboardPaste ?? _monitor.canPaste));
+                (widget._options?.enableClipboardPaste ?? _monitor.canPaste));
     }
   }
 
@@ -161,7 +159,7 @@ class QuillToolbarClipboardButtonState
 
   bool get _shouldUseClipboardMonitor {
     return widget.clipboardAction == ClipboardAction.paste &&
-        widget.options.enableClipboardPaste == null;
+        (widget._options?.enableClipboardPaste == null);
   }
 
   void _onPressed() {
