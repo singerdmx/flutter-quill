@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:meta/meta.dart';
 
 import 'base_button_options.dart';
 import 'buttons/clear_format_options.dart';
+import 'buttons/clipboard_button_options.dart';
 import 'buttons/color_options.dart';
 import 'buttons/custom_button_options.dart';
 import 'buttons/font_family_options.dart';
@@ -21,6 +22,7 @@ import 'buttons/toggle_style_options.dart';
 export '../buttons/search/search_dialog.dart';
 export 'base_button_options.dart';
 export 'buttons/clear_format_options.dart';
+export 'buttons/clipboard_button_options.dart';
 export 'buttons/color_options.dart';
 export 'buttons/custom_button_options.dart';
 export 'buttons/font_family_options.dart';
@@ -76,9 +78,12 @@ class QuillSimpleToolbarButtonOptions {
     this.linkStyle = const QuillToolbarLinkStyleButtonOptions(),
     this.linkStyle2 = const QuillToolbarLinkStyleButton2Options(),
     this.customButtons = const QuillToolbarCustomButtonOptions(),
-    this.clipboardCut = const QuillToolbarToggleStyleButtonOptions(),
-    this.clipboardCopy = const QuillToolbarToggleStyleButtonOptions(),
-    this.clipboardPaste = const QuillToolbarToggleStyleButtonOptions(),
+    @experimental
+    this.clipboardCut = const QuillToolbarClipboardButtonOptions(),
+    @experimental
+    this.clipboardCopy = const QuillToolbarClipboardButtonOptions(),
+    @experimental
+    this.clipboardPaste = const QuillToolbarClipboardButtonOptions(),
   });
 
   /// The base options that will apply to all buttons,
@@ -109,26 +114,19 @@ class QuillSimpleToolbarButtonOptions {
   final QuillToolbarColorButtonOptions backgroundColor;
   final QuillToolbarClearFormatButtonOptions clearFormat;
 
-  /// The reason we call this buttons in the end because this is responsible
-  /// for all the alignment buttons and not just one, you still
-  /// can customize the icons and tooltips
-  /// and you have child builder
   final QuillToolbarSelectAlignmentButtonOptions selectAlignmentButtons;
 
   final QuillToolbarSearchButtonOptions search;
 
-  final QuillToolbarToggleStyleButtonOptions clipboardCut;
-  final QuillToolbarToggleStyleButtonOptions clipboardCopy;
-  final QuillToolbarToggleStyleButtonOptions clipboardPaste;
+  @experimental
+  final QuillToolbarClipboardButtonOptions clipboardCut;
+  @experimental
+  final QuillToolbarClipboardButtonOptions clipboardCopy;
+  @experimental
+  final QuillToolbarClipboardButtonOptions clipboardPaste;
 
-  /// The reason we call this buttons in the end because this is responsible
-  /// for all the header style buttons and not just one, you still
-  /// can customize it and you also have child builder
   final QuillToolbarSelectHeaderStyleButtonsOptions selectHeaderStyleButtons;
 
-  /// The reason we call this buttons in the end because this is responsible
-  /// for all the header style buttons and not just one, you still
-  /// can customize it and you also have child builder
   final QuillToolbarSelectHeaderStyleDropdownButtonOptions
       selectHeaderStyleDropdownButton;
 

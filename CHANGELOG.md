@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING**: Change the `options` parameter class type from `QuillToolbarToggleStyleButtonOptions` to `QuillToolbarClipboardButtonOptions` in `QuillToolbarClipboardButton`. To migrate, use `QuillToolbarClipboardButtonOptions` instead of `QuillToolbarToggleStyleButtonOptions` [#2433](https://github.com/singerdmx/flutter-quill/pull/2433).
+
 ## [11.0.0-dev.19] - 2025-01-10
 
 ### Added
 
-- Croatian (hr) language translation.
+- Croatian (hr) language translation [#2431](https://github.com/singerdmx/flutter-quill/pull/2431).
 
 ## [11.0.0-dev.18] - 2025-01-06
 
