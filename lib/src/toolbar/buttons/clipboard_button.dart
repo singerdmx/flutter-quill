@@ -193,17 +193,16 @@ class QuillToolbarClipboardButtonState
     }
 
     return UtilityWidgets.maybeTooltip(
-      message: tooltip,
-      child: QuillToolbarIconButton(
-        icon: Icon(
-          iconData,
-          size: iconSize * iconButtonFactor,
-        ),
-        isSelected: false,
-        onPressed: currentValue ? _onPressed : null,
-        afterPressed: afterButtonPressed,
-        iconTheme: iconTheme,
-      ),
-    );
+        message: tooltip,
+        child: QuillToolbarIconButton(
+          icon: Icon(
+            iconData,
+            size: iconSize * iconButtonFactor,
+          ),
+          isSelected: false,
+          onPressed: currentValue ? _onPressed : null,
+          afterPressed: afterButtonPressed,
+          iconTheme: iconTheme,
+        ));
   }
 }
