@@ -41,7 +41,6 @@ class QuillToolbarBaseButtonOptions<T, I> {
     this.afterButtonPressed,
     this.tooltip,
     this.iconTheme,
-    this.enableClipboardPaste,
     this.childBuilder,
   });
 
@@ -65,14 +64,6 @@ class QuillToolbarBaseButtonOptions<T, I> {
 
   /// Use custom theme
   final QuillIconTheme? iconTheme;
-
-  /// Determines if the paste button is enabled. The button is disabled and cannot be clicked if set to `false`.
-  ///
-  /// Defaults to [ClipboardMonitor] in case of `null`, which checks if the clipboard has content to paste every second and only then enables the button, indicating to the user that they can paste something.
-  ///
-  /// Set it to `true` to enable it even if the clipboard has no content to paste, which will do nothing on a press.
-  final bool? enableClipboardPaste;
-
   /// If you want to display a different widget based using a builder
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 }
