@@ -1,0 +1,43 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter --version
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+      
+      - name: Install flutter_quill_extensions dependencies
+        run: flutter pub get -C flutter_quill_extensions
+
+      - name: Install flutter_quill_test dependencies
+        run: flutter pub get -C flutter_quill_test
+
+      - name: Run flutter_quill tests
+        run: flutter test
+
+      - name: Run flutter_quill_extensions tests
+        run: flutter test
+        working-directory: flutter_quill_extensions
+
+      - name: Run flutter_quill_test tests
+        run: flutter test
+        working-directory: flutter_quill_test

@@ -1,0 +1,40 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter --version
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+      
+      - name: Install flutter_quill_extensions dependencies
+        run: flutter pub get -C flutter_quill_extensions
+
+      - name: Install flutter_quill_test dependencies
+        run: flutter pub get -C flutter_quill_test
+
+      - name: Perform Flutter Analysis
+        run: flutter analyze --write=flutter_analyze.log
+
+      - if: ${{ !cancelled() }}
+        name: Run Flutter Analyze Commenter
+        uses: yorifuji/flutter-analyze-commenter@v1
+        with:
+          analyze-log: flutter_analyze.log
+          verbose: false 

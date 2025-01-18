@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Replace the dependency [`universal_html`](https://pub.dev/packages/universal_html) with [`web`](https://pub.dev/packages/web) to avoid WASM compilation issues.
+
 ## [11.0.0-dev.7] - 2024-12-13
 
 ### Changed
