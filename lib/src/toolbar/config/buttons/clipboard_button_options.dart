@@ -25,5 +25,8 @@ class QuillToolbarClipboardButtonOptions
   /// Defaults to [ClipboardMonitor] in case of `null`, which checks if the clipboard has content to paste every second and only then enables the button, indicating to the user that they can paste something.
   ///
   /// Set it to `true` to enable it even if the clipboard has no content to paste, which will do nothing on a press.
+  ///
+  /// Only applicable if the [QuillToolbarClipboardButton.clipboardAction]
+  /// is [ClipboardAction.paste].
   final bool? enableClipboardPaste;
 }
