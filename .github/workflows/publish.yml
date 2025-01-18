@@ -1,4 +1,4 @@
-name: 🚀 Publish to pub.dev
+name: Publish
 
 # Note: This workflow only publishes flutter_quill package, the flutter_quill_extensions 
 # need to be manually published.
@@ -10,59 +10,58 @@ on:
 
 jobs:
   publish:
-    name: Publish the flutter_quill package
+    name: Publish the flutter_quill package to pub.dev
     permissions:
       id-token: write # Required for authentication using OIDC to publish to pub.dev
       contents: write # Required for creating a GitHub release and uploading the LICENSE file
     runs-on: ubuntu-latest
     steps:
-      - name: 📦 Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🛠️ Set up Flutter
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
           cache: true
       
-      - name: 🔍 Verify Flutter installation
+      - name: Verify Flutter installation
         run: flutter --version
 
-      - name: 📥 Install Flutter dependencies
+      - name: Install Flutter dependencies
         run: flutter pub get
       
       # This is needed in order for the authentication to success
       # dart pub token add https://pub.dev --env-var PUB_TOKEN
       # Requests to "https://pub.dev" will now be authenticated using the secret token stored in the environment variable "PUB_TOKEN".
-      - name: 🏗️ Set up Dart environment
+      - name: Set up Dart environment
         uses: dart-lang/setup-dart@v1
       ## dart-lang/setup-dart/.github/workflows/publish.yml@v1
       # - name: Update the authorization requests to "https://pub.dev" to use the environment variable "PUB_TOKEN".
       #   run: dart pub token add https://pub.dev --env-var PUB_TOKEN
 
       # Extract version from the tag (handles the 'v' prefix)
-      - name: 🏷️ Extract version from tag as pubspec.yaml version
+      - name: Extract version from tag as pubspec.yaml version
         id: extract_version
         run: |
           version=$(echo ${GITHUB_REF} | sed 's/^refs\/tags\/v\(.*\)$/\1/')
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
-      - name: 🔍 Validate extracted version format (should be pubspec.yaml valid version)
+      - name: Validate extracted version format (should be pubspec.yaml valid version)
         run: |
           version=${{ steps.extract_version.outputs.VERSION }}
           if [[ ! $version =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
-            echo "❌ Invalid version format: $version. The version must be a valid pubspec.yaml version"
+            echo "Invalid version format: $version. The version must be a valid pubspec.yaml version"
             exit 1
           fi
 
-      - name: ✂️ Extract Release Notes from CHANGELOG.md
+      - name: Extract Release Notes from CHANGELOG.md
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v2
         with:
           changelog_file: CHANGELOG.md
           release_notes_file: RELEASE_NOTES.md
 
-      - name: 🚀 Create a GitHub Release
+      - name: Create a GitHub Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "LICENSE"
@@ -70,8 +69,8 @@ jobs:
           tag: ${{ github.ref_name }}
           prerelease: ${{ contains(github.ref_name, '-') }}
 
-      - name: 🔄 Check if package is ready for publishing
+      - name: Check if package is ready for publishing
         run: flutter pub publish --dry-run
 
-      - name: 📤 Publish flutter_quill
+      - name: Publish flutter_quill
         run: flutter pub publish --force
