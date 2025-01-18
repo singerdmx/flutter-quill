@@ -480,11 +480,9 @@ class QuillEditorConfig {
     Brightness? keyboardAppearance,
     ScrollPhysics? scrollPhysics,
     ValueChanged<String>? onLaunchUrl,
-    bool Function(
-            TapDragDownDetails details, TextPosition Function(Offset offset))?
+    bool Function(TapDownDetails details, TextPosition Function(Offset offset))?
         onTapDown,
-    bool Function(
-            TapDragUpDetails details, TextPosition Function(Offset offset))?
+    bool Function(TapUpDetails details, TextPosition Function(Offset offset))?
         onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
