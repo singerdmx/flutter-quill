@@ -33,7 +33,7 @@ dependencies:
 
   # Dart Packages
   meta: ^1.7.0
-  universal_html: ^2.2.4
+  web: ">=0.5.0 <2.0.0"
   path: ^1.8.0
 
   flutter_quill: ^11.0.0-dev.15
