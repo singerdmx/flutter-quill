@@ -64,6 +64,7 @@ class QuillToolbarBaseButtonOptions<T, I> {
 
   /// Use custom theme
   final QuillIconTheme? iconTheme;
+
   /// If you want to display a different widget based using a builder
   final QuillToolbarButtonOptionsChildBuilder<T, I> childBuilder;
 }
