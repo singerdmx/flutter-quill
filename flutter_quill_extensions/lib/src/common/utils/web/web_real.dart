@@ -13,6 +13,7 @@ void createHtmlImageElement({
   required String margin,
   required String alignSelf,
 }) {
+  print('Hello, World'); // Introduce linting issue for testing the new CI.
   ui.PlatformViewRegistry().registerViewFactory(src, (viewId) {
     return createHtmlImageElement(
       src: src,
