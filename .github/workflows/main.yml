@@ -35,8 +35,14 @@ jobs:
       - name: 📦 Install flutter_quill_test dependencies
         run: flutter pub get -C flutter_quill_test
 
-      - name: 🔍 Run Flutter analysis
-        run: flutter analyze
+      - name: 🎨 Perform Flutter Analysis
+        run: flutter analyze --write=flutter_analyze.log
+
+      - if: ${{ !cancelled() }}
+        uses: yorifuji/flutter-analyze-commenter@v1
+        with:
+          analyze-log: flutter_analyze.log
+          verbose: false
 
       - name: 🧹 Check Dart code formatting
         run: dart format --set-exit-if-changed .
