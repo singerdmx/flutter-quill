@@ -68,7 +68,7 @@ jobs:
       - name: Create a GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "LICENSE,./example/build/app/outputs/flutter-apk/app-release.apk "
+          artifacts: "LICENSE,./example/build/app/outputs/flutter-apk/app-release.apk"
           bodyFile: "RELEASE_NOTES.md"
           tag: ${{ github.ref_name }}
           prerelease: ${{ contains(github.ref_name, '-') }}
