@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
-import 'package:flutter/foundation.dart' show ValueListenable, kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,7 +16,6 @@ import '../document/nodes/container.dart' as container_node;
 import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
-import 'magnifier/magnifier_platform_support.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
@@ -320,7 +319,6 @@ class QuillEditorState extends State<QuillEditor>
         onScribbleActivated: configurations.onScribbleActivated,
         scribbleAreaInsets: configurations.scribbleAreaInsets,
         readOnlyMouseCursor: configurations.readOnlyMouseCursor,
-        magnifierConfiguration: configurations.magnifierConfiguration,
         textInputAction: configurations.textInputAction,
         onPerformAction: configurations.onPerformAction,
       ),
@@ -448,10 +446,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
         SelectionChangedCause.longPress,
       );
     }
-    editor?.updateMagnifier(details.globalPosition);
   }
 
-  bool _isPositionSelected(TapDragUpDetails details) {
+  bool _isPositionSelected(TapUpDetails details) {
     if (_state.controller.document.isEmpty()) {
       return false;
     }
@@ -474,7 +471,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
-  void onTapDown(TapDragDownDetails details) {
+  void onTapDown(TapDownDetails details) {
     if (_state.configurations.onTapDown != null) {
       if (renderEditor != null &&
           _state.configurations.onTapDown!(
@@ -495,7 +492,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
   }
 
   @override
-  void onSingleTapUp(TapDragUpDetails details) {
+  void onSingleTapUp(TapUpDetails details) {
     if (_state.configurations.onTapUp != null &&
         renderEditor != null &&
         _state.configurations.onTapUp!(
@@ -582,8 +579,6 @@ class _QuillEditorSelectionGestureDetectorBuilder
         Feedback.forLongPress(_state.context);
       }
     }
-
-    _showMagnifierIfSupported(details.globalPosition);
   }
 
   @override
@@ -602,20 +597,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     }
-    _hideMagnifierIfSupported();
     super.onSingleLongTapEnd(details);
-  }
-
-  void _showMagnifierIfSupported(Offset positionToShow) {
-    if (magnifierSupported) {
-      editor?.showMagnifier(positionToShow);
-    }
-  }
-
-  void _hideMagnifierIfSupported() {
-    if (magnifierSupported) {
-      editor?.hideMagnifier();
-    }
   }
 }
 
@@ -689,7 +671,6 @@ class RenderEditor extends RenderEditableContainerBox
   Document document;
   TextSelection selection;
   bool _hasFocus = false;
-  bool get hasFocus => _hasFocus;
   LayerLink _startHandleLayerLink;
   LayerLink _endHandleLayerLink;
 
@@ -896,19 +877,11 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   Offset? _lastTapDownPosition;
-  Offset? _lastSecondaryTapDownPosition;
-
-  Offset? get lastSecondaryTapDownPosition => _lastSecondaryTapDownPosition;
 
   // Used on Desktop (mouse and keyboard enabled platforms) as base offset
   // for extending selection, either with combination of `Shift` + Click or
   // by dragging
   TextSelection? _extendSelectionOrigin;
-
-  void handleSecondaryTapDown(TapDownDetails details) {
-    _lastTapDownPosition = details.globalPosition;
-    _lastSecondaryTapDownPosition = details.globalPosition;
-  }
 
   @override
   void handleTapDown(TapDownDetails details) {
@@ -917,7 +890,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   bool _isDragging = false;
 
-  void handleDragStart(TapDragStartDetails details) {
+  void handleDragStart(DragStartDetails details) {
     _isDragging = true;
 
     final newSelection = selectPositionAt(
@@ -930,7 +903,7 @@ class RenderEditor extends RenderEditableContainerBox
     _extendSelectionOrigin = newSelection;
   }
 
-  void handleDragEnd(TapDragEndDetails details) {
+  void handleDragEnd(DragEndDetails details) {
     _isDragging = false;
     onSelectionCompleted();
   }
