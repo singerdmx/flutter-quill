@@ -141,39 +141,39 @@ class QuillEditorConfig {
   @experimental
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
-/// Configuration for displaying placeholders in empty lines or near the cursor.
-///
-/// ### Example
-///
-/// To show a placeholder text specifically for header items:
-///
-/// ```dart
-/// final configuration = PlaceholderConfig(
-///   builders: <String, PlaceholderComponentBuilder>{
-///     Attribute.header.key: (Attribute attr, style) {
-///       final values = [30, 27, 22];
-///       final level = attr.value as int?;
-///       if (level == null) return null;
-///       final fontSize = values[(level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
-///       return PlaceholderTextBuilder(
-///         text: 'Header $level',
-///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
-///       );
-///     },
-///   },
-///   // If using custom attributes, register their keys here.
-///   customBlockAttributesKeys: null,
-/// );
-/// ```
-@experimental
-final PlaceholderConfig? placeholderConfig;
+  /// Configuration for displaying placeholders in empty lines or near the cursor.
+  ///
+  /// ### Example
+  ///
+  /// To show a placeholder text specifically for header items:
+  ///
+  /// ```dart
+  /// final configuration = PlaceholderConfig(
+  ///   builders: <String, PlaceholderComponentBuilder>{
+  ///     Attribute.header.key: (Attribute attr, style) {
+  ///       final values = [30, 27, 22];
+  ///       final level = attr.value as int?;
+  ///       if (level == null) return null;
+  ///       final fontSize = values[(level - 1 < 0 || level - 1 > 3 ? 0 : level - 1)];
+  ///       return PlaceholderTextBuilder(
+  ///         text: 'Header $level',
+  ///         style: TextStyle(fontSize: fontSize.toDouble()).merge(style),
+  ///       );
+  ///     },
+  ///   },
+  ///   // If using custom attributes, register their keys here.
+  ///   customBlockAttributesKeys: null,
+  /// );
+  /// ```
+  @experimental
+  final PlaceholderConfig? placeholderConfig;
 
-/// Configures how a placeholder is displayed relative to the cursor.
-///
-/// This argument specifies the appearance, style, and position of a placeholder
-/// shown at the cursor's location in an empty line.
-@experimental
-final CursorPlaceholderConfig? cursorPlaceholderConfig;
+  /// Configures how a placeholder is displayed relative to the cursor.
+  ///
+  /// This argument specifies the appearance, style, and position of a placeholder
+  /// shown at the cursor's location in an empty line.
+  @experimental
+  final CursorPlaceholderConfig? cursorPlaceholderConfig;
 
   /// A handler for keys that are pressed when the editor is focused.
   ///
@@ -556,8 +556,7 @@ final CursorPlaceholderConfig? cursorPlaceholderConfig;
     return QuillEditorConfig(
       cursorPlaceholderConfig:
           cursorPlaceholderConfig ?? this.cursorPlaceholderConfig,
-      placeholderConfig: placeholderConfig ??
-          this.placeholderConfig,
+      placeholderConfig: placeholderConfig ?? this.placeholderConfig,
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,

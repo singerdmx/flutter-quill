@@ -5,9 +5,9 @@ const TextStyle _defaultPlaceholderStyle =
 
 /// Configuration for displaying a placeholder near the cursor in a rich text editor.
 ///
-/// The `CursorPlaceholderConfig` defines the appearance, position, and behavior 
+/// The `CursorPlaceholderConfig` defines the appearance, position, and behavior
 /// of a placeholder that is shown when a line is empty and the cursor is present.
-/// This feature mimics behavior in some rich text editors where placeholder text 
+/// This feature mimics behavior in some rich text editors where placeholder text
 /// (e.g., "Start writing...") appears as a prompt when no content is entered.
 @immutable
 class CursorPlaceholderConfig {

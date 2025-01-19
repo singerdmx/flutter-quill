@@ -255,12 +255,9 @@ class QuillEditorState extends State<QuillEditor>
 
     final showSelectionToolbar = configurations.enableInteractiveSelection &&
         configurations.enableSelectionToolbar;
-    final placeholderBuilder =
-        widget.config.placeholderConfig == null
-            ? null
-            : PlaceholderBuilder(
-                configuration:
-                    widget.config.placeholderConfig!);
+    final placeholderBuilder = widget.config.placeholderConfig == null
+        ? null
+        : PlaceholderBuilder(configuration: widget.config.placeholderConfig!);
     final child = QuillRawEditor(
       key: _editorKey,
       controller: controller,

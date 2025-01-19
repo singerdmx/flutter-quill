@@ -141,7 +141,6 @@ class QuillRawEditorConfig {
   ///```
   final List<SpaceShortcutEvent> spaceShortcutEvents;
 
-
   /// A handler for keys that are pressed when the editor is focused.
   ///
   /// This feature is supported on **desktop devices only**.

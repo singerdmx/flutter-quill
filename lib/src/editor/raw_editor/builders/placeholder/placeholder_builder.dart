@@ -19,8 +19,8 @@ final List<String> _blackList = List.unmodifiable(<String>[
 
 /// A utility class for managing placeholder rendering logic in a document editor.
 ///
-/// The `PlaceholderBuilder` is responsible for determining when a placeholder 
-/// should be displayed in an empty node and for constructing the corresponding 
+/// The `PlaceholderBuilder` is responsible for determining when a placeholder
+/// should be displayed in an empty node and for constructing the corresponding
 /// visual representation.
 ///
 /// - [configuration]: An instance of [PlaceholderConfig] containing placeholder
@@ -43,7 +43,7 @@ class PlaceholderBuilder {
   ///
   /// This method checks if the node is empty and contains a block-level attribute
   /// matching a builder key or custom attribute, excluding keys in the blacklist.
-  /// 
+  ///
   /// Returns a tuple:
   /// - [bool]: Whether a placeholder should be shown.
   /// - [String]: The key of the matching attribute, if applicable.

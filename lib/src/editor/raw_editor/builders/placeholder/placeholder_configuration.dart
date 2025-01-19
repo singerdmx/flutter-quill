@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'  show TextStyle;
+import 'package:flutter/material.dart' show TextStyle;
 import 'package:meta/meta.dart' show experimental, immutable;
 import '../../../../document/attribute.dart';
 
@@ -8,12 +8,12 @@ typedef PlaceholderComponentBuilder = PlaceholderTextBuilder? Function(
 /// Configuration class for defining how placeholders are handled in the editor.
 ///
 /// The `PlaceholderConfig` allows customization of placeholder behavior by
-/// providing builders for rendering specific components and defining custom 
+/// providing builders for rendering specific components and defining custom
 /// attribute keys that should be recognized during the placeholder build process.
 ///
-/// - [builders]: A map associating placeholder keys with their respective 
+/// - [builders]: A map associating placeholder keys with their respective
 ///   component builders, allowing custom rendering logic.
-/// - [customBlockAttributesKeys]: A set of additional attribute keys to include 
+/// - [customBlockAttributesKeys]: A set of additional attribute keys to include
 ///   in placeholder processing. By default, only predefined keys are considered.
 @experimental
 @immutable
