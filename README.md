@@ -192,23 +192,6 @@ void dispose() {
 
 Check out [Sample Page] for more advanced usage.
 
-### 💥 Breaking Changes
-
-- APIs marked with [`@experimental`](https://api.flutter.dev/flutter/meta/experimental-constant.html) 
-are subject to change or removal at any time and should be used with caution, 
-as they may be altered even in minor versions.
-
-- APIs marked with [`@internal`](https://api.flutter.dev/flutter/meta/internal-constant.html)
-and [`@visibleForTesting`](https://api.flutter.dev/flutter/meta/visibleForTesting-constant.html) are not intended for
-public use and should be avoided entirely.
-
-- The `package:flutter_quill/internal.dart` expose internal APIs
-to be used by other related packages and should be avoided when possible.
-
-We make every effort to ensure internal APIs are not exported by default. Use experimental features at your own discretion.
-
-We recommend checking the `CHANGELOG.md` or release notes for each update to stay informed.
-
 ## 🔤 Input / Output
 
 This library utilizes [Quill Delta](https://quilljs.com/docs/delta/) to represent document content.
