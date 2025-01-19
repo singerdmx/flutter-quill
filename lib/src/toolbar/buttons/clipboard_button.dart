@@ -56,7 +56,7 @@ class ClipboardMonitor {
 
 @experimental
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton({
+  const QuillToolbarClipboardButton({
     required super.controller,
     required this.clipboardAction,
     QuillToolbarClipboardButtonOptions? options,
