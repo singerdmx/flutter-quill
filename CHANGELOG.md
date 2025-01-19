@@ -12,13 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **BREAKING**: Change the `options` parameter class type from `QuillToolbarToggleStyleButtonOptions` to `QuillToolbarClipboardButtonOptions` in `QuillToolbarClipboardButton`. To migrate, use `QuillToolbarClipboardButtonOptions` instead of `QuillToolbarToggleStyleButtonOptions` [#2433](https://github.com/singerdmx/flutter-quill/pull/2433).
+- **BREAKING**: Change the `options` parameter class type from `QuillToolbarToggleStyleButtonOptions` to `QuillToolbarClipboardButtonOptions` in `QuillToolbarClipboardButton`. To migrate, use `QuillToolbarClipboardButtonOptions` instead of `QuillToolbarToggleStyleButtonOptions` [#2433](https://github.com/singerdmx/flutter-quill/pull/2433). This change was made for the PR [#2427](https://github.com/singerdmx/flutter-quill/pull/2427).
 - **BREAKING**: Change the `onTapDown` to accept `TapDownDetails` instead of `TapDragDownDetails` (revert [#2128](https://github.com/singerdmx/flutter-quill/pull/2128/files#diff-49ca9b0fdd0d380a06b34d5aed7674bbfb27fede500831b3e1279615a9edd06dL259-L261) due to regressions).
 - **BREAKING**: Change the `onTapUp` to accept `TapUpDetails` instead of `TapDragUpDetails` (revert [#2128](https://github.com/singerdmx/flutter-quill/pull/2128/files#diff-49ca9b0fdd0d380a06b34d5aed7674bbfb27fede500831b3e1279615a9edd06dL263-L265) due to regressions).
+- **BREAKING**: Revert [`Copy TapAndPanGestureRecognizer from TextField` PR #2128](https://github.com/singerdmx/flutter-quill/pull/2128), restoring editor behavior to match versions before [`10.4.0`](https://pub.dev/packages/flutter_quill/changelog#1040) due to the regressions [#2413](https://github.com/singerdmx/flutter-quill/pull/2413).
 
 ### Removed
 
-- **BREAKING**: The magnifier feature due to buggy behavior [#2413](https://github.com/singerdmx/flutter-quill/pull/2413). See [#2406](https://github.com/singerdmx/flutter-quill/issues/2406) for a list of reasons.
+- **BREAKING**: The magnifier feature due to buggy behavior [#2413](https://github.com/singerdmx/flutter-quill/pull/2413). See [#2406](https://github.com/singerdmx/flutter-quill/issues/2406) for a list of reasons [#2413](https://github.com/singerdmx/flutter-quill/pull/2413).
 
 ## [11.0.0-dev.19] - 2025-01-10
 
