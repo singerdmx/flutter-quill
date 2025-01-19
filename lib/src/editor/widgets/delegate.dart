@@ -10,7 +10,8 @@ import '../editor.dart';
 import '../raw_editor/raw_editor.dart';
 import 'text/text_selection.dart';
 
-typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
+typedef CustomStyleBuilder = TextStyle Function(
+    Attribute attribute, TextStyle style);
 
 typedef CustomRecognizerBuilder = GestureRecognizer? Function(
     Attribute attribute, Leaf leaf);
