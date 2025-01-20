@@ -146,26 +146,6 @@ class _HomePageState extends State<HomePage> {
                 config: QuillEditorConfig(
                   placeholder: 'Start writing your notes...',
                   padding: const EdgeInsets.all(16),
-                  customStyles: DefaultStyles(
-                    h2: DefaultTextBlockStyle(
-                        DefaultTextStyle.of(context).style.copyWith(
-                              fontSize: 30,
-                              color: DefaultTextStyle.of(context).style.color,
-                              letterSpacing: -0.8,
-                              height: 1.067,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.none,
-                            ),
-                        HorizontalSpacing(8, 8),
-                        const VerticalSpacing(8, 8),
-                        VerticalSpacing.zero,
-                        BoxDecoration(
-                          border: Border.all(
-                            width: 3,
-                            color: Colors.blue,
-                          ),
-                        )),
-                  ),
                   embedBuilders: [
                     ...FlutterQuillEmbeds.editorBuilders(
                       imageEmbedConfig: QuillEditorImageEmbedConfig(
