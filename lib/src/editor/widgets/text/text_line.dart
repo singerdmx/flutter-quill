@@ -1300,10 +1300,10 @@ class RenderEditableTextLine extends RenderEditableBox {
         );
       }
     }
-
-    if (decoration != null) {
+    final boxDecoration = decoration;
+    if (boxDecoration != null) {
       final paintRect = offset & size;
-      decoration!.createBoxPainter().paint(
+      boxDecoration.createBoxPainter().paint(
             context.canvas,
             paintRect.topLeft,
             ImageConfiguration(size: paintRect.size),
