@@ -1,1 +1,5 @@
 blank_issues_enabled: true
+contact_links:
+  - name: Community Support
+    url: https://github.com/singerdmx/flutter-quill/discussions/new?category=q-a
+    about: Ask a question about using the package.

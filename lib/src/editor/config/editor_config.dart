@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
 
@@ -77,7 +76,6 @@ class QuillEditorConfig {
     this.contextMenuBuilder,
     this.editorKey,
     this.requestKeyboardFocusOnCheckListChanged = false,
-    @experimental this.magnifierConfiguration,
     this.textInputAction = TextInputAction.newline,
     this.enableScribble = false,
     this.onScribbleActivated,
@@ -376,12 +374,11 @@ class QuillEditorConfig {
 
   // Returns whether gesture is handled
   final bool Function(
-          TapDragDownDetails details, TextPosition Function(Offset offset))?
-      onTapDown;
+      TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
 
   // Returns whether gesture is handled
   final bool Function(
-      TapDragUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+      TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
 
   // Returns whether gesture is handled
   final bool Function(
@@ -474,11 +471,6 @@ class QuillEditorConfig {
   /// should we request keyboard focus??
   final bool requestKeyboardFocusOnCheckListChanged;
 
-  /// This feature is currently experimental and only supported
-  /// on **Android** and **iOS**.
-  @experimental
-  final TextMagnifierConfiguration? magnifierConfiguration;
-
   /// Default to [TextInputAction.newline]
   final TextInputAction textInputAction;
 
@@ -526,6 +518,10 @@ class QuillEditorConfig {
     Brightness? keyboardAppearance,
     ScrollPhysics? scrollPhysics,
     ValueChanged<String>? onLaunchUrl,
+    bool Function(TapDownDetails details, TextPosition Function(Offset offset))?
+        onTapDown,
+    bool Function(TapUpDetails details, TextPosition Function(Offset offset))?
+        onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
     CustomStyleBuilder? customStyleBuilder,
@@ -546,7 +542,6 @@ class QuillEditorConfig {
     PlaceholderConfig? placeholderConfig,
     bool? requestKeyboardFocusOnCheckListChanged,
     CursorPlaceholderConfig? cursorPlaceholderConfig,
-    TextMagnifierConfiguration? magnifierConfiguration,
     TextInputAction? textInputAction,
     bool? enableScribble,
     void Function()? onScribbleActivated,
@@ -590,6 +585,8 @@ class QuillEditorConfig {
       keyboardAppearance: keyboardAppearance ?? this.keyboardAppearance,
       scrollPhysics: scrollPhysics ?? this.scrollPhysics,
       onLaunchUrl: onLaunchUrl ?? this.onLaunchUrl,
+      onTapUp: onTapUp ?? this.onTapUp,
+      onTapDown: onTapDown ?? this.onTapDown,
       embedBuilders: embedBuilders ?? this.embedBuilders,
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
@@ -616,8 +613,6 @@ class QuillEditorConfig {
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
-      magnifierConfiguration:
-          magnifierConfiguration ?? this.magnifierConfiguration,
       textInputAction: textInputAction ?? this.textInputAction,
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,

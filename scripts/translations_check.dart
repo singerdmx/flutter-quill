@@ -18,7 +18,7 @@ import 'package:yaml/yaml.dart';
 
 // This must be updated once add or remove some translation keys
 // if you update existing keys, no need to update it
-const _expectedTranslationKeysLength = 101;
+const _expectedTranslationKeysLength = 117;
 
 Future<void> main(List<String> args) async {
   final l10nYamlText = await File('l10n.yaml').readAsString();

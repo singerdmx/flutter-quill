@@ -17,6 +17,18 @@ Color hexToColor(String? hexString) {
   return Color(int.tryParse(buffer.toString(), radix: 16) ?? 0xFF000000);
 }
 
+// Without the hash sign (`#`).
 String colorToHex(Color color) {
-  return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();
+  int floatToInt8(double x) => (x * 255.0).round() & 0xff;
+
+  final alpha = floatToInt8(color.a);
+  final red = floatToInt8(color.r);
+  final green = floatToInt8(color.g);
+  final blue = floatToInt8(color.b);
+
+  return '${alpha.toRadixString(16).padLeft(2, '0')}'
+          '${red.toRadixString(16).padLeft(2, '0')}'
+          '${green.toRadixString(16).padLeft(2, '0')}'
+          '${blue.toRadixString(16).padLeft(2, '0')}'
+      .toUpperCase();
 }

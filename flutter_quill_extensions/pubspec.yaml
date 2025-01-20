@@ -1,6 +1,6 @@
 name: flutter_quill_extensions
-description: Embed extensions for flutter_quill including image, video, formula and etc.
-version: 11.0.0-dev.4
+description: Embed extensions for flutter_quill to support loading images and videos
+version: 11.0.0-dev.7
 homepage: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
 repository: https://github.com/singerdmx/flutter-quill/tree/master/flutter_quill_extensions/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
@@ -32,26 +32,23 @@ dependencies:
     sdk: flutter
 
   # Dart Packages
-  http: ^1.0.0
-  path: ^1.8.0
   meta: ^1.7.0
-  universal_html: ^2.2.4
-  cross_file: ^0.3.3+4
+  web: ">=0.5.0 <2.0.0"
+  path: ^1.8.0
 
-  flutter_quill: ^11.0.0-dev.3
+  flutter_quill: ^11.0.0-dev.15
   photo_view: ^0.15.0
 
   # Plugins
   video_player: ^2.8.0
   url_launcher: ^6.2.1
-  gal: ^2.3.0
-  gal_linux: ^0.1.0
   image_picker: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true

@@ -19,6 +19,7 @@ import 'quill_localizations_fa.dart';
 import 'quill_localizations_fr.dart';
 import 'quill_localizations_he.dart';
 import 'quill_localizations_hi.dart';
+import 'quill_localizations_hr.dart';
 import 'quill_localizations_hu.dart';
 import 'quill_localizations_id.dart';
 import 'quill_localizations_it.dart';
@@ -148,6 +149,7 @@ abstract class FlutterQuillLocalizations {
     Locale('fr'),
     Locale('he'),
     Locale('hi'),
+    Locale('hr'),
     Locale('hu'),
     Locale('id'),
     Locale('it'),
@@ -768,6 +770,54 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Insert video'**
   String get insertVideo;
+
+  /// A generic error message shown when an image cannot be saved due to an unknown issue
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred while saving the image. Please try again.'**
+  String get errorUnexpectedSavingImage;
+
+  /// Message shown when an image is successfully saved to the system gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved to your gallery.'**
+  String get successImageSavedGallery;
+
+  /// Message shown on desktop when an image is successfully saved. The user is prompted to open the file location
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved successfully.'**
+  String get successImageSaved;
+
+  /// Message shown on web when an image is successfully downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'Image downloaded successfully.'**
+  String get successImageDownloaded;
+
+  /// Label for the button that opens the system gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Open Gallery'**
+  String get openGallery;
+
+  /// Label for the button that opens the file explorer to the file's location
+  ///
+  /// In en, this message translates to:
+  /// **'Open File Location'**
+  String get openFileLocation;
+
+  /// Label for the button that opens the file
+  ///
+  /// In en, this message translates to:
+  /// **'Open File'**
+  String get openFile;
+
+  /// Message shown when the app is unable to save an image because a required permission was denied or skipped
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t save the image due to missing permission'**
+  String get saveImagePermissionDenied;
 }
 
 class _FlutterQuillLocalizationsDelegate
@@ -796,6 +846,7 @@ class _FlutterQuillLocalizationsDelegate
         'fr',
         'he',
         'hi',
+        'hr',
         'hu',
         'id',
         'it',
@@ -905,6 +956,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsHe();
     case 'hi':
       return FlutterQuillLocalizationsHi();
+    case 'hr':
+      return FlutterQuillLocalizationsHr();
     case 'hu':
       return FlutterQuillLocalizationsHu();
     case 'id':

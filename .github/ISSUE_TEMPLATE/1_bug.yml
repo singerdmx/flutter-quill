@@ -1,31 +1,30 @@
 name: Report a bug
-description: |
-  You found a bug in Flutter Quill causing your application to crash or
-  throw an exception, a widget is buggy, unexpected behavior or something looks wrong.
+description: Report issues with Flutter Quill, including crashes, exceptions, buggy widgets, or unexpected behavior.
 labels: 'bug'
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for using Flutter Quill!
+        Please provide the following details to help us address your issue effectively.
 
   - type: checkboxes
     attributes:
-      label: Is there an existing issue for this?
+      label: Have you checked for an existing issue?
+      description: Ensure there isn’t already an open issue for this feature request.
       options:
       - label: I have searched the [existing issues](https://github.com/singerdmx/flutter-quill/issues)
         required: true
   - type: input
     attributes:
-      label: Flutter Quill version
-      description: The version of the project for the packages (e.g., `flutter_quill` and `flutter_quill_extensions`)
-      placeholder: (e.g., 10.0.0)
+      label: Flutter Quill Version
+      description: The relevant package versions
+      placeholder: e.g., 10.0.0
     validations:
       required: false
   - type: textarea
     attributes:
-      label: Steps to reproduce
-      description: Please tell us exactly how to reproduce the problem you are running into.
+      label: Steps to Reproduce
+      description: Provide a clear step-by-step guide to reproduce the issue.
       placeholder: |
         1. ...
         2. ...
@@ -35,20 +34,22 @@ body:
   - type: textarea
     attributes:
       label: Expected results
-      description: Please tell us what is expected to happen.
+      description: Describe what you expected to happen.
     validations:
       required: true
   - type: textarea
     attributes:
       label: Actual results
-      description: Please tell us what is actually happening.
+      description: Describe what is happening instead of the expected behavior.
     validations:
       required: true
   - type: textarea
     attributes:
       label: Additional Context
       description: |
-        Include additional information such as Screenshots or Logs if needed.
+        Add any extra information such as screenshots, videos, or logs to help diagnose the issue.
+
+        Consider sharing the `pubspec.lock` file of the project if relevant.
 
         If the logs are too large to be uploaded to GitHub, you may upload
         them as a `txt` file or use online tools like https://pastebin.com to
@@ -57,15 +58,14 @@ body:
         <details>
         <summary>Screenshots / Video demonstration</summary>
 
-        [Upload media here]
+        [Attach media here]
 
         </details>
-
 
         <details><summary>Logs</summary>
 
         ```console
-        [Paste your logs here]
+        [Paste logs here]
         ```
 
         </details>

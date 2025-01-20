@@ -44,11 +44,9 @@ dependencies:
 
 The package uses the following plugins:
 
-1. [`gal`](https://github.com/natsuk4ze/gal) to save images.
-   Ensure to follow the [gal setup](https://pub.dev/packages/gal#-get-started) guide as it requires platform-specific setup.
-2. [`image_picker`](https://pub.dev/packages/image_picker) for picking images.
-   See the [image_picker installation](https://pub.dev/packages/image_picker#installation) section.
-3. [`video_player`](https://pub.dev/packages/video_player) for playing videos. See the [video_player setup](https://pub.dev/packages/video_player#setup) section.
+1. [`quill_native_bridge`](https://pub.dev/packages/quill_native_bridge) to save images: [Setup](https://pub.dev/packages/quill_native_bridge#-setup)
+2. [`image_picker`](https://pub.dev/packages/image_picker) for picking images: [Setup](https://pub.dev/packages/image_picker#installation)
+3. [`video_player`](https://pub.dev/packages/video_player) for video playback: [Setup](https://pub.dev/packages/video_player#setup)
 
 ### Loading Images from the Internet
 
@@ -62,8 +60,7 @@ The package uses the following plugins:
 2. To restrict image and video loading to HTTPS only, configure your app accordingly.
    If you need to support HTTP, you must adjust your app settings for release mode. Consult
    the [Android Cleartext / Plaintext HTTP](https://developer.android.com/privacy-and-security/risks/cleartext-communications)
-   guide
-   for more information.
+   guide for more information.
 
 #### macOS
 

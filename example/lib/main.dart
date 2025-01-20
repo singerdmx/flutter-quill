@@ -101,8 +101,6 @@ class _HomePageState extends State<HomePage> {
               controller: _controller,
               config: QuillSimpleToolbarConfig(
                 embedButtons: FlutterQuillEmbeds.toolbarButtons(),
-                showClipboardCopy: false,
-                showClipboardCut: false,
                 showClipboardPaste: true,
                 customButtons: [
                   QuillToolbarCustomButtonOptions(

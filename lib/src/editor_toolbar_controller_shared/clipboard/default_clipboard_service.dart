@@ -2,9 +2,8 @@ import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart' show experimental;
-import 'package:quill_native_bridge/quill_native_bridge.dart'
-    show QuillNativeBridge, QuillNativeBridgeFeature;
 
+import '../../common/utils/quill_native_provider.dart';
 import 'clipboard_service.dart';
 
 /// Default implementation of [ClipboardService] to support rich clipboard
@@ -13,50 +12,50 @@ import 'clipboard_service.dart';
 class DefaultClipboardService extends ClipboardService {
   @override
   Future<String?> getHtmlText() async {
-    if (!(await QuillNativeBridge.isSupported(
-        QuillNativeBridgeFeature.getClipboardHtml))) {
+    if (!(await QuillNativeProvider.instance
+        .isSupported(QuillNativeBridgeFeature.getClipboardHtml))) {
       return null;
     }
-    return await QuillNativeBridge.getClipboardHtml();
+    return await QuillNativeProvider.instance.getClipboardHtml();
   }
 
   @override
   Future<Uint8List?> getImageFile() async {
-    if (!(await QuillNativeBridge.isSupported(
-        QuillNativeBridgeFeature.getClipboardImage))) {
+    if (!(await QuillNativeProvider.instance
+        .isSupported(QuillNativeBridgeFeature.getClipboardImage))) {
       return null;
     }
-    return await QuillNativeBridge.getClipboardImage();
+    return await QuillNativeProvider.instance.getClipboardImage();
   }
 
   @override
   Future<void> copyImage(Uint8List imageBytes) async {
-    if (!(await QuillNativeBridge.isSupported(
-        QuillNativeBridgeFeature.copyImageToClipboard))) {
+    if (!(await QuillNativeProvider.instance
+        .isSupported(QuillNativeBridgeFeature.copyImageToClipboard))) {
       return;
     }
-    await QuillNativeBridge.copyImageToClipboard(imageBytes);
+    await QuillNativeProvider.instance.copyImageToClipboard(imageBytes);
   }
 
   @override
   Future<Uint8List?> getGifFile() async {
-    if (!(await QuillNativeBridge.isSupported(
-        QuillNativeBridgeFeature.getClipboardGif))) {
+    if (!(await QuillNativeProvider.instance
+        .isSupported(QuillNativeBridgeFeature.getClipboardGif))) {
       return null;
     }
-    return QuillNativeBridge.getClipboardGif();
+    return QuillNativeProvider.instance.getClipboardGif();
   }
 
   Future<String?> _getClipboardFile({required String fileExtension}) async {
-    if (!(await QuillNativeBridge.isSupported(
-        QuillNativeBridgeFeature.getClipboardFiles))) {
+    if (!(await QuillNativeProvider.instance
+        .isSupported(QuillNativeBridgeFeature.getClipboardFiles))) {
       return null;
     }
     if (kIsWeb) {
       // TODO: Can't read file with dart:io on the Web (See related https://github.com/FlutterQuill/quill-native-bridge/issues/6)
       return null;
     }
-    final filePaths = await QuillNativeBridge.getClipboardFiles();
+    final filePaths = await QuillNativeProvider.instance.getClipboardFiles();
     final filePath = filePaths.firstWhere(
       (filePath) => filePath.endsWith('.$fileExtension'),
       orElse: () => '',

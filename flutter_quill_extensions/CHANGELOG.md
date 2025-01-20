@@ -10,6 +10,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Replace the dependency [`universal_html`](https://pub.dev/packages/universal_html) with [`web`](https://pub.dev/packages/web) to avoid WASM compilation issues.
+
+## [11.0.0-dev.7] - 2024-12-13
+
+### Changed
+
+- Address warnings of `unreachable_switch_default` (introduced in Dart 3.6).
+- Use `Slider.adaptive` for the image resize slider on Apple platforms for consistency with `CupertinoActionSheet`.
+
+## [11.0.0-dev.6] - 2024-12-13
+
+### Changed
+
+- Rewrite the image save functionality with support for all platforms [#2403](https://github.com/singerdmx/flutter-quill/pull/2403).
+- Ignore `unreachable_switch_default` warning (introduced in Dart 3.6) [#2416](https://github.com/singerdmx/flutter-quill/pull/2416).
+
+### Removed
+
+- The following packages are no longer dependencies of `flutter_quill_extensions`:
+  * [http](https://pub.dev/packages/http)
+  * [cross_file](https://pub.dev/packages/cross_file)
+
 ## [11.0.0-dev.4] - 2024-11-24
 
 > [!IMPORTANT]

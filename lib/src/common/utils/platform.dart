@@ -3,7 +3,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform, kDebugMode, kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:quill_native_bridge/quill_native_bridge.dart';
+
+import 'quill_native_provider.dart';
 
 // Android
 
@@ -26,7 +27,7 @@ Future<bool> isIOSSimulator() async {
     return false;
   }
 
-  return await QuillNativeBridge.isIOSSimulator();
+  return await QuillNativeProvider.instance.isIOSSimulator();
 }
 
 // Mobile

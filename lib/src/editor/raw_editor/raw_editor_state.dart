@@ -8,8 +8,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
-import 'package:flutter/services.dart'
-    show Clipboard, HardwareKeyboard, SystemChannels, TextInputControl;
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart'
     show KeyboardVisibilityController;
 
@@ -323,11 +322,6 @@ class QuillRawEditorState extends EditorState
       case TargetPlatform.windows:
         widget.config.focusNode.unfocus();
         break;
-      default:
-        throw UnsupportedError(
-          'The platform ${defaultTargetPlatform.name} is not supported in the'
-          ' _defaultOnTapOutside()',
-        );
     }
   }
 
@@ -514,15 +508,9 @@ class QuillRawEditorState extends EditorState
     final oldSelection = controller.selection;
     controller.updateSelection(selection, ChangeSource.local);
 
-    if (_selectionOverlay == null) {
-      _selectionOverlay = _createSelectionOverlay();
-    } else {
-      _selectionOverlay!.update(textEditingValue);
-    }
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
-    _selectionOverlay?.showHandles();
 
-    if (!_hasFocus) {
+    if (!_keyboardVisible) {
       // This will show the keyboard for all selection changes on the
       // editor, not just changes triggered by user gestures.
       requestKeyboard();
@@ -948,7 +936,6 @@ class QuillRawEditorState extends EditorState
 
   @override
   void dispose() {
-    hideMagnifier();
     closeConnectionIfNeeded();
     _keyboardVisibilitySubscription?.cancel();
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
@@ -1049,36 +1036,30 @@ class QuillRawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (_hasFocus) {
-        _selectionOverlay!.update(textEditingValue);
-      } else {
+      if (!_hasFocus || textEditingValue.selection.isCollapsed) {
         _selectionOverlay!.dispose();
         _selectionOverlay = null;
+      } else {
+        _selectionOverlay!.update(textEditingValue);
       }
     } else if (_hasFocus) {
-      _selectionOverlay = _createSelectionOverlay();
+      _selectionOverlay = EditorTextSelectionOverlay(
+        value: textEditingValue,
+        context: context,
+        debugRequiredFor: widget,
+        startHandleLayerLink: _startHandleLayerLink,
+        endHandleLayerLink: _endHandleLayerLink,
+        renderObject: renderEditor,
+        selectionCtrls: widget.config.selectionCtrls,
+        selectionDelegate: this,
+        clipboardStatus: _clipboardStatus,
+        contextMenuBuilder: widget.config.contextMenuBuilder == null
+            ? null
+            : (context) => widget.config.contextMenuBuilder!(context, this),
+      );
       _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
       _selectionOverlay!.showHandles();
     }
-  }
-
-  EditorTextSelectionOverlay _createSelectionOverlay() {
-    return EditorTextSelectionOverlay(
-      value: textEditingValue,
-      context: context,
-      debugRequiredFor: widget,
-      startHandleLayerLink: _startHandleLayerLink,
-      endHandleLayerLink: _endHandleLayerLink,
-      renderObject: renderEditor,
-      selectionCtrls: widget.config.selectionCtrls,
-      selectionDelegate: this,
-      clipboardStatus: _clipboardStatus,
-      contextMenuBuilder: widget.config.contextMenuBuilder == null
-          ? null
-          : (context) => widget.config.contextMenuBuilder!(context, this),
-      magnifierConfiguration: widget.config.magnifierConfiguration ??
-          TextMagnifier.adaptiveMagnifierConfiguration,
-    );
   }
 
   void _handleFocusChanged() {
@@ -1229,16 +1210,6 @@ class QuillRawEditorState extends EditorState
   }
 
   @override
-  void toggleToolbar([bool hideHandles = true]) {
-    final selectionOverlay = _selectionOverlay ??= _createSelectionOverlay();
-    if (selectionOverlay.handlesVisible) {
-      hideToolbar(hideHandles);
-    } else {
-      showToolbar();
-    }
-  }
-
-  @override
   bool get wantKeepAlive => widget.config.focusNode.hasFocus;
 
   @override
@@ -1298,28 +1269,4 @@ class QuillRawEditorState extends EditorState
 
   @override
   bool get shareEnabled => false;
-
-  @override
-  void hideMagnifier() {
-    if (_selectionOverlay == null) return;
-    _selectionOverlay?.hideMagnifier();
-  }
-
-  @override
-  void showMagnifier(ui.Offset positionToShow) {
-    if (_hasFocus == false) return;
-    if (_selectionOverlay == null) return;
-    final position = renderEditor.getPositionForOffset(positionToShow);
-    if (_selectionOverlay!.isMagnifierVisible) {
-      _selectionOverlay!
-          .updateMagnifier(position, positionToShow, renderEditor);
-    } else {
-      _selectionOverlay!.showMagnifier(position, positionToShow, renderEditor);
-    }
-  }
-
-  @override
-  void updateMagnifier(ui.Offset positionToShow) {
-    showMagnifier(positionToShow);
-  }
 }
