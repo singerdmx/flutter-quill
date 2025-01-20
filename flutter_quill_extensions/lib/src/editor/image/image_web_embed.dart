@@ -1,13 +1,10 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:universal_html/html.dart' as html;
 
-import '../../common/utils/dart_ui/dart_ui_fake.dart'
-    if (dart.library.js_interop) '../../common/utils/dart_ui/dart_ui_real.dart'
-    as ui;
 import '../../common/utils/element_utils/element_web_utils.dart';
 import '../../common/utils/utils.dart';
+import '../../common/utils/web/web.dart';
 import 'config/image_web_config.dart';
 
 class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
@@ -48,15 +45,13 @@ class QuillEditorWebImageEmbedBuilder extends EmbedBuilder {
       }
     }
 
-    ui.PlatformViewRegistry().registerViewFactory(imageSource, (viewId) {
-      return html.ImageElement()
-        ..src = imageSource
-        ..style.height = height
-        ..style.width = width
-        ..style.margin = margin
-        ..style.alignSelf = alignment
-        ..attributes['loading'] = 'lazy';
-    });
+    createHtmlImageElement(
+      src: imageSource,
+      alignSelf: alignment,
+      width: width,
+      height: height,
+      margin: margin,
+    );
 
     return ConstrainedBox(
       constraints:

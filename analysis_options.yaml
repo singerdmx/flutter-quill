@@ -30,3 +30,4 @@ linter:
     unnecessary_parenthesis: true
     unnecessary_string_interpolations: true
     avoid_web_libraries_in_flutter: true
+    conditional_uri_does_not_exist: true

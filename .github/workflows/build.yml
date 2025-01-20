@@ -1,46 +1,107 @@
-# TODO: Update the workflow to build on Android, iOS, desktop (macOS and Windows) instead of just Linux and Web
-
-name: 🏗️ Build the example
+name: Build the example
 
 on:
   pull_request:
     branches: [master, dev]
 
 jobs:
-  build_linux:
-    name: 🐧 Build Linux and Web Apps
+  # Build the Linux, Android and web apps on Linux
+  linux-web-android:
+    name: Linux, Android and Web Apps
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📦 Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🛠️ Set up Flutter 
+      - name: Set up Flutter 
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
           cache: true
 
-      - name: 🔍 Verify Flutter installation
+      - name: Verify Flutter installation
         run: flutter --version
 
-      - name: 📥 Install Flutter dependencies
+      - name: Install flutter_quill dependencies
         run: flutter pub get
 
-      - name: 🌐 Build Flutter Web Application
-        run: flutter build web --release --verbose --dart-define=CI=true
+      - name: Install example dependencies
+        run: flutter pub get -C example
+
+      - name: Build the Web app
+        run: flutter build web --release --dart-define=CI=true
         working-directory: ./example
 
-      # TODO: Update the CI to not upgrade all the packages to save some time
-      - name: 🔄 Update and Upgrade APT Packages
-        run: sudo apt update -y && sudo apt upgrade -y
+      - name: Build the Web app with WebAssembly
+        run: flutter build web --release --wasm --dart-define=CI=true
+        working-directory: ./example
 
-      - name: 🛠️ Install Flutter Linux Prerequisites
-        run: sudo apt install -y curl git unzip xz-utils zip libglu1-mesa
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
-      - name: 🧩 Install Flutter Linux Desktop Dependencies
-        run: sudo apt install -y clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+      - name: Build the Linux app
+        run: flutter build linux --release --dart-define=CI=true
+        working-directory: ./example
 
-      - name: 🐧 Build Flutter Linux Desktop Application
-        run: flutter build linux --release --verbose --dart-define=CI=true
+      - name: Build the Android app
+        run: flutter build appbundle --release --dart-define=CI=true
+        working-directory: ./example
+
+  macos:
+    name: iOS and macOS apps
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter 
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter --version
+
+      - name: Install flutter_quill dependencies
+        run: flutter pub get
+
+      - name: Install example dependencies
+        run: flutter pub get -C example
+
+      - name: Build the iOS app
+        run: flutter build ios --no-codesign --release --dart-define=CI=true
+        working-directory: ./example
+
+      - name: Build the macOS app
+        run: flutter build macos --release --dart-define=CI=true
+        working-directory: ./example
+
+  windows:
+    name: Windows app
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter 
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Verify Flutter installation
+        run: flutter --version
+
+      - name: Install flutter_quill dependencies
+        run: flutter pub get
+
+      - name: Install example dependencies
+        run: flutter pub get -C example
+
+      - name: Build the Windows app
+        run: flutter build windows --release --dart-define=CI=true
         working-directory: ./example
