@@ -22,8 +22,11 @@ class ClipboardMonitor {
   bool get canPaste => _canPaste;
   Timer? _timer;
 
+  bool _isCheckingClipboard = false;
+
   void monitorClipboard(bool add, void Function() listener) {
     if (kIsWeb) return;
+
     if (add) {
       _timer = Timer.periodic(
           const Duration(seconds: 1), (timer) => _update(listener));
@@ -33,17 +36,27 @@ class ClipboardMonitor {
   }
 
   Future<void> _update(void Function() listener) async {
+    if (_isCheckingClipboard) {
+      return;
+    }
+
+    _isCheckingClipboard = true;
+
     final clipboardService = ClipboardServiceProvider.instance;
+
     if (await clipboardService.hasClipboardContent) {
       _canPaste = true;
+
       listener();
     }
+
+    _isCheckingClipboard = false;
   }
 }
 
 @experimental
 class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
-  QuillToolbarClipboardButton({
+  const QuillToolbarClipboardButton({
     required super.controller,
     required this.clipboardAction,
     QuillToolbarClipboardButtonOptions? options,
@@ -55,13 +68,9 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
   })  : _options = options,
         super(options: options ?? const QuillToolbarClipboardButtonOptions());
 
-  // TODO: This field will be used by the PR: https://github.com/singerdmx/flutter-quill/pull/2427
-  // ignore: unused_field
   final QuillToolbarClipboardButtonOptions? _options;
 
   final ClipboardAction clipboardAction;
-
-  final ClipboardMonitor _monitor = ClipboardMonitor();
 
   @override
   State<StatefulWidget> createState() => QuillToolbarClipboardButtonState();
@@ -70,6 +79,8 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
 class QuillToolbarClipboardButtonState
     extends QuillToolbarToggleStyleBaseButtonState<
         QuillToolbarClipboardButton> {
+  final ClipboardMonitor _monitor = ClipboardMonitor();
+
   @override
   bool get currentStateValue {
     switch (widget.clipboardAction) {
@@ -78,23 +89,54 @@ class QuillToolbarClipboardButtonState
       case ClipboardAction.copy:
         return !controller.selection.isCollapsed;
       case ClipboardAction.paste:
-        return !controller.readOnly && (kIsWeb || widget._monitor.canPaste);
+        return !controller.readOnly &&
+            (kIsWeb ||
+                (widget._options?.enableClipboardPaste ?? _monitor.canPaste));
     }
   }
 
   void _listenClipboardStatus() => didChangeEditingValue();
 
   @override
+  void didUpdateWidget(QuillToolbarClipboardButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Default didUpdateWidget handler, otherwise simple flag change didn't stop the monitor.
+    if (oldWidget.controller != controller) {
+      oldWidget.controller.removeListener(didChangeEditingValue);
+      removeExtraListener(oldWidget);
+      controller.addListener(didChangeEditingValue);
+      addExtraListener();
+      currentValue = currentStateValue;
+    }
+    // The controller didn't change, but enableClipboardPaste did.
+    else if (widget.clipboardAction == ClipboardAction.paste) {
+      final isTimerActive = _monitor._timer?.isActive ?? false;
+
+      // Enable clipboard monitoring if not active and should be monitored.
+      if (_shouldUseClipboardMonitor && !isTimerActive) {
+        _monitor.monitorClipboard(true, _listenClipboardStatus);
+      }
+      // Disable clipboard monitoring if active and should not be monitored.
+      else if (!_shouldUseClipboardMonitor && isTimerActive) {
+        _monitor.monitorClipboard(false, _listenClipboardStatus);
+      }
+
+      currentValue = currentStateValue;
+    }
+  }
+
+  @override
   void addExtraListener() {
-    if (widget.clipboardAction == ClipboardAction.paste) {
-      widget._monitor.monitorClipboard(true, _listenClipboardStatus);
+    if (_shouldUseClipboardMonitor) {
+      _monitor.monitorClipboard(true, _listenClipboardStatus);
     }
   }
 
   @override
   void removeExtraListener(covariant QuillToolbarClipboardButton oldWidget) {
-    if (widget.clipboardAction == ClipboardAction.paste) {
-      oldWidget._monitor.monitorClipboard(false, _listenClipboardStatus);
+    if (_shouldUseClipboardMonitor) {
+      _monitor.monitorClipboard(false, _listenClipboardStatus);
     }
   }
 
@@ -111,6 +153,11 @@ class QuillToolbarClipboardButtonState
         ClipboardAction.copy => Icons.copy_outlined,
         ClipboardAction.paste => Icons.paste_outlined,
       };
+
+  bool get _shouldUseClipboardMonitor {
+    return widget.clipboardAction == ClipboardAction.paste &&
+        (widget._options?.enableClipboardPaste == null);
+  }
 
   void _onPressed() {
     switch (widget.clipboardAction) {
