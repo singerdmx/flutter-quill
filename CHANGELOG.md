@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [11.0.0-dev.21] - 2025-01-21
+
 ### Added
 
 - `enableClipboardPaste` flag in `QuillToolbarClipboardButton` to determine if the button defaults to `null,` which will use `ClipboardMonitor`, which checks every second if the clipboard has content to paste [#2427](https://github.com/singerdmx/flutter-quill/pull/2427).
@@ -194,7 +196,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.20...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.21...HEAD
+[11.0.0-dev.21]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.20...v11.0.0-dev.21
 [11.0.0-dev.20]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.19...v11.0.0-dev.20
 [11.0.0-dev.19]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.18...v11.0.0-dev.19
 [11.0.0-dev.18]: https://github.com/singerdmx/flutter-quill/compare/v11.0.0-dev.17...v11.0.0-dev.18
