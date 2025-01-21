@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `decoration` property in `DefaultTextBlockStyle` for the `header` attribute to customize headers with borders, background colors, and other styles using `BoxDecoration` [#2429](https://github.com/singerdmx/flutter-quill/pull/2429).
+
 ## [11.0.0-dev.21] - 2025-01-21
 
 ### Added
