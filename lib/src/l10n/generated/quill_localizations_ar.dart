@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Arabic (`ar`).
 class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsAr([String locale = 'ar']) : super(locale);
@@ -237,10 +235,10 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'حدث خطأ أثناء حفظ الصورة';
 
   @override
-  String get pleaseEnterTextForYourLink => 'مثال: \'تعلم المزيد\'';
+  String get pleaseEnterTextForYourLink => "مثال: 'تعلم المزيد'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'مثال: \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "مثال: 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => 'الرجاء إدخال عنوان URL صحيح للصورة';

@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Danish (`da`).
 class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsDa([String locale = 'da']) : super(locale);
@@ -237,10 +235,10 @@ class FlutterQuillLocalizationsDa extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';

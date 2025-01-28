@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Slovak (`sk`).
 class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsSk([String locale = 'sk']) : super(locale);
@@ -238,11 +236,11 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Prosím zadajte text pre váš odkaz (napr. \'Ďalšie informácie\')';
+      "Prosím zadajte text pre váš odkaz (napr. 'Ďalšie informácie')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Prosím zadajte URL odkazu (napr. \'https://example.com\')';
+      "Prosím zadajte URL odkazu (napr. 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL =>

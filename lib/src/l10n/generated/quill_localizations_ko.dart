@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Korean (`ko`).
 class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsKo([String locale = 'ko']) : super(locale);
@@ -240,7 +238,7 @@ class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
   String get pleaseEnterTextForYourLink => '링크 제목 입력';
 
   @override
-  String get pleaseEnterTheLinkURL => '예시) \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "예시) 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => '유효한 이미지 URL을 입력하세요';

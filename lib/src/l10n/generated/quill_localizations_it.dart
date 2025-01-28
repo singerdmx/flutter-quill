@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Italian (`it`).
 class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsIt([String locale = 'it']) : super(locale);
@@ -217,10 +215,10 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get findText => 'Trova testo';
 
   @override
-  String get moveToPreviousOccurrence => 'Vai all\'occorrenza precedente';
+  String get moveToPreviousOccurrence => "Vai all'occorrenza precedente";
 
   @override
-  String get moveToNextOccurrence => 'Vai all\'occorrenza successiva';
+  String get moveToNextOccurrence => "Vai all'occorrenza successiva";
 
   @override
   String get savedUsingTheNetwork => 'Salvato utilizzando la rete';
@@ -231,20 +229,20 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'L\'immagine è stata salvata in: $imagePath';
+    return "L'immagine è stata salvata in: $imagePath";
   }
 
   @override
   String get errorWhileSavingImage =>
-      'Errore durante il salvataggio dell\'immagine';
+      "Errore durante il salvataggio dell'immagine";
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Inserisci un testo per il tuo link (ad esempio, \'Per saperne di più\')';
+      "Inserisci un testo per il tuo link (ad esempio, 'Per saperne di più')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Inserisci l\'URL del link (ad esempio, \'https://example.com\')';
+      "Inserisci l'URL del link (ad esempio, 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Inserisci un URL di immagine valido';

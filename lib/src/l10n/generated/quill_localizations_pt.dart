@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Portuguese (`pt`).
 class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsPt([String locale = 'pt']) : super(locale);
@@ -238,10 +236,10 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Erro a gravar imagem';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -567,10 +565,10 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => "e.g., 'Learn more'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "e.g., 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';

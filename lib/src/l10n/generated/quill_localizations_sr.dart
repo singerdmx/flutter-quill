@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Serbian (`sr`).
 class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsSr([String locale = 'sr']) : super(locale);
@@ -239,11 +237,11 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Unesite tekst za svoj link (na primer, \'Saznajte više\')';
+      "Unesite tekst za svoj link (na primer, 'Saznajte više')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Unesite URL linka (na primer, \'https://example.com\')';
+      "Unesite URL linka (na primer, 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Unesite važeći URL slike';

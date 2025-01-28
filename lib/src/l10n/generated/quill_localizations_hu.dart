@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Hungarian (`hu`).
 class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsHu([String locale = 'hu']) : super(locale);
@@ -242,7 +240,7 @@ class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Kérjük, írja be a link URL-t (pl. \'https://example.com\')';
+      "Kérjük, írja be a link URL-t (pl. 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL =>

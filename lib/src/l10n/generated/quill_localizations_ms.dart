@@ -1,7 +1,5 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Malay (`ms`).
 class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
   FlutterQuillLocalizationsMs([String locale = 'ms']) : super(locale);
@@ -238,11 +236,11 @@ class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Sila masukkan teks untuk pautan anda (contoh, \'Ketahui lebih lanjut\')';
+      "Sila masukkan teks untuk pautan anda (contoh, 'Ketahui lebih lanjut')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Sila masukkan URL pautan (contoh, \'https://example.com\')';
+      "Sila masukkan URL pautan (contoh, 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Sila masukkan URL imej yang sah';
