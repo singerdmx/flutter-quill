@@ -10,13 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Bosnian (bs), Macedonian (mk) and Gujarati (gu) language translations
+
 ## [11.0.0-dev.21] - 2025-01-21
 
 ### Added
 
 - `enableClipboardPaste` flag in `QuillToolbarClipboardButton` to determine if the button defaults to `null,` which will use `ClipboardMonitor`, which checks every second if the clipboard has content to paste [#2427](https://github.com/singerdmx/flutter-quill/pull/2427).
-
-- Bosnian (bs), Macedonian (mk) and Gujarati (gu) language translations
 
 ## [11.0.0-dev.20] - 2025-01-19
 
