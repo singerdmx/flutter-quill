@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Chinese (`zh`).
 class FlutterQuillLocalizationsZh extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsZh([String locale = 'zh']) : super(locale);
+  FlutterQuillLocalizationsZh([super.locale = 'zh']);
 
   @override
   String get pasteLink => '粘贴链接';

@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Thai (`th`).
 class FlutterQuillLocalizationsTh extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsTh([String locale = 'th']) : super(locale);
+  FlutterQuillLocalizationsTh([super.locale = 'th']);
 
   @override
   String get pasteLink => 'วางลิงก์';

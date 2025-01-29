@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Nepali (`ne`).
 class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNe([String locale = 'ne']) : super(locale);
+  FlutterQuillLocalizationsNe([super.locale = 'ne']);
 
   @override
   String get pasteLink => 'लिङ्क पेस्ट गर्नुहोस्';

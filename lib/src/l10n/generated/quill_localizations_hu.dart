@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Hungarian (`hu`).
 class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHu([String locale = 'hu']) : super(locale);
+  FlutterQuillLocalizationsHu([super.locale = 'hu']);
 
   @override
   String get pasteLink => 'Link beillesztése';

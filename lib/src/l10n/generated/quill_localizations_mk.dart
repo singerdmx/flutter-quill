@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Macedonian (`mk`).
 class FlutterQuillLocalizationsMk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsMk([String locale = 'mk']) : super(locale);
+  FlutterQuillLocalizationsMk([super.locale = 'mk']);
 
   @override
   String get pasteLink => 'Залепи линк';

@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Urdu (`ur`).
 class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsUr([String locale = 'ur']) : super(locale);
+  FlutterQuillLocalizationsUr([super.locale = 'ur']);
 
   @override
   String get pasteLink => 'لنک پیسٹ کریں';

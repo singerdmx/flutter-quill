@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Czech (`cs`).
 class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsCs([String locale = 'cs']) : super(locale);
+  FlutterQuillLocalizationsCs([super.locale = 'cs']);
 
   @override
   String get pasteLink => 'Vložit odkaz';

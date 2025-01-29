@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Khmer Central Khmer (`km`).
 class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsKm([String locale = 'km']) : super(locale);
+  FlutterQuillLocalizationsKm([super.locale = 'km']);
 
   @override
   String get pasteLink => 'បិទភ្ជាប់តំណ';

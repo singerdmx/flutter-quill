@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Kurdish (`ku`).
 class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsKu([String locale = 'ku']) : super(locale);
+  FlutterQuillLocalizationsKu([super.locale = 'ku']);
 
   @override
   String get pasteLink => 'لینک دابنێ';

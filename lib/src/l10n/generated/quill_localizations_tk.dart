@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Turkmen (`tk`).
 class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsTk([String locale = 'tk']) : super(locale);
+  FlutterQuillLocalizationsTk([super.locale = 'tk']);
 
   @override
   String get pasteLink => 'Baglanyşygy goýuň';

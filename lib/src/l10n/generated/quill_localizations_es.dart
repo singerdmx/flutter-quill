@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Spanish Castilian (`es`).
 class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEs([String locale = 'es']) : super(locale);
+  FlutterQuillLocalizationsEs([super.locale = 'es']);
 
   @override
   String get pasteLink => 'Pega un enlace';

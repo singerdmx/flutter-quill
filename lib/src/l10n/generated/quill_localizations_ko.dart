@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Korean (`ko`).
 class FlutterQuillLocalizationsKo extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsKo([String locale = 'ko']) : super(locale);
+  FlutterQuillLocalizationsKo([super.locale = 'ko']);
 
   @override
   String get pasteLink => '링크를 붙여 넣어 주세요';

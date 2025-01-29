@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Croatian (`hr`).
 class FlutterQuillLocalizationsHr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHr([String locale = 'hr']) : super(locale);
+  FlutterQuillLocalizationsHr([super.locale = 'hr']);
 
   @override
   String get pasteLink => 'Zalijepi poveznicu';

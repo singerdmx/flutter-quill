@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Swahili (`sw`).
 class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsSw([String locale = 'sw']) : super(locale);
+  FlutterQuillLocalizationsSw([super.locale = 'sw']);
 
   @override
   String get pasteLink => 'Bandika Kiungo';

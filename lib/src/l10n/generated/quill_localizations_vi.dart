@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Vietnamese (`vi`).
 class FlutterQuillLocalizationsVi extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsVi([String locale = 'vi']) : super(locale);
+  FlutterQuillLocalizationsVi([super.locale = 'vi']);
 
   @override
   String get pasteLink => 'Chèn liên kết';

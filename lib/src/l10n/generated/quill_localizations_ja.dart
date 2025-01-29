@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Japanese (`ja`).
 class FlutterQuillLocalizationsJa extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsJa([String locale = 'ja']) : super(locale);
+  FlutterQuillLocalizationsJa([super.locale = 'ja']);
 
   @override
   String get pasteLink => 'リンクをペースト';

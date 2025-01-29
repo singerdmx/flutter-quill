@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Bulgarian (`bg`).
 class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsBg([String locale = 'bg']) : super(locale);
+  FlutterQuillLocalizationsBg([super.locale = 'bg']);
 
   @override
   String get pasteLink => 'Поставете връзка';

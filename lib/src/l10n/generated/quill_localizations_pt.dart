@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Portuguese (`pt`).
 class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsPt([String locale = 'pt']) : super(locale);
+  FlutterQuillLocalizationsPt([super.locale = 'pt']);
 
   @override
   String get pasteLink => 'Colar um link';

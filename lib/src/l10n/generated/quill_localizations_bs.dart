@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Bosnian (`bs`).
 class FlutterQuillLocalizationsBs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsBs([String locale = 'bs']) : super(locale);
+  FlutterQuillLocalizationsBs([super.locale = 'bs']);
 
   @override
   String get pasteLink => 'Zalijepi poveznicu';

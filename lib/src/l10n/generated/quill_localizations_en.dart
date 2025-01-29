@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for English (`en`).
 class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEn([String locale = 'en']) : super(locale);
+  FlutterQuillLocalizationsEn([super.locale = 'en']);
 
   @override
   String get pasteLink => 'Paste a link';

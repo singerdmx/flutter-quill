@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Gujarati (`gu`).
 class FlutterQuillLocalizationsGu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsGu([String locale = 'gu']) : super(locale);
+  FlutterQuillLocalizationsGu([super.locale = 'gu']);
 
   @override
   String get pasteLink => 'લિંક પેસ્ટ કરો';

@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Dutch Flemish (`nl`).
 class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNl([String locale = 'nl']) : super(locale);
+  FlutterQuillLocalizationsNl([super.locale = 'nl']);
 
   @override
   String get pasteLink => 'Plak een link';

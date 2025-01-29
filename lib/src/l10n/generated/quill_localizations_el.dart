@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Modern Greek (`el`).
 class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEl([String locale = 'el']) : super(locale);
+  FlutterQuillLocalizationsEl([super.locale = 'el']);
 
   @override
   String get pasteLink => 'Επικόλληση συνδέσμου';

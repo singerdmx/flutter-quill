@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Russian (`ru`).
 class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsRu([String locale = 'ru']) : super(locale);
+  FlutterQuillLocalizationsRu([super.locale = 'ru']);
 
   @override
   String get pasteLink => 'Вставить ссылку';

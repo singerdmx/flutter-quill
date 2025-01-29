@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for German (`de`).
 class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsDe([String locale = 'de']) : super(locale);
+  FlutterQuillLocalizationsDe([super.locale = 'de']);
 
   @override
   String get pasteLink => 'Link hinzufügen';

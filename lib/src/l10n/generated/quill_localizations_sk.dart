@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Slovak (`sk`).
 class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsSk([String locale = 'sk']) : super(locale);
+  FlutterQuillLocalizationsSk([super.locale = 'sk']);
 
   @override
   String get pasteLink => 'Vložiť odkaz';

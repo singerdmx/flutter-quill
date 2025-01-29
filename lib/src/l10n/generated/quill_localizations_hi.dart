@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Hindi (`hi`).
 class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHi([String locale = 'hi']) : super(locale);
+  FlutterQuillLocalizationsHi([super.locale = 'hi']);
 
   @override
   String get pasteLink => 'लिंक पेस्ट करें';

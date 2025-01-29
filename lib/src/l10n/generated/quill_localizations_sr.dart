@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Serbian (`sr`).
 class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsSr([String locale = 'sr']) : super(locale);
+  FlutterQuillLocalizationsSr([super.locale = 'sr']);
 
   @override
   String get pasteLink => 'Nalepi vezu';

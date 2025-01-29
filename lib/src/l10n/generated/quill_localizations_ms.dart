@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Malay (`ms`).
 class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsMs([String locale = 'ms']) : super(locale);
+  FlutterQuillLocalizationsMs([super.locale = 'ms']);
 
   @override
   String get pasteLink => 'Tampal Pautan';

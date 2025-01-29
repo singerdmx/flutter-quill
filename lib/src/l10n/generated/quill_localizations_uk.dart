@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Ukrainian (`uk`).
 class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsUk([String locale = 'uk']) : super(locale);
+  FlutterQuillLocalizationsUk([super.locale = 'uk']);
 
   @override
   String get pasteLink => 'Вставити посилання';

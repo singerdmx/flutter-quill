@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Polish (`pl`).
 class FlutterQuillLocalizationsPl extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsPl([String locale = 'pl']) : super(locale);
+  FlutterQuillLocalizationsPl([super.locale = 'pl']);
 
   @override
   String get pasteLink => 'Wklej link';

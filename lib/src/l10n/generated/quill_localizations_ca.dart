@@ -2,7 +2,7 @@ import 'quill_localizations.dart';
 
 /// The translations for Catalan Valencian (`ca`).
 class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsCa([String locale = 'ca']) : super(locale);
+  FlutterQuillLocalizationsCa([super.locale = 'ca']);
 
   @override
   String get pasteLink => 'Enganxa un enllaç';
