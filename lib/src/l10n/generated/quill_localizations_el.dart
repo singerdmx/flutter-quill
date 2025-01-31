@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Modern Greek (`el`).
 class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEl([String locale = 'el']) : super(locale);
+  FlutterQuillLocalizationsEl([super.locale = 'el']);
 
   @override
   String get pasteLink => 'Επικόλληση συνδέσμου';
@@ -238,11 +236,11 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Εισαγάγετε κείμενο για τον σύνδεσμό σας (π.χ., \'Μάθετε περισσότερα\')';
+      "Εισαγάγετε κείμενο για τον σύνδεσμό σας (π.χ., 'Μάθετε περισσότερα')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Εισαγάγετε το URL του συνδέσμου (π.χ., \'https://example.com\')';
+      "Εισαγάγετε το URL του συνδέσμου (π.χ., 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Εισαγάγετε έγκυρο URL εικόνας';

@@ -1,14 +1,14 @@
 import 'quill_localizations.dart';
 
-/// The translations for Serbian (`sr`).
-class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsSr([super.locale = 'sr']);
+/// The translations for Bosnian (`bs`).
+class FlutterQuillLocalizationsBs extends FlutterQuillLocalizations {
+  FlutterQuillLocalizationsBs([super.locale = 'bs']);
 
   @override
-  String get pasteLink => 'Nalepi vezu';
+  String get pasteLink => 'Zalijepi poveznicu';
 
   @override
-  String get ok => 'OK';
+  String get ok => 'U redu';
 
   @override
   String get selectColor => 'Odaberi boju';
@@ -17,7 +17,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get gallery => 'Galerija';
 
   @override
-  String get link => 'Veza';
+  String get link => 'Poveznica';
 
   @override
   String get open => 'Otvori';
@@ -32,7 +32,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get save => 'Sačuvaj';
 
   @override
-  String get zoom => 'Uvećaj';
+  String get zoom => 'Povećaj';
 
   @override
   String get saved => 'Sačuvano';
@@ -41,7 +41,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get text => 'Tekst';
 
   @override
-  String get resize => 'Promeni veličinu';
+  String get resize => 'Promijeni veličinu';
 
   @override
   String get width => 'Širina';
@@ -62,13 +62,13 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get huge => 'Ogromno';
 
   @override
-  String get clear => 'Obriši';
+  String get clear => 'Očisti';
 
   @override
   String get font => 'Font';
 
   @override
-  String get search => 'Pretraga';
+  String get search => 'Pretraži';
 
   @override
   String get camera => 'Kamera';
@@ -80,7 +80,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get undo => 'Poništi';
 
   @override
-  String get redo => 'Ponovo';
+  String get redo => 'Ponovi';
 
   @override
   String get fontFamily => 'Porodica fonta';
@@ -95,10 +95,10 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get subscript => 'Indeks';
 
   @override
-  String get superscript => 'Stepen';
+  String get superscript => 'Eksponent';
 
   @override
-  String get italic => 'Iskošeno';
+  String get italic => 'Kurziv';
 
   @override
   String get underline => 'Podvučeno';
@@ -107,34 +107,34 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get strikeThrough => 'Precrtano';
 
   @override
-  String get inlineCode => 'Ugrađeni kôd';
+  String get inlineCode => 'Inline kod';
 
   @override
   String get fontColor => 'Boja fonta';
 
   @override
-  String get backgroundColor => 'Boja pozadine';
+  String get backgroundColor => 'Pozadinska boja';
 
   @override
-  String get clearFormat => 'Obriši format';
+  String get clearFormat => 'Očisti format';
 
   @override
-  String get alignLeft => 'Poravnanje levo';
+  String get alignLeft => 'Poravnaj lijevo';
 
   @override
-  String get alignCenter => 'Poravnanje centar';
+  String get alignCenter => 'Poravnaj centar';
 
   @override
-  String get alignRight => 'Poravnanje desno';
+  String get alignRight => 'Poravnaj desno';
 
   @override
-  String get alignJustify => 'Poravnaj';
+  String get alignJustify => 'Poravnaj obostrano';
 
   @override
-  String get justifyWinWidth => 'Centriraj širinu prozora';
+  String get justifyWinWidth => 'Poravnaj širinu prozora';
 
   @override
-  String get textDirection => 'Smer teksta';
+  String get textDirection => 'Smjer teksta';
 
   @override
   String get headerStyle => 'Stil zaglavlja';
@@ -164,10 +164,10 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get numberedList => 'Numerisana lista';
 
   @override
-  String get bulletList => 'Lista sa znakovima';
+  String get bulletList => 'Lista s tačkama';
 
   @override
-  String get checkedList => 'Proverena lista';
+  String get checkedList => 'Označena lista';
 
   @override
   String get codeBlock => 'Blok koda';
@@ -182,13 +182,13 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get decreaseIndent => 'Smanji uvlačenje';
 
   @override
-  String get insertURL => 'Ubaci URL';
+  String get insertURL => 'Unesi URL';
 
   @override
-  String get visitLink => 'Poseti link';
+  String get visitLink => 'Posjeti poveznicu';
 
   @override
-  String get enterLink => 'Unesi link';
+  String get enterLink => 'Unesi poveznicu';
 
   @override
   String get enterMedia => 'Unesi medij';
@@ -197,7 +197,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get edit => 'Uredi';
 
   @override
-  String get apply => 'Primeni';
+  String get apply => 'Primijeni';
 
   @override
   String get hex => 'Hex';
@@ -209,23 +209,22 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get color => 'Boja';
 
   @override
-  String get lineheight => 'Visina linije';
+  String get lineheight => 'Visina reda';
 
   @override
-  String get findText => 'Nađi tekst';
+  String get findText => 'Pronađi tekst';
 
   @override
-  String get moveToPreviousOccurrence => 'Idi na prethodno pojavljivanje';
+  String get moveToPreviousOccurrence => 'Pređi na prethodni slučaj';
 
   @override
-  String get moveToNextOccurrence => 'Idi na sledeće pojavljivanje';
+  String get moveToNextOccurrence => 'Pređi na sljedeći slučaj';
 
   @override
-  String get savedUsingTheNetwork => 'Sačuvano korišćenjem mreže';
+  String get savedUsingTheNetwork => 'Sačuvano putem mreže';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Sačuvano korišćenjem lokalnog skladišta';
+  String get savedUsingLocalStorage => 'Sačuvano u lokalnu pohranu';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -237,97 +236,99 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Unesite tekst za svoj link (na primer, 'Saznajte više')";
+      "Molimo unesite tekst za vašu poveznicu (npr. 'Saznajte više')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Unesite URL linka (na primer, 'https://example.com')";
+      "Molimo unesite URL poveznice (npr. 'https://example.com')";
 
   @override
-  String get pleaseEnterAValidImageURL => 'Unesite važeći URL slike';
+  String get pleaseEnterAValidImageURL => 'Molimo unesite važeći URL slike';
 
   @override
-  String get pleaseEnterAValidVideoURL => 'Unesite važeći URL videa';
+  String get pleaseEnterAValidVideoURL => 'Molimo unesite važeći URL videa';
 
   @override
-  String get photo => 'Foto';
+  String get photo => 'Fotografija';
 
   @override
   String get image => 'Slika';
 
   @override
   String get caseSensitivityAndWholeWordSearch =>
-      'Osetljivost na velika i mala slova i potraga za celom rečju';
+      'Osjetljivost na velika/mala slova i pretraživanje cijele riječi';
 
   @override
-  String get caseSensitive => 'Razlikovati velika i mala slova';
+  String get caseSensitive => 'Osjetljivo na velika/mala slova';
 
   @override
-  String get wholeWord => 'Cela reč';
+  String get wholeWord => 'Cijela riječ';
 
   @override
   String get insertImage => 'Umetni sliku';
 
   @override
-  String get pickAPhotoFromYourGallery => 'Izaberite sliku iz vaše galerije';
+  String get pickAPhotoFromYourGallery =>
+      'Odaberite fotografiju iz svoje galerije';
 
   @override
   String get takeAPhotoUsingYourCamera =>
-      'Napravite fotografiju koristeći vašu kameru';
+      'Snimite fotografiju koristeći svoju kameru';
 
   @override
-  String get pasteAPhotoUsingALink => 'Zalepite sliku koristeći link';
+  String get pasteAPhotoUsingALink => 'Zalijepite sliku koristeći poveznicu';
 
   @override
-  String get pickAVideoFromYourGallery => 'Izaberite video iz vaše galerije';
+  String get pickAVideoFromYourGallery => 'Odaberite video iz svoje galerije';
 
   @override
-  String get recordAVideoUsingYourCamera => 'Snimi video koristeći vašu kameru';
+  String get recordAVideoUsingYourCamera =>
+      'Snimite video koristeći svoju kameru';
 
   @override
-  String get pasteAVideoUsingALink => 'Zalepite video koristeći link';
+  String get pasteAVideoUsingALink => 'Zalijepite video koristeći poveznicu';
 
   @override
   String get close => 'Zatvori';
 
   @override
-  String get searchSettings => 'Podešavanja pretrage';
+  String get searchSettings => 'Postavke pretraživanja';
 
   @override
-  String get cut => 'Iseci';
+  String get cut => 'Izreži';
 
   @override
-  String get paste => 'Nalepi';
+  String get paste => 'Zalijepi';
 
   @override
-  String get insertTable => 'Ubaci tabelu';
+  String get insertTable => 'Umetni tabelu';
 
   @override
-  String get insertVideo => 'Insert video';
+  String get insertVideo => 'Umetni video';
 
   @override
   String get errorUnexpectedSavingImage =>
-      'An unexpected error occurred while saving the image. Please try again.';
+      'Došlo je do neočekivane greške pri čuvanju slike. Pokušajte ponovo.';
 
   @override
-  String get successImageSavedGallery => 'Image saved to your gallery.';
+  String get successImageSavedGallery => 'Slika je sačuvana u vašoj galeriji.';
 
   @override
-  String get successImageSaved => 'Image saved successfully.';
+  String get successImageSaved => 'Slika je uspješno sačuvana.';
 
   @override
-  String get successImageDownloaded => 'Image downloaded successfully.';
+  String get successImageDownloaded => 'Slika je uspješno preuzeta.';
 
   @override
-  String get openGallery => 'Open Gallery';
+  String get openGallery => 'Otvori galeriju';
 
   @override
-  String get openFileLocation => 'Open File Location';
+  String get openFileLocation => 'Otvori lokaciju datoteke';
 
   @override
-  String get openFile => 'Open File';
+  String get openFile => 'Otvori datoteku';
 
   @override
   String get saveImagePermissionDenied =>
-      'Couldn’t save the image due to missing permission';
+      'Nije moguće sačuvati sliku zbog nedostatka dozvole';
 }

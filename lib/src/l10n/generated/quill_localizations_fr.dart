@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for French (`fr`).
 class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsFr([String locale = 'fr']) : super(locale);
+  FlutterQuillLocalizationsFr([super.locale = 'fr']);
 
   @override
   String get pasteLink => 'Coller un lien';
@@ -139,7 +137,7 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get textDirection => 'Direction du texte';
 
   @override
-  String get headerStyle => 'Style d\'en-tête';
+  String get headerStyle => "Style d'en-tête";
 
   @override
   String get normal => 'Normal';
@@ -217,10 +215,10 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
   String get findText => 'Rechercher du texte';
 
   @override
-  String get moveToPreviousOccurrence => 'Aller à l\'occurrence précédente';
+  String get moveToPreviousOccurrence => "Aller à l'occurrence précédente";
 
   @override
-  String get moveToNextOccurrence => 'Aller à l\'occurrence suivante';
+  String get moveToNextOccurrence => "Aller à l'occurrence suivante";
 
   @override
   String get savedUsingTheNetwork => 'Enregistré via le réseau';
@@ -231,22 +229,22 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'L\'image a été sauvegardée à : $imagePath';
+    return "L'image a été sauvegardée à : $imagePath";
   }
 
   @override
   String get errorWhileSavingImage =>
-      'Erreur lors de l\'enregistrement de l\'image';
+      "Erreur lors de l'enregistrement de l'image";
 
   @override
-  String get pleaseEnterTextForYourLink => 'par exemple, \'En savoir plus\'';
+  String get pleaseEnterTextForYourLink => "par exemple, 'En savoir plus'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'par exemple, \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "par exemple, 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL =>
-      'Veuillez saisir une URL d\'image valide';
+      "Veuillez saisir une URL d'image valide";
 
   @override
   String get pleaseEnterAValidVideoURL =>
@@ -280,7 +278,7 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
       'Prendre une photo avec votre appareil photo';
 
   @override
-  String get pasteAPhotoUsingALink => 'Coller une photo à l\'aide d\'un lien';
+  String get pasteAPhotoUsingALink => "Coller une photo à l'aide d'un lien";
 
   @override
   String get pickAVideoFromYourGallery =>
@@ -291,7 +289,7 @@ class FlutterQuillLocalizationsFr extends FlutterQuillLocalizations {
       'Enregistrez une vidéo en utilisant votre caméra';
 
   @override
-  String get pasteAVideoUsingALink => 'Coller une vidéo à l\'aide d\'un lien';
+  String get pasteAVideoUsingALink => "Coller une vidéo à l'aide d'un lien";
 
   @override
   String get close => 'Fermer';

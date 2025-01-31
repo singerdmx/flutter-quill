@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Bulgarian (`bg`).
 class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsBg([String locale = 'bg']) : super(locale);
+  FlutterQuillLocalizationsBg([super.locale = 'bg']);
 
   @override
   String get pasteLink => 'Поставете връзка';
@@ -237,10 +235,10 @@ class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Error while saving image';
 
   @override
-  String get pleaseEnterTextForYourLink => 'Например, \'Научете повече\'';
+  String get pleaseEnterTextForYourLink => "Например, 'Научете повече'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'Например, \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "Например, 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL =>
