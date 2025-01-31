@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Bosnian (bs), Macedonian (mk) and Gujarati (gu) language translations [#2455](https://github.com/singerdmx/flutter-quill/pull/2455).
+
 ## [11.0.0-dev.21] - 2025-01-21
 
 ### Added

@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Ukrainian (`uk`).
 class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsUk([String locale = 'uk']) : super(locale);
+  FlutterQuillLocalizationsUk([super.locale = 'uk']);
 
   @override
   String get pasteLink => 'Вставити посилання';
@@ -238,10 +236,10 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Помилка при збереженні зображення';
 
   @override
-  String get pleaseEnterTextForYourLink => 'Наприклад, \'Дізнатися більше\'';
+  String get pleaseEnterTextForYourLink => "Наприклад, 'Дізнатися більше'";
 
   @override
-  String get pleaseEnterTheLinkURL => 'Наприклад, \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => "Наприклад, 'https://example.com'";
 
   @override
   String get pleaseEnterAValidImageURL =>

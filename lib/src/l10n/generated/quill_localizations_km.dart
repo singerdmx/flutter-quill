@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Khmer Central Khmer (`km`).
 class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsKm([String locale = 'km']) : super(locale);
+  FlutterQuillLocalizationsKm([super.locale = 'km']);
 
   @override
   String get pasteLink => 'បិទភ្ជាប់តំណ';
@@ -239,11 +237,11 @@ class FlutterQuillLocalizationsKm extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'សូមបញ្ចូលអត្ថបទសម្រាប់តំណរបស់អ្នក (ឧ. \'ស្វែងយល់បន្ថែម\')';
+      "សូមបញ្ចូលអត្ថបទសម្រាប់តំណរបស់អ្នក (ឧ. 'ស្វែងយល់បន្ថែម')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'សូមបញ្ចូល URL តំណ (ឧ. \'https://example.com\')';
+      "សូមបញ្ចូល URL តំណ (ឧ. 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'សូមបញ្ចូល URL រូបភាពដែលត្រឹមត្រូវ';

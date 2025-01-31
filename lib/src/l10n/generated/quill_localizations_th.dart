@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Thai (`th`).
 class FlutterQuillLocalizationsTh extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsTh([String locale = 'th']) : super(locale);
+  FlutterQuillLocalizationsTh([super.locale = 'th']);
 
   @override
   String get pasteLink => 'วางลิงก์';
@@ -238,11 +236,11 @@ class FlutterQuillLocalizationsTh extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'กรุณาใส่ข้อความสำหรับลิงก์ของคุณ (เช่น \'เรียนรู้เพิ่มเติม\')';
+      "กรุณาใส่ข้อความสำหรับลิงก์ของคุณ (เช่น 'เรียนรู้เพิ่มเติม')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'กรุณาใส่ URL ของลิงก์ (เช่น \'https://example.com\')';
+      "กรุณาใส่ URL ของลิงก์ (เช่น 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'กรุณาใส่ URL รูปภาพที่ถูกต้อง';

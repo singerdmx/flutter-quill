@@ -1,10 +1,8 @@
 import 'quill_localizations.dart';
 
-// ignore_for_file: type=lint
-
 /// The translations for Czech (`cs`).
 class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsCs([String locale = 'cs']) : super(locale);
+  FlutterQuillLocalizationsCs([super.locale = 'cs']);
 
   @override
   String get pasteLink => 'Vložit odkaz';
@@ -238,11 +236,11 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      'Zadejte text pro váš odkaz (např., \'Dozvědět se více\')';
+      "Zadejte text pro váš odkaz (např., 'Dozvědět se více')";
 
   @override
   String get pleaseEnterTheLinkURL =>
-      'Zadejte URL odkazu (např., \'https://example.com\')';
+      "Zadejte URL odkazu (např., 'https://example.com')";
 
   @override
   String get pleaseEnterAValidImageURL => 'Zadejte platnou URL adresu obrázku';
