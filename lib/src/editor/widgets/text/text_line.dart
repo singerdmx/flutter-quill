@@ -413,7 +413,7 @@ class _TextLineState extends State<TextLine> {
       final attr = attributes[key];
       if (attr != null) {
         /// Custom Attribute
-        final customAttr = widget.customStyleBuilder!.call(attr);
+        final customAttr = widget.customStyleBuilder!.call(attr, textStyle);
         textStyle = textStyle.merge(customAttr);
       }
     }
