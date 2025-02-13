@@ -303,6 +303,7 @@ class QuillEditorState extends State<QuillEditor>
         enableInteractiveSelection: configurations.enableInteractiveSelection,
         scrollPhysics: configurations.scrollPhysics,
         embedBuilder: _getEmbedBuilder,
+        textSpanBuilder: configurations.textSpanBuilder,
         linkActionPickerDelegate: configurations.linkActionPickerDelegate,
         customStyleBuilder: configurations.customStyleBuilder,
         customRecognizerBuilder: configurations.customRecognizerBuilder,

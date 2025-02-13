@@ -607,6 +607,7 @@ class QuillRawEditorState extends EditorState
               ? const EdgeInsets.all(16)
               : null,
           embedBuilder: widget.config.embedBuilder,
+          textSpanBuilder: widget.config.textSpanBuilder,
           linkActionPicker: _linkActionPicker,
           onLaunchUrl: widget.config.onLaunchUrl,
           cursorCont: _cursorCont,
@@ -643,6 +644,7 @@ class QuillRawEditorState extends EditorState
       line: node,
       textDirection: _textDirection,
       embedBuilder: widget.config.embedBuilder,
+      textSpanBuilder: widget.config.textSpanBuilder,
       customStyleBuilder: widget.config.customStyleBuilder,
       customRecognizerBuilder: widget.config.customRecognizerBuilder,
       styles: _styles!,
