@@ -24,6 +24,7 @@ class TextLine extends StatefulWidget {
   const TextLine({
     required this.line,
     required this.embedBuilder,
+    required this.textSpanBuilder,
     required this.styles,
     required this.readOnly,
     required this.controller,
@@ -40,6 +41,7 @@ class TextLine extends StatefulWidget {
   final Line line;
   final TextDirection? textDirection;
   final EmbedsBuilder embedBuilder;
+  final TextSpanBuilder textSpanBuilder;
   final DefaultStyles styles;
   final bool readOnly;
   final QuillController controller;
@@ -192,7 +194,12 @@ class _TextLineState extends State<TextLine> {
   InlineSpan _getTextSpanForWholeLine() {
     var lineStyle = _getLineStyle(widget.styles);
     if (!widget.line.hasEmbed) {
-      return _buildTextSpan(widget.styles, widget.line.children, lineStyle);
+      return _buildTextSpan(
+        widget.styles,
+        widget.line.children,
+        lineStyle,
+        widget.textSpanBuilder,
+      );
     }
 
     // The line could contain more than one Embed & more than one Text
@@ -201,8 +208,12 @@ class _TextLineState extends State<TextLine> {
     for (var child in widget.line.children) {
       if (child is Embed) {
         if (textNodes.isNotEmpty) {
-          textSpanChildren
-              .add(_buildTextSpan(widget.styles, textNodes, lineStyle));
+          textSpanChildren.add(_buildTextSpan(
+            widget.styles,
+            textNodes,
+            lineStyle,
+            widget.textSpanBuilder,
+          ));
           textNodes = LinkedList<Node>();
         }
         // Creates correct node for custom embed
@@ -243,7 +254,12 @@ class _TextLineState extends State<TextLine> {
     }
 
     if (textNodes.isNotEmpty) {
-      textSpanChildren.add(_buildTextSpan(widget.styles, textNodes, lineStyle));
+      textSpanChildren.add(_buildTextSpan(
+        widget.styles,
+        textNodes,
+        lineStyle,
+        widget.textSpanBuilder,
+      ));
     }
 
     return TextSpan(style: lineStyle, children: textSpanChildren);
@@ -263,10 +279,11 @@ class _TextLineState extends State<TextLine> {
     return TextAlign.start;
   }
 
-  TextSpan _buildTextSpan(
+  InlineSpan _buildTextSpan(
     DefaultStyles defaultStyles,
     LinkedList<Node> nodes,
     TextStyle lineStyle,
+    TextSpanBuilder textSpanBuilder,
   ) {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
@@ -280,20 +297,28 @@ class _TextLineState extends State<TextLine> {
 
     if (isComposingRangeOutOfLine) {
       final children = nodes
-          .map((node) =>
-              _getTextSpanFromNode(defaultStyles, node, widget.line.style))
+          .map((node) => _getTextSpanFromNode(
+                defaultStyles,
+                node,
+                widget.line.style,
+                textSpanBuilder,
+              ))
           .toList(growable: false);
       return TextSpan(children: children, style: lineStyle);
     }
 
     final children = nodes.expand((node) {
-      final child =
-          _getTextSpanFromNode(defaultStyles, node, widget.line.style);
+      final child = _getTextSpanFromNode(
+        defaultStyles,
+        node,
+        widget.line.style,
+        textSpanBuilder,
+      );
       final isNodeInComposingRange =
           node.documentOffset <= widget.composingRange.start &&
               widget.composingRange.end <= node.documentOffset + node.length;
       if (isNodeInComposingRange) {
-        return _splitAndApplyComposingStyle(node, child);
+        return _splitAndApplyComposingStyle(node, child, textSpanBuilder);
       } else {
         return [child];
       }
@@ -304,7 +329,11 @@ class _TextLineState extends State<TextLine> {
 
   // split the text nodes into composing and non-composing nodes
   // and apply the composing style to the composing nodes
-  List<InlineSpan> _splitAndApplyComposingStyle(Node node, InlineSpan child) {
+  List<InlineSpan> _splitAndApplyComposingStyle(
+    Node node,
+    InlineSpan child,
+    TextSpanBuilder textSpanBuilder,
+  ) {
     assert(widget.composingRange.isValid && !widget.composingRange.isCollapsed);
 
     final composingStart = widget.composingRange.start - node.documentOffset;
@@ -319,18 +348,33 @@ class _TextLineState extends State<TextLine> {
             ?.merge(const TextStyle(decoration: TextDecoration.underline)) ??
         const TextStyle(decoration: TextDecoration.underline);
 
+    final isLink = node.style.attributes[Attribute.link.key]?.value != null;
+    final recognizer = _getRecognizer(node, isLink);
+
     return [
-      TextSpan(
-        text: textBefore,
-        style: child.style,
+      textSpanBuilder(
+        context,
+        node,
+        0,
+        textBefore,
+        child.style,
+        recognizer,
       ),
-      TextSpan(
-        text: textComposing,
-        style: composingStyle,
+      textSpanBuilder(
+        context,
+        node,
+        composingStart,
+        textComposing,
+        composingStyle,
+        recognizer,
       ),
-      TextSpan(
-        text: textAfter,
-        style: child.style,
+      textSpanBuilder(
+        context,
+        node,
+        composingEnd,
+        textAfter,
+        child.style,
+        recognizer,
       ),
     ];
   }
@@ -461,7 +505,11 @@ class _TextLineState extends State<TextLine> {
   }
 
   InlineSpan _getTextSpanFromNode(
-      DefaultStyles defaultStyles, Node node, Style lineStyle) {
+    DefaultStyles defaultStyles,
+    Node node,
+    Style lineStyle,
+    TextSpanBuilder textSpanBuilder,
+  ) {
     final textNode = node as leaf.QuillText;
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
@@ -480,11 +528,13 @@ class _TextLineState extends State<TextLine> {
     }
 
     final recognizer = _getRecognizer(node, isLink);
-    return TextSpan(
-      text: textNode.value,
-      style: style,
-      recognizer: recognizer,
-      mouseCursor: (recognizer != null) ? SystemMouseCursors.click : null,
+    return textSpanBuilder(
+      context,
+      textNode,
+      0,
+      textNode.value,
+      style,
+      recognizer,
     );
   }
 
