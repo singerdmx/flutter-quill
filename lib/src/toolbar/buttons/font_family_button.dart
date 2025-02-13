@@ -4,7 +4,6 @@ import '../../common/utils/widgets.dart';
 import '../../document/attribute.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
-
 import '../simple_toolbar.dart';
 
 class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
@@ -18,7 +17,7 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : assert(options.items?.isNotEmpty ?? (true)),
+  })  : assert(options.items?.isNotEmpty ?? true),
         assert(
           options.initialValue == null || options.initialValue!.isNotEmpty,
         );
