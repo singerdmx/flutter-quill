@@ -489,6 +489,7 @@ class QuillEditorConfig {
     bool Function(TapUpDetails details, TextPosition Function(Offset offset))?
         onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
+    TextSpanBuilder? textSpanBuilder,
     EmbedBuilder? unknownEmbedBuilder,
     CustomStyleBuilder? customStyleBuilder,
     CustomRecognizerBuilder? customRecognizerBuilder,
@@ -549,6 +550,7 @@ class QuillEditorConfig {
       onTapUp: onTapUp ?? this.onTapUp,
       onTapDown: onTapDown ?? this.onTapDown,
       embedBuilders: embedBuilders ?? this.embedBuilders,
+      textSpanBuilder: textSpanBuilder ?? this.textSpanBuilder,
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
       customRecognizerBuilder:
