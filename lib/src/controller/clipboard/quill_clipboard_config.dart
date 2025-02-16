@@ -11,7 +11,7 @@ class QuillClipboardConfig {
     @experimental this.onUnprocessedPaste,
     this.onImagePaste,
     @experimental this.onGifPaste,
-    @experimental this.onDeltaPaste,
+    @experimental this.onRichTextPaste,
     @experimental this.onPlainTextPaste,
     @experimental this.enableExternalRichPaste,
   });
@@ -68,9 +68,15 @@ class QuillClipboardConfig {
 
   /// Callback triggered when pasting a [Delta] to the editor.
   ///
-  /// Return a modified [Delta] to override the pasted content, or `null` to use the default.
+  /// Returns a modified [Delta] to override the pasted content, or `null` to use the default.
+  ///
+  /// The [isExternal] determines whether the `Delta` content is coming from
+  /// external apps.
+  ///
+  /// Currently this callback is only called when pasting content from the
+  /// system clipboard but that's subject to change, see [#2474](https://github.com/singerdmx/flutter-quill/issues/2474).
   @experimental
-  final Future<Delta?> Function(Delta delta)? onDeltaPaste;
+  final Future<Delta?> Function(Delta delta, bool isExternal)? onRichTextPaste;
 
   /// Callback triggered when pasting plain text into the editor.
   ///

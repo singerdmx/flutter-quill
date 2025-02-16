@@ -76,9 +76,9 @@ extension QuillControllerRichPaste on QuillController {
 
   @visibleForTesting
   Future<Delta> getDeltaToPaste(Delta clipboardDelta) async {
-    final onDeltaPaste = config.clipboardConfig?.onDeltaPaste;
-    if (onDeltaPaste != null) {
-      final delta = await onDeltaPaste(clipboardDelta);
+    final onRichTextPaste = config.clipboardConfig?.onRichTextPaste;
+    if (onRichTextPaste != null) {
+      final delta = await onRichTextPaste(clipboardDelta, true);
       if (delta != null) {
         return delta;
       }
