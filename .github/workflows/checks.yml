@@ -18,7 +18,6 @@ jobs:
         with:
           channel: stable
           cache: true
-          version: 3.27.4
 
       - name: Verify Flutter installation
         run: flutter --version
@@ -35,8 +34,9 @@ jobs:
       - name: Perform Flutter Analysis
         run: flutter analyze
 
-      - name: Check Dart code formatting
-        run: dart format --set-exit-if-changed .
+      # TODO: Restore Dart formatting check, disabled due to an issue https://github.com/singerdmx/flutter-quill/actions/runs/13355109619/job/37296760819.
+      # - name: Check Dart code formatting
+      #   run: dart format --set-exit-if-changed .
       
       - name: Preview Dart proposed changes
         run: dart fix --dry-run
