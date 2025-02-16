@@ -25,7 +25,7 @@ void main() {
 
       controller = QuillController.basic(
           config: QuillControllerConfig(clipboardConfig: QuillClipboardConfig(
-        onDeltaPaste: (delta) async {
+        onRichTextPaste: (delta, isExternal) async {
           if (returnComposedDelta) {
             return delta.compose(Delta()..insert('composed delta\n'));
           }
