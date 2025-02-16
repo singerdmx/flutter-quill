@@ -34,6 +34,7 @@ jobs:
       - name: Perform Flutter Analysis
         run: flutter analyze
 
+      # TODO: Fix the CI formatting check issue https://github.com/singerdmx/flutter-quill/actions/runs/13354950349/job/37296412467
       - name: Check Dart code formatting
         run: dart format --set-exit-if-changed .
       
