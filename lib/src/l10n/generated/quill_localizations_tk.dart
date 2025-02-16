@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Turkmen (`tk`).
 class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsTk([super.locale = 'tk']);
+  FlutterQuillLocalizationsTk([String locale = 'tk']) : super(locale);
 
   @override
   String get pasteLink => 'Baglanyşygy goýuň';

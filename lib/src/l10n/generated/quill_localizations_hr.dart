@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Croatian (`hr`).
 class FlutterQuillLocalizationsHr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHr([super.locale = 'hr']);
+  FlutterQuillLocalizationsHr([String locale = 'hr']) : super(locale);
 
   @override
   String get pasteLink => 'Zalijepi poveznicu';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsHr extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Molimo unesite tekst za svoju poveznicu (npr. 'Saznajte više')";
+      'Molimo unesite tekst za svoju poveznicu (npr. \'Saznajte više\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Molimo unesite URL poveznice (npr. 'https://example.com')";
+      'Molimo unesite URL poveznice (npr. \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Molimo unesite valjani URL slike';

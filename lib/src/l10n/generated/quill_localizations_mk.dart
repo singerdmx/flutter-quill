@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Macedonian (`mk`).
 class FlutterQuillLocalizationsMk extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsMk([super.locale = 'mk']);
+  FlutterQuillLocalizationsMk([String locale = 'mk']) : super(locale);
 
   @override
   String get pasteLink => 'Залепи линк';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsMk extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Ве молиме внесете текст за вашиот линк (пр. 'Дознајте повеќе')";
+      'Ве молиме внесете текст за вашиот линк (пр. \'Дознајте повеќе\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Ве молиме внесете URL на линкот (пр. 'https://example.com')";
+      'Ве молиме внесете URL на линкот (пр. \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>

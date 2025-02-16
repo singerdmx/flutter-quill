@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Kurdish (`ku`).
 class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsKu([super.locale = 'ku']);
+  FlutterQuillLocalizationsKu([String locale = 'ku']) : super(locale);
 
   @override
   String get pasteLink => 'لینک دابنێ';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "تکایە دەقێک بۆ بەستەرەکەت دابنێ (بۆ نموونە، 'زیاتر بزانە')";
+      'تکایە دەقێک بۆ بەستەرەکەت دابنێ (بۆ نموونە، \'زیاتر بزانە\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "تکایە لینکێک بۆ بەستەرەکە دابنێ (بۆ نموونە، 'https://example.com')";
+      'تکایە لینکێک بۆ بەستەرەکە دابنێ (بۆ نموونە، \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'تکایە لینکی وێنەی دروست دابنێ';
@@ -567,11 +571,11 @@ class FlutterQuillLocalizationsKuCkb extends FlutterQuillLocalizationsKu {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "تکایە دەقێک بۆ بەستەرەکەت دابنێ (بۆ نموونە، 'زیاتر بزانە')";
+      'تکایە دەقێک بۆ بەستەرەکەت دابنێ (بۆ نموونە، \'زیاتر بزانە\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "تکایە لینکێک بۆ بەستەرەکە دابنێ (بۆ نموونە، 'https://example.com')";
+      'تکایە لینکێک بۆ بەستەرەکە دابنێ (بۆ نموونە، \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'تکایە لینکی وێنەی دروست دابنێ';

@@ -50,6 +50,8 @@ import 'quill_localizations_ur.dart';
 import 'quill_localizations_vi.dart';
 import 'quill_localizations_zh.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of FlutterQuillLocalizations
 /// returned by `FlutterQuillLocalizations.of(context)`.
 ///

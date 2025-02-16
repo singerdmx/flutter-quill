@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Gujarati (`gu`).
 class FlutterQuillLocalizationsGu extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsGu([super.locale = 'gu']);
+  FlutterQuillLocalizationsGu([String locale = 'gu']) : super(locale);
 
   @override
   String get pasteLink => 'લિંક પેસ્ટ કરો';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsGu extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "તમારા લિંક માટે ટેક્સ્ટ દાખલ કરો (ઉદાહરણ: 'વધુ જાણો')";
+      'તમારા લિંક માટે ટેક્સ્ટ દાખલ કરો (ઉદાહરણ: \'વધુ જાણો\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "લિંક URL દાખલ કરો (ઉદાહરણ: 'https://example.com')";
+      'લિંક URL દાખલ કરો (ઉદાહરણ: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'માન્ય છબી URL દાખલ કરો';

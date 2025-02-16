@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Hindi (`hi`).
 class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsHi([super.locale = 'hi']);
+  FlutterQuillLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
   String get pasteLink => 'लिंक पेस्ट करें';
@@ -237,11 +241,11 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "कृपया अपने लिंक के लिए एक पाठ दर्ज करें (उदाहरण: 'और अधिक जानें')";
+      'कृपया अपने लिंक के लिए एक पाठ दर्ज करें (उदाहरण: \'और अधिक जानें\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "कृपया लिंक URL दर्ज करें (उदाहरण: 'https://example.com')";
+      'कृपया लिंक URL दर्ज करें (उदाहरण: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'कृपया एक वैध चित्र URL दर्ज करें';

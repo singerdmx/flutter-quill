@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Nepali (`ne`).
 class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNe([super.locale = 'ne']);
+  FlutterQuillLocalizationsNe([String locale = 'ne']) : super(locale);
 
   @override
   String get pasteLink => 'लिङ्क पेस्ट गर्नुहोस्';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "कृपया आफ्नो लिङ्कको लागि पाठ प्रविष्ट गर्नुहोस् (जस्तै, 'थप जान्नुहोस्')";
+      'कृपया आफ्नो लिङ्कको लागि पाठ प्रविष्ट गर्नुहोस् (जस्तै, \'थप जान्नुहोस्\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "कृपया लिङ्क URL प्रविष्ट गर्नुहोस् (जस्तै, 'https://example.com')";
+      'कृपया लिङ्क URL प्रविष्ट गर्नुहोस् (जस्तै, \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>

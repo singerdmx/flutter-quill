@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for English (`en`).
 class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsEn([super.locale = 'en']);
+  FlutterQuillLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
   String get pasteLink => 'Paste a link';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsEn extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      'Please enter a text for your link (e.g., \'Learn more\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      'Please enter the link URL (e.g., \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
@@ -566,11 +570,11 @@ class FlutterQuillLocalizationsEnUs extends FlutterQuillLocalizationsEn {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Please enter a text for your link (e.g., 'Learn more')";
+      'Please enter a text for your link (e.g., \'Learn more\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Please enter the link URL (e.g., 'https://example.com')";
+      'Please enter the link URL (e.g., \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
