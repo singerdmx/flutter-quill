@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Dutch Flemish (`nl`).
 class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNl([super.locale = 'nl']);
+  FlutterQuillLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
   String get pasteLink => 'Plak een link';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Voer tekst in voor uw link (bijvoorbeeld 'Meer weten')";
+      'Voer tekst in voor uw link (bijvoorbeeld \'Meer weten\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Voer de URL van de link in (bijvoorbeeld 'https://example.com')";
+      'Voer de URL van de link in (bijvoorbeeld \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>

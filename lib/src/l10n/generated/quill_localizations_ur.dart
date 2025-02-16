@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Urdu (`ur`).
 class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsUr([super.locale = 'ur']);
+  FlutterQuillLocalizationsUr([String locale = 'ur']) : super(locale);
 
   @override
   String get pasteLink => 'لنک پیسٹ کریں';
@@ -237,11 +241,11 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "براہ کرم اپنے لنک کے لیے متن درج کریں (مثال کے طور پر، 'مزید جانیں')";
+      'براہ کرم اپنے لنک کے لیے متن درج کریں (مثال کے طور پر، \'مزید جانیں\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "براہ کرم لنک کا URL درج کریں (مثال کے طور پر، 'https://example.com')";
+      'براہ کرم لنک کا URL درج کریں (مثال کے طور پر، \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>

@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for German (`de`).
 class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsDe([super.locale = 'de']);
+  FlutterQuillLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
   String get pasteLink => 'Link hinzufügen';
@@ -235,10 +239,10 @@ class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Fehler beim Speichern des Bildes';
 
   @override
-  String get pleaseEnterTextForYourLink => "z.B. 'Mehr erfahren'";
+  String get pleaseEnterTextForYourLink => 'z.B. \'Mehr erfahren\'';
 
   @override
-  String get pleaseEnterTheLinkURL => "z.B. 'https://example.com'";
+  String get pleaseEnterTheLinkURL => 'z.B. \'https://example.com\'';
 
   @override
   String get pleaseEnterAValidImageURL =>

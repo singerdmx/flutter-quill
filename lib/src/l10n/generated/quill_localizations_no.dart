@@ -1,8 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'quill_localizations.dart';
+
+// ignore_for_file: type=lint
 
 /// The translations for Norwegian (`no`).
 class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
-  FlutterQuillLocalizationsNo([super.locale = 'no']);
+  FlutterQuillLocalizationsNo([String locale = 'no']) : super(locale);
 
   @override
   String get pasteLink => 'Lim inn lenke';
@@ -236,11 +240,11 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
 
   @override
   String get pleaseEnterTextForYourLink =>
-      "Vennligst skriv inn tekst for lenken din (for eksempel 'Lær mer')";
+      'Vennligst skriv inn tekst for lenken din (for eksempel \'Lær mer\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
-      "Vennligst skriv inn lenkens URL (for eksempel 'https://example.com')";
+      'Vennligst skriv inn lenkens URL (for eksempel \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL =>
