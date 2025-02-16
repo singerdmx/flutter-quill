@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bosnian (bs), Macedonian (mk) and Gujarati (gu) language translations [#2455](https://github.com/singerdmx/flutter-quill/pull/2455).
 
+### Changed
+
+- **BREAKING**: Replace `QuillClipboardConfig.onDeltaPaste` with `QuillClipboardConfig.onRichTextPaste` which is more specific and provides an additional parameter `isExternal` to determine whether the `Delta` content is from an external app.
+
 ## [11.0.0-dev.21] - 2025-01-21
 
 ### Added
