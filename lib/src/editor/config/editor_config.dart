@@ -14,6 +14,7 @@ import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
+import '../widgets/text/utils/text_block_utils.dart';
 import 'search_config.dart';
 
 // IMPORTANT For project authors: The QuillEditorConfig.copyWith()
@@ -54,6 +55,7 @@ class QuillEditorConfig {
     @experimental this.onKeyPressed,
     this.enableAlwaysIndentOnTab = false,
     this.embedBuilders,
+    this.textSpanBuilder = defaultSpanBuilder,
     this.unknownEmbedBuilder,
     @experimental this.searchConfig = const QuillSearchConfig(),
     this.linkActionPickerDelegate = defaultLinkActionPickerDelegate,
@@ -361,6 +363,8 @@ class QuillEditorConfig {
   final CustomStyleBuilder? customStyleBuilder;
   final CustomRecognizerBuilder? customRecognizerBuilder;
 
+  final TextSpanBuilder textSpanBuilder;
+
   /// See [search](https://github.com/singerdmx/flutter-quill/blob/master/doc/configurations/search.md)
   /// page for docs.
   @experimental
@@ -485,6 +489,7 @@ class QuillEditorConfig {
     bool Function(TapUpDetails details, TextPosition Function(Offset offset))?
         onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
+    TextSpanBuilder? textSpanBuilder,
     EmbedBuilder? unknownEmbedBuilder,
     CustomStyleBuilder? customStyleBuilder,
     CustomRecognizerBuilder? customRecognizerBuilder,
@@ -545,6 +550,7 @@ class QuillEditorConfig {
       onTapUp: onTapUp ?? this.onTapUp,
       onTapDown: onTapDown ?? this.onTapDown,
       embedBuilders: embedBuilders ?? this.embedBuilders,
+      textSpanBuilder: textSpanBuilder ?? this.textSpanBuilder,
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
       customRecognizerBuilder:

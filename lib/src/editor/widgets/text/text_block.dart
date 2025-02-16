@@ -70,6 +70,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.hasFocus,
     required this.contentPadding,
     required this.embedBuilder,
+    required this.textSpanBuilder,
     required this.linkActionPicker,
     required this.cursorCont,
     required this.indentLevelCounts,
@@ -100,6 +101,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool hasFocus;
   final EdgeInsets? contentPadding;
   final EmbedsBuilder embedBuilder;
+  final TextSpanBuilder textSpanBuilder;
   final LinkActionPicker linkActionPicker;
   final ValueChanged<String>? onLaunchUrl;
   final CustomRecognizerBuilder? customRecognizerBuilder;
@@ -186,6 +188,7 @@ class EditableTextBlock extends StatelessWidget {
           line: line,
           textDirection: textDirection,
           embedBuilder: embedBuilder,
+          textSpanBuilder: textSpanBuilder,
           customStyleBuilder: customStyleBuilder,
           styles: styles!,
           readOnly: readOnly,
