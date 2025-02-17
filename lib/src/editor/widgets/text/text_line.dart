@@ -286,7 +286,7 @@ class _TextLineState extends State<TextLine> {
     TextSpanBuilder textSpanBuilder,
   ) {
     if (nodes.isEmpty && kIsWeb) {
-      nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
+      nodes = LinkedList<Node>()..add(leaf.QuillText());
     }
 
     final isComposingRangeOutOfLine = !widget.composingRange.isValid ||
