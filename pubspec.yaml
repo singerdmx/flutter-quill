@@ -52,7 +52,10 @@ dependencies:
   # Plugins
   url_launcher: ^6.2.1
   flutter_keyboard_visibility:
-    path: ./flutter_keyboard_visibility/flutter_keyboard_visibility
+    git:
+      url: https://github.com/raldhafiri/flutter_keyboard_visibility.git
+      ref: master
+      path: flutter_keyboard_visibility
   quill_native_bridge: ^11.0.0
 
 dev_dependencies:

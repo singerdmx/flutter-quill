@@ -166,9 +166,11 @@ packages:
   flutter_keyboard_visibility:
     dependency: transitive
     description:
-      path: "../flutter_keyboard_visibility/flutter_keyboard_visibility"
-      relative: true
-    source: path
+      path: flutter_keyboard_visibility
+      ref: master
+      resolved-ref: "3b13b9f65dc4cbddb20022c29c95f92180503285"
+      url: "https://github.com/raldhafiri/flutter_keyboard_visibility.git"
+    source: git
     version: "6.0.0"
   flutter_keyboard_visibility_linux:
     dependency: transitive
