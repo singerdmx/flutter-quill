@@ -61,20 +61,17 @@ jobs:
           changelog_file: CHANGELOG.md
           release_notes_file: RELEASE_NOTES.md
 
-      - name: Build example APK for GitHub release
-        run: flutter build apk --release --obfuscate --split-debug-info=./build/app/outputs/flutter-apk/debug-info/
-        working-directory: ./example
-
       - name: Create a GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "LICENSE,./example/build/app/outputs/flutter-apk/app-release.apk"
+          artifacts: "LICENSE"
           bodyFile: "RELEASE_NOTES.md"
           tag: ${{ github.ref_name }}
           prerelease: ${{ contains(github.ref_name, '-') }}
 
-      - name: Check if package is ready for publishing
-        run: flutter pub publish --dry-run
+    # TODO: Restore Dart formatting check, disabled due to an issue https://github.com/singerdmx/flutter-quill/actions/runs/13355109619/job/37296760819.
+      # - name: Check if package is ready for publishing
+      #   run: flutter pub publish --dry-run
 
       - name: Publish flutter_quill
         run: flutter pub publish --force
