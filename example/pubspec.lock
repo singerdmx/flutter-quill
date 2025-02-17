@@ -245,7 +245,7 @@ packages:
       path: "../flutter_quill_extensions"
       relative: true
     source: path
-    version: "11.0.0-dev.7"
+    version: "11.0.0"
   flutter_quill_test:
     dependency: "direct dev"
     description:
