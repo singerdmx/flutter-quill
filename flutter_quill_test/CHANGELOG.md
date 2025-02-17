@@ -10,14 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [11.0.0-dev.3] - 2024-11-24
+## [11.0.0] - 2025-02-17
 
 ### Changed
 
 - Improve pub topics in package metadata.
-
-## [11.0.0-dev.2] - 2024-11-08
-
-### Changed
-
 - Separate the package version and `CHANGELOG.md` from [flutter_quill](https://pub.dev/packages/flutter_quill).
+
