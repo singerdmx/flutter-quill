@@ -1,0 +1,55 @@
+name: Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility_platform_interface
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility_web
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility/example
+      - run: flutter test --coverage
+        working-directory: ./flutter_keyboard_visibility
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./flutter_keyboard_visibility/coverage/lcov.info
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility_platform_interface
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility_web
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility
+      - run: flutter pub get
+        working-directory: ./flutter_keyboard_visibility/example
+      - run: flutter analyze
+        working-directory: ./flutter_keyboard_visibility_platform_interface
+      - run: flutter analyze
+        working-directory: ./flutter_keyboard_visibility_web
+      - run: flutter analyze
+        working-directory: ./flutter_keyboard_visibility
+      - run: flutter analyze
+        working-directory: ./flutter_keyboard_visibility/example
