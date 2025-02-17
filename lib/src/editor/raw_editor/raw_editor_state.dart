@@ -586,7 +586,8 @@ class QuillRawEditorState extends EditorState
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
       final nodeTextDirection = getDirectionOfNode(node, _textDirection);
       if (node is Line) {
-        final editableTextLine = _getEditableTextLineFromNode(node, context);
+        final editableTextLine =
+            _getEditableTextLineFromNode(node, context, attrs);
         result.add(Directionality(
             textDirection: nodeTextDirection, child: editableTextLine));
       } else if (node is Block) {
@@ -639,7 +640,7 @@ class QuillRawEditorState extends EditorState
   }
 
   EditableTextLine _getEditableTextLineFromNode(
-      Line node, BuildContext context) {
+      Line node, BuildContext context, Map<String, Attribute<dynamic>> attrs) {
     final textLine = TextLine(
       line: node,
       textDirection: _textDirection,
@@ -668,7 +669,8 @@ class QuillRawEditorState extends EditorState
         _hasFocus,
         MediaQuery.devicePixelRatioOf(context),
         _cursorCont,
-        _styles!.inlineCode!);
+        _styles!.inlineCode!,
+        _getDecoration(node, _styles, attrs));
     return editableTextLine;
   }
 
@@ -770,6 +772,30 @@ class QuillRawEditorState extends EditorState
       return defaultStyles!.align!.verticalSpacing;
     }
     return VerticalSpacing.zero;
+  }
+
+  BoxDecoration? _getDecoration(Node node, DefaultStyles? defaultStyles,
+      Map<String, Attribute<dynamic>> attrs) {
+    if (attrs.containsKey(Attribute.header.key)) {
+      final level = attrs[Attribute.header.key]!.value;
+      switch (level) {
+        case 1:
+          return defaultStyles!.h1!.decoration;
+        case 2:
+          return defaultStyles!.h2!.decoration;
+        case 3:
+          return defaultStyles!.h3!.decoration;
+        case 4:
+          return defaultStyles!.h4!.decoration;
+        case 5:
+          return defaultStyles!.h5!.decoration;
+        case 6:
+          return defaultStyles!.h6!.decoration;
+        default:
+          throw ArgumentError('Invalid level $level');
+      }
+    }
+    return null;
   }
 
   void _didChangeTextEditingValueListener() {
