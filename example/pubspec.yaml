@@ -32,6 +32,12 @@ dependency_overrides:
     path: ../flutter_quill_extensions
   flutter_quill_test:
     path: ../flutter_quill_test
+  # The flutter_keyboard_visibility_web uses dart:html which is incompatible with WASM,
+  #  override it with a modified version that uses the web package instead.
+  flutter_keyboard_visibility:
+    path: ../packages/flutter_keyboard_visibility/flutter_keyboard_visibility
+  flutter_keyboard_visibility_web:
+    path: ../packages/flutter_keyboard_visibility/flutter_keyboard_visibility_web
 
 flutter:
   uses-material-design: true
