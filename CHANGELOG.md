@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Keyboard_visibility temp fork issue(https://github.com/singerdmx/flutter-quill/issues/2473)
+
 ## [11.0.0] - 2025-02-16
 
 > [!IMPORTANT]
