@@ -581,6 +581,7 @@ class Document {
         _root.childCount > 1) {
       _root.remove(node);
     }
+    _cachedPlainText = null;
   }
 
   bool isEmpty() {
