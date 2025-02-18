@@ -38,6 +38,9 @@ class Document {
     _loadDocument(delta);
   }
 
+  /// a var that contains the plain text of the entire document
+  String? _cachedPlainText;
+
   /// The root node of the document tree
   final Root _root = Root();
 
@@ -465,16 +468,19 @@ class Document {
       throw StateError('_delta compose failed');
     }
     assert(_delta == _root.toDelta(), 'Compose failed');
+    _cachedPlainText = null;
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
   }
 
   HistoryChanged undo() {
+    _cachedPlainText = null;
     return history.undo(this);
   }
 
   HistoryChanged redo() {
+    _cachedPlainText = null;
     return history.redo(this);
   }
 
@@ -539,6 +545,7 @@ class Document {
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
   ]) =>
+    _cachedPlainText ??=
       _root.children
           .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
           .join();
