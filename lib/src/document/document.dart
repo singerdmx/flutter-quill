@@ -172,7 +172,7 @@ class Document {
     final formatDelta = _rules.apply(RuleType.format, this, index,
         len: len, attribute: attribute);
     if (formatDelta.isNotEmpty) {
-      compose(formatDelta, ChangeSource.local);
+      compose(formatDelta, ChangeSource.local, false);
       delta = delta.compose(formatDelta);
     }
 
@@ -436,7 +436,7 @@ class Document {
   /// of this document.
   ///
   /// In case the [change] is invalid, behavior of this method is unspecified.
-  void compose(Delta delta, ChangeSource changeSource) {
+  void compose(Delta delta, ChangeSource changeSource, [bool reloadCacheText = true]) {
     assert(!documentChangeObserver.isClosed);
     delta.trim();
     assert(delta.isNotEmpty);
@@ -468,7 +468,9 @@ class Document {
       throw StateError('_delta compose failed');
     }
     assert(_delta == _root.toDelta(), 'Compose failed');
-    _cachedPlainText = null;
+    if(reloadCacheText) {
+      _cachedPlainText = null;
+    }
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
