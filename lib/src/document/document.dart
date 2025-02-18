@@ -38,7 +38,9 @@ class Document {
     _loadDocument(delta);
   }
 
-  /// a var that contains the plain text of the entire document
+  /// Stores the plain text content of the entire document in memory for quick access.
+  ///
+  /// It acts as a cache to avoid repeatedly extracting or generating the plain text.
   String? _cachedPlainText;
 
   /// The root node of the document tree
