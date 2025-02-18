@@ -546,11 +546,13 @@ class Document {
   String toPlainText([
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-  ]) =>
+  ]) {
     _cachedPlainText ??=
       _root.children
           .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
           .join();
+    return _cachedPlainText!;
+  }
 
   void _loadDocument(Delta doc) {
     if (doc.isEmpty) {
