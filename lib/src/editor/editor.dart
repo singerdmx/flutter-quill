@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../common/utils/platform.dart';
@@ -554,6 +555,28 @@ class _QuillEditorSelectionGestureDetectorBuilder
       }
     } finally {
       _state._requestKeyboard();
+    }
+  }
+
+  /// onSingleTapUp for mouse right click
+  @override
+  void onSecondarySingleTapUp(TapUpDetails details) {
+    if (delegate.selectionEnabled &&
+        renderEditor != null &&
+        renderEditor!.selection.isCollapsed) {
+      renderEditor!.selectPositionAt(
+        from: details.globalPosition,
+        cause: SelectionChangedCause.longPress,
+      );
+    }
+
+    if (renderEditor?._hasFocus == false) {
+      _state._requestKeyboard();
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        super.onSecondarySingleTapUp(details);
+      });
+    } else {
+      super.onSecondarySingleTapUp(details);
     }
   }
 
