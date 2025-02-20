@@ -24,20 +24,24 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
 import '../editor.dart';
+import '../render/render_editor.dart';
 import '../widgets/cursor.dart';
-import '../widgets/default_styles.dart';
 import '../widgets/link.dart';
-import '../widgets/proxy.dart';
-import '../widgets/text/text_block.dart';
-import '../widgets/text/text_line.dart';
-import '../widgets/text/text_selection.dart';
+import '../widgets/proxies/baseline_proxy.dart';
+import '../widgets/styles/default_styles.dart';
+import '../widgets/text/block/text_block.dart';
+import '../widgets/text/line/editable_text_line.dart';
+import '../widgets/text/line/text_line.dart';
+import '../widgets/text/selection/text_selection.dart';
+import 'editor_glyph_heights.dart';
+import 'editor_state.dart';
+import 'input/raw_editor_state_text_input_client_mixin.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcut_actions_manager.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
 import 'raw_editor.dart';
-import 'raw_editor_render_object.dart';
-import 'raw_editor_state_selection_delegate_mixin.dart';
-import 'raw_editor_state_text_input_client_mixin.dart';
-import 'scribble_focusable.dart';
+import 'render/raw_editor_render_object.dart';
+import 'render/scribble_focusable.dart';
+import 'selection/raw_editor_state_selection_delegate_mixin.dart';
 
 class QuillRawEditorState extends EditorState
     with

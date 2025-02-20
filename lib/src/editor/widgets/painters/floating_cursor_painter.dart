@@ -1,8 +1,7 @@
-// The corner radius of the floating cursor in pixels.
 import 'dart:ui';
+import '../styles/cursor_style.dart';
 
-import 'cursor.dart';
-
+// The corner radius of the floating cursor in pixels.
 const Radius _kFloatingCaretRadius = Radius.circular(1);
 
 /// Floating painter responsible for painting the floating cursor when

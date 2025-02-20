@@ -5,7 +5,7 @@ import '../../../../common/structs/horizontal_spacing.dart';
 import '../../../../document/attribute.dart';
 import '../../../../document/nodes/block.dart';
 import '../../../../document/nodes/node.dart';
-import '../../default_styles.dart';
+import '../../styles/default_styles.dart';
 
 typedef LeadingBlockIndentWidth = HorizontalSpacing Function(
     Block block,

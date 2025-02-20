@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../editor/widgets/default_styles.dart';
+import '../../editor/widgets/styles/default_styles.dart';
 
 Color stringToColor(String? s,
     [Color? originalColor, DefaultStyles? defaultStyles]) {

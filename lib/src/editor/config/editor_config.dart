@@ -10,10 +10,11 @@ import '../embed/embed_editor_builder.dart';
 import '../raw_editor/builders/leading_block_builder.dart';
 import '../raw_editor/config/events/events.dart';
 import '../raw_editor/config/raw_editor_config.dart';
+import '../raw_editor/editor_state.dart';
 import '../raw_editor/raw_editor.dart';
-import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
+import '../widgets/styles/default_styles.dart';
 import '../widgets/text/utils/text_block_utils.dart';
 import 'search_config.dart';
 

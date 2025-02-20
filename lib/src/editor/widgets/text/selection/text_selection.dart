@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
-import '../../../document/nodes/node.dart';
-import '../../editor.dart';
+import '../../../../document/nodes/node.dart';
+import '../../../render/render_editor.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;

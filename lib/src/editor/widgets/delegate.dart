@@ -6,9 +6,9 @@ import 'package:flutter/scheduler.dart';
 import '../../common/utils/platform.dart';
 import '../../document/attribute.dart';
 import '../../document/nodes/leaf.dart';
-import '../editor.dart';
-import '../raw_editor/raw_editor.dart';
-import 'text/text_selection.dart';
+import '../raw_editor/editor_state.dart';
+import '../render/render_editor.dart';
+import 'text/selection/text_selection.dart';
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
