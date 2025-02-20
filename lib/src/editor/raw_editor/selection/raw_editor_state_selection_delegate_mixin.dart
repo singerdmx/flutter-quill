@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../delta/delta_diff.dart';
-import '../../document/document.dart';
-import 'raw_editor.dart';
+import '../../../delta/delta_diff.dart';
+import '../../../document/document.dart';
+import '../editor_state.dart';
 
 mixin RawEditorStateSelectionDelegateMixin on EditorState
     implements TextSelectionDelegate {

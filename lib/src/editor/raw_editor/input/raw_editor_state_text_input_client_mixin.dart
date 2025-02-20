@@ -7,10 +7,9 @@ import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 
-import '../../delta/delta_diff.dart';
-import '../../document/document.dart';
-import '../editor.dart';
-import 'raw_editor.dart';
+import '../../../delta/delta_diff.dart';
+import '../../../document/document.dart';
+import '../editor_state.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
     implements TextInputClient {

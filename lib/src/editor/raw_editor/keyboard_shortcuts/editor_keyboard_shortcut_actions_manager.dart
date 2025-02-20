@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
+import '../boundaries/editor_text_boundaries.dart';
 import '../raw_editor_state.dart';
-import '../raw_editor_text_boundaries.dart';
 import 'editor_keyboard_shortcut_actions.dart';
 
 @internal
@@ -48,7 +48,7 @@ class EditorKeyboardShortcutsActionsManager {
     final mixedBoundary = intent.forward
         ? QuillEditorMixedBoundary(atomicTextBoundary, boundary)
         : QuillEditorMixedBoundary(boundary, atomicTextBoundary);
-    // Use a _MixedBoundary to make sure we don't leave invalid codepoints in
+    // Use a QuillEditorMixedBoundary to make sure we don't leave invalid codepoints in
     // the field after deletion.
     return QuillEditorCollapsedSelectionBoundary(mixedBoundary, intent.forward);
   }
@@ -99,6 +99,7 @@ class EditorKeyboardShortcutsActionsManager {
         context: context, defaultAction: defaultAction);
   }
 
+  // default actions definitions
   late final Action<UpdateSelectionIntent> _updateSelectionAction =
       CallbackAction<UpdateSelectionIntent>(onInvoke: _updateSelection);
 
@@ -124,7 +125,8 @@ class EditorKeyboardShortcutsActionsManager {
   late final QuillEditorApplyCheckListAction _applyCheckListAction =
       QuillEditorApplyCheckListAction(rawEditorState);
 
-  late final Map<Type, Action<Intent>> _actions = <Type, Action<Intent>>{
+  late final Map<Type, Action<Intent>> actions =
+      Map<Type, Action<Intent>>.unmodifiable({
     DoNothingAndStopPropagationTextIntent: DoNothingAction(consumesKey: false),
     ReplaceTextIntent: _replaceTextAction,
     UpdateSelectionIntent: _updateSelectionAction,
@@ -198,7 +200,5 @@ class EditorKeyboardShortcutsActionsManager {
     //  Paging and scrolling
     ExtendSelectionVerticallyToAdjacentPageIntent: _adjacentPageAction,
     ScrollIntent: QuillEditorScrollAction(rawEditorState),
-  };
-
-  Map<Type, Action<Intent>> get actions => _actions;
+  });
 }
