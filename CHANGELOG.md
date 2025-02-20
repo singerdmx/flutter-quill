@@ -12,8 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* Removed unicode from `QuillText` element that causes weird caret behavior on empty lines [#2453](https://github.com/singerdmx/flutter-quill/pull/2453).
-* Request focus on secondary click.
+* Remove unicode from `QuillText` element that causes weird caret behavior on empty lines [#2453](https://github.com/singerdmx/flutter-quill/pull/2453).
+* Focus and open context menu on right click if unfocused [#2477](https://github.com/singerdmx/flutter-quill/pull/2477).
+* Update QuillController `length` extension method deprecation message [#2483](https://github.com/singerdmx/flutter-quill/pull/2483).
 
 ## [11.0.0] - 2025-02-16
 
