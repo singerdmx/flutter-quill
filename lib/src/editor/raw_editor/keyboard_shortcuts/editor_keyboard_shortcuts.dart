@@ -26,7 +26,6 @@ class EditorKeyboardShortcuts extends StatelessWidget {
     required this.controller,
     required this.readOnly,
     required this.enableAlwaysIndentOnTab,
-    required this.characterEvents,
     required this.spaceEvents,
     this.onKeyPressed,
     this.customShortcuts,
@@ -39,7 +38,6 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   final QuillController controller;
   @experimental
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
-  final List<CharacterShortcutEvent> characterEvents;
   final List<SpaceShortcutEvent> spaceEvents;
   final Map<ShortcutActivator, Intent>? customShortcuts;
   final Map<Type, Action<Intent>>? customActions;
@@ -97,17 +95,6 @@ class EditorKeyboardShortcuts extends StatelessWidget {
     final isSpace = event.logicalKey == LogicalKeyboardKey.space;
     final containsSelection =
         controller.selection.baseOffset != controller.selection.extentOffset;
-    if (!isTab && !isSpace && event.character != '\n' && !containsSelection) {
-      for (final charEvents in characterEvents) {
-        if (event.character != null &&
-            event.character == charEvents.character) {
-          final executed = charEvents.execute(controller);
-          if (executed) {
-            return KeyEventResult.handled;
-          }
-        }
-      }
-    }
 
     if (event is! KeyDownEvent) {
       return KeyEventResult.ignored;

@@ -278,6 +278,8 @@ class QuillController extends ChangeNotifier {
       return;
     }
 
+    print('Remove params: len: $len, index: $index');
+
     Delta? delta;
     Style? style;
     if (len > 0 || data is! String || data.isNotEmpty) {

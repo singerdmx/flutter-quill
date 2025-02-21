@@ -24,6 +24,7 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
 import '../editor.dart';
+import '../input/text_editor_input_client_mixin.dart';
 import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/link.dart';
@@ -36,7 +37,6 @@ import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
 import 'raw_editor.dart';
 import 'raw_editor_render_object.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
-import 'raw_editor_state_text_input_client_mixin.dart';
 import 'scribble_focusable.dart';
 
 class QuillRawEditorState extends EditorState
@@ -44,7 +44,7 @@ class QuillRawEditorState extends EditorState
         AutomaticKeepAliveClientMixin<QuillRawEditor>,
         WidgetsBindingObserver,
         TickerProviderStateMixin<QuillRawEditor>,
-        RawEditorStateTextInputClientMixin,
+        TextEditorInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
   late final EditorKeyboardShortcutsActionsManager _shortcutActionsManager;
 
@@ -486,7 +486,6 @@ class QuillRawEditorState extends EditorState
         child: EditorKeyboardShortcuts(
           actions: _shortcutActionsManager.actions,
           onKeyPressed: widget.config.onKeyPressed,
-          characterEvents: widget.config.characterShortcutEvents,
           spaceEvents: widget.config.spaceShortcutEvents,
           constraints: constraints,
           focusNode: widget.config.focusNode,

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/animation.dart' show Curves;
@@ -6,14 +8,16 @@ import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
-
-import '../../delta/delta_diff.dart';
 import '../../document/document.dart';
-import '../editor.dart';
-import 'raw_editor.dart';
+import '../raw_editor/raw_editor.dart';
+import 'debounce/debounce.dart';
+import 'diff_services.dart';
+import 'ime/on_delete.dart';
+import 'ime/on_insert.dart';
+import 'ime/on_non_update_text.dart';
+import 'ime/on_replace_method.dart';
 
-mixin RawEditorStateTextInputClientMixin on EditorState
-    implements TextInputClient {
+mixin TextEditorInputClientMixin on EditorState implements TextInputClient {
   TextInputConnection? _textInputConnection;
   TextEditingValue? __lastKnownRemoteTextEditingValue;
 
@@ -24,8 +28,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
   }
 
-  TextEditingValue? get _lastKnownRemoteTextEditingValue =>
-      __lastKnownRemoteTextEditingValue;
+  TextEditingValue? get _lastKnownRemoteTextEditingValue => __lastKnownRemoteTextEditingValue;
 
   /// The range of text that is currently being composed.
   final ValueNotifier<TextRange> composingRange = ValueNotifier<TextRange>(
@@ -48,14 +51,12 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   bool get shouldCreateInputConnection => kIsWeb || !widget.config.readOnly;
 
   /// Returns `true` if there is open input connection.
-  bool get hasConnection =>
-      _textInputConnection != null && _textInputConnection!.attached;
+  bool get hasConnection => _textInputConnection != null && _textInputConnection!.attached;
 
   /// Opens or closes input connection based on the current state of
   /// [focusNode] and [value].
   void openOrCloseConnection() {
-    if (widget.config.focusNode.hasFocus &&
-        widget.config.focusNode.consumeKeyboardToken()) {
+    if (widget.config.focusNode.hasFocus && widget.config.focusNode.consumeKeyboardToken()) {
       openConnectionIfNeeded();
     } else if (!widget.config.focusNode.hasFocus) {
       closeConnectionIfNeeded();
@@ -94,14 +95,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
       /// Trap selection extends off end of document
       if (_lastKnownRemoteTextEditingValue != null) {
-        if (_lastKnownRemoteTextEditingValue!.selection.end >
-            _lastKnownRemoteTextEditingValue!.text.length) {
-          _lastKnownRemoteTextEditingValue = _lastKnownRemoteTextEditingValue!
-              .copyWith(
-                  selection: _lastKnownRemoteTextEditingValue!.selection
-                      .copyWith(
-                          extentOffset:
-                              _lastKnownRemoteTextEditingValue!.text.length));
+        if (_lastKnownRemoteTextEditingValue!.selection.end > _lastKnownRemoteTextEditingValue!.text.length) {
+          _lastKnownRemoteTextEditingValue = _lastKnownRemoteTextEditingValue!.copyWith(
+              selection: _lastKnownRemoteTextEditingValue!.selection
+                  .copyWith(extentOffset: _lastKnownRemoteTextEditingValue!.text.length));
         }
       }
       _textInputConnection!.setEditingState(_lastKnownRemoteTextEditingValue!);
@@ -109,35 +106,29 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.show();
   }
 
+  // windows
   void _updateComposingRectIfNeeded() {
-    final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
-        textEditingValue.composing;
+    final composingRange = _lastKnownRemoteTextEditingValue?.composing ?? textEditingValue.composing;
     if (hasConnection) {
       assert(mounted);
       if (composingRange.isValid) {
         final offset = composingRange.start;
-        final composingRect =
-            renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
+        final composingRect = renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
         _textInputConnection!.setComposingRect(composingRect);
       }
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _updateComposingRectIfNeeded());
+      //SchedulerBinding.instance.addPostFrameCallback((_) => _updateComposingRectIfNeeded());
     }
   }
 
+  // macos
   void _updateCaretRectIfNeeded() {
     if (hasConnection) {
-      if (!dirty &&
-          renderEditor.selection.isValid &&
-          renderEditor.selection.isCollapsed) {
-        final currentTextPosition =
-            TextPosition(offset: renderEditor.selection.baseOffset);
-        final caretRect =
-            renderEditor.getLocalRectForCaret(currentTextPosition);
+      if (!dirty && renderEditor.selection.isValid && renderEditor.selection.isCollapsed) {
+        final currentTextPosition = TextPosition(offset: renderEditor.selection.baseOffset);
+        final caretRect = renderEditor.getLocalRectForCaret(currentTextPosition);
         _textInputConnection!.setCaretRect(caretRect);
       }
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _updateCaretRectIfNeeded());
+      //SchedulerBinding.instance.addPostFrameCallback((_) => _updateCaretRectIfNeeded());
     }
   }
 
@@ -188,8 +179,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   // Start TextInputClient implementation
   @override
-  TextEditingValue? get currentTextEditingValue =>
-      _lastKnownRemoteTextEditingValue;
+  TextEditingValue? get currentTextEditingValue => _lastKnownRemoteTextEditingValue;
 
   // autofill is not needed
   @override
@@ -218,21 +208,69 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
+    final deltas = getTextEditingDeltas(currentTextEditingValue, value);
     _lastKnownRemoteTextEditingValue = value;
-    final oldText = effectiveLastKnownValue.text;
-    final text = value.text;
-    final cursorPosition = value.selection.extentOffset;
-    final diff = getDiff(oldText, text, cursorPosition);
-    if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-      widget.controller.updateSelection(value.selection, ChangeSource.local);
+    // On mobile, the IME will send a lot of updateEditingValue events, so we
+    // need to debounce it to combine them together.
+    Debounce.debounce(
+      'input',
+      Platform.isAndroid || Platform.isIOS
+          ? const Duration(
+              milliseconds: 10,
+            )
+          : Duration.zero,
+      () {
+        _apply(deltas);
+      },
+    );
+  }
+
+  Future<void> _apply(List<TextEditingDelta> deltas) async {
+    final formattedDeltas = deltas.map((e) => e.format()).toList();
+    for (final delta in formattedDeltas) {
+      _updateComposing(delta);
+
+      if (delta is TextEditingDeltaInsertion) {
+        await onInsert(
+          delta,
+          widget.controller,
+          widget.config.characterShortcutEvents,
+        );
+      } else if (delta is TextEditingDeltaDeletion) {
+        await onDelete(
+          delta,
+          widget.controller,
+        );
+      } else if (delta is TextEditingDeltaReplacement) {
+        await onReplace(
+          delta,
+          widget.controller,
+          widget.config.characterShortcutEvents,
+        );
+      } else if (delta is TextEditingDeltaNonTextUpdate) {
+        await onNonTextUpdate(
+          delta,
+          widget.controller,
+        );
+      }
+    }
+  }
+
+  void _updateComposing(TextEditingDelta delta) {
+    if (delta is TextEditingDeltaNonTextUpdate) {
+      composingRange.value = delta.composing;
     } else {
-      widget.controller.replaceText(
-        diff.start,
-        diff.deleted.length,
-        diff.inserted,
-        value.selection,
-      );
+      composingRange.value = composingRange.value.start != -1 && delta.composing.end != -1
+          ? TextRange(
+              start: composingRange.value.start,
+              end: delta.composing.end,
+            )
+          : delta.composing;
+    }
+
+    // solve the issue where the Chinese IME doesn't continue deleting after the input content has been deleted.
+    if (Platform.isMacOS && (composingRange.value.isCollapsed)) {
+      composingRange.value = TextRange.empty;
     }
   }
 
@@ -281,49 +319,39 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         // we cache the position.
         _pointOffsetOrigin = point.offset;
 
-        final currentTextPosition =
-            TextPosition(offset: renderEditor.selection.baseOffset);
-        _startCaretRect =
-            renderEditor.getLocalRectForCaret(currentTextPosition);
+        final currentTextPosition = TextPosition(offset: renderEditor.selection.baseOffset);
+        _startCaretRect = renderEditor.getLocalRectForCaret(currentTextPosition);
 
-        _lastBoundedOffset = _startCaretRect!.center -
-            _floatingCursorOffset(currentTextPosition);
+        _lastBoundedOffset = _startCaretRect!.center - _floatingCursorOffset(currentTextPosition);
         _lastTextPosition = currentTextPosition;
-        renderEditor.setFloatingCursor(
-            point.state, _lastBoundedOffset!, _lastTextPosition!);
+        renderEditor.setFloatingCursor(point.state, _lastBoundedOffset!, _lastTextPosition!);
         break;
       case FloatingCursorDragState.Update:
         assert(_lastTextPosition != null, 'Last text position was not set');
         final floatingCursorOffset = _floatingCursorOffset(_lastTextPosition!);
         final centeredPoint = point.offset! - _pointOffsetOrigin!;
-        final rawCursorOffset =
-            _startCaretRect!.center + centeredPoint - floatingCursorOffset;
+        final rawCursorOffset = _startCaretRect!.center + centeredPoint - floatingCursorOffset;
 
-        final preferredLineHeight =
-            renderEditor.preferredLineHeight(_lastTextPosition!);
+        final preferredLineHeight = renderEditor.preferredLineHeight(_lastTextPosition!);
         _lastBoundedOffset = renderEditor.calculateBoundedFloatingCursorOffset(
           rawCursorOffset,
           preferredLineHeight,
         );
-        _lastTextPosition = renderEditor.getPositionForOffset(renderEditor
-            .localToGlobal(_lastBoundedOffset! + floatingCursorOffset));
-        renderEditor.setFloatingCursor(
-            point.state, _lastBoundedOffset!, _lastTextPosition!);
-        final newSelection = TextSelection.collapsed(
-            offset: _lastTextPosition!.offset,
-            affinity: _lastTextPosition!.affinity);
+        _lastTextPosition = renderEditor
+            .getPositionForOffset(renderEditor.localToGlobal(_lastBoundedOffset! + floatingCursorOffset));
+        renderEditor.setFloatingCursor(point.state, _lastBoundedOffset!, _lastTextPosition!);
+        final newSelection =
+            TextSelection.collapsed(offset: _lastTextPosition!.offset, affinity: _lastTextPosition!.affinity);
         // Setting selection as floating cursor moves will have scroll view
         // bring background cursor into view
-        renderEditor.onSelectionChanged(
-            newSelection, SelectionChangedCause.forcePress);
+        renderEditor.onSelectionChanged(newSelection, SelectionChangedCause.forcePress);
         break;
       case FloatingCursorDragState.End:
         // We skip animation if no update has happened.
         if (_lastTextPosition != null && _lastBoundedOffset != null) {
           floatingCursorResetController
             ..value = 0.0
-            ..animateTo(1,
-                duration: _floatingCursorResetTime, curve: Curves.decelerate);
+            ..animateTo(1, duration: _floatingCursorResetTime, curve: Curves.decelerate);
         }
         break;
     }
@@ -336,25 +364,20 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// and repositioned (linear interpolation between position of floating cursor
   /// and current position of background cursor)
   void onFloatingCursorResetTick() {
-    final finalPosition =
-        renderEditor.getLocalRectForCaret(_lastTextPosition!).centerLeft -
-            _floatingCursorOffset(_lastTextPosition!);
+    final finalPosition = renderEditor.getLocalRectForCaret(_lastTextPosition!).centerLeft -
+        _floatingCursorOffset(_lastTextPosition!);
     if (floatingCursorResetController.isCompleted) {
-      renderEditor.setFloatingCursor(
-          FloatingCursorDragState.End, finalPosition, _lastTextPosition!);
+      renderEditor.setFloatingCursor(FloatingCursorDragState.End, finalPosition, _lastTextPosition!);
       _startCaretRect = null;
       _lastTextPosition = null;
       _pointOffsetOrigin = null;
       _lastBoundedOffset = null;
     } else {
       final lerpValue = floatingCursorResetController.value;
-      final lerpX =
-          lerpDouble(_lastBoundedOffset!.dx, finalPosition.dx, lerpValue)!;
-      final lerpY =
-          lerpDouble(_lastBoundedOffset!.dy, finalPosition.dy, lerpValue)!;
+      final lerpX = lerpDouble(_lastBoundedOffset!.dx, finalPosition.dx, lerpValue)!;
+      final lerpY = lerpDouble(_lastBoundedOffset!.dy, finalPosition.dy, lerpValue)!;
 
-      renderEditor.setFloatingCursor(FloatingCursorDragState.Update,
-          Offset(lerpX, lerpY), _lastTextPosition!,
+      renderEditor.setFloatingCursor(FloatingCursorDragState.Update, Offset(lerpX, lerpY), _lastTextPosition!,
           resetLerpValue: lerpValue);
     }
   }
@@ -382,8 +405,93 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       final size = renderEditor.size;
       final transform = renderEditor.getTransformTo(null);
       _textInputConnection?.setEditableSizeAndTransform(size, transform);
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _updateSizeAndTransform());
+      SchedulerBinding.instance.addPostFrameCallback((_) => _updateSizeAndTransform());
     }
+  }
+}
+
+extension on TextEditingDelta {
+  TextEditingDelta format() {
+    if (this is TextEditingDeltaInsertion) {
+      return (this as TextEditingDeltaInsertion).format();
+    } else if (this is TextEditingDeltaDeletion) {
+      return (this as TextEditingDeltaDeletion).format();
+    } else if (this is TextEditingDeltaReplacement) {
+      return (this as TextEditingDeltaReplacement).format();
+    } else if (this is TextEditingDeltaNonTextUpdate) {
+      return (this as TextEditingDeltaNonTextUpdate).format();
+    }
+    throw UnimplementedError();
+  }
+}
+
+const String _whitespace = ' ';
+const int _len = _whitespace.length;
+
+extension on TextSelection {
+  TextSelection operator <<(int shiftAmount) => shift(-shiftAmount);
+
+  TextSelection shift(int shiftAmount) => TextSelection(
+        baseOffset: max(0, baseOffset + shiftAmount),
+        extentOffset: max(0, extentOffset + shiftAmount),
+      );
+}
+
+extension on TextEditingDeltaInsertion {
+  TextEditingDeltaInsertion format() => TextEditingDeltaInsertion(
+        oldText: oldText << _len,
+        textInserted: textInserted,
+        insertionOffset: insertionOffset - _len,
+        selection: selection << _len,
+        composing: composing << _len,
+      );
+}
+
+extension on TextEditingDeltaDeletion {
+  TextEditingDeltaDeletion format() => TextEditingDeltaDeletion(
+        oldText: oldText << _len,
+        deletedRange: deletedRange << _len,
+        selection: selection << _len,
+        composing: composing << _len,
+      );
+}
+
+extension on TextEditingDeltaReplacement {
+  TextEditingDeltaReplacement format() => TextEditingDeltaReplacement(
+        oldText: oldText << _len,
+        replacementText: replacementText,
+        replacedRange: replacedRange << _len,
+        selection: selection << _len,
+        composing: composing << _len,
+      );
+}
+
+extension on TextEditingDeltaNonTextUpdate {
+  TextEditingDeltaNonTextUpdate format() => TextEditingDeltaNonTextUpdate(
+        oldText: oldText << _len,
+        selection: selection << _len,
+        composing: composing << _len,
+      );
+}
+
+extension on TextRange {
+  TextRange operator <<(int shiftAmount) => shift(-shiftAmount);
+
+  TextRange shift(int shiftAmount) => !isValid
+      ? this
+      : TextRange(
+          start: max(0, start + shiftAmount),
+          end: max(0, end + shiftAmount),
+        );
+}
+
+extension on String {
+  String operator <<(int shiftAmount) => shift(shiftAmount);
+
+  String shift(int shiftAmount) {
+    if (shiftAmount > length) {
+      return '';
+    }
+    return substring(shiftAmount);
   }
 }
