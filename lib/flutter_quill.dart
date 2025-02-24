@@ -33,6 +33,7 @@ export 'src/editor_toolbar_controller_shared/copy_cut_service/copy_cut_service_p
 export 'src/editor_toolbar_controller_shared/copy_cut_service/default_copy_cut_service.dart';
 export 'src/editor_toolbar_controller_shared/quill_config.dart';
 export 'src/l10n/generated/quill_localizations.dart';
+export 'src/rules/rule.dart' show Rule;
 export 'src/toolbar/embed/embed_button_builder.dart';
 export 'src/toolbar/simple_toolbar.dart';
 export 'src/toolbar/structs/link_dialog_action.dart';

@@ -6,7 +6,7 @@ extension QuillControllerExt on QuillController {
       'Invalid extension property and will be removed, use selection.baseOffset instead')
   int get index => selection.baseOffset;
   @Deprecated(
-      'Invalid extension property and will be removed, use selection.baseOffset instead')
+      'Invalid extension property and will be removed, use selection.extentOffset - selection.baseOffset instead')
   int get length => selection.extentOffset - index;
 
   @Deprecated('Invalid extension method and will be removed.')
