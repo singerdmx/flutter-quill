@@ -209,7 +209,7 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
         styles!.inlineCode!,
-      );
+        null);
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
       children.add(
         Directionality(

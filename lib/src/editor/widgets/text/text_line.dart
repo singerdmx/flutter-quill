@@ -736,6 +736,7 @@ class EditableTextLine extends RenderObjectWidget {
       this.devicePixelRatio,
       this.cursorCont,
       this.inlineCodeStyle,
+      this.decoration,
       {super.key});
 
   final Line line;
@@ -751,6 +752,7 @@ class EditableTextLine extends RenderObjectWidget {
   final double devicePixelRatio;
   final CursorCont cursorCont;
   final InlineCodeStyle inlineCodeStyle;
+  final BoxDecoration? decoration;
 
   @override
   RenderObjectElement createElement() {
@@ -769,7 +771,8 @@ class EditableTextLine extends RenderObjectWidget {
         _getPadding(),
         color,
         cursorCont,
-        inlineCodeStyle);
+        inlineCodeStyle,
+        decoration);
   }
 
   @override
@@ -785,7 +788,8 @@ class EditableTextLine extends RenderObjectWidget {
       ..hasFocus = hasFocus
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
-      ..setInlineCodeStyle(inlineCodeStyle);
+      ..setInlineCodeStyle(inlineCodeStyle)
+      ..setDecoration(decoration);
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -812,6 +816,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.color,
     this.cursorCont,
     this.inlineCodeStyle,
+    this.decoration,
   );
 
   RenderBox? _leading;
@@ -830,6 +835,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   List<TextBox>? _selectedRects;
   late Rect _caretPrototype;
   InlineCodeStyle inlineCodeStyle;
+  BoxDecoration? decoration;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
   Iterable<RenderBox> get _children sync* {
@@ -943,6 +949,12 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (inlineCodeStyle == newStyle) return;
     inlineCodeStyle = newStyle;
     markNeedsLayout();
+  }
+
+  void setDecoration(BoxDecoration? newDecoration) {
+    if (decoration == newDecoration) return;
+    decoration = newDecoration;
+    markNeedsPaint();
   }
 
   // Start selection implementation
@@ -1333,6 +1345,15 @@ class RenderEditableTextLine extends RenderEditableBox {
           ),
         );
       }
+    }
+    final boxDecoration = decoration;
+    if (boxDecoration != null) {
+      final paintRect = offset & size;
+      boxDecoration.createBoxPainter().paint(
+            context.canvas,
+            paintRect.topLeft,
+            ImageConfiguration(size: paintRect.size),
+          );
     }
 
     if (_body != null) {
