@@ -12,14 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* Remove unnecessary content change listeners in read-only mode to avoid triggering infinite loops of **FocusNode** callbacks [#2488](https://github.com/singerdmx/flutter-quill/pull/2488).
-* Remove unicode from `QuillText` element that causes weird caret behavior on empty lines [#2453](https://github.com/singerdmx/flutter-quill/pull/2453).
-* Focus and open context menu on right click if unfocused [#2477](https://github.com/singerdmx/flutter-quill/pull/2477).
-* Update QuillController `length` extension method deprecation message [#2483](https://github.com/singerdmx/flutter-quill/pull/2483).
+- Remove unnecessary content change listeners in read-only mode to avoid triggering infinite loops of **FocusNode** callbacks [#2488](https://github.com/singerdmx/flutter-quill/pull/2488).
+- Remove unicode from `QuillText` element that causes weird caret behavior on empty lines [#2453](https://github.com/singerdmx/flutter-quill/pull/2453).
+- Focus and open context menu on right click if unfocused [#2477](https://github.com/singerdmx/flutter-quill/pull/2477).
+- Update QuillController `length` extension method deprecation message [#2483](https://github.com/singerdmx/flutter-quill/pull/2483).
 
 ### Added
 
-* `Rule` is now part of the public API, so that `Document.setCustomRules` can be used.
+- `Rule` is now part of the public API, so that `Document.setCustomRules` can be used.
+- `decoration` property in `DefaultTextBlockStyle` for the `header` attribute to customize headers with borders, background colors, and other styles using `BoxDecoration` [#2429](https://github.com/singerdmx/flutter-quill/pull/2429).
 
 ## [11.0.0] - 2025-02-16
 
