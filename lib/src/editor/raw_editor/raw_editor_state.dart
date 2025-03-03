@@ -813,8 +813,6 @@ class QuillRawEditorState extends EditorState
       _clipboardStatus!.addListener(_onChangedClipboardStatus);
     }
 
-    controller.addListener(_didChangeTextEditingValueListener);
-
     _scrollController = widget.config.scrollController;
     _scrollController.addListener(_updateSelectionOverlayForScroll);
 
@@ -827,9 +825,6 @@ class QuillRawEditorState extends EditorState
     // Floating cursor
     _floatingCursorResetController = AnimationController(vsync: this);
     _floatingCursorResetController.addListener(onFloatingCursorResetTick);
-
-    // listen to composing range changes
-    composingRange.addListener(_onComposingRangeChanged);
 
     if (isKeyboardOS) {
       _keyboardVisible = true;
@@ -857,8 +852,13 @@ class QuillRawEditorState extends EditorState
       });
     }
 
-    // Focus
-    widget.config.focusNode.addListener(_handleFocusChanged);
+    if (!widget.config.readOnly) {
+      controller.addListener(_didChangeTextEditingValueListener);
+      // listen to composing range changes
+      composingRange.addListener(_onComposingRangeChanged);
+      // Focus
+      widget.config.focusNode.addListener(_handleFocusChanged);
+    }
   }
 
   // KeyboardVisibilityController only checks for keyboards that
@@ -964,10 +964,12 @@ class QuillRawEditorState extends EditorState
     assert(!hasConnection);
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
-    controller.removeListener(_didChangeTextEditingValueListener);
-    widget.config.focusNode.removeListener(_handleFocusChanged);
+    if (!widget.config.readOnly) {
+      controller.removeListener(_didChangeTextEditingValueListener);
+      widget.config.focusNode.removeListener(_handleFocusChanged);
+      composingRange.removeListener(_onComposingRangeChanged);
+    }
     _cursorCont.dispose();
-    composingRange.removeListener(_onComposingRangeChanged);
     if (_clipboardStatus != null) {
       _clipboardStatus!
         ..removeListener(_onChangedClipboardStatus)
