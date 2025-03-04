@@ -38,6 +38,11 @@ class Document {
     _loadDocument(delta);
   }
 
+  /// Stores the plain text content of the entire document in memory for quick access.
+  ///
+  /// It acts as a cache to avoid repeatedly extracting or generating the plain text.
+  String? _cachedPlainText;
+
   /// The root node of the document tree
   final Root _root = Root();
 
@@ -465,16 +470,19 @@ class Document {
       throw StateError('_delta compose failed');
     }
     assert(_delta == _root.toDelta(), 'Compose failed');
+    _cachedPlainText = null;
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
   }
 
   HistoryChanged undo() {
+    _cachedPlainText = null;
     return history.undo(this);
   }
 
   HistoryChanged redo() {
+    _cachedPlainText = null;
     return history.redo(this);
   }
 
@@ -538,10 +546,13 @@ class Document {
   String toPlainText([
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-  ]) =>
+  ]) {
+    _cachedPlainText ??=
       _root.children
           .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
           .join();
+    return _cachedPlainText!;
+  }
 
   void _loadDocument(Delta doc) {
     if (doc.isEmpty) {
@@ -570,6 +581,7 @@ class Document {
         _root.childCount > 1) {
       _root.remove(node);
     }
+    _cachedPlainText = null;
   }
 
   bool isEmpty() {
