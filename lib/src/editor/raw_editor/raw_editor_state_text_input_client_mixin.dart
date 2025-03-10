@@ -224,7 +224,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     final text = value.text;
 
     // Dynamically calculate cursor position to resolve misalignment issues when inputting Chinese with Sogou Pinyin.
-    // 动态计算光标位置, 解决使用搜狗拼音输入中文时光标位置偏移问题
     final effectiveCursorPosition = value.isComposingRangeValid
         ? value.composing.end
         : value.selection.extentOffset;
