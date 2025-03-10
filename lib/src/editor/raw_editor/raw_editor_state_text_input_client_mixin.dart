@@ -222,8 +222,13 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _lastKnownRemoteTextEditingValue = value;
     final oldText = effectiveLastKnownValue.text;
     final text = value.text;
-    final cursorPosition = value.selection.extentOffset;
-    final diff = getDiff(oldText, text, cursorPosition);
+
+    // Dynamically calculate cursor position to resolve misalignment issues when inputting Chinese with Sogou Pinyin.
+    // 动态计算光标位置, 解决使用搜狗拼音输入中文时光标位置偏移问题
+    final effectiveCursorPosition = value.isComposingRangeValid
+        ? value.composing.end
+        : value.selection.extentOffset;
+    final diff = getDiff(oldText, text, effectiveCursorPosition);
     if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
       widget.controller.updateSelection(value.selection, ChangeSource.local);
     } else {
