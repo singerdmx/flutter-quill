@@ -162,6 +162,9 @@ void main() {
           await tester.tap(find.byType(QuillEditor),
               buttons: kSecondaryButton, kind: device);
           await tester.pumpAndSettle();
+          while (find.byType(AdaptiveTextSelectionToolbar).evaluate().isEmpty) {
+            await tester.pumpAndSettle();
+          }
 
           // Verify custom widget shows
           expect(find.byType(AdaptiveTextSelectionToolbar), findsAny);

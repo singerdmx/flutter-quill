@@ -17,10 +17,10 @@ body:
   - type: input
     attributes:
       label: Flutter Quill Version
-      description: The relevant package versions
-      placeholder: e.g., 10.0.0
+      description: The package version that's used in pubspec.lock
+      placeholder: e.g., 11.0.0
     validations:
-      required: false
+      required: true
   - type: textarea
     attributes:
       label: Steps to Reproduce
