@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+ - Explicitly schedule frame on secondary click to ensure context menu is shown on Windows [#2507](https://github.com/singerdmx/flutter-quill/pull/2507)
+
 ## [11.1.0] - 2025-03-11
 
 ### Fixed
