@@ -24,7 +24,6 @@ import '../../document/nodes/block.dart';
 import '../../document/nodes/line.dart';
 import '../../document/nodes/node.dart';
 import '../editor.dart';
-import '../input/text_editor_input_client_mixin.dart';
 import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/link.dart';
@@ -32,6 +31,7 @@ import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
+import 'input/raw_editor_state_input_client_mixin.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcut_actions_manager.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
 import 'raw_editor.dart';
@@ -44,7 +44,7 @@ class QuillRawEditorState extends EditorState
         AutomaticKeepAliveClientMixin<QuillRawEditor>,
         WidgetsBindingObserver,
         TickerProviderStateMixin<QuillRawEditor>,
-        TextEditorInputClientMixin,
+        RawEditorStateTextInputClientMixin,
         RawEditorStateSelectionDelegateMixin {
   late final EditorKeyboardShortcutsActionsManager _shortcutActionsManager;
 

@@ -11,7 +11,8 @@ Future<void> onNonTextUpdate(
   // when typing characters with CJK IME on Windows, a non-text update is sent
   // with the selection range.
   if (Platform.isWindows) {
-    if (nonTextUpdate.composing == TextRange.empty && nonTextUpdate.selection.isCollapsed) {
+    if (nonTextUpdate.composing == TextRange.empty &&
+        nonTextUpdate.selection.isCollapsed) {
       controller.updateSelection(
         TextSelection.collapsed(
           offset: nonTextUpdate.selection.start,

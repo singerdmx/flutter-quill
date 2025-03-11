@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
-import '../../../controller/quill_controller.dart';
-import '../../raw_editor/config/events/character_shortcuts_events.dart';
+import '../../../../controller/quill_controller.dart';
+import '../../../raw_editor/config/events/character_shortcuts_events.dart';
 
 Future<void> onInsert(
   TextEditingDeltaInsertion insertion,
@@ -14,7 +14,8 @@ Future<void> onInsert(
 
   if (insertionText.length == 1 && !insertionText.contains('\n')) {
     for (final shortcutEvent in characterShortcutEvents) {
-      if (shortcutEvent.character == insertionText && shortcutEvent.handler(controller)) {
+      if (shortcutEvent.character == insertionText &&
+          shortcutEvent.handler(controller)) {
         return;
       }
     }
@@ -24,6 +25,7 @@ Future<void> onInsert(
     selection.baseOffset,
     selection.extentOffset - selection.baseOffset,
     insertionText,
-    TextSelection.collapsed(offset: selection.extentOffset + insertionText.length),
+    TextSelection.collapsed(
+        offset: selection.extentOffset + insertionText.length),
   );
 }

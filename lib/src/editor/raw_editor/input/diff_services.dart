@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import '../../delta/delta_diff.dart';
+import '../../../delta/delta_diff.dart';
 
 /// Return a list of the change type that was do it to the content of the editor
 List<TextEditingDelta> getTextEditingDeltas(

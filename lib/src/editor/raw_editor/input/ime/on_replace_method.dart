@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
-import '../../../controller/quill_controller.dart';
-import '../../raw_editor/config/events/character_shortcuts_events.dart';
+import '../../../../controller/quill_controller.dart';
+import '../../../raw_editor/config/events/character_shortcuts_events.dart';
 import 'on_insert.dart';
 
 Future<void> onReplace(
@@ -19,7 +19,8 @@ Future<void> onReplace(
   if (selection.isCollapsed) {
     if (textReplacement.length == 1) {
       for (final shortcutEvent in characterShortcutEvents) {
-        if (shortcutEvent.character == textReplacement && shortcutEvent.handler(controller)) {
+        if (shortcutEvent.character == textReplacement &&
+            shortcutEvent.handler(controller)) {
           return;
         }
       }
@@ -30,7 +31,8 @@ Future<void> onReplace(
       if (textReplacement.endsWith('\n')) {
         replacement = TextEditingDeltaReplacement(
           oldText: replacement.oldText,
-          replacementText: replacement.replacementText.substring(0, replacement.replacementText.length - 1),
+          replacementText: replacement.replacementText
+              .substring(0, replacement.replacementText.length - 1),
           replacedRange: replacement.replacedRange,
           selection: replacement.selection,
           composing: replacement.composing,
@@ -45,8 +47,7 @@ Future<void> onReplace(
       length,
       textReplacement,
       TextSelection.collapsed(
-        offset: replacement.selection.baseOffset + textReplacement.length
-      ),
+          offset: replacement.selection.baseOffset + textReplacement.length),
     );
   } else {
     controller.replaceText(
