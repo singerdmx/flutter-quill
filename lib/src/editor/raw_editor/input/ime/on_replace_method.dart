@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
+import '../../../../../internal.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../raw_editor/config/events/character_shortcuts_events.dart';
 import 'on_insert.dart';
@@ -26,7 +27,7 @@ Future<void> onReplace(
       }
     }
 
-    if (Platform.isIOS) {
+    if (isIosApp) {
       // remove the trailing '\n' when pressing the return key
       if (textReplacement.endsWith('\n')) {
         replacement = TextEditingDeltaReplacement(
