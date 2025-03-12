@@ -224,38 +224,21 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    // on the web, using TextEditingDeltas not works as expected
-    if (kIsWeb) {
-      final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
-      _lastKnownRemoteTextEditingValue = value;
-      final oldText = effectiveLastKnownValue.text;
-      final text = value.text;
-      final cursorPosition = value.selection.extentOffset;
-      final diff = getDiff(oldText, text, cursorPosition);
-      if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-        widget.controller.updateSelection(value.selection, ChangeSource.local);
-      } else {
-        widget.controller.replaceText(
-          diff.start,
-          diff.deleted.length,
-          diff.inserted,
-          value.selection,
-        );
-      }
-      return;
-    }
-
-    final textEditingDlta = getTextEditingDelta(currentTextEditingValue, value);
+    final textEditingDlta =
+        getTextEditingDelta(_lastKnownRemoteTextEditingValue!, value);
     _lastKnownRemoteTextEditingValue = value;
     _apply([textEditingDlta]);
   }
 
   Future<void> _apply(List<TextEditingDelta> deltas) async {
-    final formattedDeltas = deltas
-        .map(
-          (e) => e.format(),
-        )
-        .toList();
+    // on web browsers, we don't need to format the deltas
+    final formattedDeltas = kIsWeb
+        ? deltas
+        : deltas
+            .map(
+              (e) => e.format(),
+            )
+            .toList();
     for (final delta in formattedDeltas) {
       if (delta is TextEditingDeltaInsertion) {
         await onInsert(

@@ -5,28 +5,15 @@ Future<void> onDelete(
   TextEditingDeltaDeletion deletion,
   QuillController controller,
 ) async {
-  final selection = controller.selection;
-  if (selection.isCollapsed) {
-    final start = deletion.deletedRange.start;
-    final length = deletion.deletedRange.end - start;
-    controller.replaceText(
-      start + 1,
-      length,
-      '',
-      TextSelection.collapsed(
-        offset: (selection.baseOffset - 1).nonNegative,
-        affinity: controller.selection.affinity,
-      ),
-    );
-    return;
-  }
+  final start = deletion.deletedRange.start;
+  final length = deletion.deletedRange.end - start;
   controller.replaceText(
-    selection.baseOffset,
-    selection.extentOffset - selection.baseOffset,
+    start,
+    length,
     '',
     TextSelection.collapsed(
-      offset: selection.start,
-      affinity: selection.affinity,
+      offset: deletion.selection.baseOffset.nonNegative,
+      affinity: controller.selection.affinity,
     ),
   );
 }
