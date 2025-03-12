@@ -14,7 +14,7 @@ Future<void> onDelete(
       length,
       '',
       TextSelection.collapsed(
-        offset: start > 0 ? start - 1 : 0,
+        offset: (selection.baseOffset - 1).nonNegative,
         affinity: controller.selection.affinity,
       ),
     );
@@ -29,4 +29,8 @@ Future<void> onDelete(
       affinity: selection.affinity,
     ),
   );
+}
+
+extension on int {
+  int get nonNegative => this < 0 ? 0 : this;
 }
