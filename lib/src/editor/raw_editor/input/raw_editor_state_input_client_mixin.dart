@@ -224,14 +224,13 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
+    // on the web, using TextEditingDeltas not works as expected
     if (kIsWeb) {
       final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
       _lastKnownRemoteTextEditingValue = value;
       final oldText = effectiveLastKnownValue.text;
       final text = value.text;
-      final cursorPosition = value.isComposingRangeValid
-          ? value.composing.end
-          : value.selection.extentOffset;
+      final cursorPosition = value.selection.extentOffset;
       final diff = getDiff(oldText, text, cursorPosition);
       if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
         widget.controller.updateSelection(value.selection, ChangeSource.local);

@@ -6,24 +6,20 @@ Future<void> onNonTextUpdate(
   TextEditingDeltaNonTextUpdate nonTextUpdate,
   QuillController controller,
 ) async {
+  final effectiveSelection = TextSelection.collapsed(offset: nonTextUpdate.selection.baseOffset);
   // when typing characters with CJK IME on Windows, a non-text update is sent
   // with the selection range.
   if (Platform.isWindows) {
-    if (nonTextUpdate.composing == TextRange.empty &&
-        nonTextUpdate.selection.isCollapsed) {
+    if (nonTextUpdate.composing == TextRange.empty && nonTextUpdate.selection.isCollapsed) {
       controller.updateSelection(
-        TextSelection.collapsed(
-          offset: nonTextUpdate.selection.start,
-        ),
+        effectiveSelection,
         ChangeSource.local,
       );
     }
-  } else if (Platform.isLinux || Platform.isMacOS) {
-    controller.updateSelection(
-      TextSelection.collapsed(
-        offset: nonTextUpdate.selection.start,
-      ),
-      ChangeSource.local,
-    );
+    return;
   }
+  controller.updateSelection(
+    effectiveSelection,
+    ChangeSource.local,
+  );
 }
