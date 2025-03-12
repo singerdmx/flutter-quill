@@ -12,7 +12,6 @@ import '../../../document/nodes/leaf.dart' as leaf;
 import '../../../document/nodes/line.dart';
 import '../../../document/nodes/node.dart';
 import '../../widgets/keyboard_listener.dart';
-import '../config/events/character_shortcuts_events.dart';
 import '../config/events/space_shortcut_events.dart';
 import 'default_single_activator_intents.dart';
 
