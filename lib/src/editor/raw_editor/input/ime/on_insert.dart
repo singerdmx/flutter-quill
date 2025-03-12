@@ -8,14 +8,13 @@ Future<void> onInsert(
   QuillController controller,
   List<CharacterShortcutEvent> characterShortcutEvents,
 ) async {
-  final selection = controller.selection;
+  final selection = insertion.selection;
 
   final insertionText = insertion.textInserted;
 
   if (insertionText.length == 1 && !insertionText.contains('\n')) {
     for (final shortcutEvent in characterShortcutEvents) {
-      if (shortcutEvent.character == insertionText &&
-          shortcutEvent.handler(controller)) {
+      if (shortcutEvent.character == insertionText && shortcutEvent.handler(controller)) {
         return;
       }
     }
@@ -26,6 +25,8 @@ Future<void> onInsert(
     selection.extentOffset - selection.baseOffset,
     insertionText,
     TextSelection.collapsed(
-        offset: selection.extentOffset + insertionText.length),
+      offset: insertion.selection.baseOffset + insertionText.length,
+      affinity: insertion.selection.affinity,
+    ),
   );
 }

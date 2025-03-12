@@ -231,15 +231,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   }
 
   Future<void> _apply(List<TextEditingDelta> deltas) async {
-    // on web browsers, we don't need to format the deltas
-    final formattedDeltas = kIsWeb
-        ? deltas
-        : deltas
-            .map(
-              (e) => e.format(),
-            )
-            .toList();
-    for (final delta in formattedDeltas) {
+    for (final delta in deltas) {
       if (delta is TextEditingDeltaInsertion) {
         await onInsert(
           delta,
