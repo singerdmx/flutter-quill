@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
+import '../../../delta/delta_diff.dart';
+import '../../../document/document.dart';
 import '../raw_editor.dart';
 import 'diff_services.dart';
 import 'formatters/text_editing_delta_formatters.dart';
@@ -219,6 +221,28 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       // composing updates separately from regular changes for text and
       // selection.
       _lastKnownRemoteTextEditingValue = value;
+      return;
+    }
+
+    if (kIsWeb) {
+      final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
+      _lastKnownRemoteTextEditingValue = value;
+      final oldText = effectiveLastKnownValue.text;
+      final text = value.text;
+      final cursorPosition = value.isComposingRangeValid
+          ? value.composing.end
+          : value.selection.extentOffset;
+      final diff = getDiff(oldText, text, cursorPosition);
+      if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
+        widget.controller.updateSelection(value.selection, ChangeSource.local);
+      } else {
+        widget.controller.replaceText(
+          diff.start,
+          diff.deleted.length,
+          diff.inserted,
+          value.selection,
+        );
+      }
       return;
     }
 
