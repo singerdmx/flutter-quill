@@ -15,14 +15,6 @@ Future<void> onReplace(
   final textReplacement = replacement.replacementText;
 
   if (selection.isCollapsed) {
-    if (textReplacement.length == 1) {
-      for (final shortcutEvent in characterShortcutEvents) {
-        if (shortcutEvent.character == textReplacement && shortcutEvent.handler(controller)) {
-          return;
-        }
-      }
-    }
-
     if (isIosApp) {
       // remove the trailing '\n' when pressing the return key
       if (textReplacement.endsWith('\n')) {
