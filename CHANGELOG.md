@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Improved support for soft-keyboards on the `TextInputClient` [#2509](https://github.com/singerdmx/flutter-quill/pull/2509)
+- Improved support for soft-keyboards on the `TextInputClient` [#2509](https://github.com/singerdmx/flutter-quill/pull/2509).
 
 ## [11.1.0] - 2025-03-11
 
