@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
-
 import '../../../../../internal.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../raw_editor/config/events/character_shortcuts_events.dart';
