@@ -116,7 +116,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements TextInputClie
         final composingRect = renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
         _textInputConnection!.setComposingRect(composingRect);
       }
-      //SchedulerBinding.instance.addPostFrameCallback((_) => _updateComposingRectIfNeeded());
+      SchedulerBinding.instance.addPostFrameCallback((_) => _updateComposingRectIfNeeded());
     }
   }
 
@@ -128,7 +128,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements TextInputClie
         final caretRect = renderEditor.getLocalRectForCaret(currentTextPosition);
         _textInputConnection!.setCaretRect(caretRect);
       }
-      //SchedulerBinding.instance.addPostFrameCallback((_) => _updateCaretRectIfNeeded());
+      SchedulerBinding.instance.addPostFrameCallback((_) => _updateCaretRectIfNeeded());
     }
   }
 
