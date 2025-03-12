@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/animation.dart' show Curves;
@@ -11,6 +10,7 @@ import 'package:flutter/services.dart';
 import '../raw_editor.dart';
 import 'debounce/debounce.dart';
 import 'diff_services.dart';
+import 'formatters/text_editing_delta_formatters.dart';
 import 'ime/on_delete.dart';
 import 'ime/on_insert.dart';
 import 'ime/on_non_update_text.dart';
@@ -222,7 +222,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    final deltas = getTextEditingDeltas(currentTextEditingValue, value);
+    final textEditingDlta = getTextEditingDelta(currentTextEditingValue, value);
     _lastKnownRemoteTextEditingValue = value;
     // On mobile, the IME will send a lot of updateEditingValue events, so we
     // need to debounce it to combine them together.
@@ -234,13 +234,17 @@ mixin RawEditorStateTextInputClientMixin on EditorState
             )
           : Duration.zero,
       () {
-        _apply(deltas);
+        _apply([textEditingDlta]);
       },
     );
   }
 
   Future<void> _apply(List<TextEditingDelta> deltas) async {
-    final formattedDeltas = deltas.map((e) => e.format()).toList();
+    final formattedDeltas = deltas
+        .map(
+          (e) => e.format(),
+        )
+        .toList();
     for (final delta in formattedDeltas) {
       _updateComposing(delta);
 
@@ -283,7 +287,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
               : delta.composing;
     }
 
-    // solve the issue where the Chinese IME doesn't continue deleting after the input content has been deleted.
+    // solve an issue where the Chinese
+    // IME doesn't continue deleting after
+    // the input content has been deleted.
     if (Platform.isMacOS && (composingRange.value.isCollapsed)) {
       composingRange.value = TextRange.empty;
     }
@@ -438,91 +444,5 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       SchedulerBinding.instance
           .addPostFrameCallback((_) => _updateSizeAndTransform());
     }
-  }
-}
-
-extension on TextEditingDelta {
-  TextEditingDelta format() {
-    if (this is TextEditingDeltaInsertion) {
-      return (this as TextEditingDeltaInsertion).format();
-    } else if (this is TextEditingDeltaDeletion) {
-      return (this as TextEditingDeltaDeletion).format();
-    } else if (this is TextEditingDeltaReplacement) {
-      return (this as TextEditingDeltaReplacement).format();
-    } else if (this is TextEditingDeltaNonTextUpdate) {
-      return (this as TextEditingDeltaNonTextUpdate).format();
-    }
-    throw UnimplementedError();
-  }
-}
-
-const String _whitespace = ' ';
-const int _len = _whitespace.length;
-
-extension on TextSelection {
-  TextSelection operator <<(int shiftAmount) => shift(-shiftAmount);
-
-  TextSelection shift(int shiftAmount) => TextSelection(
-        baseOffset: max(0, baseOffset + shiftAmount),
-        extentOffset: max(0, extentOffset + shiftAmount),
-      );
-}
-
-extension on TextEditingDeltaInsertion {
-  TextEditingDeltaInsertion format() => TextEditingDeltaInsertion(
-        oldText: oldText << _len,
-        textInserted: textInserted,
-        insertionOffset: insertionOffset - _len,
-        selection: selection << _len,
-        composing: composing << _len,
-      );
-}
-
-extension on TextEditingDeltaDeletion {
-  TextEditingDeltaDeletion format() => TextEditingDeltaDeletion(
-        oldText: oldText << _len,
-        deletedRange: deletedRange << _len,
-        selection: selection << _len,
-        composing: composing << _len,
-      );
-}
-
-extension on TextEditingDeltaReplacement {
-  TextEditingDeltaReplacement format() => TextEditingDeltaReplacement(
-        oldText: oldText << _len,
-        replacementText: replacementText,
-        replacedRange: replacedRange << _len,
-        selection: selection << _len,
-        composing: composing << _len,
-      );
-}
-
-extension on TextEditingDeltaNonTextUpdate {
-  TextEditingDeltaNonTextUpdate format() => TextEditingDeltaNonTextUpdate(
-        oldText: oldText << _len,
-        selection: selection << _len,
-        composing: composing << _len,
-      );
-}
-
-extension on TextRange {
-  TextRange operator <<(int shiftAmount) => shift(-shiftAmount);
-
-  TextRange shift(int shiftAmount) => !isValid
-      ? this
-      : TextRange(
-          start: max(0, start + shiftAmount),
-          end: max(0, end + shiftAmount),
-        );
-}
-
-extension on String {
-  String operator <<(int shiftAmount) => shift(shiftAmount);
-
-  String shift(int shiftAmount) {
-    if (shiftAmount > length) {
-      return '';
-    }
-    return substring(shiftAmount);
   }
 }
