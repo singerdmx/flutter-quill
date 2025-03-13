@@ -31,12 +31,12 @@ void main() {
     expect(controller.document.toPlainText(), 'Hello, World!\n');
     expect(controller.selection.isCollapsed, isTrue);
 
-    // Move the cursor to before "!" 
+    // Move the cursor to before "!"
     await tester.quillMoveCursorTo(find.byType(QuillEditor), 12);
     expect(controller.selection.isCollapsed, isTrue);
     expect(controller.selection, const TextSelection.collapsed(offset: 12));
 
-    // Expands the selection to wrap the "!" character 
+    // Expands the selection to wrap the "!" character
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 13);
     expect(controller.selection,
         const TextSelection(baseOffset: 12, extentOffset: 13));

@@ -88,6 +88,10 @@ To change the selection values into the `QuillEditor` without use the `QuillCont
     await tester.quillMoveCursorTo(find.byType(QuillEditor), 15);
     ```
 
+- **Update the selection**:
+    ```dart
+    await tester.quillUpdateSelection(find.byType(QuillEditor), 0, 10);
+    ```
 - **Expand the selection to**:
     ```dart
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 20);
