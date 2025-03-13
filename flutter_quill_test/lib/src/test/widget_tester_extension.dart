@@ -134,7 +134,7 @@ extension QuillWidgetTesterExt on WidgetTester {
     );
   }
 
-  /// Find the QuillRawEditorState
+  /// Find the QuillEditorState
   ///
   /// The widget specified by [finder] must already have focus and be a
   /// [QuillEditor] or have a [QuillEditor] descendant. For example
