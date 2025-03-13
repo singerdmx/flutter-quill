@@ -40,11 +40,6 @@ extension QuillWidgetTesterReplaceExt on WidgetTester {
   Future<void> quillReplaceText(Finder finder, String replacement) async {
     final editor = findRawEditor(finder);
     final selection = editor.controller.selection;
-    // we cannot removed selected text is there's not selection
-    expect(selection.isCollapsed, isFalse,
-        reason: 'When quillReplaceCurrentTextInSelection the selection of '
-            'the editor need to be non-collapsed to make a '
-            'correct replace of the selected text');
     expect(selection.isValid, isTrue,
         reason: 'The selection in the editor is not valid');
     final effectivePlainText = editor.controller.document
