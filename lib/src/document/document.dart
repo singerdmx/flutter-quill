@@ -548,12 +548,10 @@ class Document {
   String toPlainText([
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-  ]) {
-    cachedPlainText ??= _root.children
-        .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
-        .join();
-    return cachedPlainText!;
-  }
+  ]) =>
+      cachedPlainText ??= _root.children
+          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
+          .join();
 
   @visibleForTesting
   @internal
