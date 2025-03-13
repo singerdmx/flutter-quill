@@ -21,12 +21,12 @@ Future<void> onInsert(
   }
 
   controller.replaceText(
-    selection.baseOffset,
+    insertion.insertionOffset,
     selection.extentOffset - selection.baseOffset,
     insertionText,
     TextSelection.collapsed(
-      offset: insertion.selection.baseOffset + insertionText.length,
-      affinity: insertion.selection.affinity,
+      offset: insertion.insertionOffset + insertionText.length,
+      affinity: selection.affinity,
     ),
   );
 }
