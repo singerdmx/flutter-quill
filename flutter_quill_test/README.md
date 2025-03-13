@@ -81,11 +81,17 @@ To remove text from the `QuillEditor`, you can use the following methods:
 
 #### Moving the Cursor
 
-To move the cursor to a specific position in the `QuillEditor`, use the `quillMoveCursorTo` method:
+To change the selection values into the `QuillEditor` without use the `QuillController`, use the following methods:
 
-```dart
-await tester.quillMoveCursorTo(find.byType(QuillEditor), 50);
-```
+- **Collapse the selection and move the cursor to the specified position**:
+    ```dart
+    await tester.quillMoveCursorTo(find.byType(QuillEditor), 15);
+    ```
+
+- **Expand the selection to**:
+    ```dart
+    await tester.quillExpandSelectionTo(find.byType(QuillEditor), 20);
+    ```
 
 #### Full Example
 
