@@ -6,11 +6,12 @@ import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
-
-import '../../delta/delta_diff.dart';
-import '../../document/document.dart';
-import '../editor.dart';
-import 'raw_editor.dart';
+import '../raw_editor.dart';
+import 'diff_services.dart';
+import 'ime/on_delete.dart';
+import 'ime/on_insert.dart';
+import 'ime/on_non_update_text.dart';
+import 'ime/on_replace_method.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
     implements TextInputClient {
@@ -109,6 +110,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.show();
   }
 
+  // windows
   void _updateComposingRectIfNeeded() {
     final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
         textEditingValue.composing;
@@ -125,6 +127,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
   }
 
+  // macos
   void _updateCaretRectIfNeeded() {
     if (hasConnection) {
       if (!dirty &&
@@ -218,21 +221,37 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
+    final textEditingDlta =
+        getTextEditingDelta(_lastKnownRemoteTextEditingValue!, value);
     _lastKnownRemoteTextEditingValue = value;
-    final oldText = effectiveLastKnownValue.text;
-    final text = value.text;
-    final cursorPosition = value.selection.extentOffset;
-    final diff = getDiff(oldText, text, cursorPosition);
-    if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-      widget.controller.updateSelection(value.selection, ChangeSource.local);
-    } else {
-      widget.controller.replaceText(
-        diff.start,
-        diff.deleted.length,
-        diff.inserted,
-        value.selection,
-      );
+    _apply([textEditingDlta]);
+  }
+
+  void _apply(List<TextEditingDelta> deltas) {
+    for (final delta in deltas) {
+      if (delta is TextEditingDeltaInsertion) {
+        onInsert(
+          delta,
+          widget.controller,
+          widget.config.characterShortcutEvents,
+        );
+      } else if (delta is TextEditingDeltaDeletion) {
+        onDelete(
+          delta,
+          widget.controller,
+        );
+      } else if (delta is TextEditingDeltaReplacement) {
+        onReplace(
+          delta,
+          widget.controller,
+          widget.config.characterShortcutEvents,
+        );
+      } else if (delta is TextEditingDeltaNonTextUpdate) {
+        onNonTextUpdate(
+          delta,
+          widget.controller,
+        );
+      }
     }
   }
 

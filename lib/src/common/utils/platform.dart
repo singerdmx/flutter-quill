@@ -51,6 +51,14 @@ bool get isDesktop =>
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isDesktopApp => !kIsWeb && isDesktop;
 
+// windows
+
+@pragma('vm:platform-const-if', !kDebugMode)
+bool get isWindows => defaultTargetPlatform == TargetPlatform.windows;
+
+@pragma('vm:platform-const-if', !kDebugMode)
+bool get isWindowsApp => !kIsWeb && isWindows;
+
 // macOS
 
 @pragma('vm:platform-const-if', !kDebugMode)
