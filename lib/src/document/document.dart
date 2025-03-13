@@ -472,19 +472,19 @@ class Document {
       throw StateError('_delta compose failed');
     }
     assert(_delta == _root.toDelta(), 'Compose failed');
-    cachedPlainText = null;
+    // cachedPlainText = null;
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
   }
 
   HistoryChanged undo() {
-    cachedPlainText = null;
+    // cachedPlainText = null;
     return history.undo(this);
   }
 
   HistoryChanged redo() {
-    cachedPlainText = null;
+    // cachedPlainText = null;
     return history.redo(this);
   }
 
@@ -582,7 +582,7 @@ class Document {
         _root.childCount > 1) {
       _root.remove(node);
     }
-    cachedPlainText = null;
+    // cachedPlainText = null;
   }
 
   bool isEmpty() {
