@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart';
 import '../../../../../flutter_quill.dart';
 
-Future<void> onDelete(
+void onDelete(
   TextEditingDeltaDeletion deletion,
   QuillController controller,
-) async {
+) {
   final start = deletion.deletedRange.start;
   final length = deletion.deletedRange.end - start;
   controller.replaceText(

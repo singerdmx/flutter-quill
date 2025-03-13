@@ -3,18 +3,19 @@ import 'package:flutter/services.dart';
 import '../../../../controller/quill_controller.dart';
 import '../../../raw_editor/config/events/character_shortcuts_events.dart';
 
-Future<void> onInsert(
+void onInsert(
   TextEditingDeltaInsertion insertion,
   QuillController controller,
   List<CharacterShortcutEvent> characterShortcutEvents,
-) async {
-  final selection = insertion.selection;
+) {
+  final selection = controller.selection;
 
   final insertionText = insertion.textInserted;
 
   if (insertionText.length == 1 && !insertionText.contains('\n')) {
     for (final shortcutEvent in characterShortcutEvents) {
-      if (shortcutEvent.character == insertionText && shortcutEvent.handler(controller)) {
+      if (shortcutEvent.character == insertionText &&
+          shortcutEvent.handler(controller)) {
         return;
       }
     }

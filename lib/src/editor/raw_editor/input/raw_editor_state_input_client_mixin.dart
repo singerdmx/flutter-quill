@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
+import '../../../delta/delta_diff.dart';
+import '../../../document/document.dart';
 import '../raw_editor.dart';
 import 'diff_services.dart';
 import 'ime/on_delete.dart';
@@ -227,27 +229,27 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _apply([textEditingDlta]);
   }
 
-  Future<void> _apply(List<TextEditingDelta> deltas) async {
+  void _apply(List<TextEditingDelta> deltas) {
     for (final delta in deltas) {
       if (delta is TextEditingDeltaInsertion) {
-        await onInsert(
+        onInsert(
           delta,
           widget.controller,
           widget.config.characterShortcutEvents,
         );
       } else if (delta is TextEditingDeltaDeletion) {
-        await onDelete(
+        onDelete(
           delta,
           widget.controller,
         );
       } else if (delta is TextEditingDeltaReplacement) {
-        await onReplace(
+        onReplace(
           delta,
           widget.controller,
           widget.config.characterShortcutEvents,
         );
       } else if (delta is TextEditingDeltaNonTextUpdate) {
-        await onNonTextUpdate(
+        onNonTextUpdate(
           delta,
           widget.controller,
         );
