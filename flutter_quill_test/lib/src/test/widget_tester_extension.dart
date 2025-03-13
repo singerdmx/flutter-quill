@@ -9,16 +9,7 @@ extension QuillWidgetTesterExt on WidgetTester {
   ///
   Future<void> quillGiveFocus(Finder finder) {
     return TestAsyncUtils.guard(() async {
-      final editor = state<QuillEditorState>(
-        find.descendant(
-          of: finder,
-          matching: find.byType(
-            QuillEditor,
-            skipOffstage: finder.skipOffstage,
-          ),
-          matchRoot: true,
-        ),
-      );
+      final editor = findEditor(finder);
       editor.widget.focusNode.requestFocus();
       await pump();
       expect(
@@ -28,17 +19,57 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
-  /// Give the QuillEditor widget specified by [finder] the focus and update its
-  /// editing value with [text], as if it had been provided by the onscreen
-  /// keyboard.
+  /// Checks if the editor has focus.
   ///
-  /// The widget specified by [finder] must be a [QuillEditor] or have a
-  /// [QuillEditor] descendant. For example `find.byType(QuillEditor)`.
-  ///
-  Future<void> quillEnterText(Finder finder, String text) async {
+  Future<bool> quillHasFocusEditor(Finder finder) {
     return TestAsyncUtils.guard(() async {
-      await quillGiveFocus(finder);
-      await quillUpdateEditingValue(finder, text);
+      final editor = findEditor(finder);
+      return editor.widget.focusNode.hasFocus;
+    });
+  }
+
+  /// Update the text editing value to modify just the [selection], as if it had been
+  /// provided by the onscreen keyboard.
+  ///
+  /// The widget specified by [finder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example
+  /// `find.byType(QuillEditor)`.
+  ///
+  Future<void> quillMoveCursorTo(Finder finder, int index) async {
+    final editor = findRawEditor(finder);
+    return TestAsyncUtils.guard(() async {
+      testTextInput.updateEditingValue(
+        TextEditingValue(
+          text: editor.textEditingValue.text,
+          selection: TextSelection.collapsed(
+            offset: index,
+          ),
+        ),
+      );
+      await idle();
+    });
+  }
+
+  /// Update the text editing value of the QuillEditor widget specified by
+  /// [finder] with [text] and [selection], as if it had been
+  /// provided by the onscreen keyboard.
+  ///
+  /// The widget specified by [finder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example
+  /// `find.byType(QuillEditor)`.
+  ///
+  Future<void> quillUpdateEditingValueWithSelection(
+      Finder finder, String text, TextSelection selection) async {
+    expect(selection.isValid, isTrue,
+        reason:
+            'The TextSelection passed is not valid to be used for text editing values');
+    return TestAsyncUtils.guard(() async {
+      testTextInput.updateEditingValue(
+        TextEditingValue(
+          text: text,
+          selection: selection,
+        ),
+      );
       await idle();
     });
   }
@@ -52,14 +83,7 @@ extension QuillWidgetTesterExt on WidgetTester {
   ///
   Future<void> quillUpdateEditingValue(Finder finder, String text) async {
     return TestAsyncUtils.guard(() async {
-      final editor = state<QuillRawEditorState>(
-        find.descendant(
-          of: finder,
-          matching:
-              find.byType(QuillRawEditor, skipOffstage: finder.skipOffstage),
-          matchRoot: true,
-        ),
-      );
+      final editor = findRawEditor(finder);
       testTextInput.updateEditingValue(
         TextEditingValue(
           text: text,
@@ -69,5 +93,41 @@ extension QuillWidgetTesterExt on WidgetTester {
       );
       await idle();
     });
+  }
+
+  /// Find the QuillRawEditorState
+  ///
+  /// The widget specified by [finder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example
+  /// `find.byType(QuillEditor)`.
+  ///
+  QuillRawEditorState findRawEditor(Finder finder) {
+    return state<QuillRawEditorState>(
+      find.descendant(
+        of: finder,
+        matching:
+            find.byType(QuillRawEditor, skipOffstage: finder.skipOffstage),
+        matchRoot: true,
+      ),
+    );
+  }
+
+  /// Find the QuillRawEditorState
+  ///
+  /// The widget specified by [finder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example
+  /// `find.byType(QuillEditor)`.
+  ///
+  QuillEditorState findEditor(Finder finder) {
+    return state<QuillEditorState>(
+      find.descendant(
+        of: finder,
+        matching: find.byType(
+          QuillEditor,
+          skipOffstage: finder.skipOffstage,
+        ),
+        matchRoot: true,
+      ),
+    );
   }
 }
