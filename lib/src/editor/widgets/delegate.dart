@@ -205,6 +205,7 @@ class EditorTextSelectionGestureDetectorBuilder {
         editor!.showToolbar();
       }
     });
+    SchedulerBinding.instance.scheduleFrame();
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onSingleTapCancel].
