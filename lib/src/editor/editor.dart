@@ -575,6 +575,7 @@ class _QuillEditorSelectionGestureDetectorBuilder
       SchedulerBinding.instance.addPostFrameCallback((_) {
         super.onSecondarySingleTapUp(details);
       });
+      SchedulerBinding.instance.scheduleFrame();
     } else {
       super.onSecondarySingleTapUp(details);
     }
