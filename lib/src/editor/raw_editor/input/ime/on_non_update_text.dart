@@ -6,8 +6,7 @@ void onNonTextUpdate(
   TextEditingDeltaNonTextUpdate nonTextUpdate,
   QuillController controller,
 ) {
-  final effectiveSelection =
-      TextSelection.collapsed(offset: nonTextUpdate.selection.baseOffset);
+  final effectiveSelection = nonTextUpdate.selection;
   // when typing characters with CJK IME on Windows, a non-text update is sent
   // with the selection range.
   if (isWindowsApp) {

@@ -6,8 +6,6 @@ import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/material.dart' show Theme;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
-import '../../../delta/delta_diff.dart';
-import '../../../document/document.dart';
 import '../raw_editor.dart';
 import 'diff_services.dart';
 import 'ime/on_delete.dart';
