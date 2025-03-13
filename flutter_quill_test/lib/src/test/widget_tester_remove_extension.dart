@@ -20,7 +20,7 @@ extension QuillWidgetTesterRemoveExt on WidgetTester {
         .replaceRange(selection.baseOffset, selection.extentOffset, '');
     return TestAsyncUtils.guard(() async {
       await quillGiveFocus(finder);
-      await quillUpdateEditingValueWithTextSelection(
+      await quillUpdateEditingValueWithSelection(
         finder,
         plainTextRemoved,
         TextSelection.collapsed(
@@ -47,7 +47,7 @@ extension QuillWidgetTesterRemoveExt on WidgetTester {
         .replaceRange(selection.baseOffset, selection.extentOffset, '');
     return TestAsyncUtils.guard(() async {
       await quillGiveFocus(finder);
-      await quillUpdateEditingValueWithTextSelection(
+      await quillUpdateEditingValueWithSelection(
         finder,
         plainTextRemoved,
         TextSelection.collapsed(offset: selection.baseOffset),

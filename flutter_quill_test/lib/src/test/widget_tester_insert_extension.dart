@@ -36,7 +36,7 @@ extension QuillWidgetTesterInsertionExt on WidgetTester {
         .replaceRange(index, index, textInsert);
     return TestAsyncUtils.guard(() async {
       await quillGiveFocus(finder);
-      await quillUpdateEditingValueWithTextSelection(
+      await quillUpdateEditingValueWithSelection(
         finder,
         plainText,
         TextSelection.collapsed(offset: index),
