@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show TextSelection;
 import 'package:flutter_test/flutter_test.dart';
-import 'widget_tester_extension.dart';
+import '../widget_tester_extension.dart';
 
 extension QuillWidgetTesterRemoveExt on WidgetTester {
   /// Give the QuillEditor widget specified by [finder] the focus and remove current text

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'widget_tester_extension.dart';
+import '../widget_tester_extension.dart';
 
 extension QuillWidgetTesterInsertionExt on WidgetTester {
   /// Give the QuillEditor widget specified by [finder] the focus and update its
