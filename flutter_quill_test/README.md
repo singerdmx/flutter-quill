@@ -108,17 +108,30 @@ void main() {
       ),
     );
 
+    await tester.tap(find.byType(QuillEditor));
     // Enter text
     await tester.quillEnterText(find.byType(QuillEditor), 'Hello, World!\n');
+    expect(controller.document.toPlainText(), 'Hello, World!\n');
 
-    // Replace text
-    await tester.quillReplaceText(find.byType(QuillEditor), 'Hi, World!\n');
+    // Move the cursor to before "!" 
+    await tester.quillMoveCursorTo(find.byType(QuillEditor), 12);
+    
+    // Expands the selection to wrap the "!" character 
+    await tester.quillExpandSelectionTo(find.byType(QuillEditor), 13);
 
-    // Move the cursor
-    await tester.quillMoveCursorTo(find.byType(QuillEditor), 5);
+    // Replace the "!" character and add new text replacement
+    await tester.quillReplaceText(find.byType(QuillEditor), ' and hi, World!');
+    expect(controller.document.toPlainText(), 'Hello, World and hi, World!\n');
 
-    // Remove text
+    // Now, we move to the start of the document
+    await tester.quillMoveCursorTo(find.byType(QuillEditor), 0);
+
+    // Expand the selection to to wrap "Hello, "
+    await tester.quillExpandSelectionTo(find.byType(QuillEditor), 7);
+
+    // Remove the selected text
     await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
+    expect(controller.document.toPlainText(), 'World and hi, World!\n');
   });
 }
 ```

@@ -31,17 +31,17 @@ void main() {
     expect(controller.document.toPlainText(), 'Hello, World!\n');
     expect(controller.selection.isCollapsed, isTrue);
 
-    // Move the cursor to before line break
+    // Move the cursor to before "!" 
     await tester.quillMoveCursorTo(find.byType(QuillEditor), 12);
     expect(controller.selection.isCollapsed, isTrue);
     expect(controller.selection, const TextSelection.collapsed(offset: 12));
 
-    // Expands the selection to wrap the line break
+    // Expands the selection to wrap the "!" character 
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 13);
     expect(controller.selection,
         const TextSelection(baseOffset: 12, extentOffset: 13));
 
-    // Replace the line break and add new text replacement
+    // Replace the "!" character and add new text replacement
     await tester.quillReplaceText(find.byType(QuillEditor), ' and hi, World!');
     expect(controller.document.toPlainText(), 'Hello, World and hi, World!\n');
 
