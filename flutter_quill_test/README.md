@@ -7,7 +7,7 @@ which include methods to simplify interacting with the editor in test cases.
 
 - [💾 Installation](#-installation)
 - [🧪 Testing](#-testing)
-- [🧪 Utilities](#-utilities)
+- [🛠️ Utilities](#-utilities)
 - [🤝 Contributing](#-contributing)
 
 ## 💾 Installation
@@ -24,7 +24,7 @@ flutter pub add dev:flutter_quill_test
 To aid in testing applications using the editor an extension to the flutter `WidgetTester` is provided which includes
 methods to simplify interacting with the editor in test cases.
 
-## Utilities
+## 🛠️ Utilities
 
 This package provides a set of utilities to simplify testing with the `QuillEditor` in Flutter.
 
@@ -34,9 +34,9 @@ First, import the test utilities in your test file:
 import 'package:flutter_quill_test/flutter_quill_test.dart';
 ```
 
-## Usage
+### Usage
 
-### Entering Text
+#### Entering Text
 
 To enter text into the `QuillEditor`, use the `quillEnterText` method:
 
@@ -44,7 +44,7 @@ To enter text into the `QuillEditor`, use the `quillEnterText` method:
 await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 ```
 
-### Replacing Text
+#### Replacing Text
 
 You can replace text in the `QuillEditor` using the following methods:
 
@@ -62,7 +62,7 @@ You can replace text in the `QuillEditor` using the following methods:
   );
   ```
 
-### Removing Text
+#### Removing Text
 
 To remove text from the `QuillEditor`, you can use the following methods:
 
@@ -79,7 +79,7 @@ To remove text from the `QuillEditor`, you can use the following methods:
   await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
   ```
 
-### Moving the Cursor
+#### Moving the Cursor
 
 To move the cursor to a specific position in the `QuillEditor`, use the `quillMoveCursorTo` method:
 
@@ -87,7 +87,7 @@ To move the cursor to a specific position in the `QuillEditor`, use the `quillMo
 await tester.quillMoveCursorTo(find.byType(QuillEditor), 50);
 ```
 
-## Full Example
+#### Full Example
 
 Here’s a complete example of how you might use these utilities in a test:
 
