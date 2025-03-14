@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added 
+
+- Support for replace text operations.   
+- Support for remove text operations.   
+- Support for insert text at position.   
+- Support for update editing value with a `TextSelection`.   
+
 ## [11.0.0] - 2025-02-17
 
 ### Changed
