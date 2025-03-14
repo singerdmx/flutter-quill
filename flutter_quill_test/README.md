@@ -26,7 +26,7 @@ methods to simplify interacting with the editor in test cases.
 
 ## 🛠️ Utilities
 
-This package provides a set of utilities to simplify testing with the `QuillEditor` in Flutter.
+This package provides a set of utilities to simplify testing with the `QuillEditor`.
 
 First, import the test utilities in your test file:
 
@@ -46,56 +46,30 @@ await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
 
 #### Replacing Text
 
-You can replace text in the `QuillEditor` using the following methods:
+You can replace text in the `QuillEditor` using the `quillReplaceText` method:
 
-- **Replace the current selection**:
-  ```dart
-  await tester.quillReplaceText(find.byType(QuillEditor), 'text to be used for replace');
-  ```
-
-- **Replace text within a specific selection range**:
-  ```dart
-  await tester.quillReplaceTextWithSelection(
-    find.byType(QuillEditor),
-    'text',
-    TextSelection(baseOffset: 0, extentOffset: 5),
-  );
-  ```
+```dart
+await tester.quillReplaceText(find.byType(QuillEditor), 'text to be used for replace');
+```
 
 #### Removing Text
 
-To remove text from the `QuillEditor`, you can use the following methods:
+To remove text from the `QuillEditor`, you can use the `quillRemoveText` method:
 
-- **Remove text within a specific selection**:
-  ```dart
-  await tester.quillRemoveText(
-    find.byType(QuillEditor),
-    TextSelection(baseOffset: 2, extentOffset: 3),
-  );
-  ```
-
-- **Remove the currently selected text**:
-  ```dart
-  await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
-  ```
+```dart
+await tester.quillRemoveText(
+  find.byType(QuillEditor),
+  TextSelection(baseOffset: 2, extentOffset: 3),
+);
+```
 
 #### Moving the Cursor
 
-To change the selection values into the `QuillEditor` without use the `QuillController`, use the following methods:
+To change the selection values into the `QuillEditor` without use the `QuillController`, use the `quillUpdateSelection` method:
 
-- **Collapse the selection and move the cursor to the specified position**:
-    ```dart
-    await tester.quillMoveCursorTo(find.byType(QuillEditor), 15);
-    ```
-
-- **Update the selection**:
-    ```dart
-    await tester.quillUpdateSelection(find.byType(QuillEditor), 0, 10);
-    ```
-- **Expand the selection to**:
-    ```dart
-    await tester.quillExpandSelectionTo(find.byType(QuillEditor), 20);
-    ```
+```dart
+await tester.quillUpdateSelection(find.byType(QuillEditor), 0, 10);
+```
 
 #### Full Example
 
@@ -119,27 +93,18 @@ void main() {
     );
 
     await tester.tap(find.byType(QuillEditor));
-    // Enter text
     await tester.quillEnterText(find.byType(QuillEditor), 'Hello, World!\n');
     expect(controller.document.toPlainText(), 'Hello, World!\n');
 
-    // Move the cursor to before "!" 
     await tester.quillMoveCursorTo(find.byType(QuillEditor), 12);
-    
-    // Expands the selection to wrap the "!" character 
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 13);
 
-    // Replace the "!" character and add new text replacement
     await tester.quillReplaceText(find.byType(QuillEditor), ' and hi, World!');
     expect(controller.document.toPlainText(), 'Hello, World and hi, World!\n');
 
-    // Now, we move to the start of the document
     await tester.quillMoveCursorTo(find.byType(QuillEditor), 0);
-
-    // Expand the selection to to wrap "Hello, "
     await tester.quillExpandSelectionTo(find.byType(QuillEditor), 7);
 
-    // Remove the selected text
     await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
     expect(controller.document.toPlainText(), 'World and hi, World!\n');
   });
