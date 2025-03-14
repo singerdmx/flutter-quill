@@ -79,12 +79,12 @@ extension QuillWidgetTesterExt on WidgetTester {
   /// [QuillEditor] or have a [QuillEditor] descendant. For example
   /// `find.byType(QuillEditor)`.
   ///
-  QuillRawEditorState findRawEditor(Finder finder) {
+  QuillRawEditorState findRawEditor([Finder? finder]) {
     return state<QuillRawEditorState>(
       find.descendant(
-        of: finder,
+        of: finder ?? find.byType(QuillEditor),
         matching:
-            find.byType(QuillRawEditor, skipOffstage: finder.skipOffstage),
+            find.byType(QuillRawEditor, skipOffstage: finder?.skipOffstage ?? true),
         matchRoot: true,
       ),
     );
@@ -96,13 +96,13 @@ extension QuillWidgetTesterExt on WidgetTester {
   /// [QuillEditor] or have a [QuillEditor] descendant. For example
   /// `find.byType(QuillEditor)`.
   ///
-  QuillEditorState findEditor(Finder finder) {
+  QuillEditorState findEditor([Finder? finder]) {
     return state<QuillEditorState>(
       find.descendant(
-        of: finder,
+        of: finder ?? find.byType(QuillEditor),
         matching: find.byType(
           QuillEditor,
-          skipOffstage: finder.skipOffstage,
+          skipOffstage: finder?.skipOffstage ?? true,
         ),
         matchRoot: true,
       ),
