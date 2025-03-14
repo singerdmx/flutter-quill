@@ -38,7 +38,7 @@ extension QuillWidgetTesterInsertionExt on WidgetTester {
       await quillUpdateEditingValueWithSelection(
         finder,
         plainText,
-        TextSelection.collapsed(offset: index),
+        TextSelection.collapsed(offset: index + textInsert.length),
       );
       await idle();
     });
