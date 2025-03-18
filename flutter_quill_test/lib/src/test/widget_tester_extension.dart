@@ -28,6 +28,31 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
+  /// Return the current text editing value registered into the [QuillRawEditor].
+  ///
+  /// The widget specified by [finder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example
+  /// `find.byType(QuillEditor)`.
+  ///
+  Future<TextEditingValue> getTextEditingValue([Finder? finder]) async {
+    final editor = findRawEditor(finder);
+    return editor.textEditingValue.copyWith();
+  }
+
+  /// Simulates the user hiding the onscreen keyboard.
+  ///
+  /// The widget specified by [finder] must be a [QuillEditor] or
+  /// have a [QuillEditor] descendant. For example
+  /// `find.byType(QuillEditor)`.
+  ///
+  Future<void> quillHideKeyboard(Finder finder) async {
+    return TestAsyncUtils.guard<void>(() async {
+      await quillGiveFocus(finder);
+      testTextInput.hide();
+      await idle();
+    });
+  }
+
   /// Update the text editing value of the QuillEditor widget specified by
   /// [finder] with [text] and [selection], as if it had been
   /// provided by the onscreen keyboard.
@@ -83,8 +108,8 @@ extension QuillWidgetTesterExt on WidgetTester {
     return state<QuillRawEditorState>(
       find.descendant(
         of: finder ?? find.byType(QuillEditor),
-        matching:
-            find.byType(QuillRawEditor, skipOffstage: finder?.skipOffstage ?? true),
+        matching: find.byType(QuillRawEditor,
+            skipOffstage: finder?.skipOffstage ?? true),
         matchRoot: true,
       ),
     );

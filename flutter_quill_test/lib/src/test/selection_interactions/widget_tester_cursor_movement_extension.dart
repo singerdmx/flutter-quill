@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'
-    show TextEditingValue, TextPosition, TextSelection;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../widget_tester_extension.dart';
 
