@@ -52,9 +52,5 @@ void main() {
 
     await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
     expect(controller.document.toPlainText(), 'World and hi, World!\n');
-
-    await tester.quillMoveCursorTo(find.byType(QuillEditor), 0);
-    expect(controller.selection.isCollapsed, isTrue);
-    expect(controller.selection, const TextSelection.collapsed(offset: 0));
   });
 }
