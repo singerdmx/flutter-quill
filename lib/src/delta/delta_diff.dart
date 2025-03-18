@@ -36,35 +36,32 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
   if (oldText == newText) {
     return Diff(deleted: '', inserted: '', start: cursorPosition);
   }
+
   final oldLength = oldText.length;
   final newLength = newText.length;
-  final delta = newLength - oldLength;
 
   var start = 0;
-  var end = oldLength;
+  var endOld = oldLength;
+  var endNew = newLength;
 
-  // limit the range where we want to check for changes
-  final startLimit = cursorPosition - math.max(0, delta);
-  final endLimit = math.max(0, cursorPosition - delta);
-
-  // find where the start the difference between old and new text
-  while (start < startLimit &&
-      start < oldLength &&
+  // find where starts the difference between old and new text
+  while (start < oldLength &&
       start < newLength &&
       oldText[start] == newText[start]) {
     start++;
   }
 
   // find where ends the difference between old and new text
-  while (end > endLimit &&
-      end > start &&
-      oldText[end - 1] == newText[end + delta - 1]) {
-    end--;
+  while (endOld > start &&
+      endNew > start &&
+      oldText[endOld - 1] == newText[endNew - 1]) {
+    endOld--;
+    endNew--;
   }
 
-  final deleted = (start >= end) ? '' : oldText.substring(start, end);
-  final inserted =
-      (start >= end + delta) ? '' : newText.substring(start, end + delta);
+  // get the changes
+  final deleted = oldText.substring(start, endOld);
+  final inserted = newText.substring(start, endNew);
 
   return Diff(
     start: start,
