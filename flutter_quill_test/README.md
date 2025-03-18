@@ -81,12 +81,12 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_test/flutter_quill_test.dart';
 
 void main() {
-  testWidgets('Test QuillEditor interactions', (WidgetTester tester) async {
-    // Build the QuillEditor widget
+  testWidgets('Example QuillEditor test', (WidgetTester tester) async {
+    final QuillController controller = QuillController.basic();
     await tester.pumpWidget(
       MaterialApp(
         home: QuillEditor.basic(
-          controller: your_controller,
+          controller: controller,
           config: const QuillEditorConfig(),
         ),
       ),
