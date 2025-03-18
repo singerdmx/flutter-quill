@@ -9,7 +9,7 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
   ///
   /// Example:
   /// ```dart
-  /// final nodes = await getNodesInSelection(find.byType(QuillEditor));
+  /// final nodes = await tester.getNodesInSelection(find.byType(QuillEditor));
   /// ```
   ///
   /// The widget specified by [editorFinder] must already have focus and be a
@@ -50,7 +50,7 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
   ///
   /// Example:
   /// ```dart
-  /// final node = await getNodeInSelection(find.byType(QuillEditor));
+  /// final node = await tester.getNodeInSelection(find.byType(QuillEditor));
   /// if (node != null) {
   ///   print('Selected node: $node');
   /// }
