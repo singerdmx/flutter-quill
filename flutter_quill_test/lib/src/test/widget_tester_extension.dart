@@ -5,8 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 /// Extensions on [WidgetTester] that have utilities that help
 /// simplify interacting with the editor in test cases.
 extension QuillWidgetTesterExt on WidgetTester {
-  /// Give the QuillEditor widget specified by [finder] the focus.
+  /// Gives focus to the [QuillEditor] widget specified by [finder].
   ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillGiveFocus(find.byType(QuillEditor));
+  /// ```
   Future<void> quillGiveFocus(Finder finder) {
     return TestAsyncUtils.guard(() async {
       final editor = findEditor(finder);
@@ -19,8 +23,12 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
-  /// Checks if the editor has focus.
+  /// Checks if the [QuillEditor] widget specified by [finder] currently has focus.
   ///
+  /// Example:
+  /// ```dart
+  /// final hasFocus = await tester.quillHasFocusEditor(find.byType(QuillEditor));
+  /// ```
   Future<bool> quillHasFocusEditor(Finder finder) {
     return TestAsyncUtils.guard(() async {
       final editor = findEditor(finder);
@@ -28,12 +36,18 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
-  /// Return the current text editing value registered into the [QuillRawEditor].
+  /// Retrieves the current text editing value from the [QuillRawEditor].
+  ///
+  /// Example:
+  /// ```dart
+  /// final value = await tester.getTextEditingValue(find.byType(QuillEditor));
+  /// ```
   ///
   /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<TextEditingValue> getTextEditingValue([Finder? finder]) async {
     final editor = findRawEditor(finder);
     return editor.textEditingValue.copyWith();
@@ -41,10 +55,16 @@ extension QuillWidgetTesterExt on WidgetTester {
 
   /// Simulates the user hiding the onscreen keyboard.
   ///
-  /// The widget specified by [finder] must be a [QuillEditor] or
-  /// have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
+  /// Example:
+  /// ```dart
+  /// await tester.quillHideKeyboard(find.byType(QuillEditor));
+  /// ```
   ///
+  /// The widget specified by [finder] must be a [QuillEditor] or
+  /// have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillHideKeyboard(Finder finder) async {
     return TestAsyncUtils.guard<void>(() async {
       await quillGiveFocus(finder);
@@ -53,14 +73,25 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
-  /// Update the text editing value of the QuillEditor widget specified by
-  /// [finder] with [text] and [selection], as if it had been
-  /// provided by the onscreen keyboard.
+  /// Updates the text editing value of the [QuillEditor] widget specified by
+  /// [finder] with the provided [text] and [selection], as if it had been
+  /// entered via the onscreen keyboard.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillGiveFocus(find.byType(QuillEditor));
+  /// await tester.quillUpdateEditingValueWithSelection(
+  ///   find.byType(QuillEditor),
+  ///   'Hello, world!',
+  ///   TextSelection.collapsed(offset: 13),
+  /// );
+  /// ```
   ///
   /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillUpdateEditingValueWithSelection(
       Finder finder, String text, TextSelection selection) async {
     expect(selection.isValid, isTrue,
@@ -77,13 +108,21 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
-  /// Update the text editing value of the QuillEditor widget specified by
-  /// [finder] with [text], as if it had been provided by the onscreen keyboard.
+  /// Updates the text editing value of the [QuillEditor] widget specified by
+  /// [finder] with the provided [text], as if it had been entered via the
+  /// onscreen keyboard.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillGiveFocus(find.byType(QuillEditor));
+  /// await tester.quillUpdateEditingValue(find.byType(QuillEditor), 'Hello, world!');
+  /// ```
   ///
   /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillUpdateEditingValue(Finder finder, String text) async {
     return TestAsyncUtils.guard(() async {
       final editor = findRawEditor(finder);
@@ -98,12 +137,19 @@ extension QuillWidgetTesterExt on WidgetTester {
     });
   }
 
-  /// Find the QuillRawEditorState
+  /// Finds and returns the [QuillRawEditorState] associated with the [QuillEditor]
+  /// widget specified by [finder].
+  ///
+  /// Example:
+  /// ```dart
+  /// final rawEditorState = tester.findRawEditor(find.byType(QuillEditor));
+  /// ```
   ///
   /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   QuillRawEditorState findRawEditor([Finder? finder]) {
     return state<QuillRawEditorState>(
       find.descendant(
@@ -115,12 +161,19 @@ extension QuillWidgetTesterExt on WidgetTester {
     );
   }
 
-  /// Find the QuillEditorState
+  /// Finds and returns the [QuillEditorState] associated with the [QuillEditor]
+  /// widget specified by [finder].
+  ///
+  /// Example:
+  /// ```dart
+  /// final editorState = tester.findEditor(find.byType(QuillEditor));
+  /// ```
   ///
   /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   QuillEditorState findEditor([Finder? finder]) {
     return state<QuillEditorState>(
       find.descendant(

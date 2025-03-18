@@ -4,12 +4,19 @@ import 'package:flutter_test/flutter_test.dart';
 import '../widget_tester_extension.dart';
 
 extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
-  /// Return all the nodes that are being selected
+  /// Returns all the nodes that are currently selected in the [QuillEditor] widget
+  /// specified by [editorFinder].
   ///
-  /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
+  /// Example:
+  /// ```dart
+  /// final nodes = await getNodesInSelection(find.byType(QuillEditor));
+  /// ```
   ///
+  /// The widget specified by [editorFinder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<Iterable<Node>> getNodesInSelection(Finder editorFinder) async {
     final hasFocus = await quillHasFocusEditor(editorFinder);
     expect(hasFocus, isTrue, reason: 'The editor must already have focus');
@@ -21,9 +28,9 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     final end =
         editor.controller.document.queryChild(selection.extentOffset).node;
     expect(start, isNotNull,
-        reason: 'The node at offset: ${selection.start} was not founded');
+        reason: 'The node at offset: ${selection.start} was not found');
     expect(end, isNotNull,
-        reason: 'The node at offset: ${selection.end} was not founded');
+        reason: 'The node at offset: ${selection.end} was not found');
     if (start == end) {
       return [start!];
     }
@@ -38,12 +45,22 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     return [...nodesInSelection];
   }
 
-  /// Return the node in selection
+  /// Returns the node that is currently selected in the [QuillEditor] widget
+  /// specified by [editorFinder].
   ///
-  /// The widget specified by [finder] must already have focus and be a
-  /// [QuillEditor] or have a [QuillEditor] descendant. For example
-  /// `find.byType(QuillEditor)`.
+  /// Example:
+  /// ```dart
+  /// final node = await getNodeInSelection(find.byType(QuillEditor));
+  /// if (node != null) {
+  ///   print('Selected node: $node');
+  /// }
+  /// ```
   ///
+  /// The widget specified by [editorFinder] must already have focus and be a
+  /// [QuillEditor] or have a [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<Node?> getNodeInSelection(Finder editorFinder) async {
     final hasFocus = await quillHasFocusEditor(editorFinder);
     expect(hasFocus, isTrue, reason: 'The editor must already have focus');
@@ -55,7 +72,7 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     final end =
         editor.controller.document.queryChild(selection.extentOffset).node;
     expect(start, isNotNull,
-        reason: 'The node at offset: ${start?.documentOffset} was not founded');
+        reason: 'The node at offset: ${start?.documentOffset} was not found');
     final isSelectionIntoSameNode = start == end;
     if (isSelectionIntoSameNode) {
       return start!;

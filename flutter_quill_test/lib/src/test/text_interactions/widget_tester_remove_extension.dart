@@ -3,16 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import '../widget_tester_extension.dart';
 
 extension QuillWidgetTesterRemoveExt on WidgetTester {
-  /// Give the QuillEditor widget specified by [finder] the focus and remove current text
-  /// in document with the current [selection] in the QuillEditor.
+  /// Removes the text currently selected in the document.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
+  /// ```
   ///
   /// The widget specified by [finder] must be a [QuillEditor] or have a
-  /// [QuillEditor] descendant. For example `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillRemoveTextInSelection(Finder finder) async {
     final editor = findRawEditor(finder);
     final selection = editor.controller.selection;
-    // we cannot removed selected text is there's not selection
+    // We cannot remove selected text if there's no selection
     expect(selection.isCollapsed, isFalse);
     expect(selection.isValid, isTrue);
     final plainTextRemoved = editor.controller.document
@@ -31,16 +37,25 @@ extension QuillWidgetTesterRemoveExt on WidgetTester {
     });
   }
 
-  /// Give the QuillEditor widget specified by [finder] the focus and removed current its
-  /// editing value with [selection], as if it had been provided by the onscreen
-  /// keyboard.
+  /// Removes the text specified by [selection], as if it had been deleted
+  /// using the onscreen keyboard.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillRemoveText(
+  ///   find.byType(QuillEditor),
+  ///   TextSelection(baseOffset: 5, extentOffset: 10),
+  /// );
+  /// ```
   ///
   /// The widget specified by [finder] must be a [QuillEditor] or have a
-  /// [QuillEditor] descendant. For example `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillRemoveText(Finder finder, TextSelection selection) async {
     expect(selection.isValid, isTrue,
-        reason: 'the selection passed for remove text is not valid to be used');
+        reason: 'The selection passed for removing text is not valid');
     final editor = findRawEditor(finder);
     final plainTextRemoved = editor.controller.document
         .toPlainText()

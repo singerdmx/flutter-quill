@@ -3,12 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import '../widget_tester_extension.dart';
 
 extension QuillWidgetTesterReplaceExt on WidgetTester {
-  /// Give the QuillEditor widget specified by [finder] the focus and replace current the current text
-  /// in the document with the [selection] passed.
+  /// Replaces the text within the specified [selection] with the [replacement] text.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillReplaceTextWithSelection(
+  ///   find.byType(QuillEditor),
+  ///   'new text',
+  ///   TextSelection(baseOffset: 5, extentOffset: 10),
+  /// );
+  /// ```
   ///
   /// The widget specified by [finder] must be a [QuillEditor] or have a
-  /// [QuillEditor] descendant. For example `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillReplaceTextWithSelection(
       Finder finder, String replacement, TextSelection selection) async {
     final editor = findRawEditor(finder);
@@ -31,12 +41,21 @@ extension QuillWidgetTesterReplaceExt on WidgetTester {
     });
   }
 
-  /// Give the QuillEditor widget specified by [finder] the focus and replace current text
-  /// in document with the current [selection] in the QuillEditor.
+  /// Replaces the text within the current selection with the [replacement] text.
+  ///
+  /// Example:
+  /// ```dart
+  /// await tester.quillReplaceText(
+  ///   find.byType(QuillEditor),
+  ///   'new text',
+  /// );
+  /// ```
   ///
   /// The widget specified by [finder] must be a [QuillEditor] or have a
-  /// [QuillEditor] descendant. For example `find.byType(QuillEditor)`.
-  ///
+  /// [QuillEditor] descendant. For example:
+  /// ```dart
+  /// find.byType(QuillEditor)
+  /// ```
   Future<void> quillReplaceText(Finder finder, String replacement) async {
     final editor = findRawEditor(finder);
     final selection = editor.controller.selection;
