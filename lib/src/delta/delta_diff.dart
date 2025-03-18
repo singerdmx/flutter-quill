@@ -33,8 +33,9 @@ class Diff {
 
 /* Get diff operation between old text and new text */
 Diff getDiff(String oldText, String newText, int cursorPosition) {
-  if (oldText == newText)
+  if (oldText == newText) {
     return Diff(deleted: '', inserted: '', start: cursorPosition);
+  }
   final oldLength = oldText.length;
   final newLength = newText.length;
   final delta = newLength - oldLength;
