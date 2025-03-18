@@ -10,12 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added 
+### Changed 
 
-- Support for replace text operations.   
-- Support for remove text operations.   
-- Support for insert text at position.   
-- Support for update editing value with a `TextSelection`.   
+- general improvements in flutter_quill_tests API [#2512](https://github.com/singerdmx/flutter-quill/pull/2512)
 
 ## [11.0.0] - 2025-02-17
 
