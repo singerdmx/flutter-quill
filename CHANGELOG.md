@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Improve changes application from TextInputClient [#2509](https://github.com/singerdmx/flutter-quill/pull/2509).
+
 ## [11.1.1] - 2025-03-19
 
 ### Fixed

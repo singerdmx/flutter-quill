@@ -39,7 +39,6 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
       end > limit && oldText[end - 1] == newText[end + delta - 1];
       end--) {}
   var start = 0;
-  //TODO: we need to improve this part because this loop has a lot of unsafe index operations
   for (final startLimit = cursorPosition - math.max(0, delta);
       start < startLimit &&
           (start > oldText.length - 1 ? '' : oldText[start]) ==
