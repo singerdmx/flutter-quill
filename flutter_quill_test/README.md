@@ -7,6 +7,7 @@ which include methods to simplify interacting with the editor in test cases.
 
 - [💾 Installation](#-installation)
 - [🧪 Testing](#-testing)
+- [🛠️ Utilities](#-utilities)
 - [🤝 Contributing](#-contributing)
 
 ## 💾 Installation
@@ -23,16 +24,91 @@ flutter pub add dev:flutter_quill_test
 To aid in testing applications using the editor an extension to the flutter `WidgetTester` is provided which includes
 methods to simplify interacting with the editor in test cases.
 
-Import the test utilities in your test file:
+## 🛠️ Utilities
+
+This package provides a set of utilities to simplify testing with the `QuillEditor`.
+
+First, import the test utilities in your test file:
 
 ```dart
 import 'package:flutter_quill_test/flutter_quill_test.dart';
 ```
 
-and then enter text using `quillEnterText`:
+### Usage
+
+#### Entering Text
+
+To enter text into the `QuillEditor`, use the `quillEnterText` method:
 
 ```dart
 await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
+```
+
+#### Replacing Text
+
+You can replace text in the `QuillEditor` using the `quillReplaceText` method:
+
+```dart
+await tester.quillReplaceText(find.byType(QuillEditor), 'text to be used for replace');
+```
+
+#### Removing Text
+
+To remove text from the `QuillEditor`, you can use the `quillRemoveText` method:
+
+```dart
+await tester.quillRemoveText(
+  find.byType(QuillEditor),
+  TextSelection(baseOffset: 2, extentOffset: 3),
+);
+```
+
+#### Moving the Cursor
+
+To change the selection values into the `QuillEditor` without use the `QuillController`, use the `quillUpdateSelection` method:
+
+```dart
+await tester.quillUpdateSelection(find.byType(QuillEditor), 0, 10);
+```
+
+#### Full Example
+
+Here’s a complete example of how you might use these utilities in a test:
+
+```dart
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_test/flutter_quill_test.dart';
+
+void main() {
+  testWidgets('Example QuillEditor test', (WidgetTester tester) async {
+    final QuillController controller = QuillController.basic();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: QuillEditor.basic(
+          controller: controller,
+          config: const QuillEditorConfig(),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byType(QuillEditor));
+    await tester.quillEnterText(find.byType(QuillEditor), 'Hello, World!\n');
+    expect(controller.document.toPlainText(), 'Hello, World!\n');
+
+    await tester.quillMoveCursorTo(find.byType(QuillEditor), 12);
+    await tester.quillExpandSelectionTo(find.byType(QuillEditor), 13);
+
+    await tester.quillReplaceText(find.byType(QuillEditor), ' and hi, World!');
+    expect(controller.document.toPlainText(), 'Hello, World and hi, World!\n');
+
+    await tester.quillMoveCursorTo(find.byType(QuillEditor), 0);
+    await tester.quillExpandSelectionTo(find.byType(QuillEditor), 7);
+
+    await tester.quillRemoveTextInSelection(find.byType(QuillEditor));
+    expect(controller.document.toPlainText(), 'World and hi, World!\n');
+  });
+}
 ```
 
 ## 🤝 Contributing
