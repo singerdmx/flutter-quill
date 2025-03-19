@@ -25,18 +25,25 @@ import 'style.dart';
 class Document {
   /// Creates new empty document.
   Document() : _delta = Delta()..insert('\n') {
-    _loadDocument(_delta);
+    loadDocument(_delta);
   }
 
   /// Creates new document from provided JSON `data`.
   Document.fromJson(List data) : _delta = _transform(Delta.fromJson(data)) {
-    _loadDocument(_delta);
+    loadDocument(_delta);
   }
 
   /// Creates new document from provided `delta`.
   Document.fromDelta(Delta delta) : _delta = delta {
-    _loadDocument(delta);
+    loadDocument(delta);
   }
+
+  /// Stores the plain text content of the entire document in memory for quick access.
+  ///
+  /// It acts as a cache to avoid repeatedly extracting or generating the plain text.
+  @visibleForTesting
+  @internal
+  String? cachedPlainText;
 
   /// The root node of the document tree
   final Root _root = Root();
@@ -465,16 +472,19 @@ class Document {
       throw StateError('_delta compose failed');
     }
     assert(_delta == _root.toDelta(), 'Compose failed');
+    cachedPlainText = null;
     final change = DocChange(originalDelta, delta, changeSource);
     documentChangeObserver.add(change);
     history.handleDocChange(change);
   }
 
   HistoryChanged undo() {
+    cachedPlainText = null;
     return history.undo(this);
   }
 
   HistoryChanged redo() {
+    cachedPlainText = null;
     return history.redo(this);
   }
 
@@ -539,11 +549,13 @@ class Document {
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
   ]) =>
-      _root.children
+      cachedPlainText ??= _root.children
           .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
           .join();
 
-  void _loadDocument(Delta doc) {
+  @visibleForTesting
+  @internal
+  void loadDocument(Delta doc) {
     if (doc.isEmpty) {
       throw ArgumentError.value(
           doc.toString(), 'Document Delta cannot be empty.');
@@ -570,6 +582,7 @@ class Document {
         _root.childCount > 1) {
       _root.remove(node);
     }
+    cachedPlainText = null;
   }
 
   bool isEmpty() {

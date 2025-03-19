@@ -182,4 +182,79 @@ void main() {
           reason: 'start of blank line');
     });
   });
+  group('cachedPlainText', () {
+    late Document document;
+
+    setUp(() {
+      document = Document();
+    });
+
+    test('is null initially', () {
+      expect(document.cachedPlainText, isNull);
+    });
+
+    test('updates to null when undo is called', () {
+      document.cachedPlainText = 'Non-null cached plain text';
+      expect(document.cachedPlainText, isNotNull);
+
+      document.undo();
+      expect(document.cachedPlainText, isNull);
+    });
+
+    test('updates to null when redo is called', () {
+      final document = Document()
+        ..cachedPlainText = 'Non-null cached plain text';
+      expect(document.cachedPlainText, isNotNull);
+
+      document.redo();
+      expect(document.cachedPlainText, isNull);
+    });
+
+    test('returns cachedPlainText if not null', () {
+      const example = 'Hello, World!';
+      document.cachedPlainText = example;
+
+      expect(document.cachedPlainText, example);
+    });
+
+    test('sets cachedPlainText if null when toPlainText is called', () {
+      document.toPlainText();
+      expect(document.cachedPlainText, isNotNull);
+    });
+
+    test('sets cachedPlainText correctly when toPlainText is called', () {
+      const example = 'Hello\n';
+      document = Document.fromDelta(Delta()..insert(example))..toPlainText();
+
+      expect(document.cachedPlainText, isNotNull);
+      expect(document.cachedPlainText, example);
+    });
+
+    test('sets cachedPlainText to null when loadDocument is called', () {
+      document.cachedPlainText = 'Not null';
+      expect(document.cachedPlainText, isNotNull);
+
+      document.loadDocument(Delta()..insert('Hello\n'));
+
+      expect(document.cachedPlainText, isNull);
+    });
+
+    test('sets cachedPlainText to null when compose is called', () {
+      document.cachedPlainText = 'Not null';
+      expect(document.cachedPlainText, isNotNull);
+
+      document.compose(Delta()..insert('Hello\n'), ChangeSource.local);
+
+      expect(document.cachedPlainText, isNull);
+    });
+
+    test('sets cachedPlainText correctly', () {
+      // This test is useful in case this property has a getter and setter.
+      document.cachedPlainText = 'Not null';
+      expect(document.cachedPlainText, isNotNull);
+
+      document.cachedPlainText = null;
+      expect(document.cachedPlainText, isNull);
+    });
+  });
 }
