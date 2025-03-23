@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **[iOS]** `QuillEditor` doesn't respect the system keyboard brightness by default.
+- **[iOS]** `QuillEditor` doesn't respect the system keyboard brightness by default [#2522](https://github.com/singerdmx/flutter-quill/pull/2522).
 
 ## [11.1.1] - 2025-03-19
 
