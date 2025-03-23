@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **[iOS]** `QuillEditor` doesn't respect the system keyboard brightness by default [#2522](https://github.com/singerdmx/flutter-quill/pull/2522).
+- Add a default empty list for `characterShortcutEvents` and `spaceShortcutEvents` in `QuillRawEditorConfig` [#2522](https://github.com/singerdmx/flutter-quill/pull/2522).
+- Deprecate `QuillEditorState.configurations` in favor of `QuillEditorState.config`.
 
 ## [11.1.1] - 2025-03-19
 

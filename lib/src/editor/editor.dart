@@ -192,21 +192,23 @@ class QuillEditorState extends State<QuillEditor>
 
   QuillController get controller => widget.controller;
 
+  @Deprecated('Use config instead')
   QuillEditorConfig get configurations => widget.config;
+  QuillEditorConfig get config => widget.config;
 
   @override
   void initState() {
     super.initState();
-    _editorKey = configurations.editorKey ?? GlobalKey<EditorState>();
+    _editorKey = config.editorKey ?? GlobalKey<EditorState>();
     _selectionGestureDetectorBuilder =
         _QuillEditorSelectionGestureDetectorBuilder(
       this,
-      configurations.detectWordBoundary,
+      config.detectWordBoundary,
     );
 
     final focusNode = widget.focusNode;
 
-    if (configurations.autoFocus) {
+    if (config.autoFocus) {
       focusNode.requestFocus();
     }
 
@@ -222,7 +224,7 @@ class QuillEditorState extends State<QuillEditor>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final selectionTheme =
-        configurations.textSelectionThemeData ?? TextSelectionTheme.of(context);
+        config.textSelectionThemeData ?? TextSelectionTheme.of(context);
 
     TextSelectionControls textSelectionControls;
     bool paintCursorAboveText;
@@ -252,8 +254,8 @@ class QuillEditorState extends State<QuillEditor>
           theme.colorScheme.primary.withValues(alpha: 0.40);
     }
 
-    final showSelectionToolbar = configurations.enableInteractiveSelection &&
-        configurations.enableSelectionToolbar;
+    final showSelectionToolbar =
+        config.enableInteractiveSelection && config.enableSelectionToolbar;
 
     final child = QuillRawEditor(
       key: _editorKey,
@@ -265,71 +267,68 @@ class QuillEditorState extends State<QuillEditor>
         customLeadingBuilder: widget.config.customLeadingBlockBuilder,
         focusNode: widget.focusNode,
         scrollController: widget.scrollController,
-        scrollable: configurations.scrollable,
-        enableAlwaysIndentOnTab: configurations.enableAlwaysIndentOnTab,
-        scrollBottomInset: configurations.scrollBottomInset,
-        padding: configurations.padding,
+        scrollable: config.scrollable,
+        enableAlwaysIndentOnTab: config.enableAlwaysIndentOnTab,
+        scrollBottomInset: config.scrollBottomInset,
+        padding: config.padding,
         readOnly: controller.readOnly,
-        checkBoxReadOnly: configurations.checkBoxReadOnly,
-        disableClipboard: configurations.disableClipboard,
-        placeholder: configurations.placeholder,
-        onLaunchUrl: configurations.onLaunchUrl,
+        checkBoxReadOnly: config.checkBoxReadOnly,
+        disableClipboard: config.disableClipboard,
+        placeholder: config.placeholder,
+        onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
-            ? (configurations.contextMenuBuilder ??
+            ? (config.contextMenuBuilder ??
                 QuillRawEditorConfig.defaultContextMenuBuilder)
             : null,
         showSelectionHandles: isMobile,
-        showCursor: configurations.showCursor ?? true,
+        showCursor: config.showCursor ?? true,
         cursorStyle: CursorStyle(
           color: cursorColor,
           backgroundColor: Colors.grey,
           width: 2,
           radius: cursorRadius,
           offset: cursorOffset,
-          paintAboveText:
-              configurations.paintCursorAboveText ?? paintCursorAboveText,
+          paintAboveText: config.paintCursorAboveText ?? paintCursorAboveText,
           opacityAnimates: cursorOpacityAnimates,
         ),
-        textCapitalization: configurations.textCapitalization,
-        minHeight: configurations.minHeight,
-        maxHeight: configurations.maxHeight,
-        maxContentWidth: configurations.maxContentWidth,
-        customStyles: configurations.customStyles,
-        expands: configurations.expands,
-        autoFocus: configurations.autoFocus,
+        textCapitalization: config.textCapitalization,
+        minHeight: config.minHeight,
+        maxHeight: config.maxHeight,
+        maxContentWidth: config.maxContentWidth,
+        customStyles: config.customStyles,
+        expands: config.expands,
+        autoFocus: config.autoFocus,
         selectionColor: selectionColor,
-        selectionCtrls:
-            configurations.textSelectionControls ?? textSelectionControls,
-        keyboardAppearance: configurations.keyboardAppearance,
-        enableInteractiveSelection: configurations.enableInteractiveSelection,
-        scrollPhysics: configurations.scrollPhysics,
+        selectionCtrls: config.textSelectionControls ?? textSelectionControls,
+        keyboardAppearance: config.keyboardAppearance,
+        enableInteractiveSelection: config.enableInteractiveSelection,
+        scrollPhysics: config.scrollPhysics,
         embedBuilder: _getEmbedBuilder,
-        textSpanBuilder: configurations.textSpanBuilder,
-        linkActionPickerDelegate: configurations.linkActionPickerDelegate,
-        customStyleBuilder: configurations.customStyleBuilder,
-        customRecognizerBuilder: configurations.customRecognizerBuilder,
-        floatingCursorDisabled: configurations.floatingCursorDisabled,
-        customShortcuts: configurations.customShortcuts,
-        customActions: configurations.customActions,
-        customLinkPrefixes: configurations.customLinkPrefixes,
-        onTapOutsideEnabled: configurations.onTapOutsideEnabled,
-        onTapOutside: configurations.onTapOutside,
-        dialogTheme: configurations.dialogTheme,
-        contentInsertionConfiguration:
-            configurations.contentInsertionConfiguration,
-        enableScribble: configurations.enableScribble,
-        onScribbleActivated: configurations.onScribbleActivated,
-        scribbleAreaInsets: configurations.scribbleAreaInsets,
-        readOnlyMouseCursor: configurations.readOnlyMouseCursor,
-        textInputAction: configurations.textInputAction,
-        onPerformAction: configurations.onPerformAction,
+        textSpanBuilder: config.textSpanBuilder,
+        linkActionPickerDelegate: config.linkActionPickerDelegate,
+        customStyleBuilder: config.customStyleBuilder,
+        customRecognizerBuilder: config.customRecognizerBuilder,
+        floatingCursorDisabled: config.floatingCursorDisabled,
+        customShortcuts: config.customShortcuts,
+        customActions: config.customActions,
+        customLinkPrefixes: config.customLinkPrefixes,
+        onTapOutsideEnabled: config.onTapOutsideEnabled,
+        onTapOutside: config.onTapOutside,
+        dialogTheme: config.dialogTheme,
+        contentInsertionConfiguration: config.contentInsertionConfiguration,
+        enableScribble: config.enableScribble,
+        onScribbleActivated: config.onScribbleActivated,
+        scribbleAreaInsets: config.scribbleAreaInsets,
+        readOnlyMouseCursor: config.readOnlyMouseCursor,
+        textInputAction: config.textInputAction,
+        onPerformAction: config.onPerformAction,
       ),
     );
 
     final editor = selectionEnabled
         ? _selectionGestureDetectorBuilder.build(
             behavior: HitTestBehavior.translucent,
-            detectWordBoundary: configurations.detectWordBoundary,
+            detectWordBoundary: config.detectWordBoundary,
             child: child,
           )
         : child;
@@ -352,7 +351,7 @@ class QuillEditorState extends State<QuillEditor>
   }
 
   EmbedBuilder _getEmbedBuilder(Embed node) {
-    final builders = configurations.embedBuilders;
+    final builders = config.embedBuilders;
 
     if (builders != null) {
       for (final builder in builders) {
@@ -362,7 +361,7 @@ class QuillEditorState extends State<QuillEditor>
       }
     }
 
-    final unknownEmbedBuilder = configurations.unknownEmbedBuilder;
+    final unknownEmbedBuilder = config.unknownEmbedBuilder;
     if (unknownEmbedBuilder != null) {
       return unknownEmbedBuilder;
     }
@@ -382,7 +381,7 @@ class QuillEditorState extends State<QuillEditor>
   bool get forcePressEnabled => false;
 
   @override
-  bool get selectionEnabled => configurations.enableInteractiveSelection;
+  bool get selectionEnabled => config.enableInteractiveSelection;
 
   /// Throws [StateError] if [_editorKey] is not connected to [QuillRawEditor] correctly.
   ///
@@ -423,9 +422,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
-    if (_state.configurations.onSingleLongTapMoveUpdate != null) {
+    if (_state.config.onSingleLongTapMoveUpdate != null) {
       if (renderEditor != null &&
-          _state.configurations.onSingleLongTapMoveUpdate!(
+          _state.config.onSingleLongTapMoveUpdate!(
             details,
             renderEditor!.getPositionForOffset,
           )) {
@@ -474,9 +473,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onTapDown(TapDownDetails details) {
-    if (_state.configurations.onTapDown != null) {
+    if (_state.config.onTapDown != null) {
       if (renderEditor != null &&
-          _state.configurations.onTapDown!(
+          _state.config.onTapDown!(
             details,
             renderEditor!.getPositionForOffset,
           )) {
@@ -495,9 +494,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleTapUp(TapUpDetails details) {
-    if (_state.configurations.onTapUp != null &&
+    if (_state.config.onTapUp != null &&
         renderEditor != null &&
-        _state.configurations.onTapUp!(
+        _state.config.onTapUp!(
           details,
           renderEditor!.getPositionForOffset,
         )) {
@@ -583,9 +582,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
-    if (_state.configurations.onSingleLongTapStart != null) {
+    if (_state.config.onSingleLongTapStart != null) {
       if (renderEditor != null &&
-          _state.configurations.onSingleLongTapStart!(
+          _state.config.onSingleLongTapStart!(
             details,
             renderEditor!.getPositionForOffset,
           )) {
@@ -608,9 +607,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
 
   @override
   void onSingleLongTapEnd(LongPressEndDetails details) {
-    if (_state.configurations.onSingleLongTapEnd != null) {
+    if (_state.config.onSingleLongTapEnd != null) {
       if (renderEditor != null) {
-        if (_state.configurations.onSingleLongTapEnd!(
+        if (_state.config.onSingleLongTapEnd!(
           details,
           renderEditor!.getPositionForOffset,
         )) {
