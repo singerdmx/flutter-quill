@@ -252,7 +252,7 @@ packages:
       path: "../flutter_quill_test"
       relative: true
     source: path
-    version: "11.0.0"
+    version: "11.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
