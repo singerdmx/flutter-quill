@@ -30,10 +30,13 @@ class Diff {
     required this.deleted,
   }) : inserted = '';
 
+  /// Checks if the diff is just a delete
   bool get isDelete => inserted.isEmpty && deleted.isNotEmpty;
 
+  /// Checks if the diff is just an isnertion 
   bool get isInsert => inserted.isNotEmpty && deleted.isEmpty;
 
+  /// Checks if the diff has no changes 
   bool get hasNoDiff => inserted.isEmpty && deleted.isEmpty;
 
   // Start index in old text at which changes begin.
