@@ -33,6 +33,9 @@ class Diff {
   /// Checks if the diff is just a delete
   bool get isDelete => inserted.isEmpty && deleted.isNotEmpty;
 
+  /// Checks if the diff is just replace 
+  bool get isReplace => inserted.isNotEmpty && deleted.isNotEmpty;
+
   /// Checks if the diff is just an isnertion 
   bool get isInsert => inserted.isNotEmpty && deleted.isEmpty;
 
