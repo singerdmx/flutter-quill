@@ -228,7 +228,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       widget.controller.selection,
       value.selection,
     );
-    if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
+    if (diff.hasNoDiff) {
       widget.controller.updateSelection(value.selection, ChangeSource.local);
     } else {
       widget.controller.replaceText(
