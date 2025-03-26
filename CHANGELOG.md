@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Improve getDiff perfomance for the editor [#2517](https://github.com/singerdmx/flutter-quill/pull/2517)
+
 ## [11.1.2] - 2025-03-24
 
 ### Fixed
