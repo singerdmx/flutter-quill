@@ -85,10 +85,17 @@ Diff getDiff(
   final lengthDiff = newLen - oldLen;
 
   // 3. Forward search from range start
-  while (start < end &&
-      start < oldLen &&
-      start < newLen &&
-      oldStr[start] == newStr[start]) {
+  var hasForwardChange = false;
+
+  while (start < end && start < oldStr.length && start < newStr.length) {
+    if (oldStr[start] != newStr[start]) {
+      hasForwardChange = true;
+      break;
+    }
+    // Force forward if the change comes only from the cursor position
+    if (start >= oldSelection.baseOffset && start >= newSelection.baseOffset) {
+      break;
+    }
     start++;
   }
 
@@ -96,11 +103,35 @@ Diff getDiff(
   var oldEnd = math.min(end, oldLen);
   var newEnd = math.min(end + lengthDiff, newLen);
 
-  while (oldEnd > start &&
-      newEnd > start &&
-      oldStr[oldEnd - 1] == newStr[newEnd - 1]) {
+  var hasBackwardChange = false;
+
+  while (oldEnd > start && newEnd > start) {
+    if (oldStr[oldEnd - 1] != newStr[newEnd - 1]) {
+      hasBackwardChange = true;
+      break;
+    }
+    // Breaks if the cursor still into the same position
+    if (oldEnd - 1 <= oldSelection.baseOffset &&
+        newEnd - 1 <= newSelection.baseOffset) {
+      break;
+    }
     oldEnd--;
     newEnd--;
+  }
+
+  // This is a workaround that fixes an issue where, when the cursor
+  // is between two characters, that are the same ("s|s"), when you
+  // press backspace key, instead removes the "s" character before the cursor,
+  // it just moves to left without removing nothing
+  if (!hasForwardChange && !hasBackwardChange) {
+    if (oldStr.length > newStr.length) {
+      return Diff.delete(
+        start: oldSelection.baseOffset < newSelection.baseOffset
+            ? oldSelection.baseOffset
+            : newSelection.baseOffset,
+        deleted: ' ',
+      );
+    }
   }
 
   final safeOldEnd = oldEnd.clamp(start, oldStr.length);
@@ -196,7 +227,7 @@ bool _isForwardDelete({
           newSelection.baseOffset == oldSelection.baseOffset &&
 
           // 4. The removed character if after the cursor position
-          (oldSelection.baseOffset + deletedText.length <= oldText.length);
+          oldText.startsWith(deletedText, oldSelection.baseOffset);
 }
 
 Diff _fallbackDiff(String oldStr, String newStr, int start, [int? end]) {
