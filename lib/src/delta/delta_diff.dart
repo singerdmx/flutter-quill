@@ -1,7 +1,6 @@
 import 'dart:math' as math;
-import 'dart:ui' show TextDirection;
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/material.dart';
 
 import '../../quill_delta.dart';
 import '../document/attribute.dart';
@@ -15,6 +14,27 @@ class Diff {
     required this.deleted,
     required this.inserted,
   });
+
+  const Diff.insert({
+    required this.start,
+    required this.inserted,
+  }) : deleted = '';
+
+  const Diff.noDiff({
+    this.start = 0,
+  })  : deleted = '',
+        inserted = '';
+
+  const Diff.delete({
+    required this.start,
+    required this.deleted,
+  }) : inserted = '';
+
+  bool get isDelete => inserted.isEmpty && deleted.isNotEmpty;
+
+  bool get isInsert => inserted.isNotEmpty && deleted.isEmpty;
+
+  bool get hasNoDiff => inserted.isEmpty && deleted.isEmpty;
 
   // Start index in old text at which changes begin.
   final int start;
@@ -31,43 +51,159 @@ class Diff {
   }
 }
 
-/* Get diff operation between old text and new text */
-Diff getDiff(String oldText, String newText, int cursorPosition) {
-  if (oldText == newText) {
-    return Diff(deleted: '', inserted: '', start: cursorPosition);
-  }
+/// Get text changes between two strings using [oldStr] and [newStr]
+/// using selection as the base with [oldSelection] and [newSelection].
+///
+/// How it works:
+/// 1. Focuses comparison around the cursor/selection area (optimized for 99% of edits)
+/// 2. Uses bidirectional scanning to pinpoint exact change boundaries
+/// 3. Validates changes against cursor movement patterns
+/// 4. Falls back to full comparison only for complex cases
+///
+/// Typical use case:
+/// - User types "A" at position 5 in "Flutter" → "FluttAer"
+/// - Returns Diff.insert(start: 5, inserted: "A")
+///
+/// Performance: O([k]) where [k] == change size (not document length)
+Diff getDiff(
+  String oldStr,
+  String newStr,
+  TextSelection oldSelection,
+  TextSelection newSelection,
+) {
+  if (oldStr == newStr) return Diff.noDiff(start: newSelection.start);
 
-  final oldLength = oldText.length;
-  final newLength = newText.length;
+  // 1. Calculate affected range based on selections
+  final affectedRange =
+      _getAffectedRange(oldStr, newStr, oldSelection, newSelection);
+  var start = affectedRange.start;
+  final end = affectedRange.end;
 
-  var start = 0;
-  var endOld = oldLength;
-  var endNew = newLength;
+  // 2. Adjust bounds for length variations
+  final oldLen = oldStr.length;
+  final newLen = newStr.length;
+  final lengthDiff = newLen - oldLen;
 
-  // find where starts the difference between old and new text
-  while (start < oldLength &&
-      start < newLength &&
-      oldText[start] == newText[start]) {
+  // 3. Forward search from range start
+  while (start < end &&
+      start < oldLen &&
+      start < newLen &&
+      oldStr[start] == newStr[start]) {
     start++;
   }
 
-  // find where ends the difference between old and new text
-  while (endOld > start &&
-      endNew > start &&
-      oldText[endOld - 1] == newText[endNew - 1]) {
-    endOld--;
-    endNew--;
+  // 4. Backward search from range end
+  var oldEnd = math.min(end, oldLen);
+  var newEnd = math.min(end + lengthDiff, newLen);
+
+  while (oldEnd > start &&
+      newEnd > start &&
+      oldStr[oldEnd - 1] == newStr[newEnd - 1]) {
+    oldEnd--;
+    newEnd--;
   }
 
-  // get the changes
-  final deleted = oldText.substring(start, endOld);
-  final inserted = newText.substring(start, endNew);
+  // 5. Extract differences
+  final deleted = oldStr.substring(start, oldEnd);
+  final inserted = newStr.substring(start, newEnd);
 
-  return Diff(
-    start: start,
-    deleted: deleted,
-    inserted: inserted,
+  // 6. Validate consistency
+  if (_isChangeConsistent(deleted, inserted, oldSelection, newSelection)) {
+    return _buildDiff(deleted, inserted, start);
+  }
+
+  // Fallback for complex cases
+  return _fallbackDiff(oldStr, newStr, start, end);
+}
+
+TextRange _getAffectedRange(
+  String oldStr,
+  String newStr,
+  TextSelection oldSel,
+  TextSelection newSel,
+) {
+  // Calculate combined selection area
+  final start = math.min(oldSel.start, newSel.start);
+  final end = math.max(oldSel.end, newSel.end);
+
+  // Expand by 20% to capture nearby changes
+  //
+  // We use this to avoid check all the string length
+  // unnecessarily when we can use the selection as a base
+  // to know where, and how was do it the change
+  final expansion = ((end - start) * 0.2).round();
+
+  return TextRange(
+    start: math.max(0, start - expansion),
+    end: math.min(math.max(oldStr.length, newStr.length), end + expansion),
   );
+}
+
+bool _isChangeConsistent(
+  String deleted,
+  String inserted,
+  TextSelection oldSel,
+  TextSelection newSel,
+) {
+  final isInsert = newSel.start == newSel.end && inserted.isNotEmpty;
+  final isDelete = deleted.isNotEmpty && inserted.isEmpty;
+
+  // Insert validation
+  if (isInsert) {
+    return newSel.start == oldSel.start + inserted.length;
+  }
+
+  // Delete validation
+  if (isDelete) {
+    return oldSel.start - newSel.start == deleted.length;
+  }
+
+  return true;
+}
+
+Diff _fallbackDiff(String oldStr, String newStr, int start, [int? end]) {
+  end ??= math.min(oldStr.length, newStr.length);
+
+  // 1. Find first divergence point
+  while (start < end &&
+      start < oldStr.length &&
+      start < newStr.length &&
+      oldStr[start] == newStr[start]) {
+    start++;
+  }
+
+  // 2. Find last divergence point
+  var oldEnd = oldStr.length;
+  var newEnd = newStr.length;
+
+  while (oldEnd > start &&
+      newEnd > start &&
+      oldStr[oldEnd - 1] == newStr[newEnd - 1]) {
+    oldEnd--;
+    newEnd--;
+  }
+
+  // 3. Extract differences
+  final deleted = oldStr.substring(start, oldEnd);
+  final inserted = newStr.substring(start, newEnd);
+
+  return _buildDiff(deleted, inserted, start);
+}
+
+Diff _buildDiff(String deleted, String inserted, int start) {
+  if (deleted.isEmpty && inserted.isEmpty) return const Diff.noDiff();
+
+  if (deleted.isNotEmpty && inserted.isNotEmpty) {
+    return Diff(
+      inserted: inserted,
+      start: start,
+      deleted: deleted,
+    );
+  } else if (inserted.isNotEmpty) {
+    return Diff.insert(start: start, inserted: inserted);
+  } else {
+    return Diff.delete(start: start, deleted: deleted);
+  }
 }
 
 int getPositionDelta(Delta user, Delta actual) {

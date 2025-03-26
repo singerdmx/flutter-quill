@@ -15,18 +15,26 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   }
 
   set textEditingValue(TextEditingValue value) {
-    final cursorPosition = value.selection.extentOffset;
     final oldText = widget.controller.document.toPlainText();
     final newText = value.text;
-    final diff = getDiff(oldText, newText, cursorPosition);
-    if (diff.deleted == '' && diff.inserted == '') {
+    final diff = getDiff(
+      oldText,
+      newText,
+      widget.controller.selection,
+      value.selection,
+    );
+    if (diff.hasNoDiff) {
       // Only changing selection range
       widget.controller.updateSelection(value.selection, ChangeSource.local);
       return;
     }
 
     widget.controller.replaceTextWithEmbeds(
-        diff.start, diff.deleted.length, diff.inserted, value.selection);
+      diff.start,
+      diff.deleted.length,
+      diff.inserted,
+      value.selection,
+    );
   }
 
   @override
