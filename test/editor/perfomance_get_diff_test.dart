@@ -3,7 +3,7 @@ import 'package:flutter_quill/src/delta/delta_diff.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Performance Tests', () {
+  group('performance Tests', () {
     late Stopwatch stopwatch;
     const loremIpsum =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
@@ -11,7 +11,7 @@ void main() {
 
     setUp(() => stopwatch = Stopwatch());
 
-    test('Simple insert (should complete <10ms)', () {
+    test('simple insert (should complete <10ms)', () {
       // Small text (50 chars)
       final text = loremIpsum.substring(0, 50);
       const selection = TextSelection.collapsed(offset: 10);
@@ -29,7 +29,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(10));
     });
 
-    test('Medium replace (should complete <50ms)', () {
+    test('medium replace (should complete <50ms)', () {
       // Medium text (1,000 chars)
       final text = List.generate(20, (_) => loremIpsum).join();
       const selection = TextSelection(baseOffset: 100, extentOffset: 105);
@@ -47,7 +47,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(50));
     });
 
-    test('Large document edit (should complete <500ms)', () {
+    test('large document edit (should complete <500ms)', () {
       // Large text (100,000 chars)
       final text = List.generate(2000, (_) => loremIpsum).join();
       const selection = TextSelection.collapsed(offset: 50000);
@@ -65,7 +65,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(500));
     });
 
-    test('Complex multi-edit fallback (should complete <1000ms)', () {
+    test('complex multi-edit fallback (should complete <1000ms)', () {
       final text = List.generate(1000, (_) => loremIpsum).join();
       const selection = TextSelection(baseOffset: 1000, extentOffset: 1005);
 
@@ -85,7 +85,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(1000));
     });
 
-    test('Worst-case full diff (should complete <2000ms)', () {
+    test('worst-case full diff (should complete <2000ms)', () {
       // Two completely different large texts
       final text1 = List.generate(5000, (i) => 'Line $i: $loremIpsum\n').join();
       final text2 =
@@ -103,7 +103,7 @@ void main() {
       expect(stopwatch.elapsedMilliseconds, lessThan(2000));
     });
 
-    test('Simulates forward deletion (should complete <10ms)', () {
+    test('simulates forward deletion (should complete <10ms)', () {
       // A simple but large text
       final text1 = List.generate(5000, (i) => 'Line $i: $loremIpsum\n').join();
 
