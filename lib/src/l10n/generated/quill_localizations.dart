@@ -47,6 +47,7 @@ import 'quill_localizations_tk.dart';
 import 'quill_localizations_tr.dart';
 import 'quill_localizations_uk.dart';
 import 'quill_localizations_ur.dart';
+import 'quill_localizations_uz.dart';
 import 'quill_localizations_vi.dart';
 import 'quill_localizations_zh.dart';
 
@@ -111,7 +112,9 @@ abstract class FlutterQuillLocalizations {
 
   static FlutterQuillLocalizations? of(BuildContext context) {
     return Localizations.of<FlutterQuillLocalizations>(
-        context, FlutterQuillLocalizations);
+      context,
+      FlutterQuillLocalizations,
+    );
   }
 
   static const LocalizationsDelegate<FlutterQuillLocalizations> delegate =
@@ -183,10 +186,11 @@ abstract class FlutterQuillLocalizations {
     Locale('tr'),
     Locale('uk'),
     Locale('ur'),
+    Locale('uz'),
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
-    Locale('zh', 'HK')
+    Locale('zh', 'HK'),
   ];
 
   /// No description provided for @pasteLink.
@@ -833,7 +837,8 @@ class _FlutterQuillLocalizationsDelegate
   @override
   Future<FlutterQuillLocalizations> load(Locale locale) {
     return SynchronousFuture<FlutterQuillLocalizations>(
-        lookupFlutterQuillLocalizations(locale));
+      lookupFlutterQuillLocalizations(locale),
+    );
   }
 
   @override
@@ -880,8 +885,9 @@ class _FlutterQuillLocalizationsDelegate
         'tr',
         'uk',
         'ur',
+        'uz',
         'vi',
-        'zh'
+        'zh',
       ].contains(locale.languageCode);
 
   @override
@@ -1019,6 +1025,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsTr();
     case 'uk':
       return FlutterQuillLocalizationsUk();
+    case 'uz':
+      return FlutterQuillLocalizationsUz();
     case 'ur':
       return FlutterQuillLocalizationsUr();
     case 'vi':
@@ -1028,8 +1036,9 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'FlutterQuillLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'FlutterQuillLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }
