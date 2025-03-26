@@ -54,16 +54,6 @@ class Diff {
 /// Get text changes between two strings using [oldStr] and [newStr]
 /// using selection as the base with [oldSelection] and [newSelection].
 ///
-/// How it works:
-/// 1. Focuses comparison around the cursor/selection area (optimized for 99% of edits)
-/// 2. Uses bidirectional scanning to pinpoint exact change boundaries
-/// 3. Validates changes against cursor movement patterns
-/// 4. Falls back to full comparison only for complex cases
-///
-/// Typical use case:
-/// - User types "A" at position 5 in "Flutter" → "FluttAer"
-/// - Returns Diff.insert(start: 5, inserted: "A")
-///
 /// Performance: O([k]) where [k] == change size (not document length)
 Diff getDiff(
   String oldStr,
