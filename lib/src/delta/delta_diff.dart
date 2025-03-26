@@ -33,13 +33,13 @@ class Diff {
   /// Checks if the diff is just a delete
   bool get isDelete => inserted.isEmpty && deleted.isNotEmpty;
 
-  /// Checks if the diff is just replace 
+  /// Checks if the diff is just replace
   bool get isReplace => inserted.isNotEmpty && deleted.isNotEmpty;
 
-  /// Checks if the diff is just an isnertion 
+  /// Checks if the diff is just an isnertion
   bool get isInsert => inserted.isNotEmpty && deleted.isEmpty;
 
-  /// Checks if the diff has no changes 
+  /// Checks if the diff has no changes
   bool get hasNoDiff => inserted.isEmpty && deleted.isEmpty;
 
   // Start index in old text at which changes begin.
@@ -72,8 +72,12 @@ Diff getDiff(
   // 1. Calculate affected range based on selections
   final affectedRange =
       _getAffectedRange(oldStr, newStr, oldSelection, newSelection);
-  var start = affectedRange.start;
-  final end = affectedRange.end;
+  var start = affectedRange.start
+      .clamp(0, math.min(oldStr.length, newStr.length))
+      .toInt();
+  final end = affectedRange.end
+      .clamp(0, math.max(oldStr.length, newStr.length))
+      .toInt();
 
   // 2. Adjust bounds for length variations
   final oldLen = oldStr.length;
@@ -99,12 +103,16 @@ Diff getDiff(
     newEnd--;
   }
 
+  final safeOldEnd = oldEnd.clamp(start, oldStr.length);
+  final safeNewEnd = newEnd.clamp(start, newStr.length);
+
   // 5. Extract differences
-  final deleted = oldStr.substring(start, oldEnd);
-  final inserted = newStr.substring(start, newEnd);
+  final deleted = oldStr.substring(start, safeOldEnd);
+  final inserted = newStr.substring(start, safeNewEnd);
 
   // 6. Validate consistency
-  if (_isChangeConsistent(deleted, inserted, oldSelection, newSelection)) {
+  if (_isChangeConsistent(
+      deleted, inserted, oldStr, oldSelection, newSelection)) {
     return _buildDiff(deleted, inserted, start);
   }
 
@@ -138,9 +146,20 @@ TextRange _getAffectedRange(
 bool _isChangeConsistent(
   String deleted,
   String inserted,
+  String oldText,
   TextSelection oldSel,
   TextSelection newSel,
 ) {
+  final isForwardDelete = _isForwardDelete(
+    deletedText: deleted,
+    oldText: oldText,
+    oldSelection: oldSel,
+    newSelection: newSel,
+  );
+  if (isForwardDelete) {
+    return newSel.start == oldSel.start &&
+        deleted.length == (oldSel.end - oldSel.start);
+  }
   final isInsert = newSel.start == newSel.end && inserted.isNotEmpty;
   final isDelete = deleted.isNotEmpty && inserted.isEmpty;
 
@@ -155,6 +174,29 @@ bool _isChangeConsistent(
   }
 
   return true;
+}
+
+/// Detect if the deletion was do it to forward
+bool _isForwardDelete({
+  required String deletedText,
+  required String oldText,
+  required TextSelection oldSelection,
+  required TextSelection newSelection,
+}) {
+  // is forward delete if:
+  return
+      // 1. There's deleted text
+      deletedText.isNotEmpty &&
+
+          // 2. The original selection is collaped
+          oldSelection.isCollapsed &&
+
+          // 3. New and original selections has the same offset
+          newSelection.isCollapsed &&
+          newSelection.baseOffset == oldSelection.baseOffset &&
+
+          // 4. The removed character if after the cursor position
+          (oldSelection.baseOffset + deletedText.length <= oldText.length);
 }
 
 Diff _fallbackDiff(String oldStr, String newStr, int start, [int? end]) {

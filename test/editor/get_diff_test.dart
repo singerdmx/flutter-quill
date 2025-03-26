@@ -102,5 +102,21 @@ void main() {
 
       expect(stopwatch.elapsedMilliseconds, lessThan(2000));
     });
+
+    test('Simulates forward deletion (should complete <10ms)', () {
+      // A simple but large text
+      final text1 = List.generate(5000, (i) => 'Line $i: $loremIpsum\n').join();
+
+      stopwatch.start();
+      getDiff(
+        text1,
+        text1.replaceRange(4500, 4501, ''),
+        const TextSelection.collapsed(offset: 4500),
+        const TextSelection.collapsed(offset: 4500),
+      );
+      stopwatch.stop();
+
+      expect(stopwatch.elapsedMilliseconds, lessThan(10));
+    });
   });
 }
