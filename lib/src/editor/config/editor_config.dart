@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../../internal.dart' show AutoFormatMultipleLinksRule;
 import '../../document/nodes/node.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
@@ -13,7 +14,7 @@ import '../raw_editor/config/raw_editor_config.dart';
 import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
-import '../widgets/link.dart';
+import '../widgets/link.dart' hide linkPrefixes;
 import '../widgets/text/magnifier.dart';
 import '../widgets/text/utils/text_block_utils.dart';
 import 'search_config.dart';
@@ -416,10 +417,14 @@ class QuillEditorConfig {
 
   final bool detectWordBoundary;
 
-  /// Additional list if links prefixes, which must not be prepended
-  /// with "https://" when [LinkMenuAction.launch] happened
+  /// Link prefixes that are addations to [linkPrefixes], which are used
+  /// on link launch [LinkMenuAction.launch] to check whether a link is valid.
   ///
-  /// Useful for deep-links
+  /// If a link is not valid and link launch is requested,
+  /// the editor will append `https://` as prefix to the link.
+  ///
+  /// This is used to tapping links within the editor, and not the toolbar or
+  /// [AutoFormatMultipleLinksRule].
   final List<String> customLinkPrefixes;
 
   /// Configures the dialog theme.

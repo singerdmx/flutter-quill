@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../common/utils/link_validator.dart';
 import '../../editor/widgets/link.dart';
 import '../../l10n/extensions/localizations_ext.dart';
 import '../../rules/insert.dart';
@@ -106,10 +107,12 @@ class QuillToolbarLinkStyleButtonState
       context: context,
       builder: (_) {
         return _LinkDialog(
+          validateLink: options.validateLink,
+          // ignore: deprecated_member_use_from_same_package
+          legacyLinkRegExp: options.linkRegExp,
           dialogTheme: options.dialogTheme,
           text: initialTextLink.text,
           link: initialTextLink.link,
-          linkRegExp: options.linkRegExp,
           action: options.linkDialogAction,
         );
       },
@@ -122,17 +125,19 @@ class QuillToolbarLinkStyleButtonState
 
 class _LinkDialog extends StatefulWidget {
   const _LinkDialog({
+    required this.validateLink,
     this.dialogTheme,
     this.link,
     this.text,
-    this.linkRegExp,
+    this.legacyLinkRegExp,
     this.action,
   });
 
   final QuillDialogTheme? dialogTheme;
   final String? link;
   final String? text;
-  final RegExp? linkRegExp;
+  final RegExp? legacyLinkRegExp;
+  final LinkValidationCallback? validateLink;
   final LinkDialogAction? action;
 
   @override
@@ -143,9 +148,11 @@ class _LinkDialogState extends State<_LinkDialog> {
   late String _link;
   late String _text;
 
+  @Deprecated(
+      'Will be removed in future-releases, please migrate to QuillToolbarLinkStyleButtonOptions.validateLink.')
   RegExp get linkRegExp {
-    return widget.linkRegExp ??
-        const AutoFormatMultipleLinksRule().oneLineLinkRegExp;
+    return widget.legacyLinkRegExp ??
+        AutoFormatMultipleLinksRule.singleLineUrlRegExp;
   }
 
   late TextEditingController _linkController;
@@ -242,15 +249,18 @@ class _LinkDialogState extends State<_LinkDialog> {
     );
   }
 
+  bool get _isLinkValid => LinkValidator.validate(
+        _link,
+        customValidateLink: widget.validateLink,
+        // Implemented for backward compatibility, clients should use validateLink instead.
+        legacyRegex: widget.legacyLinkRegExp,
+      );
+
   bool _canPress() {
     if (_text.isEmpty || _link.isEmpty) {
       return false;
     }
-    if (!linkRegExp.hasMatch(_link)) {
-      return false;
-    }
-
-    return true;
+    return _isLinkValid;
   }
 
   void _linkChanged(String value) {
