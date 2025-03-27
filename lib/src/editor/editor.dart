@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 import '../common/utils/platform.dart';
 import '../controller/quill_controller.dart';
@@ -19,6 +20,7 @@ import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
+import 'raw_editor/raw_editor_state.dart';
 import 'widgets/box.dart';
 import 'widgets/cursor.dart';
 import 'widgets/delegate.dart';
@@ -196,6 +198,71 @@ class QuillEditorState extends State<QuillEditor>
   QuillEditorConfig get configurations => widget.config;
   QuillEditorConfig get config => widget.config;
 
+  /// The native context menu items (e.g., `Translate`, `Search`).
+  /// This is Android-specific and is always `null` on other platforms.
+  List<ProcessTextAction>? _nativeTextProcessActions;
+
+  // Always `null` on platforms other than Android.
+  @visibleForTesting
+  @internal
+  ProcessTextService? processTextService;
+
+  /// Query the engine to initialize the list of text processing actions to show
+  /// in the text selection toolbar on Android.
+  Future<void> _initAndroidNativeTextProcessActions() async {
+    if (isAndroidApp && config.displayNativeContextMenuItems) {
+      processTextService ??= DefaultProcessTextService();
+      _nativeTextProcessActions = [
+        ...await processTextService!.queryTextActions()
+      ];
+    }
+  }
+
+  // For the original method, refer to: https://github.com/flutter/flutter/blob/9e211cabbd72de59d79decacfe0ad6f707c61366/packages/flutter/lib/src/widgets/editable_text.dart#L3059-L3091
+  List<ContextMenuButtonItem> _buildTextProcessingActionButtonItems(
+    QuillRawEditorState rawEditorState,
+  ) {
+    final buttonItems = <ContextMenuButtonItem>[];
+
+    final textEditingValue = controller.plainTextEditingValue;
+    final selection = textEditingValue.selection;
+    if (!selection.isValid || selection.isCollapsed) {
+      return buttonItems;
+    }
+
+    for (final action in _nativeTextProcessActions ?? []) {
+      buttonItems.add(
+        ContextMenuButtonItem(
+          label: action.label,
+          onPressed: () async {
+            final selectedText =
+                controller.selection.textInside(textEditingValue.text);
+            if (selectedText.isEmpty) {
+              return;
+            }
+
+            final processedText = await processTextService!.processTextAction(
+              action.id,
+              selectedText,
+              controller.readOnly,
+            );
+
+            // If an activity does not return a modified version, just hide the toolbar.
+            // Otherwise use the result to replace the selected text.
+            final allowPaste =
+                !controller.readOnly && textEditingValue.selection.isValid;
+            if (processedText != null && allowPaste) {
+              // TODO: Paste the processedText
+            } else {
+              rawEditorState.hideToolbar();
+            }
+          },
+        ),
+      );
+    }
+    return buttonItems;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -218,6 +285,22 @@ class QuillEditorState extends State<QuillEditor>
         _editorKey.currentState?.hideToolbar();
       }
     });
+    _initAndroidNativeTextProcessActions();
+  }
+
+  Widget _defaultContextMenuBuilder(
+    BuildContext context,
+    QuillRawEditorState rawEditorState,
+  ) {
+    return TextFieldTapRegion(
+      child: AdaptiveTextSelectionToolbar.buttonItems(
+        buttonItems: [
+          ...rawEditorState.contextMenuButtonItems,
+          ..._buildTextProcessingActionButtonItems(rawEditorState)
+        ],
+        anchors: rawEditorState.contextMenuAnchors,
+      ),
+    );
   }
 
   @override
@@ -277,8 +360,7 @@ class QuillEditorState extends State<QuillEditor>
         placeholder: config.placeholder,
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
-            ? (config.contextMenuBuilder ??
-                QuillRawEditorConfig.defaultContextMenuBuilder)
+            ? config.contextMenuBuilder ?? _defaultContextMenuBuilder
             : null,
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,

@@ -166,6 +166,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     TimeStampEmbedBuilder(),
                   ],
+                  displayNativeContextMenuItems: true,
                 ),
               ),
             ),
