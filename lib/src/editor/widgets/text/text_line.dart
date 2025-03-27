@@ -684,7 +684,7 @@ class _TextLineState extends State<TextLine> {
       link = 'https://$link';
     }
 
-    // TODO: Maybe we should refactor onLaunchUrl or add a new API to guve full control of the launch?
+    // TODO(EchoEllet): Maybe we should refactor onLaunchUrl or add a new API to guve full control of the launch, see #1776?
     final launchUrl = widget.onLaunchUrl ?? _launchUrl;
     launchUrl(link);
   }

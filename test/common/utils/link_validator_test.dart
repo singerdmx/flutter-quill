@@ -1,7 +1,7 @@
 import 'package:flutter_quill/src/common/utils/link_validator.dart';
 import 'package:test/test.dart';
 
-const validTesingLinks = [
+const _validTesingLinks = [
   'http://google.com',
   'https://www.google.com',
   'http://beginner.example.edu/#act',
@@ -41,7 +41,7 @@ const validTesingLinks = [
 
 void main() {
   test('validate correctly', () {
-    for (final validLink in validTesingLinks) {
+    for (final validLink in _validTesingLinks) {
       expect(LinkValidator.validate(validLink), true,
           reason: 'Expected the link `$validLink` to be valid.');
     }
