@@ -12,7 +12,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Improve changes application from TextInputClient [#2509](https://github.com/singerdmx/flutter-quill/pull/2509).
+- Replace `TextInputClient` with `DeltaTextInputClient` [#2509](https://github.com/singerdmx/flutter-quill/pull/2509).
+
+## [11.2.0] - 2025-03-26
+
+### Added 
+
+- Cache for `toPlainText` in `Document` class to avoid unnecessary text computing [#2482](https://github.com/singerdmx/flutter-quill/pull/2482).
+
+## [11.1.2] - 2025-03-24
+
+### Fixed
+
+- **[iOS]** `QuillEditor` doesn't respect the system keyboard brightness by default [#2522](https://github.com/singerdmx/flutter-quill/pull/2522).
+- Add a default empty list for `characterShortcutEvents` and `spaceShortcutEvents` in `QuillRawEditorConfig` [#2522](https://github.com/singerdmx/flutter-quill/pull/2522).
+- Deprecate `QuillEditorState.configurations` in favor of `QuillEditorState.config` [#2522](https://github.com/singerdmx/flutter-quill/pull/2522).
 
 ## [11.1.1] - 2025-03-19
 
@@ -124,7 +138,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.1.1...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.2.0...HEAD
+[11.2.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.2.0
+[11.1.2]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.1.2
 [11.1.1]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.1.1
 [11.1.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.1.0
 [11.0.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.0.0

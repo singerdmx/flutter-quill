@@ -28,8 +28,8 @@ class QuillRawEditorConfig {
     required this.embedBuilder,
     required this.textSpanBuilder,
     required this.autoFocus,
-    required this.characterShortcutEvents,
-    required this.spaceShortcutEvents,
+    this.characterShortcutEvents = const [],
+    this.spaceShortcutEvents = const [],
     @experimental this.onKeyPressed,
     this.showCursor = true,
     this.scrollable = true,
@@ -315,10 +315,10 @@ class QuillRawEditorConfig {
   ///
   /// Defaults to Material/Cupertino App Brightness.
   ///
-  /// The keyboardd appearance will set using the following:
+  /// The keyboard appearance will set using the following:
   ///
   /// ```dart
-  /// widget.configurations.keyboardAppearance ??
+  /// widget.config.keyboardAppearance ??
   /// CupertinoTheme.maybeBrightnessOf(context) ??
   /// Theme.of(context).brightness
   /// ```

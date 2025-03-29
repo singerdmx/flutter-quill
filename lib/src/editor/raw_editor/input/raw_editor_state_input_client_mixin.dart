@@ -1,11 +1,11 @@
 import 'dart:ui' show lerpDouble;
 
-import 'package:flutter/animation.dart' show Curves;
-import 'package:flutter/cupertino.dart' show CupertinoTheme;
-import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
-import 'package:flutter/material.dart' show Theme;
-import 'package:flutter/scheduler.dart' show SchedulerBinding;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 import '../raw_editor.dart';
 import 'ime/on_delete.dart';
 import 'ime/on_insert.dart';
@@ -61,6 +61,14 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements DeltaTextInpu
     }
   }
 
+  /// This setting is only honored on iOS devices.
+  @visibleForTesting
+  @internal
+  Brightness createKeyboardAppearance() =>
+      widget.config.keyboardAppearance ??
+      CupertinoTheme.maybeBrightnessOf(context) ??
+      Theme.of(context).brightness;
+
   void openConnectionIfNeeded() {
     if (!shouldCreateInputConnection) {
       return;
@@ -77,9 +85,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements DeltaTextInpu
           enableIMEPersonalizedLearning: true,
           inputAction: widget.config.textInputAction,
           enableSuggestions: !widget.config.readOnly,
-          keyboardAppearance: widget.config.keyboardAppearance ??
-              CupertinoTheme.maybeBrightnessOf(context) ??
-              Theme.of(context).brightness,
+          keyboardAppearance: createKeyboardAppearance(),
           textCapitalization: widget.config.textCapitalization,
           allowedMimeTypes: widget.config.contentInsertionConfiguration == null
               ? const <String>[]

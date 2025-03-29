@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_test/flutter_quill_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'common/utils/quill_test_app.dart';
+import 'editor/editor_config_utils.dart';
 
 void main() {
   group('Bug fix', () {
@@ -179,4 +183,72 @@ void main() {
       });
     }
   });
+  group(
+    "2521 - QuillEditor doesn't respect the system keyboard brightness by default on iOS",
+    () {
+      test('keyboardAppearance defaults to null', () {
+        expect(const QuillEditorConfig().keyboardAppearance, null);
+        expect(
+          createFakeRawEditorConfig().keyboardAppearance,
+          null,
+        );
+      });
+
+      testWidgets('uses the keyboardAppearance from the config if not null',
+          (tester) async {
+        for (final keyboardAppearanceValue in {
+          Brightness.dark,
+          Brightness.light
+        }) {
+          final key = GlobalKey<QuillRawEditorState>();
+          await tester.pumpWidget(
+            QuillTestApp.home(
+              QuillRawEditor(
+                key: key,
+                config: createFakeRawEditorConfig(
+                    keyboardAppearance: keyboardAppearanceValue),
+                controller: QuillController.basic(),
+              ),
+            ),
+          );
+
+          final keyboardAppearance =
+              key.currentState?.createKeyboardAppearance();
+
+          expect(keyboardAppearance, keyboardAppearanceValue);
+        }
+      });
+
+      testWidgets(
+          'uses the keyboardAppearance from the ThemeData if not declared in the config',
+          (tester) async {
+        for (final keyboardAppearanceValue in {
+          Brightness.dark,
+          Brightness.light
+        }) {
+          final key = GlobalKey<QuillRawEditorState>();
+          await tester.pumpWidget(
+            QuillTestApp.home(
+              CupertinoTheme(
+                data: CupertinoThemeData(brightness: keyboardAppearanceValue),
+                child: Theme(
+                  data: ThemeData(brightness: keyboardAppearanceValue),
+                  child: QuillRawEditor(
+                    key: key,
+                    config: createFakeRawEditorConfig(keyboardAppearance: null),
+                    controller: QuillController.basic(),
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          final keyboardAppearance =
+              key.currentState?.createKeyboardAppearance();
+
+          expect(keyboardAppearance, keyboardAppearanceValue);
+        }
+      });
+    },
+  );
 }

@@ -44,7 +44,7 @@ class QuillEditorConfig {
     this.maxContentWidth,
     this.customStyles,
     this.textCapitalization = TextCapitalization.sentences,
-    this.keyboardAppearance = Brightness.light,
+    this.keyboardAppearance,
     this.scrollPhysics,
     this.onLaunchUrl,
     this.onTapDown,
@@ -312,17 +312,17 @@ class QuillEditorConfig {
   ///
   /// Defaults to Material/Cupertino App Brightness.
   ///
-  /// The keyboardd appearance will set using the following:
+  /// The keyboard appearance will set using the following:
   ///
   /// ```dart
-  /// widget.configurations.keyboardAppearance ??
+  /// widget.config.keyboardAppearance ??
   /// CupertinoTheme.maybeBrightnessOf(context) ??
   /// Theme.of(context).brightness
   /// ```
   ///
   /// See also: https://github.com/flutter/flutter/blob/06b9f7ba0bef2b5b44a643c73f4295a096de1202/packages/flutter/lib/src/services/text_input.dart#L621-L626
   /// and [QuillRawEditorConfig.keyboardAppearance]
-  final Brightness keyboardAppearance;
+  final Brightness? keyboardAppearance;
 
   /// The [ScrollPhysics] to use when vertically scrolling the input.
   ///
