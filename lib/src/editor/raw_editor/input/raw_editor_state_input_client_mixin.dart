@@ -212,7 +212,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements DeltaTextInpu
   void _apply(List<TextEditingDelta> deltas) {
     for (final delta in deltas) {
       // updates _lastKnownRemoteTextEditingValue to avoid issues
-      _updateLastKnownRemoteTextEditingValueWithDeltas(delta);
+      updateLastKnownRemoteTextEditingValueWithDeltas(delta);
       if (delta is TextEditingDeltaInsertion) {
         onInsert(
           delta,
