@@ -203,7 +203,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements DeltaTextInpu
 
   @override
   void updateEditingValueWithDeltas(List<TextEditingDelta> textEditingDeltas) {
-    if (!shouldCreateInputConnection) {
+    if (!shouldCreateInputConnection || textEditingDeltas.isEmpty) {
       return;
     }
     _apply(textEditingDeltas);
@@ -212,16 +212,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements DeltaTextInpu
   void _apply(List<TextEditingDelta> deltas) {
     for (final delta in deltas) {
       // updates _lastKnownRemoteTextEditingValue to avoid issues
-
-      _lastKnownRemoteTextEditingValue = delta.apply(
-        TextEditingValue(
-          text: _lastKnownRemoteTextEditingValue?.text ??
-              widget.controller.document.toPlainText(),
-          selection:
-              _lastKnownRemoteTextEditingValue?.selection ?? widget.controller.selection,
-          composing: _lastKnownRemoteTextEditingValue?.composing ?? TextRange.empty,
-        ),
-      );
+      _updateLastKnownRemoteTextEditingValueWithDeltas(delta);
       if (delta is TextEditingDeltaInsertion) {
         onInsert(
           delta,
@@ -378,6 +369,14 @@ mixin RawEditorStateTextInputClientMixin on EditorState implements DeltaTextInpu
     _textInputConnection!.connectionClosedReceived();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
+  }
+
+  @visibleForTesting
+  @internal
+  void updateLastKnownRemoteTextEditingValueWithDeltas(TextEditingDelta delta) {
+    // Apply the deltas to the previous platform-side IME value, to find out
+    // what the platform thinks the IME value is
+    _lastKnownRemoteTextEditingValue = delta.apply(_lastKnownRemoteTextEditingValue!);
   }
 
   void _updateSizeAndTransform() {
