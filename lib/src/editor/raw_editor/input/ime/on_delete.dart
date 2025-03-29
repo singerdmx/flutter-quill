@@ -1,5 +1,4 @@
-import 'package:flutter/services.dart';
-import '../../../../../flutter_quill.dart';
+part of 'ime_internals.dart';
 
 void onDelete(
   TextEditingDeltaDeletion deletion,

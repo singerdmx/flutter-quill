@@ -1,7 +1,4 @@
-import 'package:flutter/services.dart';
-
-import '../../../../controller/quill_controller.dart';
-import '../../../raw_editor/config/events/character_shortcuts_events.dart';
+part of 'ime_internals.dart';
 
 void onInsert(
   TextEditingDeltaInsertion insertion,

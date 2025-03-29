@@ -1,6 +1,4 @@
-import 'package:flutter/services.dart';
-import '../../../../../flutter_quill.dart';
-import '../../../../../internal.dart';
+part of 'ime_internals.dart';
 
 void onNonTextUpdate(
   TextEditingDeltaNonTextUpdate nonTextUpdate,
