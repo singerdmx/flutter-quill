@@ -13,7 +13,7 @@ import 'ime/on_non_update_text.dart';
 import 'ime/on_replace_method.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
-    implements TextInputClient, DeltaTextInputClient {
+    implements DeltaTextInputClient {
   TextInputConnection? _textInputConnection;
   TextEditingValue? __lastKnownRemoteTextEditingValue;
 
