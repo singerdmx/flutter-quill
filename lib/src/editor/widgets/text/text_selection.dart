@@ -76,6 +76,7 @@ class EditorTextSelectionOverlay {
     this.onSelectionHandleTapped,
     this.dragStartBehavior = DragStartBehavior.start,
     this.handlesVisible = false,
+    this.dragOffsetNotifier,
   }) {
     // Clipboard status is only checked on first instance of
     // ClipboardStatusNotifier
@@ -92,6 +93,9 @@ class EditorTextSelectionOverlay {
   }
 
   TextEditingValue value;
+
+  /// The offset of the drag handle used to position the magnifier.
+  ValueNotifier<Offset?>? dragOffsetNotifier;
 
   /// Whether selection handles are visible.
   ///
@@ -254,6 +258,7 @@ class EditorTextSelectionOverlay {
           selectionControls: selectionCtrls,
           position: position,
           dragStartBehavior: dragStartBehavior,
+          dragOffsetNotifier: dragOffsetNotifier,
         ));
   }
 
@@ -348,10 +353,10 @@ class EditorTextSelectionOverlay {
     _handles = <OverlayEntry>[
       OverlayEntry(
           builder: (context) =>
-              _buildHandle(context, _TextSelectionHandlePosition.start)),
+          _buildHandle(context, _TextSelectionHandlePosition.start)),
       OverlayEntry(
           builder: (context) =>
-              _buildHandle(context, _TextSelectionHandlePosition.end)),
+          _buildHandle(context, _TextSelectionHandlePosition.end)),
     ];
 
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
@@ -379,6 +384,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
     required this.onSelectionHandleTapped,
     required this.selectionControls,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.dragOffsetNotifier,
   });
 
   final TextSelection selection;
@@ -390,6 +396,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   final VoidCallback? onSelectionHandleTapped;
   final TextSelectionControls selectionControls;
   final DragStartBehavior dragStartBehavior;
+  final ValueNotifier<Offset?>? dragOffsetNotifier;
 
   @override
   _TextSelectionHandleOverlayState createState() =>
@@ -450,6 +457,7 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleDragStart(DragStartDetails details) {
+    widget.dragOffsetNotifier?.value = details.globalPosition;
     final textPosition = widget.position == _TextSelectionHandlePosition.start
         ? widget.selection.base
         : widget.selection.extent;
@@ -458,10 +466,16 @@ class _TextSelectionHandleOverlayState
     _dragPosition = details.globalPosition + Offset(0, -handleSize.height);
   }
 
+  void _handleDragEnd(DragEndDetails details) {
+    // when the drag is complete, we need to clear the drag offset
+    widget.dragOffsetNotifier?.value = null;
+  }
+
   void _handleDragUpdate(DragUpdateDetails details) {
+    widget.dragOffsetNotifier?.value = details.globalPosition;
     _dragPosition += details.delta;
     final position =
-        widget.renderObject.getPositionForOffset(details.globalPosition);
+    widget.renderObject.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
@@ -474,17 +488,17 @@ class _TextSelectionHandleOverlayState
       case _TextSelectionHandlePosition.start:
         newSelection = TextSelection(
           baseOffset:
-              isNormalized ? position.offset : widget.selection.baseOffset,
+          isNormalized ? position.offset : widget.selection.baseOffset,
           extentOffset:
-              isNormalized ? widget.selection.extentOffset : position.offset,
+          isNormalized ? widget.selection.extentOffset : position.offset,
         );
         break;
       case _TextSelectionHandlePosition.end:
         newSelection = TextSelection(
           baseOffset:
-              isNormalized ? widget.selection.baseOffset : position.offset,
+          isNormalized ? widget.selection.baseOffset : position.offset,
           extentOffset:
-              isNormalized ? position.offset : widget.selection.extentOffset,
+          isNormalized ? position.offset : widget.selection.extentOffset,
         );
         break;
     }
@@ -537,7 +551,7 @@ class _TextSelectionHandleOverlayState
         : widget.selection.extent;
     final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
     final handleAnchor =
-        widget.selectionControls.getHandleAnchor(type!, lineHeight);
+    widget.selectionControls.getHandleAnchor(type!, lineHeight);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
 
     final handleRect = Rect.fromLTWH(
@@ -574,6 +588,7 @@ class _TextSelectionHandleOverlayState
             dragStartBehavior: widget.dragStartBehavior,
             onPanStart: _handleDragStart,
             onPanUpdate: _handleDragUpdate,
+            onPanEnd: _handleDragEnd,
             onTap: _handleTap,
             child: Padding(
               padding: EdgeInsets.only(
@@ -648,6 +663,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionEnd,
     this.behavior,
     this.detectWordBoundary = true,
+    this.dragOffsetNotifier,
     super.key,
   });
 
@@ -725,6 +741,8 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
 
   final bool detectWordBoundary;
 
+  final ValueNotifier<Offset?>? dragOffsetNotifier;
+
   @override
   State<StatefulWidget> createState() =>
       _EditorTextSelectionGestureDetectorState();
@@ -743,11 +761,44 @@ class _EditorTextSelectionGestureDetectorState
   // _isDoubleTap for mouse right click
   bool _isSecondaryDoubleTap = false;
 
+  // The last offset of the drag gesture.
+  Offset? _magnifierPosition;
+
+  @override
+  @override
+  void initState() {
+    // when the drag offset changes (from handle drag or 1st selection update the magnifier)
+    widget.dragOffsetNotifier?.addListener(_dragOffsetListener);
+    super.initState();
+  }
+
   @override
   void dispose() {
     _doubleTapTimer?.cancel();
     _dragUpdateThrottleTimer?.cancel();
+    widget.dragOffsetNotifier?.removeListener(_dragOffsetListener);
     super.dispose();
+  }
+
+  // update magnifier location (hide if null) - this listener is called during a build phase
+  // when selection handles are being dragged, so update during the next build
+  void _dragOffsetListener() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Offset? position;
+
+      final globalPosition = widget.dragOffsetNotifier?.value;
+
+      if (globalPosition != null) {
+        final renderBox = context.findRenderObject()! as RenderBox;
+        position = renderBox.globalToLocal(globalPosition);
+      }
+
+      if (mounted) {
+        setState(() {
+          _magnifierPosition = position;
+        });
+      }
+    });
   }
 
   // The down handler is force-run on success of a single tap and optimistically
@@ -820,6 +871,7 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragStart(DragStartDetails details) {
     assert(_lastDragStartDetails == null);
     _lastDragStartDetails = details;
+    widget.dragOffsetNotifier?.value = details.globalPosition;
     widget.onDragSelectionStart?.call(details);
   }
 
@@ -840,6 +892,7 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragUpdateThrottled() {
     assert(_lastDragStartDetails != null);
     assert(_lastDragUpdateDetails != null);
+    widget.dragOffsetNotifier?.value = _lastDragUpdateDetails?.globalPosition;
     if (widget.onDragSelectionUpdate != null) {
       widget.onDragSelectionUpdate!(
           //_lastDragStartDetails!,
@@ -879,18 +932,21 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleLongPressStart(LongPressStartDetails details) {
     if (!_isDoubleTap) {
+      widget.dragOffsetNotifier?.value = details.globalPosition;
       widget.onSingleLongTapStart?.call(details);
     }
   }
 
   void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
     if (!_isDoubleTap) {
+      widget.dragOffsetNotifier?.value = details.globalPosition;
       widget.onSingleLongTapMoveUpdate?.call(details);
     }
   }
 
   void _handleLongPressEnd(LongPressEndDetails details) {
     if (!_isDoubleTap) {
+      widget.dragOffsetNotifier?.value = null;
       widget.onSingleLongTapEnd?.call(details);
     }
     _isDoubleTap = false;
@@ -974,7 +1030,7 @@ class _EditorTextSelectionGestureDetectorState
         (instance) {
           instance
             ..onStart =
-                widget.onForcePressStart != null ? _forcePressStarted : null
+            widget.onForcePressStart != null ? _forcePressStarted : null
             ..onEnd = widget.onForcePressEnd != null ? _forcePressEnded : null;
         },
       );
@@ -984,7 +1040,42 @@ class _EditorTextSelectionGestureDetectorState
       gestures: gestures,
       excludeFromSemantics: true,
       behavior: widget.behavior,
-      child: widget.child,
+      child: Stack(
+        children: [
+          widget.child,
+          if (_magnifierPosition != null)
+            Builder(builder: (context) {
+              final position = _magnifierPosition!.translate(-60, -80);
+              return Positioned(
+                top: position.dy,
+                left: position.dx,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  child: RawMagnifier(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: MagnifierDecoration(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shadows: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(3, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    size: const Size(100, 45),
+                    focalPointOffset: const Offset(5, 55),
+                    magnificationScale: 1.3,
+                  ),
+                ),
+              );
+            }),
+        ],
+      ),
     );
   }
 }

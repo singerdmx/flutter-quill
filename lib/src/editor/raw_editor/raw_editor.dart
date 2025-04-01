@@ -11,6 +11,7 @@ class QuillRawEditor extends StatefulWidget {
   QuillRawEditor({
     required this.config,
     required this.controller,
+    this.dragOffsetNotifier,
     super.key,
   })  : assert(config.maxHeight == null || config.maxHeight! > 0,
             'maxHeight cannot be null'),
@@ -24,6 +25,7 @@ class QuillRawEditor extends StatefulWidget {
 
   final QuillController controller;
   final QuillRawEditorConfig config;
+  ValueNotifier<Offset?>? dragOffsetNotifier;
 
   @override
   State<StatefulWidget> createState() => QuillRawEditorState();
