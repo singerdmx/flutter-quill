@@ -218,6 +218,7 @@ class EditorTextSelectionOverlay {
   /// To hide the whole overlay, see [hide].
   void hideToolbar() {
     assert(toolbar != null);
+    dragOffsetNotifier?.removeListener(_dragOffsetListener);
     toolbar!.remove();
     toolbar = null;
   }
@@ -226,7 +227,13 @@ class EditorTextSelectionOverlay {
   void showToolbar() {
     assert(toolbar == null);
     if (contextMenuBuilder == null) return;
+    dragOffsetNotifier?.addListener(_dragOffsetListener);
     toolbar = OverlayEntry(builder: (context) {
+      // when the dragOffsetNotifier is not null and the value is not null
+      // the magnifier is being shown, so we don't want to show the context menu
+      if (dragOffsetNotifier?.value != null) {
+        return Container();
+      }
       return contextMenuBuilder!(context);
     });
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
@@ -235,6 +242,13 @@ class EditorTextSelectionOverlay {
     // make sure handles are visible as well
     if (_handles == null) {
       showHandles();
+    }
+  }
+
+  // after dragging and magnifier is removed, restore the context menu
+  void _dragOffsetListener() {
+    if (dragOffsetNotifier?.value == null) {
+      toolbar?.markNeedsBuild();
     }
   }
 
