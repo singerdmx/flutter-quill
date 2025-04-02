@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Allow selection in read only mode
+- Display magnifier when dragging on iOS/Android
+- Fixes [#2518](https://github.com/singerdmx/flutter-quill/pull/2518)
+
 ## [11.2.0] - 2025-03-26
 
 ### Added 
