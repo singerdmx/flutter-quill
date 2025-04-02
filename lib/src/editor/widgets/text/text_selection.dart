@@ -779,7 +779,6 @@ class _EditorTextSelectionGestureDetectorState
   Offset? _magnifierPosition;
 
   @override
-  @override
   void initState() {
     // when the drag offset changes (from handle drag or 1st selection update the magnifier)
     widget.dragOffsetNotifier?.addListener(_dragOffsetListener);
