@@ -367,10 +367,10 @@ class EditorTextSelectionOverlay {
     _handles = <OverlayEntry>[
       OverlayEntry(
           builder: (context) =>
-          _buildHandle(context, _TextSelectionHandlePosition.start)),
+              _buildHandle(context, _TextSelectionHandlePosition.start)),
       OverlayEntry(
           builder: (context) =>
-          _buildHandle(context, _TextSelectionHandlePosition.end)),
+              _buildHandle(context, _TextSelectionHandlePosition.end)),
     ];
 
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
@@ -489,7 +489,7 @@ class _TextSelectionHandleOverlayState
     widget.dragOffsetNotifier?.value = details.globalPosition;
     _dragPosition += details.delta;
     final position =
-    widget.renderObject.getPositionForOffset(details.globalPosition);
+        widget.renderObject.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
@@ -502,17 +502,17 @@ class _TextSelectionHandleOverlayState
       case _TextSelectionHandlePosition.start:
         newSelection = TextSelection(
           baseOffset:
-          isNormalized ? position.offset : widget.selection.baseOffset,
+              isNormalized ? position.offset : widget.selection.baseOffset,
           extentOffset:
-          isNormalized ? widget.selection.extentOffset : position.offset,
+              isNormalized ? widget.selection.extentOffset : position.offset,
         );
         break;
       case _TextSelectionHandlePosition.end:
         newSelection = TextSelection(
           baseOffset:
-          isNormalized ? widget.selection.baseOffset : position.offset,
+              isNormalized ? widget.selection.baseOffset : position.offset,
           extentOffset:
-          isNormalized ? position.offset : widget.selection.extentOffset,
+              isNormalized ? position.offset : widget.selection.extentOffset,
         );
         break;
     }
@@ -565,7 +565,7 @@ class _TextSelectionHandleOverlayState
         : widget.selection.extent;
     final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
     final handleAnchor =
-    widget.selectionControls.getHandleAnchor(type!, lineHeight);
+        widget.selectionControls.getHandleAnchor(type!, lineHeight);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
 
     final handleRect = Rect.fromLTWH(
@@ -1045,7 +1045,7 @@ class _EditorTextSelectionGestureDetectorState
         (instance) {
           instance
             ..onStart =
-            widget.onForcePressStart != null ? _forcePressStarted : null
+                widget.onForcePressStart != null ? _forcePressStarted : null
             ..onEnd = widget.onForcePressEnd != null ? _forcePressEnded : null;
         },
       );
