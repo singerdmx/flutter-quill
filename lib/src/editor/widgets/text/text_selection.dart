@@ -959,9 +959,11 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleLongPressEnd(LongPressEndDetails details) {
     if (!_isDoubleTap) {
-      widget.dragOffsetNotifier?.value = null;
       widget.onSingleLongTapEnd?.call(details);
     }
+    // after a long press (from double tap or drag) make sure
+    // magnifier is removed
+    widget.dragOffsetNotifier?.value = null;
     _isDoubleTap = false;
   }
 
