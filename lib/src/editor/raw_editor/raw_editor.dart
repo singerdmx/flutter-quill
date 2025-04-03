@@ -25,7 +25,7 @@ class QuillRawEditor extends StatefulWidget {
 
   final QuillController controller;
   final QuillRawEditorConfig config;
-  ValueNotifier<Offset?>? dragOffsetNotifier;
+  final ValueNotifier<Offset?>? dragOffsetNotifier;
 
   @override
   State<StatefulWidget> createState() => QuillRawEditorState();

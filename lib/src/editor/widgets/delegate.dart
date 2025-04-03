@@ -380,8 +380,8 @@ class EditorTextSelectionGestureDetectorBuilder {
       onDragSelectionEnd: onDragSelectionEnd,
       behavior: behavior,
       detectWordBoundary: detectWordBoundary,
-      child: child,
       dragOffsetNotifier: dragOffsetNotifier,
+      child: child,
     );
   }
 }
