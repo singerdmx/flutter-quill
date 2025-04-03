@@ -196,6 +196,9 @@ class QuillEditorState extends State<QuillEditor>
   QuillEditorConfig get configurations => widget.config;
   QuillEditorConfig get config => widget.config;
 
+  // The offset of the drag gesture - where to display the magnifier
+  final dragOffsetNotifier = isMobileApp ? ValueNotifier<Offset?>(null) : null;
+
   @override
   void initState() {
     super.initState();
@@ -260,6 +263,7 @@ class QuillEditorState extends State<QuillEditor>
     final child = QuillRawEditor(
       key: _editorKey,
       controller: controller,
+      dragOffsetNotifier: dragOffsetNotifier,
       config: QuillRawEditorConfig(
         characterShortcutEvents: widget.config.characterShortcutEvents,
         spaceShortcutEvents: widget.config.spaceShortcutEvents,
@@ -330,6 +334,7 @@ class QuillEditorState extends State<QuillEditor>
             behavior: HitTestBehavior.translucent,
             detectWordBoundary: config.detectWordBoundary,
             child: child,
+            dragOffsetNotifier: dragOffsetNotifier,
           )
         : child;
 

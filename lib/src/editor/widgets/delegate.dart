@@ -361,6 +361,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     required Widget child,
     Key? key,
     bool detectWordBoundary = true,
+    ValueNotifier<Offset?>? dragOffsetNotifier,
   }) {
     return EditorTextSelectionGestureDetector(
       key: key,
@@ -379,6 +380,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       onDragSelectionEnd: onDragSelectionEnd,
       behavior: behavior,
       detectWordBoundary: detectWordBoundary,
+      dragOffsetNotifier: dragOffsetNotifier,
       child: child,
     );
   }
