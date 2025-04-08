@@ -27,6 +27,7 @@ export 'src/editor/style_widgets/style_widgets.dart';
 export 'src/editor/widgets/cursor.dart';
 export 'src/editor/widgets/default_styles.dart';
 export 'src/editor/widgets/link.dart';
+export 'src/editor/widgets/text/magnifier.dart';
 export 'src/editor/widgets/text/utils/text_block_utils.dart';
 export 'src/editor_toolbar_controller_shared/copy_cut_service/copy_cut_service.dart';
 export 'src/editor_toolbar_controller_shared/copy_cut_service/copy_cut_service_provider.dart';
