@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 import '../../../document/nodes/node.dart';
 import '../../editor.dart';
+import 'magnifier.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;
@@ -678,6 +679,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.behavior,
     this.detectWordBoundary = true,
     this.dragOffsetNotifier,
+    this.quillMagnifierBuilder,
     super.key,
   });
 
@@ -756,6 +758,8 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
   final bool detectWordBoundary;
 
   final ValueNotifier<Offset?>? dragOffsetNotifier;
+
+  final QuillMagnifierBuilder? quillMagnifierBuilder;
 
   @override
   State<StatefulWidget> createState() =>
@@ -1055,42 +1059,15 @@ class _EditorTextSelectionGestureDetectorState
       gestures: gestures,
       excludeFromSemantics: true,
       behavior: widget.behavior,
-      child: Stack(
-        children: [
-          widget.child,
-          if (_magnifierPosition != null)
-            Builder(builder: (context) {
-              final position = _magnifierPosition!.translate(-60, -80);
-              return Positioned(
-                top: position.dy,
-                left: position.dx,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  child: RawMagnifier(
-                    clipBehavior: Clip.hardEdge,
-                    decoration: MagnifierDecoration(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      shadows: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(3, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    size: const Size(100, 45),
-                    focalPointOffset: const Offset(5, 55),
-                    magnificationScale: 1.3,
-                  ),
-                ),
-              );
-            }),
-        ],
-      ),
+      child: (widget.quillMagnifierBuilder == null)
+          ? widget.child
+          : Stack(
+              children: [
+                widget.child,
+                if (_magnifierPosition != null)
+                  widget.quillMagnifierBuilder!(_magnifierPosition!)
+              ],
+            ),
     );
   }
 }

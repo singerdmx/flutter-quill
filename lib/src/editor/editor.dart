@@ -309,6 +309,7 @@ class QuillEditorState extends State<QuillEditor>
         scrollPhysics: config.scrollPhysics,
         embedBuilder: _getEmbedBuilder,
         textSpanBuilder: config.textSpanBuilder,
+        quillMagnifierBuilder: config.quillMagnifierBuilder,
         linkActionPickerDelegate: config.linkActionPickerDelegate,
         customStyleBuilder: config.customStyleBuilder,
         customRecognizerBuilder: config.customRecognizerBuilder,
@@ -335,6 +336,7 @@ class QuillEditorState extends State<QuillEditor>
             detectWordBoundary: config.detectWordBoundary,
             child: child,
             dragOffsetNotifier: dragOffsetNotifier,
+            quillMagnifierBuilder: config.quillMagnifierBuilder,
           )
         : child;
 
