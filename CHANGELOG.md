@@ -10,9 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Allow selection in read only mode
-- Display magnifier when dragging on iOS/Android
-- Fixes [#2518](https://github.com/singerdmx/flutter-quill/pull/2518)
+### Fixed
+
+- Can't select text when `readOnly` is true [#2529](https://github.com/singerdmx/flutter-quill/pull/2529).
+
+### Added
+
+- Display magnifier using `RawMagnifier` widget when dragging on iOS/Android [#2529](https://github.com/singerdmx/flutter-quill/pull/2529).
 
 ## [11.2.0] - 2025-03-26
 
