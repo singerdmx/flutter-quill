@@ -196,7 +196,7 @@ class QuillEditorState extends State<QuillEditor>
   QuillEditorConfig get configurations => widget.config;
   QuillEditorConfig get config => widget.config;
 
-  // The offset of the drag gesture - where to display the magnifier
+  /// {@macro drag_offset_notifier}
   final dragOffsetNotifier = isMobileApp ? ValueNotifier<Offset?>(null) : null;
 
   @override

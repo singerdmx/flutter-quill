@@ -26,6 +26,7 @@ class QuillRawEditor extends StatefulWidget {
   final QuillController controller;
   final QuillRawEditorConfig config;
 
+  /// {@template drag_offset_notifier}
   /// dragOffsetNotifier - Only used on iOS and Android
   ///
   /// [QuillRawEditor] contains a gesture detector [EditorTextSelectionGestureDetector]
@@ -44,6 +45,7 @@ class QuillRawEditor extends StatefulWidget {
   /// the correct location (or hide the magnifier if null). [EditorTextSelectionOverlay] will
   /// use the value of the dragOffsetNotifier to hide the context menu when the magnifier is
   /// displayed and show the context menu when dragging is complete.
+  /// {@endtemplate}
   final ValueNotifier<Offset?>? dragOffsetNotifier;
 
   @override
