@@ -14,8 +14,8 @@ import '../raw_editor/raw_editor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/delegate.dart';
 import '../widgets/link.dart';
-import '../widgets/text/utils/text_block_utils.dart';
 import '../widgets/text/magnifier.dart';
+import '../widgets/text/utils/text_block_utils.dart';
 import 'search_config.dart';
 
 // IMPORTANT For project authors: The QuillEditorConfig.copyWith()
