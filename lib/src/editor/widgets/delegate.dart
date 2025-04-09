@@ -8,6 +8,7 @@ import '../../document/attribute.dart';
 import '../../document/nodes/leaf.dart';
 import '../editor.dart';
 import '../raw_editor/raw_editor.dart';
+import 'text/magnifier.dart';
 import 'text/text_selection.dart';
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
@@ -361,6 +362,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     required Widget child,
     Key? key,
     bool detectWordBoundary = true,
+    ValueNotifier<Offset?>? dragOffsetNotifier,
+    QuillMagnifierBuilder? quillMagnifierBuilder,
   }) {
     return EditorTextSelectionGestureDetector(
       key: key,
@@ -379,6 +382,8 @@ class EditorTextSelectionGestureDetectorBuilder {
       onDragSelectionEnd: onDragSelectionEnd,
       behavior: behavior,
       detectWordBoundary: detectWordBoundary,
+      dragOffsetNotifier: dragOffsetNotifier,
+      quillMagnifierBuilder: quillMagnifierBuilder,
       child: child,
     );
   }
