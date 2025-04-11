@@ -403,7 +403,11 @@ class QuillEditorState extends State<QuillEditor>
   }
 
   void _requestKeyboard() {
-    _requireEditorCurrentState.requestKeyboard();
+    if (widget.focusNode.hasFocus) {
+      _requireEditorCurrentState.requestKeyboard();
+    } else {
+      widget.focusNode.requestFocus();
+    }
   }
 }
 
