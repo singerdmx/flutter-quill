@@ -140,7 +140,7 @@ class QuillEditorConfig {
   /// A handler for keys that are pressed when the editor is focused.
   ///
   /// This feature is supported on **desktop devices** and **mobile devices with a
-  /// hardware keyboard connected.*** It is not supported by virtual on-screen
+  /// hardware keyboard connected.** It is not supported by virtual on-screen
   /// keyboards of touch devices.
   ///
   /// # Example:
