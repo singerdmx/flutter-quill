@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 import '../../../document/nodes/node.dart';
 import '../../editor.dart';
+import 'magnifier.dart';
 
 TextSelection localSelection(Node node, TextSelection selection, fromParent) {
   final base = fromParent ? node.offset : node.documentOffset;
@@ -76,6 +77,7 @@ class EditorTextSelectionOverlay {
     this.onSelectionHandleTapped,
     this.dragStartBehavior = DragStartBehavior.start,
     this.handlesVisible = false,
+    this.dragOffsetNotifier,
   }) {
     // Clipboard status is only checked on first instance of
     // ClipboardStatusNotifier
@@ -92,6 +94,9 @@ class EditorTextSelectionOverlay {
   }
 
   TextEditingValue value;
+
+  /// The offset of the drag handle used to position the magnifier.
+  ValueNotifier<Offset?>? dragOffsetNotifier;
 
   /// Whether selection handles are visible.
   ///
@@ -214,6 +219,7 @@ class EditorTextSelectionOverlay {
   /// To hide the whole overlay, see [hide].
   void hideToolbar() {
     assert(toolbar != null);
+    dragOffsetNotifier?.removeListener(_dragOffsetListener);
     toolbar!.remove();
     toolbar = null;
   }
@@ -222,7 +228,13 @@ class EditorTextSelectionOverlay {
   void showToolbar() {
     assert(toolbar == null);
     if (contextMenuBuilder == null) return;
+    dragOffsetNotifier?.addListener(_dragOffsetListener);
     toolbar = OverlayEntry(builder: (context) {
+      // when the dragOffsetNotifier is not null and the value is not null
+      // the magnifier is being shown, so we don't want to show the context menu
+      if (dragOffsetNotifier?.value != null) {
+        return Container();
+      }
       return contextMenuBuilder!(context);
     });
     Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
@@ -231,6 +243,13 @@ class EditorTextSelectionOverlay {
     // make sure handles are visible as well
     if (_handles == null) {
       showHandles();
+    }
+  }
+
+  // after dragging and magnifier is removed, restore the context menu
+  void _dragOffsetListener() {
+    if (dragOffsetNotifier?.value == null) {
+      toolbar?.markNeedsBuild();
     }
   }
 
@@ -254,6 +273,7 @@ class EditorTextSelectionOverlay {
           selectionControls: selectionCtrls,
           position: position,
           dragStartBehavior: dragStartBehavior,
+          dragOffsetNotifier: dragOffsetNotifier,
         ));
   }
 
@@ -379,6 +399,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
     required this.onSelectionHandleTapped,
     required this.selectionControls,
     this.dragStartBehavior = DragStartBehavior.start,
+    this.dragOffsetNotifier,
   });
 
   final TextSelection selection;
@@ -390,6 +411,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   final VoidCallback? onSelectionHandleTapped;
   final TextSelectionControls selectionControls;
   final DragStartBehavior dragStartBehavior;
+  final ValueNotifier<Offset?>? dragOffsetNotifier;
 
   @override
   _TextSelectionHandleOverlayState createState() =>
@@ -450,6 +472,7 @@ class _TextSelectionHandleOverlayState
   }
 
   void _handleDragStart(DragStartDetails details) {
+    widget.dragOffsetNotifier?.value = details.globalPosition;
     final textPosition = widget.position == _TextSelectionHandlePosition.start
         ? widget.selection.base
         : widget.selection.extent;
@@ -458,7 +481,13 @@ class _TextSelectionHandleOverlayState
     _dragPosition = details.globalPosition + Offset(0, -handleSize.height);
   }
 
+  void _handleDragEnd(DragEndDetails details) {
+    // when the drag is complete, we need to clear the drag offset
+    widget.dragOffsetNotifier?.value = null;
+  }
+
   void _handleDragUpdate(DragUpdateDetails details) {
+    widget.dragOffsetNotifier?.value = details.globalPosition;
     _dragPosition += details.delta;
     final position =
         widget.renderObject.getPositionForOffset(details.globalPosition);
@@ -574,6 +603,7 @@ class _TextSelectionHandleOverlayState
             dragStartBehavior: widget.dragStartBehavior,
             onPanStart: _handleDragStart,
             onPanUpdate: _handleDragUpdate,
+            onPanEnd: _handleDragEnd,
             onTap: _handleTap,
             child: Padding(
               padding: EdgeInsets.only(
@@ -648,6 +678,8 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
     this.onDragSelectionEnd,
     this.behavior,
     this.detectWordBoundary = true,
+    this.dragOffsetNotifier,
+    this.quillMagnifierBuilder,
     super.key,
   });
 
@@ -725,6 +757,10 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
 
   final bool detectWordBoundary;
 
+  final ValueNotifier<Offset?>? dragOffsetNotifier;
+
+  final QuillMagnifierBuilder? quillMagnifierBuilder;
+
   @override
   State<StatefulWidget> createState() =>
       _EditorTextSelectionGestureDetectorState();
@@ -743,11 +779,43 @@ class _EditorTextSelectionGestureDetectorState
   // _isDoubleTap for mouse right click
   bool _isSecondaryDoubleTap = false;
 
+  // The last offset of the drag gesture.
+  Offset? _magnifierPosition;
+
+  @override
+  void initState() {
+    // when the drag offset changes (from handle drag or 1st selection update the magnifier)
+    widget.dragOffsetNotifier?.addListener(_dragOffsetListener);
+    super.initState();
+  }
+
   @override
   void dispose() {
     _doubleTapTimer?.cancel();
     _dragUpdateThrottleTimer?.cancel();
+    widget.dragOffsetNotifier?.removeListener(_dragOffsetListener);
     super.dispose();
+  }
+
+  // update magnifier location (hide if null) - this listener is called during a build phase
+  // when selection handles are being dragged, so update during the next build
+  void _dragOffsetListener() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Offset? position;
+
+      final globalPosition = widget.dragOffsetNotifier?.value;
+
+      if (globalPosition != null) {
+        final renderBox = context.findRenderObject()! as RenderBox;
+        position = renderBox.globalToLocal(globalPosition);
+      }
+
+      if (mounted) {
+        setState(() {
+          _magnifierPosition = position;
+        });
+      }
+    });
   }
 
   // The down handler is force-run on success of a single tap and optimistically
@@ -820,6 +888,7 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragStart(DragStartDetails details) {
     assert(_lastDragStartDetails == null);
     _lastDragStartDetails = details;
+    widget.dragOffsetNotifier?.value = details.globalPosition;
     widget.onDragSelectionStart?.call(details);
   }
 
@@ -840,6 +909,7 @@ class _EditorTextSelectionGestureDetectorState
   void _handleDragUpdateThrottled() {
     assert(_lastDragStartDetails != null);
     assert(_lastDragUpdateDetails != null);
+    widget.dragOffsetNotifier?.value = _lastDragUpdateDetails?.globalPosition;
     if (widget.onDragSelectionUpdate != null) {
       widget.onDragSelectionUpdate!(
           //_lastDragStartDetails!,
@@ -879,12 +949,14 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleLongPressStart(LongPressStartDetails details) {
     if (!_isDoubleTap) {
+      widget.dragOffsetNotifier?.value = details.globalPosition;
       widget.onSingleLongTapStart?.call(details);
     }
   }
 
   void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
     if (!_isDoubleTap) {
+      widget.dragOffsetNotifier?.value = details.globalPosition;
       widget.onSingleLongTapMoveUpdate?.call(details);
     }
   }
@@ -893,6 +965,9 @@ class _EditorTextSelectionGestureDetectorState
     if (!_isDoubleTap) {
       widget.onSingleLongTapEnd?.call(details);
     }
+    // after a long press (from double tap or drag) make sure
+    // magnifier is removed
+    widget.dragOffsetNotifier?.value = null;
     _isDoubleTap = false;
   }
 
@@ -984,7 +1059,15 @@ class _EditorTextSelectionGestureDetectorState
       gestures: gestures,
       excludeFromSemantics: true,
       behavior: widget.behavior,
-      child: widget.child,
+      child: (widget.quillMagnifierBuilder == null)
+          ? widget.child
+          : Stack(
+              children: [
+                widget.child,
+                if (_magnifierPosition != null)
+                  widget.quillMagnifierBuilder!(_magnifierPosition!)
+              ],
+            ),
     );
   }
 }
