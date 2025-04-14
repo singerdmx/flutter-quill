@@ -6,14 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
-
-import '../../delta/delta_diff.dart';
-import '../../document/document.dart';
-import '../editor.dart';
-import 'raw_editor.dart';
+import '../raw_editor.dart';
+import 'ime/ime_internals.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
-    implements TextInputClient {
+    implements DeltaTextInputClient {
   TextInputConnection? _textInputConnection;
   TextEditingValue? __lastKnownRemoteTextEditingValue;
 
@@ -82,6 +79,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         TextInputConfiguration(
           inputType: TextInputType.multiline,
           readOnly: widget.config.readOnly,
+          enableDeltaModel: true,
+          enableIMEPersonalizedLearning: true,
           inputAction: widget.config.textInputAction,
           enableSuggestions: !widget.config.readOnly,
           keyboardAppearance: createKeyboardAppearance(),
@@ -115,6 +114,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.show();
   }
 
+  // windows
   void _updateComposingRectIfNeeded() {
     final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
         textEditingValue.composing;
@@ -131,6 +131,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
   }
 
+  // macos
   void _updateCaretRectIfNeeded() {
     if (hasConnection) {
       if (!dirty &&
@@ -202,43 +203,43 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   AutofillScope? get currentAutofillScope => null;
 
   @override
-  void updateEditingValue(TextEditingValue value) {
-    if (!shouldCreateInputConnection) {
+  void updateEditingValue(TextEditingValue value) {}
+
+  @override
+  void updateEditingValueWithDeltas(List<TextEditingDelta> textEditingDeltas) {
+    if (!shouldCreateInputConnection || textEditingDeltas.isEmpty) {
       return;
     }
+    _apply(textEditingDeltas);
+  }
 
-    if (_lastKnownRemoteTextEditingValue == value) {
-      // There is no difference between this value and the last known value.
-      return;
-    }
-
-    // Check if only composing range changed.
-    if (_lastKnownRemoteTextEditingValue!.text == value.text &&
-        _lastKnownRemoteTextEditingValue!.selection == value.selection) {
-      // This update only modifies composing range. Since we don't keep track
-      // of composing range we just need to update last known value here.
-      // This check fixes an issue on Android when it sends
-      // composing updates separately from regular changes for text and
-      // selection.
-      _lastKnownRemoteTextEditingValue = value;
-      return;
-    }
-
-    final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
-    _lastKnownRemoteTextEditingValue = value;
-    final oldText = effectiveLastKnownValue.text;
-    final text = value.text;
-    final cursorPosition = value.selection.extentOffset;
-    final diff = getDiff(oldText, text, cursorPosition);
-    if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-      widget.controller.updateSelection(value.selection, ChangeSource.local);
-    } else {
-      widget.controller.replaceText(
-        diff.start,
-        diff.deleted.length,
-        diff.inserted,
-        value.selection,
-      );
+  void _apply(List<TextEditingDelta> deltas) {
+    for (final delta in deltas) {
+      // updates _lastKnownRemoteTextEditingValue to avoid issues
+      updateLastKnownRemoteTextEditingValueWithDeltas(delta);
+      if (delta is TextEditingDeltaInsertion) {
+        onInsert(
+          delta,
+          widget.controller,
+          widget.config.characterShortcutEvents,
+        );
+      } else if (delta is TextEditingDeltaDeletion) {
+        onDelete(
+          delta,
+          widget.controller,
+        );
+      } else if (delta is TextEditingDeltaReplacement) {
+        onReplace(
+          delta,
+          widget.controller,
+          widget.config.characterShortcutEvents,
+        );
+      } else if (delta is TextEditingDeltaNonTextUpdate) {
+        onNonTextUpdate(
+          delta,
+          widget.controller,
+        );
+      }
     }
   }
 
@@ -379,6 +380,15 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.connectionClosedReceived();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
+  }
+
+  @visibleForTesting
+  @internal
+  void updateLastKnownRemoteTextEditingValueWithDeltas(TextEditingDelta delta) {
+    // Apply the deltas to the previous platform-side IME value, to find out
+    // what the platform thinks the IME value is
+    _lastKnownRemoteTextEditingValue =
+        delta.apply(_lastKnownRemoteTextEditingValue!);
   }
 
   void _updateSizeAndTransform() {

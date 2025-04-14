@@ -31,12 +31,12 @@ import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_selection.dart';
+import 'input/raw_editor_state_input_client_mixin.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcut_actions_manager.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
 import 'raw_editor.dart';
 import 'raw_editor_render_object.dart';
 import 'raw_editor_state_selection_delegate_mixin.dart';
-import 'raw_editor_state_text_input_client_mixin.dart';
 import 'scribble_focusable.dart';
 
 class QuillRawEditorState extends EditorState
@@ -486,7 +486,6 @@ class QuillRawEditorState extends EditorState
         child: EditorKeyboardShortcuts(
           actions: _shortcutActionsManager.actions,
           onKeyPressed: widget.config.onKeyPressed,
-          characterEvents: widget.config.characterShortcutEvents,
           spaceEvents: widget.config.spaceShortcutEvents,
           constraints: constraints,
           focusNode: widget.config.focusNode,
