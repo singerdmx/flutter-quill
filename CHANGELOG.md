@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+ - Move focus request out of requestKeyboard to avoid focus ping pong between editors.
+
 ## [11.2.0] - 2025-03-26
 
 ### Added 
