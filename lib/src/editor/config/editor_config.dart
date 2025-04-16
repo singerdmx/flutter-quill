@@ -81,6 +81,7 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.displayNativeContextMenuItems = false,
   });
 
   @experimental
@@ -454,6 +455,32 @@ class QuillEditorConfig {
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
 
+  /// The native context menu items like `Translate` and `Search` on Android.
+  ///
+  /// This feature is platform-specific and will
+  /// be silently ignored on platforms other than Android.
+  ///
+  /// To use this feature, ensure the following is added in your `AndroidManifest.xml`:
+  ///
+  /// ```xml
+  /// <queries>
+  ///  <intent>
+  ///      <action android:name="android.intent.action.PROCESS_TEXT"/>
+  ///      <data android:mimeType="text/plain"/>
+  ///  </intent>
+  /// </queries>
+  /// ```
+  ///
+  /// This is the case for newly created Flutter projects.
+  ///
+  /// If the 'queries' element is not found, this config will be ignored.
+  /// For more details, refer to [DefaultProcessTextService](https://api.flutter.dev/flutter/services/DefaultProcessTextService-class.html).
+  ///
+  /// This is always ignored when [contextMenuBuilder] is not null.
+  ///
+  /// Defaults to `false`.
+  final bool displayNativeContextMenuItems;
+
   // IMPORTANT For project authors: The copyWith()
   // should be manually updated each time we add or remove a property
 
@@ -514,6 +541,7 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? displayNativeContextMenuItems,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
@@ -583,6 +611,8 @@ class QuillEditorConfig {
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,
+      displayNativeContextMenuItems:
+          displayNativeContextMenuItems ?? this.displayNativeContextMenuItems,
     );
   }
 }
