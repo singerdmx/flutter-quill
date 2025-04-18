@@ -1,131 +1,21 @@
+@internal
+@visibleForTesting
+library;
+
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
-import '../../common/utils/link_validator.dart';
-import '../../editor/widgets/link.dart';
-import '../../l10n/extensions/localizations_ext.dart';
-import '../../rules/insert.dart';
-import '../base_button/base_value_button.dart';
+import '../../../common/utils/link_validator.dart';
+import '../../../editor/widgets/link.dart';
+import '../../../l10n/extensions/localizations_ext.dart';
+import '../../../rules/insert.dart';
+import '../../structs/link_dialog_action.dart';
+import '../../theme/quill_dialog_theme.dart';
 
-import '../config/buttons/link_style_options.dart';
-import '../structs/link_dialog_action.dart';
-import '../theme/quill_dialog_theme.dart';
-import 'quill_icon_button.dart';
-
-typedef QuillToolbarLinkStyleBaseButton = QuillToolbarBaseButton<
-    QuillToolbarLinkStyleButtonOptions,
-    QuillToolbarLinkStyleButtonExtraOptions>;
-
-typedef QuillToolbarLinkStyleBaseButtonState<
-        W extends QuillToolbarLinkStyleBaseButton>
-    = QuillToolbarCommonButtonState<W, QuillToolbarLinkStyleButtonOptions,
-        QuillToolbarLinkStyleButtonExtraOptions>;
-
-class QuillToolbarLinkStyleButton extends QuillToolbarLinkStyleBaseButton {
-  const QuillToolbarLinkStyleButton({
-    required super.controller,
-    super.options = const QuillToolbarLinkStyleButtonOptions(),
-
-    /// Shares common options between all buttons, prefer the [options]
-    /// over the [baseOptions].
-    super.baseOptions,
-    super.key,
-  });
-
-  @override
-  QuillToolbarLinkStyleButtonState createState() =>
-      QuillToolbarLinkStyleButtonState();
-}
-
-class QuillToolbarLinkStyleButtonState
-    extends QuillToolbarLinkStyleBaseButtonState {
-  @override
-  String get defaultTooltip => context.loc.insertURL;
-
-  void _didChangeSelection() {
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(_didChangeSelection);
-  }
-
-  @override
-  void didUpdateWidget(covariant QuillToolbarLinkStyleButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != controller) {
-      oldWidget.controller.removeListener(_didChangeSelection);
-      controller.addListener(_didChangeSelection);
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.removeListener(_didChangeSelection);
-  }
-
-  @override
-  IconData get defaultIconData => Icons.link;
-
-  @override
-  Widget build(BuildContext context) {
-    final isToggled = QuillTextLink.isSelected(controller);
-
-    final childBuilder = this.childBuilder;
-    if (childBuilder != null) {
-      return childBuilder(
-        options,
-        QuillToolbarLinkStyleButtonExtraOptions(
-          context: context,
-          controller: controller,
-          onPressed: () {
-            _openLinkDialog(context);
-            afterButtonPressed?.call();
-          },
-        ),
-      );
-    }
-    return QuillToolbarIconButton(
-      tooltip: tooltip,
-      icon: Icon(
-        iconData,
-        size: iconSize * iconButtonFactor,
-      ),
-      isSelected: isToggled,
-      onPressed: () => _openLinkDialog(context),
-      afterPressed: afterButtonPressed,
-      iconTheme: iconTheme,
-    );
-  }
-
-  Future<void> _openLinkDialog(BuildContext context) async {
-    final initialTextLink = QuillTextLink.prepare(widget.controller);
-
-    final textLink = await showDialog<QuillTextLink>(
-      context: context,
-      builder: (_) {
-        return _LinkDialog(
-          validateLink: options.validateLink,
-          // ignore: deprecated_member_use_from_same_package
-          legacyLinkRegExp: options.linkRegExp,
-          dialogTheme: options.dialogTheme,
-          text: initialTextLink.text,
-          link: initialTextLink.link,
-          action: options.linkDialogAction,
-        );
-      },
-    );
-    if (textLink != null) {
-      textLink.submit(widget.controller);
-    }
-  }
-}
-
-class _LinkDialog extends StatefulWidget {
-  const _LinkDialog({
+class LinkDialog extends StatefulWidget {
+  const LinkDialog({
     required this.validateLink,
+    super.key,
     this.dialogTheme,
     this.link,
     this.text,
@@ -141,10 +31,10 @@ class _LinkDialog extends StatefulWidget {
   final LinkDialogAction? action;
 
   @override
-  _LinkDialogState createState() => _LinkDialogState();
+  LinkDialogState createState() => LinkDialogState();
 }
 
-class _LinkDialogState extends State<_LinkDialog> {
+class LinkDialogState extends State<LinkDialog> {
   late String _link;
   late String _text;
 
@@ -217,7 +107,7 @@ class _LinkDialogState extends State<_LinkDialog> {
               autofillHints: const [AutofillHints.url],
               autocorrect: false,
               onEditingComplete: () {
-                if (!_canPress()) {
+                if (!canPress()) {
                   return;
                 }
                 _applyLink();
@@ -235,13 +125,13 @@ class _LinkDialogState extends State<_LinkDialog> {
   Widget _okButton() {
     if (widget.action != null) {
       return widget.action!.builder(
-        _canPress(),
+        canPress(),
         _applyLink,
       );
     }
 
     return TextButton(
-      onPressed: _canPress() ? _applyLink : null,
+      onPressed: canPress() ? _applyLink : null,
       child: Text(
         context.loc.ok,
         style: widget.dialogTheme?.buttonTextStyle,
@@ -256,7 +146,9 @@ class _LinkDialogState extends State<_LinkDialog> {
         legacyRegex: widget.legacyLinkRegExp,
       );
 
-  bool _canPress() {
+  @visibleForTesting
+  @internal
+  bool canPress() {
     if (_text.isEmpty || _link.isEmpty) {
       return false;
     }
