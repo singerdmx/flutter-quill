@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../flutter_quill.dart';
 import '../../../common/utils/color.dart';
 import '../../../common/utils/font.dart';
+import '../../../common/utils/link_validator.dart';
 import '../../../common/utils/platform.dart';
 import '../../../document/nodes/container.dart' as container_node;
 import '../../../document/nodes/leaf.dart' as leaf;
@@ -671,19 +672,20 @@ class _TextLineState extends State<TextLine> {
     _tapLink(link);
   }
 
-  void _tapLink(String? link) {
+  void _tapLink(final String? inputLink) {
+    var link = inputLink?.trim();
     if (link == null) {
       return;
     }
 
-    var launchUrl = widget.onLaunchUrl;
-    launchUrl ??= _launchUrl;
-
-    link = link.trim();
-    if (!(widget.customLinkPrefixes + linkPrefixes)
-        .any((linkPrefix) => link!.toLowerCase().startsWith(linkPrefix))) {
+    final isValidLink = LinkValidator.validate(link,
+        legacyAddationalLinkPrefixes: widget.customLinkPrefixes);
+    if (!isValidLink) {
       link = 'https://$link';
     }
+
+    // TODO(EchoEllet): Refactor onLaunchUrl or add a new API to give full control of the launch? See https://github.com/singerdmx/flutter-quill/issues/1776
+    final launchUrl = widget.onLaunchUrl ?? _launchUrl;
     launchUrl(link);
   }
 
