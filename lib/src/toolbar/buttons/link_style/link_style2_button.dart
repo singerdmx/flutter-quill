@@ -2,17 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-import '../../common/utils/link_validator.dart';
-import '../../common/utils/widgets.dart';
+import '../../../common/utils/link_validator.dart';
+import '../../../common/utils/widgets.dart';
 
-import '../../editor/widgets/link.dart';
-import '../../l10n/extensions/localizations_ext.dart';
-import '../base_button/base_value_button.dart';
+import '../../../editor/widgets/link.dart';
+import '../../../l10n/extensions/localizations_ext.dart';
+import '../../base_button/base_value_button.dart';
 
-import '../config/simple_toolbar_config.dart';
-import '../theme/quill_dialog_theme.dart';
+import '../../config/simple_toolbar_config.dart';
+import '../../theme/quill_dialog_theme.dart';
 
-import 'quill_icon_button.dart';
+import '../quill_icon_button.dart';
 
 typedef QuillToolbarLinkStyleBaseButton2 = QuillToolbarBaseButton<
     QuillToolbarLinkStyleButton2Options,

@@ -3,8 +3,8 @@ import 'package:meta/meta.dart';
 
 import '../buttons/hearder_style/select_header_style_buttons.dart';
 import '../buttons/hearder_style/select_header_style_dropdown_button.dart';
-import '../buttons/link_style2_button.dart';
-import '../buttons/link_style_button.dart';
+import '../buttons/link_style/link_style2_button.dart';
+import '../buttons/link_style/link_style_button.dart';
 import '../embed/embed_button_builder.dart';
 import '../structs/link_dialog_action.dart';
 import '../theme/quill_dialog_theme.dart';

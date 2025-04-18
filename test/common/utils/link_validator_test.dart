@@ -46,4 +46,60 @@ void main() {
           reason: 'Expected the link `$validLink` to be valid.');
     }
   });
+
+  test('returns false when link is empty', () {
+    expect(LinkValidator.validate(''), false);
+    expect(LinkValidator.validate('   '), false);
+  });
+
+  test('calls customValidateLink and returns the result when not null', () {
+    var customCallbackCalled = false;
+    var mockResult = false;
+
+    bool testCallback(link) {
+      customCallbackCalled = true;
+      return mockResult;
+    }
+
+    expect(LinkValidator.validate('example', customValidateLink: testCallback),
+        mockResult);
+    expect(customCallbackCalled, true);
+
+    mockResult = true;
+    expect(LinkValidator.validate('example', customValidateLink: testCallback),
+        mockResult);
+  });
+
+  test('supports legacyRegex when not null', () {
+    final exampleRegex = RegExp(r'\d{3}'); // Matches a 3-digit number
+    expect(LinkValidator.validate('link', legacyRegex: exampleRegex), false);
+    expect(LinkValidator.validate('412', legacyRegex: exampleRegex), true);
+  });
+
+  test('supports legacyAddationalLinkPrefixes', () {
+    expect(
+        LinkValidator.validate('app://example',
+            legacyAddationalLinkPrefixes: ['app://']),
+        true);
+  });
+
+  test('default linkPrefixes', () {
+    expect(LinkValidator.linkPrefixes, [
+      'mailto:',
+      'tel:',
+      'sms:',
+      'callto:',
+      'wtai:',
+      'market:',
+      'geopoint:',
+      'ymsgr:',
+      'msnim:',
+      'gtalk:',
+      'skype:',
+      'sip:',
+      'whatsapp:',
+      'http://',
+      'https://'
+    ]);
+  });
 }
