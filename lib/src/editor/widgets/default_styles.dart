@@ -250,13 +250,10 @@ class DefaultStyles {
     final themeData = Theme.of(context);
     final defaultTextStyle = DefaultTextStyle.of(context);
     final baseStyle = TextStyle(
-        fontSize: 16,
-        height: 1.15,
-        decoration: TextDecoration.none,
-      ),
-    ).merge(
-      defaultTextStyle.style
-    );
+      fontSize: 16,
+      height: 1.15,
+      decoration: TextDecoration.none,
+    ).merge(defaultTextStyle.style);
     const baseHorizontalSpacing = HorizontalSpacing(0, 0);
     const baseVerticalSpacing = VerticalSpacing(6, 0);
     final fontFamily = themeData.isCupertino ? 'Menlo' : 'Roboto Mono';
