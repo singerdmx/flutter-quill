@@ -249,10 +249,13 @@ class DefaultStyles {
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);
     final defaultTextStyle = DefaultTextStyle.of(context);
-    final baseStyle = defaultTextStyle.style.copyWith(
-      // fontSize: 16,
-      // height: 1.15,
-      // decoration: TextDecoration.none,
+    final baseStyle = TextStyle(
+        fontSize: 16,
+        height: 1.15,
+        decoration: TextDecoration.none,
+      ),
+    ).merge(
+      defaultTextStyle.style
     );
     const baseHorizontalSpacing = HorizontalSpacing(0, 0);
     const baseVerticalSpacing = VerticalSpacing(6, 0);
@@ -439,7 +442,7 @@ class DefaultStyles {
         null,
       ),
       quote: DefaultTextBlockStyle(
-        baseStyle,
+        TextStyle(color: baseStyle.color!.withValues(alpha: 0.6)
         baseHorizontalSpacing,
         baseVerticalSpacing,
         const VerticalSpacing(6, 2),
