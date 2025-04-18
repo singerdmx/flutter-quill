@@ -1,10 +1,12 @@
+/// @docImport '../../rules/insert.dart' show AutoFormatMultipleLinksRule;
+library;
+
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show experimental;
 
-import '../../../internal.dart' show AutoFormatMultipleLinksRule;
 import '../../document/nodes/node.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
 import '../embed/embed_editor_builder.dart';
