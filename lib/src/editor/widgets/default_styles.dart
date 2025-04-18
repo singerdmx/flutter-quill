@@ -442,7 +442,7 @@ class DefaultStyles {
         null,
       ),
       quote: DefaultTextBlockStyle(
-        TextStyle(color: baseStyle.color!.withValues(alpha: 0.6)
+        TextStyle(color: baseStyle.color!.withValues(alpha: 0.6)),
         baseHorizontalSpacing,
         baseVerticalSpacing,
         const VerticalSpacing(6, 2),
