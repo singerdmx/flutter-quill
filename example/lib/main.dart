@@ -135,6 +135,14 @@ class _HomePageState extends State<HomePage> {
                       }
                     },
                   ),
+                  linkStyle: QuillToolbarLinkStyleButtonOptions(
+                    validateLink: (link) {
+                      // Treats all links as valid. When launching the URL,
+                      // `https://` is prefixed if the link is incomplete (e.g., `google.com` → `https://google.com`)
+                      // however this happens only within the editor.
+                      return true;
+                    },
+                  ),
                 ),
               ),
             ),
