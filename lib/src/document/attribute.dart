@@ -56,6 +56,7 @@ class Attribute<T> {
     Attribute.script.key: Attribute.script,
     Attribute.image.key: Attribute.image,
     Attribute.video.key: Attribute.video,
+    Attribute.commentHighlight.key: Attribute.commentHighlight,
   });
 
   static const BoldAttribute bold = BoldAttribute();
@@ -118,6 +119,8 @@ class Attribute<T> {
 
   static const VideoAttribute video = VideoAttribute(null);
 
+  static const CommentHighlightAttribute commentHighlight = CommentHighlightAttribute();
+
   static final registeredAttributeKeys = Set.unmodifiable(_registry.keys);
 
   static final inlineKeys = Set.unmodifiable(<String>{
@@ -135,6 +138,7 @@ class Attribute<T> {
     Attribute.font.key,
     Attribute.size.key,
     Attribute.inlineCode.key,
+    Attribute.commentHighlight.key
   });
 
   static final ignoreKeys = Set.unmodifiable(<String>{
@@ -272,6 +276,9 @@ class Attribute<T> {
   }
 
   static Attribute clone(Attribute origin, dynamic value) {
+    if (origin.key == 'comment-highlight') {
+      return CommentHighlightAttribute(val: value as Map<String, String>?);
+    }
     return Attribute(origin.key, origin.scope, value);
   }
 

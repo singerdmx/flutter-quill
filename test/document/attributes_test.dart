@@ -44,4 +44,39 @@ void main() {
       }
     });
   });
+
+  /// Tests for CommentHighlightAttribute
+  group('CommentHighlightAttribute', () {
+    test('creates attribute with correct key, scope, and value', () {
+      final mapValue = {'id': '12345id', 'color': '#FFFFFF'};
+      final attribute = CommentHighlightAttribute(val: mapValue);
+
+      expect(attribute.key, 'comment-highlight');
+      expect(attribute.scope, AttributeScope.inline);
+      expect(attribute.value, mapValue);
+    });
+
+    test('is registered in inlineKeys', () {
+      expect(Attribute.inlineKeys.contains('comment-highlight'), true);
+    });
+
+    test('fromKeyValue creates CommentHighlightAttribute with correct value', () {
+      final mapValue = {'id': '12345id', 'color': '#FFFFFF'};
+      final attribute = Attribute.fromKeyValue('comment-highlight', mapValue);
+
+      expect(attribute, isA<CommentHighlightAttribute>());
+      expect(attribute!.key, 'comment-highlight');
+      expect(attribute.scope, AttributeScope.inline);
+      expect(attribute.value, mapValue);
+    });
+
+    test('fromKeyValue handles null value', () {
+      final attribute = Attribute.fromKeyValue('comment-highlight', null);
+
+      expect(attribute, isA<CommentHighlightAttribute>());
+      expect(attribute!.key, 'comment-highlight');
+      expect(attribute.scope, AttributeScope.inline);
+      expect(attribute.value, isNull);
+    });
+  });
 }

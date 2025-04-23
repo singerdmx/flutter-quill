@@ -23,3 +23,13 @@ class LineHeightAttribute extends Attribute<double?> {
   static const Attribute<double?> lineHeightDouble =
       LineHeightAttribute(lineHeight: 2);
 }
+
+/// This attribute highlights text associated with a comment, using a comment identifier
+/// and a highlight color. The value is a map containing the comment ID (key: 'id') and
+/// the color code (key: 'color').
+///
+/// The attribute in JSON looks like: "attributes":{"comment-highlight": {"id": "12345id", "color": "#FFFFFF"}}
+class CommentHighlightAttribute extends Attribute<Map<String, String>?> {
+  const CommentHighlightAttribute({Map<String, String>? val})
+      : super('comment-highlight', AttributeScope.inline, val);
+}
