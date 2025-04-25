@@ -277,7 +277,7 @@ class Attribute<T> {
 
   static Attribute clone(Attribute origin, dynamic value) {
     if (origin.key == 'comment-highlight') {
-      return CommentHighlightAttribute(val: value as Map<String, String>?);
+      return CommentHighlightAttribute(commentId: value as String?);
     }
     return Attribute(origin.key, origin.scope, value);
   }

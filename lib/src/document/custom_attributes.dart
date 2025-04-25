@@ -24,12 +24,12 @@ class LineHeightAttribute extends Attribute<double?> {
       LineHeightAttribute(lineHeight: 2);
 }
 
-/// This attribute highlights text associated with a comment, using a comment identifier
-/// and a highlight color. The value is a map containing the comment ID (key: 'id') and
-/// the color code (key: 'color').
+/// This attribute highlights text associated with a comment, using a comment identifier.
+/// The value is the comment ID, which can be used to look up the comment in Firestore
+/// and retrieve the highlight color.
 ///
-/// The attribute in JSON looks like: "attributes":{"comment-highlight": {"id": "12345id", "color": "#FFFFFF"}}
-class CommentHighlightAttribute extends Attribute<Map<String, String>?> {
-  const CommentHighlightAttribute({Map<String, String>? val})
-      : super('comment-highlight', AttributeScope.inline, val);
+/// The attribute in JSON looks like: "attributes":{"comment-highlight": "f12edf4f-8be9-4b1d-a264-f35371613c1e"}
+class CommentHighlightAttribute extends Attribute<String?> {
+  const CommentHighlightAttribute({String? commentId})
+      : super('comment-highlight', AttributeScope.inline, commentId);
 }

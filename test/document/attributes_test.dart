@@ -48,12 +48,12 @@ void main() {
   /// Tests for CommentHighlightAttribute
   group('CommentHighlightAttribute', () {
     test('creates attribute with correct key, scope, and value', () {
-      final mapValue = {'id': '12345id', 'color': '#FFFFFF'};
-      final attribute = CommentHighlightAttribute(val: mapValue);
+      const commentId = '12345id';
+      const attribute = CommentHighlightAttribute(commentId: commentId);
 
       expect(attribute.key, 'comment-highlight');
       expect(attribute.scope, AttributeScope.inline);
-      expect(attribute.value, mapValue);
+      expect(attribute.value, commentId);
     });
 
     test('is registered in inlineKeys', () {
@@ -61,13 +61,13 @@ void main() {
     });
 
     test('fromKeyValue creates CommentHighlightAttribute with correct value', () {
-      final mapValue = {'id': '12345id', 'color': '#FFFFFF'};
-      final attribute = Attribute.fromKeyValue('comment-highlight', mapValue);
+      const commentId = '12345id';
+      final attribute = Attribute.fromKeyValue('comment-highlight', commentId);
 
       expect(attribute, isA<CommentHighlightAttribute>());
       expect(attribute!.key, 'comment-highlight');
       expect(attribute.scope, AttributeScope.inline);
-      expect(attribute.value, mapValue);
+      expect(attribute.value, commentId);
     });
 
     test('fromKeyValue handles null value', () {
