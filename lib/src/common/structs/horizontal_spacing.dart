@@ -26,7 +26,6 @@ class HorizontalSpacing {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is HorizontalSpacing &&
-              runtimeType == other.runtimeType &&
               left == other.left &&
               right == other.right;
 
