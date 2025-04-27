@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `copyWith` methods to `HorizontalSpacing`, `VerticalSpacing`, `DefaultTextBlockStyle`, and `DefaultListBlockStyle` for immutable updates of properties [#2550](https://github.com/singerdmx/flutter-quill/pull/2550).
+
 ## [11.4.0] - 2025-04-23
 
 ### Added
