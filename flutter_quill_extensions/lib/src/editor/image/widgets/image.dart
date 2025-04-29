@@ -69,6 +69,7 @@ Image getImageWidgetByImageSource(
     height: height,
     alignment: alignment,
     errorBuilder: imageErrorWidgetBuilder,
+    gaplessPlayback: true,
   );
 }
 
