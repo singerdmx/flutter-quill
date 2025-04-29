@@ -10,9 +10,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `copyWith` methods to `HorizontalSpacing`, `VerticalSpacing`, `DefaultTextBlockStyle`, and `DefaultListBlockStyle` for immutable updates of properties [#2550](https://github.com/singerdmx/flutter-quill/pull/2550).
+
+## [11.4.0] - 2025-04-23
+
+### Added
+
+- Accept `mailto`, `tel`, `sms`, and other link prefixes by default in the insert link toolbar button [#2525](https://github.com/singerdmx/flutter-quill/pull/2525).
+- `validateLink` in `QuillToolbarLinkStyleButtonOptions` to allow overriding the link validation [#2525](https://github.com/singerdmx/flutter-quill/pull/2525).
+
+### Fixed
+
+- Improve doc comment of `customLinkPrefixes` in `QuillEditor` [#2525](https://github.com/singerdmx/flutter-quill/pull/2525).
+
+### Changed
+
+- Deprecate `linkRegExp` in favor of the new callback `validateLink` [#2525](https://github.com/singerdmx/flutter-quill/pull/2525).
+
+## [11.3.0] - 2025-04-23
+
+### Fixed
+
+- Can't select text when `readOnly` is true [#2529](https://github.com/singerdmx/flutter-quill/pull/2529).
+
+### Added
+
+- Display magnifier using `RawMagnifier` widget when dragging on iOS/Android [#2529](https://github.com/singerdmx/flutter-quill/pull/2529).
+
 ## [11.2.0] - 2025-03-26
 
-### Added 
+### Added
 
 - Cache for `toPlainText` in `Document` class to avoid unnecessary text computing [#2482](https://github.com/singerdmx/flutter-quill/pull/2482).
 
@@ -134,7 +163,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.2.0...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.4.0...HEAD
+[11.4.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.0
+[11.3.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.3.0
 [11.2.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.2.0
 [11.1.2]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.1.2
 [11.1.1]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.1.1
