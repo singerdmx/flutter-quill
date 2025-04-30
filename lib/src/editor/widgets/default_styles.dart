@@ -247,6 +247,7 @@ class DefaultStyles {
     this.sizeLarge,
     this.sizeHuge,
     this.palette,
+    this.forceStrutHeight,
   });
 
   final DefaultTextBlockStyle? h1;
@@ -285,6 +286,8 @@ class DefaultStyles {
 
   /// Custom palette of colors
   final Map<String, Color>? palette;
+
+  final bool? forceStrutHeight;
 
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);
@@ -564,6 +567,7 @@ class DefaultStyles {
       sizeLarge: other.sizeLarge ?? sizeLarge,
       sizeHuge: other.sizeHuge ?? sizeHuge,
       palette: other.palette ?? palette,
+      forceStrutHeight: other.forceStrutHeight ?? forceStrutHeight,
     );
   }
 }
