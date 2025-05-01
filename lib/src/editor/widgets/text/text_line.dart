@@ -173,7 +173,8 @@ class _TextLineState extends State<TextLine> {
     // 增加强制固定行高
     final strutStyle = StrutStyle.fromTextStyle(
       textSpan.style ?? const TextStyle(),
-      forceStrutHeight: widget.styles.forceStrutHeight ?? false,
+      forceStrutHeight: widget.styles.forceStrutHeight,
+      leading: widget.styles.leadingOffset,
     );
     final textAlign = _getTextAlign();
     final child = RichText(
