@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Finnish (fi) language translation [#2551](https://github.com/singerdmx/flutter-quill/pull/2551).
+- Finnish (fi) language translation [#2564](https://github.com/singerdmx/flutter-quill/pull/2564).
 
 ### Added
 
