@@ -17,6 +17,7 @@ import 'quill_localizations_el.dart';
 import 'quill_localizations_en.dart';
 import 'quill_localizations_es.dart';
 import 'quill_localizations_fa.dart';
+import 'quill_localizations_fi.dart';
 import 'quill_localizations_fr.dart';
 import 'quill_localizations_gu.dart';
 import 'quill_localizations_he.dart';
@@ -105,15 +106,13 @@ import 'quill_localizations_zh.dart';
 /// property.
 abstract class FlutterQuillLocalizations {
   FlutterQuillLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static FlutterQuillLocalizations? of(BuildContext context) {
     return Localizations.of<FlutterQuillLocalizations>(
-      context,
-      FlutterQuillLocalizations,
-    );
+        context, FlutterQuillLocalizations);
   }
 
   static const LocalizationsDelegate<FlutterQuillLocalizations> delegate =
@@ -131,11 +130,11 @@ abstract class FlutterQuillLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -152,6 +151,7 @@ abstract class FlutterQuillLocalizations {
     Locale('en', 'US'),
     Locale('es'),
     Locale('fa'),
+    Locale('fi'),
     Locale('fr'),
     Locale('gu'),
     Locale('he'),
@@ -188,7 +188,7 @@ abstract class FlutterQuillLocalizations {
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
-    Locale('zh', 'HK'),
+    Locale('zh', 'HK')
   ];
 
   /// No description provided for @pasteLink.
@@ -835,57 +835,57 @@ class _FlutterQuillLocalizationsDelegate
   @override
   Future<FlutterQuillLocalizations> load(Locale locale) {
     return SynchronousFuture<FlutterQuillLocalizations>(
-      lookupFlutterQuillLocalizations(locale),
-    );
+        lookupFlutterQuillLocalizations(locale));
   }
 
   @override
   bool isSupported(Locale locale) => <String>[
-    'ar',
-    'bg',
-    'bn',
-    'bs',
-    'ca',
-    'cs',
-    'da',
-    'de',
-    'el',
-    'en',
-    'es',
-    'fa',
-    'fr',
-    'gu',
-    'he',
-    'hi',
-    'hr',
-    'hu',
-    'id',
-    'it',
-    'ja',
-    'km',
-    'ko',
-    'ku',
-    'mk',
-    'ms',
-    'ne',
-    'nl',
-    'no',
-    'pl',
-    'pt',
-    'ro',
-    'ru',
-    'sk',
-    'sr',
-    'sv',
-    'sw',
-    'th',
-    'tk',
-    'tr',
-    'uk',
-    'ur',
-    'vi',
-    'zh',
-  ].contains(locale.languageCode);
+        'ar',
+        'bg',
+        'bn',
+        'bs',
+        'ca',
+        'cs',
+        'da',
+        'de',
+        'el',
+        'en',
+        'es',
+        'fa',
+        'fi',
+        'fr',
+        'gu',
+        'he',
+        'hi',
+        'hr',
+        'hu',
+        'id',
+        'it',
+        'ja',
+        'km',
+        'ko',
+        'ku',
+        'mk',
+        'ms',
+        'ne',
+        'nl',
+        'no',
+        'pl',
+        'pt',
+        'ro',
+        'ru',
+        'sk',
+        'sr',
+        'sv',
+        'sw',
+        'th',
+        'tk',
+        'tr',
+        'uk',
+        'ur',
+        'vi',
+        'zh'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_FlutterQuillLocalizationsDelegate old) => false;
@@ -964,6 +964,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsEs();
     case 'fa':
       return FlutterQuillLocalizationsFa();
+    case 'fi':
+      return FlutterQuillLocalizationsFi();
     case 'fr':
       return FlutterQuillLocalizationsFr();
     case 'gu':
@@ -1031,9 +1033,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-    'FlutterQuillLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
-  );
+      'FlutterQuillLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
