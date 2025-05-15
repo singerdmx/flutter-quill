@@ -230,7 +230,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "11.4.0"
+    version: "11.4.1"
   flutter_quill_delta_from_html:
     dependency: transitive
     description:
