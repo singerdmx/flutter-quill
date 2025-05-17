@@ -1076,6 +1076,29 @@ class QuillRawEditorState extends EditorState
         .stopCurrentVerticalRunIfSelectionChanges();
   }
 
+  late double _lastBottomViewInset;
+
+  @override
+  void didChangeMetrics() {
+    if (!mounted) {
+      return;
+    }
+
+    // https://github.com/flutter/flutter/blob/3.29.0/packages/flutter/lib/src/widgets/editable_text.dart#L4311
+    final view = View.of(context);
+    if (_lastBottomViewInset != view.viewInsets.bottom) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _selectionOverlay?.updateForScroll();
+      }, debugLabel: 'EditableText.updateForScroll');
+      if (_lastBottomViewInset < view.viewInsets.bottom) {
+        // Because the metrics change signal from engine will come here every frame
+        // (on both iOS and Android). So we don't need to show caret with animation.
+        _scheduleShowCaretOnScreen(withAnimation: false);
+      }
+    }
+    _lastBottomViewInset = view.viewInsets.bottom;
+  }
+
   void _onChangeTextEditingValue([bool ignoreCaret = false]) {
     updateRemoteValueIfNeeded();
     if (ignoreCaret) {
@@ -1151,6 +1174,7 @@ class QuillRawEditorState extends EditorState
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
       WidgetsBinding.instance.addObserver(this);
+      _lastBottomViewInset = View.of(context).viewInsets.bottom;
       _scheduleShowCaretOnScreen(withAnimation: true);
     } else {
       WidgetsBinding.instance.removeObserver(this);
