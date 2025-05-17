@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix caret not auto scroll to visible when page has multiple editors [#2570](https://github.com/singerdmx/flutter-quill/pull/2570).
+  **BREAKING**: QuillEditorConfig is now accept `EdgeInsets padding` instead of `EdgeInsetsGeometry`.
+
 ## [11.4.1] - 2025-05-15
 
 ### Added
