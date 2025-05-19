@@ -1561,8 +1561,6 @@ class QuillRawEditorState extends EditorState
       } else {
         _showCaretOnScreen();
       }
-    } else {
-      widget.configurations.focusNode.requestFocus();
     }
   }
 
