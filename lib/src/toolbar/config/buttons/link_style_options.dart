@@ -1,4 +1,4 @@
-/// @docImport '../../../rules/insert.dart' show AutoFormatMultipleLinksRule;
+/// @docImport '../../../rules/insert.dart';
 library;
 
 import '../../../common/utils/link_validator.dart';
