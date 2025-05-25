@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/cupertino.dart';
@@ -222,6 +223,45 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       // selection.
       _lastKnownRemoteTextEditingValue = value;
       return;
+    }
+
+    // On iOS, we need to handle a special case where the user deletes two
+    // characters that are not part of the text, such as the zero-width space
+    // character (\uFFFC) used for embedding images. In this case, we don't
+    // want to send an update to the native side, as it would cause the
+    // text to be deleted and the cursor to move incorrectly.
+    // This is a workaround for an issue where the iOS text input client
+    // does not handle the deletion of these characters correctly.
+    if (Platform.isIOS) {
+      final lastKnownValue = _lastKnownRemoteTextEditingValue;
+
+      if (
+          //verify that lastKnownValue is not null
+          lastKnownValue != null &&
+              // verify that lastKnownValue selection extentOffset is more than
+              // 2 characters away from baseOffset
+              lastKnownValue.selection.extentOffset -
+                      lastKnownValue.selection.baseOffset ==
+                  2 &&
+              // verify that the lastKnownValue text length is more than 2
+              // characters away from the value text length
+              lastKnownValue.text.length - value.text.length == 2 &&
+              value.selection.isCollapsed &&
+              value.selection.affinity == TextAffinity.downstream &&
+              value.selection.isDirectional == false) {
+        // take the last two characters from the last known value
+        final deletedText = lastKnownValue.text.substring(
+          value.selection.baseOffset,
+          value.selection.baseOffset + 2,
+        );
+
+        // if the deleted text starts with the zero-width embed character,
+        // we don't want to send an update to the native side
+        // as it will cause the embedded block to be deleted
+        if (deletedText.startsWith('\uFFFC')) {
+          return;
+        }
+      }
     }
 
     final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
