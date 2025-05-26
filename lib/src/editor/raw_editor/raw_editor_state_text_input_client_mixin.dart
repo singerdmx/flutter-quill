@@ -225,13 +225,18 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    // On iOS, we need to handle a special case where the user deletes two
-    // characters that are not part of the text, such as the zero-width space
-    // character (\uFFFC) used for embedding images. In this case, we don't
-    // want to send an update to the native side, as it would cause the
-    // text to be deleted and the cursor to move incorrectly.
-    // This is a workaround for an issue where the iOS text input client
-    // does not handle the deletion of these characters correctly.
+    // On iOS, we need to handle a special case where user input modifies a previous word.
+    // For example, in Vietnamese keyboard with the Telex input method,
+    // the word "dinh" becomes "định" when the user types "d".
+    // iOS handles this by deleting several characters
+    // from the end of the word to the beginning (plus one extra character)
+    // and then re-inserting the updated characters.
+    //
+    // The issue arises when the word is adjacent to an embedded object (e.g., an embedded block).
+    // iOS may accidentally remove the embedded object character (\uFFFC)
+    // during this replacement process. To prevent this,
+    // we should skip updating the text value
+    // if the change affects the starting character and is next to an embedded block.
     if (Platform.isIOS) {
       final lastKnownValue = _lastKnownRemoteTextEditingValue;
 
