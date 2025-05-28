@@ -18,7 +18,7 @@ class QuillEditorDeleteTextAction<T extends DirectionalTextEditingIntent>
   final QuillEditorTextBoundary Function(T intent) getTextBoundariesForIntent;
 
   TextRange _expandNonCollapsedRange(TextEditingValue value) {
-    final TextRange selection = value.selection;
+    final selection = value.selection;
     assert(selection.isValid);
     assert(!selection.isCollapsed);
     final atomicBoundary = QuillEditorCharacterBoundary(value);

@@ -12,7 +12,7 @@ void main() {
         'hexController is initialized correctly after selectedColor when isToggledColor is true',
         (tester) async {
       for (final isBackground in {true, false}) {
-        const Color exampleColor = Colors.red;
+        const exampleColor = Colors.red;
         final colorHex = colorToHex(exampleColor);
 
         final selectionStyle = const Style().put(

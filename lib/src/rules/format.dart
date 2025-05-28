@@ -133,13 +133,14 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
     final delta = Delta();
     final itr = DeltaIterator(document.toDelta());
     final before = itr.skip(index), after = itr.next();
-    int? beg = index, retain = 0;
+    int beg = index;
+    int retain = 0;
     if (before != null && before.hasAttribute(attribute.key)) {
       beg -= before.length!;
-      retain = before.length;
+      retain = before.length!;
     }
     if (after.hasAttribute(attribute.key)) {
-      if (retain != null) retain += after.length!;
+      retain += after.length!;
     }
     if (retain == 0) {
       return null;
@@ -147,7 +148,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
 
     delta
       ..retain(beg)
-      ..retain(retain!, attribute.toJson());
+      ..retain(retain, attribute.toJson());
     return delta;
   }
 }
