@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart' show immutable;
+import 'package:meta/meta.dart';
 
 import '../../quill_delta.dart';
 import '../common/extensions/uri_ext.dart';
@@ -362,24 +362,38 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   // https://example.net/
   // URL generator tool (https://www.randomlists.com/urls) is used.
 
-  static const _oneLineLinkPattern =
-      r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#].*)?$';
-  static const _detectLinkPattern =
-      r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#][^\s]*)?';
-
-  /// It requires a valid link in one link
-  RegExp get oneLineLinkRegExp => RegExp(
-        _oneLineLinkPattern,
+  /// A regular expression to match a single-line URL
+  @internal
+  static RegExp get singleLineUrlRegExp => RegExp(
+        r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#].*)?$',
         caseSensitive: false,
       );
 
-  /// It detect if there is a link in the text whatever if it in the middle etc
-  // Used to solve bug https://github.com/singerdmx/flutter-quill/issues/1432
-  RegExp get detectLinkRegExp => RegExp(
-        _detectLinkPattern,
+  /// A regular expression to detect a URL anywhere in the text, even if it's in the middle of other content.
+  /// Used to resolve bug https://github.com/singerdmx/flutter-quill/issues/1432
+  @internal
+  static RegExp get urlInTextRegExp => RegExp(
+        r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#][^\s]*)?',
         caseSensitive: false,
       );
-  RegExp get linkRegExp => oneLineLinkRegExp;
+
+  @Deprecated(
+    'Deprecated and will be removed in future-releasese as this is not the place to store regex.\n'
+    'Please use a custom regex instead or use AutoFormatMultipleLinksRule.singleLineUrlRegExp which is an internal API.',
+  )
+  RegExp get oneLineLinkRegExp => singleLineUrlRegExp;
+
+  @Deprecated(
+    'Deprecated and will be removed in future-releasese as this is not the place to store regex.\n'
+    'Please use a custom regex instead or use AutoFormatMultipleLinksRule.urlInTextRegExp which is an internal API.',
+  )
+  RegExp get detectLinkRegExp => urlInTextRegExp;
+
+  @Deprecated(
+    'No longer used and will be silently ignored. Please use custom regex '
+    'or use AutoFormatMultipleLinksRule.singleLineUrlRegExp which is an internal API.',
+  )
+  RegExp get linkRegExp => singleLineUrlRegExp;
 
   @override
   Delta? applyRule(
@@ -388,6 +402,8 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     int? len,
     Object? data,
     Attribute? attribute,
+    @Deprecated(
+        'No longer used and will be silently ignored and removed in future releases.')
     Object? extraData,
   }) {
     // Only format when inserting text.
@@ -423,27 +439,8 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     // Build the segment of affected words.
     final affectedWords = '$leftWordPart$data$rightWordPart';
 
-    var usedRegExp = detectLinkRegExp;
-    final alternativeLinkRegExp = extraData;
-    if (alternativeLinkRegExp != null) {
-      try {
-        if (alternativeLinkRegExp is! String) {
-          throw ArgumentError.value(
-            alternativeLinkRegExp,
-            'alternativeLinkRegExp',
-            '`alternativeLinkRegExp` should be of type String',
-          );
-        }
-        final regPattern = alternativeLinkRegExp;
-        usedRegExp = RegExp(
-          regPattern,
-          caseSensitive: false,
-        );
-      } catch (_) {}
-    }
-
     // Check for URL pattern.
-    final matches = usedRegExp.allMatches(affectedWords);
+    final matches = urlInTextRegExp.allMatches(affectedWords);
 
     // If there are no matches, do not apply any format.
     if (matches.isEmpty) return null;

@@ -326,5 +326,7 @@ void main() {
         );
       }
     });
+
+    // TODO: Write tests for the bug fix: https://github.com/singerdmx/flutter-quill/issues/1432
   });
 }

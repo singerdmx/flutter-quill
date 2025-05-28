@@ -62,6 +62,22 @@ class DefaultTextBlockStyle {
   /// Decoration, if present, is painted in the content area, excluding
   /// any [spacing].
   final BoxDecoration? decoration;
+
+  DefaultTextBlockStyle copyWith({
+    TextStyle? style,
+    HorizontalSpacing? horizontalSpacing,
+    VerticalSpacing? verticalSpacing,
+    VerticalSpacing? lineSpacing,
+    BoxDecoration? decoration,
+  }) {
+    return DefaultTextBlockStyle(
+      style ?? this.style,
+      horizontalSpacing ?? this.horizontalSpacing,
+      verticalSpacing ?? this.verticalSpacing,
+      lineSpacing ?? this.lineSpacing,
+      decoration ?? this.decoration,
+    );
+  }
 }
 
 /// Theme data for inline code.
@@ -170,6 +186,30 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
   final QuillCheckboxBuilder? checkboxUIBuilder;
   final LeadingBlockIndentWidth indentWidthBuilder;
   final LeadingBlockNumberPointWidth numberPointWidthBuilder;
+
+  @override
+  DefaultListBlockStyle copyWith({
+    TextStyle? style,
+    HorizontalSpacing? horizontalSpacing,
+    VerticalSpacing? verticalSpacing,
+    VerticalSpacing? lineSpacing,
+    BoxDecoration? decoration,
+    QuillCheckboxBuilder? checkboxUIBuilder,
+    LeadingBlockIndentWidth? indentWidthBuilder,
+    LeadingBlockNumberPointWidth? numberPointWidthBuilder,
+  }) {
+    return DefaultListBlockStyle(
+      style ?? this.style,
+      horizontalSpacing ?? this.horizontalSpacing,
+      verticalSpacing ?? this.verticalSpacing,
+      lineSpacing ?? this.lineSpacing,
+      decoration ?? this.decoration,
+      checkboxUIBuilder ?? this.checkboxUIBuilder,
+      indentWidthBuilder: indentWidthBuilder ?? this.indentWidthBuilder,
+      numberPointWidthBuilder:
+      numberPointWidthBuilder ?? this.numberPointWidthBuilder,
+    );
+  }
 }
 
 @immutable

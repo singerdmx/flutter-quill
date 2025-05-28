@@ -5,7 +5,7 @@ your `WidgetsApp` for example `MaterialApp` which usually follows the system loc
 
 ## 🌐 Supported Locales
 
-Currently, translations are available for these 47 locales:
+Currently, translations are available for these 48 locales:
 
 * `ar`, `bg`, `bn`, `ca`, `cs`, `da`, `de`
 * `en`, `en_US`, `es`, `fa`, `fr`, `he`
@@ -14,7 +14,7 @@ Currently, translations are available for these 47 locales:
 * `pt_BR`, `ro`, `ro_RO`, `ru`, `sk`, `sr`
 * `sv`, `sw`, `th`, `tk`, `tr`, `uk`, `ur`
 * `vi`, `zh`, `zh_CN`, `zh_HK`, `hr`
-* `bs`, `mk`, `gu`
+* `bs`, `mk`, `gu`, `fi`
 
 ## 📌 Contributing to translations
 
