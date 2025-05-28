@@ -139,7 +139,7 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
       retain = before.length;
     }
     if (after.hasAttribute(attribute.key)) {
-      if (retain != null) retain += after.length!;
+      retain += after.length!;
     }
     if (retain == 0) {
       return null;

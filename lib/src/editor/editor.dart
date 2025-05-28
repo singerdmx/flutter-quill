@@ -1326,10 +1326,10 @@ class RenderEditor extends RenderEditableContainerBox
   Offset calculateBoundedFloatingCursorOffset(
       Offset rawCursorOffset, double preferredLineHeight) {
     var deltaPosition = Offset.zero;
-    final topBound = _kFloatingCursorAddedMargin.top;
+    const topBound = _kFloatingCursorAddedMargin.top;
     final bottomBound =
         size.height - preferredLineHeight + _kFloatingCursorAddedMargin.bottom;
-    final leftBound = _kFloatingCursorAddedMargin.left;
+    const leftBound = _kFloatingCursorAddedMargin.left;
     final rightBound = size.width - _kFloatingCursorAddedMargin.right;
 
     if (_previousOffset != null) {
