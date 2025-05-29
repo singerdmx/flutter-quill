@@ -387,4 +387,8 @@ class EditorTextSelectionGestureDetectorBuilder {
       child: child,
     );
   }
+
+  void dispose() {}
+
+  void setCurrentCursorPosition(int? position) {}
 }
