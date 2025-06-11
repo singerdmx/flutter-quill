@@ -9,6 +9,9 @@ class QuillDialogTheme with Diagnosticable {
     this.buttonTextStyle,
     this.labelTextStyle,
     this.inputTextStyle,
+    this.inputHintTextStyle,
+    this.inputBorder,
+    this.inputFocusedBorder,
     this.dialogBackgroundColor,
     this.shape,
     this.buttonStyle,
@@ -28,6 +31,15 @@ class QuillDialogTheme with Diagnosticable {
 
   ///The text style to use for the input text shown in the link-input dialog
   final TextStyle? inputTextStyle;
+
+  /// The text style to use for the hint text shown in the input text field
+  final TextStyle? inputHintTextStyle;
+
+  /// The border to use for the input text field
+  final InputBorder? inputBorder;
+
+  /// The border to use for the focused input text field
+  final InputBorder? inputFocusedBorder;
 
   ///The background color for the Quill dialog
   final Color? dialogBackgroundColor;
