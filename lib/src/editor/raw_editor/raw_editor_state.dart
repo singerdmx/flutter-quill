@@ -525,6 +525,13 @@ class QuillRawEditorState extends EditorState
         bringIntoView(selection.extent);
       }
     }
+
+    // Show toolbar on selection change if it's not from drag
+    if (cause != SelectionChangedCause.drag && 
+        cause != SelectionChangedCause.toolbar &&
+        widget.config.contextMenuBuilder != null) {
+      showToolbar();
+    }
   }
 
   void _handleSelectionCompleted() {

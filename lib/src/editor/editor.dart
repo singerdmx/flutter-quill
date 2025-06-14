@@ -257,6 +257,9 @@ class QuillEditorState extends State<QuillEditor>
           theme.colorScheme.primary.withValues(alpha: 0.40);
     }
 
+    final isMobile = Theme.of(context).platform == TargetPlatform.iOS ||
+        Theme.of(context).platform == TargetPlatform.android;
+
     final showSelectionToolbar =
         config.enableInteractiveSelection && config.enableSelectionToolbar;
 

@@ -286,19 +286,11 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onDoubleTapDown(TapDownDetails details) {
-    if (delegate.selectionEnabled) {
-      renderEditor!.selectWord(SelectionChangedCause.tap);
-      // allow the selection to get updated before trying to bring up
-      // toolbars.
-      //
-      // if double tap happens on an editor that doesn't
-      // have focus, selection hasn't been set when the toolbars
-      // get added
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
-          editor!.showToolbar();
-        }
-      });
+    renderEditor!.handleTapDown(details);
+    final selection = renderEditor!.getSelectionForPosition(details.globalPosition);
+    if (selection != null) {
+      renderEditor!.handleSelectionChanged(selection, SelectionChangedCause.tap);
+      editor!.showToolbar();
     }
   }
 
@@ -357,6 +349,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   /// the handlers provided by this builder.
   ///
   /// The [child] or its subtree should contain [EditableText].
+  @override
   Widget build({
     required HitTestBehavior behavior,
     required Widget child,
