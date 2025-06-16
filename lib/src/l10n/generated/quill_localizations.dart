@@ -188,7 +188,8 @@ abstract class FlutterQuillLocalizations {
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
-    Locale('zh', 'HK')
+    Locale('zh', 'HK'),
+    Locale('zh', 'TW')
   ];
 
   /// No description provided for @pasteLink.
@@ -933,6 +934,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
             return FlutterQuillLocalizationsZhCn();
           case 'HK':
             return FlutterQuillLocalizationsZhHk();
+          case 'TW':
+            return FlutterQuillLocalizationsZhTw();
         }
         break;
       }
