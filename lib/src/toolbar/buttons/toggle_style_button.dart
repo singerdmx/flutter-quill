@@ -135,15 +135,8 @@ class QuillToolbarToggleStyleButtonState
   }
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    if (widget.attribute.key == Attribute.list.key ||
-        widget.attribute.key == Attribute.header.key ||
-        widget.attribute.key == Attribute.script.key ||
-        widget.attribute.key == Attribute.align.key) {
-      final attribute = attrs[widget.attribute.key];
-      if (attribute == null) {
-        return false;
-      }
-      return attribute.value == widget.attribute.value;
+    if (controller.selection.end - controller.selection.start == 1) {
+      return false;
     }
     return attrs.containsKey(widget.attribute.key);
   }
