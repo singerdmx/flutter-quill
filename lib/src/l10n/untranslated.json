@@ -536,5 +536,17 @@
     "openFileLocation",
     "openFile",
     "saveImagePermissionDenied"
+  ],
+
+  "zh_TW": [
+    "insertVideo",
+    "errorUnexpectedSavingImage",
+    "successImageSavedGallery",
+    "successImageSaved",
+    "successImageDownloaded",
+    "openGallery",
+    "openFileLocation",
+    "openFile",
+    "saveImagePermissionDenied"
   ]
 }
