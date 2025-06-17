@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart'
@@ -221,6 +222,20 @@ class QuillEditorState extends State<QuillEditor>
         _editorKey.currentState?.hideToolbar();
       }
     });
+
+    controller.addListener(_controllerListener);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_controllerListener);
+    _selectionGestureDetectorBuilder.dispose();
+    super.dispose();
+  }
+
+  void _controllerListener() {
+    final position = controller.selection.extentOffset;
+    _selectionGestureDetectorBuilder.setCurrentCursorPosition(position);
   }
 
   @override
@@ -499,6 +514,45 @@ class _QuillEditorSelectionGestureDetectorBuilder
             pressed.contains(LogicalKeyboardKey.shiftRight));
   }
 
+  int? _previousCursorPosition;
+  int? _currentCursorPosition;
+
+  Timer? _timer;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void setCurrentCursorPosition(int? position) {
+    if (_currentCursorPosition != null) {
+      _previousCursorPosition = _currentCursorPosition;
+    }
+
+    _currentCursorPosition = position;
+  }
+
+  void _handleToggleToolbar() {
+    final position = renderEditor!.selection.extentOffset;
+
+    final shouldShow = _currentCursorPosition != null &&
+        _currentCursorPosition == _previousCursorPosition;
+
+    _currentCursorPosition = position;
+    _previousCursorPosition = position;
+
+    if (shouldShow) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        editor!.showToolbar();
+        _currentCursorPosition = null;
+      });
+    } else {
+      editor!.hideToolbar();
+    }
+  }
+
   @override
   void onSingleTapUp(TapUpDetails details) {
     if (_state.config.onTapUp != null &&
@@ -510,7 +564,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
       return;
     }
 
-    editor!.hideToolbar();
+    _timer?.cancel();
+    _timer = Timer(const Duration(milliseconds: 100), _handleToggleToolbar);
 
     try {
       if (delegate.selectionEnabled && !_isPositionSelected(details)) {
