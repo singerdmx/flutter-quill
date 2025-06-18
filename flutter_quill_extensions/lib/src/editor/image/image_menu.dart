@@ -184,8 +184,7 @@ class ImageOptionsMenu extends StatelessWidget {
                   content: Text(localizations.successImageSavedGallery),
                   action: SnackBarAction(
                     label: localizations.openGallery,
-                    onPressed: () =>
-                        QuillNativeProvider.instance.openGalleryApp(),
+                    onPressed: QuillNativeProvider.instance.openGalleryApp,
                   ),
                 ));
                 return;
