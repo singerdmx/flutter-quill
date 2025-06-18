@@ -35,61 +35,38 @@ class QuillTestApp extends StatelessWidget {
   ///
   /// Either [home] or [scaffoldBody] must be provided.
   /// Throws an [ArgumentError] if both are provided.
-  QuillTestApp({
-    required this.home,
-    required this.scaffoldBody,
-    this.onLocalizationsAvailable,
+  const QuillTestApp({
+    required this.child,
     super.key,
-  }) {
-    if (home != null && scaffoldBody != null) {
-      throw ArgumentError('Either the home or scaffoldBody must be null');
-    }
-  }
+  });
 
   /// Creates a [QuillTestApp] with a [Scaffold] wrapping the given [body] widget.
-  factory QuillTestApp.withScaffold(Widget body,
-          {LocalizationsAvailableCallback? onLocalizationsAvailable}) =>
-      QuillTestApp(
-        home: null,
-        scaffoldBody: body,
-        onLocalizationsAvailable: onLocalizationsAvailable,
-      );
+static Widget withScaffold(Widget child) {
+  return MaterialApp(
+    localizationsDelegates: FlutterQuillLocalizations.localizationsDelegates,
+    supportedLocales: FlutterQuillLocalizations.supportedLocales,
+    home: Scaffold(
+      body: child,
+    ),
+  );
+}
 
   /// Creates a [QuillTestApp] with the specified [home] widget.
   factory QuillTestApp.home(Widget home,
           {LocalizationsAvailableCallback? onLocalizationsAvailable}) =>
       QuillTestApp(
-        home: home,
-        scaffoldBody: null,
-        onLocalizationsAvailable: onLocalizationsAvailable,
+        child: home,
       );
 
   /// The home widget for the application.
-  ///
-  /// If [home] is not null, [scaffoldBody] must be null.
-  final Widget? home;
-
-  /// The body widget for a [Scaffold] used as the application home.
-  ///
-  /// If [scaffoldBody] is not null, [home] must be null.
-  final Widget? scaffoldBody;
-
-  final LocalizationsAvailableCallback? onLocalizationsAvailable;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: FlutterQuillLocalizations.localizationsDelegates,
       supportedLocales: FlutterQuillLocalizations.supportedLocales,
-      home: Builder(builder: (context) {
-        if (onLocalizationsAvailable != null) {
-          onLocalizationsAvailable?.call(context.loc);
-        }
-        return home ??
-            Scaffold(
-              body: scaffoldBody,
-            );
-      }),
+      home: child,
     );
   }
 }
