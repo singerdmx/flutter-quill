@@ -1010,6 +1010,10 @@ class QuillRawEditorState extends EditorState
 
   @override
   void dispose() {
+    if (!widget.config.readOnly) {
+      widget.config.focusNode.removeListener(_handleFocusChanged);
+      composingRange.removeListener(_onComposingRangeChanged);
+    }
     closeConnectionIfNeeded();
     _keyboardVisibilitySubscription?.cancel();
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
@@ -1017,10 +1021,6 @@ class QuillRawEditorState extends EditorState
     _selectionOverlay?.dispose();
     _selectionOverlay = null;
     controller.removeListener(_didChangeTextEditingValueListener);
-    if (!widget.config.readOnly) {
-      widget.config.focusNode.removeListener(_handleFocusChanged);
-      composingRange.removeListener(_onComposingRangeChanged);
-    }
     _cursorCont.dispose();
     if (_clipboardStatus != null) {
       _clipboardStatus!
