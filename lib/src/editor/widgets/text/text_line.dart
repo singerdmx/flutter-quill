@@ -1396,25 +1396,7 @@ class RenderEditableTextLine extends RenderEditableBox {
             }
           }
         }
-      }
-
-      if (hasFocus &&
-          cursorCont.show.value &&
-          containsCursor() &&
-          !cursorCont.style.paintAboveText) {
-        _paintCursor(context, effectiveOffset, line.hasEmbed);
-      }
-
-      context.paintChild(_body!, effectiveOffset);
-
-      if (hasFocus &&
-          cursorCont.show.value &&
-          containsCursor() &&
-          cursorCont.style.paintAboveText) {
-        _paintCursor(context, effectiveOffset, line.hasEmbed);
-      }
-
-      // paint the selection on the top
+      }      // paint the selection behind the text
       if (enableInteractiveSelection &&
           line.documentOffset <= textSelection.end &&
           textSelection.start <= line.documentOffset + line.length - 1) {
@@ -1445,6 +1427,22 @@ class RenderEditableTextLine extends RenderEditableBox {
         }
 
         _paintSelection(context, effectiveOffset);
+      }
+
+      if (hasFocus &&
+          cursorCont.show.value &&
+          containsCursor() &&
+          !cursorCont.style.paintAboveText) {
+        _paintCursor(context, effectiveOffset, line.hasEmbed);
+      }
+
+      context.paintChild(_body!, effectiveOffset);
+
+      if (hasFocus &&
+          cursorCont.show.value &&
+          containsCursor() &&
+          cursorCont.style.paintAboveText) {
+        _paintCursor(context, effectiveOffset, line.hasEmbed);
       }
     }
   }

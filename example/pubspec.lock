@@ -767,5 +767,5 @@ packages:
     source: hosted
     version: "5.10.1"
 sdks:
-  dart: ">=3.6.0 <4.0.0"
+  dart: ">=3.7.0-0 <4.0.0"
   flutter: ">=3.27.0"
