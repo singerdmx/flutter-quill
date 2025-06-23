@@ -725,21 +725,23 @@ class _TextLineState extends State<TextLine> {
 
 class EditableTextLine extends RenderObjectWidget {
   const EditableTextLine(
-      this.line,
-      this.leading,
-      this.body,
-      this.horizontalSpacing,
-      this.verticalSpacing,
-      this.textDirection,
-      this.textSelection,
-      this.color,
-      this.enableInteractiveSelection,
-      this.hasFocus,
-      this.devicePixelRatio,
-      this.cursorCont,
-      this.inlineCodeStyle,
-      this.decoration,
-      {super.key});
+    this.line,
+    this.leading,
+    this.body,
+    this.horizontalSpacing,
+    this.verticalSpacing,
+    this.textDirection,
+    this.textSelection,
+    this.color,
+    this.enableInteractiveSelection,
+    this.hasFocus,
+    this.devicePixelRatio,
+    this.cursorCont,
+    this.inlineCodeStyle,
+    this.decoration,
+    this.paintSelectionBehindText, {
+    super.key,
+  });
 
   final Line line;
   final Widget? leading;
@@ -755,6 +757,7 @@ class EditableTextLine extends RenderObjectWidget {
   final CursorCont cursorCont;
   final InlineCodeStyle inlineCodeStyle;
   final BoxDecoration? decoration;
+  final bool paintSelectionBehindText;
 
   @override
   RenderObjectElement createElement() {
@@ -764,17 +767,19 @@ class EditableTextLine extends RenderObjectWidget {
   @override
   RenderObject createRenderObject(BuildContext context) {
     return RenderEditableTextLine(
-        line,
-        textDirection,
-        textSelection,
-        enableInteractiveSelection,
-        hasFocus,
-        devicePixelRatio,
-        _getPadding(),
-        color,
-        cursorCont,
-        inlineCodeStyle,
-        decoration);
+      line,
+      textDirection,
+      textSelection,
+      enableInteractiveSelection,
+      hasFocus,
+      devicePixelRatio,
+      _getPadding(),
+      color,
+      cursorCont,
+      inlineCodeStyle,
+      decoration,
+      paintSelectionBehindText,
+    );
   }
 
   @override
@@ -791,7 +796,10 @@ class EditableTextLine extends RenderObjectWidget {
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
       ..setInlineCodeStyle(inlineCodeStyle)
-      ..setDecoration(decoration);
+      ..setDecoration(decoration)
+      ..setPaintSelectionBehindText(
+        paintSelectionBehindText,
+      );
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -819,6 +827,7 @@ class RenderEditableTextLine extends RenderEditableBox {
     this.cursorCont,
     this.inlineCodeStyle,
     this.decoration,
+    this.paintSelectionBehindText,
   );
 
   RenderBox? _leading;
@@ -838,6 +847,7 @@ class RenderEditableTextLine extends RenderEditableBox {
   late Rect _caretPrototype;
   InlineCodeStyle inlineCodeStyle;
   BoxDecoration? decoration;
+  bool paintSelectionBehindText;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
 
   Iterable<RenderBox> get _children sync* {
@@ -956,6 +966,12 @@ class RenderEditableTextLine extends RenderEditableBox {
   void setDecoration(BoxDecoration? newDecoration) {
     if (decoration == newDecoration) return;
     decoration = newDecoration;
+    markNeedsPaint();
+  }
+
+  void setPaintSelectionBehindText(bool newValue) {
+    if (paintSelectionBehindText == newValue) return;
+    paintSelectionBehindText = newValue;
     markNeedsPaint();
   }
 
@@ -1396,53 +1412,107 @@ class RenderEditableTextLine extends RenderEditableBox {
             }
           }
         }
-      }      // paint the selection behind the text
-      if (enableInteractiveSelection &&
-          line.documentOffset <= textSelection.end &&
-          textSelection.start <= line.documentOffset + line.length - 1) {
-        final local = localSelection(line, textSelection, false);
-        _selectedRects ??= _body!.getBoxesForSelection(
-          local,
-        );
+      }
 
-        // Paint a small rect at the start of empty lines that
-        // are contained by the selection.
-        if (line.isEmpty &&
-            textSelection.baseOffset <= line.offset &&
-            textSelection.extentOffset > line.offset) {
-          final lineHeight = preferredLineHeight(
-            TextPosition(
-              offset: line.offset,
-            ),
+      // Paint selection and text based on paintSelectionBehindText setting
+      if (paintSelectionBehindText) {
+        // Paint selection behind text (new behavior)
+        if (enableInteractiveSelection &&
+            line.documentOffset <= textSelection.end &&
+            textSelection.start <= line.documentOffset + line.length - 1) {
+          final local = localSelection(line, textSelection, false);
+          _selectedRects ??= _body!.getBoxesForSelection(
+            local,
           );
-          _selectedRects?.add(
-            TextBox.fromLTRBD(
-              0,
-              0,
-              3,
-              lineHeight,
-              textDirection,
-            ),
-          );
+
+          // Paint a small rect at the start of empty lines that
+          // are contained by the selection.
+          if (line.isEmpty &&
+              textSelection.baseOffset <= line.offset &&
+              textSelection.extentOffset > line.offset) {
+            final lineHeight = preferredLineHeight(
+              TextPosition(
+                offset: line.offset,
+              ),
+            );
+            _selectedRects?.add(
+              TextBox.fromLTRBD(
+                0,
+                0,
+                3,
+                lineHeight,
+                textDirection,
+              ),
+            );
+          }
+
+          _paintSelection(context, effectiveOffset);
         }
 
-        _paintSelection(context, effectiveOffset);
-      }
+        if (hasFocus &&
+            cursorCont.show.value &&
+            containsCursor() &&
+            !cursorCont.style.paintAboveText) {
+          _paintCursor(context, effectiveOffset, line.hasEmbed);
+        }
 
-      if (hasFocus &&
-          cursorCont.show.value &&
-          containsCursor() &&
-          !cursorCont.style.paintAboveText) {
-        _paintCursor(context, effectiveOffset, line.hasEmbed);
-      }
+        context.paintChild(_body!, effectiveOffset);
 
-      context.paintChild(_body!, effectiveOffset);
+        if (hasFocus &&
+            cursorCont.show.value &&
+            containsCursor() &&
+            cursorCont.style.paintAboveText) {
+          _paintCursor(context, effectiveOffset, line.hasEmbed);
+        }
+      } else {
+        // Paint selection in front of text (old behavior)
+        if (hasFocus &&
+            cursorCont.show.value &&
+            containsCursor() &&
+            !cursorCont.style.paintAboveText) {
+          _paintCursor(context, effectiveOffset, line.hasEmbed);
+        }
 
-      if (hasFocus &&
-          cursorCont.show.value &&
-          containsCursor() &&
-          cursorCont.style.paintAboveText) {
-        _paintCursor(context, effectiveOffset, line.hasEmbed);
+        context.paintChild(_body!, effectiveOffset);
+
+        if (hasFocus &&
+            cursorCont.show.value &&
+            containsCursor() &&
+            cursorCont.style.paintAboveText) {
+          _paintCursor(context, effectiveOffset, line.hasEmbed);
+        }
+
+        if (enableInteractiveSelection &&
+            line.documentOffset <= textSelection.end &&
+            textSelection.start <= line.documentOffset + line.length - 1) {
+          final local = localSelection(line, textSelection, false);
+          _selectedRects ??= _body!.getBoxesForSelection(
+            local,
+          );
+
+          // Paint a small rect at the start of empty lines that
+          // are contained by the selection.
+          if (line.isEmpty &&
+              textSelection.baseOffset <= line.offset &&
+              textSelection.extentOffset > line.offset) {
+            final lineHeight = preferredLineHeight(
+              TextPosition(
+                offset: line.offset,
+              ),
+            );
+            _selectedRects?.add(
+              TextBox.fromLTRBD(
+                0,
+                0,
+                3,
+                lineHeight,
+                textDirection,
+              ),
+            );
+          }
+
+          _paintSelection(context, effectiveOffset);
+        }
       }
     }
   }

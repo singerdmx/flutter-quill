@@ -303,6 +303,7 @@ class QuillEditorState extends State<QuillEditor>
         expands: config.expands,
         autoFocus: config.autoFocus,
         selectionColor: selectionColor,
+        paintSelectionBehindText: config.paintSelectionBehindText,
         selectionCtrls: config.textSelectionControls ?? textSelectionControls,
         keyboardAppearance: config.keyboardAppearance,
         enableInteractiveSelection: config.enableInteractiveSelection,

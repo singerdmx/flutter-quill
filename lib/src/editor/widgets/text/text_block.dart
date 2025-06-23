@@ -67,6 +67,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.color,
     required this.styles,
     required this.enableInteractiveSelection,
+    required this.paintSelectionBehindText,
     required this.hasFocus,
     required this.contentPadding,
     required this.embedBuilder,
@@ -98,6 +99,7 @@ class EditableTextBlock extends StatelessWidget {
   final DefaultStyles? styles;
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
   final bool enableInteractiveSelection;
+  final bool paintSelectionBehindText;
   final bool hasFocus;
   final EdgeInsets? contentPadding;
   final EmbedsBuilder embedBuilder;
@@ -209,7 +211,9 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
         styles!.inlineCode!,
-        null);
+        null,
+        paintSelectionBehindText,
+      );
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
       children.add(
         Directionality(

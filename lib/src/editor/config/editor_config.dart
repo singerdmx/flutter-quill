@@ -42,6 +42,7 @@ class QuillEditorConfig {
     this.paintCursorAboveText,
     this.enableInteractiveSelection = true,
     this.enableSelectionToolbar = true,
+    this.paintSelectionBehindText = true,
     this.scrollBottomInset = 0,
     this.minHeight,
     this.maxHeight,
@@ -269,6 +270,11 @@ class QuillEditorConfig {
   /// Whether to show the cut/copy/paste menu when selecting text.
   final bool enableSelectionToolbar;
 
+  /// Whether to paint the selection behind the text (true) or in front of the text (false).
+  /// When true, the selection color can be opaque. When false, the selection color should be transparent.
+  /// Defaults to true.
+  final bool paintSelectionBehindText;
+
   /// The minimum height to be occupied by this editor.
   ///
   /// This only has effect if [scrollable] is set to `true` and [expands] is
@@ -494,6 +500,7 @@ class QuillEditorConfig {
     MouseCursor? readOnlyMouseCursor,
     bool? enableInteractiveSelection,
     bool? enableSelectionToolbar,
+    bool? paintSelectionBehindText,
     double? minHeight,
     double? maxHeight,
     double? maxContentWidth,
@@ -557,6 +564,8 @@ class QuillEditorConfig {
           enableInteractiveSelection ?? this.enableInteractiveSelection,
       enableSelectionToolbar:
           enableSelectionToolbar ?? this.enableSelectionToolbar,
+      paintSelectionBehindText:
+          paintSelectionBehindText ?? this.paintSelectionBehindText,
       minHeight: minHeight ?? this.minHeight,
       maxHeight: maxHeight ?? this.maxHeight,
       maxContentWidth: maxContentWidth ?? this.maxContentWidth,

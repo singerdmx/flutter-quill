@@ -653,6 +653,7 @@ class QuillRawEditorState extends EditorState
           color: widget.config.selectionColor,
           styles: _styles,
           enableInteractiveSelection: widget.config.enableInteractiveSelection,
+          paintSelectionBehindText: widget.config.paintSelectionBehindText,
           hasFocus: _hasFocus,
           contentPadding: attrs.containsKey(Attribute.codeBlock.key)
               ? const EdgeInsets.all(16)
@@ -707,20 +708,22 @@ class QuillRawEditorState extends EditorState
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
-        node,
-        null,
-        textLine,
-        _getHorizontalSpacingForLine(node, _styles),
-        _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
-        controller.selection,
-        widget.config.selectionColor,
-        widget.config.enableInteractiveSelection,
-        _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        _cursorCont,
-        _styles!.inlineCode!,
-        _getDecoration(node, _styles, attrs));
+      node,
+      null,
+      textLine,
+      _getHorizontalSpacingForLine(node, _styles),
+      _getVerticalSpacingForLine(node, _styles),
+      _textDirection,
+      controller.selection,
+      widget.config.selectionColor,
+      widget.config.enableInteractiveSelection,
+      _hasFocus,
+      MediaQuery.devicePixelRatioOf(context),
+      _cursorCont,
+      _styles!.inlineCode!,
+      _getDecoration(node, _styles, attrs),
+      widget.config.paintSelectionBehindText,
+    );
     return editableTextLine;
   }
 
