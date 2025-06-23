@@ -170,8 +170,12 @@ class _TextLineState extends State<TextLine> {
       }
     }
     final textSpan = _getTextSpanForWholeLine();
-    final strutStyle =
-        StrutStyle.fromTextStyle(textSpan.style ?? const TextStyle());
+    // 增加强制固定行高
+    final strutStyle = StrutStyle.fromTextStyle(
+      textSpan.style ?? const TextStyle(),
+      forceStrutHeight: widget.styles.forceStrutHeight,
+      leading: widget.styles.leadingOffset,
+    );
     final textAlign = _getTextAlign();
     final child = RichText(
       key: _richTextKey,
