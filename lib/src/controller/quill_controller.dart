@@ -96,6 +96,46 @@ class QuillController extends ChangeNotifier {
   TextSelection get selection => _selection;
   TextSelection _selection;
 
+  // Drag selection tracking for smooth scrolling on web
+  bool _isDragging = false;
+  TextSelection? _previousSelection;
+  
+  bool get isDragging => _isDragging;
+  
+  void startDragSelection() {
+    _isDragging = true;
+    _previousSelection = _selection;
+  }
+  
+  void endDragSelection() {
+    _isDragging = false;
+    _previousSelection = null;
+  }
+  
+  /// Get the appropriate caret position for scrolling during drag selection
+  TextPosition getCaretPositionForScrolling() {
+    if (!_isDragging || _previousSelection == null) {
+      return _selection.extent;
+    }
+    
+    final oldSelection = _previousSelection!;
+    final newSelection = _selection;
+    
+    // Did the base position change?
+    if (oldSelection.baseOffset != newSelection.baseOffset) {
+      // Base changed, track the base position
+      return newSelection.base;
+    }
+    // Did the extent position change?
+    else if (oldSelection.extentOffset != newSelection.extentOffset) {
+      // Extent changed, track the extent position
+      return newSelection.extent;
+    }
+    
+    // If no change, use extent
+    return newSelection.extent;
+  }
+
   /// Custom [replaceText] handler
   /// Return false to ignore the event
   ReplaceTextCallback? onReplaceText;
@@ -463,6 +503,11 @@ class QuillController extends ChangeNotifier {
 
   void _updateSelection(TextSelection textSelection,
       {bool insertNewline = false}) {
+    // Drag sırasında önceki selection'ı güncelle
+    if (_isDragging) {
+      _previousSelection = _selection;
+    }
+    
     _selection = textSelection;
     final end = document.length - 1;
     _selection = selection.copyWith(
