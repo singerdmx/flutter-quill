@@ -303,6 +303,7 @@ class QuillEditorState extends State<QuillEditor>
         expands: config.expands,
         autoFocus: config.autoFocus,
         selectionColor: selectionColor,
+        paintSelectionBehindText: config.paintSelectionBehindText,
         selectionCtrls: config.textSelectionControls ?? textSelectionControls,
         keyboardAppearance: config.keyboardAppearance,
         enableInteractiveSelection: config.enableInteractiveSelection,
@@ -680,6 +681,7 @@ class RenderEditor extends RenderEditableContainerBox
     required this.onSelectionCompleted,
     required super.scrollBottomInset,
     required this.floatingCursorDisabled,
+    this.controller,
     ViewportOffset? offset,
     super.children,
     EdgeInsets floatingCursorAddedMargin =
@@ -695,6 +697,7 @@ class RenderEditor extends RenderEditableContainerBox
           container: document.root,
         );
 
+  final QuillController? controller;
   final CursorCont _cursorController;
   final bool floatingCursorDisabled;
   final bool scrollable;
@@ -923,6 +926,8 @@ class RenderEditor extends RenderEditableContainerBox
 
   void handleDragStart(DragStartDetails details) {
     _isDragging = true;
+    // Notify controller that drag has started
+    controller?.startDragSelection();
 
     final newSelection = selectPositionAt(
       from: details.globalPosition,
@@ -936,6 +941,8 @@ class RenderEditor extends RenderEditableContainerBox
 
   void handleDragEnd(DragEndDetails details) {
     _isDragging = false;
+    // Notify controller that drag has ended
+    controller?.endDragSelection();
     onSelectionCompleted();
   }
 
@@ -1233,9 +1240,19 @@ class RenderEditor extends RenderEditableContainerBox
     return childLocalRect.shift(Offset(0, boxParentData.offset.dy));
   }
 
-  TextPosition get caretTextPosition => _floatingCursorRect == null
-      ? selection.extent
-      : _floatingCursorTextPosition;
+  TextPosition get caretTextPosition {
+    if (_floatingCursorRect != null) {
+      return _floatingCursorTextPosition;
+    }
+
+    // Get smart caret position from controller during drag on web platform
+    if (kIsWeb && controller != null && controller!.isDragging) {
+      return controller!.getCaretPositionForScrolling();
+    }
+
+    // Use extent in normal cases (cursor position)
+    return selection.extent;
+  }
 
   // Start floating cursor
 
