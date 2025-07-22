@@ -1,4 +1,4 @@
-/// @docImport '../../rules/insert.dart';
+/// @docImport '../../rules/insert.dart' show AutoFormatMultipleLinksRule;
 library;
 
 import 'dart:ui' as ui;
@@ -214,7 +214,7 @@ class QuillEditorConfig {
 
   /// Additional space around the content of this editor.
   /// by default will be [EdgeInsets.zero]
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry padding;
 
   /// Whether this editor should focus itself if nothing else is already
   /// focused.
@@ -484,7 +484,7 @@ class QuillEditorConfig {
     bool? scrollable,
     double? scrollBottomInset,
     bool? enableAlwaysIndentOnTab,
-    EdgeInsets? padding,
+    EdgeInsetsGeometry? padding,
     bool? autoFocus,
     bool? onTapOutsideEnabled,
     Function(PointerDownEvent event, FocusNode focusNode)? onTapOutside,
