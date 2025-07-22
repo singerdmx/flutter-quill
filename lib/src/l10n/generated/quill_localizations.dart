@@ -49,6 +49,7 @@ import 'quill_localizations_tk.dart';
 import 'quill_localizations_tr.dart';
 import 'quill_localizations_uk.dart';
 import 'quill_localizations_ur.dart';
+import 'quill_localizations_uz.dart';
 import 'quill_localizations_vi.dart';
 import 'quill_localizations_zh.dart';
 
@@ -187,6 +188,7 @@ abstract class FlutterQuillLocalizations {
     Locale('tr'),
     Locale('uk'),
     Locale('ur'),
+    Locale('uz'),
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
@@ -887,6 +889,7 @@ class _FlutterQuillLocalizationsDelegate
         'tr',
         'uk',
         'ur',
+        'uz',
         'vi',
         'zh'
       ].contains(locale.languageCode);
@@ -1034,6 +1037,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsUk();
     case 'ur':
       return FlutterQuillLocalizationsUr();
+    case 'uz':
+      return FlutterQuillLocalizationsUz();
     case 'vi':
       return FlutterQuillLocalizationsVi();
     case 'zh':
