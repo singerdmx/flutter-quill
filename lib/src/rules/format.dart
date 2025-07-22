@@ -133,8 +133,8 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
     final delta = Delta();
     final itr = DeltaIterator(document.toDelta());
     final before = itr.skip(index), after = itr.next();
-    int beg = index;
-    int retain = 0;
+    var beg = index;
+    var retain = 0;
     if (before != null && before.hasAttribute(attribute.key)) {
       beg -= before.length!;
       retain = before.length!;
