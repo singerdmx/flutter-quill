@@ -1062,7 +1062,11 @@ class QuillRawEditorState extends EditorState
 
   void _updateOrDisposeSelectionOverlayIfNeeded() {
     if (_selectionOverlay != null) {
-      if (!_hasFocus || textEditingValue.selection.isCollapsed) {
+      if (!_hasFocus) {
+        _selectionOverlay!.dispose();
+        _selectionOverlay = null;
+      } else if (textEditingValue.selection.isCollapsed && _selectionOverlay!.toolbar == null) {
+        // Only dispose the selection overlay when selection is collapsed and no toolbar is shown
         _selectionOverlay!.dispose();
         _selectionOverlay = null;
       } else {
