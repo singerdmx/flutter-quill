@@ -89,6 +89,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           allowedMimeTypes: widget.config.contentInsertionConfiguration == null
               ? const <String>[]
               : widget.config.contentInsertionConfiguration!.allowedMimeTypes,
+          viewId: View.of(context).viewId,
         ),
       );
 
