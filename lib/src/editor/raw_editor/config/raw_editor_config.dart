@@ -29,6 +29,7 @@ class QuillRawEditorConfig {
     required this.embedBuilder,
     required this.textSpanBuilder,
     required this.autoFocus,
+    this.paintSelectionBehindText = true,
     this.characterShortcutEvents = const [],
     this.spaceShortcutEvents = const [],
     @experimental this.onKeyPressed,
@@ -302,6 +303,11 @@ class QuillRawEditorConfig {
 
   /// The color to use when painting the selection.
   final Color selectionColor;
+
+  /// Whether to paint the selection behind the text (true) or in front of the text (false).
+  /// When true, the selection color can be opaque. When false, the selection color should be transparent.
+  /// Defaults to true.
+  final bool paintSelectionBehindText;
 
   /// Delegate for building the text selection handles and toolbar.
   ///

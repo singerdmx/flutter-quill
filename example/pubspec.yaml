@@ -13,8 +13,13 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   
-  flutter_quill: ^11.0.0-dev.4
-  flutter_quill_extensions: ^11.0.0-dev.3
+  flutter_quill: 
+    git: 
+      url: git@github.com:singerdmx/flutter-quill.git
+  flutter_quill_extensions: 
+    git: 
+      url: git@github.com:singerdmx/flutter-quill.git
+      path: flutter_quill_extensions
   path: ^1.9.0
 
 dev_dependencies:

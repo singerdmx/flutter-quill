@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ViewportOffset;
 
+import '../../controller/quill_controller.dart';
 import '../../document/document.dart';
 import '../editor.dart';
 import '../widgets/cursor.dart';
@@ -21,6 +22,7 @@ class QuillRawEditorMultiChildRenderObject
     required this.scrollBottomInset,
     required this.cursorController,
     required this.floatingCursorDisabled,
+    this.controller,
     super.key,
     this.padding = EdgeInsets.zero,
     this.maxContentWidth,
@@ -42,6 +44,7 @@ class QuillRawEditorMultiChildRenderObject
   final double? maxContentWidth;
   final CursorCont cursorController;
   final bool floatingCursorDisabled;
+  final QuillController? controller;
 
   @override
   RenderEditor createRenderObject(BuildContext context) {
@@ -61,6 +64,7 @@ class QuillRawEditorMultiChildRenderObject
       maxContentWidth: maxContentWidth,
       scrollBottomInset: scrollBottomInset,
       floatingCursorDisabled: floatingCursorDisabled,
+      controller: controller,
     );
   }
 
