@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'quill_localizations_am.dart';
 import 'quill_localizations_ar.dart';
 import 'quill_localizations_bg.dart';
 import 'quill_localizations_bn.dart';
@@ -139,6 +140,7 @@ abstract class FlutterQuillLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('am'),
     Locale('ar'),
     Locale('bg'),
     Locale('bn'),
@@ -190,7 +192,8 @@ abstract class FlutterQuillLocalizations {
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
-    Locale('zh', 'HK')
+    Locale('zh', 'HK'),
+    Locale('zh', 'TW')
   ];
 
   /// No description provided for @pasteLink.
@@ -842,6 +845,7 @@ class _FlutterQuillLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) => <String>[
+        'am',
         'ar',
         'bg',
         'bn',
@@ -936,6 +940,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
             return FlutterQuillLocalizationsZhCn();
           case 'HK':
             return FlutterQuillLocalizationsZhHk();
+          case 'TW':
+            return FlutterQuillLocalizationsZhTw();
         }
         break;
       }
@@ -943,6 +949,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'am':
+      return FlutterQuillLocalizationsAm();
     case 'ar':
       return FlutterQuillLocalizationsAr();
     case 'bg':
