@@ -52,11 +52,11 @@ dependencies:
   # Plugins
   url_launcher: ^6.2.1
   flutter_keyboard_visibility_temp_fork: ^0.1.1
-  # quill_native_bridge: ^11.0.0
-  quill_native_bridge:
-    git:
-        url: https://github.com/akhmdshfmstp/flutter_quill_extensions.git
-        ref: master
+  quill_native_bridge: ^11.0.0
+  # quill_native_bridge:
+  #   git:
+  #       url: https://github.com/akhmdshfmstp/flutter_quill_extensions.git
+  #       ref: master
         
 dev_dependencies:
   flutter_lints: ^5.0.0
