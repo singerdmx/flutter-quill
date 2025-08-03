@@ -293,7 +293,7 @@ class EditableTextBlock extends StatelessWidget {
           return null;
         }
         return defaultStyles.code!.style.copyWith(
-          color: defaultStyles.code!.style.color!.withValues(0.4),
+          color: defaultStyles.code!.style.color!.withOpacity(0.4),
         );
       }(),
       width: () {

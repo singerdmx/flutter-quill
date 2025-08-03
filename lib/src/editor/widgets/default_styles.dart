@@ -300,7 +300,7 @@ class DefaultStyles {
 
     final inlineCodeStyle = TextStyle(
       fontSize: 14,
-      color: themeData.colorScheme.primary.withValues(0.8),
+      color: themeData.colorScheme.primary.withOpacity(0.8),
       fontFamily: fontFamily,
     );
 
@@ -464,7 +464,7 @@ class DefaultStyles {
           defaultTextStyle.style.copyWith(
             fontSize: 20,
             height: 1.5,
-            color: Colors.grey.withValues(0.6),
+            color: Colors.grey.withOpacity(0.6),
           ),
           baseHorizontalSpacing,
           VerticalSpacing.zero,
@@ -479,7 +479,7 @@ class DefaultStyles {
         null,
       ),
       quote: DefaultTextBlockStyle(
-        TextStyle(color: baseStyle.color!.withValues(0.6)),
+        TextStyle(color: baseStyle.color!.withOpacity(0.6)),
         baseHorizontalSpacing,
         baseVerticalSpacing,
         const VerticalSpacing(6, 2),
@@ -491,7 +491,7 @@ class DefaultStyles {
       ),
       code: DefaultTextBlockStyle(
           TextStyle(
-            color: Colors.blue.shade900.withValues(0.9),
+            color: Colors.blue.shade900.withOpacity(0.9),
             fontFamily: fontFamily,
             fontSize: 13,
             height: 1.15,
