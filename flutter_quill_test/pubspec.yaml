@@ -14,7 +14,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_quill: ^11.0.0
+  # flutter_quill: ^11.0.0
+  flutter_quill:
+    git:
+        url: https://github.com/akhmdshfmstp/flutter_quill_extensions.git
+        ref: master
   flutter_test:
     sdk: flutter
 
