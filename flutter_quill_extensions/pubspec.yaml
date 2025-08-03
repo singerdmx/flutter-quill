@@ -36,7 +36,12 @@ dependencies:
   web: ">=0.5.0 <2.0.0"
   path: ^1.8.0
 
-  flutter_quill: ^11.0.0
+  # flutter_quill: ^11.0.0
+  flutter_quill:
+    git:
+        url: https://github.com/akhmdshfmstp/flutter_quill.git
+        ref: master
+
   photo_view: ^0.15.0
 
   # Plugins
