@@ -78,6 +78,15 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   }
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
+    final isTab = event.logicalKey == LogicalKeyboardKey.tab;
+    // Swallow Tab before Quill ever sees it
+    if (event is KeyDownEvent && isTab) {
+      // move focus onward
+      FocusManager.instance.primaryFocus?.nextFocus();
+      // stop propagation so it does not insert a tab character
+      return KeyEventResult.handled;
+    }
+
     final onKey = onKeyPressed;
     if (onKey != null) {
       // Find the current node the user is on.
@@ -93,7 +102,6 @@ class EditorKeyboardShortcuts extends StatelessWidget {
       return KeyEventResult.ignored;
     }
 
-    final isTab = event.logicalKey == LogicalKeyboardKey.tab;
     final isSpace = event.logicalKey == LogicalKeyboardKey.space;
     final containsSelection =
         controller.selection.baseOffset != controller.selection.extentOffset;
