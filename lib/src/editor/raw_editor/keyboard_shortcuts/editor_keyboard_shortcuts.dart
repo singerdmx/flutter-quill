@@ -80,7 +80,9 @@ class EditorKeyboardShortcuts extends StatelessWidget {
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
     final isTab = event.logicalKey == LogicalKeyboardKey.tab;
     // Swallow Tab before Quill ever sees it
+    print('## Debug print: key pressed ${event.logicalKey} / ${event.physicalKey}');
     if (event is KeyDownEvent && isTab) {
+      print('## Debug print: Handling tab');
       // move focus onward
       FocusManager.instance.primaryFocus?.nextFocus();
       // stop propagation so it does not insert a tab character
