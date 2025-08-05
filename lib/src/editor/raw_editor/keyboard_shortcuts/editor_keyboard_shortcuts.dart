@@ -83,9 +83,10 @@ class EditorKeyboardShortcuts extends StatelessWidget {
     print('## Debug print: key pressed ${event.logicalKey} / ${event.physicalKey}');
     if (event is KeyDownEvent && isTab) {
       print('## Debug print: Handling tab');
-      // move focus onward
+      // Explicitly blur the editor so the mobile keyboard will hide
+      node.unfocus();
+      // Move focus to the next widget
       FocusManager.instance.primaryFocus?.nextFocus();
-      // stop propagation so it does not insert a tab character
       return KeyEventResult.handled;
     }
 
