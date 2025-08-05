@@ -247,6 +247,8 @@ class DefaultStyles {
     this.sizeLarge,
     this.sizeHuge,
     this.palette,
+    this.forceStrutHeight,
+    this.leadingOffset,
   });
 
   final DefaultTextBlockStyle? h1;
@@ -285,6 +287,11 @@ class DefaultStyles {
 
   /// Custom palette of colors
   final Map<String, Color>? palette;
+
+  // 强制设置同高
+  final bool? forceStrutHeight;
+  // 基线位置
+  final double? leadingOffset;
 
   static DefaultStyles getInstance(BuildContext context) {
     final themeData = Theme.of(context);
@@ -564,6 +571,8 @@ class DefaultStyles {
       sizeLarge: other.sizeLarge ?? sizeLarge,
       sizeHuge: other.sizeHuge ?? sizeHuge,
       palette: other.palette ?? palette,
+      forceStrutHeight: other.forceStrutHeight ?? forceStrutHeight,
+      leadingOffset: other.leadingOffset ?? leadingOffset,
     );
   }
 }
