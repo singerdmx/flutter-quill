@@ -130,6 +130,12 @@ class QuillController extends ChangeNotifier {
   /// removing or listeners to this instance.
   bool _isDisposed = false;
 
+  bool _suppressNextTab = false;
+
+  void suppressNextTabInsert() {
+    _suppressNextTab = true;
+  }
+
   Stream<DocChange> get changes => document.changes;
 
   TextEditingValue get plainTextEditingValue => TextEditingValue(
@@ -273,6 +279,10 @@ class QuillController extends ChangeNotifier {
     @experimental bool shouldNotifyListeners = true,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
+    if (_suppressNextTab && data is String && data.contains('\t')) {
+      _suppressNextTab = false;
+      return;
+    }
 
     if (onReplaceText != null && !onReplaceText!(index, len, data)) {
       return;
@@ -410,6 +420,10 @@ class QuillController extends ChangeNotifier {
   }
 
   void updateSelection(TextSelection textSelection, ChangeSource source) {
+    if (_suppressNextTab) {
+      _suppressNextTab = false;
+      return;
+    }
     _updateSelection(textSelection);
     notifyListeners();
   }
@@ -463,6 +477,10 @@ class QuillController extends ChangeNotifier {
 
   void _updateSelection(TextSelection textSelection,
       {bool insertNewline = false}) {
+    if (_suppressNextTab) {
+      _suppressNextTab = false;
+      return;
+    }
     _selection = textSelection;
     final end = document.length - 1;
     _selection = selection.copyWith(
