@@ -279,10 +279,8 @@ class QuillController extends ChangeNotifier {
     @experimental bool shouldNotifyListeners = true,
   }) {
     assert(data is String || data is Embeddable || data is Delta);
-    print('#### Replace test');
     if (_suppressNextTab && data is String && data.contains('\t')) {
       _suppressNextTab = false;
-      print('#### Debug print: Dropping the tab');
       return;
     }
 
