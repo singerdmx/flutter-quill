@@ -79,9 +79,10 @@ class EditorKeyboardShortcuts extends StatelessWidget {
 
   KeyEventResult _onKeyEvent(node, KeyEvent event) {
     final isTab = event.logicalKey == LogicalKeyboardKey.tab;
-
     // Swallow Tab before Quill ever sees it
     if (isTab) {
+      // Tells the controller to ignore the upcoming tab‐insert & selection change
+      controller.suppressNextTabInsert();
       if (event is KeyDownEvent) {
         // blur the editor (hides the mobile keyboard)
         print('## Debug print: Handling tab');
