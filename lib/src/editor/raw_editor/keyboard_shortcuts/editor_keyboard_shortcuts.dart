@@ -85,7 +85,7 @@ class EditorKeyboardShortcuts extends StatelessWidget {
       controller.suppressNextTabInsert();
       if (event is KeyDownEvent) {
         // blur the editor (hides the mobile keyboard)
-        print('## Debug print: Handling tab');
+        print('## Debug print: Handling tab new');
         node.unfocus();
         // move focus to the next widget
         FocusManager.instance.primaryFocus?.nextFocus();
