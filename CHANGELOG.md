@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **RTL checkbox click area issue** fixed where checkboxes in RTL text direction were visually positioned correctly but remained clickable only in their LTR position.
+
 ## [11.4.2] - 2025-07-22
 
 ### Fixed

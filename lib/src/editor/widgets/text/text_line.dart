@@ -1481,11 +1481,18 @@ class RenderEditableTextLine extends RenderEditableBox {
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     if (_leading != null) {
       final childParentData = _leading!.parentData as BoxParentData;
+      // Use the same offset calculation as in paint() method for RTL support
+      final leadingOffset = textDirection == TextDirection.ltr
+          ? childParentData.offset
+          : Offset(
+              size.width - _leading!.size.width,
+              childParentData.offset.dy,
+            );
       final isHit = result.addWithPaintOffset(
-        offset: childParentData.offset,
+        offset: leadingOffset,
         position: position,
         hitTest: (result, transformed) {
-          assert(transformed == position - childParentData.offset);
+          assert(transformed == position - leadingOffset);
           return _leading!.hitTest(result, position: transformed);
         },
       );
