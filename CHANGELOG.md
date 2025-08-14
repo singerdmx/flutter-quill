@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Completed missing Brazilian Portuguese translations
+
 ## [11.4.2] - 2025-07-22
 
 ### Fixed
