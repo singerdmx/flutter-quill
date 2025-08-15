@@ -18,6 +18,7 @@ import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
 import 'raw_editor/config/raw_editor_config.dart';
+import 'raw_editor/quill_system_context_menu.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
 import 'widgets/cursor.dart';
@@ -281,8 +282,19 @@ class QuillEditorState extends State<QuillEditor>
         placeholder: config.placeholder,
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
-            ? (config.contextMenuBuilder ??
-                QuillRawEditorConfig.defaultContextMenuBuilder)
+            ? (config.useSystemContextMenuItems
+                ? (context, state) {
+                    if (QuillSystemContextMenu.isSupported(context)) {
+                      return QuillSystemContextMenu.quillEditor(
+                        quillEditorState: state,
+                      );
+                    }
+                    return (config.contextMenuBuilder ??
+                            QuillRawEditorConfig.defaultContextMenuBuilder)(
+                        context, state);
+                  }
+                : (config.contextMenuBuilder ??
+                    QuillRawEditorConfig.defaultContextMenuBuilder))
             : null,
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,
