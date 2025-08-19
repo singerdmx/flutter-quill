@@ -10,11 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-- Fix caret not auto scroll to visible when page has multiple editors [#2570](https://github.com/singerdmx/flutter-quill/pull/2570).
+## [11.4.2] - 2025-07-22
 
-### Changed
-- **BREAKING**: QuillEditorConfig is now accept `EdgeInsets padding` instead of `EdgeInsetsGeometry`.
+### Fixed
+
+- **App crash on desktop platforms** when using Flutter `3.32.0-0.5.pre` and newer.  
+  Fixed by passing the required `viewId` for experimental multi-window support [#2579](https://github.com/singerdmx/flutter-quill/pull/2579).
 
 ## [11.4.1] - 2025-05-15
 
@@ -172,7 +173,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.4.1...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.4.2...HEAD
+[11.4.2]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.2
 [11.4.1]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.1
 [11.4.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.0
 [11.3.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.3.0

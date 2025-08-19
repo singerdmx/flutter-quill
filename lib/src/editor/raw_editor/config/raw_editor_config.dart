@@ -159,7 +159,7 @@ class QuillRawEditorConfig {
   final KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed;
 
   /// Additional space around the editor contents.
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry padding;
 
   /// Enables always indenting when the TAB key is pressed.
   ///
