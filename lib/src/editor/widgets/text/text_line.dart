@@ -233,19 +233,20 @@ class _TextLineState extends State<TextLine> {
         }
 
         final embedBuilder = widget.embedBuilder(child);
+        final embedContext = EmbedContext(
+          controller: widget.controller,
+          node: child,
+          readOnly: widget.readOnly,
+          inline: true,
+          textStyle: lineStyle,
+        );
         final embedWidget = EmbedProxy(
           embedBuilder.build(
             context,
-            EmbedContext(
-              controller: widget.controller,
-              node: child,
-              readOnly: widget.readOnly,
-              inline: true,
-              textStyle: lineStyle,
-            ),
+            embedContext,
           ),
         );
-        final embed = embedBuilder.buildWidgetSpan(embedWidget);
+        final embed = embedBuilder.buildWidgetSpan(embedWidget, embedContext);
         textSpanChildren.add(embed);
         continue;
       }
