@@ -8,6 +8,8 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'raw_editor_state.dart';
+
 /// Displays the system context menu on top of the Flutter view.
 ///
 /// Currently, only supports iOS 16.0 and above and displays nothing on other
@@ -45,10 +47,10 @@ import 'package:flutter/services.dart';
 ///
 ///  * [SystemContextMenuController], which directly controls the hiding and
 ///    showing of the system context menu.
-class SystemContextMenu extends StatefulWidget {
+class QuillSystemContextMenu extends StatefulWidget {
   /// Creates an instance of [SystemContextMenu] that points to the given
   /// [anchor].
-  const SystemContextMenu._({
+  const QuillSystemContextMenu._({
     super.key,
     required this.anchor,
     required this.items,
@@ -57,7 +59,7 @@ class SystemContextMenu extends StatefulWidget {
 
   /// Creates an instance of [SystemContextMenu] for the field indicated by the
   /// given [EditableTextState].
-  factory SystemContextMenu.editableText({
+  factory QuillSystemContextMenu.editableText({
     Key? key,
     required EditableTextState editableTextState,
     List<IOSSystemContextMenuItem>? items,
@@ -65,7 +67,7 @@ class SystemContextMenu extends StatefulWidget {
     final (startGlyphHeight: double startGlyphHeight, endGlyphHeight: double endGlyphHeight) =
     editableTextState.getGlyphHeights();
 
-    return SystemContextMenu._(
+    return QuillSystemContextMenu._(
       key: key,
       anchor: TextSelectionToolbarAnchors.getSelectionRect(
         editableTextState.renderEditable,
@@ -77,6 +79,42 @@ class SystemContextMenu extends StatefulWidget {
       ),
       items: items ?? getDefaultItems(editableTextState),
       onSystemHide: editableTextState.hideToolbar,
+    );
+  }
+
+
+  /// Creates an instance of [QuillSystemContextMenu] for the field indicated by the
+  /// given [QuillRawEditorState].
+  factory QuillSystemContextMenu.quillEditor({
+    Key? key,
+    required QuillRawEditorState quillEditorState,
+    List<IOSSystemContextMenuItem>? items,
+  }) {
+    final selection = quillEditorState.textEditingValue.selection;
+    final points = quillEditorState.renderEditor.getEndpointsForSelection(selection);
+
+    // Calculate glyph heights manually since _getGlyphHeights is private
+    double startGlyphHeight, endGlyphHeight;
+    if (selection.isValid && !selection.isCollapsed) {
+      final startCharacterRect = quillEditorState.renderEditor.getLocalRectForCaret(selection.base);
+      final endCharacterRect = quillEditorState.renderEditor.getLocalRectForCaret(selection.extent);
+      startGlyphHeight = startCharacterRect.height;
+      endGlyphHeight = endCharacterRect.height;
+    } else {
+      startGlyphHeight = quillEditorState.renderEditor.preferredLineHeight(selection.base);
+      endGlyphHeight = startGlyphHeight;
+    }
+
+    return QuillSystemContextMenu._(
+      key: key,
+      anchor: TextSelectionToolbarAnchors.getSelectionRect(
+        quillEditorState.renderEditor,
+        startGlyphHeight,
+        endGlyphHeight,
+        points,
+      ),
+      items: items ?? getDefaultItemsForQuill(quillEditorState),
+      onSystemHide: quillEditorState.hideToolbar,
     );
   }
 
@@ -130,11 +168,23 @@ class SystemContextMenu extends StatefulWidget {
     ];
   }
 
+  /// Returns the default context menu items for the given [QuillRawEditorState].
+  static List<IOSSystemContextMenuItem> getDefaultItemsForQuill(QuillRawEditorState quillEditorState) {
+    return <IOSSystemContextMenuItem>[
+      if (quillEditorState.copyEnabled) const IOSSystemContextMenuItemCopy(),
+      if (quillEditorState.cutEnabled) const IOSSystemContextMenuItemCut(),
+      if (quillEditorState.pasteEnabled) const IOSSystemContextMenuItemPaste(),
+      if (quillEditorState.selectAllEnabled) const IOSSystemContextMenuItemSelectAll(),
+      if (quillEditorState.lookUpEnabled) const IOSSystemContextMenuItemLookUp(),
+      if (quillEditorState.searchWebEnabled) const IOSSystemContextMenuItemSearchWeb(),
+    ];
+  }
+
   @override
-  State<SystemContextMenu> createState() => _SystemContextMenuState();
+  State<QuillSystemContextMenu> createState() => _SystemContextMenuState();
 }
 
-class _SystemContextMenuState extends State<SystemContextMenu> {
+class _SystemContextMenuState extends State<QuillSystemContextMenu> {
   late final SystemContextMenuController _systemContextMenuController;
 
   @override
