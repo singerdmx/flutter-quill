@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **[Web]** Remove unnecessary `KeyboardListener` that was causing an extra Tab stop in focus traversal, improving keyboard navigation efficiency.
+
 ## [11.4.2] - 2025-07-22
 
 ### Fixed
