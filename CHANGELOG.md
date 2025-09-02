@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **[Web]** Remove unnecessary `KeyboardListener` that was causing an extra Tab stop in focus traversal, improving keyboard navigation efficiency.
+
 ### Added
 
 - Added localization support for `mn` (Mongolian, Mongolia)
