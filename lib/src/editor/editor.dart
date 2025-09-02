@@ -330,7 +330,7 @@ class QuillEditorState extends State<QuillEditor>
       ),
     );
 
-    final editor = selectionEnabled
+    return selectionEnabled
         ? _selectionGestureDetectorBuilder.build(
             behavior: HitTestBehavior.translucent,
             detectWordBoundary: config.detectWordBoundary,
@@ -339,8 +339,6 @@ class QuillEditorState extends State<QuillEditor>
             quillMagnifierBuilder: config.quillMagnifierBuilder,
           )
         : child;
-
-    return editor;
   }
 
   EmbedBuilder _getEmbedBuilder(Embed node) {
