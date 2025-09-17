@@ -251,7 +251,7 @@ class _TextLineState extends State<TextLine> {
       }
 
       // here child is Text node and its value is cloned
-      textNodes.add(child.clone());
+      textNodes.add(child.cloneWithOffset());
     }
 
     if (textNodes.isNotEmpty) {
