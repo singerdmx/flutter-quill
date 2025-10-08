@@ -116,20 +116,26 @@ class QuillToolbarSelectHeaderStyleButtonsState
       final isSelected = _selectedAttribute == attribute;
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
-        child: QuillToolbarIconButton(
-          tooltip: tooltip,
-          iconTheme: iconTheme,
-          isSelected: isSelected,
-          onPressed: () => _sharedOnPressed(attribute),
-          icon: Text(
-            _valueToText[attribute] ??
-                (throw ArgumentError.notNull(
-                  'attribute',
-                )),
-            style: style.copyWith(
-              color: isSelected
-                  ? iconTheme?.iconButtonSelectedData?.color
-                  : iconTheme?.iconButtonUnselectedData?.color,
+        child: MergeSemantics(
+          child: Semantics(
+            selected: isSelected,
+            button: true,
+            child: QuillToolbarIconButton(
+              tooltip: tooltip,
+              iconTheme: iconTheme,
+              isSelected: isSelected,
+              onPressed: () => _sharedOnPressed(attribute),
+              icon: Text(
+                _valueToText[attribute] ??
+                    (throw ArgumentError.notNull(
+                      'attribute',
+                    )),
+                style: style.copyWith(
+                  color: isSelected
+                      ? iconTheme?.iconButtonSelectedData?.color
+                      : iconTheme?.iconButtonUnselectedData?.color,
+                ),
+              ),
             ),
           ),
         ),
