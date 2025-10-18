@@ -334,18 +334,6 @@
     "saveImagePermissionDenied"
   ],
 
-  "pt_BR": [
-    "insertVideo",
-    "errorUnexpectedSavingImage",
-    "successImageSavedGallery",
-    "successImageSaved",
-    "successImageDownloaded",
-    "openGallery",
-    "openFileLocation",
-    "openFile",
-    "saveImagePermissionDenied"
-  ],
-
   "ro": [
     "insertVideo",
     "errorUnexpectedSavingImage",

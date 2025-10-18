@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed `View.of(context)` calls throwing when used with the `screenshot` package [#2662](https://github.com/singerdmx/flutter-quill/pull/2662).
 
+### Added
+
+- Add missing Brazilian Portuguese translations
+
 ## [11.4.2] - 2025-07-22
 
 ### Fixed
