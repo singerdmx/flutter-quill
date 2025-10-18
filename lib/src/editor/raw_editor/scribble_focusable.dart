@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+import '../../common/extensions/view_id_ext.dart';
+
 class ScribbleFocusable extends StatefulWidget {
   const ScribbleFocusable({
     required this.child,
@@ -87,10 +89,16 @@ class _ScribbleFocusableState extends State<ScribbleFocusable>
     if (!calculatedBounds.overlaps(rect)) {
       return false;
     }
+
+    final viewId = context.getViewId();
+    if (viewId == null) {
+      // Can't perform hit testing without a viewId
+      return false;
+    }
+
     final intersection = calculatedBounds.intersect(rect);
     final result = HitTestResult();
-    WidgetsBinding.instance
-        .hitTestInView(result, intersection.center, View.of(context).viewId);
+    WidgetsBinding.instance.hitTestInView(result, intersection.center, viewId);
     return result.path.any((entry) =>
         entry.target == _renderBoxForEditor ||
         entry.target == _renderBoxForBounds);
