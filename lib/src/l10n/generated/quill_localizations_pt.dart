@@ -24,7 +24,7 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get link => 'Link';
 
   @override
-  String get open => 'Abra';
+  String get open => 'Abrir';
 
   @override
   String get copy => 'Copiar';
@@ -33,7 +33,7 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get remove => 'Remover';
 
   @override
-  String get save => 'Salvar';
+  String get save => 'Guardar';
 
   @override
   String get zoom => 'Zoom';
@@ -81,67 +81,67 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get video => 'Video';
 
   @override
-  String get undo => 'Undo';
+  String get undo => 'Anular';
 
   @override
-  String get redo => 'Redo';
+  String get redo => 'Refazer';
 
   @override
-  String get fontFamily => 'Font family';
+  String get fontFamily => 'Família de fontes';
 
   @override
-  String get fontSize => 'Font size';
+  String get fontSize => 'Tamanho da fonte';
 
   @override
   String get bold => 'Bold';
 
   @override
-  String get subscript => 'Subscript';
+  String get subscript => 'Subscrito';
 
   @override
-  String get superscript => 'Superscript';
+  String get superscript => 'Sobrescrito';
 
   @override
-  String get italic => 'Italic';
+  String get italic => 'Itálico';
 
   @override
-  String get underline => 'Underline';
+  String get underline => 'Sublinhar';
 
   @override
-  String get strikeThrough => 'Strike through';
+  String get strikeThrough => 'Rasurar';
 
   @override
-  String get inlineCode => 'Inline code';
+  String get inlineCode => 'Código em linha';
 
   @override
-  String get fontColor => 'Font color';
+  String get fontColor => 'Cor da fonte';
 
   @override
-  String get backgroundColor => 'Background color';
+  String get backgroundColor => 'Cor de fundo';
 
   @override
-  String get clearFormat => 'Clear format';
+  String get clearFormat => 'Limpar formatação';
 
   @override
-  String get alignLeft => 'Align left';
+  String get alignLeft => 'Alinhar à esquerda';
 
   @override
-  String get alignCenter => 'Align center';
+  String get alignCenter => 'Alinhar ao centro';
 
   @override
-  String get alignRight => 'Align right';
+  String get alignRight => 'Alinhar à direita';
 
   @override
   String get alignJustify => 'Justificar texto';
 
   @override
-  String get justifyWinWidth => 'Justify win width';
+  String get justifyWinWidth => 'Justificar';
 
   @override
-  String get textDirection => 'Text direction';
+  String get textDirection => 'Direção do texto';
 
   @override
-  String get headerStyle => 'Header style';
+  String get headerStyle => 'Estilo do cabeçalho';
 
   @override
   String get normal => 'Normal';
@@ -165,43 +165,43 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get heading6 => 'Título 6';
 
   @override
-  String get numberedList => 'Numbered list';
+  String get numberedList => 'Lista numerada';
 
   @override
-  String get bulletList => 'Bullet list';
+  String get bulletList => 'Lista com marcadores ';
 
   @override
-  String get checkedList => 'Checked list';
+  String get checkedList => 'Lista com checkboxes';
 
   @override
-  String get codeBlock => 'Code block';
+  String get codeBlock => 'Bloco de código';
 
   @override
-  String get quote => 'Quote';
+  String get quote => 'Citar';
 
   @override
-  String get increaseIndent => 'Increase indent';
+  String get increaseIndent => 'Aumentar identação';
 
   @override
-  String get decreaseIndent => 'Decrease indent';
+  String get decreaseIndent => 'Diminuir identação';
 
   @override
-  String get insertURL => 'Insert URL';
+  String get insertURL => 'Inserir URL';
 
   @override
-  String get visitLink => 'Visit link';
+  String get visitLink => 'Visitar link';
 
   @override
-  String get enterLink => 'Enter link';
+  String get enterLink => 'Introduzir link';
 
   @override
-  String get enterMedia => 'Enter media';
+  String get enterMedia => 'Introduzir media';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Editar';
 
   @override
-  String get apply => 'Apply';
+  String get apply => 'Aplicar';
 
   @override
   String get hex => 'Hex';
@@ -216,16 +216,16 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get lineheight => 'Altura da linha';
 
   @override
-  String get findText => 'Find text';
+  String get findText => 'Procurar texto';
 
   @override
-  String get moveToPreviousOccurrence => 'Move to previous occurrence';
+  String get moveToPreviousOccurrence => 'Mover para a ocorrencia anterior';
 
   @override
-  String get moveToNextOccurrence => 'Move to next occurrence';
+  String get moveToNextOccurrence => 'Mover para a ocorrencia  seguinte';
 
   @override
-  String get savedUsingTheNetwork => 'Guardado através da network';
+  String get savedUsingTheNetwork => 'Guardado através da rede';
 
   @override
   String get savedUsingLocalStorage =>
@@ -233,24 +233,25 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
-    return 'A imagem foi salva em: $imagePath';
+    return 'A imagem foi guardada em: $imagePath';
   }
 
   @override
   String get errorWhileSavingImage => 'Erro a gravar imagem';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => 'e.g., \'Mais acerca\'';
 
   @override
   String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Por favor introduza um URL de imagem válido';
 
   @override
   String get pleaseEnterAValidVideoURL =>
-      'Por favor, insira uma URL de vídeo válida';
+      'Por favor, insira um URL de vídeo válido';
 
   @override
   String get photo => 'Foto';
@@ -305,33 +306,33 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get insertTable => 'Inserir tabela';
 
   @override
-  String get insertVideo => 'Insert video';
+  String get insertVideo => 'Inserir vídeo';
 
   @override
   String get errorUnexpectedSavingImage =>
-      'An unexpected error occurred while saving the image. Please try again.';
+      'Ocorreu um erro inesperado ao guardar a imagem. Tente novamente.';
 
   @override
-  String get successImageSavedGallery => 'Image saved to your gallery.';
+  String get successImageSavedGallery => 'Imagem guardada para a sua galeria.';
 
   @override
-  String get successImageSaved => 'Image saved successfully.';
+  String get successImageSaved => 'Imagem guardada com sucesso.';
 
   @override
-  String get successImageDownloaded => 'Image downloaded successfully.';
+  String get successImageDownloaded => 'Imagem transferida com sucesso.';
 
   @override
-  String get openGallery => 'Open Gallery';
+  String get openGallery => 'Abrir galeria';
 
   @override
-  String get openFileLocation => 'Open File Location';
+  String get openFileLocation => 'Abrir localização de ficheiro';
 
   @override
-  String get openFile => 'Open File';
+  String get openFile => 'Abrir ficheiro';
 
   @override
   String get saveImagePermissionDenied =>
-      'Couldn’t save the image due to missing permission';
+      'Erro ao guardar a imagem devido a permissões insuficientes';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
