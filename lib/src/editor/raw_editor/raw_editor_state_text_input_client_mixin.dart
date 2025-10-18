@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
+import '../../common/extensions/view_id_ext.dart';
 import '../../delta/delta_diff.dart';
 import '../../document/document.dart';
 import '../editor.dart';
@@ -89,7 +90,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           allowedMimeTypes: widget.config.contentInsertionConfiguration == null
               ? const <String>[]
               : widget.config.contentInsertionConfiguration!.allowedMimeTypes,
-          viewId: View.of(context).viewId,
+          viewId: context.getViewId(),
         ),
       );
 
