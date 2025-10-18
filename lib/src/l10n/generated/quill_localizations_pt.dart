@@ -546,7 +546,7 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get lineheight => 'Altura da linha';
 
   @override
-  String get findText => 'Achar texto';
+  String get findText => 'Encontrar texto';
 
   @override
   String get moveToPreviousOccurrence => 'Voltar para a ocorrência anterior';
