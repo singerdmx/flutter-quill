@@ -90,8 +90,13 @@ class Document {
       return Delta();
     }
 
-    final delta = _rules.apply(RuleType.insert, this, index,
-        data: data, len: replaceLength);
+    final delta = _rules.apply(
+      RuleType.insert,
+      this,
+      index,
+      data: data,
+      len: replaceLength,
+    );
     compose(delta, ChangeSource.local);
     return delta;
   }
@@ -173,8 +178,13 @@ class Document {
 
     var delta = Delta();
 
-    final formatDelta = _rules.apply(RuleType.format, this, index,
-        len: len, attribute: attribute);
+    final formatDelta = _rules.apply(
+      RuleType.format,
+      this,
+      index,
+      len: len,
+      attribute: attribute,
+    );
     if (formatDelta.isNotEmpty) {
       compose(formatDelta, ChangeSource.local);
       delta = delta.compose(formatDelta);
@@ -238,8 +248,10 @@ class Document {
   /// Returns all styles and Embed for each node within selection
   List<OffsetValue> collectAllIndividualStyleAndEmbed(int index, int len) {
     final res = queryChild(index);
-    return (res.node as Line)
-        .collectAllIndividualStylesAndEmbed(res.offset, len);
+    return (res.node as Line).collectAllIndividualStylesAndEmbed(
+      res.offset,
+      len,
+    );
   }
 
   /// Returns all styles for any character within the specified text range.
@@ -286,11 +298,7 @@ class Document {
       _unknownEmbedBuilder = unknownEmbedBuilder;
 
   /// Returns plain text within the specified text range.
-  String getPlainText(
-    int index,
-    int len, {
-    @internal bool includeEmbeds = false,
-  }) {
+  String getPlainText(int index, int len, {bool includeEmbeds = false}) {
     final res = queryChild(index);
     return (res.node as Line).getPlainText(
       res.offset,
@@ -449,8 +457,9 @@ class Document {
     delta = _transform(delta);
     final originalDelta = toDelta();
     for (final op in delta.toList()) {
-      final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      final style = op.attributes != null
+          ? Style.fromJson(op.attributes)
+          : null;
 
       if (op.isInsert) {
         // Must normalize data before inserting into the document, makes sure
@@ -504,8 +513,14 @@ class Document {
   }
 
   static void _autoAppendNewlineAfterEmbeddable(
-      int i, List<Operation> ops, Operation op, Delta res, String type) {
-    final nextOpIsEmbed = i + 1 < ops.length &&
+    int i,
+    List<Operation> ops,
+    Operation op,
+    Delta res,
+    String type,
+  ) {
+    final nextOpIsEmbed =
+        i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is Map &&
         (ops[i + 1].data as Map).containsKey(type);
@@ -518,7 +533,8 @@ class Document {
     // embed could be image or video
     final opInsertEmbed =
         op.isInsert && op.data is Map && (op.data as Map).containsKey(type);
-    final nextOpIsLineBreak = i + 1 < ops.length &&
+    final nextOpIsLineBreak =
+        i + 1 < ops.length &&
         ops[i + 1].isInsert &&
         ops[i + 1].data is String &&
         (ops[i + 1].data as String).startsWith('\n');
@@ -548,17 +564,18 @@ class Document {
   String toPlainText([
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-  ]) =>
-      cachedPlainText ??= _root.children
-          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
-          .join();
+  ]) => cachedPlainText ??= _root.children
+      .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
+      .join();
 
   @visibleForTesting
   @internal
   void loadDocument(Delta doc) {
     if (doc.isEmpty) {
       throw ArgumentError.value(
-          doc.toString(), 'Document Delta cannot be empty.');
+        doc.toString(),
+        'Document Delta cannot be empty.',
+      );
     }
 
     assert((doc.last.data as String).endsWith('\n'));
@@ -566,11 +583,14 @@ class Document {
     var offset = 0;
     for (final op in doc.toList()) {
       if (!op.isInsert) {
-        throw ArgumentError.value(doc,
-            'Document can only contain insert operations but ${op.key} found.');
+        throw ArgumentError.value(
+          doc,
+          'Document can only contain insert operations but ${op.key} found.',
+        );
       }
-      final style =
-          op.attributes != null ? Style.fromJson(op.attributes) : null;
+      final style = op.attributes != null
+          ? Style.fromJson(op.attributes)
+          : null;
       final data = _normalize(op.data);
       _root.insert(offset, data, style);
       offset += op.length!;
@@ -611,5 +631,5 @@ enum ChangeSource {
   remote,
 
   /// Silent change.
-  silent;
+  silent,
 }
