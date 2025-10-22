@@ -86,6 +86,7 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.useSystemContextMenuItems = false,
   });
 
   @experimental
@@ -471,6 +472,11 @@ class QuillEditorConfig {
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
 
+  /// Show native context menu items on iOS.
+  /// To use the default context menu items on iOS, set this to true.
+  /// Use system context menu can unlock the secure paste feature for iOS
+  final bool useSystemContextMenuItems;
+
   // IMPORTANT For project authors: The copyWith()
   // should be manually updated each time we add or remove a property
 
@@ -531,6 +537,7 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? useSystemContextMenuItems,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
@@ -600,6 +607,7 @@ class QuillEditorConfig {
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,
+      useSystemContextMenuItems: useSystemContextMenuItems ?? this.useSystemContextMenuItems,
     );
   }
 }

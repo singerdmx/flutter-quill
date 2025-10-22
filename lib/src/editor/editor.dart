@@ -18,6 +18,7 @@ import '../document/nodes/leaf.dart';
 import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
 import 'raw_editor/config/raw_editor_config.dart';
+import 'raw_editor/quill_system_context_menu.dart';
 import 'raw_editor/raw_editor.dart';
 import 'widgets/box.dart';
 import 'widgets/cursor.dart';
@@ -223,6 +224,29 @@ class QuillEditorState extends State<QuillEditor>
     });
   }
 
+  /// 构建上下文菜单构建器，简化嵌套逻辑
+  QuillEditorContextMenuBuilder? _buildContextMenuBuilder(bool showSelectionToolbar) {
+    if (!showSelectionToolbar) {
+      return null;
+    }
+
+    if (config.useSystemContextMenuItems) {
+      return (context, state) {
+        if (QuillSystemContextMenu.isSupported(context)) {
+          return QuillSystemContextMenu.quillEditor(
+            quillEditorState: state,
+          );
+        }
+        return (config.contextMenuBuilder ??
+                QuillRawEditorConfig.defaultContextMenuBuilder)(
+            context, state);
+      };
+    }
+
+    return config.contextMenuBuilder ??
+        QuillRawEditorConfig.defaultContextMenuBuilder;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -280,10 +304,7 @@ class QuillEditorState extends State<QuillEditor>
         disableClipboard: config.disableClipboard,
         placeholder: config.placeholder,
         onLaunchUrl: config.onLaunchUrl,
-        contextMenuBuilder: showSelectionToolbar
-            ? (config.contextMenuBuilder ??
-                QuillRawEditorConfig.defaultContextMenuBuilder)
-            : null,
+        contextMenuBuilder: _buildContextMenuBuilder(showSelectionToolbar),
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,
         cursorStyle: CursorStyle(
