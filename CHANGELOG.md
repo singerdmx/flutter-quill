@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed `View.of(context)` calls throwing when used with the `screenshot` package [#2662](https://github.com/singerdmx/flutter-quill/pull/2662).
+- Fixed support for html named colors [#2675](https://github.com/singerdmx/flutter-quill/pull/2675)
 
 ### Added
 
