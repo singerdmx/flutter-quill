@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'web_colors.dart';
 
 import '../../editor/widgets/default_styles.dart';
 
@@ -115,7 +116,12 @@ Color stringToColor(String? s,
       return Colors.brown;
   }
 
-  if (s!.startsWith('rgba')) {
+  // is it an html named color?
+  if (WebColors.namedColors.containsKey(s!.toLowerCase())) {
+    return WebColors.namedColors[s.toLowerCase()]!;
+  }
+
+  if (s.startsWith('rgba')) {
     s = s.substring(5); // trim left 'rgba('
     s = s.substring(0, s.length - 1); // trim right ')'
     final arr = s.split(',').map((e) => e.trim()).toList();
@@ -129,7 +135,7 @@ Color stringToColor(String? s,
   }
 
   if (!s.startsWith('#')) {
-    throw UnsupportedError('Color code not supported');
+    throw UnsupportedError('Color code not supported: $s');
   }
 
   var hex = s.replaceFirst('#', '');
