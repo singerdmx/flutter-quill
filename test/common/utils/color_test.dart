@@ -14,6 +14,10 @@ void main() {
       expect(stringToColor('lightgoldenrodyellow').toARGB32(), 0xFFFAFAD2);
       expect(stringToColor('LIGHTGOLDENRODYELLOW').toARGB32(), 0xFFFAFAD2);
     });
+    test('Obsolete CSS2 color names pasted from word resolve to a value', () {
+      // test some web colors to make sure they resolve correctly
+      expect(stringToColor('windowtext').toARGB32(), 0xff000000);
+    });
     test('Can resolve transparent', () {
       // test some web colors to make sure they resolve correctly
       expect(stringToColor('transparent').toARGB32(), 0);

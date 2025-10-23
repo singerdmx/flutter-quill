@@ -2,6 +2,7 @@
 // https://github.com/vincevargadev/kolors_flutter
 
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 
 /// All the named web colors.
 class WebColors {
@@ -146,6 +147,7 @@ class WebColors {
   static const slateGray = Color(0xFF708090);
   static const darkSlateGray = Color(0xFF2F4F4F);
   static const black = Color(0xFF000000);
+  static const transparent = Color(0);
 
   static const values = [
     indianRed,
@@ -291,10 +293,7 @@ class WebColors {
     black,
   ];
 
-  /// Return all colors in [Kolors] as a Map<String, Color>.
-  ///
-  /// Can be useful when working with UIs where the user can see all colors
-  /// and select from a list.
+  /// All web colors as a Map<String, Color>.
   static const namedColors = {
     'indianred': indianRed,
     'lightcoral': lightCoral,
@@ -437,5 +436,40 @@ class WebColors {
     'slategray': slateGray,
     'darkslategray': darkSlateGray,
     'black': black,
+
+    // the follow colors were part of the CSS2 standard, but have since been removed.
+    // however these names tend to show up when copy/pasting from Microsoft products
+    // into Quill on web. W3C recommends using a default color for these.
+    //
+    // For more info, see here
+    // http://w3.org/TR/CSS2/ui.html#system-colors
+    'activeborder': black,
+    'activecaption': black,
+    'appworkspace': transparent,
+    'background': transparent,
+    'buttonface': transparent,
+    'buttonhighlight': transparent,
+    'buttonshadow': transparent,
+    'buttontext': black,
+    'captiontext': black,
+    'graytext': gray,
+    'highlight': gray,
+    'highlighttext': black,
+    'inactiveborder': black,
+    'inactivecaption': black,
+    'inactivecaptiontext': black,
+    'infobackground': transparent,
+    'infotext': black,
+    'menu': transparent,
+    'menutext': black,
+    'scrollbar': transparent,
+    'threeddarkshadow': transparent,
+    'threedface': transparent,
+    'threedhighlight': transparent,
+    'threedlightshadow': transparent,
+    'threedshadow': transparent,
+    'window': transparent,
+    'windowframe': black,
+    'windowtext': black,
   };
 }
