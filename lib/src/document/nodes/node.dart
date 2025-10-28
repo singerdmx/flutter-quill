@@ -51,6 +51,8 @@ abstract base class Node extends LinkedListEntry<Node> {
 
   Node clone() => newInstance()..applyStyle(style);
 
+  Node cloneWithOffset() => clone()..parent = parent.._offset = offset;
+
   int? _offset;
 
   /// Offset in characters of this node relative to [parent] node.
