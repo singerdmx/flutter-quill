@@ -11,33 +11,38 @@ class SelectVideoSourceDialog extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(minHeight: 200),
       width: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(context.loc.gallery),
-              subtitle: Text(
-                context.loc.pickAVideoFromYourGallery,
+      child: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(context.loc.gallery),
+                subtitle: Text(
+                  context.loc.pickAVideoFromYourGallery,
+                ),
+                leading: const Icon(Icons.photo_sharp),
+                onTap: () => Navigator.of(context).pop(InsertVideoSource.gallery),
               ),
-              leading: const Icon(Icons.photo_sharp),
-              onTap: () => Navigator.of(context).pop(InsertVideoSource.gallery),
-            ),
-            ListTile(
-              title: Text(context.loc.camera),
-              subtitle: Text(context.loc.recordAVideoUsingYourCamera),
-              leading: const Icon(Icons.camera),
-              enabled: !isDesktopApp,
-              onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
-            ),
-            ListTile(
-              title: Text(context.loc.link),
-              subtitle: Text(
-                context.loc.pasteAVideoUsingALink,
+              ListTile(
+                title: Text(context.loc.camera),
+                subtitle: Text(context.loc.recordAVideoUsingYourCamera),
+                leading: const Icon(Icons.camera),
+                enabled: !isDesktopApp,
+                onTap: () => Navigator.of(context).pop(InsertVideoSource.camera),
               ),
-              leading: const Icon(Icons.link),
-              onTap: () => Navigator.of(context).pop(InsertVideoSource.link),
-            ),
-          ],
+              ListTile(
+                title: Text(context.loc.link),
+                subtitle: Text(
+                  context.loc.pasteAVideoUsingALink,
+                ),
+                leading: const Icon(Icons.link),
+                onTap: () => Navigator.of(context).pop(InsertVideoSource.link),
+              ),
+            ],
+          ),
         ),
       ),
     );
