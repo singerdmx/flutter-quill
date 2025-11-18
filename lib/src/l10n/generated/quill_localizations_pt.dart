@@ -546,19 +546,19 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get lineheight => 'Altura da linha';
 
   @override
-  String get findText => 'Find text';
+  String get findText => 'Encontrar texto';
 
   @override
-  String get moveToPreviousOccurrence => 'Move to previous occurrence';
+  String get moveToPreviousOccurrence => 'Voltar para a ocorrência anterior';
 
   @override
-  String get moveToNextOccurrence => 'Move to next occurrence';
+  String get moveToNextOccurrence => 'Ir para a próxima ocorrência';
 
   @override
-  String get savedUsingTheNetwork => 'Saved using the network';
+  String get savedUsingTheNetwork => 'Salvo pela rede';
 
   @override
-  String get savedUsingLocalStorage => 'Saved using the local storage';
+  String get savedUsingLocalStorage => 'Salvo localmente';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -566,16 +566,17 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   }
 
   @override
-  String get errorWhileSavingImage => 'Error while saving image';
+  String get errorWhileSavingImage => 'Erro ao salvar a imagem';
 
   @override
-  String get pleaseEnterTextForYourLink => 'e.g., \'Learn more\'';
+  String get pleaseEnterTextForYourLink => 'Ex.: \'Saiba mais\'';
 
   @override
-  String get pleaseEnterTheLinkURL => 'e.g., \'https://example.com\'';
+  String get pleaseEnterTheLinkURL => 'Ex.: \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
+  String get pleaseEnterAValidImageURL =>
+      'Por favor, insira uma URL de imagem válida';
 
   @override
   String get pleaseEnterAValidVideoURL =>
@@ -632,4 +633,33 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
 
   @override
   String get insertTable => 'Inserir tabela';
+
+  @override
+  String get insertVideo => 'Inserir vídeo';
+
+  @override
+  String get errorUnexpectedSavingImage =>
+      'Ocorreu um erro inesperado ao salvar a imagem';
+
+  @override
+  String get successImageSavedGallery => 'Imagem salva na sua galeria';
+
+  @override
+  String get successImageSaved => 'Imagem salva com sucesso';
+
+  @override
+  String get successImageDownloaded => 'Imagem baixada com sucesso';
+
+  @override
+  String get openGallery => 'Abrir galeria';
+
+  @override
+  String get openFileLocation => 'Abrir diretório do arquivo';
+
+  @override
+  String get openFile => 'Abrir arquivo';
+
+  @override
+  String get saveImagePermissionDenied =>
+      'Não foi possível salvar a imagem devido à falta de permissão';
 }

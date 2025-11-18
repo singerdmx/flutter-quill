@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added localization support for `mn` (Mongolian, Mongolia)
+
+## [11.5.0] - 2025-10-18
+
+### Fixed
+
+- Fixed `View.of(context)` calls throwing when used with the `screenshot` package [#2662](https://github.com/singerdmx/flutter-quill/pull/2662).
+
+### Added
+
+- Add missing Brazilian Portuguese translations
+
 ## [11.4.2] - 2025-07-22
 
 ### Fixed
@@ -173,7 +187,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.4.2...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.5.0...HEAD
+[11.5.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.5.0
 [11.4.2]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.2
 [11.4.1]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.1
 [11.4.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.0

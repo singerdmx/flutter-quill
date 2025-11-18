@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/internal.dart';
-import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
 import 'image_load_utils.dart';

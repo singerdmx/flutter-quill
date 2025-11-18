@@ -25,9 +25,7 @@ class HorizontalSpacing {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is HorizontalSpacing &&
-              left == other.left &&
-              right == other.right;
+      other is HorizontalSpacing && left == other.left && right == other.right;
 
   @override
   int get hashCode => Object.hash(left, right);
