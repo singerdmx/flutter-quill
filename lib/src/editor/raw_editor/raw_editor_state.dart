@@ -897,6 +897,23 @@ class QuillRawEditorState extends EditorState
       _styles = _styles!.merge(widget.config.customStyles!);
     }
 
+    // Apply custom placeholder style if provided
+    if (widget.config.placeholderStyle != null && _styles!.placeHolder != null) {
+      final defaultPlaceholderStyle = _styles!.placeHolder!;
+      final mergedPlaceholderStyle = defaultPlaceholderStyle.style.merge(
+        widget.config.placeholderStyle,
+      );
+      final customPlaceholder = DefaultTextBlockStyle(
+        mergedPlaceholderStyle,
+        defaultPlaceholderStyle.horizontalSpacing,
+        defaultPlaceholderStyle.verticalSpacing,
+        defaultPlaceholderStyle.lineSpacing,
+        defaultPlaceholderStyle.decoration,
+      );
+      // Use merge to update only the placeholder style
+      _styles = _styles!.merge(DefaultStyles(placeHolder: customPlaceholder));
+    }
+
     _requestAutoFocusIfShould();
   }
 
