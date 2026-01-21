@@ -287,6 +287,7 @@ class QuillEditorState extends State<QuillEditor>
         checkBoxReadOnly: config.checkBoxReadOnly,
         disableClipboard: config.disableClipboard,
         placeholder: config.placeholder,
+        placeholderStyle: config.placeholderStyle,
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
             ? (config.contextMenuBuilder ??
