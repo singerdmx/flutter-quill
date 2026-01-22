@@ -23,3 +23,30 @@ class LineHeightAttribute extends Attribute<double?> {
   static const Attribute<double?> lineHeightDouble =
       LineHeightAttribute(lineHeight: 2);
 }
+
+/// This attribute represents a user mention. The mention can contain
+/// user ID and display name.
+///
+/// The attribute at the json looks like: "attributes":{"mention": {"id": "123", "name": "John Doe"} }
+class MentionAttribute extends Attribute<Map<String, dynamic>?> {
+  const MentionAttribute({Map<String, dynamic>? value})
+      : super('mention', AttributeScope.inline, value);
+}
+
+/// This attribute represents a hashtag. The tag can contain
+/// tag ID and display name.
+///
+/// The attribute at the json looks like: "attributes":{"tag": {"id": "456", "name": "flutter"} }
+class TagAttribute extends Attribute<Map<String, dynamic>?> {
+  const TagAttribute({Map<String, dynamic>? value})
+      : super('tag', AttributeScope.inline, value);
+}
+
+/// This attribute represents a currency tag (dollar tag). The currency tag can contain
+/// tag ID and display name/value.
+///
+/// The attribute at the json looks like: "attributes":{"currency": {"id": "789", "name": "1000"} }
+class CurrencyAttribute extends Attribute<Map<String, dynamic>?> {
+  const CurrencyAttribute({Map<String, dynamic>? value})
+      : super('currency', AttributeScope.inline, value);
+}

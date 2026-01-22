@@ -349,7 +349,10 @@ class QuillRawEditorState extends EditorState
 
     var doc = controller.document;
     if (doc.isEmpty() && widget.config.placeholder != null) {
-      final raw = widget.config.placeholder?.replaceAll(r'"', '\\"');
+      // Properly escape the placeholder text for JSON (escape quotes, newlines, and other control characters)
+      final placeholderText = widget.config.placeholder!;
+      // Use jsonEncode to properly escape all control characters, then remove the surrounding quotes
+      final escapedPlaceholder = jsonEncode(placeholderText).substring(1, jsonEncode(placeholderText).length - 1);
       // get current block attributes applied to the first line even if it
       // is empty
       final blockAttributesWithoutContent =
@@ -363,9 +366,12 @@ class QuillRawEditorState extends EditorState
       final blockAttrInsertion = blockAttributesWithoutContent == null
           ? ''
           : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
+      final codeBlockPrefix = isCodeBlock ? '// ' : '';
+      final codeBlockPrefixEscaped = jsonEncode(codeBlockPrefix).substring(1, jsonEncode(codeBlockPrefix).length - 1);
+      final newlineSuffix = blockAttrInsertion.isEmpty ? '\\n' : '';
       doc = Document.fromJson(
         jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
+          '[{"attributes":{"placeholder":true},"insert":"$codeBlockPrefixEscaped$escapedPlaceholder$newlineSuffix"}$blockAttrInsertion]',
         ),
       );
     }
@@ -655,6 +661,7 @@ class QuillRawEditorState extends EditorState
       onLaunchUrl: widget.config.onLaunchUrl,
       customLinkPrefixes: widget.config.customLinkPrefixes,
       composingRange: composingRange.value,
+      placeholderTextStyle: widget.config.placeholderTextStyle,
     );
     final editableTextLine = EditableTextLine(
         node,

@@ -555,28 +555,34 @@ class PreserveInlineStylesRule extends InsertRule {
     final documentDelta = document.toDelta();
     final itr = DeltaIterator(documentDelta);
     len ??= 0;
-    var prev = itr.skip(len == 0 ? index : index + 1);
+    Operation? prev;
     var excludeLink = false;
+    Operation? currOp;
 
     /// Process simple insertions at start of line
     if (len == 0) {
-      final currLine = itr.next();
+      // For insertion: get character before insertion point (index - 1) and at insertion point (index)
+      if (index > 0) {
+        prev = itr.skip(index - 1);
+        // itr is now positioned at index - 1, next() will give us index
+      }
+      currOp = itr.hasNext ? itr.next() : null;
 
       /// Prevent links extending beyond the link's text label.
       excludeLink =
-          currLine.attributes?.containsKey(Attribute.link.key) != true &&
+          currOp?.attributes?.containsKey(Attribute.link.key) != true &&
               prev?.attributes?.containsKey(Attribute.link.key) == true;
 
       /// Trap for previous is not text
       if (prev?.data is! String) {
-        prev = currLine;
+        prev = currOp;
         excludeLink = true;
       } else {
         final prevData = prev!.data as String;
         if (prevData.endsWith('\n')) {
           /// If current line is empty get attributes from a prior line
           final currData =
-              currLine.data is String ? currLine.data as String : null;
+              currOp?.data is String ? currOp!.data as String : null;
           if (currData?.startsWith('\n') == true) {
             if (prevData.trimRight().isEmpty) {
               final back =
@@ -590,10 +596,24 @@ class PreserveInlineStylesRule extends InsertRule {
               }
             }
           } else {
-            prev = currLine;
+            prev = currOp;
             excludeLink = true;
           }
         }
+      }
+    } else {
+      // For replacements: get character before replacement (index - 1) and after replacement (index + len)
+      if (index > 0) {
+        final prevItr = DeltaIterator(documentDelta);
+        prev = prevItr.skip(index - 1);
+        // prevItr is now positioned at index - 1
+      }
+      final nextItr = DeltaIterator(documentDelta);
+      final skipped = nextItr.skip(index + len);
+      if (nextItr.hasNext) {
+        currOp = nextItr.next();
+      } else {
+        currOp = skipped;
       }
     }
 
@@ -612,9 +632,107 @@ class PreserveInlineStylesRule extends InsertRule {
     if (excludeLink) {
       attributes.remove(Attribute.link.key);
     }
+    
+    // Check if we're editing within a tag/mention/currency or typing outside
+    // We need to check both previous and current characters to determine this
+    final prevTagAttr = prev?.attributes?[Attribute.tag.key];
+    final prevMentionAttr = prev?.attributes?[Attribute.mention.key];
+    final prevCurrencyAttr = prev?.attributes?[Attribute.currency.key];
+    final prevHasTag = prevTagAttr != null;
+    final prevHasMention = prevMentionAttr != null;
+    final prevHasCurrency = prevCurrencyAttr != null;
+    
+    // Check the current character (at insertion point) to see if it also has the same tag/mention/currency
+    final currTagAttr = currOp?.attributes?[Attribute.tag.key];
+    final currMentionAttr = currOp?.attributes?[Attribute.mention.key];
+    final currCurrencyAttr = currOp?.attributes?[Attribute.currency.key];
+    final currHasTag = currTagAttr != null;
+    final currHasMention = currMentionAttr != null;
+    final currHasCurrency = currCurrencyAttr != null;
+    
+    // Check if currOp is a word boundary (space, newline, etc.) which indicates we're outside the tag/mention/currency
+    final currIsWordBoundary = currOp?.data is String && 
+        (currOp!.data as String).isNotEmpty &&
+        ((currOp.data as String)[0] == ' ' || (currOp.data as String)[0] == '\n');
+    
+    // Check if prev is a word boundary (space, newline, etc.) - if so, we're definitely outside tag/mention/currency
+    final prevIsWordBoundary = prev?.data is String && 
+        (prev!.data as String).isNotEmpty &&
+        ((prev.data as String)[(prev.data as String).length - 1] == ' ' || 
+         (prev.data as String)[(prev.data as String).length - 1] == '\n');
+    
+    // Helper function to compare attribute values (handles Map comparison)
+    bool _attributesEqual(dynamic attr1, dynamic attr2) {
+      if (attr1 == attr2) return true;
+      if (attr1 is Map && attr2 is Map) {
+        if (attr1.length != attr2.length) return false;
+        for (final key in attr1.keys) {
+          if (!attr2.containsKey(key) || attr1[key] != attr2[key]) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return false;
+    }
+    
+    // Only preserve tag/mention/currency attributes if we're editing WITHIN the tag/mention/currency
+    // Strategy: Only preserve if prev has the tag/mention/currency, and we're not clearly outside
+    // Exclude if:
+    // 1. prev doesn't have tag/mention/currency - definitely not within tag/mention/currency
+    // 2. prev is a word boundary (space/newline) - definitely outside (typing after space)
+    // 3. currOp is a word boundary (space/newline) - definitely outside
+    // 4. currOp has a different tag/mention/currency value - different tag/mention/currency
+    // Otherwise, preserve it (handles editing within tag/mention/currency)
+    if (prevHasTag) {
+      final shouldExclude = prevIsWordBoundary || 
+          currIsWordBoundary || 
+          (currHasTag && !_attributesEqual(prevTagAttr, currTagAttr));
+      if (shouldExclude) {
+        attributes.remove(Attribute.tag.key);
+      }
+      // Otherwise preserve the tag (editing within the tag)
+    } else {
+      // prev doesn't have tag - make sure we don't have tag attribute
+      attributes.remove(Attribute.tag.key);
+    }
+    if (prevHasMention) {
+      final shouldExclude = prevIsWordBoundary || 
+          currIsWordBoundary || 
+          (currHasMention && !_attributesEqual(prevMentionAttr, currMentionAttr));
+      if (shouldExclude) {
+        attributes.remove(Attribute.mention.key);
+      }
+      // Otherwise preserve the mention (editing within the mention)
+    } else {
+      // prev doesn't have mention - make sure we don't have mention attribute
+      attributes.remove(Attribute.mention.key);
+    }
+    if (prevHasCurrency) {
+      final shouldExclude = prevIsWordBoundary || 
+          currIsWordBoundary || 
+          (currHasCurrency && !_attributesEqual(prevCurrencyAttr, currCurrencyAttr));
+      if (shouldExclude) {
+        attributes.remove(Attribute.currency.key);
+      }
+      // Otherwise preserve the currency (editing within the currency)
+    } else {
+      // prev doesn't have currency - make sure we don't have currency attribute
+      attributes.remove(Attribute.currency.key);
+    }
+    
+    if (attributes.isEmpty) {
+      return null;
+    }
+    
+    // Ensure data is a String (should already be checked at the start, but double-check for safety)
+    if (data is! String) {
+      return null;
+    }
+    
     return Delta()
       ..retain(index + len)
-      ..insert(data, attributes.isEmpty ? null : attributes);
+      ..insert(data as String, attributes.isEmpty ? null : attributes);
   }
 }
 

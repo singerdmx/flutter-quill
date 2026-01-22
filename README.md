@@ -241,6 +241,84 @@ The `QuillSimpleToolbar` and `QuillEditor` widgets are both customizable.
 - [🔍 Search](./doc/configurations/search.md)
 - [✂️ Shortcut events](./doc/customizing_shortcuts.md)
 - [🎨 Custom Toolbar](./doc/custom_toolbar.md)
+- [👤 Mentions & Tags](./doc/mentions_and_tags.md)
+
+### 👤 Mentions & Tags Toolbar Buttons
+
+Flutter Quill provides three toolbar buttons for mentions and tags functionality:
+
+- **`QuillToolbarUserMentionButton`** - Inserts `@` symbol to trigger user mentions
+- **`QuillToolbarHashtagButton`** - Inserts `#` symbol to trigger hashtag tags  
+- **`QuillToolbarDollarTagButton`** - Inserts `$` symbol to trigger currency/dollar tags
+
+These buttons can be added to your toolbar configuration:
+
+```dart
+QuillSimpleToolbar(
+  controller: _controller,
+  config: QuillSimpleToolbarConfig(
+    showUserTag: true,      // Shows QuillToolbarUserMentionButton
+    showHashTag: true,      // Shows QuillToolbarHashtagButton
+    showDollarTag: true,    // Shows QuillToolbarDollarTagButton
+  ),
+)
+```
+
+#### Load More / Pagination Support
+
+The mentions and tags feature supports pagination through load more callbacks. When users scroll near the bottom of the suggestion list, the load more callback is automatically triggered.
+
+**Example with Load More:**
+
+```dart
+MentionTagConfig(
+  // Initial search - returns first page
+  mentionSearch: (query) async {
+    final results = await searchUsers(query);
+    return results.take(20).toList(); // First 20 items
+  },
+  
+  // Load more callback - returns next pages
+  onLoadMoreMentions: (query, currentItems, currentPage) async {
+    final results = await searchUsers(query);
+    const itemsPerPage = 20;
+    final startIndex = (currentPage + 1) * itemsPerPage;
+    final endIndex = (startIndex + itemsPerPage).clamp(0, results.length);
+    
+    // Return empty list when no more items
+    if (startIndex >= results.length) {
+      return [];
+    }
+    
+    return results.sublist(startIndex, endIndex);
+  },
+  
+  // Similar for tags
+  tagSearch: (query) async {
+    return await searchTags(query).take(20).toList();
+  },
+  onLoadMoreTags: (query, currentItems, currentPage) async {
+    final results = await searchTags(query);
+    const itemsPerPage = 20;
+    final startIndex = (currentPage + 1) * itemsPerPage;
+    if (startIndex >= results.length) return [];
+    return results.sublist(startIndex, (startIndex + itemsPerPage).clamp(0, results.length));
+  },
+)
+```
+
+**Load More Callback Parameters:**
+- `query`: Current search query string
+- `currentItems`: List of items currently displayed
+- `currentPage`: Current page number (0-indexed, starts at 0)
+
+**Key Points:**
+- ✅ Automatically triggered when scrolling near bottom (100px threshold)
+- ✅ Return empty list `[]` to stop pagination
+- ✅ Loading indicator shown automatically
+- ✅ First page handled by search callback, load more handles subsequent pages
+
+For detailed setup and usage, see [Mentions and Tags Documentation](./doc/mentions_and_tags.md) and [Load More Examples](./doc/examples/load_more_example.dart).
 
 ### 🖋 Font Family
 

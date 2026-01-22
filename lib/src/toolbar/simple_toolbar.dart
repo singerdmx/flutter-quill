@@ -25,6 +25,9 @@ export 'buttons/search/search_button.dart';
 export 'buttons/select_line_height_dropdown_button.dart';
 export 'buttons/toggle_check_list_button.dart';
 export 'buttons/toggle_style_button.dart';
+export 'buttons/user_mention_button.dart';
+export 'buttons/hashtag_button.dart';
+export 'buttons/dollar_tag_button.dart';
 export 'config/base_button_options.dart';
 export 'config/simple_toolbar_config.dart';
 
@@ -57,12 +60,27 @@ class QuillSimpleToolbar extends StatelessWidget
             space: config.sectionDividerSpace,
           ));
 
-      final groups = [
+      final groups = <List<Widget>>[
         [
           if (config.showUndo)
             QuillToolbarHistoryButton(
               isUndo: true,
               options: config.buttonOptions.undoHistory,
+              controller: controller,
+              baseOptions: config.buttonOptions.base,
+            ),
+          if (config.showUserTag)
+            QuillToolbarUserMentionButton(
+              controller: controller,
+              baseOptions: config.buttonOptions.base,
+            ),
+          if (config.showHashTag)
+            QuillToolbarHashtagButton(
+              controller: controller,
+              baseOptions: config.buttonOptions.base,
+            ),
+          if (config.showDollarTag)
+            QuillToolbarDollarTagButton(
               controller: controller,
               baseOptions: config.buttonOptions.base,
             ),
@@ -322,7 +340,7 @@ class QuillSimpleToolbar extends StatelessWidget
       final buttonsAll = <Widget>[];
 
       for (var i = 0; i < groups.length; i++) {
-        final buttons = groups[i];
+        final buttons = groups[i] as List<Widget>;
 
         if (buttons.isNotEmpty) {
           if (buttonsAll.isNotEmpty && config.showDividers) {

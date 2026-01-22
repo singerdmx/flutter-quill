@@ -56,6 +56,9 @@ class Attribute<T> {
     Attribute.script.key: Attribute.script,
     Attribute.image.key: Attribute.image,
     Attribute.video.key: Attribute.video,
+    Attribute.mention.key: Attribute.mention,
+    Attribute.tag.key: Attribute.tag,
+    Attribute.currency.key: Attribute.currency,
   });
 
   static const BoldAttribute bold = BoldAttribute();
@@ -118,6 +121,12 @@ class Attribute<T> {
 
   static const VideoAttribute video = VideoAttribute(null);
 
+  static const MentionAttribute mention = MentionAttribute();
+
+  static const TagAttribute tag = TagAttribute();
+
+  static const CurrencyAttribute currency = CurrencyAttribute();
+
   static final registeredAttributeKeys = Set.unmodifiable(_registry.keys);
 
   static final inlineKeys = Set.unmodifiable(<String>{
@@ -135,6 +144,9 @@ class Attribute<T> {
     Attribute.font.key,
     Attribute.size.key,
     Attribute.inlineCode.key,
+    Attribute.mention.key,
+    Attribute.tag.key,
+    Attribute.currency.key,
   });
 
   static final ignoreKeys = Set.unmodifiable(<String>{
