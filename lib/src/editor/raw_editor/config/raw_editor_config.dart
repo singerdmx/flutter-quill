@@ -65,6 +65,7 @@ class QuillRawEditorConfig {
     this.contentInsertionConfiguration,
     this.textInputAction = TextInputAction.newline,
     this.requestKeyboardFocusOnCheckListChanged = false,
+    this.autocorrect = true,
     this.enableScribble = false,
     this.onScribbleActivated,
     this.scribbleAreaInsets,
@@ -398,6 +399,9 @@ class QuillRawEditorConfig {
   final bool requestKeyboardFocusOnCheckListChanged;
 
   final TextInputAction textInputAction;
+
+  /// Whether to enable auto-correction.
+  final bool autocorrect;
 
   /// Enable Scribble? Currently Apple Pencil only, defaults to false.
   final bool enableScribble;

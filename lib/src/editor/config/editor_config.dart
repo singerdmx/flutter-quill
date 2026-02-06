@@ -81,6 +81,7 @@ class QuillEditorConfig {
     this.requestKeyboardFocusOnCheckListChanged = false,
     this.textInputAction = TextInputAction.newline,
     this.enableScribble = false,
+    this.autocorrect = true,
     this.onScribbleActivated,
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
@@ -462,6 +463,9 @@ class QuillEditorConfig {
   /// Enable Scribble? Currently Apple Pencil only, defaults to false.
   final bool enableScribble;
 
+  /// Whether to enable autocorrection. Defaults to true.
+  final bool autocorrect;
+
   /// Called when Scribble is activated.
   final void Function()? onScribbleActivated;
 
@@ -528,6 +532,7 @@ class QuillEditorConfig {
     bool? requestKeyboardFocusOnCheckListChanged,
     TextInputAction? textInputAction,
     bool? enableScribble,
+    bool? autocorrect,
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
@@ -596,6 +601,7 @@ class QuillEditorConfig {
           requestKeyboardFocusOnCheckListChanged ??
               this.requestKeyboardFocusOnCheckListChanged,
       textInputAction: textInputAction ?? this.textInputAction,
+      autocorrect: autocorrect ?? this.autocorrect,
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
