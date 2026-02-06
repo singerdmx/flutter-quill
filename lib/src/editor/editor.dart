@@ -31,6 +31,8 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
 
   TextSelection selectLineAtPosition(TextPosition position);
 
+  TextSelection selectParagraphAtPosition(TextPosition position);
+
   /// Returns preferred line height at specified `position` in text.
   double preferredLineHeight(TextPosition position);
 
@@ -103,6 +105,11 @@ abstract class RenderAbstractEditor implements TextLayoutMetrics {
   ///
   /// {@macro flutter.rendering.editable.select}
   void selectWord(SelectionChangedCause cause);
+
+  /// Select a paragraph around the location of the last tap down.
+  ///
+  /// {@macro flutter.rendering.editable.select}
+  void selectParagraph(SelectionChangedCause cause);
 
   /// Move selection to the location of the last tap down.
   ///
@@ -1073,6 +1080,16 @@ class RenderEditor extends RenderEditableContainerBox
   }
 
   @override
+  void selectParagraph(SelectionChangedCause cause) {
+    if (_lastTapDownPosition == null) {
+      return;
+    }
+    final TextPosition position = getPositionForOffset(_lastTapDownPosition!);
+    final TextSelection newSelection = selectParagraphAtPosition(position);
+    _handleSelectionChange(newSelection, cause);
+  }
+
+  @override
   void selectPosition({required SelectionChangedCause cause}) {
     selectPositionAt(from: _lastTapDownPosition!, cause: cause);
   }
@@ -1096,6 +1113,23 @@ class RenderEditor extends RenderEditableContainerBox
       return TextSelection.fromPosition(position);
     }
     return TextSelection(baseOffset: line.start, extentOffset: line.end);
+  }
+
+  @override
+  TextSelection selectParagraphAtPosition(TextPosition position) {
+    final child = childAtPosition(position);
+    final nodeOffset = child.container.offset;
+    final text = child.container.toPlainText();
+    final trailingNewlineLength = text.endsWith('\n') ? 1 : 0;
+    final paragraphEnd =
+        nodeOffset + child.container.length - trailingNewlineLength;
+
+    // When tapping past the end of the text, we want a collapsed cursor.
+    if (position.offset >= paragraphEnd) {
+      return TextSelection.fromPosition(position);
+    }
+
+    return TextSelection(baseOffset: nodeOffset, extentOffset: paragraphEnd);
   }
 
   @override
