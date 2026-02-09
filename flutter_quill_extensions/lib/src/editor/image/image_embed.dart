@@ -43,7 +43,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
     );
 
     return GestureDetector(
-      onTap: () {
+      onLongPress: () {
         final onImageClicked = config.onImageClicked;
         if (onImageClicked != null) {
           onImageClicked(imageSource);
