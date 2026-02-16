@@ -19,8 +19,15 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   set _lastKnownRemoteTextEditingValue(TextEditingValue? value) {
     __lastKnownRemoteTextEditingValue = value;
-    if (composingRange.value != value?.composing) {
-      composingRange.value = value?.composing ?? TextRange.empty;
+    // The composing range from the platform is in expanded-text space.
+    // Convert it to document space for rendering (TextLine uses doc offsets).
+    var composing = value?.composing ?? TextRange.empty;
+    if (composing.isValid && !composing.isCollapsed) {
+      final mapping = widget.controller.offsetMapping;
+      composing = mapping.expandedToDocRange(composing);
+    }
+    if (composingRange.value != composing) {
+      composingRange.value = composing;
     }
   }
 
@@ -76,7 +83,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
 
     if (!hasConnection) {
-      _lastKnownRemoteTextEditingValue = textEditingValue;
+      _lastKnownRemoteTextEditingValue =
+          widget.controller.expandedTextEditingValue;
       _textInputConnection = TextInput.attach(
         this,
         TextInputConfiguration(
@@ -122,9 +130,12 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (hasConnection) {
       assert(mounted);
       if (composingRange.isValid) {
-        final offset = composingRange.start;
+        // The composing range is in expanded-text space; convert to document
+        // space before querying the caret rect from the render editor.
+        final mapping = widget.controller.offsetMapping;
+        final docOffset = mapping.expandedToDoc(composingRange.start);
         final composingRect =
-            renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
+            renderEditor.getLocalRectForCaret(TextPosition(offset: docOffset));
         _textInputConnection!.setComposingRect(composingRect);
       }
       SchedulerBinding.instance
@@ -168,7 +179,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
-    final value = textEditingValue;
+    // Use the expanded text (with embeds expanded via toPlainText()) so the
+    // platform keyboard can detect word/sentence boundaries around embeds.
+    final value = widget.controller.expandedTextEditingValue;
 
     // Since we don't keep track of the composing range in value provided
     // by the Controller we need to add it here manually before comparing
@@ -225,6 +238,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       return;
     }
 
+    // The last known remote value and the incoming value are both in
+    // expanded-text space (embeds use their toPlainText() representation).
+    // We diff in that space and then map positions back to document space.
+    final mapping = widget.controller.offsetMapping;
+
     final effectiveLastKnownValue = _lastKnownRemoteTextEditingValue!;
     _lastKnownRemoteTextEditingValue = value;
     final oldText = effectiveLastKnownValue.text;
@@ -232,13 +250,20 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     final cursorPosition = value.selection.extentOffset;
     final diff = getDiff(oldText, text, cursorPosition);
     if (diff.deleted.isEmpty && diff.inserted.isEmpty) {
-      widget.controller.updateSelection(value.selection, ChangeSource.local);
+      // Selection-only change — convert from expanded to document offsets.
+      final docSelection = mapping.expandedToDocSelection(value.selection);
+      widget.controller.updateSelection(docSelection, ChangeSource.local);
     } else {
+      // Text change — convert diff positions from expanded to document space.
+      final docStart = mapping.expandedToDocFloor(diff.start);
+      final docDeleteEnd =
+          mapping.expandedToDocCeil(diff.start + diff.deleted.length);
+      final docSelection = mapping.expandedToDocSelection(value.selection);
       widget.controller.replaceText(
-        diff.start,
-        diff.deleted.length,
+        docStart,
+        docDeleteEnd - docStart,
         diff.inserted,
-        value.selection,
+        docSelection,
       );
     }
   }

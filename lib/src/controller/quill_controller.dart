@@ -16,6 +16,7 @@ import '../document/nodes/leaf.dart';
 import '../document/structs/doc_change.dart';
 import '../document/style.dart';
 import '../editor/config/editor_config.dart';
+import '../editor/raw_editor/offset_mapping.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
 import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
 import 'clipboard/quill_controller_paste.dart';
@@ -81,6 +82,7 @@ class QuillController extends ChangeNotifier {
   set document(Document doc) {
     _document = doc;
     _setDocumentSearchProperties();
+    _cachedOffsetMapping = null;
 
     // Prevent the selection from
     _selection = const TextSelection(baseOffset: 0, extentOffset: 0);
@@ -136,6 +138,36 @@ class QuillController extends ChangeNotifier {
         text: document.toPlainText(),
         selection: selection,
       );
+
+  /// Cached offset mapping between document offsets and expanded-text offsets.
+  OffsetMapping? _cachedOffsetMapping;
+
+  /// Returns the [OffsetMapping] for the current document state.
+  ///
+  /// The mapping is lazily built and cached; it is invalidated automatically
+  /// whenever the controller notifies listeners (i.e. on every document or
+  /// selection change).
+  OffsetMapping get offsetMapping {
+    return _cachedOffsetMapping ??= buildOffsetMapping(
+      document.toDelta(),
+      _editorConfig?.embedBuilders,
+      _editorConfig?.unknownEmbedBuilder,
+    );
+  }
+
+  /// A [TextEditingValue] with embeds expanded to their [EmbedBuilder.toPlainText]
+  /// representation and the selection mapped to expanded-text offsets.
+  ///
+  /// This is sent to the platform so the OS keyboard can detect word and
+  /// sentence boundaries around inline embeds (e.g. for
+  /// [TextCapitalization.sentences]).
+  TextEditingValue get expandedTextEditingValue {
+    final mapping = offsetMapping;
+    return TextEditingValue(
+      text: mapping.expandedText,
+      selection: mapping.docToExpandedSelection(selection),
+    );
+  }
 
   /// Only attributes applied to all characters within this range are
   /// included in the result.
@@ -431,6 +463,12 @@ class QuillController extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  @override
+  void notifyListeners() {
+    _cachedOffsetMapping = null;
+    super.notifyListeners();
   }
 
   @override
