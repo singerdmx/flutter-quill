@@ -510,6 +510,12 @@ class QuillRawEditorState extends EditorState
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
+    // Always sync the new selection to the TextInputConnection so that
+    // a physical keyboard types at the correct (tapped) position.
+    // Without this, the platform-side selection stays stale and keystrokes
+    // are inserted at the old cursor position.
+    updateRemoteValueIfNeeded();
+
     if (!_keyboardVisible) {
       // This will show the keyboard for all selection changes on the
       // editor, not just changes triggered by user gestures.
@@ -847,10 +853,16 @@ class QuillRawEditorState extends EditorState
               _onChangeTextEditingValue(!_hasFocus);
             }
           });
-
-          HardwareKeyboard.instance.addHandler(_hardwareKeyboardEvent);
         }
       });
+    }
+
+    // Register hardware keyboard handler for all non-web platforms so that
+    // _keyboardVisible is set to true when a physical keyboard is used
+    // (e.g. Android/iPadOS tablets with external keyboards). This must be
+    // outside the isIOSSimulator async block so it runs unconditionally.
+    if (!kIsWeb && !isKeyboardOS && !isFlutterTest) {
+      HardwareKeyboard.instance.addHandler(_hardwareKeyboardEvent);
     }
 
     controller.addListener(_didChangeTextEditingValueListener);
