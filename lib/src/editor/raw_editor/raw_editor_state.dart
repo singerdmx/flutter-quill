@@ -928,9 +928,17 @@ class QuillRawEditorState extends EditorState
       _scrollController.addListener(_updateSelectionOverlayForScroll);
     }
 
-    if (widget.config.focusNode != oldWidget.config.focusNode) {
+    final shouldListenForFocus = !widget.config.readOnly;
+    final didReadOnlyChange =
+        widget.config.readOnly != oldWidget.config.readOnly;
+    final didFocusNodeChange =
+        widget.config.focusNode != oldWidget.config.focusNode;
+
+    if (didReadOnlyChange || didFocusNodeChange) {
       oldWidget.config.focusNode.removeListener(_handleFocusChanged);
-      widget.config.focusNode.addListener(_handleFocusChanged);
+      if (shouldListenForFocus) {
+        widget.config.focusNode.addListener(_handleFocusChanged);
+      }
       updateKeepAlive();
     }
 
@@ -1090,10 +1098,17 @@ class QuillRawEditorState extends EditorState
   }
 
   void _handleFocusChanged() {
+    if (!mounted) {
+      return;
+    }
+
     if (dirty) {
       requestKeyboard();
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _handleFocusChanged());
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _handleFocusChanged();
+        }
+      });
       return;
     }
     openOrCloseConnection();
