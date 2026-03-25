@@ -51,6 +51,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   bool get hasConnection =>
       _textInputConnection != null && _textInputConnection!.attached;
 
+  /// Indicates if the IME was composing in the previous update.
+  /// Used by [QuillEditorConfig.mergeImeCompositionHistory] to merge
+  /// intermediate keystrokes (e.g., Pinyin) into a single undo step.
+  bool _wasComposing = false;
+
   /// Opens or closes input connection based on the current state of
   /// [focusNode] and [value].
   void openOrCloseConnection() {
@@ -211,6 +216,14 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (_lastKnownRemoteTextEditingValue == value) {
       // There is no difference between this value and the last known value.
       return;
+    }
+
+    if (widget.config.mergeImeCompositionHistory) {
+      // Handle IME composition history.
+      // If the user was composing (e.g., typing Pinyin) in the previous step,
+      // force the upcoming document change to merge into the same undo step.
+      widget.controller.document.history.forceMergeNext = _wasComposing;
+      _wasComposing = value.composing.isValid;
     }
 
     // Check if only composing range changed.
