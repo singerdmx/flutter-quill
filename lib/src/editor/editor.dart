@@ -278,6 +278,7 @@ class QuillEditorState extends State<QuillEditor>
         readOnly: controller.readOnly,
         checkBoxReadOnly: config.checkBoxReadOnly,
         disableClipboard: config.disableClipboard,
+        mergeImeCompositionHistory: config.mergeImeCompositionHistory,
         placeholder: config.placeholder,
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
