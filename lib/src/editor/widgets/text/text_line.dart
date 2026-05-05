@@ -36,6 +36,7 @@ class TextLine extends StatefulWidget {
     this.customStyleBuilder,
     this.customRecognizerBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     super.key,
   });
 
@@ -51,6 +52,7 @@ class TextLine extends StatefulWidget {
   final ValueChanged<String>? onLaunchUrl;
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
+  final String Function(String link)? transformLink;
   final TextRange composingRange;
 
   @override
@@ -672,19 +674,24 @@ class _TextLineState extends State<TextLine> {
     _tapLink(link);
   }
 
+  String _transformLink(String link) {
+    final isValidLink = LinkValidator.validate(link,
+        legacyAddationalLinkPrefixes: widget.customLinkPrefixes);
+    if (!isValidLink) {
+      link = 'https://$link';
+    }
+    return link;
+  }
+
   void _tapLink(final String? inputLink) {
     var link = inputLink?.trim();
     if (link == null) {
       return;
     }
 
-    final isValidLink = LinkValidator.validate(link,
-        legacyAddationalLinkPrefixes: widget.customLinkPrefixes);
-    if (!isValidLink) {
-      link = 'https://$link';
-    }
+    final transformLink = widget.transformLink ?? _transformLink;
+    link = transformLink(link);
 
-    // TODO(EchoEllet): Refactor onLaunchUrl or add a new API to give full control of the launch? See https://github.com/singerdmx/flutter-quill/issues/1776
     final launchUrl = widget.onLaunchUrl ?? _launchUrl;
     launchUrl(link);
   }

@@ -74,6 +74,7 @@ class QuillEditorConfig {
     this.onTapOutsideEnabled = true,
     this.onTapOutside,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.dialogTheme,
     this.contentInsertionConfiguration,
     this.contextMenuBuilder,
@@ -429,6 +430,13 @@ class QuillEditorConfig {
   /// [AutoFormatMultipleLinksRule].
   final List<String> customLinkPrefixes;
 
+  /// Callback to transform a link before it is launched on tap in the editor.
+  ///
+  /// Receives the trimmed link string and returns the final URL to launch.
+  /// When not set (`null`), the link is validated against known prefixes and
+  /// `https://` is prepended if no recognized prefix is found.
+  final String Function(String link)? transformLink;
+
   /// Configures the dialog theme.
   final QuillDialogTheme? dialogTheme;
 
@@ -520,6 +528,7 @@ class QuillEditorConfig {
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
+    String Function(String link)? transformLink,
     QuillDialogTheme? dialogTheme,
     QuillEditorContextMenuBuilder? contextMenuBuilder,
     ContentInsertionConfiguration? contentInsertionConfiguration,
@@ -585,6 +594,7 @@ class QuillEditorConfig {
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,
+      transformLink: transformLink ?? this.transformLink,
       dialogTheme: dialogTheme ?? this.dialogTheme,
       contextMenuBuilder: contextMenuBuilder ?? this.contextMenuBuilder,
       contentInsertionConfiguration:

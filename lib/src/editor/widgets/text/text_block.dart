@@ -83,6 +83,7 @@ class EditableTextBlock extends StatelessWidget {
     this.onLaunchUrl,
     this.customStyleBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.customLeadingBlockBuilder,
     super.key,
   });
@@ -113,6 +114,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool readOnly;
   final bool? checkBoxReadOnly;
   final List<String> customLinkPrefixes;
+  final String Function(String link)? transformLink;
   final TextRange composingRange;
 
   @override
@@ -196,6 +198,7 @@ class EditableTextBlock extends StatelessWidget {
             linkActionPicker: linkActionPicker,
             onLaunchUrl: onLaunchUrl,
             customLinkPrefixes: customLinkPrefixes,
+            transformLink: transformLink,
             customRecognizerBuilder: customRecognizerBuilder,
             composingRange: composingRange,
           ),
