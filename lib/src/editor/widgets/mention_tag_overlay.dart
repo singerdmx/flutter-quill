@@ -14,16 +14,12 @@ class MentionItem {
     required this.name,
     this.avatarUrl,
     this.customData,
-    this.color,
   });
   final String id;
   final String name;
   final String? avatarUrl;
   final dynamic customData;
 
-  /// Optional hex color (e.g. `#FF0000`) for the token when selected; falls
-  /// back to [MentionTagConfig.defaultMentionColor] when null.
-  final String? color;
 }
 
 /// Represents a hashtag item
@@ -781,8 +777,7 @@ class _MentionTagOverlayState extends State<MentionTagOverlay> {
       }
 
       // Default mention item builder
-      final mentionColor = _parseTagColor(
-          mention.color ?? widget.defaultMentionColor, context);
+      final mentionColor = _parseTagColor(widget.defaultMentionColor, context);
       return InkWell(
         key: key,
         onTap: () {
@@ -855,8 +850,8 @@ class _MentionTagOverlayState extends State<MentionTagOverlay> {
 
       // Default tag item builder
       final defaultTagColor = widget.tagTrigger == '\$'
-          ? (tag.color ?? widget.defaultDollarTagColor)
-          : (tag.color ?? widget.defaultHashTagColor);
+          ? widget.defaultDollarTagColor
+          : widget.defaultHashTagColor;
       final tagColor = _parseTagColor(defaultTagColor, context);
       return InkWell(
         key: key,

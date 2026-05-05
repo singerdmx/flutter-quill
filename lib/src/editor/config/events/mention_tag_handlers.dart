@@ -362,7 +362,7 @@ class MentionTagState {
       'id': item.id,
       'name': item.name,
       if (item.avatarUrl != null) 'avatarUrl': item.avatarUrl,
-      'color': item.color ?? config.defaultMentionColor,
+      'color': config.defaultMentionColor,
     });
   }
 
@@ -371,7 +371,7 @@ class MentionTagState {
       'id': item.id,
       'name': item.name,
       if (item.count != null) 'count': item.count,
-      'color': item.color ?? config.defaultHashTagColor,
+      'color': config.defaultHashTagColor,
     });
   }
 
@@ -380,7 +380,7 @@ class MentionTagState {
       'id': item.id,
       'name': item.name,
       if (item.count != null) 'count': item.count,
-      'color': item.color ?? config.defaultDollarTagColor,
+      'color': config.defaultDollarTagColor,
     });
   }
 

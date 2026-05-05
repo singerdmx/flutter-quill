@@ -74,7 +74,6 @@ List<MentionItem> _mentionPage(String query, int page) {
           name: item.name,
           avatarUrl: item.avatarUrl,
           customData: item.customData,
-          color: item.color,
         ),
       )
       .toList(growable: false);
@@ -155,7 +154,6 @@ final List<MentionItem> _mainMentionList = List.generate(
     id: '${i + 1}',
     name: 'User ${i + 1}',
     avatarUrl: null,
-    color: _hexColor(i),
   ),
 );
 
@@ -283,63 +281,53 @@ class _HomePageState extends State<HomePage> {
                   defaultHashTagColor: '#0000FF',
                   defaultDollarTagColor: '#0000FF',
                   tagStyle: Style.attr({
-                    Attribute.fontWeight.key: const FontWeightAttribute('600'),
+                    Attribute.fontWeight.key: const FontWeightAttribute('800'),
                   }),
                   decoration: BoxDecoration(color: Colors.white),
                   suggestionListPadding: EdgeInsets.symmetric(vertical: 30),
                   mentionSearch: (query) async {
+                    print("mentionSearch : $query");
                     await Future.delayed(
                         const Duration(milliseconds: _searchDelayMs));
                     return _mentionPage(query, 0);
                   },
-                  onLoadMoreMentions: (query, currentItems, currentPage) async {
-                    await Future.delayed(
-                        const Duration(milliseconds: _loadMoreDelayMs));
-                    return _mentionPage(query, currentPage);
-                  },
-                  tagSearch: (query) async {
-                    await Future.delayed(
-                        const Duration(milliseconds: _searchDelayMs));
-                    print("\$\$\$\$\$\$ tagSearch (){...}");
-                    return _tagPage(_mainTagList, query, 0);
-                  },
-                  onLoadMoreTags: (query, currentItems, currentPage) async {
-                    await Future.delayed(
-                        const Duration(milliseconds: _loadMoreDelayMs));
-                    print("\$\$\$\$\$\$ onLoadMoreTags (){...}");
-                    return _tagPage(_mainTagList, query, currentPage);
-                  },
-                  loadMoreIndicatorBuilder: (context, isMention, tagTrigger) =>
-                      _loadMoreIndicator,
                   dollarSearch: (query) async {
+                    print("dollarSearch : $query");
                     await Future.delayed(
                         const Duration(milliseconds: _searchDelayMs));
                     return _tagPage(_mainDollarList, query, 0);
                   },
+                  tagSearch: (query) async {
+                    print("tagSearch : $query");
+                    await Future.delayed(
+                        const Duration(milliseconds: _searchDelayMs));
+                    return _tagPage(_mainTagList, query, 0);
+                  },
+                  onLoadMoreMentions: (query, currentItems, currentPage) async {
+                    print("onLoadMoreMentions : $query");
+                    await Future.delayed(
+                        const Duration(milliseconds: _loadMoreDelayMs));
+                    return _mentionPage(query, currentPage);
+                  },
+                  onLoadMoreTags: (query, currentItems, currentPage) async {
+                    await Future.delayed(
+                        const Duration(milliseconds: _loadMoreDelayMs));
+                    print("onLoadMoreTags : $query");
+                    return _tagPage(_mainTagList, query, currentPage);
+                  },
                   onLoadMoreDollarTags:
                       (query, currentItems, currentPage) async {
+                        print("onLoadMoreDollarTags : $query");
                     await Future.delayed(
                         const Duration(milliseconds: _loadMoreDelayMs));
                     return _tagPage(_mainDollarList, query, currentPage);
                   },
-                  onMentionSelected: (mention) {
-                    debugPrint('Mention selected: ${mention.name}');
-                  },
-                  onTagTypingChanged: (bool isTypingTag) {
-                    // true  → user is typing a tag/mention (e.g. after @, #, or $)
-                    // false → user is not in tag-typing mode
-                    print('isTypingTag : $isTypingTag');
-                    if (isTypingTag) {
-                      // e.g. hide toolbar, show different UI
-                      // _controller.requestShowCaretOnScreen = true;
-                      // _controller.notifyListeners();
-                    } else {
-                      // e.g. show normal toolbar
-                    }
-                  },
-                  onTagSelected: (tag) {
-                    debugPrint('Tag selected: ${tag.name}');
-                  },
+                  loadMoreIndicatorBuilder: (context, isMention, tagTrigger) =>
+                      _loadMoreIndicator,
+
+                  onMentionSelected: (mention) {},
+                  onTagTypingChanged: (bool isTypingTag) {},
+                  onTagSelected: (tag) {},
                   mentionItemBuilder: (context, item, isSelected, onTap, _) {
                     // return Container(
                     //     color: Colors.red, child: Text('@${item.name}'));

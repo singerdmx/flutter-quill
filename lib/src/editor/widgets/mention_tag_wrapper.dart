@@ -1134,7 +1134,7 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
         'id': item.id,
         'name': item.name,
         if (item.avatarUrl != null) 'avatarUrl': item.avatarUrl,
-        'color': item.color ?? widget.config.defaultMentionColor,
+        'color': widget.config.defaultMentionColor,
       }),
     );
     _applyConfiguredTagStyle(atPos, finalLen);
@@ -1523,8 +1523,7 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
           'id': matchingTag.id,
           'name': matchingTag.name,
           if (matchingTag.count != null) 'count': matchingTag.count,
-          'color':
-              matchingTag.color ?? widget.config.defaultDollarTagColor,
+          'color': widget.config.defaultDollarTagColor,
         }),
       );
     } else {
@@ -1535,8 +1534,7 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
           'id': matchingTag.id,
           'name': matchingTag.name,
           if (matchingTag.count != null) 'count': matchingTag.count,
-          'color':
-              matchingTag.color ?? widget.config.defaultHashTagColor,
+          'color': widget.config.defaultHashTagColor,
         }),
       );
     }
