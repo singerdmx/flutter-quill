@@ -362,6 +362,7 @@ class MentionTagState {
       'id': item.id,
       'name': item.name,
       if (item.avatarUrl != null) 'avatarUrl': item.avatarUrl,
+      if (item.customData != null) 'customData': item.customData,
       'color': config.defaultMentionColor,
     });
   }

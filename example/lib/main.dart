@@ -154,6 +154,7 @@ final List<MentionItem> _mainMentionList = List.generate(
     id: '${i + 1}',
     name: 'User ${i + 1}',
     avatarUrl: null,
+    customData: {"asset":"crypto"}
   ),
 );
 
@@ -307,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                     print("onLoadMoreMentions : $query");
                     await Future.delayed(
                         const Duration(milliseconds: _loadMoreDelayMs));
-                    return _mentionPage(query, currentPage);
+                    return _mentionPage('', currentPage);
                   },
                   onLoadMoreTags: (query, currentItems, currentPage) async {
                     await Future.delayed(
