@@ -457,6 +457,8 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
       // For mentions and $ tags, allow spaces in the query (names with spaces).
       // For # tags, a space ends the query.
       if ((triggerChar == '#' && plainText[pos] == ' ') ||
+          (triggerChar == '@' &&
+              (plainText[pos] == '#' || plainText[pos] == '\$')) ||
           plainText[pos] == '\n') {
         return null;
       }
@@ -870,6 +872,17 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
     }
 
     final mentionEnd = selection.baseOffset - 1; // exclude the space
+    if (mentionEnd <= 0) return;
+
+    // If the trailing space follows an already formatted token, this is likely
+    // from suggestion selection; do not re-run mention lookup.
+    final styleBeforeSpace =
+        widget.controller.document.collectStyle(mentionEnd - 1, 1);
+    if (styleBeforeSpace.attributes.containsKey(Attribute.tag.key) ||
+        styleBeforeSpace.attributes.containsKey(Attribute.currency.key) ||
+        styleBeforeSpace.attributes.containsKey(Attribute.mention.key)) {
+      return;
+    }
 
     // Scan backwards to find an '@' which is at start-of-word.
     int? atPos;
@@ -877,6 +890,11 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
       final ch = plainText[i];
       if (ch == '\n') {
         return; // don't cross lines
+      }
+      // If a #/$ token appears between caret and @, this trailing space belongs
+      // to that token flow; do not treat it as finishing a mention.
+      if (ch == '#' || ch == '\$') {
+        return;
       }
       if (ch == '@') {
         if (i == 0 || plainText[i - 1] == ' ' || plainText[i - 1] == '\n') {
