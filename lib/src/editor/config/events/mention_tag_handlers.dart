@@ -372,6 +372,7 @@ class MentionTagState {
       'id': item.id,
       'name': item.name,
       if (item.count != null) 'count': item.count,
+      if (item.customData != null) 'customData': item.customData,
       'color': config.defaultHashTagColor,
     });
   }
@@ -381,6 +382,7 @@ class MentionTagState {
       'id': item.id,
       'name': item.name,
       if (item.count != null) 'count': item.count,
+      if (item.customData != null) 'customData': item.customData,
       'color': config.defaultDollarTagColor,
     });
   }

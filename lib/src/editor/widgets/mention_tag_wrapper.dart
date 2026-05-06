@@ -79,6 +79,14 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
   bool _isApplyingHashTagColor = false;
   bool _isClearingTokenStyleLeak = false;
 
+  /// True when [tag] metadata includes an [id] key (selection overlay, API match,
+  /// or freeform apply). Default typing color uses only [name] + [color] until upgraded.
+  bool _hasStructuredTagId(Style style) {
+    final tagAttr = style.attributes[Attribute.tag.key];
+    final v = tagAttr?.value;
+    return v is Map && v.containsKey('id');
+  }
+
   /// Workaround for Flutter issue where RenderUiKitView can receive pointer
   /// events before layout (NEEDS-LAYOUT). Block pointer events to the editor
   /// for one frame when overlay visibility changes (and on first frame) so
@@ -359,9 +367,6 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
       }
       if (tagQuery.isNotEmpty) {
         _applyDefaultHashTagColor(tagPosition, tagQuery);
-        return;
-      }
-      if (tagQuery != _lastCheckedTagQuery && tagQuery.isNotEmpty) {
         _checkAndApplyTypedTag('#', tagQuery, tagPosition);
       }
       return;
@@ -1196,22 +1201,14 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
     final hasTag = style.attributes.containsKey(Attribute.tag.key);
     final hasCurrency = style.attributes.containsKey(Attribute.currency.key);
 
-    // If already has tag/currency attribute, don't re-apply
-    if (hasTag || hasCurrency) return;
+    if (hasCurrency) return;
+    // Allow upgrading placeholder #{name,color} with full API metadata (e.g. customData).
+    if (hasTag && _hasStructuredTagId(style)) return;
 
     // Only handle # tags here. $ tags are handled by _checkForDollarAfterSpace.
     if (triggerChar != '#') return;
 
-    final color = widget.config.defaultHashTagColor;
-    if (color == null) return;
-
-    // Determine if user ended the tag with a boundary (space or newline).
-    final boundaryPos = selection.baseOffset - 1;
-    final boundaryChar = plainText[boundaryPos];
-    final hasBoundary = boundaryChar == ' ' || boundaryChar == '\n';
-
-    // Apply color across the tag text only (exclude the boundary).
-    _applyDefaultHashTagColor(triggerPos, tagName);
+    _applyTagIfFound('#', tagName, triggerPos);
 
     // After user finishes a #tag with space, hide the suggestion overlay.
     if (_isOverlayVisible && !_isMention && _tagTrigger == '#') {
@@ -1355,8 +1352,13 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
       final hasTag = style.attributes.containsKey(Attribute.tag.key);
       final hasCurrency = style.attributes.containsKey(Attribute.currency.key);
 
-      // If already has tag/currency attribute, don't re-apply
-      if (hasTag || hasCurrency) return;
+      if (triggerChar == '\$') {
+        if (hasTag || hasCurrency) return;
+      } else {
+        if (hasCurrency) return;
+        // # placeholder uses {name,color} only; upgrade when tagSearch returns metadata.
+        if (hasTag && _hasStructuredTagId(style)) return;
+      }
 
       // Search for matching tag and apply attribute
       _applyTagIfFound(triggerChar, tagQuery, tagPosition);
@@ -1524,6 +1526,8 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
           'id': matchingTag.id,
           'name': matchingTag.name,
           if (matchingTag.count != null) 'count': matchingTag.count,
+          if (matchingTag.customData != null)
+            'customData': matchingTag.customData,
           'color': widget.config.defaultDollarTagColor,
         }),
       );
@@ -1535,6 +1539,8 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
           'id': matchingTag.id,
           'name': matchingTag.name,
           if (matchingTag.count != null) 'count': matchingTag.count,
+          if (matchingTag.customData != null)
+            'customData': matchingTag.customData,
           'color': widget.config.defaultHashTagColor,
         }),
       );
