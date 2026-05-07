@@ -263,7 +263,7 @@ class _RenderSingleChildViewport extends RenderBox
   @override
   void applyPaintTransform(RenderBox child, Matrix4 transform) {
     final paintOffset = _paintOffset;
-    transform.translate(paintOffset.dx, paintOffset.dy);
+    transform.translateByDouble(paintOffset.dx, paintOffset.dy, 0, 1);
   }
 
   @override
