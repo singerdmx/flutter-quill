@@ -14,7 +14,7 @@ Currently, translations are available for these 49 locales:
 * `pt_BR`, `ro`, `ro_RO`, `ru`, `sk`, `sr`
 * `sv`, `sw`, `th`, `tk`, `tr`, `uk`, `ur`
 * `vi`, `zh`, `zh_CN`, `zh_HK`, `hr`
-* `bs`, `mk`, `gu`, `fi`
+* `bs`, `mk`, `gu`, `fi`, `uz`
 
 ## 📌 Contributing to translations
 
