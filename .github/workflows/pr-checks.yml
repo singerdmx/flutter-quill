@@ -34,6 +34,7 @@ jobs:
 
       - if: ${{ !cancelled() }}
         name: Run Flutter Analyze Commenter
+        continue-on-error: true
         uses: yorifuji/flutter-analyze-commenter@v1
         with:
           analyze-log: flutter_analyze.log
