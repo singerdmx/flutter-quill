@@ -1,7 +1,12 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 
 import '../generated/quill_localizations.dart';
+import '../generated/quill_localizations_en.dart';
 
+@Deprecated(
+  'FlutterQuill now falls back to English strings when the localization '
+  'delegate is missing. This exception will be removed in a future release.',
+)
 class MissingFlutterQuillLocalizationException extends UnimplementedError {
   MissingFlutterQuillLocalizationException();
   @override
@@ -13,11 +18,14 @@ class MissingFlutterQuillLocalizationException extends UnimplementedError {
 }
 
 extension LocalizationsExt on BuildContext {
-  /// Require the [FlutterQuillLocalizations] instance.
+  static final FlutterQuillLocalizations _fallbackLocalization =
+      FlutterQuillLocalizationsEn();
+
+  /// Retrieve the [FlutterQuillLocalizations] instance, falling back to the
+  /// default English messages if no delegate is registered.
   ///
-  /// `loc` is short for `localizations`
+  /// `loc` is short for `localizations`.
   FlutterQuillLocalizations get loc {
-    return FlutterQuillLocalizations.of(this) ??
-        (throw MissingFlutterQuillLocalizationException());
+    return FlutterQuillLocalizations.of(this) ?? _fallbackLocalization;
   }
 }
