@@ -7,7 +7,9 @@ import '../../../controller/quill_controller.dart';
 import '../../../document/document.dart';
 import '../../../document/nodes/leaf.dart';
 import '../../../l10n/extensions/localizations_ext.dart';
+import '../../simple_toolbar.dart';
 import '../../theme/quill_dialog_theme.dart';
+import '../../theme/quill_icon_theme.dart';
 
 @immutable
 class QuillToolbarSearchDialogChildBuilderExtraOptions {
@@ -48,6 +50,8 @@ class QuillToolbarSearchDialog extends StatefulWidget {
     this.text,
     this.childBuilder,
     this.searchBarAlignment,
+    this.size,
+    this.iconTheme,
     super.key,
   });
 
@@ -56,6 +60,8 @@ class QuillToolbarSearchDialog extends StatefulWidget {
   final String? text;
   final QuillToolbarSearchDialogChildBuilder? childBuilder;
   final AlignmentGeometry? searchBarAlignment;
+  final double? size;
+  final QuillIconTheme? iconTheme;
 
   @override
   QuillToolbarSearchDialogState createState() =>
@@ -112,7 +118,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
         (searchBarAlignment == Alignment.bottomLeft) ||
         (searchBarAlignment == Alignment.bottomRight);
     final addBottomPadding = searchBarAtBottom && isMobile;
-    var matchShown = '';
+    String? matchShown;
     if (_text.isNotEmpty) {
       if (_offsets.isEmpty) {
         matchShown = '0/0';
@@ -121,29 +127,65 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       }
     }
 
+    const buttonBox = BoxConstraints.tightFor(width: 40, height: 40);
+    const buttonStyle = ButtonStyle(
+      shape: WidgetStatePropertyAll<OutlinedBorder?>(CircleBorder()),
+    );
+    final iconTheme = widget.iconTheme?.copyWith(
+          iconButtonUnselectedData: const IconButtonData(
+            visualDensity: VisualDensity.compact,
+            constraints: buttonBox,
+            style: buttonStyle,
+          ),
+          iconButtonSelectedData: const IconButtonData(
+            visualDensity: VisualDensity.compact,
+            constraints: buttonBox,
+            style: buttonStyle,
+          ),
+        ) ??
+        const QuillIconTheme(
+          iconButtonUnselectedData: IconButtonData(
+            visualDensity: VisualDensity.compact,
+            constraints: buttonBox,
+            style: buttonStyle,
+          ),
+          iconButtonSelectedData: IconButtonData(
+            visualDensity: VisualDensity.compact,
+            constraints: buttonBox,
+            style: buttonStyle,
+          ),
+        );
+
     final searchBar = Container(
-      height: addBottomPadding ? 50 : 45,
+      height: addBottomPadding ? 52 : 40,
       padding: addBottomPadding ? const EdgeInsets.only(bottom: 12) : null,
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.close),
+          QuillToolbarIconButton(
             tooltip: context.loc.close,
-            visualDensity: VisualDensity.compact,
+            icon: Icon(
+              Icons.close,
+              size: widget.size,
+            ),
+            isSelected: false,
             onPressed: () {
               Navigator.of(context).pop();
             },
+            iconTheme: iconTheme,
           ),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            isSelected: _caseSensitive || _wholeWord,
+          QuillToolbarIconButton(
             tooltip: context.loc.searchSettings,
-            visualDensity: VisualDensity.compact,
+            icon: Icon(
+              Icons.more_vert,
+              size: widget.size,
+            ),
+            isSelected: _caseSensitive || _wholeWord,
             onPressed: () {
               setState(() {
                 _searchSettingsUnfolded = !_searchSettingsUnfolded;
               });
             },
+            iconTheme: iconTheme,
           ),
           Expanded(
             child: TextField(
@@ -152,6 +194,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
                 isDense: true,
                 suffixText: matchShown,
                 suffixStyle: widget.dialogTheme?.labelTextStyle,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 4),
               ),
               autofocus: true,
               onChanged: _textChanged,
@@ -160,22 +203,32 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
               controller: _textController,
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.keyboard_arrow_up),
+          QuillToolbarIconButton(
             tooltip: context.loc.moveToPreviousOccurrence,
+            icon: Icon(
+              Icons.keyboard_arrow_up,
+              size: widget.size,
+            ),
+            isSelected: false,
             onPressed: (_offsets.isNotEmpty) ? _moveToPrevious : null,
+            iconTheme: iconTheme,
           ),
-          IconButton(
-            icon: const Icon(Icons.keyboard_arrow_down),
+          QuillToolbarIconButton(
             tooltip: context.loc.moveToNextOccurrence,
+            icon: Icon(
+              Icons.keyboard_arrow_down,
+              size: widget.size,
+            ),
+            isSelected: false,
             onPressed: (_offsets.isNotEmpty) ? _moveToNext : null,
+            iconTheme: iconTheme,
           ),
         ],
       ),
     );
 
     final searchSettings = SizedBox(
-      height: 45,
+      height: 40,
       child: Row(
         children: [
           Expanded(
