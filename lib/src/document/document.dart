@@ -362,10 +362,13 @@ class Document {
     var index = -1;
     final lineText = line.toPlainText();
     var pattern = RegExp.escape(substring);
+    // Dart's `\b`/`\w` are ASCII-only. Use Unicode-aware lookarounds instead.
     if (wholeWord) {
-      pattern = r'\b' + pattern + r'\b';
+      pattern =
+          r'(?<![\p{L}\p{N}\p{M}_])' + pattern + r'(?![\p{L}\p{N}\p{M}_])';
     }
-    final searchExpression = RegExp(pattern, caseSensitive: caseSensitive);
+    final searchExpression =
+        RegExp(pattern, caseSensitive: caseSensitive, unicode: true);
     while (true) {
       index = lineText.indexOf(searchExpression, index + 1);
       if (index < 0) {
