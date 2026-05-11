@@ -19,8 +19,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   set _lastKnownRemoteTextEditingValue(TextEditingValue? value) {
     __lastKnownRemoteTextEditingValue = value;
-    if (composingRange.value != value?.composing) {
-      composingRange.value = value?.composing ?? TextRange.empty;
+    final newRange = value?.composing ?? TextRange.empty;
+    if (composingRange.value != newRange) {
+      composingRange.value = newRange;
+      // Forward composing range to the controller
+      widget.controller.setComposingRange(newRange);
     }
   }
 
@@ -380,6 +383,15 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.connectionClosedReceived();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
+  }
+
+  @override
+  bool onFocusReceived() {
+    if (!widget.config.focusNode.hasFocus) {
+      widget.config.focusNode.requestFocus();
+    }
+    openConnectionIfNeeded();
+    return true;
   }
 
   void _updateSizeAndTransform() {

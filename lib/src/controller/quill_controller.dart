@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
@@ -47,6 +48,20 @@ class QuillController extends ChangeNotifier {
         document: Document(),
         selection: const TextSelection.collapsed(offset: 0),
       );
+
+  // Expose current IME composing range for filtering out intermediate edits.
+  final ValueNotifier<TextRange> _composingRangeNotifier =
+      ValueNotifier<TextRange>(TextRange.empty);
+
+  /// Current IME (Chinese/Japanese etc input method) composing range.
+  /// This can be used to filter out intermediate edits that happen during IME composition.
+  ValueListenable<TextRange> get composing => _composingRangeNotifier;
+
+  @internal
+  void setComposingRange(TextRange range) {
+    if (_composingRangeNotifier.value == range) return;
+    _composingRangeNotifier.value = range;
+  }
 
   final QuillControllerConfig config;
 
