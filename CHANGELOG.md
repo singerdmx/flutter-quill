@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added localization support for `mn` (Mongolian, Mongolia)
 
+### Changed
+
+- Search dialog buttons now adopt the toolbar's `QuillIconTheme`; bar height and spacing tightened.
+
+### Fixed
+
+- Whole-word search now matches non-ASCII text (Cyrillic, CJK, accented Latin).
+
 ## [11.5.0] - 2025-10-18
 
 ### Fixed
