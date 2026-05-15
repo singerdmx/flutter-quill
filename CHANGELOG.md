@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed dragging the right selection handle horizontally extends the selection into the line below instead of staying on the current line.
+
 ### Added
 
 - Added localization support for `mn` (Mongolian, Mongolia)
