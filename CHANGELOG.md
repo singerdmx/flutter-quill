@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added localization support for `mn` (Mongolian, Mongolia)
 
+### Fixed
+
+- Code block line numbers were not visible for non-indented code blocks because the leading-gutter width was reserved at zero pixels in `TextBlockUtils.defaultIndentWidthBuilder`. The gutter is now sized correctly so line numbers are visible by default. Nested indent levels continue to rotate the numbering style through Arabic, lowercase letters, and lowercase Roman numerals, matching ordered-list behavior.
+
+### Changed
+
+- Tightened the code-block leading gutter: its reserved width is now slightly narrower than the ordered-list gutter (by `fontSize / 4`), pulling the right-aligned line number closer to the left edge of the block.
+- Reduced the right-side padding inside the code-block leading container from `fontSize` to `fontSize / 2`, shrinking the gap between the line number and the code text to match ordered/unordered lists.
+- Reduced the left content padding inside the code-block decoration from `16` to `4`, so the line number sits closer to the left edge of the grey code-block box.
+
 ## [11.5.0] - 2025-10-18
 
 ### Fixed

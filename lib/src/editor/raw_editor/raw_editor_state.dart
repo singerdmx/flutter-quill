@@ -605,7 +605,7 @@ class QuillRawEditorState extends EditorState
           enableInteractiveSelection: widget.config.enableInteractiveSelection,
           hasFocus: _hasFocus,
           contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
+              ? const EdgeInsets.fromLTRB(4, 16, 16, 16)
               : null,
           embedBuilder: widget.config.embedBuilder,
           textSpanBuilder: widget.config.textSpanBuilder,

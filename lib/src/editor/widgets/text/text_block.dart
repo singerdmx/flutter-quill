@@ -297,8 +297,11 @@ class EditableTextBlock extends StatelessWidget {
         );
       }(),
       width: () {
-        if (isOrdered || isCodeBlock) {
+        if (isOrdered) {
           return numberPointWidthBuilder(fontSize, count);
+        }
+        if (isCodeBlock) {
+          return numberPointWidthBuilder(fontSize, count) - fontSize / 4;
         }
         if (isUnordered) {
           return numberPointWidthBuilder(fontSize, 1); // same as fontSize * 2
@@ -306,11 +309,8 @@ class EditableTextBlock extends StatelessWidget {
         return null;
       }(),
       padding: () {
-        if (isOrdered || isUnordered) {
+        if (isOrdered || isUnordered || isCodeBlock) {
           return fontSize / 2;
-        }
-        if (isCodeBlock) {
-          return fontSize;
         }
         return null;
       }(),
