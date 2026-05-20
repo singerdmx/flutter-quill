@@ -86,10 +86,19 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.showCodeBlockLineNumbers = true,
   });
 
   @experimental
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
+
+  /// Whether to display line numbers in code blocks.
+  ///
+  /// Defaults to `true`. When `false`, the line-number widget is hidden
+  /// and the left gutter shrinks to match the code block's right indent
+  /// (`fontSize / 2` by default), so the block has symmetric horizontal
+  /// padding instead of a flush-left edge.
+  final bool showCodeBlockLineNumbers;
 
   /// The text placeholder in the quill editor
   final String? placeholder;
@@ -531,10 +540,13 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? showCodeBlockLineNumbers,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
+      showCodeBlockLineNumbers:
+          showCodeBlockLineNumbers ?? this.showCodeBlockLineNumbers,
       placeholder: placeholder ?? this.placeholder,
       characterShortcutEvents:
           characterShortcutEvents ?? this.characterShortcutEvents,

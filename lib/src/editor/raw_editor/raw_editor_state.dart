@@ -595,6 +595,7 @@ class QuillRawEditorState extends EditorState
           block: node,
           controller: controller,
           customLeadingBlockBuilder: widget.config.customLeadingBuilder,
+          showCodeBlockLineNumbers: widget.config.showCodeBlockLineNumbers,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.config.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
@@ -605,7 +606,7 @@ class QuillRawEditorState extends EditorState
           enableInteractiveSelection: widget.config.enableInteractiveSelection,
           hasFocus: _hasFocus,
           contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
+              ? const EdgeInsets.symmetric(horizontal: 4, vertical: 16)
               : null,
           embedBuilder: widget.config.embedBuilder,
           textSpanBuilder: widget.config.textSpanBuilder,
