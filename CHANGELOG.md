@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added localization support for `mn` (Mongolian, Mongolia)
+- Added `QuillEditorConfig.showCodeBlockLineNumbers` (defaults to `true`). When set to `false`, code-block line numbers are hidden and the left gutter shrinks to match the code block's right indent, giving the block symmetric horizontal padding instead of a flush-left edge. `customLeadingBlockBuilder` remains available for finer control and still takes precedence when both are set.
 
 ### Fixed
 
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tightened the code-block leading gutter: its reserved width is now slightly narrower than the ordered-list gutter (by `fontSize / 4`), pulling the right-aligned line number closer to the left edge of the block.
 - Reduced the right-side padding inside the code-block leading container from `fontSize` to `fontSize / 2`, shrinking the gap between the line number and the code text to match ordered/unordered lists.
 - Reduced the left content padding inside the code-block decoration from `16` to `4`, so the line number sits closer to the left edge of the grey code-block box.
+- Made the code-block content padding symmetric (`EdgeInsets.symmetric(horizontal: 4, vertical: 16)`, previously `16` on the right), and added a `fontSize / 2` right indent to code blocks in `TextBlockUtils.defaultIndentWidthBuilder` so the code text no longer runs to the right edge of the box. The right indent is part of the default `indentWidthBuilder`, so a custom `indentWidthBuilder` can override it.
 
 ## [11.5.0] - 2025-10-18
 

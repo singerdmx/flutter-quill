@@ -72,6 +72,7 @@ class QuillRawEditorConfig {
     this.onPerformAction,
     @experimental this.customLeadingBuilder,
     this.quillMagnifierBuilder,
+    this.showCodeBlockLineNumbers = true,
   });
 
   /// Controls whether this editor has keyboard focus.
@@ -81,6 +82,9 @@ class QuillRawEditorConfig {
   final double scrollBottomInset;
   @experimental
   final LeadingBlockNodeBuilder? customLeadingBuilder;
+
+  /// See [QuillEditorConfig.showCodeBlockLineNumbers].
+  final bool showCodeBlockLineNumbers;
 
   /// Contains all the events that will be handled when
   /// the exact characters satifies the condition. This mean

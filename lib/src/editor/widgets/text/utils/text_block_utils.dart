@@ -71,6 +71,7 @@ abstract final class TextBlockUtils {
       }
     } else if (attrs.containsKey(Attribute.codeBlock.key)) {
       baseIndent = numberPointWidthBuilder(fontSize, count) - fontSize / 4;
+      return HorizontalSpacing(baseIndent + extraIndent, fontSize / 2);
     }
 
     return HorizontalSpacing(baseIndent + extraIndent, 0);

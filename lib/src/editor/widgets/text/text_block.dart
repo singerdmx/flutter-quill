@@ -84,6 +84,7 @@ class EditableTextBlock extends StatelessWidget {
     this.customStyleBuilder,
     this.customLinkPrefixes = const <String>[],
     this.customLeadingBlockBuilder,
+    this.showCodeBlockLineNumbers = true,
     super.key,
   });
 
@@ -97,6 +98,7 @@ class EditableTextBlock extends StatelessWidget {
   final Color color;
   final DefaultStyles? styles;
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
+  final bool showCodeBlockLineNumbers;
   final bool enableInteractiveSelection;
   final bool hasFocus;
   final EdgeInsets? contentPadding;
@@ -168,6 +170,17 @@ class EditableTextBlock extends StatelessWidget {
         TextBlockUtils.defaultIndentWidthBuilder;
 
     final count = block.children.length;
+    final isCodeBlock =
+        block.style.attributes.containsKey(Attribute.codeBlock.key);
+    final blockSpacing =
+        indentWidthBuilder(block, context, count, numberPointWidthBuilder);
+    final HorizontalSpacing horizontalSpacingForBlock;
+    if (isCodeBlock && !showCodeBlockLineNumbers) {
+      horizontalSpacingForBlock =
+          HorizontalSpacing(blockSpacing.right, blockSpacing.right);
+    } else {
+      horizontalSpacingForBlock = blockSpacing;
+    }
     final children = <Widget>[];
     if (clearIndents) {
       indentLevelCounts.clear();
@@ -199,7 +212,7 @@ class EditableTextBlock extends StatelessWidget {
             customRecognizerBuilder: customRecognizerBuilder,
             composingRange: composingRange,
           ),
-          indentWidthBuilder(block, context, count, numberPointWidthBuilder),
+          horizontalSpacingForBlock,
           _getSpacingForLine(line, index, count, defaultStyles),
           textDirection,
           textSelection,
@@ -343,6 +356,7 @@ class EditableTextBlock extends StatelessWidget {
       return checkboxLeading(leadingConfig);
     }
     if (isCodeBlock) {
+      if (!showCodeBlockLineNumbers) return null;
       return codeBlockLineNumberLeading(leadingConfig);
     }
     return null;
