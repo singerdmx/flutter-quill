@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added localization support for `mn` (Mongolian, Mongolia)
+- Added `length` property to `EmbedBuilder` and internal offset mapping so custom inline embeds (mentions, hashtags, etc.) can declare their character length for the platform keyboard, fixing `TextCapitalization.sentences` and word/sentence boundary detection around embeds [#2715](https://github.com/singerdmx/flutter-quill/issues/2715)
 
 ### Changed
 
