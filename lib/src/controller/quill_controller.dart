@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show ClipboardData, Clipboard;
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
@@ -18,6 +19,8 @@ import '../document/style.dart';
 import '../editor/config/editor_config.dart';
 import '../editor/raw_editor/raw_editor_state.dart';
 import '../editor_toolbar_controller_shared/clipboard/clipboard_service_provider.dart';
+import './web/quill_controller_web_stub.dart'
+    if (dart.library.js_interop) './web/quill_controller_web_real.dart';
 import 'clipboard/quill_controller_paste.dart';
 import 'clipboard/quill_controller_rich_paste.dart';
 import 'quill_controller_config.dart';
@@ -37,7 +40,11 @@ class QuillController extends ChangeNotifier {
     this.onSelectionChanged,
     this.readOnly = false,
   })  : _document = document,
-        _selection = selection;
+        _selection = selection {
+    if (kIsWeb) {
+      initializeWebClipboardEvents();
+    }
+  }
 
   factory QuillController.basic({
     QuillControllerConfig config = const QuillControllerConfig(),
@@ -458,6 +465,9 @@ class QuillController extends ChangeNotifier {
     }
 
     _isDisposed = true;
+    if (kIsWeb) {
+      closeWebClipboardEvents();
+    }
     super.dispose();
   }
 

@@ -54,6 +54,8 @@ dependencies:
   flutter_keyboard_visibility_temp_fork: ^0.1.1
   quill_native_bridge: ^11.0.0
 
+  web: ^1.1.1
+
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
