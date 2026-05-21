@@ -36,6 +36,7 @@ class Attribute<T> {
     Attribute.strikeThrough.key: Attribute.strikeThrough,
     Attribute.inlineCode.key: Attribute.inlineCode,
     Attribute.font.key: Attribute.font,
+    Attribute.fontWeight.key: Attribute.fontWeight,
     Attribute.size.key: Attribute.size,
     Attribute.link.key: Attribute.link,
     Attribute.color.key: Attribute.color,
@@ -56,6 +57,9 @@ class Attribute<T> {
     Attribute.script.key: Attribute.script,
     Attribute.image.key: Attribute.image,
     Attribute.video.key: Attribute.video,
+    Attribute.mention.key: Attribute.mention,
+    Attribute.tag.key: Attribute.tag,
+    Attribute.currency.key: Attribute.currency,
   });
 
   static const BoldAttribute bold = BoldAttribute();
@@ -77,6 +81,8 @@ class Attribute<T> {
   static const InlineCodeAttribute inlineCode = InlineCodeAttribute();
 
   static const FontAttribute font = FontAttribute(null);
+
+  static const FontWeightAttribute fontWeight = FontWeightAttribute(null);
 
   static const SizeAttribute size = SizeAttribute(null);
 
@@ -118,6 +124,12 @@ class Attribute<T> {
 
   static const VideoAttribute video = VideoAttribute(null);
 
+  static const MentionAttribute mention = MentionAttribute();
+
+  static const TagAttribute tag = TagAttribute();
+
+  static const CurrencyAttribute currency = CurrencyAttribute();
+
   static final registeredAttributeKeys = Set.unmodifiable(_registry.keys);
 
   static final inlineKeys = Set.unmodifiable(<String>{
@@ -133,8 +145,12 @@ class Attribute<T> {
     Attribute.background.key,
     Attribute.placeholder.key,
     Attribute.font.key,
+    Attribute.fontWeight.key,
     Attribute.size.key,
     Attribute.inlineCode.key,
+    Attribute.mention.key,
+    Attribute.tag.key,
+    Attribute.currency.key,
   });
 
   static final ignoreKeys = Set.unmodifiable(<String>{
@@ -320,6 +336,11 @@ class InlineCodeAttribute extends Attribute<bool> {
 
 class FontAttribute extends Attribute<String?> {
   const FontAttribute(String? val) : super('font', AttributeScope.inline, val);
+}
+
+class FontWeightAttribute extends Attribute<String?> {
+  const FontWeightAttribute(String? val)
+      : super('font-weight', AttributeScope.inline, val);
 }
 
 class SizeAttribute extends Attribute<String?> {

@@ -124,6 +124,11 @@ class QuillController extends ChangeNotifier {
   /// See also: [QuillRawEditorState._didChangeTextEditingValue]
   bool skipRequestKeyboard = false;
 
+  /// When set to true and [notifyListeners] is called, the editor will run
+  /// _showCaretOnScreen once so the cursor is visible above the suggestion overlay.
+  /// Used by [MentionTagWrapper] when the overlay is shown.
+  bool requestShowCaretOnScreen = false;
+
   /// True when this [QuillController] instance has been disposed.
   ///
   /// A safety mechanism to ensure that listeners don't crash when adding,

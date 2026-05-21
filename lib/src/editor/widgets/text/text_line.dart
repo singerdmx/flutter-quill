@@ -36,6 +36,7 @@ class TextLine extends StatefulWidget {
     this.customStyleBuilder,
     this.customRecognizerBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.placeholderTextStyle,
     super.key,
   });
 
@@ -52,6 +53,7 @@ class TextLine extends StatefulWidget {
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
   final TextRange composingRange;
+  final TextStyle? placeholderTextStyle;
 
   @override
   State<TextLine> createState() => _TextLineState();
@@ -384,6 +386,10 @@ class _TextLineState extends State<TextLine> {
     var textStyle = const TextStyle();
 
     if (widget.line.style.containsKey(Attribute.placeholder.key)) {
+      // Use custom placeholderTextStyle if provided, otherwise use default
+      if (widget.placeholderTextStyle != null) {
+        return widget.placeholderTextStyle!;
+      }
       return defaultStyles.placeHolder!.style;
     }
 
@@ -438,7 +444,9 @@ class _TextLineState extends State<TextLine> {
 
     if (isPlaceholderLine) {
       final oldStyle = textStyle;
-      textStyle = defaultStyles.placeHolder!.style;
+      // Use custom placeholderTextStyle if provided, otherwise use default
+      final placeholderStyle = widget.placeholderTextStyle ?? defaultStyles.placeHolder!.style;
+      textStyle = placeholderStyle;
       textStyle = textStyle.merge(oldStyle.copyWith(
         color: textStyle.color,
         backgroundColor: textStyle.backgroundColor,
@@ -586,6 +594,14 @@ class _TextLineState extends State<TextLine> {
       res = res.merge(TextStyle(fontFamily: font.value));
     }
 
+    final fontWeight = nodeStyle.attributes[Attribute.fontWeight.key];
+    if (fontWeight?.value is String) {
+      final parsedWeight = _parseFontWeight(fontWeight!.value as String);
+      if (parsedWeight != null) {
+        res = res.merge(TextStyle(fontWeight: parsedWeight));
+      }
+    }
+
     final size = nodeStyle.attributes[Attribute.size.key];
     if (size != null && size.value != null) {
       switch (size.value) {
@@ -607,14 +623,91 @@ class _TextLineState extends State<TextLine> {
       }
     }
 
-    if (color != null && color.value != null) {
-      var textColor = defaultStyles.color;
-      if (color.value is String) {
-        textColor = stringToColor(color.value, null, defaultStyles);
+    // Check if mention attribute exists (regardless of color)
+    final mention = nodeStyle.attributes[Attribute.mention.key];
+    final hasMention = mention != null && mention.value != null && mention.value is Map;
+    
+    // Check if tag attribute exists (regardless of color) - for # tags
+    final tag = nodeStyle.attributes[Attribute.tag.key];
+    final hasTag = tag != null && tag.value != null && tag.value is Map;
+
+    // Check if currency attribute exists (regardless of color) - for $ tags
+    final currency = nodeStyle.attributes[Attribute.currency.key];
+    final hasCurrency = currency != null && currency.value != null && currency.value is Map;
+
+    // Apply mention color only if mention attribute exists AND has color
+    Color? mentionColor;
+    if (hasMention) {
+      final mentionData = mention!.value as Map<String, dynamic>;
+      final mentionColorString = mentionData['color'] as String?;
+      if (mentionColorString != null && mentionColorString.isNotEmpty) {
+        try {
+          mentionColor = stringToColor(mentionColorString, null, defaultStyles);
+        } catch (e) {
+          // Ignore invalid color strings
+        }
       }
-      if (textColor != null) {
-        res = res.merge(TextStyle(color: textColor));
+    }
+
+    // Apply tag color only if tag attribute exists AND has color, AND no mention exists
+    Color? tagColor;
+    if (hasTag && !hasMention) {
+      final tagData = tag!.value as Map<String, dynamic>;
+      final tagColorString = tagData['color'] as String?;
+      if (tagColorString != null && tagColorString.isNotEmpty) {
+        try {
+          tagColor = stringToColor(tagColorString, null, defaultStyles);
+        } catch (e) {
+          // Ignore invalid color strings
+        }
       }
+    }
+
+    // Apply currency color only if currency attribute exists AND has color, AND no mention/tag exists
+    Color? currencyColor;
+    if (hasCurrency && !hasMention && !hasTag) {
+      final currencyData = currency!.value as Map<String, dynamic>;
+      final currencyColorString = currencyData['color'] as String?;
+      if (currencyColorString != null && currencyColorString.isNotEmpty) {
+        try {
+          currencyColor = stringToColor(currencyColorString, null, defaultStyles);
+        } catch (e) {
+          // Ignore invalid color strings
+        }
+      }
+    }
+
+    // Apply colors in priority order:
+    // 1. Mention color (if mention exists and has color)
+    // 2. Tag color (if tag exists, has color, and no mention)
+    // 3. Currency color (if currency exists, has color, and no mention/tag)
+    // 4. Regular color attribute (if no mention/tag/currency)
+    // 5. Default color (if mention/tag/currency exists but has no color, or no attributes at all)
+    if (mentionColor != null) {
+      // Mention has explicit color
+      res = res.merge(TextStyle(color: mentionColor));
+    } else if (tagColor != null) {
+      // Tag has explicit color and no mention
+      res = res.merge(TextStyle(color: tagColor));
+    } else if (currencyColor != null) {
+      // Currency has explicit color and no mention/tag
+      res = res.merge(TextStyle(color: currencyColor));
+    } else if (!hasMention && !hasTag && !hasCurrency) {
+      // No mention, tag, or currency attribute, apply regular color if set
+      if (color != null && color.value != null) {
+        var textColor = defaultStyles.color;
+        if (color.value is String) {
+          textColor = stringToColor(color.value, null, defaultStyles);
+        }
+        if (textColor != null) {
+          res = res.merge(TextStyle(color: textColor));
+        }
+      }
+      // If no regular color attribute, default color will be used (from defaultStyles)
+    } else {
+      // Mention, tag, or currency exists but has no color - use default color
+      // This ensures text after tags/mentions/currency uses default color, not inherited color
+      // Default color is already set in res from defaultStyles, so no need to merge
     }
 
     final background = nodeStyle.attributes[Attribute.background.key];
@@ -720,6 +813,54 @@ class _TextLineState extends State<TextLine> {
     return a.merge(b).apply(
         decoration: TextDecoration.combine(
             List.castFrom<dynamic, TextDecoration>(decorations)));
+  }
+
+  FontWeight? _parseFontWeight(String value) {
+    final normalized = value.trim().toLowerCase();
+    switch (normalized) {
+      case 'w100':
+      case '100':
+      case 'thin':
+        return FontWeight.w100;
+      case 'w200':
+      case '200':
+      case 'extra-light':
+      case 'extralight':
+        return FontWeight.w200;
+      case 'w300':
+      case '300':
+      case 'light':
+        return FontWeight.w300;
+      case 'w400':
+      case '400':
+      case 'normal':
+      case 'regular':
+        return FontWeight.w400;
+      case 'w500':
+      case '500':
+      case 'medium':
+        return FontWeight.w500;
+      case 'w600':
+      case '600':
+      case 'semi-bold':
+      case 'semibold':
+        return FontWeight.w600;
+      case 'w700':
+      case '700':
+      case 'bold':
+        return FontWeight.w700;
+      case 'w800':
+      case '800':
+      case 'extra-bold':
+      case 'extrabold':
+        return FontWeight.w800;
+      case 'w900':
+      case '900':
+      case 'black':
+        return FontWeight.w900;
+      default:
+        return null;
+    }
   }
 }
 

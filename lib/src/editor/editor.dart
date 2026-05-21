@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, cupertinoTextSelectionControls;
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, ValueListenable;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -279,6 +279,8 @@ class QuillEditorState extends State<QuillEditor>
         checkBoxReadOnly: config.checkBoxReadOnly,
         disableClipboard: config.disableClipboard,
         placeholder: config.placeholder,
+        placeholderTextStyle: config.placeholderTextStyle,
+        hidePlaceholderOnFormat: config.hidePlaceholderOnFormat,
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
             ? (config.contextMenuBuilder ??
@@ -354,6 +356,14 @@ class QuillEditorState extends State<QuillEditor>
       );
     }
 
+    // On iOS/macOS, the text field uses a platform view (RenderUiKitView) which
+    // can receive pointer events before layout, causing "hasSize" assertion.
+    // Block pointer events for one frame so layout completes first.
+    // See https://github.com/flutter/flutter/issues/167849
+    if (isAppleOSApp) {
+      return _PlatformViewLayoutGuard(child: editor);
+    }
+
     return editor;
   }
 
@@ -404,6 +414,42 @@ class QuillEditorState extends State<QuillEditor>
 
   void _requestKeyboard() {
     _requireEditorCurrentState.requestKeyboard();
+  }
+}
+
+/// Workaround for Flutter issue where [RenderUiKitView] can receive pointer
+/// events before layout (NEEDS-LAYOUT), causing "hasSize" assertion.
+/// Used on iOS/macOS so any project using this lib is protected.
+/// See https://github.com/flutter/flutter/issues/167849
+class _PlatformViewLayoutGuard extends StatefulWidget {
+  const _PlatformViewLayoutGuard({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_PlatformViewLayoutGuard> createState() =>
+      _PlatformViewLayoutGuardState();
+}
+
+class _PlatformViewLayoutGuardState extends State<_PlatformViewLayoutGuard> {
+  bool _blockPointerEvents = true;
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _blockPointerEvents) {
+        setState(() => _blockPointerEvents = false);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      ignoring: _blockPointerEvents,
+      child: widget.child,
+    );
   }
 }
 

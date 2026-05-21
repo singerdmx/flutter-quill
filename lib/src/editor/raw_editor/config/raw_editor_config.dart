@@ -39,6 +39,8 @@ class QuillRawEditorConfig {
     this.checkBoxReadOnly,
     this.disableClipboard = false,
     this.placeholder,
+    this.placeholderTextStyle,
+    this.hidePlaceholderOnFormat = false,
     this.onLaunchUrl,
     this.contextMenuBuilder = defaultContextMenuBuilder,
     this.showSelectionHandles = false,
@@ -198,6 +200,14 @@ class QuillRawEditorConfig {
   final bool disableClipboard;
 
   final String? placeholder;
+
+  /// Custom text style for the placeholder text
+  /// If not provided, uses the default placeholder style from [DefaultStyles]
+  final TextStyle? placeholderTextStyle;
+
+  /// When true, hides the placeholder if any formatting is active
+  /// (e.g. block quote toggled) even when the document is empty.
+  final bool hidePlaceholderOnFormat;
 
   /// Callback which is triggered when the user wants to open a URL from
   /// a link in the document.

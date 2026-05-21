@@ -285,6 +285,79 @@ void main() {
             ..insert('X', <String, dynamic>{'link': 'linkURL', 'bold': true}),
           reason: 'Insertion within link label updates label');
     });
+
+    test('Do not carry inline style after currency tag boundary', () {
+      final currencyAttrs = <String, dynamic>{
+        'currency': {'id': '1', 'name': 'account1', 'color': '#FF0000'},
+        'font-weight': '600',
+      };
+      final delta = Delta()
+        ..insert('\$account1', currencyAttrs)
+        ..insert(' ', currencyAttrs)
+        ..insert('\n');
+      final document = Document.fromDelta(delta);
+
+      expect(
+        rule.apply(document, 10, data: 'X', len: 0),
+        null,
+        reason:
+            'Typing after selected \$tag should not inherit bold/tag style.',
+      );
+    });
+
+    test('Do not carry token style from trailing selected currency space', () {
+      final currencyAttrs = <String, dynamic>{
+        'currency': {'id': '1', 'name': 'account1', 'color': '#FF0000'},
+        'font-weight': '600',
+      };
+      final delta = Delta()
+        ..insert('\$account1', currencyAttrs)
+        ..insert(' ', <String, dynamic>{'font-weight': '600'})
+        ..insert('\n');
+      final document = Document.fromDelta(delta);
+
+      expect(
+        rule.apply(document, 10, data: 'X', len: 0),
+        null,
+        reason: 'Typing after the auto-inserted token space must be normal.',
+      );
+    });
+
+    test('Do not carry token style from trailing selected mention space', () {
+      final mentionAttrs = <String, dynamic>{
+        'mention': {'id': '1', 'name': 'john', 'color': '#FF0000'},
+        'font-weight': '600',
+      };
+      final delta = Delta()
+        ..insert('@john', mentionAttrs)
+        ..insert(' ', <String, dynamic>{'font-weight': '600'})
+        ..insert('\n');
+      final document = Document.fromDelta(delta);
+
+      expect(
+        rule.apply(document, 6, data: 'X', len: 0),
+        null,
+        reason: 'Typing after the auto-inserted mention space must be normal.',
+      );
+    });
+
+    test('Keep currency attributes when editing inside currency tag', () {
+      final currencyAttrs = <String, dynamic>{
+        'currency': {'id': '1', 'name': 'account1', 'color': '#FF0000'},
+        'font-weight': '600',
+      };
+      final delta = Delta()
+        ..insert('\$account1', currencyAttrs)
+        ..insert(' \n');
+      final document = Document.fromDelta(delta);
+
+      expect(
+        rule.apply(document, 5, data: 'X', len: 0),
+        Delta()
+          ..retain(5)
+          ..insert('X', currencyAttrs),
+      );
+    });
   });
 
   group('AutoFormatMultipleLinksRule', () {

@@ -349,25 +349,41 @@ class QuillRawEditorState extends EditorState
 
     var doc = controller.document;
     if (doc.isEmpty() && widget.config.placeholder != null) {
-      final raw = widget.config.placeholder?.replaceAll(r'"', '\\"');
       // get current block attributes applied to the first line even if it
       // is empty
       final blockAttributesWithoutContent =
           doc.root.children.firstOrNull?.toDelta().first.attributes;
-      // check if it has code block attribute to add '//' to give to the users
-      // the feeling of this is really a block of code
-      final isCodeBlock =
-          blockAttributesWithoutContent?.containsKey('code-block') ?? false;
-      // we add the block attributes at the same time as the placeholder to allow the editor to display them without removing
-      // the placeholder (this is really awkward when everything is empty)
-      final blockAttrInsertion = blockAttributesWithoutContent == null
-          ? ''
-          : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
-      doc = Document.fromJson(
-        jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
-        ),
-      );
+      final hasBlockAttributes =
+          blockAttributesWithoutContent?.isNotEmpty ?? false;
+      // When formatting is active (e.g. block quote), hide placeholder if flag is on.
+      final hasActiveFormatting =
+          widget.controller.toggledStyle.isNotEmpty || hasBlockAttributes;
+
+      if (!widget.config.hidePlaceholderOnFormat || !hasActiveFormatting) {
+        // Properly escape the placeholder text for JSON (escape quotes, newlines, and other control characters)
+        final placeholderText = widget.config.placeholder!;
+        // Use jsonEncode to properly escape all control characters, then remove the surrounding quotes
+        final escapedPlaceholder = jsonEncode(placeholderText).substring(
+            1, jsonEncode(placeholderText).length - 1);
+        // check if it has code block attribute to add '//' to give to the users
+        // the feeling of this is really a block of code
+        final isCodeBlock =
+            blockAttributesWithoutContent?.containsKey('code-block') ?? false;
+        // we add the block attributes at the same time as the placeholder to allow the editor to display them without removing
+        // the placeholder (this is really awkward when everything is empty)
+        final blockAttrInsertion = blockAttributesWithoutContent == null
+            ? ''
+            : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
+        final codeBlockPrefix = isCodeBlock ? '// ' : '';
+        final codeBlockPrefixEscaped = jsonEncode(codeBlockPrefix)
+            .substring(1, jsonEncode(codeBlockPrefix).length - 1);
+        final newlineSuffix = blockAttrInsertion.isEmpty ? '\\n' : '';
+        doc = Document.fromJson(
+          jsonDecode(
+            '[{"attributes":{"placeholder":true},"insert":"$codeBlockPrefixEscaped$escapedPlaceholder$newlineSuffix"}$blockAttrInsertion]',
+          ),
+        );
+      }
     }
 
     if (!widget.config.disableClipboard) {
@@ -655,6 +671,7 @@ class QuillRawEditorState extends EditorState
       onLaunchUrl: widget.config.onLaunchUrl,
       customLinkPrefixes: widget.config.customLinkPrefixes,
       composingRange: composingRange.value,
+      placeholderTextStyle: widget.config.placeholderTextStyle,
     );
     final editableTextLine = EditableTextLine(
         node,
@@ -799,6 +816,20 @@ class QuillRawEditorState extends EditorState
   }
 
   void _didChangeTextEditingValueListener() {
+    if (controller.requestShowCaretOnScreen) {
+      controller.requestShowCaretOnScreen = false;
+      _showCaretOnScreenScheduled = false; // Allow this scroll to run (may have been set by initial typing)
+      // Use bringIntoView for immediate scroll so cursor is above suggestion overlay
+      try {
+        final pos = TextPosition(
+          offset: controller.selection.extentOffset,
+          affinity: controller.selection.affinity,
+        );
+        bringIntoView(pos);
+      } catch (_) {}
+      _showCaretOnScreen(); // Also schedule scroll for next frame in case viewport updated
+      return;
+    }
     _didChangeTextEditingValue(controller.ignoreFocusOnTextChange);
   }
 

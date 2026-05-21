@@ -19,6 +19,7 @@ import '../widgets/delegate.dart';
 import '../widgets/link.dart' hide linkPrefixes;
 import '../widgets/text/magnifier.dart';
 import '../widgets/text/utils/text_block_utils.dart';
+import 'mention_tag_config.dart';
 import 'search_config.dart';
 
 // IMPORTANT For project authors: The QuillEditorConfig.copyWith()
@@ -35,6 +36,7 @@ class QuillEditorConfig {
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
+    this.placeholderTextStyle,
     this.checkBoxReadOnly,
     this.disableClipboard = false,
     this.textSelectionThemeData,
@@ -86,6 +88,8 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.hidePlaceholderOnFormat = false,
+    this.mentionTagConfig,
   });
 
   @experimental
@@ -93,6 +97,14 @@ class QuillEditorConfig {
 
   /// The text placeholder in the quill editor
   final String? placeholder;
+
+  /// Custom text style for the placeholder text
+  /// If not provided, uses the default placeholder style from [DefaultStyles]
+  final TextStyle? placeholderTextStyle;
+
+  /// When true, hides the placeholder if any formatting is active
+  /// (e.g. block quote toggled) even when the document is empty.
+  final bool hidePlaceholderOnFormat;
 
   /// Contains all the events that will be handled when
   /// the exact characters satifies the condition. This mean
@@ -385,6 +397,9 @@ class QuillEditorConfig {
   @experimental
   final QuillSearchConfig searchConfig;
 
+  /// Configuration for mention (@) and tag (#) functionality
+  final MentionTagConfig? mentionTagConfig;
+
   /// Delegate function responsible for showing menu with link actions on
   /// mobile platforms (iOS, Android).
   ///
@@ -477,6 +492,7 @@ class QuillEditorConfig {
   QuillEditorConfig copyWith({
     LeadingBlockNodeBuilder? customLeadingBlockBuilder,
     String? placeholder,
+    TextStyle? placeholderTextStyle,
     List<CharacterShortcutEvent>? characterShortcutEvents,
     List<SpaceShortcutEvent>? spaceShortcutEvents,
     bool? checkBoxReadOnly,
@@ -531,11 +547,13 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? hidePlaceholderOnFormat,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       placeholder: placeholder ?? this.placeholder,
+      placeholderTextStyle: placeholderTextStyle ?? this.placeholderTextStyle,
       characterShortcutEvents:
           characterShortcutEvents ?? this.characterShortcutEvents,
       spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
@@ -600,6 +618,8 @@ class QuillEditorConfig {
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,
+      hidePlaceholderOnFormat:
+          hidePlaceholderOnFormat ?? this.hidePlaceholderOnFormat,
     );
   }
 }
