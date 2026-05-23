@@ -214,6 +214,69 @@ void main() {
     );
 
     testWidgets(
+      'transformLink replaces the default prefix logic when launching a link',
+      (tester) async {
+        controller
+          ..document.insert(0, 'example.com')
+          ..formatText(
+              0, 'example.com'.length, const LinkAttribute('example.com'))
+          ..readOnly = true;
+
+        String? launched;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: QuillEditor.basic(
+              controller: controller,
+              config: QuillEditorConfig(
+                onLaunchUrl: (url) => launched = url,
+                transformLink: (link) => 'custom://$link',
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+
+        await tester.tapOnText(
+          find.textRange.ofSubstring('example.com'),
+        );
+        await tester.pump();
+
+        expect(launched, 'custom://example.com');
+      },
+    );
+
+    testWidgets(
+      'when transformLink is null the default https:// prefix is added',
+      (tester) async {
+        controller
+          ..document.insert(0, 'example.com')
+          ..formatText(
+              0, 'example.com'.length, const LinkAttribute('example.com'))
+          ..readOnly = true;
+
+        String? launched;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: QuillEditor.basic(
+              controller: controller,
+              config: QuillEditorConfig(
+                onLaunchUrl: (url) => launched = url,
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+
+        await tester.tapOnText(
+          find.textRange.ofSubstring('example.com'),
+        );
+        await tester.pump();
+
+        expect(launched, 'https://example.com');
+      },
+    );
+
+    testWidgets(
       'should throw MissingFlutterQuillLocalizationException if the delegate is not provided',
       (tester) async {
         await tester.pumpWidget(

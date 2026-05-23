@@ -317,6 +317,7 @@ class QuillEditorState extends State<QuillEditor>
         customShortcuts: config.customShortcuts,
         customActions: config.customActions,
         customLinkPrefixes: config.customLinkPrefixes,
+        transformLink: config.transformLink,
         onTapOutsideEnabled: config.onTapOutsideEnabled,
         onTapOutside: config.onTapOutside,
         dialogTheme: config.dialogTheme,

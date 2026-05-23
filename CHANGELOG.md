@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added localization support for `mn` (Mongolian, Mongolia)
+- Added `transformLink` callback to `QuillEditorConfig` (and `RawEditorConfig`) to allow customizing how a link string is transformed before it is launched on tap. When `null`, the previous default behavior (prepending `https://` to scheme-less links) is preserved [#2727](https://github.com/singerdmx/flutter-quill/pull/2727).
 
 ### Changed
 
