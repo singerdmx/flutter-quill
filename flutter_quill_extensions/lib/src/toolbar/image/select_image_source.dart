@@ -11,35 +11,40 @@ class SelectImageSourceDialog extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(minHeight: 200),
       width: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(context.loc.gallery),
-              subtitle: Text(
-                context.loc.pickAPhotoFromYourGallery,
+      child: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(context.loc.gallery),
+                subtitle: Text(
+                  context.loc.pickAPhotoFromYourGallery,
+                ),
+                leading: const Icon(Icons.photo_sharp),
+                onTap: () => Navigator.of(context).pop(InsertImageSource.gallery),
               ),
-              leading: const Icon(Icons.photo_sharp),
-              onTap: () => Navigator.of(context).pop(InsertImageSource.gallery),
-            ),
-            ListTile(
-              title: Text(context.loc.camera),
-              subtitle: Text(
-                context.loc.takeAPhotoUsingYourCamera,
+              ListTile(
+                title: Text(context.loc.camera),
+                subtitle: Text(
+                  context.loc.takeAPhotoUsingYourCamera,
+                ),
+                leading: const Icon(Icons.camera),
+                enabled: !isDesktopApp,
+                onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
               ),
-              leading: const Icon(Icons.camera),
-              enabled: !isDesktopApp,
-              onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
-            ),
-            ListTile(
-              title: Text(context.loc.link),
-              subtitle: Text(
-                context.loc.pasteAPhotoUsingALink,
+              ListTile(
+                title: Text(context.loc.link),
+                subtitle: Text(
+                  context.loc.pasteAPhotoUsingALink,
+                ),
+                leading: const Icon(Icons.link),
+                onTap: () => Navigator.of(context).pop(InsertImageSource.link),
               ),
-              leading: const Icon(Icons.link),
-              onTap: () => Navigator.of(context).pop(InsertImageSource.link),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

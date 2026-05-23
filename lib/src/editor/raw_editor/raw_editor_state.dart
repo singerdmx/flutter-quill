@@ -1286,6 +1286,9 @@ class QuillRawEditorState extends EditorState
   }
 
   @override
+  bool onFocusReceived() => false;
+
+  @override
   bool get liveTextInputEnabled => false;
 
   @override

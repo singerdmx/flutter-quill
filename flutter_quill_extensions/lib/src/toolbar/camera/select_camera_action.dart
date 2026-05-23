@@ -11,28 +11,33 @@ class SelectCameraActionDialog extends StatelessWidget {
     return SizedBox(
       height: 150,
       width: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(context.loc.photo),
-              subtitle: Text(
-                context.loc.takeAPhotoUsingYourCamera,
+      child: SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(context.loc.photo),
+                subtitle: Text(
+                  context.loc.takeAPhotoUsingYourCamera,
+                ),
+                leading: const Icon(Icons.photo_sharp),
+                enabled: !isDesktopApp,
+                onTap: () => Navigator.of(context).pop(CameraAction.image),
               ),
-              leading: const Icon(Icons.photo_sharp),
-              enabled: !isDesktopApp,
-              onTap: () => Navigator.of(context).pop(CameraAction.image),
-            ),
-            ListTile(
-              title: Text(context.loc.video),
-              subtitle: Text(
-                context.loc.recordAVideoUsingYourCamera,
+              ListTile(
+                title: Text(context.loc.video),
+                subtitle: Text(
+                  context.loc.recordAVideoUsingYourCamera,
+                ),
+                leading: const Icon(Icons.camera),
+                enabled: !isDesktopApp,
+                onTap: () => Navigator.of(context).pop(CameraAction.video),
               ),
-              leading: const Icon(Icons.camera),
-              enabled: !isDesktopApp,
-              onTap: () => Navigator.of(context).pop(CameraAction.video),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
