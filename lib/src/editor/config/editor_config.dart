@@ -86,6 +86,7 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.passiveReadOnly = false,
   });
 
   @experimental
@@ -211,6 +212,17 @@ class QuillEditorConfig {
   ///
   /// Defaults to false. Must not be null.
   final bool enableAlwaysIndentOnTab;
+
+  /// Mantiene el editor renderizado en modo read-only, pero evita que Quill
+  /// entre en su propio pipeline de foco/teclado.
+  ///
+  /// Se agregó para previews interactivos en web donde conviven dos editores
+  /// Quill en la misma pantalla: uno editable y otro solo de presentacion.
+  /// En ese escenario, el preview necesitaba permitir taps/foco en widgets
+  /// embebidos (por ejemplo dropdowns), pero sin que el propio Quill de preview
+  /// intentara pedir foco, abrir `TextInputConnection` o competir con el editor
+  /// principal, porque eso podia terminar en cuelgues o loops de foco.
+  final bool passiveReadOnly;
 
   /// Additional space around the content of this editor.
   /// by default will be [EdgeInsets.zero]
@@ -531,6 +543,7 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? passiveReadOnly,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
@@ -600,6 +613,7 @@ class QuillEditorConfig {
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,
+      passiveReadOnly: passiveReadOnly ?? this.passiveReadOnly,
     );
   }
 }
