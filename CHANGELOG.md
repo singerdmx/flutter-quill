@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed `UnsupportedError: Cannot add to a fixed-length list` thrown during `paint()` in `RenderEditableTextLine` when a selection contains an empty line. `_selectedRects` is now a growable list.
+
 ## [11.5.1] - 2026-05-20
 
 ### Added
