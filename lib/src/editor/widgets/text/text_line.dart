@@ -1419,9 +1419,14 @@ class RenderEditableTextLine extends RenderEditableBox {
           line.documentOffset <= textSelection.end &&
           textSelection.start <= line.documentOffset + line.length - 1) {
         final local = localSelection(line, textSelection, false);
-        _selectedRects ??= _body!.getBoxesForSelection(
-          local,
-        );
+        // `getBoxesForSelection` may return a fixed-length/unmodifiable list.
+        // We append to `_selectedRects` below for empty lines, so it must be
+        // growable, otherwise `.add` throws `Cannot add to a fixed-length list`.
+        _selectedRects ??= _body!
+            .getBoxesForSelection(
+              local,
+            )
+            .toList();
 
         // Paint a small rect at the start of empty lines that
         // are contained by the selection.
