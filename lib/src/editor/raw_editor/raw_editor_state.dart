@@ -1090,10 +1090,13 @@ class QuillRawEditorState extends EditorState
   }
 
   void _handleFocusChanged() {
+    if (!mounted) return;
     if (dirty) {
       requestKeyboard();
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _handleFocusChanged());
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _handleFocusChanged();
+      });
       return;
     }
     openOrCloseConnection();
@@ -1185,6 +1188,7 @@ class QuillRawEditorState extends EditorState
   /// keyboard become visible.
   @override
   void requestKeyboard() {
+    if (!mounted) return;
     if (controller.skipRequestKeyboard) {
       controller.skipRequestKeyboard = false;
       return;
