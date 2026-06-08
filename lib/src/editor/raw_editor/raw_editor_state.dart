@@ -159,8 +159,12 @@ class QuillRawEditorState extends EditorState
       cause,
     );
 
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
+    if (cause == SelectionChangedCause.toolbar && scrollController.hasClients) {
+      // Reveal the start of the selection (the top of the document) with a
+      // single deterministic scroll. The post-frame `_showCaretOnScreen`
+      // also reveals the selection start (`endpoints.first`) bug does this
+      // with a lag.
+      scrollController.jumpTo(scrollController.position.minScrollExtent);
     }
   }
 
@@ -245,6 +249,12 @@ class QuillRawEditorState extends EditorState
     }
   }
 
+  /// The vertical room (in logical pixels) reserved above the bottom of the
+  /// visible editor so the selection context menu stays fully on-screen when it
+  /// is rendered below the selection.
+  static const double _kSelectionContextMenuReserve =
+      kMinInteractiveDimension + 16;
+
   /// Returns the anchor points for the default context menu.
   ///
   /// Copied from [EditableTextState].
@@ -252,11 +262,58 @@ class QuillRawEditorState extends EditorState
     final glyphHeights = _getGlyphHeights();
     final selection = textEditingValue.selection;
     final points = renderEditor.getEndpointsForSelection(selection);
-    return TextSelectionToolbarAnchors.fromSelection(
+    final anchors = TextSelectionToolbarAnchors.fromSelection(
       renderBox: renderEditor,
       startGlyphHeight: glyphHeights.startGlyphHeight,
       endGlyphHeight: glyphHeights.endGlyphHeight,
       selectionEndpoints: points,
+    );
+    return _clampAnchorsToVisibleViewport(anchors);
+  }
+
+  /// Clamps [anchors] into the visible region of the editor so the selection
+  /// context menu keeps an on-screen position even when the selection extends
+  /// past the viewport.
+  TextSelectionToolbarAnchors _clampAnchorsToVisibleViewport(
+    TextSelectionToolbarAnchors anchors,
+  ) {
+    final editor = renderEditor;
+    if (!editor.hasSize) {
+      return anchors;
+    }
+    final viewportObject = RenderAbstractViewport.maybeOf(editor);
+    if (viewportObject is! RenderBox) {
+      return anchors;
+    }
+    final viewport = viewportObject as RenderBox;
+    if (!viewport.hasSize) {
+      return anchors;
+    }
+
+    // The vertical bounds of the editor that are actually visible, in global
+    // coordinates.
+    final editorTop = editor.localToGlobal(Offset.zero).dy;
+    final editorBottom = editor.localToGlobal(Offset(0, editor.size.height)).dy;
+    final viewportTop = viewport.localToGlobal(Offset.zero).dy;
+    final viewportBottom =
+        viewport.localToGlobal(Offset(0, viewport.size.height)).dy;
+    final visibleTop = math.max(editorTop, viewportTop);
+    final visibleBottom = math.min(editorBottom, viewportBottom);
+
+    // Not enough visible room to reposition meaningfully, leave as-is.
+    if (visibleBottom - visibleTop <= _kSelectionContextMenuReserve) {
+      return anchors;
+    }
+
+    Offset clampY(Offset point, double low, double high) =>
+        Offset(point.dx, point.dy.clamp(low, high));
+
+    return TextSelectionToolbarAnchors(
+      primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
+      secondaryAnchor: anchors.secondaryAnchor == null
+          ? null
+          : clampY(anchors.secondaryAnchor!, visibleTop,
+              visibleBottom - _kSelectionContextMenuReserve),
     );
   }
 
