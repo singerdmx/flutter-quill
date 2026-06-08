@@ -96,11 +96,15 @@ class QuillRawEditorState extends EditorState
 
   @override
   void insertContent(KeyboardInsertedContent content) {
-    assert(widget.config.contentInsertionConfiguration?.allowedMimeTypes
-            .contains(content.mimeType) ??
-        false);
-    widget.config.contentInsertionConfiguration?.onContentInserted
-        .call(content);
+    assert(
+      widget.config.contentInsertionConfiguration?.allowedMimeTypes.contains(
+            content.mimeType,
+          ) ??
+          false,
+    );
+    widget.config.contentInsertionConfiguration?.onContentInserted.call(
+      content,
+    );
   }
 
   /// Copy current selection to [Clipboard].
@@ -116,8 +120,9 @@ class QuillRawEditorState extends EditorState
       userUpdateTextEditingValue(
         TextEditingValue(
           text: textEditingValue.text,
-          selection:
-              TextSelection.collapsed(offset: textEditingValue.selection.end),
+          selection: TextSelection.collapsed(
+            offset: textEditingValue.selection.end,
+          ),
         ),
         SelectionChangedCause.toolbar,
       );
@@ -154,7 +159,9 @@ class QuillRawEditorState extends EditorState
     userUpdateTextEditingValue(
       textEditingValue.copyWith(
         selection: TextSelection(
-            baseOffset: 0, extentOffset: textEditingValue.text.length),
+          baseOffset: 0,
+          extentOffset: textEditingValue.text.length,
+        ),
       ),
       cause,
     );
@@ -173,15 +180,18 @@ class QuillRawEditorState extends EditorState
   /// Copied from [EditableTextState].
   List<ContextMenuButtonItem> get contextMenuButtonItems {
     return EditableText.getEditableButtonItems(
-      clipboardStatus:
-          (_clipboardStatus != null) ? _clipboardStatus!.value : null,
+      clipboardStatus: (_clipboardStatus != null)
+          ? _clipboardStatus!.value
+          : null,
       onCopy: copyEnabled
           ? () => copySelection(SelectionChangedCause.toolbar)
           : null,
-      onCut:
-          cutEnabled ? () => cutSelection(SelectionChangedCause.toolbar) : null,
-      onPaste:
-          pasteEnabled ? () => pasteText(SelectionChangedCause.toolbar) : null,
+      onCut: cutEnabled
+          ? () => cutSelection(SelectionChangedCause.toolbar)
+          : null,
+      onPaste: pasteEnabled
+          ? () => pasteText(SelectionChangedCause.toolbar)
+          : null,
       onSelectAll: selectAllEnabled
           ? () => selectAll(SelectionChangedCause.toolbar)
           : null,
@@ -209,10 +219,7 @@ class QuillRawEditorState extends EditorState
     if (text.isEmpty) {
       return;
     }
-    await SystemChannels.platform.invokeMethod(
-      'LookUp.invoke',
-      text,
-    );
+    await SystemChannels.platform.invokeMethod('LookUp.invoke', text);
   }
 
   /// Launch a web search on the current selection,
@@ -225,10 +232,7 @@ class QuillRawEditorState extends EditorState
   Future<void> searchWebForSelection(SelectionChangedCause cause) async {
     final text = textEditingValue.selection.textInside(textEditingValue.text);
     if (text.isNotEmpty) {
-      await SystemChannels.platform.invokeMethod(
-        'SearchWeb.invoke',
-        text,
-      );
+      await SystemChannels.platform.invokeMethod('SearchWeb.invoke', text);
     }
   }
 
@@ -242,10 +246,7 @@ class QuillRawEditorState extends EditorState
   Future<void> shareSelection(SelectionChangedCause cause) async {
     final text = textEditingValue.selection.textInside(textEditingValue.text);
     if (text.isNotEmpty) {
-      await SystemChannels.platform.invokeMethod(
-        'Share.invoke',
-        text,
-      );
+      await SystemChannels.platform.invokeMethod('Share.invoke', text);
     }
   }
 
@@ -295,8 +296,9 @@ class QuillRawEditorState extends EditorState
     final editorTop = editor.localToGlobal(Offset.zero).dy;
     final editorBottom = editor.localToGlobal(Offset(0, editor.size.height)).dy;
     final viewportTop = viewport.localToGlobal(Offset.zero).dy;
-    final viewportBottom =
-        viewport.localToGlobal(Offset(0, viewport.size.height)).dy;
+    final viewportBottom = viewport
+        .localToGlobal(Offset(0, viewport.size.height))
+        .dy;
     final visibleTop = math.max(editorTop, viewportTop);
     final visibleBottom = math.min(editorBottom, viewportBottom);
 
@@ -312,8 +314,11 @@ class QuillRawEditorState extends EditorState
       primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
       secondaryAnchor: anchors.secondaryAnchor == null
           ? null
-          : clampY(anchors.secondaryAnchor!, visibleTop,
-              visibleBottom - _kSelectionContextMenuReserve),
+          : clampY(
+              anchors.secondaryAnchor!,
+              visibleTop,
+              visibleBottom - _kSelectionContextMenuReserve,
+            ),
     );
   }
 
@@ -340,10 +345,12 @@ class QuillRawEditorState extends EditorState
       );
     }
 
-    final startCharacterRect =
-        renderEditor.getLocalRectForCaret(selection.base);
-    final endCharacterRect =
-        renderEditor.getLocalRectForCaret(selection.extent);
+    final startCharacterRect = renderEditor.getLocalRectForCaret(
+      selection.base,
+    );
+    final endCharacterRect = renderEditor.getLocalRectForCaret(
+      selection.extent,
+    );
     return QuillEditorGlyphHeights(
       startCharacterRect.height,
       endCharacterRect.height,
@@ -386,10 +393,12 @@ class QuillRawEditorState extends EditorState
     return ScribbleFocusable(
       editorKey: _editorKey,
       enabled: widget.config.enableScribble && !widget.config.readOnly,
-      renderBoxForBounds: () => context
-          .findAncestorStateOfType<QuillEditorState>()
-          ?.context
-          .findRenderObject() as RenderBox?,
+      renderBoxForBounds: () =>
+          context
+                  .findAncestorStateOfType<QuillEditorState>()
+                  ?.context
+                  .findRenderObject()
+              as RenderBox?,
       onScribbleFocus: (offset) {
         widget.config.focusNode.requestFocus();
         widget.config.onScribbleActivated?.call();
@@ -409,8 +418,10 @@ class QuillRawEditorState extends EditorState
       final raw = widget.config.placeholder?.replaceAll(r'"', '\\"');
       // get current block attributes applied to the first line even if it
       // is empty
-      final blockAttributesWithoutContent =
-          doc.root.children.firstOrNull?.toDelta().first.attributes;
+      final blockAttributesWithoutContent = doc.root.children.firstOrNull
+          ?.toDelta()
+          .first
+          .attributes;
       // check if it has code block attribute to add '//' to give to the users
       // the feeling of this is really a block of code
       final isCodeBlock =
@@ -448,47 +459,48 @@ class QuillRawEditorState extends EditorState
       /// the scroll view with [BaselineProxy] which mimics the editor's
       /// baseline.
       // This implies that the first line has no styles applied to it.
-      final baselinePadding =
-          EdgeInsets.only(top: _styles!.paragraph!.verticalSpacing.top);
+      final baselinePadding = EdgeInsets.only(
+        top: _styles!.paragraph!.verticalSpacing.top,
+      );
       child = BaselineProxy(
-          textStyle: _styles!.paragraph!.style,
-          padding: baselinePadding,
-          child: _scribbleFocusable(
-            SingleChildScrollView(
-              controller: _scrollController,
-              physics: widget.config.scrollPhysics,
-              child: CompositedTransformTarget(
-                link: _toolbarLayerLink,
-                child: MouseRegion(
-                  cursor: widget.config.readOnly
-                      ? widget.config.readOnlyMouseCursor
-                      : SystemMouseCursors.text,
-                  child: QuillRawEditorMultiChildRenderObject(
-                    key: _editorKey,
-                    offset: _scrollController.hasClients
-                        ? _scrollController.position
-                        : null,
-                    document: doc,
-                    selection: controller.selection,
-                    hasFocus: _hasFocus,
-                    scrollable: widget.config.scrollable,
-                    textDirection: _textDirection,
-                    startHandleLayerLink: _startHandleLayerLink,
-                    endHandleLayerLink: _endHandleLayerLink,
-                    onSelectionChanged: _handleSelectionChanged,
-                    onSelectionCompleted: _handleSelectionCompleted,
-                    scrollBottomInset: widget.config.scrollBottomInset,
-                    padding: widget.config.padding,
-                    maxContentWidth: widget.config.maxContentWidth,
-                    cursorController: _cursorCont,
-                    floatingCursorDisabled:
-                        widget.config.floatingCursorDisabled,
-                    children: _buildChildren(doc, context),
-                  ),
+        textStyle: _styles!.paragraph!.style,
+        padding: baselinePadding,
+        child: _scribbleFocusable(
+          SingleChildScrollView(
+            controller: _scrollController,
+            physics: widget.config.scrollPhysics,
+            child: CompositedTransformTarget(
+              link: _toolbarLayerLink,
+              child: MouseRegion(
+                cursor: widget.config.readOnly
+                    ? widget.config.readOnlyMouseCursor
+                    : SystemMouseCursors.text,
+                child: QuillRawEditorMultiChildRenderObject(
+                  key: _editorKey,
+                  offset: _scrollController.hasClients
+                      ? _scrollController.position
+                      : null,
+                  document: doc,
+                  selection: controller.selection,
+                  hasFocus: _hasFocus,
+                  scrollable: widget.config.scrollable,
+                  textDirection: _textDirection,
+                  startHandleLayerLink: _startHandleLayerLink,
+                  endHandleLayerLink: _endHandleLayerLink,
+                  onSelectionChanged: _handleSelectionChanged,
+                  onSelectionCompleted: _handleSelectionCompleted,
+                  scrollBottomInset: widget.config.scrollBottomInset,
+                  padding: widget.config.padding,
+                  maxContentWidth: widget.config.maxContentWidth,
+                  cursorController: _cursorCont,
+                  floatingCursorDisabled: widget.config.floatingCursorDisabled,
+                  children: _buildChildren(doc, context),
                 ),
               ),
             ),
-          ));
+          ),
+        ),
+      );
     } else {
       child = _scribbleFocusable(
         CompositedTransformTarget(
@@ -603,12 +615,11 @@ class QuillRawEditorState extends EditorState
         ..ignoreFocusOnTextChange = true
         ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
         ..formatText(offset, 0, attribute)
-
         // Checkbox tapping causes controller.selection to go to offset 0
         // Stop toggling those two toolbar buttons
         ..toolbarButtonToggler = {
           Attribute.list.key: attribute,
-          Attribute.header.key: Attribute.header
+          Attribute.header.key: Attribute.header,
         };
 
       // Go back from offset 0 to current selection
@@ -643,10 +654,17 @@ class QuillRawEditorState extends EditorState
       prevNodeOl = attrs[Attribute.list.key] == Attribute.ol;
       final nodeTextDirection = getDirectionOfNode(node, _textDirection);
       if (node is Line) {
-        final editableTextLine =
-            _getEditableTextLineFromNode(node, context, attrs);
-        result.add(Directionality(
-            textDirection: nodeTextDirection, child: editableTextLine));
+        final editableTextLine = _getEditableTextLineFromNode(
+          node,
+          context,
+          attrs,
+        );
+        result.add(
+          Directionality(
+            textDirection: nodeTextDirection,
+            child: editableTextLine,
+          ),
+        );
       } else if (node is Block) {
         final editableTextBlock = EditableTextBlock(
           block: node,
@@ -697,7 +715,10 @@ class QuillRawEditorState extends EditorState
   }
 
   EditableTextLine _getEditableTextLineFromNode(
-      Line node, BuildContext context, Map<String, Attribute<dynamic>> attrs) {
+    Line node,
+    BuildContext context,
+    Map<String, Attribute<dynamic>> attrs,
+  ) {
     final textLine = TextLine(
       line: node,
       textDirection: _textDirection,
@@ -714,20 +735,21 @@ class QuillRawEditorState extends EditorState
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
-        node,
-        null,
-        textLine,
-        _getHorizontalSpacingForLine(node, _styles),
-        _getVerticalSpacingForLine(node, _styles),
-        _textDirection,
-        controller.selection,
-        widget.config.selectionColor,
-        widget.config.enableInteractiveSelection,
-        _hasFocus,
-        MediaQuery.devicePixelRatioOf(context),
-        _cursorCont,
-        _styles!.inlineCode!,
-        _getDecoration(node, _styles, attrs));
+      node,
+      null,
+      textLine,
+      _getHorizontalSpacingForLine(node, _styles),
+      _getVerticalSpacingForLine(node, _styles),
+      _textDirection,
+      controller.selection,
+      widget.config.selectionColor,
+      widget.config.enableInteractiveSelection,
+      _hasFocus,
+      MediaQuery.devicePixelRatioOf(context),
+      _cursorCont,
+      _styles!.inlineCode!,
+      _getDecoration(node, _styles, attrs),
+    );
     return editableTextLine;
   }
 
@@ -798,7 +820,9 @@ class QuillRawEditorState extends EditorState
   }
 
   HorizontalSpacing _getHorizontalSpacingForBlock(
-      Block node, DefaultStyles? defaultStyles) {
+    Block node,
+    DefaultStyles? defaultStyles,
+  ) {
     final attrs = node.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return defaultStyles!.quote!.horizontalSpacing;
@@ -815,7 +839,9 @@ class QuillRawEditorState extends EditorState
   }
 
   VerticalSpacing _getVerticalSpacingForBlock(
-      Block node, DefaultStyles? defaultStyles) {
+    Block node,
+    DefaultStyles? defaultStyles,
+  ) {
     final attrs = node.style.attributes;
     if (attrs.containsKey(Attribute.blockQuote.key)) {
       return defaultStyles!.quote!.verticalSpacing;
@@ -831,8 +857,11 @@ class QuillRawEditorState extends EditorState
     return VerticalSpacing.zero;
   }
 
-  BoxDecoration? _getDecoration(Node node, DefaultStyles? defaultStyles,
-      Map<String, Attribute<dynamic>> attrs) {
+  BoxDecoration? _getDecoration(
+    Node node,
+    DefaultStyles? defaultStyles,
+    Map<String, Attribute<dynamic>> attrs,
+  ) {
     if (attrs.containsKey(Attribute.header.key)) {
       final level = attrs[Attribute.header.key]!.value;
       switch (level) {
@@ -897,13 +926,14 @@ class QuillRawEditorState extends EditorState
         } else {
           _keyboardVisibilityController = KeyboardVisibilityController();
           _keyboardVisible = _keyboardVisibilityController!.isVisible;
-          _keyboardVisibilitySubscription =
-              _keyboardVisibilityController?.onChange.listen((visible) {
-            _keyboardVisible = visible;
-            if (visible) {
-              _onChangeTextEditingValue(!_hasFocus);
-            }
-          });
+          _keyboardVisibilitySubscription = _keyboardVisibilityController
+              ?.onChange
+              .listen((visible) {
+                _keyboardVisible = visible;
+                if (visible) {
+                  _onChangeTextEditingValue(!_hasFocus);
+                }
+              });
 
           HardwareKeyboard.instance.addHandler(_hardwareKeyboardEvent);
         }
@@ -1149,8 +1179,9 @@ class QuillRawEditorState extends EditorState
   void _handleFocusChanged() {
     if (dirty) {
       requestKeyboard();
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _handleFocusChanged());
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => _handleFocusChanged(),
+      );
       return;
     }
     openOrCloseConnection();
@@ -1201,8 +1232,10 @@ class QuillRawEditorState extends EditorState
         }
 
         final viewport = RenderAbstractViewport.of(renderEditor);
-        final editorOffset =
-            renderEditor.localToGlobal(const Offset(0, 0), ancestor: viewport);
+        final editorOffset = renderEditor.localToGlobal(
+          const Offset(0, 0),
+          ancestor: viewport,
+        );
         final offsetInViewport = _scrollController.offset + editorOffset.dy;
 
         final offset = renderEditor.getOffsetToRevealCursor(
@@ -1251,10 +1284,7 @@ class QuillRawEditorState extends EditorState
       openConnectionIfNeeded();
       if (!keyboardAlreadyShown) {
         /// delay 500 milliseconds for waiting keyboard show up
-        Future.delayed(
-          const Duration(milliseconds: 500),
-          _showCaretOnScreen,
-        );
+        Future.delayed(const Duration(milliseconds: 500), _showCaretOnScreen);
       } else {
         _showCaretOnScreen();
       }
