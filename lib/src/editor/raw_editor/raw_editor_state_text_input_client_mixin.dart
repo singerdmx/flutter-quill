@@ -71,6 +71,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       Theme.of(context).brightness;
 
   void openConnectionIfNeeded() {
+    if (!mounted) return;
     if (!shouldCreateInputConnection) {
       return;
     }
