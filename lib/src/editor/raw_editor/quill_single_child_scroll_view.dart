@@ -10,7 +10,8 @@ import 'package:flutter/widgets.dart';
 /// Useful when child needs [ViewportOffset] ([RenderEditor] no longer uses this class!)
 /// see: [SingleChildScrollView]
 @Deprecated(
-    'This class is no longer being used and will be removed in future versions. If you disagree, please open an issue.')
+  'This class is no longer being used and will be removed in future versions. If you disagree, please open an issue.',
+)
 class QuillSingleChildScrollView extends StatelessWidget {
   /// Creates a box in which a single widget can be scrolled.
   const QuillSingleChildScrollView({
@@ -77,23 +78,20 @@ class QuillSingleChildScrollView extends StatelessWidget {
 }
 
 class _SingleChildViewport extends SingleChildRenderObjectWidget {
-  const _SingleChildViewport({
-    required this.offset,
-    super.child,
-  });
+  const _SingleChildViewport({required this.offset, super.child});
 
   final ViewportOffset offset;
 
   @override
   _RenderSingleChildViewport createRenderObject(BuildContext context) {
-    return _RenderSingleChildViewport(
-      offset: offset,
-    );
+    return _RenderSingleChildViewport(offset: offset);
   }
 
   @override
   void updateRenderObject(
-      BuildContext context, _RenderSingleChildViewport renderObject) {
+    BuildContext context,
+    _RenderSingleChildViewport renderObject,
+  ) {
     // Order dependency: The offset setter reads the axis direction.
     renderObject.offset = offset;
   }
@@ -102,12 +100,7 @@ class _SingleChildViewport extends SingleChildRenderObjectWidget {
 class _RenderSingleChildViewport extends RenderBox
     with RenderObjectWithChildMixin<RenderBox>
     implements RenderAbstractViewport {
-  _RenderSingleChildViewport({
-    required ViewportOffset offset,
-    double cacheExtent = RenderAbstractViewport.defaultCacheExtent,
-    RenderBox? child,
-  })  : _offset = offset,
-        _cacheExtent = cacheExtent {
+  _RenderSingleChildViewport({required this._offset, RenderBox? child}) {
     this.child = child;
   }
 
@@ -124,7 +117,7 @@ class _RenderSingleChildViewport extends RenderBox
 
   /// {@macro flutter.rendering.RenderViewportBase.cacheExtent}
   double get cacheExtent => _cacheExtent;
-  double _cacheExtent;
+  double _cacheExtent = RenderAbstractViewport.defaultCacheExtent;
 
   set cacheExtent(double value) {
     if (value == _cacheExtent) return;
@@ -313,7 +306,8 @@ class _RenderSingleChildViewport extends RenderBox
     leadingScrollOffset = bounds.top;
     targetMainAxisExtent = bounds.height;
 
-    final targetOffset = leadingScrollOffset -
+    final targetOffset =
+        leadingScrollOffset -
         (mainAxisExtent - targetMainAxisExtent) * alignment;
     final targetRect = bounds.shift(_paintOffsetForPosition(targetOffset));
     return RevealedOffset(offset: targetOffset, rect: targetRect);
@@ -343,11 +337,7 @@ class _RenderSingleChildViewport extends RenderBox
       duration: duration,
       curve: curve,
     );
-    super.showOnScreen(
-      rect: newRect,
-      duration: duration,
-      curve: curve,
-    );
+    super.showOnScreen(rect: newRect, duration: duration, curve: curve);
   }
 
   @override
