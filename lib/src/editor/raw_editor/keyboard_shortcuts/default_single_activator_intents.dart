@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
@@ -151,6 +152,42 @@ Map<SingleActivator, Intent> defaultSinlgeActivatorIntents() {
       control: !_isDesktopMacOS,
       meta: _isDesktopMacOS,
     ): const OpenSearchIntent(),
+
+    // Vertical caret navigation on the web.
+    //
+    // On the web, the framework's DefaultTextEditingShortcuts maps the arrow
+    // keys to DoNothingAndStopPropagationTextIntent so that the *browser*
+    // performs the caret movement on the hidden DOM input. That is correct
+    // for DOM-rendered text fields, but the Quill editor is rendered by
+    // Flutter: the hidden element has a completely different text layout
+    // (width, font, wrapping), so the browser-computed caret lands on an
+    // arbitrary visual column. Binding the vertical movements here (this
+    // Shortcuts widget sits closer to the focused node, so it takes
+    // precedence over DefaultTextEditingShortcuts) makes them run through
+    // the editor's own geometry instead. Horizontal movements are left to
+    // the browser: they are plain character offsets and map 1:1.
+    if (kIsWeb) ...{
+      const SingleActivator(LogicalKeyboardKey.arrowUp):
+          const ExtendSelectionVerticallyToAdjacentLineIntent(
+            forward: false,
+            collapseSelection: true,
+          ),
+      const SingleActivator(LogicalKeyboardKey.arrowDown):
+          const ExtendSelectionVerticallyToAdjacentLineIntent(
+            forward: true,
+            collapseSelection: true,
+          ),
+      const SingleActivator(LogicalKeyboardKey.arrowUp, shift: true):
+          const ExtendSelectionVerticallyToAdjacentLineIntent(
+            forward: false,
+            collapseSelection: false,
+          ),
+      const SingleActivator(LogicalKeyboardKey.arrowDown, shift: true):
+          const ExtendSelectionVerticallyToAdjacentLineIntent(
+            forward: true,
+            collapseSelection: false,
+          ),
+    },
 
     //  Arrow key scrolling
     SingleActivator(
