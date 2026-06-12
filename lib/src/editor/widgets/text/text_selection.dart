@@ -498,22 +498,24 @@ class _TextSelectionHandleOverlayState
 
     final isNormalized =
         widget.selection.extentOffset >= widget.selection.baseOffset;
-    TextSelection newSelection;
+    DragTextSelection newSelection;
     switch (widget.position) {
       case _TextSelectionHandlePosition.start:
-        newSelection = TextSelection(
+        newSelection = DragTextSelection(
           baseOffset:
               isNormalized ? position.offset : widget.selection.baseOffset,
           extentOffset:
               isNormalized ? widget.selection.extentOffset : position.offset,
+          first: true,
         );
         break;
       case _TextSelectionHandlePosition.end:
-        newSelection = TextSelection(
+        newSelection = DragTextSelection(
           baseOffset:
               isNormalized ? widget.selection.baseOffset : position.offset,
           extentOffset:
               isNormalized ? position.offset : widget.selection.extentOffset,
+          first: false,
         );
         break;
     }
