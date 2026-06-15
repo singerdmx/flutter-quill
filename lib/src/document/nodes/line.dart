@@ -71,8 +71,7 @@ base class Line extends QuillContainer<Leaf?> {
   String toPlainText([
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-  ]) =>
-      '${super.toPlainText(embedBuilders, unknownEmbedBuilder)}\n';
+  ]) => '${super.toPlainText(embedBuilders, unknownEmbedBuilder)}\n';
 
   @override
   String toString() {
@@ -137,15 +136,22 @@ base class Line extends QuillContainer<Leaf?> {
 
     if (isLineFormat) {
       assert(
-          style.values.every((attr) =>
+        style.values.every(
+          (attr) =>
               attr.scope == AttributeScope.block ||
-              attr.scope == AttributeScope.ignore),
-          'It is not allowed to apply inline attributes to line itself.');
+              attr.scope == AttributeScope.ignore,
+        ),
+        'It is not allowed to apply inline attributes to line itself.',
+      );
       _format(style);
     } else {
       // Otherwise forward to children as it's an inline format update.
-      final attr = <String, Attribute>{}..addEntries(style.attributes.entries
-          .where((a) => a.value.scope != AttributeScope.block));
+      final attr = <String, Attribute>{}
+        ..addEntries(
+          style.attributes.entries.where(
+            (a) => a.value.scope != AttributeScope.block,
+          ),
+        );
       assert(index + local != length, 'Not at line end');
       super.retain(index, local, Style.attr(attr));
     }
@@ -221,17 +227,22 @@ base class Line extends QuillContainer<Leaf?> {
           parentStyle.containsKey(blockStyle.key) &&
           parentStyle.length == 1) {
         _unwrap();
-      } else if (!const MapEquality()
-          .equals(newStyle.getBlocksExceptHeader(), parentStyle)) {
+      } else if (!const MapEquality().equals(
+        newStyle.getBlocksExceptHeader(),
+        parentStyle,
+      )) {
         _unwrap();
         // Block style now can contain multiple attributes
-        if (newStyle.attributes.keys
-            .any(Attribute.exclusiveBlockKeys.contains)) {
+        if (newStyle.attributes.keys.any(
+          Attribute.exclusiveBlockKeys.contains,
+        )) {
           parentStyle.removeWhere(
-              (key, attr) => Attribute.exclusiveBlockKeys.contains(key));
+            (key, attr) => Attribute.exclusiveBlockKeys.contains(key),
+          );
         }
         parentStyle.removeWhere(
-            (key, attr) => newStyle?.attributes.keys.contains(key) ?? false);
+          (key, attr) => newStyle?.attributes.keys.contains(key) ?? false,
+        );
         final parentStyleToMerge = Style.attr(parentStyle);
         newStyle = newStyle.mergeAll(parentStyleToMerge);
         _applyBlockStyles(newStyle);
@@ -418,8 +429,11 @@ base class Line extends QuillContainer<Leaf?> {
 
   /// Returns each node segment's offset in selection
   /// with its corresponding style or embed as a list
-  List<OffsetValue> collectAllIndividualStylesAndEmbed(int offset, int len,
-      {int beg = 0}) {
+  List<OffsetValue> collectAllIndividualStylesAndEmbed(
+    int offset,
+    int len, {
+    int beg = 0,
+  }) {
     final local = math.min(length - offset, len);
     final result = <OffsetValue>[];
 
@@ -451,8 +465,11 @@ base class Line extends QuillContainer<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
-      final rest = nextLine!
-          .collectAllIndividualStylesAndEmbed(0, remaining, beg: local + beg);
+      final rest = nextLine!.collectAllIndividualStylesAndEmbed(
+        0,
+        remaining,
+        beg: local + beg,
+      );
       result.addAll(rest);
     }
 
@@ -522,8 +539,11 @@ base class Line extends QuillContainer<Leaf?> {
 
     final remaining = len - local;
     if (remaining > 0 && nextLine != null) {
-      final rest =
-          nextLine!.collectAllStylesWithOffsets(0, remaining, beg: local);
+      final rest = nextLine!.collectAllStylesWithOffsets(
+        0,
+        remaining,
+        beg: local,
+      );
       result.addAll(rest);
     }
 
@@ -538,8 +558,13 @@ base class Line extends QuillContainer<Leaf?> {
     @internal EmbedBuilder? unknownEmbedBuilder,
   }) {
     final plainText = StringBuffer();
-    _getPlainText(offset, len, plainText,
-        embedBuilders: embedBuilders, unknownEmbedBuilder: unknownEmbedBuilder);
+    _getPlainText(
+      offset,
+      len,
+      plainText,
+      embedBuilders: embedBuilders,
+      unknownEmbedBuilder: unknownEmbedBuilder,
+    );
     return plainText.toString();
   }
 

@@ -27,8 +27,13 @@ class EnsureLastLineBreakDeleteRule extends DeleteRule {
   const EnsureLastLineBreakDeleteRule();
 
   @override
-  Delta? applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Document document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     final itr = DeltaIterator(document.toDelta())..skip(index + len!);
 
     return Delta()
@@ -44,8 +49,13 @@ class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
   @override
-  Delta applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta applyRule(
+    Document document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     final itr = DeltaIterator(document.toDelta())..skip(index + len!);
 
     return Delta()
@@ -65,8 +75,13 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
   @override
-  Delta? applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Document document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     final itr = DeltaIterator(document.toDelta())..skip(index);
     var op = itr.next(1);
     if (op.data != '\n') {
@@ -127,7 +142,8 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
       }
 
       var attributes = op.attributes?.map<String, dynamic>(
-          (key, dynamic value) => MapEntry<String, dynamic>(key, null));
+        (key, dynamic value) => MapEntry<String, dynamic>(key, null),
+      );
 
       if (isNotPlain) {
         attributes ??= <String, dynamic>{};
@@ -150,8 +166,13 @@ class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 
   @override
-  Delta? applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(
+    Document document,
+    int index, {
+    int? len,
+    Object? data,
+    Attribute? attribute,
+  }) {
     final itr = DeltaIterator(document.toDelta());
 
     var op = itr.skip(index);

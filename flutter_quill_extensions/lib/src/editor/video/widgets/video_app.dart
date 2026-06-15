@@ -34,19 +34,22 @@ class VideoAppState extends State<VideoApp> {
   void initState() {
     super.initState();
 
-    _controller = isHttpUrl(widget.videoUrl)
-        ? VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
-        : VideoPlayerController.file(File(widget.videoUrl))
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized,
-        // even before the play button has been pressed.
-        setState(() {});
-        if (widget.onVideoInit != null) {
-          widget.onVideoInit?.call(videoContainerKey);
-        }
-      }).catchError((error) {
-        setState(() {});
-      });
+    _controller =
+        isHttpUrl(widget.videoUrl)
+              ? VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+              : VideoPlayerController.file(File(widget.videoUrl))
+          ..initialize()
+              .then((_) {
+                // Ensure the first frame is shown after the video is initialized,
+                // even before the play button has been pressed.
+                setState(() {});
+                if (widget.onVideoInit != null) {
+                  widget.onVideoInit?.call(videoContainerKey);
+                }
+              })
+              .catchError((error) {
+                setState(() {});
+              });
   }
 
   @override
@@ -59,18 +62,13 @@ class VideoAppState extends State<VideoApp> {
             text: widget.videoUrl,
             style: defaultStyles.link,
             recognizer: TapGestureRecognizer()
-              ..onTap = () => launchUrl(
-                    Uri.parse(widget.videoUrl),
-                  ),
+              ..onTap = () => launchUrl(Uri.parse(widget.videoUrl)),
           ),
         );
       }
 
       return RichText(
-        text: TextSpan(
-          text: widget.videoUrl,
-          style: defaultStyles.link,
-        ),
+        text: TextSpan(text: widget.videoUrl, style: defaultStyles.link),
       );
     } else if (!_controller.value.isInitialized) {
       return VideoProgressIndicator(
@@ -94,10 +92,11 @@ class VideoAppState extends State<VideoApp> {
           alignment: Alignment.center,
           children: [
             Center(
-                child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            )),
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+            ),
             _controller.value.isPlaying
                 ? const SizedBox.shrink()
                 : Container(
@@ -107,7 +106,7 @@ class VideoAppState extends State<VideoApp> {
                       size: 60,
                       color: Colors.blueGrey,
                     ),
-                  )
+                  ),
           ],
         ),
       ),

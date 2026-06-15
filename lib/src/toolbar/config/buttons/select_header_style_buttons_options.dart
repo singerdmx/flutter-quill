@@ -13,9 +13,11 @@ class QuillToolbarSelectHeaderStyleButtonsExtraOptions
 }
 
 class QuillToolbarSelectHeaderStyleButtonsOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarSelectHeaderStyleButtonsOptions,
-        QuillToolbarSelectHeaderStyleButtonsExtraOptions> {
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarSelectHeaderStyleButtonsOptions,
+          QuillToolbarSelectHeaderStyleButtonsExtraOptions
+        > {
   const QuillToolbarSelectHeaderStyleButtonsOptions({
     super.afterButtonPressed,
     super.childBuilder,

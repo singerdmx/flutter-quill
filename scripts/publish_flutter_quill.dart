@@ -66,7 +66,8 @@ Future<void> main(List<String> args) async {
   }
   if (!_isGitClean()) {
     print(
-        '❌ Git working directory is not clean. Commit all changes and try again.');
+      '❌ Git working directory is not clean. Commit all changes and try again.',
+    );
     exit(1);
   }
 
@@ -75,9 +76,11 @@ Future<void> main(List<String> args) async {
   );
   if (await _isPackageVersionPublished(version)) {
     print(
-        '❌ The version `$version` of the `$_packageName` package is already published on pub.dev.');
+      '❌ The version `$version` of the `$_packageName` package is already published on pub.dev.',
+    );
     print(
-        '📦 Check the package page on pub.dev: https://pub.dev/packages/$_packageName/versions');
+      '📦 Check the package page on pub.dev: https://pub.dev/packages/$_packageName/versions',
+    );
     print('⚠️ Choose a different version and try again.');
     exit(1);
   }
@@ -101,10 +104,12 @@ Future<void> main(List<String> args) async {
     );
     Process.runSync('flutter', ['pub', 'get', '-C', _exampleDirectory]);
 
-    Process.runSync(
-      'git',
-      ['add', _targetPubspecYaml, _targetChangelog, _targetExamplePubspecLock],
-    );
+    Process.runSync('git', [
+      'add',
+      _targetPubspecYaml,
+      _targetChangelog,
+      _targetExamplePubspecLock,
+    ]);
 
     if (_isGitClean()) {
       print(
@@ -122,8 +127,10 @@ Future<void> main(List<String> args) async {
       );
       final confirm = stdin.readLineSync();
       if (confirm != _confirmPublishOptionName) {
-        print('❌ The publishing process has been aborted.\n'
-            '$_changelogAndPubspecRestoreMessage');
+        print(
+          '❌ The publishing process has been aborted.\n'
+          '$_changelogAndPubspecRestoreMessage',
+        );
         exit(1);
       }
     }
@@ -131,8 +138,11 @@ Future<void> main(List<String> args) async {
     final tagName = 'v$version';
 
     print('ℹ️ Committing changes...');
-    Process.runSync(
-        'git', ['commit', '-m', 'chore(release): prepare to publish $version']);
+    Process.runSync('git', [
+      'commit',
+      '-m',
+      'chore(release): prepare to publish $version',
+    ]);
 
     print('ℹ️ Creating git tag `$tagName`...');
     Process.runSync('git', ['tag', tagName]);

@@ -61,9 +61,7 @@ abstract class QuillToolbarBaseButtonStateless<T, I> extends StatelessWidget {
   abstract final String Function(BuildContext context) getDefaultTooltip;
 
   Widget buildButton(BuildContext context);
-  Widget? buildCustomChildBuilder(
-    BuildContext context,
-  );
+  Widget? buildCustomChildBuilder(BuildContext context);
 
   @override
   Widget build(BuildContext context) {

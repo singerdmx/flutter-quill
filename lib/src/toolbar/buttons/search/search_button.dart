@@ -13,8 +13,8 @@ class QuillToolbarSearchButton extends QuillToolbarBaseButtonStateless {
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : _options = options,
-        super(options: options);
+  }) : _options = options,
+       super(options: options);
 
   final QuillToolbarSearchButtonOptions? _options;
 
@@ -24,9 +24,7 @@ class QuillToolbarSearchButton extends QuillToolbarBaseButtonStateless {
   Future<void> _sharedOnPressed(BuildContext context) async {
     final customCallback = options?.customOnPressedCallback;
     if (customCallback != null) {
-      await customCallback(
-        controller,
-      );
+      await customCallback(controller);
       return;
     }
     await showDialog<String>(

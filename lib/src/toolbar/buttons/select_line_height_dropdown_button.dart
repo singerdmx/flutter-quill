@@ -7,17 +7,20 @@ import '../config/buttons/select_line_height_style_dropdown_button_options.dart'
 import '../theme/quill_icon_theme.dart';
 import 'quill_icon_button.dart';
 
-typedef QuillToolbarSelectLineHeightStyleDropdownBaseButton
-    = QuillToolbarBaseButton<
-        QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
-        QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions>;
+typedef QuillToolbarSelectLineHeightStyleDropdownBaseButton =
+    QuillToolbarBaseButton<
+      QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
+      QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions
+    >;
 
 typedef QuillToolbarSelectLineHeightStyleDropdownBaseButtonsState<
-        W extends QuillToolbarSelectLineHeightStyleDropdownButton>
-    = QuillToolbarCommonButtonState<
-        W,
-        QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
-        QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions>;
+  W extends QuillToolbarSelectLineHeightStyleDropdownButton
+> =
+    QuillToolbarCommonButtonState<
+      W,
+      QuillToolbarSelectLineHeightStyleDropdownButtonOptions,
+      QuillToolbarSelectLineHeightStyleDropdownButtonExtraOptions
+    >;
 
 class QuillToolbarSelectLineHeightStyleDropdownButton
     extends QuillToolbarSelectLineHeightStyleDropdownBaseButton {
@@ -62,7 +65,8 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
 
   @override
   void didUpdateWidget(
-      covariant QuillToolbarSelectLineHeightStyleDropdownButton oldWidget) {
+    covariant QuillToolbarSelectLineHeightStyleDropdownButton oldWidget,
+  ) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller == widget.controller) {
       return;
@@ -136,51 +140,48 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
     }
 
     return MenuAnchor(
-        controller: _menuController,
-        menuChildren: lineHeightAttributes
-            .map(
-              (e) => MenuItemButton(
-                onPressed: () {
-                  _onPressed(e);
-                },
-                child: Text(_label(e)),
+      controller: _menuController,
+      menuChildren: lineHeightAttributes
+          .map(
+            (e) => MenuItemButton(
+              onPressed: () {
+                _onPressed(e);
+              },
+              child: Text(_label(e)),
+            ),
+          )
+          .toList(),
+      child: Builder(
+        builder: (context) {
+          final isMaterial3 = Theme.of(context).useMaterial3;
+          final child = Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _label(_selectedItem),
+                style:
+                    widget.options.textStyle ??
+                    TextStyle(fontSize: iconSize / 1.15),
               ),
-            )
-            .toList(),
-        child: Builder(
-          builder: (context) {
-            final isMaterial3 = Theme.of(context).useMaterial3;
-            final child = Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  _label(_selectedItem),
-                  style: widget.options.textStyle ??
-                      TextStyle(
-                        fontSize: iconSize / 1.15,
-                      ),
-                ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  size: iconSize * iconButtonFactor,
-                ),
-              ],
-            );
-            if (!isMaterial3) {
-              return RawMaterialButton(
-                onPressed: _onDropdownButtonPressed,
-                child: child,
-              );
-            }
-            return _QuillToolbarLineHeightIcon(
-              iconTheme: iconTheme,
-              tooltip: tooltip,
+              Icon(Icons.arrow_drop_down, size: iconSize * iconButtonFactor),
+            ],
+          );
+          if (!isMaterial3) {
+            return RawMaterialButton(
               onPressed: _onDropdownButtonPressed,
               child: child,
             );
-          },
-        ));
+          }
+          return _QuillToolbarLineHeightIcon(
+            iconTheme: iconTheme,
+            tooltip: tooltip,
+            onPressed: _onDropdownButtonPressed,
+            child: child,
+          );
+        },
+      ),
+    );
   }
 
   void _onDropdownButtonPressed() {

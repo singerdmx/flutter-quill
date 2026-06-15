@@ -16,14 +16,8 @@ class CustomToolbar extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Wrap(
         children: [
-          QuillToolbarHistoryButton(
-            isUndo: true,
-            controller: controller,
-          ),
-          QuillToolbarHistoryButton(
-            isUndo: false,
-            controller: controller,
-          ),
+          QuillToolbarHistoryButton(isUndo: true, controller: controller),
+          QuillToolbarHistoryButton(isUndo: false, controller: controller),
           QuillToolbarToggleStyleButton(
             options: const QuillToolbarToggleStyleButtonOptions(),
             controller: controller,
@@ -38,40 +32,22 @@ class CustomToolbar extends StatelessWidget {
             controller: controller,
             attribute: Attribute.underline,
           ),
-          QuillToolbarClearFormatButton(
-            controller: controller,
-          ),
+          QuillToolbarClearFormatButton(controller: controller),
           const VerticalDivider(),
-          QuillToolbarImageButton(
-            controller: controller,
-          ),
-          QuillToolbarCameraButton(
-            controller: controller,
-          ),
-          QuillToolbarVideoButton(
-            controller: controller,
-          ),
+          QuillToolbarImageButton(controller: controller),
+          QuillToolbarCameraButton(controller: controller),
+          QuillToolbarVideoButton(controller: controller),
           const VerticalDivider(),
-          QuillToolbarColorButton(
-            controller: controller,
-            isBackground: false,
-          ),
-          QuillToolbarColorButton(
-            controller: controller,
-            isBackground: true,
-          ),
+          QuillToolbarColorButton(controller: controller, isBackground: false),
+          QuillToolbarColorButton(controller: controller, isBackground: true),
           const VerticalDivider(),
-          QuillToolbarSelectHeaderStyleDropdownButton(
-            controller: controller,
-          ),
+          QuillToolbarSelectHeaderStyleDropdownButton(controller: controller),
           const VerticalDivider(),
           QuillToolbarSelectLineHeightStyleDropdownButton(
             controller: controller,
           ),
           const VerticalDivider(),
-          QuillToolbarToggleCheckListButton(
-            controller: controller,
-          ),
+          QuillToolbarToggleCheckListButton(controller: controller),
           QuillToolbarToggleStyleButton(
             controller: controller,
             attribute: Attribute.ol,
@@ -88,14 +64,8 @@ class CustomToolbar extends StatelessWidget {
             controller: controller,
             attribute: Attribute.blockQuote,
           ),
-          QuillToolbarIndentButton(
-            controller: controller,
-            isIncrease: true,
-          ),
-          QuillToolbarIndentButton(
-            controller: controller,
-            isIncrease: false,
-          ),
+          QuillToolbarIndentButton(controller: controller, isIncrease: true),
+          QuillToolbarIndentButton(controller: controller, isIncrease: false),
           const VerticalDivider(),
           QuillToolbarLinkStyleButton(controller: controller),
         ],

@@ -37,9 +37,10 @@ class QuillToolbarSearchDialogChildBuilderExtraOptions {
   final bool wholeWord;
 }
 
-typedef QuillToolbarSearchDialogChildBuilder = Widget Function(
-  QuillToolbarSearchDialogChildBuilderExtraOptions extraOptions,
-);
+typedef QuillToolbarSearchDialogChildBuilder =
+    Widget Function(
+      QuillToolbarSearchDialogChildBuilderExtraOptions extraOptions,
+    );
 
 class QuillToolbarSearchDialog extends StatefulWidget {
   const QuillToolbarSearchDialog({
@@ -108,7 +109,8 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
 
     final searchBarAlignment =
         widget.searchBarAlignment ?? Alignment.bottomCenter;
-    final searchBarAtBottom = (searchBarAlignment == Alignment.bottomCenter) ||
+    final searchBarAtBottom =
+        (searchBarAlignment == Alignment.bottomCenter) ||
         (searchBarAlignment == Alignment.bottomLeft) ||
         (searchBarAlignment == Alignment.bottomRight);
     final addBottomPadding = searchBarAtBottom && isMobile;
@@ -221,9 +223,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     );
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       alignment: searchBarAlignment,
       insetPadding: EdgeInsets.zero,
@@ -247,10 +247,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     if (_searchTimer?.isActive ?? false) {
       _searchTimer?.cancel();
     }
-    _searchTimer = Timer(
-      const Duration(milliseconds: 300),
-      _findText,
-    );
+    _searchTimer = Timer(const Duration(milliseconds: 300), _findText);
   }
 
   void _findText() {
@@ -305,10 +302,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       len = 1;
     }
     widget.controller.updateSelection(
-      TextSelection(
-        baseOffset: offset,
-        extentOffset: offset + len,
-      ),
+      TextSelection(baseOffset: offset, extentOffset: offset + len),
       ChangeSource.local,
     );
   }

@@ -22,21 +22,24 @@ void main() {
       expect(QuillNativeProvider.instance, isA<DefaultQuillNativeBridge>());
     });
 
-    test('isSupported from the instance delegates to the new provider instance',
-        () async {
-      final fake = _FakeQuillNativeBridge();
+    test(
+      'isSupported from the instance delegates to the new provider instance',
+      () async {
+        final fake = _FakeQuillNativeBridge();
 
-      QuillNativeProvider.instance = fake;
-      for (final isSupported in {true, false}) {
-        fake.testIsSupported = isSupported;
+        QuillNativeProvider.instance = fake;
+        for (final isSupported in {true, false}) {
+          fake.testIsSupported = isSupported;
 
-        expect(
-          await QuillNativeProvider.instance
-              .isSupported(QuillNativeBridgeFeature.isIOSSimulator),
-          await fake.isSupported(QuillNativeBridgeFeature.isIOSSimulator),
-        );
-      }
-    });
+          expect(
+            await QuillNativeProvider.instance.isSupported(
+              QuillNativeBridgeFeature.isIOSSimulator,
+            ),
+            await fake.isSupported(QuillNativeBridgeFeature.isIOSSimulator),
+          );
+        }
+      },
+    );
   });
 }
 

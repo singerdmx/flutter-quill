@@ -16,26 +16,20 @@ class SelectImageSourceDialog extends StatelessWidget {
           children: [
             ListTile(
               title: Text(context.loc.gallery),
-              subtitle: Text(
-                context.loc.pickAPhotoFromYourGallery,
-              ),
+              subtitle: Text(context.loc.pickAPhotoFromYourGallery),
               leading: const Icon(Icons.photo_sharp),
               onTap: () => Navigator.of(context).pop(InsertImageSource.gallery),
             ),
             ListTile(
               title: Text(context.loc.camera),
-              subtitle: Text(
-                context.loc.takeAPhotoUsingYourCamera,
-              ),
+              subtitle: Text(context.loc.takeAPhotoUsingYourCamera),
               leading: const Icon(Icons.camera),
               enabled: !isDesktopApp,
               onTap: () => Navigator.of(context).pop(InsertImageSource.camera),
             ),
             ListTile(
               title: Text(context.loc.link),
-              subtitle: Text(
-                context.loc.pasteAPhotoUsingALink,
-              ),
+              subtitle: Text(context.loc.pasteAPhotoUsingALink),
               leading: const Icon(Icons.link),
               onTap: () => Navigator.of(context).pop(InsertImageSource.link),
             ),

@@ -8,9 +8,12 @@ import '../base_button/base_value_button.dart';
 import '../config/buttons/toggle_check_list_options.dart';
 import 'toggle_style_button.dart';
 
-class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
-    QuillToolbarToggleCheckListButtonOptions,
-    QuillToolbarToggleCheckListButtonExtraOptions> {
+class QuillToolbarToggleCheckListButton
+    extends
+        QuillToolbarBaseButton<
+          QuillToolbarToggleCheckListButtonOptions,
+          QuillToolbarToggleCheckListButtonExtraOptions
+        > {
   const QuillToolbarToggleCheckListButton({
     required super.controller,
     super.options = const QuillToolbarToggleCheckListButtonOptions(),
@@ -27,11 +30,13 @@ class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
 }
 
 class QuillToolbarToggleCheckListButtonState
-    extends QuillToolbarBaseButtonState<
-        QuillToolbarToggleCheckListButton,
-        QuillToolbarToggleCheckListButtonOptions,
-        QuillToolbarToggleCheckListButtonExtraOptions,
-        bool> {
+    extends
+        QuillToolbarBaseButtonState<
+          QuillToolbarToggleCheckListButton,
+          QuillToolbarToggleCheckListButtonOptions,
+          QuillToolbarToggleCheckListButtonExtraOptions,
+          bool
+        > {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override

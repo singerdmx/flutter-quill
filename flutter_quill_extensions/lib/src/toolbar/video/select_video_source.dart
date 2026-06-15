@@ -16,9 +16,7 @@ class SelectVideoSourceDialog extends StatelessWidget {
           children: [
             ListTile(
               title: Text(context.loc.gallery),
-              subtitle: Text(
-                context.loc.pickAVideoFromYourGallery,
-              ),
+              subtitle: Text(context.loc.pickAVideoFromYourGallery),
               leading: const Icon(Icons.photo_sharp),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.gallery),
             ),
@@ -31,9 +29,7 @@ class SelectVideoSourceDialog extends StatelessWidget {
             ),
             ListTile(
               title: Text(context.loc.link),
-              subtitle: Text(
-                context.loc.pasteAVideoUsingALink,
-              ),
+              subtitle: Text(context.loc.pasteAVideoUsingALink),
               leading: const Icon(Icons.link),
               onTap: () => Navigator.of(context).pop(InsertVideoSource.link),
             ),

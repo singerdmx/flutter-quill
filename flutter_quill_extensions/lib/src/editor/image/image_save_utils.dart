@@ -95,13 +95,15 @@ String getDefaultImageFileName({required bool isGallerySave}) {
 }
 
 Future<bool> shouldSaveToGallery({required bool prefersGallerySave}) async {
-  final supportsGallerySave = await QuillNativeProvider.instance
-      .isSupported(QuillNativeBridgeFeature.saveImageToGallery);
+  final supportsGallerySave = await QuillNativeProvider.instance.isSupported(
+    QuillNativeBridgeFeature.saveImageToGallery,
+  );
   if (!supportsGallerySave) {
     return false;
   }
-  final supportsImageSave = await QuillNativeProvider.instance
-      .isSupported(QuillNativeBridgeFeature.saveImage);
+  final supportsImageSave = await QuillNativeProvider.instance.isSupported(
+    QuillNativeBridgeFeature.saveImage,
+  );
   if (!supportsImageSave) {
     return true;
   }
@@ -164,8 +166,9 @@ class ImageSaver {
       return true;
     }());
 
-    final imageFileExtension =
-        extractImageFileExtensionFromImageSource(imageUrl);
+    final imageFileExtension = extractImageFileExtensionFromImageSource(
+      imageUrl,
+    );
     final imageName = extractImageNameFromImageSource(imageUrl);
 
     final imageBytes = await ImageLoader.instance
@@ -178,13 +181,11 @@ class ImageSaver {
       await QuillNativeProvider.instance.saveImage(
         imageBytes,
         options: ImageSaveOptions(
-            name: imageName ?? getDefaultImageFileName(isGallerySave: false),
-            fileExtension: imageFileExtension),
+          name: imageName ?? getDefaultImageFileName(isGallerySave: false),
+          fileExtension: imageFileExtension,
+        ),
       );
-      return const SaveImageResult(
-        imageFilePath: null,
-        isGallerySave: false,
-      );
+      return const SaveImageResult(imageFilePath: null, isGallerySave: false);
     }
 
     if (await shouldSaveToGallery(prefersGallerySave: prefersGallerySave)) {
@@ -201,10 +202,7 @@ class ImageSaver {
           ),
         );
 
-        return const SaveImageResult(
-          imageFilePath: null,
-          isGallerySave: true,
-        );
+        return const SaveImageResult(imageFilePath: null, isGallerySave: true);
       } on PlatformException catch (e) {
         // TODO(save-image): Part of https://github.com/FlutterQuill/quill-native-bridge/issues/2
 
@@ -230,10 +228,13 @@ class ImageSaver {
       }
     }
 
-    if (await QuillNativeProvider.instance
-        .isSupported(QuillNativeBridgeFeature.saveImage)) {
-      assert(!isMobileApp,
-          'Mobile platforms support saving images to the gallery only');
+    if (await QuillNativeProvider.instance.isSupported(
+      QuillNativeBridgeFeature.saveImage,
+    )) {
+      assert(
+        !isMobileApp,
+        'Mobile platforms support saving images to the gallery only',
+      );
 
       final result = await QuillNativeProvider.instance.saveImage(
         imageBytes,

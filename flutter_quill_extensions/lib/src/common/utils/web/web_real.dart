@@ -1,6 +1,7 @@
 import 'package:web/web.dart';
 import '../dart_ui/dart_ui_fake.dart'
-    if (dart.library.js_interop) '../dart_ui/dart_ui_real.dart' as ui;
+    if (dart.library.js_interop) '../dart_ui/dart_ui_real.dart'
+    as ui;
 
 void main(List<String> args) {
   HTMLImageElement;
@@ -31,16 +32,13 @@ void createHtmlIFrameElement({
   required String margin,
   required String alignSelf,
 }) {
-  ui.PlatformViewRegistry().registerViewFactory(
-    src,
-    (id) {
-      return HTMLIFrameElement()
-        ..style.width = width
-        ..style.height = height
-        ..src = src
-        ..style.border = 'none'
-        ..style.margin = margin
-        ..style.alignSelf = alignSelf;
-    },
-  );
+  ui.PlatformViewRegistry().registerViewFactory(src, (id) {
+    return HTMLIFrameElement()
+      ..style.width = width
+      ..style.height = height
+      ..src = src
+      ..style.border = 'none'
+      ..style.margin = margin
+      ..style.alignSelf = alignSelf;
+  });
 }
