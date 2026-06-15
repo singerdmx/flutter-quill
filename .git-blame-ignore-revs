@@ -1,0 +1,9 @@
+# Revisions for `git blame` to skip (large, mechanical changes with no logic impact).
+#
+# Enable locally once with:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub honors this file automatically. List full 40-char commit SHAs only.
+
+# style: apply Dart 3.12 format (tall style) — repo-wide dart_format, no logic changes
+10e0814088ae3b12f0cca4673f885e2828eaaa7a

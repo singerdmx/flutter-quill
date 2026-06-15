@@ -16,6 +16,10 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
+          # Pinned so a future Flutter/Dart release can't change formatter output
+          # and turn the format check below red on unrelated PRs. Bump deliberately
+          # alongside a repo-wide reformat (see .git-blame-ignore-revs).
+          flutter-version: 3.44.1
           channel: stable
           cache: true
 
@@ -34,9 +38,8 @@ jobs:
       - name: Perform Flutter Analysis
         run: flutter analyze
 
-      # TODO: Restore Dart formatting check, disabled due to an issue https://github.com/singerdmx/flutter-quill/actions/runs/13355109619/job/37296760819.
-      # - name: Check Dart code formatting
-      #   run: dart format --set-exit-if-changed .
+      - name: Check Dart code formatting
+        run: dart format --set-exit-if-changed .
       
       - name: Preview Dart proposed changes
         run: dart fix --dry-run
