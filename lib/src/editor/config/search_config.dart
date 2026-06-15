@@ -15,9 +15,7 @@ enum SearchEmbedMode {
 @immutable
 @experimental
 class QuillSearchConfig {
-  const QuillSearchConfig({
-    this.searchEmbedMode = SearchEmbedMode.none,
-  });
+  const QuillSearchConfig({this.searchEmbedMode = SearchEmbedMode.none});
 
   /// Search options for embed objects
   ///
@@ -31,9 +29,7 @@ class QuillSearchConfig {
   /// [rememberLastSearch] - would recall the last search text used.
   /// [enableSearchHistory] - would allow selection of previous searches.
 
-  QuillSearchConfig copyWith({
-    SearchEmbedMode? searchEmbedMode,
-  }) {
+  QuillSearchConfig copyWith({SearchEmbedMode? searchEmbedMode}) {
     return QuillSearchConfig(
       searchEmbedMode: searchEmbedMode ?? this.searchEmbedMode,
     );

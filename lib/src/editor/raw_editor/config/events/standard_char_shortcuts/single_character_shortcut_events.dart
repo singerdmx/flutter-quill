@@ -17,22 +17,22 @@ final CharacterShortcutEvent formatAsterisksToItalic = CharacterShortcutEvent(
 
 final CharacterShortcutEvent formatStrikeToStrikethrough =
     CharacterShortcutEvent(
-  key: 'Format single strikes to strike style',
-  character: _strikeChar,
-  handler: (controller) => handleFormatByWrappingWithSingleCharacter(
-    controller: controller,
-    character: _strikeChar,
-    formatStyle: SingleCharacterFormatStyle.strikethrough,
-  ),
-);
+      key: 'Format single strikes to strike style',
+      character: _strikeChar,
+      handler: (controller) => handleFormatByWrappingWithSingleCharacter(
+        controller: controller,
+        character: _strikeChar,
+        formatStyle: SingleCharacterFormatStyle.strikethrough,
+      ),
+    );
 
 final CharacterShortcutEvent formatCodeCharToInlineCode =
     CharacterShortcutEvent(
-  key: 'Format single code to inline code style',
-  character: _codeChar,
-  handler: (controller) => handleFormatByWrappingWithSingleCharacter(
-    controller: controller,
-    character: _codeChar,
-    formatStyle: SingleCharacterFormatStyle.code,
-  ),
-);
+      key: 'Format single code to inline code style',
+      character: _codeChar,
+      handler: (controller) => handleFormatByWrappingWithSingleCharacter(
+        controller: controller,
+        character: _codeChar,
+        formatStyle: SingleCharacterFormatStyle.code,
+      ),
+    );

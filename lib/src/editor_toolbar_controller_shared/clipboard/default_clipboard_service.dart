@@ -12,8 +12,9 @@ import 'clipboard_service.dart';
 class DefaultClipboardService extends ClipboardService {
   @override
   Future<String?> getHtmlText() async {
-    if (!(await QuillNativeProvider.instance
-        .isSupported(QuillNativeBridgeFeature.getClipboardHtml))) {
+    if (!(await QuillNativeProvider.instance.isSupported(
+      QuillNativeBridgeFeature.getClipboardHtml,
+    ))) {
       return null;
     }
     return await QuillNativeProvider.instance.getClipboardHtml();
@@ -21,8 +22,9 @@ class DefaultClipboardService extends ClipboardService {
 
   @override
   Future<Uint8List?> getImageFile() async {
-    if (!(await QuillNativeProvider.instance
-        .isSupported(QuillNativeBridgeFeature.getClipboardImage))) {
+    if (!(await QuillNativeProvider.instance.isSupported(
+      QuillNativeBridgeFeature.getClipboardImage,
+    ))) {
       return null;
     }
     return await QuillNativeProvider.instance.getClipboardImage();
@@ -30,8 +32,9 @@ class DefaultClipboardService extends ClipboardService {
 
   @override
   Future<void> copyImage(Uint8List imageBytes) async {
-    if (!(await QuillNativeProvider.instance
-        .isSupported(QuillNativeBridgeFeature.copyImageToClipboard))) {
+    if (!(await QuillNativeProvider.instance.isSupported(
+      QuillNativeBridgeFeature.copyImageToClipboard,
+    ))) {
       return;
     }
     await QuillNativeProvider.instance.copyImageToClipboard(imageBytes);
@@ -39,16 +42,18 @@ class DefaultClipboardService extends ClipboardService {
 
   @override
   Future<Uint8List?> getGifFile() async {
-    if (!(await QuillNativeProvider.instance
-        .isSupported(QuillNativeBridgeFeature.getClipboardGif))) {
+    if (!(await QuillNativeProvider.instance.isSupported(
+      QuillNativeBridgeFeature.getClipboardGif,
+    ))) {
       return null;
     }
     return QuillNativeProvider.instance.getClipboardGif();
   }
 
   Future<String?> _getClipboardFile({required String fileExtension}) async {
-    if (!(await QuillNativeProvider.instance
-        .isSupported(QuillNativeBridgeFeature.getClipboardFiles))) {
+    if (!(await QuillNativeProvider.instance.isSupported(
+      QuillNativeBridgeFeature.getClipboardFiles,
+    ))) {
       return null;
     }
     if (kIsWeb) {

@@ -21,8 +21,12 @@ class QuillToolbarColorButtonExtraOptions
   final Color? fillColorBackground;
 }
 
-class QuillToolbarColorButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions> {
+class QuillToolbarColorButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarColorButtonOptions,
+          QuillToolbarColorButtonExtraOptions
+        > {
   const QuillToolbarColorButtonOptions({
     super.iconSize,
     super.iconButtonFactor,
@@ -37,7 +41,5 @@ class QuillToolbarColorButtonOptions extends QuillToolbarBaseButtonOptions<
   final QuillToolbarColorPickerOnPressedCallback? customOnPressedCallback;
 }
 
-typedef QuillToolbarColorPickerOnPressedCallback = Future<void> Function(
-  QuillController controller,
-  bool isBackground,
-);
+typedef QuillToolbarColorPickerOnPressedCallback =
+    Future<void> Function(QuillController controller, bool isBackground);

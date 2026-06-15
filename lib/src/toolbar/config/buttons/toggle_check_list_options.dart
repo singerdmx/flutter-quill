@@ -16,9 +16,11 @@ class QuillToolbarToggleCheckListButtonExtraOptions
 
 @immutable
 class QuillToolbarToggleCheckListButtonOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarToggleCheckListButtonOptions,
-        QuillToolbarToggleCheckListButtonExtraOptions> {
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarToggleCheckListButtonOptions,
+          QuillToolbarToggleCheckListButtonExtraOptions
+        > {
   const QuillToolbarToggleCheckListButtonOptions({
     super.iconSize,
     super.iconButtonFactor,

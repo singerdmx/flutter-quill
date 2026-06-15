@@ -5,11 +5,7 @@ import '../document.dart';
 
 @immutable
 class DocChange {
-  const DocChange(
-    this.before,
-    this.change,
-    this.source,
-  );
+  const DocChange(this.before, this.change, this.source);
 
   /// Document state before [change].
   final Delta before;

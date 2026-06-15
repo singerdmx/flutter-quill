@@ -42,29 +42,30 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final QuillController _controller = () {
     return QuillController.basic(
-        config: QuillControllerConfig(
-      clipboardConfig: QuillClipboardConfig(
-        enableExternalRichPaste: true,
-        onImagePaste: (imageBytes) async {
-          if (kIsWeb) {
-            // Dart IO is unsupported on the web.
-            return null;
-          }
-          // Save the image somewhere and return the image URL that will be
-          // stored in the Quill Delta JSON (the document).
-          final newFileName =
-              'image-file-${DateTime.now().toIso8601String()}.png';
-          final newPath = path.join(
-            io.Directory.systemTemp.path,
-            newFileName,
-          );
-          final file = await io.File(
-            newPath,
-          ).writeAsBytes(imageBytes, flush: true);
-          return file.path;
-        },
+      config: QuillControllerConfig(
+        clipboardConfig: QuillClipboardConfig(
+          enableExternalRichPaste: true,
+          onImagePaste: (imageBytes) async {
+            if (kIsWeb) {
+              // Dart IO is unsupported on the web.
+              return null;
+            }
+            // Save the image somewhere and return the image URL that will be
+            // stored in the Quill Delta JSON (the document).
+            final newFileName =
+                'image-file-${DateTime.now().toIso8601String()}.png';
+            final newPath = path.join(
+              io.Directory.systemTemp.path,
+              newFileName,
+            );
+            final file = await io.File(
+              newPath,
+            ).writeAsBytes(imageBytes, flush: true);
+            return file.path;
+          },
+        ),
       ),
-    ));
+    );
   }();
   final FocusNode _editorFocusNode = FocusNode();
   final ScrollController _editorScrollController = ScrollController();
@@ -86,9 +87,13 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.output),
             tooltip: 'Print Delta JSON to log',
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content:
-                      Text('The JSON Delta has been printed to the console.')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'The JSON Delta has been printed to the console.',
+                  ),
+                ),
+              );
               debugPrint(jsonEncode(_controller.document.toDelta().toJson()));
             },
           ),
@@ -108,9 +113,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       _controller.document.insert(
                         _controller.selection.extentOffset,
-                        TimeStampEmbed(
-                          DateTime.now().toString(),
-                        ),
+                        TimeStampEmbed(DateTime.now().toString()),
                       );
 
                       _controller.updateSelection(
@@ -128,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       final isDesktop = {
                         TargetPlatform.linux,
                         TargetPlatform.windows,
-                        TargetPlatform.macOS
+                        TargetPlatform.macOS,
                       }.contains(defaultTargetPlatform);
                       if (isDesktop) {
                         _editorFocusNode.requestFocus();
@@ -193,9 +196,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class TimeStampEmbed extends Embeddable {
-  const TimeStampEmbed(
-    String value,
-  ) : super(timeStampType, value);
+  const TimeStampEmbed(String value) : super(timeStampType, value);
 
   static const String timeStampType = 'timeStamp';
 
@@ -215,10 +216,7 @@ class TimeStampEmbedBuilder extends EmbedBuilder {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-    EmbedContext embedContext,
-  ) {
+  Widget build(BuildContext context, EmbedContext embedContext) {
     return Row(
       children: [
         const Icon(Icons.access_time_rounded),

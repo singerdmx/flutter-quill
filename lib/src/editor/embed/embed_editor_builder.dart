@@ -17,10 +17,7 @@ abstract class EmbedBuilder {
 
   String toPlainText(leaf.Embed node) => leaf.Embed.kObjectReplacementCharacter;
 
-  Widget build(
-    BuildContext context,
-    EmbedContext embedContext,
-  );
+  Widget build(BuildContext context, EmbedContext embedContext);
 }
 
 typedef EmbedsBuilder = EmbedBuilder Function(leaf.Embed node);

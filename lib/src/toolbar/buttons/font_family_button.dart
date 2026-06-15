@@ -6,9 +6,12 @@ import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
 import '../simple_toolbar.dart';
 
-class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
-    QuillToolbarFontFamilyButtonOptions,
-    QuillToolbarFontFamilyButtonExtraOptions> {
+class QuillToolbarFontFamilyButton
+    extends
+        QuillToolbarBaseButton<
+          QuillToolbarFontFamilyButtonOptions,
+          QuillToolbarFontFamilyButtonExtraOptions
+        > {
   QuillToolbarFontFamilyButton({
     required super.controller,
     super.options = const QuillToolbarFontFamilyButtonOptions(),
@@ -17,25 +20,27 @@ class QuillToolbarFontFamilyButton extends QuillToolbarBaseButton<
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : assert(options.items?.isNotEmpty ?? true),
-        assert(
-          options.initialValue == null || options.initialValue!.isNotEmpty,
-        );
+  }) : assert(options.items?.isNotEmpty ?? true),
+       assert(options.initialValue == null || options.initialValue!.isNotEmpty);
 
   @override
   QuillToolbarFontFamilyButtonState createState() =>
       QuillToolbarFontFamilyButtonState();
 }
 
-class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
-    QuillToolbarFontFamilyButton,
-    QuillToolbarFontFamilyButtonOptions,
-    QuillToolbarFontFamilyButtonExtraOptions,
-    String> {
+class QuillToolbarFontFamilyButtonState
+    extends
+        QuillToolbarBaseButtonState<
+          QuillToolbarFontFamilyButton,
+          QuillToolbarFontFamilyButtonOptions,
+          QuillToolbarFontFamilyButtonExtraOptions,
+          String
+        > {
   @override
   String get currentStateValue {
-    final attribute =
-        controller.getSelectionStyle().attributes[options.attribute.key];
+    final attribute = controller
+        .getSelectionStyle()
+        .attributes[options.attribute.key];
     return attribute == null
         ? _defaultDisplayText
         : (_getKeyName(attribute.value) ?? _defaultDisplayText);
@@ -48,7 +53,8 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
   }
 
   Map<String, String> get _items {
-    final fontFamilies = options.items ??
+    final fontFamilies =
+        options.items ??
         {
           'Sans Serif': 'sans-serif',
           'Serif': 'serif',
@@ -58,7 +64,7 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
           'Nunito': 'nunito',
           'Pacifico': 'pacifico',
           'Roboto Mono': 'roboto-mono',
-          context.loc.clear: 'Clear'
+          context.loc.clear: 'Clear',
         };
     return fontFamilies;
   }
@@ -144,8 +150,9 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
               child: Text(
                 fontFamily.key.toString(),
                 style: TextStyle(
-                  fontFamily:
-                      options.renderFontFamilies ? fontFamily.value : null,
+                  fontFamily: options.renderFontFamilies
+                      ? fontFamily.value
+                      : null,
                   color: fontFamily.value == 'Clear'
                       ? options.defaultItemColor
                       : null,
@@ -189,16 +196,10 @@ class QuillToolbarFontFamilyButtonState extends QuillToolbarBaseButtonState<
               currentValue,
               maxLines: 1,
               overflow: options.labelOverflow,
-              style: options.style ??
-                  TextStyle(
-                    fontSize: iconSize / 1.15,
-                  ),
+              style: options.style ?? TextStyle(fontSize: iconSize / 1.15),
             ),
           ),
-          Icon(
-            Icons.arrow_drop_down,
-            size: iconSize * iconButtonFactor,
-          )
+          Icon(Icons.arrow_drop_down, size: iconSize * iconButtonFactor),
         ],
       ),
     );

@@ -23,14 +23,22 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     final editor = findRawEditor(editorFinder);
     final selection = editor.textEditingValue.selection;
     if (!selection.isValid || selection.isCollapsed) return [];
-    final start =
-        editor.controller.document.queryChild(selection.baseOffset).node;
-    final end =
-        editor.controller.document.queryChild(selection.extentOffset).node;
-    expect(start, isNotNull,
-        reason: 'The node at offset: ${selection.start} was not found');
-    expect(end, isNotNull,
-        reason: 'The node at offset: ${selection.end} was not found');
+    final start = editor.controller.document
+        .queryChild(selection.baseOffset)
+        .node;
+    final end = editor.controller.document
+        .queryChild(selection.extentOffset)
+        .node;
+    expect(
+      start,
+      isNotNull,
+      reason: 'The node at offset: ${selection.start} was not found',
+    );
+    expect(
+      end,
+      isNotNull,
+      reason: 'The node at offset: ${selection.end} was not found',
+    );
     if (start == end) {
       return [start!];
     }
@@ -67,12 +75,17 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     final editor = findRawEditor(editorFinder);
     final selection = editor.textEditingValue.selection;
     if (!selection.isValid) return null;
-    final start =
-        editor.controller.document.queryChild(selection.baseOffset).node;
-    final end =
-        editor.controller.document.queryChild(selection.extentOffset).node;
-    expect(start, isNotNull,
-        reason: 'The node at offset: ${start?.documentOffset} was not found');
+    final start = editor.controller.document
+        .queryChild(selection.baseOffset)
+        .node;
+    final end = editor.controller.document
+        .queryChild(selection.extentOffset)
+        .node;
+    expect(
+      start,
+      isNotNull,
+      reason: 'The node at offset: ${start?.documentOffset} was not found',
+    );
     final isSelectionIntoSameNode = start == end;
     if (isSelectionIntoSameNode) {
       return start!;

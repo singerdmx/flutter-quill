@@ -21,20 +21,25 @@ class Style {
     final result = attributes.map((key, dynamic value) {
       final attr = Attribute.fromKeyValue(key, value);
       return MapEntry<String, Attribute>(
-          key, attr ?? Attribute(key, AttributeScope.ignore, value));
+        key,
+        attr ?? Attribute(key, AttributeScope.ignore, value),
+      );
     });
     return Style.attr(result);
   }
 
   Map<String, dynamic>? toJson() => _attributes.isEmpty
       ? null
-      : _attributes.map<String, dynamic>((_, attribute) =>
-          MapEntry<String, dynamic>(attribute.key, attribute.value));
+      : _attributes.map<String, dynamic>(
+          (_, attribute) =>
+              MapEntry<String, dynamic>(attribute.key, attribute.value),
+        );
 
   Iterable<String> get keys => _attributes.keys;
 
   Iterable<Attribute> get values => _attributes.values.sorted(
-      (a, b) => Attribute.getRegistryOrder(a) - Attribute.getRegistryOrder(b));
+    (a, b) => Attribute.getRegistryOrder(a) - Attribute.getRegistryOrder(b),
+  );
 
   Map<String, Attribute> get attributes => _attributes;
 
@@ -123,8 +128,9 @@ class Style {
 
   @override
   int get hashCode {
-    final hashes =
-        _attributes.entries.map((entry) => hash2(entry.key, entry.value));
+    final hashes = _attributes.entries.map(
+      (entry) => hash2(entry.key, entry.value),
+    );
     return hashObjects(hashes);
   }
 

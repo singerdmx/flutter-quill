@@ -52,12 +52,8 @@ class QuillToolbarArrowIndicatedButtonListState
     ];
 
     return widget.axis == Axis.horizontal
-        ? Row(
-            children: children,
-          )
-        : Column(
-            children: children,
-          );
+        ? Row(children: children)
+        : Column(children: children);
   }
 
   @override
@@ -125,7 +121,7 @@ class QuillToolbarArrowIndicatedButtonListState
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: widget.buttons,
                     ),
-            )
+            ),
           ],
         ),
       ),
