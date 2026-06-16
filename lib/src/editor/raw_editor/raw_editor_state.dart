@@ -1,4 +1,4 @@
-import 'dart:async' show StreamSubscription;
+import 'dart:async' show StreamSubscription, Timer;
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
@@ -987,6 +987,8 @@ class QuillRawEditorState extends EditorState
   @override
   void dispose() {
     closeConnectionIfNeeded();
+    _keyboardInsetSettleTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     _keyboardVisibilitySubscription?.cancel();
     HardwareKeyboard.instance.removeHandler(_hardwareKeyboardEvent);
     assert(!hasConnection);
@@ -1128,11 +1130,40 @@ class QuillRawEditorState extends EditorState
     _updateOrDisposeSelectionOverlayIfNeeded();
     if (_hasFocus) {
       WidgetsBinding.instance.addObserver(this);
+      _lastBottomViewInset = View.maybeOf(context)?.viewInsets.bottom ?? 0;
       _showCaretOnScreen();
     } else {
       WidgetsBinding.instance.removeObserver(this);
     }
     updateKeepAlive();
+  }
+
+  @override
+  void didChangeMetrics() {
+    if (!mounted) {
+      return;
+    }
+    final view = View.maybeOf(context);
+    if (view == null) {
+      return;
+    }
+    final bottomViewInset = view.viewInsets.bottom;
+    if (bottomViewInset == _lastBottomViewInset) {
+      return;
+    }
+    _lastBottomViewInset = bottomViewInset;
+    // The inset animates frame-by-frame and can overshoot before settling, so
+    // debounce and reveal the caret once against the final viewport.
+    _keyboardInsetSettleTimer?.cancel();
+    if (bottomViewInset == 0) {
+      // Keyboard dismissed: leave the scroll position alone.
+      return;
+    }
+    _keyboardInsetSettleTimer = Timer(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        _showCaretOnScreen();
+      }
+    });
   }
 
   void _onChangedClipboardStatus() {
@@ -1155,6 +1186,12 @@ class QuillRawEditorState extends EditorState
   // block of the same style
   // This causes controller.selection to go to offset 0
   bool _disableScrollControllerAnimateOnce = false;
+
+  // Tracks the bottom view inset (keyboard height). Caret reveal is debounced until the
+  // inset stops changing (see didChangeMetrics) so the caret is revealed against the final
+  // viewport.
+  double _lastBottomViewInset = 0;
+  Timer? _keyboardInsetSettleTimer;
 
   void _showCaretOnScreen() {
     if (!widget.config.showCursor || _showCaretOnScreenScheduled) {

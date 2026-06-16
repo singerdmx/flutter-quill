@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Reveal the caret when the bottom view inset (on-screen keyboard) changes, so it is no longer hidden behind the keyboard when it appears or changes height mid-edit (e.g. on app resume, IME/emoji switch, rotation, split-screen or foldable resize). `QuillRawEditorState` now overrides `didChangeMetrics` and re-reveals the caret once the inset settles.
+
 ### Removed
 
 - Removed the already-`@Deprecated` and `@internal` `linkPrefixes` constant from the public API surface (it is hidden from the `flutter_quill.dart` export). Use `LinkValidator.linkPrefixes` instead.
