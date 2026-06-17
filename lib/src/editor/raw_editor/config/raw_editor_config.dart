@@ -38,6 +38,7 @@ class QuillRawEditorConfig {
     this.readOnly = false,
     this.checkBoxReadOnly,
     this.disableClipboard = false,
+    this.mergeImeCompositionHistory = false,
     this.placeholder,
     this.onLaunchUrl,
     this.contextMenuBuilder = defaultContextMenuBuilder,
@@ -196,6 +197,14 @@ class QuillRawEditorConfig {
   ///
   /// Defaults to `false`.
   final bool disableClipboard;
+
+  /// Whether to merge the IME composing text (uncommitted text) into a single
+  /// undo/redo history step.
+  ///
+  /// When set to `true`, typing Pinyin or other IME candidates will be grouped
+  /// together, preventing the undo stack from recording every single keystroke.
+  /// Defaults to `false`.
+  final bool mergeImeCompositionHistory;
 
   final String? placeholder;
 

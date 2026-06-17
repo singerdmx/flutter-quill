@@ -37,6 +37,7 @@ class QuillEditorConfig {
     this.placeholder,
     this.checkBoxReadOnly,
     this.disableClipboard = false,
+    this.mergeImeCompositionHistory = false,
     this.textSelectionThemeData,
     this.showCursor,
     this.paintCursorAboveText,
@@ -189,6 +190,14 @@ class QuillEditorConfig {
   ///
   /// Defaults to `false`.
   final bool disableClipboard;
+
+  /// Whether to merge the IME composing text (uncommitted text) into a single
+  /// undo/redo history step.
+  ///
+  /// When set to `true`, typing Pinyin or other IME candidates will be grouped
+  /// together, preventing the undo stack from recording every single keystroke.
+  /// Defaults to `false`.
+  final bool mergeImeCompositionHistory;
 
   /// Whether this editor should create a scrollable container for its content.
   ///
@@ -494,6 +503,7 @@ class QuillEditorConfig {
     List<SpaceShortcutEvent>? spaceShortcutEvents,
     bool? checkBoxReadOnly,
     bool? disableClipboard,
+    bool? mergeImeCompositionHistory,
     bool? scrollable,
     double? scrollBottomInset,
     bool? enableAlwaysIndentOnTab,
@@ -554,6 +564,8 @@ class QuillEditorConfig {
       spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,
       disableClipboard: disableClipboard ?? this.disableClipboard,
+      mergeImeCompositionHistory:
+          mergeImeCompositionHistory ?? this.mergeImeCompositionHistory,
       scrollable: scrollable ?? this.scrollable,
       onKeyPressed: onKeyPressed ?? this.onKeyPressed,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
