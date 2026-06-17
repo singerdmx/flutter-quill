@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed vertical caret navigation (arrow up/down) landing on the wrong horizontal column:
+  - `TextAffinity` is now preserved while resolving the position above/below, so at soft line-wrap boundaries the caret no longer starts from (or lands on) the wrong visual line.
+  - `QuillVerticalCaretMovementRun` now remembers the goal column for the whole run, so crossing a short or empty line no longer permanently clamps the caret to that line's column.
+  - On the web, arrow up/down (with and without Shift) are now handled by the editor instead of being delegated to the browser, which moved the caret based on the hidden DOM input's unrelated text layout.
+  - On the web, the cached vertical movement run is now invalidated when the selection changes, so after repositioning the caret (e.g. with a mouse click) the next arrow key starts from the new position.
+
 ### Removed
 
 - Removed the already-`@Deprecated` and `@internal` `linkPrefixes` constant from the public API surface (it is hidden from the `flutter_quill.dart` export). Use `LinkValidator.linkPrefixes` instead.

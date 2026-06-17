@@ -1546,8 +1546,11 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   TextPosition getTextPositionAbove(TextPosition position) {
     final child = childAtPosition(position);
+    // Keep the affinity: at a soft line wrap boundary it decides which visual
+    // line the caret is on, so dropping it would move from the wrong line.
     final localPosition = TextPosition(
       offset: position.offset - child.container.documentOffset,
+      affinity: position.affinity,
     );
 
     var newPosition = child.getPositionAbove(localPosition);
@@ -1568,11 +1571,13 @@ class RenderEditor extends RenderEditableContainerBox
         final siblingPosition = sibling.getPositionForOffset(finalOffset);
         newPosition = TextPosition(
           offset: sibling.container.documentOffset + siblingPosition.offset,
+          affinity: siblingPosition.affinity,
         );
       }
     } else {
       newPosition = TextPosition(
         offset: child.container.documentOffset + newPosition.offset,
+        affinity: newPosition.affinity,
       );
     }
     return newPosition;
@@ -1585,8 +1590,11 @@ class RenderEditor extends RenderEditableContainerBox
   @override
   TextPosition getTextPositionBelow(TextPosition position) {
     final child = childAtPosition(position);
+    // Keep the affinity: at a soft line wrap boundary it decides which visual
+    // line the caret is on, so dropping it would move from the wrong line.
     final localPosition = TextPosition(
       offset: position.offset - child.container.documentOffset,
+      affinity: position.affinity,
     );
 
     var newPosition = child.getPositionBelow(localPosition);
@@ -1606,11 +1614,13 @@ class RenderEditor extends RenderEditableContainerBox
         final siblingPosition = sibling.getPositionForOffset(finalOffset);
         newPosition = TextPosition(
           offset: sibling.container.documentOffset + siblingPosition.offset,
+          affinity: siblingPosition.affinity,
         );
       }
     } else {
       newPosition = TextPosition(
         offset: child.container.documentOffset + newPosition.offset,
+        affinity: newPosition.affinity,
       );
     }
     return newPosition;
@@ -1638,19 +1648,55 @@ class QuillVerticalCaretMovementRun implements Iterator<TextPosition> {
 
   final RenderEditor _editor;
 
+  /// The horizontal caret position (in the editor's coordinate space) this
+  /// run tries to stay on while moving vertically.
+  ///
+  /// Captured from the starting position on the first move and kept for the
+  /// whole run — mirroring `VerticalCaretMovementRun` of Flutter's TextField —
+  /// so that crossing a short or empty line does not permanently clamp the
+  /// caret to that line's column.
+  double? _goalDx;
+
   @override
   TextPosition get current {
     return _currentTextPosition;
   }
 
+  /// Snaps [position] back to the goal column within its visual line.
+  ///
+  /// [RenderEditor.getTextPositionAbove]/[RenderEditor.getTextPositionBelow]
+  /// compute the target column from the *current* caret position, which loses
+  /// the original column after crossing a shorter line. The vertical placement
+  /// of [position] is kept; only the horizontal component is re-resolved
+  /// against [_goalDx].
+  TextPosition _applyGoalColumn(TextPosition position) {
+    final caretOffset = _editor._getOffsetForCaret(position);
+    if ((caretOffset.dx - _goalDx!).abs() < 0.5) {
+      return position;
+    }
+    // Probe at mid line-height so the lookup stays within the visual line of
+    // `position` and only the column changes.
+    final lineHeight = _editor.preferredLineHeight(position);
+    final probe = _editor.localToGlobal(
+      Offset(_goalDx!, caretOffset.dy + lineHeight / 2),
+    );
+    return _editor.getPositionForOffset(probe);
+  }
+
   @override
   bool moveNext() {
-    _currentTextPosition = _editor.getTextPositionBelow(_currentTextPosition);
+    _goalDx ??= _editor._getOffsetForCaret(_currentTextPosition).dx;
+    _currentTextPosition = _applyGoalColumn(
+      _editor.getTextPositionBelow(_currentTextPosition),
+    );
     return true;
   }
 
   bool movePrevious() {
-    _currentTextPosition = _editor.getTextPositionAbove(_currentTextPosition);
+    _goalDx ??= _editor._getOffsetForCaret(_currentTextPosition).dx;
+    _currentTextPosition = _applyGoalColumn(
+      _editor.getTextPositionAbove(_currentTextPosition),
+    );
     return true;
   }
 

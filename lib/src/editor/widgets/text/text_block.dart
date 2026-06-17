@@ -528,12 +528,18 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     assert(position.offset < container.length);
 
     final child = childAtPosition(position);
+    // Keep the affinity: at a soft line wrap boundary it decides which visual
+    // line the caret is on, so dropping it would move from the wrong line.
     final childLocalPosition = TextPosition(
       offset: position.offset - child.container.offset,
+      affinity: position.affinity,
     );
     final result = child.getPositionAbove(childLocalPosition);
     if (result != null) {
-      return TextPosition(offset: result.offset + child.container.offset);
+      return TextPosition(
+        offset: result.offset + child.container.offset,
+        affinity: result.affinity,
+      );
     }
 
     final sibling = childBefore(child);
@@ -545,10 +551,10 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final testPosition = TextPosition(offset: sibling.container.length - 1);
     final testOffset = sibling.getOffsetForCaret(testPosition);
     final finalOffset = Offset(caretOffset.dx, testOffset.dy);
+    final siblingPosition = sibling.getPositionForOffset(finalOffset);
     return TextPosition(
-      offset:
-          sibling.container.offset +
-          sibling.getPositionForOffset(finalOffset).offset,
+      offset: sibling.container.offset + siblingPosition.offset,
+      affinity: siblingPosition.affinity,
     );
   }
 
@@ -557,12 +563,18 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     assert(position.offset < container.length);
 
     final child = childAtPosition(position);
+    // Keep the affinity: at a soft line wrap boundary it decides which visual
+    // line the caret is on, so dropping it would move from the wrong line.
     final childLocalPosition = TextPosition(
       offset: position.offset - child.container.offset,
+      affinity: position.affinity,
     );
     final result = child.getPositionBelow(childLocalPosition);
     if (result != null) {
-      return TextPosition(offset: result.offset + child.container.offset);
+      return TextPosition(
+        offset: result.offset + child.container.offset,
+        affinity: result.affinity,
+      );
     }
 
     final sibling = childAfter(child);
@@ -573,10 +585,10 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final caretOffset = child.getOffsetForCaret(childLocalPosition);
     final testOffset = sibling.getOffsetForCaret(const TextPosition(offset: 0));
     final finalOffset = Offset(caretOffset.dx, testOffset.dy);
+    final siblingPosition = sibling.getPositionForOffset(finalOffset);
     return TextPosition(
-      offset:
-          sibling.container.offset +
-          sibling.getPositionForOffset(finalOffset).offset,
+      offset: sibling.container.offset + siblingPosition.offset,
+      affinity: siblingPosition.affinity,
     );
   }
 

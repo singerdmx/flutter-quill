@@ -1029,6 +1029,13 @@ class QuillRawEditorState extends EditorState
   }
 
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {
+    // Must run on every selection change, including on the web: a stale
+    // cached run would make the next arrow key continue the vertical
+    // movement from the previous caret position instead of the new one
+    // (e.g. after repositioning the caret with a mouse click).
+    _shortcutActionsManager.adjacentLineAction
+        .stopCurrentVerticalRunIfSelectionChanges();
+
     if (kIsWeb) {
       _onChangeTextEditingValue(ignoreFocus);
       if (!ignoreFocus) {
@@ -1047,9 +1054,6 @@ class QuillRawEditorState extends EditorState
         _markNeedsBuild();
       }
     }
-
-    _shortcutActionsManager.adjacentLineAction
-        .stopCurrentVerticalRunIfSelectionChanges();
   }
 
   void _onChangeTextEditingValue([bool ignoreCaret = false]) {
