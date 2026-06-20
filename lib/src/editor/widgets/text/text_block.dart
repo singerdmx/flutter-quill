@@ -177,15 +177,18 @@ class EditableTextBlock extends StatelessWidget {
     var index = 0;
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
+      final leading = _buildLeading(
+        context: context,
+        line: line,
+        index: index,
+        indentLevelCounts: indentLevelCounts,
+        count: count,
+      );
       final editableTextLine = EditableTextLine(
         line,
-        _buildLeading(
-          context: context,
-          line: line,
-          index: index,
-          indentLevelCounts: indentLevelCounts,
-          count: count,
-        ),
+        leading != null
+            ? Directionality(textDirection: textDirection, child: leading)
+            : null,
         TextLine(
           line: line,
           textDirection: textDirection,

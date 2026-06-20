@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed an issue where bullet points became visually detached from the text body when toggling text direction formatting (RTL) by locking the list leading block to the editor's base text direction.
+
 ### Removed
 
 - Removed the already-`@Deprecated` and `@internal` `linkPrefixes` constant from the public API surface (it is hidden from the `flutter_quill.dart` export). Use `LinkValidator.linkPrefixes` instead.
