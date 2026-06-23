@@ -518,7 +518,7 @@ class QuillRawEditorState extends EditorState
 
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
 
-    if (!_keyboardVisible) {
+    if (!_keyboardVisible && !widget.config.passiveReadOnly) {
       // This will show the keyboard for all selection changes on the
       // editor, not just changes triggered by user gestures.
       requestKeyboard();
@@ -1214,6 +1214,9 @@ class QuillRawEditorState extends EditorState
   /// keyboard become visible.
   @override
   void requestKeyboard() {
+    if (widget.config.passiveReadOnly) {
+      return;
+    }
     if (controller.skipRequestKeyboard) {
       controller.skipRequestKeyboard = false;
       return;

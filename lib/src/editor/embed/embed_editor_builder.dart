@@ -11,7 +11,7 @@ abstract class EmbedBuilder {
   String get key;
   bool get expanded => true;
 
-  WidgetSpan buildWidgetSpan(Widget widget) {
+  WidgetSpan buildWidgetSpan(Widget widget, EmbedContext embedContext) {
     return WidgetSpan(child: widget);
   }
 
