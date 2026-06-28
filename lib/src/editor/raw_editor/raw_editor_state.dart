@@ -513,6 +513,11 @@ class QuillRawEditorState extends EditorState
     TextSelection selection,
     SelectionChangedCause cause,
   ) {
+    // Swallow the caret placement caused by tapping a checkbox (see _handleCheckboxTap).
+    if (_ignoreCheckboxTapSelectionChange) {
+      _ignoreCheckboxTapSelectionChange = false;
+      return;
+    }
     final oldSelection = controller.selection;
     controller.updateSelection(selection, ChangeSource.local);
 
@@ -549,20 +554,25 @@ class QuillRawEditorState extends EditorState
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
+      // The same tap also fires the editor's selection gesture (onSingleTapUp), which
+      // would move the caret to this line. Ignore that gesture-driven change so the
+      // caret stays put and the toolbar doesn't flicker to this line's style.
+      _ignoreCheckboxTapSelectionChange = true;
+
       _markNeedsBuild();
       controller
         ..ignoreFocusOnTextChange = true
         ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
-        ..formatText(offset, 0, attribute)
-        // Checkbox tapping causes controller.selection to go to offset 0
-        // Stop toggling those two toolbar buttons
-        ..toolbarButtonToggler = {
-          Attribute.list.key: attribute,
-          Attribute.header.key: Attribute.header,
-        };
+        // Format silently: formatText() stages the checked/unchecked attribute into
+        // toggledStyle, which getSelectionStyle() merges — notifying now would briefly
+        // light up the checklist toolbar button. The post-frame updateSelection below
+        // resets toggledStyle and notifies once with the clean state.
+        ..formatText(offset, 0, attribute, shouldNotifyListeners: false);
 
-      // Go back from offset 0 to current selection
       SchedulerBinding.instance.addPostFrameCallback((_) {
+        // Fallback: clear the guard (in case the gesture never fired) and restore the
+        // selection in case it moved despite it.
+        _ignoreCheckboxTapSelectionChange = false;
         controller
           ..ignoreFocusOnTextChange = false
           ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
@@ -1155,6 +1165,12 @@ class QuillRawEditorState extends EditorState
   // block of the same style
   // This causes controller.selection to go to offset 0
   bool _disableScrollControllerAnimateOnce = false;
+
+  // Tapping a checkbox also triggers the editor's tap gesture (onSingleTapUp), which
+  // would move the caret to the tapped line and make the toolbar briefly reflect that
+  // line's style. This flag lets _handleSelectionChanged ignore that one gesture-driven
+  // selection change so the caret — and the toolbar — stay put.
+  bool _ignoreCheckboxTapSelectionChange = false;
 
   void _showCaretOnScreen() {
     if (!widget.config.showCursor || _showCaretOnScreenScheduled) {
