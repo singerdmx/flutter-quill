@@ -43,15 +43,7 @@ class QuillToolbarToggleCheckListButtonState
   bool get currentStateValue => _getIsToggled(_selectionStyle.attributes);
 
   bool _getIsToggled(Map<String, Attribute> attrs) {
-    var attribute = controller.toolbarButtonToggler[Attribute.list.key];
-
-    if (attribute == null) {
-      attribute = attrs[Attribute.list.key];
-    } else {
-      // checkbox tapping causes controller.selection to go to offset 0
-      controller.toolbarButtonToggler.remove(Attribute.list.key);
-    }
-
+    final attribute = attrs[Attribute.list.key];
     if (attribute == null) {
       return false;
     }

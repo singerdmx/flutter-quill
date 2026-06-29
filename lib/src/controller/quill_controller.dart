@@ -500,7 +500,12 @@ class QuillController extends ChangeNotifier {
     return document.querySegmentLeafNode(offset).leaf;
   }
 
-  // Notify toolbar buttons directly with attributes
+  @Deprecated(
+    'No longer used and will be silently ignored. '
+    'Toolbar button state now derives from getSelectionStyle(). '
+    'Will be removed in future versions',
+  )
+  @internal
   Map<String, Attribute> toolbarButtonToggler = const {};
 
   /// Clipboard caches last copy to allow paste with styles. Static to allow paste between multiple instances of editor.
