@@ -1041,6 +1041,12 @@ class QuillRawEditorState extends EditorState
       _onChangeTextEditingValue(ignoreFocus);
     } else {
       requestKeyboard();
+      // Keep the platform IME's editing state (selection) in sync even when the
+      // soft keyboard is not (yet) visible — e.g. Android with a hardware
+      // keyboard. Without this, after moving the caret with a tap/mouse the IME
+      // keeps its stale cursor position and inserts typed text there.
+      // Does nothing if no input connection is open.
+      updateRemoteValueIfNeeded();
       if (mounted) {
         // Use controller.value in build()
         // Mark widget as dirty and trigger build and updateChildren
