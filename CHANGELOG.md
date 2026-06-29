@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed an issue where bullet points became visually detached from the text body when toggling text direction formatting (RTL) by locking the list leading block to the editor's base text direction.
+- Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
 
 ### Removed
 
