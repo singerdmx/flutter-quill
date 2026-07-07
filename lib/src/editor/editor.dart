@@ -1850,7 +1850,7 @@ class RenderEditableContainerBox extends RenderBox
     return _getIntrinsicCrossAxis((child) {
       final childHeight = math.max<double>(
         0,
-        height - _resolvedPadding!.top + _resolvedPadding!.bottom,
+        height - _resolvedPadding!.vertical,
       );
       return child.getMinIntrinsicWidth(childHeight) +
           _resolvedPadding!.left +
@@ -1864,7 +1864,7 @@ class RenderEditableContainerBox extends RenderBox
     return _getIntrinsicCrossAxis((child) {
       final childHeight = math.max<double>(
         0,
-        height - _resolvedPadding!.top + _resolvedPadding!.bottom,
+        height - _resolvedPadding!.vertical,
       );
       return child.getMaxIntrinsicWidth(childHeight) +
           _resolvedPadding!.left +
@@ -1878,7 +1878,7 @@ class RenderEditableContainerBox extends RenderBox
     return _getIntrinsicMainAxis((child) {
       final childWidth = math.max<double>(
         0,
-        width - _resolvedPadding!.left + _resolvedPadding!.right,
+        width - _resolvedPadding!.horizontal,
       );
       return child.getMinIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +
@@ -1892,7 +1892,7 @@ class RenderEditableContainerBox extends RenderBox
     return _getIntrinsicMainAxis((child) {
       final childWidth = math.max<double>(
         0,
-        width - _resolvedPadding!.left + _resolvedPadding!.right,
+        width - _resolvedPadding!.horizontal,
       );
       return child.getMaxIntrinsicHeight(childWidth) +
           _resolvedPadding!.top +

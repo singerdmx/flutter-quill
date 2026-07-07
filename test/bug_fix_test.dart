@@ -242,4 +242,63 @@ void main() {
       );
     },
   );
+
+  group('2748 - RenderEditableContainerBox intrinsics add trailing padding '
+      'instead of subtracting it', () {
+    testWidgets(
+      'intrinsic height matches laid-out height with horizontal padding',
+      (tester) async {
+        const editorWidth = 400.0;
+        const padding = EdgeInsets.symmetric(horizontal: 100, vertical: 10);
+
+        // Measure the test font's glyph advance, then build a single word
+        // sized to fill one full editor width: it fits on one line at the
+        // undeflated width (the buggy intrinsic measure) but must wrap once
+        // laid out at the padding-deflated width.
+        final glyphPainter = TextPainter(
+          text: const TextSpan(text: 'a', style: TextStyle(fontSize: 16)),
+          textDirection: TextDirection.ltr,
+        )..layout();
+        final word = 'a' * (editorWidth ~/ glyphPainter.width);
+
+        final controller = QuillController.basic()..document.insert(0, word);
+
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(
+            Align(
+              alignment: Alignment.topLeft,
+              child: SizedBox(
+                width: editorWidth,
+                child: QuillEditor.basic(
+                  controller: controller,
+                  config: const QuillEditorConfig(padding: padding),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        final renderEditor = tester.allRenderObjects
+            .whereType<RenderEditor>()
+            .single;
+        final laidOutHeight = renderEditor.size.height;
+
+        // Guard: the word must actually wrap at the deflated width,
+        // otherwise the intrinsic and layout widths are indistinguishable.
+        expect(
+          laidOutHeight,
+          greaterThan(padding.vertical + glyphPainter.height * 1.5),
+        );
+
+        expect(
+          renderEditor.getMaxIntrinsicHeight(editorWidth),
+          moreOrLessEquals(laidOutHeight),
+        );
+        expect(
+          renderEditor.getMinIntrinsicHeight(editorWidth),
+          moreOrLessEquals(laidOutHeight),
+        );
+      },
+    );
+  });
 }
