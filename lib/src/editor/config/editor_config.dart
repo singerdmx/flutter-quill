@@ -40,6 +40,7 @@ class QuillEditorConfig {
     this.textSelectionThemeData,
     this.showCursor,
     this.paintCursorAboveText,
+    this.paintSelectionAboveText = true,
     this.enableInteractiveSelection = true,
     this.enableSelectionToolbar = true,
     this.scrollBottomInset = 0,
@@ -247,6 +248,11 @@ class QuillEditorConfig {
   /// The cursor refers to the blinking caret when the editor is focused.
   final bool? showCursor;
   final bool? paintCursorAboveText;
+
+  /// Whether to paint selection above text.
+  ///
+  /// Defaults to `true`.
+  final bool paintSelectionAboveText;
 
   /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
   final MouseCursor readOnlyMouseCursor;
@@ -504,6 +510,7 @@ class QuillEditorConfig {
     KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed,
     bool? showCursor,
     bool? paintCursorAboveText,
+    bool? paintSelectionAboveText,
     MouseCursor? readOnlyMouseCursor,
     bool? enableInteractiveSelection,
     bool? enableSelectionToolbar,
@@ -565,6 +572,8 @@ class QuillEditorConfig {
       onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
+      paintSelectionAboveText:
+          paintSelectionAboveText ?? this.paintSelectionAboveText,
       readOnlyMouseCursor: readOnlyMouseCursor ?? this.readOnlyMouseCursor,
       enableInteractiveSelection:
           enableInteractiveSelection ?? this.enableInteractiveSelection,

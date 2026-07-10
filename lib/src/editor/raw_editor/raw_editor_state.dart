@@ -635,6 +635,7 @@ class QuillRawEditorState extends EditorState
           customStyleBuilder: widget.config.customStyleBuilder,
           customLinkPrefixes: widget.config.customLinkPrefixes,
           composingRange: composingRange.value,
+          paintSelectionAboveText: widget.config.paintSelectionAboveText,
         );
         result.add(
           Directionality(
@@ -687,6 +688,7 @@ class QuillRawEditorState extends EditorState
       MediaQuery.devicePixelRatioOf(context),
       _cursorCont,
       _styles!.inlineCode!,
+      widget.config.paintSelectionAboveText,
       _getDecoration(node, _styles, attrs),
     );
     return editableTextLine;

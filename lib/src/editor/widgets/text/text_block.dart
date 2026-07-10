@@ -79,6 +79,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.readOnly,
     required this.customRecognizerBuilder,
     required this.composingRange,
+    required this.paintSelectionAboveText,
     this.checkBoxReadOnly,
     this.onLaunchUrl,
     this.customStyleBuilder,
@@ -114,6 +115,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool? checkBoxReadOnly;
   final List<String> customLinkPrefixes;
   final TextRange composingRange;
+  final bool paintSelectionAboveText;
 
   @override
   Widget build(BuildContext context) {
@@ -214,6 +216,7 @@ class EditableTextBlock extends StatelessWidget {
         MediaQuery.devicePixelRatioOf(context),
         cursorCont,
         styles!.inlineCode!,
+        paintSelectionAboveText,
         null,
       );
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
