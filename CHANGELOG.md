@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > The [previous `CHANGELOG.md`](https://github.com/singerdmx/flutter-quill/blob/master/doc/OLD_CHANGELOG.md) has been archived.
 
 ## [Unreleased]
+- fix: stop `Document.getPlainText` repeating content past document length (#2704).
 
 ### Fixed
 
