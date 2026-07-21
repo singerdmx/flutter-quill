@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fixed a crash (assert in debug, fatal `RangeError` in release) when painting selection endpoints for a selection edge that produces no glyph boxes, e.g. an offset inside an emoji grapheme cluster [#2751](https://github.com/singerdmx/flutter-quill/pull/2751).
+- Fixed a fatal `Bad state: No element` crash in `getLineBoundary` when resolving the line boundary of an empty line (e.g. line-boundary navigation with Home/End/Shift+Home on a hardware keyboard), which produced no glyph boxes; falls back to the caret position [#2751](https://github.com/singerdmx/flutter-quill/pull/2751).
 - Fixed an issue where bullet points became visually detached from the text body when toggling text direction formatting (RTL) by locking the list leading block to the editor's base text direction.
 - Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
 

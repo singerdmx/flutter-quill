@@ -1084,7 +1084,17 @@ class RenderEditableTextLine extends RenderEditableBox {
       );
     }
     final boxes = _getBoxes(textSelection);
-    assert(boxes.isNotEmpty);
+    if (boxes.isEmpty) {
+      // A selection edge can land on a position that produces no glyph
+      // boxes, e.g. inside a grapheme cluster such as an emoji. Fall back to
+      // the caret offset for that edge instead of crashing on boxes.first /
+      // boxes.last while painting the selection.
+      final edge = first ? textSelection.base : textSelection.extent;
+      return TextSelectionPoint(
+        Offset(0, preferredLineHeight(edge)) + getOffsetForCaret(edge),
+        null,
+      );
+    }
     final targetBox = first ? boxes.first : boxes.last;
     return TextSelectionPoint(
       Offset(first ? targetBox.start : targetBox.end, targetBox.bottom),
@@ -1101,6 +1111,15 @@ class RenderEditableTextLine extends RenderEditableBox {
         _getBoxes(TextSelection(baseOffset: 0, extentOffset: line.length - 1))
             .where((element) => element.top < lineDy && element.bottom > lineDy)
             .toList(growable: false);
+    if (lineBoxes.isEmpty) {
+      // An empty line (Line.length == 1, so the [0, line.length - 1] == [0, 0]
+      // box selection is collapsed and yields no glyph boxes) has no boxes to
+      // derive left/right edges from. Fall back to the caret position so
+      // line-boundary navigation (e.g. Home/End/Shift+Home on a hardware
+      // keyboard) collapses to the caret instead of crashing on
+      // lineBoxes.first / lineBoxes.last.
+      return TextRange(start: position.offset, end: position.offset);
+    }
     return TextRange(
       start: getPositionForOffset(Offset(lineBoxes.first.left, lineDy)).offset,
       end: getPositionForOffset(Offset(lineBoxes.last.right, lineDy)).offset,
