@@ -698,7 +698,12 @@ class _TextLineState extends State<TextLine> {
   }
 
   void _tapNodeLink(Node node) {
-    final link = node.style.attributes[Attribute.link.key]!.value;
+    // The recognizer's onTap closure captures a specific node, but the cached
+    // recognizer outlives document mutations (_linkRecognizers is not cleared
+    // when the line content changes). By the time a queued tap is swept by the
+    // gesture arena, the captured node may be detached or have lost its link
+    // attribute, so read it defensively instead of force-unwrapping.
+    final link = node.style.attributes[Attribute.link.key]?.value;
 
     _tapLink(link);
   }
@@ -723,7 +728,12 @@ class _TextLineState extends State<TextLine> {
   }
 
   Future<void> _longPressLink(Node node) async {
-    final link = node.style.attributes[Attribute.link.key]!.value!;
+    // See _tapNodeLink: the captured node may no longer carry a link attribute
+    // by the time the gesture fires, so guard instead of force-unwrapping.
+    final link = node.style.attributes[Attribute.link.key]?.value;
+    if (link == null) {
+      return;
+    }
     final action = await widget.linkActionPicker(node);
     switch (action) {
       case LinkMenuAction.launch:
