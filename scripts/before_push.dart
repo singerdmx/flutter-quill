@@ -11,20 +11,19 @@ void main() async {
 
   await runCommand('dart', ['fix', '--apply']);
 
+  // Format the whole repository, then assert it is fully formatted (mirrors the
+  // CI `dart format --set-exit-if-changed .` check). The repo is kept in canonical
+  // style by a one-off reformat + the pinned-version CI check, so this no longer
+  // needs to scope to changed files only.
   await runCommand('dart', ['format', '.']);
-
   await runCommand('dart', ['format', '--set-exit-if-changed', '.']);
 
-  await runCommand(
-    'flutter',
-    [
-      'build',
-      'web',
-      '--release',
-      '--dart-define=CI=true',
-    ],
-    workingDirectory: 'example',
-  );
+  await runCommand('flutter', [
+    'build',
+    'web',
+    '--release',
+    '--dart-define=CI=true',
+  ], workingDirectory: 'example');
 
   print('');
 
@@ -41,9 +40,13 @@ Future<void> runCommand(
   String? workingDirectory,
 }) async {
   print(
-      "Running '$executable ${arguments.join(' ')}' in directory '${workingDirectory ?? 'root'}'...");
-  final result = await Process.run(executable, arguments,
-      workingDirectory: workingDirectory);
+    "Running '$executable ${arguments.join(' ')}' in directory '${workingDirectory ?? 'root'}'...",
+  );
+  final result = await Process.run(
+    executable,
+    arguments,
+    workingDirectory: workingDirectory,
+  );
   print(result.stdout);
   print(result.stderr);
 }

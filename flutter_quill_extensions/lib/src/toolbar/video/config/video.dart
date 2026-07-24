@@ -9,28 +9,18 @@ import 'package:meta/meta.dart' show immutable;
 ///
 /// by default we already have a default implementation that show a dialog
 /// request the source for picking the video, from gallery, link or camera
-typedef OnRequestPickVideo = Future<String?> Function(
-  BuildContext context,
-);
+typedef OnRequestPickVideo = Future<String?> Function(BuildContext context);
 
 /// A callback will called when inserting a video in the editor
 /// it have the logic that will insert the video block using the controller
-typedef OnVideoInsertCallback = Future<void> Function(
-  String video,
-  QuillController controller,
-);
+typedef OnVideoInsertCallback =
+    Future<void> Function(String video, QuillController controller);
 
 /// When a new video picked this callback will called and you might want to
 /// do some logic depending on your use case
-typedef OnVideoInsertedCallback = Future<void> Function(
-  String video,
-);
+typedef OnVideoInsertedCallback = Future<void> Function(String video);
 
-enum InsertVideoSource {
-  gallery,
-  camera,
-  link,
-}
+enum InsertVideoSource { gallery, camera, link }
 
 /// Configurations for dealing with videos, on insert a video
 /// on request picking a video

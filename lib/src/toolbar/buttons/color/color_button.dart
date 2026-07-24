@@ -10,12 +10,18 @@ import '../../config/buttons/color_options.dart';
 import '../quill_icon_button.dart';
 import 'color_dialog.dart';
 
-typedef QuillToolbarColorBaseButton = QuillToolbarBaseButton<
-    QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;
+typedef QuillToolbarColorBaseButton =
+    QuillToolbarBaseButton<
+      QuillToolbarColorButtonOptions,
+      QuillToolbarColorButtonExtraOptions
+    >;
 
-typedef QuillToolbarColorBaseButtonState<W extends QuillToolbarColorButton>
-    = QuillToolbarCommonButtonState<W, QuillToolbarColorButtonOptions,
-        QuillToolbarColorButtonExtraOptions>;
+typedef QuillToolbarColorBaseButtonState<W extends QuillToolbarColorButton> =
+    QuillToolbarCommonButtonState<
+      W,
+      QuillToolbarColorButtonOptions,
+      QuillToolbarColorButtonExtraOptions
+    >;
 
 /// Controls color styles.
 ///
@@ -54,13 +60,17 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
 
   void _didChangeEditingValue() {
     setState(() {
-      _isToggledColor =
-          _getIsToggledColor(widget.controller.getSelectionStyle().attributes);
+      _isToggledColor = _getIsToggledColor(
+        widget.controller.getSelectionStyle().attributes,
+      );
       _isToggledBackground = _getIsToggledBackground(
-          widget.controller.getSelectionStyle().attributes);
-      _isWhite = _isToggledColor &&
+        widget.controller.getSelectionStyle().attributes,
+      );
+      _isWhite =
+          _isToggledColor &&
           _selectionStyle.attributes['color']!.value == '#ffffff';
-      _isWhiteBackground = _isToggledBackground &&
+      _isWhiteBackground =
+          _isToggledBackground &&
           _selectionStyle.attributes['background']!.value == '#ffffff';
     });
   }
@@ -70,9 +80,11 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
     super.initState();
     _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
     _isToggledBackground = _getIsToggledBackground(_selectionStyle.attributes);
-    _isWhite = _isToggledColor &&
+    _isWhite =
+        _isToggledColor &&
         _selectionStyle.attributes['color']!.value == '#ffffff';
-    _isWhiteBackground = _isToggledBackground &&
+    _isWhiteBackground =
+        _isToggledBackground &&
         _selectionStyle.attributes['background']!.value == '#ffffff';
     widget.controller.addListener(_didChangeEditingValue);
   }
@@ -92,11 +104,14 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
       oldWidget.controller.removeListener(_didChangeEditingValue);
       widget.controller.addListener(_didChangeEditingValue);
       _isToggledColor = _getIsToggledColor(_selectionStyle.attributes);
-      _isToggledBackground =
-          _getIsToggledBackground(_selectionStyle.attributes);
-      _isWhite = _isToggledColor &&
+      _isToggledBackground = _getIsToggledBackground(
+        _selectionStyle.attributes,
+      );
+      _isWhite =
+          _isToggledColor &&
           _selectionStyle.attributes['color']!.value == '#ffffff';
-      _isWhiteBackground = _isToggledBackground &&
+      _isWhiteBackground =
+          _isToggledBackground &&
           _selectionStyle.attributes['background']!.value == '#ffffff';
     }
   }
@@ -119,16 +134,16 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
 
     final iconColorBackground =
         _isToggledBackground && widget.isBackground && !_isWhiteBackground
-            ? stringToColor(_selectionStyle.attributes['background']!.value)
-            : null;
+        ? stringToColor(_selectionStyle.attributes['background']!.value)
+        : null;
 
     final fillColor = _isToggledColor && !widget.isBackground && _isWhite
         ? stringToColor('#ffffff')
         : null;
     final fillColorBackground =
         _isToggledBackground && widget.isBackground && _isWhiteBackground
-            ? stringToColor('#ffffff')
-            : null;
+        ? stringToColor('#ffffff')
+        : null;
 
     final childBuilder = this.childBuilder;
     if (childBuilder != null) {
