@@ -351,6 +351,23 @@ class _TextLineState extends State<TextLine> {
     final composingEnd = widget.composingRange.end - node.documentOffset;
     final text = child.toPlainText();
 
+    // The composing range is reported by the platform IME and is carried over
+    // to the new value when the document changes (see updateRemoteValueIfNeeded
+    // in RawEditorStateTextInputClientMixin, which only checks that the range
+    // still fits the text length). A programmatic edit can therefore leave the
+    // range pointing at different characters than the IME meant, and cutting
+    // there can split a UTF-16 surrogate pair (an emoji) in half. Malformed
+    // UTF-16 throws in the engine's paragraph builder when the line is laid
+    // out, so drop the composing decoration instead of building a span that
+    // cannot be rendered.
+    if (composingStart < 0 ||
+        composingEnd > text.length ||
+        composingStart > composingEnd ||
+        _splitsSurrogatePair(text, composingStart) ||
+        _splitsSurrogatePair(text, composingEnd)) {
+      return [child];
+    }
+
     final textBefore = text.substring(0, composingStart);
     final textComposing = text.substring(composingStart, composingEnd);
     final textAfter = text.substring(composingEnd);
@@ -761,6 +778,18 @@ class _TextLineState extends State<TextLine> {
           ),
         );
   }
+}
+
+/// Whether splitting [text] at [index] would cut a UTF-16 surrogate pair in
+/// half, leaving a lone surrogate in each part. Such a string is malformed and
+/// throws in the engine's paragraph builder when it is laid out.
+bool _splitsSurrogatePair(String text, int index) {
+  if (index <= 0 || index >= text.length) {
+    return false;
+  }
+  final high = text.codeUnitAt(index - 1);
+  final low = text.codeUnitAt(index);
+  return high >= 0xD800 && high <= 0xDBFF && low >= 0xDC00 && low <= 0xDFFF;
 }
 
 class EditableTextLine extends RenderObjectWidget {

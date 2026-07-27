@@ -242,4 +242,52 @@ void main() {
       );
     },
   );
+  group('malformed UTF-16 crash when the composing range splits an emoji', () {
+    testWidgets(
+      'the composing decoration is skipped when the range cuts a surrogate '
+      'pair instead of laying out a malformed span',
+      (tester) async {
+        // The emoji occupies code units 2 and 3.
+        final controller = QuillController.basic()
+          ..document.insert(0, 'ab\u{1F600}cd');
+        addTearDown(controller.dispose);
+
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(
+            QuillEditor.basic(
+              controller: controller,
+              config: const QuillEditorConfig(autoFocus: true),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // A composing range the IME reported against an older document state
+        // can end inside the surrogate pair. Splitting the text there used to
+        // hand a lone surrogate to the paragraph builder, which throws
+        // 'string is not well-formed UTF-16' from addText during layout.
+        tester.testTextInput.updateEditingValue(
+          TextEditingValue(
+            text: controller.document.toPlainText(),
+            selection: const TextSelection.collapsed(offset: 2),
+            composing: const TextRange(start: 0, end: 3),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(tester.takeException(), isNull);
+
+        // Clear the composing range: closeConnectionIfNeeded notifies the
+        // composing listener from dispose, which asserts on the defunct
+        // element when the editor is torn down with a range still set.
+        tester.testTextInput.updateEditingValue(
+          TextEditingValue(
+            text: controller.document.toPlainText(),
+            selection: const TextSelection.collapsed(offset: 2),
+          ),
+        );
+        await tester.pumpAndSettle();
+      },
+    );
+  });
 }

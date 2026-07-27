@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed an issue where bullet points became visually detached from the text body when toggling text direction formatting (RTL) by locking the list leading block to the editor's base text direction.
 - Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
+- Fixed an `Invalid argument(s): string is not well-formed UTF-16` crash in `addText` while laying out a line: `_TextLineState._splitAndApplyComposingStyle` cut the node text at the composing offsets without checking that they land on a code-point boundary, so a composing range carried over from an older document state could split a surrogate pair (an emoji) in half. The composing decoration is now skipped when the range is out of range or would split a pair.
 
 ### Removed
 
