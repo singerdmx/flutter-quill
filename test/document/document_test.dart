@@ -132,6 +132,15 @@ void main() {
       }
     });
 
+    test('getPlainText does not repeat content when len exceeds document', () {
+      // Regression test for
+      // https://github.com/singerdmx/flutter-quill/issues/2704
+      final document = Document.fromDelta(Delta()..insert('This is string 1\n'));
+      // Requesting more than the available length must return the content
+      // once, not repeat it to fill the requested length.
+      expect(document.getPlainText(0, 50), 'This is string 1\n');
+    });
+
     test('No selection', () {
       final delta = Delta()
         ..insert('plain\n')
