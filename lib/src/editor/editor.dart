@@ -233,35 +233,53 @@ class QuillEditorState extends State<QuillEditor>
         config.textSelectionThemeData ?? TextSelectionTheme.of(context);
 
     TextSelectionControls textSelectionControls;
-    bool paintCursorAboveText;
-    bool cursorOpacityAnimates;
-    Offset? cursorOffset;
     Color? cursorColor;
     Color selectionColor;
-    Radius? cursorRadius;
 
     if (theme.isCupertino) {
       final cupertinoTheme = CupertinoTheme.of(context);
       textSelectionControls = cupertinoTextSelectionControls;
-      paintCursorAboveText = true;
-      cursorOpacityAnimates = true;
       cursorColor ??= selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
       selectionColor =
           selectionTheme.selectionColor ??
           cupertinoTheme.primaryColor.withValues(alpha: 0.40);
-      cursorRadius ??= const Radius.circular(2);
-      cursorOffset = Offset(
-        iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context),
-        0,
-      );
     } else {
       textSelectionControls = materialTextSelectionControls;
-      paintCursorAboveText = false;
-      cursorOpacityAnimates = false;
       cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
       selectionColor =
           selectionTheme.selectionColor ??
           theme.colorScheme.primary.withValues(alpha: 0.40);
+    }
+
+    final bool platformPaintCursorAboveText;
+    final bool platformCursorOpacityAnimates;
+    final Radius? platformCursorRadius;
+    final Offset? platformCursorOffset;
+    switch (theme.platform) {
+      case TargetPlatform.iOS:
+        platformPaintCursorAboveText = true;
+        platformCursorOpacityAnimates = true;
+        platformCursorRadius = const Radius.circular(2);
+        platformCursorOffset = Offset(
+          iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context),
+          0,
+        );
+      case TargetPlatform.macOS:
+        platformPaintCursorAboveText = true;
+        platformCursorOpacityAnimates = false;
+        platformCursorRadius = const Radius.circular(2);
+        platformCursorOffset = Offset(
+          iOSHorizontalOffset / MediaQuery.devicePixelRatioOf(context),
+          0,
+        );
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        platformPaintCursorAboveText = false;
+        platformCursorOpacityAnimates = false;
+        platformCursorRadius = null;
+        platformCursorOffset = null;
     }
 
     final showSelectionToolbar =
@@ -296,11 +314,15 @@ class QuillEditorState extends State<QuillEditor>
         cursorStyle: CursorStyle(
           color: cursorColor,
           backgroundColor: Colors.grey,
+          platform: theme.platform,
           width: config.cursorWidth,
-          radius: cursorRadius,
-          offset: cursorOffset,
-          paintAboveText: config.paintCursorAboveText ?? paintCursorAboveText,
-          opacityAnimates: cursorOpacityAnimates,
+          height: config.cursorHeight,
+          radius: config.cursorRadius ?? platformCursorRadius,
+          offset: config.cursorOffset ?? platformCursorOffset,
+          paintAboveText:
+              config.paintCursorAboveText ?? platformPaintCursorAboveText,
+          opacityAnimates:
+              config.cursorOpacityAnimates ?? platformCursorOpacityAnimates,
         ),
         textCapitalization: config.textCapitalization,
         minHeight: config.minHeight,
@@ -1345,7 +1367,7 @@ class RenderEditor extends RenderEditableContainerBox
     final childLocalRect = targetChild.getLocalRectForCaret(localPosition);
 
     final boxParentData = targetChild.parentData as BoxParentData;
-    return childLocalRect.shift(Offset(0, boxParentData.offset.dy));
+    return childLocalRect.shift(boxParentData.offset);
   }
 
   // Start floating cursor

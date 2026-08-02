@@ -41,6 +41,10 @@ class QuillEditorConfig {
     this.showCursor,
     this.paintCursorAboveText,
     this.cursorWidth = 2.0,
+    this.cursorHeight,
+    this.cursorRadius,
+    this.cursorOffset,
+    this.cursorOpacityAnimates,
     this.enableInteractiveSelection = true,
     this.enableSelectionToolbar = true,
     this.scrollBottomInset = 0,
@@ -253,6 +257,29 @@ class QuillEditorConfig {
   ///
   /// Defaults to `2.0`, preserving the editor's existing cursor appearance.
   final double cursorWidth;
+
+  /// How tall the cursor will be.
+  ///
+  /// If this property is null, the preferred line height is used.
+  final double? cursorHeight;
+
+  /// How rounded the corners of the cursor should be.
+  ///
+  /// If this property is null, the platform default is used. Set this to
+  /// [Radius.zero] to explicitly disable rounded corners on platforms whose
+  /// default cursor is rounded.
+  final Radius? cursorRadius;
+
+  /// The offset applied to the cursor when it is painted.
+  ///
+  /// If this property is null, the platform default is used. Set this to
+  /// [Offset.zero] to explicitly disable a platform cursor offset.
+  final Offset? cursorOffset;
+
+  /// Whether the cursor opacity animates during each blink.
+  ///
+  /// If this property is null, the platform default is used.
+  final bool? cursorOpacityAnimates;
 
   /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
   final MouseCursor readOnlyMouseCursor;
@@ -511,6 +538,10 @@ class QuillEditorConfig {
     bool? showCursor,
     bool? paintCursorAboveText,
     double? cursorWidth,
+    double? cursorHeight,
+    Radius? cursorRadius,
+    Offset? cursorOffset,
+    bool? cursorOpacityAnimates,
     MouseCursor? readOnlyMouseCursor,
     bool? enableInteractiveSelection,
     bool? enableSelectionToolbar,
@@ -573,6 +604,11 @@ class QuillEditorConfig {
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
       cursorWidth: cursorWidth ?? this.cursorWidth,
+      cursorHeight: cursorHeight ?? this.cursorHeight,
+      cursorRadius: cursorRadius ?? this.cursorRadius,
+      cursorOffset: cursorOffset ?? this.cursorOffset,
+      cursorOpacityAnimates:
+          cursorOpacityAnimates ?? this.cursorOpacityAnimates,
       readOnlyMouseCursor: readOnlyMouseCursor ?? this.readOnlyMouseCursor,
       enableInteractiveSelection:
           enableInteractiveSelection ?? this.enableInteractiveSelection,

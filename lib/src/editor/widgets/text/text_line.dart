@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -880,7 +880,6 @@ class RenderEditableTextLine extends RenderEditableBox {
   EdgeInsets? _resolvedPadding;
   bool? _containsCursor;
   List<TextBox>? _selectedRects;
-  late Rect _caretPrototype;
   InlineCodeStyle inlineCodeStyle;
   BoxDecoration? decoration;
   final Map<TextLineSlot, RenderBox> children = <TextLineSlot, RenderBox>{};
@@ -1184,14 +1183,21 @@ class RenderEditableTextLine extends RenderEditableBox {
   // should rework this properly to once again match the platform. The constant
   // _kCaretHeightOffset scales poorly for small font sizes.
   //
-  /// On iOS, the cursor is taller than the cursor on Android. The height
-  /// of the cursor for iOS is approximate and obtained through an eyeball
-  /// comparison.
-  void _computeCaretPrototype() {
-    if (isIos) {
-      _caretPrototype = Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
-    } else {
-      _caretPrototype = Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4.0);
+  /// On iOS and macOS, the cursor is taller than on other platforms. These
+  /// prototypes mirror Flutter's RenderEditable caret geometry.
+  ///
+  /// Keep this derived from the current style: inactive lines do not subscribe
+  /// to [CursorCont], but can become the caret line without another layout.
+  Rect get _caretPrototype {
+    switch (cursorCont.style.platform ?? defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return Rect.fromLTWH(0, 0, cursorWidth, cursorHeight + 2);
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return Rect.fromLTWH(0, 2, cursorWidth, cursorHeight - 4);
     }
   }
 
@@ -1380,12 +1386,10 @@ class RenderEditableTextLine extends RenderEditableBox {
         _resolvedPadding!.top + _body!.size.height + _resolvedPadding!.bottom,
       ),
     );
-
-    _computeCaretPrototype();
   }
 
   CursorPainter get _cursorPainter => CursorPainter(
-    editable: _body,
+    editable: _body!,
     style: cursorCont.style,
     prototype: _caretPrototype,
     color: cursorCont.isFloatingCursorActive
@@ -1560,17 +1564,9 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   Rect getLocalRectForCaret(TextPosition position) {
-    final caretOffset = getOffsetForCaret(position);
-    var rect = Rect.fromLTWH(
-      0,
-      0,
-      cursorWidth,
-      cursorHeight,
-    ).shift(caretOffset);
-    final cursorOffset = cursorCont.style.offset;
-    // Add additional cursor offset (generally only if on iOS).
-    if (cursorOffset != null) rect = rect.shift(cursorOffset);
-    return rect;
+    final bodyOffset = (_body!.parentData as BoxParentData).offset;
+    final rect = _cursorPainter.getLocalRectForCaret(position, line.hasEmbed);
+    return rect.shift(bodyOffset);
   }
 
   @override

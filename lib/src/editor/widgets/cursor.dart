@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/widgets.dart';
 
-import '../../common/utils/platform.dart';
 import 'box.dart';
 
 /// Style properties of editing cursor.
@@ -10,6 +10,7 @@ class CursorStyle {
   const CursorStyle({
     required this.color,
     required this.backgroundColor,
+    this.platform,
     this.width = 1.0,
     this.height,
     this.radius,
@@ -24,6 +25,13 @@ class CursorStyle {
   /// The color to use when painting the background cursor aligned with the text
   /// while rendering the floating cursor.
   final Color backgroundColor;
+
+  /// The platform whose caret geometry should be used.
+  ///
+  /// If null, [defaultTargetPlatform] is used. High-level editors pass their
+  /// effective theme platform so style defaults and geometry cannot diverge
+  /// when the theme platform is overridden.
+  final TargetPlatform? platform;
 
   /// How thick the cursor will be.
   ///
@@ -47,10 +55,8 @@ class CursorStyle {
 
   /// The offset that is used, in pixels, when painting the cursor on screen.
   ///
-  /// By default, the cursor position should be set to an offset of
-  /// (-[cursorWidth] * 0.5, 0.0) on iOS platforms and (0, 0) on Android
-  /// platforms. The origin from where the offset is applied to is the arbitrary
-  /// location where the cursor ends up being rendered from by default.
+  /// If null, no additional offset is applied. High-level editors provide
+  /// their platform-specific default offset.
   final Offset? offset;
 
   /// Whether the cursor will animate from fully transparent to fully opaque
@@ -73,6 +79,7 @@ class CursorStyle {
           runtimeType == other.runtimeType &&
           color == other.color &&
           backgroundColor == other.backgroundColor &&
+          platform == other.platform &&
           width == other.width &&
           height == other.height &&
           radius == other.radius &&
@@ -84,6 +91,7 @@ class CursorStyle {
   int get hashCode =>
       color.hashCode ^
       backgroundColor.hashCode ^
+      platform.hashCode ^
       width.hashCode ^
       height.hashCode ^
       radius.hashCode ^
@@ -242,18 +250,78 @@ class CursorCont extends ChangeNotifier {
 /// Paints the editing cursor.
 class CursorPainter {
   CursorPainter({
-    required this.editable,
+    required RenderContentProxyBox? editable,
     required this.style,
     required this.prototype,
     required this.color,
     required this.devicePixelRatio,
-  });
+  }) : editable = editable ?? (throw ArgumentError.notNull('editable'));
 
-  final RenderContentProxyBox? editable;
+  final RenderContentProxyBox editable;
   final CursorStyle style;
   final Rect prototype;
   final Color color;
   final double devicePixelRatio;
+
+  /// Returns the exact caret rectangle that [paint] draws, in [editable]'s
+  /// local coordinate system.
+  ///
+  /// Keeping caret geometry in one method ensures text input, scrolling and
+  /// painting all observe the same rectangle.
+  Rect getLocalRectForCaret(TextPosition position, bool lineHasEmbed) {
+    var relativeCaretOffset = editable.getOffsetForCaret(position, prototype);
+    if (lineHasEmbed && relativeCaretOffset == Offset.zero) {
+      relativeCaretOffset = editable.getOffsetForCaret(
+        TextPosition(offset: position.offset - 1, affinity: position.affinity),
+        prototype,
+      );
+      // Hardcoded 6 as estimate of the width of a character.
+      relativeCaretOffset = Offset(
+        relativeCaretOffset.dx + 6,
+        relativeCaretOffset.dy,
+      );
+    }
+
+    var caretRect = prototype.shift(
+      relativeCaretOffset + (style.offset ?? Offset.zero),
+    );
+
+    if (caretRect.left < 0.0) {
+      // Apple cursors have a negative horizontal offset and would otherwise be
+      // clipped at the beginning of a line.
+      caretRect = caretRect.shift(Offset(-caretRect.left, 0));
+    }
+
+    final fullHeight = editable.getFullHeightForCaret(position);
+    if (fullHeight != null) {
+      switch (style.platform ?? defaultTargetPlatform) {
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          final heightDiff = fullHeight - caretRect.height;
+          caretRect = Rect.fromLTWH(
+            caretRect.left,
+            caretRect.top + heightDiff / 2,
+            caretRect.width,
+            caretRect.height,
+          );
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          final caretHeight = style.height ?? editable.preferredLineHeight;
+          final heightDiff = fullHeight - caretHeight;
+          caretRect = Rect.fromLTWH(
+            caretRect.left,
+            caretRect.top - 2.0 + heightDiff / 2,
+            caretRect.width,
+            caretHeight,
+          );
+      }
+    }
+
+    final pixelPerfectOffset = _getPixelPerfectCursorOffset(caretRect);
+    return caretRect.shift(pixelPerfectOffset);
+  }
 
   /// Paints cursor on [canvas] at specified [position].
   /// [offset] is global top left (x, y) of text line
@@ -264,63 +332,8 @@ class CursorPainter {
     TextPosition position,
     bool lineHasEmbed,
   ) {
-    // relative (x, y) to global offset
-    var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
-    if (lineHasEmbed && relativeCaretOffset == Offset.zero) {
-      relativeCaretOffset = editable!.getOffsetForCaret(
-        TextPosition(offset: position.offset - 1, affinity: position.affinity),
-        prototype,
-      );
-      // Hardcoded 6 as estimate of the width of a character
-      relativeCaretOffset = Offset(
-        relativeCaretOffset.dx + 6,
-        relativeCaretOffset.dy,
-      );
-    }
-
-    final caretOffset = relativeCaretOffset + offset;
-    var caretRect = prototype.shift(caretOffset);
-    if (style.offset != null) {
-      caretRect = caretRect.shift(style.offset!);
-    }
-
-    if (caretRect.left < 0.0) {
-      // For iOS the cursor may get clipped by the scroll view when
-      // it's located at a beginning of a line. We ensure that this
-      // does not happen here. This may result in the cursor being painted
-      // closer to the character on the right, but it's arguably better
-      // then painting clipped cursor (or even cursor completely hidden).
-      caretRect = caretRect.shift(Offset(-caretRect.left, 0));
-    }
-
-    final caretHeight = editable!.getFullHeightForCaret(position);
-    if (caretHeight != null) {
-      if (isAppleOSApp) {
-        // Center the caret vertically along the text.
-        caretRect = Rect.fromLTWH(
-          caretRect.left,
-          caretRect.top + (caretHeight - caretRect.height) / 2,
-          caretRect.width,
-          caretRect.height,
-        );
-      } else {
-        // Override the height to take the full height of the glyph at the
-        // TextPosition when not on iOS. iOS has special handling that
-        // creates a taller caret.
-        caretRect = Rect.fromLTWH(
-          caretRect.left,
-          caretRect.top - 2.0,
-          caretRect.width,
-          caretHeight,
-        );
-      }
-    }
-
-    final pixelPerfectOffset = _getPixelPerfectCursorOffset(caretRect);
-    if (!pixelPerfectOffset.isFinite) {
-      return;
-    }
-    caretRect = caretRect.shift(pixelPerfectOffset);
+    final localCaretRect = getLocalRectForCaret(position, lineHasEmbed);
+    final caretRect = localCaretRect.shift(offset);
 
     final paint = Paint()..color = color;
     if (style.radius == null) {
@@ -332,17 +345,17 @@ class CursorPainter {
   }
 
   Offset _getPixelPerfectCursorOffset(Rect caretRect) {
-    final caretPosition = editable!.localToGlobal(caretRect.topLeft);
+    final caretPosition = editable.localToGlobal(caretRect.topLeft);
     final pixelMultiple = 1.0 / devicePixelRatio;
 
     final pixelPerfectOffsetX = caretPosition.dx.isFinite
         ? (caretPosition.dx / pixelMultiple).round() * pixelMultiple -
               caretPosition.dx
-        : caretPosition.dx;
+        : 0.0;
     final pixelPerfectOffsetY = caretPosition.dy.isFinite
         ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -
               caretPosition.dy
-        : caretPosition.dy;
+        : 0.0;
 
     return Offset(pixelPerfectOffsetX, pixelPerfectOffsetY);
   }
