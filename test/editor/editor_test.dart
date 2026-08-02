@@ -34,6 +34,49 @@ void main() {
       expect(controller.document.toPlainText(), 'test\n');
     });
 
+    testWidgets('passes the configured cursor width to the raw editor', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: const QuillEditorConfig(cursorWidth: 1),
+          ),
+        ),
+      );
+
+      final rawEditor = tester.widget<QuillRawEditor>(
+        find.byType(QuillRawEditor),
+      );
+      expect(rawEditor.config.cursorStyle.width, 1);
+    });
+
+    testWidgets('keeps the existing cursor width default', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: QuillEditor.basic(
+            controller: controller,
+            config: const QuillEditorConfig(),
+          ),
+        ),
+      );
+
+      final rawEditor = tester.widget<QuillRawEditor>(
+        find.byType(QuillRawEditor),
+      );
+      expect(rawEditor.config.cursorStyle.width, 2);
+    });
+
+    test('copyWith preserves and updates cursor width', () {
+      const config = QuillEditorConfig(cursorWidth: 1);
+
+      expect(config.copyWith().cursorWidth, 1);
+
+      final updated = config.copyWith(cursorWidth: 3);
+      expect(updated.cursorWidth, 3);
+    });
+
     testWidgets('insertContent is handled correctly', (tester) async {
       String? latestUri;
       await tester.pumpWidget(

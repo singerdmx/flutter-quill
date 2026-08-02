@@ -40,6 +40,7 @@ class QuillEditorConfig {
     this.textSelectionThemeData,
     this.showCursor,
     this.paintCursorAboveText,
+    this.cursorWidth = 2.0,
     this.enableInteractiveSelection = true,
     this.enableSelectionToolbar = true,
     this.scrollBottomInset = 0,
@@ -247,6 +248,11 @@ class QuillEditorConfig {
   /// The cursor refers to the blinking caret when the editor is focused.
   final bool? showCursor;
   final bool? paintCursorAboveText;
+
+  /// How thick the cursor will be.
+  ///
+  /// Defaults to `2.0`, preserving the editor's existing cursor appearance.
+  final double cursorWidth;
 
   /// The [readOnlyMouseCursor] is used for Windows, macOS when [readOnly] is [true]
   final MouseCursor readOnlyMouseCursor;
@@ -504,6 +510,7 @@ class QuillEditorConfig {
     KeyEventResult? Function(KeyEvent event, Node? node)? onKeyPressed,
     bool? showCursor,
     bool? paintCursorAboveText,
+    double? cursorWidth,
     MouseCursor? readOnlyMouseCursor,
     bool? enableInteractiveSelection,
     bool? enableSelectionToolbar,
@@ -565,6 +572,7 @@ class QuillEditorConfig {
       onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
+      cursorWidth: cursorWidth ?? this.cursorWidth,
       readOnlyMouseCursor: readOnlyMouseCursor ?? this.readOnlyMouseCursor,
       enableInteractiveSelection:
           enableInteractiveSelection ?? this.enableInteractiveSelection,
