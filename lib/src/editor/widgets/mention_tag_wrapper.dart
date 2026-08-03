@@ -93,6 +93,14 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
   /// layout can complete. See https://github.com/flutter/flutter/issues/167849
   bool _blockPointerEventsForLayout = true;
 
+  /// Used to align the floating suggestion overlay with the wrapper width.
+  final GlobalKey _wrapperKey = GlobalKey();
+
+  /// Floating suggestion list pinned above the keyboard when
+  /// [MentionTagConfig.showSuggestionsAboveEditor] is false.
+  OverlayEntry? _suggestionOverlayEntry;
+  bool _scheduledOverlaySync = false;
+
   @override
   void initState() {
     super.initState();
@@ -223,6 +231,10 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
       }
     } else if (configChanged) {
       _mentionTagState?.updateConfig(widget.config);
+      if (oldWidget.config.showSuggestionsAboveEditor !=
+          widget.config.showSuggestionsAboveEditor) {
+        _removeSuggestionOverlay();
+      }
     }
   }
 
@@ -232,9 +244,96 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
     _changeSubscription?.cancel();
     _tagCheckDebounceTimer?.cancel();
     _mentionSpaceDebounceTimer?.cancel();
+    _removeSuggestionOverlay();
     _mentionTagState?.dispose();
     widget.mentionTagController?.setRefreshCallback(null);
     super.dispose();
+  }
+
+  void _removeSuggestionOverlay() {
+    _suggestionOverlayEntry?.remove();
+    _suggestionOverlayEntry = null;
+  }
+
+  Widget _buildSuggestionOverlay({required bool showSuggestionsAboveEditor}) {
+    final overlayWidget = _mentionTagState?.overlayWidget;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      transitionBuilder: (child, animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: SizeTransition(
+            sizeFactor: animation,
+            axisAlignment: showSuggestionsAboveEditor ? 1.0 : -1.0,
+            child: child,
+          ),
+        );
+      },
+      child: (_isOverlayVisible && overlayWidget != null)
+          ? overlayWidget
+          : const SizedBox.shrink(key: ValueKey('empty')),
+    );
+  }
+
+  /// Pins the suggestion list to the bottom of the screen (above the keyboard)
+  /// via [Overlay], so form layouts that do not give this wrapper a bounded
+  /// height still show suggestions above the keyboard instead of under the text.
+  void _syncSuggestionOverlay() {
+    if (!mounted) return;
+
+    final showSuggestionsAboveEditor =
+        widget.config.showSuggestionsAboveEditor;
+    final shouldShowFloating = !showSuggestionsAboveEditor &&
+        _isOverlayVisible &&
+        _mentionTagState?.overlayWidget != null;
+
+    if (!shouldShowFloating) {
+      _removeSuggestionOverlay();
+      return;
+    }
+
+    final overlay = Overlay.maybeOf(context);
+    if (overlay == null) return;
+
+    if (_suggestionOverlayEntry == null) {
+      _suggestionOverlayEntry = OverlayEntry(
+        builder: (overlayContext) {
+          final wrapperBox =
+              _wrapperKey.currentContext?.findRenderObject() as RenderBox?;
+          final mediaQuery = MediaQuery.of(overlayContext);
+          final hasWrapperSize = wrapperBox != null && wrapperBox.hasSize;
+          final width =
+              hasWrapperSize ? wrapperBox.size.width : mediaQuery.size.width;
+          final left = hasWrapperSize
+              ? wrapperBox.localToGlobal(Offset.zero).dx
+              : 0.0;
+
+          return Positioned(
+            left: left,
+            width: width,
+            bottom: mediaQuery.viewInsets.bottom,
+            child: Material(
+              color: Colors.transparent,
+              child: _buildSuggestionOverlay(
+                showSuggestionsAboveEditor: false,
+              ),
+            ),
+          );
+        },
+      );
+      overlay.insert(_suggestionOverlayEntry!);
+    } else {
+      _suggestionOverlayEntry!.markNeedsBuild();
+    }
+  }
+
+  void _scheduleSuggestionOverlaySync() {
+    if (_scheduledOverlaySync) return;
+    _scheduledOverlaySync = true;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _scheduledOverlaySync = false;
+      _syncSuggestionOverlay();
+    });
   }
 
   void _checkForMentionOrTag() {
@@ -1683,46 +1782,43 @@ class _MentionTagWrapperState extends State<MentionTagWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    final overlayWidget = _mentionTagState?.overlayWidget;
     final showSuggestionsAboveEditor =
         widget.config.showSuggestionsAboveEditor;
 
-    final suggestionOverlay = AnimatedSwitcher(
-      duration: const Duration(milliseconds: 200),
-      transitionBuilder: (child, animation) {
-        return FadeTransition(
-          opacity: animation,
-          child: SizeTransition(
-            sizeFactor: animation,
-            axisAlignment: showSuggestionsAboveEditor ? 1.0 : -1.0,
-            child: child,
-          ),
-        );
-      },
-      child: (_isOverlayVisible && overlayWidget != null)
-          ? overlayWidget
-          : const SizedBox.shrink(key: ValueKey('empty')),
+    // Depend on keyboard insets so the floating overlay re-syncs when the
+    // keyboard opens, closes, or animates.
+    MediaQuery.viewInsetsOf(context);
+    _scheduleSuggestionOverlaySync();
+
+    final suggestionOverlay = _buildSuggestionOverlay(
+      showSuggestionsAboveEditor: showSuggestionsAboveEditor,
     );
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final editor = IgnorePointer(
+          key: _wrapperKey,
           ignoring: _blockPointerEventsForLayout,
           child: widget.child,
         );
 
-        final editorWidget = constraints.hasBoundedHeight
-            ? Expanded(child: editor)
-            : editor;
+        // Bottom-anchored chat composers: keep suggestions in the widget tree
+        // above the editor row.
+        if (showSuggestionsAboveEditor) {
+          final editorWidget = constraints.hasBoundedHeight
+              ? Expanded(child: editor)
+              : editor;
+          return Column(
+            mainAxisSize: constraints.hasBoundedHeight
+                ? MainAxisSize.max
+                : MainAxisSize.min,
+            children: [suggestionOverlay, editorWidget],
+          );
+        }
 
-        return Column(
-          mainAxisSize: constraints.hasBoundedHeight
-              ? MainAxisSize.max
-              : MainAxisSize.min,
-          children: showSuggestionsAboveEditor
-              ? [suggestionOverlay, editorWidget]
-              : [editorWidget, suggestionOverlay],
-        );
+        // Default / form layouts: editor stays in-tree; suggestions are pinned
+        // above the keyboard via Overlay (see [_syncSuggestionOverlay]).
+        return editor;
       },
     );
   }

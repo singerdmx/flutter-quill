@@ -216,6 +216,17 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           IconButton(
+            icon: const Icon(Icons.campaign_outlined),
+            tooltip: 'Announcement composer (suggestions above keyboard)',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const AnnouncementComposerExample(),
+                ),
+              );
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.output),
             tooltip: 'Print Delta JSON to log',
             onPressed: () {
@@ -286,6 +297,8 @@ class _HomePageState extends State<HomePage> {
               child: MentionTagWrapper(
                 controller: _controller,
                 config: MentionTagConfig(
+                  // Default: suggestion list is pinned above the keyboard via Overlay.
+                  showSuggestionsAboveEditor: false,
                   defaultMentionColor: '#0000FF',
                   defaultHashTagColor: '#0000FF',
                   defaultDollarTagColor: '#0000FF',
@@ -397,6 +410,151 @@ class _HomePageState extends State<HomePage> {
     _controller.dispose();
     _editorScrollController.dispose();
     _editorFocusNode.dispose();
+    super.dispose();
+  }
+}
+
+/// Form-style composer demo matching announcement layouts: title + actions +
+/// editor. Suggestion list pins above the keyboard via Overlay (default
+/// [MentionTagConfig.showSuggestionsAboveEditor] = false).
+class AnnouncementComposerExample extends StatefulWidget {
+  const AnnouncementComposerExample({super.key});
+
+  @override
+  State<AnnouncementComposerExample> createState() =>
+      _AnnouncementComposerExampleState();
+}
+
+class _AnnouncementComposerExampleState
+    extends State<AnnouncementComposerExample> {
+  late final QuillController _controller = () {
+    final controller = QuillController.basic();
+    controller.document = Document.fromDelta(
+      Delta()
+        ..insert(
+          'The first time the team had played together was the first game ',
+        )
+        ..insert('\n'),
+    );
+    controller.updateSelection(
+      TextSelection.collapsed(
+        offset: controller.document.length - 1,
+      ),
+      ChangeSource.local,
+    );
+    return controller;
+  }();
+  final FocusNode _editorFocusNode = FocusNode();
+  final ScrollController _editorScrollController = ScrollController();
+  final TextEditingController _titleController = TextEditingController(
+    text: 'The first time the team had played together was',
+  );
+
+  MentionTagConfig get _mentionTagConfig => MentionTagConfig(
+        // Pin @/#/$ suggestions above the keyboard (Announcement / form layout).
+        showSuggestionsAboveEditor: false,
+        defaultMentionColor: '#0000FF',
+        defaultHashTagColor: '#0000FF',
+        defaultDollarTagColor: '#0000FF',
+        tagStyle: Style.attr({
+          Attribute.fontWeight.key: const FontWeightAttribute('800'),
+        }),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Theme.of(context).dividerColor),
+        ),
+        mentionSearch: (query) async {
+          await Future.delayed(const Duration(milliseconds: _searchDelayMs));
+          return _mentionPage(query, 0);
+        },
+        tagSearch: (query) async {
+          await Future.delayed(const Duration(milliseconds: _searchDelayMs));
+          return _tagPage(_mainTagList, query, 0);
+        },
+        dollarSearch: (query) async {
+          await Future.delayed(const Duration(milliseconds: _searchDelayMs));
+          return _tagPage(_mainDollarList, query, 0);
+        },
+        onLoadMoreMentions: (query, currentItems, currentPage) async {
+          await Future.delayed(const Duration(milliseconds: _loadMoreDelayMs));
+          return _mentionPage('', currentPage);
+        },
+        onLoadMoreTags: (query, currentItems, currentPage) async {
+          await Future.delayed(const Duration(milliseconds: _loadMoreDelayMs));
+          return _tagPage(_mainTagList, query, currentPage);
+        },
+        onLoadMoreDollarTags: (query, currentItems, currentPage) async {
+          await Future.delayed(const Duration(milliseconds: _loadMoreDelayMs));
+          return _tagPage(_mainDollarList, query, currentPage);
+        },
+        loadMoreIndicatorBuilder: (context, isMention, tagTrigger) =>
+            _loadMoreIndicator,
+        mentionItemBuilder: (context, item, isSelected, onTap, _) {
+          return ListTile(
+            leading: CircleAvatar(
+              child: Text(
+                item.name.isNotEmpty ? item.name[0].toUpperCase() : '?',
+              ),
+            ),
+            title: Text(item.name),
+            subtitle: Text('@${item.id}'),
+            selected: isSelected,
+            onTap: onTap,
+          );
+        },
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Announcement'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Posted (demo)')),
+              );
+            },
+            child: const Text('Post'),
+          ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Divider(height: 1),
+          // Form-style wrap without filling the screen. Suggestions pin above
+          // the keyboard via Overlay (showSuggestionsAboveEditor: false).
+          MentionTagWrapper(
+            controller: _controller,
+            config: _mentionTagConfig,
+            child: QuillEditor.basic(
+              focusNode: _editorFocusNode,
+              scrollController: _editorScrollController,
+              controller: _controller,
+              config: const QuillEditorConfig(
+                placeholder: 'Write your announcement…',
+                padding: EdgeInsets.all(16),
+                autoFocus: true,
+                minHeight: 120,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _editorScrollController.dispose();
+    _editorFocusNode.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 }

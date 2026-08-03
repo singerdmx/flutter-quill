@@ -116,7 +116,11 @@ class MentionTagConfig {
   /// If not provided, defaults to card color with rounded corners and border
   final BoxDecoration? decoration;
 
-  /// When true, renders the @/#/$ suggestion list above the wrapped editor child.
-  /// Useful for bottom-anchored chat composers.
+  /// When true, renders the @/#/$ suggestion list above the wrapped editor child
+  /// in the widget tree. Useful for bottom-anchored chat composers.
+  ///
+  /// When false (default), the suggestion list is pinned above the keyboard via
+  /// an [Overlay], which keeps it above the keyboard in form layouts (e.g.
+  /// announcement composers) even when the wrapper does not have a bounded height.
   final bool showSuggestionsAboveEditor;
 }
