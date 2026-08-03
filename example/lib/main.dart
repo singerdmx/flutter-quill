@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:io' as io show Directory, File;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_quill_example/quill_delta_sample.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:path/path.dart' as path;
 
 void main() => runApp(const MainApp());
@@ -21,7 +22,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData.light(useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
       themeMode: ThemeMode.system,
-      home: HomePage(),
+      home: const HomePage(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -39,50 +40,192 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final QuillController _controller = () {
-    return QuillController.basic(
-      config: QuillControllerConfig(
-        clipboardConfig: QuillClipboardConfig(
-          enableExternalRichPaste: true,
-          onImagePaste: (imageBytes) async {
-            if (kIsWeb) {
-              // Dart IO is unsupported on the web.
-              return null;
-            }
-            // Save the image somewhere and return the image URL that will be
-            // stored in the Quill Delta JSON (the document).
-            final newFileName =
-                'image-file-${DateTime.now().toIso8601String()}.png';
-            final newPath = path.join(
-              io.Directory.systemTemp.path,
-              newFileName,
-            );
-            final file = await io.File(
-              newPath,
-            ).writeAsBytes(imageBytes, flush: true);
-            return file.path;
-          },
+// ---------------------------------------------------------------------------
+// Demo data & pagination (type @ # $ in editor to see lists; scroll to load more)
+// ---------------------------------------------------------------------------
+
+const int _pageSize = 5;
+const int _searchDelayMs = 200;
+const int _loadMoreDelayMs = 400;
+
+/// Returns a page of items from [list], filtered by [query]; [page] is 0-based.
+List<T> _paginatedSearch<T>(
+  List<T> list,
+  String query,
+  int page,
+  String Function(T) getName,
+) {
+  final filtered = query.isEmpty
+      ? list
+      : list
+            .where(
+              (x) => getName(x).toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList();
+  final start = page * _pageSize;
+  if (start >= filtered.length) return [];
+  return filtered.sublist(start, (start + _pageSize).clamp(0, filtered.length));
+}
+
+List<MentionItem> _mentionPage(String query, int page) {
+  return _paginatedSearch(_mainMentionList, query, page, (u) => u.name)
+      .map(
+        (item) => MentionItem(
+          id: item.id,
+          name: item.name,
+          avatarUrl: item.avatarUrl,
+          customData: item.customData,
         ),
+      )
+      .toList(growable: false);
+}
+
+List<TagItem> _tagPage(List<TagItem> source, String query, int page) {
+  return _paginatedSearch(source, query, page, (t) => t.name)
+      .map(
+        (item) => TagItem(
+          id: item.id,
+          name: item.name,
+          count: item.count,
+          customData: item.customData,
+          color: item.color,
+        ),
+      )
+      .toList(growable: false);
+}
+
+String _hexColor(int i, {int a = 37, int b = 17, int c = 7}) {
+  final r = ((i * a % 155) + 100).toRadixString(16).padLeft(2, '0');
+  final g = ((i * b % 155) + 100).toRadixString(16).padLeft(2, '0');
+  final bl = ((i * c % 155) + 100).toRadixString(16).padLeft(2, '0');
+  return '#$r$g$bl';
+}
+
+const Widget _loadMoreIndicator = Padding(
+  padding: EdgeInsets.all(12),
+  child: Center(
+    child: SizedBox(
+      width: 24,
+      height: 24,
+      child: CircularProgressIndicator(strokeWidth: 2),
+    ),
+  ),
+);
+
+final List<TagItem> _mainTagList = [
+  for (var i = 0; i < _mainTagSeeds.length; i++)
+    TagItem(
+      id: _mainTagSeeds[i].$1,
+      name: _mainTagSeeds[i].$2,
+      count: _mainTagSeeds[i].$3,
+      customData: _mainTagSeeds[i].$4,
+      color: _hexColor(i),
+    ),
+];
+
+const _mainTagSeeds = <(String, String, int, dynamic)>[
+  ('1', 'flutter', 123, {"asset": "crypto"}),
+  ('2', 'dart', 89, {"asset": "crypto"}),
+  ('3', 'mobile', 45, {"asset": "crypto"}),
+  ('4', 'development', 67, {"asset": "crypto"}),
+  ('5', 'widgets', 56, {"asset": "crypto"}),
+  ('6', 'state', 78, {"asset": "crypto"}),
+  ('7', 'async', 34, {"asset": "crypto"}),
+  ('8', 'testing', 91, {"asset": "crypto"}),
+  ('9', 'ui', 112, {"asset": "crypto"}),
+  ('10', 'api', 44, {"asset": "crypto"}),
+  ('11', 'database', 33, {"asset": "crypto"}),
+  ('12', 'navigation', 28, {"asset": "crypto"}),
+  ('13', 'forms', 65, {"asset": "crypto"}),
+  ('14', 'theme', 41, {"asset": "crypto"}),
+  ('15', 'responsive', 19, {"asset": "crypto"}),
+  ('16', 'performance', 52, {"asset": "crypto"}),
+  ('17', 'plugins', 88, {"asset": "crypto"}),
+  ('18', 'packages', 77, {"asset": "crypto"}),
+  ('19', 'layout', 36, {"asset": "crypto"}),
+  ('20', 'animations', 61, {"asset": "crypto"}),
+  ('21', 'gestures', 24, {"asset": "crypto"}),
+  ('22', 'platform', 43, {"asset": "crypto"}),
+  ('23', 'web', 95, {"asset": "crypto"}),
+  ('24', 'desktop', 31, {"asset": "crypto"}),
+];
+
+final List<MentionItem> _mainMentionList = List.generate(
+  50,
+  (i) => MentionItem(
+    id: '${i + 1}',
+    name: 'User ${i + 1}',
+    avatarUrl: null,
+    customData: {"asset": "crypto"},
+  ),
+);
+
+final List<TagItem> _mainDollarList = List.generate(
+  50,
+  (i) => TagItem(
+    id: '${i + 1}',
+    name: 'Amount ${i + 1}',
+    count: (i + 1) * 100,
+    color: _hexColor(i + 7),
+    customData: {"asset": "stock"},
+  ),
+);
+
+Future<String?> _savePastedImageToTemp(Uint8List imageBytes) async {
+  if (kIsWeb) return null;
+  final name = 'image-file-${DateTime.now().toIso8601String()}.png';
+  final file = await io.File(
+    path.join(io.Directory.systemTemp.path, name),
+  ).writeAsBytes(imageBytes, flush: true);
+  return file.path;
+}
+
+class _HomePageState extends State<HomePage> {
+  late final QuillController _controller = QuillController.basic(
+    config: QuillControllerConfig(
+      clipboardConfig: QuillClipboardConfig(
+        enableExternalRichPaste: true,
+        onImagePaste: _savePastedImageToTemp,
       ),
-    );
-  }();
+    ),
+  );
   final FocusNode _editorFocusNode = FocusNode();
   final ScrollController _editorScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    // Load document
-    _controller.document = Document.fromJson(kQuillDefaultSample);
+    _controller.document = Document();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Quill Example'),
+        title: const Text('Flutter Quill Example'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.visibility),
+            tooltip: 'Read-only mention tags',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ReadOnlyMentionTagExample(),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.campaign_outlined),
+            tooltip: 'Announcement composer (suggestions above keyboard)',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const AnnouncementComposerExample(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.output),
             tooltip: 'Print Delta JSON to log',
@@ -151,33 +294,108 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: QuillEditor(
-                focusNode: _editorFocusNode,
-                scrollController: _editorScrollController,
+              child: MentionTagWrapper(
                 controller: _controller,
-                config: QuillEditorConfig(
-                  placeholder: 'Start writing your notes...',
-                  padding: const EdgeInsets.all(16),
-                  embedBuilders: [
-                    ...FlutterQuillEmbeds.editorBuilders(
-                      imageEmbedConfig: QuillEditorImageEmbedConfig(
-                        imageProviderBuilder: (context, imageUrl) {
-                          // https://pub.dev/packages/flutter_quill_extensions#-image-assets
-                          if (imageUrl.startsWith('assets/')) {
-                            return AssetImage(imageUrl);
-                          }
-                          return null;
-                        },
+                config: MentionTagConfig(
+                  // Default: suggestion list is pinned above the keyboard via Overlay.
+                  showSuggestionsAboveEditor: false,
+                  defaultMentionColor: '#0000FF',
+                  defaultHashTagColor: '#0000FF',
+                  defaultDollarTagColor: '#0000FF',
+                  tagStyle: Style.attr({
+                    Attribute.fontWeight.key: const FontWeightAttribute('800'),
+                  }),
+                  decoration: BoxDecoration(color: Colors.white),
+                  suggestionListPadding: EdgeInsets.symmetric(vertical: 30),
+                  mentionSearch: (query) async {
+                    debugPrint('mentionSearch : $query');
+                    await Future.delayed(
+                      const Duration(milliseconds: _searchDelayMs),
+                    );
+                    return _mentionPage(query, 0);
+                  },
+                  dollarSearch: (query) async {
+                    debugPrint('dollarSearch : $query');
+                    await Future.delayed(
+                      const Duration(milliseconds: _searchDelayMs),
+                    );
+                    return _tagPage(_mainDollarList, query, 0);
+                  },
+                  tagSearch: (query) async {
+                    debugPrint('tagSearch : $query');
+                    await Future.delayed(
+                      const Duration(milliseconds: _searchDelayMs),
+                    );
+                    return _tagPage(_mainTagList, query, 0);
+                  },
+                  onLoadMoreMentions: (query, currentItems, currentPage) async {
+                    debugPrint('onLoadMoreMentions : $query');
+                    await Future.delayed(
+                      const Duration(milliseconds: _loadMoreDelayMs),
+                    );
+                    return _mentionPage('', currentPage);
+                  },
+                  onLoadMoreTags: (query, currentItems, currentPage) async {
+                    await Future.delayed(
+                      const Duration(milliseconds: _loadMoreDelayMs),
+                    );
+                    debugPrint('onLoadMoreTags : $query');
+                    return _tagPage(_mainTagList, query, currentPage);
+                  },
+                  onLoadMoreDollarTags:
+                      (query, currentItems, currentPage) async {
+                        debugPrint('onLoadMoreDollarTags : $query');
+                        await Future.delayed(
+                          const Duration(milliseconds: _loadMoreDelayMs),
+                        );
+                        return _tagPage(_mainDollarList, query, currentPage);
+                      },
+                  loadMoreIndicatorBuilder: (context, isMention, tagTrigger) =>
+                      _loadMoreIndicator,
+
+                  onMentionSelected: (mention) {},
+                  onTagTypingChanged: (bool isTypingTag) {},
+                  onTagSelected: (tag) {},
+                  mentionItemBuilder: (context, item, isSelected, onTap, _) {
+                    // return Container(
+                    //     color: Colors.red, child: Text('@${item.name}'));
+                    return ListTile(
+                      //leading: CircleAvatar(child: Text(item.name[0])),
+                      title: Text('@${item.name}'),
+                      selected: isSelected,
+                      onTap: onTap,
+                    );
+                  },
+                ),
+                child: QuillEditor.basic(
+                  focusNode: _editorFocusNode,
+                  scrollController: _editorScrollController,
+                  controller: _controller,
+                  config: QuillEditorConfig(
+                    placeholder: 'Start writing your notes...',
+                    hidePlaceholderOnFormat: true,
+                    padding: const EdgeInsets.all(16),
+                    embedBuilders: [
+                      ...FlutterQuillEmbeds.editorBuilders(
+                        imageEmbedConfig: QuillEditorImageEmbedConfig(
+                          imageProviderBuilder: (context, imageUrl) {
+                            // https://pub.dev/packages/flutter_quill_extensions#-image-assets
+                            if (imageUrl.startsWith('assets/')) {
+                              return AssetImage(imageUrl);
+                            }
+                            return null;
+                          },
+                        ),
+                        videoEmbedConfig: QuillEditorVideoEmbedConfig(
+                          customVideoBuilder: (videoUrl, readOnly) {
+                            // To load YouTube videos https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.0
+                            return null;
+                          },
+                        ),
                       ),
-                      videoEmbedConfig: QuillEditorVideoEmbedConfig(
-                        customVideoBuilder: (videoUrl, readOnly) {
-                          // To load YouTube videos https://github.com/singerdmx/flutter-quill/releases/tag/v10.8.0
-                          return null;
-                        },
-                      ),
-                    ),
-                    TimeStampEmbedBuilder(),
-                  ],
+                      TimeStampEmbedBuilder(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -194,6 +412,301 @@ class _HomePageState extends State<HomePage> {
     _editorFocusNode.dispose();
     super.dispose();
   }
+}
+
+/// Form-style composer demo matching announcement layouts: title + actions +
+/// editor. Suggestion list pins above the keyboard via Overlay (default
+/// [MentionTagConfig.showSuggestionsAboveEditor] = false).
+class AnnouncementComposerExample extends StatefulWidget {
+  const AnnouncementComposerExample({super.key});
+
+  @override
+  State<AnnouncementComposerExample> createState() =>
+      _AnnouncementComposerExampleState();
+}
+
+class _AnnouncementComposerExampleState
+    extends State<AnnouncementComposerExample> {
+  late final QuillController _controller = () {
+    final controller = QuillController.basic();
+    controller.document = Document.fromDelta(
+      Delta()
+        ..insert(
+          'The first time the team had played together was the first game ',
+        )
+        ..insert('\n'),
+    );
+    controller.updateSelection(
+      TextSelection.collapsed(
+        offset: controller.document.length - 1,
+      ),
+      ChangeSource.local,
+    );
+    return controller;
+  }();
+  final FocusNode _editorFocusNode = FocusNode();
+  final ScrollController _editorScrollController = ScrollController();
+  final TextEditingController _titleController = TextEditingController(
+    text: 'The first time the team had played together was',
+  );
+
+  MentionTagConfig get _mentionTagConfig => MentionTagConfig(
+        // Pin @/#/$ suggestions above the keyboard (Announcement / form layout).
+        showSuggestionsAboveEditor: false,
+        defaultMentionColor: '#0000FF',
+        defaultHashTagColor: '#0000FF',
+        defaultDollarTagColor: '#0000FF',
+        tagStyle: Style.attr({
+          Attribute.fontWeight.key: const FontWeightAttribute('800'),
+        }),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Theme.of(context).dividerColor),
+        ),
+        mentionSearch: (query) async {
+          await Future.delayed(const Duration(milliseconds: _searchDelayMs));
+          return _mentionPage(query, 0);
+        },
+        tagSearch: (query) async {
+          await Future.delayed(const Duration(milliseconds: _searchDelayMs));
+          return _tagPage(_mainTagList, query, 0);
+        },
+        dollarSearch: (query) async {
+          await Future.delayed(const Duration(milliseconds: _searchDelayMs));
+          return _tagPage(_mainDollarList, query, 0);
+        },
+        onLoadMoreMentions: (query, currentItems, currentPage) async {
+          await Future.delayed(const Duration(milliseconds: _loadMoreDelayMs));
+          return _mentionPage('', currentPage);
+        },
+        onLoadMoreTags: (query, currentItems, currentPage) async {
+          await Future.delayed(const Duration(milliseconds: _loadMoreDelayMs));
+          return _tagPage(_mainTagList, query, currentPage);
+        },
+        onLoadMoreDollarTags: (query, currentItems, currentPage) async {
+          await Future.delayed(const Duration(milliseconds: _loadMoreDelayMs));
+          return _tagPage(_mainDollarList, query, currentPage);
+        },
+        loadMoreIndicatorBuilder: (context, isMention, tagTrigger) =>
+            _loadMoreIndicator,
+        mentionItemBuilder: (context, item, isSelected, onTap, _) {
+          return ListTile(
+            leading: CircleAvatar(
+              child: Text(
+                item.name.isNotEmpty ? item.name[0].toUpperCase() : '?',
+              ),
+            ),
+            title: Text(item.name),
+            subtitle: Text('@${item.id}'),
+            selected: isSelected,
+            onTap: onTap,
+          );
+        },
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Announcement'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Posted (demo)')),
+              );
+            },
+            child: const Text('Post'),
+          ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Divider(height: 1),
+          // Form-style wrap without filling the screen. Suggestions pin above
+          // the keyboard via Overlay (showSuggestionsAboveEditor: false).
+          MentionTagWrapper(
+            controller: _controller,
+            config: _mentionTagConfig,
+            child: QuillEditor.basic(
+              focusNode: _editorFocusNode,
+              scrollController: _editorScrollController,
+              controller: _controller,
+              config: const QuillEditorConfig(
+                placeholder: 'Write your announcement…',
+                padding: EdgeInsets.all(16),
+                autoFocus: true,
+                minHeight: 120,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _editorScrollController.dispose();
+    _editorFocusNode.dispose();
+    _titleController.dispose();
+    super.dispose();
+  }
+}
+
+class ReadOnlyMentionTagExample extends StatefulWidget {
+  const ReadOnlyMentionTagExample({super.key});
+
+  @override
+  State<ReadOnlyMentionTagExample> createState() =>
+      _ReadOnlyMentionTagExampleState();
+}
+
+class _ReadOnlyMentionTagExampleState extends State<ReadOnlyMentionTagExample> {
+  late final QuillController _controller;
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    final document = Document.fromDelta(
+      Delta()
+        ..insert('Read-only note with ')
+        ..insert('@User 2', {
+          Attribute.mention.key: {
+            'id': '2',
+            'name': 'User 2',
+            'color': '#0000FF',
+          },
+          Attribute.fontWeight.key: '600',
+        })
+        ..insert(', ')
+        ..insert('#flutter', {
+          Attribute.tag.key: {'id': '1', 'name': 'flutter', 'color': '#0000FF'},
+          Attribute.fontWeight.key: '600',
+        })
+        ..insert(', and ')
+        ..insert('\$Amount 1', {
+          Attribute.currency.key: {
+            'id': '1',
+            'name': 'Amount 1',
+            'color': '#0000FF',
+          },
+          Attribute.fontWeight.key: '600',
+        })
+        ..insert(' content.\n\nTyping and suggestions are disabled here.\n'),
+    );
+    _controller = QuillController(
+      document: document,
+      selection: const TextSelection.collapsed(offset: 0),
+      readOnly: true,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Read-only Mention Tags')),
+      body: ListView(
+        children: [
+          MentionTagWrapper(
+            controller: _controller,
+            config: MentionTagConfig(
+              mentionSearch: (value) async => [],
+              tagSearch: (value) async => [],
+              dollarSearch: (value) async => [],
+              defaultMentionColor: '#0000FF',
+              defaultHashTagColor: '#0000FF',
+              defaultDollarTagColor: '#0000FF',
+              tagStyle: Style.attr({
+                Attribute.fontWeight.key: const FontWeightAttribute('800'),
+              }),
+            ),
+            child: QuillEditor.basic(
+              focusNode: _focusNode,
+              scrollController: _scrollController,
+              controller: _controller,
+              config: QuillEditorConfig(
+                scrollable: false,
+                showCursor: false,
+                padding: const EdgeInsets.all(16),
+                customRecognizerBuilder: (attribute, leaf) {
+                  final tokenDetails = _tokenDetailsFromAttribute(attribute);
+                  if (tokenDetails == null) return null;
+
+                  return TapGestureRecognizer()
+                    ..onTap = () {
+                      _showTokenDetails(
+                        tokenDetails.type,
+                        tokenDetails.details,
+                      );
+                    };
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _ReadOnlyTokenDetails? _tokenDetailsFromAttribute(Attribute attribute) {
+    if (attribute.value is! Map) return null;
+
+    final type = switch (attribute.key) {
+      String key when key == Attribute.mention.key => 'Mention',
+      String key when key == Attribute.tag.key => 'Hashtag',
+      String key when key == Attribute.currency.key => 'Currency',
+      _ => null,
+    };
+    if (type == null) return null;
+
+    return _ReadOnlyTokenDetails(
+      type,
+      Map<String, dynamic>.from(attribute.value as Map),
+    );
+  }
+
+  void _showTokenDetails(String type, Map<String, dynamic> details) {
+    final message = details.entries
+        .map((entry) => '${entry.key}: ${entry.value}')
+        .join('\n');
+
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(type),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+}
+
+class _ReadOnlyTokenDetails {
+  const _ReadOnlyTokenDetails(this.type, this.details);
+
+  final String type;
+  final Map<String, dynamic> details;
 }
 
 class TimeStampEmbed extends Embeddable {
