@@ -128,3 +128,29 @@ And voilà, we have a custom widget inside the rich text editor!
 > 1. For more info and a video example, see
      the [PR of this feature](https://github.com/singerdmx/flutter-quill/pull/877)
 > 2. For more details, check out [this YouTube video](https://youtu.be/pI5p5j7cfHc)
+
+## Behavior that is easy to miss
+
+A few things about embeds are not obvious from the API and tend to cost time the first time you hit them.
+
+### `EmbedContext.node` is detached for custom embeds
+
+When a line contains a custom embed, the editor re-creates the node before handing it to your builder (it wraps the data in a fresh `Embed(CustomBlockEmbed.fromJsonString(...))`), so `embedContext.node` is not attached to the document tree. Anything that walks up the tree from the node, such as `node.documentOffset`, does not work there. Resolve the position from the controller instead, like the `getEmbedNode(controller, controller.selection.start).offset` call in the example above, or scan `controller.document.root.children` for the line whose embed data matches an id stored in your payload. Plain embeds such as images do receive the attached node, so `documentOffset` is valid for them.
+
+### Block or inline rendering: the `expanded` property
+
+`EmbedBuilder.expanded` defaults to `true`: a line whose only child is your embed renders it as a full-width block (`inline: false` in the `EmbedContext`). Override `expanded => false` to route the embed through the inline `WidgetSpan` path so text can sit on the same line, and override `buildWidgetSpan` if you need a different `PlaceholderAlignment`. Line-level alignment attributes then position the inline embed on the line.
+
+### Sizing an embed goes through the `style` attribute
+
+`WidthAttribute` and `HeightAttribute` have no matching format rule for embeds: applying one with `formatText` throws a `FormatException` ("No matching rule found"). The rule that handles embed formatting, `ResolveImageFormatRule`, accepts only the `style` key:
+
+```dart
+controller.formatText(offset, 1, const StyleAttribute('width: 320px;'));
+```
+
+Note that wrapping `formatText` in a try/catch turns the throw into a silent no-op, which can look like a bug in your builder. Read sizes back by parsing the `style` string from the node's attributes.
+
+### Key editable embed widgets by a stable id
+
+If your embed hosts its own editable state (for example text fields inside a table-like embed), committing a change with `replaceText` rebuilds the editor. Key your widget with a stable identifier from the embed payload (`ValueKey(myId)`) so its `State`, text controllers, and focus nodes survive the rebuild. Reseed your controllers in `didUpdateWidget` only when the incoming content differs from what you last committed, so your own commit does not disturb active typing, and consider debouncing commits.
