@@ -726,13 +726,34 @@ class RenderEditor extends RenderEditableContainerBox
   ValueListenable<bool> get selectionEndInViewport => _selectionEndInViewport;
   final ValueNotifier<bool> _selectionEndInViewport = ValueNotifier<bool>(true);
 
+  /// Visible area of this editor in local coordinates.
+  ///
+  /// When the editor is inside a [Scrollable] (e.g. [SingleChildScrollView]),
+  /// [size] is the full document — not the on-screen window. Using the ancestor
+  /// viewport matches [RenderEditable] / multiline [TextField] behavior so
+  /// selection handles fade when scrolled out of view.
+  Rect _localVisibleRegion() {
+    final abstractViewport = RenderAbstractViewport.maybeOf(this);
+    if (abstractViewport is! RenderBox) {
+      return Offset.zero & size;
+    }
+    final viewport = abstractViewport as RenderBox;
+    if (!viewport.hasSize || !hasSize) {
+      return Offset.zero & size;
+    }
+    final topLeft = globalToLocal(viewport.localToGlobal(Offset.zero));
+    final rect = topLeft & viewport.size;
+    if (!rect.isEmpty &&
+        rect.width.isFinite &&
+        rect.height.isFinite &&
+        rect.left <= rect.right &&
+        rect.top <= rect.bottom) {
+      return rect;
+    }
+    return Offset.zero & size;
+  }
+
   void _updateSelectionExtentsVisibility(Offset effectiveOffset) {
-    final visibleRegion = Offset.zero & size;
-    final startPosition = TextPosition(
-      offset: selection.start,
-      affinity: selection.affinity,
-    );
-    final startOffset = _getOffsetForCaret(startPosition);
     // TODO(justinmc): https://github.com/flutter/flutter/issues/31495
     // Check if the selection is visible with an approximation because a
     // difference between rounded and unrounded values causes the caret to be
@@ -741,18 +762,37 @@ class RenderEditor extends RenderEditableContainerBox
     // _applyFloatingPointHack. Ideally, the rounding mismatch will be fixed and
     // this can be changed to be a strict check instead of an approximation.
     const visibleRegionSlop = 0.5;
-    _selectionStartInViewport.value = visibleRegion
-        .inflate(visibleRegionSlop)
-        .contains(startOffset + effectiveOffset);
 
-    final endPosition = TextPosition(
-      offset: selection.end,
-      affinity: selection.affinity,
-    );
+    final abstractViewport = RenderAbstractViewport.maybeOf(this);
+    final Rect visibleRegion;
+    final Offset pointOffset;
+    if (abstractViewport is RenderBox) {
+      final viewport = abstractViewport as RenderBox;
+      if (viewport.hasSize) {
+        // Viewport-relative check: caret offsets are already in local document
+        // space; do not apply [effectiveOffset] again.
+        visibleRegion = _localVisibleRegion().inflate(visibleRegionSlop);
+        pointOffset = Offset.zero;
+      } else {
+        visibleRegion = (Offset.zero & size).inflate(visibleRegionSlop);
+        pointOffset = effectiveOffset;
+      }
+    } else {
+      visibleRegion = (Offset.zero & size).inflate(visibleRegionSlop);
+      pointOffset = effectiveOffset;
+    }
+
+    final startPosition =
+        TextPosition(offset: selection.start, affinity: selection.affinity);
+    final startOffset = _getOffsetForCaret(startPosition);
+    _selectionStartInViewport.value =
+        visibleRegion.contains(startOffset + pointOffset);
+
+    final endPosition =
+        TextPosition(offset: selection.end, affinity: selection.affinity);
     final endOffset = _getOffsetForCaret(endPosition);
-    _selectionEndInViewport.value = visibleRegion
-        .inflate(visibleRegionSlop)
-        .contains(endOffset + effectiveOffset);
+    _selectionEndInViewport.value =
+        visibleRegion.contains(endOffset + pointOffset);
   }
 
   // returns offset relative to this at which the caret will be painted
@@ -1219,10 +1259,13 @@ class RenderEditor extends RenderEditableContainerBox
     PaintingContext context,
     List<TextSelectionPoint> endpoints,
   ) {
+    // Clamp into the on-screen region (viewport), not the full document size,
+    // matching RenderEditable when the editable itself is the scroll viewport.
+    final visible = _localVisibleRegion();
     var startPoint = endpoints[0].point;
     startPoint = Offset(
-      startPoint.dx.clamp(0.0, size.width),
-      startPoint.dy.clamp(0.0, size.height),
+      startPoint.dx.clamp(visible.left, visible.right),
+      startPoint.dy.clamp(visible.top, visible.bottom),
     );
     context.pushLayer(
       LeaderLayer(link: _startHandleLayerLink, offset: startPoint),
@@ -1232,8 +1275,8 @@ class RenderEditor extends RenderEditableContainerBox
     if (endpoints.length == 2) {
       var endPoint = endpoints[1].point;
       endPoint = Offset(
-        endPoint.dx.clamp(0.0, size.width),
-        endPoint.dy.clamp(0.0, size.height),
+        endPoint.dx.clamp(visible.left, visible.right),
+        endPoint.dy.clamp(visible.top, visible.bottom),
       );
       context.pushLayer(
         LeaderLayer(link: _endHandleLayerLink, offset: endPoint),

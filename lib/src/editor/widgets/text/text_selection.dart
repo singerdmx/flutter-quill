@@ -254,9 +254,23 @@ class EditorTextSelectionOverlay {
 
   // after dragging and magnifier is removed, restore the context menu
   void _dragOffsetListener() {
-    if (dragOffsetNotifier?.value == null) {
-      toolbar?.markNeedsBuild();
+    if (dragOffsetNotifier?.value != null) {
+      return;
     }
+    _showToolbarAfterHandleInteraction();
+  }
+
+  /// Shows or rebuilds the context menu after a selection-handle drag ends,
+  /// matching [TextSelectionOverlay] / multiline [TextField] behavior.
+  void _showToolbarAfterHandleInteraction() {
+    if (_selection.isCollapsed || contextMenuBuilder == null) {
+      return;
+    }
+    if (toolbar != null) {
+      toolbar!.markNeedsBuild();
+      return;
+    }
+    showToolbar();
   }
 
   Widget _buildHandle(
@@ -274,6 +288,7 @@ class EditorTextSelectionOverlay {
           _handleSelectionHandleChanged(newSelection, position);
         },
         onSelectionHandleTapped: onSelectionHandleTapped,
+        onSelectionHandleDragEnd: _showToolbarAfterHandleInteraction,
         startHandleLayerLink: startHandleLayerLink,
         endHandleLayerLink: endHandleLayerLink,
         renderObject: renderObject,
@@ -411,6 +426,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
     required this.onSelectionHandleChanged,
     required this.onSelectionHandleTapped,
     required this.selectionControls,
+    this.onSelectionHandleDragEnd,
     this.dragStartBehavior = DragStartBehavior.start,
     this.dragOffsetNotifier,
   });
@@ -422,6 +438,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   final RenderEditor renderObject;
   final ValueChanged<TextSelection?> onSelectionHandleChanged;
   final VoidCallback? onSelectionHandleTapped;
+  final VoidCallback? onSelectionHandleDragEnd;
   final TextSelectionControls selectionControls;
   final DragStartBehavior dragStartBehavior;
   final ValueNotifier<Offset?>? dragOffsetNotifier;
@@ -499,6 +516,9 @@ class _TextSelectionHandleOverlayState
   void _handleDragEnd(DragEndDetails details) {
     // when the drag is complete, we need to clear the drag offset
     widget.dragOffsetNotifier?.value = null;
+    // TextField shows Cut/Copy/Paste again when the handle settles; do the same
+    // even if the toolbar overlay was removed earlier (e.g. while scrolling).
+    widget.onSelectionHandleDragEnd?.call();
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
@@ -547,6 +567,7 @@ class _TextSelectionHandleOverlayState
 
   void _handleTap() {
     widget.onSelectionHandleTapped?.call();
+    widget.onSelectionHandleDragEnd?.call();
   }
 
   @override
