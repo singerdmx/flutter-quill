@@ -1439,6 +1439,9 @@ class QuillRawEditorState extends EditorState
       return false;
     }
 
+    // A successful show cancels any pending post-scroll restore.
+    _dataWhenToolbarShowScheduled = null;
+
     _selectionOverlay!.update(textEditingValue);
     _selectionOverlay!.showToolbar();
     return true;

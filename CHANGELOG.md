@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
 - Selection handles and Cut/Copy/Paste toolbar now track the scroll viewport like a multiline `TextField`: handles fade when scrolled out of view, and the context menu hides while scrolling (restored if the selection is still visible).
 - Context menu anchors are clamped into the visible editor region when the selection extends past the viewport.
+- Context menu is shown again after selection-handle drag ends (or a handle tap), matching `TextField` behavior.
 
 ### Removed
 
