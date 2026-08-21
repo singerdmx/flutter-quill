@@ -88,6 +88,12 @@ class QuillRawEditorState extends EditorState
   final LayerLink _startHandleLayerLink = LayerLink();
   final LayerLink _endHandleLayerLink = LayerLink();
 
+  /// Snapshot used to restore the selection toolbar after scrolling, matching
+  /// [EditableTextState]'s hide-on-scroll / show-when-still-visible behavior.
+  ({TextEditingValue value, Rect selectionBounds})?
+      _dataWhenToolbarShowScheduled;
+  bool _showToolbarOnScreenScheduled = false;
+
   TextDirection get _textDirection => Directionality.of(context);
 
   @override
@@ -248,16 +254,65 @@ class QuillRawEditorState extends EditorState
 
   /// Returns the anchor points for the default context menu.
   ///
-  /// Copied from [EditableTextState].
+  /// Copied from [EditableTextState], with viewport clamping so the menu stays
+  /// reachable when the selection extends past the visible editor region.
   TextSelectionToolbarAnchors get contextMenuAnchors {
     final glyphHeights = _getGlyphHeights();
     final selection = textEditingValue.selection;
     final points = renderEditor.getEndpointsForSelection(selection);
-    return TextSelectionToolbarAnchors.fromSelection(
+    final anchors = TextSelectionToolbarAnchors.fromSelection(
       renderBox: renderEditor,
       startGlyphHeight: glyphHeights.startGlyphHeight,
       endGlyphHeight: glyphHeights.endGlyphHeight,
       selectionEndpoints: points,
+    );
+    return _clampAnchorsToVisibleViewport(anchors);
+  }
+
+  static const double _kSelectionContextMenuReserve =
+      kMinInteractiveDimension + 16;
+
+  TextSelectionToolbarAnchors _clampAnchorsToVisibleViewport(
+    TextSelectionToolbarAnchors anchors,
+  ) {
+    final editor = renderEditor;
+    if (!editor.hasSize) {
+      return anchors;
+    }
+    final viewportObject = RenderAbstractViewport.maybeOf(editor);
+    if (viewportObject is! RenderBox) {
+      return anchors;
+    }
+    final viewport = viewportObject as RenderBox;
+    if (!viewport.hasSize) {
+      return anchors;
+    }
+
+    final editorTop = editor.localToGlobal(Offset.zero).dy;
+    final editorBottom =
+        editor.localToGlobal(Offset(0, editor.size.height)).dy;
+    final viewportTop = viewport.localToGlobal(Offset.zero).dy;
+    final viewportBottom =
+        viewport.localToGlobal(Offset(0, viewport.size.height)).dy;
+    final visibleTop = math.max(editorTop, viewportTop);
+    final visibleBottom = math.min(editorBottom, viewportBottom);
+
+    if (visibleBottom - visibleTop <= _kSelectionContextMenuReserve) {
+      return anchors;
+    }
+
+    Offset clampY(Offset point, double low, double high) =>
+        Offset(point.dx, point.dy.clamp(low, high));
+
+    return TextSelectionToolbarAnchors(
+      primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
+      secondaryAnchor: anchors.secondaryAnchor == null
+          ? null
+          : clampY(
+              anchors.secondaryAnchor!,
+              visibleTop,
+              visibleBottom - _kSelectionContextMenuReserve,
+            ),
     );
   }
 
@@ -405,35 +460,42 @@ class QuillRawEditorState extends EditorState
         textStyle: _styles!.paragraph!.style,
         padding: baselinePadding,
         child: _scribbleFocusable(
-          SingleChildScrollView(
-            controller: _scrollController,
-            physics: widget.config.scrollPhysics,
-            child: CompositedTransformTarget(
-              link: _toolbarLayerLink,
-              child: MouseRegion(
-                cursor: widget.config.readOnly
-                    ? widget.config.readOnlyMouseCursor
-                    : SystemMouseCursors.text,
-                child: QuillRawEditorMultiChildRenderObject(
-                  key: _editorKey,
-                  offset: _scrollController.hasClients
-                      ? _scrollController.position
-                      : null,
-                  document: doc,
-                  selection: controller.selection,
-                  hasFocus: _hasFocus,
-                  scrollable: widget.config.scrollable,
-                  textDirection: _textDirection,
-                  startHandleLayerLink: _startHandleLayerLink,
-                  endHandleLayerLink: _endHandleLayerLink,
-                  onSelectionChanged: _handleSelectionChanged,
-                  onSelectionCompleted: _handleSelectionCompleted,
-                  scrollBottomInset: widget.config.scrollBottomInset,
-                  padding: widget.config.padding,
-                  maxContentWidth: widget.config.maxContentWidth,
-                  cursorController: _cursorCont,
-                  floatingCursorDisabled: widget.config.floatingCursorDisabled,
-                  children: _buildChildren(doc, context),
+          NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              _handleContextMenuOnScroll(notification);
+              return false;
+            },
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              physics: widget.config.scrollPhysics,
+              child: CompositedTransformTarget(
+                link: _toolbarLayerLink,
+                child: MouseRegion(
+                  cursor: widget.config.readOnly
+                      ? widget.config.readOnlyMouseCursor
+                      : SystemMouseCursors.text,
+                  child: QuillRawEditorMultiChildRenderObject(
+                    key: _editorKey,
+                    offset: _scrollController.hasClients
+                        ? _scrollController.position
+                        : null,
+                    document: doc,
+                    selection: controller.selection,
+                    hasFocus: _hasFocus,
+                    scrollable: widget.config.scrollable,
+                    textDirection: _textDirection,
+                    startHandleLayerLink: _startHandleLayerLink,
+                    endHandleLayerLink: _endHandleLayerLink,
+                    onSelectionChanged: _handleSelectionChanged,
+                    onSelectionCompleted: _handleSelectionCompleted,
+                    scrollBottomInset: widget.config.scrollBottomInset,
+                    padding: widget.config.padding,
+                    maxContentWidth: widget.config.maxContentWidth,
+                    cursorController: _cursorCont,
+                    floatingCursorDisabled:
+                        widget.config.floatingCursorDisabled,
+                    children: _buildChildren(doc, context),
+                  ),
                 ),
               ),
             ),
@@ -1010,6 +1072,116 @@ class QuillRawEditorState extends EditorState
     _selectionOverlay?.updateForScroll();
   }
 
+  /// Whether this platform hides the selection toolbar while scrolling, then
+  /// may restore it afterward (same platforms as [EditableText]).
+  bool get _platformSupportsFadeOnScroll => switch (defaultTargetPlatform) {
+        TargetPlatform.android || TargetPlatform.iOS => true,
+        TargetPlatform.fuchsia ||
+        TargetPlatform.linux ||
+        TargetPlatform.macOS ||
+        TargetPlatform.windows =>
+          false,
+      };
+
+  /// Mirrors [EditableTextState._handleContextMenuOnScroll]: hide Cut/Copy/Paste
+  /// while scrolling; restore when scrolling ends if the selection is still
+  /// visible.
+  void _handleContextMenuOnScroll(ScrollNotification notification) {
+    if (kIsWeb) {
+      return;
+    }
+    if (!_platformSupportsFadeOnScroll) {
+      _selectionOverlay?.updateForScroll();
+      return;
+    }
+
+    if (notification is ScrollStartNotification) {
+      if (_dataWhenToolbarShowScheduled != null) {
+        return;
+      }
+      final toolbarIsVisible = _selectionOverlay?.toolbar != null;
+      if (!toolbarIsVisible) {
+        return;
+      }
+
+      final selection = textEditingValue.selection;
+      final baseRect = renderEditor.getLocalRectForCaret(selection.base);
+      final extentRect = renderEditor.getLocalRectForCaret(selection.extent);
+      final selectionBounds = selection.isCollapsed
+          ? extentRect
+          : baseRect.expandToInclude(extentRect);
+
+      _dataWhenToolbarShowScheduled = (
+        value: textEditingValue,
+        selectionBounds: selectionBounds,
+      );
+      hideToolbar(false);
+    } else if (notification is ScrollEndNotification) {
+      if (_dataWhenToolbarShowScheduled == null) {
+        return;
+      }
+      if (_dataWhenToolbarShowScheduled!.value != textEditingValue) {
+        _dataWhenToolbarShowScheduled = null;
+        return;
+      }
+      if (_showToolbarOnScreenScheduled) {
+        return;
+      }
+      _showToolbarOnScreenScheduled = true;
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        _showToolbarOnScreenScheduled = false;
+        if (!mounted || _dataWhenToolbarShowScheduled == null) {
+          return;
+        }
+        if (_dataWhenToolbarShowScheduled!.value != textEditingValue) {
+          _dataWhenToolbarShowScheduled = null;
+          return;
+        }
+
+        // Keep [_dataWhenToolbarShowScheduled] until the selection is on-screen
+        // again (e.g. user scrolled away then back). Clearing it early is why
+        // scrolling up could hide the menu permanently while scrolling down
+        // still restored it.
+        final selectionVisible = renderEditor.selectionStartInViewport.value ||
+            renderEditor.selectionEndInViewport.value;
+        if (!selectionVisible) {
+          return;
+        }
+
+        final selection = textEditingValue.selection;
+        final baseRect = renderEditor.getLocalRectForCaret(selection.base);
+        final extentRect = renderEditor.getLocalRectForCaret(selection.extent);
+        final currentBounds = selection.isCollapsed
+            ? extentRect
+            : baseRect.expandToInclude(extentRect);
+
+        if (_selectionBoundsInViewport(currentBounds)) {
+          showToolbar();
+          _dataWhenToolbarShowScheduled = null;
+        }
+      });
+    }
+  }
+
+  bool _selectionBoundsInViewport(Rect selectionBounds) {
+    var closestViewport = RenderAbstractViewport.maybeOf(renderEditor);
+    while (closestViewport != null) {
+      final selectionBoundsLocalToViewport = MatrixUtils.transformRect(
+        renderEditor.getTransformTo(closestViewport),
+        selectionBounds,
+      );
+      if (selectionBoundsLocalToViewport.hasNaN ||
+          closestViewport.paintBounds.hasNaN ||
+          !closestViewport.paintBounds
+              .overlaps(selectionBoundsLocalToViewport)) {
+        return false;
+      }
+      closestViewport =
+          RenderAbstractViewport.maybeOf(closestViewport.parent);
+    }
+    return true;
+  }
+
   void _onComposingRangeChanged() {
     if (!mounted) {
       return;
@@ -1029,6 +1201,10 @@ class QuillRawEditorState extends EditorState
   }
 
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {
+    if (_dataWhenToolbarShowScheduled != null &&
+        _dataWhenToolbarShowScheduled!.value != textEditingValue) {
+      _dataWhenToolbarShowScheduled = null;
+    }
     if (kIsWeb) {
       _onChangeTextEditingValue(ignoreFocus);
       if (!ignoreFocus) {
