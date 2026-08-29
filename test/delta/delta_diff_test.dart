@@ -4,11 +4,27 @@ import 'package:test/test.dart';
 void main() {
   group('getDiff', () {
     test(
-      'does not touch the trailing newline when cursorPosition == newText.length',
+      'does not touch the trailing newline when cursorPosition == newText.length '
+      '(Myanmar "Visual order" IME crash repro)',
       () {
-        // Reproduces the crash observed with the Myanmar "Visual order" IME
-        // on Windows, which can report a cursor/composing position past the
-        // document's implicit trailing newline.
+        // Captured from a real session typing with the Burmese ("Myanmar
+        // Visual order") keyboard on Windows: TextInputClient.updateEditingValue
+        // reported oldText="ဆ့တိါ့ါတဆ့ြိါ ့\n", newText="ဆ့တိါ့ါတဆ့ြိါ ့တ\n" and
+        // selection.extentOffset == newText.length (17). Before this fix,
+        // getDiff returned Diff[15, "\n", "တ\n"] (deleting and reinserting the
+        // document's implicit trailing newline), which wiped the whole
+        // document (docPlainTextAfter became "") and crashed the editor with
+        // `targetChild should not be null`.
+        final diff = getDiff('ဆ့တိါ့ါတဆ့ြိါ ့\n', 'ဆ့တိါ့ါတဆ့ြိါ ့တ\n', 17);
+        expect(diff.deleted, isEmpty);
+        expect(diff.inserted, 'တ');
+        expect(diff.start, 15);
+      },
+    );
+
+    test(
+      'does not touch the trailing newline for a minimal ASCII repro of the same shape',
+      () {
         final diff = getDiff('abc\n', 'abcd\n', 5);
         expect(diff.deleted, isEmpty);
         expect(diff.inserted, 'd');
