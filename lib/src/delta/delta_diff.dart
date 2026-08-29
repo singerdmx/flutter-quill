@@ -49,12 +49,33 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
             (start > newText.length - 1 ? '' : newText[start]);
     start++
   ) {}
-  final deleted = (start >= end) ? '' : oldText.substring(start, end);
+  var deleted = (start >= end) ? '' : oldText.substring(start, end);
   // we need to make the check if the start is major than the end because if we directly get the
   // new inserted text without checking first, this will always throw an error since this is an unsafe op
-  final inserted = (start >= end + delta)
+  var inserted = (start >= end + delta)
       ? ''
       : newText.substring(start, end + delta);
+
+  // The cursorPosition-based limits above are a heuristic and can strand a
+  // genuinely common suffix/prefix (usually the implicit trailing newline)
+  // inside `deleted`/`inserted` when an IME reports a cursor position past
+  // the end of the text (observed with the Myanmar "Visual order" keyboard).
+  // Trim it here as a cheap, safe fallback so we never try to delete/insert
+  // characters that are actually unchanged.
+  while (deleted.isNotEmpty &&
+      inserted.isNotEmpty &&
+      deleted[deleted.length - 1] == inserted[inserted.length - 1]) {
+    deleted = deleted.substring(0, deleted.length - 1);
+    inserted = inserted.substring(0, inserted.length - 1);
+  }
+  while (deleted.isNotEmpty &&
+      inserted.isNotEmpty &&
+      deleted[0] == inserted[0]) {
+    deleted = deleted.substring(1);
+    inserted = inserted.substring(1);
+    start++;
+  }
+
   return Diff(start: start, deleted: deleted, inserted: inserted);
 }
 
