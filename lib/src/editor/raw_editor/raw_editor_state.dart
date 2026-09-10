@@ -347,6 +347,53 @@ class QuillRawEditorState extends EditorState
     );
   }
 
+  /// Publishes a text-field [Semantics] node (mirroring [RenderEditable]) so
+  /// typing works on the web when semantics is enabled: the engine only creates
+  /// and focuses its editable DOM element for a focused text-field node, and
+  /// the editor otherwise exposes none, so typing silently fails (see #2531).
+  ///
+  /// Only applied on the web while editable; other platforms drive the IME
+  /// through `flutter/textinput` regardless of semantics.
+  Widget _webTextFieldSemantics(Widget child) {
+    if (!kIsWeb || widget.config.readOnly) {
+      return child;
+    }
+    return Semantics(
+      container: true,
+      textField: true,
+      multiline: true,
+      // Otherwise the editable element is created hard-`disabled`.
+      enabled: true,
+      // The activation lever: the engine attaches its editable element only
+      // while this node reports focus. [_handleFocusChanged] rebuilds to sync.
+      focused: _hasFocus,
+      onFocus: () => widget.config.focusNode.requestFocus(),
+      onSetSelection: _semanticsSetSelection,
+      onSetText: _semanticsSetText,
+      // Make this the single text-field leaf, otherwise an inner focusable
+      // descendant steals the click before it reaches the editable element.
+      excludeSemantics: true,
+      child: child,
+    );
+  }
+
+  void _semanticsSetSelection(TextSelection selection) {
+    userUpdateTextEditingValue(
+      textEditingValue.copyWith(selection: selection),
+      SelectionChangedCause.keyboard,
+    );
+  }
+
+  void _semanticsSetText(String text) {
+    userUpdateTextEditingValue(
+      TextEditingValue(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      ),
+      SelectionChangedCause.keyboard,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
@@ -472,6 +519,7 @@ class QuillRawEditorState extends EditorState
         ),
       );
     }
+    child = _webTextFieldSemantics(child);
     final constraints = widget.config.expands
         ? const BoxConstraints.expand()
         : BoxConstraints(
@@ -1149,6 +1197,12 @@ class QuillRawEditorState extends EditorState
       WidgetsBinding.instance.removeObserver(this);
     }
     updateKeepAlive();
+
+    if (kIsWeb && mounted) {
+      // Rebuild so [_webTextFieldSemantics]'s `focused:` flag tracks the
+      // FocusNode; a stale flag leaves keyboard focus (e.g. Tab) unable to type.
+      _markNeedsBuild();
+    }
   }
 
   void _onChangedClipboardStatus() {

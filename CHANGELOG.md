@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where bullet points became visually detached from the text body when toggling text direction formatting (RTL) by locking the list leading block to the editor's base text direction.
 - Fixed a brief toolbar flicker when tapping a checkbox: the header, inline, and color buttons momentarily reflected the tapped line's style and the checklist button briefly toggled before the selection was restored. The checkbox tap's gesture-driven caret move is now ignored and the checkbox is formatted silently.
 - Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
+- Fixed toolbar buttons not being labeled for screen readers (e.g. VoiceOver) by forwarding the `tooltip` to the underlying button in the toggle-style buttons, and by labeling each header-style button individually (N, H1, H2, …) instead of sharing a single tooltip.
+- Fixed typing being broken on Flutter Web when semantics is enabled (e.g. `SemanticsBinding.instance.ensureSemantics()`, a screen reader, or Tab navigation) by publishing a text-field semantics node on the editor so the web engine creates and attaches its editable DOM element ([#2531](https://github.com/singerdmx/flutter-quill/issues/2531)).
 
 ### Deprecated
 

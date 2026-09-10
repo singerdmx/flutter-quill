@@ -115,7 +115,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
         child: QuillToolbarIconButton(
-          tooltip: tooltip,
+          tooltip: _valueToText[attribute],
           iconTheme: iconTheme,
           isSelected: isSelected,
           onPressed: () => _sharedOnPressed(attribute),
