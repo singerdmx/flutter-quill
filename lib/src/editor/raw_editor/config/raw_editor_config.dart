@@ -33,6 +33,7 @@ class QuillRawEditorConfig {
     this.spaceShortcutEvents = const [],
     @experimental this.onKeyPressed,
     this.showCursor = true,
+    this.paintSelectionAboveText = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.readOnly = false,
@@ -245,6 +246,9 @@ class QuillRawEditorConfig {
   ///  * [showSelectionHandles], which controls the visibility of the selection
   ///    handles.
   final bool showCursor;
+
+  /// Whether to paint selection above text.
+  final bool paintSelectionAboveText;
 
   /// The style to be used for the editing cursor.
   final CursorStyle cursorStyle;
