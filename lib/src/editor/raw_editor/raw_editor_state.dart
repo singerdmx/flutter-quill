@@ -1159,7 +1159,10 @@ class QuillRawEditorState extends EditorState
   }
 
   Future<LinkMenuAction> _linkActionPicker(Node linkNode) async {
-    final link = linkNode.style.attributes[Attribute.link.key]!.value!;
+    final link = linkNode.style.attributes[Attribute.link.key]?.value;
+    if (link is! String) {
+      return LinkMenuAction.none;
+    }
     return widget.config.linkActionPickerDelegate(context, link, linkNode);
   }
 
