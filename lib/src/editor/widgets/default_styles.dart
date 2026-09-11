@@ -37,8 +37,9 @@ class DefaultTextBlockStyle {
     this.horizontalSpacing,
     this.verticalSpacing,
     this.lineSpacing,
-    this.decoration,
-  );
+    this.decoration, {
+    this.contentPadding,
+  });
 
   /// Base text style for a text block.
   final TextStyle style;
@@ -53,6 +54,11 @@ class DefaultTextBlockStyle {
   ///
   final VerticalSpacing lineSpacing;
 
+  /// Padding inserted between a text block's content and its [decoration]
+  /// boundary. Forwarded to the block's rendering as `contentPadding`.
+  /// Falls back to the editor's global content padding if null.
+  final EdgeInsets? contentPadding;
+
   /// Decoration of a text block.
   ///
   /// Decoration, if present, is painted in the content area, excluding
@@ -64,6 +70,7 @@ class DefaultTextBlockStyle {
     HorizontalSpacing? horizontalSpacing,
     VerticalSpacing? verticalSpacing,
     VerticalSpacing? lineSpacing,
+    EdgeInsets? contentPadding,
     BoxDecoration? decoration,
   }) {
     return DefaultTextBlockStyle(
@@ -72,6 +79,7 @@ class DefaultTextBlockStyle {
       verticalSpacing ?? this.verticalSpacing,
       lineSpacing ?? this.lineSpacing,
       decoration ?? this.decoration,
+      contentPadding: contentPadding ?? this.contentPadding,
     );
   }
 }
@@ -183,6 +191,7 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
     super.lineSpacing,
     super.decoration,
     this.checkboxUIBuilder, {
+    super.contentPadding,
     this.indentWidthBuilder = TextBlockUtils.defaultIndentWidthBuilder,
     this.numberPointWidthBuilder =
         TextBlockUtils.defaultNumberPointWidthBuilder,
@@ -198,6 +207,7 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
     HorizontalSpacing? horizontalSpacing,
     VerticalSpacing? verticalSpacing,
     VerticalSpacing? lineSpacing,
+    EdgeInsets? contentPadding,
     BoxDecoration? decoration,
     QuillCheckboxBuilder? checkboxUIBuilder,
     LeadingBlockIndentWidth? indentWidthBuilder,
@@ -210,6 +220,7 @@ class DefaultListBlockStyle extends DefaultTextBlockStyle {
       lineSpacing ?? this.lineSpacing,
       decoration ?? this.decoration,
       checkboxUIBuilder ?? this.checkboxUIBuilder,
+      contentPadding: contentPadding ?? this.contentPadding,
       indentWidthBuilder: indentWidthBuilder ?? this.indentWidthBuilder,
       numberPointWidthBuilder:
           numberPointWidthBuilder ?? this.numberPointWidthBuilder,

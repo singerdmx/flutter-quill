@@ -130,7 +130,8 @@ class EditableTextBlock extends StatelessWidget {
       scrollBottomInset: scrollBottomInset,
       decoration:
           _getDecorationForBlock(block, defaultStyles) ?? const BoxDecoration(),
-      contentPadding: contentPadding,
+      contentPadding:
+          _getContentPaddingForBlock(block, defaultStyles) ?? contentPadding,
       children: _buildChildren(context, indentLevelCounts, clearIndents),
     );
   }
@@ -154,6 +155,20 @@ class EditableTextBlock extends StatelessWidget {
     }
     if (attrs.containsKey(Attribute.codeBlock.key)) {
       return defaultStyles!.code!.decoration;
+    }
+    return null;
+  }
+
+  EdgeInsets? _getContentPaddingForBlock(
+    Block node,
+    DefaultStyles? defaultStyles,
+  ) {
+    final attrs = block.style.attributes;
+    if (attrs.containsKey(Attribute.blockQuote.key)) {
+      return defaultStyles?.quote?.contentPadding;
+    }
+    if (attrs.containsKey(Attribute.codeBlock.key)) {
+      return defaultStyles?.code?.contentPadding;
     }
     return null;
   }
