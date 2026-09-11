@@ -61,6 +61,7 @@ class QuillRawEditorConfig {
     this.customRecognizerBuilder,
     this.floatingCursorDisabled = false,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.dialogTheme,
     this.contentInsertionConfiguration,
     this.textInputAction = TextInputAction.newline,
@@ -363,6 +364,13 @@ class QuillRawEditorConfig {
   final CustomRecognizerBuilder? customRecognizerBuilder;
   final bool floatingCursorDisabled;
   final List<String> customLinkPrefixes;
+
+  /// Callback to transform a link before it is launched on tap in the editor.
+  ///
+  /// Receives the trimmed link string and returns the final URL to launch.
+  /// When not set (`null`), the link is validated against known prefixes and
+  /// `https://` is prepended if no recognized prefix is found.
+  final String Function(String link)? transformLink;
 
   /// Used to build the [InlineSpan]s containing text content.
   final TextSpanBuilder textSpanBuilder;

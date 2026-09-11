@@ -644,6 +644,7 @@ class QuillRawEditorState extends EditorState
           customRecognizerBuilder: widget.config.customRecognizerBuilder,
           customStyleBuilder: widget.config.customStyleBuilder,
           customLinkPrefixes: widget.config.customLinkPrefixes,
+          transformLink: widget.config.transformLink,
           composingRange: composingRange.value,
         );
         result.add(
@@ -681,6 +682,7 @@ class QuillRawEditorState extends EditorState
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.config.onLaunchUrl,
       customLinkPrefixes: widget.config.customLinkPrefixes,
+      transformLink: widget.config.transformLink,
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
