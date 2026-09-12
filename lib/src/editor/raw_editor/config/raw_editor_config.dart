@@ -73,6 +73,7 @@ class QuillRawEditorConfig {
     this.onPerformAction,
     @experimental this.customLeadingBuilder,
     this.quillMagnifierBuilder,
+    this.passiveReadOnly = false,
   });
 
   /// Controls whether this editor has keyboard focus.
@@ -171,6 +172,10 @@ class QuillRawEditorConfig {
   ///
   /// Defaults to false. Must not be null.
   final bool enableAlwaysIndentOnTab;
+
+  /// Keeps a read-only editor out of Quill's own focus/keyboard pipeline while
+  /// still allowing descendant widgets to handle pointer/focus interaction.
+  final bool passiveReadOnly;
 
   /// Whether the text can be changed.
   ///

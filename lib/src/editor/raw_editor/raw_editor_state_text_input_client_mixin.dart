@@ -45,7 +45,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   /// - cmd/ctrl+c shortcut to copy.
   /// - cmd/ctrl+a to select all.
   /// - Changing the selection using a physical keyboard.
-  bool get shouldCreateInputConnection => kIsWeb || !widget.config.readOnly;
+  bool get shouldCreateInputConnection =>
+      (kIsWeb && !widget.config.passiveReadOnly) || !widget.config.readOnly;
 
   /// Returns `true` if there is open input connection.
   bool get hasConnection =>

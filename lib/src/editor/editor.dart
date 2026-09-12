@@ -335,6 +335,7 @@ class QuillEditorState extends State<QuillEditor>
         readOnlyMouseCursor: config.readOnlyMouseCursor,
         textInputAction: config.textInputAction,
         onPerformAction: config.onPerformAction,
+        passiveReadOnly: config.passiveReadOnly,
       ),
     );
 
@@ -396,7 +397,9 @@ class QuillEditorState extends State<QuillEditor>
   bool get forcePressEnabled => false;
 
   @override
-  bool get selectionEnabled => config.enableInteractiveSelection;
+  bool get selectionEnabled =>
+      config.enableInteractiveSelection &&
+      !(controller.readOnly && config.passiveReadOnly);
 
   /// Throws [StateError] if [_editorKey] is not connected to [QuillRawEditor] correctly.
   ///
@@ -570,7 +573,9 @@ class _QuillEditorSelectionGestureDetectorBuilder
         }
       }
     } finally {
-      _state._requestKeyboard();
+      if (!(_state.controller.readOnly && _state.config.passiveReadOnly)) {
+        _state._requestKeyboard();
+      }
     }
   }
 
@@ -584,6 +589,11 @@ class _QuillEditorSelectionGestureDetectorBuilder
         from: details.globalPosition,
         cause: SelectionChangedCause.longPress,
       );
+    }
+
+    if (_state.controller.readOnly && _state.config.passiveReadOnly) {
+      super.onSecondarySingleTapUp(details);
+      return;
     }
 
     if (renderEditor?._hasFocus == false) {

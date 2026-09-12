@@ -1,5 +1,9 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - flutter_quill_extensions/**
+
 linter:
   rules:
     always_declare_return_types: true
