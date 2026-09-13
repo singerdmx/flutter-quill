@@ -46,24 +46,15 @@ class ImageResizerState extends State<ImageResizer> {
   Widget _showMaterialMenu() {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        _widthSlider(),
-        _heightSlider(),
-      ],
+      children: [_widthSlider(), _heightSlider()],
     );
   }
 
   Widget _showCupertinoMenu() {
     return CupertinoActionSheet(
       actions: [
-        CupertinoActionSheetAction(
-          onPressed: () {},
-          child: _widthSlider(),
-        ),
-        CupertinoActionSheetAction(
-          onPressed: () {},
-          child: _heightSlider(),
-        )
+        CupertinoActionSheetAction(onPressed: () {}, child: _widthSlider()),
+        CupertinoActionSheetAction(onPressed: () {}, child: _heightSlider()),
       ],
     );
   }

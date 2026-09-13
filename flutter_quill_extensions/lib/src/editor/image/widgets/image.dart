@@ -13,8 +13,10 @@ import '../image_embed_types.dart';
 String getImageStyleString(QuillController controller) {
   final String? s = controller
       .getAllSelectionStyles()
-      .firstWhere((s) => s.attributes.containsKey(Attribute.style.key),
-          orElse: Style.new)
+      .firstWhere(
+        (s) => s.attributes.containsKey(Attribute.style.key),
+        orElse: Style.new,
+      )
       .attributes[Attribute.style.key]
       ?.value;
   return s ?? '';
@@ -86,7 +88,7 @@ const List<String> _imageFileExtensions = [
   '.gif',
   '.webp',
   '.tif',
-  '.heic'
+  '.heic',
 ];
 
 /// This is a bug of Gallery Saver Package.
@@ -96,14 +98,18 @@ const List<String> _imageFileExtensions = [
 /// If imageUrl does not end with it's file extension,
 /// file extension is added to image url for saving.
 String appendFileExtensionToImageUrl(String url) {
-  final endsWithImageFileExtension = _imageFileExtensions
-      .firstWhere((s) => url.toLowerCase().endsWith(s), orElse: () => '');
+  final endsWithImageFileExtension = _imageFileExtensions.firstWhere(
+    (s) => url.toLowerCase().endsWith(s),
+    orElse: () => '',
+  );
   if (endsWithImageFileExtension.isNotEmpty) {
     return url;
   }
 
-  final imageFileExtension = _imageFileExtensions
-      .firstWhere((s) => url.toLowerCase().contains(s), orElse: () => '');
+  final imageFileExtension = _imageFileExtensions.firstWhere(
+    (s) => url.toLowerCase().contains(s),
+    orElse: () => '',
+  );
 
   return url + imageFileExtension;
 }
@@ -137,9 +143,7 @@ class ImageTapWrapper extends StatelessWidget {
               loadingBuilder: (context, event) {
                 return Container(
                   color: Colors.black,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 );
               },
             ),
@@ -173,7 +177,7 @@ class ImageTapWrapper extends StatelessWidget {
                         color: Colors.grey[400],
                         size: 28,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

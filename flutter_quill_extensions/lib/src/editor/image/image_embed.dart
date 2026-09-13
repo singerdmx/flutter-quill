@@ -7,9 +7,7 @@ import 'image_menu.dart';
 import 'widgets/image.dart';
 
 class QuillEditorImageEmbedBuilder extends EmbedBuilder {
-  QuillEditorImageEmbedBuilder({
-    required this.config,
-  });
+  QuillEditorImageEmbedBuilder({required this.config});
   final QuillEditorImageEmbedConfig config;
 
   @override
@@ -19,10 +17,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
   bool get expanded => false;
 
   @override
-  Widget build(
-    BuildContext context,
-    EmbedContext embedContext,
-  ) {
+  Widget build(BuildContext context, EmbedContext embedContext) {
     final imageSource = standardizeImageUrl(embedContext.node.value.data);
     final ((imageSize), margin, alignment) = getElementAttributes(
       embedContext.node,
@@ -64,10 +59,7 @@ class QuillEditorImageEmbedBuilder extends EmbedBuilder {
       child: Builder(
         builder: (context) {
           if (margin != null) {
-            return Padding(
-              padding: EdgeInsets.all(margin),
-              child: imageWidget,
-            );
+            return Padding(padding: EdgeInsets.all(margin), child: imageWidget);
           }
           return imageWidget;
         },

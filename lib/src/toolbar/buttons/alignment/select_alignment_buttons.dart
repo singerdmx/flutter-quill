@@ -38,19 +38,21 @@ class QuillToolbarSelectAlignmentButtons extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: _attrbuites
-          .map((e) => QuillToolbarToggleStyleButton(
-                baseOptions: baseOptions,
-                controller: controller,
-                attribute: e,
-                options: QuillToolbarToggleStyleButtonOptions(
-                  iconData: options.iconData,
-                  iconSize: options.iconSize,
-                  iconButtonFactor: options.iconButtonFactor,
-                  afterButtonPressed: options.afterButtonPressed,
-                  iconTheme: options.iconTheme,
-                  tooltip: options.tooltip,
-                ),
-              ))
+          .map(
+            (e) => QuillToolbarToggleStyleButton(
+              baseOptions: baseOptions,
+              controller: controller,
+              attribute: e,
+              options: QuillToolbarToggleStyleButtonOptions(
+                iconData: options.iconData,
+                iconSize: options.iconSize,
+                iconButtonFactor: options.iconButtonFactor,
+                afterButtonPressed: options.afterButtonPressed,
+                iconTheme: options.iconTheme,
+                tooltip: options.tooltip,
+              ),
+            ),
+          )
           .toList(),
     );
   }

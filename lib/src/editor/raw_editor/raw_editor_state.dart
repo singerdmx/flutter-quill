@@ -166,8 +166,12 @@ class QuillRawEditorState extends EditorState
       cause,
     );
 
-    if (cause == SelectionChangedCause.toolbar) {
-      bringIntoView(textEditingValue.selection.extent);
+    if (cause == SelectionChangedCause.toolbar && scrollController.hasClients) {
+      // Reveal the start of the selection (the top of the document) with a
+      // single deterministic scroll. The post-frame `_showCaretOnScreen`
+      // also reveals the selection start (`endpoints.first`) bug does this
+      // with a lag.
+      scrollController.jumpTo(scrollController.position.minScrollExtent);
     }
   }
 
@@ -246,6 +250,12 @@ class QuillRawEditorState extends EditorState
     }
   }
 
+  /// The vertical room (in logical pixels) reserved above the bottom of the
+  /// visible editor so the selection context menu stays fully on-screen when it
+  /// is rendered below the selection.
+  static const double _kSelectionContextMenuReserve =
+      kMinInteractiveDimension + 16;
+
   /// Returns the anchor points for the default context menu.
   ///
   /// Copied from [EditableTextState].
@@ -253,11 +263,62 @@ class QuillRawEditorState extends EditorState
     final glyphHeights = _getGlyphHeights();
     final selection = textEditingValue.selection;
     final points = renderEditor.getEndpointsForSelection(selection);
-    return TextSelectionToolbarAnchors.fromSelection(
+    final anchors = TextSelectionToolbarAnchors.fromSelection(
       renderBox: renderEditor,
       startGlyphHeight: glyphHeights.startGlyphHeight,
       endGlyphHeight: glyphHeights.endGlyphHeight,
       selectionEndpoints: points,
+    );
+    return _clampAnchorsToVisibleViewport(anchors);
+  }
+
+  /// Clamps [anchors] into the visible region of the editor so the selection
+  /// context menu keeps an on-screen position even when the selection extends
+  /// past the viewport.
+  TextSelectionToolbarAnchors _clampAnchorsToVisibleViewport(
+    TextSelectionToolbarAnchors anchors,
+  ) {
+    final editor = renderEditor;
+    if (!editor.hasSize) {
+      return anchors;
+    }
+    final viewportObject = RenderAbstractViewport.maybeOf(editor);
+    if (viewportObject is! RenderBox) {
+      return anchors;
+    }
+    final viewport = viewportObject as RenderBox;
+    if (!viewport.hasSize) {
+      return anchors;
+    }
+
+    // The vertical bounds of the editor that are actually visible, in global
+    // coordinates.
+    final editorTop = editor.localToGlobal(Offset.zero).dy;
+    final editorBottom = editor.localToGlobal(Offset(0, editor.size.height)).dy;
+    final viewportTop = viewport.localToGlobal(Offset.zero).dy;
+    final viewportBottom = viewport
+        .localToGlobal(Offset(0, viewport.size.height))
+        .dy;
+    final visibleTop = math.max(editorTop, viewportTop);
+    final visibleBottom = math.min(editorBottom, viewportBottom);
+
+    // Not enough visible room to reposition meaningfully, leave as-is.
+    if (visibleBottom - visibleTop <= _kSelectionContextMenuReserve) {
+      return anchors;
+    }
+
+    Offset clampY(Offset point, double low, double high) =>
+        Offset(point.dx, point.dy.clamp(low, high));
+
+    return TextSelectionToolbarAnchors(
+      primaryAnchor: clampY(anchors.primaryAnchor, visibleTop, visibleBottom),
+      secondaryAnchor: anchors.secondaryAnchor == null
+          ? null
+          : clampY(
+              anchors.secondaryAnchor!,
+              visibleTop,
+              visibleBottom - _kSelectionContextMenuReserve,
+            ),
     );
   }
 
@@ -513,6 +574,11 @@ class QuillRawEditorState extends EditorState
     TextSelection selection,
     SelectionChangedCause cause,
   ) {
+    // Swallow the caret placement caused by tapping a checkbox (see _handleCheckboxTap).
+    if (_ignoreCheckboxTapSelectionChange) {
+      _ignoreCheckboxTapSelectionChange = false;
+      return;
+    }
     final oldSelection = controller.selection;
     controller.updateSelection(selection, ChangeSource.local);
 
@@ -549,20 +615,25 @@ class QuillRawEditorState extends EditorState
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
 
+      // The same tap also fires the editor's selection gesture (onSingleTapUp), which
+      // would move the caret to this line. Ignore that gesture-driven change so the
+      // caret stays put and the toolbar doesn't flicker to this line's style.
+      _ignoreCheckboxTapSelectionChange = true;
+
       _markNeedsBuild();
       controller
         ..ignoreFocusOnTextChange = true
         ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
-        ..formatText(offset, 0, attribute)
-        // Checkbox tapping causes controller.selection to go to offset 0
-        // Stop toggling those two toolbar buttons
-        ..toolbarButtonToggler = {
-          Attribute.list.key: attribute,
-          Attribute.header.key: Attribute.header,
-        };
+        // Format silently: formatText() stages the checked/unchecked attribute into
+        // toggledStyle, which getSelectionStyle() merges — notifying now would briefly
+        // light up the checklist toolbar button. The post-frame updateSelection below
+        // resets toggledStyle and notifies once with the clean state.
+        ..formatText(offset, 0, attribute, shouldNotifyListeners: false);
 
-      // Go back from offset 0 to current selection
       SchedulerBinding.instance.addPostFrameCallback((_) {
+        // Fallback: clear the guard (in case the gesture never fired) and restore the
+        // selection in case it moved despite it.
+        _ignoreCheckboxTapSelectionChange = false;
         controller
           ..ignoreFocusOnTextChange = false
           ..skipRequestKeyboard = !requestKeyboardFocusOnCheckListChanged
@@ -609,6 +680,7 @@ class QuillRawEditorState extends EditorState
           block: node,
           controller: controller,
           customLeadingBlockBuilder: widget.config.customLeadingBuilder,
+          showCodeBlockLineNumbers: widget.config.showCodeBlockLineNumbers,
           textDirection: nodeTextDirection,
           scrollBottomInset: widget.config.scrollBottomInset,
           horizontalSpacing: _getHorizontalSpacingForBlock(node, _styles),
@@ -619,7 +691,7 @@ class QuillRawEditorState extends EditorState
           enableInteractiveSelection: widget.config.enableInteractiveSelection,
           hasFocus: _hasFocus,
           contentPadding: attrs.containsKey(Attribute.codeBlock.key)
-              ? const EdgeInsets.all(16)
+              ? const EdgeInsets.symmetric(horizontal: 4, vertical: 16)
               : null,
           embedBuilder: widget.config.embedBuilder,
           textSpanBuilder: widget.config.textSpanBuilder,
@@ -634,6 +706,7 @@ class QuillRawEditorState extends EditorState
           customRecognizerBuilder: widget.config.customRecognizerBuilder,
           customStyleBuilder: widget.config.customStyleBuilder,
           customLinkPrefixes: widget.config.customLinkPrefixes,
+          transformLink: widget.config.transformLink,
           composingRange: composingRange.value,
         );
         result.add(
@@ -671,6 +744,7 @@ class QuillRawEditorState extends EditorState
       linkActionPicker: _linkActionPicker,
       onLaunchUrl: widget.config.onLaunchUrl,
       customLinkPrefixes: widget.config.customLinkPrefixes,
+      transformLink: widget.config.transformLink,
       composingRange: composingRange.value,
     );
     final editableTextLine = EditableTextLine(
@@ -1043,6 +1117,12 @@ class QuillRawEditorState extends EditorState
       _onChangeTextEditingValue(ignoreFocus);
     } else {
       requestKeyboard();
+      // Keep the platform IME's editing state (selection) in sync even when the
+      // soft keyboard is not (yet) visible — e.g. Android with a hardware
+      // keyboard. Without this, after moving the caret with a tap/mouse the IME
+      // keeps its stale cursor position and inserts typed text there.
+      // Does nothing if no input connection is open.
+      updateRemoteValueIfNeeded();
       if (mounted) {
         // Use controller.value in build()
         // Mark widget as dirty and trigger build and updateChildren
@@ -1192,6 +1272,11 @@ class QuillRawEditorState extends EditorState
   // viewport.
   double _lastBottomViewInset = 0;
   Timer? _keyboardInsetSettleTimer;
+  // Tapping a checkbox also triggers the editor's tap gesture (onSingleTapUp), which
+  // would move the caret to the tapped line and make the toolbar briefly reflect that
+  // line's style. This flag lets _handleSelectionChanged ignore that one gesture-driven
+  // selection change so the caret — and the toolbar — stay put.
+  bool _ignoreCheckboxTapSelectionChange = false;
 
   void _showCaretOnScreen() {
     if (!widget.config.showCursor || _showCaretOnScreenScheduled) {

@@ -61,8 +61,9 @@ abstract base class Leaf extends Node {
 
   @override
   Delta toDelta() {
-    final data =
-        _value is Embeddable ? (_value as Embeddable).toJson() : _value;
+    final data = _value is Embeddable
+        ? (_value as Embeddable).toJson()
+        : _value;
     return Delta()..insert(data, style.toJson());
   }
 
@@ -209,7 +210,8 @@ abstract base class Leaf extends Node {
   /// if provided [index] is `0`.
   Leaf _isolate(int index, int length) {
     assert(
-        index >= 0 && index < this.length && (index + length <= this.length));
+      index >= 0 && index < this.length && (index + length <= this.length),
+    );
     final target = splitAt(index)!..splitAt(length);
     return target;
   }
@@ -233,8 +235,8 @@ abstract base class Leaf extends Node {
 ///
 base class QuillText extends Leaf {
   QuillText([String super.text = ''])
-      : assert(!text.contains('\n')),
-        super.val();
+    : assert(!text.contains('\n')),
+      super.val();
 
   @override
   Node newInstance() => QuillText(value);
@@ -246,8 +248,7 @@ base class QuillText extends Leaf {
   String toPlainText([
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
-  ]) =>
-      value;
+  ]) => value;
 }
 
 /// An embed node inside of a line in a Quill document.
