@@ -53,10 +53,10 @@ extension QuillWidgetTesterInsertionExt on WidgetTester {
     );
     final editor = findRawEditor(finder);
     final plainText = editor.controller.document.toPlainText().replaceRange(
-      index,
-      index,
-      textInsert,
-    );
+          index,
+          index,
+          textInsert,
+        );
     return TestAsyncUtils.guard(() async {
       await quillGiveFocus(finder);
       await quillUpdateEditingValueWithSelection(

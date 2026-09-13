@@ -30,13 +30,12 @@ extension QuillWidgetTesterReplaceExt on WidgetTester {
       isTrue,
       reason: 'The selection in the editor is not valid',
     );
-    final effectivePlainText = editor.controller.document
-        .toPlainText()
-        .replaceRange(
-          selection.baseOffset,
-          selection.extentOffset,
-          replacement,
-        );
+    final effectivePlainText =
+        editor.controller.document.toPlainText().replaceRange(
+              selection.baseOffset,
+              selection.extentOffset,
+              replacement,
+            );
     return TestAsyncUtils.guard(() async {
       await quillGiveFocus(finder);
       await quillUpdateEditingValueWithSelection(
@@ -73,13 +72,12 @@ extension QuillWidgetTesterReplaceExt on WidgetTester {
       isTrue,
       reason: 'The selection in the editor is not valid',
     );
-    final effectivePlainText = editor.controller.document
-        .toPlainText()
-        .replaceRange(
-          selection.baseOffset,
-          selection.extentOffset,
-          replacement,
-        );
+    final effectivePlainText =
+        editor.controller.document.toPlainText().replaceRange(
+              selection.baseOffset,
+              selection.extentOffset,
+              replacement,
+            );
     return TestAsyncUtils.guard(() async {
       await quillGiveFocus(finder);
       await quillUpdateEditingValueWithSelection(

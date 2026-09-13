@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
 - Added `transformLink` callback to `QuillEditorConfig` (and `RawEditorConfig`) to allow customizing how a link string is transformed before it is launched on tap. When `null`, the previous default behavior (prepending `https://` to scheme-less links) is preserved [#2727](https://github.com/singerdmx/flutter-quill/pull/2727).
 - Whole-word search now matches non-ASCII text (Cyrillic, CJK, accented Latin).
+- Fixed dragging the right selection handle horizontally extends the selection into the line below instead of staying on the current line.
 
 ### Deprecated
 

@@ -23,12 +23,10 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     final editor = findRawEditor(editorFinder);
     final selection = editor.textEditingValue.selection;
     if (!selection.isValid || selection.isCollapsed) return [];
-    final start = editor.controller.document
-        .queryChild(selection.baseOffset)
-        .node;
-    final end = editor.controller.document
-        .queryChild(selection.extentOffset)
-        .node;
+    final start =
+        editor.controller.document.queryChild(selection.baseOffset).node;
+    final end =
+        editor.controller.document.queryChild(selection.extentOffset).node;
     expect(
       start,
       isNotNull,
@@ -75,12 +73,10 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
     final editor = findRawEditor(editorFinder);
     final selection = editor.textEditingValue.selection;
     if (!selection.isValid) return null;
-    final start = editor.controller.document
-        .queryChild(selection.baseOffset)
-        .node;
-    final end = editor.controller.document
-        .queryChild(selection.extentOffset)
-        .node;
+    final start =
+        editor.controller.document.queryChild(selection.baseOffset).node;
+    final end =
+        editor.controller.document.queryChild(selection.extentOffset).node;
     expect(
       start,
       isNotNull,
