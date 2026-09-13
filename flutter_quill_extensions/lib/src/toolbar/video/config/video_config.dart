@@ -11,8 +11,12 @@ class QuillToolbarVideoButtonExtraOptions
   });
 }
 
-class QuillToolbarVideoButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarVideoButtonOptions, QuillToolbarVideoButtonExtraOptions> {
+class QuillToolbarVideoButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarVideoButtonOptions,
+          QuillToolbarVideoButtonExtraOptions
+        > {
   const QuillToolbarVideoButtonOptions({
     this.linkRegExp,
     this.dialogTheme,

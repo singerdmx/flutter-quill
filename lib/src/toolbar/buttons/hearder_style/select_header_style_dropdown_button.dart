@@ -86,12 +86,6 @@ class _QuillToolbarSelectHeaderStyleDropdownButtonState
   }
 
   Attribute<dynamic> _getHeaderValue() {
-    final attr = widget.controller.toolbarButtonToggler[Attribute.header.key];
-    if (attr != null) {
-      // checkbox tapping causes controller.selection to go to offset 0
-      widget.controller.toolbarButtonToggler.remove(Attribute.header.key);
-      return attr;
-    }
     return widget.controller
             .getSelectionStyle()
             .attributes[Attribute.header.key] ??

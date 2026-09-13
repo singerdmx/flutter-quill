@@ -87,12 +87,6 @@ class _QuillToolbarSelectLineHeightStyleDropdownButtonState
   }
 
   Attribute<dynamic> _getLineHeightValue() {
-    final attr =
-        widget.controller.toolbarButtonToggler[Attribute.lineHeight.key];
-    if (attr != null) {
-      widget.controller.toolbarButtonToggler.remove(Attribute.lineHeight.key);
-      return attr;
-    }
     return widget.controller
             .getSelectionStyle()
             .attributes[Attribute.lineHeight.key] ??

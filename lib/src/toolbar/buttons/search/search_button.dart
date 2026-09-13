@@ -33,6 +33,8 @@ class QuillToolbarSearchButton extends QuillToolbarBaseButtonStateless {
         controller: controller,
         dialogTheme: options?.dialogTheme,
         searchBarAlignment: options?.searchBarAlignment,
+        size: iconSize(context) * iconButtonFactor(context),
+        iconTheme: iconTheme(context),
       ),
     );
   }

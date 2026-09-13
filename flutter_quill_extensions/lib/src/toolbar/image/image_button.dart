@@ -20,8 +20,8 @@ class QuillToolbarImageButton extends QuillToolbarBaseButtonStateless {
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : _options = options,
-        super(options: options);
+  }) : _options = options,
+       super(options: options);
 
   final QuillToolbarImageButtonOptions? _options;
 
@@ -46,28 +46,26 @@ class QuillToolbarImageButton extends QuillToolbarBaseButtonStateless {
   Future<void> _onPressedHandler(BuildContext context) async {
     final onRequestPickImage = options?.imageButtonConfig?.onRequestPickImage;
     if (onRequestPickImage != null) {
-      final imageUrl = await onRequestPickImage(
-        context,
-      );
+      final imageUrl = await onRequestPickImage(context);
       if (imageUrl != null) {
         await _handleImageInsert(imageUrl);
       }
       return;
     }
-    final source = await showSelectImageSourceDialog(
-      context: context,
-    );
+    final source = await showSelectImageSourceDialog(context: context);
     if (source == null) {
       return;
     }
 
     final imageUrl = switch (source) {
-      InsertImageSource.gallery =>
-        (await ImagePicker().pickImage(source: ImageSource.gallery))?.path,
+      InsertImageSource.gallery => (await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      ))?.path,
       InsertImageSource.link =>
         context.mounted ? await _typeLink(context) : null,
-      InsertImageSource.camera =>
-        (await ImagePicker().pickImage(source: ImageSource.camera))?.path,
+      InsertImageSource.camera => (await ImagePicker().pickImage(
+        source: ImageSource.camera,
+      ))?.path,
     };
     if (imageUrl == null) {
       return;

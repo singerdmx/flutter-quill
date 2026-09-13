@@ -693,16 +693,9 @@ class QuillEditorApplyCheckListAction
   final QuillRawEditorState state;
 
   bool _getIsToggled() {
-    final attrs = state.controller.getSelectionStyle().attributes;
-    var attribute = state.controller.toolbarButtonToggler[Attribute.list.key];
-
-    if (attribute == null) {
-      attribute = attrs[Attribute.list.key];
-    } else {
-      // checkbox tapping causes controller.selection to go to offset 0
-      state.controller.toolbarButtonToggler.remove(Attribute.list.key);
-    }
-
+    final attribute = state.controller
+        .getSelectionStyle()
+        .attributes[Attribute.list.key];
     if (attribute == null) {
       return false;
     }
