@@ -129,11 +129,11 @@ class LinkDialogState extends State<LinkDialog> {
   }
 
   bool get _isLinkValid => LinkValidator.validate(
-    _link,
-    customValidateLink: widget.validateLink,
-    // Implemented for backward compatibility, clients should use validateLink instead.
-    legacyRegex: widget.legacyLinkRegExp,
-  );
+        _link,
+        customValidateLink: widget.validateLink,
+        // Implemented for backward compatibility, clients should use validateLink instead.
+        legacyRegex: widget.legacyLinkRegExp,
+      );
 
   @visibleForTesting
   @internal

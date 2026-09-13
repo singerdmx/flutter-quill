@@ -28,12 +28,15 @@ void main() async {
     ]);
   }
 
-  await runCommand('flutter', [
-    'build',
-    'web',
-    '--release',
-    '--dart-define=CI=true',
-  ], workingDirectory: 'example');
+  await runCommand(
+      'flutter',
+      [
+        'build',
+        'web',
+        '--release',
+        '--dart-define=CI=true',
+      ],
+      workingDirectory: 'example');
 
   print('');
 

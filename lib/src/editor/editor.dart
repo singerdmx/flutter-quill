@@ -191,7 +191,7 @@ class QuillEditorState extends State<QuillEditor>
     implements EditorTextSelectionGestureDetectorBuilderDelegate {
   late GlobalKey<EditorState> _editorKey;
   late EditorTextSelectionGestureDetectorBuilder
-  _selectionGestureDetectorBuilder;
+      _selectionGestureDetectorBuilder;
 
   QuillController get controller => widget.controller;
 
@@ -208,9 +208,9 @@ class QuillEditorState extends State<QuillEditor>
     _editorKey = config.editorKey ?? GlobalKey<EditorState>();
     _selectionGestureDetectorBuilder =
         _QuillEditorSelectionGestureDetectorBuilder(
-          this,
-          config.detectWordBoundary,
-        );
+      this,
+      config.detectWordBoundary,
+    );
 
     final focusNode = widget.focusNode;
 
@@ -246,8 +246,7 @@ class QuillEditorState extends State<QuillEditor>
       paintCursorAboveText = true;
       cursorOpacityAnimates = true;
       cursorColor ??= selectionTheme.cursorColor ?? cupertinoTheme.primaryColor;
-      selectionColor =
-          selectionTheme.selectionColor ??
+      selectionColor = selectionTheme.selectionColor ??
           cupertinoTheme.primaryColor.withValues(alpha: 0.40);
       cursorRadius ??= const Radius.circular(2);
       cursorOffset = Offset(
@@ -259,8 +258,7 @@ class QuillEditorState extends State<QuillEditor>
       paintCursorAboveText = false;
       cursorOpacityAnimates = false;
       cursorColor ??= selectionTheme.cursorColor ?? theme.colorScheme.primary;
-      selectionColor =
-          selectionTheme.selectionColor ??
+      selectionColor = selectionTheme.selectionColor ??
           theme.colorScheme.primary.withValues(alpha: 0.40);
     }
 
@@ -289,7 +287,7 @@ class QuillEditorState extends State<QuillEditor>
         onLaunchUrl: config.onLaunchUrl,
         contextMenuBuilder: showSelectionToolbar
             ? (config.contextMenuBuilder ??
-                  QuillRawEditorConfig.defaultContextMenuBuilder)
+                QuillRawEditorConfig.defaultContextMenuBuilder)
             : null,
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,
@@ -645,8 +643,8 @@ class _QuillEditorSelectionGestureDetectorBuilder
 /// (including the cursor location).
 ///
 /// Used by [RenderEditor.onSelectionChanged].
-typedef TextSelectionChangedHandler =
-    void Function(TextSelection selection, SelectionChangedCause cause);
+typedef TextSelectionChangedHandler = void Function(
+    TextSelection selection, SelectionChangedCause cause);
 
 /// Signature for the callback that reports when a selection action is actually
 /// completed and ratified. Completion is defined as when the user input has
@@ -700,8 +698,8 @@ class RenderEditor extends RenderEditableContainerBox
       5,
     ),
     this._maxContentWidth,
-  }) : _extendSelectionOrigin = selection,
-       super(container: document.root);
+  })  : _extendSelectionOrigin = selection,
+        super(container: document.root);
 
   final CursorCont _cursorController;
   final bool floatingCursorDisabled;
@@ -971,9 +969,8 @@ class RenderEditor extends RenderEditableContainerBox
   ) {
     final firstPosition = getPositionForOffset(from);
     final firstWord = selectWordAtPosition(firstPosition);
-    final lastWord = to == null
-        ? firstWord
-        : selectWordAtPosition(getPositionForOffset(to));
+    final lastWord =
+        to == null ? firstWord : selectWordAtPosition(getPositionForOffset(to));
 
     _handleSelectionChange(
       TextSelection(
@@ -989,8 +986,7 @@ class RenderEditor extends RenderEditableContainerBox
     TextSelection nextSelection,
     SelectionChangedCause cause,
   ) {
-    final focusingEmpty =
-        nextSelection.baseOffset == 0 &&
+    final focusingEmpty = nextSelection.baseOffset == 0 &&
         nextSelection.extentOffset == 0 &&
         !_hasFocus;
     if (nextSelection == selection &&
@@ -1312,8 +1308,7 @@ class RenderEditor extends RenderEditableContainerBox
     final child = childAtPosition(selection.extent);
     const kMargin = 8.0;
 
-    final caretTop =
-        endpoint.point.dy -
+    final caretTop = endpoint.point.dy -
         child.preferredLineHeight(
           TextPosition(
             offset: selection.extentOffset - child.container.documentOffset,
@@ -1351,9 +1346,9 @@ class RenderEditor extends RenderEditableContainerBox
   // Start floating cursor
 
   FloatingCursorPainter get _floatingCursorPainter => FloatingCursorPainter(
-    floatingCursorRect: _floatingCursorRect,
-    style: _cursorController.style,
-  );
+        floatingCursorRect: _floatingCursorRect,
+        style: _cursorController.style,
+      );
 
   bool _floatingCursorOn = false;
   Rect? _floatingCursorRect;
@@ -1477,9 +1472,8 @@ class RenderEditor extends RenderEditableContainerBox
       final caretPrototype = child.getCaretPrototype(
         child.globalToLocalPosition(textPosition),
       );
-      _floatingCursorRect = sizeAdjustment
-          .inflateRect(caretPrototype)
-          .shift(boundedOffset);
+      _floatingCursorRect =
+          sizeAdjustment.inflateRect(caretPrototype).shift(boundedOffset);
       _cursorController.setFloatingCursorTextPosition(
         _floatingCursorTextPosition,
       );
@@ -1670,22 +1664,18 @@ class EditableContainerParentData
 /// Common ancestor for [RenderEditor] and [RenderEditableTextBlock].
 class RenderEditableContainerBox extends RenderBox
     with
-        ContainerRenderObjectMixin<
-          RenderEditableBox,
-          EditableContainerParentData
-        >,
-        RenderBoxContainerDefaultsMixin<
-          RenderEditableBox,
-          EditableContainerParentData
-        > {
+        ContainerRenderObjectMixin<RenderEditableBox,
+            EditableContainerParentData>,
+        RenderBoxContainerDefaultsMixin<RenderEditableBox,
+            EditableContainerParentData> {
   RenderEditableContainerBox({
     required this._container,
     required this.textDirection,
     required this.scrollBottomInset,
     required EdgeInsetsGeometry padding,
     List<RenderEditableBox>? children,
-  }) : assert(padding.isNonNegative),
-       _padding = padding {
+  })  : assert(padding.isNonNegative),
+        _padding = padding {
     addAll(children);
   }
 
