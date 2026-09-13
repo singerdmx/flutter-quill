@@ -83,6 +83,7 @@ class EditableTextBlock extends StatelessWidget {
     this.onLaunchUrl,
     this.customStyleBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.customLeadingBlockBuilder,
     this.showCodeBlockLineNumbers = true,
     super.key,
@@ -115,6 +116,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool readOnly;
   final bool? checkBoxReadOnly;
   final List<String> customLinkPrefixes;
+  final String Function(String link)? transformLink;
   final TextRange composingRange;
 
   @override
@@ -197,15 +199,18 @@ class EditableTextBlock extends StatelessWidget {
     var index = 0;
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
+      final leading = _buildLeading(
+        context: context,
+        line: line,
+        index: index,
+        indentLevelCounts: indentLevelCounts,
+        count: count,
+      );
       final editableTextLine = EditableTextLine(
         line,
-        _buildLeading(
-          context: context,
-          line: line,
-          index: index,
-          indentLevelCounts: indentLevelCounts,
-          count: count,
-        ),
+        leading != null
+            ? Directionality(textDirection: textDirection, child: leading)
+            : null,
         TextLine(
           line: line,
           textDirection: textDirection,
@@ -218,6 +223,7 @@ class EditableTextBlock extends StatelessWidget {
           linkActionPicker: linkActionPicker,
           onLaunchUrl: onLaunchUrl,
           customLinkPrefixes: customLinkPrefixes,
+          transformLink: transformLink,
           customRecognizerBuilder: customRecognizerBuilder,
           composingRange: composingRange,
         ),
