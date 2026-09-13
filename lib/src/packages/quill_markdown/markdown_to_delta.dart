@@ -11,14 +11,12 @@ import './embeddable_table_syntax.dart';
 import './utils.dart';
 
 /// Converts markdown [md.Element] to list of [Attribute].
-typedef ElementToAttributeConvertor = List<Attribute<dynamic>> Function(
-  md.Element element,
-);
+typedef ElementToAttributeConvertor =
+    List<Attribute<dynamic>> Function(md.Element element);
 
 /// Converts markdown [md.Element] to [Embeddable].
-typedef ElementToEmbeddableConvertor = Embeddable Function(
-  Map<String, String> elAttrs,
-);
+typedef ElementToEmbeddableConvertor =
+    Embeddable Function(Map<String, String> elAttrs);
 
 /// Convertor from Markdown string to quill [Delta].
 class MarkdownToDelta extends Converter<String, Delta>
@@ -92,7 +90,7 @@ class MarkdownToDelta extends Converter<String, Delta>
   final _elementToEmbed = <String, ElementToEmbeddableConvertor>{
     'hr': (_) => horizontalRule,
     'img': (elAttrs) => BlockEmbed.image(elAttrs['src'] ?? ''),
-    'video': (elAttrs) => BlockEmbed.video(elAttrs['src'] ?? '')
+    'video': (elAttrs) => BlockEmbed.video(elAttrs['src'] ?? ''),
   };
 
   var _delta = Delta();
@@ -309,9 +307,7 @@ class MarkdownToDelta extends Converter<String, Delta>
     ];
 
     for (final attr in _activeBlockAttributes.expand((e) => e)) {
-      final isExclusiveAttr = Attribute.exclusiveBlockKeys.contains(
-        attr.key,
-      );
+      final isExclusiveAttr = Attribute.exclusiveBlockKeys.contains(attr.key);
       final isThereAlreadyExclusiveAttr = attrsRespectingExclusivity.any(
         (element) => Attribute.exclusiveBlockKeys.contains(element.key),
       );
@@ -361,10 +357,7 @@ class MarkdownToDelta extends Converter<String, Delta>
   }
 
   Map<String, ElementToAttributeConvertor> _effectiveElementToInlineAttr() {
-    return {
-      ...customElementToInlineAttribute,
-      ..._elementToInlineAttr,
-    };
+    return {...customElementToInlineAttribute, ..._elementToInlineAttr};
   }
 
   bool _haveInlineAttrs(md.Element element) {
@@ -379,16 +372,14 @@ class MarkdownToDelta extends Converter<String, Delta>
     }
     if (result == null) {
       throw Exception(
-          'Element $element cannot be converted to inline attribute');
+        'Element $element cannot be converted to inline attribute',
+      );
     }
     return result;
   }
 
   Map<String, ElementToAttributeConvertor> _effectiveElementToBlockAttr() {
-    return {
-      ...customElementToBlockAttribute,
-      ..._elementToBlockAttr,
-    };
+    return {...customElementToBlockAttribute, ..._elementToBlockAttr};
   }
 
   bool _haveBlockAttrs(md.Element element) {
@@ -399,24 +390,23 @@ class MarkdownToDelta extends Converter<String, Delta>
     final result = _effectiveElementToBlockAttr()[element.tag]?.call(element);
     if (result == null) {
       throw Exception(
-          'Element $element cannot be converted to block attribute');
+        'Element $element cannot be converted to block attribute',
+      );
     }
     return result;
   }
 
   Map<String, ElementToEmbeddableConvertor> _effectiveElementToEmbed() {
-    return {
-      ...customElementToEmbeddable,
-      ..._elementToEmbed,
-    };
+    return {...customElementToEmbeddable, ..._elementToEmbed};
   }
 
   bool _isEmbedElement(md.Element element) =>
       _effectiveElementToEmbed().containsKey(element.tag);
 
   Embeddable _toEmbeddable(md.Element element) {
-    final result =
-        _effectiveElementToEmbed()[element.tag]?.call(element.attributes);
+    final result = _effectiveElementToEmbed()[element.tag]?.call(
+      element.attributes,
+    );
     if (result == null) {
       throw Exception('Element $element cannot be converted to Embeddable');
     }

@@ -83,6 +83,7 @@ class EditableTextBlock extends StatelessWidget {
     this.onLaunchUrl,
     this.customStyleBuilder,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.customLeadingBlockBuilder,
     super.key,
   });
@@ -113,6 +114,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool readOnly;
   final bool? checkBoxReadOnly;
   final List<String> customLinkPrefixes;
+  final String Function(String link)? transformLink;
   final TextRange composingRange;
 
   @override
@@ -164,8 +166,9 @@ class EditableTextBlock extends StatelessWidget {
     final defaultStyles = QuillStyles.getStyles(context, false);
     final numberPointWidthBuilder =
         defaultStyles?.lists?.numberPointWidthBuilder ??
-            TextBlockUtils.defaultNumberPointWidthBuilder;
-    final indentWidthBuilder = defaultStyles?.lists?.indentWidthBuilder ??
+        TextBlockUtils.defaultNumberPointWidthBuilder;
+    final indentWidthBuilder =
+        defaultStyles?.lists?.indentWidthBuilder ??
         TextBlockUtils.defaultIndentWidthBuilder;
 
     final count = block.children.length;
@@ -176,15 +179,18 @@ class EditableTextBlock extends StatelessWidget {
     var index = 0;
     for (final line in Iterable.castFrom<dynamic, Line>(block.children)) {
       index++;
+      final leading = _buildLeading(
+        context: context,
+        line: line,
+        index: index,
+        indentLevelCounts: indentLevelCounts,
+        count: count,
+      );
       final editableTextLine = EditableTextLine(
         line,
-        _buildLeading(
-          context: context,
-          line: line,
-          index: index,
-          indentLevelCounts: indentLevelCounts,
-          count: count,
-        ),
+        leading != null
+            ? Directionality(textDirection: textDirection, child: leading)
+            : null,
         TextLine(
           line: line,
           textDirection: textDirection,
@@ -197,6 +203,7 @@ class EditableTextBlock extends StatelessWidget {
           linkActionPicker: linkActionPicker,
           onLaunchUrl: onLaunchUrl,
           customLinkPrefixes: customLinkPrefixes,
+          transformLink: transformLink,
           customRecognizerBuilder: customRecognizerBuilder,
           composingRange: composingRange,
         ),
@@ -235,28 +242,24 @@ class EditableTextBlock extends StatelessWidget {
     final attrs = line.style.attributes;
     final numberPointWidthBuilder =
         defaultStyles.lists?.numberPointWidthBuilder ??
-            TextBlockUtils.defaultNumberPointWidthBuilder;
+        TextBlockUtils.defaultNumberPointWidthBuilder;
 
     // Of the color button
     final fontColor =
         line.toDelta().operations.first.attributes?[Attribute.color.key] != null
-            ? hexToColor(
-                line
-                    .toDelta()
-                    .operations
-                    .first
-                    .attributes?[Attribute.color.key],
-              )
-            : null;
+        ? hexToColor(
+            line.toDelta().operations.first.attributes?[Attribute.color.key],
+          )
+        : null;
 
     // Of the size button
     final size =
         line.toDelta().operations.first.attributes?[Attribute.size.key] != null
-            ? getFontSizeAsDouble(
-                line.toDelta().operations.first.attributes?[Attribute.size.key],
-                defaultStyles: defaultStyles,
-              )
-            : null;
+        ? getFontSizeAsDouble(
+            line.toDelta().operations.first.attributes?[Attribute.size.key],
+            defaultStyles: defaultStyles,
+          )
+        : null;
 
     // Of the alignment buttons
     // final textAlign = line.style.attributes[Attribute.align.key]?.value != null
@@ -431,10 +434,10 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     required this._decoration,
     super.children,
     EdgeInsets contentPadding = EdgeInsets.zero,
-  })  : _configuration = ImageConfiguration(textDirection: textDirection),
-        _savedPadding = padding,
-        _contentPadding = contentPadding,
-        super(container: block, padding: padding.add(contentPadding));
+  }) : _configuration = ImageConfiguration(textDirection: textDirection),
+       _savedPadding = padding,
+       _contentPadding = contentPadding,
+       super(container: block, padding: padding.add(contentPadding));
 
   EdgeInsetsGeometry _savedPadding;
   EdgeInsets _contentPadding;
@@ -549,7 +552,8 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final testOffset = sibling.getOffsetForCaret(testPosition);
     final finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
-      offset: sibling.container.offset +
+      offset:
+          sibling.container.offset +
           sibling.getPositionForOffset(finalOffset).offset,
     );
   }
@@ -576,7 +580,8 @@ class RenderEditableTextBlock extends RenderEditableContainerBox
     final testOffset = sibling.getOffsetForCaret(const TextPosition(offset: 0));
     final finalOffset = Offset(caretOffset.dx, testOffset.dy);
     return TextPosition(
-      offset: sibling.container.offset +
+      offset:
+          sibling.container.offset +
           sibling.getPositionForOffset(finalOffset).offset,
     );
   }
@@ -748,11 +753,11 @@ class _EditableBlock extends MultiChildRenderObjectWidget {
   final EdgeInsets? contentPadding;
 
   EdgeInsets get _padding => EdgeInsets.only(
-        left: horizontalSpacing.left,
-        right: horizontalSpacing.right,
-        top: verticalSpacing.top,
-        bottom: verticalSpacing.bottom,
-      );
+    left: horizontalSpacing.left,
+    right: horizontalSpacing.right,
+    top: verticalSpacing.top,
+    bottom: verticalSpacing.bottom,
+  );
 
   EdgeInsets get _contentPadding => contentPadding ?? EdgeInsets.zero;
 

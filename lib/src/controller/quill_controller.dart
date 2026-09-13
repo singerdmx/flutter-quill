@@ -40,12 +40,11 @@ class QuillController extends ChangeNotifier {
 
   factory QuillController.basic({
     QuillControllerConfig config = const QuillControllerConfig(),
-  }) =>
-      QuillController(
-        config: config,
-        document: Document(),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
+  }) => QuillController(
+    config: config,
+    document: Document(),
+    selection: const TextSelection.collapsed(offset: 0),
+  );
 
   final QuillControllerConfig config;
 
@@ -182,7 +181,7 @@ class QuillController extends ChangeNotifier {
       final formatIndex = math.max(style.offset, selection.start);
       final formatLength =
           math.min(style.offset + (style.length ?? 0), selection.end) -
-              style.offset;
+          style.offset;
       Attribute? formatAttribute;
       if (indent == null) {
         if (isIncrease) {
@@ -290,7 +289,8 @@ class QuillController extends ChangeNotifier {
           ),
         ),
       );
-      var shouldRetainDelta = style.isNotEmpty &&
+      var shouldRetainDelta =
+          style.isNotEmpty &&
           delta.isNotEmpty &&
           delta.length <= 2 &&
           delta.last.isInsert;
@@ -500,7 +500,12 @@ class QuillController extends ChangeNotifier {
     return document.querySegmentLeafNode(offset).leaf;
   }
 
-  // Notify toolbar buttons directly with attributes
+  @Deprecated(
+    'No longer used and will be silently ignored. '
+    'Toolbar button state now derives from getSelectionStyle(). '
+    'Will be removed in future versions',
+  )
+  @internal
   Map<String, Attribute> toolbarButtonToggler = const {};
 
   /// Clipboard caches last copy to allow paste with styles. Static to allow paste between multiple instances of editor.
@@ -696,8 +701,9 @@ class QuillController extends ChangeNotifier {
     final containsEmbed = insertedText.codeUnits.contains(
       Embed.kObjectReplacementInt,
     );
-    insertedText =
-        containsEmbed ? _adjustInsertedText(insertedText) : insertedText;
+    insertedText = containsEmbed
+        ? _adjustInsertedText(insertedText)
+        : insertedText;
 
     replaceText(
       index,

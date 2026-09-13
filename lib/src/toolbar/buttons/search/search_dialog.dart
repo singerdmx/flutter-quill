@@ -39,9 +39,10 @@ class QuillToolbarSearchDialogChildBuilderExtraOptions {
   final bool wholeWord;
 }
 
-typedef QuillToolbarSearchDialogChildBuilder = Widget Function(
-  QuillToolbarSearchDialogChildBuilderExtraOptions extraOptions,
-);
+typedef QuillToolbarSearchDialogChildBuilder =
+    Widget Function(
+      QuillToolbarSearchDialogChildBuilderExtraOptions extraOptions,
+    );
 
 class QuillToolbarSearchDialog extends StatefulWidget {
   const QuillToolbarSearchDialog({
@@ -114,7 +115,8 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
 
     final searchBarAlignment =
         widget.searchBarAlignment ?? Alignment.bottomCenter;
-    final searchBarAtBottom = (searchBarAlignment == Alignment.bottomCenter) ||
+    final searchBarAtBottom =
+        (searchBarAlignment == Alignment.bottomCenter) ||
         (searchBarAlignment == Alignment.bottomLeft) ||
         (searchBarAlignment == Alignment.bottomRight);
     final addBottomPadding = searchBarAtBottom && isMobile;
@@ -131,7 +133,8 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     const buttonStyle = ButtonStyle(
       shape: WidgetStatePropertyAll<OutlinedBorder?>(CircleBorder()),
     );
-    final iconTheme = widget.iconTheme?.copyWith(
+    final iconTheme =
+        widget.iconTheme?.copyWith(
           iconButtonUnselectedData: const IconButtonData(
             visualDensity: VisualDensity.compact,
             constraints: buttonBox,
@@ -163,10 +166,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
         children: [
           QuillToolbarIconButton(
             tooltip: context.loc.close,
-            icon: Icon(
-              Icons.close,
-              size: widget.size,
-            ),
+            icon: Icon(Icons.close, size: widget.size),
             isSelected: false,
             onPressed: () {
               Navigator.of(context).pop();
@@ -175,10 +175,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
           ),
           QuillToolbarIconButton(
             tooltip: context.loc.searchSettings,
-            icon: Icon(
-              Icons.more_vert,
-              size: widget.size,
-            ),
+            icon: Icon(Icons.more_vert, size: widget.size),
             isSelected: _caseSensitive || _wholeWord,
             onPressed: () {
               setState(() {
@@ -205,20 +202,14 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
           ),
           QuillToolbarIconButton(
             tooltip: context.loc.moveToPreviousOccurrence,
-            icon: Icon(
-              Icons.keyboard_arrow_up,
-              size: widget.size,
-            ),
+            icon: Icon(Icons.keyboard_arrow_up, size: widget.size),
             isSelected: false,
             onPressed: (_offsets.isNotEmpty) ? _moveToPrevious : null,
             iconTheme: iconTheme,
           ),
           QuillToolbarIconButton(
             tooltip: context.loc.moveToNextOccurrence,
-            icon: Icon(
-              Icons.keyboard_arrow_down,
-              size: widget.size,
-            ),
+            icon: Icon(Icons.keyboard_arrow_down, size: widget.size),
             isSelected: false,
             onPressed: (_offsets.isNotEmpty) ? _moveToNext : null,
             iconTheme: iconTheme,
@@ -274,9 +265,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     );
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
       alignment: searchBarAlignment,
       insetPadding: EdgeInsets.zero,
@@ -300,10 +289,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
     if (_searchTimer?.isActive ?? false) {
       _searchTimer?.cancel();
     }
-    _searchTimer = Timer(
-      const Duration(milliseconds: 300),
-      _findText,
-    );
+    _searchTimer = Timer(const Duration(milliseconds: 300), _findText);
   }
 
   void _findText() {
@@ -358,10 +344,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       len = 1;
     }
     widget.controller.updateSelection(
-      TextSelection(
-        baseOffset: offset,
-        extentOffset: offset + len,
-      ),
+      TextSelection(baseOffset: offset, extentOffset: offset + len),
       ChangeSource.local,
     );
   }

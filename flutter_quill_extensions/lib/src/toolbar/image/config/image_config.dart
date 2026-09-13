@@ -13,8 +13,12 @@ class QuillToolbarImageButtonExtraOptions
 }
 
 @immutable
-class QuillToolbarImageButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarImageButtonOptions, QuillToolbarImageButtonExtraOptions> {
+class QuillToolbarImageButtonOptions
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarImageButtonOptions,
+          QuillToolbarImageButtonExtraOptions
+        > {
   const QuillToolbarImageButtonOptions({
     super.iconData,
     super.iconSize,

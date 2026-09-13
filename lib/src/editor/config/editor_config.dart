@@ -74,6 +74,7 @@ class QuillEditorConfig {
     this.onTapOutsideEnabled = true,
     this.onTapOutside,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.dialogTheme,
     this.contentInsertionConfiguration,
     this.contextMenuBuilder,
@@ -345,25 +346,38 @@ class QuillEditorConfig {
 
   // Returns whether gesture is handled
   final bool Function(
-      TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
+    TapDownDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onTapDown;
 
   // Returns whether gesture is handled
   final bool Function(
-      TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+    TapUpDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onTapUp;
 
   // Returns whether gesture is handled
   final bool Function(
-          LongPressStartDetails details, TextPosition Function(Offset offset))?
-      onSingleLongTapStart;
-
-  // Returns whether gesture is handled
-  final bool Function(LongPressMoveUpdateDetails details,
-      TextPosition Function(Offset offset))? onSingleLongTapMoveUpdate;
+    LongPressStartDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onSingleLongTapStart;
 
   // Returns whether gesture is handled
   final bool Function(
-          LongPressEndDetails details, TextPosition Function(Offset offset))?
-      onSingleLongTapEnd;
+    LongPressMoveUpdateDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onSingleLongTapMoveUpdate;
+
+  // Returns whether gesture is handled
+  final bool Function(
+    LongPressEndDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onSingleLongTapEnd;
 
   final Iterable<EmbedBuilder>? embedBuilders;
   final EmbedBuilder? unknownEmbedBuilder;
@@ -428,6 +442,13 @@ class QuillEditorConfig {
   /// This is used to tapping links within the editor, and not the toolbar or
   /// [AutoFormatMultipleLinksRule].
   final List<String> customLinkPrefixes;
+
+  /// Callback to transform a link before it is launched on tap in the editor.
+  ///
+  /// Receives the trimmed link string and returns the final URL to launch.
+  /// When not set (`null`), the link is validated against known prefixes and
+  /// `https://` is prepended if no recognized prefix is found.
+  final String Function(String link)? transformLink;
 
   /// Configures the dialog theme.
   final QuillDialogTheme? dialogTheme;
@@ -504,9 +525,9 @@ class QuillEditorConfig {
     ScrollPhysics? scrollPhysics,
     ValueChanged<String>? onLaunchUrl,
     bool Function(TapDownDetails details, TextPosition Function(Offset offset))?
-        onTapDown,
+    onTapDown,
     bool Function(TapUpDetails details, TextPosition Function(Offset offset))?
-        onTapUp,
+    onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
     TextSpanBuilder? textSpanBuilder,
     EmbedBuilder? unknownEmbedBuilder,
@@ -520,6 +541,7 @@ class QuillEditorConfig {
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
+    String Function(String link)? transformLink,
     QuillDialogTheme? dialogTheme,
     QuillEditorContextMenuBuilder? contextMenuBuilder,
     ContentInsertionConfiguration? contentInsertionConfiguration,
@@ -585,6 +607,7 @@ class QuillEditorConfig {
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,
+      transformLink: transformLink ?? this.transformLink,
       dialogTheme: dialogTheme ?? this.dialogTheme,
       contextMenuBuilder: contextMenuBuilder ?? this.contextMenuBuilder,
       contentInsertionConfiguration:
@@ -594,7 +617,7 @@ class QuillEditorConfig {
           textSelectionThemeData ?? this.textSelectionThemeData,
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
-              this.requestKeyboardFocusOnCheckListChanged,
+          this.requestKeyboardFocusOnCheckListChanged,
       textInputAction: textInputAction ?? this.textInputAction,
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
