@@ -10,13 +10,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed an issue where bullet points became visually detached from the text body when toggling text direction formatting (RTL) by locking the list leading block to the editor's base text direction.
+- Fixed a brief toolbar flicker when tapping a checkbox: the header, inline, and color buttons momentarily reflected the tapped line's style and the checklist button briefly toggled before the selection was restored. The checkbox tap's gesture-driven caret move is now ignored and the checkbox is formatted silently.
+- Fixed typed text being inserted at the previous caret position on Android after moving the caret with a tap/mouse by keeping the platform IME's editing state in sync with the selection even when the keyboard is hidden.
+- Added `transformLink` callback to `QuillEditorConfig` (and `RawEditorConfig`) to allow customizing how a link string is transformed before it is launched on tap. When `null`, the previous default behavior (prepending `https://` to scheme-less links) is preserved [#2727](https://github.com/singerdmx/flutter-quill/pull/2727).
+- Whole-word search now matches non-ASCII text (Cyrillic, CJK, accented Latin).
+- Fixed dragging the right selection handle horizontally extends the selection into the line below instead of staying on the current line.
+
+### Deprecated
+
+- Deprecated `QuillController.toolbarButtonToggler`. It was an internal-only workaround for syncing a few toolbar block buttons during checkbox taps and no longer has any effect now that the flicker is fixed at its source. Toolbar button state derives from `getSelectionStyle()`. It will be removed in future versions.
+
 ### Removed
 
 - Removed the already-`@Deprecated` and `@internal` `linkPrefixes` constant from the public API surface (it is hidden from the `flutter_quill.dart` export). Use `LinkValidator.linkPrefixes` instead.
 
-### Fixed
+### Changed
 
-- Fixed dragging the right selection handle horizontally extends the selection into the line below instead of staying on the current line.
+- Search dialog buttons now adopt the toolbar's `QuillIconTheme`; bar height and spacing tightened.
 
 ## [11.5.1] - 2026-05-20
 

@@ -119,9 +119,7 @@ class History {
 }
 
 class HistoryStack {
-  HistoryStack.empty()
-      : undo = [],
-        redo = [];
+  HistoryStack.empty() : undo = [], redo = [];
 
   List<Delta> undo;
   List<Delta> redo;

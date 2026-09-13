@@ -4,11 +4,7 @@ import 'package:flutter_quill/internal.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class QuillTestApp extends StatelessWidget {
-  QuillTestApp({
-    required this.home,
-    required this.scaffoldBody,
-    super.key,
-  }) {
+  QuillTestApp({required this.home, required this.scaffoldBody, super.key}) {
     if (home != null && scaffoldBody != null) {
       throw ArgumentError('Either the home or scaffoldBody must be null');
     }
@@ -28,10 +24,7 @@ class QuillTestApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: FlutterQuillLocalizations.localizationsDelegates,
       supportedLocales: FlutterQuillLocalizations.supportedLocales,
-      home: home ??
-          Scaffold(
-            body: scaffoldBody,
-          ),
+      home: home ?? Scaffold(body: scaffoldBody),
     );
   }
 }

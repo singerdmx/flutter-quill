@@ -14,7 +14,7 @@ class ImageLoader {
   static set instance(ImageLoader newInstance) => _instance = newInstance;
 
   // TODO(performance): This will load the image again. In case
-//  this is a network image, then this will be inefficient.
+  //  this is a network image, then this will be inefficient.
   Future<Uint8List?> loadImageBytesFromImageProvider({
     required ImageProvider imageProvider,
   }) async {

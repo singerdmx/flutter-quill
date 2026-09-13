@@ -15,22 +15,21 @@ import './custom_quill_attributes.dart';
 import './utils.dart';
 
 class _AttributeHandler {
-  _AttributeHandler({
-    this.beforeContent,
-    this.afterContent,
-  });
+  _AttributeHandler({this.beforeContent, this.afterContent});
 
   final void Function(
     Attribute<Object?> attribute,
     Node node,
     StringSink output,
-  )? beforeContent;
+  )?
+  beforeContent;
 
   final void Function(
     Attribute<Object?> attribute,
     Node node,
     StringSink output,
-  )? afterContent;
+  )?
+  afterContent;
 }
 
 /// Outputs [Embed] element as markdown.
@@ -47,9 +46,7 @@ extension on Object? {
 class DeltaToMarkdown extends Converter<Delta, String>
     implements _NodeVisitor<StringSink> {
   ///
-  DeltaToMarkdown({
-    Map<String, EmbedToMarkdown>? customEmbedHandlers,
-  }) {
+  DeltaToMarkdown({Map<String, EmbedToMarkdown>? customEmbedHandlers}) {
     if (customEmbedHandlers != null) {
       _embedHandlers.addAll(customEmbedHandlers);
     }
@@ -77,8 +74,9 @@ class DeltaToMarkdown extends Converter<Delta, String>
           );
         }
         if (infoString.isEmpty) {
-          final linesWithLang = (node as Block).children.where((child) =>
-              child.containsAttr(CodeBlockLanguageAttribute.attrKey));
+          final linesWithLang = (node as Block).children.where(
+            (child) => child.containsAttr(CodeBlockLanguageAttribute.attrKey),
+          );
           if (linesWithLang.isNotEmpty) {
             infoString = linesWithLang.first.getAttrValueOr(
               CodeBlockLanguageAttribute.attrKey,
@@ -233,25 +231,20 @@ class DeltaToMarkdown extends Converter<Delta, String>
   StringSink visitText(QuillText text, [StringSink? output]) {
     final out = output ??= StringBuffer();
     final style = text.style;
-    _handleAttribute(
-      _textAttrsHandlers,
-      text,
-      output,
-      () {
-        var content = text.value;
-        if (!(style.containsKey(Attribute.codeBlock.key) ||
-            style.containsKey(Attribute.inlineCode.key) ||
-            (text.parent?.style.containsKey(Attribute.codeBlock.key) ??
-                false))) {
-          content = content.replaceAllMapped(
-              RegExp(r'[\\\`\*\_\{\}\[\]\(\)\#\+\-\.\!\>\<]'), (match) {
+    _handleAttribute(_textAttrsHandlers, text, output, () {
+      var content = text.value;
+      if (!(style.containsKey(Attribute.codeBlock.key) ||
+          style.containsKey(Attribute.inlineCode.key) ||
+          (text.parent?.style.containsKey(Attribute.codeBlock.key) ?? false))) {
+        content = content.replaceAllMapped(
+          RegExp(r'[\\\`\*\_\{\}\[\]\(\)\#\+\-\.\!\>\<]'),
+          (match) {
             return '\\${match[0]}';
-          });
-        }
-        out.write(content);
-      },
-      sortedAttrsBySpan: true,
-    );
+          },
+        );
+      }
+      out.write(content);
+    }, sortedAttrsBySpan: true);
     return out;
   }
 
@@ -360,7 +353,8 @@ extension _NodeX on Node {
     }
 
     final attrs = style.attributes.values.sorted(
-        (attr1, attr2) => attrCount[attr2]!.compareTo(attrCount[attr1]!));
+      (attr1, attr2) => attrCount[attr2]!.compareTo(attrCount[attr1]!),
+    );
 
     return attrs;
   }

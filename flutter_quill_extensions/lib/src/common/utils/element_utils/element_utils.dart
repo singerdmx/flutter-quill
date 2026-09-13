@@ -8,18 +8,10 @@ import 'element_shared_utils.dart';
 /// Theses properties are not officialy supported by quill js
 /// but they are only used in all platforms other than web
 /// and they will be stored in css style property so quill js ignore them
-enum ExtraElementProperties {
-  deletable,
-}
+enum ExtraElementProperties { deletable }
 
-(
-  ElementSize elementSize,
-  double? margin,
-  Alignment alignment,
-) getElementAttributes(
-  Node node,
-  BuildContext context,
-) {
+(ElementSize elementSize, double? margin, Alignment alignment)
+getElementAttributes(Node node, BuildContext context) {
   var elementSize = const ElementSize(null, null);
   var elementAlignment = Alignment.center;
   double? elementMargin;
@@ -34,14 +26,10 @@ enum ExtraElementProperties {
   );
 
   if (heightValue != null) {
-    elementSize = elementSize.copyWith(
-      height: heightValue,
-    );
+    elementSize = elementSize.copyWith(height: heightValue);
   }
   if (widthValue != null) {
-    elementSize = elementSize.copyWith(
-      width: widthValue,
-    );
+    elementSize = elementSize.copyWith(width: widthValue);
   }
 
   final cssStyle = node.style.attributes['style'];
@@ -81,10 +69,7 @@ enum ExtraElementProperties {
 
 @immutable
 class ElementSize {
-  const ElementSize(
-    this.width,
-    this.height,
-  );
+  const ElementSize(this.width, this.height);
 
   /// If non-null, requires the child to have exactly this width.
   /// If null, the child is free to choose its own width.
@@ -94,13 +79,7 @@ class ElementSize {
   /// If null, the child is free to choose its own height.
   final double? height;
 
-  ElementSize copyWith({
-    double? width,
-    double? height,
-  }) {
-    return ElementSize(
-      width ?? this.width,
-      height ?? this.height,
-    );
+  ElementSize copyWith({double? width, double? height}) {
+    return ElementSize(width ?? this.width, height ?? this.height);
   }
 }

@@ -27,10 +27,16 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
         editor.controller.document.queryChild(selection.baseOffset).node;
     final end =
         editor.controller.document.queryChild(selection.extentOffset).node;
-    expect(start, isNotNull,
-        reason: 'The node at offset: ${selection.start} was not found');
-    expect(end, isNotNull,
-        reason: 'The node at offset: ${selection.end} was not found');
+    expect(
+      start,
+      isNotNull,
+      reason: 'The node at offset: ${selection.start} was not found',
+    );
+    expect(
+      end,
+      isNotNull,
+      reason: 'The node at offset: ${selection.end} was not found',
+    );
     if (start == end) {
       return [start!];
     }
@@ -71,8 +77,11 @@ extension QuillWidgetTesterNodesSelectionExtension on WidgetTester {
         editor.controller.document.queryChild(selection.baseOffset).node;
     final end =
         editor.controller.document.queryChild(selection.extentOffset).node;
-    expect(start, isNotNull,
-        reason: 'The node at offset: ${start?.documentOffset} was not found');
+    expect(
+      start,
+      isNotNull,
+      reason: 'The node at offset: ${start?.documentOffset} was not found',
+    );
     final isSelectionIntoSameNode = start == end;
     if (isSelectionIntoSameNode) {
       return start!;

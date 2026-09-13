@@ -26,13 +26,9 @@ abstract final class FlutterQuillEmbeds {
   }) {
     return [
       if (imageEmbedConfig != null)
-        QuillEditorImageEmbedBuilder(
-          config: imageEmbedConfig,
-        ),
+        QuillEditorImageEmbedBuilder(config: imageEmbedConfig),
       if (videoEmbedConfig != null)
-        QuillEditorVideoEmbedBuilder(
-          config: videoEmbedConfig,
-        ),
+        QuillEditorVideoEmbedBuilder(config: videoEmbedConfig),
     ];
   }
 
@@ -53,13 +49,9 @@ abstract final class FlutterQuillEmbeds {
     }
     return [
       if (imageEmbedConfig != null)
-        QuillEditorImageEmbedBuilder(
-          config: imageEmbedConfig,
-        ),
+        QuillEditorImageEmbedBuilder(config: imageEmbedConfig),
       if (videoEmbedConfig != null)
-        QuillEditorWebVideoEmbedBuilder(
-          config: videoEmbedConfig,
-        ),
+        QuillEditorWebVideoEmbedBuilder(config: videoEmbedConfig),
     ];
   }
 
@@ -79,28 +71,27 @@ abstract final class FlutterQuillEmbeds {
     QuillToolbarVideoButtonOptions? videoButtonOptions =
         const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
-  }) =>
-      [
-        if (imageButtonOptions != null)
-          (context, embedContext) => QuillToolbarImageButton(
-                controller: embedContext.controller,
-                options: imageButtonOptions,
-                // ignore: invalid_use_of_internal_member
-                baseOptions: embedContext.baseButtonOptions,
-              ),
-        if (videoButtonOptions != null)
-          (context, embedContext) => QuillToolbarVideoButton(
-                controller: embedContext.controller,
-                options: videoButtonOptions,
-                // ignore: invalid_use_of_internal_member
-                baseOptions: embedContext.baseButtonOptions,
-              ),
-        if (cameraButtonOptions != null)
-          (context, embedContext) => QuillToolbarCameraButton(
-                controller: embedContext.controller,
-                options: cameraButtonOptions,
-                // ignore: invalid_use_of_internal_member
-                baseOptions: embedContext.baseButtonOptions,
-              ),
-      ];
+  }) => [
+    if (imageButtonOptions != null)
+      (context, embedContext) => QuillToolbarImageButton(
+        controller: embedContext.controller,
+        options: imageButtonOptions,
+        // ignore: invalid_use_of_internal_member
+        baseOptions: embedContext.baseButtonOptions,
+      ),
+    if (videoButtonOptions != null)
+      (context, embedContext) => QuillToolbarVideoButton(
+        controller: embedContext.controller,
+        options: videoButtonOptions,
+        // ignore: invalid_use_of_internal_member
+        baseOptions: embedContext.baseButtonOptions,
+      ),
+    if (cameraButtonOptions != null)
+      (context, embedContext) => QuillToolbarCameraButton(
+        controller: embedContext.controller,
+        options: cameraButtonOptions,
+        // ignore: invalid_use_of_internal_member
+        baseOptions: embedContext.baseButtonOptions,
+      ),
+  ];
 }

@@ -13,15 +13,20 @@ class QuillRawEditor extends StatefulWidget {
     required this.controller,
     this.dragOffsetNotifier,
     super.key,
-  })  : assert(config.maxHeight == null || config.maxHeight! > 0,
-            'maxHeight cannot be null'),
-        assert(config.minHeight == null || config.minHeight! >= 0,
-            'minHeight cannot be null'),
-        assert(
-            config.maxHeight == null ||
-                config.minHeight == null ||
-                config.maxHeight! >= config.minHeight!,
-            'maxHeight cannot be null');
+  }) : assert(
+         config.maxHeight == null || config.maxHeight! > 0,
+         'maxHeight cannot be null',
+       ),
+       assert(
+         config.minHeight == null || config.minHeight! >= 0,
+         'minHeight cannot be null',
+       ),
+       assert(
+         config.maxHeight == null ||
+             config.minHeight == null ||
+             config.maxHeight! >= config.minHeight!,
+         'maxHeight cannot be null',
+       );
 
   final QuillController controller;
   final QuillRawEditorConfig config;
@@ -59,17 +64,12 @@ class QuillRawEditor extends StatefulWidget {
 ///
 ///  * [EditableTextContextMenuBuilder], which performs the same role for
 ///    [EditableText]
-typedef QuillEditorContextMenuBuilder = Widget Function(
-  BuildContext context,
-  QuillRawEditorState rawEditorState,
-);
+typedef QuillEditorContextMenuBuilder =
+    Widget Function(BuildContext context, QuillRawEditorState rawEditorState);
 
 @immutable
 class QuillEditorGlyphHeights {
-  const QuillEditorGlyphHeights(
-    this.startGlyphHeight,
-    this.endGlyphHeight,
-  );
+  const QuillEditorGlyphHeights(this.startGlyphHeight, this.endGlyphHeight);
 
   final double startGlyphHeight;
   final double endGlyphHeight;
