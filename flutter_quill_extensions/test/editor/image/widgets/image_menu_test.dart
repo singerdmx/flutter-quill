@@ -49,15 +49,19 @@ void main() {
         ImageProvider? imageProvider,
         bool prefersGallerySave = false,
       }) async {
-        await tester.pumpWidget(QuillTestApp.withScaffold(ImageOptionsMenu(
-          controller: controller,
-          config: const QuillEditorImageEmbedConfig(),
-          imageProvider: imageProvider ?? FakeImageProvider(),
-          imageSource: imageSource,
-          readOnly: true,
-          imageSize: const ElementSize(200, 300),
-          prefersGallerySave: prefersGallerySave,
-        )));
+        await tester.pumpWidget(
+          QuillTestApp.withScaffold(
+            ImageOptionsMenu(
+              controller: controller,
+              config: const QuillEditorImageEmbedConfig(),
+              imageProvider: imageProvider ?? FakeImageProvider(),
+              imageSource: imageSource,
+              readOnly: true,
+              imageSize: const ElementSize(200, 300),
+              prefersGallerySave: prefersGallerySave,
+            ),
+          ),
+        );
       }
 
       Finder findTargetWidget() {
@@ -67,20 +71,20 @@ void main() {
       }
 
       void mockSaveImageResult(SaveImageResult? result) => when(
-            () => mockImageSaver.saveImage(
-              imageUrl: any(named: 'imageUrl'),
-              imageProvider: any(named: 'imageProvider'),
-              prefersGallerySave: any(named: 'prefersGallerySave'),
-            ),
-          ).thenAnswer((_) async => result);
+        () => mockImageSaver.saveImage(
+          imageUrl: any(named: 'imageUrl'),
+          imageProvider: any(named: 'imageProvider'),
+          prefersGallerySave: any(named: 'prefersGallerySave'),
+        ),
+      ).thenAnswer((_) async => result);
 
       void mockSaveImageThrows(Exception exception) => when(
-            () => mockImageSaver.saveImage(
-              imageUrl: any(named: 'imageUrl'),
-              imageProvider: any(named: 'imageProvider'),
-              prefersGallerySave: any(named: 'prefersGallerySave'),
-            ),
-          ).thenThrow(exception);
+        () => mockImageSaver.saveImage(
+          imageUrl: any(named: 'imageUrl'),
+          imageProvider: any(named: 'imageProvider'),
+          prefersGallerySave: any(named: 'prefersGallerySave'),
+        ),
+      ).thenThrow(exception);
 
       Future<void> tapTargetWidget(WidgetTester tester) async {
         await tester.tap(findTargetWidget());
@@ -107,14 +111,16 @@ void main() {
         testWidgets(
           'shows a success message when the image is downloaded on the web.',
           (tester) async {
-            mockSaveImageResult(const SaveImageResult(
-                imageFilePath: null, isGallerySave: false));
+            mockSaveImageResult(
+              const SaveImageResult(imageFilePath: null, isGallerySave: false),
+            );
 
             await pumpTargetWidget(tester);
             await tapTargetWidget(tester);
 
-            final localizations =
-                tester.localizationsFromElement(ImageOptionsMenu);
+            final localizations = tester.localizationsFromElement(
+              ImageOptionsMenu,
+            );
 
             expect(
               find.text(localizations.successImageDownloaded),
@@ -125,48 +131,36 @@ void main() {
       }
 
       testWidgets(
-          'shows permission denied message only when permission is denied',
-          (tester) async {
-        mockSaveImageThrows(GalleryImageSaveAccessDeniedException());
+        'shows permission denied message only when permission is denied',
+        (tester) async {
+          mockSaveImageThrows(GalleryImageSaveAccessDeniedException());
 
-        await pumpTargetWidget(tester);
-        await tapTargetWidget(tester);
+          await pumpTargetWidget(tester);
+          await tapTargetWidget(tester);
 
-        final localizations = tester.localizationsFromElement(ImageOptionsMenu);
+          final localizations = tester.localizationsFromElement(
+            ImageOptionsMenu,
+          );
 
-        expect(
-          find.text(localizations.saveImagePermissionDenied),
-          findsOneWidget,
-        );
-        expect(
-          find.text(localizations.errorUnexpectedSavingImage),
-          findsNothing,
-        );
-        expect(
-          find.text(localizations.successImageDownloaded),
-          findsNothing,
-        );
-        expect(
-          find.text(localizations.successImageSavedGallery),
-          findsNothing,
-        );
-        expect(
-          find.text(localizations.successImageSaved),
-          findsNothing,
-        );
-        expect(
-          find.text(localizations.openFileLocation),
-          findsNothing,
-        );
-        expect(
-          find.text(localizations.openFile),
-          findsNothing,
-        );
-        expect(
-          find.text(localizations.openGallery),
-          findsNothing,
-        );
-      });
+          expect(
+            find.text(localizations.saveImagePermissionDenied),
+            findsOneWidget,
+          );
+          expect(
+            find.text(localizations.errorUnexpectedSavingImage),
+            findsNothing,
+          );
+          expect(find.text(localizations.successImageDownloaded), findsNothing);
+          expect(
+            find.text(localizations.successImageSavedGallery),
+            findsNothing,
+          );
+          expect(find.text(localizations.successImageSaved), findsNothing);
+          expect(find.text(localizations.openFileLocation), findsNothing);
+          expect(find.text(localizations.openFile), findsNothing);
+          expect(find.text(localizations.openGallery), findsNothing);
+        },
+      );
 
       testWidgets('shows error message when saving fails', (tester) async {
         mockSaveImageResult(null);
@@ -190,10 +184,15 @@ void main() {
         );
       });
 
-      testWidgets('shows saved and open gallery on gallery save',
-          (tester) async {
-        mockSaveImageResult(const SaveImageResult(
-            imageFilePath: 'path/to/file', isGallerySave: true));
+      testWidgets('shows saved and open gallery on gallery save', (
+        tester,
+      ) async {
+        mockSaveImageResult(
+          const SaveImageResult(
+            imageFilePath: 'path/to/file',
+            isGallerySave: true,
+          ),
+        );
 
         await pumpTargetWidget(tester);
 
@@ -206,98 +205,109 @@ void main() {
           findsOneWidget,
         );
 
-        expect(
-          find.text(localizations.openGallery),
-          findsOneWidget,
-        );
+        expect(find.text(localizations.openGallery), findsOneWidget);
       });
 
       for (final desktopPlatform in TargetPlatformVariant.desktop().values) {
         testWidgets(
-            'shows saved success image and open file path action on ${desktopPlatform.name}',
-            (tester) async {
-          debugDefaultTargetPlatformOverride = desktopPlatform;
+          'shows saved success image and open file path action on ${desktopPlatform.name}',
+          (tester) async {
+            debugDefaultTargetPlatformOverride = desktopPlatform;
 
-          const savedImagePath = 'path/to/file';
-          mockSaveImageResult(const SaveImageResult(
-              imageFilePath: savedImagePath, isGallerySave: false));
+            const savedImagePath = 'path/to/file';
+            mockSaveImageResult(
+              const SaveImageResult(
+                imageFilePath: savedImagePath,
+                isGallerySave: false,
+              ),
+            );
 
-          await pumpTargetWidget(tester);
-          await tapTargetWidget(tester);
+            await pumpTargetWidget(tester);
+            await tapTargetWidget(tester);
 
-          final localizations =
-              tester.localizationsFromElement(ImageOptionsMenu);
+            final localizations = tester.localizationsFromElement(
+              ImageOptionsMenu,
+            );
 
-          expect(
-            find.text(localizations.successImageSaved),
-            findsOneWidget,
-          );
+            expect(find.text(localizations.successImageSaved), findsOneWidget);
 
-          expect(
-            find.text(defaultTargetPlatform == TargetPlatform.macOS
-                ? localizations.openFile
-                : localizations.openFileLocation),
-            findsOneWidget,
-          );
+            expect(
+              find.text(
+                defaultTargetPlatform == TargetPlatform.macOS
+                    ? localizations.openFile
+                    : localizations.openFileLocation,
+              ),
+              findsOneWidget,
+            );
 
-          debugDefaultTargetPlatformOverride = null;
-        });
+            debugDefaultTargetPlatformOverride = null;
+          },
+        );
       }
 
       for (final prefersGallerySave in {true, false}) {
         testWidgets(
-            'passes the arguments correctly to saveImage from $ImageSaver when prefersGallerySave is $prefersGallerySave',
-            (tester) async {
-          mockSaveImageResult(
-            const SaveImageResult(imageFilePath: null, isGallerySave: true),
-          );
+          'passes the arguments correctly to saveImage from $ImageSaver when prefersGallerySave is $prefersGallerySave',
+          (tester) async {
+            mockSaveImageResult(
+              const SaveImageResult(imageFilePath: null, isGallerySave: true),
+            );
 
-          const imageUrl = 'http://flutter-quill.org/image.webp';
-          final imageProvider = AnotherFakeImageProvider();
+            const imageUrl = 'http://flutter-quill.org/image.webp';
+            final imageProvider = AnotherFakeImageProvider();
 
-          await pumpTargetWidget(
-            tester,
-            imageSource: imageUrl,
-            prefersGallerySave: prefersGallerySave,
-            imageProvider: imageProvider,
-          );
+            await pumpTargetWidget(
+              tester,
+              imageSource: imageUrl,
+              prefersGallerySave: prefersGallerySave,
+              imageProvider: imageProvider,
+            );
 
-          await tapTargetWidget(tester);
+            await tapTargetWidget(tester);
 
-          verify(
-            () => mockImageSaver.saveImage(
+            verify(
+              () => mockImageSaver.saveImage(
                 imageUrl: imageUrl,
                 imageProvider: imageProvider,
-                prefersGallerySave: prefersGallerySave),
-          ).called(1);
-        });
+                prefersGallerySave: prefersGallerySave,
+              ),
+            ).called(1);
+          },
+        );
       }
 
-      testWidgets('throws $StateError when save result is not handled',
-          (tester) async {
+      testWidgets('throws $StateError when save result is not handled', (
+        tester,
+      ) async {
         debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
         mockSaveImageResult(
-            const SaveImageResult(imageFilePath: null, isGallerySave: false));
+          const SaveImageResult(imageFilePath: null, isGallerySave: false),
+        );
 
         Object? capturedException;
 
-        await runZonedGuarded(() async {
-          await pumpTargetWidget(tester);
+        await runZonedGuarded(
+          () async {
+            await pumpTargetWidget(tester);
 
-          await tapTargetWidget(tester);
-        }, (error, stackTrace) {
-          capturedException = error;
-        });
+            await tapTargetWidget(tester);
+          },
+          (error, stackTrace) {
+            capturedException = error;
+          },
+        );
 
         expect(
-            capturedException,
-            isA<StateError>().having(
-              (e) => e.message,
-              'message',
-              equals(
-                  'Image save result is not handled on $defaultTargetPlatform'),
-            ));
+          capturedException,
+          isA<StateError>().having(
+            (e) => e.message,
+            'message',
+            equals(
+              'Image save result is not handled on $defaultTargetPlatform',
+            ),
+          ),
+        );
 
         debugDefaultTargetPlatformOverride = null;
       });
