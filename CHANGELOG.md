@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed dragging the right selection handle horizontally extends the selection into the line below instead of staying on the current line.
 - Code block line numbers were not visible for non-indented code blocks because the leading-gutter width was reserved at zero pixels in `TextBlockUtils.defaultIndentWidthBuilder`. The gutter is now sized correctly so line numbers are visible by default. Nested indent levels continue to rotate the numbering style through Arabic, lowercase letters, and lowercase Roman numerals, matching ordered-list behavior.
 - Fixed the selection (Cut/Copy/Paste) context menu not appearing when the selection extends beyond the visible viewport — e.g. selecting a range taller than the viewport, scrolling a selection out of view, or **Select All** on a long document. The context menu anchors are now clamped into the editor's visible region so it stays on-screen, matching the behavior of a multiline `TextField`.
+- Reveal the caret when the bottom view inset (on-screen keyboard) changes, so it is no longer hidden behind the keyboard when it appears or changes height mid-edit (e.g. on app resume, IME/emoji switch, rotation, split-screen or foldable resize). `QuillRawEditorState` now overrides `didChangeMetrics` and re-reveals the caret once the inset settles.
 
 ### Deprecated
 
