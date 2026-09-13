@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- Removed the already-`@Deprecated` and `@internal` `linkPrefixes` constant from the public API surface (it is hidden from the `flutter_quill.dart` export). Use `LinkValidator.linkPrefixes` instead.
+
+## [11.5.1] - 2026-05-20
+
 ### Added
 
 - Added localization support for `mn` (Mongolian, Mongolia)
@@ -25,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reduced the right-side padding inside the code-block leading container from `fontSize` to `fontSize / 2`, shrinking the gap between the line number and the code text to match ordered/unordered lists.
 - Reduced the left content padding inside the code-block decoration from `16` to `4`, so the line number sits closer to the left edge of the grey code-block box.
 - Made the code-block content padding symmetric (`EdgeInsets.symmetric(horizontal: 4, vertical: 16)`, previously `16` on the right), and added a `fontSize / 2` right indent to code blocks in `TextBlockUtils.defaultIndentWidthBuilder` so the code text no longer runs to the right edge of the box. The right indent is part of the default `indentWidthBuilder`, so a custom `indentWidthBuilder` can override it.
+- Updated minimum supported SDK version to Flutter 3.44/Dart 3.12.
+- Implemented the new [TextInputClient.onFocusReceived](https://github.com/flutter/flutter/blob/stable/packages/flutter/lib/src/services/text_input.dart#L1395-L1401) method required by Flutter SDK 3.44+ (`returns false`).
 
 ## [11.5.0] - 2025-10-18
 
@@ -199,7 +207,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apple-specific font dependency for subscript and superscript functionality from the example.
 - **BREAKING**: The [`super_clipboard`](https://pub.dev/packages/super_clipboard) plugin, To restore legacy behavior for `super_clipboard`, use [`flutter_quill_extensions`](https://pub.dev/packages/flutter_quill_extensions) package and `FlutterQuillExtensions.useSuperClipboardPlugin()`.
 
-[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.5.0...HEAD
+[unreleased]: https://github.com/singerdmx/flutter-quill/compare/v11.5.1...HEAD
+[11.5.1]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.5.1
 [11.5.0]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.5.0
 [11.4.2]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.2
 [11.4.1]: https://github.com/singerdmx/flutter-quill/compare/v10.0.0...v11.4.1
