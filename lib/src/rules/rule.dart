@@ -68,7 +68,7 @@ class Rules {
     EnsureEmbedLineRule(),
     PreserveLineStyleOnMergeRule(),
     CatchAllDeleteRule(),
-    EnsureLastLineBreakDeleteRule()
+    EnsureLastLineBreakDeleteRule(),
   ]);
 
   static Rules getInstance() => _instance;
@@ -90,8 +90,13 @@ class Rules {
         continue;
       }
       try {
-        final result = rule.apply(document, index,
-            len: len, data: data, attribute: attribute);
+        final result = rule.apply(
+          document,
+          index,
+          len: len,
+          data: data,
+          attribute: attribute,
+        );
         if (result != null) {
           return result..trim();
         }

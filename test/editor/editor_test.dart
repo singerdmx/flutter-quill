@@ -61,21 +61,27 @@ void main() {
 
       const uri =
           'content://com.google.android.inputmethod.latin.fileprovider/test.gif';
-      final messageBytes =
-          const JSONMessageCodec().encodeMessage(<String, dynamic>{
+      final messageBytes = const JSONMessageCodec().encodeMessage(<
+        String,
+        dynamic
+      >{
         'args': <dynamic>[
           -1,
           'TextInputAction.commitContent',
           jsonDecode(
-              '{"mimeType": "image/gif", "data": [0,1,0,1,0,1,0,0,0], "uri": "$uri"}'),
+            '{"mimeType": "image/gif", "data": [0,1,0,1,0,1,0,0,0], "uri": "$uri"}',
+          ),
         ],
         'method': 'TextInputClient.performAction',
       });
 
       Object? error;
       try {
-        await tester.binding.defaultBinaryMessenger
-            .handlePlatformMessage('flutter/textinput', messageBytes, (_) {});
+        await tester.binding.defaultBinaryMessenger.handlePlatformMessage(
+          'flutter/textinput',
+          messageBytes,
+          (_) {},
+        );
       } catch (e) {
         error = e;
       }
@@ -160,9 +166,7 @@ void main() {
         final exception = tester.takeException();
         expect(
           exception,
-          isNot(
-            isInstanceOf<MissingFlutterQuillLocalizationException>(),
-          ),
+          isNot(isInstanceOf<MissingFlutterQuillLocalizationException>()),
         );
 
         expect(exception, isNull);
@@ -174,19 +178,14 @@ void main() {
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Builder(
-              builder: (context) => Text(context.loc.font),
-            ),
+            home: Builder(builder: (context) => Text(context.loc.font)),
           ),
         );
 
         final exception = tester.takeException();
 
         expect(exception, isNotNull);
-        expect(
-          exception,
-          isA<MissingFlutterQuillLocalizationException>(),
-        );
+        expect(exception, isA<MissingFlutterQuillLocalizationException>());
       },
     );
 
@@ -197,9 +196,7 @@ void main() {
           MaterialApp(
             localizationsDelegates:
                 FlutterQuillLocalizations.localizationsDelegates,
-            home: Builder(
-              builder: (context) => Text(context.loc.font),
-            ),
+            home: Builder(builder: (context) => Text(context.loc.font)),
           ),
         );
 
@@ -218,19 +215,14 @@ void main() {
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Builder(
-              builder: (context) => Text(context.loc.font),
-            ),
+            home: Builder(builder: (context) => Text(context.loc.font)),
           ),
         );
 
         final exception = tester.takeException();
 
         expect(exception, isNotNull);
-        expect(
-          exception,
-          isA<MissingFlutterQuillLocalizationException>(),
-        );
+        expect(exception, isA<MissingFlutterQuillLocalizationException>());
       },
     );
   });

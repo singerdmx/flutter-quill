@@ -33,7 +33,7 @@ Alignment getAlignment(String? cssAlignment) {
     'centerRight',
     'bottomLeft',
     'bottomCenter',
-    'bottomRight'
+    'bottomRight',
   ].indexOf(cssAlignment);
   if (index < 0) {
     return defaultAlignment;
@@ -48,7 +48,7 @@ Alignment getAlignment(String? cssAlignment) {
     Alignment.centerRight,
     Alignment.bottomLeft,
     Alignment.bottomCenter,
-    Alignment.bottomRight
+    Alignment.bottomRight,
   ][index];
 }
 

@@ -98,7 +98,8 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     // Look for the next newline.
     final nextNewLine = _getNextNewLine(itr);
     final lineStyle = Style.fromJson(
-        nextNewLine.operation?.attributes ?? <String, dynamic>{});
+      nextNewLine.operation?.attributes ?? <String, dynamic>{},
+    );
 
     final blockStyle = lineStyle.getBlocksExceptHeader();
     // Are we currently in a block? If not then ignore.
@@ -129,8 +130,10 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
         // we don't want to insert a newline after the last chunk of text, so -1
         final blockAttributes = blockStyle.isEmpty
             ? null
-            : blockStyle.map<String, dynamic>((_, attribute) =>
-                MapEntry<String, dynamic>(attribute.key, attribute.value));
+            : blockStyle.map<String, dynamic>(
+                (_, attribute) =>
+                    MapEntry<String, dynamic>(attribute.key, attribute.value),
+              );
         delta.insert('\n', blockAttributes);
       }
     }
@@ -208,8 +211,9 @@ class AutoExitBlockRule extends InsertRule {
     final nextNewLine = _getNextNewLine(itr);
     if (nextNewLine.operation != null &&
         nextNewLine.operation!.attributes != null &&
-        Style.fromJson(nextNewLine.operation!.attributes)
-                .getBlockExceptHeader() ==
+        Style.fromJson(
+              nextNewLine.operation!.attributes,
+            ).getBlockExceptHeader() ==
             blockStyle) {
       // We are not at the end of this block, ignore.
       return null;
@@ -218,8 +222,9 @@ class AutoExitBlockRule extends InsertRule {
     // Here we now know that the line after `cur` is not in the same block
     // therefore we can exit this block.
     final attributes = cur.attributes ?? <String, dynamic>{};
-    final k =
-        attributes.keys.firstWhere(Attribute.blockKeysExceptHeader.contains);
+    final k = attributes.keys.firstWhere(
+      Attribute.blockKeysExceptHeader.contains,
+    );
     attributes[k] = null;
     // retain(1) should be '\n', set it with no attribute
     return Delta()
@@ -365,17 +370,17 @@ class AutoFormatMultipleLinksRule extends InsertRule {
   /// A regular expression to match a single-line URL
   @internal
   static RegExp get singleLineUrlRegExp => RegExp(
-        r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#].*)?$',
-        caseSensitive: false,
-      );
+    r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#].*)?$',
+    caseSensitive: false,
+  );
 
   /// A regular expression to detect a URL anywhere in the text, even if it's in the middle of other content.
   /// Used to resolve bug https://github.com/singerdmx/flutter-quill/issues/1432
   @internal
   static RegExp get urlInTextRegExp => RegExp(
-        r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#][^\s]*)?',
-        caseSensitive: false,
-      );
+    r'https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#][^\s]*)?',
+    caseSensitive: false,
+  );
 
   @Deprecated(
     'Deprecated and will be removed in future-releasese as this is not the place to store regex.\n'
@@ -403,7 +408,8 @@ class AutoFormatMultipleLinksRule extends InsertRule {
     Object? data,
     Attribute? attribute,
     @Deprecated(
-        'No longer used and will be silently ignored and removed in future releases.')
+      'No longer used and will be silently ignored and removed in future releases.',
+    )
     Object? extraData,
   }) {
     // Only format when inserting text.
@@ -565,7 +571,7 @@ class PreserveInlineStylesRule extends InsertRule {
       /// Prevent links extending beyond the link's text label.
       excludeLink =
           currLine.attributes?.containsKey(Attribute.link.key) != true &&
-              prev?.attributes?.containsKey(Attribute.link.key) == true;
+          prev?.attributes?.containsKey(Attribute.link.key) == true;
 
       /// Trap for previous is not text
       if (prev?.data is! String) {
@@ -575,12 +581,14 @@ class PreserveInlineStylesRule extends InsertRule {
         final prevData = prev!.data as String;
         if (prevData.endsWith('\n')) {
           /// If current line is empty get attributes from a prior line
-          final currData =
-              currLine.data is String ? currLine.data as String : null;
+          final currData = currLine.data is String
+              ? currLine.data as String
+              : null;
           if (currData?.startsWith('\n') == true) {
             if (prevData.trimRight().isEmpty) {
-              final back =
-                  DeltaIterator(documentDelta).skip(index - prevData.length);
+              final back = DeltaIterator(
+                documentDelta,
+              ).skip(index - prevData.length);
 
               /// Prevent link attribute from propagating over line break
               if (back != null &&
@@ -641,8 +649,9 @@ _NextNewLine _getNextNewLine(DeltaIterator iterator) {
   Operation op;
   for (var skipped = 0; iterator.hasNext; skipped += op.length!) {
     op = iterator.next();
-    final lineBreak =
-        (op.data is String ? op.data as String? : '')!.indexOf('\n');
+    final lineBreak = (op.data is String ? op.data as String? : '')!.indexOf(
+      '\n',
+    );
     if (lineBreak >= 0) {
       return _NextNewLine(op, skipped);
     }
