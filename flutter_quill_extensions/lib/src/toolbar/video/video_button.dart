@@ -22,8 +22,8 @@ class QuillToolbarVideoButton extends QuillToolbarBaseButtonStateless {
     /// over the [baseOptions].
     super.baseOptions,
     super.key,
-  })  : _options = options,
-        super(options: options);
+  }) : _options = options,
+       super(options: options);
 
   final QuillToolbarVideoButtonOptions? _options;
 
@@ -61,10 +61,12 @@ class QuillToolbarVideoButton extends QuillToolbarBaseButtonStateless {
     }
 
     final videoUrl = switch (imageSource) {
-      InsertVideoSource.gallery =>
-        (await ImagePicker().pickVideo(source: ImageSource.gallery))?.path,
-      InsertVideoSource.camera =>
-        (await ImagePicker().pickVideo(source: ImageSource.camera))?.path,
+      InsertVideoSource.gallery => (await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+      ))?.path,
+      InsertVideoSource.camera => (await ImagePicker().pickVideo(
+        source: ImageSource.camera,
+      ))?.path,
       InsertVideoSource.link =>
         context.mounted ? await _typeLink(context) : null,
     };

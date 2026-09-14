@@ -19,8 +19,11 @@ class QuillToolbarToggleStyleButtonExtraOptions
 
 @immutable
 class QuillToolbarToggleStyleButtonOptions
-    extends QuillToolbarBaseButtonOptions<QuillToolbarToggleStyleButtonOptions,
-        QuillToolbarToggleStyleButtonExtraOptions> {
+    extends
+        QuillToolbarBaseButtonOptions<
+          QuillToolbarToggleStyleButtonOptions,
+          QuillToolbarToggleStyleButtonExtraOptions
+        > {
   const QuillToolbarToggleStyleButtonOptions({
     super.iconData,
     super.iconSize,

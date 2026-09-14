@@ -7,23 +7,26 @@ import '../../../../document/nodes/block.dart';
 import '../../../../document/nodes/node.dart';
 import '../../default_styles.dart';
 
-typedef LeadingBlockIndentWidth = HorizontalSpacing Function(
-    Block block,
-    BuildContext context,
-    int count,
-    LeadingBlockNumberPointWidth numberPointWidthDelegate);
+typedef LeadingBlockIndentWidth =
+    HorizontalSpacing Function(
+      Block block,
+      BuildContext context,
+      int count,
+      LeadingBlockNumberPointWidth numberPointWidthDelegate,
+    );
 
-typedef LeadingBlockNumberPointWidth = double Function(
-    double fontSize, int count);
+typedef LeadingBlockNumberPointWidth =
+    double Function(double fontSize, int count);
 
-typedef TextSpanBuilder = InlineSpan Function(
-  BuildContext context,
-  Node node,
-  int nodeOffset,
-  String text,
-  TextStyle? style,
-  GestureRecognizer? recognizer,
-);
+typedef TextSpanBuilder =
+    InlineSpan Function(
+      BuildContext context,
+      Node node,
+      int nodeOffset,
+      String text,
+      TextStyle? style,
+      GestureRecognizer? recognizer,
+    );
 
 TextSpan defaultSpanBuilder(
   BuildContext context,
@@ -32,22 +35,22 @@ TextSpan defaultSpanBuilder(
   String text,
   TextStyle? style,
   GestureRecognizer? recognizer,
-) =>
-    TextSpan(
-      text: text,
-      style: style,
-      recognizer: recognizer,
-      mouseCursor: (recognizer != null) ? SystemMouseCursors.click : null,
-    );
+) => TextSpan(
+  text: text,
+  style: style,
+  recognizer: recognizer,
+  mouseCursor: (recognizer != null) ? SystemMouseCursors.click : null,
+);
 
 abstract final class TextBlockUtils {
   /// Get the horizontalSpacing using the default
   /// implementation provided by [Flutter Quill]
   static HorizontalSpacing defaultIndentWidthBuilder(
-      Block block,
-      BuildContext context,
-      int count,
-      LeadingBlockNumberPointWidth numberPointWidthBuilder) {
+    Block block,
+    BuildContext context,
+    int count,
+    LeadingBlockNumberPointWidth numberPointWidthBuilder,
+  ) {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
     final attrs = block.style.attributes;
@@ -68,9 +71,10 @@ abstract final class TextBlockUtils {
       baseIndent = fontSize * 2;
       if (attrs[Attribute.list.key] == Attribute.ol) {
         baseIndent = numberPointWidthBuilder(fontSize, count);
-      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
-        baseIndent = numberPointWidthBuilder(fontSize, count);
       }
+    } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+      baseIndent = numberPointWidthBuilder(fontSize, count) - fontSize / 4;
+      return HorizontalSpacing(baseIndent + extraIndent, fontSize / 2);
     }
 
     return HorizontalSpacing(baseIndent + extraIndent, 0);

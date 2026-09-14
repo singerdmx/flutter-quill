@@ -101,11 +101,13 @@ class CursorCont extends ChangeNotifier {
     required this.show,
     required CursorStyle style,
     required TickerProvider tickerProvider,
-  })  : _style = style,
-        blink = ValueNotifier(false),
-        color = ValueNotifier(style.color) {
-    _blinkOpacityController =
-        AnimationController(vsync: tickerProvider, duration: _fadeDuration);
+  }) : _style = style,
+       blink = ValueNotifier(false),
+       color = ValueNotifier(style.color) {
+    _blinkOpacityController = AnimationController(
+      vsync: tickerProvider,
+      duration: _fadeDuration,
+    );
     _blinkOpacityController.addListener(_onColorTick);
   }
 
@@ -266,12 +268,14 @@ class CursorPainter {
     var relativeCaretOffset = editable!.getOffsetForCaret(position, prototype);
     if (lineHasEmbed && relativeCaretOffset == Offset.zero) {
       relativeCaretOffset = editable!.getOffsetForCaret(
-          TextPosition(
-              offset: position.offset - 1, affinity: position.affinity),
-          prototype);
+        TextPosition(offset: position.offset - 1, affinity: position.affinity),
+        prototype,
+      );
       // Hardcoded 6 as estimate of the width of a character
-      relativeCaretOffset =
-          Offset(relativeCaretOffset.dx + 6, relativeCaretOffset.dy);
+      relativeCaretOffset = Offset(
+        relativeCaretOffset.dx + 6,
+        relativeCaretOffset.dy,
+      );
     }
 
     final caretOffset = relativeCaretOffset + offset;
@@ -327,19 +331,17 @@ class CursorPainter {
     }
   }
 
-  Offset _getPixelPerfectCursorOffset(
-    Rect caretRect,
-  ) {
+  Offset _getPixelPerfectCursorOffset(Rect caretRect) {
     final caretPosition = editable!.localToGlobal(caretRect.topLeft);
     final pixelMultiple = 1.0 / devicePixelRatio;
 
     final pixelPerfectOffsetX = caretPosition.dx.isFinite
         ? (caretPosition.dx / pixelMultiple).round() * pixelMultiple -
-            caretPosition.dx
+              caretPosition.dx
         : caretPosition.dx;
     final pixelPerfectOffsetY = caretPosition.dy.isFinite
         ? (caretPosition.dy / pixelMultiple).round() * pixelMultiple -
-            caretPosition.dy
+              caretPosition.dy
         : caretPosition.dy;
 
     return Offset(pixelPerfectOffsetX, pixelPerfectOffsetY);

@@ -74,6 +74,7 @@ class QuillEditorConfig {
     this.onTapOutsideEnabled = true,
     this.onTapOutside,
     this.customLinkPrefixes = const <String>[],
+    this.transformLink,
     this.dialogTheme,
     this.contentInsertionConfiguration,
     this.contextMenuBuilder,
@@ -86,10 +87,19 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.showCodeBlockLineNumbers = true,
   });
 
   @experimental
   final LeadingBlockNodeBuilder? customLeadingBlockBuilder;
+
+  /// Whether to display line numbers in code blocks.
+  ///
+  /// Defaults to `true`. When `false`, the line-number widget is hidden
+  /// and the left gutter shrinks to match the code block's right indent
+  /// (`fontSize / 2` by default), so the block has symmetric horizontal
+  /// padding instead of a flush-left edge.
+  final bool showCodeBlockLineNumbers;
 
   /// The text placeholder in the quill editor
   final String? placeholder;
@@ -345,25 +355,38 @@ class QuillEditorConfig {
 
   // Returns whether gesture is handled
   final bool Function(
-      TapDownDetails details, TextPosition Function(Offset offset))? onTapDown;
+    TapDownDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onTapDown;
 
   // Returns whether gesture is handled
   final bool Function(
-      TapUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+    TapUpDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onTapUp;
 
   // Returns whether gesture is handled
   final bool Function(
-          LongPressStartDetails details, TextPosition Function(Offset offset))?
-      onSingleLongTapStart;
-
-  // Returns whether gesture is handled
-  final bool Function(LongPressMoveUpdateDetails details,
-      TextPosition Function(Offset offset))? onSingleLongTapMoveUpdate;
+    LongPressStartDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onSingleLongTapStart;
 
   // Returns whether gesture is handled
   final bool Function(
-          LongPressEndDetails details, TextPosition Function(Offset offset))?
-      onSingleLongTapEnd;
+    LongPressMoveUpdateDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onSingleLongTapMoveUpdate;
+
+  // Returns whether gesture is handled
+  final bool Function(
+    LongPressEndDetails details,
+    TextPosition Function(Offset offset),
+  )?
+  onSingleLongTapEnd;
 
   final Iterable<EmbedBuilder>? embedBuilders;
   final EmbedBuilder? unknownEmbedBuilder;
@@ -428,6 +451,13 @@ class QuillEditorConfig {
   /// This is used to tapping links within the editor, and not the toolbar or
   /// [AutoFormatMultipleLinksRule].
   final List<String> customLinkPrefixes;
+
+  /// Callback to transform a link before it is launched on tap in the editor.
+  ///
+  /// Receives the trimmed link string and returns the final URL to launch.
+  /// When not set (`null`), the link is validated against known prefixes and
+  /// `https://` is prepended if no recognized prefix is found.
+  final String Function(String link)? transformLink;
 
   /// Configures the dialog theme.
   final QuillDialogTheme? dialogTheme;
@@ -504,9 +534,9 @@ class QuillEditorConfig {
     ScrollPhysics? scrollPhysics,
     ValueChanged<String>? onLaunchUrl,
     bool Function(TapDownDetails details, TextPosition Function(Offset offset))?
-        onTapDown,
+    onTapDown,
     bool Function(TapUpDetails details, TextPosition Function(Offset offset))?
-        onTapUp,
+    onTapUp,
     Iterable<EmbedBuilder>? embedBuilders,
     TextSpanBuilder? textSpanBuilder,
     EmbedBuilder? unknownEmbedBuilder,
@@ -520,6 +550,7 @@ class QuillEditorConfig {
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
+    String Function(String link)? transformLink,
     QuillDialogTheme? dialogTheme,
     QuillEditorContextMenuBuilder? contextMenuBuilder,
     ContentInsertionConfiguration? contentInsertionConfiguration,
@@ -531,10 +562,13 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    bool? showCodeBlockLineNumbers,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
           customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
+      showCodeBlockLineNumbers:
+          showCodeBlockLineNumbers ?? this.showCodeBlockLineNumbers,
       placeholder: placeholder ?? this.placeholder,
       characterShortcutEvents:
           characterShortcutEvents ?? this.characterShortcutEvents,
@@ -585,6 +619,7 @@ class QuillEditorConfig {
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,
+      transformLink: transformLink ?? this.transformLink,
       dialogTheme: dialogTheme ?? this.dialogTheme,
       contextMenuBuilder: contextMenuBuilder ?? this.contextMenuBuilder,
       contentInsertionConfiguration:
@@ -594,7 +629,7 @@ class QuillEditorConfig {
           textSelectionThemeData ?? this.textSelectionThemeData,
       requestKeyboardFocusOnCheckListChanged:
           requestKeyboardFocusOnCheckListChanged ??
-              this.requestKeyboardFocusOnCheckListChanged,
+          this.requestKeyboardFocusOnCheckListChanged,
       textInputAction: textInputAction ?? this.textInputAction,
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,

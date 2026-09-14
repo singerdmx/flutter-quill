@@ -12,7 +12,9 @@ void main() {
       final document = Document.fromDelta(delta);
       //
       expect(
-          document.getPlainText(0, document.length), 'plain\nbold\nitalic\n');
+        document.getPlainText(0, document.length),
+        'plain\nbold\nitalic\n',
+      );
       expect(document.length, 18);
       //
       for (var index = 0; index < 6; index++) {
@@ -20,13 +22,17 @@ void main() {
       }
       //
       for (var index = 6; index < 11; index++) {
-        expect(const Style.attr({'bold': Attribute.bold}),
-            document.collectStyle(index, 0));
+        expect(
+          const Style.attr({'bold': Attribute.bold}),
+          document.collectStyle(index, 0),
+        );
       }
       //
       for (var index = 11; index < document.length; index++) {
-        expect(const Style.attr({'italic': Attribute.italic}),
-            document.collectStyle(index, 0));
+        expect(
+          const Style.attr({'italic': Attribute.italic}),
+          document.collectStyle(index, 0),
+        );
       }
     });
 
@@ -43,35 +49,38 @@ void main() {
           ..insert('B', {'bold': true})
           ..insert('\n', start);
         final document = Document.fromDelta(delta)
-
           /// insert a newline
           ..insert(3, '\n');
 
         /// Verify inserted blank line and block type has not changed
         expect(
-            document.toDelta(),
-            Delta()
-              ..insert('A')
-              ..insert('\n', start)
-              ..insert('B', {'bold': true})
-              ..insert('\n\n', start));
+          document.toDelta(),
+          Delta()
+            ..insert('A')
+            ..insert('\n', start)
+            ..insert('B', {'bold': true})
+            ..insert('\n\n', start),
+        );
 
         /// Change format of last (empty) line
         document.format(4, 0, attr);
         expect(
-            document.toDelta(),
-            Delta()
-              ..insert('A')
-              ..insert('\n', start)
-              ..insert('B', {'bold': true})
-              ..insert('\n', start)
-              ..insert('\n', {attr.key: attr.value}),
-            reason: 'document updated');
+          document.toDelta(),
+          Delta()
+            ..insert('A')
+            ..insert('\n', start)
+            ..insert('B', {'bold': true})
+            ..insert('\n', start)
+            ..insert('\n', {attr.key: attr.value}),
+          reason: 'document updated',
+        );
 
         /// Verify that the reported style reflects the newly formatted state
-        expect(document.collectStyle(4, 0),
-            Style.attr({'bold': Attribute.bold, attr.key: attr}),
-            reason: 'collectStyle reporting correct attribute');
+        expect(
+          document.collectStyle(4, 0),
+          Style.attr({'bold': Attribute.bold, attr.key: attr}),
+          reason: 'collectStyle reporting correct attribute',
+        );
       }
 
       doTest({'list': 'ordered'}, const ListAttribute('bullet'));
@@ -91,8 +100,10 @@ void main() {
         ..insert('\n\nplain\n');
       final document = Document.fromDelta(delta);
       //
-      expect(document.getPlainText(0, document.length),
-          'data\nsecond\n\n\nplain\n');
+      expect(
+        document.getPlainText(0, document.length),
+        'data\nsecond\n\n\nplain\n',
+      );
       expect(document.length, 20);
       //
       expect('data\n', document.getPlainText(0, 5));
@@ -102,14 +113,18 @@ void main() {
       //
       expect('second\n', document.getPlainText(5, 7));
       for (var index = 5; index < 12; index++) {
-        expect(const Style.attr({'bold': Attribute.bold}),
-            document.collectStyle(index, 0));
+        expect(
+          const Style.attr({'bold': Attribute.bold}),
+          document.collectStyle(index, 0),
+        );
       }
       //
       expect('\n\n', document.getPlainText(12, 2));
       for (var index = 12; index < 14; index++) {
-        expect(const Style.attr({'bold': Attribute.bold}),
-            document.collectStyle(index, 0));
+        expect(
+          const Style.attr({'bold': Attribute.bold}),
+          document.collectStyle(index, 0),
+        );
       }
       //
       for (var index = 14; index < document.length; index++) {
@@ -125,7 +140,9 @@ void main() {
       final document = Document.fromDelta(delta);
       //
       expect(
-          document.getPlainText(0, document.length), 'plain\nbold\nitalic\n');
+        document.getPlainText(0, document.length),
+        'plain\nbold\nitalic\n',
+      );
       expect(document.length, 18);
       //
       for (var index = 0; index < 6; index++) {
@@ -133,13 +150,17 @@ void main() {
       }
       //
       for (var index = 6; index < 11; index++) {
-        expect(const Style.attr({'bold': Attribute.bold}),
-            document.collectStyle(index, 0));
+        expect(
+          const Style.attr({'bold': Attribute.bold}),
+          document.collectStyle(index, 0),
+        );
       }
       //
       for (var index = 11; index < document.length; index++) {
-        expect(const Style.attr({'italic': Attribute.italic}),
-            document.collectStyle(index, 0));
+        expect(
+          const Style.attr({'italic': Attribute.italic}),
+          document.collectStyle(index, 0),
+        );
       }
     });
 
@@ -152,10 +173,14 @@ void main() {
       expect(const Style(), document.collectStyle(0, 4));
       expect(const Style(), document.collectStyle(1, 3));
       //
-      expect(const Style.attr({'bold': Attribute.bold}),
-          document.collectStyle(5, 3));
-      expect(const Style.attr({'bold': Attribute.bold}),
-          document.collectStyle(8, 3));
+      expect(
+        const Style.attr({'bold': Attribute.bold}),
+        document.collectStyle(5, 3),
+      );
+      expect(
+        const Style.attr({'bold': Attribute.bold}),
+        document.collectStyle(8, 3),
+      );
       //
       expect(const Style(), document.collectStyle(3, 3));
     });
@@ -170,16 +195,26 @@ void main() {
         ..insert('\n\nplain\n');
       final document = Document.fromDelta(delta);
       //
-      const linkStyle =
-          Style.attr({'link': LinkAttribute('https://unknown.com')});
+      const linkStyle = Style.attr({
+        'link': LinkAttribute('https://unknown.com'),
+      });
       //
       expect(document.collectStyle(15, 0), linkStyle, reason: 'Within Link');
-      expect(document.collectStyle(16, 0), const Style(),
-          reason: 'At end of link');
-      expect(document.collectStyle(17, 0), const Style(),
-          reason: 'start of blank line');
-      expect(document.collectStyle(18, 0), const Style(),
-          reason: 'start of blank line');
+      expect(
+        document.collectStyle(16, 0),
+        const Style(),
+        reason: 'At end of link',
+      );
+      expect(
+        document.collectStyle(17, 0),
+        const Style(),
+        reason: 'start of blank line',
+      );
+      expect(
+        document.collectStyle(18, 0),
+        const Style(),
+        reason: 'start of blank line',
+      );
     });
   });
   group('cachedPlainText', () {
