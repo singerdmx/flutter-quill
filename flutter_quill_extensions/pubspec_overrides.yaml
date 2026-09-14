@@ -1,0 +1,7 @@
+# Local override for the Material UI migration: build against the in-repo
+# flutter_quill (migrated to material_ui) instead of the published release,
+# which still imports package:flutter/material.dart. Ignored by consumers and
+# excluded from `pub publish`, so it only affects local/CI resolution.
+dependency_overrides:
+  flutter_quill:
+    path: ../

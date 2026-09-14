@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../editor/widgets/link.dart';
 import '../../../l10n/extensions/localizations_ext.dart';

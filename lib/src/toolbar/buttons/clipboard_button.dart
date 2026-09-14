@@ -4,7 +4,7 @@ library;
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:meta/meta.dart';
 
 import '../../common/utils/widgets.dart';

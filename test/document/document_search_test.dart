@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TestTimeStampEmbed extends Embeddable {
   const TestTimeStampEmbed(String value) : super(timeStampType, value);
@@ -104,11 +104,9 @@ void main() {
           searchEmbedMode: SearchEmbedMode.plainText,
         )
         ..embedBuilders = [const TestTimeStampEmbedBuilderWidget()];
-      expect(
-        document.search('2024'),
-        [7],
-        reason: 'timeStamp embed builder overrides toPlainText',
-      );
+      expect(document.search('2024'), [
+        7,
+      ], reason: 'timeStamp embed builder overrides toPlainText');
       expect(
         document.search('18'),
         [],

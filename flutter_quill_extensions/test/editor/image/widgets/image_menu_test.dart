@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/src/common/utils/element_utils/element_utils.dart';
 import 'package:flutter_quill_extensions/src/editor/image/config/image_config.dart';
 import 'package:flutter_quill_extensions/src/editor/image/image_menu.dart';
 import 'package:flutter_quill_extensions/src/editor/image/image_save_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../quill_test_app.dart';

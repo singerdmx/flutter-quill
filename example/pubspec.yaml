@@ -17,6 +17,7 @@ dependencies:
   flutter_quill_extensions: ^11.0.0-dev.3
   path: ^1.9.0
 
+  material_ui: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

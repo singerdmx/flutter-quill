@@ -5,12 +5,12 @@ import 'dart:ui' as ui hide TextStyle;
 
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart'
     show KeyboardVisibilityController;
+import 'package:material_ui/material_ui.dart';
 
 import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';

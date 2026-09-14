@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../controller/quill_controller.dart';
 import '../base_button/base_button_options_resolver.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Used to configure the dialog's look and feel.
 

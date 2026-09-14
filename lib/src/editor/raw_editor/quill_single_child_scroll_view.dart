@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Very similar to [SingleChildView] but with a [ViewportBuilder] argument
 /// instead of a [Widget]

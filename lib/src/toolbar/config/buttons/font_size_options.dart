@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../document/attribute.dart';
 import '../../../editor_toolbar_controller_shared/quill_config.dart';

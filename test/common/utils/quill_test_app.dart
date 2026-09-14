@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/internal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 typedef LocalizationsAvailableCallback =
     void Function(FlutterQuillLocalizations quillLocalizations);

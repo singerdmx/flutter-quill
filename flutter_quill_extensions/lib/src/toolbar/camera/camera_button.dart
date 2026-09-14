@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/internal.dart';
-
 import 'package:image_picker/image_picker.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../common/default_image_insert.dart';
 import '../../common/default_video_insert.dart';
 import '../quill_simple_toolbar_api.dart';

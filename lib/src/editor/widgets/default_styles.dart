@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/vertical_spacing.dart';

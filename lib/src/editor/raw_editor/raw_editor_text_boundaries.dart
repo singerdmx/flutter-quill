@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show TextLayoutMetrics;
+import 'package:material_ui/material_ui.dart';
 
 /// An interface for retrieving the logical text boundary
 /// (left-closed-right-open)

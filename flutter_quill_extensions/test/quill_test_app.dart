@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/internal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 class QuillTestApp extends StatelessWidget {
   QuillTestApp({required this.home, required this.scaffoldBody, super.key}) {
