@@ -32,6 +32,21 @@ class History {
   ///record delay
   final int interval;
 
+  bool _forceMergeNext = false;
+
+  bool get forceMergeNext => _forceMergeNext;
+
+  /// Forces the next change to merge into the last undo step.
+  /// Automatically resets to false after the current synchronous operations finish.
+  set forceMergeNext(bool value) {
+    _forceMergeNext = value;
+    if (value) {
+      Future.microtask(() {
+        _forceMergeNext = false;
+      });
+    }
+  }
+
   void handleDocChange(DocChange docChange) {
     if (ignoreChange) return;
     if (!userOnly || docChange.source == ChangeSource.local) {
@@ -51,7 +66,8 @@ class History {
     var undoDelta = change.invert(before);
     final timeStamp = DateTime.now().millisecondsSinceEpoch;
 
-    if (lastRecorded + interval > timeStamp && stack.undo.isNotEmpty) {
+    if ((forceMergeNext || lastRecorded + interval > timeStamp) &&
+        stack.undo.isNotEmpty) {
       final lastDelta = stack.undo.removeLast();
       undoDelta = undoDelta.compose(lastDelta);
     } else {
