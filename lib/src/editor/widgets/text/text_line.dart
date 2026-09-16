@@ -663,6 +663,10 @@ class _TextLineState extends State<TextLine> {
 
   GestureRecognizer? _getRecognizer(Node segment, bool isLink) {
     if (_linkRecognizers.containsKey(segment)) {
+      if (!isLink) {
+        _linkRecognizers.remove(segment)?.dispose();
+        return null;
+      }
       return _linkRecognizers[segment]!;
     }
 
@@ -700,7 +704,10 @@ class _TextLineState extends State<TextLine> {
   }
 
   void _tapNodeLink(Node node) {
-    final link = node.style.attributes[Attribute.link.key]!.value;
+    final link = node.style.attributes[Attribute.link.key]?.value;
+    if (link is! String) {
+      return;
+    }
 
     _tapLink(link);
   }
@@ -730,7 +737,10 @@ class _TextLineState extends State<TextLine> {
   }
 
   Future<void> _longPressLink(Node node) async {
-    final link = node.style.attributes[Attribute.link.key]!.value!;
+    final link = node.style.attributes[Attribute.link.key]?.value;
+    if (link is! String) {
+      return;
+    }
     final action = await widget.linkActionPicker(node);
     switch (action) {
       case LinkMenuAction.launch:
@@ -746,6 +756,7 @@ class _TextLineState extends State<TextLine> {
           range.end - range.start,
           Attribute.link,
         );
+        _linkRecognizers.remove(node)?.dispose();
         break;
       case LinkMenuAction.none:
         break;
