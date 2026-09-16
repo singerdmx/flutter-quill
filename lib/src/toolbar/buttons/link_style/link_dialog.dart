@@ -1,7 +1,7 @@
 @internal
 library;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:meta/meta.dart';
 
 import '../../../common/utils/link_validator.dart';

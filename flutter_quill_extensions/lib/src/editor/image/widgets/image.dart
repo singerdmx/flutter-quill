@@ -2,8 +2,8 @@ import 'dart:convert' show base64;
 import 'dart:io' show File;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:photo_view/photo_view.dart';
 
 import '../../../common/utils/utils.dart';

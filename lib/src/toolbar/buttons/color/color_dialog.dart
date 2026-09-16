@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart'
     as color_picker
     show ColorPicker, MaterialPicker, colorToHex;
+import 'package:material_ui/material_ui.dart';
 
 import '../../../document/style.dart';
 import '../../../editor_toolbar_shared/color.dart';

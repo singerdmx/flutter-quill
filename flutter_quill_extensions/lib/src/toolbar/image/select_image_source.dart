@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/internal.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../editor/image/image_embed_types.dart';
 

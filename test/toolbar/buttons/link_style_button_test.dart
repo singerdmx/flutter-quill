@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_quill/src/common/utils/link_validator.dart';
 import 'package:flutter_quill/src/controller/quill_controller.dart';
 import 'package:flutter_quill/src/l10n/generated/quill_localizations.dart';
-
 import 'package:flutter_quill/src/toolbar/buttons/link_style/link_dialog.dart';
 import 'package:flutter_quill/src/toolbar/buttons/link_style/link_style_button.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../common/utils/quill_test_app.dart';
 

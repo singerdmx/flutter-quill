@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart' show TextSelection;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart' show TextSelection;
+
 import '../widget_tester_extension.dart';
 
 extension QuillWidgetTesterReplaceExt on WidgetTester {

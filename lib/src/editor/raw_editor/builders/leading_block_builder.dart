@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import '../../../document/attribute.dart';
 import '../../../document/nodes/node.dart';
 import '../../style_widgets/checkbox_point.dart';
